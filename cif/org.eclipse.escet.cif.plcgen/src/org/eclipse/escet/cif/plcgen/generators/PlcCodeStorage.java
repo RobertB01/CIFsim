@@ -69,6 +69,9 @@ public class PlcCodeStorage {
     /** The expression generator to use for generating code in the main program. Initialized lazily. */
     private ExprGenerator exprGenerator = null;
 
+    /** The variable that tracks progress is made in performing events. Initialized lazily. */
+    private PlcVariable isProgressVariable = null;
+
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
 
@@ -103,6 +106,18 @@ public class PlcCodeStorage {
             exprGenerator = new ExprGenerator(target, target.getVarStorage().getRootCifDataProvider());
         }
         return exprGenerator;
+    }
+
+    /**
+     * Get the variable to set if an event transition is performed.
+     *
+     * @return The variable to set if an event transition is performed.
+     */
+    public PlcVariable getIsProgressVariable() {
+        if (isProgressVariable == null) {
+            isProgressVariable = getExprGenerator().getTempVariable("isProgress", PlcElementaryType.BOOL_TYPE);
+        }
+        return isProgressVariable;
     }
 
     /**

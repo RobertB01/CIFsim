@@ -26,6 +26,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -226,14 +227,28 @@ public class ExprGenerator {
      *
      * @param variables Variables being returned.
      */
-    public void releaseTempVariables(Set<PlcVariable> variables) {
+    public void releaseTempVariables(Collection<PlcVariable> variables) {
         for (PlcVariable var: variables) {
-            Integer idx = varNameToVarIndex.get(var.name);
-            if (idx == null || !variableIsTemp.get(idx)) {
-                continue;
-            }
-            variableIsAvailable.set(idx);
+            releaseTempVariable(var);
         }
+    }
+
+    /**
+     * Give a variable back to the generator for future re-use. Returning a non-temporary variable is allowed but it is
+     * ignored.
+     *
+     * <p>
+     * Intended to be used by {@link ExprValueResult} instances.
+     * </p>
+     *
+     * @param variable Variable being returned.
+     */
+    public void releaseTempVariable(PlcVariable variable) {
+        Integer idx = varNameToVarIndex.get(variable.name);
+        if (idx == null || !variableIsTemp.get(idx)) {
+            return;
+        }
+        variableIsAvailable.set(idx);
     }
 
     /**
