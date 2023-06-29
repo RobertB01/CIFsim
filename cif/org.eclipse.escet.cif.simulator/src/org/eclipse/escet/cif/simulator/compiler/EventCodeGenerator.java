@@ -275,7 +275,8 @@ public class EventCodeGenerator {
             c.indent();
 
             // Actual invariant predicate evaluation.
-            String predCode = gencodeExpr(pred, ctxt, "state");
+            // TODO Process the output of gencodeExpr properly.
+            String predCode = gencodeExpr(pred, ctxt, "state").toString();
             InvKind invKind = inv.getInvKind();
             switch (invKind) {
                 case EVENT_DISABLES:
@@ -363,7 +364,8 @@ public class EventCodeGenerator {
                 c.indent();
 
                 // Actual invariant predicate evaluation.
-                String predCode = gencodeExpr(pred, ctxt, "state");
+                // TODO Process the output of gencodeExpr properly.
+                String predCode = gencodeExpr(pred, ctxt, "state").toString();
                 InvKind invKind = inv.getInvKind();
                 switch (invKind) {
                     case EVENT_DISABLES:

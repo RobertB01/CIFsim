@@ -120,7 +120,8 @@ public class DefaultValueCodeGenerator {
         type = CifTypeUtils.normalizeType(type);
         if (!CifTypeUtils.isContainerType(type)) {
             Expression defaultValue = ctxt.getDefaultValue(type);
-            return ExprCodeGenerator.gencodeExpr(defaultValue, ctxt, null);
+            // TODO Process the output of gencodeExpr properly.
+            return ExprCodeGenerator.gencodeExpr(defaultValue, ctxt, null).toString();
         }
 
         // Handle container types.

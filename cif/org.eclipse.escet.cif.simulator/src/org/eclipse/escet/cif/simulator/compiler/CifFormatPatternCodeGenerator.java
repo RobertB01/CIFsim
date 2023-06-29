@@ -41,12 +41,14 @@ public class CifFormatPatternCodeGenerator {
      * Generate a Java code fragment for the format pattern and values.
      *
      * @param pattern The pattern text, without backslash escaping, and with percentage escaping.
-     * @param valueTxts The code to use to evaluate the values.
+     * @param valueRslts The code to use to evaluate the values.
      * @param valueTypes The types of the values.
      * @return The Java code that represents the call to the {@link Strings#fmt} method.
      * @see CifMath#fmt
      */
-    public static String gencodePattern(String pattern, List<String> valueTxts, List<CifType> valueTypes) {
+    public static ExprCodeGeneratorResult gencodePattern(String pattern, List<ExprCodeGeneratorResult> valueRslts,
+            List<CifType> valueTypes)
+    {
         // See also CifMath for similar code.
 
         // Decode pattern.
@@ -78,7 +80,7 @@ public class CifFormatPatternCodeGenerator {
             }
 
             // Get argument code.
-            String argCode = valueTxts.get(idx);
+            String argCode = valueRslts.get(idx).currentExprText;
 
             // Add to formatted result.
             switch (part.conversion) {
@@ -116,6 +118,6 @@ public class CifFormatPatternCodeGenerator {
         }
         rslt.append(String.join(", ", argCodes));
         rslt.append(")");
-        return rslt.toString();
+        return ExprCodeGeneratorResult.mergeStatic(rslt.toString(), valueRslts);
     }
 }

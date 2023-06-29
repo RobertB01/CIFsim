@@ -263,7 +263,8 @@ public class AssignmentCodeGenerator {
             if (addr instanceof DiscVariableExpression || addr instanceof ContVariableExpression) {
                 // Special case for very simple addressables (no tuples, no
                 // projections).
-                String rhsCode = gencodeExpr(value, ctxt, "source");
+                // TODO Process the output of gencodeExpr properly.
+                String rhsCode = gencodeExpr(value, ctxt, "source").toString();
                 gencodeAddrVarAsgn(addr, rhsCode);
 
                 // Generate type range bound check if needed, on entire value
