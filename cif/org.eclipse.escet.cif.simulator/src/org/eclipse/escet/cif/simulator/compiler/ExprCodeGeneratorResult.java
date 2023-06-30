@@ -27,13 +27,13 @@ import org.eclipse.escet.common.java.Triple;
  */
 public class ExprCodeGeneratorResult {
     /** Base name of the method names to be created. */
-    public static String methodBaseName;
+    public static String methodBaseName = "evalExpression";
 
     /** Counter to postfix the method name with unique number. */
     private static int counter = 0;
 
     /** The limit after which generated code should be wrapped in separate method. */
-    private static int limit = 10000000;
+    private static int limit = 1000;
 
     /**
      * List of code that needs to go in a separate method, where each triple consists of the expression code, the
@@ -61,7 +61,7 @@ public class ExprCodeGeneratorResult {
     }
 
     /** Reset the method name counter. */
-    public void resetCounter() {
+    public static void resetCounter() {
         counter = 0;
     }
 
@@ -163,7 +163,7 @@ public class ExprCodeGeneratorResult {
     public void createMethod(String type) {
         String methodName = fmt("%s%d", methodBaseName, counter);
         subExprs.add(triple(currentExprText, methodName, type));
-        currentExprText = fmt("%s()", methodName);
+        currentExprText = fmt("%s(state)", methodName);
         counter = counter + 1;
         numNodes = 1;
     }
