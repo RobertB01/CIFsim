@@ -664,8 +664,13 @@ public class AutomatonNormalCodeGenerator {
                 // TODO In case the expression is split (because it was long), it was still printed in full here. That
                 // is also a problem.
                 // Can we identify the edge in a different way?
-                c.add("throw new CifSimulatorException(\"Evaluation of a guard of an edge of %s failed.\", "
-                        + "e, state);", escapeJava(locTxt));
+                if (result.subExprs.isEmpty()) {
+                    c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
+                            + "e, state);", escapeJava(exprToStr(guard)), escapeJava(locTxt));
+                } else {
+                    c.add("throw new CifSimulatorException(\"Evaluation of a guard of an edge of %s failed.\", "
+                            + "e, state);", escapeJava(locTxt));
+                }
                 c.dedent();
                 c.add("}");
 
