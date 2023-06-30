@@ -23,6 +23,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newReceivedExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
@@ -133,14 +134,18 @@ public class TransitionGeneratorTest {
     /** Generator instance under test. */
     private DefaultTransitionGenerator transitionGenerator;
 
+    /** Variable for receivers to receive channel values. */
+    private DiscVariable recVar = newDiscVariable("recVar", null, newIntType(), null);
+
     private DiscVariable otherVar = newDiscVariable("otherVar", null, newIntType(), null);
 
-    private Specification spec = newSpecification(null, List.of(otherVar), null, null, null, null, null, null,
+    private Specification spec = newSpecification(null, List.of(recVar, otherVar), null, null, null, null, null, null,
             "spec", null);
 
     @BeforeEach
     public void setup() {
         target = new TestPlcTarget();
+        target.getVarStorage().addStateVariable(recVar, recVar.getType());
         target.getVarStorage().addStateVariable(otherVar, otherVar.getType());
         transitionGenerator = new DefaultTransitionGenerator(target);
     }
@@ -150,6 +155,143 @@ public class TransitionGeneratorTest {
         transitionGenerator.setTransitions(List.of());
         transitionGenerator.generate();
         assertTrue(true);
+    }
+
+    @Test
+    /** One sender only. */
+    public void testSingleUnconditionalSender() {
+        Event event = newEvent(true, "sendEvent", null, newIntType());
+        spec.getDeclarations().add(event);
+
+        // Create sender edge.
+        // edge sendEvent!1;
+        TransitionEdge sendEdge1 = new TransitionEdge(null, null, newIntExpression(null, newIntType(), 1), List.of(),
+                List.of());
+        List<TransitionEdge> transSendEdges = List.of(sendEdge1);
+
+        // Create sender automaton.
+        TransitionAutomaton sender1 = new TransitionAutomaton(null, transSendEdges);
+        CifEventTransition transition = new CifEventTransition(event, List.of(sender1), List.of(), List.of(),
+                List.of());
+
+        // Generate the transition, and check that it matches expectations.
+        transitionGenerator.setTransitions(List.of(transition));
+        List<PlcStatement> code = transitionGenerator.generateCode();
+        ModelTextGenerator textGen = new ModelTextGenerator();
+        String actualText = textGen.toString(code, "noPou", true);
+        String expectedText = """
+                (* Try to perform event "sendEvent". *)
+                isFeasible := TRUE;
+                senderAut := 0;
+                IF senderAut = 0 THEN
+                    IF TRUE THEN
+                        senderAut := 1;
+                        senderEdge := 1;
+                    END_IF;
+                END_IF;
+                IF senderAut = 0 THEN
+                    isFeasible := FALSE;
+                END_IF;
+                IF isFeasible THEN
+                    receiverAut := 0;
+                    IF receiverAut = 0 THEN
+                        isFeasible := FALSE;
+                    END_IF;
+                END_IF;
+                IF isFeasible THEN
+                    isProgress := TRUE;
+                    IF senderAut = 1 THEN
+                        IF senderEdge = 1 THEN
+                            channelValue := 1;
+                        END_IF;
+                    END_IF;
+                END_IF;""";
+        assertEquals(expectedText, actualText);
+    }
+
+    @Test
+    /** One sender, two receivers. */
+    public void testChannelComm() {
+        Event event = newEvent(true, "channelEvent", null, newIntType());
+        spec.getDeclarations().add(event);
+
+        // automaton sender1: edge channelEvent!1;
+        TransitionEdge sendEdge1 = new TransitionEdge(null, null, newIntExpression(null, newIntType(), 1), List.of(),
+                List.of());
+        List<TransitionEdge> transSendEdges = List.of(sendEdge1);
+        TransitionAutomaton sender1 = new TransitionAutomaton(null, transSendEdges);
+
+        // automaton receiver1: edge channelEvent do recvVar := recvVar + ?;
+        Expression leftAdd = newDiscVariableExpression(null, newIntType(), recVar);
+        Expression rightAdd = newReceivedExpression();
+        Expression addExpr = newBinaryExpression(leftAdd, BinaryOperator.ADDITION, null, rightAdd, newIntType());
+        Update recvUpd1 = newAssignment(newDiscVariableExpression(null, newIntType(), recVar), null, addExpr);
+        TransitionEdge recvEdge1 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd1));
+        TransitionAutomaton receiver1 = new TransitionAutomaton(null, List.of(recvEdge1));
+
+        // automaton receiver2: edge channelEvent do recvVar := ?;
+        Update recvUpd2 = newAssignment(newDiscVariableExpression(null, newIntType(), otherVar), null,
+                newReceivedExpression());
+        TransitionEdge recvEdge2 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd2));
+        TransitionAutomaton receiver2 = new TransitionAutomaton(null, List.of(recvEdge2));
+
+        CifEventTransition transition = new CifEventTransition(event, List.of(sender1), List.of(receiver1, receiver2),
+                List.of(), List.of());
+
+        // Generate the transition, and check that it matches expectations.
+        transitionGenerator.setTransitions(List.of(transition));
+        List<PlcStatement> code = transitionGenerator.generateCode();
+        ModelTextGenerator textGen = new ModelTextGenerator();
+        String actualText = textGen.toString(code, "noPou", true);
+        String expectedText = """
+                (* Try to perform event "channelEvent". *)
+                isFeasible := TRUE;
+                senderAut := 0;
+                IF senderAut = 0 THEN
+                    IF TRUE THEN
+                        senderAut := 1;
+                        senderEdge := 1;
+                    END_IF;
+                END_IF;
+                IF senderAut = 0 THEN
+                    isFeasible := FALSE;
+                END_IF;
+                IF isFeasible THEN
+                    receiverAut := 0;
+                    IF receiverAut = 0 THEN
+                        IF TRUE THEN
+                            receiverAut := 1;
+                            receiverEdge := 1;
+                        END_IF;
+                    END_IF;
+                    IF receiverAut = 0 THEN
+                        IF TRUE THEN
+                            receiverAut := 2;
+                            receiverEdge := 1;
+                        END_IF;
+                    END_IF;
+                    IF receiverAut = 0 THEN
+                        isFeasible := FALSE;
+                    END_IF;
+                END_IF;
+                IF isFeasible THEN
+                    isProgress := TRUE;
+                    IF senderAut = 1 THEN
+                        IF senderEdge = 1 THEN
+                            channelValue := 1;
+                        END_IF;
+                    END_IF;
+                    IF receiverAut = 1 THEN
+                        IF receiverEdge = 1 THEN
+                            recVar := recVar + channelValue;
+                        END_IF;
+                    ELSIF receiverAut = 2 THEN
+                        IF receiverEdge = 1 THEN
+                            otherVar := channelValue;
+                        END_IF;
+                    END_IF;
+                END_IF;""";
+        assertEquals(expectedText, actualText);
     }
 
     @Test

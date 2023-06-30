@@ -54,6 +54,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.ListExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.RealExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SetExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
@@ -121,6 +122,12 @@ public class ExprGenerator {
 
     /** PLC function applications of the target. */
     private final PlcFunctionAppls funcAppls;
+
+    /**
+     * PLC variable that contains the value sent over the channel. Should be {@code null} if not available (not
+     * communicating over a channel or the channel has a void type).
+     */
+    private PlcVariable channelValueVariable = null;
 
     /**
      * Constructor of the {@link ExprGenerator} class.
@@ -252,6 +259,17 @@ public class ExprGenerator {
     }
 
     /**
+     * Set the PLC variable to use for retrieving the communicated channel value at the receiver. Should be set to
+     * {@code null} if no value should be communicated or outside channel value communication context.
+     *
+     * @param channelValueVariable PLC variable to use for obtaining the communicated channel value. Set to {@code null}
+     *     if the variable is not valid (not doing communication or a void channel).
+     */
+    public void setChannelValueVariable(PlcVariable channelValueVariable) {
+        this.channelValueVariable = channelValueVariable;
+    }
+
+    /**
      * Convert a CIF expression to a combination of a PLC write-only expression, used variables, and statements.
      *
      * @param expr CIF expression to convert.
@@ -327,6 +345,9 @@ public class ExprGenerator {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
             return new ExprValueResult(this).setValue(cifData.getValueForInputVar(ie.getVariable()));
+        } else if (expr instanceof ReceivedExpression) {
+            Assert.notNull(channelValueVariable);
+            return new ExprValueResult(this).setValue(new PlcVarExpression(channelValueVariable));
         }
         throw new RuntimeException("Unexpected expr: " + expr);
     }

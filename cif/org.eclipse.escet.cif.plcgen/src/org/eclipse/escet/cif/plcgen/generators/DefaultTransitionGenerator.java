@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.cast;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -27,6 +28,8 @@ import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
+import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprAddressableResult;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
@@ -223,8 +226,32 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Performing the event implies progress is made.
         performCode.add(new PlcAssignmentStatement(isProgressVar, new PlcBoolLiteral(true)));
 
-        // TODO Handle senders. (comes in a next commit).
-        // TODO Handle receivers. (comes in a next commit).
+        // Generate channel communication.
+        if (eventTransition.event.getType() != null) {
+            // Event is a channel, generate senders and receivers code.
+
+            // A void channel does not transport data, 'channelValueVar' is 'null' in that case.
+            CifType channelType = normalizeType(eventTransition.event.getType());
+            PlcVariable channelValueVar;
+            if (channelType instanceof VoidType) {
+                channelValueVar = null;
+            } else {
+                channelValueVar = mainExprGen.getTempVariable("channelValue", eventTransition.event.getType());
+                createdTempVariables.add(channelValueVar);
+            }
+
+            // Handle senders.
+            generateSendReceiveCode(eventTransition.senders, testCode, performCode, "sender",
+                    createdTempVariables, isFeasibleVar, channelValueVar, testFeasibilityAlwaysHolds);
+
+            testFeasibilityAlwaysHolds = false; // There is at least one sender tested so feasibility may not hold here.
+
+            // Handle receivers.
+            mainExprGen.setChannelValueVariable(channelValueVar);
+            generateSendReceiveCode(eventTransition.receivers, testCode, performCode, "receiver",
+                    createdTempVariables, isFeasibleVar, null, testFeasibilityAlwaysHolds);
+            mainExprGen.setChannelValueVariable(null);
+        }
 
         // Handle syncers.
         generateSyncCode(eventTransition.syncers, testCode, performCode, createdTempVariables,
@@ -243,7 +270,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * // Function code will be added in a next commit. You may want to skip reading this until then.
      * Generate code to test and perform a transition for a sender or a receiver automaton.
      *
      * <p>
@@ -300,7 +326,57 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             List<PlcVariable> createdTempVariables, PlcVariable isFeasibleVar, PlcVariable channelValueVar,
             boolean testFeasibilityAlwaysHolds)
     {
-        // Added now to make the {@link } happy, content comes in a next commit.
+        List<PlcStatement> autTestCode = list(); // Intermediate Storage for testCode.
+
+        // TODO: Use a smaller integer for automaton and edge indexing.
+        PlcVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
+        PlcVariable edgeVar = mainExprGen.getTempVariable(varPrefix + "Edge", PlcElementaryType.DINT_TYPE);
+        createdTempVariables.add(autVar);
+        createdTempVariables.add(edgeVar);
+        autTestCode.add(generatePlcIntAssignment(autVar, 0));
+
+        // Outer dispatch selection statement that selects on the chosen automaton, and performs selection performing of
+        // the edges within each dispatched branch. The latter is generated below.
+        PlcSelectionStatement performSelectStat = new PlcSelectionStatement();
+
+        // Generate code that tests and performs sending or receiving a value to the channel.
+        int autIndex = 1;
+        for (TransitionAutomaton transAut: autTransitions) {
+            // Generate edge testing code.
+            autTestCode.addAll(generateEdgesTestCode(transAut, autIndex, autVar, edgeVar, isFeasibleVar));
+
+            // Generate the edge selection and performing code, and add it as a branch on the automaton to
+            // 'performSelectStat'.
+            List<PlcStatement> innerPerformCode = generateAutPerformCode(transAut, edgeVar, channelValueVar);
+            if (!innerPerformCode.isEmpty()) {
+                performSelectStat.condChoices
+                        .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), innerPerformCode));
+            }
+
+            autIndex++;
+        }
+
+        // Only add the 'performSelectStat' if at least one edge has code to perform on a taken transition.
+        if (!performSelectStat.condChoices.isEmpty()) {
+            performCode.add(performSelectStat);
+        }
+
+        // In test code, if none of the automaton tests succeeds, the event is not feasible.
+        // IF autVar == 0 THEN isFeasible := FALSE; END_IF;
+        {
+            PlcExpression guard = generateCompareVarWithVal(autVar, 0);
+            PlcAssignmentStatement assignment = generatePlcBoolAssignment(isFeasibleVar, false);
+            autTestCode.add(generateIfGuardThenCode(guard, assignment));
+        }
+
+        // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the generated
+        // test code only makes sense after verifying that feasibility is still true.
+        if (testFeasibilityAlwaysHolds) {
+            testCode.addAll(autTestCode);
+        } else {
+            PlcExpression guard = new PlcVarExpression(isFeasibleVar);
+            testCode.add(generateIfGuardThenCode(guard, autTestCode));
+        }
     }
 
     /**
@@ -637,6 +713,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             projs.add(new PlcStructProjection(lhsStructType.fields.get(idx).name));
             genUpdateAssignment(lhsTuple.getFields().get(idx), rhsVariable, projs, statements);
         }
+    }
+
+    /**
+     * Construct a selection statement with one alternative.
+     *
+     * @param guard Condition that must hold to perform the statement.
+     * @param statement Statement to conditionally execute.
+     * @return The generated selection statement.
+     */
+    private PlcSelectionStatement generateIfGuardThenCode(PlcExpression guard, PlcStatement statement) {
+        return generateIfGuardThenCode(guard, list(statement));
     }
 
     /**
