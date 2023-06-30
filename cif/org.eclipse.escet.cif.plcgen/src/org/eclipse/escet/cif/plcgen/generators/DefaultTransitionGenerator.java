@@ -18,19 +18,30 @@ import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.cast;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Lists.set2list;
+import static org.eclipse.escet.common.java.Maps.map;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
+import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprAddressableResult;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
@@ -225,6 +236,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Performing the event implies progress is made.
         performCode.add(new PlcAssignmentStatement(isProgressVar, new PlcBoolLiteral(true)));
+        CifDataProvider performProvider = generateCopiedState(eventTransition.collectAssignedVariables(), performCode,
+                createdTempVariables);
 
         // Generate channel communication.
         if (eventTransition.event.getType() != null) {
@@ -241,24 +254,24 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
 
             // Handle senders.
-            generateSendReceiveCode(eventTransition.senders, testCode, performCode, "sender",
+            generateSendReceiveCode(eventTransition.senders, testCode, performProvider, performCode, "sender",
                     createdTempVariables, isFeasibleVar, channelValueVar, testFeasibilityAlwaysHolds);
 
             testFeasibilityAlwaysHolds = false; // There is at least one sender tested so feasibility may not hold here.
 
             // Handle receivers.
             mainExprGen.setChannelValueVariable(channelValueVar);
-            generateSendReceiveCode(eventTransition.receivers, testCode, performCode, "receiver",
+            generateSendReceiveCode(eventTransition.receivers, testCode, performProvider, performCode, "receiver",
                     createdTempVariables, isFeasibleVar, null, testFeasibilityAlwaysHolds);
             mainExprGen.setChannelValueVariable(null);
         }
 
         // Handle syncers.
-        generateSyncCode(eventTransition.syncers, testCode, performCode, createdTempVariables,
+        generateSyncCode(eventTransition.syncers, testCode, performProvider, performCode, createdTempVariables,
                 isFeasibleVar, testFeasibilityAlwaysHolds);
 
         // Handle monitors. Only generates perform code since it doesn't influence feasibility of the event transition.
-        generateMonitorCode(eventTransition.monitors, performCode, createdTempVariables);
+        generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
 
         // Construct the complete PLC code for the event transition by concatenating test and perform code.
         // isFeasible = TRUE; <testCode>; if (isFeasible) THEN progress := TRUE; <performCode>; END_IF
@@ -267,6 +280,108 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         mainExprGen.releaseTempVariables(createdTempVariables);
         return testCode;
+    }
+
+    /**
+     * Generate PLC code that copies the current value of all variables that may be assigned while performing the event.
+     * Also, construct a CIF data provider that redirects reading of variables to the created copies.
+     *
+     * @param assignedVariables Variables that may be assigned while performing the event.
+     * @param codeStorage Storage for the generated PLC code.
+     * @param createdTempVariables Created temporary variables to test and perform an event. Is extended in-place with
+     *     introduced variables to temporarily store current state.
+     * @return A CIF data provider that redirects variable value queries in expression conversion to the copied state.
+     *     Is {@code null} if nothing needs to be copied.
+     */
+    private CifDataProvider generateCopiedState(Set<Declaration> assignedVariables, List<PlcStatement> codeStorage,
+            List<PlcVariable> createdTempVariables)
+    {
+        if (assignedVariables.isEmpty()) {
+            return null;
+        }
+
+        // Sort declarations on absolute name.
+        List<Declaration> assignedVarList = set2list(assignedVariables);
+        Collections.sort(assignedVarList, (a, b) -> getAbsName(a, false).compareTo(getAbsName(b, false)));
+
+        // Generate code to copy the variables, and setup a redirect map for a new data provider, to make the expression
+        // generator use the copied state.
+        CifDataProvider rootProvider = mainExprGen.getRootCifDataProvider();
+        Map<Declaration, PlcExpression> redirectedDecls = map();
+        for (Declaration assignedVar: assignedVarList) {
+            // TODO If the variable is only written, a copy is not needed.
+            if (assignedVar instanceof DiscVariable dv) {
+                PlcVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(dv, false), dv.getType());
+                createdTempVariables.add(currentVar);
+                redirectedDecls.put(dv, new PlcVarExpression(currentVar));
+                codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
+                        rootProvider.getValueForDiscVar(dv)));
+            } else if (assignedVar instanceof ContVariable cv) {
+                PlcVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
+                        target.getRealType());
+                createdTempVariables.add(currentVar);
+                redirectedDecls.put(cv, new PlcVarExpression(currentVar));
+                codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
+                        rootProvider.getValueForContvar(cv, false)));
+            } else {
+                throw new AssertionError("Unexpected kind of assigned variable \"" + assignedVar + "\".");
+            }
+        }
+        return new TransitionDataProvider(redirectedDecls, rootProvider);
+    }
+
+    /** CIF data provider that redirects value access of state variables. */
+    private static class TransitionDataProvider extends CifDataProvider {
+        /** The collection of redirected PLC state variable values. */
+        private final Map<Declaration, PlcExpression> redirectedDecls;
+
+        /** Original CIF data provider. */
+        private final CifDataProvider rootProvider;
+
+        /**
+         * Constructor of the {@link TransitionDataProvider} class.
+         *
+         * @param redirectedDecls The collection of redirected Plc discrete variable values.
+         * @param rootProvider Original CIF data provider.
+         */
+        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls, CifDataProvider rootProvider) {
+            this.redirectedDecls = redirectedDecls;
+            this.rootProvider = rootProvider;
+        }
+
+        @Override
+        public PlcExpression getValueForInputVar(InputVariable variable) {
+            return rootProvider.getValueForInputVar(variable);
+        }
+
+        @Override
+        public PlcExpression getValueForDiscVar(DiscVariable variable) {
+            return redirectedDecls.getOrDefault(variable, rootProvider.getValueForDiscVar(variable));
+        }
+
+        @Override
+        public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
+            if (getDerivative) { // The derivative is a fixed value.
+                return rootProvider.getValueForContvar(variable, getDerivative);
+            } else {
+                return redirectedDecls.getOrDefault(variable, rootProvider.getValueForContvar(variable, getDerivative));
+            }
+        }
+
+        @Override
+        public PlcExpression getValueForConstant(Constant constant) {
+            return rootProvider.getValueForConstant(constant);
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
+            return rootProvider.getAddressableForDiscVar(variable);
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
+            return rootProvider.getAddressableForContvar(variable, getDerivative);
+        }
     }
 
     /**
@@ -313,6 +428,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * @param autTransitions Automaton transitions to convert.
      * @param testCode Storage for generated test code. Is updated in-place.
+     * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
+     *     during perform code execution.
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param varPrefix Prefix of locally created temporary variables.
      * @param createdTempVariables Tracking storage of created temporary variables.
@@ -322,7 +439,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasibility' in tests is always true at runtime.
      */
     private void generateSendReceiveCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
-            List<PlcStatement> performCode, String varPrefix,
+            CifDataProvider performProvider, List<PlcStatement> performCode, String varPrefix,
             List<PlcVariable> createdTempVariables, PlcVariable isFeasibleVar, PlcVariable channelValueVar,
             boolean testFeasibilityAlwaysHolds)
     {
@@ -347,11 +464,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
+            mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
             List<PlcStatement> innerPerformCode = generateAutPerformCode(transAut, edgeVar, channelValueVar);
             if (!innerPerformCode.isEmpty()) {
                 performSelectStat.condChoices
                         .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), innerPerformCode));
             }
+            mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
 
             autIndex++;
         }
@@ -406,13 +525,15 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * @param autTransitions Automaton transitions to convert.
      * @param testCode Storage for generated test code. Is updated in-place.
+     * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
+     *     during perform code execution.
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param createdTempVariables Tracking storage of created temporary variables.
      * @param isFeasibleVar PLC variable expressing if the event is feasible.
      * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasibility' in tests is always true at runtime.
      */
     private void generateSyncCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
-            List<PlcStatement> performCode, List<PlcVariable> createdTempVariables,
+            CifDataProvider performProvider, List<PlcStatement> performCode, List<PlcVariable> createdTempVariables,
             PlcVariable isFeasibleVar, boolean testFeasibilityAlwaysHolds)
     {
         // Generate code that tests and performs synchronizing on the event.
@@ -428,7 +549,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
+            mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
             performCode.addAll(generateAutPerformCode(transAut, autEdgeVar, null));
+            mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
 
             // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the
             // generated test code only makes sense after verifying that feasibility is still true.
@@ -461,14 +584,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * </p>
      *
      * @param autTransitions Automaton transitions to convert.
+     * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
+     *     during perform code execution.
      * @param testAndPerformCode Storage for generated test and perform code. Is updated in-place.
      * @param createdTempVariables Tracking storage of created temporary variables.
      */
-    private void generateMonitorCode(List<TransitionAutomaton> autTransitions,
+    private void generateMonitorCode(List<TransitionAutomaton> autTransitions, CifDataProvider performProvider,
             List<PlcStatement> testAndPerformCode, List<PlcVariable> createdTempVariables)
     {
         // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
 
+        mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
         for (TransitionAutomaton transAut: autTransitions) {
             PlcSelectionStatement selStat = null;
 
@@ -480,6 +606,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
             }
         }
+        mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
     }
 
     /**

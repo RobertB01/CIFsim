@@ -276,6 +276,8 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF isFeasible THEN
                     isProgress := TRUE;
+                    current_otherVar := otherVar;
+                    current_recVar := recVar;
                     IF senderAut = 1 THEN
                         IF senderEdge = 1 THEN
                             channelValue := 1;
@@ -283,7 +285,7 @@ public class TransitionGeneratorTest {
                     END_IF;
                     IF receiverAut = 1 THEN
                         IF receiverEdge = 1 THEN
-                            recVar := recVar + channelValue;
+                            recVar := current_recVar + channelValue;
                         END_IF;
                     ELSIF receiverAut = 2 THEN
                         IF receiverEdge = 1 THEN
@@ -356,6 +358,7 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF isFeasible THEN
                     isProgress := TRUE;
+                    current_otherVar := otherVar;
                     IF syncAutEdge = 1 THEN
                         otherVar := 2;
                     ELSIF syncAutEdge = 2 THEN
@@ -396,7 +399,8 @@ public class TransitionGeneratorTest {
                 isFeasible := TRUE;
                 IF isFeasible THEN
                     isProgress := TRUE;
-                    IF otherVar = 1 THEN
+                    current_otherVar := otherVar;
+                    IF current_otherVar = 1 THEN
                         otherVar := 2;
                     END_IF;
                 END_IF;""";
@@ -446,6 +450,7 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF isFeasible THEN
                     isProgress := TRUE;
+                    current_otherVar := otherVar;
                     IF syncAutEdge = 1 THEN
                         otherVar := 1;
                         otherVar := 2;
@@ -489,6 +494,7 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF isFeasible THEN
                     isProgress := TRUE;
+                    current_otherVar := otherVar;
                     IF syncAutEdge = 1 THEN
                         rightValue := TRUE;
                         otherVar := rightValue.field1;

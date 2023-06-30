@@ -13,11 +13,16 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.cif.common.CifAddressableUtils.collectAddrVars;
+import static org.eclipse.escet.common.java.Sets.set;
+
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
@@ -83,6 +88,28 @@ public class CifEventTransition {
         this.monitors = monitors;
     }
 
+    /**
+     * Collect the variables that may be assigned when performing the event.
+     *
+     * @return The collected variables that are assigned at least once in one of the edge of the participating automata.
+     */
+    public Set<Declaration> collectAssignedVariables() {
+        Set<Declaration> assignedVariables = set();
+        for (TransitionAutomaton sender: senders) {
+            sender.collectAssignedVariables(assignedVariables);
+        }
+        for (TransitionAutomaton receiver: receivers) {
+            receiver.collectAssignedVariables(assignedVariables);
+        }
+        for (TransitionAutomaton syncer: syncers) {
+            syncer.collectAssignedVariables(assignedVariables);
+        }
+        for (TransitionAutomaton monitor: monitors) {
+            monitor.collectAssignedVariables(assignedVariables);
+        }
+        return assignedVariables;
+    }
+
     /** CIF data of an automaton for the event. */
     public static class TransitionAutomaton {
         /** Automaton described in the instance. */
@@ -100,6 +127,17 @@ public class CifEventTransition {
         public TransitionAutomaton(Automaton aut, List<TransitionEdge> transitionEdges) {
             this.aut = aut;
             this.transitionEdges = transitionEdges;
+        }
+
+        /**
+         * Collect the assigned variables from the edges of the automaton.
+         *
+         * @param assignedVariables The collected assigned variables. Is updated in-place.
+         */
+        public void collectAssignedVariables(Set<Declaration> assignedVariables) {
+            for (TransitionEdge transEdge: transitionEdges) {
+                collectAddrVars(transEdge.updates, assignedVariables);
+            }
         }
     }
 

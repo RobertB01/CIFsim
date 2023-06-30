@@ -163,9 +163,9 @@ public class ExprGeneratorTest {
     private static class TestPlcTarget extends PlcBaseTarget {
         public boolean supportsLog = true;
 
-        private TypeGenerator typeGenerator = new TestTypeGenerator();
+        private TypeGenerator testTypeGenerator = new TestTypeGenerator();
 
-        private NameGenerator nameGenerator = new TestNameGenerator();
+        private NameGenerator testNameGenerator = new TestNameGenerator();
 
         public TestPlcTarget() {
             super(PlcTargetType.IEC_61131_3);
@@ -214,7 +214,7 @@ public class ExprGeneratorTest {
 
         @Override
         public TypeGenerator getTypeGenerator() {
-            return typeGenerator;
+            return testTypeGenerator;
         }
 
         @Override
@@ -224,7 +224,7 @@ public class ExprGeneratorTest {
 
         @Override
         public NameGenerator getNameGenerator() {
-            return nameGenerator;
+            return testNameGenerator;
         }
 
         @Override
@@ -281,38 +281,38 @@ public class ExprGeneratorTest {
      */
     private static class TestCifDataProvider extends CifDataProvider {
         @Override
-        protected PlcExpression getValueForConstant(Constant constant) {
+        public PlcExpression getValueForConstant(Constant constant) {
             return new PlcVarExpression(new PlcVariable(constant.getName(), PlcElementaryType.BOOL_TYPE));
         }
 
         @Override
-        protected PlcExpression getValueForDiscVar(DiscVariable variable) {
+        public PlcExpression getValueForDiscVar(DiscVariable variable) {
             // state.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
             return new PlcVarExpression(new PlcVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
-        protected PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
+        public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
             // newState.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
             return new PlcVarExpression(new PlcVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
-        protected PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
+        public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
             String name = variable.getName() + (getDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
-        protected PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
             String name = "new_" + variable.getName() + (getDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
-        protected PlcExpression getValueForInputVar(InputVariable variable) {
+        public PlcExpression getValueForInputVar(InputVariable variable) {
             return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
