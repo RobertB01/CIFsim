@@ -27,6 +27,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.BitSet;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,10 +109,10 @@ public class ExprGenerator {
     /** Map of variable names to their {@link #variables} index. */
     private final Map<String, Integer> varNameToVarIndex = map();
 
-    /** Indices set of temporary variables. */
+    /** Indices set of temporary variables in {@link #variables}. */
     private final BitSet variableIsTemp = new BitSet();
 
-    /** Indices set of temporary variables that can be handed out. */
+    /** Indices set of temporary variables in {@link #variables} that can be handed out. */
     private final BitSet variableIsAvailable = new BitSet();
 
     /** PLC target to generate code for. */
@@ -266,6 +267,22 @@ public class ExprGenerator {
             return;
         }
         variableIsAvailable.set(idx);
+    }
+
+    /**
+     * Obtain the temporary variables created in the expression generator.
+     *
+     * @return The created temporary variables of the expression generator.
+     */
+    public List<PlcVariable> getCreatedTempVariables() {
+        List<PlcVariable> tempVars = listc(variableIsTemp.cardinality());
+        for (int idx: new BitSetIterator(variableIsTemp)) {
+            tempVars.add(variables.get(idx));
+        }
+
+        // Sort variables on name.
+        Collections.sort(tempVars, (a, b) -> a.name.compareTo(b.name));
+        return tempVars;
     }
 
     /**

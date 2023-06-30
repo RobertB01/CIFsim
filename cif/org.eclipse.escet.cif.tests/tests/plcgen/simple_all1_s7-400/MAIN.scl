@@ -1,5 +1,22 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        current_p: DINT;
+        current_p_b: BOOL;
+        current_p_j: DINT;
+        current_p_r: REAL;
+        current_p_tv: TupleStruct__2;
+        current_p_v3: TupleStruct__1;
+        current_p_ve: DINT;
+        current_p_x: DINT;
+        isFeasible: BOOL;
+        isProgress: BOOL;
+        litStruct: TupleStruct;
+        litStruct__1: TupleStruct__1;
+        litStruct__2: TupleStruct__2;
+        rightValue: TupleStruct__2;
+        syncAutEdge: DINT;
+    END_VAR
 
 BEGIN
     IF firstRun THEN
@@ -60,6 +77,14 @@ BEGIN
         END_IF;
         IF isFeasible THEN
             isProgress := TRUE;
+            current_p := p;
+            current_p_b := p_b;
+            current_p_j := p_j;
+            current_p_r := p_r;
+            current_p_tv := p_tv;
+            current_p_v3 := p_v3;
+            current_p_ve := p_ve;
+            current_p_x := p_x;
             IF syncAutEdge = 1 THEN
                 litStruct__2.field1 := 1;
                 litStruct__2.field2 := 2;
@@ -70,7 +95,7 @@ BEGIN
                 p_j := 4;
                 p := someConstantvariable;
             ELSIF syncAutEdge = 3 THEN
-                rightValue := p_tv;
+                rightValue := current_p_tv;
                 p_x := rightValue.field1;
                 p_j := rightValue.field2;
                 p := someConstantvariable;
@@ -92,13 +117,13 @@ BEGIN
                 p_v3 := litStruct__1;
                 p := someConstantvariable;
             ELSIF syncAutEdge = 8 THEN
-                p_j := p_j + 1;
+                p_j := current_p_j + 1;
                 p := someConstantvariable;
             ELSIF syncAutEdge = 9 THEN
                 p_b := FALSE;
                 p := someConstantvariable;
             ELSIF syncAutEdge = 10 THEN
-                IF NOT(IN := p_b) THEN
+                IF NOT(IN := current_p_b) THEN
                     p_ve := someConstantvariable;
                 END_IF;
                 p := someConstantvariable;

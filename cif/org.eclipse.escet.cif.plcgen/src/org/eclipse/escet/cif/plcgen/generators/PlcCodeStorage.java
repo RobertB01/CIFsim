@@ -257,11 +257,16 @@ public class PlcCodeStorage {
             }
         }
 
-        // Add main program variables.
+        exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
+
+        // Add main program timer variables.
         PlcType tonType = new PlcDerivedType("TON");
         mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
         mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
         mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
+
+        // Add temporary variables of the main program code.
+        main.tempVars = exprGen.getCreatedTempVariables();
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));

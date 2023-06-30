@@ -66,7 +66,155 @@
     </dataTypes>
     <pous>
       <pou name="MAIN" pouType="program">
-        <interface/>
+        <interface>
+          <tempVars>
+            <variable name="current_hw_button">
+              <type>
+                <derived name="hw_button_location"/>
+              </type>
+            </variable>
+            <variable name="current_hw_button__1">
+              <type>
+                <derived name="hw_button_location"/>
+              </type>
+            </variable>
+            <variable name="current_hw_lamp">
+              <type>
+                <derived name="hw_lamp_location"/>
+              </type>
+            </variable>
+            <variable name="current_hw_lamp__1">
+              <type>
+                <derived name="hw_lamp_location"/>
+              </type>
+            </variable>
+            <variable name="current_hw_lamp_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="current_hw_lamp_bit__1">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="current_sup">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="current_sup__1">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="current_sup__2">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="current_sup__3">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="current_sup__4">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="current_sup__5">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="current_timer">
+              <type>
+                <derived name="timer_location"/>
+              </type>
+            </variable>
+            <variable name="current_timer__1">
+              <type>
+                <derived name="timer_location"/>
+              </type>
+            </variable>
+            <variable name="current_timer_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="isFeasible">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="isProgress">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__10">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__11">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__3">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__4">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__5">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__6">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__7">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__8">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__9">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </tempVars>
+        </interface>
         <body>
           <ST>
             <xhtml xmlns="http://www.w3.org/1999/xhtml">IF firstRun THEN
@@ -102,6 +250,9 @@ WHILE isProgress DO
     END_IF;
     IF isFeasible THEN
         isProgress := TRUE;
+        current_sup := sup;
+        current_timer := timer;
+        current_timer_t := someContvariable;
         IF syncAutEdge = 1 THEN
             someContvariable := 0.0;
             timer := timer_Running;
@@ -130,6 +281,8 @@ WHILE isProgress DO
     END_IF;
     IF isFeasible THEN
         isProgress := TRUE;
+        current_sup__1 := sup;
+        current_timer__1 := timer;
         IF syncAutEdge__2 = 1 THEN
             timer := timer_Idle;
         END_IF;
@@ -163,6 +316,8 @@ WHILE isProgress DO
     END_IF;
     IF isFeasible THEN
         isProgress := TRUE;
+        current_hw_button := hw_button;
+        current_sup__2 := sup;
         IF syncAutEdge__4 = 1 THEN
             sup := sup_s2;
         ELSIF syncAutEdge__4 = 2 THEN
@@ -202,6 +357,8 @@ WHILE isProgress DO
     END_IF;
     IF isFeasible THEN
         isProgress := TRUE;
+        current_hw_button__1 := hw_button;
+        current_sup__3 := sup;
         IF syncAutEdge__6 = 1 THEN
             sup := sup_s4;
         ELSIF syncAutEdge__6 = 2 THEN
@@ -235,6 +392,9 @@ WHILE isProgress DO
     END_IF;
     IF isFeasible THEN
         isProgress := TRUE;
+        current_hw_lamp := hw_lamp;
+        current_hw_lamp_bit := hw_lamp_bit;
+        current_sup__4 := sup;
         IF syncAutEdge__8 = 1 THEN
             sup := sup_s3;
         ELSIF syncAutEdge__8 = 2 THEN
@@ -263,6 +423,9 @@ WHILE isProgress DO
     END_IF;
     IF isFeasible THEN
         isProgress := TRUE;
+        current_hw_lamp__1 := hw_lamp;
+        current_hw_lamp_bit__1 := hw_lamp_bit;
+        current_sup__5 := sup;
         IF syncAutEdge__10 = 1 THEN
             sup := sup_s10;
         ELSIF syncAutEdge__10 = 2 THEN
