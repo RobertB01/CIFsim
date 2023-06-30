@@ -10,4 +10,199 @@ IF firstRun THEN
     hw_lamp_bit := FALSE;
     hw_lamp := hw_lamp_Off;
 END_IF;
+
+isProgress := TRUE;
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (* Try to perform event "timer.start". *)
+    isFeasible := TRUE;
+    IF timer = timer_Idle THEN
+        syncAutEdge := 1;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        IF sup = sup_s3 THEN
+            syncAutEdge__1 := 1;
+        ELSIF sup = sup_s5 THEN
+            syncAutEdge__1 := 2;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge = 1 THEN
+            someContvariable := 0.0;
+            timer := timer_Running;
+        END_IF;
+        IF syncAutEdge__1 = 1 THEN
+            sup := sup_s6;
+        ELSIF syncAutEdge__1 = 2 THEN
+            sup := sup_s7;
+        END_IF;
+    END_IF;
+    (* Try to perform event "timer.timeout". *)
+    isFeasible := TRUE;
+    IF timer = timer_Running AND someContvariable >= 3.0 THEN
+        syncAutEdge__2 := 1;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        IF sup = sup_s6 THEN
+            syncAutEdge__3 := 1;
+        ELSIF sup = sup_s7 THEN
+            syncAutEdge__3 := 2;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge__2 = 1 THEN
+            timer := timer_Idle;
+        END_IF;
+        IF syncAutEdge__3 = 1 THEN
+            sup := sup_s8;
+        ELSIF syncAutEdge__3 = 2 THEN
+            sup := sup_s9;
+        END_IF;
+    END_IF;
+    (* Try to perform event "button.push". *)
+    isFeasible := TRUE;
+    IF sup = sup_s1 THEN
+        syncAutEdge__4 := 1;
+    ELSIF sup = sup_s4 THEN
+        syncAutEdge__4 := 2;
+    ELSIF sup = sup_s5 THEN
+        syncAutEdge__4 := 3;
+    ELSIF sup = sup_s7 THEN
+        syncAutEdge__4 := 4;
+    ELSIF sup = sup_s9 THEN
+        syncAutEdge__4 := 5;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        IF hw_button = hw_button_Released AND hw_button_bit THEN
+            syncAutEdge__5 := 1;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge__4 = 1 THEN
+            sup := sup_s2;
+        ELSIF syncAutEdge__4 = 2 THEN
+            sup := sup_s2;
+        ELSIF syncAutEdge__4 = 3 THEN
+            sup := sup_s3;
+        ELSIF syncAutEdge__4 = 4 THEN
+            sup := sup_s6;
+        ELSIF syncAutEdge__4 = 5 THEN
+            sup := sup_s8;
+        END_IF;
+        IF syncAutEdge__5 = 1 THEN
+            hw_button := hw_button_Pushed;
+        END_IF;
+    END_IF;
+    (* Try to perform event "button.release". *)
+    isFeasible := TRUE;
+    IF sup = sup_s2 THEN
+        syncAutEdge__6 := 1;
+    ELSIF sup = sup_s3 THEN
+        syncAutEdge__6 := 2;
+    ELSIF sup = sup_s6 THEN
+        syncAutEdge__6 := 3;
+    ELSIF sup = sup_s8 THEN
+        syncAutEdge__6 := 4;
+    ELSIF sup = sup_s10 THEN
+        syncAutEdge__6 := 5;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        IF hw_button = hw_button_Pushed AND NOT(IN := hw_button_bit) THEN
+            syncAutEdge__7 := 1;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge__6 = 1 THEN
+            sup := sup_s4;
+        ELSIF syncAutEdge__6 = 2 THEN
+            sup := sup_s5;
+        ELSIF syncAutEdge__6 = 3 THEN
+            sup := sup_s7;
+        ELSIF syncAutEdge__6 = 4 THEN
+            sup := sup_s9;
+        ELSIF syncAutEdge__6 = 5 THEN
+            sup := sup_s1;
+        END_IF;
+        IF syncAutEdge__7 = 1 THEN
+            hw_button := hw_button_Released;
+        END_IF;
+    END_IF;
+    (* Try to perform event "lamp.on". *)
+    isFeasible := TRUE;
+    IF sup = sup_s2 THEN
+        syncAutEdge__8 := 1;
+    ELSIF sup = sup_s4 THEN
+        syncAutEdge__8 := 2;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        IF hw_lamp = hw_lamp_Off THEN
+            syncAutEdge__9 := 1;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge__8 = 1 THEN
+            sup := sup_s3;
+        ELSIF syncAutEdge__8 = 2 THEN
+            sup := sup_s5;
+        END_IF;
+        IF syncAutEdge__9 = 1 THEN
+            hw_lamp_bit := TRUE;
+            hw_lamp := hw_lamp_On;
+        END_IF;
+    END_IF;
+    (* Try to perform event "lamp.off". *)
+    isFeasible := TRUE;
+    IF sup = sup_s8 THEN
+        syncAutEdge__10 := 1;
+    ELSIF sup = sup_s9 THEN
+        syncAutEdge__10 := 2;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        IF hw_lamp = hw_lamp_On THEN
+            syncAutEdge__11 := 1;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge__10 = 1 THEN
+            sup := sup_s10;
+        ELSIF syncAutEdge__10 = 2 THEN
+            sup := sup_s1;
+        END_IF;
+        IF syncAutEdge__11 = 1 THEN
+            hw_lamp_bit := FALSE;
+            hw_lamp := hw_lamp_Off;
+        END_IF;
+    END_IF;
+END_WHILE;
 END_PROGRAM

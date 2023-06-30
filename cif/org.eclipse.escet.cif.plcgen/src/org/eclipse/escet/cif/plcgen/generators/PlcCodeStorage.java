@@ -75,6 +75,9 @@ public class PlcCodeStorage {
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
 
+    /** If not {@code null}, code to perform one iteration of all events. */
+    private List<PlcStatement> eventTransitionsIterationCode = null;
+
     /**
      * Constructor of the {@link PlcCodeStorage} class.
      *
@@ -191,6 +194,21 @@ public class PlcCodeStorage {
         }
     }
 
+    /**
+     * Add code to (try to) perform one iteration of all event transitions. Code should update the
+     * {@link #isProgressVariable} if an event is performed.
+     *
+     * @param eventTransitionsIterationCode Code that (tries to) perform one iteration of all event transitions. Code
+     *     should update the {@link #isProgressVariable} if an event is performed.
+     * @see #getIsProgressVariable
+     */
+    public void addEventTransitions(List<PlcStatement> eventTransitionsIterationCode) {
+        Assert.check(this.eventTransitionsIterationCode == null);
+        if (PlcModelUtils.isNonEmptyCode(eventTransitionsIterationCode)) {
+            this.eventTransitionsIterationCode = eventTransitionsIterationCode;
+        }
+    }
+
     /** Perform any additional processing to make the generated PLC program ready. */
     public void finishPlcProgram() {
         // Add all created variable tables.
@@ -208,6 +226,7 @@ public class PlcCodeStorage {
         addGlobalVariableTable(mainVariables);
 
         ExprGenerator exprGen = getExprGenerator();
+
         if (stateInitializationCode != null) {
             // Insert code to create the initial state.
             PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
@@ -222,6 +241,20 @@ public class PlcCodeStorage {
             target.getModelTextGenerator().toText(stateInitializationCode, box, main.name, false);
             box.dedent();
             box.add("END_IF;");
+
+            // Add event transitions code.
+            if (eventTransitionsIterationCode != null) {
+                String progressVarName = getIsProgressVariable().name;
+                box.add();
+                box.add("%s := TRUE;", progressVarName);
+                box.add("WHILE %s DO", progressVarName);
+                box.indent();
+                box.add("%s := FALSE;", progressVarName);
+                box.add();
+                target.getModelTextGenerator().toText(eventTransitionsIterationCode, box, main.name, false);
+                box.dedent();
+                box.add("END_WHILE;");
+            }
         }
 
         // Add main program variables.

@@ -12,64 +12,65 @@
 //////////////////////////////////////////////////////////////////////////////
 
 group g:
-  type trr = tuple(real a, b);              // type decl
-  type ttrrr = tuple(trr c; real d);        // tuple in tuple
-  const int con = 5;                        // constant
-  input int inp;                            // input var
-  enum E = LIT1, LIT2;                      // enum decl
+  type trr = tuple(real a, b);                  // type decl
+  type ttrrr = tuple(trr c; real d);            // tuple in tuple
+  const int con = 5;                            // constant
+  input int inp;                                // input var
+  enum E = LIT1, LIT2;                          // enum decl
 end
 
 plant p:
+  controllable evt;
   disc bool b = true;
-  disc int x;                               // disc var
-  disc real y = 1.23;                       // disc var with init
-  disc g.E ve = g.LIT1;                     // disc var enum type
+  disc int x;                                   // disc var
+  disc real y = 1.23;                           // disc var with init
+  disc g.E ve = g.LIT1;                         // disc var enum type
   disc int v1;
   disc g.trr v2;
   disc g.ttrrr v3;
   disc tuple(int a, b) tv;
   disc int j;
-  disc real r = 1e+6;                       // 1e6 -> 1.0e+6
+  disc real r = 1e+6;                           // 1e6 -> 1.0e+6
 
-  cont t der 1.0;                           // clock
+  cont t der 1.0;                               // clock
 
-  initial t + v1 + y + v2[a] + v2[b] >= 0;  // Get rid of unused warnings.
+  initial t + v1 + y + v2[a] + v2[b] >= 0;      // Get rid of unused warnings.
 
   location l1:
     initial;
-    edge do tv := (1, 2) goto l6;           // tv from (0, 0) to (1, 2)
+    edge evt do tv := (1, 2) goto l6;           // tv from (0, 0) to (1, 2)
 
   location l6:
-    edge do (x, j) := (3, 4) goto l7;       // x from 72 to 3, j from 0 to 4
+    edge evt do (x, j) := (3, 4) goto l7;       // x from 72 to 3, j from 0 to 4
 
   location l7:
-    edge do (x, j) := tv goto l8;           // x from 3 to 1, j from 4 to 2
+    edge evt do (x, j) := tv goto l8;           // x from 3 to 1, j from 4 to 2
 
   location l8:
-    edge do tv[0] := 5 goto l9;             // tv from (1, 2) to (5, 2)
+    edge evt do tv[0] := 5 goto l9;             // tv from (1, 2) to (5, 2)
 
   location l9:
-    edge do (tv[1], j) := (6, 7) goto l10;  // tv from (5, 2) to (5, 6), j from 2 to 7
+    edge evt do (tv[1], j) := (6, 7) goto l10;  // tv from (5, 2) to (5, 6), j from 2 to 7
 
   location l10:
-    edge do v3[c][b] := 7.8 goto l11;       // v3 from ((0.0, 0.0), 0.0) to ((0.0, 7.8), 0.0)
+    edge evt do v3[c][b] := 7.8 goto l11;       // v3 from ((0.0, 0.0), 0.0) to ((0.0, 7.8), 0.0)
 
   location l11:
-    edge do v3 := ((1.2, 3.4), 5.6) goto l12; // v3 from ((0.0, 7.8), 0.0) to ((1.2, 3.4), 5.6)
+    edge evt do v3 := ((1.2, 3.4), 5.6) goto l12; // v3 from ((0.0, 7.8), 0.0) to ((1.2, 3.4), 5.6)
 
   location l12:
-    edge do j := j + 1 goto l13;            // j from 7 to 8
+    edge evt do j := j + 1 goto l13;            // j from 7 to 8
 
   location l13:
-    edge do b := false goto l14;            // b from true to false
+    edge evt do b := false goto l14;            // b from true to false
 
   location l14:
-    edge do if not b:
-              ve := g.LIT2                  // ve from LIT1 to LIT2
-            end goto l15;
+    edge evt do if not b:
+                  ve := g.LIT2                  // ve from LIT1 to LIT2
+                end goto l15;
 
   location l15:
-    edge do r := g.inp + g.con * 2.0 goto l16; // r to ???
+    edge evt do r := g.inp + g.con * 2.0 goto l16; // r to ???
 
   location l16;
 end

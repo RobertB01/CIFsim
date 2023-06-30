@@ -84,7 +84,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     @Override
     public void generate() {
         List<PlcStatement> statements = generateCode();
-        // TODO Push generated code to the PLC storage generator.
+        target.getCodeStorage().addEventTransitions(statements);
     }
 
     /**

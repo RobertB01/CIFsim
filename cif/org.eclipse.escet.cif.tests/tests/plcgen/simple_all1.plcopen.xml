@@ -122,7 +122,89 @@
     p_j := 0;
     p_r := 1000000.0;
     p := p_l1;
-END_IF;</xhtml>
+END_IF;
+
+isProgress := TRUE;
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (* Try to perform event "p.evt". *)
+    isFeasible := TRUE;
+    IF p = p_l1 THEN
+        syncAutEdge := 1;
+    ELSIF p = p_l6 THEN
+        syncAutEdge := 2;
+    ELSIF p = p_l7 THEN
+        syncAutEdge := 3;
+    ELSIF p = p_l8 THEN
+        syncAutEdge := 4;
+    ELSIF p = p_l9 THEN
+        syncAutEdge := 5;
+    ELSIF p = p_l10 THEN
+        syncAutEdge := 6;
+    ELSIF p = p_l11 THEN
+        syncAutEdge := 7;
+    ELSIF p = p_l12 THEN
+        syncAutEdge := 8;
+    ELSIF p = p_l13 THEN
+        syncAutEdge := 9;
+    ELSIF p = p_l14 THEN
+        syncAutEdge := 10;
+    ELSIF p = p_l15 THEN
+        syncAutEdge := 11;
+    ELSE
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
+        IF syncAutEdge = 1 THEN
+            litStruct__2.field1 := 1;
+            litStruct__2.field2 := 2;
+            p_tv := litStruct__2;
+            p := p_l6;
+        ELSIF syncAutEdge = 2 THEN
+            p_x := 3;
+            p_j := 4;
+            p := p_l7;
+        ELSIF syncAutEdge = 3 THEN
+            rightValue := p_tv;
+            p_x := rightValue.field1;
+            p_j := rightValue.field2;
+            p := p_l8;
+        ELSIF syncAutEdge = 4 THEN
+            p_tv.field1 := 5;
+            p := p_l9;
+        ELSIF syncAutEdge = 5 THEN
+            p_tv.field2 := 6;
+            p_j := 7;
+            p := p_l10;
+        ELSIF syncAutEdge = 6 THEN
+            p_v3.field1.field2 := 7.8;
+            p := p_l11;
+        ELSIF syncAutEdge = 7 THEN
+            litStruct.field1 := 1.2;
+            litStruct.field2 := 3.4;
+            litStruct__1.field1 := litStruct;
+            litStruct__1.field2 := 5.6;
+            p_v3 := litStruct__1;
+            p := p_l12;
+        ELSIF syncAutEdge = 8 THEN
+            p_j := p_j + 1;
+            p := p_l13;
+        ELSIF syncAutEdge = 9 THEN
+            p_b := FALSE;
+            p := p_l14;
+        ELSIF syncAutEdge = 10 THEN
+            IF NOT(IN := p_b) THEN
+                p_ve := g_LIT2;
+            END_IF;
+            p := p_l15;
+        ELSIF syncAutEdge = 11 THEN
+            p_r := DINT_TO_LREAL(IN := g_inp) + 10.0;
+            p := p_l16;
+        END_IF;
+    END_IF;
+END_WHILE;</xhtml>
           </ST>
         </body>
       </pou>
