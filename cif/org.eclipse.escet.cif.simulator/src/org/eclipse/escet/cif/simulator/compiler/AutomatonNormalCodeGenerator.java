@@ -49,6 +49,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Triple;
 
 /**
  * Automaton code generator. Supports all features of automata. Does not support automata with large numbers of
@@ -641,6 +642,7 @@ public class AutomatonNormalCodeGenerator {
         c.add("@Override");
         c.add("public boolean evalGuards(State state) {");
         c.indent();
+        List<ExprCodeGeneratorResult> guardResults = list();
         if (edge.getGuards().isEmpty()) {
             c.add("return true;");
         } else {
@@ -651,14 +653,19 @@ public class AutomatonNormalCodeGenerator {
                 c.indent();
 
                 // Actual evaluation of guard.
-                c.add("b = %s;", gencodeExpr(guard, ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(guard, ctxt, "state");
+                c.add("b = %s;", result);
+                guardResults.add(result);
 
                 // End of 'try'.
                 c.dedent();
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
-                c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
-                        + "e, state);", escapeJava(exprToStr(guard)), escapeJava(locTxt));
+                // TODO In case the expression is split (because it was long), it was still printed in full here. That
+                // is also a problem.
+                // Can we identify the edge in a different way?
+                c.add("throw new CifSimulatorException(\"Evaluation of a guard of an edge of %s failed.\", "
+                        + "e, state);", escapeJava(locTxt));
                 c.dedent();
                 c.add("}");
 
@@ -669,6 +676,35 @@ public class AutomatonNormalCodeGenerator {
         }
         c.dedent();
         c.add("}");
+
+        // Add potential additional guard expression evaluation methods.
+        for (ExprCodeGeneratorResult guardResult: guardResults) {
+            for (Triple<String, String, String> subExpr: guardResult.subExprs) {
+                c.add();
+                c.add("private static %s %s(State state) {", subExpr.third, subExpr.second);
+                c.indent();
+                c.add("%s v;", subExpr.third);
+
+                // Start of 'try'.
+                c.add("try {");
+                c.indent();
+
+                // Actual evaluation.
+                c.add("v = %s;", subExpr.first);
+
+                // End of 'try'.
+                c.dedent();
+                c.add("} catch (CifSimulatorException e) {");
+                c.indent();
+                c.add("throw new CifSimulatorException(\"Evaluation of a guard of an edge of %s failed.\", "
+                        + "e, state);", escapeJava(locTxt));
+                c.dedent();
+                c.add("}");
+                c.add("return v;");
+                c.dedent();
+                c.add("}");
+            }
+        }
 
         // Add 'evalSendValue' method.
         if (isSend) {
