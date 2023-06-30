@@ -230,7 +230,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         generateSyncCode(eventTransition.syncers, testCode, performCode, createdTempVariables,
                 isFeasibleVar, testFeasibilityAlwaysHolds);
 
-        // TODO Handle monitors.
+        // Handle monitors. Only generates perform code since it doesn't influence feasibility of the event transition.
+        generateMonitorCode(eventTransition.monitors, performCode, createdTempVariables);
 
         // Construct the complete PLC code for the event transition by concatenating test and perform code.
         // isFeasible = TRUE; <testCode>; if (isFeasible) THEN progress := TRUE; <performCode>; END_IF
@@ -362,6 +363,46 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 testCode.add(generateIfGuardThenCode(guard, autTestCode));
             }
             testFeasibilityAlwaysHolds = false;
+        }
+    }
+
+    /**
+     * Generate code to test and perform a transition for a monitor automaton.
+     *
+     * <p>
+     * As monitor automata do not influence feasibility of an event, there is no test code to construct. Instead,
+     * finding an enabled edge and performing it is combined in the perform code. It generates the following for each
+     * monitor automaton: <pre>
+     * IF isFeasible THEN
+     *     IF &lt;edge-1-of-monitor-is-enabled&gt; THEN
+     *         &lt;perform-edge-1-of-monitor&gt;
+     *     ELSE IF &lt;edge-2-of-monitor-is-enabled&gt; THEN
+     *         &lt;perform-edge-2-of-monitor&gt;
+     *     ... // Other tests are omitted,
+     *     END_IF;
+     * END_IF;
+     * </pre> Note that if no edge is enabled, no updates are performed.
+     * </p>
+     *
+     * @param autTransitions Automaton transitions to convert.
+     * @param testAndPerformCode Storage for generated test and perform code. Is updated in-place.
+     * @param createdTempVariables Tracking storage of created temporary variables.
+     */
+    private void generateMonitorCode(List<TransitionAutomaton> autTransitions,
+            List<PlcStatement> testAndPerformCode, List<PlcVariable> createdTempVariables)
+    {
+        // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
+
+        for (TransitionAutomaton transAut: autTransitions) {
+            PlcSelectionStatement selStat = null;
+
+            for (TransitionEdge edge: transAut.transitionEdges) {
+                if (!edge.updates.isEmpty()) {
+                    Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(edge.updates); };
+                    // Add an "IF <guards> THEN <perform-updates>" branch.
+                    selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, testAndPerformCode);
+                }
+            }
         }
     }
 

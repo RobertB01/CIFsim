@@ -227,6 +227,41 @@ public class TransitionGeneratorTest {
     }
 
     @Test
+    public void oneMonitorTest() {
+        Event event = newEvent(null, "event", null, null);
+        spec.getDeclarations().add(event);
+
+        // automaton monitor: edge event when otherVar = 1 do otherVar := 2;
+        Expression leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
+        Expression rightSide = newIntExpression(null, newIntType(), 1);
+        Expression guard1 = newBinaryExpression(leftSide, BinaryOperator.EQUAL, null, rightSide, newBoolType());
+        leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
+        rightSide = newIntExpression(null, newIntType(), 2);
+        Update update1 = newAssignment(leftSide, null, rightSide);
+        TransitionEdge edge = new TransitionEdge(null, null, null, List.of(guard1), List.of(update1));
+        TransitionAutomaton monitor = new TransitionAutomaton(null, List.of(edge));
+
+        CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(),
+                List.of(monitor));
+
+        // Generate the transition, and check that it matches expectations.
+        transitionGenerator.setTransitions(List.of(transition));
+        List<PlcStatement> code = transitionGenerator.generateCode();
+        ModelTextGenerator textGen = new ModelTextGenerator();
+        String actualText = textGen.toString(code, "noPou", true);
+        String expectedText = """
+                (* Try to perform event "event". *)
+                isFeasible := TRUE;
+                IF isFeasible THEN
+                    isProgress := TRUE;
+                    IF otherVar = 1 THEN
+                        otherVar := 2;
+                    END_IF;
+                END_IF;""";
+        assertEquals(expectedText, actualText);
+    }
+
+    @Test
     public void multiAssignUnfoldTest() {
         Event event = newEvent(null, "event", null, null);
         spec.getDeclarations().add(event);
