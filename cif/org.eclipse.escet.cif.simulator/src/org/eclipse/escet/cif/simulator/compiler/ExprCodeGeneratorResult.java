@@ -15,12 +15,12 @@ package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Triple.triple;
 
 import java.util.List;
 
-import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.Triple;
 
 /**
  * Keeps track of the generated code for expressions.
@@ -36,10 +36,10 @@ public class ExprCodeGeneratorResult {
     private static int limit = 10000000;
 
     /**
-     * List of code that needs to go in a separate method, where each pair consists of the expression code and the
-     * corresponding method name.
+     * List of code that needs to go in a separate method, where each triple consists of the expression code, the
+     * corresponding method name, and the return type of the method.
      */
-    public List<Pair<String, String>> subExprs = list();
+    public List<Triple<String, String, String>> subExprs = list();
 
     /** The expression code currently being build and not (yet) assigned to a separate method call. */
     public String currentExprText = "";
@@ -84,17 +84,18 @@ public class ExprCodeGeneratorResult {
      * </p>
      *
      * @param mergeString The code string that represents the merging of the results.
+     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
      * @param others The other {@link ExprCodeGeneratorResult} to be merged into this object.
      */
-    public void merge(String mergeString, ExprCodeGeneratorResult... others) {
+    public void merge(String mergeString, String type, ExprCodeGeneratorResult... others) {
         currentExprText = mergeString;
         for (ExprCodeGeneratorResult other: others) {
             subExprs.addAll(other.subExprs);
             numNodes = numNodes + other.numNodes;
         }
 
-        if (numNodes >= limit) {
-            createMethod();
+        if (type != null && numNodes >= limit) {
+            createMethod(type);
         }
     }
 
@@ -108,17 +109,18 @@ public class ExprCodeGeneratorResult {
      * </p>
      *
      * @param mergeString The code string that represents the merging of the results.
+     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
      * @param others The other {@link ExprCodeGeneratorResult} to be merged into this object.
      */
-    public void merge(String mergeString, List<ExprCodeGeneratorResult> others) {
+    public void merge(String mergeString, String type, List<ExprCodeGeneratorResult> others) {
         currentExprText = mergeString;
         for (ExprCodeGeneratorResult other: others) {
             subExprs.addAll(other.subExprs);
             numNodes = numNodes + other.numNodes;
         }
 
-        if (numNodes >= limit) {
-            createMethod();
+        if (type != null && numNodes >= limit) {
+            createMethod(type);
         }
     }
 
@@ -132,28 +134,35 @@ public class ExprCodeGeneratorResult {
      * </p>
      *
      * @param mergeString The code string that represents the merging of the results.
+     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
      * @param results The other {@link ExprCodeGeneratorResult} to be merged into this object.
      * @return A merged result object.
      */
-    public static ExprCodeGeneratorResult mergeStatic(String mergeString, List<ExprCodeGeneratorResult> results) {
+    public static ExprCodeGeneratorResult mergeStatic(String mergeString, String type,
+            List<ExprCodeGeneratorResult> results)
+    {
         if (results.isEmpty()) {
             return new ExprCodeGeneratorResult(mergeString);
         }
 
         if (results.size() == 1) {
-            results.get(0).updateCurrentExprText(mergeString);
+            results.get(0).updateCurrentExprText(mergeString, type);
             return results.get(0);
         }
 
         ExprCodeGeneratorResult lastResult = results.remove(results.size() - 1);
-        lastResult.merge(mergeString, results);
+        lastResult.merge(mergeString, type, results);
         return lastResult;
     }
 
-    /** Assign the current expression code to a new method. */
-    public void createMethod() {
+    /**
+     * Assign the current expression code to a new method.
+     *
+     * @param type The output type of the new method.
+     */
+    public void createMethod(String type) {
         String methodName = fmt("%s%d", methodBaseName, counter);
-        subExprs.add(pair(currentExprText, methodName));
+        subExprs.add(triple(currentExprText, methodName, type));
         currentExprText = fmt("%s()", methodName);
         counter = counter + 1;
         numNodes = 1;
@@ -163,13 +172,14 @@ public class ExprCodeGeneratorResult {
      * Update the current expression code text and, if needed, create a new method.
      *
      * @param newExprText The text to replace the current expression code text.
+     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
      */
-    public void updateCurrentExprText(String newExprText) {
+    public void updateCurrentExprText(String newExprText, String type) {
         currentExprText = newExprText;
         numNodes = numNodes + 1;
 
-        if (numNodes >= limit) {
-            createMethod();
+        if (type != null && numNodes >= limit) {
+            createMethod(type);
         }
     }
 
@@ -185,6 +195,15 @@ public class ExprCodeGeneratorResult {
             total = total + other.numNodes;
         }
         return total < limit;
+    }
+
+    /**
+     * Check whether this result has code expressions that are assigned to new methods.
+     *
+     * @return {@code true} if there are code expressions assigned to new methods, otherwise {@code false}.
+     */
+    public boolean hasSubExprs() {
+        return subExprs.isEmpty();
     }
 
     /**
