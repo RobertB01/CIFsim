@@ -658,21 +658,74 @@ public class ExprGenerator {
     public PlcSelectionStatement addBranch(List<Expression> guards, Supplier<List<PlcStatement>> genThenStats,
             PlcSelectionStatement selStat, List<PlcStatement> rootCode)
     {
+        // Convert the guard conditions and drop into the add selection statement branch function below.
+        List<ExprValueResult> convertedGuards;
+        if (guards == null) {
+            convertedGuards = null;
+        } else if (guards.isEmpty()) {
+            convertedGuards = List.of(new ExprValueResult(this).setValue(new PlcBoolLiteral(true)));
+        } else {
+            convertedGuards = listc(guards.size());
+            for (Expression guard: guards) {
+                convertedGuards.add(convertValue(guard));
+            }
+        }
+        return addPlcBranch(convertedGuards, genThenStats, selStat, rootCode);
+    }
+
+    /**
+     * Append an {@code IF} branch to a selection statement in the PLC code.
+     *
+     * <p>
+     * Conceptually this function appends a <pre>ELSE IF guards THEN ....</pre> branch to the selection statement in
+     * {@code selStat}. The {@code guards} variable also controls whether there is a condition at all to test and
+     * {@code selStat} controls whether the first branch is created.
+     * </p>
+     * <p>
+     * The difficulty here is that the converted {@code guards} may have generated code attached which must be executed
+     * before evaluating the guards condition. The PLC {@code IF} statement does not support that.
+     * </p>
+     * <p>
+     * Therefore in such a case the current {@code selStat} cannot be extended with another {@code IF} branch. Instead,
+     * the code attached to the converted guards must be put in its {@code ELSE} branch so it can be executed. Below
+     * that code, a new selection statement must be started to evaluate the guards and possibly perform the assignment.
+     * That is, it generates <pre> ELSE
+     *     // Code to perform before evaluating the guards.
+     *     IF guard-expr THEN ... // Statements for the new branch.
+     *     ... // Possibly more branches will be added.
+     *     END_IF
+     * END_IF</pre> where the top {@code ELSE} and bottom {@code END_IF} are part of the supplied {@code selStat}.
+     * </p>
+     * <p>
+     * In addition in that case, next branches must now be added to this new selection statement. The returned value
+     * thus changes to the new selection statement.
+     * </p>
+     *
+     * @param plcGuards PLC expressions that must hold to select the branch. Is {@code null} for the final 'else'
+     *     branch.
+     * @param genThenStats Code generator for the statements in the added branch.
+     * @param selStat Selection statement returned the previous time, or {@code null} if no selection statement has been
+     *     created yet.
+     * @param rootCode Code block for storing the entire generated PLC {@code IF} statement.
+     * @return The last used selection statement after adding the branch.
+     */
+    public PlcSelectionStatement addPlcBranch(List<ExprValueResult> plcGuards,
+            Supplier<List<PlcStatement>> genThenStats, PlcSelectionStatement selStat, List<PlcStatement> rootCode)
+    {
         // Place to store generated guard condition code. If no guards are present (that is, it's the final 'else'
         // branch), the 'then' statements are put in the ELSE branch.
         List<PlcStatement> codeStorage = (selStat != null) ? selStat.elseStats : rootCode;
 
-        if (guards != null) {
+        if (plcGuards != null) {
             // Convert the guard conditions. Copy any generated code into storage, collect the used variables and the
             // converted expression for the final N-ary AND.
-            PlcExpression[] grdValues = new PlcExpression[guards.size()];
+            PlcExpression[] grdValues = new PlcExpression[plcGuards.size()];
             boolean seenGuardCode = false;
             Set<PlcVariable> grdVariables = set();
 
             // For all guard expressions, convert them and store their output.
             int grdNum = 0;
-            for (Expression guard: guards) {
-                ExprValueResult grdResult = convertValue(guard);
+            for (ExprValueResult grdResult: plcGuards) {
                 if (grdResult.hasCode()) {
                     seenGuardCode = true;
                     codeStorage.addAll(grdResult.code);
