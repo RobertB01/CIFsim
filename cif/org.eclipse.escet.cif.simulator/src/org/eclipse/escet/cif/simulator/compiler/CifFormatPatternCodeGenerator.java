@@ -118,6 +118,6 @@ public class CifFormatPatternCodeGenerator {
         }
         rslt.append(String.join(", ", argCodes));
         rslt.append(")");
-        return ExprCodeGeneratorResult.mergeStatic(rslt.toString(), valueRslts);
+        return ExprCodeGeneratorResult.mergeStatic(rslt.toString(), "String", valueRslts);
     }
 }

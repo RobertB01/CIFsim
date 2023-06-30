@@ -149,11 +149,11 @@ public class ExprCodeGenerator {
         }
 
         // General case.
-        rslt.updateCurrentExprText(fmt("(%s)", rslt));
+        rslt.updateCurrentExprText(fmt("(%s)", rslt), "boolean");
         for (int i = 1; i < preds.size(); i++) {
             ExprCodeGeneratorResult prslt = gencodeExpr(preds.get(i), ctxt, state);
-            prslt.updateCurrentExprText(fmt("(%s)", prslt));
-            rslt.merge(fmt("%s && %s", rslt, prslt), prslt);
+            prslt.updateCurrentExprText(fmt("(%s)", prslt), "boolean");
+            rslt.merge(fmt("%s && %s", rslt, prslt), "boolean", prslt);
         }
         return rslt;
     }
@@ -183,7 +183,7 @@ public class ExprCodeGenerator {
         // General case.
         for (int i = 1; i < exprs.size(); i++) {
             ExprCodeGeneratorResult erslt = gencodeExpr(exprs.get(i), ctxt, state);
-            rslt.merge(fmt("%s, %s", rslt, erslt), erslt);
+            rslt.merge(fmt("%s, %s", rslt, erslt), null, erslt);
         }
         return rslt;
     }
@@ -306,20 +306,28 @@ public class ExprCodeGenerator {
         // Convert based on child/result type combination.
         CifType ntype = normalizeType(expr.getType());
         String text;
+        String type;
         if (nctype instanceof IntType && ntype instanceof RealType) {
             text = fmt("intToReal(%s)", crslt);
+            type = "double";
         } else if (nctype instanceof IntType && ntype instanceof StringType) {
             text = fmt("intToStr(%s)", crslt);
+            type = "String";
         } else if (nctype instanceof RealType && ntype instanceof StringType) {
             text = fmt("realToStr(%s)", crslt);
+            type = "String";
         } else if (nctype instanceof BoolType && ntype instanceof StringType) {
             text = fmt("boolToStr(%s)", crslt);
+            type = "String";
         } else if (nctype instanceof StringType && ntype instanceof IntType) {
             text = fmt("strToInt(%s)", crslt);
+            type = "int";
         } else if (nctype instanceof StringType && ntype instanceof RealType) {
             text = fmt("strToReal(%s)", crslt);
+            type = "double";
         } else if (nctype instanceof StringType && ntype instanceof BoolType) {
             text = fmt("strToBool(%s)", crslt);
+            type = "boolean";
         } else if (CifTypeUtils.checkTypeCompat(nctype, ntype, RangeCompat.EQUAL)) {
             // Ignore cast to child type.
             return crslt;
@@ -328,7 +336,7 @@ public class ExprCodeGenerator {
             throw new RuntimeException(msg);
         }
 
-        crslt.updateCurrentExprText(text);
+        crslt.updateCurrentExprText(text, type);
         return crslt;
     }
 
@@ -372,7 +380,7 @@ public class ExprCodeGenerator {
                 throw new RuntimeException("Unknown unop: " + expr.getOperator());
         }
 
-        crslt.updateCurrentExprText(text);
+        crslt.updateCurrentExprText(text, null);
         return crslt;
     }
 
@@ -391,22 +399,22 @@ public class ExprCodeGenerator {
         // Get children code.
         ExprCodeGeneratorResult lrslt = gencodeExpr(expr.getLeft(), ctxt, state);
         ExprCodeGeneratorResult rrslt = gencodeExpr(expr.getRight(), ctxt, state);
-        if (!lrslt.doesFit(rrslt)) {
-            rrslt.createMethod();
-        }
 
         // Convert based on operator.
         String text;
+        String type;
         switch (expr.getOperator()) {
             case IMPLICATION:
                 // Short circuit evaluation.
                 text = fmt("!(%s) || (%s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case BI_CONDITIONAL:
                 // Use 'equal' instead of '==' to avoid object equality for
                 // two Boolean objects.
                 text = fmt("equal(%s, %s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case DISJUNCTION: {
@@ -414,9 +422,11 @@ public class ExprCodeGenerator {
                 if (nltype instanceof BoolType) {
                     // Short circuit evaluation.
                     text = fmt("(%s) || (%s)", lrslt, rrslt);
+                    type = "boolean";
                 } else {
                     Assert.check(nltype instanceof SetType);
                     text = fmt("union(%s, %s)", lrslt, rrslt);
+                    type = null;
                 }
                 break;
             }
@@ -426,35 +436,43 @@ public class ExprCodeGenerator {
                 if (nltype instanceof BoolType) {
                     // Short circuit evaluation.
                     text = fmt("(%s) && (%s)", lrslt, rrslt);
+                    type = "boolean";
                 } else {
                     Assert.check(nltype instanceof SetType);
                     text = fmt("intersection(%s, %s)", lrslt, rrslt);
+                    type = null;
                 }
                 break;
             }
 
             case LESS_THAN:
                 text = fmt("(%s) < (%s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case LESS_EQUAL:
                 text = fmt("(%s) <= (%s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case GREATER_THAN:
                 text = fmt("(%s) > (%s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case GREATER_EQUAL:
                 text = fmt("(%s) >= (%s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case EQUAL:
                 text = fmt("equal(%s, %s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case UNEQUAL:
                 text = fmt("!equal(%s, %s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             case ADDITION: {
@@ -462,46 +480,59 @@ public class ExprCodeGenerator {
                 CifType nrtype = normalizeType(expr.getRight().getType());
                 if (nltype instanceof RealType) {
                     text = fmt("addReal(%s, %s)", lrslt, rrslt);
+                    type = "double";
                 } else if (nrtype instanceof RealType) {
                     text = fmt("addReal(%s, %s)", lrslt, rrslt);
+                    type = "double";
                 } else if (nltype instanceof ListType) {
                     text = fmt("addList(%s, %s)", lrslt, rrslt);
+                    type = null;
                 } else if (nltype instanceof StringType) {
                     text = fmt("addString(%s, %s)", lrslt, rrslt);
+                    type = "String";
                 } else if (nltype instanceof DictType) {
                     text = fmt("addDict(%s, %s)", lrslt, rrslt);
+                    type = null;
                 } else {
                     text = fmt("addInt(%s, %s)", lrslt, rrslt);
+                    type = "int";
                 }
                 break;
             }
 
             case SUBTRACTION:
                 text = fmt("subtract(%s, %s)", lrslt, rrslt);
+                type = null;
                 break;
 
             case MULTIPLICATION:
                 text = fmt("multiply(%s, %s)", lrslt, rrslt);
+                type = null;
                 break;
 
             case DIVISION:
                 text = fmt("divide(%s, %s)", lrslt, rrslt);
+                type = null;
                 break;
 
             case INTEGER_DIVISION:
                 text = fmt("div(%s, %s)", lrslt, rrslt);
+                type = "int";
                 break;
 
             case MODULUS:
                 text = fmt("mod(%s, %s)", lrslt, rrslt);
+                type = "int";
                 break;
 
             case SUBSET:
                 text = fmt("subset(%s, %s)", lrslt, rrslt);
+                type = null;
                 break;
 
             case ELEMENT_OF:
                 text = fmt("in(%s, %s)", lrslt, rrslt);
+                type = "boolean";
                 break;
 
             default:
@@ -509,7 +540,7 @@ public class ExprCodeGenerator {
                 throw new RuntimeException("Unknown binop: " + expr.getOperator());
         }
 
-        lrslt.merge(text, rrslt);
+        lrslt.merge(text, type, rrslt);
         return lrslt;
     }
 
@@ -532,13 +563,13 @@ public class ExprCodeGenerator {
             ExprCodeGeneratorResult grslt = gencodePreds(elif.getGuards(), ctxt, state);
             ExprCodeGeneratorResult trslt = gencodeExpr(elif.getThen(), ctxt, state);
             // TODO Maybe do some pairwise fitting checks?
-            erslt.merge(fmt("(%s) ? %s : (%s)", grslt, trslt, erslt), grslt, trslt);
+            erslt.merge(fmt("(%s) ? %s : (%s)", grslt, trslt, erslt), null, grslt, trslt);
         }
 
         // Wrap 'if' around 'elifs/else'.
         ExprCodeGeneratorResult grslt = gencodePreds(expr.getGuards(), ctxt, state);
         ExprCodeGeneratorResult trslt = gencodeExpr(expr.getThen(), ctxt, state);
-        erslt.merge(fmt("(%s) ? %s : (%s)", grslt, trslt, erslt), grslt, trslt);
+        erslt.merge(fmt("(%s) ? %s : (%s)", grslt, trslt, erslt), null, grslt, trslt);
 
         // Return final result.
         return erslt;
@@ -589,12 +620,12 @@ public class ExprCodeGenerator {
 
             ExprCodeGeneratorResult keyRslt = gencodeExpr(key, ctxt, state);
             if (valueTxt != null) {
-                keyRslt.updateCurrentExprText(fmt("equal(%s, %s)", valueTxt, keyRslt));
+                keyRslt.updateCurrentExprText(fmt("equal(%s, %s)", valueTxt, keyRslt), "boolean");
             }
 
             // Wrap result code for this case.
             ExprCodeGeneratorResult valueRslt = gencodeExpr(cse.getValue(), ctxt, state);
-            rslt.merge(fmt("(%s) ? %s : (%s)", keyRslt, valueRslt, rslt), keyRslt, valueRslt);
+            rslt.merge(fmt("(%s) ? %s : (%s)", keyRslt, valueRslt, rslt), null, keyRslt, valueRslt);
         }
 
         // Return final result.
@@ -622,7 +653,7 @@ public class ExprCodeGenerator {
             // Get field (name).
             Field field = ((FieldExpression)expr.getIndex()).getField();
             String fieldName = ctxt.getTupleTypeFieldFieldName(field);
-            crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName));
+            crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), null);
             return crslt;
         }
 
@@ -641,12 +672,12 @@ public class ExprCodeGenerator {
             // Generate and return projection code.
             TupleType tupleType = (TupleType)nctype;
             String fieldName = ctxt.getTupleTypeFieldFieldName(tupleType, idx);
-            crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName));
+            crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), null);
             return crslt;
         } else {
             // List, dictionary, and string.
             ExprCodeGeneratorResult irslt = gencodeExpr(expr.getIndex(), ctxt, state);
-            crslt.merge(fmt("project(%s, %s)", crslt, irslt), irslt);
+            crslt.merge(fmt("project(%s, %s)", crslt, irslt), null, irslt);
             return crslt;
         }
     }
@@ -668,7 +699,7 @@ public class ExprCodeGenerator {
                 : gencodeExpr(expr.getBegin(), ctxt, state);
         ExprCodeGeneratorResult erslt = (expr.getEnd() == null) ? new ExprCodeGeneratorResult("null")
                 : gencodeExpr(expr.getEnd(), ctxt, state);
-        crslt.merge(fmt("slice(%s, %s, %s)", crslt, brslt, erslt));
+        crslt.merge(fmt("slice(%s, %s, %s)", crslt, brslt, erslt), null);
         return crslt;
     }
 
@@ -688,7 +719,7 @@ public class ExprCodeGenerator {
         if (!(expr.getFunction() instanceof StdLibFunctionExpression)) {
             ExprCodeGeneratorResult arslt = gencodeExprs(expr.getParams(), ctxt, state);
             ExprCodeGeneratorResult frslt = gencodeExpr(expr.getFunction(), ctxt, state);
-            arslt.merge(fmt("(%s).evalFunc(%s)", frslt, arslt), frslt);
+            arslt.merge(fmt("(%s).evalFunc(%s)", frslt, arslt), null, frslt);
             return arslt;
         }
 
@@ -719,81 +750,101 @@ public class ExprCodeGenerator {
         // Generate standard library function call code.
         ExprCodeGeneratorResult argsTxt = gencodeExprs(expr.getParams(), ctxt, state);
         String text;
+        String type;
         switch (stdlib) {
             case ACOSH:
                 text = fmt("acosh(%s)", argsTxt);
+                type = "double";
                 break;
 
             case ACOS:
                 text = fmt("acos(%s)", argsTxt);
+                type = "double";
                 break;
 
             case ASINH:
                 text = fmt("asinh(%s)", argsTxt);
+                type = "double";
                 break;
 
             case ASIN:
                 text = fmt("asin(%s)", argsTxt);
+                type = "double";
                 break;
 
             case ATANH:
                 text = fmt("atanh(%s)", argsTxt);
+                type = "double";
                 break;
 
             case ATAN:
                 text = fmt("atan(%s)", argsTxt);
+                type = "double";
                 break;
 
             case COSH:
                 text = fmt("cosh(%s)", argsTxt);
+                type = "double";
                 break;
 
             case COS:
                 text = fmt("cos(%s)", argsTxt);
+                type = "double";
                 break;
 
             case SINH:
                 text = fmt("sinh(%s)", argsTxt);
+                type = "double";
                 break;
 
             case SIN:
                 text = fmt("sin(%s)", argsTxt);
+                type = "double";
                 break;
 
             case TANH:
                 text = fmt("tanh(%s)", argsTxt);
+                type = "double";
                 break;
 
             case TAN:
                 text = fmt("tan(%s)", argsTxt);
+                type = "double";
                 break;
 
             case ABS:
                 text = fmt("abs(%s)", argsTxt);
+                type = null;
                 break;
 
             case CBRT:
                 text = fmt("cbrt(%s)", argsTxt);
+                type = "double";
                 break;
 
             case CEIL:
                 text = fmt("ceil(%s)", argsTxt);
+                type = "int";
                 break;
 
             case DELETE:
                 text = fmt("delete(%s)", argsTxt);
+                type = null;
                 break;
 
             case EMPTY:
                 text = fmt("empty(%s)", argsTxt);
+                type = "boolean";
                 break;
 
             case EXP:
                 text = fmt("exp(%s)", argsTxt);
+                type = "double";
                 break;
 
             case FLOOR:
                 text = fmt("floor(%s)", argsTxt);
+                type = "int";
                 break;
 
             case FORMAT:
@@ -801,18 +852,22 @@ public class ExprCodeGenerator {
 
             case LN:
                 text = fmt("ln(%s)", argsTxt);
+                type = "double";
                 break;
 
             case LOG:
                 text = fmt("log(%s)", argsTxt);
+                type = "double";
                 break;
 
             case MAXIMUM:
                 text = fmt("max(%s)", argsTxt);
+                type = null;
                 break;
 
             case MINIMUM:
                 text = fmt("min(%s)", argsTxt);
+                type = null;
                 break;
 
             case POP: {
@@ -822,6 +877,7 @@ public class ExprCodeGenerator {
 
                 // Generate code for the 'pop' function call.
                 text = fmt("%s.pop(%s)", className, argsTxt);
+                type = null;
                 break;
             }
 
@@ -830,44 +886,54 @@ public class ExprCodeGenerator {
 
                 if (rsltType instanceof IntType) {
                     text = fmt("powInt(%s)", argsTxt);
+                    type = "int";
                 } else {
                     text = fmt("powReal(%s)", argsTxt);
+                    type = "double";
                 }
                 break;
             }
 
             case ROUND:
                 text = fmt("round(%s)", argsTxt);
+                type = "int";
                 break;
 
             case SCALE:
                 text = fmt("scale(%s)", argsTxt);
+                type = "double";
                 break;
 
             case SIGN:
                 text = fmt("sign(%s)", argsTxt);
+                type = "int";
                 break;
 
             case SIZE:
                 text = fmt("size(%s)", argsTxt);
+                type = "int";
                 break;
 
             case SQRT:
                 text = fmt("sqrt(%s)", argsTxt);
+                type = "double";
                 break;
 
             case BERNOULLI:
                 text = fmt("new BernoulliDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case BETA:
                 text = fmt("new BetaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, argsTxt);
+                type = null;
                 break;
 
             case BINOMIAL:
                 text = fmt("new BinomialDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case CONSTANT: {
@@ -887,48 +953,58 @@ public class ExprCodeGenerator {
                 }
 
                 text = fmt("new %s(%s)", className, argsTxt);
+                type = null;
                 break;
             }
 
             case ERLANG:
                 text = fmt("new ErlangDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, argsTxt);
+                type = null;
                 break;
 
             case EXPONENTIAL:
                 text = fmt("new ExponentialDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case GAMMA:
                 text = fmt("new GammaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, argsTxt);
+                type = null;
                 break;
 
             case GEOMETRIC:
                 text = fmt("new GeometricDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case LOG_NORMAL:
                 text = fmt("new LogNormalDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case NORMAL:
                 text = fmt("new NormalDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, argsTxt);
+                type = null;
                 break;
 
             case POISSON:
                 text = fmt("new PoissonDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case RANDOM:
                 text = fmt("new RandomDistribution(new CifMersenneTwister(%s.spec.getNextSeed()))", state);
+                type = null;
                 break;
 
             case TRIANGLE:
                 text = fmt("new TriangleDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             case UNIFORM: {
@@ -946,19 +1022,21 @@ public class ExprCodeGenerator {
                 }
 
                 text = fmt("new %s(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", className, state, argsTxt);
+                type = null;
                 break;
             }
 
             case WEIBULL:
                 text = fmt("new WeibullDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
                         argsTxt);
+                type = null;
                 break;
 
             default:
                 // Should never get here.
                 throw new RuntimeException("Unknown stdlib func: " + stdlib);
         }
-        argsTxt.updateCurrentExprText(text);
+        argsTxt.updateCurrentExprText(text, type);
         return argsTxt;
     }
 
@@ -994,7 +1072,7 @@ public class ExprCodeGenerator {
 
         // For non-empty lists, add the elements.
         ExprCodeGeneratorResult elemRslt = gencodeExprs(expr.getElements(), ctxt, state);
-        elemRslt.updateCurrentExprText(fmt("makelist(%s, %s)", rslt, elemRslt));
+        elemRslt.updateCurrentExprText(fmt("makelist(%s, %s)", rslt, elemRslt), null);
         return elemRslt;
     }
 
@@ -1030,7 +1108,7 @@ public class ExprCodeGenerator {
 
         // For non-empty sets, add the elements.
         ExprCodeGeneratorResult elemRslt = gencodeExprs(expr.getElements(), ctxt, state);
-        elemRslt.updateCurrentExprText(fmt("makeset(%s, %s)", rslt, elemRslt));
+        elemRslt.updateCurrentExprText(fmt("makeset(%s, %s)", rslt, elemRslt), null);
         return elemRslt;
     }
 
@@ -1052,7 +1130,7 @@ public class ExprCodeGenerator {
 
         // Generate constructor call code.
         ExprCodeGeneratorResult frslt = gencodeExprs(expr.getFields(), ctxt, state);
-        frslt.updateCurrentExprText(fmt("new %s(%s)", className, frslt));
+        frslt.updateCurrentExprText(fmt("new %s(%s)", className, frslt), null);
         return frslt;
     }
 
@@ -1096,12 +1174,12 @@ public class ExprCodeGenerator {
 
         // Generate code for key/value arrays.
         String keysTxt = fmt("array(%s)", String.join(", ", convertToStringList(keyRslts)));
-        ExprCodeGeneratorResult keyRslt = ExprCodeGeneratorResult.mergeStatic(keysTxt, keyRslts);
+        ExprCodeGeneratorResult keyRslt = ExprCodeGeneratorResult.mergeStatic(keysTxt, null, keyRslts);
         String valuesTxt = fmt("array(%s)", String.join(", ", convertToStringList(valueRslts)));
-        ExprCodeGeneratorResult valueRslt = ExprCodeGeneratorResult.mergeStatic(valuesTxt, valueRslts);
+        ExprCodeGeneratorResult valueRslt = ExprCodeGeneratorResult.mergeStatic(valuesTxt, null, valueRslts);
 
         // Return the code for the dictionary literal.
-        keyRslt.merge(fmt("addpairs(%s, %s, %s)", rslt, keyRslt, valueRslt), valueRslt);
+        keyRslt.merge(fmt("addpairs(%s, %s, %s)", rslt, keyRslt, valueRslt), null, valueRslt);
         return keyRslt;
     }
 
