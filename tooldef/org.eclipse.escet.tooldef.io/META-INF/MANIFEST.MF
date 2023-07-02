@@ -6,10 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.setext.runtime;bundle-version="0.10.0",
- org.eclipse.escet.tooldef.parser;bundle-version="0.10.0",
- org.eclipse.escet.tooldef.typechecker;bundle-version="0.10.0",
- org.eclipse.escet.tooldef.metamodel;bundle-version="0.10.0",
- org.eclipse.escet.common.typechecker;bundle-version="0.10.0"
+Require-Bundle: org.eclipse.escet.setext.runtime;bundle-version="1.0.0",
+ org.eclipse.escet.tooldef.parser;bundle-version="1.0.0",
+ org.eclipse.escet.tooldef.typechecker;bundle-version="1.0.0",
+ org.eclipse.escet.tooldef.metamodel;bundle-version="1.0.0",
+ org.eclipse.escet.common.typechecker;bundle-version="1.0.0"
 Export-Package: org.eclipse.escet.tooldef.io
 Automatic-Module-Name: org.eclipse.escet.tooldef.io
