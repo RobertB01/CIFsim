@@ -35,4 +35,5 @@
         <module>product</module>
     </modules>
 
+<version>1.0.0-SNAPSHOT</version>
 </project>

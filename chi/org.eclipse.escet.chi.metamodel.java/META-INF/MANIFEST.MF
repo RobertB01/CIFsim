@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Chi Java Model Constructors (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.chi.metamodel.java;singleton:=true
-Bundle-Version: 0.10.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Require-Bundle: org.eclipse.escet.chi.metamodel;bundle-version="0.10.0",
  org.eclipse.escet.common.position.metamodel;bundle-version="0.10.0"
