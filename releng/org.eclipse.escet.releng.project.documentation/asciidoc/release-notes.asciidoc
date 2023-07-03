@@ -26,6 +26,10 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.dev/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.dev/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
 
+=== Version 1.0
+
+TBD
+
 === Version 0.10 (2023-06-30)
 
 Improvements and fixes:
