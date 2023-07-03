@@ -24,6 +24,9 @@ public class Cycle {
     /** Set of vertices of the cycle. */
     public final BitSet vertices;
 
+    /** Index of the smallest vertex in the cycle. */
+    public int smallestVertexIndex;
+
     /**
      * Constructor of the {@link Cycle} class.
      *
@@ -33,9 +36,17 @@ public class Cycle {
         this.edges = edges;
 
         vertices = new BitSet();
-        for (Edge e: edges) {
-            vertices.set(e.producingVertex);
+        int smallestIndex = -1;
+        int smallestVertex = Integer.MAX_VALUE;
+        for (int edgeIndex = 0; edgeIndex < edges.size(); edgeIndex++) {
+            int vertex = edges.get(edgeIndex).producingVertex;
+            vertices.set(vertex);
+            if (smallestVertex > vertex) {
+                smallestVertex = vertex;
+                smallestIndex = edgeIndex;
+            }
         }
+        smallestVertexIndex = smallestIndex;
     }
 
     @Override
@@ -43,28 +54,26 @@ public class Cycle {
         if (obj == this) {
             return true;
         }
+
+        // Are the vertices sets the same?
+        // Note this abstracts from vertices order in the cycles.
         if (!(obj instanceof Cycle otherCycle) || !vertices.equals(otherCycle.vertices)) {
             return false;
         }
 
-        // Compute offset of 'otherCycle' for the first element of this cycle.
-        int offset; // Avoid false positive Checkstyle warning.
-        for (offset = 0; offset < edges.size(); offset++) {
-            if (otherCycle.edges.get(offset).producingVertex != edges.get(0).producingVertex) {
-                continue;
+        // Compare the exact order of the vertices.
+        // As the vertex sets of the cycles are the same, the lowest vertex is also the same and doesn't need checking.
+        int thisIndex = smallestVertexIndex;
+        int otherIndex = otherCycle.smallestVertexIndex;
+        for (int index = 1; index < edges.size(); index++) {
+            // Increment the indices first to match the 'index' counter.
+            thisIndex = (thisIndex + 1) % edges.size();
+            otherIndex = (otherIndex + 1) % edges.size();
+            if (otherCycle.edges.get(otherIndex).producingVertex != edges.get(thisIndex).producingVertex) {
+                return false;
             }
-
-            // As these elements contain simple cycles, the same vertex will not be found at any other offset.
-            // Therefore, to find a match it must happen at the found offset.
-            for (int index = 1; index < edges.size(); index++) {
-                offset = (offset + 1) % edges.size(); // Increment offset before comparing so index and offset match.
-                if (otherCycle.edges.get(offset).producingVertex != edges.get(index).producingVertex) {
-                    return false;
-                }
-            }
-            return true;
         }
-        throw new AssertionError("Vertex " + edges.get(0).producingVertex + " has mysteriously disappeared.");
+        return true;
     }
 
     @Override
