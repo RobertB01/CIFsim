@@ -84,7 +84,7 @@ public class ExprCodeGeneratorResult {
      *
      * @param mergeString The code string that represents the merging of the results.
      * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this object.
+     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
      */
     public void mergeInto(String mergeString, String type, ExprCodeGeneratorResult... others) {
         mergeInto(mergeString, type, Arrays.asList(others));
@@ -95,7 +95,7 @@ public class ExprCodeGeneratorResult {
      *
      * @param mergeString The code string that represents the merging of the results.
      * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this object.
+     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
      */
     public void mergeInto(String mergeString, String type, List<ExprCodeGeneratorResult> others) {
         // With merging, the {@code subExprs} are added to this one. If the number of combined nodes exceeds the limit,
@@ -123,8 +123,8 @@ public class ExprCodeGeneratorResult {
      *
      * @param mergeString The code string that represents the merging of the results.
      * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-     * @param results The other {@link ExprCodeGeneratorResult} to be merged into this object.
-     * @return A merged result object.
+     * @param results The other {@link ExprCodeGeneratorResult} to be merged into this result.
+     * @return A merged result.
      */
     public static ExprCodeGeneratorResult merge(String mergeString, String type,
             List<ExprCodeGeneratorResult> results)
