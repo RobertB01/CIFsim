@@ -184,7 +184,7 @@ public class CifProcessor {
      * Return the {@link AutomatonEventTransition} of the given event from {@code eventTransitions}, possibly after
      * creating it.
      *
-     * @param eventTransitions Available {@link AutomatonEventTransition}. May be expanded in-place.
+     * @param eventTransitions Available {@link AutomatonEventTransition}s. May be expanded in-place.
      * @param event Event to use for retrieving the associated automaton event transition.
      * @return The automaton event transition of the event.
      */
@@ -198,7 +198,7 @@ public class CifProcessor {
      * Collect the edges that exist in the given automaton for every event of the automaton, and classify them as
      * sender, receiver, syncer, or monitor.
      *
-     * @param aut Automaton to analyze
+     * @param aut Automaton to analyze.
      * @return A {@link CifEventTransition} for every event that the given automaton can perform.
      */
     private Map<Event, AutomatonEventTransition> getAutomatonEventUsage(Automaton aut) {

@@ -155,8 +155,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <li>As a sender by providing a value for the channel,</li>
      * <li>As a receiver by receiving the value of the channel,</li>
      * <li>As a syncer by synchronizing on the event without sending or receiving a value, or</li>
-     * <li>As a monitor by synchronizing on the event without sending or receiving a value if the automaton can (and
-     * ignoring the event while not blocking its occurrence) if it has no enabled edge for it.</li>
+     * <li>As a monitor by synchronizing on the event without sending or receiving a value, if the automaton has an enabled edge for it, or ignoring the event while not blocking its occurrence if it has no enabled edge for it.</li>
      * </ul>
      * Each form can have several automata.
      * </p>
@@ -341,7 +340,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         /**
          * Constructor of the {@link TransitionDataProvider} class.
          *
-         * @param redirectedDecls The collection of redirected Plc discrete variable values.
+         * @param redirectedDecls The collection of redirected PLC variable values.
          * @param rootProvider Original CIF data provider.
          */
         public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls, CifDataProvider rootProvider) {
@@ -361,7 +360,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         @Override
         public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
-            if (getDerivative) { // The derivative is a fixed value.
+            if (getDerivative) { // Derivatives can't be assigned.
                 return rootProvider.getValueForContvar(variable, getDerivative);
             } else {
                 return redirectedDecls.getOrDefault(variable, rootProvider.getValueForContvar(variable, getDerivative));
@@ -391,11 +390,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * The objective of test code for both senders and receivers is to find an automaton with an enabled edge. In the
      * perform code the enabled edge is then taken. For communication from test code to perform code, a
      * {@code senderAut} respectively {@code receiverAut} variable exists to capture the found automata, and a
-     * {@code senderEdge} respectively {@code reciverEdge} variable exists to capture the found edge within the found
+     * {@code senderEdge} respectively {@code receiverEdge} variable exists to capture the found edge within the found
      * automata.
      * </p>
      * <p>
-     * For the senders automata the generated test code looks like <pre>
+     * For the senders automata the generated test code looks like: <pre>
      * senderAut := 0;
      *
      * IF &lt;edge-1-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 1;
@@ -413,7 +412,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * IF senderAut == 0 THEN
      *     isFeasible := FALSE;
      * END_IF;
-     * </pre> The receivers test code uses the {@code receiverAut} and {@code reciverEdge} variables and tests for
+     * </pre> The receivers test code uses the {@code receiverAut} and {@code receiverEdge} variables and tests for
      * feasibility first, but looks the same otherwise.
      * </p>
      *
@@ -436,14 +435,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param isFeasibleVar PLC variable expressing if the event is feasible.
      * @param channelValueVar PLC variable storing the channel value. Is {@code null} when not sending a value (either
      *     receiving a value or it is a void channel).
-     * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasibility' in tests is always true at runtime.
+     * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasible' in tests is always true at runtime.
      */
     private void generateSendReceiveCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode, String varPrefix,
             List<PlcVariable> createdTempVariables, PlcVariable isFeasibleVar, PlcVariable channelValueVar,
             boolean testFeasibilityAlwaysHolds)
     {
-        List<PlcStatement> autTestCode = list(); // Intermediate Storage for testCode.
+        List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
         // TODO: Use a smaller integer for automaton and edge indexing.
         PlcVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
@@ -530,7 +529,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param createdTempVariables Tracking storage of created temporary variables.
      * @param isFeasibleVar PLC variable expressing if the event is feasible.
-     * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasibility' in tests is always true at runtime.
+     * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasible' in tests is always true at runtime.
      */
     private void generateSyncCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode, List<PlcVariable> createdTempVariables,
@@ -647,7 +646,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             final int finalEdgeIndex = edgeIndex; // Java wants a copy.
             Supplier<List<PlcStatement>> thenStats = () -> {
                 if (autVar != null) {
-                    // autVar := autIndes; edgeVar := edgeIndex;
+                    // autVar := autIndex; edgeVar := edgeIndex;
                     return List.of(generatePlcIntAssignment(autVar, autIndex),
                             generatePlcIntAssignment(edgeVar, finalEdgeIndex));
                 } else {
@@ -662,7 +661,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         if (autVar != null) {
             // Construct the complete test code:
-            // IF autVar == 0 THEN <test edges of this automaton> END_IF
+            // IF autVar == 0 THEN <test edges of this automaton> END_IF;
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
             return List.of(generateIfGuardThenCode(guard, testCode));
         } else {
@@ -677,10 +676,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * Generate PLC code that selects the edge stored in {@code edgeVar} and 'performs' the edge. If needed compute the
+     * Generate PLC code that selects the edge stored in {@code edgeVar} and 'performs' the edge. If needed, compute the
      * sent value and store it into {@code channelValueVar}. Finally, perform the updates if they exist.
      *
-     * @param transAut Sender automaton to generate perform code for.
+     * @param transAut Automaton to generate perform code for.
      * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
@@ -695,7 +694,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         int edgeIndex = 1;
         for (TransitionEdge edge: transAut.transitionEdges) {
-            // Generate code that performs the edge if something need to be done.
+            // Generate code that performs the edge if something needs to be done.
             if (channelValueVar != null || !edge.updates.isEmpty()) {
                 Supplier<List<PlcStatement>> thenStats = () -> {
                     List<PlcStatement> thenStatements = list();
@@ -723,7 +722,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Generate PLC code that performs the provided updates.
      *
      * @param updates Updates to convert to PLC code.
-     * @return The generated statements. Is extended in-place.
+     * @return The generated statements.
      */
     private List<PlcStatement> generateUpdates(List<Update> updates) {
         List<PlcStatement> statements = list();
@@ -741,7 +740,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * Generate PLC code to perform one group of the available updates.
+     * Generate PLC code for an 'if' update.
      *
      * @param ifUpd The available groups of updates with their conditions to convert.
      * @param statements Generated PLC statements. Is extended in-place.
@@ -758,18 +757,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * Convert an update assignment to PLC code.
+     * Generate PLC code for an assignment update.
      *
-     * @param lhs Left side to assign to.
+     * @param lhs Left side addressable to assign to.
      * @param rhs Right side value to assign.
      * @param statements Generated PLC statements. Is extended in-place.
      */
     private void genUpdateAssignment(Expression lhs, Expression rhs, List<PlcStatement> statements) {
         // TODO: Unfold "a, b := x,y" cases, decide the order of updates for minimal temporary current lhs value copies.
 
-        // Test for the simple case of a single left side value.
+        // Test for the simple case of a single left side variable.
         if (!(lhs instanceof TupleExpression lhsTuple)) {
-            // Left side is a single destination, assign the riht side to it.
+            // Left side is a single destination, assign the right side to it.
             ExprAddressableResult lhsResult = mainExprGen.convertAddressable(lhs);
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
@@ -803,7 +802,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * Convert an update assignment with projected right side to PLC code.
+     * Generate PLC code for an assignment update, with projected right side.
      *
      * @param lhs Left side to assign to.
      * @param rhsVariable Unprojected right side value in a variable to assign.
@@ -813,7 +812,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private void genUpdateAssignment(Expression lhs, PlcVariable rhsVariable, List<PlcStructProjection> rhsProjections,
             List<PlcStatement> statements)
     {
-        // Conceptually: "lhs := rhs.rhasProjections" where lhs may be a tuple literal.
+        // Conceptually: "lhs := rhs.rhsProjections" where lhs may be a tuple literal.
 
         // Test for the simple case of a single left side.
         if (!(lhs instanceof TupleExpression lhsTuple)) {
@@ -889,7 +888,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * Generate an expression that compares the given variable with the given literal value.
+     * Generate an expression that compares the given variable with the given literal value using equality.
      *
      * @param variable Variable to compare.
      * @param value Literal value to compare against.

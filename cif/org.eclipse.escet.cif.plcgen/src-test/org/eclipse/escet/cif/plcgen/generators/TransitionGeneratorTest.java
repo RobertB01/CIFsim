@@ -83,7 +83,7 @@ public class TransitionGeneratorTest {
                     enumConversion, shouldTerminate, warnOnRename, warnOutput);
             setup(settings);
 
-            // Setup the generators, part of PlcBaseTarget.generate() originally.
+            // Setup the generators, part of PlcBaseTarget.generate() normally.
             nameGenerator = new DefaultNameGenerator(settings);
             codeStorage = new PlcCodeStorage(this, settings);
             typeGenerator = new DefaultTypeGenerator(this, settings);
@@ -140,7 +140,7 @@ public class TransitionGeneratorTest {
     private DiscVariable otherVar = newDiscVariable("otherVar", null, newIntType(), null);
 
     private Specification spec = newSpecification(null, List.of(recVar, otherVar), null, null, null, null, null, null,
-            "spec", null);
+            "specification", null);
 
     @BeforeEach
     public void setup() {
