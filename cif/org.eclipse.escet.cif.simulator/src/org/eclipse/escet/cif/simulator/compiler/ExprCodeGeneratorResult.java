@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Triple.triple;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Triple;
 
 /**
@@ -65,6 +66,17 @@ public class ExprCodeGeneratorResult {
         numNodes = 1;
     }
 
+    /**
+     * Constructor for the {@link ExprCodeGeneratorResult} class.
+     *
+     * @param result The {@link ExprCodeGeneratorResult} to copy.
+     */
+    public ExprCodeGeneratorResult(ExprCodeGeneratorResult result) {
+        subExprs = result.subExprs;
+        currentExprText = result.currentExprText;
+        numNodes = result.numNodes;
+    }
+
     /** Reset the method name postfix counter. */
     public static void resetCounter() {
         counter = 0;
@@ -79,68 +91,100 @@ public class ExprCodeGeneratorResult {
         methodBaseName = baseName;
     }
 
-    /**
-     * Merge one or more {@link ExprCodeGeneratorResult}s into this result.
-     *
-     * @param mergeString The code string that represents the merging of the results.
-     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
-     */
-    public void mergeInto(String mergeString, String type, ExprCodeGeneratorResult... others) {
-        mergeInto(mergeString, type, Arrays.asList(others));
-    }
+    // TODO Temporarily disabled non-static merge, because when we use a format string as input, we need the order of
+    // results to add. 'others' has an order, but unclear where 'this' to insert...
+//    /**
+//     * Merge one or more {@link ExprCodeGeneratorResult}s into this result.
+//     *
+//     * @param mergeFormatString The code string that represents the merging of the results.
+//     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
+//     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
+//     */
+//    public void mergeInto(String mergeFormatString, String type, ExprCodeGeneratorResult... others) {
+//        mergeInto(mergeFormatString, type, Arrays.asList(others));
+//    }
+//
+//    /**
+//     * Merge one or more {@link ExprCodeGeneratorResult}s into this result.
+//     *
+//     * @param mergeFormatString The code string that represents the merging of the results.
+//     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
+//     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
+//     */
+//    public void mergeInto(String mergeFormatString, String type, List<ExprCodeGeneratorResult> others) {
+//        // With merging, the {@code subExprs} are added to this one. If the number of combined nodes exceeds the limit,
+//        // the current expression code is assigned to a method and the new current code expression text starts with a
+//        // call to this method.
+//        // TODO We need the order of results to add. 'others' has an order, but unclear where 'this' to insert.
+//        currentExprText = fmt(mergeFormatString);
+//        for (ExprCodeGeneratorResult other: others) {
+//            subExprs.addAll(other.subExprs);
+//            numNodes += other.numNodes;
+//        }
+//
+//        if (type != null && numNodes >= limit) {
+//            createMethod(type);
+//        }
+//    }
 
     /**
-     * Merge one or more {@link ExprCodeGeneratorResult}s into this result.
+     * Merge {@link ExprCodeGeneratorResult}s together. The order of the supplied results should match with the order of
+     * placeholders in the format string.
      *
-     * @param mergeString The code string that represents the merging of the results.
+     * @param mergeFormatString The code format string that represents the merging of the results.
      * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
-     */
-    public void mergeInto(String mergeString, String type, List<ExprCodeGeneratorResult> others) {
-        // With merging, the {@code subExprs} are added to this one. If the number of combined nodes exceeds the limit,
-        // the current expression code is assigned to a method and the new current code expression text starts with a
-        // call to this method.
-        currentExprText = mergeString;
-        for (ExprCodeGeneratorResult other: others) {
-            subExprs.addAll(other.subExprs);
-            numNodes = numNodes + other.numNodes;
-        }
-
-        if (type != null && numNodes >= limit) {
-            createMethod(type);
-        }
-    }
-
-    /**
-     * Merge {@link ExprCodeGeneratorResult} together.
-     *
-     * <p>
-     * With merging, the {@code subExprs} are added together. If the number of combined nodes exceeds the limit, the
-     * current expression code is assigned to a method and the new current code expression text starts with a call to
-     * this method.
-     * </p>
-     *
-     * @param mergeString The code string that represents the merging of the results.
-     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-     * @param results The other {@link ExprCodeGeneratorResult} to be merged into this result.
+     * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
      */
-    public static ExprCodeGeneratorResult merge(String mergeString, String type,
+    public static ExprCodeGeneratorResult merge(String mergeFormatString, String type,
+            ExprCodeGeneratorResult... results)
+    {
+        return merge(mergeFormatString, type, Arrays.asList(results));
+    }
+
+    /**
+     * Merge {@link ExprCodeGeneratorResult}s together. The order of the supplied results should match with the order of
+     * placeholders in the format string.
+     *
+     * @param mergeFormatString The format code string that represents the merging of the results.
+     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
+     * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
+     * @return A merged result.
+     */
+    public static ExprCodeGeneratorResult merge(String mergeFormatString, String type,
             List<ExprCodeGeneratorResult> results)
     {
+        // TODO I am using/abusing fmt to check the whether the number of placeholders match the number of arguments.
+        // Should we do this check ourselves or provide better exception catching here?
+
         if (results.isEmpty()) {
-            return new ExprCodeGeneratorResult(mergeString);
+            return new ExprCodeGeneratorResult(fmt(mergeFormatString));
         }
 
         if (results.size() == 1) {
-            results.get(0).updateCurrentExprText(mergeString, type);
+            results.get(0).updateCurrentExprText(mergeFormatString, type);
             return results.get(0);
         }
 
+        // Prepare the merge.
+        Assert.check(limit > results.size()); // Otherwise the merged result will never fit within the limit.
+        while (!doesFit(results)) {
+            // Identify the largest result.
+            ExprCodeGeneratorResult largest = getLargestResult(results);
+            // TODO Fetch the correct type once we have the expression stored as well.
+            largest.createMethod(type);
+        }
+
+        String exprText = fmt(mergeFormatString, results.toArray(new ExprCodeGeneratorResult[0]));
+
+        // Perform the actual merge.
         List<ExprCodeGeneratorResult> subResults = results.subList(0, results.size() - 1);
         ExprCodeGeneratorResult lastResult = results.get(results.size() - 1);
-        lastResult.mergeInto(mergeString, type, subResults);
+        for (ExprCodeGeneratorResult result: subResults) {
+            lastResult.subExprs.addAll(result.subExprs);
+            lastResult.numNodes += result.numNodes;
+        }
+        lastResult.currentExprText = exprText;
         return lastResult;
     }
 
@@ -160,11 +204,13 @@ public class ExprCodeGeneratorResult {
     /**
      * Update the current expression code text and, if needed, create a new method.
      *
-     * @param newExprText The text to replace the current expression code text.
+     * @param formatString The format string in which the current expression code text is inserted.
      * @param type The output type of the new method, if created. If {@code null}, no new method is created.
      */
-    public void updateCurrentExprText(String newExprText, String type) {
-        currentExprText = newExprText;
+    public void updateCurrentExprText(String formatString, String type) {
+        // TODO We now rely upon fmt to check whether the number of placeholders match the number of arguments.
+        // Should we do this check ourselves or provide better exception catching here?
+        currentExprText = fmt(formatString, this);
         numNodes++;
 
         if (type != null && numNodes >= limit) {
@@ -173,17 +219,34 @@ public class ExprCodeGeneratorResult {
     }
 
     /**
-     * Check whether other {@link ExprCodeGeneratorResult} would fit into this one without reaching the limit.
+     * Check whether {@link ExprCodeGeneratorResult}s would fit together without reaching the limit when being merged.
      *
-     * @param others The other {@link ExprCodeGeneratorResult}.
-     * @return {@code true} if merging the others would remain under the limit, otherwise {@code false}.
+     * @param results The {@link ExprCodeGeneratorResult}s to check.
+     * @return {@code true} if merging the results would remain under the limit, otherwise {@code false}.
      */
-    public boolean doesFit(ExprCodeGeneratorResult... others) {
-        int total = numNodes;
-        for (ExprCodeGeneratorResult other: others) {
+    private static boolean doesFit(List<ExprCodeGeneratorResult> results) {
+        int total = 0;
+        for (ExprCodeGeneratorResult other: results) {
             total += other.numNodes;
         }
         return total < limit;
+    }
+
+    /**
+     * Get the largest result in terms of number of nodes.
+     *
+     * @param results The results to search in.
+     * @return The largest result in terms of number of nodes.
+     */
+    private static ExprCodeGeneratorResult getLargestResult(List<ExprCodeGeneratorResult> results) {
+        ExprCodeGeneratorResult largest = null;
+        int sizeLargest = 0;
+        for (ExprCodeGeneratorResult result: results) {
+            if (result.numNodes > sizeLargest) {
+                largest = result;
+            }
+        }
+        return largest;
     }
 
     /**

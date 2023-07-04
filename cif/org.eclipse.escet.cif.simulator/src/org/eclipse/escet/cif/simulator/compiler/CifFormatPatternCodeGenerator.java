@@ -58,12 +58,13 @@ public class CifFormatPatternCodeGenerator {
         // Process all parts.
         StringBuilder patternCode = new StringBuilder();
         List<String> argCodes = listc(parts.size());
+        List<ExprCodeGeneratorResult> usedValueRslts = listc(valueRslts.size());
         int implicitIndex = 0;
         for (FormatDescription part: parts) {
             // Literal.
             if (part.conversion == Conversion.LITERAL) {
                 if (part.text.equals("%")) {
-                    patternCode.append("%%");
+                    patternCode.append("%%%%");
                 } else {
                     patternCode.append(part.text);
                 }
@@ -79,27 +80,34 @@ public class CifFormatPatternCodeGenerator {
                 implicitIndex++;
             }
 
-            // Get argument code.
-            String argCode = valueRslts.get(idx).currentExprText;
+            // Collect argument code.
+            ExprCodeGeneratorResult rslt;
 
             // Add to formatted result.
             switch (part.conversion) {
                 case BOOLEAN:
                 case INTEGER:
                 case REAL: {
-                    patternCode.append(part.toString(false));
-                    argCodes.add(argCode);
+                    patternCode.append(part.toString(false).replace("%", "%%"));
+                    argCodes.add("%s");
+                    rslt = valueRslts.get(idx);
                     break;
                 }
 
                 case STRING: {
-                    patternCode.append(part.toString(false));
+                    patternCode.append(part.toString(false).replace("%", "%%"));
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
+                        String argCode = valueRslts.get(idx).currentExprText;
                         argCode = "runtimeToString(" + argCode + ")";
+                        // A copy is made to prevent multiple uses to be affected.
+                        rslt = new ExprCodeGeneratorResult(valueRslts.get(idx));
+                        rslt.currentExprText = argCode;
+                    } else {
+                        rslt = valueRslts.get(idx);
                     }
-                    argCodes.add(argCode);
+                    argCodes.add("%s");
                     break;
                 }
 
@@ -107,6 +115,7 @@ public class CifFormatPatternCodeGenerator {
                     String msg = "Unexpected: " + part.conversion;
                     throw new RuntimeException(msg);
             }
+            usedValueRslts.add(rslt);
         }
 
         // Return actual code for the entire 'fmt' function call.
@@ -118,6 +127,6 @@ public class CifFormatPatternCodeGenerator {
         }
         rslt.append(String.join(", ", argCodes));
         rslt.append(")");
-        return ExprCodeGeneratorResult.merge(rslt.toString(), "String", valueRslts);
+        return ExprCodeGeneratorResult.merge(rslt.toString(), "String", usedValueRslts);
     }
 }
