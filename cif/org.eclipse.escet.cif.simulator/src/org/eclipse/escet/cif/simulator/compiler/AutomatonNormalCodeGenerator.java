@@ -688,24 +688,7 @@ public class AutomatonNormalCodeGenerator {
                 c.add();
                 c.add("private static %s %s(State state) {", subExpr.third, subExpr.second);
                 c.indent();
-                c.add("%s v;", subExpr.third);
-
-                // Start of 'try'.
-                c.add("try {");
-                c.indent();
-
-                // Actual evaluation.
-                c.add("v = %s;", subExpr.first);
-
-                // End of 'try'.
-                c.dedent();
-                c.add("} catch (CifSimulatorException e) {");
-                c.indent();
-                c.add("throw new CifSimulatorException(\"Evaluation of a guard of an edge of %s failed.\", "
-                        + "e, state);", escapeJava(locTxt));
-                c.dedent();
-                c.add("}");
-                c.add("return v;");
+                c.add("return %s;", subExpr.first);
                 c.dedent();
                 c.add("}");
             }
