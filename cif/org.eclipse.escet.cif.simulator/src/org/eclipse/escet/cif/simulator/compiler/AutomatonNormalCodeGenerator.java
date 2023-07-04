@@ -682,7 +682,7 @@ public class AutomatonNormalCodeGenerator {
         c.dedent();
         c.add("}");
 
-        // Add potential additional guard expression evaluation methods.
+        // Add potential extra guard expression evaluation methods.
         for (ExprCodeGeneratorResult guardResult: guardResults) {
             for (Triple<String, String, String> subExpr: guardResult.subExprs) {
                 c.add();

@@ -153,7 +153,7 @@ public class ExprCodeGenerator {
         for (int i = 1; i < preds.size(); i++) {
             ExprCodeGeneratorResult prslt = gencodeExpr(preds.get(i), ctxt, state);
             prslt.updateCurrentExprText(fmt("(%s)", prslt), "boolean");
-            rslt.merge(fmt("%s && %s", rslt, prslt), "boolean", prslt);
+            rslt.mergeInto(fmt("%s && %s", rslt, prslt), "boolean", prslt);
         }
         return rslt;
     }
@@ -183,7 +183,7 @@ public class ExprCodeGenerator {
         // General case.
         for (int i = 1; i < exprs.size(); i++) {
             ExprCodeGeneratorResult erslt = gencodeExpr(exprs.get(i), ctxt, state);
-            rslt.merge(fmt("%s, %s", rslt, erslt), null, erslt);
+            rslt.mergeInto(fmt("%s, %s", rslt, erslt), null, erslt);
         }
         return rslt;
     }
@@ -540,7 +540,7 @@ public class ExprCodeGenerator {
                 throw new RuntimeException("Unknown binop: " + expr.getOperator());
         }
 
-        lrslt.merge(text, type, rrslt);
+        lrslt.mergeInto(text, type, rrslt);
         return lrslt;
     }
 
@@ -555,7 +555,7 @@ public class ExprCodeGenerator {
      */
     private static ExprCodeGeneratorResult gencodeIfExpr(IfExpression expr, CifCompilerContext ctxt, String state) {
         // Start with 'else'.
-        ExprCodeGeneratorResult erslt = gencodeExpr(expr.getElse(), ctxt, state);
+        ExprCodeGeneratorResult rslt = gencodeExpr(expr.getElse(), ctxt, state);
 
         // Wrap 'elifs' around else.
         for (int i = expr.getElifs().size() - 1; i >= 0; i--) {
@@ -563,16 +563,16 @@ public class ExprCodeGenerator {
             ExprCodeGeneratorResult grslt = gencodePreds(elif.getGuards(), ctxt, state);
             ExprCodeGeneratorResult trslt = gencodeExpr(elif.getThen(), ctxt, state);
             // TODO Maybe do some pairwise fitting checks?
-            erslt.merge(fmt("(%s) ? %s : (%s)", grslt, trslt, erslt), null, grslt, trslt);
+            rslt.mergeInto(fmt("(%s) ? %s : (%s)", grslt, trslt, rslt), null, grslt, trslt);
         }
 
         // Wrap 'if' around 'elifs/else'.
         ExprCodeGeneratorResult grslt = gencodePreds(expr.getGuards(), ctxt, state);
         ExprCodeGeneratorResult trslt = gencodeExpr(expr.getThen(), ctxt, state);
-        erslt.merge(fmt("(%s) ? %s : (%s)", grslt, trslt, erslt), null, grslt, trslt);
+        rslt.mergeInto(fmt("(%s) ? %s : (%s)", grslt, trslt, rslt), null, grslt, trslt);
 
         // Return final result.
-        return erslt;
+        return rslt;
     }
 
     /**
@@ -625,7 +625,7 @@ public class ExprCodeGenerator {
 
             // Wrap result code for this case.
             ExprCodeGeneratorResult valueRslt = gencodeExpr(cse.getValue(), ctxt, state);
-            rslt.merge(fmt("(%s) ? %s : (%s)", keyRslt, valueRslt, rslt), null, keyRslt, valueRslt);
+            rslt.mergeInto(fmt("(%s) ? %s : (%s)", keyRslt, valueRslt, rslt), null, keyRslt, valueRslt);
         }
 
         // Return final result.
@@ -677,7 +677,7 @@ public class ExprCodeGenerator {
         } else {
             // List, dictionary, and string.
             ExprCodeGeneratorResult irslt = gencodeExpr(expr.getIndex(), ctxt, state);
-            crslt.merge(fmt("project(%s, %s)", crslt, irslt), null, irslt);
+            crslt.mergeInto(fmt("project(%s, %s)", crslt, irslt), null, irslt);
             return crslt;
         }
     }
@@ -699,7 +699,7 @@ public class ExprCodeGenerator {
                 : gencodeExpr(expr.getBegin(), ctxt, state);
         ExprCodeGeneratorResult erslt = (expr.getEnd() == null) ? new ExprCodeGeneratorResult("null")
                 : gencodeExpr(expr.getEnd(), ctxt, state);
-        crslt.merge(fmt("slice(%s, %s, %s)", crslt, brslt, erslt), null);
+        crslt.mergeInto(fmt("slice(%s, %s, %s)", crslt, brslt, erslt), null);
         return crslt;
     }
 
@@ -719,7 +719,7 @@ public class ExprCodeGenerator {
         if (!(expr.getFunction() instanceof StdLibFunctionExpression)) {
             ExprCodeGeneratorResult arslt = gencodeExprs(expr.getParams(), ctxt, state);
             ExprCodeGeneratorResult frslt = gencodeExpr(expr.getFunction(), ctxt, state);
-            arslt.merge(fmt("(%s).evalFunc(%s)", frslt, arslt), null, frslt);
+            arslt.mergeInto(fmt("(%s).evalFunc(%s)", frslt, arslt), null, frslt);
             return arslt;
         }
 
@@ -735,16 +735,16 @@ public class ExprCodeGenerator {
 
             // Generate code for the values (remaining arguments), and also get
             // their types.
-            List<ExprCodeGeneratorResult> valueTxts = listc(expr.getParams().size() - 1);
+            List<ExprCodeGeneratorResult> valueRslts = listc(expr.getParams().size() - 1);
             List<CifType> valueTypes = listc(expr.getParams().size() - 1);
             for (int i = 1; i < expr.getParams().size(); i++) {
                 Expression value = expr.getParams().get(i);
-                valueTxts.add(gencodeExpr(value, ctxt, state));
+                valueRslts.add(gencodeExpr(value, ctxt, state));
                 valueTypes.add(value.getType());
             }
 
             // Generate code for the pattern.
-            return gencodePattern(pattern, valueTxts, valueTypes);
+            return gencodePattern(pattern, valueRslts, valueTypes);
         }
 
         // Generate standard library function call code.
@@ -1174,12 +1174,12 @@ public class ExprCodeGenerator {
 
         // Generate code for key/value arrays.
         String keysTxt = fmt("array(%s)", String.join(", ", convertToStringList(keyRslts)));
-        ExprCodeGeneratorResult keyRslt = ExprCodeGeneratorResult.mergeStatic(keysTxt, null, keyRslts);
+        ExprCodeGeneratorResult keyRslt = ExprCodeGeneratorResult.merge(keysTxt, null, keyRslts);
         String valuesTxt = fmt("array(%s)", String.join(", ", convertToStringList(valueRslts)));
-        ExprCodeGeneratorResult valueRslt = ExprCodeGeneratorResult.mergeStatic(valuesTxt, null, valueRslts);
+        ExprCodeGeneratorResult valueRslt = ExprCodeGeneratorResult.merge(valuesTxt, null, valueRslts);
 
         // Return the code for the dictionary literal.
-        keyRslt.merge(fmt("addpairs(%s, %s, %s)", rslt, keyRslt, valueRslt), null, valueRslt);
+        keyRslt.mergeInto(fmt("addpairs(%s, %s, %s)", rslt, keyRslt, valueRslt), null, valueRslt);
         return keyRslt;
     }
 
