@@ -19,8 +19,11 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
@@ -85,6 +88,7 @@ import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
@@ -155,19 +159,21 @@ public class CifProcessor {
                 CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autEventTransitions.event,
                         evt -> new CifEventTransition(evt, list(), list(), list(), list()));
 
-                autEventTransitions.checkNumberOfEdgeKinds();
+                autEventTransitions.finishEdgeKind(); // Resolve any remaining ambiguity.
 
-                if (!autEventTransitions.sendEdges.isEmpty()) {
-                    eventTrans.senders.add(new TransitionAutomaton(aut, autEventTransitions.sendEdges));
-                }
-                if (!autEventTransitions.receiveEdges.isEmpty()) {
-                    eventTrans.receivers.add(new TransitionAutomaton(aut, autEventTransitions.receiveEdges));
-                }
-                if (!autEventTransitions.syncEdges.isEmpty()) {
-                    eventTrans.syncers.add(new TransitionAutomaton(aut, autEventTransitions.syncEdges));
-                }
-                if (!autEventTransitions.monitorEdges.isEmpty()) {
-                    eventTrans.monitors.add(new TransitionAutomaton(aut, autEventTransitions.monitorEdges));
+                if (autEventTransitions.isSenderAutomaton()) {
+                    eventTrans.senders.add(new TransitionAutomaton(aut, autEventTransitions.getSendEdges()));
+                    //
+                } else if (autEventTransitions.isReceiveAutomaton()) {
+                    eventTrans.receivers.add(new TransitionAutomaton(aut, autEventTransitions.getReceiveEdges()));
+                    //
+                } else if (autEventTransitions.isSyncerAutomaton()) {
+                    eventTrans.syncers.add(new TransitionAutomaton(aut, autEventTransitions.getSyncEdges()));
+                    //
+                } else if (autEventTransitions.isMonitorAutomaton()) {
+                    eventTrans.monitors.add(new TransitionAutomaton(aut, autEventTransitions.getMonitorEdges()));
+                } else {
+                    throw new AssertionError("Undecided edges encountered.");
                 }
             }
         }
@@ -227,14 +233,14 @@ public class CifProcessor {
                     if (ee instanceof EdgeSend es) {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
                                 edge.getUpdates());
-                        autEventTrans.sendEdges.add(te);
+                        autEventTrans.addEdge(te, EdgesKind.SEND);
                     } else if (ee instanceof EdgeReceive) {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
-                        autEventTrans.receiveEdges.add(te);
+                        autEventTrans.addEdge(te, EdgesKind.RECEIVE);
                     } else {
                         // Event could be a monitored. If so, it will be moved below.
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
-                        autEventTrans.syncEdges.add(te);
+                        autEventTrans.addEdge(te, EdgesKind.SYNC_OR_MONITOR);
                     }
                 }
             }
@@ -245,25 +251,19 @@ public class CifProcessor {
         if (aut.getMonitors() != null) {
             Monitors mons = aut.getMonitors();
             if (mons.getEvents().isEmpty()) {
-                // Move all syncers to monitors.
+                // All events are monitors.
                 for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
-                    autEventTrans.monitorEdges.addAll(autEventTrans.syncEdges);
-                    autEventTrans.syncEdges.clear();
+                    autEventTrans.setIsMonitor(true);
                 }
             } else {
-                // Only change the mentioned events to monitors.
-                //
-                // It might happen that no edge was found previously, which means the monitor gets lost. That is not a
-                // problem as a monitor without edges is never performing the event anyway.
-                for (Expression expr: mons.getEvents()) {
-                    EventExpression ee = (EventExpression)expr;
-                    AutomatonEventTransition autEventTrans = eventUsage.get(ee.getEvent());
-                    autEventTrans.monitorEdges.addAll(autEventTrans.syncEdges);
-                    autEventTrans.syncEdges.clear();
+                // Resolve ambiguities for the events.
+                Set<Event> monitorEvents = mons.getEvents().stream().map(expr -> ((EventExpression)expr).getEvent())
+                        .collect(Collectors.toCollection(Sets::set));
+                for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
+                    autEventTrans.setIsMonitor(monitorEvents.contains(autEventTrans.event));
                 }
             }
         }
-
         return eventUsage;
     }
 
@@ -278,26 +278,11 @@ public class CifProcessor {
         /** The event performed by all edges in the instance. */
         public final Event event;
 
-        /** Edges that send a value. */
-        public final List<TransitionEdge> sendEdges = list();
+        /** Best guess what kind of edges are used in the automaton. */
+        private EdgesKind edgesKind;
 
-        /** Edges that receive a value. */
-        public final List<TransitionEdge> receiveEdges = list();
-
-        /** Edges that must synchronize. */
-        public final List<TransitionEdge> syncEdges = list();
-
-        /** Edges that may synchronize. */
-        public final List<TransitionEdge> monitorEdges = list();
-
-        /** Verify that the automaton indeed uses the event consistently. */
-        public void checkNumberOfEdgeKinds() {
-            int numEdgeKinds = (sendEdges.isEmpty() ? 0 : 1) + (receiveEdges.isEmpty() ? 0 : 1)
-                    + (syncEdges.isEmpty() ? 0 : 1) + (monitorEdges.isEmpty() ? 0 : 1);
-
-            // Allow zero edge kinds for the case that the event is listed in the automaton but it has no edges with it.
-            Assert.check(numEdgeKinds <= 1);
-        }
+        /** Edges of the {@link #edgesKind}. */
+        private final List<TransitionEdge> edges = list();
 
         /**
          * Constructor of the {@link AutomatonEventTransition} class.
@@ -306,7 +291,186 @@ public class CifProcessor {
          */
         public AutomatonEventTransition(Event event) {
             this.event = event;
+            edgesKind = (event.getType() == null) ? EdgesKind.SYNC_OR_MONITOR : EdgesKind.UNKNOWN;
         }
+
+        /**
+         * Add an edge to the automaton transitions.
+         *
+         * @param transEdge Edge to add.
+         * @param kindOfEdge Kind of edge found.
+         */
+        public void addEdge(TransitionEdge transEdge, EdgesKind kindOfEdge) {
+            // In edge context it is not possible to decide between CIF synchronizing and CIF monitoring.
+            Assert.check(EnumSet.of(EdgesKind.SEND, EdgesKind.RECEIVE, EdgesKind.SYNC_OR_MONITOR).contains(kindOfEdge));
+
+            // Add the edge and update 'edgesKind'.
+            edges.add(transEdge);
+
+            switch (edgesKind) {
+                case UNKNOWN:
+                    edgesKind = kindOfEdge; // All information is better than unknown.
+                    break;
+                case MONITOR:
+                case SYNCHRONIZE:
+                case SYNC_OR_MONITOR:
+                    Assert.check(kindOfEdge.equals(EdgesKind.SYNC_OR_MONITOR)); // Should not be a send or receive edge.
+                    break;
+                case SEND:
+                case RECEIVE:
+                    Assert.check(kindOfEdge.equals(edgesKind)); // Once sending or receiving all edges must do the same.
+                    break;
+                default:
+                    throw new AssertionError("Unexpected edgesKind \"" + edgesKind + "\".");
+            }
+        }
+
+        /**
+         * Mark the monitoring state of the event.
+         *
+         * @param isMonitoring If {@code true} the event is being monitored by the automaton, otherwise it uses the
+         *     event as a channel or it synchronizes on the event.
+         */
+        public void setIsMonitor(boolean isMonitoring) {
+            // If sending or receiving, monitoring the event is not allowed by CIF.
+            if (EnumSet.of(EdgesKind.SEND, EdgesKind.RECEIVE).contains(edgesKind)) {
+                Assert.check(!isMonitoring);
+                return; // Completely done with sending and receiving.
+            }
+
+            // Resolve ambiguities between syncing and monitoring.
+            EdgesKind resultKind = isMonitoring ? EdgesKind.MONITOR : EdgesKind.SYNCHRONIZE;
+            if (edgesKind.equals(resultKind)) {
+                return; // Do nothing if the decision has been made already and matches with the parameter value.
+                //
+            } else if (EnumSet.of(EdgesKind.SYNC_OR_MONITOR, EdgesKind.UNKNOWN).contains(edgesKind)) {
+                edgesKind = resultKind; // Resolve the ambiguity if it exists.
+                return;
+            }
+
+            // The information is contradicting in some way.
+            throw new AssertionError("Encountered unexpected edgesKind value \"" + edgesKind + "\".");
+        }
+
+        /** Resolve any ambiguity in the edge kind. */
+        public void finishEdgeKind() {
+            // Without proof of sending, receiving or monitoring, the automaton synchronizes.
+            if (EnumSet.of(EdgesKind.UNKNOWN, EdgesKind.SYNC_OR_MONITOR).contains(edgesKind)) {
+                edgesKind = EdgesKind.SYNCHRONIZE;
+            }
+            checkEdgesKindIsDecided();
+        }
+
+        /** Check that the edge kind has been decided without ambiguities. */
+        private void checkEdgesKindIsDecided() {
+            Assert.check(EnumSet.of(EdgesKind.SEND, EdgesKind.RECEIVE, EdgesKind.SYNCHRONIZE, EdgesKind.MONITOR)
+                    .contains(edgesKind));
+        }
+
+        /**
+         * Does the automaton send values to the channel?
+         *
+         * @return Whether the automaton sends values to the channel.
+         */
+        public boolean isSenderAutomaton() {
+            checkEdgesKindIsDecided();
+            return edgesKind.equals(EdgesKind.SEND);
+        }
+
+        /**
+         * Does the automaton receive values from the channel?
+         *
+         * @return Whether the automaton receives values from the channel.
+         */
+        public boolean isReceiveAutomaton() {
+            checkEdgesKindIsDecided();
+            return edgesKind.equals(EdgesKind.RECEIVE);
+        }
+
+        /**
+         * Does the automaton synchronize on the event?
+         *
+         * @return Whether the automaton synchronizes on the event.
+         */
+        public boolean isSyncerAutomaton() {
+            checkEdgesKindIsDecided();
+            return edgesKind.equals(EdgesKind.SYNCHRONIZE);
+        }
+
+        /**
+         * Does the automaton monitor the event?
+         *
+         * @return Whether the automaton monitors the event.
+         */
+        public boolean isMonitorAutomaton() {
+            checkEdgesKindIsDecided();
+            return edgesKind.equals(EdgesKind.MONITOR);
+        }
+
+        /**
+         * Get the edges of the automaton that send a value to the channel. May only be called when
+         * {@link #isSenderAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton that send a value to the channel.
+         */
+        public List<TransitionEdge> getSendEdges() {
+            Assert.check(edgesKind.equals(EdgesKind.SEND));
+            return edges;
+        }
+
+        /**
+         * Get the edges of the automaton that receive a value from the channel. May only be called when
+         * {@link #isReceiveAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton that receive a value from the channel.
+         */
+        public List<TransitionEdge> getReceiveEdges() {
+            Assert.check(edgesKind.equals(EdgesKind.RECEIVE));
+            return edges;
+        }
+
+        /**
+         * Get the edges of the automaton that synchronize on the event. May only be called when
+         * {@link #isSyncerAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton that synchronize on the event.
+         */
+        public List<TransitionEdge> getSyncEdges() {
+            Assert.check(edgesKind.equals(EdgesKind.SYNCHRONIZE));
+            return edges;
+        }
+
+        /**
+         * Get the edges of the automaton that monitor the event. May only be called when {@link #isMonitorAutomaton}
+         * returns {@code true}.
+         *
+         * @return The edges of the automaton that monitor the event.
+         */
+        public List<TransitionEdge> getMonitorEdges() {
+            Assert.check(edgesKind.equals(EdgesKind.MONITOR));
+            return edges;
+        }
+    }
+
+    /** The kind of edges found in an automaton while collecting them. */
+    public static enum EdgesKind {
+        /** It is unknown what kind of edges are used in the automaton. */
+        UNKNOWN,
+
+        /** The automaton sends values over the channel. */
+        SEND,
+
+        /** The automaton receives values from the channel. */
+        RECEIVE,
+
+        /** The automaton synchronizes on the event. */
+        SYNCHRONIZE,
+
+        /** The automaton monitors the event. */
+        MONITOR,
+
+        /** The automaton either synchronizes or monitors the event. */
+        SYNC_OR_MONITOR;
     }
 
     /**
