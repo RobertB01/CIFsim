@@ -157,7 +157,7 @@ public class CifProcessor {
             // Merge the found data into the collection.
             for (AutomatonEventTransition autEventTransitions: autEventUsage.values()) {
                 CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autEventTransitions.event,
-                        evt -> new CifEventTransition(evt, list(), list(), list(), list()));
+                        evt -> new CifEventTransition(evt));
 
                 autEventTransitions.finishEdgeKind(); // Resolve any remaining ambiguity.
 

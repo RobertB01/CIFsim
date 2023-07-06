@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifAddressableUtils.collectAddrVars;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.List;
@@ -68,6 +69,15 @@ public class CifEventTransition {
 
     /** Transitions of automata that may or may not synchronize with the event. */
     public final List<TransitionAutomaton> monitors;
+
+    /**
+     * Constructor of the {@link CifEventTransition} class.
+     *
+     * @param event Event of the transition.
+     */
+    public CifEventTransition(Event event) {
+        this(event, list(), list(), list(), list());
+    }
 
     /**
      * Constructor of the {@link CifEventTransition} class.
