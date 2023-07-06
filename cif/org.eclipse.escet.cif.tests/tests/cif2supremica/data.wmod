@@ -128,13 +128,15 @@
             </LabelBlock>
             <GuardActionBlock>
               <Guards>
-                <BinaryExpression Operator="&gt;">
-                  <SimpleIdentifier Name="buf:v"/>
-                  <IntConstant Value="3"/>
-                </BinaryExpression>
-                <BinaryExpression Operator="&lt;">
-                  <SimpleIdentifier Name="buf:v"/>
-                  <IntConstant Value="7"/>
+                <BinaryExpression Operator="&amp;">
+                  <BinaryExpression Operator="&gt;">
+                    <SimpleIdentifier Name="buf:v"/>
+                    <IntConstant Value="3"/>
+                  </BinaryExpression>
+                  <BinaryExpression Operator="&lt;">
+                    <SimpleIdentifier Name="buf:v"/>
+                    <IntConstant Value="7"/>
+                  </BinaryExpression>
                 </BinaryExpression>
               </Guards>
               <Actions>
