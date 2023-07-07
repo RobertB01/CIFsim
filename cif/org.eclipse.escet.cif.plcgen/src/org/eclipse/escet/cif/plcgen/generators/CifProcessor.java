@@ -63,6 +63,7 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -221,7 +222,7 @@ public class CifProcessor {
         // Walk through locations, collecting locations, edges, and event-usage.
         for (Location loc: aut.getLocations()) {
             for (Edge edge: loc.getEdges()) {
-                Location destLoc = edge.getTarget() == null ? loc : edge.getTarget();
+                Location destLoc = CifEdgeUtils.getTarget(edge);
 
                 Assert.check(!edge.getEvents().isEmpty()); // Pre-condition violation.
                 for (EdgeEvent ee: edge.getEvents()) {
