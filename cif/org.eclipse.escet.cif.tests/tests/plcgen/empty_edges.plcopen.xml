@@ -19,6 +19,11 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <tempVars>
+            <variable name="channelValue">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
             <variable name="current_Good_x">
               <type>
                 <DINT/>
@@ -39,6 +44,26 @@
                 <BOOL/>
               </type>
             </variable>
+            <variable name="receiverAut">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="receiverEdge">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="senderAut">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="senderEdge">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
             <variable name="syncAutEdge">
               <type>
                 <DINT/>
@@ -50,6 +75,11 @@
               </type>
             </variable>
             <variable name="syncAutEdge__2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge__3">
               <type>
                 <DINT/>
               </type>
@@ -99,6 +129,24 @@ WHILE isProgress DO
         IF syncAutEdge__2 = 1 THEN
             Good_x := MOD(IN1 := current_Good_x__1 + 5, IN2 := 6);
         END_IF;
+    END_IF;
+    (* Try to perform event "channel". *)
+    isFeasible := TRUE;
+    senderAut := 0;
+    IF senderAut = 0 THEN
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        receiverAut := 0;
+        IF receiverAut = 0 THEN
+            isFeasible := FALSE;
+        END_IF;
+    END_IF;
+    IF isFeasible THEN
+        isFeasible := FALSE;
+    END_IF;
+    IF isFeasible THEN
+        isProgress := TRUE;
     END_IF;
 END_WHILE;</xhtml>
           </ST>

@@ -1,3 +1,4 @@
 WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
 WARNING: File "plcgen/empty_edges.cif": Semantic warning at line 27, column 12: The alphabet of automaton "Block" globally disables event "noSync", as the event is not used on any of the edges of the automaton.
 WARNING: File "plcgen/empty_edges.cif": Semantic warning at line 27, column 20: Automaton "Block" monitors event "noMonitor", but the event is not used on any of the edges of the automaton.
+WARNING: File "plcgen/empty_edges.cif": Semantic warning at line 35, column 12: The alphabet of automaton "UseChannel" globally disables event "channel", as the event is not used on any of the edges of the automaton.

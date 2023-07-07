@@ -29,3 +29,10 @@ automaton Block:
   location B:
     initial;
 end
+
+controllable int channel;
+automaton UseChannel:
+  alphabet channel;
+  location C:
+    initial;
+end
