@@ -1,0 +1,57 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'true' }
+    VAR_TEMP
+        current_Good_x: DINT;
+        current_Good_x__1: DINT;
+        isFeasible: BOOL;
+        isProgress: BOOL;
+        syncAutEdge: DINT;
+        syncAutEdge__1: DINT;
+        syncAutEdge__2: DINT;
+    END_VAR
+
+BEGIN
+    IF firstRun THEN
+        firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        Good_x := 0;
+    END_IF;
+
+    isProgress := TRUE;
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (* Try to perform event "noSync". *)
+        isFeasible := TRUE;
+        IF TRUE THEN
+            syncAutEdge := 1;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+        IF isFeasible THEN
+            isFeasible := FALSE;
+        END_IF;
+        IF isFeasible THEN
+            isProgress := TRUE;
+            current_Good_x := Good_x;
+            IF syncAutEdge = 1 THEN
+                Good_x := MOD(IN1 := current_Good_x + 1, IN2 := 6);
+            END_IF;
+        END_IF;
+        (* Try to perform event "noMonitor". *)
+        isFeasible := TRUE;
+        IF TRUE THEN
+            syncAutEdge__2 := 1;
+        ELSE
+            isFeasible := FALSE;
+        END_IF;
+        IF isFeasible THEN
+            isProgress := TRUE;
+            current_Good_x__1 := Good_x;
+            IF syncAutEdge__2 = 1 THEN
+                Good_x := MOD(IN1 := current_Good_x__1 + 5, IN2 := 6);
+            END_IF;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK
