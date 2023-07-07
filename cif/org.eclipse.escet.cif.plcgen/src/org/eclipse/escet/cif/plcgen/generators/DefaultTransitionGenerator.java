@@ -430,7 +430,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param autTransitions Automaton transitions to convert.
      * @param testCode Storage for generated test code. Is updated in-place.
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
-     *     during perform code execution.
+     *     during perform code execution. Can be {@code null} to disable redirection.
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param varPrefix Prefix of locally created temporary variables.
      * @param createdTempVariables Tracking storage of created temporary variables.
@@ -527,7 +527,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param autTransitions Automaton transitions to convert.
      * @param testCode Storage for generated test code. Is updated in-place.
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
-     *     during perform code execution.
+     *     during perform code execution. Can be {@code null} to disable redirection.
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param createdTempVariables Tracking storage of created temporary variables.
      * @param isFeasibleVar PLC variable expressing if the event is feasible.
@@ -586,7 +586,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * @param autTransitions Automaton transitions to convert.
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
-     *     during perform code execution.
+     *     during perform code execution. Can be {@code null} to disable redirection.
      * @param testAndPerformCode Storage for generated test and perform code. Is updated in-place.
      * @param createdTempVariables Tracking storage of created temporary variables.
      */
