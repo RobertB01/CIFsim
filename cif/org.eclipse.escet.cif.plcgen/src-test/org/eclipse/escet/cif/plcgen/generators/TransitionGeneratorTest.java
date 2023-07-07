@@ -421,16 +421,16 @@ public class TransitionGeneratorTest {
         TupleType tupleType2 = newTupleType(fields2, null);
         Expression leftSide = newTupleExpression(List.of(newDiscVariableExpression(null, newIntType(), otherVar),
                 newDiscVariableExpression(null, newIntType(), otherVar)), null, tupleType1);
-        Expression rightSide = newTupleExpression(List.of(newIntExpression(null, newIntType(), 1),
-                                                          newIntExpression(null, newIntType(), 2)), null, tupleType2);
+        Expression rightSide = newTupleExpression(
+                List.of(newIntExpression(null, newIntType(), 1), newIntExpression(null, newIntType(), 2)), null,
+                tupleType2);
 
         // Build the transition.
         Update update = newAssignment(leftSide, null, rightSide);
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
         TransitionAutomaton aut = new TransitionAutomaton(null, List.of(edge));
 
-        CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut),
-                List.of());
+        CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
         // Generate the transition, and check that it matches expectations.
         transitionGenerator.setTransitions(List.of(transition));
@@ -473,8 +473,7 @@ public class TransitionGeneratorTest {
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
         TransitionAutomaton aut = new TransitionAutomaton(null, List.of(edge));
 
-        CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut),
-                List.of());
+        CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
         // Generate the transition, and check that it matches expectations.
         transitionGenerator.setTransitions(List.of(transition));

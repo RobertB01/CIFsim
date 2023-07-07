@@ -101,7 +101,8 @@ public class CifEventTransition {
     /**
      * Collect the variables that may be assigned when performing the event.
      *
-     * @return The collected variables that are assigned at least once in one of the edges of the participating automata.
+     * @return The collected variables that are assigned at least once in one of the edges of the participating
+     *     automata.
      */
     public Set<Declaration> collectAssignedVariables() {
         Set<Declaration> assignedVariables = set();

@@ -129,7 +129,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated PLC event transition code.
      */
     List<PlcStatement> generateCode() {
-        // TODO Currently code generation is straight forward, it generates correct code for the general case. There are heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better names for variables, etc.
+        // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
+        // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
+        // names for variables, etc.
         mainExprGen = target.getCodeStorage().getExprGenerator();
         funcAppls = new PlcFunctionAppls(target);
 
@@ -156,7 +158,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <li>As a sender by providing a value for the channel,</li>
      * <li>As a receiver by receiving the value of the channel,</li>
      * <li>As a syncer by synchronizing on the event without sending or receiving a value, or</li>
-     * <li>As a monitor by synchronizing on the event without sending or receiving a value, if the automaton has an enabled edge for it, or ignoring the event while not blocking its occurrence if it has no enabled edge for it.</li>
+     * <li>As a monitor by synchronizing on the event without sending or receiving a value, if the automaton has an
+     * enabled edge for it, or ignoring the event while not blocking its occurrence if it has no enabled edge for
+     * it.</li>
      * </ul>
      * Each form can have several automata.
      * </p>
@@ -218,7 +222,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param isProgressVar PLC variable to set if the event transition is performed.
      * @return The generated code for testing and performing the event in the PLC.
      */
-    private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition, PlcVariable isProgressVar) {
+    private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition,
+            PlcVariable isProgressVar)
+    {
         List<PlcStatement> testCode = list(); // Code that decides whether the event can be performed.
         List<PlcStatement> performCode = list(); // Code that performs the event it it can be performed.
         List<PlcVariable> createdTempVariables = list();
@@ -618,17 +624,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <p>
      * The edge test code generator is shared between syncers and senders/receivers automata. The different behavior is
      * controlled by means of the {@code autVar} variable.
-     * <ul><li>If it is {@code null}, a test for a syncer automaton should be generated, the automaton must always have
-     * an enabled edge or the transition is not feasible.</li>
+     * <ul>
+     * <li>If it is {@code null}, a test for a syncer automaton should be generated, the automaton must always have an
+     * enabled edge or the transition is not feasible.</li>
      * <li>If is not {@code null}, a test is generated for a receiver or sender automaton. The {@code autVar} contains
      * the elected automaton (with {@code 0} meaning that no automaton has been selected yet). In this case an
-     * additional test for {@code autVar} being {@code 0} is generated as additional pre-condition.</li></ul>
+     * additional test for {@code autVar} being {@code 0} is generated as additional pre-condition.</li>
+     * </ul>
      * </p>
      *
      * <p>
-     * If an enabled edge is found at PLC runtime, the code sets {@code autVar} to {@code autIndex} if
-     * {@code autVar} is not {@code null}, and sets {@code edgeVar} to the 1-based index of the edge that is found to be
-     * enabled.
+     * If an enabled edge is found at PLC runtime, the code sets {@code autVar} to {@code autIndex} if {@code autVar} is
+     * not {@code null}, and sets {@code edgeVar} to the 1-based index of the edge that is found to be enabled.
      * </p>
      *
      * @param transAut Automaton to generate test code for.
