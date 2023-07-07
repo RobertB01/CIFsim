@@ -123,7 +123,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * ... // Other transitions are omitted.
      * </pre> More details on the implementation of testing and performing can be found in the
-     * {@link #generateEventTransition} method.
+     * {@link #generateEventTransitionCode} method.
      * </p>
      *
      * @return The generated PLC event transition code.
@@ -138,7 +138,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // various variables that store decisions in the process can be re-used between different events.
         List<PlcStatement> statements = list();
         for (CifEventTransition eventTransition: eventTransitions) {
-            statements.addAll(generateEventTransition(eventTransition, isProgressVar));
+            statements.addAll(generateEventTransitionCode(eventTransition, isProgressVar));
         }
         mainExprGen.releaseTempVariable(isProgressVar);
         return statements;
@@ -217,20 +217,21 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param isProgressVar PLC variable to set if the event transition is performed.
      * @return The generated code for testing and performing the event in the PLC.
      */
-    private List<PlcStatement> generateEventTransition(CifEventTransition eventTransition, PlcVariable isProgressVar) {
+    private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition, PlcVariable isProgressVar) {
         List<PlcStatement> testCode = list(); // Code that decides whether the event can be performed.
         List<PlcStatement> performCode = list(); // Code that performs the event it it can be performed.
         List<PlcVariable> createdTempVariables = list();
 
-        // Obtain and initialize the feasibility flag.
+        // Obtain the feasibility flag.
         PlcVariable isFeasibleVar = mainExprGen.getTempVariable("isFeasible", PlcElementaryType.BOOL_TYPE);
         createdTempVariables.add(isFeasibleVar);
 
         // So far, no test code has been generated that may set 'isFeasible' to false.
         boolean testFeasibilityAlwaysHolds = true;
 
-        String absEventnName = getAbsName(eventTransition.event, false);
-        testCode.add(new PlcCommentLine("Try to perform event \"" + absEventnName + "\"."));
+        // Generate the header of the transition code for the event, initialize the event feasibility flag.
+        String absEventName = getAbsName(eventTransition.event, false);
+        testCode.add(new PlcCommentLine("Try to perform event \"" + absEventName + "\"."));
         testCode.add(new PlcAssignmentStatement(isFeasibleVar, new PlcBoolLiteral(true)));
 
         // Performing the event implies progress is made.
@@ -238,17 +239,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         CifDataProvider performProvider = generateCopiedState(eventTransition.collectAssignedVariables(), performCode,
                 createdTempVariables);
 
-        // Generate channel communication.
-        if (eventTransition.event.getType() != null) {
+        // Generate channel communication if the event is a channel.
+        CifType channelType = eventTransition.event.getType();
+        if (channelType != null) {
             // Event is a channel, generate senders and receivers code.
 
             // A void channel does not transport data, 'channelValueVar' is 'null' in that case.
-            CifType channelType = normalizeType(eventTransition.event.getType());
+            channelType = normalizeType(channelType);
             PlcVariable channelValueVar;
             if (channelType instanceof VoidType) {
                 channelValueVar = null;
             } else {
-                channelValueVar = mainExprGen.getTempVariable("channelValue", eventTransition.event.getType());
+                channelValueVar = mainExprGen.getTempVariable("channelValue", channelType);
                 createdTempVariables.add(channelValueVar);
             }
 
