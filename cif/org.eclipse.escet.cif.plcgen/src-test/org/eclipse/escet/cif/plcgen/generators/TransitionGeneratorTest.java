@@ -158,7 +158,6 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    /** One sender only. */
     public void testSingleUnconditionalSender() {
         Event event = newEvent(true, "sendEvent", null, newIntType());
         spec.getDeclarations().add(event);
@@ -210,8 +209,7 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    /** One sender, two receivers. */
-    public void testChannelComm() {
+    public void testChannelOneSenderTwoReceivers() {
         Event event = newEvent(true, "channelEvent", null, newIntType());
         spec.getDeclarations().add(event);
 
@@ -297,7 +295,6 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    /** Two syncers test. */
     public void testTwoSyncers() {
         Event event = newEvent(null, "event", null, null);
         spec.getDeclarations().add(event);
@@ -372,7 +369,7 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    public void oneMonitorTest() {
+    public void testOeMonitor() {
         Event event = newEvent(null, "event", null, null);
         spec.getDeclarations().add(event);
 
@@ -408,7 +405,7 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    public void multiAssignUnfoldTest() {
+    public void testMultiAssignUnfold() {
         Event event = newEvent(null, "event", null, null);
         spec.getDeclarations().add(event);
 
@@ -460,7 +457,7 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    public void multiAssignProjectTest() {
+    public void testMultiAssignProject() {
         Event event = newEvent(null, "event", null, null);
         spec.getDeclarations().add(event);
 
