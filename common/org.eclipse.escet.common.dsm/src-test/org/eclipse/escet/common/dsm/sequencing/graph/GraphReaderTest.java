@@ -11,29 +11,26 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.dsm.sequencing;
+package org.eclipse.escet.common.dsm.sequencing.graph;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
-import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
-import org.eclipse.escet.common.dsm.sequencing.graph.ReadGraph;
 import org.eclipse.escet.common.java.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for loading a graph into the sequencer. */
-public class GraphLoadTest {
+public class GraphReaderTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testEmptyGraphLoad() {
-        Graph g = ReadGraph.loadVertexPairs("");
+        Graph g = GraphReader.loadVertexPairs("");
         assertEquals("Graph with 0 vertices.\n", g.dumpGraph());
     }
 
     @Test
     @SuppressWarnings("javadoc")
     public void testStringGraphLoad() {
-        Graph g = ReadGraph.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
+        Graph g = GraphReader.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
 
         // Dirty way to tear the 0 -> 9 edge.
         Assert.check(g.vertices.get(0).name.equals("0"));

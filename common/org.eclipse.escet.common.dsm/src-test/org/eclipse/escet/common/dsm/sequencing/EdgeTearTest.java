@@ -13,13 +13,13 @@
 
 package org.eclipse.escet.common.dsm.sequencing;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Cycle;
 import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for tearing edges of cycles. */
 @SuppressWarnings("javadoc")
@@ -42,7 +42,7 @@ public class EdgeTearTest {
     }
 
     @Test
-    public void tearSingleCycle() {
+    public void testTearSingleCycle() {
         Edge edge78 = new Edge(7, 8);
         Edge edge89 = new Edge(8, 9);
         Edge edge97 = new Edge(9, 7);
@@ -52,7 +52,7 @@ public class EdgeTearTest {
     }
 
     @Test
-    public void tearSharedVertexCollection() {
+    public void testTearSharedVertexCollection() {
         // Edge tearing sees this collection as two independent cycles since it only cares about edges.
         Edge edge12 = new Edge(1, 2);
         Edge edge21 = new Edge(2, 1);
@@ -67,7 +67,7 @@ public class EdgeTearTest {
     }
 
     @Test
-    public void tearSharedEdgeCollection() {
+    public void testTearSharedEdgeCollection() {
         Edge edge23 = new Edge(2, 3);
         Edge edge35 = new Edge(3, 5);
         Edge edge52 = new Edge(5, 2);

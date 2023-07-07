@@ -14,16 +14,16 @@
 package org.eclipse.escet.common.dsm.sequencing;
 
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Cycle;
 import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for grouping related cycles into collections. */
 @SuppressWarnings("javadoc")
@@ -57,7 +57,7 @@ public class CycleCollectingTest {
     private final Cycle cycle789 = new Cycle(List.of(edge78, edge89, edge97));
 
     @Test
-    public void noCycleTest() {
+    public void testNoCycle() {
         Set<Cycle> cycles = set();
         List<List<Cycle>> collections = Sequencer.makeCycleCollections(cycles);
         assertEquals(0, collections.size());
@@ -74,7 +74,7 @@ public class CycleCollectingTest {
     }
 
     @Test
-    public void mergeSharedVertexCyclesTest() {
+    public void testMergeSharedVertexCycles() {
         Set<Cycle> cycles = set(cycle12, cycle235);
         List<List<Cycle>> collections = Sequencer.makeCycleCollections(cycles);
         assertEquals(1, collections.size());
@@ -82,7 +82,7 @@ public class CycleCollectingTest {
     }
 
     @Test
-    public void mergeSharedEdgeCyclesTest() {
+    public void testMergeSharedEdgeCycles() {
         Set<Cycle> cycles = set(cycle235, cycle356);
         List<List<Cycle>> collections = Sequencer.makeCycleCollections(cycles);
         assertEquals(1, collections.size());
@@ -90,7 +90,7 @@ public class CycleCollectingTest {
     }
 
     @Test
-    public void merge3CyclesTest() {
+    public void testMerge3Cycles() {
         Set<Cycle> cycles = set(cycle12, cycle235, cycle356);
         List<List<Cycle>> collections = Sequencer.makeCycleCollections(cycles);
         assertEquals(1, collections.size());
@@ -98,7 +98,7 @@ public class CycleCollectingTest {
     }
 
     @Test
-    public void allCyclesTest() {
+    public void testAllCyclesTest() {
         Set<Cycle> cycles = set(cycle12, cycle789, cycle235, cycle356);
         List<List<Cycle>> collections = Sequencer.makeCycleCollections(cycles);
         assertEquals(2, collections.size());

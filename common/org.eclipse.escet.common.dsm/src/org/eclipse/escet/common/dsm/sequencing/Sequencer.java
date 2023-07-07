@@ -346,7 +346,9 @@ public class Sequencer {
             BitSet nonTearedInputs = new BitSet();
             for (Edge e: vertex.inputs) {
                 collectionInputs.set(e.producingVertex);
-                nonTearedInputs.set(e.producingVertex, !e.teared);
+                if (!e.teared) {
+                    nonTearedInputs.set(e.producingVertex);
+                }
             }
 
             // Process output dependencies of the vertex.

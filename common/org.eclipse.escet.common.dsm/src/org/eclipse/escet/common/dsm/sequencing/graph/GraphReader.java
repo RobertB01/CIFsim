@@ -23,12 +23,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Functions for reading a graph. */
-public class ReadGraph {
+public class GraphReader {
     /** Pattern for matching a {@code (vertex-name, vertex-name)} pair. */
     private static final Pattern PAIR_PATTERN = Pattern.compile("[(]([^,)]+),([^)]+)[)]");
 
-    /** Constructor of the static {@link ReadGraph} class. */
-    private ReadGraph() {
+    /** Constructor of the static {@link GraphReader} class. */
+    private GraphReader() {
         // Static class.
     }
 
