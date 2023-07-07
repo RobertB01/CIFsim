@@ -107,7 +107,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <p>
      * The high-level entry point to generate event transition code for all events. The high level view of the code is:
      * <pre>
-     * isProgress := FALSE;
+     * isProgress := FALSE; // Generated in PlcCodeStorage.
      *
      * isFeasible := &lt;test-if-eventA-is-enabled&gt;;
      * IF isFeasible THEN
