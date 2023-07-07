@@ -25,6 +25,7 @@ list string default_options = [
     "--bdd-simplify=guards-plants,initial-unctrl",
     "--forward-reach=on",
     "--edge-granularity=per-edge",
+    "--stats=ctrl-sys-states",
 ];
 
 string opt_algos_on      = "--dcsh-order=on  --force-order=on  --sliding-window-order=on";
@@ -37,53 +38,53 @@ map(string:list string) test_options = {
     "datasynth/bdd_dbg_maxpaths.cif":                           ["--bdd-dbg-maxpaths=2"],
     "datasynth/bdd_out_nodes.cif":                              ["-t nodes -p n"],
     "datasynth/dining_philosophers4.cif":                       [opt_simplify_all],
-    "datasynth/edge_granularity_errors01_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors01_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors01_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors02_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors02_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors02_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors03_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors03_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors03_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors04_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors04_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors04_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors05_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors05_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors05_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors06_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors06_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors06_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors07_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors07_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors07_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors08_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors08_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors08_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors09_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors09_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors09_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors10_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors10_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors10_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors11_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors11_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors11_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors12_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors12_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors12_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_errors13_per_edge.cif":         ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_errors13_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors13_per_event.cif":        ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates1_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates1_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates1_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates2_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates2_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates2_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates3_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates3_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates3_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates4_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates4_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates4_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates5_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates5_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates5_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates6_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates6_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates6_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates7_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates7_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates7_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_guards_updates8_per_edge.cif":  ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_guards_updates8_per_edge.cif":  ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_guards_updates8_per_event.cif": ["--edge-granularity=per-event"],
-    "datasynth/edge_granularity_simple_per_edge.cif":           ["--edge-granularity=per-edge"],
+    "datasynth/edge_granularity_simple_per_edge.cif":           ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_simple_per_event.cif":          ["--edge-granularity=per-event"],
     "datasynth/edge_order_both_custom_basic.cif":               ["--backward-edge-order=C,p.event,D,p.z,p.a,p.X,p.Y,p.c --forward-edge-order=C,p.event,D,p.z,p.a,p.X,p.Y,p.c"],
-    "datasynth/edge_order_both_custom_dupl_no.cif":             ["--stats=bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
-    "datasynth/edge_order_both_custom_dupl_yes.cif":            ["--stats=bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed"],
+    "datasynth/edge_order_both_custom_dupl_no.cif":             ["--stats=ctrl-sys-states,bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Actuator.off,Counter.inc,Actuator.on"],
+    "datasynth/edge_order_both_custom_dupl_yes.cif":            ["--stats=ctrl-sys-states,bdd-perf-cache,bdd-perf-max-nodes --backward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --forward-edge-order=Counter.dec,Counter.dec,Counter.dec,Counter.dec,Counter.dec,Actuator.off,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Counter.inc,Actuator.on --edge-order-duplicate-events=allowed --edge-workset=off"],
     "datasynth/edge_order_both_dupl_match1.cif":                ["--backward-edge-order=p.c,*          --forward-edge-order=p.c,*"],
     "datasynth/edge_order_both_dupl_match2.cif":                ["--backward-edge-order=p.event,*      --forward-edge-order=p.event,*"],
     "datasynth/edge_order_both_missing.cif":                    ["--backward-edge-order=q.*            --forward-edge-order=q.*"],
@@ -100,6 +101,12 @@ map(string:list string) test_options = {
     "datasynth/edge_order_single_backward_random.cif":          ["--backward-edge-order=random:88"],
     "datasynth/edge_order_single_forward_random.cif":           ["--forward-edge-order=random:88"],
     "datasynth/event_warnings.cif":                             ["--forward-reach=on"],
+    "datasynth/fixed_point_order_nonblock_ctrl_reach.cif":      ["--forward-reach=on --fixed-point-order=nonblock-ctrl-reach"],
+    "datasynth/fixed_point_order_nonblock_reach_ctrl.cif":      ["--forward-reach=on --fixed-point-order=nonblock-reach-ctrl"],
+    "datasynth/fixed_point_order_ctrl_nonblock_reach.cif":      ["--forward-reach=on --fixed-point-order=ctrl-nonblock-reach"],
+    "datasynth/fixed_point_order_ctrl_reach_nonblock.cif":      ["--forward-reach=on --fixed-point-order=ctrl-reach-nonblock"],
+    "datasynth/fixed_point_order_reach_nonblock_ctrl.cif":      ["--forward-reach=on --fixed-point-order=reach-nonblock-ctrl"],
+    "datasynth/fixed_point_order_reach_ctrl_nonblock.cif":      ["--forward-reach=on --fixed-point-order=reach-ctrl-nonblock"],
     "datasynth/forward_reach_off.cif":                          ["--forward-reach=off --bdd-simplify="],
     "datasynth/forward_reach_on.cif":                           ["--forward-reach=on  --bdd-simplify="],
     "datasynth/inv_state_evt_exclusion_plant_simple.cif":       ["--event-warn=false"],
@@ -107,6 +114,10 @@ map(string:list string) test_options = {
     "datasynth/namespace_conflict.cif":                         ["-n g.h.c.n"],
     "datasynth/namespace_invalid.cif":                          ["-n a.b."],
     "datasynth/namespace_non_empty.cif":                        ["-n g.h"],
+    "datasynth/reachability1_workset_off.cif":                  ["--edge-workset=off --edge-granularity=per-event"],
+    "datasynth/reachability1_workset_on.cif":                   ["--edge-workset=on  --edge-granularity=per-event"],
+    "datasynth/reachability2_workset_off.cif":                  ["--edge-workset=off --edge-granularity=per-event"],
+    "datasynth/reachability2_workset_on.cif":                   ["--edge-workset=on  --edge-granularity=per-event"],
     "datasynth/simplify_ctrl_beh_off.cif":                      ["--bdd-simplify="],
     "datasynth/simplify_ctrl_beh_on.cif":                       ["--bdd-simplify=guards-ctrl-beh"],
     "datasynth/simplify_initial_plant_inv_off.cif":             ["--bdd-simplify="],
@@ -136,7 +147,8 @@ map(string:list string) test_options = {
     "datasynth/state_plant_invs_unctrl.cif":                    [opt_simplify_all],
     "datasynth/state_req_inv_all_ctrl_beh.cif":                 ["--state-req-invs=all-ctrl-beh"],
     "datasynth/state_req_inv_per_edge.cif":                     ["--state-req-invs=per-edge"],
-    "datasynth/stats.cif":                                      ["--stats=bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
+    "datasynth/stats.cif":                                      ["--stats=ctrl-sys-states,bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
+    "datasynth/stats_none.cif":                                 ["--stats="],
     "datasynth/traffic_lights_req_state_inv_all_ctrl_beh.cif":  ["--state-req-invs=all-ctrl-beh"],
     "datasynth/traffic_lights_req_state_inv_per_edge.cif":      ["--state-req-invs=per-edge"],
     "datasynth/supname_custom.cif":                             ["-s g"],
@@ -166,6 +178,9 @@ map(string:list string) test_options = {
     "datasynth/var_order_reverse_sorted_algos_on.cif":          ["-r reverse-sorted " + opt_algos_on + " " + opt_simplify_all],
     "datasynth/var_order_sorted_algos_off.cif":                 ["-r sorted " + opt_algos_off + " " + opt_simplify_all],
     "datasynth/var_order_sorted_algos_on.cif":                  ["-r sorted " + opt_algos_on + " " + opt_simplify_all],
+    "datasynth/workset_forward.cif":                            ["--edge-workset=on --edge-granularity=per-event --forward-reach=on"],
+    "datasynth/workset_with_edge_order_duplicate_events.cif":   ["--edge-workset=on --edge-granularity=per-event --edge-order-duplicate-events=allowed"],
+    "datasynth/workset_with_per_edge_edge_granularity.cif":     ["--edge-workset=on --edge-granularity=per-edge"],
 };
 set string test_skip = {};
 
@@ -352,7 +367,7 @@ for test in tests:
         // Print what we are testing.
         outln("Testing \"%s\" (state space size compare)...", test);
 
-        // Get number of states in controlled system, from debug output.
+        // Get number of states in controlled system, from statistics output.
         bool synth_states_exact = false;
         long synth_states_nr = -1;
         if isfile(test1_out_real):
@@ -362,8 +377,8 @@ for test in tests:
             // Find number of states, and exactness.
             for line in lines:
                 // Find line with useful information.
-                string pre_exact  = "Controlled system:                     exactly";
-                string pre_atmost = "Controlled system:                     at most";
+                string pre_exact  = "Controlled system: exactly";
+                string pre_atmost = "Controlled system: at most";
                 bool line_exact  = startswith(line, pre_exact);
                 bool line_atmost = startswith(line, pre_atmost);
                 if not line_exact and not line_atmost:: continue;

@@ -83,7 +83,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: r.x = 5 [initialization predicate]
@@ -102,7 +101,6 @@ Backward controlled-behavior: r.x = 5 [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: r.x != 5 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -113,7 +111,7 @@ Final synthesis result:
     Edge: (event: c) (guard: r.x = 5)
     Edge: (event: c) (guard: r.x != 5 -> false)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            r.x = 5
 Initial (uncontrolled system):         r.x = 5

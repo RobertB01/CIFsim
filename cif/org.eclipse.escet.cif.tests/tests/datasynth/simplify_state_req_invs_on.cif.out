@@ -166,7 +166,6 @@ Backward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (p.loc2 or p.x != 4) and (p.loc2 or p.x != 5) and ((p.loc2 or p.x != 3) and (p.loc1 or 0 <= p.x and p.x <= 3)) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.loc1 [initialization predicate]
@@ -188,7 +187,7 @@ Final synthesis result:
     Edge: (event: e) (guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5)) (assignments: p := p.loc2)
     Edge: (event: e) (guard: p.loc2 -> p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3)) (assignments: p := p.loc1)
 
-Controlled system:                     exactly 5 states.
+Controlled system: exactly 5 states.
 
 Initial (synthesis result):            p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))
 Initial (uncontrolled system):         p.loc1

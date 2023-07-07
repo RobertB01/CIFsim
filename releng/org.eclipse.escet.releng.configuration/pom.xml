@@ -16,7 +16,7 @@ SPDX-License-Identifier: MIT
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.escet</groupId>
     <artifactId>org.eclipse.escet.releng.configuration</artifactId>
-    <version>0.10.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -210,14 +210,7 @@ SPDX-License-Identifier: MIT
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>3.0.0</version>
-                    </dependency>
-                </dependencies>
+                <version>3.1.0</version>
                 <configuration>
                     <!-- Execute tests in alphabetical order, to make it easier to compare different build logs. -->
                     <runOrder>alphabetical</runOrder>

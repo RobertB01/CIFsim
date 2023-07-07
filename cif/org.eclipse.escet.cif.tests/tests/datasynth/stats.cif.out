@@ -82,7 +82,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: a.x = 1 [initialization predicate]
@@ -140,7 +139,6 @@ Backward controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: a.x = 0 or (a.x = 24 or a.x = 22) or (a.x = 25 or (a.x = 21 or a.x = 23)) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -151,7 +149,7 @@ Final synthesis result:
     Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
     Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
-Controlled system:                     exactly 20 states.
+Controlled system: exactly 20 states.
 
 Initial (synthesis result):            a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23)))
 Initial (uncontrolled system):         a.x = 1
@@ -168,7 +166,7 @@ BDD cache statistics:
   Node creation chain accesses: 2
   Node creation cache hits:     310
   Node creation cache misses:   407
-  Operation count:              2709
+  Operation count:              2711
   Operation cache hits:         535
   Operation cache misses:       996
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".

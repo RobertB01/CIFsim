@@ -74,7 +74,6 @@ Backward controlled-behavior: p.x = 0 or (p.x = 2 or p.x = 4) [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.x = 1 or p.x = 3 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 2 [initialization predicate]
@@ -93,7 +92,6 @@ Backward controlled-behavior: p.x = 2 [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.x != 2 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -105,7 +103,7 @@ Final synthesis result:
   State: (controlled-behavior: p.x = 2)
     Edge: (event: next) (guard: true -> p.x = 1) (assignments: p.x := (p.x + 1) mod count)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            p.x = 2
 Initial (uncontrolled system):         p.x = 2

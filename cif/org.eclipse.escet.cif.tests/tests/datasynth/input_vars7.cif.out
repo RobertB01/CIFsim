@@ -206,7 +206,7 @@ Final synthesis result:
     Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
-Controlled system:                     exactly 4 states.
+Controlled system: exactly 4 states.
 
 Initial (synthesis result):            p.b
 Initial (uncontrolled system):         p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)

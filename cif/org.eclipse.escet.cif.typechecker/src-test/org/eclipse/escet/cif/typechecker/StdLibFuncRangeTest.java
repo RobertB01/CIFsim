@@ -13,11 +13,11 @@
 
 package org.eclipse.escet.cif.typechecker;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifMath;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Standard library function range tests. Note that the 'pow' function is tested in the {@link PowerRangeTest} class,

@@ -2,28 +2,29 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF Data-based Synthesis (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.datasynth;singleton:=true
-Bundle-Version: 0.10.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.10.0",
- org.eclipse.escet.common.java;bundle-version="0.10.0",
- org.eclipse.escet.cif.io;bundle-version="0.10.0",
- org.eclipse.escet.cif.metamodel;bundle-version="0.10.0",
- org.eclipse.escet.setext.runtime;bundle-version="0.10.0",
- org.eclipse.escet.cif.parser;bundle-version="0.10.0",
- org.eclipse.escet.cif.typechecker;bundle-version="0.10.0",
- org.eclipse.escet.common.typechecker;bundle-version="0.10.0",
- org.eclipse.escet.common.eclipse.ui;bundle-version="0.10.0",
+Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="1.0.0",
+ org.eclipse.escet.common.java;bundle-version="1.0.0",
+ org.eclipse.escet.cif.io;bundle-version="1.0.0",
+ org.eclipse.escet.cif.metamodel;bundle-version="1.0.0",
+ org.eclipse.escet.setext.runtime;bundle-version="1.0.0",
+ org.eclipse.escet.cif.parser;bundle-version="1.0.0",
+ org.eclipse.escet.cif.typechecker;bundle-version="1.0.0",
+ org.eclipse.escet.common.typechecker;bundle-version="1.0.0",
+ org.eclipse.escet.common.eclipse.ui;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.13.600",
- org.eclipse.escet.cif.metamodel.java;bundle-version="0.10.0",
+ org.eclipse.escet.cif.metamodel.java;bundle-version="1.0.0",
  org.apache.commons.lang3;bundle-version="3.1.0",
- org.eclipse.escet.cif.common;bundle-version="0.10.0",
- org.eclipse.escet.common.emf;bundle-version="0.10.0",
- org.eclipse.escet.cif.cif2cif;bundle-version="0.10.0",
- org.eclipse.escet.common.box;bundle-version="0.10.0",
+ org.eclipse.escet.cif.common;bundle-version="1.0.0",
+ org.eclipse.escet.common.emf;bundle-version="1.0.0",
+ org.eclipse.escet.cif.cif2cif;bundle-version="1.0.0",
+ org.eclipse.escet.common.box;bundle-version="1.0.0",
  org.eclipse.jface.text;bundle-version="3.20.100",
- com.github.com-github-javabdd.com.github.javabdd;bundle-version="5.0.0"
+ com.github.com-github-javabdd.com.github.javabdd;bundle-version="6.0.0"
+Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.cif.datasynth,
  org.eclipse.escet.cif.datasynth.bdd,
  org.eclipse.escet.cif.datasynth.conversion,
@@ -36,5 +37,6 @@ Export-Package: org.eclipse.escet.cif.datasynth,
  org.eclipse.escet.cif.datasynth.varorder.metrics,
  org.eclipse.escet.cif.datasynth.varorder.orderers,
  org.eclipse.escet.cif.datasynth.varorder.parser,
- org.eclipse.escet.cif.datasynth.varorder.parser.ast
+ org.eclipse.escet.cif.datasynth.varorder.parser.ast,
+ org.eclipse.escet.cif.datasynth.workset.dependencies
 Automatic-Module-Name: org.eclipse.escet.cif.datasynth

@@ -30,6 +30,9 @@ public enum SynthesisStatistics {
     /** Maximum used BDD nodes. */
     BDD_PERF_MAX_NODES,
 
+    /** Controlled system states. */
+    CTRL_SYS_STATES,
+
     /** Timing. */
     TIMING,
 

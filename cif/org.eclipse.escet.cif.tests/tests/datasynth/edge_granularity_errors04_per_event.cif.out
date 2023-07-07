@@ -171,7 +171,7 @@ Final synthesis result:
   State: (controlled-behavior: p.l2)
     Edge: (event: e) (guard: p.x = 7 and p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := p.x + 1, p := p.l2)
 
-Controlled system:                     exactly 0 states.
+Controlled system: exactly 0 states.
 
 Initial (synthesis result):            p.l2
 Initial (uncontrolled system):         p.l1

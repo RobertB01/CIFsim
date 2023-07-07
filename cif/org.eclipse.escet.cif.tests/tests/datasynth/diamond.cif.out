@@ -203,7 +203,6 @@ Controlled behavior: true -> motor1.Off and (order.l1 and motor2.On) or (motor1.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (motor1.On or (not order.l1 or motor2.Off)) and ((motor1.Off or (not order.l3 or motor2.On)) and (motor1.Off or order.l1 or (order.l3 or motor2.Off))) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) [initialization predicate]
@@ -235,7 +234,7 @@ Final synthesis result:
     Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On -> motor1.On and (order.l2 and motor2.On)) (assignments: motor2 := motor2.Off, order := order.l3)
     Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false) (assignments: motor2 := motor2.Off)
 
-Controlled system:                     exactly 4 states.
+Controlled system: exactly 4 states.
 
 Initial (synthesis result):            motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))
 Initial (uncontrolled system):         motor1.Off and (order.l1 and motor2.On)

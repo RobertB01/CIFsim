@@ -14,14 +14,15 @@
 package org.eclipse.escet.cif.eventbased.automata;
 
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the automaton construction data structures. */
 @SuppressWarnings("javadoc")
@@ -73,7 +74,7 @@ public class AutomatonDataStructureTest {
         assertEquals(loc, aut.initial);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void testOnlyOneInitialState() {
         Set<Event> alphabet = set();
         Automaton aut = new Automaton(alphabet);
@@ -82,7 +83,7 @@ public class AutomatonDataStructureTest {
         assertEquals(loc, aut.initial);
 
         // Try to set the initial location again (and fail).
-        aut.setInitial(loc);
+        assertThrows(AssertionError.class, () -> aut.setInitial(loc));
     }
 
     /** Count the number of edges returned by the iterator. */

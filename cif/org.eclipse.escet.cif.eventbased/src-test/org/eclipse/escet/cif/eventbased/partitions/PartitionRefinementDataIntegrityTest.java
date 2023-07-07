@@ -14,10 +14,10 @@
 package org.eclipse.escet.cif.eventbased.partitions;
 
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Set;
 
@@ -25,8 +25,8 @@ import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
 import org.eclipse.escet.cif.eventbased.automata.Location;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
 public class PartitionRefinementDataIntegrityTest {
@@ -36,7 +36,7 @@ public class PartitionRefinementDataIntegrityTest {
 
     public Location loc3;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Event e = new Event("e", EventControllability.CONTR_EVENT);
         Automaton aut = new Automaton(set(e));

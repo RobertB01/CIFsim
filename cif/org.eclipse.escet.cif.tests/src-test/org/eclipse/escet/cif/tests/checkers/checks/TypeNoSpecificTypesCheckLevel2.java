@@ -18,7 +18,7 @@ import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.common.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 
 /**
  * {@link TypeNoSpecificTypesCheck} with all level 2 disalloweds enabled.

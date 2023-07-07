@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -29,10 +28,9 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
-import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenResult;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -90,9 +88,9 @@ public class DefaultVariableStorage implements VariableStorage {
         // TODO Initialize input variables by reading the sensors.
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
-            ExprGenResult exprResult;
+            ExprValueResult exprResult;
             if (decl instanceof DiscVariable discVar) {
-                exprResult = exprGen.convertExpr(first(discVar.getValue().getValues()));
+                exprResult = exprGen.convertValue(first(discVar.getValue().getValues()));
             } else {
                 throw new AssertionError("Unexpected kind of variable " + decl);
             }
@@ -109,32 +107,41 @@ public class DefaultVariableStorage implements VariableStorage {
     public CifDataProvider getRootCifDataProvider() {
         return new CifDataProvider() {
             @Override
-            public PlcExpression getExprForConstant(Constant constant) {
+            public PlcExpression getValueForConstant(Constant constant) {
                 // TODO Return the proper PLC expression for the requested constant.
                 return new PlcVarExpression(new PlcVariable("someConstantvariable", PlcElementaryType.LREAL_TYPE));
             }
 
             @Override
-            public PlcExpression getExprForDiscVar(DiscVariable variable) {
+            public PlcExpression getValueForDiscVar(DiscVariable variable) {
+                // TODO Return the proper PLC expression for the requested discrete variable.
                 PlcVariable plcDiscvar = variables.get(variable);
                 Assert.notNull(plcDiscvar);
                 return new PlcVarExpression(plcDiscvar);
             }
 
             @Override
-            public PlcExpression getExprForContvar(ContVariable variable, boolean getDerivative) {
+            public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
+                // TODO Return the proper PLC expression for the requested discrete variable.
+                PlcVariable plcDiscvar = variables.get(variable);
+                Assert.notNull(plcDiscvar);
+                return new PlcVarExpression(plcDiscvar);
+            }
+
+            @Override
+            public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
                 // TODO Return the proper PLC expression for the requested continuous variable.
                 return new PlcVarExpression(new PlcVariable("someContvariable", PlcElementaryType.LREAL_TYPE));
             }
 
             @Override
-            public PlcExpression getExprForLocation(Location location) {
-                // TODO Return the proper PLC expression for the requested location.
-                return new PlcBoolLiteral(false);
+            public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
+                // TODO Return the proper PLC expression for the requested continuous variable.
+                return new PlcVarExpression(new PlcVariable("someContvariable", PlcElementaryType.LREAL_TYPE));
             }
 
             @Override
-            public PlcExpression getExprForInputVar(InputVariable variable) {
+            public PlcExpression getValueForInputVar(InputVariable variable) {
                 PlcVariable plcInpvar = variables.get(variable);
                 Assert.notNull(plcInpvar);
                 return new PlcVarExpression(plcInpvar);

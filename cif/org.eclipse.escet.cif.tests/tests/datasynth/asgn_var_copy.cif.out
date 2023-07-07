@@ -186,7 +186,6 @@ Controlled behavior: <bdd 13n 54p> -> <bdd 14n 54p>.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 14n 109p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: <bdd 14n 81p> [initialization predicate]
@@ -207,7 +206,6 @@ Backward controlled-behavior: <bdd 12n 27p> [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 12n 82p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -223,7 +221,7 @@ Final synthesis result:
     Edge: (event: p.c2) (guard: true -> p.b = 2 and (p.c = 4 or p.c = 6) and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4)) or p.b = 2 and (p.c = 4 or p.c = 6) and (p.x = 2 and (p.y = 0 or p.y = 4)) or (p.b = 2 and (p.c = 4 or p.c = 6) and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)) or p.b = 2 and p.c = 5 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4))) or (p.b = 2 and p.c = 5 and (p.x = 2 and (p.y = 0 or p.y = 4)) or p.b = 2 and p.c = 5 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)) or (p.b = 2 and p.c = 3 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4)) or (p.b = 2 and p.c = 3 and (p.x = 2 and (p.y = 0 or p.y = 4)) or p.b = 2 and p.c = 3 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4))))) or ((p.b = 1 or p.b = 3) and (p.c = 4 or p.c = 6) and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4)) or (p.b = 1 or p.b = 3) and (p.c = 4 or p.c = 6) and (p.x = 2 and (p.y = 0 or p.y = 4)) or ((p.b = 1 or p.b = 3) and (p.c = 4 or p.c = 6) and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)) or (p.b = 1 or p.b = 3) and p.c = 5 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4))) or ((p.b = 1 or p.b = 3) and p.c = 5 and (p.x = 2 and (p.y = 0 or p.y = 4)) or (p.b = 1 or p.b = 3) and p.c = 5 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)) or ((p.b = 1 or p.b = 3) and p.c = 3 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4)) or ((p.b = 1 or p.b = 3) and p.c = 3 and (p.x = 2 and (p.y = 0 or p.y = 4)) or (p.b = 1 or p.b = 3) and p.c = 3 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4))))))) (assignments: p.a := p.b)
     Edge: (event: p.c3) (guard: true -> p.b = 4 and p.c = 3 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4)) or p.b = 4 and p.c = 3 and (p.x = 2 and (p.y = 0 or p.y = 4)) or (p.b = 4 and p.c = 3 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)) or (p.b = 2 or p.b = 6) and p.c = 3 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4))) or ((p.b = 2 or p.b = 6) and p.c = 3 and (p.x = 2 and (p.y = 0 or p.y = 4)) or (p.b = 2 or p.b = 6) and p.c = 3 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)) or ((p.b = 1 or p.b = 3 or (p.b = 5 or p.b = 7)) and p.c = 3 and ((p.x = 0 or p.x = 4) and (p.y = 0 or p.y = 4)) or ((p.b = 1 or p.b = 3 or (p.b = 5 or p.b = 7)) and p.c = 3 and (p.x = 2 and (p.y = 0 or p.y = 4)) or (p.b = 1 or p.b = 3 or (p.b = 5 or p.b = 7)) and p.c = 3 and ((p.x = 1 or p.x = 3) and (p.y = 0 or p.y = 4)))))) (assignments: p.a := p.c)
 
-Controlled system:                     exactly 1,120 states.
+Controlled system: exactly 1,120 states.
 
 Initial (synthesis result):            <bdd 12n 27p>
 Initial (uncontrolled system):         <bdd 14n 81p>

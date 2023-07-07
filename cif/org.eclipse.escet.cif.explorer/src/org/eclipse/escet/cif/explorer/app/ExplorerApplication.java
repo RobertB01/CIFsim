@@ -23,12 +23,12 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
 
+import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.checkers.CifChecker;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesNoRefsOptimized;
-import org.eclipse.escet.cif.common.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.checkers.CifChecker;
 import org.eclipse.escet.cif.explorer.CifAutomatonBuilder;
 import org.eclipse.escet.cif.explorer.ExplorerPreChecker;
 import org.eclipse.escet.cif.explorer.ExplorerPreChecker.CheckParameters;

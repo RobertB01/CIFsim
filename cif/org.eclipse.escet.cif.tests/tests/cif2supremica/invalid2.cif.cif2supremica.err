@@ -1,3 +1,5 @@
+WARNING: File "cif2supremica/invalid2.cif": Semantic warning at line 34, column 20: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2supremica/invalid2.cif": Semantic warning at line 35, column 20: The switch expression has only one case, which is deprecated.
 ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
 
   -------------------------------------------
@@ -367,7 +369,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   -----------------------------------------------------
    * In location "p.l":
      - plant invariant b;
-                       ^
+             ^
 
   ------------------------------------------------------------------------
   (41/43) Unary operator "+" is used on a rangeless integer typed operand.

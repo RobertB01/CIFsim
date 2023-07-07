@@ -169,7 +169,6 @@ Backward controlled-behavior: <bdd 12n 25p> [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 12n 26p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 5 and p.y = 6 [initialization predicate]
@@ -213,7 +212,6 @@ Backward controlled-behavior: p.x != 0 and (p.x != 8 or (0 <= p.y and p.y <= 7 o
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 11n 26p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -229,7 +227,7 @@ Final synthesis result:
     Edge: (event: b) (guard: true -> p.x = 8 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 8 and (p.y = 2 or p.y = 3) or p.x = 4 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 4 and (p.y = 2 or p.y = 3) or (p.x = 6 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or p.x = 6 and (p.y = 2 or p.y = 3))) or (p.x = 9 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 9 and (p.y = 2 or p.y = 3) or p.x = 5 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 5 and (p.y = 2 or p.y = 3) or ((p.x = 3 or p.x = 7) and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 3 or p.x = 7) and (p.y = 2 or p.y = 3))))) (assignments: p.x := p.x - 1, p.y := p.y + 1)
     Edge: (event: c) (guard: true -> p.x != 0 and (p.x != 8 or not(p.y = 0 or p.y = 8)) and ((p.x != 8 or p.y != 10) and (p.x != 8 or p.y != 9)) and ((p.x != 4 or not(p.y = 0 or p.y = 8)) and (p.x != 4 or p.y != 10) and ((p.x != 4 or p.y != 9) and ((not(p.x = 2 or p.x = 6) or not(p.y = 0 or p.y = 8)) and (not(p.x = 2 or p.x = 6) or p.y != 10)))) and ((not(p.x = 2 or p.x = 6) or p.y != 9) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or not(p.y = 0 or p.y = 8))) and ((p.x != 5 or p.y != 10) and (p.x != 5 or p.y != 9) and ((not(p.x = 3 or p.x = 7) or not(p.y = 0 or p.y = 8)) and ((not(p.x = 3 or p.x = 7) or p.y != 10) and (not(p.x = 3 or p.x = 7) or p.y != 9)))))) (assignments: p.y := p.y - 1)
 
-Controlled system:                     exactly 49 states.
+Controlled system: exactly 49 states.
 
 Initial (synthesis result):            p.x != 0 and (p.x != 8 or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((p.x != 8 or p.y != 9) and (p.x != 8 or p.y != 7)) and ((p.x != 4 or (0 <= p.y and p.y <= 7 or p.y = 9)) and (p.x != 4 or p.y != 9) and ((p.x != 4 or p.y != 7) and ((not(p.x = 2 or p.x = 6) or (0 <= p.y and p.y <= 7 or p.y = 9)) and (not(p.x = 2 or p.x = 6) or p.y != 9)))) and ((not(p.x = 2 or p.x = 6) or p.y != 7) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or (0 <= p.y and p.y <= 7 or p.y = 9))) and ((p.x != 5 or p.y != 9) and (p.x != 5 or p.y != 7) and ((not(p.x = 3 or p.x = 7) or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((not(p.x = 3 or p.x = 7) or p.y != 9) and (not(p.x = 3 or p.x = 7) or p.y != 7)))))
 Initial (uncontrolled system):         p.x = 5 and p.y = 6

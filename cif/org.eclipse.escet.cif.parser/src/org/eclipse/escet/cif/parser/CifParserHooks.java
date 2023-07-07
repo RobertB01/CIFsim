@@ -563,59 +563,53 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new ATypeDefDecl(l2, t1.position);
     }
 
-    @Override // Decl : ENUMKW Identifier EQTK @CUROPENTK Identifiers CURCLOSETK SEMICOLTK;
-    public ADecl parseDecl02(AIdentifier a2, Token t4, List<AIdentifier> l5) {
-        parser.addWarning("Enumeration declaration variant with curly brackets is deprecated.", t4.position);
-        return new AEnumDecl(a2.id, l5, a2.position);
-    }
-
     @Override // Decl : ENUMKW Identifier EQTK Identifiers SEMICOLTK;
-    public ADecl parseDecl03(AIdentifier a2, List<AIdentifier> l4) {
+    public ADecl parseDecl02(AIdentifier a2, List<AIdentifier> l4) {
         return new AEnumDecl(a2.id, l4, a2.position);
     }
 
     @Override // Decl : OptControllability @EVENTKW Identifiers SEMICOLTK;
-    public ADecl parseDecl04(Token t1, Token t2, List<AIdentifier> l3) {
+    public ADecl parseDecl03(Token t1, Token t2, List<AIdentifier> l3) {
         return new AEventDecl(t1, l3, null, t2.position);
     }
 
     @Override // Decl : OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl05(Token t1, Token t2, ACifType a3, List<AIdentifier> l4) {
+    public ADecl parseDecl04(Token t1, Token t2, ACifType a3, List<AIdentifier> l4) {
         return new AEventDecl(t1, l4, a3, t2.position);
     }
 
     @Override // Decl : Controllability Identifiers SEMICOLTK;
-    public ADecl parseDecl06(Token t1, List<AIdentifier> l2) {
+    public ADecl parseDecl05(Token t1, List<AIdentifier> l2) {
         return new AEventDecl(t1, l2, null, t1.position);
     }
 
     @Override // Decl : Controllability EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl07(Token t1, ACifType a2, List<AIdentifier> l3) {
+    public ADecl parseDecl06(Token t1, ACifType a2, List<AIdentifier> l3) {
         return new AEventDecl(t1, l3, a2, t1.position);
     }
 
     @Override // Decl : @CONSTKW Type ConstantDefs SEMICOLTK;
-    public ADecl parseDecl08(Token t1, ACifType a2, List<AConstant> l3) {
+    public ADecl parseDecl07(Token t1, ACifType a2, List<AConstant> l3) {
         return new AConstDecl(a2, l3, t1.position);
     }
 
     @Override // Decl : @ALGKW Type AlgVarsDefs SEMICOLTK;
-    public ADecl parseDecl09(Token t1, ACifType a2, List<AAlgVariable> l3) {
+    public ADecl parseDecl08(Token t1, ACifType a2, List<AAlgVariable> l3) {
         return new AAlgVariableDecl(a2, l3, t1.position);
     }
 
     @Override // Decl : @INPUTKW Type Identifiers SEMICOLTK;
-    public ADecl parseDecl10(Token t1, ACifType a2, List<AIdentifier> l3) {
+    public ADecl parseDecl09(Token t1, ACifType a2, List<AIdentifier> l3) {
         return new AInputVariableDecl(a2, l3, t1.position);
     }
 
     @Override // Decl : @CONTKW ContDecls SEMICOLTK;
-    public ADecl parseDecl11(Token t1, List<AContVariable> l2) {
+    public ADecl parseDecl10(Token t1, List<AContVariable> l2) {
         return new AContVariableDecl(l2, t1.position);
     }
 
     @Override // Decl : @EQUATIONKW Equations SEMICOLTK;
-    public ADecl parseDecl12(Token t1, List<AEquation> l2) {
+    public ADecl parseDecl11(Token t1, List<AEquation> l2) {
         AEquationDecl rslt = new AEquationDecl(l2, t1.position);
         for (AEquation eqn: l2) {
             // Set parent of the equation.
@@ -625,22 +619,22 @@ public final class CifParserHooks implements CifParser.Hooks {
     }
 
     @Override // Decl : @INITIALKW Expressions SEMICOLTK;
-    public ADecl parseDecl13(Token t1, List<AExpression> l2) {
+    public ADecl parseDecl12(Token t1, List<AExpression> l2) {
         return new AInitialDecl(l2, t1.position);
     }
 
     @Override // Decl : InvariantDecls;
-    public ADecl parseDecl14(AInvariantDecl a1) {
+    public ADecl parseDecl13(AInvariantDecl a1) {
         return a1;
     }
 
     @Override // Decl : @MARKEDKW Expressions SEMICOLTK;
-    public ADecl parseDecl15(Token t1, List<AExpression> l2) {
+    public ADecl parseDecl14(Token t1, List<AExpression> l2) {
         return new AMarkedDecl(l2, t1.position);
     }
 
     @Override // Decl : IoDecl;
-    public ADecl parseDecl16(AIoDecl a1) {
+    public ADecl parseDecl15(AIoDecl a1) {
         return a1;
     }
 
@@ -1026,7 +1020,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // LocationElement : InvariantDecls;
     public ALocationElement parseLocationElement3(AInvariantDecl a1) {
-        return new AInvariantLocationElement(a1.kind, a1.invariants, a1.position);
+        return new AInvariantLocationElement(a1);
     }
 
     @Override // LocationElement : @EQUATIONKW Equations SEMICOLTK;
@@ -1278,22 +1272,22 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Invariant : Expression;
     public AInvariant parseInvariant1(AExpression a1) {
-        return new AInvariant(null, a1, null, null, a1.position);
+        return new AInvariant(null, a1, null, null);
     }
 
     @Override // Invariant : Identifier COLONTK Expression;
     public AInvariant parseInvariant2(AIdentifier a1, AExpression a3) {
-        return new AInvariant(a1, a3, null, null, a3.position);
+        return new AInvariant(a1, a3, null, null);
     }
 
     @Override // Invariant : Name @NEEDSKW Expression;
     public AInvariant parseInvariant3(AName a1, Token t2, AExpression a3) {
-        return new AInvariant(null, a3, t2, list(a1), t2.position);
+        return new AInvariant(null, a3, t2, list(a1));
     }
 
     @Override // Invariant : Identifier COLONTK Name @NEEDSKW Expression;
     public AInvariant parseInvariant4(AIdentifier a1, AName a3, Token t4, AExpression a5) {
-        return new AInvariant(a1, a5, t4, list(a3), t4.position);
+        return new AInvariant(a1, a5, t4, list(a3));
     }
 
     @Override // Invariant : NonEmptySetExpression @NEEDSKW Expression;
@@ -1308,22 +1302,22 @@ public final class CifParserHooks implements CifParser.Hooks {
                 throw new CustomSyntaxException(msg, elem.position);
             }
         }
-        return new AInvariant(null, a3, t2, events, t2.position);
+        return new AInvariant(null, a3, t2, events);
     }
 
     @Override // Invariant : Expression @DISABLESKW Name;
     public AInvariant parseInvariant6(AExpression a1, Token t2, AName a3) {
-        return new AInvariant(null, a1, t2, list(a3), t2.position);
+        return new AInvariant(null, a1, t2, list(a3));
     }
 
     @Override // Invariant : Identifier COLONTK Expression @DISABLESKW Name;
     public AInvariant parseInvariant7(AIdentifier a1, AExpression a3, Token t4, AName a5) {
-        return new AInvariant(a1, a3, t4, list(a5), t4.position);
+        return new AInvariant(a1, a3, t4, list(a5));
     }
 
     @Override // Invariant : Expression @DISABLESKW NamesSet;
     public AInvariant parseInvariant8(AExpression a1, Token t2, List<AName> l3) {
-        return new AInvariant(null, a1, t2, l3, t2.position);
+        return new AInvariant(null, a1, t2, l3);
     }
 
     @Override // NamesSet : CUROPENTK Names CURCLOSETK;

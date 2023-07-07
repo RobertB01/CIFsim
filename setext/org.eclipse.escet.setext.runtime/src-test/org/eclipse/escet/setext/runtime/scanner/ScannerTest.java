@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.runtime.scanner;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.Scanner;
 import org.eclipse.escet.setext.runtime.Token;
 import org.eclipse.escet.setext.runtime.exceptions.ScanException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link Scanner} class. */
 public class ScannerTest {

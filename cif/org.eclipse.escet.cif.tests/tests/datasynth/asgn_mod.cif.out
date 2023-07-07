@@ -192,7 +192,6 @@ Controlled behavior: <bdd 15n 243p> -> <bdd 21n 4p>.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 21n 41p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: <bdd 16n 243p> [initialization predicate]
@@ -220,7 +219,7 @@ Final synthesis result:
     Edge: (event: p.em4) (guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) (assignments: p.m4 := p.m4 mod 4, p := p.loc2)
     Edge: (event: p.em5) (guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) (assignments: p.m5 := p.m5 mod 5, p := p.loc2)
 
-Controlled system:                     exactly 4 states.
+Controlled system: exactly 4 states.
 
 Initial (synthesis result):            <bdd 21n 4p>
 Initial (uncontrolled system):         <bdd 16n 243p>

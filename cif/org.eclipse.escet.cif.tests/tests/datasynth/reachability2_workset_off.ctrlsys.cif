@@ -1,0 +1,20 @@
+plant automaton p:
+  uncontrollable u_inc;
+  uncontrollable u_dec;
+  uncontrollable u_switch;
+  disc int[0..5] x;
+  location increase:
+    initial;
+    marked;
+    edge u_inc when x < 5 do x := x + 1;
+    edge u_switch when x = 5 goto decrease;
+  location decrease:
+    edge u_dec when x > 0 do x := x - 1;
+    edge u_switch when x = 0 goto increase;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end

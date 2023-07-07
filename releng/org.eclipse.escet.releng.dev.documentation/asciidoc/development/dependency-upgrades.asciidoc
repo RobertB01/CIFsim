@@ -57,7 +57,7 @@ You also have to cleanup or remove your old development environments, in case yo
 ** Alternative 2: in-place upgrade of an existing development environment.
 *** The benefit of this alternative is that you can keep your existing environment, preventing multiple such environments as well as manual migrations.
 The downside is that you run the risk of older things remaining in your development environment, requiring manual cleanup.
-*** Update the _P2 Director_ section of the Oomph setup, if needed.
+*** Update the _P2 Director_ section of the Oomph setup (`org.eclipse.escet.setup`), if needed.
 Especially, consider what is no longer compatible with the new Eclipse version and remove it, or replace it by an alternative.
 *** If you removed anything from the _P2 Director_ section of the Oomph setup, also remove it manually from your development environment:
 **** Click menu:Help[About Eclipse Platform].
@@ -72,8 +72,8 @@ Especially, consider what is no longer compatible with the new Eclipse version a
 **** In the _Properties_ view, change the _Product Version_ to the _Eclipse Platform_ edition of the new Eclipse version.
 **** Save the `installation.setup` file.
 **** Click menu:File[Restart].
-**** Once Eclipse restarts, you may see some initialization progress at the bottom right corner of the development environment window.
-**** Wait for the _Eclipse Update_ dialog to appear, indicating that _The installation does not satisfy the requirements listed below_.
+**** Once Eclipse restarts, you should see some initialization progress at the bottom right corner of the development environment window.
+**** Wait for the _Eclipse Update_ dialog to appear, indicating that _The installation does not satisfy the requirements list below_.
 **** Click the btn:[Install] button to update Eclipse.
 **** Wait for the update to complete, while observing the progress at the bottom right corner of the development environment window.
 **** If a _Trust_ dialog appears, click btn:[Select All] and then btn:[Trust Selected].

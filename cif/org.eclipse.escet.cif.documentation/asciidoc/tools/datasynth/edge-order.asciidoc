@@ -16,17 +16,20 @@ indexterm:[data-based supervisory controller synthesis,edge order]
 [[tools-datasynth-edge-order]]
 == Edge order
 
-Data-based supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (<<tools-datasynth-forward-reach,forward reachability>>), or which states can reach which other states (backward reachability).
+Data-based supervisor synthesis involves many <<tools-datasynth-fixed-point-order,reachability computations>> to determine which states can be reached from which other states (<<tools-datasynth-forward-reach,forward reachability>>), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.
 
-During reachability computations the edges are considered one by one to find more reachable states.
-Regardless of whether an edge leads to new states being found or not, the search always continues with the next edge.
-As long as new states are found, the edges will keep being applied one after the other.
-After the last edge has been considered, the first edge is considered again, then the second one, etc.
-Only once all edges have been applied and none of them lead to new states being found has a fixed point been reached and the computation stops.
+Synthesis does not directly use the edges from the model.
+It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
+Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
+Furthermore, edges may be combined to form <<tools-datasynth-edge-granularity,less granular>> edges, before they are used for reachability computations.
+
+During reachability computations the edges are then considered one by one to find more reachable states.
+As long as new states are found, the edges will keep being followed.
+Once it is clear that considering edges no longer leads to finding new states, a fixed point has been reached and the computation stops.
 
 The order in which the edges are considered for such computations has no effect on the final fixed point result.
-The order can however significantly influence the performance of supervisor synthesis.
+The order can however significantly influence the <<tools-datasynth-performance,performance>> of supervisor synthesis.
 For instance, consider that there are dozens of edges and from the already discovered states there is only one edge that leads to more states being found.
 Then considering that one particular edge first will immediately lead to more states being found.
 Considering other edges first will lead to wasted computations, as they won't find any new states.
@@ -35,12 +38,55 @@ Besides finding or not finding new states, which new states are found first and 
 It may lead to smaller or larger intermediate BDD representations of predicates.
 See the <<tools-datasynth-var-order,section about BDD variable order>> for more information.
 
-Synthesis does not directly use the edges from the model.
-It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
-Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
-Furthermore, edges may be combined to form <<tools-datasynth-edge-granularity,less granular>> edges, before they are used for reachability computations.
+=== Two approaches
 
-The order in which the edges are considered for reachability computations is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
+There are two approaches that determine the order in which edges are considered:
+
+* _Fixed order_:
++
+A fixed order is determined upfront, before any reachability computations.
+Each of the edges is considered in that fixed order, one after the other.
+Regardless of whether an edge leads to new states being found or not, the search always continues with the next edge from the fixed order.
+After the last edge has been considered, the first edge is considered again, then the second one, etc.
+A fixed point is reached once:
++
+** All edges have been considered at least once.
+** Since all edges have last been considered, no new states were found.
+
+* _Workset algorithm_:
++
+The order in which the edges are considered is dynamic, rather than fixed.
+The algorithm works as follows:
++
+--
+** Initially, all edges are in a workset.
+** While the workset is not empty:
+*** Select an edge from the workset.
+In principle any edge may be selected, but using a smart heuristic improves performance.
+*** Use the selected edge to find new states, repeatedly, until it no longer has an effect (no longer finds new states).
+*** If any new states were found using the selected edge (it had an effect), add the dependencies of that edge to the workset.
+The dependencies of an edge are those other edges that may be enabled after using it.
+*** Remove the selected edge from the workset.
+--
++
+The workset algorithm can only be used in combination with a 'per event' <<tools-datasynth-edge-granularity,edge granularity>>.
+The workset algorithm can not be used when duplicate events are allowed in a <<tools-datasynth-edge-order-custom,custom edge order>>.
++
+The workset algorithm is experimental.
+
+Which approach to use during synthesis, can be configured using the _Edge workset algorithm_ option (see the <<tools-datasynth-options,options section>>).
+By default a fixed order is used, and the workset algorithm is disabled.
+By enabling the workset algorithm, it is used instead.
+
+Which approach works best depends on the model.
+The workset algorithm may perform better than a fixed order, if a suitable heuristic is used to select the next edge to use.
+
+=== Configuring the order
+
+The order in which the edges are considered when a fixed order is used, is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
+If the workset algorithm is used, the edges in the workset are ordered according to the configured order.
+Since the workset algorithm always selects the first edge in the workset, the configured order thus influences the order in which edges are selected by the workset algorithm.
+
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the _model ordering_ is used for both backward and forward reachability computations.
 The following orders can be used:
@@ -80,6 +126,7 @@ That is, using the same seed again, results in the same random order.
 The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
 For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
 
+[[tools-datasynth-edge-order-custom]]
 * _custom ordering_
 +
 Custom orders consist of absolute names of events and input variables.

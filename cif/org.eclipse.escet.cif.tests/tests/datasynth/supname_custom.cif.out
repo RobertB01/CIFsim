@@ -55,7 +55,6 @@ Backward reachability: iteration 1.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: true [initialization predicate]
@@ -69,7 +68,7 @@ Final synthesis result:
   State: (controlled-behavior: true)
     Edge: (event: g.h.c) (guard: true)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         true

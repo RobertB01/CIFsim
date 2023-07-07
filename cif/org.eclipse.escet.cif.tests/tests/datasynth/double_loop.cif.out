@@ -287,7 +287,7 @@ Final synthesis result:
     Edge: (event: c1) (guard: p.m2 -> <bdd 21n 56p>) (assignments: p.x := p.x + 1, p := p.t1)
     Edge: (event: c2) (guard: p.m2 -> <bdd 21n 77p>) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b1)
 
-Controlled system:                     exactly 2,110 states.
+Controlled system: exactly 2,110 states.
 
 Initial (synthesis result):            <bdd 105n 1,102p>
 Initial (uncontrolled system):         <bdd 14n 64p>

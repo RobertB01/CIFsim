@@ -175,7 +175,7 @@ Computing controlled system guards.
 Final synthesis result:
   State: (controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1)
 
-Controlled system:                     exactly 2 states.
+Controlled system: exactly 2 states.
 
 Initial (synthesis result):            p.x = 0 and p.l2 or p.x = 3 and p.l1
 Initial (uncontrolled system):         true

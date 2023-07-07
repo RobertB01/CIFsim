@@ -177,7 +177,6 @@ Controlled behavior: true -> not pe.c.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: pe.c [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
@@ -201,7 +200,6 @@ Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point]
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: pe.c or (q1.x != 0 or q1.y != 1) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -225,7 +223,7 @@ Final synthesis result:
     Edge: (event: f1) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
     Edge: (event: f2) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
 
-Controlled system:                     exactly 2 states.
+Controlled system: exactly 2 states.
 
 Initial (synthesis result):            not pe.c and (q1.x = 0 and q1.y = 1)
 Initial (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)

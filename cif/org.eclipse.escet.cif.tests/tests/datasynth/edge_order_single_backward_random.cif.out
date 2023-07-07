@@ -206,7 +206,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: Counter.zero and Actuator.Off [initialization predicate]
@@ -245,7 +244,7 @@ Final synthesis result:
     Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
     Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
 
-Controlled system:                     exactly 12 states.
+Controlled system: exactly 12 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         Counter.zero and Actuator.Off

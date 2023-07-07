@@ -15,12 +15,12 @@ package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.ArrayUtils.array;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the methods of the {@link ArrayUtils} class. */
 public class ArrayUtilsTest {

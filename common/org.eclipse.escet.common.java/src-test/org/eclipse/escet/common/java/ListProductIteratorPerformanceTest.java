@@ -15,12 +15,12 @@ package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Performance tests for the {@link ListProductIterator}. Compares the performance for the case where all sub-lists have
@@ -77,7 +77,7 @@ public class ListProductIteratorPerformanceTest {
     /** Dummy test. */
     @Test
     public void testDummy() {
-        // Dummy test to avoid warnings about org.junit.Test not being used,
+        // Dummy test to avoid warnings about org.junit.jupiter.api.Test not being used,
         // when the actual tests are disabled.
     }
 

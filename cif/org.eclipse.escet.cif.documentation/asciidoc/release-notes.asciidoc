@@ -22,14 +22,26 @@ The release notes for the versions of CIF and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.10
+=== Version 1.0
 
 TBD
 
+=== Version 0.10 (2023-06-30)
+
 Language changes:
 
+* Switch expressions with only a single `case` or `else` are now deprecated (issue {escet-issue}612[#612]).
 * The CIF type checker now allows omitting the `else` part of `switch` expressions in more situations, when it can be statically determined that the `switch` expression is complete without it.
 The type checker has also been improved, regarding detection of duplicate and missing switch cases, and superfluous ``else``s (issue {escet-issue}548[#548]).
+
+Deprecations and removals:
+
+* The curly-brackets syntax for declaring enumerations was deprecated in 2014 and has now been removed.
+Use the syntax without curly brackets instead (issue {escet-issue}613[#613]).
+* The CIF PLC code generator's _Eliminate enumerations_ option was deprecated in release v0.2 and has now been removed.
+Use the _Convert enumerations_ option instead, which allows for more control (issue {escet-issue}613[#613]).
+* The CIF to CIF transformation to eliminate enumerations (`elim-enums`) was deprecated in release v0.2 and has now been removed.
+Use the transformation to convert enumerations to integers (`enums-to-ints`) instead, as it has the same functionality (issue {escet-issue}613[#613]).
 
 New features:
 
@@ -37,11 +49,22 @@ New features:
 Previously, the linearized edges were used 'as is'.
 Now, they are merged per event, to obtain a single edge per event.
 The option can be used to restore the old behavior.
-The new edge granularity has been shown to reduce both the memory usage and time required to perform synthesis.
+The new edge granularity has been shown to reduce both the memory usage and time required to perform synthesis, but this may depend on the model being synthesized.
 For more information, see the documentation of the new option (issue {escet-issue}586[#586]).
+* The CIF data-based synthesis tool has a new _Fixed-point computations order_ option to configure the order in which the fixed-point computations are to be performed during synthesis.
+By default, the fixed-point computations have the same order as before.
+First the non-blocking states are computed, then the controllable states, and finally the reachable states (the reachable states are still only computed if the _Forward reachability_ option is enabled).
+Using the new option, the order can be changed.
+This may significantly improve synthesis performance, but the effect greatly depends on the model being synthesized (issue {escet-issue}609[#609]).
+* The CIF data-based synthesis tool now features an experimental workset algorithm to dynamically determine the order in which edges are considered during reachability fixed-point computations.
+It is currently considered to be experimental and is disabled by default.
+It can be enabled using the new _Edge workset algorithm_ option.
+It can only be used when a per-event edge granularity is configured, and duplicate events are allowed in the edge order (issues {escet-issue}520[#520] and {escet-issue}602[#602]).
 
 Improvements and fixes:
 
+* The position information of invariants has been improved.
+All CIF tools that may report on invariants give improved file position information, for example in type checker errors and precondition violation reports (issue {escet-issue}591[#591]).
 * The CIF simulator's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support, when using the simulator's plot visualizer or interactive GUI input component (issue {escet-issue}567[#567]).
 * The CIF simulator's SVG visualizer _Save as_ dialog now properly starts in the directory that contains the SVG file, also on Windows.
 And it now properly handles paths with spaces and other special characters in them (issue {escet-issue}221[#221]).
@@ -50,14 +73,28 @@ And it now properly handles paths with spaces and other special characters in th
 * The CIF event-based synthesis analysis tool's command line script has been fixed for handling dark theme detection, preventing crashes and improving dark theme support (issue {escet-issue}567[#567]).
 * The CIF event-based synthesis analysis tool's command line script has been fixed to not immediately terminate after starting the tool (issue {escet-issue}567[#567]).
 * The CIF event-based synthesis tool now warns about synthesizing specifications without requirement automata (issue {escet-issue}553[#553]).
+* The CIF data-based synthesis tool no longer prints the number of states in the controlled system as part of its debug output.
+Instead, this information is now one of the statistics of the _Statistics_ options.
+The new statistic is disabled by default, and if enabled the statistic is now printed to normal output.
+The output itself has some whitespace changes (issue {escet-issue}526[#526]).
 * The CIF data-based synthesis tool now has better performance for converting updates of the CIF specification to their internal BDD representations (issue {escet-issue}580[#580]).
-* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still producing the same values for platform-independent metrics (issue {escet-issue}564[#564]).
-* The CIF data-based synthesis legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering, rather than considering invariants in the automaton twice.
-This could affect synthesis performance (issue {escet-issue}377[#377]).
+* The CIF data-based synthesis tool now has slightly better performance due to skipping some unnecessary calculations for applying edges during reachability fixed-point computations (issue {escet-issue}520[#520]).
+* The CIF data-based synthesis tool now enforces state plant invariants like it does state requirement invariants, when they are applied per edge.
+This may improve synthesis performance for models with state plant invariants (issue {escet-issue}523[#523]).
+* The CIF data-based synthesis tool's _BDD library operation cache ratio_ option has been fixed.
+It now functions as documented, rather than having the inverse effect.
+It now also has improved precision (issue {escet-issue}610[#610]).
+* The CIF data-based synthesis tool's legacy hyper-edge creation algorithm now properly considers invariants in locations for variable ordering.
+Previously, for every location, the invariants of the automaton that contains the location were considered, rather than considering the invariants of the location itself.
+This change could affect synthesis performance (issue {escet-issue}377[#377]).
+* The CIF data-based synthesis benchmarking scripts no longer produce debug output when performing synthesis, making benchmarking faster and producing less output, while still reporting the platform-independent metrics and the number of states in the controlled system (issues {escet-issue}526[#526] and {escet-issue}564[#564]).
+* The CIF data-based synthesis documentation has several improvements and extensions (issues {escet-issue}609[#609] and {escet-issue}609[#610]).
 * The CIF controller property checker's finite response check may now have improved performance (issue {escet-issue}583[#583]).
 * The CIF to CIF transformation to merge all enumerations of the specification into a single enumeration has been changed.
 It now converts the last case of all `switch` expressions to an `else`, for switch expressions that switch over a value that has a type that includes an enumeration type.
 Hereby, the keys of these last cases are removed from the model (issue {escet-issue}548[#548]).
+* The CIF language tutorial has an additional lesson on `if` and `switch` expressions (issue {escet-issue}598[#598]).
+* The CIF language tutorial lesson on function statements has been improved and extended (issue {escet-issue}598[#598]).
 * The website has been fixed to ensure all version-specific URLs are now properly replaced by non-version-specific ones when a version-specific website is promoted to become the main website.
 Previously, a few URLs remained version-specific (issue {escet-issue}577[#577]).
 

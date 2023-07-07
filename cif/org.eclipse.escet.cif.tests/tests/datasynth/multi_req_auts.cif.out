@@ -206,7 +206,6 @@ Controlled behavior: true -> <bdd 24n 26p>.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 24n 24p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 0 and (r2.l1 and r3.l1) [initialization predicate]
@@ -252,7 +251,6 @@ Backward controlled-behavior: <bdd 26n 13p> [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: <bdd 26n 42p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 2: finished, controlled behavior is stable.
 
@@ -279,7 +277,7 @@ Final synthesis result:
     Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
     Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
 
-Controlled system:                     exactly 13 states.
+Controlled system: exactly 13 states.
 
 Initial (synthesis result):            <bdd 26n 13p>
 Initial (uncontrolled system):         p.x = 0 and (r2.l1 and r3.l1)

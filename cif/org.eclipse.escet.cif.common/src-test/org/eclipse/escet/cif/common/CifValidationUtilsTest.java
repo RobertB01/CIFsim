@@ -15,9 +15,9 @@ package org.eclipse.escet.cif.common;
 
 import static org.eclipse.escet.cif.common.CifValidationUtils.isValidIdentifier;
 import static org.eclipse.escet.cif.common.CifValidationUtils.isValidName;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CifValidationUtils} class. */
 @SuppressWarnings("javadoc")

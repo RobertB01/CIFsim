@@ -116,7 +116,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 target = new TwinCatTarget();
                 break;
             default:
-                throw new RuntimeException("Unknown output type: " + targetType);
+                throw new RuntimeException("Unknown target type: " + targetType);
         }
         PlcGenSettings settings = makePlcGenSettings(target);
 

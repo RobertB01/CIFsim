@@ -79,7 +79,7 @@ Computing controlled system guards.
 Final synthesis result:
   State: (controlled-behavior: true)
 
-Controlled system:                     exactly 0 states.
+Controlled system: exactly 0 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         p.x = 2 or p.x = 3

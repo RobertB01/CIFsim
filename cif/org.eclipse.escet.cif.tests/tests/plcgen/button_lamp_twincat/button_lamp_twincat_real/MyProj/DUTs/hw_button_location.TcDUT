@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="hw_button_location">
+    <Declaration><![CDATA[TYPE hw_button_location:
+    (hw_button_Released, hw_button_Pushed);
+END_TYPE]]></Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

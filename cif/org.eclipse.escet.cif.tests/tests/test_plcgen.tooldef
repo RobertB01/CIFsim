@@ -29,7 +29,6 @@ map(string:list string) test_options = {
     "plcgen/constants_keep.cif":              ["--simplify-values=no"],
     "plcgen/convert_enums_consts.cif":        ["--convert-enums=consts"],
     "plcgen/convert_enums_ints.cif":          ["--convert-enums=ints"],
-    "plcgen/elim_enums.cif":                  ["--elim-enums=true"],
     "plcgen/enums_keep.cif":                  ["--convert-enums=no"],
     "plcgen/formal_finvoke_all_all.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=all"],
     "plcgen/formal_finvoke_all_std.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=std"],

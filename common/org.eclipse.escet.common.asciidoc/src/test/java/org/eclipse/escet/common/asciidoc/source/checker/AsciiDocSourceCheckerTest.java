@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.asciidoc.source.checker;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Base class for AsciiDoc source checker tests. */
 public class AsciiDocSourceCheckerTest {

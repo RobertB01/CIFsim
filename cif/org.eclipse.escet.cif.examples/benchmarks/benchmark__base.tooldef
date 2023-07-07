@@ -106,7 +106,7 @@ tool benchmark(string benchmark_name, string folder, string model_file_name):
         // Perform synthesis, measuring the performance.
         long time_pre = currentTimeMillis();
         cifdatasynth(fmt("%s/%s", folder, model_file_name), "--event-warn=no", "-o " + result_file,
-                     "--stats=bdd-perf-max-nodes,bdd-perf-cache -t nodes", config,
+                     "--stats=ctrl-sys-states,bdd-perf-max-nodes,bdd-perf-cache -t nodes", config,
                      stdout=stdout_file, stderr=stderr_file, ignoreNonZeroExitCode=true);
         long time_post = currentTimeMillis();
         long duration = time_post - time_pre;

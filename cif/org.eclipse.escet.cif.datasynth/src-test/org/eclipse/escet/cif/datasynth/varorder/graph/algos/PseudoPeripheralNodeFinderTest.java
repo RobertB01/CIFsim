@@ -16,9 +16,9 @@ package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
@@ -26,7 +26,7 @@ import java.util.Set;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.common.java.Pair;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Base class for {@link PseudoPeripheralNodeFinder} tests. */
 public abstract class PseudoPeripheralNodeFinderTest {
@@ -182,13 +182,13 @@ public abstract class PseudoPeripheralNodeFinderTest {
         for (int i = 0; i < graph.size(); i++) {
             // Test finding a pseudo-peripheral node.
             Node node = nodeFinder.findPseudoPeripheralNode(graph, graph.nodes, graph.node(i));
-            assertTrue(node.toString(), expectedNodes.contains(node));
+            assertTrue(expectedNodes.contains(node), node.toString());
 
             // Test finding a pseudo-peripheral node pair.
             if (nodeFinder instanceof PseudoPeripheralNodePairFinder) {
                 PseudoPeripheralNodePairFinder pairFinder = (PseudoPeripheralNodePairFinder)nodeFinder;
                 Pair<Node, Node> pair = pairFinder.findPseudoPeripheralNodePair(graph, graph.nodes, graph.node(i));
-                assertTrue(pair.toString(), expectedPairs.contains(pair));
+                assertTrue(expectedPairs.contains(pair), pair.toString());
             }
         }
     }

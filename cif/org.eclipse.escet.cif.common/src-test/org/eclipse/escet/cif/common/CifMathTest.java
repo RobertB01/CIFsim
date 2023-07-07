@@ -16,13 +16,14 @@ package org.eclipse.escet.cif.common;
 import static org.eclipse.escet.cif.common.CifEvalUtils.objToStr;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.common.java.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CifMath} class. */
 @SuppressWarnings("javadoc")
@@ -65,9 +66,9 @@ public class CifMathTest {
         assertEquals("0.0", Double.toString(CifMath.abs(-0.0)));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testAbsOverflow() throws CifEvalException {
-        CifMath.abs(Integer.MIN_VALUE, null);
+    @Test
+    public void testAbsOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.abs(Integer.MIN_VALUE, null));
     }
 
     @Test
@@ -80,14 +81,14 @@ public class CifMathTest {
         assertEquals(0.33, CifMath.add(0.1, 0.23, null), 0.0);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testAddIntOverflow() throws CifEvalException {
-        CifMath.add(2147000000, 1000000, null);
+    @Test
+    public void testAddIntOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.add(2147000000, 1000000, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testAddRealOverflow() throws CifEvalException {
-        CifMath.add(Double.MAX_VALUE, 1e299, null);
+    @Test
+    public void testAddRealOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.add(Double.MAX_VALUE, 1e299, null));
     }
 
     @Test
@@ -118,9 +119,9 @@ public class CifMathTest {
         assertEquals(1, CifMath.ceil(1.0, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testCeilOverflow() throws CifEvalException {
-        CifMath.ceil(1e99, null);
+    @Test
+    public void testCeilOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.ceil(1e99, null));
     }
 
     @Test
@@ -140,24 +141,24 @@ public class CifMathTest {
         assertEquals("[2, 3, 4]", objToStr(CifMath.delete(l, -4, null)));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testDeleteOutOfRange() throws CifEvalException {
+    @Test
+    public void testDeleteOutOfRange() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifMath.delete(l, 4, null);
+        assertThrows(CifEvalException.class, () -> CifMath.delete(l, 4, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testDeleteOutOfRange2() throws CifEvalException {
+    @Test
+    public void testDeleteOutOfRange2() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifMath.delete(l, -5, null);
+        assertThrows(CifEvalException.class, () -> CifMath.delete(l, -5, null));
     }
 
     @Test
@@ -214,14 +215,14 @@ public class CifMathTest {
         }
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testDivByZero() throws CifEvalException {
-        CifMath.div(1, 0, null);
+    @Test
+    public void testDivByZero() {
+        assertThrows(CifEvalException.class, () -> CifMath.div(1, 0, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testDivOverflow() throws CifEvalException {
-        CifMath.div(Integer.MIN_VALUE, -1, null);
+    @Test
+    public void testDivOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.div(Integer.MIN_VALUE, -1, null));
     }
 
     @Test
@@ -231,14 +232,14 @@ public class CifMathTest {
         assertEquals("0.0", Double.toString(CifMath.divide(-1e-99, Double.MAX_VALUE, null)));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testDivideByZero() throws CifEvalException {
-        CifMath.divide(1.0, 0.0, null);
+    @Test
+    public void testDivideByZero() {
+        assertThrows(CifEvalException.class, () -> CifMath.divide(1.0, 0.0, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testDivideOverflow() throws CifEvalException {
-        CifMath.divide(1e99, Double.MIN_VALUE, null);
+    @Test
+    public void testDivideOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.divide(1e99, Double.MIN_VALUE, null));
     }
 
     @Test
@@ -247,9 +248,9 @@ public class CifMathTest {
         assertEquals(Math.E * Math.E, CifMath.exp(2.0, null), 1e-15);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testExpOverflow() throws CifEvalException {
-        CifMath.exp(1e99, null);
+    @Test
+    public void testExpOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.exp(1e99, null));
     }
 
     @Test
@@ -265,9 +266,9 @@ public class CifMathTest {
         assertEquals(1, CifMath.floor(1.0, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testFloorOverflow() throws CifEvalException {
-        CifMath.floor(-1e99, null);
+    @Test
+    public void testFloorOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.floor(-1e99, null));
     }
 
     @Test
@@ -294,9 +295,9 @@ public class CifMathTest {
         assertEquals(2.0, CifMath.ln(Math.E * Math.E, null), 0.0);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testLnNonPos() throws CifEvalException {
-        CifMath.ln(0.0, null);
+    @Test
+    public void testLnNonPos() {
+        assertThrows(CifEvalException.class, () -> CifMath.ln(0.0, null));
     }
 
     @Test
@@ -305,9 +306,9 @@ public class CifMathTest {
         assertEquals(2.0, CifMath.log(100.0, null), 0.0);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testLogNonPos() throws CifEvalException {
-        CifMath.log(0.0, null);
+    @Test
+    public void testLogNonPos() {
+        assertThrows(CifEvalException.class, () -> CifMath.log(0.0, null));
     }
 
     @Test
@@ -385,9 +386,9 @@ public class CifMathTest {
         }
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testModByZero() throws CifEvalException {
-        CifMath.mod(1, 0, null);
+    @Test
+    public void testModByZero() {
+        assertThrows(CifEvalException.class, () -> CifMath.mod(1, 0, null));
     }
 
     @Test
@@ -400,14 +401,14 @@ public class CifMathTest {
         assertEquals(0.023, CifMath.multiply(0.1, 0.23, null), 1e-15);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testMultiplyIntOverflow() throws CifEvalException {
-        CifMath.multiply(111111, 222222, null);
+    @Test
+    public void testMultiplyIntOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.multiply(111111, 222222, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testMultiplyRealOverflow() throws CifEvalException {
-        CifMath.multiply(1e199, 1e199, null);
+    @Test
+    public void testMultiplyRealOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.multiply(1e199, 1e199, null));
     }
 
     @Test
@@ -430,9 +431,9 @@ public class CifMathTest {
         assertEquals("0.0", Double.toString(CifMath.negate(0.0)));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testNegateIntOverflow() throws CifEvalException {
-        CifMath.negate(Integer.MIN_VALUE, null);
+    @Test
+    public void testNegateIntOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.negate(Integer.MIN_VALUE, null));
     }
 
     @Test
@@ -443,10 +444,10 @@ public class CifMathTest {
         assertEquals("(1, [2])", objToStr(CifMath.pop(l, null)));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testPopEmptyList() throws CifEvalException {
+    @Test
+    public void testPopEmptyList() {
         List<Object> l = list();
-        objToStr(CifMath.pop(l, null));
+        assertThrows(CifEvalException.class, () -> objToStr(CifMath.pop(l, null)));
     }
 
     @Test
@@ -463,24 +464,24 @@ public class CifMathTest {
         assertEquals(3.0, CifMath.pow(9.0, 0.5, null), 0.0);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testPowIntOverflow() throws CifEvalException {
-        CifMath.pow(12345, 99999, null);
+    @Test
+    public void testPowIntOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.pow(12345, 99999, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testPowRealOverflow() throws CifEvalException {
-        CifMath.pow(1e99, 1e99, null);
+    @Test
+    public void testPowRealOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.pow(1e99, 1e99, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testPowZeroToNeg() throws CifEvalException {
-        CifMath.pow(0.0, -1.0, null);
+    @Test
+    public void testPowZeroToNeg() {
+        assertThrows(CifEvalException.class, () -> CifMath.pow(0.0, -1.0, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testPowNegToNonInt() throws CifEvalException {
-        CifMath.pow(-1.0, 0.5, null);
+    @Test
+    public void testPowNegToNonInt() {
+        assertThrows(CifEvalException.class, () -> CifMath.pow(-1.0, 0.5, null));
     }
 
     @Test
@@ -546,64 +547,64 @@ public class CifMathTest {
         assertEquals(4, CifMath.project(t, 3, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectListOutOfRange1() throws CifEvalException {
+    @Test
+    public void testProjectListOutOfRange1() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifMath.project(l, 4, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(l, 4, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectListOutOfRange2() throws CifEvalException {
+    @Test
+    public void testProjectListOutOfRange2() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifMath.project(l, -5, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(l, -5, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectStringOutOfRange1() throws CifEvalException {
+    @Test
+    public void testProjectStringOutOfRange1() {
         String s = "1234";
-        CifMath.project(s, 4, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(s, 4, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectStringOutOfRange2() throws CifEvalException {
+    @Test
+    public void testProjectStringOutOfRange2() {
         String s = "1234";
-        CifMath.project(s, -5, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(s, -5, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectDictKeyNotFound() throws CifEvalException {
+    @Test
+    public void testProjectDictKeyNotFound() {
         Map<Object, Object> d = map();
         d.put(5, 6);
         d.put(7, 8);
-        CifMath.project(d, 9, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(d, 9, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectTupleOutOfRange1() throws CifEvalException {
+    @Test
+    public void testProjectTupleOutOfRange1() {
         CifTuple t = new CifTuple();
         t.add(1);
         t.add(2);
         t.add(3);
         t.add(4);
-        CifMath.project(t, -1, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(t, -1, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testProjectTupleOutOfRange2() throws CifEvalException {
+    @Test
+    public void testProjectTupleOutOfRange2() {
         CifTuple t = new CifTuple();
         t.add(1);
         t.add(2);
         t.add(3);
         t.add(4);
-        CifMath.project(t, 4, null);
+        assertThrows(CifEvalException.class, () -> CifMath.project(t, 4, null));
     }
 
     @Test
@@ -624,14 +625,14 @@ public class CifMathTest {
         assertEquals(2147483647, CifMath.round(2147483647.49, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testRoundOverflow1() throws CifEvalException {
-        CifMath.round(-2147483648.51, null);
+    @Test
+    public void testRoundOverflow1() {
+        assertThrows(CifEvalException.class, () -> CifMath.round(-2147483648.51, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testRoundOverflow2() throws CifEvalException {
-        CifMath.round(2147483647.50, null);
+    @Test
+    public void testRoundOverflow2() {
+        assertThrows(CifEvalException.class, () -> CifMath.round(2147483647.50, null));
     }
 
     @Test
@@ -660,16 +661,16 @@ public class CifMathTest {
         assertEquals(11.0, CifMath.scale(3, 1, 2, 3, 7, null), 1e-15);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testScaleOverflow() throws CifEvalException {
+    @Test
+    public void testScaleOverflow() {
         // Overflow in multiplication.
-        CifMath.scale(1e99, 0, 1e-10, -1e299, 1e299, null);
+        assertThrows(CifEvalException.class, () -> CifMath.scale(1e99, 0, 1e-10, -1e299, 1e299, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testScaleEmptyInputInterval() throws CifEvalException {
+    @Test
+    public void testScaleEmptyInputInterval() {
         // Division by zero in division.
-        CifMath.scale(123.0, 1, 1, 3, 4, null);
+        assertThrows(CifEvalException.class, () -> CifMath.scale(123.0, 1, 1, 3, 4, null));
     }
 
     @Test
@@ -707,9 +708,9 @@ public class CifMathTest {
         assertEquals(4.0, CifMath.sqrt(16.0, null), 0.0);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testSqrtNeg() throws CifEvalException {
-        CifMath.sqrt(-Double.MIN_VALUE, null);
+    @Test
+    public void testSqrtNeg() {
+        assertThrows(CifEvalException.class, () -> CifMath.sqrt(-Double.MIN_VALUE, null));
     }
 
     @Test
@@ -718,9 +719,9 @@ public class CifMathTest {
         assertEquals(false, CifMath.strToBool("false", null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testStrToBoolInvalid() throws CifEvalException {
-        CifMath.strToBool("True", null);
+    @Test
+    public void testStrToBoolInvalid() {
+        assertThrows(CifEvalException.class, () -> CifMath.strToBool("True", null));
     }
 
     @Test
@@ -735,14 +736,14 @@ public class CifMathTest {
         assertEquals(-2147483648, CifMath.strToInt("-2147483648", null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testStrToIntOverflow() throws CifEvalException {
-        CifMath.strToInt("2147483648", null);
+    @Test
+    public void testStrToIntOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.strToInt("2147483648", null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testStrToIntInvalid() throws CifEvalException {
-        CifMath.strToInt("abc", null);
+    @Test
+    public void testStrToIntInvalid() {
+        assertThrows(CifEvalException.class, () -> CifMath.strToInt("abc", null));
     }
 
     @Test
@@ -758,14 +759,14 @@ public class CifMathTest {
         assertEquals("0.0", Double.toString(CifMath.strToReal("-0.0", null)));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testStrToRealOverflow() throws CifEvalException {
-        CifMath.strToReal("1e9999", null);
+    @Test
+    public void testStrToRealOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.strToReal("1e9999", null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testStrToRealInvalid() throws CifEvalException {
-        CifMath.strToReal("abc", null);
+    @Test
+    public void testStrToRealInvalid() {
+        assertThrows(CifEvalException.class, () -> CifMath.strToReal("abc", null));
     }
 
     @Test
@@ -778,14 +779,14 @@ public class CifMathTest {
         assertEquals(-0.13, CifMath.subtract(0.1, 0.23, null), 0.0);
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testSubtractIntOverflow() throws CifEvalException {
-        CifMath.subtract(-2147000000, 1000000, null);
+    @Test
+    public void testSubtractIntOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.subtract(-2147000000, 1000000, null));
     }
 
-    @Test(expected = CifEvalException.class)
-    public void testSubtractRealOverflow() throws CifEvalException {
-        CifMath.subtract(-Double.MAX_VALUE, 1e299, null);
+    @Test
+    public void testSubtractRealOverflow() {
+        assertThrows(CifEvalException.class, () -> CifMath.subtract(-Double.MAX_VALUE, 1e299, null));
     }
 
     @Test

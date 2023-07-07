@@ -13,7 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.conversion;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
@@ -22,7 +23,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Pretty-print function applications test. */
 @SuppressWarnings("javadoc")
@@ -79,9 +80,9 @@ public class FuncApplsTest {
         assertEquals("1 ** 1.0", toStr(funcAppls.powerFuncAppl(num1, real1)));
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void crashMultiplyFuncApplTest() {
-        funcAppls.multiplyFuncAppl(num1);
+        assertThrows(AssertionError.class, () -> funcAppls.multiplyFuncAppl(num1));
     }
 
     @Test
@@ -167,9 +168,9 @@ public class FuncApplsTest {
         assertEquals("1.0 <> 2.0", toStr(funcAppls.unEqualFuncAppl(real1, real2)));
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void crashAndFuncApplTest() {
-        funcAppls.andFuncAppl(bool0);
+        assertThrows(AssertionError.class, () -> funcAppls.andFuncAppl(bool0));
     }
 
     @Test
@@ -177,9 +178,9 @@ public class FuncApplsTest {
         assertEquals("FALSE AND TRUE AND FALSE", toStr(funcAppls.andFuncAppl(bool0, bool1, bool0)));
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void crashXorFuncApplTest() {
-        funcAppls.xorFuncAppl(bool0);
+        assertThrows(AssertionError.class, () -> funcAppls.xorFuncAppl(bool0));
     }
 
     @Test
@@ -187,9 +188,9 @@ public class FuncApplsTest {
         assertEquals("FALSE XOR TRUE XOR FALSE", toStr(funcAppls.xorFuncAppl(bool0, bool1, bool0)));
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void crashOrFuncApplTest() {
-        funcAppls.orFuncAppl(bool0);
+        assertThrows(AssertionError.class, () -> funcAppls.orFuncAppl(bool0));
     }
 
     @Test

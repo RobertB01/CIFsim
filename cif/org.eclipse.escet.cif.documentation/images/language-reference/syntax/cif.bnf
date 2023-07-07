@@ -38,7 +38,6 @@ AutDecl : Decl
         ;
 
 Decl : "type" TypeDefs ";"
-     | "enum" Identifier "=" "{" Identifiers "}" ";" // Deprecated
      | "enum" Identifier "=" Identifiers ";"
      | OptControllability "event"           Identifiers ";"
      | OptControllability "event" EventType Identifiers ";"

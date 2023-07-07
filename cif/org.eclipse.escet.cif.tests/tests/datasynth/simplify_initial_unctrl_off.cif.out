@@ -110,7 +110,7 @@ Final synthesis result:
   State: (controlled-behavior: p.x = 9 or (p.x = 5 or p.x = 7))
     Edge: (event: e) (guard: true)
 
-Controlled system:                     exactly 3 states.
+Controlled system: exactly 3 states.
 
 Initial (synthesis result):            p.x = 9 or (p.x = 5 or p.x = 7)
 Initial (uncontrolled system):         p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))

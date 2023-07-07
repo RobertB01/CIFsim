@@ -1,0 +1,31 @@
+plant automaton p:
+  controllable c1;
+  controllable c3;
+  uncontrollable u2;
+  uncontrollable u4;
+  disc int[0..3] x in any;
+  disc int[0..3] y = 0;
+  location l1:
+    initial;
+    edge c1 when x < 3 do x := x + 1;
+    edge c1 when x = 3 goto l2;
+  location l2:
+    edge u2 when y < 3 do y := y + 1;
+    edge u2 when y = 3 goto l3;
+  location l3:
+    edge c3 when x > 1 do x := x - 1;
+    edge c3 when x = 1 goto l4;
+  location l4:
+    edge u4 when y > 1 do y := y - 1;
+    edge u4 when y = 1 goto l5;
+  location l5:
+    marked y = 1;
+end
+supervisor automaton sup:
+  alphabet p.c1, p.c3;
+  location:
+    initial;
+    marked;
+    edge p.c1 when (p.x = 0 or p.x = 2) and p.y = 0 or (p.x = 1 and p.y = 0 or p.x = 3);
+    edge p.c3 when (p.x = 0 or p.x = 2) and p.y = 3 or p.x = 1 and p.y = 2 or (p.x = 1 and (p.y = 1 or p.y = 3) or p.x = 3 and p.y = 3);
+end

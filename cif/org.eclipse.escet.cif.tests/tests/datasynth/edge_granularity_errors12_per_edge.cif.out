@@ -208,7 +208,7 @@ Final synthesis result:
     Edge: (event: e) (guard: (p.x = 0 or p.x = 4) and p.l1 or (p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1)) (assignments: p.x := p.x + 6, p := p.l2)
     Edge: (event: e) (guard: 4 <= p.x and (p.x <= 7 and p.l1)) (assignments: p.x := p.x - 6, p := p.l2)
 
-Controlled system:                     exactly 8 states.
+Controlled system: exactly 8 states.
 
 Initial (synthesis result):            p.x = 0 or p.x = 1 or (p.x = 6 or p.x = 7)
 Initial (uncontrolled system):         p.l1

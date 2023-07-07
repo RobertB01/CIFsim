@@ -1,0 +1,41 @@
+plant automaton p:
+  uncontrollable a;
+  uncontrollable b;
+  uncontrollable c;
+  uncontrollable d;
+  uncontrollable e;
+  uncontrollable f;
+  uncontrollable g;
+  uncontrollable h;
+  uncontrollable i;
+  uncontrollable j;
+  uncontrollable k;
+  uncontrollable l;
+  uncontrollable m;
+  disc int[0..14] v;
+  marked v = 14;
+  location:
+    initial;
+    marked;
+    edge m when v = 13 do v := 14;
+    edge d when v = 3 do v := 4;
+    edge f when v = 7 do v := 8;
+    edge e when v = 5 do v := 6;
+    edge a when v = 0 do v := 1;
+    edge g when v = 8 do v := 9;
+    edge c when v = 2 do v := 3;
+    edge b when v = 1 do v := 2;
+    edge k when v = 12 do v := 13;
+    edge h when v = 9 do v := 10;
+    edge i when v = 10 do v := 11;
+    edge f when v = 6 do v := 7;
+    edge j when v = 11 do v := 12;
+    edge l when v = 12 do v := 13;
+    edge d when v = 4 do v := 5;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end

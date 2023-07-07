@@ -174,7 +174,6 @@ Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)) [initialization predicate]
@@ -221,7 +220,7 @@ Final synthesis result:
     Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
     Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
 
-Controlled system:                     exactly 144 states.
+Controlled system: exactly 144 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))

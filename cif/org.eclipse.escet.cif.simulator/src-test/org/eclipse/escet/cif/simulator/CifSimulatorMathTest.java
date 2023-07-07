@@ -23,9 +23,10 @@ import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ import java.util.Set;
 import org.eclipse.escet.cif.simulator.runtime.CifSimulatorException;
 import org.eclipse.escet.cif.simulator.runtime.CifSimulatorMath;
 import org.eclipse.escet.common.java.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CifSimulatorMath} class. */
 @SuppressWarnings("javadoc")
@@ -115,9 +116,9 @@ public class CifSimulatorMathTest {
         assertEquals("0.0", Double.toString(CifSimulatorMath.abs(-0.0)));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testAbsOverflow() {
-        CifSimulatorMath.abs(Integer.MIN_VALUE);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.abs(Integer.MIN_VALUE));
     }
 
     @Test
@@ -133,14 +134,14 @@ public class CifSimulatorMathTest {
         assertEquals(0.33, CifSimulatorMath.addReal(0.1, 0.23), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testAddIntOverflow() {
-        CifSimulatorMath.addInt(2147000000, 1000000);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.addInt(2147000000, 1000000));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testAddRealOverflow() {
-        CifSimulatorMath.addReal(Double.MAX_VALUE, 1e299);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.addReal(Double.MAX_VALUE, 1e299));
     }
 
     @Test
@@ -204,14 +205,14 @@ public class CifSimulatorMathTest {
         assertEquals(vs[1], d.get(ks[1]), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testMakeDictDuplKey() {
         Map<Integer, Double> d = map();
 
         Integer[] ks = {1, 1};
         Double[] vs = {1.0, 1.0};
 
-        CifSimulatorMath.addpairs(d, ks, vs);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.addpairs(d, ks, vs));
     }
 
     @Test
@@ -242,9 +243,9 @@ public class CifSimulatorMathTest {
         assertEquals(1, CifSimulatorMath.ceil(1.0));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testCeilOverflow() {
-        CifSimulatorMath.ceil(1e99);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.ceil(1e99));
     }
 
     @Test
@@ -264,24 +265,24 @@ public class CifSimulatorMathTest {
         assertEquals("[2, 3, 4]", objToStr(CifSimulatorMath.delete(l, -4)));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testDeleteOutOfRange() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifSimulatorMath.delete(l, 4);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.delete(l, 4));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testDeleteOutOfRange2() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifSimulatorMath.delete(l, -5);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.delete(l, -5));
     }
 
     @Test
@@ -338,14 +339,14 @@ public class CifSimulatorMathTest {
         }
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testDivByZero() {
-        CifSimulatorMath.div(1, 0);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.div(1, 0));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testDivOverflow() {
-        CifSimulatorMath.div(Integer.MIN_VALUE, -1);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.div(Integer.MIN_VALUE, -1));
     }
 
     @Test
@@ -355,14 +356,14 @@ public class CifSimulatorMathTest {
         assertEquals("0.0", Double.toString(CifSimulatorMath.divide(-1e-99, Double.MAX_VALUE)));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testDivideByZero() {
-        CifSimulatorMath.divide(1.0, 0.0);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.divide(1.0, 0.0));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testDivideOverflow() {
-        CifSimulatorMath.divide(1e99, Double.MIN_VALUE);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.divide(1e99, Double.MIN_VALUE));
     }
 
     @Test
@@ -554,9 +555,9 @@ public class CifSimulatorMathTest {
         assertEquals(Math.E * Math.E, CifSimulatorMath.exp(2.0), 1e-15);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testExpOverflow() {
-        CifSimulatorMath.exp(1e99);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.exp(1e99));
     }
 
     @Test
@@ -572,9 +573,9 @@ public class CifSimulatorMathTest {
         assertEquals(1, CifSimulatorMath.floor(1.0));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testFloorOverflow() {
-        CifSimulatorMath.floor(-1e99);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.floor(-1e99));
     }
 
     @Test
@@ -678,9 +679,9 @@ public class CifSimulatorMathTest {
         assertEquals(2.0, CifSimulatorMath.ln(Math.E * Math.E), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testLnNonPos() {
-        CifSimulatorMath.ln(0.0);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.ln(0.0));
     }
 
     @Test
@@ -689,9 +690,9 @@ public class CifSimulatorMathTest {
         assertEquals(2.0, CifSimulatorMath.log(100.0), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testLogNonPos() {
-        CifSimulatorMath.log(0.0);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.log(0.0));
     }
 
     @Test
@@ -805,9 +806,9 @@ public class CifSimulatorMathTest {
         }
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testModByZero() {
-        CifSimulatorMath.mod(1, 0);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.mod(1, 0));
     }
 
     @Test
@@ -858,9 +859,9 @@ public class CifSimulatorMathTest {
         assertSame(v0, d2.get(k9));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testModifyListOutOfBounds() {
-        CifSimulatorMath.modify(list(1), 2, 5);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.modify(list(1), 2, 5));
     }
 
     @Test
@@ -873,14 +874,14 @@ public class CifSimulatorMathTest {
         assertEquals(0.023, CifSimulatorMath.multiply(0.1, 0.23), 1e-15);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testMultiplyIntOverflow() {
-        CifSimulatorMath.multiply(111111, 222222);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.multiply(111111, 222222));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testMultiplyRealOverflow() {
-        CifSimulatorMath.multiply(1e199, 1e199);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.multiply(1e199, 1e199));
     }
 
     @Test
@@ -903,9 +904,9 @@ public class CifSimulatorMathTest {
         assertEquals("0.0", Double.toString(CifSimulatorMath.negate(0.0)));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testNegateIntOverflow() {
-        CifSimulatorMath.negate(Integer.MIN_VALUE);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.negate(Integer.MIN_VALUE));
     }
 
     @Test
@@ -916,9 +917,9 @@ public class CifSimulatorMathTest {
         assertEquals(1, CifSimulatorMath.powInt(0, 0));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testPowIntOverflow() {
-        CifSimulatorMath.powInt(12345, 99999);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.powInt(12345, 99999));
     }
 
     @Test
@@ -935,19 +936,19 @@ public class CifSimulatorMathTest {
         assertEquals(0.125, CifSimulatorMath.powReal(2.0, -3.0), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testPowRealOverflow() {
-        CifSimulatorMath.powReal(1e99, 1e99);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.powReal(1e99, 1e99));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testPowZeroToNeg() {
-        CifSimulatorMath.powReal(0.0, -1.0);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.powReal(0.0, -1.0));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testPowNegToNonInt() {
-        CifSimulatorMath.powReal(-1.0, 0.5);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.powReal(-1.0, 0.5));
     }
 
     @Test
@@ -1000,44 +1001,44 @@ public class CifSimulatorMathTest {
         assertEquals(8, CifSimulatorMath.project(d, 7));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testProjectListOutOfRange1() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifSimulatorMath.project(l, 4);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.project(l, 4));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testProjectListOutOfRange2() {
         List<Object> l = list();
         l.add(1);
         l.add(2);
         l.add(3);
         l.add(4);
-        CifSimulatorMath.project(l, -5);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.project(l, -5));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testProjectStringOutOfRange1() {
         String s = "1234";
-        CifSimulatorMath.project(s, 4);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.project(s, 4));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testProjectStringOutOfRange2() {
         String s = "1234";
-        CifSimulatorMath.project(s, -5);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.project(s, -5));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testProjectDictKeyNotFound() {
         Map<Integer, Integer> d = map();
         d.put(5, 6);
         d.put(7, 8);
-        CifSimulatorMath.project(d, 9);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.project(d, 9));
     }
 
     @Test
@@ -1058,14 +1059,14 @@ public class CifSimulatorMathTest {
         assertEquals(2147483647, CifSimulatorMath.round(2147483647.49));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testRoundOverflow1() {
-        CifSimulatorMath.round(-2147483648.51);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.round(-2147483648.51));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testRoundOverflow2() {
-        CifSimulatorMath.round(2147483647.50);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.round(2147483647.50));
     }
 
     @Test
@@ -1094,16 +1095,16 @@ public class CifSimulatorMathTest {
         assertEquals(11.0, CifSimulatorMath.scale(3, 1, 2, 3, 7), 1e-15);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testScaleOverflow() {
         // Overflow in multiplication.
-        CifSimulatorMath.scale(1e99, 0, 1e-10, -1e299, 1e299);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.scale(1e99, 0, 1e-10, -1e299, 1e299));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testScaleEmptyInputInterval() {
         // Division by zero in division.
-        CifSimulatorMath.scale(123.0, 1, 1, 3, 4);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.scale(123.0, 1, 1, 3, 4));
     }
 
     @Test
@@ -1195,9 +1196,9 @@ public class CifSimulatorMathTest {
         assertEquals(4.0, CifSimulatorMath.sqrt(16.0), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testSqrtNeg() {
-        CifSimulatorMath.sqrt(-Double.MIN_VALUE);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.sqrt(-Double.MIN_VALUE));
     }
 
     @Test
@@ -1206,9 +1207,9 @@ public class CifSimulatorMathTest {
         assertEquals(false, CifSimulatorMath.strToBool("false"));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testStrToBoolInvalid() {
-        CifSimulatorMath.strToBool("True");
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.strToBool("True"));
     }
 
     @Test
@@ -1223,14 +1224,14 @@ public class CifSimulatorMathTest {
         assertEquals(-2147483648, CifSimulatorMath.strToInt("-2147483648"));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testStrToIntOverflow() {
-        CifSimulatorMath.strToInt("2147483648");
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.strToInt("2147483648"));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testStrToIntInvalid() {
-        CifSimulatorMath.strToInt("abc");
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.strToInt("abc"));
     }
 
     @Test
@@ -1246,14 +1247,14 @@ public class CifSimulatorMathTest {
         assertEquals("0.0", Double.toString(CifSimulatorMath.strToReal("-0.0")));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testStrToRealOverflow() {
-        CifSimulatorMath.strToReal("1e9999");
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.strToReal("1e9999"));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testStrToRealInvalid() {
-        CifSimulatorMath.strToReal("abc");
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.strToReal("abc"));
     }
 
     @Test
@@ -1283,14 +1284,14 @@ public class CifSimulatorMathTest {
         assertEquals(-0.13, CifSimulatorMath.subtract(0.1, 0.23), 0.0);
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testSubtractIntOverflow() {
-        CifSimulatorMath.subtract(-2147000000, 1000000);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.subtract(-2147000000, 1000000));
     }
 
-    @Test(expected = CifSimulatorException.class)
+    @Test
     public void testSubtractRealOverflow() {
-        CifSimulatorMath.subtract(-Double.MAX_VALUE, 1e299);
+        assertThrows(CifSimulatorException.class, () -> CifSimulatorMath.subtract(-Double.MAX_VALUE, 1e299));
     }
 
     @Test
