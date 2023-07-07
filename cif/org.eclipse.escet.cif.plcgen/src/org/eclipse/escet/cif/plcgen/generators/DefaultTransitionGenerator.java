@@ -129,6 +129,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated PLC event transition code.
      */
     List<PlcStatement> generateCode() {
+        // TODO Currently code generation is straight forward, it generates correct code for the general case. There are heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better names for variables, etc.
         mainExprGen = target.getCodeStorage().getExprGenerator();
         funcAppls = new PlcFunctionAppls(target);
 
