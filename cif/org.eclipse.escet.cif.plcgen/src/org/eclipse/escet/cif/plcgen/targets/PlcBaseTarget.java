@@ -52,7 +52,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
     private String outputPath;
 
     /** Conversion of PLC models to text for the target. */
-    protected final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
+    private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
 
     /** Extracts information from the CIF input file, to be used during PLC code generation. */
     protected CifProcessor cifProcessor;
