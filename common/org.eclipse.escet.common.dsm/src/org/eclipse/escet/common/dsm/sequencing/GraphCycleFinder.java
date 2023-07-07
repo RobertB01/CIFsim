@@ -13,11 +13,8 @@
 
 package org.eclipse.escet.common.dsm.sequencing;
 
-import static org.eclipse.escet.common.java.Lists.listc;
-
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.common.dsm.sequencing.graph.Cycle;
@@ -26,6 +23,7 @@ import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
+import org.eclipse.escet.common.java.Lists;
 
 /** Class for finding cycles in the graph. */
 public class GraphCycleFinder
@@ -49,8 +47,7 @@ public class GraphCycleFinder
 
     @Override
     protected void addCycle(Graph g, List<CycleFinderEdge> edges, Set<Cycle> foundCycles) {
-        List<Edge> cycleEdges = listc(edges.size());
-        Cycle cycle = new Cycle(edges.stream().map(e -> e.edge).collect(Collectors.toCollection(() -> cycleEdges)));
+        Cycle cycle = new Cycle(edges.stream().map(e -> e.edge).collect(Lists.toList()));
         foundCycles.add(cycle);
     }
 
