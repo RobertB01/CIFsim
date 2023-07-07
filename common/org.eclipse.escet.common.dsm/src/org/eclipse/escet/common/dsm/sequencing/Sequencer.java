@@ -141,8 +141,8 @@ public class Sequencer {
      * </p>
      *
      * <p>
-     * Each vertex in a cycle is used in exactly one collection. If two cycles share a vertex they are related,
-     * and thus both cycles must be in the same collection.
+     * Each vertex in a cycle is used in exactly one collection. If two cycles share a vertex they are related, and thus
+     * both cycles must be in the same collection.
      * </p>
      *
      * @param cycles Cycles to organize into collections.
@@ -383,7 +383,8 @@ public class Sequencer {
      * @param <E> Type of the elements.
      * @param elements Elements to order. Array is destroyed during the call.
      * @param vertices The vertices contained by the given elements.
-     * @param destination Ordered output. Is modified in-place. Must have the same length as the number of elements to order.
+     * @param destination Ordered output. Is modified in-place. Must have the same length as the number of elements to
+     *     order.
      */
     private static <E extends Element> void orderElements(E[] elements, BitSet vertices, E[] destination) {
         Assert.check(elements.length == destination.length);
