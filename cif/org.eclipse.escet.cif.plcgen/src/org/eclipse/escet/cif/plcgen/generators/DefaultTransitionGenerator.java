@@ -275,7 +275,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
 
         // Construct the complete PLC code for the event transition by concatenating test and perform code.
-        // isFeasible = TRUE; <testCode>; if (isFeasible) THEN progress := TRUE; <performCode>; END_IF
+        // isFeasible = TRUE; <testCode>; IF isFeasible THEN progress := TRUE; <performCode>; END_IF;
         PlcExpression guard = new PlcVarExpression(isFeasibleVar);
         testCode.add(generateIfGuardThenCode(guard, performCode));
 
@@ -399,9 +399,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * For the senders automata the generated test code looks like: <pre>
      * senderAut := 0;
      *
-     * IF &lt;edge-1-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 1;
-     * ELSE IF &lt;edge-2-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 2;
-     * ... // Other edge tests of sender-1 omitted.
+     * IF senderAut == 0 THEN
+     *     IF &lt;edge-1-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 1;
+     *     ELSE IF &lt;edge-2-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 2;
+     *     ... // Other edge tests of sender-1 omitted.
+     * END_IF;
      *
      * IF senderAut == 0 THEN
      *     IF &lt;edge-1-of-sender-2-is-enabled&gt; THEN senderAut := 2; senderEdge := 1;
@@ -548,8 +550,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate edge testing code.
             autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, isFeasibleVar));
 
-            // Generate the edge selection and performing code, and add it as a branch on the automaton to
-            // 'performSelectStat'.
+            // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
             performCode.addAll(generateAutPerformCode(transAut, autEdgeVar, null));
             mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
@@ -630,10 +631,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * </p>
      *
      * @param transAut Automaton to generate test code for.
-     * @param autIndex Automaton index that indicates the given automaton.
-     * @param autVar PLC variable that stores the automaton found while testing for enabled edges.
-     * @param edgeVar PLC variable that stores the edge in the automaton indicated by {@code autVar}. Is 1-based to be
-     *     consistent in how numbers are assigned.
+     * @param autIndex Automaton index that indicates the given automaton. Has negative value if not used.
+     * @param autVar PLC variable that stores the automaton found while testing for enabled edges. If {@code null} if
+     *     there is no need to store an automaton index.
+     * @param edgeVar For senders, receivers and syncers the PLC variable stores the edge in the automaton indicated by
+     *     {@code autVar}. For syncers, it indicates the edge in a syncer automaton, as the edge variable implicitly
+     *     also indicates the automaton. Is 1-based to be consistent in how numbers are assigned.
      * @param isFeasibleVar PLC variable expressing if the event is feasible.
      * @return The generated code.
      */
@@ -685,8 +688,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
-     * @return Generated PLC code that selects and performs the selected edge. Is extended in-place. Does not change if
-     *     there is no PLC code needed to perform the edge.
+     * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
+     *     to perform the edge.
      */
     private List<PlcStatement> generateAutPerformCode(TransitionAutomaton transAut, PlcVariable edgeVar,
             PlcVariable channelValueVar)
