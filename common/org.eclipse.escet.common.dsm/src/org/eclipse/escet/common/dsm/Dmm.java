@@ -13,13 +13,15 @@
 
 package org.eclipse.escet.common.dsm;
 
+import static org.eclipse.escet.common.java.Lists.listc;
+
+import java.util.List;
+
 import org.apache.commons.math3.linear.RealMatrix;
+import org.eclipse.escet.common.java.CsvUtils;
 
 /** Data storage of a domain mapping matrix. */
 public class Dmm {
-    /** RFC-4180 line separator. */
-    private static final String CRLF = "\r\n";
-
     /**
      * Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}.
      */
@@ -72,35 +74,32 @@ public class Dmm {
      * @return The converted DMM as lines of a CSV file.
      */
     public String toString(boolean useRfcEol) {
-        StringBuilder sb = new StringBuilder();
-        String eolSequence = useRfcEol ? CRLF : "\n";
+        List<List<String>> lines = listc(1 + rowLabels.length);
 
         // Header with first column empty.
-        sb.append("\"\"");
+        List<String> lineValues = listc(1 + columnLabels.length);
+        lineValues.add("\"\"");
         for (Label label: columnLabels) {
-            sb.append(",");
-            sb.append("\"" + label.toString().replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
+            lineValues.add(label.toString());
         }
-        sb.append(eolSequence);
+        lines.add(lineValues);
 
         // All rows.
         for (int row = 0; row < rowLabels.length; row++) {
-            sb.append("\"" + rowLabels[row].toString().replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
+            lineValues = listc(1 + columnLabels.length);
+            lineValues.add(rowLabels[row].toString());
+
             for (int col = 0; col < columnLabels.length; col++) {
-                sb.append(",");
                 // Output value, but for integers omit the trailing ".0".
                 double value = adjacencies.getEntry(row, col);
                 if ((int)value == value) {
-                    sb.append((int)value);
+                    lineValues.add(String.valueOf((int)value));
                 } else {
-                    sb.append(value);
+                    lineValues.add(String.valueOf(value));
                 }
             }
-            // Skip newline at last line (is allowed by RFC-4180).
-            if (row < rowLabels.length - 1) {
-                sb.append(eolSequence);
-            }
+            lines.add(lineValues);
         }
-        return sb.toString();
+        return CsvUtils.rowsToString(lines, useRfcEol);
     }
 }
