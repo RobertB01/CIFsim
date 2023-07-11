@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.simulator.compiler;
 
+import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -21,6 +22,7 @@ import static org.eclipse.escet.common.java.Triple.triple;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Triple;
 
@@ -51,6 +53,12 @@ public class ExprCodeGeneratorResult {
     public String currentExprText;
 
     /**
+     * The expression of the {@link #currentExprText}. May be {@code null} if the result represents a list of
+     * expressions.
+     */
+    public Expression expr;
+
+    /**
      * Number of visited expression tree nodes that are captured by {@code currentExprText}. Is reset each time code is
      * assigned to an extra method.
      */
@@ -60,9 +68,11 @@ public class ExprCodeGeneratorResult {
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
      * @param exprCode The initial expression code.
+     * @param expr The expression of the code.
      */
-    public ExprCodeGeneratorResult(String exprCode) {
+    public ExprCodeGeneratorResult(String exprCode, Expression expr) {
         currentExprText = exprCode;
+        this.expr = expr;
         numNodes = 1;
     }
 
@@ -74,6 +84,7 @@ public class ExprCodeGeneratorResult {
     public ExprCodeGeneratorResult(ExprCodeGeneratorResult result) {
         subExprs = result.subExprs;
         currentExprText = result.currentExprText;
+        expr = result.expr;
         numNodes = result.numNodes;
     }
 
@@ -132,14 +143,15 @@ public class ExprCodeGeneratorResult {
      * placeholders in the format string.
      *
      * @param mergeFormatString The code format string that represents the merging of the results.
-     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
+     * @param expr The expression of the code.
+     * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
      */
-    public static ExprCodeGeneratorResult merge(String mergeFormatString, String type,
+    public static ExprCodeGeneratorResult merge(String mergeFormatString, Expression expr, CifCompilerContext ctxt,
             ExprCodeGeneratorResult... results)
     {
-        return merge(mergeFormatString, type, Arrays.asList(results));
+        return merge(mergeFormatString, expr, ctxt, Arrays.asList(results));
     }
 
     /**
@@ -147,22 +159,23 @@ public class ExprCodeGeneratorResult {
      * placeholders in the format string.
      *
      * @param mergeFormatString The format code string that represents the merging of the results.
-     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
+     * @param expr The expression of the code.
+     * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
      */
-    public static ExprCodeGeneratorResult merge(String mergeFormatString, String type,
+    public static ExprCodeGeneratorResult merge(String mergeFormatString, Expression expr, CifCompilerContext ctxt,
             List<ExprCodeGeneratorResult> results)
     {
         // TODO I am using/abusing fmt to check the whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
 
         if (results.isEmpty()) {
-            return new ExprCodeGeneratorResult(fmt(mergeFormatString));
+            return new ExprCodeGeneratorResult(fmt(mergeFormatString), expr);
         }
 
         if (results.size() == 1) {
-            results.get(0).updateCurrentExprText(mergeFormatString, type);
+            results.get(0).updateCurrentExprText(mergeFormatString, expr, ctxt);
             return results.get(0);
         }
 
@@ -171,8 +184,7 @@ public class ExprCodeGeneratorResult {
         while (!doesFit(results)) {
             // Identify the largest result.
             ExprCodeGeneratorResult largest = getLargestResult(results);
-            // TODO Fetch the correct type once we have the expression stored as well.
-            largest.createMethod(type);
+            largest.createMethod(ctxt);
         }
 
         String exprText = fmt(mergeFormatString, results.toArray(new ExprCodeGeneratorResult[0]));
@@ -185,17 +197,23 @@ public class ExprCodeGeneratorResult {
             lastResult.numNodes += result.numNodes;
         }
         lastResult.currentExprText = exprText;
+        lastResult.expr = expr;
         return lastResult;
     }
 
     /**
      * Assign the current expression code to a new method.
      *
-     * @param type The output type of the new method.
+     * @param ctxt The compiler context to use.
      */
-    public void createMethod(String type) {
+    public void createMethod(CifCompilerContext ctxt) {
+        // Skip if expr is null, as we cannot fetch a proper return type.
+        if (expr == null) {
+            return;
+        }
+
         String methodName = fmt("%s%d", methodBaseName, counter);
-        subExprs.add(triple(currentExprText, methodName, type));
+        subExprs.add(triple(currentExprText, methodName, gencodeType(expr.getType(), ctxt)));
         currentExprText = fmt("%s(state)", methodName);
         counter++;
         numNodes = 1;
@@ -205,16 +223,18 @@ public class ExprCodeGeneratorResult {
      * Update the current expression code text and, if needed, create a new method.
      *
      * @param formatString The format string in which the current expression code text is inserted.
-     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
+     * @param expr The expression of the code.
+     * @param ctxt The compiler context to use.
      */
-    public void updateCurrentExprText(String formatString, String type) {
+    public void updateCurrentExprText(String formatString, Expression expr, CifCompilerContext ctxt) {
         // TODO We now rely upon fmt to check whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
         currentExprText = fmt(formatString, this);
+        this.expr = expr;
         numNodes++;
 
-        if (type != null && numNodes >= limit) {
-            createMethod(type);
+        if (numNodes >= limit) {
+            createMethod(ctxt);
         }
     }
 

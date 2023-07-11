@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifMath;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.common.java.FormatDecoder;
@@ -43,11 +44,13 @@ public class CifFormatPatternCodeGenerator {
      * @param pattern The pattern text, without backslash escaping, and with percentage escaping.
      * @param valueRslts The code to use to evaluate the values.
      * @param valueTypes The types of the values.
+     * @param expr The expression of the code.
+     * @param ctxt The compiler context to use.
      * @return The Java code that represents the call to the {@link Strings#fmt} method.
      * @see CifMath#fmt
      */
     public static ExprCodeGeneratorResult gencodePattern(String pattern, List<ExprCodeGeneratorResult> valueRslts,
-            List<CifType> valueTypes)
+            List<CifType> valueTypes, Expression expr, CifCompilerContext ctxt)
     {
         // See also CifMath for similar code.
 
@@ -127,6 +130,6 @@ public class CifFormatPatternCodeGenerator {
         }
         rslt.append(String.join(", ", argCodes));
         rslt.append(")");
-        return ExprCodeGeneratorResult.merge(rslt.toString(), "String", usedValueRslts);
+        return ExprCodeGeneratorResult.merge(rslt.toString(), expr, ctxt, usedValueRslts);
     }
 }
