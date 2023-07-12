@@ -15,8 +15,14 @@ package org.eclipse.escet.common.java;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 /** {@link List}s helper methods. */
 public final class Lists {
@@ -373,5 +379,43 @@ public final class Lists {
             throw new IllegalArgumentException("List does not have exactly one element: " + list);
         }
         return list.get(0);
+    }
+
+    /**
+     * Construct a collector for storing the result of a stream in a {@link #list} instance.
+     *
+     * @param <T> Type of the resulting list.
+     * @return Collector for collecting the result of the stream.
+     */
+    public static <T> Collector<T, List<T>, List<T>> toList() {
+        return new Collector<>() {
+            @Override
+            public Supplier<List<T>> supplier() {
+                return () -> list();
+            }
+
+            @Override
+            public BiConsumer<List<T>, T> accumulator() {
+                return (lst, val) -> lst.add(val);
+            }
+
+            @Override
+            public BinaryOperator<List<T>> combiner() {
+                return (lst1, lst2) -> {
+                    lst1.addAll(lst2);
+                    return lst1;
+                };
+            }
+
+            @Override
+            public Function<List<T>, List<T>> finisher() {
+                return result -> result;
+            }
+
+            @Override
+            public Set<Characteristics> characteristics() {
+                return EnumSet.of(Characteristics.IDENTITY_FINISH);
+            }
+        };
     }
 }
