@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022 Contributors to the Eclipse Foundation
+// Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -62,7 +62,12 @@ public class CsvParser {
     /**
      * Constructor of the {@link CsvParser} class.
      *
-     * @param handle Input file to parse, or {@code null}. This class does not close the handle.
+     * <p>
+     * The input to process can also be set with {@link #setInput}.
+     * </p>
+     *
+     * @param handle Input file to parse or {@code null} if it is set after construction. This class does not close the
+     *     handle.
      */
     public CsvParser(Reader handle) {
         if (handle != null) {
@@ -82,8 +87,8 @@ public class CsvParser {
     }
 
     /**
-     * Parse the CSV file as a list of lines of fields. Each line has the same number of fields, there is at least one
-     * field and one line.
+     * Parse the CSV file text provided earlier as a list of lines of fields. Each line has the same number of fields,
+     * there is at least one field and one line.
      *
      * <p>
      * See RFC-4180 for details on the accepted syntax.
@@ -125,11 +130,7 @@ public class CsvParser {
         }
 
         // (Starting point of the first call.)
-        if (isEof()) {
-            // If the first read hits EOF, file is empty. Note for other calls, the above EOF check yielded false, or we
-            // wouldn't be here.
-            return null;
-        }
+        //
         // Read the next line and return it.
         List<String> line = readLine();
         if (numFields < 0 || numFields == line.size()) {
