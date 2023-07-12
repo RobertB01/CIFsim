@@ -549,6 +549,16 @@ public final class Strings {
     }
 
     /**
+     * Returns the given string with all leading and trailing whitespace characters removed.
+     *
+     * @param str The string to trim.
+     * @return The trimmed string.
+     */
+    public static String trim(String str) {
+        return StringUtils.trim(str);
+    }
+
+    /**
      * Slices the given {@link String}. A slice is a sub-string of the original (input) string. The begin and end
      * indices can be thought of as the range of characters that should be maintained. That is, in principle, the range
      * of character indexes {@code [beginIndex .. endIndex - 1]} is maintained.
