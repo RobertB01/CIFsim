@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Lists.toList;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.java.Strings.trim;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -151,7 +150,7 @@ public class ReadMatrix {
         List<List<String>> lines = csvParser.parseFile();
 
         // Remove leading and trailing whitespace in the CSV file.
-        Function<List<String>, List<String>> trimmer = (line) -> line.stream().map(str -> trim(str)).collect(toList());
+        Function<List<String>, List<String>> trimmer = (line) -> line.stream().map(String::trim).collect(toList());
         return lines.stream().map(line -> trimmer.apply(line)).collect(toList());
     }
 
