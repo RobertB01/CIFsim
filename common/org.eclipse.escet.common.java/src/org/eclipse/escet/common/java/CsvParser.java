@@ -343,7 +343,7 @@ public class CsvParser {
         return false; // Read succeeded, not at EOF.
     }
 
-    /** Class for reporting a CVS parse error to the user. */
+    /** Class for reporting a CSV parse error to the user. */
     public static class CsvParseError extends RuntimeException {
         /**
          * Constructor of the {@link CsvParseError} class.
