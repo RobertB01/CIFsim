@@ -23,6 +23,9 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.ErrorOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /**
  * Application specific output provider. Provides the output to the output components registered with this provider.
@@ -35,6 +38,18 @@ import org.eclipse.escet.common.java.Strings;
  * @param <T> The application's output interface.
  */
 public class OutputProvider<T extends IOutputComponent> {
+    /** Implementation of the application debug output stream. */
+    private static final DebugNormalOutput DEBUG_OUTPUT_PROVIDER;
+
+    /** Implementation of the application normal output stream. */
+    private static final DebugNormalOutput NORMAL_OUTPUT_PROVIDER;
+
+    /** Implementation of the application warning output stream. */
+    private static final WarnOutput WARN_OUTPUT_PROVIDER;
+
+    /** Implementation of the application error output stream. */
+    private static final ErrorOutput ERROR_OUTPUT_PROVIDER;
+
     /** The output components to send output to. */
     protected final List<T> components = new CopyOnWriteArrayList<>();
 
@@ -46,6 +61,104 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /** The number of warnings so far. */
     protected int warningCount = 0;
+
+    static {
+        DEBUG_OUTPUT_PROVIDER = new DebugNormalOutput() {
+            @Override
+            public void line(String message) {
+                dbg(message);
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return dodbg();
+            }
+
+            @Override
+            public void inc() {
+                idbg();
+            }
+
+            @Override
+            public void dec() {
+                ddbg();
+            }
+        };
+        NORMAL_OUTPUT_PROVIDER = new DebugNormalOutput() {
+            @Override
+            public void line(String message) {
+                out(message);
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return doout();
+            }
+
+            @Override
+            public void inc() {
+                iout();
+            }
+
+            @Override
+            public void dec() {
+                dout();
+            }
+        };
+        WARN_OUTPUT_PROVIDER = new WarnOutput() {
+            @Override
+            public void line(String message) {
+                warn(message);
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return dowarn();
+            }
+        };
+        ERROR_OUTPUT_PROVIDER = new ErrorOutput() {
+            @Override
+            public void line(String message) {
+                err(message);
+            }
+        };
+    }
+
+    /**
+     * Get the application debug output stream.
+     *
+     * @return The debug output stream of the application.
+     */
+    public static DebugNormalOutput getDebugOutputStream() {
+        return DEBUG_OUTPUT_PROVIDER;
+    }
+
+    /**
+     * Get the application normal output stream.
+     *
+     * @return The normal output stream of the application.
+     */
+    public static DebugNormalOutput getNormalOutputStream() {
+        return NORMAL_OUTPUT_PROVIDER;
+    }
+
+    /**
+     * Get the application warning output stream.
+     *
+     * @return The warning output stream of the application.
+     */
+    public static WarnOutput getWarningOutputStream() {
+        return WARN_OUTPUT_PROVIDER;
+    }
+
+    /**
+     * Get the application error output stream.
+     *
+     * @return The error output stream of the application.
+     */
+    public static ErrorOutput getErrorOutputStream() {
+        return ERROR_OUTPUT_PROVIDER;
+    }
 
     /**
      * Returns the number of output components registered with this provider.
