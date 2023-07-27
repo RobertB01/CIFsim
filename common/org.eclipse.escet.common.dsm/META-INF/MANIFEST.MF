@@ -14,4 +14,7 @@ Require-Bundle: org.apache.commons.math3;bundle-version="3.6.1",
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.common.dsm,
  org.eclipse.escet.common.dsm.io,
+ org.eclipse.escet.common.dsm.sequencing,
+ org.eclipse.escet.common.dsm.sequencing.elements,
+ org.eclipse.escet.common.dsm.sequencing.graph,
  org.eclipse.escet.common.dsm.submatrix
