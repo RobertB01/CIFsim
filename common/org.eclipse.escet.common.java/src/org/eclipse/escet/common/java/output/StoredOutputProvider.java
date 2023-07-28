@@ -94,7 +94,9 @@ public class StoredOutputProvider {
      * @param isWarnEnabled Whether warning output is enabled.
      * @param indentSize Number of space to insert for a single indent level.
      */
-    public StoredOutputProvider(boolean isDebugEnabled, boolean isNormalEnabled, boolean isWarnEnabled, int indentSize) {
+    public StoredOutputProvider(boolean isDebugEnabled, boolean isNormalEnabled, boolean isWarnEnabled,
+            int indentSize)
+    {
         this.isDebugEnabled = isDebugEnabled;
         this.isNormalEnabled = isNormalEnabled;
         this.isWarnEnabled = isWarnEnabled;
