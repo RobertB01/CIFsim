@@ -19,16 +19,21 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /**
- * Data storage of input data for the clustering algorithm.
+ * Input data and configuration for the clustering algorithm.
  *
  * <p>
- * Only the adjacency matrix and labels need to be set during construction of the instance. All other parameters can be
- * freely changed, giving a lot of freedom in tuning them for the problem at hand.
+ * Only the adjacency matrix, the labels and the debug output stream need to be initially set during construction of the
+ * instance. All other parameters can be freely changed, giving a lot of freedom in tuning them for the problem at hand.
  * </p>
  */
-public class ClusterInputData {
+public class ClusterSettings {
+    /** Stream for sending debug output. */
+    public final DebugNormalOutput debugOut;
+
     /**
      * Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}.
      */
@@ -71,18 +76,23 @@ public class ClusterInputData {
     public double busInclusion;
 
     /**
-     * Constructor of the {@link ClusterInputData} class.
+     * Constructor of the {@link ClusterSettings} class.
+     *
+     * <p>
+     * Clustering is configured with the default parameter values.
+     * </p>
      *
      * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
      *     node {@code j}.
      * @param labels Names of the nodes.
+     * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
      */
-    public ClusterInputData(RealMatrix adjacencies, Label[] labels) {
-        this(adjacencies, labels, 2.5, 2, 2.5, 1e-4, NO_BUS, 2);
+    public ClusterSettings(RealMatrix adjacencies, Label[] labels, DebugNormalOutput debugOut) {
+        this(adjacencies, labels, 2.5, 2, 2.5, 1e-4, NO_BUS, 2, debugOut);
     }
 
     /**
-     * Constructor of the {@link ClusterInputData} class.
+     * Constructor of the {@link ClusterSettings} class.
      *
      * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
      *     node {@code j}.
@@ -93,9 +103,11 @@ public class ClusterInputData {
      * @param epsilon Convergence limit.
      * @param busDetectionAlgorithm The bus detection algorithm to apply.
      * @param busInclusion Tuning factor for the bus detection algorithm.
+     * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
      */
-    public ClusterInputData(RealMatrix adjacencies, Label[] labels, double evap, int stepCount, double inflation,
-            double epsilon, BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion)
+    public ClusterSettings(RealMatrix adjacencies, Label[] labels, double evap, int stepCount, double inflation,
+            double epsilon, BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion,
+            DebugNormalOutput debugOut)
     {
         this.adjacencies = adjacencies;
         this.labels = labels;
@@ -105,6 +117,7 @@ public class ClusterInputData {
         this.epsilon = epsilon;
         this.busDetectionAlgorithm = busDetectionAlgorithm;
         setBusInclusionFactor(busInclusion);
+        this.debugOut = (debugOut != null) ? debugOut : new BlackHoleOutputProvider();
     }
 
     /**

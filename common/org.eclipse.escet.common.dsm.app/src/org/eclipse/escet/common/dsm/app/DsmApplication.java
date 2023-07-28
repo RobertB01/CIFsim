@@ -30,7 +30,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.dsm.ClusterInputData;
+import org.eclipse.escet.common.dsm.ClusterSettings;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.Label;
 
@@ -73,7 +73,7 @@ public class DsmApplication extends Application<IOutputComponent> {
     @Override
     protected int runInternal() {
         String inPath = Paths.resolve(InputFileOption.getPath());
-        ClusterInputData inputData = readMatrixFile(inPath);
+        ClusterSettings inputData = readMatrixFile(inPath, OutputProvider.getDebugOutputStream());
         inputData.evap = DsmEvaporationOption.getEvaporationFactor();
         inputData.inflation = DsmInflationOption.getInflationFactor();
         inputData.busDetectionAlgorithm = DsmBusDetectionAlgorithmOption.getBusAlgorithm();

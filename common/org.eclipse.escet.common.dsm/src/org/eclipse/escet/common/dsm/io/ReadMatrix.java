@@ -27,11 +27,13 @@ import java.util.function.Function;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.dsm.ClusterInputData;
+import org.eclipse.escet.common.dsm.ClusterSettings;
 import org.eclipse.escet.common.dsm.Label;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
 import org.eclipse.escet.common.java.CsvParser.CsvParseError;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /** Code for reading and writing a matrix. */
 public class ReadMatrix {
@@ -48,10 +50,11 @@ public class ReadMatrix {
      * </p>
      *
      * @param matrixLines Read input, rows of columns of texts.
+     * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
      * @return The found cluster input data (adjacency values and labels).
      * @throws InputOutputException In case of a conversion error.
      */
-    static ClusterInputData convertToMatrix(List<List<String>> matrixLines) {
+    static ClusterSettings convertToMatrix(List<List<String>> matrixLines, DebugNormalOutput debugOut) {
         // Decide on the size of the matrix.
         // Note that rows may be one longer than columns, as row labels are mandatory, while column labels are optional.
         int matRowCount = matrixLines.size();
@@ -134,7 +137,7 @@ public class ReadMatrix {
         }
 
         // Return cluster input data.
-        return new ClusterInputData(adjMat, rowLabels);
+        return new ClusterSettings(adjMat, rowLabels, (debugOut != null) ? debugOut : new BlackHoleOutputProvider());
     }
 
     /**
@@ -174,12 +177,13 @@ public class ReadMatrix {
      * </p>
      *
      * @param filepath Path of the file to read.
+     * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
      * @return The read data.
      */
-    public static ClusterInputData readMatrixFile(String filepath) {
+    public static ClusterSettings readMatrixFile(String filepath, DebugNormalOutput debugOut) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
             List<List<String>> matrixLines = readMatrixLines(reader);
-            return convertToMatrix(matrixLines);
+            return convertToMatrix(matrixLines, debugOut);
         } catch (IOException | CsvParseError ex) {
             throw new InputOutputException(fmt("Failed to read matrix file \"%s\".", filepath), ex);
         }
