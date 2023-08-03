@@ -13,7 +13,10 @@
 
 package org.eclipse.escet.cif.multilevel;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
@@ -23,6 +26,8 @@ import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
+import org.eclipse.escet.cif.multilevel.clustering.ComputeMultiLevelTree;
+import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -111,6 +116,23 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
         if (isTerminationRequested()) {
             return 0;
+        }
+
+        // Compute clusters.
+        TreeNode rootNode = ComputeMultiLevelTree.process(cifRelations);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Dump result of computing multi-level tree.
+        for (TreeNode node: TreeNode.linearizeTree(rootNode)) {
+            out("Index: %d", node.index);
+            out("Plant groups: %s", node.plantGroups.isEmpty() ? "<none>" : node.plantGroups.toString());
+            out("Req groups:   %s", node.requirementGroups.isEmpty() ? "<none>" : node.requirementGroups.toString());
+            String childNodeNumbers = node.childNodes.stream().map(n -> String.valueOf(n.index))
+                    .collect(Collectors.joining(", "));
+            out("Child nodes: %s", childNodeNumbers.isEmpty() ? "<none>" : childNodeNumbers);
+            out();
         }
 
         OutputProvider.warn("Multi-level synthesis not yet implemented.");

@@ -25,4 +25,5 @@ Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="1.0.0",
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Automatic-Module-Name: org.eclipse.escet.cif.multilevel
 Export-Package: org.eclipse.escet.cif.multilevel,
+ org.eclipse.escet.cif.multilevel.clustering,
  org.eclipse.escet.cif.multilevel.ciftodmm
