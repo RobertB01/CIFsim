@@ -81,8 +81,9 @@ public class SequencerTest {
     public void testSimpleCycleGraph() {
         String graphPairs = "(1, 2), (2, 3), (3, 2), (3, 4)";
         String result = testSequencing(graphPairs);
-        String expected = "1 3 2 4\n" //
-                + "  * *";
+        String expected = """
+                1 3 2 4
+                  * *""";
         assertEquals(expected, result);
     }
 
@@ -107,9 +108,10 @@ public class SequencerTest {
                 (12, 4) (12, 6) (12, 10)
                 """;
         String result = testSequencing(graphPairs);
-        String expected = "1 2 3 11 7 6 10 9 12 5 4 8\n" //
-                + "           * *  * *\n" //
-                + "                     * * *";
+        String expected = """
+                1 2 3 11 7 6 10 9 12 5 4 8
+                           * *  * *
+                                     * * *""";
         assertEquals(expected, result);
     }
 }
