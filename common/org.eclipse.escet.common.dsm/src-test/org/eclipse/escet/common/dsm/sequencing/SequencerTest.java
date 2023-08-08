@@ -33,11 +33,11 @@ public class SequencerTest {
     /**
      * Sequence the provided graph and print the result, including indications of the strongly connected components.
      *
-     * @param pairs Pairs to load as a graph.
+     * @param pairs Pairs from which to construct a graph.
      * @return The generated output.
      */
     private static String testSequencing(String pairs) {
-        Graph g = GraphReader.loadVertexPairs(pairs);
+        Graph g = GraphReader.readVertexPairs(pairs);
         List<BitSet> collections = list();
         List<Vertex> vertices = Sequencer.sequenceGraph(g, collections);
 

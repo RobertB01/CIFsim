@@ -18,19 +18,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.eclipse.escet.common.java.Assert;
 import org.junit.jupiter.api.Test;
 
-/** Tests for loading a graph into the sequencer. */
+/** Tests for reading a graph. */
 public class GraphReaderTest {
     @Test
     @SuppressWarnings("javadoc")
-    public void testEmptyGraphLoad() {
-        Graph g = GraphReader.loadVertexPairs("");
+    public void testEmptyGraphRead() {
+        Graph g = GraphReader.readVertexPairs("");
         assertEquals("Graph with 0 vertices.\n", g.dumpGraph());
     }
 
     @Test
     @SuppressWarnings("javadoc")
-    public void testStringGraphLoad() {
-        Graph g = GraphReader.loadVertexPairs("(0, 5) (0, 9), (5, 9)\n");
+    public void testStringGraphRead() {
+        Graph g = GraphReader.readVertexPairs("(0, 5) (0, 9), (5, 9)\n");
 
         // Dirty way to tear the 0 -> 9 edge.
         Assert.check(g.vertices.get(0).name.equals("0"));
