@@ -382,9 +382,9 @@ public final class Lists {
     }
 
     /**
-     * Construct a collector for storing the result of a stream in a {@link #list} instance.
+     * Construct a collector for storing the result of a stream in a list created using {@link #list}.
      *
-     * @param <T> Type of the resulting list.
+     * @param <T> Type of the elements of the resulting list.
      * @return Collector for collecting the result of the stream.
      */
     public static <T> Collector<T, List<T>, List<T>> toList() {

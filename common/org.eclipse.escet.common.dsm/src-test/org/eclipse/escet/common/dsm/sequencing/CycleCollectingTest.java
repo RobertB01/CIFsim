@@ -64,7 +64,7 @@ public class CycleCollectingTest {
     }
 
     @Test
-    public void independentCyclesTest() {
+    public void testIndependentCycles() {
         Set<Cycle> cycles = set(cycle12, cycle789);
         List<List<Cycle>> collections = Sequencer.makeCycleCollections(cycles);
         assertEquals(2, collections.size());
