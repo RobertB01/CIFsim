@@ -239,7 +239,7 @@ public class CifProcessor {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
                         autEventTrans.addEdge(te, EdgesKind.RECEIVE);
                     } else {
-                        // Event could be a monitored. If so, it will be moved below.
+                        // Event could be monitored. If so, it will be moved below.
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
                         autEventTrans.addEdge(te, EdgesKind.SYNC_OR_MONITOR);
                     }

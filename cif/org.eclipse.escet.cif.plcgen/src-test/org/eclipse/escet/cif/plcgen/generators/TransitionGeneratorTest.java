@@ -369,7 +369,7 @@ public class TransitionGeneratorTest {
     }
 
     @Test
-    public void testOeMonitor() {
+    public void testOneMonitor() {
         Event event = newEvent(null, "event", null, null);
         spec.getDeclarations().add(event);
 

@@ -640,7 +640,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * @param transAut Automaton to generate test code for.
      * @param autIndex Automaton index that indicates the given automaton. Has negative value if not used.
-     * @param autVar PLC variable that stores the automaton found while testing for enabled edges. If {@code null} if
+     * @param autVar PLC variable that stores the automaton found while testing for enabled edges. Is {@code null} if
      *     there is no need to store an automaton index.
      * @param edgeVar For senders, receivers and syncers the PLC variable stores the edge in the automaton indicated by
      *     {@code autVar}. For syncers, it indicates the edge in a syncer automaton, as the edge variable implicitly
