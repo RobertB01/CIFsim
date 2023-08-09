@@ -27,6 +27,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Sets.sortedgeneric;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
+import static org.eclipse.escet.common.java.Sets.toSet;
 import static org.eclipse.escet.common.java.Sets.union;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -735,5 +736,11 @@ public class SetsTest {
         List<String> list2 = sortedstrings(set1);
         assertEquals(8, list2.size());
         assertEquals("[A, a, B, b, c, D, d, e]", list2.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testToSet() {
+        assertEquals(set(1, 2, 5), List.of(1, 2, 5, 2).stream().collect(toSet()));
     }
 }
