@@ -23,7 +23,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
@@ -259,7 +258,7 @@ public class CifProcessor {
             } else {
                 // Resolve ambiguities for the events.
                 Set<Event> monitorEvents = mons.getEvents().stream().map(expr -> ((EventExpression)expr).getEvent())
-                        .collect(Collectors.toCollection(Sets::set));
+                        .collect(Sets.toSet());
                 for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
                     autEventTrans.setIsMonitor(monitorEvents.contains(autEventTrans.event));
                 }
