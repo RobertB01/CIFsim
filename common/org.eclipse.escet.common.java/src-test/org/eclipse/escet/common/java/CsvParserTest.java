@@ -104,10 +104,37 @@ public class CsvParserTest {
     }
 
     @Test
+    public void testQuotedField() {
+        CsvParser p = CsvUtils.makeParser("\"ab\"\"cd\r\nef,gh\"");
+        List<List<String>> lines = p.parse();
+        assertEquals(1, lines.size());
+        assertEquals(1, lines.get(0).size());
+        assertEquals("ab\"cd\r\nef,gh", lines.get(0).get(0));
+    }
+
+    @Test
     public void testUnquotedField() {
         CsvParser p = CsvUtils.makeParser("abcd,pq");
         List<List<String>> lines = p.parse(); // 2 fields, 1 line.
         assertEquals(1, lines.size());
         assertEquals(2, lines.get(0).size());
+    }
+
+    @Test
+    public void testUnexpectedCharacterInField() {
+        CsvParser p = CsvUtils.makeParser("abc→def");
+        assertThrows(CsvParseError.class, () -> p.parse());
+    }
+
+    @Test
+    public void testUnexpectedCharacterAfterField() {
+        CsvParser p = CsvUtils.makeParser("abcdef→");
+        assertThrows(CsvParseError.class, () -> p.parse());
+    }
+
+    @Test
+    public void testUnexpectedCharacterAfterComma() {
+        CsvParser p = CsvUtils.makeParser("abcdef,→");
+        assertThrows(CsvParseError.class, () -> p.parse());
     }
 }

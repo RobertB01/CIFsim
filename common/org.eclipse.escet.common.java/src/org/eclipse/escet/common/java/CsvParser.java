@@ -228,7 +228,6 @@ public class CsvParser {
                 }
                 if (advanceChar(DQUOTE)) { // 2DQUOTE, unescape it and continue.
                     s.append(DQUOTE);
-                    advance();
                     continue;
                 }
                 return s.toString(); // DQUOTE and something else, finish after DQUOTE.
