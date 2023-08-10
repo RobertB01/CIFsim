@@ -77,7 +77,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void testTrailingFinal() {
+    public void testTrailingLf() {
         CsvParser p = CsvUtils.makeParser("a" + CRLF + "b" + LF); // 1 field, 2 lines.
         List<List<String>> lines = p.parse();
         assertEquals(2, lines.size());
