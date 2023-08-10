@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Parse a Comma Separated Value (CSV) text in <a href="https://www.ietf.org/rfc/rfc4180.txt">RFC-4180</a> format.
@@ -144,9 +145,11 @@ public class CsvParser {
             if (!advanced) {
                 char k = get();
                 if (isPrintable(k)) {
-                    throw new CsvParseError(fmt("Unexpected character ('%c', value %d) found.", k, (int)k));
+                    throw new CsvParseError(fmt("Unexpected character '%c' (Unicode U+%s) found.", k,
+                            Integer.toHexString(k).toUpperCase(Locale.US)));
                 } else {
-                    throw new CsvParseError(fmt("Unexpected character (value %d) found.", (int)k));
+                    throw new CsvParseError(fmt("Unexpected character (Unicode U+%s) found.",
+                            Integer.toHexString(k).toUpperCase(Locale.US)));
                 }
             }
         }
