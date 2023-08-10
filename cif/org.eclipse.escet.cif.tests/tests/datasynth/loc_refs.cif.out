@@ -223,7 +223,7 @@ Final synthesis result:
     Edge: (event: f1) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
     Edge: (event: f2) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
 
-Controlled system:                     exactly 2 states.
+Controlled system: exactly 2 states.
 
 Initial (synthesis result):            not pe.c and (q1.x = 0 and q1.y = 1)
 Initial (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)

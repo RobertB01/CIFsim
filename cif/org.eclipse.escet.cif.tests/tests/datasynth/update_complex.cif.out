@@ -219,7 +219,7 @@ Final synthesis result:
   State: (controlled-behavior: <bdd 29n 6p>)
     Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
-Controlled system:                     exactly 6 states.
+Controlled system: exactly 6 states.
 
 Initial (synthesis result):            <bdd 29n 6p>
 Initial (uncontrolled system):         p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)

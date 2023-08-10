@@ -187,7 +187,7 @@ Final synthesis result:
     Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
-Controlled system:                     exactly 8 states.
+Controlled system: exactly 8 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)

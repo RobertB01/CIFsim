@@ -14,7 +14,10 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
+import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -36,6 +39,8 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
+import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
+import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
@@ -51,6 +56,7 @@ import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.Stopwatch;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
@@ -69,9 +75,10 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      * @param doTiming Whether to collect timing statistics.
      * @param timing The timing statistics data. Is modified in-place.
+     * @param doPrintCtrlSysStates Whether to print controlled system states statistics.
      */
     public static void synthesize(SynthesisAutomaton aut, boolean dbgEnabled, boolean doTiming,
-            CifDataSynthesisTiming timing)
+            CifDataSynthesisTiming timing, boolean doPrintCtrlSysStates)
     {
         // Algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson:
         // Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions
@@ -239,11 +246,13 @@ public class CifDataSynthesis {
             }
             boolean emptySup = !checkInitStatePresent(aut);
 
-            // Debug output: number of states in controlled system.
-            if (aut.env.isTerminationRequested()) {
-                return;
+            // Statistics: number of states in controlled system.
+            if (doPrintCtrlSysStates) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                printNumberStates(aut, emptySup, doForward, dbgEnabled);
             }
-            printNumberStates(aut, emptySup, doForward, dbgEnabled);
 
             // Determine the output of synthesis (1/2).
             if (aut.env.isTerminationRequested()) {
@@ -778,15 +787,17 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Simplify. That is, because the edge guards are restricted, 'plantInv' will always be 'true'. This ensures
-            // that for an edge with update 'y := y + 1' and state plant invariant 'x != 3' that the edge won't get an
-            // extra guard 'x != 3'. Simplifying is best effort, it may be possible to simplify the guard further.
-            BDD updPredSimplified = updPred.simplify(aut.plantInv);
-            if (updPred.equals(updPredSimplified)) {
-                updPredSimplified.free();
-            } else {
+            // Compute 'guard and plantInv => updPred'. If the backwards applied state plant invariant is already
+            // implied by the current guard and state plant invariant in the source state, we don't need to strengthen
+            // the guard. In that case, replace the predicate by 'true', to not add any restriction.
+            BDD guardAndPlantInv = edge.guard.and(aut.plantInv);
+            BDD implication = guardAndPlantInv.imp(updPred);
+            boolean skip = implication.isOne();
+            guardAndPlantInv.free();
+            implication.free();
+            if (skip) {
                 updPred.free();
-                updPred = updPredSimplified;
+                updPred = aut.factory.one();
             }
 
             if (aut.env.isTerminationRequested()) {
@@ -1194,18 +1205,11 @@ public class CifDataSynthesis {
             }
 
             // Check whether the guards on edges of automata combined with invariants are all 'false'. There might be
-            // multiple edges for an event. State plant invariants are included in edge guards. Depending on options,
-            // state requirement invariants may always be in the controlled behavior, or they may also be included in
-            // edge guards. State requirement invariants will however only be in the edge guards for controllable
-            // events, and are simplified under the assumption that the requirement already holds in the source state
-            // of the edge. The full restriction may thus not be in the edge guard. For uncontrollable events, the
-            // state requirement invariants will always be in the controlled behavior, regardless of the options.
-            //
-            // If all state requirement invariants are encoded into the controlled behavior, we could check edge guards,
-            // state/event exclusion invariants, and state plant invariants only. And then check them again while also
-            // considering state requirement invariants. If state requirement invariants are encoded into edge guards
-            // or the controlled behavior, only the second option remains. To simplify the implementation and make it
-            // more consistent regardless of the options, we only perform the second check.
+            // multiple edges for an event. State/event exclusion plant invariants are included in the edge guards.
+            // State/event exclusion requirement invariants are included in the edge guards for controllable events.
+            // State plant invariants and state requirement invariants are sometimes included in the edge guard
+            // (it may depend on options, and on whether the edge guard was strengthened). To simplify the implementation and make it
+            // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 if (aut.env.isTerminationRequested()) {
@@ -1213,6 +1217,7 @@ public class CifDataSynthesis {
                 }
 
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
+                enabledExpression = enabledExpression.andWith(aut.plantInv.id());
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
                     alwaysDisabled = false;
@@ -1291,43 +1296,45 @@ public class CifDataSynthesis {
             boolean doTiming, CifDataSynthesisTiming timing)
     {
         // We know that:
-        // - Each round, we perform the same operations.
-        // - Each operation is a fixed point calculation.
-        // - All the operations take a controlled behavior and produce a potentially changed controlled behavior.
+        // - Each round, we perform the same computations, in the same order.
+        // - Each computation is a fixed-point reachability computation.
+        // - All the computations take a controlled behavior and produce a potentially changed controlled behavior.
         // - All other data that is used is constant. For instance, marking and initialization predicates of the
-        // original model are used, and they don't change during the main loop (this method). The used guards and
-        // update relations also don't change during the main loop (this method), etc.
+        // original model are used, and they don't change during the fixed-point computations. The used guards and
+        // update relations also don't change during the fixed-point computations, etc.
         //
-        // This means that:
-        // - If we have 'n' operations, and the previous 'n - 1' operations didn't change the controlled behavior,
-        // then the controlled behavior was last changed by the next operation that we will perform.
-        // - The controlled behavior came from that 'next' operation.
-        // - It was not changed by all the other operations since the last iteration of the loop.
-        // - The operation is a fixed point as all other operations.
-        // - Putting the result of a fixed point into that same fixed point again means the input is also the output.
-        // - Thus, the 'next' operation will not have an effect on the controlled behavior.
-        // - Similarly, all next operations won't have an affect. We have thus reached a fixed point for this entire
-        // main loop (this method), and are done with synthesis.
+        // To ensure a proper fixed-point result for synthesis:
+        // - We need to perform all the computations at least once.
+        // - We can stop as soon as the controlled behavior remains stable for all the computations.
         //
-        // Some additional things to consider:
-        // - This applies to any 'n - 1' previous operations, regardless of whether the next operation is the first
-        // operation of the loop, the last operation of the loop, or an operation in between.
-        // - We do need to go through all the operations of the loop at least once.
+        // Therefore:
+        // - We keep track of the number of consecutive computations that produced a stable result.
+        // - If a computation does not change the controlled behavior, we can increment the number by one.
+        // - If a computation changed the controlled behavior, we need to reconsider the other computations again.
+        // However, the computation itself is a fixed-point computation, and thus won't change the controlled behavior
+        // when applied again. Hence, that computation is the first computation after the change that produced a stable
+        // result, and the number can be set to one.
+        // - As soon as the number of consecutive computations that produced a stable result equals the total number of
+        // computations to perform, we have produced a stable result for all the computations.
+        //
+        // Note that:
+        // - We will perform each computation at least once, as we need that many increments to reach the termination
+        // condition.
+        // - We stop as soon as the controlled behavior is stable, regardless of whether we have completed the current
+        // round of performing the computations, since there is no need to finish the round if the controlled behavior
+        // is already stable.
 
-        // Count the number of reachability operations in the loop;
-        int reachabilityCount = 0;
-        reachabilityCount++; // Backward reach of marking.
-        reachabilityCount++; // Backward uncontrollable reach of bad states.
-        if (doForward) { // Forward reach of initialization.
-            reachabilityCount++;
+        // Get the fixed-point reachability computations to perform, in the order to perform them.
+        List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
+        if (!doForward) {
+            computationsInOrder = computationsInOrder.stream().filter(c -> c != REACH).toList();
         }
-
-        // Get the number of reachability operations that need to be stable before we can stop synthesis.
-        int stableCount = reachabilityCount - 1;
+        int numberOfComputations = computationsInOrder.size();
 
         // Perform synthesis.
         int round = 0;
-        int unchanged = 0;
+        int stableCount = 0;
+        FIXED_POINT_LOOP:
         while (true) {
             // Next round.
             round++;
@@ -1340,184 +1347,85 @@ public class CifDataSynthesis {
                 dbg("Round %d: started.", round);
             }
 
-            // Operation 1: Compute non-blocking predicate from marking.
+            // Perform the fixed-point reachability computations of the round.
+            for (FixedPointComputation fixedPointComputation: computationsInOrder) {
+                // Get predicate from which to start the fixed-point reachability computation.
+                BDD startPred = switch (fixedPointComputation) {
+                    case NONBLOCK -> aut.marked.id();
+                    case CTRL -> aut.ctrlBeh.not();
+                    case REACH -> aut.initialCtrl.id();
+                };
+                if (fixedPointComputation == CTRL && aut.env.isTerminationRequested()) {
+                    return;
+                }
 
-            // 1a: Perform backward reachability computation (fixed point).
-            BDD nonBlock;
-            if (doTiming) {
-                timing.mainBwMarked.start();
-            }
-            try {
-                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                        "backward controlled-behavior", "marker", "current/previous controlled-behavior", //
-                        aut.ctrlBeh, // restriction
-                        false, // not bad states = good states
-                        false, // not forward reachability = backward reachability
-                        true, // include edges with controllable events
-                        true, // include edges with uncontrollable events
-                        dbgEnabled);
-                nonBlock = reachability.performReachability(aut.marked.id());
-            } finally {
+                // Configure fixed-point reachability computation.
+                String predName; // Name of the predicate to compute.
+                String initName; // Name of the initial value of the predicate.
+                String restrictionName; // Name of the restriction predicate, if applicable.
+                BDD restriction; // The restriction predicate, if applicable.
+                boolean badStates; // Whether the predicate represents bad states (true) or good states (false).
+                boolean applyForward; // Whether to apply forward reachability (true) or backward reachability (false).
+                boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
+                final boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
+                switch (fixedPointComputation) {
+                    case NONBLOCK:
+                        predName = "backward controlled-behavior";
+                        initName = "marker";
+                        restrictionName = "current/previous controlled-behavior";
+                        restriction = aut.ctrlBeh;
+                        badStates = false;
+                        applyForward = false;
+                        inclCtrl = true;
+                        break;
+                    case CTRL:
+                        predName = "backward uncontrolled bad-state";
+                        initName = "current/previous controlled behavior";
+                        restrictionName = null;
+                        restriction = null;
+                        badStates = true;
+                        applyForward = false;
+                        inclCtrl = false;
+                        break;
+                    case REACH:
+                        predName = "forward controlled-behavior";
+                        initName = "initialization";
+                        restrictionName = "current/previous controlled-behavior";
+                        restriction = aut.ctrlBeh;
+                        badStates = false;
+                        applyForward = true;
+                        inclCtrl = true;
+                        break;
+                    default:
+                        throw new RuntimeException("Unknown fixed-point computation: " + fixedPointComputation);
+                }
+
+                // Start timing the fixed-point reachability computation.
                 if (doTiming) {
-                    timing.mainBwMarked.stop();
+                    Stopwatch stopwatch = switch (fixedPointComputation) {
+                        case NONBLOCK -> timing.mainBwMarked;
+                        case CTRL -> timing.mainBwBadState;
+                        case REACH -> timing.mainFwInit;
+                    };
+                    stopwatch.start();
                 }
-            }
 
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            // 1b: Detect change in controlled behavior.
-            if (aut.ctrlBeh.equals(nonBlock)) {
-                nonBlock.free();
-                unchanged++;
-            } else {
-                if (dbgEnabled) {
-                    dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(nonBlock, aut));
-                }
-                aut.ctrlBeh.free();
-                aut.ctrlBeh = nonBlock;
-                unchanged = 0;
-            }
-
-            // 1c: Detect fixed point for main loop.
-            BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-            boolean noCtrlStates = ctrlStates.isZero();
-            ctrlStates.free();
-            if (noCtrlStates) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, all states are bad.", round);
-                }
-                break;
-            }
-            if (round > 1 && unchanged >= stableCount) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, controlled behavior is stable.", round);
-                }
-                break;
-            }
-            if (unchanged == 0) {
-                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                boolean noInit = init.isZero();
-                init.free();
-                if (noInit) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, no initialization possible.", round);
-                    }
-                    break;
-                }
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            // Operation 2: Compute bad-state predicate from blocking predicate.
-
-            // 2a: Perform backward reachability computation (fixed point).
-            BDD badState = aut.ctrlBeh.not();
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            if (doTiming) {
-                timing.mainBwBadState.start();
-            }
-            try {
-                CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                        "backward uncontrolled bad-state", "current/previous controlled behavior", null, //
-                        null, // no restriction
-                        true, // bad states
-                        false, // not forward reachability = backward reachability
-                        false, // exclude edges with controllable events
-                        true, // include edges with uncontrollable events
-                        dbgEnabled);
-                badState = reachability.performReachability(badState);
-            } finally {
-                if (doTiming) {
-                    timing.mainBwBadState.stop();
-                }
-            }
-
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            BDD newCtrlBeh = badState.not();
-            badState.free();
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            // 2b: Detect change in controlled behavior.
-            if (aut.ctrlBeh.equals(newCtrlBeh)) {
-                newCtrlBeh.free();
-                unchanged++;
-            } else {
-                if (dbgEnabled) {
-                    dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
-                }
-                aut.ctrlBeh.free();
-                aut.ctrlBeh = newCtrlBeh;
-                unchanged = 0;
-            }
-
-            // 2c: Detect fixed point for main loop.
-            ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-            noCtrlStates = ctrlStates.isZero();
-            ctrlStates.free();
-            if (noCtrlStates) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, all states are bad.", round);
-                }
-                break;
-            }
-            if ((!doForward || round > 1) && unchanged >= stableCount) {
-                if (dbgEnabled) {
-                    dbg();
-                    dbg("Round %d: finished, controlled behavior is stable.", round);
-                }
-                break;
-            }
-            if (unchanged == 0) {
-                BDD init = aut.initialCtrl.and(aut.ctrlBeh);
-                boolean noInit = init.isZero();
-                init.free();
-                if (noInit) {
-                    if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, no initialization possible.", round);
-                    }
-                    break;
-                }
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            // Operation 3: Optional forward reachability: compute controlled-behavior predicate from initialization of
-            // the controlled system as determined so far.
-            if (doForward) {
-                // 3a: Perform forward reachability computation (fixed point).
-                if (doTiming) {
-                    timing.mainFwInit.start();
-                }
+                // Perform the fixed-point reachability computation.
+                BDD reachabilityResult;
                 try {
-                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, //
-                            "forward controlled-behavior", "initialization", "current/previous controlled-behavior", //
-                            aut.ctrlBeh, // no restriction
-                            false, // not bad states = good states
-                            true, // forward reachability
-                            true, // include edges with controllable events
-                            true, // include edges with uncontrollable events
+                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(aut, round, predName,
+                            initName, restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl,
                             dbgEnabled);
-                    newCtrlBeh = reachability.performReachability(aut.initialCtrl.id());
+                    reachabilityResult = reachability.performReachability(startPred);
                 } finally {
+                    // Stop timing the fixed-point reachability computation.
                     if (doTiming) {
-                        timing.mainFwInit.stop();
+                        Stopwatch stopwatch = switch (fixedPointComputation) {
+                            case NONBLOCK -> timing.mainBwMarked;
+                            case CTRL -> timing.mainBwBadState;
+                            case REACH -> timing.mainFwInit;
+                        };
+                        stopwatch.stop();
                     }
                 }
 
@@ -1525,40 +1433,82 @@ public class CifDataSynthesis {
                     return;
                 }
 
-                // 3b: Detect change in controlled behavior.
-                if (aut.ctrlBeh.equals(newCtrlBeh)) {
+                // Get new controlled behavior.
+                BDD newCtrlBeh;
+                switch (fixedPointComputation) {
+                    case NONBLOCK:
+                    case REACH:
+                        newCtrlBeh = reachabilityResult;
+                        break;
+                    case CTRL:
+                        newCtrlBeh = reachabilityResult.not();
+                        reachabilityResult.free();
+                        if (aut.env.isTerminationRequested()) {
+                            return;
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException("Unknown fixed-point computation: " + fixedPointComputation);
+                }
+
+                // Detect change in controlled behavior.
+                boolean unchanged = aut.ctrlBeh.equals(newCtrlBeh);
+                boolean changed = !unchanged;
+                if (unchanged) {
                     newCtrlBeh.free();
-                    unchanged++;
+                    stableCount++;
                 } else {
                     if (dbgEnabled) {
                         dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
                     }
                     aut.ctrlBeh.free();
                     aut.ctrlBeh = newCtrlBeh;
-                    unchanged = 0;
+                    stableCount = 1;
                 }
 
-                // 3c: Detect fixed point for main loop.
-                // No need to check the controlled behavior with initialization, as forward reachability starts there.
-                ctrlStates = aut.ctrlBeh.and(aut.plantInv);
-                noCtrlStates = ctrlStates.isZero();
+                // Detect a fixed point for all fixed-point computations (as far as they are not disabled by options):
+
+                // 1) Check for empty controlled behavior.
+                BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+                boolean noCtrlStates = ctrlStates.isZero();
                 ctrlStates.free();
                 if (noCtrlStates) {
                     if (dbgEnabled) {
                         dbg();
                         dbg("Round %d: finished, all states are bad.", round);
                     }
-                    break;
+                    break FIXED_POINT_LOOP;
                 }
-                if (unchanged >= stableCount) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
+                // 2) Check for controlled behavior being stable, after having performed all computations at least once.
+                if (stableCount == numberOfComputations) {
                     if (dbgEnabled) {
                         dbg();
                         dbg("Round %d: finished, controlled behavior is stable.", round);
                     }
-                    break;
+                    break FIXED_POINT_LOOP;
                 }
-                if (aut.env.isTerminationRequested()) {
-                    return;
+
+                // 3) Check for no initial states left, if the controlled behavior changed. There is no need to check
+                // this for forward reachability, as it starts from the initial states, and if there are no initial
+                // states, then the controlled behavior is empty and a fixed point was detected above already.
+                if (changed && fixedPointComputation != REACH) {
+                    BDD init = aut.initialCtrl.and(aut.ctrlBeh);
+                    boolean noInit = init.isZero();
+                    init.free();
+                    if (noInit) {
+                        if (dbgEnabled) {
+                            dbg();
+                            dbg("Round %d: finished, no initialization possible.", round);
+                        }
+                        break FIXED_POINT_LOOP;
+                    }
+                    if (aut.env.isTerminationRequested()) {
+                        return;
+                    }
                 }
             }
 
@@ -1652,7 +1602,7 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Prints the number of states in the controlled system, as debug output.
+     * Prints the number of states in the controlled system, as normal output, separating it from the debug output.
      *
      * @param aut The synthesis automaton.
      * @param emptySup Whether the supervisor is empty.
@@ -1662,11 +1612,6 @@ public class CifDataSynthesis {
     private static void printNumberStates(SynthesisAutomaton aut, boolean emptySup, boolean doForward,
             boolean dbgEnabled)
     {
-        // Only print debug output if enabled.
-        if (!dbgEnabled) {
-            return;
-        }
-
         // Get number of states in controlled system.
         double nr;
         if (emptySup) {
@@ -1679,11 +1624,12 @@ public class CifDataSynthesis {
         }
         Assert.check(emptySup || nr > 0);
 
-        // Print debug output.
+        // Print controlled system states statistics.
         boolean isExact = emptySup || doForward;
-        dbg();
-        dbg("Controlled system:                     %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr,
-                nr == 1 ? "" : "s");
+        if (dbgEnabled) {
+            dbg();
+        }
+        out("Controlled system: %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr, nr == 1 ? "" : "s");
     }
 
     /**

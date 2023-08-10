@@ -277,7 +277,7 @@ Final synthesis result:
     Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
     Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
 
-Controlled system:                     exactly 13 states.
+Controlled system: exactly 13 states.
 
 Initial (synthesis result):            <bdd 26n 13p>
 Initial (uncontrolled system):         p.x = 0 and (r2.l1 and r3.l1)

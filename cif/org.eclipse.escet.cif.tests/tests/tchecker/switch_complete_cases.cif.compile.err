@@ -1,0 +1,1 @@
+WARNING: File "tchecker/switch_complete_cases.cif": Semantic warning at line 109, column 15: The switch expression has only one case, which is deprecated.

@@ -87,7 +87,7 @@ Final synthesis result:
   State: (controlled-behavior: a.l1)
     Edge: (event: u) (guard: a.l1 -> false) (assignments: a := a.l2)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            a.l1
 Initial (uncontrolled system):         a.l1

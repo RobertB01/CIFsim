@@ -208,7 +208,7 @@ Final synthesis result:
     Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
     Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2 -> false)
 
-Controlled system:                     exactly 6 states.
+Controlled system: exactly 6 states.
 
 Initial (synthesis result):            p.x = 2 or (p.x = 3 or r.loc1)
 Initial (uncontrolled system):         p.x = 0 and r.loc1

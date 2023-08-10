@@ -1,0 +1,68 @@
+Reading CIF file "datasynth/stats_none.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+Starting data-based synthesis.
+
+Invariant (component state plant invariant): false
+Invariant (components state plant inv):      false
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    false
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/plant inv): false
+Initial   (system, combined init/state inv): false
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined mark/plant inv): false
+Marked    (system, combined mark/state inv): false
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
+
+Restricting uncontrolled behavior using state plant invariants.
+
+Initialized controlled-behavior predicate: true.
+Initialized controlled-initialization predicate: false.
+
+Restricting behavior using state requirements.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+
+Round 1: finished, all states are bad.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         true
+Initial (controlled system):           false
+Initial (removed by supervisor):       true
+Initial (added by supervisor):         false

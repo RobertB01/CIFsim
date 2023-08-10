@@ -236,7 +236,7 @@ Final synthesis result:
     Edge: (event: remove_f) (guard: true) (assignments: buffer.f := buffer.f - 2)
     Edge: (event: remove_g) (guard: true) (assignments: buffer.g := buffer.g - 2)
 
-Controlled system:                     exactly 0 states.
+Controlled system: exactly 0 states.
 
 Initial (synthesis result):            false
 Initial (uncontrolled system):         <bdd 11n 32p>

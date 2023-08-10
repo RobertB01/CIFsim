@@ -646,9 +646,8 @@ public class CifToSupremica {
                         if (hasGuard) {
                             Element guardsElem = doc.createElement("Guards");
                             blockElem.appendChild(guardsElem);
-                            for (Expression guard: edge.getGuards()) {
-                                addExpr(doc, guardsElem, guard);
-                            }
+                            Expression guard = CifValueUtils.createConjunction(deepclone(edge.getGuards()));
+                            addExpr(doc, guardsElem, guard);
                         }
 
                         // Add updates.

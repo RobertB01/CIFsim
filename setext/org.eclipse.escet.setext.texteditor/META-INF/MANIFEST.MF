@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET SeText Text Editor (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.setext.texteditor;singleton:=true
-Bundle-Version: 0.10.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
@@ -10,15 +10,15 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.17.0",
  org.eclipse.ui;bundle-version="3.115.0",
  org.eclipse.ui.editors;bundle-version="3.13.0",
  org.eclipse.jface.text;bundle-version="3.16.100",
- org.eclipse.escet.common.java;bundle-version="0.10.0",
- org.eclipse.escet.setext.parser;bundle-version="0.10.0",
+ org.eclipse.escet.common.java;bundle-version="1.0.0",
+ org.eclipse.escet.setext.parser;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.13.600",
- org.eclipse.escet.common.typechecker;bundle-version="0.10.0",
- org.eclipse.escet.setext.typechecker;bundle-version="0.10.0",
- org.eclipse.escet.setext.runtime;bundle-version="0.10.0",
- org.eclipse.escet.setext.texteditorbase;bundle-version="0.10.0",
+ org.eclipse.escet.common.typechecker;bundle-version="1.0.0",
+ org.eclipse.escet.setext.typechecker;bundle-version="1.0.0",
+ org.eclipse.escet.setext.runtime;bundle-version="1.0.0",
+ org.eclipse.escet.setext.texteditorbase;bundle-version="1.0.0",
  org.eclipse.ui.ide;bundle-version="3.18.200",
- org.eclipse.escet.common.app.framework;bundle-version="0.10.0"
+ org.eclipse.escet.common.app.framework;bundle-version="1.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.setext.texteditor
 Automatic-Module-Name: org.eclipse.escet.setext.texteditor

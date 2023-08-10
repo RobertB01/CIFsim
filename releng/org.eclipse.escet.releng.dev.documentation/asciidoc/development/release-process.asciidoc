@@ -123,6 +123,10 @@ This should be automatic.
 The old version should no longer be present.
 This should be automatic.
 
+* Verify that the `version` of each `import feature` in all `feature.xml` files is properly updated.
+The old version should no longer be present.
+This should be automatic.
+
 * Verify that the `Bundle-Version` of all `MANIFEST.MF` files in `org.eclipse.escet.*` projects are properly updated.
 The old version should no longer be present.
 This should be automatic.
@@ -157,9 +161,6 @@ This should be automatic.
 * Verify that the `license-feature-version` of all `feature.xml` files in `org.eclipse.escet.*` projects are properly updated.
 The old version should no longer be present.
 This should be automatic.
-
-* Manually replace in all `feature.xml` files the regex `+<import feature="([^"]+)" version="<old-version>"/>+` by `+<import feature="\1" version="<new-version>"/>+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0.qualifier`.
-Check for unintended changes.
 
 * Manually search for the old version in all `features.xml` files to ensure none remain.
 

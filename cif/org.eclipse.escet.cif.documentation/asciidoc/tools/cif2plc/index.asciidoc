@@ -98,16 +98,9 @@ For PLC implementations that don't support the non-formal syntax, the formal syn
 By default the formal syntax is used only for all but the standard library/conversion functions.
 This can be changed to only the standard library/conversion functions, or to all functions.
 
-* _Eliminate enumerations_: Enable this option to eliminate enumerations (by converting them to integers) before generating the actual PLC code, in case the PLC doesn't support enumerations.
-Disable this option to keep enumerations in the generated PLC code.
-By default this option is disabled.
-This option is deprecated.
-Use the _Convert enumerations_ option instead.
-
 * _Convert enumerations_: Specifies whether enumerations should be converted before generating the actual PLC code, in case the PLC doesn't support enumerations.
 Enumerations can be converted to integers or constants.
 By default enumerations are not converted.
-This option has no effect if the _Eliminate enumerations_ option is enabled.
 
 * _Simplify values_: Enable this option to simplify values and inline constants during generation of the PLC code.
 The benefit is that static computations are evaluated, and for the result simpler PLC code is generated.
@@ -235,7 +228,7 @@ It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CI
 
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
-* <<tools-cif2cif-chapter-enums-to-ints>> (if _Convert enumerations_ option is set to integers or if _Eliminate enumerations_ is enabled)
+* <<tools-cif2cif-chapter-enums-to-ints>> (if _Convert enumerations_ option is set to integers)
 
 * <<tools-cif2cif-chapter-enums-to-consts>> (if _Convert enumerations_ option is set to constants)
 

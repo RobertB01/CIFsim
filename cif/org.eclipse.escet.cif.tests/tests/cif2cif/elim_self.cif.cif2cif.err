@@ -1,0 +1,2 @@
+WARNING: File "cif2cif/elim_self.cif": Semantic warning at line 18, column 17: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/elim_self.cif": Semantic warning at line 19, column 17: The switch expression has only one case, which is deprecated.

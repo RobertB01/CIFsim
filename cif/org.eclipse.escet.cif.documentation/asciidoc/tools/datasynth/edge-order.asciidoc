@@ -16,7 +16,7 @@ indexterm:[data-based supervisory controller synthesis,edge order]
 [[tools-datasynth-edge-order]]
 == Edge order
 
-Data-based supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (<<tools-datasynth-forward-reach,forward reachability>>), or which states can reach which other states (backward reachability).
+Data-based supervisor synthesis involves many <<tools-datasynth-fixed-point-order,reachability computations>> to determine which states can be reached from which other states (<<tools-datasynth-forward-reach,forward reachability>>), or which states can reach which other states (backward reachability).
 This involves repeatedly following edges to find those states, using a fixed point computation.
 
 Synthesis does not directly use the edges from the model.
@@ -29,7 +29,7 @@ As long as new states are found, the edges will keep being followed.
 Once it is clear that considering edges no longer leads to finding new states, a fixed point has been reached and the computation stops.
 
 The order in which the edges are considered for such computations has no effect on the final fixed point result.
-The order can however significantly influence the performance of supervisor synthesis.
+The order can however significantly influence the <<tools-datasynth-performance,performance>> of supervisor synthesis.
 For instance, consider that there are dozens of edges and from the already discovered states there is only one edge that leads to more states being found.
 Then considering that one particular edge first will immediately lead to more states being found.
 Considering other edges first will lead to wasted computations, as they won't find any new states.

@@ -1,4 +1,5 @@
-WARNING: File "datasynth/event_warnings.cif": Semantic warning at line 38, column 12: Location "l3" is not reachable from any of the initial locations of automaton "p".
+WARNING: File "datasynth/event_warnings.cif": Semantic warning at line 42, column 12: Location "l3" is not reachable from any of the initial locations of automaton "p".
+WARNING: File "datasynth/event_warnings.cif": Semantic warning at line 95, column 12: Location "l3" is not reachable from any of the initial locations of automaton "q".
 WARNING: Event "p.c0" is never enabled in the input specification, taking into account only automaton guards.
 WARNING: Event "p.c1" is never enabled in the input specification, taking into account only state/event exclusion requirements.
 WARNING: Event "p.c2" is never enabled in the input specification, taking into account only state/event exclusion plants.
@@ -7,15 +8,23 @@ WARNING: Event "p.c4" is never enabled in the input specification, taking into a
 WARNING: Event "p.c5" is never enabled in the input specification, taking into account automaton guards and invariants.
 WARNING: Event "p.c6" is never enabled in the input specification, taking into account automaton guards and invariants.
 WARNING: Event "p.c7" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "p.c8" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "p.c9" is never enabled in the input specification, taking into account automaton guards and invariants.
 WARNING: Event "p.c10" is never enabled in the input specification, taking into account automaton guards and invariants.
-WARNING: Event "p.c11" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "p.c11" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "p.c14" is never enabled in the input specification, taking into account only automaton guards.
 WARNING: Event "q.u0" is never enabled in the input specification, taking into account only automaton guards.
-WARNING: Event "q.u1" is never enabled in the input specification, taking into account only state/event exclusion plants.
-WARNING: Event "q.u2" is never enabled in the input specification, taking into account automaton guards and invariants.
-WARNING: Event "q.u3" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "q.u2" is never enabled in the input specification, taking into account only state/event exclusion plants.
 WARNING: Event "q.u4" is never enabled in the input specification, taking into account automaton guards and invariants.
-WARNING: Event "p.c8" is disabled in the controlled system.
-WARNING: Event "p.c9" is disabled in the controlled system.
+WARNING: Event "q.u7" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "q.u8" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "q.u9" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "q.u11" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "q.u14" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "p.c12" is disabled in the controlled system.
 WARNING: Event "p.c13" is disabled in the controlled system.
+WARNING: Event "p.c16" is disabled in the controlled system.
 WARNING: Event "c_synch" is disabled in the controlled system.
+WARNING: Event "q.u13" is disabled in the controlled system.
+WARNING: Event "q.u16" is disabled in the controlled system.
 WARNING: Event "u_synch" is disabled in the controlled system.

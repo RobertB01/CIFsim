@@ -80,7 +80,7 @@ public class EventLoopSearch {
         }
 
         @Override
-        protected void addCycle(List<EventLoopEdge> edges, Set<EventLoop> foundCycles) {
+        protected void addCycle(Automaton aut, List<EventLoopEdge> edges, Set<EventLoop> foundCycles) {
             // Collect the events of each edge in the cycle.
             List<List<Event>> eventCollections = listc(edges.size());
             for (EventLoopEdge edge: edges) {
@@ -96,7 +96,7 @@ public class EventLoopSearch {
         }
 
         @Override
-        protected List<EventLoopEdge> getOutgoingEdges(Location vertex) {
+        protected List<EventLoopEdge> getOutgoingEdges(Automaton aut, Location vertex) {
             List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
                 if (isEmptyIntersection(loopEvents, getEvents(edge))) {
