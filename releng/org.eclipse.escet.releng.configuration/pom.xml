@@ -54,7 +54,7 @@ SPDX-License-Identifier: MIT
         <maven.enforcer.version>3.0.0</maven.enforcer.version>
 
         <!-- Tycho version to use. -->
-        <tycho.version>4.0.0</tycho.version>
+        <tycho.version>4.0.1</tycho.version>
 
         <!-- Documentation plug-in versions. -->
         <asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
