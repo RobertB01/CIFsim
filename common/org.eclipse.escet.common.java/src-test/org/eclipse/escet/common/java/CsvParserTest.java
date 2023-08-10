@@ -33,7 +33,7 @@ public class CsvParserTest {
     @Test
     public void testEmptyFileParse() {
         CsvParser p = CsvUtils.makeParser("");
-        List<List<String>> lines = p.parseFile(); // 1 empty field, 1 line.
+        List<List<String>> lines = p.parse(); // 1 empty field, 1 line.
         assertEquals(1, lines.size());
         assertEquals(1, lines.get(0).size());
         assertEquals("", lines.get(0).get(0));
@@ -42,7 +42,7 @@ public class CsvParserTest {
     @Test
     public void testCommaFileParse() {
         CsvParser p = CsvUtils.makeParser(",");
-        List<List<String>> lines = p.parseFile(); // 2 empty fields, 1 line.
+        List<List<String>> lines = p.parse(); // 2 empty fields, 1 line.
         assertEquals(1, lines.size());
         assertEquals(2, lines.get(0).size());
         assertEquals("", lines.get(0).get(0));
@@ -52,57 +52,61 @@ public class CsvParserTest {
     @Test
     public void testCrlfDelimiter() {
         CsvParser p = CsvUtils.makeParser("a" + CRLF + "b"); // 1 field, 2 lines.
-        List<List<String>> lines = p.parseFile();
+        List<List<String>> lines = p.parse();
         assertEquals(2, lines.size());
         assertEquals(1, lines.get(0).size());
+        assertEquals(1, lines.get(1).size());
     }
 
     @Test
-    public void finalCrlfTest() {
+    public void testTrailingCrlf() {
         CsvParser p = CsvUtils.makeParser("a" + CRLF + "b" + CRLF); // 1 field, 2 lines.
-        List<List<String>> lines = p.parseFile();
+        List<List<String>> lines = p.parse();
         assertEquals(2, lines.size());
         assertEquals(1, lines.get(0).size());
+        assertEquals(1, lines.get(1).size());
     }
 
     @Test
     public void testLfDelimiter() {
         CsvParser p = CsvUtils.makeParser("a" + LF + "b"); // 1 field, 2 lines.
-        List<List<String>> lines = p.parseFile();
+        List<List<String>> lines = p.parse();
         assertEquals(2, lines.size());
         assertEquals(1, lines.get(0).size());
+        assertEquals(1, lines.get(1).size());
     }
 
     @Test
-    public void testFinalLf() {
+    public void testTrailingFinal() {
         CsvParser p = CsvUtils.makeParser("a" + CRLF + "b" + LF); // 1 field, 2 lines.
-        List<List<String>> lines = p.parseFile();
+        List<List<String>> lines = p.parse();
         assertEquals(2, lines.size());
         assertEquals(1, lines.get(0).size());
+        assertEquals(1, lines.get(1).size());
     }
 
     @Test
     public void testUnquotedFieldWithQuote() {
         CsvParser p = CsvUtils.makeParser("ab\"cd");
-        assertThrows(CsvParseError.class, () -> p.parseFile());
+        assertThrows(CsvParseError.class, () -> p.parse());
     }
 
     @Test
     public void testEofInQuotedField() {
         CsvParser p = CsvUtils.makeParser("\"ab\"\"cd");
-        assertThrows(CsvParseError.class, () -> p.parseFile());
+        assertThrows(CsvParseError.class, () -> p.parse());
     }
 
     @Test
     public void testBadNumberOfFields() {
         CsvParser p = CsvUtils.makeParser("ab,cd" + CR + "de,fg,hi");
-        assertThrows(CsvParseError.class, () -> p.parseFile());
+        assertThrows(CsvParseError.class, () -> p.parse());
     }
 
     @Test
     public void testUnquotedField() {
         CsvParser p = CsvUtils.makeParser("abcd,pq");
-        List<List<String>> lines = p.parseFile(); // 2 fields, 1 line.
+        List<List<String>> lines = p.parse(); // 2 fields, 1 line.
         assertEquals(1, lines.size());
         assertEquals(2, lines.get(0).size());
     }
