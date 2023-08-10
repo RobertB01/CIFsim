@@ -112,7 +112,7 @@ public class CsvParser {
      * </p>
      *
      * @return Lines of the CSV text.
-     * @throws CsvParseError If the input data does not follow the RFC-4180 standard.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     public List<List<String>> parse() {
         List<List<String>> lines = list();
@@ -130,7 +130,7 @@ public class CsvParser {
      * Read a line from the CSV text.
      *
      * @return Next line, or {@code null} if end of input has been reached.
-     * @throws CsvParseError If the input data does not follow the RFC-4180 standard.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     public List<String> getLine() {
         if (numFields >= 0) {
@@ -164,9 +164,10 @@ public class CsvParser {
     }
 
     /**
-     * Read the next line from the input. Aborts reading on anything non-familiar.
+     * Read the next line from the input.
      *
      * @return The fields of the read line.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     private List<String> readLine() {
         // ABNF: record = field *(COMMA field)
@@ -183,9 +184,10 @@ public class CsvParser {
     }
 
     /**
-     * Read the next field from the input. Aborts reading on anything non-familiar.
+     * Read the next field from the input.
      *
      * @return The text of the read field. May be an empty string.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     private String readField() {
         // ABNF: field = (escaped / non-escaped)
@@ -200,6 +202,7 @@ public class CsvParser {
      * Read a field protected with double quotes.
      *
      * @return The text of the field. May be an empty string.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     private String getQuotedField() {
         // ABNF: escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
@@ -234,6 +237,7 @@ public class CsvParser {
      * Collect the contents of an unquoted field. Caller should check for the field being unquoted.
      *
      * @return The collected field text. May be an empty string.
+     * @throws CsvParseError In case of an I/O error.
      */
     private String getUnquotedField() {
         // ABNF: non-escaped = *TEXTDATA
@@ -277,10 +281,11 @@ public class CsvParser {
     }
 
     /**
-     * Check if the next character is {@code k}. If so, advance the input.
+     * Check whether the next character is {@code k}. If so, advance the input.
      *
      * @param k Character to test against.
      * @return Whether a match was found and the input is advanced.
+     * @throws CsvParseError In case of an I/O error.
      */
     private boolean advanceChar(char k) {
         if (!isEof() && get() == k) {
@@ -296,6 +301,7 @@ public class CsvParser {
      * advanced.
      *
      * @return The next character at the input.
+     * @throws CsvParseError In case of an I/O error.
      */
     private char get() {
         Assert.check(!isEof());
@@ -304,7 +310,11 @@ public class CsvParser {
         return (char)nextChar;
     }
 
-    /** Advance to the next input. The end of the input must not have been reached. */
+    /**
+     * Advance to the next input. The end of the input must not have been reached.
+     *
+     * @throws CsvParseError In case of an I/O error.
+     */
     private void advance() {
         Assert.check(!isEof());
         Assert.check(nextChar >= 0); // Side-effect of isEof() returning false.
@@ -322,6 +332,7 @@ public class CsvParser {
      * </p>
      *
      * @return Whether the end has been reached.
+     * @throws CsvParseError In case of an I/O error.
      */
     private boolean isEof() {
         if (nextChar >= 0) { // Data is available -> not EOF.
