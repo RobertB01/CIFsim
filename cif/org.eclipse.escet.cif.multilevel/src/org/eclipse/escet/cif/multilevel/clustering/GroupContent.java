@@ -73,7 +73,7 @@ public class GroupContent {
      * @param reqGroups Requirement groups to match with.
      * @return The plant groups that relate to at least one of the given requirement groups.
      */
-    public BitSet collectPlantGroupsForREquirementGroups(BitSet reqGroups) {
+    public BitSet collectPlantGroupsForRequirementGroups(BitSet reqGroups) {
         BitSet plantGroups = new BitSet();
         for (int col = 0; col < rp.getColumnDimension(); col++) {
             for (int reqGrp: new BitSetIterator(reqGroups)) {

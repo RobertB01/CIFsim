@@ -289,7 +289,7 @@ public class ComputeMultiLevelTree {
         ddbg();
 
         // Line 11, find all plant groups that need at least one of the above requirements.
-        BitSet plantGroups = groupContent.collectPlantGroupsForREquirementGroups(reqGroups);
+        BitSet plantGroups = groupContent.collectPlantGroupsForRequirementGroups(reqGroups);
         groupContent.plantGroups.or(plantGroups);
 
         // Line 12, add the above requirements to the group content.
