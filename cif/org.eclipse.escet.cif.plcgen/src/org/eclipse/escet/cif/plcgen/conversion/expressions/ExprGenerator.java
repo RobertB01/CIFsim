@@ -118,17 +118,20 @@ public class ExprGenerator {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** Ground truth of access to PLC equivalents of CIF data. */
-    private final CifDataProvider rootCifProvider;
+    /** Bottom level access to PLC equivalents of CIF data for the scope of the expression generator. */
+    private final CifDataProvider scopeCifProvider;
 
     /**
-     * Access to PLC equivalents of CIF data, used in expression conversions.
+     * Access to PLC equivalents of CIF data, used in expression conversions. Used when resolving CIF data references in
+     * the {@link #convertAddressable} and the {@link #convertValue} functions.
      *
      * <p>
-     * May be the same as {@link #rootCifProvider}, or may have been adapted for the benefit of code generation.
+     * May be the same as {@link #scopeCifProvider}, or access may have been altered using
+     * {@link #getScopeCifDataProvider}, adding one or more {@link CifDataProvider} on top of it, and setting it using
+     * {@link #setCurrentCifDataProvider}.
      * </p>
      */
-    private CifDataProvider cifProvider;
+    private CifDataProvider currentCifProvider;
 
     /** PLC function applications of the target. */
     private final PlcFunctionAppls funcAppls;
@@ -147,8 +150,8 @@ public class ExprGenerator {
      */
     public ExprGenerator(PlcTarget target, CifDataProvider cifData) {
         this.target = target;
-        this.rootCifProvider = cifData;
-        this.cifProvider = cifData;
+        this.scopeCifProvider = cifData;
+        this.currentCifProvider = cifData;
         this.funcAppls = new PlcFunctionAppls(target);
     }
 
@@ -286,17 +289,18 @@ public class ExprGenerator {
     }
 
     /**
-     * Returns the ground truth for accessing variables in this scope.
+     * Returns the CIF data provider from the scope in which this expression generator is used.
      *
      * <p>
-     * Intended use is to prepare for adapting access to PLC variables only. For regular value or addressable
-     * conversions use {@link #convertValue} respectively {@link #convertAddressable}.
+     * Use this scope CIF data provider only to create new data providers on top of the scope CIF data provider. Such
+     * new data providers can be with {@link #setCurrentCifDataProvider}. To convert values and addressables, use
+     * {@link #convertValue} and {@link #convertAddressable}, respectively.
      * </p>
      *
-     * @return The ground truth of variable expressions in the scope of the generator.
+     * @return The CIF data provider from the scope in which this expression generator is used.
      */
-    public CifDataProvider getRootCifDataProvider() {
-        return rootCifProvider;
+    public CifDataProvider getScopeCifDataProvider() {
+        return scopeCifProvider;
     }
 
     /**
@@ -304,8 +308,8 @@ public class ExprGenerator {
      *
      * @param newCifProvider New CIF data provider to use. If {@code null}, the root data provider is used instead.
      */
-    public void setCifDataProvider(CifDataProvider newCifProvider) {
-        cifProvider = (newCifProvider == null) ? rootCifProvider : newCifProvider;
+    public void setCurrentCifDataProvider(CifDataProvider newCifProvider) {
+        currentCifProvider = (newCifProvider == null) ? scopeCifProvider : newCifProvider;
     }
 
     /**
@@ -328,10 +332,11 @@ public class ExprGenerator {
     public ExprAddressableResult convertAddressable(Expression expr) {
         if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
-            return new ExprAddressableResult(this).setValue(cifProvider.getAddressableForDiscVar(de.getVariable()));
+            return new ExprAddressableResult(this)
+                    .setValue(currentCifProvider.getAddressableForDiscVar(de.getVariable()));
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprAddressableResult(this)
-                    .setValue(cifProvider.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
+                    .setValue(currentCifProvider.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof ProjectionExpression pe) {
             return convertProjectionAddressable(pe);
         }
@@ -378,16 +383,16 @@ public class ExprGenerator {
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof ConstantExpression ce) {
-            return new ExprValueResult(this).setValue(cifProvider.getValueForConstant(ce.getConstant()));
+            return new ExprValueResult(this).setValue(currentCifProvider.getValueForConstant(ce.getConstant()));
         } else if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
-            return new ExprValueResult(this).setValue(cifProvider.getValueForDiscVar(de.getVariable()));
+            return new ExprValueResult(this).setValue(currentCifProvider.getValueForDiscVar(de.getVariable()));
         } else if (expr instanceof AlgVariableExpression ae) {
             // TODO: Decide how to deal with algebraic variables.
             return convertValue(ae.getVariable().getValue()); // Convert its definition.
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprValueResult(this)
-                    .setValue(cifProvider.getValueForContvar(ce.getVariable(), ce.isDerivative()));
+                    .setValue(currentCifProvider.getValueForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof LocationExpression le) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLit) {
@@ -395,7 +400,7 @@ public class ExprGenerator {
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
-            return new ExprValueResult(this).setValue(cifProvider.getValueForInputVar(ie.getVariable()));
+            return new ExprValueResult(this).setValue(currentCifProvider.getValueForInputVar(ie.getVariable()));
         } else if (expr instanceof ReceivedExpression) {
             Assert.notNull(channelValueVariable);
             return new ExprValueResult(this).setValue(new PlcVarExpression(channelValueVariable));

@@ -312,9 +312,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<Declaration> assignedVarList = set2list(assignedVariables);
         Collections.sort(assignedVarList, (a, b) -> getAbsName(a, false).compareTo(getAbsName(b, false)));
 
-        // Generate code to copy the variables, and setup a redirect map for a new data provider, to make the expression
-        // generator use the copied state.
-        CifDataProvider rootProvider = mainExprGen.getRootCifDataProvider();
+        // Generate code to copy the old value of assigned variables so they survive assignment with a new value, and
+        // setup a redirect map for a new data provider, to make the expression generator use the copied state for
+        // reading.
+        CifDataProvider rootProvider = mainExprGen.getScopeCifDataProvider();
         Map<Declaration, PlcExpression> redirectedDecls = map();
         for (Declaration assignedVar: assignedVarList) {
             // TODO If the variable is only written, a copy is not needed.
@@ -474,13 +475,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
-            mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
+            mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
             List<PlcStatement> innerPerformCode = generateAutPerformCode(transAut, edgeVar, channelValueVar);
             if (!innerPerformCode.isEmpty()) {
                 performSelectStat.condChoices
                         .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), innerPerformCode));
             }
-            mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
+            mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
             autIndex++;
         }
@@ -558,9 +559,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, isFeasibleVar));
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
-            mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
+            mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
             performCode.addAll(generateAutPerformCode(transAut, autEdgeVar, null));
-            mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
+            mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
             // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the
             // generated test code only makes sense after verifying that feasibility is still true.
@@ -603,7 +604,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     {
         // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
 
-        mainExprGen.setCifDataProvider(performProvider); // Switch to using stored variables state.
+        mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
         for (TransitionAutomaton transAut: autTransitions) {
             PlcSelectionStatement selStat = null;
 
@@ -615,7 +616,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
             }
         }
-        mainExprGen.setCifDataProvider(null); // And switch back to normal variable access.
+        mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
     }
 
     /**
