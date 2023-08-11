@@ -407,13 +407,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * For the senders automata the generated test code looks like: <pre>
      * senderAut := 0;
      *
-     * IF senderAut == 0 THEN
+     * IF senderAut = 0 THEN
      *     IF &lt;edge-1-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 1;
      *     ELSE IF &lt;edge-2-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 2;
      *     ... // Other edge tests of sender-1 omitted.
      * END_IF;
      *
-     * IF senderAut == 0 THEN
+     * IF senderAut = 0 THEN
      *     IF &lt;edge-1-of-sender-2-is-enabled&gt; THEN senderAut := 2; senderEdge := 1;
      *     ELSE IF &lt;edge-2-of-sender-2-is-enabled&gt; THEN senderAut := 2; senderEdge := 2;
      *     ... // Other edge tests of sender-2 omitted.
@@ -421,7 +421,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * // Test code of other sender automata omitted.
      *
-     * IF senderAut == 0 THEN
+     * IF senderAut = 0 THEN
      *     eventEnabled := FALSE;
      * END_IF;
      * </pre> The receivers test code uses the {@code receiverAut} and {@code receiverEdge} variables and tests for
@@ -492,7 +492,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         }
 
         // In test code, if none of the automaton tests succeeds, the event is not enabled.
-        // IF autVar == 0 THEN eventEnabled := FALSE; END_IF;
+        // IF autVar = 0 THEN eventEnabled := FALSE; END_IF;
         {
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
             PlcAssignmentStatement assignment = generatePlcBoolAssignment(eventEnabledVar, false);
@@ -675,7 +675,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         if (autVar != null) {
             // Construct the complete test code:
-            // IF autVar == 0 THEN <test edges of this automaton> END_IF;
+            // IF autVar = 0 THEN <test edges of this automaton> END_IF;
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
             return List.of(generateIfGuardThenCode(guard, testCode));
         } else {
@@ -722,7 +722,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     thenStatements.addAll(generateUpdates(edge.updates));
                     return thenStatements;
                 };
-                // Add "IF edgeVar == edgeIndex THEN <compute channelValue if needed, and perform updates>" branch.
+                // Add "IF edgeVar = edgeIndex THEN <compute channelValue if needed, and perform updates>" branch.
                 PlcExpression guard = generateCompareVarWithVal(edgeVar, edgeIndex);
                 selStat = mainExprGen.addPlcBranch(List.of(new ExprValueResult(mainExprGen).setValue(guard)), thenStats,
                         selStat, performCode);
