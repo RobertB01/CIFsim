@@ -18,7 +18,7 @@ import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.eclipse.ui.SingleFileCommandHandler;
 
 /** Handler for Eclipse UI command for CIF multi-level synthesis tool. */
-public class CifMultLevelSynthesisCommandHandler extends SingleFileCommandHandler {
+public class CifMultiLevelSynthesisCommandHandler extends SingleFileCommandHandler {
     @Override
     protected Class<? extends Application<?>> getApplicationClass() {
         return MultilevelApp.class;
