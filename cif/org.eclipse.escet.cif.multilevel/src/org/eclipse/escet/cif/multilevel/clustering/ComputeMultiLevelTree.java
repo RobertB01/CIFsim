@@ -41,7 +41,17 @@ import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 
-/** Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis. */
+/**
+ * Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis.
+ *
+ * <p>
+ * This implementation is described in Goorden 2020:
+ *
+ * M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event
+ * Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages
+ * 1625-1639, 2020, doi:link:https://doi.org/10.1109/TAC.2019.2928119[10.1109/TAC.2019.2928119
+ * </p>
+ */
 public class ComputeMultiLevelTree {
     /** Matrix debug output format. */
     private static final RealMatrixFormat MAT_DEBUG_FORMAT;
@@ -57,42 +67,46 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Compute and return the multi-level synthesis tree to perform.
+     * Compute and return the multi-level synthesis tree from the given CIF relations.
      *
-     * @param relations Analysis result of the specification with found plant groups, requirement groups, and their relations.
+     * @param relations Analysis result of the specification with found plant groups, requirement groups, and their
+     *      relations.
      * @return The computed multi-level synthesis tree.
      */
     public static TreeNode process(CifRelations relations) {
         Dmm reqsPlants = relations.relations; // Requirement-group rows against plant-groups columns.
 
         if (dodbg()) {
-            dbg("Plant groups");
+            dbg("Plant groups:");
             dbg(relations.plantGroups.toString());
             dbg();
-            dbg("Requirement groups");
+            dbg("Requirement groups:");
             dbg(relations.requirementGroups.toString());
             dbg();
-            dbg("Requirement / Plant relations");
+            dbg("Requirement / Plant relations:");
             dbg(relations.relations.toString());
             dbg();
         }
 
-        // Cluster the plant groups.
+        // Convert to a plant groups DSM on requirement groups relations.
+        // Do the standard T . T^-1 conversion, except here T is already transposed.
         RealMatrix plantGroupRels = reqsPlants.adjacencies.transpose().multiply(reqsPlants.adjacencies);
-        dbg("Unclustered reqsPlants");
+        dbg("Unclustered reqsPlants:");
         dbg(MAT_DEBUG_FORMAT.format(plantGroupRels));
         dbg();
 
         // Cluster the DSM.
         dbg("--- Start of clustering --");
+        idbg();
         ClusterInputData clusteringData = new ClusterInputData(plantGroupRels, reqsPlants.columnLabels);
         Dsm clusterResult = DsmClustering.flowBasedMarkovClustering(clusteringData);
+        ddbg();
         dbg("--- End of clustering --");
         dbg();
 
         // The cluster result contains the found cluster groups with original indices. For debugging however, it seems
         // useful to also dump the clustered DSM, to understand group information.
-        dbg("Clustered reqsPlants (for information only, this data is not actually used)");
+        dbg("Clustered reqsPlants (for information only, this data is not actually used):");
         dbg(MAT_DEBUG_FORMAT.format(clusterResult.adjacencies));
         dbg();
 
@@ -112,7 +126,7 @@ public class ComputeMultiLevelTree {
     private static TreeNode makeTreeNode(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
-        dbg("Make tree node for plant groups");
+        dbg("Make tree node for plant groups:");
         idbg();
         clusterGroup.dbgDump();
         dbg();
@@ -157,7 +171,7 @@ public class ComputeMultiLevelTree {
     private static TreeNode makeTreeNode(int plantGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
-        dbg("Make singleton tree node for plant group %d", plantGroup);
+        dbg("Make singleton tree node for plant group %d:", plantGroup);
         idbg();
         GroupContent content = computeGroupContents(plantGroup, p, rp);
         ddbg();
