@@ -778,7 +778,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param statements Generated PLC statements. Is extended in-place.
      */
     private void genUpdateAssignment(Expression lhs, Expression rhs, List<PlcStatement> statements) {
-        // TODO: Unfold "a, b := x,y" cases, decide the order of updates for minimal temporary current lhs value copies.
+        // TODO: Current code makes a copy of the old value for every assigned variable, even if it can be avoided.
 
         // Test for the simple case of a single left side variable.
         if (!(lhs instanceof TupleExpression lhsTuple)) {
@@ -842,7 +842,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             return;
         }
 
-        // Left side is a tuple literal, right side is a single value, split into more partial assignments.
+        // Left side is a tuple literal, right side is a single value, split into more partial assignments. This must be
+        // done recursively due to nesting of tuples at the left side, for example:
+        // ((u, v), w) := x
+        // -> (u, v) := x.a and w := x.b
+        // -> u := x.a.p and v := x.a.q and w := x.b
+        // and then each assignment can be converted. Note how the sequence projections at the right side gets extended
+        // on each recursion level, this is handled in the "projs" variable below.
         PlcType lhsType = target.getTypeGenerator().convertType(lhs.getType());
         PlcStructType lhsStructType = target.getTypeGenerator().getStructureType(lhsType);
 
