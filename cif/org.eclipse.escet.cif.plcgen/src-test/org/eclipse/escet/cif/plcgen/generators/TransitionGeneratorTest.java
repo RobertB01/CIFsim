@@ -180,7 +180,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (* Try to perform event "sendEvent". *)
-                isFeasible := TRUE;
+                eventEnabled := TRUE;
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     IF TRUE THEN
@@ -189,15 +189,15 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
-                    isFeasible := FALSE;
+                    eventEnabled := FALSE;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
-                        isFeasible := FALSE;
+                        eventEnabled := FALSE;
                     END_IF;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     isProgress := TRUE;
                     IF senderAut = 1 THEN
                         IF senderEdge = 1 THEN
@@ -243,7 +243,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (* Try to perform event "channelEvent". *)
-                isFeasible := TRUE;
+                eventEnabled := TRUE;
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     IF TRUE THEN
@@ -252,9 +252,9 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
-                    isFeasible := FALSE;
+                    eventEnabled := FALSE;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
                         IF TRUE THEN
@@ -269,10 +269,10 @@ public class TransitionGeneratorTest {
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
-                        isFeasible := FALSE;
+                        eventEnabled := FALSE;
                     END_IF;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
                     current_recVar := recVar;
@@ -338,22 +338,22 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (* Try to perform event "event". *)
-                isFeasible := TRUE;
+                eventEnabled := TRUE;
                 IF otherVar = 1 THEN
                     syncAutEdge := 1;
                 ELSIF otherVar = 2 THEN
                     syncAutEdge := 2;
                 ELSE
-                    isFeasible := FALSE;
+                    eventEnabled := FALSE;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     IF otherVar = 3 THEN
                         syncAutEdge__1 := 1;
                     ELSE
-                        isFeasible := FALSE;
+                        eventEnabled := FALSE;
                     END_IF;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
                     IF syncAutEdge = 1 THEN
@@ -393,8 +393,8 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (* Try to perform event "event". *)
-                isFeasible := TRUE;
-                IF isFeasible THEN
+                eventEnabled := TRUE;
+                IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
                     IF current_otherVar = 1 THEN
@@ -439,13 +439,13 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (* Try to perform event "event". *)
-                isFeasible := TRUE;
+                eventEnabled := TRUE;
                 IF TRUE THEN
                     syncAutEdge := 1;
                 ELSE
-                    isFeasible := FALSE;
+                    eventEnabled := FALSE;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
                     IF syncAutEdge = 1 THEN
@@ -482,13 +482,13 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (* Try to perform event "event". *)
-                isFeasible := TRUE;
+                eventEnabled := TRUE;
                 IF TRUE THEN
                     syncAutEdge := 1;
                 ELSE
-                    isFeasible := FALSE;
+                    eventEnabled := FALSE;
                 END_IF;
-                IF isFeasible THEN
+                IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
                     IF syncAutEdge = 1 THEN

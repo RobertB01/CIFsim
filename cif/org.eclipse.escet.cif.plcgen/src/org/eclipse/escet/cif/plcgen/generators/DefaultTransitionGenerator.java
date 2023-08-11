@@ -109,14 +109,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <pre>
      * isProgress := FALSE; // Generated in PlcCodeStorage.
      *
-     * isFeasible := &lt;test-if-eventA-is-enabled&gt;;
-     * IF isFeasible THEN
+     * eventEnabled := &lt;test-if-eventA-is-enabled&gt;;
+     * IF eventEnabled THEN
      *     isProgress := TRUE;
      *     &lt;perform-transition-of-eventA&gt;
      * END_IF;
      *
-     * isFeasible := &lt;test-if-eventB-is-enabled&gt;;
-     * IF isFeasible THEN
+     * eventEnabled := &lt;test-if-eventB-is-enabled&gt;;
+     * IF eventEnabled THEN
      *     isProgress := TRUE;
      *     &lt;perform-transition-of-eventB&gt;
      * END_IF;
@@ -167,34 +167,34 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * <p>
      * Generated code for an event transition contains test code and perform code for each of the available forms,
-     * except that monitors test code is always empty since they do not decide whether an event is feasible. Also if an
+     * except that monitors test code is always empty since they do not decide whether an event is enabled. Also if an
      * event is not a channel there are no senders and receivers, and thus the test and perform code of those is empty
      * in that case.
      * </p>
      *
      * <p>
      * The general structure of code of an event transition is: <pre>
-     * isFeasible := TRUE;
+     * eventEnabled := TRUE;
      *
      * &lt;find-a-sender-automaton-with-enabled-edge&gt;
-     * IF NOT found THEN isFeasible := FALSE; END_IF;
+     * IF NOT found THEN eventEnabled := FALSE; END_IF;
      *
-     * IF isFeasible THEN
+     * IF eventEnabled THEN
      *     &lt;find-a-receiver-automaton-with-enabled-edge&gt;
-     *     IF NOT found THEN isFeasible := FALSE; END_IF;
+     *     IF NOT found THEN eventEnabled := FALSE; END_IF;
      * END_IF;
      *
-     * IF isFeasible THEN
+     * IF eventEnabled THEN
      *     &lt;find-enabled-edge-for-syncer-automaton-1&gt;
-     *     IF NOT found THEN isFeasible := FALSE; END_IF;
+     *     IF NOT found THEN eventEnabled := FALSE; END_IF;
      * END_IF;
-     * IF isFeasible THEN
+     * IF eventEnabled THEN
      *     &lt;find-enabled-edge-for-syncer-automaton-2&gt;
-     *     IF NOT found THEN isFeasible := FALSE; END_IF;
+     *     IF NOT found THEN eventEnabled := FALSE; END_IF;
      * END_IF;
      * ... // Test code of other syncer-automata omitted.
      *
-     * IF isFeasible THEN
+     * IF eventEnabled THEN
      *     isProgress := TRUE;
      *
      *     &lt;perform-edge-of-the-found-sender&gt;
@@ -230,16 +230,16 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<PlcVariable> createdTempVariables = list();
 
         // Obtain the feasibility flag.
-        PlcVariable isFeasibleVar = mainExprGen.getTempVariable("isFeasible", PlcElementaryType.BOOL_TYPE);
-        createdTempVariables.add(isFeasibleVar);
+        PlcVariable eventEnabledVar = mainExprGen.getTempVariable("eventEnabled", PlcElementaryType.BOOL_TYPE);
+        createdTempVariables.add(eventEnabledVar);
 
-        // So far, no test code has been generated that may set 'isFeasible' to false.
-        boolean testFeasibilityAlwaysHolds = true;
+        // So far, no test code has been generated that may set 'eventEnabled' to false.
+        boolean eventEnabledAlwaysHolds = true;
 
         // Generate the header of the transition code for the event, initialize the event feasibility flag.
         String absEventName = getAbsName(eventTransition.event, false);
         testCode.add(new PlcCommentLine("Try to perform event \"" + absEventName + "\"."));
-        testCode.add(new PlcAssignmentStatement(isFeasibleVar, new PlcBoolLiteral(true)));
+        testCode.add(new PlcAssignmentStatement(eventEnabledVar, new PlcBoolLiteral(true)));
 
         // Performing the event implies progress is made.
         performCode.add(new PlcAssignmentStatement(isProgressVar, new PlcBoolLiteral(true)));
@@ -263,27 +263,27 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Handle senders.
             generateSendReceiveCode(eventTransition.senders, testCode, performProvider, performCode, "sender",
-                    createdTempVariables, isFeasibleVar, channelValueVar, testFeasibilityAlwaysHolds);
+                    createdTempVariables, eventEnabledVar, channelValueVar, eventEnabledAlwaysHolds);
 
-            testFeasibilityAlwaysHolds = false; // There is at least one sender tested so feasibility may not hold here.
+            eventEnabledAlwaysHolds = false; // There is at least one sender tested so feasibility may not hold here.
 
             // Handle receivers.
             mainExprGen.setChannelValueVariable(channelValueVar);
             generateSendReceiveCode(eventTransition.receivers, testCode, performProvider, performCode, "receiver",
-                    createdTempVariables, isFeasibleVar, null, testFeasibilityAlwaysHolds);
+                    createdTempVariables, eventEnabledVar, null, eventEnabledAlwaysHolds);
             mainExprGen.setChannelValueVariable(null);
         }
 
         // Handle syncers.
         generateSyncCode(eventTransition.syncers, testCode, performProvider, performCode, createdTempVariables,
-                isFeasibleVar, testFeasibilityAlwaysHolds);
+                eventEnabledVar, eventEnabledAlwaysHolds);
 
         // Handle monitors. Only generates perform code since it doesn't influence feasibility of the event transition.
         generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
 
         // Construct the complete PLC code for the event transition by concatenating test and perform code.
-        // isFeasible = TRUE; <testCode>; IF isFeasible THEN progress := TRUE; <performCode>; END_IF;
-        PlcExpression guard = new PlcVarExpression(isFeasibleVar);
+        // eventEnabled = TRUE; <testCode>; IF eventEnabled THEN progress := TRUE; <performCode>; END_IF;
+        PlcExpression guard = new PlcVarExpression(eventEnabledVar);
         testCode.add(generateIfGuardThenCode(guard, performCode));
 
         mainExprGen.releaseTempVariables(createdTempVariables);
@@ -422,7 +422,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * // Test code of other sender automata omitted.
      *
      * IF senderAut == 0 THEN
-     *     isFeasible := FALSE;
+     *     eventEnabled := FALSE;
      * END_IF;
      * </pre> The receivers test code uses the {@code receiverAut} and {@code receiverEdge} variables and tests for
      * feasibility first, but looks the same otherwise.
@@ -444,15 +444,15 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param varPrefix Prefix of locally created temporary variables.
      * @param createdTempVariables Tracking storage of created temporary variables.
-     * @param isFeasibleVar PLC variable expressing if the event is feasible.
+     * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @param channelValueVar PLC variable storing the channel value. Is {@code null} when not sending a value (either
      *     receiving a value or it is a void channel).
-     * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasible' in tests is always true at runtime.
+     * @param eventEnabledAlwaysHolds Whether it is known that 'eventEnabled' in tests is always true at runtime.
      */
     private void generateSendReceiveCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode, String varPrefix,
-            List<PlcVariable> createdTempVariables, PlcVariable isFeasibleVar, PlcVariable channelValueVar,
-            boolean testFeasibilityAlwaysHolds)
+            List<PlcVariable> createdTempVariables, PlcVariable eventEnabledVar, PlcVariable channelValueVar,
+            boolean eventEnabledAlwaysHolds)
     {
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
@@ -471,7 +471,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         int autIndex = 1;
         for (TransitionAutomaton transAut: autTransitions) {
             // Generate edge testing code.
-            autTestCode.addAll(generateEdgesTestCode(transAut, autIndex, autVar, edgeVar, isFeasibleVar));
+            autTestCode.addAll(generateEdgesTestCode(transAut, autIndex, autVar, edgeVar, eventEnabledVar));
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
@@ -491,20 +491,20 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             performCode.add(performSelectStat);
         }
 
-        // In test code, if none of the automaton tests succeeds, the event is not feasible.
-        // IF autVar == 0 THEN isFeasible := FALSE; END_IF;
+        // In test code, if none of the automaton tests succeeds, the event is not enabled.
+        // IF autVar == 0 THEN eventEnabled := FALSE; END_IF;
         {
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
-            PlcAssignmentStatement assignment = generatePlcBoolAssignment(isFeasibleVar, false);
+            PlcAssignmentStatement assignment = generatePlcBoolAssignment(eventEnabledVar, false);
             autTestCode.add(generateIfGuardThenCode(guard, assignment));
         }
 
         // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the generated
         // test code only makes sense after verifying that feasibility is still true.
-        if (testFeasibilityAlwaysHolds) {
+        if (eventEnabledAlwaysHolds) {
             testCode.addAll(autTestCode);
         } else {
-            PlcExpression guard = new PlcVarExpression(isFeasibleVar);
+            PlcExpression guard = new PlcVarExpression(eventEnabledVar);
             testCode.add(generateIfGuardThenCode(guard, autTestCode));
         }
     }
@@ -515,17 +515,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <p>
      * Each syncer automaton of the event must have an enabled edge, thus each syncer automaton has its own
      * {@code autEdge} variable for storing its selected edge. Also, failing to find an enabled edge for a syncer
-     * automaton immediately blocks the entire event from happening and thus immediately modifies {@code isFeasible} as
+     * automaton immediately blocks the entire event from happening and thus immediately modifies {@code eventEnabled} as
      * the last {@code ELSE} block in finding an enabled edge.
      * </p>
      *
      * <p>
      * This leads to test code like <pre>
-     * IF isFeasible THEN
+     * IF eventEnabled THEN
      *     IF &lt;edge-1-of-syncer-1-is-enabled&gt; THEN aut1Edge := 1;
      *     ELSE IF &lt;edge-2-of-syncer-1-is-enabled&gt; THEN aut1Edge := 2;
      *     ... // Other edge tests of syncer-1 omitted.
-     *     ELSE isFeasible := FALSE
+     *     ELSE eventEnabled := FALSE
      *     END_IF;
      * END_IF;
      *
@@ -540,12 +540,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     during perform code execution. Can be {@code null} to disable redirection.
      * @param performCode Storage for generated perform code. Is updated in-place.
      * @param createdTempVariables Tracking storage of created temporary variables.
-     * @param isFeasibleVar PLC variable expressing if the event is feasible.
-     * @param testFeasibilityAlwaysHolds Whether it is known that 'isFeasible' in tests is always true at runtime.
+     * @param eventEnabledVar PLC variable expressing if the event is enabled.
+     * @param eventEnabledAlwaysHolds Whether it is known that 'eventEnabled' in tests is always true at runtime.
      */
     private void generateSyncCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode, List<PlcVariable> createdTempVariables,
-            PlcVariable isFeasibleVar, boolean testFeasibilityAlwaysHolds)
+            PlcVariable eventEnabledVar, boolean eventEnabledAlwaysHolds)
     {
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
@@ -556,7 +556,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcVariable autEdgeVar = mainExprGen.getTempVariable("syncAutEdge", PlcElementaryType.DINT_TYPE);
 
             // Generate edge testing code.
-            autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, isFeasibleVar));
+            autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, eventEnabledVar));
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
@@ -565,13 +565,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the
             // generated test code only makes sense after verifying that feasibility is still true.
-            if (testFeasibilityAlwaysHolds) {
+            if (eventEnabledAlwaysHolds) {
                 testCode.addAll(autTestCode);
             } else {
-                PlcExpression guard = new PlcVarExpression(isFeasibleVar);
+                PlcExpression guard = new PlcVarExpression(eventEnabledVar);
                 testCode.add(generateIfGuardThenCode(guard, autTestCode));
             }
-            testFeasibilityAlwaysHolds = false;
+            eventEnabledAlwaysHolds = false;
         }
     }
 
@@ -582,7 +582,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * As monitor automata do not influence feasibility of an event, there is no test code to construct. Instead,
      * finding an enabled edge and performing it is combined in the perform code. It generates the following for each
      * monitor automaton: <pre>
-     * IF isFeasible THEN
+     * IF eventEnabled THEN
      *     IF &lt;edge-1-of-monitor-is-enabled&gt; THEN
      *         &lt;perform-edge-1-of-monitor&gt;
      *     ELSE IF &lt;edge-2-of-monitor-is-enabled&gt; THEN
@@ -627,7 +627,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * controlled by means of the {@code autVar} variable.
      * <ul>
      * <li>If it is {@code null}, a test for a syncer automaton should be generated, the automaton must always have an
-     * enabled edge or the transition is not feasible.</li>
+     * enabled edge or the transition is not possible.</li>
      * <li>If is not {@code null}, a test is generated for a receiver or sender automaton. The {@code autVar} contains
      * the elected automaton (with {@code 0} meaning that no automaton has been selected yet). In this case an
      * additional test for {@code autVar} being {@code 0} is generated as additional pre-condition.</li>
@@ -646,11 +646,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param edgeVar For senders, receivers and syncers the PLC variable stores the edge in the automaton indicated by
      *     {@code autVar}. For syncers, it indicates the edge in a syncer automaton, as the edge variable implicitly
      *     also indicates the automaton. Is 1-based to be consistent in how numbers are assigned.
-     * @param isFeasibleVar PLC variable expressing if the event is feasible.
+     * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @return The generated code.
      */
     private List<PlcStatement> generateEdgesTestCode(TransitionAutomaton transAut, int autIndex, PlcVariable autVar,
-            PlcVariable edgeVar, PlcVariable isFeasibleVar)
+            PlcVariable edgeVar, PlcVariable eventEnabledVar)
     {
         List<PlcStatement> testCode = list();
         PlcSelectionStatement selStat = null;
@@ -679,11 +679,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
             return List.of(generateIfGuardThenCode(guard, testCode));
         } else {
-            // If no enabled edge was found for this automaton, the event is immediately not feasible.
+            // If no enabled edge was found for this automaton, the event is immediately not enabled.
             if (selStat == null) {
-                testCode.add(generatePlcBoolAssignment(isFeasibleVar, false));
+                testCode.add(generatePlcBoolAssignment(eventEnabledVar, false));
             } else {
-                selStat.elseStats.add(generatePlcBoolAssignment(isFeasibleVar, false));
+                selStat.elseStats.add(generatePlcBoolAssignment(eventEnabledVar, false));
             }
             return testCode;
         }
