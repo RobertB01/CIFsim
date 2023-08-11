@@ -21,8 +21,8 @@
          categoryId="org.eclipse.escet.cif.commands.category"
          defaultHandler="org.eclipse.escet.cif.multilevel.CifMultLevelSynthesisCommandHandler"
          id="org.eclipse.escet.cif.multilevel.CifMultLevelSynthesisCommandHandler"
-         name="Apply multi-level based synthesis">
-      </command> 
+         name="Apply multi-level synthesis">
+      </command>
    </extension>
    <extension point="org.eclipse.core.expressions.definitions">
       <definition id="org.eclipse.escet.cif.multilevel.singleFile">
@@ -46,7 +46,7 @@
             <command
                   commandId="org.eclipse.escet.cif.multilevel.CifMultLevelSynthesisCommandHandler"
                   icon="icons/multilevel.png"
-                  label="Apply &amp;multi-level based synthesis...">
+                  label="Apply &amp;multi-level synthesis...">
                <visibleWhen>
                   <or>
                      <with variable="activeMenuSelection">

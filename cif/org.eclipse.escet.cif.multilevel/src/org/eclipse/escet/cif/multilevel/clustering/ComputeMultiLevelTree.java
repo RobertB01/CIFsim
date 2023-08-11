@@ -43,7 +43,7 @@ import org.eclipse.escet.common.java.BitSetIterator;
 
 /** Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis. */
 public class ComputeMultiLevelTree {
-    /** MAtrix debug output format. */
+    /** Matrix debug output format. */
     private static final RealMatrixFormat MAT_DEBUG_FORMAT;
 
     static {
@@ -59,7 +59,7 @@ public class ComputeMultiLevelTree {
     /**
      * Compute and return the multi-level synthesis tree to perform.
      *
-     * @param relations Analysis result of the specification with found plant groups and requirement groups.
+     * @param relations Analysis result of the specification with found plant groups, requirement groups, and their relations.
      * @return The computed multi-level synthesis tree.
      */
     public static TreeNode process(CifRelations relations) {
@@ -83,6 +83,7 @@ public class ComputeMultiLevelTree {
         dbg(MAT_DEBUG_FORMAT.format(plantGroupRels));
         dbg();
 
+        // Cluster the DSM.
         dbg("--- Start of clustering --");
         ClusterInputData clusteringData = new ClusterInputData(plantGroupRels, reqsPlants.columnLabels);
         Dsm clusterResult = DsmClustering.flowBasedMarkovClustering(clusteringData);

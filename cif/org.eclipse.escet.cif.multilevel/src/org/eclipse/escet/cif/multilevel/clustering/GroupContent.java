@@ -19,7 +19,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 
-/** Data for computing plant and requirements of a tree node. */
+/** Data for computing plants and requirements of a tree node. */
 public class GroupContent {
     /** Unclustered plant group relations, modified in-place. */
     public final RealMatrix p;
@@ -40,7 +40,6 @@ public class GroupContent {
      * @param rp Requirement group rows to plant group columns.
      * @param plantGroups Plant groups to include in the node.
      * @param reqGroups Requirement groups to include in the node.
-     *
      */
     public GroupContent(RealMatrix p, RealMatrix rp, BitSet plantGroups, BitSet reqGroups) {
         Assert.check(p.isSquare());
@@ -88,7 +87,7 @@ public class GroupContent {
     }
 
     /**
-     * Clear the given requirement group rows in the {#link #rp} matrix.
+     * Clear the given requirement group rows in the {@link #rp} matrix.
      *
      * @param reqGroups Requirement rows to clear.
      */
