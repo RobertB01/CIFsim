@@ -238,7 +238,7 @@ public class CifProcessor {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
                         autEventTrans.addEdge(te, EdgesKind.RECEIVE);
                     } else {
-                        // Event could be monitored. If so, it will be moved below.
+                        // Event could be monitored. If so, it will be changed below.
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
                         autEventTrans.addEdge(te, EdgesKind.SYNC_OR_MONITOR);
                     }
@@ -246,8 +246,8 @@ public class CifProcessor {
             }
         }
 
-        // Monitors. Above all non-channel events are collected in "syncers". Move events over to "monitors" if
-        // necessary.
+        // Handle monitor events. Above all non-channel events are set as "sync_or_monitor'. Here, events are changed to
+        // "monitors" if necessary.
         if (aut.getMonitors() != null) {
             Monitors mons = aut.getMonitors();
             if (mons.getEvents().isEmpty()) {
@@ -264,6 +264,8 @@ public class CifProcessor {
                 }
             }
         }
+        // For automata without monitor part, the non-channel events are converted with "finishEdgeKind" just before
+        // transition generation.
         return eventUsage;
     }
 
@@ -408,10 +410,10 @@ public class CifProcessor {
         }
 
         /**
-         * Get the edges of the automaton that send a value to the channel. May only be called when
+         * Get the edges of the automaton that sends a value to the channel. May only be called when
          * {@link #isSenderAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton that send a value to the channel.
+         * @return The edges of the automaton for the event.
          */
         public List<TransitionEdge> getSendEdges() {
             Assert.check(edgesKind.equals(EdgesKind.SEND));
@@ -419,10 +421,10 @@ public class CifProcessor {
         }
 
         /**
-         * Get the edges of the automaton that receive a value from the channel. May only be called when
+         * Get the edges of the automaton that receives a value from the channel. May only be called when
          * {@link #isReceiveAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton that receive a value from the channel.
+         * @return The edges of the automaton for the event.
          */
         public List<TransitionEdge> getReceiveEdges() {
             Assert.check(edgesKind.equals(EdgesKind.RECEIVE));
@@ -430,10 +432,10 @@ public class CifProcessor {
         }
 
         /**
-         * Get the edges of the automaton that synchronize on the event. May only be called when
+         * Get the edges of the automaton that synchronizes on the event. May only be called when
          * {@link #isSyncerAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton that synchronize on the event.
+         * @return The edges of the automaton for the event.
          */
         public List<TransitionEdge> getSyncEdges() {
             Assert.check(edgesKind.equals(EdgesKind.SYNCHRONIZE));
@@ -441,10 +443,10 @@ public class CifProcessor {
         }
 
         /**
-         * Get the edges of the automaton that monitor the event. May only be called when {@link #isMonitorAutomaton}
+         * Get the edges of the automaton that monitors the event. May only be called when {@link #isMonitorAutomaton}
          * returns {@code true}.
          *
-         * @return The edges of the automaton that monitor the event.
+         * @return The edges of the automaton for the event.
          */
         public List<TransitionEdge> getMonitorEdges() {
             Assert.check(edgesKind.equals(EdgesKind.MONITOR));
