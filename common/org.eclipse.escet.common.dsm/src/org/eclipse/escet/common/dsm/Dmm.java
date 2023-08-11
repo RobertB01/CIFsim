@@ -78,7 +78,7 @@ public class Dmm {
 
         // Header with first column empty.
         List<String> lineValues = listc(1 + columnLabels.length);
-        lineValues.add("\"\"");
+        lineValues.add("");
         for (Label label: columnLabels) {
             lineValues.add(label.toString());
         }

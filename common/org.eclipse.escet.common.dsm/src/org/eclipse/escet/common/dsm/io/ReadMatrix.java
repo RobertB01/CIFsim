@@ -145,9 +145,9 @@ public class ReadMatrix {
      * @throws CsvParseError In case of an I/O or parse error.
      */
     static List<List<String>> readMatrixLines(BufferedReader reader) {
-        // Csv-parse the file.
+        // Parse the CSV text.
         CsvParser csvParser = new CsvParser(reader);
-        List<List<String>> lines = csvParser.parseFile();
+        List<List<String>> lines = csvParser.parse();
 
         // Remove leading and trailing whitespace in the CSV file.
         Function<List<String>, List<String>> trimmer = (line) -> line.stream().map(String::trim).collect(toList());
@@ -158,10 +158,8 @@ public class ReadMatrix {
      * Read the CSV-like adjacency and label data from the file with the provided name.
      *
      * <p>
-     * True CSV is a complicated format, so this code only does a subset.
-     * </p>
-     * <p>
-     * It assumes NxN numeric (real) values, as N lines of N comma separated numbers at a line. Before the first number
+     * A CSV file in RFC-4180 format is required. However, leading and trailing whitespace of fields is ignored. Also,
+     * we assume NxN numeric (real) values, as N lines of N comma separated numbers at a line. Before the first number
      * at each row should be a label designating the name of the element of that row. Optionally, above the first line
      * of data may be a line of labels as well.
      * </p>
@@ -175,6 +173,7 @@ public class ReadMatrix {
      *
      * @param filepath Path of the file to read.
      * @return The read data.
+     * @throws InputOutputException In case of an I/O error, or the file is not in the right format.
      */
     public static ClusterInputData readMatrixFile(String filepath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
