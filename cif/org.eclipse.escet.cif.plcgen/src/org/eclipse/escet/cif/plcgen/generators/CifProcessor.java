@@ -454,25 +454,28 @@ public class CifProcessor {
         }
     }
 
-    /** The kind of edges found in an automaton while collecting them. */
-    public static enum EdgesKind {
-        /** It is unknown what kind of edges are used in the automaton. */
+    /**
+     * The role of an automaton with respect to a certain event. For a certain event, an automaton can only have a
+     * single role.
+     */
+    public static enum AutomatonRole {
+        /** The role of the automaton is not yet known. */
         UNKNOWN,
 
-        /** The automaton sends values over the channel. */
-        SEND,
+        /** The automaton is a sender automaton, that sends values over the channel. */
+        SENDER,
 
-        /** The automaton receives values from the channel. */
-        RECEIVE,
+        /** The automaton is a receiver automaton, that receives values from the channel. */
+        RECEIVER,
 
-        /** The automaton synchronizes on the event. */
-        SYNCHRONIZE,
+        /** The automaton is a syncer automaton, that synchronizes on the event, but does not monitor it. */
+        SYNCER,
 
-        /** The automaton monitors the event. */
+        /** The automaton is a monitor automaton, that synchronizes on the event, and monitors it. */
         MONITOR,
 
-        /** The automaton either synchronizes or monitors the event. */
-        SYNC_OR_MONITOR;
+        /** The automaton is either a {@link #SYNCER syncer} or a {@link #MONITOR monitor}. */
+        SYNCER_OR_MONITOR;
     }
 
     /**
