@@ -365,13 +365,14 @@ public class CifProcessor {
             if (EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRole)) {
                 autRole = AutomatonRole.SYNCER;
             }
-            checkEdgesKindIsDecided();
+            checkAutRoleIsDecided();
         }
 
-        /** Check that the edge kind has been decided without ambiguities. */
-        private void checkEdgesKindIsDecided() {
-            Assert.check(EnumSet.of(EdgesKind.SEND, EdgesKind.RECEIVE, EdgesKind.SYNCHRONIZE, EdgesKind.MONITOR)
-                    .contains(edgesKind));
+        /** Check that the automaton's role has been decided without ambiguities. */
+        private void checkAutRoleIsDecided() {
+            Assert.check(EnumSet
+                    .of(AutomatonRole.SENDER, AutomatonRole.RECEIVER, AutomatonRole.SYNCER, AutomatonRole.MONITOR)
+                    .contains(autRole));
         }
 
         /**
@@ -380,7 +381,7 @@ public class CifProcessor {
          * @return Whether the automaton is a sender automaton.
          */
         public boolean isSenderAutomaton() {
-            checkEdgesKindIsDecided();
+            checkAutRoleIsDecided();
             return autRole.equals(AutomatonRole.SENDER);
         }
 
@@ -390,7 +391,7 @@ public class CifProcessor {
          * @return Whether the automaton is a receiver automaton.
          */
         public boolean isReceiverAutomaton() {
-            checkEdgesKindIsDecided();
+            checkAutRoleIsDecided();
             return autRole.equals(AutomatonRole.RECEIVER);
         }
 
@@ -400,7 +401,7 @@ public class CifProcessor {
          * @return Whether the automaton is a syncer automaton.
          */
         public boolean isSyncerAutomaton() {
-            checkEdgesKindIsDecided();
+            checkAutRoleIsDecided();
             return autRole.equals(AutomatonRole.SYNCER);
         }
 
@@ -410,7 +411,7 @@ public class CifProcessor {
          * @return Whether the automaton is a monitor automaton.
          */
         public boolean isMonitorAutomaton() {
-            checkEdgesKindIsDecided();
+            checkAutRoleIsDecided();
             return autRole.equals(AutomatonRole.MONITOR);
         }
 
