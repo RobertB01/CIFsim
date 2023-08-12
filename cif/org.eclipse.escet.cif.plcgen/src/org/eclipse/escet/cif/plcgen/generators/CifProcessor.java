@@ -152,7 +152,7 @@ public class CifProcessor {
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
             // Get the events and their edges for a single automaton.
-            Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = getAutomatonEventUsage(aut);
+            Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = getAutomatonRoleInfoPerEvent(aut);
 
             // Merge the found data into the collection.
             for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
@@ -200,12 +200,13 @@ public class CifProcessor {
 
     /**
      * Classify the {@link AutomatonRole role of the automaton} for the different events, based on the edges that exist
-     * in the automaton, and its monitor declaration (if present).
+     * in the automaton, and its monitor declaration (if present). The classification is
+     * {@link AutomatonRoleInfo#finalizeAutRole finalized} later on.
      *
      * @param aut Automaton to analyze.
      * @return A {@link CifEventTransition} for every event that the given automaton can perform.
      */
-    private Map<Event, AutomatonRoleInfo> getAutomatonEventUsage(Automaton aut) {
+    private Map<Event, AutomatonRoleInfo> getAutomatonRoleInfoPerEvent(Automaton aut) {
         Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = map();
 
         // Explicit alphabet definition.
@@ -263,7 +264,7 @@ public class CifProcessor {
             }
         }
 
-        // For non-monitor automata, the non-channel events are classified as syncers later on.
+        // For non-monitor automata, the non-channel events get their final 'syncer' classification later on.
         return autRoleInfoPerEvent;
     }
 
