@@ -356,11 +356,14 @@ public class CifProcessor {
             throw new AssertionError("Encountered unexpected automaton role \"" + autRole + "\".");
         }
 
-        /** Resolve any ambiguity in the edge kind. */
-        public void finishEdgeKind() {
-            // Without proof of sending, receiving or monitoring, the automaton synchronizes.
-            if (EnumSet.of(EdgesKind.UNKNOWN, EdgesKind.SYNC_OR_MONITOR).contains(edgesKind)) {
-                edgesKind = EdgesKind.SYNCHRONIZE;
+        /**
+         * Finalize classification of the automaton's role, being a sender automaton, receiver automaton, syncer
+         * automaton, or monitor automaton.
+         */
+        public void finalizeAutRole() {
+            // Without proof of being a sender, receiver, or monitor, the automaton is a syncer.
+            if (EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRole)) {
+                autRole = AutomatonRole.SYNCER;
             }
             checkEdgesKindIsDecided();
         }
