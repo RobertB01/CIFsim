@@ -269,64 +269,62 @@ public class CifProcessor {
         return eventUsage;
     }
 
-    /**
-     * Edge transitions for an event in a single automaton.
-     *
-     * <p>
-     * Note that CIF semantics force that at most one of the transition edges lists is non-empty.
-     * </p>
-     */
+    /** Information used to classify the {@link AutomatonRole role of an automaton}. */
     private static class AutomatonEventTransition {
-        /** The event performed by all edges in the instance. */
+        /** The event for which to classify the role of the automaton. */
         public final Event event;
 
         /**
-         * Role of the automaton with respect to the event. This may be modified multiple times during the
-         * classification.
+         * Role of the automaton with respect to the {@link #event}. This may be modified multiple times during the
+         * classification process.
          */
         private AutomatonRole autRole;
 
-        /** Edges of the {@link #edgesKind}. */
+        /** Edges of the automaton for the {@link #event}. */
         private final List<TransitionEdge> edges = list();
 
         /**
          * Constructor of the {@link AutomatonEventTransition} class.
          *
-         * @param event Event described in the instance.
+         * @param event The event for which to classify the role of the automaton.
          */
         public AutomatonEventTransition(Event event) {
             this.event = event;
-            edgesKind = (event.getType() == null) ? EdgesKind.SYNC_OR_MONITOR : EdgesKind.UNKNOWN;
+            autRole = (event.getType() == null) ? AutomatonRole.SYNCER_OR_MONITOR : AutomatonRole.UNKNOWN;
         }
 
         /**
-         * Add an edge to the automaton transitions.
+         * Consider an edge for classification.
          *
-         * @param transEdge Edge to add.
-         * @param kindOfEdge Kind of edge found.
+         * @param transEdge Edge to consider.
+         * @param edgeAutRole The role of the automaton as implied by the edge.
          */
-        public void addEdge(TransitionEdge transEdge, EdgesKind kindOfEdge) {
-            // In edge context it is not possible to decide between CIF synchronizing and CIF monitoring.
-            Assert.check(EnumSet.of(EdgesKind.SEND, EdgesKind.RECEIVE, EdgesKind.SYNC_OR_MONITOR).contains(kindOfEdge));
+        public void addEdge(TransitionEdge transEdge, AutomatonRole edgeAutRole) {
+            // Check for allowed roles implied by edges. Note that in an edge context it is not possible to decide
+            // between a syncer and a monitor.
+            Assert.check(EnumSet.of(AutomatonRole.SENDER, AutomatonRole.RECEIVER, AutomatonRole.SYNCER_OR_MONITOR)
+                    .contains(edgeAutRole));
 
-            // Add the edge and update 'edgesKind'.
+            // Add the edge.
             edges.add(transEdge);
 
-            switch (edgesKind) {
+            // Update the classification of the automaton's role.
+            switch (autRole) {
                 case UNKNOWN:
-                    edgesKind = kindOfEdge; // All information is better than unknown.
+                    autRole = edgeAutRole; // This role implied by this edge is the only information we have, so far.
                     break;
                 case MONITOR:
-                case SYNCHRONIZE:
-                case SYNC_OR_MONITOR:
-                    Assert.check(kindOfEdge.equals(EdgesKind.SYNC_OR_MONITOR)); // Should not be a send or receive edge.
+                case SYNCER:
+                case SYNCER_OR_MONITOR:
+                    Assert.check(edgeAutRole.equals(AutomatonRole.SYNCER_OR_MONITOR)); // Should not be sender/receiver.
                     break;
-                case SEND:
-                case RECEIVE:
-                    Assert.check(kindOfEdge.equals(edgesKind)); // Once sending or receiving all edges must do the same.
+                case SENDER:
+                case RECEIVER:
+                    // Once the automaton is a sender or receiver, all edges must imply that.
+                    Assert.check(edgeAutRole.equals(autRole));
                     break;
                 default:
-                    throw new AssertionError("Unexpected edgesKind \"" + edgesKind + "\".");
+                    throw new AssertionError("Unexpected automaton role \"" + autRole + "\".");
             }
         }
 
