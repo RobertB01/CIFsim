@@ -280,8 +280,11 @@ public class CifProcessor {
         /** The event performed by all edges in the instance. */
         public final Event event;
 
-        /** Best guess what kind of edges are used in the automaton. */
-        private EdgesKind edgesKind;
+        /**
+         * Role of the automaton with respect to the event. This may be modified multiple times during the
+         * classification.
+         */
+        private AutomatonRole autRole;
 
         /** Edges of the {@link #edgesKind}. */
         private final List<TransitionEdge> edges = list();
@@ -370,86 +373,86 @@ public class CifProcessor {
         }
 
         /**
-         * Does the automaton send values to the channel?
+         * Is the automaton a {@link AutomatonRole#SENDER sender} automaton?
          *
-         * @return Whether the automaton sends values to the channel.
+         * @return Whether the automaton is a sender automaton.
          */
         public boolean isSenderAutomaton() {
             checkEdgesKindIsDecided();
-            return edgesKind.equals(EdgesKind.SEND);
+            return autRole.equals(AutomatonRole.SENDER);
         }
 
         /**
-         * Does the automaton receive values from the channel?
+         * Is the automaton a {@link AutomatonRole#RECEIVER receiver} automaton?
          *
-         * @return Whether the automaton receives values from the channel.
+         * @return Whether the automaton is a receiver automaton.
          */
-        public boolean isReceiveAutomaton() {
+        public boolean isReceiverAutomaton() {
             checkEdgesKindIsDecided();
-            return edgesKind.equals(EdgesKind.RECEIVE);
+            return autRole.equals(AutomatonRole.RECEIVER);
         }
 
         /**
-         * Does the automaton synchronize on the event?
+         * Is the automaton a {@link AutomatonRole#SYNCER syncer} automaton?
          *
-         * @return Whether the automaton synchronizes on the event.
+         * @return Whether the automaton is a syncer automaton.
          */
         public boolean isSyncerAutomaton() {
             checkEdgesKindIsDecided();
-            return edgesKind.equals(EdgesKind.SYNCHRONIZE);
+            return autRole.equals(AutomatonRole.SYNCER);
         }
 
         /**
-         * Does the automaton monitor the event?
+         * Is the automaton a {@link AutomatonRole#MONITOR monitor} automaton?
          *
-         * @return Whether the automaton monitors the event.
+         * @return Whether the automaton is a monitor automaton.
          */
         public boolean isMonitorAutomaton() {
             checkEdgesKindIsDecided();
-            return edgesKind.equals(EdgesKind.MONITOR);
+            return autRole.equals(AutomatonRole.MONITOR);
         }
 
         /**
-         * Get the edges of the automaton that sends a value to the channel. May only be called when
+         * Get the edges of the {@link AutomatonRole#SENDER sender} automaton. May only be called when
          * {@link #isSenderAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton for the event.
+         * @return The edges of the automaton, for the {@link #event}.
          */
-        public List<TransitionEdge> getSendEdges() {
-            Assert.check(edgesKind.equals(EdgesKind.SEND));
+        public List<TransitionEdge> getSenderEdges() {
+            Assert.check(autRole.equals(AutomatonRole.SENDER));
             return edges;
         }
 
         /**
-         * Get the edges of the automaton that receives a value from the channel. May only be called when
-         * {@link #isReceiveAutomaton} returns {@code true}.
+         * Get the edges of the {@link AutomatonRole#RECEIVER receiver} automaton. May only be called when
+         * {@link #isReceiverAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton for the event.
+         * @return The edges of the automaton, for the {@link #event}.
          */
-        public List<TransitionEdge> getReceiveEdges() {
-            Assert.check(edgesKind.equals(EdgesKind.RECEIVE));
+        public List<TransitionEdge> getReceiverEdges() {
+            Assert.check(autRole.equals(AutomatonRole.RECEIVER));
             return edges;
         }
 
         /**
-         * Get the edges of the automaton that synchronizes on the event. May only be called when
+         * Get the edges of the {@link AutomatonRole#SYNCER syncer} automaton. May only be called when
          * {@link #isSyncerAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton for the event.
+         * @return The edges of the automaton, for the {@link #event}.
          */
-        public List<TransitionEdge> getSyncEdges() {
-            Assert.check(edgesKind.equals(EdgesKind.SYNCHRONIZE));
+        public List<TransitionEdge> getSyncerEdges() {
+            Assert.check(autRole.equals(AutomatonRole.SYNCER));
             return edges;
         }
 
         /**
-         * Get the edges of the automaton that monitors the event. May only be called when {@link #isMonitorAutomaton}
-         * returns {@code true}.
+         * Get the edges of the {@link AutomatonRole#MONITOR monitor} automaton. May only be called when
+         * {@link #isMonitorAutomaton} returns {@code true}.
          *
-         * @return The edges of the automaton for the event.
+         * @return The edges of the automaton, for the {@link #event}.
          */
         public List<TransitionEdge> getMonitorEdges() {
-            Assert.check(edgesKind.equals(EdgesKind.MONITOR));
+            Assert.check(autRole.equals(AutomatonRole.MONITOR));
             return edges;
         }
     }
