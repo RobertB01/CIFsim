@@ -151,7 +151,7 @@ public class CifProcessor {
         // Collect edge transitions from automata and pass them to the transitions generator.
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
-            // Get the events and their edges for a single automaton.
+            // Classify the role of the automaton, per relevant event.
             Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = classifyAutomatonRole(aut);
 
             // Merge the found data into the collection.
@@ -185,12 +185,12 @@ public class CifProcessor {
     }
 
     /**
-     * Return the {@link AutomatonRoleInfo} of the given event from {@code autRoleInfoPerEvent}, possibly after creating
-     * it.
+     * Return the {@link AutomatonRoleInfo} for the given event from {@code autRoleInfoPerEvent}, possibly after
+     * creating it.
      *
      * @param autRoleInfoPerEvent Available {@link AutomatonRoleInfo}s. May be expanded in-place.
      * @param event Event for which to obtain the automaton role information.
-     * @return The automaton role information of the event.
+     * @return The automaton role information for the event.
      */
     private static AutomatonRoleInfo getAutRoleInfo(Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent, Event event) {
         return autRoleInfoPerEvent.computeIfAbsent(event, evt -> new AutomatonRoleInfo(evt));
@@ -198,11 +198,11 @@ public class CifProcessor {
 
     /**
      * Classify the {@link AutomatonRole role of the automaton} for the different events, based on the edges that exist
-     * in the automaton, and its monitor declaration (if present).
+     * in the automaton, and the automaton's monitor declaration (if present).
      *
      * @param aut Automaton to analyze.
-     * @return An {@link AutomatonRoleInfo} for every event that is in its alphabet, or that it is a sender or receiver
-     *     for.
+     * @return An {@link AutomatonRoleInfo} for every event that is in the automaton's alphabet, or for which the
+     *     automaton is a sender or receiver.
      */
     private Map<Event, AutomatonRoleInfo> classifyAutomatonRole(Automaton aut) {
         Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = map();
@@ -278,7 +278,7 @@ public class CifProcessor {
         return autRoleInfoPerEvent;
     }
 
-    /** Information used to classify the {@link AutomatonRole role of an automaton}. */
+    /** Information used to classify the {@link AutomatonRole role of an automaton}, for a certain event. */
     private static class AutomatonRoleInfo {
         /** The event for which to classify the role of the automaton. */
         public final Event event;
@@ -341,8 +341,8 @@ public class CifProcessor {
          * Update the classification of the automaton's role, based on whether the automaton monitors the {@link #event}
          * or not.
          *
-         * @param isMonitor If {@code true} the automaton is a monitor automaton for the {@link #event}, otherwise the
-         *     automaton is a sender, receiver, or syncer for the event.
+         * @param isMonitor {@code true} if the automaton is a monitor automaton for the {@link #event}, {@code false}
+         *     otherwise.
          */
         public void setIsMonitor(boolean isMonitor) {
             // If already a sender or receiver, it can not also be a monitor.
@@ -371,7 +371,7 @@ public class CifProcessor {
             autRole = AutomatonRole.SYNCER;
         }
 
-        /** Check that the automaton's role has been decided without ambiguities. */
+        /** Check that the automaton's role has been fully decided (there are no remaining ambiguities). */
         private void checkAutRoleIsDecided() {
             Assert.check(EnumSet
                     .of(AutomatonRole.SENDER, AutomatonRole.RECEIVER, AutomatonRole.SYNCER, AutomatonRole.MONITOR)
@@ -425,7 +425,7 @@ public class CifProcessor {
          * @return The edges of the automaton, for the {@link #event}.
          */
         public List<TransitionEdge> getSenderEdges() {
-            Assert.check(autRole.equals(AutomatonRole.SENDER));
+            Assert.check(isSenderAutomaton());
             return edges;
         }
 
@@ -436,7 +436,7 @@ public class CifProcessor {
          * @return The edges of the automaton, for the {@link #event}.
          */
         public List<TransitionEdge> getReceiverEdges() {
-            Assert.check(autRole.equals(AutomatonRole.RECEIVER));
+            Assert.check(isReceiverAutomaton());
             return edges;
         }
 
@@ -447,7 +447,7 @@ public class CifProcessor {
          * @return The edges of the automaton, for the {@link #event}.
          */
         public List<TransitionEdge> getSyncerEdges() {
-            Assert.check(autRole.equals(AutomatonRole.SYNCER));
+            Assert.check(isSyncerAutomaton());
             return edges;
         }
 
@@ -458,14 +458,15 @@ public class CifProcessor {
          * @return The edges of the automaton, for the {@link #event}.
          */
         public List<TransitionEdge> getMonitorEdges() {
-            Assert.check(autRole.equals(AutomatonRole.MONITOR));
+            Assert.check(isMonitorAutomaton());
             return edges;
         }
     }
 
     /**
      * The role of an automaton with respect to a certain event. For a certain event, an automaton can only have a
-     * single role.
+     * single role, but there may be ambiguity while the automaton is being classified, i.e., its role is being
+     * determined.
      */
     public static enum AutomatonRole {
         /** The role of the automaton is not yet known. */
