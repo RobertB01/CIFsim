@@ -329,30 +329,31 @@ public class CifProcessor {
         }
 
         /**
-         * Mark the monitoring state of the event.
+         * Update the classification of the automaton's role, based on whether the automaton monitors the {@link #event}
+         * or not.
          *
-         * @param isMonitoring If {@code true} the event is being monitored by the automaton, otherwise it uses the
-         *     event as a channel or it synchronizes on the event.
+         * @param isMonitor If {@code true} the automaton is a monitor automaton for the {@link #event}, otherwise the
+         *     automaton is a sender, receiver, or syncer for the event.
          */
-        public void setIsMonitor(boolean isMonitoring) {
-            // If sending or receiving, monitoring the event is not allowed by CIF.
-            if (EnumSet.of(EdgesKind.SEND, EdgesKind.RECEIVE).contains(edgesKind)) {
-                Assert.check(!isMonitoring);
-                return; // Completely done with sending and receiving.
+        public void setIsMonitor(boolean isMonitor) {
+            // If already a sender or receiver, it can not also be a monitor.
+            if (EnumSet.of(AutomatonRole.SENDER, AutomatonRole.RECEIVER).contains(autRole)) {
+                Assert.check(!isMonitor);
+                return; // Completely done with sender and receiver.
             }
 
-            // Resolve ambiguities between syncing and monitoring.
-            EdgesKind resultKind = isMonitoring ? EdgesKind.MONITOR : EdgesKind.SYNCHRONIZE;
-            if (edgesKind.equals(resultKind)) {
-                return; // Do nothing if the decision has been made already and matches with the parameter value.
+            // Resolve ambiguity between syncer and monitor.
+            AutomatonRole resultRole = isMonitor ? AutomatonRole.MONITOR : AutomatonRole.SYNCER;
+            if (autRole.equals(resultRole)) {
+                return; // Do nothing if the classification is already correct.
                 //
-            } else if (EnumSet.of(EdgesKind.SYNC_OR_MONITOR, EdgesKind.UNKNOWN).contains(edgesKind)) {
-                edgesKind = resultKind; // Resolve the ambiguity if it exists.
+            } else if (EnumSet.of(AutomatonRole.SYNCER_OR_MONITOR, AutomatonRole.UNKNOWN).contains(autRole)) {
+                autRole = resultRole; // Resolve the ambiguity if it exists.
                 return;
             }
 
             // The information is contradicting in some way.
-            throw new AssertionError("Encountered unexpected edgesKind value \"" + edgesKind + "\".");
+            throw new AssertionError("Encountered unexpected automaton role \"" + autRole + "\".");
         }
 
         /** Resolve any ambiguity in the edge kind. */
