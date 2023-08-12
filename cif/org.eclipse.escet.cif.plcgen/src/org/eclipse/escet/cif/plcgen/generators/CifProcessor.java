@@ -152,14 +152,12 @@ public class CifProcessor {
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
             // Get the events and their edges for a single automaton.
-            Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = getAutomatonRoleInfoPerEvent(aut);
+            Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = classifyAutomatonRole(aut);
 
             // Merge the found data into the collection.
             for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
                 CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autRoleInfo.event,
                         evt -> new CifEventTransition(evt));
-
-                autRoleInfo.finalizeAutRole(); // Finalize classification of the automaton's role.
 
                 if (autRoleInfo.isSenderAutomaton()) {
                     eventTrans.senders.add(new TransitionAutomaton(aut, autRoleInfo.getSenderEdges()));
@@ -200,13 +198,13 @@ public class CifProcessor {
 
     /**
      * Classify the {@link AutomatonRole role of the automaton} for the different events, based on the edges that exist
-     * in the automaton, and its monitor declaration (if present). The classification is
-     * {@link AutomatonRoleInfo#finalizeAutRole finalized} later on.
+     * in the automaton, and its monitor declaration (if present).
      *
      * @param aut Automaton to analyze.
-     * @return A {@link CifEventTransition} for every event that the given automaton can perform.
+     * @return An {@link AutomatonRoleInfo} for every event that is in its alphabet, or that it is a sender or receiver
+     *     for.
      */
-    private Map<Event, AutomatonRoleInfo> getAutomatonRoleInfoPerEvent(Automaton aut) {
+    private Map<Event, AutomatonRoleInfo> classifyAutomatonRole(Automaton aut) {
         Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = map();
 
         // Explicit alphabet definition.
@@ -264,7 +262,19 @@ public class CifProcessor {
             }
         }
 
-        // For non-monitor automata, the non-channel events get their final 'syncer' classification later on.
+        // Automata that do not send or receive over the channel event, and also don't monitor the event, are a syncer
+        // automaton for the event.
+        for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+            if (EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRoleInfo.autRole)) {
+                autRoleInfo.setIsSyncer();
+            }
+        }
+
+        // Ensure that we have fully classified the role of the automaton, for all relevant events, before returning it
+        // to the caller.
+        for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+            autRoleInfo.checkAutRoleIsDecided();
+        }
         return autRoleInfoPerEvent;
     }
 
@@ -355,16 +365,10 @@ public class CifProcessor {
             throw new AssertionError("Encountered unexpected automaton role \"" + autRole + "\".");
         }
 
-        /**
-         * Finalize classification of the automaton's role, being a sender automaton, receiver automaton, syncer
-         * automaton, or monitor automaton.
-         */
-        public void finalizeAutRole() {
-            // Without proof of being a sender, receiver, or monitor, the automaton is a syncer.
-            if (EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRole)) {
-                autRole = AutomatonRole.SYNCER;
-            }
-            checkAutRoleIsDecided();
+        /** Update the classification of the automaton's role to being a syncer automaton. */
+        public void setIsSyncer() {
+            Assert.check(EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRole));
+            autRole = AutomatonRole.SYNCER;
         }
 
         /** Check that the automaton's role has been decided without ambiguities. */
