@@ -151,7 +151,7 @@ public class CifProcessor {
         // Collect events / automata / edges and pass them to the transitions generator.
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
-            // Get the events and their edges from a single automaton.
+            // Get the events and their edges for a single automaton.
             Map<Event, AutomatonEventTransition> autEventUsage = getAutomatonEventUsage(aut);
 
             // Merge the found data into the collection.
@@ -159,21 +159,21 @@ public class CifProcessor {
                 CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autEventTransitions.event,
                         evt -> new CifEventTransition(evt));
 
-                autEventTransitions.finishEdgeKind(); // Resolve any remaining ambiguity.
+                autEventTransitions.finalizeAutRole(); // Finalize classification of the automaton's role.
 
                 if (autEventTransitions.isSenderAutomaton()) {
-                    eventTrans.senders.add(new TransitionAutomaton(aut, autEventTransitions.getSendEdges()));
+                    eventTrans.senders.add(new TransitionAutomaton(aut, autEventTransitions.getSenderEdges()));
                     //
-                } else if (autEventTransitions.isReceiveAutomaton()) {
-                    eventTrans.receivers.add(new TransitionAutomaton(aut, autEventTransitions.getReceiveEdges()));
+                } else if (autEventTransitions.isReceiverAutomaton()) {
+                    eventTrans.receivers.add(new TransitionAutomaton(aut, autEventTransitions.getReceiverEdges()));
                     //
                 } else if (autEventTransitions.isSyncerAutomaton()) {
-                    eventTrans.syncers.add(new TransitionAutomaton(aut, autEventTransitions.getSyncEdges()));
+                    eventTrans.syncers.add(new TransitionAutomaton(aut, autEventTransitions.getSyncerEdges()));
                     //
                 } else if (autEventTransitions.isMonitorAutomaton()) {
                     eventTrans.monitors.add(new TransitionAutomaton(aut, autEventTransitions.getMonitorEdges()));
                 } else {
-                    throw new AssertionError("Undecided edges encountered.");
+                    throw new AssertionError("Undecided automaton role.");
                 }
             }
         }
@@ -201,8 +201,8 @@ public class CifProcessor {
     }
 
     /**
-     * Collect the edges that exist in the given automaton for every event of the automaton, and classify them as
-     * sender, receiver, syncer, or monitor.
+     * Classify the {@link AutomatonRole role of the automaton} for the different events, based on the edges that exist
+     * in the automaton, and its monitor declaration (if present).
      *
      * @param aut Automaton to analyze.
      * @return A {@link CifEventTransition} for every event that the given automaton can perform.
@@ -218,7 +218,7 @@ public class CifProcessor {
             }
         }
 
-        // Walk through locations, collecting locations, edges, and event-usage.
+        // Consider all the edges of the automaton for the classification.
         for (Location loc: aut.getLocations()) {
             for (Edge edge: loc.getEdges()) {
                 Location destLoc = CifEdgeUtils.getTarget(edge);
@@ -233,30 +233,30 @@ public class CifProcessor {
                     if (ee instanceof EdgeSend es) {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
                                 edge.getUpdates());
-                        autEventTrans.addEdge(te, EdgesKind.SEND);
+                        autEventTrans.addEdge(te, AutomatonRole.SENDER);
                     } else if (ee instanceof EdgeReceive) {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
-                        autEventTrans.addEdge(te, EdgesKind.RECEIVE);
+                        autEventTrans.addEdge(te, AutomatonRole.RECEIVER);
                     } else {
-                        // Event could be monitored. If so, it will be changed below.
+                        // Automaton synchronizes on the event. Whether it is a monitor is decided below.
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
-                        autEventTrans.addEdge(te, EdgesKind.SYNC_OR_MONITOR);
+                        autEventTrans.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
                     }
                 }
             }
         }
 
-        // Handle monitor events. Above all non-channel events are set as "sync_or_monitor'. Here, events are changed to
-        // "monitors" if necessary.
+        // Handle monitors: if the automaton monitors a event, we can classify it as a monitor, resolving the 'syncer or
+        // monitor' ambiguity.
         if (aut.getMonitors() != null) {
             Monitors mons = aut.getMonitors();
             if (mons.getEvents().isEmpty()) {
-                // All events are monitors.
+                // The automaton monitors all events in its alphabet.
                 for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
                     autEventTrans.setIsMonitor(true);
                 }
             } else {
-                // Resolve ambiguities for the events.
+                // The automaton monitors some explicit events.
                 Set<Event> monitorEvents = mons.getEvents().stream().map(expr -> ((EventExpression)expr).getEvent())
                         .collect(Sets.toSet());
                 for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
@@ -264,8 +264,8 @@ public class CifProcessor {
                 }
             }
         }
-        // For automata without monitor part, the non-channel events are converted with "finishEdgeKind" just before
-        // transition generation.
+
+        // For non-monitor automata, the non-channel events are classified as syncers later on.
         return eventUsage;
     }
 
