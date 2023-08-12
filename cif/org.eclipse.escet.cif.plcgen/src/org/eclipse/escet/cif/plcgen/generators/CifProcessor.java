@@ -148,30 +148,30 @@ public class CifProcessor {
             // TODO Extend allowed initial values by computing at runtime.
         }
 
-        // Collect events / automata / edges and pass them to the transitions generator.
+        // Collect edge transitions from automata and pass them to the transitions generator.
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
             // Get the events and their edges for a single automaton.
-            Map<Event, AutomatonEventTransition> autEventUsage = getAutomatonEventUsage(aut);
+            Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = getAutomatonEventUsage(aut);
 
             // Merge the found data into the collection.
-            for (AutomatonEventTransition autEventTransitions: autEventUsage.values()) {
-                CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autEventTransitions.event,
+            for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+                CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autRoleInfo.event,
                         evt -> new CifEventTransition(evt));
 
-                autEventTransitions.finalizeAutRole(); // Finalize classification of the automaton's role.
+                autRoleInfo.finalizeAutRole(); // Finalize classification of the automaton's role.
 
-                if (autEventTransitions.isSenderAutomaton()) {
-                    eventTrans.senders.add(new TransitionAutomaton(aut, autEventTransitions.getSenderEdges()));
+                if (autRoleInfo.isSenderAutomaton()) {
+                    eventTrans.senders.add(new TransitionAutomaton(aut, autRoleInfo.getSenderEdges()));
                     //
-                } else if (autEventTransitions.isReceiverAutomaton()) {
-                    eventTrans.receivers.add(new TransitionAutomaton(aut, autEventTransitions.getReceiverEdges()));
+                } else if (autRoleInfo.isReceiverAutomaton()) {
+                    eventTrans.receivers.add(new TransitionAutomaton(aut, autRoleInfo.getReceiverEdges()));
                     //
-                } else if (autEventTransitions.isSyncerAutomaton()) {
-                    eventTrans.syncers.add(new TransitionAutomaton(aut, autEventTransitions.getSyncerEdges()));
+                } else if (autRoleInfo.isSyncerAutomaton()) {
+                    eventTrans.syncers.add(new TransitionAutomaton(aut, autRoleInfo.getSyncerEdges()));
                     //
-                } else if (autEventTransitions.isMonitorAutomaton()) {
-                    eventTrans.monitors.add(new TransitionAutomaton(aut, autEventTransitions.getMonitorEdges()));
+                } else if (autRoleInfo.isMonitorAutomaton()) {
+                    eventTrans.monitors.add(new TransitionAutomaton(aut, autRoleInfo.getMonitorEdges()));
                 } else {
                     throw new AssertionError("Undecided automaton role.");
                 }
@@ -187,17 +187,15 @@ public class CifProcessor {
     }
 
     /**
-     * Return the {@link AutomatonEventTransition} of the given event from {@code eventTransitions}, possibly after
-     * creating it.
+     * Return the {@link AutomatonRoleInfo} of the given event from {@code autRoleInfoPerEvent}, possibly after creating
+     * it.
      *
-     * @param eventTransitions Available {@link AutomatonEventTransition}s. May be expanded in-place.
-     * @param event Event to use for retrieving the associated automaton event transition.
-     * @return The automaton event transition of the event.
+     * @param autRoleInfoPerEvent Available {@link AutomatonRoleInfo}s. May be expanded in-place.
+     * @param event Event for which to obtain the automaton role information.
+     * @return The automaton role information of the event.
      */
-    private static AutomatonEventTransition getEventTransition(Map<Event, AutomatonEventTransition> eventTransitions,
-            Event event)
-    {
-        return eventTransitions.computeIfAbsent(event, evt -> new AutomatonEventTransition(evt));
+    private static AutomatonRoleInfo getAutRoleInfo(Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent, Event event) {
+        return autRoleInfoPerEvent.computeIfAbsent(event, evt -> new AutomatonRoleInfo(evt));
     }
 
     /**
@@ -207,14 +205,14 @@ public class CifProcessor {
      * @param aut Automaton to analyze.
      * @return A {@link CifEventTransition} for every event that the given automaton can perform.
      */
-    private Map<Event, AutomatonEventTransition> getAutomatonEventUsage(Automaton aut) {
-        Map<Event, AutomatonEventTransition> eventUsage = map();
+    private Map<Event, AutomatonRoleInfo> getAutomatonEventUsage(Automaton aut) {
+        Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = map();
 
         // Explicit alphabet definition.
         if (aut.getAlphabet() != null) {
             for (Expression expr: aut.getAlphabet().getEvents()) {
                 EventExpression eve = (EventExpression)expr;
-                getEventTransition(eventUsage, eve.getEvent()); // Create an entry.
+                getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent()); // Create an entry.
             }
         }
 
@@ -228,19 +226,19 @@ public class CifProcessor {
                     Expression eventRef = ee.getEvent();
                     Assert.check(!(eventRef instanceof TauExpression)); // Pre-condition violation.
                     EventExpression eve = (EventExpression)eventRef;
-                    AutomatonEventTransition autEventTrans = getEventTransition(eventUsage, eve.getEvent());
+                    AutomatonRoleInfo autRoleInfo = getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent());
 
                     if (ee instanceof EdgeSend es) {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
                                 edge.getUpdates());
-                        autEventTrans.addEdge(te, AutomatonRole.SENDER);
+                        autRoleInfo.addEdge(te, AutomatonRole.SENDER);
                     } else if (ee instanceof EdgeReceive) {
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
-                        autEventTrans.addEdge(te, AutomatonRole.RECEIVER);
+                        autRoleInfo.addEdge(te, AutomatonRole.RECEIVER);
                     } else {
                         // Automaton synchronizes on the event. Whether it is a monitor is decided below.
                         TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
-                        autEventTrans.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
+                        autRoleInfo.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
                     }
                 }
             }
@@ -252,25 +250,25 @@ public class CifProcessor {
             Monitors mons = aut.getMonitors();
             if (mons.getEvents().isEmpty()) {
                 // The automaton monitors all events in its alphabet.
-                for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
-                    autEventTrans.setIsMonitor(true);
+                for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+                    autRoleInfo.setIsMonitor(true);
                 }
             } else {
                 // The automaton monitors some explicit events.
                 Set<Event> monitorEvents = mons.getEvents().stream().map(expr -> ((EventExpression)expr).getEvent())
                         .collect(Sets.toSet());
-                for (AutomatonEventTransition autEventTrans: eventUsage.values()) {
-                    autEventTrans.setIsMonitor(monitorEvents.contains(autEventTrans.event));
+                for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+                    autRoleInfo.setIsMonitor(monitorEvents.contains(autRoleInfo.event));
                 }
             }
         }
 
         // For non-monitor automata, the non-channel events are classified as syncers later on.
-        return eventUsage;
+        return autRoleInfoPerEvent;
     }
 
     /** Information used to classify the {@link AutomatonRole role of an automaton}. */
-    private static class AutomatonEventTransition {
+    private static class AutomatonRoleInfo {
         /** The event for which to classify the role of the automaton. */
         public final Event event;
 
@@ -284,11 +282,11 @@ public class CifProcessor {
         private final List<TransitionEdge> edges = list();
 
         /**
-         * Constructor of the {@link AutomatonEventTransition} class.
+         * Constructor of the {@link AutomatonRoleInfo} class.
          *
          * @param event The event for which to classify the role of the automaton.
          */
-        public AutomatonEventTransition(Event event) {
+        public AutomatonRoleInfo(Event event) {
             this.event = event;
             autRole = (event.getType() == null) ? AutomatonRole.SYNCER_OR_MONITOR : AutomatonRole.UNKNOWN;
         }
