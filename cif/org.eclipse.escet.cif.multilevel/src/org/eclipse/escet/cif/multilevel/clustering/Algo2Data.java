@@ -19,8 +19,16 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 
-/** Data for computing plants and requirements of a tree node. */
-public class GroupContent {
+/**
+ * Wrapper class for the input and output of Algorithm 2.
+ *
+ * <p>
+ * As the input data and the output data is the same, this class is used for both purposes. It also provides some
+ * information collection functions from its data to reduce the clutter in the code of
+ * {@link ComputeMultiLevelTree#update} the implements the algorithm.
+ * </p>
+ */
+public class Algo2Data {
     /** Unclustered plant group relations, modified in-place. */
     public final RealMatrix p;
 
@@ -34,14 +42,14 @@ public class GroupContent {
     public final BitSet reqGroups;
 
     /**
-     * Constructor of the {@link GroupContent} class.
+     * Constructor of the {@link Algo2Data} class.
      *
      * @param p Unclustered plant group relations.
      * @param rp Requirement group rows to plant group columns.
      * @param plantGroups Plant groups to include in the node.
      * @param reqGroups Requirement groups to include in the node.
      */
-    public GroupContent(RealMatrix p, RealMatrix rp, BitSet plantGroups, BitSet reqGroups) {
+    public Algo2Data(RealMatrix p, RealMatrix rp, BitSet plantGroups, BitSet reqGroups) {
         Assert.check(p.isSquare());
 
         this.p = p;

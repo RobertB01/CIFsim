@@ -50,7 +50,7 @@ public class Group {
      */
     public final BitSet members;
 
-    /** Local nodes of the group, may be {@code null}. */
+    /** Local nodes of the group, is {@code null} if there are no local nodes. */
     public final BitSet localNodes;
 
     /** Child groups (cannot be modified). */
