@@ -49,7 +49,7 @@ import org.eclipse.escet.common.java.BitSetIterator;
  *
  * M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event
  * Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages
- * 1625-1639, 2020, doi:link:https://doi.org/10.1109/TAC.2019.2928119[10.1109/TAC.2019.2928119
+ * 1625-1639, 2020, doi:<a href="https://doi.org/10.1109/TAC.2019.2928119">10.1109/TAC.2019.2928119</a>.
  * </p>
  */
 public class ComputeMultiLevelTree {
@@ -199,7 +199,7 @@ public class ComputeMultiLevelTree {
 
         // Case of a single child node.
         //
-        // Clustering code differentiates between singleton groups and non-singleton groups, the algorithm merges these.
+        // Clustering code differentiates between singleton groups and non-singleton groups, the algorithm in the paper merges these.
         if (grp.members.cardinality() == 1) {
             GroupContent gc = computeGroupContents(grp.members.nextSetBit(0), p, rp);
             ddbg();
@@ -208,7 +208,7 @@ public class ComputeMultiLevelTree {
 
         dbg("Starting search");
 
-        // General case, several members in the group. Construct an empty group content, will be extended in the search.
+        // General case: several members in the group. Construct an empty group content, to be extended in the search.
         GroupContent groupContent = new GroupContent(p.copy(), rp.copy(), new BitSet(), new BitSet());
 
         // Search the outside the child groups, and update the group content.when a non-zero plant group relation is
@@ -288,7 +288,7 @@ public class ComputeMultiLevelTree {
         groupContent.p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
         ddbg();
 
-        // Line 11, find all plant groups that need at least one of the above requirements.
+        // Line 11, find all plant groups that need at least one of the above requirements, and add them to the group content.
         BitSet plantGroups = groupContent.collectPlantGroupsForRequirementGroups(reqGroups);
         groupContent.plantGroups.or(plantGroups);
 
@@ -329,7 +329,7 @@ public class ComputeMultiLevelTree {
      * @param plantGroup Plant group that must use the requirement groups.
      * @return Requirement groups that only have the given plant group as relation.
      */
-    private static BitSet reqGroupsOnlyUSedBy(RealMatrix rp, int plantGroup) {
+    private static BitSet reqGroupsOnlyUsedBy(RealMatrix rp, int plantGroup) {
         BitSet reqGroups = new BitSet();
 
         for (int row = 0; row < rp.getRowDimension(); row++) {
