@@ -306,7 +306,7 @@ public class ComputeMultiLevelTree {
      * @param plantGroup2 Second plant group to use.
      */
     private static void update(Algo2Data groupContent, int plantGroup1, int plantGroup2) {
-        // Line 8, check for a non main-diagonal entry.
+        // Line 8, check for a non-zero and non main-diagonal entry.
         if (plantGroup1 == plantGroup2 || groupContent.p.getEntry(plantGroup1, plantGroup2) == 0) {
             return;
         }
