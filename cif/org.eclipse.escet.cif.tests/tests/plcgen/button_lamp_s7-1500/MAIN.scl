@@ -16,7 +16,7 @@ ORGANIZATION_BLOCK MAIN
         current_timer: DINT;
         current_timer__1: DINT;
         current_timer_t: LREAL;
-        isFeasible: BOOL;
+        eventEnabled: BOOL;
         isProgress: BOOL;
         syncAutEdge: DINT;
         syncAutEdge__1: DINT;
@@ -49,22 +49,22 @@ BEGIN
         isProgress := FALSE;
 
         (* Try to perform event "timer.start". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF timer = someConstantvariable THEN
             syncAutEdge := 1;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             IF sup = someConstantvariable THEN
                 syncAutEdge__1 := 1;
             ELSIF sup = someConstantvariable THEN
                 syncAutEdge__1 := 2;
             ELSE
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_sup := sup;
             current_timer := timer;
@@ -80,22 +80,22 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "timer.timeout". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF timer = someConstantvariable AND someContvariable >= 3.0 THEN
             syncAutEdge__2 := 1;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             IF sup = someConstantvariable THEN
                 syncAutEdge__3 := 1;
             ELSIF sup = someConstantvariable THEN
                 syncAutEdge__3 := 2;
             ELSE
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_sup__1 := sup;
             current_timer__1 := timer;
@@ -109,7 +109,7 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "button.push". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF sup = someConstantvariable THEN
             syncAutEdge__4 := 1;
         ELSIF sup = someConstantvariable THEN
@@ -121,16 +121,16 @@ BEGIN
         ELSIF sup = someConstantvariable THEN
             syncAutEdge__4 := 5;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             IF hw_button = someConstantvariable AND hw_button_bit THEN
                 syncAutEdge__5 := 1;
             ELSE
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_hw_button := hw_button;
             current_sup__2 := sup;
@@ -150,7 +150,7 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "button.release". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF sup = someConstantvariable THEN
             syncAutEdge__6 := 1;
         ELSIF sup = someConstantvariable THEN
@@ -162,16 +162,16 @@ BEGIN
         ELSIF sup = someConstantvariable THEN
             syncAutEdge__6 := 5;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             IF hw_button = someConstantvariable AND NOT(IN := hw_button_bit) THEN
                 syncAutEdge__7 := 1;
             ELSE
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_hw_button__1 := hw_button;
             current_sup__3 := sup;
@@ -191,22 +191,22 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "lamp.on". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF sup = someConstantvariable THEN
             syncAutEdge__8 := 1;
         ELSIF sup = someConstantvariable THEN
             syncAutEdge__8 := 2;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             IF hw_lamp = someConstantvariable THEN
                 syncAutEdge__9 := 1;
             ELSE
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_hw_lamp := hw_lamp;
             current_hw_lamp_bit := hw_lamp_bit;
@@ -222,22 +222,22 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "lamp.off". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF sup = someConstantvariable THEN
             syncAutEdge__10 := 1;
         ELSIF sup = someConstantvariable THEN
             syncAutEdge__10 := 2;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             IF hw_lamp = someConstantvariable THEN
                 syncAutEdge__11 := 1;
             ELSE
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_hw_lamp__1 := hw_lamp;
             current_hw_lamp_bit__1 := hw_lamp_bit;

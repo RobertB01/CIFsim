@@ -138,7 +138,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="isFeasible">
+            <variable name="eventEnabled">
               <type>
                 <BOOL/>
               </type>
@@ -207,7 +207,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (* Try to perform event "p.evt". *)
-    isFeasible := TRUE;
+    eventEnabled := TRUE;
     IF p = p_l1 THEN
         syncAutEdge := 1;
     ELSIF p = p_l6 THEN
@@ -231,9 +231,9 @@ WHILE isProgress DO
     ELSIF p = p_l15 THEN
         syncAutEdge := 11;
     ELSE
-        isFeasible := FALSE;
+        eventEnabled := FALSE;
     END_IF;
-    IF isFeasible THEN
+    IF eventEnabled THEN
         isProgress := TRUE;
         current_p := p;
         current_p_b := p_b;

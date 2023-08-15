@@ -4,7 +4,7 @@ ORGANIZATION_BLOCK MAIN
         channelValue: DINT;
         current_Good_x: DINT;
         current_Good_x__1: DINT;
-        isFeasible: BOOL;
+        eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;
         receiverEdge: DINT;
@@ -29,16 +29,16 @@ BEGIN
         isProgress := FALSE;
 
         (* Try to perform event "noSync". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF TRUE THEN
             syncAutEdge := 1;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
-            isFeasible := FALSE;
+        IF eventEnabled THEN
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_Good_x := Good_x;
             IF syncAutEdge = 1 THEN
@@ -46,13 +46,13 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "noMonitor". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF TRUE THEN
             syncAutEdge__2 := 1;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_Good_x__1 := Good_x;
             IF syncAutEdge__2 = 1 THEN
@@ -60,21 +60,21 @@ BEGIN
             END_IF;
         END_IF;
         (* Try to perform event "channel". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         senderAut := 0;
         IF senderAut = 0 THEN
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             receiverAut := 0;
             IF receiverAut = 0 THEN
-                isFeasible := FALSE;
+                eventEnabled := FALSE;
             END_IF;
         END_IF;
-        IF isFeasible THEN
-            isFeasible := FALSE;
+        IF eventEnabled THEN
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
         END_IF;
     END_WHILE;
