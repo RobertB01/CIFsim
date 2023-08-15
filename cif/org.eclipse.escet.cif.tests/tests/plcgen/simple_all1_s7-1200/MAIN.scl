@@ -9,7 +9,7 @@ ORGANIZATION_BLOCK MAIN
         current_p_v3: TupleStruct__1;
         current_p_ve: DINT;
         current_p_x: DINT;
-        isFeasible: BOOL;
+        eventEnabled: BOOL;
         isProgress: BOOL;
         litStruct: TupleStruct;
         litStruct__1: TupleStruct__1;
@@ -49,7 +49,7 @@ BEGIN
         isProgress := FALSE;
 
         (* Try to perform event "p.evt". *)
-        isFeasible := TRUE;
+        eventEnabled := TRUE;
         IF p = someConstantvariable THEN
             syncAutEdge := 1;
         ELSIF p = someConstantvariable THEN
@@ -73,9 +73,9 @@ BEGIN
         ELSIF p = someConstantvariable THEN
             syncAutEdge := 11;
         ELSE
-            isFeasible := FALSE;
+            eventEnabled := FALSE;
         END_IF;
-        IF isFeasible THEN
+        IF eventEnabled THEN
             isProgress := TRUE;
             current_p := p;
             current_p_b := p_b;
