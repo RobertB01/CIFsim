@@ -174,6 +174,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * <p>
      * The general structure of code of an event transition is: <pre>
+     * &lt;test-code&gt;
+     * IF eventEnabled THEN
+     *     isProgress := TRUE;
+     *     &lt;perform-codes&gt;
+     * EDN_IF;
+     * </pre>
+     * </p>
+     *
+     * <p>
+     * The {@code test-code} block visits the involved automata, checks for enabled edges, and sets the
+     * {@code eventEnavbled} flag to communicate its result to the {@code perform-code}. It has the following structure:
+     * <pre>
      * eventEnabled := TRUE;
      *
      * &lt;find-a-sender-automaton-with-enabled-edge&gt;
@@ -193,7 +205,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     IF NOT found THEN eventEnabled := FALSE; END_IF;
      * END_IF;
      * ... // Test code of other syncer-automata omitted.
-     *
+     * </pre>
+     * </p>
+     * <p>
+     * The {@code perform-code} block assumes that the event is enabled. It contains code to perform the updates of the
+     * edges found by the {@code test-code}. In addition the {@code perform-code} tests edges of monitor automata and
+     * also executes them if an enabled edge is found. The {@code perform-code} has the following structure: <pre>
      * IF eventEnabled THEN
      *     isProgress := TRUE;
      *
@@ -225,8 +242,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition,
             PlcVariable isProgressVar)
     {
-        List<PlcStatement> testCode = list(); // Code that decides whether the event can be performed.
-        List<PlcStatement> performCode = list(); // Code that performs the event it it can be performed.
+        // Both code parts visit the same automata and the check or perform the same edges. For this reason it makes
+        // sense to generate both test-code and perform-code at the same time for each automaton.
+        // At the end of the function both parts are combined into the above sequence.
+        List<PlcStatement> testCode = list(); // Code that decides whether the event is enabled.
+        List<PlcStatement> performCode = list(); // Code that performs the event assuming the event is enabled.
         List<PlcVariable> createdTempVariables = list();
 
         // Obtain the 'event is enabled' variable.
@@ -281,13 +301,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Handle monitors. Only generates perform code since it doesn't influence enabledness of the event transition.
         generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
 
-        // Construct the complete PLC code for the event transition by concatenating test and perform code.
-        // eventEnabled := TRUE; <testCode>; IF eventEnabled THEN progress := TRUE; <performCode>; END_IF;
+        // Construct the complete PLC code for the event transition by concatenating test and conditional perform code.
+        List<PlcStatement> resultCode = testCode;
         PlcExpression guard = new PlcVarExpression(eventEnabledVar);
-        testCode.add(generateIfGuardThenCode(guard, performCode));
+        resultCode.add(generateIfGuardThenCode(guard, performCode));
 
         mainExprGen.releaseTempVariables(createdTempVariables);
-        return testCode;
+        return resultCode;
     }
 
     /**
@@ -515,8 +535,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <p>
      * Each syncer automaton of the event must have an enabled edge, thus each syncer automaton has its own
      * {@code autEdge} variable for storing its selected edge. Also, failing to find an enabled edge for a syncer
-     * automaton immediately blocks the entire event from happening and thus immediately modifies {@code eventEnabled} as
-     * the last {@code ELSE} block in finding an enabled edge.
+     * automaton immediately blocks the entire event from happening and thus immediately modifies {@code eventEnabled}
+     * as the last {@code ELSE} block in finding an enabled edge.
      * </p>
      *
      * <p>
@@ -552,7 +572,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             List<PlcStatement> autTestCode = list(); // Intermediate Storage for test code of the automaton.
 
             // Each automaton has an edge variable storing the selected edge of that automaton during testing.
-            // TODO: Use a smaller integer for automaton and edge indexing.
+            // TODO: Use a smaller integer type for automaton and edge indexing.
             PlcVariable autEdgeVar = mainExprGen.getTempVariable("syncAutEdge", PlcElementaryType.DINT_TYPE);
 
             // Generate edge testing code.
