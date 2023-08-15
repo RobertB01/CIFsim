@@ -1,3 +1,4 @@
+maven/mavencentral/com.github.com-github-javabdd/com.github.javabdd/6.0.0, LGPL-2.0-or-later, approved, #2530
 maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0, approved, #20
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.11.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.google.guava/failureaccess/1.0.1, Apache-2.0, approved, CQ22654
@@ -103,7 +104,6 @@ p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full/17.0.5.v2
 p2/orbit/p2.eclipse.feature/org.eclipse.platform/4.27.0.v20230302-0300, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.feature/org.eclipse.rcp/4.27.0.v20230302-0300, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.feature/org.eclipse.userstorage/1.2.0.v20210517-0327, EPL-2.0, approved, technology.usssdk
-p2/orbit/p2.eclipse.plugin/com.github.com-github-javabdd.com.github.javabdd/6.0.0, LGPL-2.0-or-later, approved, #2530
 p2/orbit/p2.eclipse.plugin/com.jcraft.jsch/0.1.55.v20221112-0806, BSD-3-Clause, approved, CQ19435
 p2/orbit/p2.eclipse.plugin/com.sun.jna.platform/5.12.1.v20221103-2317, Apache-2.0 OR LGPL-2.1-or-later, approved, #4137
 p2/orbit/p2.eclipse.plugin/com.sun.jna/5.12.1.v20221103-2317, Apache-2.0 OR LGPL-2.1-or-later, approved, #4136
