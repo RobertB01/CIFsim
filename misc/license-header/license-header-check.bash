@@ -174,7 +174,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef
 # Exclude code generator template files.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.codegen/src/org/eclipse/escet/cif/codegen/.*/templates/.*:0$"
 # Exclude no file extension .ecore file. Treat as other .ecore files.
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.emf.tests/test_models/no_file_ext:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.emf/test_models/no_file_ext:0$"
 # Exclude files with more than one known hits.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./chi/org.eclipse.escet.chi.documentation/asciidoc/documentation.asciidoc:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./chi/org.eclipse.escet.chi.documentation/asciidoc/documentation-legal.asciidoc:2$"

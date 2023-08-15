@@ -27,6 +27,7 @@ import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Lists.slice;
+import static org.eclipse.escet.common.java.Lists.toList;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -730,5 +732,15 @@ public class ListsTest {
     public void testSingleNotOneElement() {
         assertThrows(IllegalArgumentException.class, () -> single(list()));
         assertThrows(IllegalArgumentException.class, () -> single(list(1, 2)));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testToList() {
+        assertEquals(list(), list().stream().collect(toList()));
+        assertEquals(list(1), list(1).stream().collect(toList()));
+        assertEquals(list(1, 2), list(1, 2).stream().collect(toList()));
+        assertEquals(list("a", "b"), list("a", "b").stream().collect(toList()));
+        assertEquals(list(1, 3, 5), IntStream.rangeClosed(1, 5).filter(i -> i % 2 != 0).boxed().collect(toList()));
     }
 }
