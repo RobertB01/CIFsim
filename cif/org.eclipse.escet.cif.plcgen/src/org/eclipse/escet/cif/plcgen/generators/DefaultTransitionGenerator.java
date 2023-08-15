@@ -174,17 +174,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * <p>
      * The general structure of code of an event transition is: <pre>
-     * &lt;test-code&gt;
-     * IF eventEnabled THEN
-     *     isProgress := TRUE;
-     *     &lt;perform-codes&gt;
-     * EDN_IF;
+     * &lt;test-code&gt;; IF eventEnabled THEN &lt;perform-codes&gt;; END_IF;
      * </pre>
      * </p>
      *
      * <p>
-     * The {@code test-code} block visits the involved automata, checks for enabled edges, and sets the
-     * {@code eventEnavbled} flag to communicate its result to the {@code perform-code}. It has the following structure:
+     * The {@code test-code} block visits the involved automata of an event, checks for enabled edges and sets the
+     * {@code eventEnabled} flag to communicate its result to the {@code perform-code}. It has the following structure:
      * <pre>
      * eventEnabled := TRUE;
      *
@@ -204,28 +200,26 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     &lt;find-enabled-edge-for-syncer-automaton-2&gt;
      *     IF NOT found THEN eventEnabled := FALSE; END_IF;
      * END_IF;
-     * ... // Test code of other syncer-automata omitted.
+     * ... // Test edge code of other syncer-automata omitted.
      * </pre>
      * </p>
      * <p>
      * The {@code perform-code} block assumes that the event is enabled. It contains code to perform the updates of the
      * edges found by the {@code test-code}. In addition the {@code perform-code} tests edges of monitor automata and
      * also executes them if an enabled edge is found. The {@code perform-code} has the following structure: <pre>
-     * IF eventEnabled THEN
-     *     isProgress := TRUE;
+     * isProgress := TRUE;
      *
-     *     &lt;perform-edge-of-the-found-sender&gt;
+     * &lt;perform-edge-of-the-found-sender&gt;
      *
-     *     &lt;perform-edge-of-the-found-receiver&gt;
+     * &lt;perform-edge-of-the-found-receiver&gt;
      *
-     *     &lt;perform-edge-of-sync-automaton-1&gt;
-     *     &lt;perform-edge-of-sync-automaton-2&gt;
-     *     ... // Perform code of other syncer-automata omitted.
+     * &lt;perform-edge-of-sync-automaton-1&gt;
+     * &lt;perform-edge-of-sync-automaton-2&gt;
+     * ... // Perform edge code of other syncer-automata omitted.
      *
-     *     &lt;try-to-find-and-perform-edge-of-monitor-automaton-1&gt;
-     *     &lt;try-to-find-and-perform-edge-of-monitor-automaton-2&gt;
-     *     ... // Try to perform code of other monitor-automata omitted.
-     * END_IF;
+     * &lt;try-to-find-and-perform-edge-of-monitor-automaton-1&gt;
+     * &lt;try-to-find-and-perform-edge-of-monitor-automaton-2&gt;
+     * ... // Try to perform edge code of other monitor-automata omitted.
      * </pre>
      * <ul>
      * <li>Details of test code and perform code for senders and receivers can be found at
