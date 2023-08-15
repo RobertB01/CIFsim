@@ -67,7 +67,8 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Compute and return the multi-level synthesis tree from the given CIF relations.
+     * Compute and return the multi-level synthesis tree from the given CIF relations as shown in Figure 1 of Goorden
+     * 2020.
      *
      * @param relations Analysis result of the specification with found plant groups, requirement groups, and their
      *     relations.
@@ -88,18 +89,20 @@ public class ComputeMultiLevelTree {
             dbg();
         }
 
+        // Transform the relations.
+        //
         // Convert to a plant groups DSM on requirement groups relations.
         // Do the standard T . T^-1 conversion, except here T is already transposed.
-        RealMatrix plantGroupRels = reqsPlantsDmm.adjacencies.transpose().multiply(reqsPlantsDmm.adjacencies);
+        RealMatrix unclusteredMatrix = reqsPlantsDmm.adjacencies.transpose().multiply(reqsPlantsDmm.adjacencies);
         dbg("Unclustered reqsPlants:");
-        dbg(MAT_DEBUG_FORMAT.format(plantGroupRels));
+        dbg(MAT_DEBUG_FORMAT.format(unclusteredMatrix));
         dbg();
 
-        // Cluster the DSM.
+        // And cluster the DSM.
         dbg("--- Start of clustering --");
         idbg();
-        ClusterInputData clusteringData = new ClusterInputData(plantGroupRels, reqsPlantsDmm.columnLabels);
-        Dsm clusterResultDsm = DsmClustering.flowBasedMarkovClustering(clusteringData);
+        ClusterInputData clusteringData = new ClusterInputData(unclusteredMatrix, reqsPlantsDmm.columnLabels);
+        Dsm clusteredDsm = DsmClustering.flowBasedMarkovClustering(clusteringData);
         ddbg();
         dbg("--- End of clustering --");
         dbg();
@@ -107,15 +110,16 @@ public class ComputeMultiLevelTree {
         // The cluster result contains the found cluster groups with original indices. For debugging however, it seems
         // useful to also dump the clustered DSM, to understand group information.
         dbg("Clustered reqsPlants (for information only, this data is not actually used):");
-        dbg(MAT_DEBUG_FORMAT.format(clusterResultDsm.adjacencies));
+        dbg(MAT_DEBUG_FORMAT.format(clusteredDsm.adjacencies));
         dbg();
 
-        // Recursively build the tree nodes.
+        // Finally, create the node tree.
         //
+        // Recursively build the tree nodes.
         // Both Algorithm 1 and Algorithm 2 change the computation for the single node case. In this implementation that
         // distinction is more separated. Both 'transformCluster' and 'calculateGandK' have separate implementations,
         // one for the single group case and one for the multiple groups case.
-        return transformCluster(clusterResultDsm.rootGroup, plantGroupRels, reqsPlantsDmm.adjacencies);
+        return transformCluster(clusteredDsm.rootGroup, unclusteredMatrix, reqsPlantsDmm.adjacencies);
     }
 
     /**
