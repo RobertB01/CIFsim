@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.multilevel.clustering;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.BitSets.toBitSet;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -32,11 +31,6 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealMatrixFormat;
-import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
-import org.eclipse.escet.common.dsm.ClusterInputData;
-import org.eclipse.escet.common.dsm.Dmm;
-import org.eclipse.escet.common.dsm.Dsm;
-import org.eclipse.escet.common.dsm.DsmClustering;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
@@ -54,7 +48,7 @@ import org.eclipse.escet.common.java.BitSetIterator;
  */
 public class ComputeMultiLevelTree {
     /** Matrix debug output format. */
-    private static final RealMatrixFormat MAT_DEBUG_FORMAT;
+    public static final RealMatrixFormat MAT_DEBUG_FORMAT;
 
     static {
         NumberFormat valueFmt = NumberFormat.getIntegerInstance(Locale.US);
@@ -64,62 +58,6 @@ public class ComputeMultiLevelTree {
     /** Constructor of the static {@link ComputeMultiLevelTree} class. */
     private ComputeMultiLevelTree() {
         // Static class.
-    }
-
-    /**
-     * Compute and return the multi-level synthesis tree from the given CIF relations as shown in Figure 1 of Goorden
-     * 2020.
-     *
-     * @param relations Analysis result of the specification with found plant groups, requirement groups, and their
-     *     relations.
-     * @return The computed multi-level synthesis tree.
-     */
-    public static TreeNode process(CifRelations relations) {
-        Dmm reqsPlantsDmm = relations.relations; // Requirement-group rows against plant-groups columns.
-
-        if (dodbg()) {
-            dbg("Plant groups:");
-            dbg(relations.plantGroups.toString());
-            dbg();
-            dbg("Requirement groups:");
-            dbg(relations.requirementGroups.toString());
-            dbg();
-            dbg("Requirement / Plant relations:");
-            dbg(relations.relations.toString());
-            dbg();
-        }
-
-        // Transform the relations.
-        //
-        // Convert to a plant groups DSM on requirement groups relations.
-        // Do the standard T . T^-1 conversion, except here T is already transposed.
-        RealMatrix unclusteredMatrix = reqsPlantsDmm.adjacencies.transpose().multiply(reqsPlantsDmm.adjacencies);
-        dbg("Unclustered reqsPlants:");
-        dbg(MAT_DEBUG_FORMAT.format(unclusteredMatrix));
-        dbg();
-
-        // And cluster the DSM.
-        dbg("--- Start of clustering --");
-        idbg();
-        ClusterInputData clusteringData = new ClusterInputData(unclusteredMatrix, reqsPlantsDmm.columnLabels);
-        Dsm clusteredDsm = DsmClustering.flowBasedMarkovClustering(clusteringData);
-        ddbg();
-        dbg("--- End of clustering --");
-        dbg();
-
-        // The cluster result contains the found cluster groups with original indices. For debugging however, it seems
-        // useful to also dump the clustered DSM, to understand group information.
-        dbg("Clustered reqsPlants (for information only, this data is not actually used):");
-        dbg(MAT_DEBUG_FORMAT.format(clusteredDsm.adjacencies));
-        dbg();
-
-        // Finally, create the node tree.
-        //
-        // Recursively build the tree nodes.
-        // Both Algorithm 1 and Algorithm 2 change the computation for the single node case. In this implementation that
-        // distinction is more separated. Both 'transformCluster' and 'calculateGandK' have separate implementations,
-        // one for the single group case and one for the multiple groups case.
-        return transformCluster(clusteredDsm.rootGroup, unclusteredMatrix, reqsPlantsDmm.adjacencies);
     }
 
     /**
@@ -133,7 +71,7 @@ public class ComputeMultiLevelTree {
      * @return Tree node of the cluster group, without expanding the plant and requirement groups to their automata
      *     collection.
      */
-    private static TreeNode transformCluster(Group clusterGroup, RealMatrix p, RealMatrix rp) {
+    public static TreeNode transformCluster(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Lines 1, 7, 8:
