@@ -25,7 +25,7 @@ public class Cycle {
     public final BitSet vertices;
 
     /** Index of the smallest vertex in the cycle. */
-    public int smallestVertexIndex;
+    public final int smallestVertexIndex;
 
     /**
      * Constructor of the {@link Cycle} class.

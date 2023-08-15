@@ -33,11 +33,11 @@ public class SequencerTest {
     /**
      * Sequence the provided graph and print the result, including indications of the strongly connected components.
      *
-     * @param pairs Pairs to load as a graph.
+     * @param pairs Pairs from which to construct a graph.
      * @return The generated output.
      */
     private static String testSequencing(String pairs) {
-        Graph g = GraphReader.loadVertexPairs(pairs);
+        Graph g = GraphReader.readVertexPairs(pairs);
         List<BitSet> collections = list();
         List<Vertex> vertices = Sequencer.sequenceGraph(g, collections);
 
@@ -81,8 +81,9 @@ public class SequencerTest {
     public void testSimpleCycleGraph() {
         String graphPairs = "(1, 2), (2, 3), (3, 2), (3, 4)";
         String result = testSequencing(graphPairs);
-        String expected = "1 3 2 4\n" //
-                + "  * *";
+        String expected = """
+                1 3 2 4
+                  * *""";
         assertEquals(expected, result);
     }
 
@@ -107,9 +108,10 @@ public class SequencerTest {
                 (12, 4) (12, 6) (12, 10)
                 """;
         String result = testSequencing(graphPairs);
-        String expected = "1 2 3 11 7 6 10 9 12 5 4 8\n" //
-                + "           * *  * *\n" //
-                + "                     * * *";
+        String expected = """
+                1 2 3 11 7 6 10 9 12 5 4 8
+                           * *  * *
+                                     * * *""";
         assertEquals(expected, result);
     }
 }

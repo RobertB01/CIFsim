@@ -33,12 +33,12 @@ public class GraphReader {
     }
 
     /**
-     * Load a file containing {@code (<name1>, <name2>)} directed edges of a graph.
+     * Read a file containing {@code (<name1>, <name2>)} directed edges of a graph.
      *
-     * @param fpath The file path to load.
-     * @return The loaded graph.
+     * @param fpath The file path to read.
+     * @return The newly constructed graph with the read edges.
      */
-    public static Graph loadVertexPairs(Path fpath) {
+    public static Graph readVertexPairs(Path fpath) {
         Graph g = new Graph();
         GraphCreator creator = g.getGraphCreator();
         creator.setupCreation();
@@ -57,9 +57,9 @@ public class GraphReader {
      * Create a graph from a line with a sequence of directed edges, each of the form {@code (<name1>, <name2>)}.
      *
      * @param pairs Line of text with the edge pairs.
-     * @return The loaded graph.
+     * @return The newly constructed graph.
      */
-    public static Graph loadVertexPairs(String pairs) {
+    public static Graph readVertexPairs(String pairs) {
         Graph g = new Graph();
         GraphCreator creator = g.getGraphCreator();
         creator.setupCreation();
