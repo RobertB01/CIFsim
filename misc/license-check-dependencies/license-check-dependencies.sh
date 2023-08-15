@@ -23,7 +23,7 @@ rm -rf DEPENDENCIES.generated.processed.txt
 
 # Perform license check.
 set -e
-./mvn_escet.sh org.eclipse.dash:license-tool-plugin:license-check -Ddash.projectId=technology.escet -Ddash.summary=DEPENDENCIES.generated.txt $*
+./mvn_escet.sh org.eclipse.dash:license-tool-plugin:license-check -Ddash.projectId=technology.escet -Ddash.summary=DEPENDENCIES.generated.txt -Dtycho.target.eager=true $*
 set +e
 cat DEPENDENCIES.generated.txt | grep -v "^maven/mavencentral/org.eclipse.escet/" > DEPENDENCIES.generated.processed.txt
 
