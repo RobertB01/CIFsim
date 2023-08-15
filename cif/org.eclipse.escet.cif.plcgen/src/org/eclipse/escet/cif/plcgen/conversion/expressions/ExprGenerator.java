@@ -123,11 +123,11 @@ public class ExprGenerator {
 
     /**
      * Access to PLC equivalents of CIF data, used in expression conversions. Used when resolving CIF data references in
-     * the {@link #convertAddressable} and the {@link #convertValue} functions.
+     * the {@link #convertAddressable} and {@link #convertValue} functions.
      *
      * <p>
      * May be the same as {@link #scopeCifProvider}, or access may have been altered using
-     * {@link #getScopeCifDataProvider}, adding one or more {@link CifDataProvider} on top of it, and setting it using
+     * {@link #getScopeCifDataProvider}, adding one or more {@link CifDataProvider}s on top of it, and setting it using
      * {@link #setCurrentCifDataProvider}.
      * </p>
      */
@@ -306,7 +306,7 @@ public class ExprGenerator {
     /**
      * Change the access to variables in this scope.
      *
-     * @param newCifProvider New CIF data provider to use. If {@code null}, the root data provider is used instead.
+     * @param newCifProvider New CIF data provider to use. If {@code null}, the scope data provider is used instead.
      */
     public void setCurrentCifDataProvider(CifDataProvider newCifProvider) {
         currentCifProvider = (newCifProvider == null) ? scopeCifProvider : newCifProvider;

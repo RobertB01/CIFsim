@@ -214,7 +214,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <li>Details of test code and perform code for senders and receivers can be found at
      * {@link #generateSendReceiveCode},</li>
      * <li>Details of test code and perform code for syncers can be found at {@link #generateSyncCode}, and</li>
-     * <li>Details of (try to) perform code for monitors can be found at {@link #generateSyncCode}.</li>
+     * <li>Details of (try to) perform code for monitors can be found at {@link #generateMonitorCode}.</li>
      * </ul>
      * </p>
      *
@@ -229,14 +229,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<PlcStatement> performCode = list(); // Code that performs the event it it can be performed.
         List<PlcVariable> createdTempVariables = list();
 
-        // Obtain the feasibility flag.
+        // Obtain the 'event is enabled' variable.
         PlcVariable eventEnabledVar = mainExprGen.getTempVariable("eventEnabled", PlcElementaryType.BOOL_TYPE);
         createdTempVariables.add(eventEnabledVar);
 
         // So far, no test code has been generated that may set 'eventEnabled' to false.
         boolean eventEnabledAlwaysHolds = true;
 
-        // Generate the header of the transition code for the event, initialize the event feasibility flag.
+        // Generate the header of the transition code for the event. Initialize the 'event is enabled' variable.
         String absEventName = getAbsName(eventTransition.event, false);
         testCode.add(new PlcCommentLine("Try to perform event \"" + absEventName + "\"."));
         testCode.add(new PlcAssignmentStatement(eventEnabledVar, new PlcBoolLiteral(true)));
@@ -265,7 +265,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             generateSendReceiveCode(eventTransition.senders, testCode, performProvider, performCode, "sender",
                     createdTempVariables, eventEnabledVar, channelValueVar, eventEnabledAlwaysHolds);
 
-            eventEnabledAlwaysHolds = false; // There is at least one sender tested so feasibility may not hold here.
+            eventEnabledAlwaysHolds = false; // At least one sender tested; event is no longer guaranteed to be enabled.
 
             // Handle receivers.
             mainExprGen.setChannelValueVariable(channelValueVar);
@@ -278,11 +278,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         generateSyncCode(eventTransition.syncers, testCode, performProvider, performCode, createdTempVariables,
                 eventEnabledVar, eventEnabledAlwaysHolds);
 
-        // Handle monitors. Only generates perform code since it doesn't influence feasibility of the event transition.
+        // Handle monitors. Only generates perform code since it doesn't influence enabledness of the event transition.
         generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
 
         // Construct the complete PLC code for the event transition by concatenating test and perform code.
-        // eventEnabled = TRUE; <testCode>; IF eventEnabled THEN progress := TRUE; <performCode>; END_IF;
+        // eventEnabled := TRUE; <testCode>; IF eventEnabled THEN progress := TRUE; <performCode>; END_IF;
         PlcExpression guard = new PlcVarExpression(eventEnabledVar);
         testCode.add(generateIfGuardThenCode(guard, performCode));
 
@@ -425,7 +425,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     eventEnabled := FALSE;
      * END_IF;
      * </pre> The receivers test code uses the {@code receiverAut} and {@code receiverEdge} variables and tests for
-     * feasibility first, but looks the same otherwise.
+     * enabledness first, but looks the same otherwise.
      * </p>
      *
      * <p>
@@ -499,8 +499,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             autTestCode.add(generateIfGuardThenCode(guard, assignment));
         }
 
-        // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the generated
-        // test code only makes sense after verifying that feasibility is still true.
+        // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the generated
+        // test code only makes sense after verifying that the event is indeed enabled.
         if (eventEnabledAlwaysHolds) {
             testCode.addAll(autTestCode);
         } else {
@@ -563,8 +563,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             performCode.addAll(generateAutPerformCode(transAut, autEdgeVar, null));
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
-            // If feasibility is known to hold, the generated test code can be used as-is. Otherwise, running the
-            // generated test code only makes sense after verifying that feasibility is still true.
+            // If enablendess is known to hold, the generated test code can be used as-is. Otherwise, running the
+            // generated test code only makes sense after verifying that the event is indeed enabled.
             if (eventEnabledAlwaysHolds) {
                 testCode.addAll(autTestCode);
             } else {
@@ -579,7 +579,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Generate code to test and perform a transition for a monitor automaton.
      *
      * <p>
-     * As monitor automata do not influence feasibility of an event, there is no test code to construct. Instead,
+     * As monitor automata do not influence enabledness of an event, there is no test code to construct. Instead,
      * finding an enabled edge and performing it is combined in the perform code. It generates the following for each
      * monitor automaton: <pre>
      * IF eventEnabled THEN
@@ -847,8 +847,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // ((u, v), w) := x
         // -> (u, v) := x.a and w := x.b
         // -> u := x.a.p and v := x.a.q and w := x.b
-        // and then each assignment can be converted. Note how the sequence projections at the right side gets extended
-        // on each recursion level, this is handled in the "projs" variable below.
+        // and then each assignment can be converted. Note how the sequence of projections at the right side gets
+        // extended on each recursion level. This is handled in the "projs" variable below.
         PlcType lhsType = target.getTypeGenerator().convertType(lhs.getType());
         PlcStructType lhsStructType = target.getTypeGenerator().getStructureType(lhsType);
 
