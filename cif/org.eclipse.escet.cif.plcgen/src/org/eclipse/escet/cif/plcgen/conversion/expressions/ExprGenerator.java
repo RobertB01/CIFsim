@@ -26,6 +26,8 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.BitSet;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.ListExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.RealExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SetExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
@@ -106,20 +109,38 @@ public class ExprGenerator {
     /** Map of variable names to their {@link #variables} index. */
     private final Map<String, Integer> varNameToVarIndex = map();
 
-    /** Indices set of temporary variables. */
+    /** Indices set of temporary variables in {@link #variables}. */
     private final BitSet variableIsTemp = new BitSet();
 
-    /** Indices set of temporary variables that can be handed out. */
+    /** Indices set of temporary variables in {@link #variables} that can be handed out. */
     private final BitSet variableIsAvailable = new BitSet();
 
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** Access to PLC equivalents of CIF data. */
-    private final CifDataProvider cifData;
+    /** Bottom level access to PLC equivalents of CIF data for the scope of the expression generator. */
+    private final CifDataProvider scopeCifProvider;
+
+    /**
+     * Access to PLC equivalents of CIF data, used in expression conversions. Used when resolving CIF data references in
+     * the {@link #convertAddressable} and {@link #convertValue} functions.
+     *
+     * <p>
+     * May be the same as {@link #scopeCifProvider}, or access may have been altered using
+     * {@link #getScopeCifDataProvider}, adding one or more {@link CifDataProvider}s on top of it, and setting it using
+     * {@link #setCurrentCifDataProvider}.
+     * </p>
+     */
+    private CifDataProvider currentCifProvider;
 
     /** PLC function applications of the target. */
     private final PlcFunctionAppls funcAppls;
+
+    /**
+     * PLC variable that contains the value sent over the channel. Should be {@code null} if not available (not
+     * communicating over a channel or the channel has a void type).
+     */
+    private PlcVariable channelValueVariable = null;
 
     /**
      * Constructor of the {@link ExprGenerator} class.
@@ -129,7 +150,8 @@ public class ExprGenerator {
      */
     public ExprGenerator(PlcTarget target, CifDataProvider cifData) {
         this.target = target;
-        this.cifData = cifData;
+        this.scopeCifProvider = cifData;
+        this.currentCifProvider = cifData;
         this.funcAppls = new PlcFunctionAppls(target);
     }
 
@@ -226,14 +248,79 @@ public class ExprGenerator {
      *
      * @param variables Variables being returned.
      */
-    public void releaseTempVariables(Set<PlcVariable> variables) {
+    public void releaseTempVariables(Collection<PlcVariable> variables) {
         for (PlcVariable var: variables) {
-            Integer idx = varNameToVarIndex.get(var.name);
-            if (idx == null || !variableIsTemp.get(idx)) {
-                continue;
-            }
-            variableIsAvailable.set(idx);
+            releaseTempVariable(var);
         }
+    }
+
+    /**
+     * Give a variable back to the generator for future re-use. Returning a non-temporary variable is allowed but it is
+     * ignored.
+     *
+     * <p>
+     * Intended to be used by {@link ExprValueResult} instances.
+     * </p>
+     *
+     * @param variable Variable being returned.
+     */
+    public void releaseTempVariable(PlcVariable variable) {
+        Integer idx = varNameToVarIndex.get(variable.name);
+        if (idx == null || !variableIsTemp.get(idx)) {
+            return;
+        }
+        variableIsAvailable.set(idx);
+    }
+
+    /**
+     * Obtain the temporary variables created in the expression generator.
+     *
+     * @return The created temporary variables of the expression generator.
+     */
+    public List<PlcVariable> getCreatedTempVariables() {
+        List<PlcVariable> tempVars = listc(variableIsTemp.cardinality());
+        for (int idx: new BitSetIterator(variableIsTemp)) {
+            tempVars.add(variables.get(idx));
+        }
+
+        // Sort variables on name.
+        Collections.sort(tempVars, (a, b) -> a.name.compareTo(b.name));
+        return tempVars;
+    }
+
+    /**
+     * Returns the CIF data provider from the scope in which this expression generator is used.
+     *
+     * <p>
+     * Use this scope CIF data provider only to create new data providers on top of the scope CIF data provider. Such
+     * new data providers can be with {@link #setCurrentCifDataProvider}. To convert values and addressables, use
+     * {@link #convertValue} and {@link #convertAddressable}, respectively.
+     * </p>
+     *
+     * @return The CIF data provider from the scope in which this expression generator is used.
+     */
+    public CifDataProvider getScopeCifDataProvider() {
+        return scopeCifProvider;
+    }
+
+    /**
+     * Change the access to variables in this scope.
+     *
+     * @param newCifProvider New CIF data provider to use. If {@code null}, the scope data provider is used instead.
+     */
+    public void setCurrentCifDataProvider(CifDataProvider newCifProvider) {
+        currentCifProvider = (newCifProvider == null) ? scopeCifProvider : newCifProvider;
+    }
+
+    /**
+     * Set the PLC variable to use for retrieving the communicated channel value at the receiver. Should be set to
+     * {@code null} if no value should be communicated or outside channel value communication context.
+     *
+     * @param channelValueVariable PLC variable to use for obtaining the communicated channel value. Set to {@code null}
+     *     if the variable is not valid (not doing communication or a void channel).
+     */
+    public void setChannelValueVariable(PlcVariable channelValueVariable) {
+        this.channelValueVariable = channelValueVariable;
     }
 
     /**
@@ -245,10 +332,11 @@ public class ExprGenerator {
     public ExprAddressableResult convertAddressable(Expression expr) {
         if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
-            return new ExprAddressableResult(this).setValue(cifData.getAddressableForDiscVar(de.getVariable()));
+            return new ExprAddressableResult(this)
+                    .setValue(currentCifProvider.getAddressableForDiscVar(de.getVariable()));
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprAddressableResult(this)
-                    .setValue(cifData.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
+                    .setValue(currentCifProvider.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof ProjectionExpression pe) {
             return convertProjectionAddressable(pe);
         }
@@ -295,15 +383,16 @@ public class ExprGenerator {
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof ConstantExpression ce) {
-            return new ExprValueResult(this).setValue(cifData.getValueForConstant(ce.getConstant()));
+            return new ExprValueResult(this).setValue(currentCifProvider.getValueForConstant(ce.getConstant()));
         } else if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
-            return new ExprValueResult(this).setValue(cifData.getValueForDiscVar(de.getVariable()));
+            return new ExprValueResult(this).setValue(currentCifProvider.getValueForDiscVar(de.getVariable()));
         } else if (expr instanceof AlgVariableExpression ae) {
             // TODO: Decide how to deal with algebraic variables.
             return convertValue(ae.getVariable().getValue()); // Convert its definition.
         } else if (expr instanceof ContVariableExpression ce) {
-            return new ExprValueResult(this).setValue(cifData.getValueForContvar(ce.getVariable(), ce.isDerivative()));
+            return new ExprValueResult(this)
+                    .setValue(currentCifProvider.getValueForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof LocationExpression le) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLit) {
@@ -311,7 +400,10 @@ public class ExprGenerator {
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
-            return new ExprValueResult(this).setValue(cifData.getValueForInputVar(ie.getVariable()));
+            return new ExprValueResult(this).setValue(currentCifProvider.getValueForInputVar(ie.getVariable()));
+        } else if (expr instanceof ReceivedExpression) {
+            Assert.notNull(channelValueVariable);
+            return new ExprValueResult(this).setValue(new PlcVarExpression(channelValueVariable));
         }
         throw new RuntimeException("Unexpected expr: " + expr);
     }
@@ -643,21 +735,74 @@ public class ExprGenerator {
     public PlcSelectionStatement addBranch(List<Expression> guards, Supplier<List<PlcStatement>> genThenStats,
             PlcSelectionStatement selStat, List<PlcStatement> rootCode)
     {
+        // Convert the guard conditions and drop into the add selection statement branch function below.
+        List<ExprValueResult> convertedGuards;
+        if (guards == null) {
+            convertedGuards = null;
+        } else if (guards.isEmpty()) {
+            convertedGuards = List.of(new ExprValueResult(this).setValue(new PlcBoolLiteral(true)));
+        } else {
+            convertedGuards = listc(guards.size());
+            for (Expression guard: guards) {
+                convertedGuards.add(convertValue(guard));
+            }
+        }
+        return addPlcBranch(convertedGuards, genThenStats, selStat, rootCode);
+    }
+
+    /**
+     * Append an {@code IF} branch to a selection statement in the PLC code.
+     *
+     * <p>
+     * Conceptually this function appends a <pre>ELSE IF guards THEN ....</pre> branch to the selection statement in
+     * {@code selStat}. The {@code guards} variable also controls whether there is a condition at all to test and
+     * {@code selStat} controls whether the first branch is created.
+     * </p>
+     * <p>
+     * The difficulty here is that the converted {@code guards} may have generated code attached which must be executed
+     * before evaluating the guards condition. The PLC {@code IF} statement does not support that.
+     * </p>
+     * <p>
+     * Therefore in such a case the current {@code selStat} cannot be extended with another {@code IF} branch. Instead,
+     * the code attached to the converted guards must be put in its {@code ELSE} branch so it can be executed. Below
+     * that code, a new selection statement must be started to evaluate the guards and possibly perform the assignment.
+     * That is, it generates <pre> ELSE
+     *     // Code to perform before evaluating the guards.
+     *     IF guard-expr THEN ... // Statements for the new branch.
+     *     ... // Possibly more branches will be added.
+     *     END_IF
+     * END_IF</pre> where the top {@code ELSE} and bottom {@code END_IF} are part of the supplied {@code selStat}.
+     * </p>
+     * <p>
+     * In addition in that case, next branches must now be added to this new selection statement. The returned value
+     * thus changes to the new selection statement.
+     * </p>
+     *
+     * @param plcGuards PLC expressions that must hold to select the branch. Is {@code null} for the final 'else'
+     *     branch.
+     * @param genThenStats Code generator for the statements in the added branch.
+     * @param selStat Selection statement returned the previous time, or {@code null} if no selection statement has been
+     *     created yet.
+     * @param rootCode Code block for storing the entire generated PLC {@code IF} statement.
+     * @return The last used selection statement after adding the branch.
+     */
+    public PlcSelectionStatement addPlcBranch(List<ExprValueResult> plcGuards,
+            Supplier<List<PlcStatement>> genThenStats, PlcSelectionStatement selStat, List<PlcStatement> rootCode)
+    {
         // Place to store generated guard condition code. If no guards are present (that is, it's the final 'else'
         // branch), the 'then' statements are put in the ELSE branch.
         List<PlcStatement> codeStorage = (selStat != null) ? selStat.elseStats : rootCode;
 
-        if (guards != null) {
+        if (plcGuards != null) {
             // Convert the guard conditions. Copy any generated code into storage, collect the used variables and the
             // converted expression for the final N-ary AND.
-            PlcExpression[] grdValues = new PlcExpression[guards.size()];
+            PlcExpression[] grdValues = new PlcExpression[plcGuards.size()];
             boolean seenGuardCode = false;
             Set<PlcVariable> grdVariables = set();
 
             // For all guard expressions, convert them and store their output.
             int grdNum = 0;
-            for (Expression guard: guards) {
-                ExprValueResult grdResult = convertValue(guard);
+            for (ExprValueResult grdResult: plcGuards) {
                 if (grdResult.hasCode()) {
                     seenGuardCode = true;
                     codeStorage.addAll(grdResult.code);

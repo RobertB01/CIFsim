@@ -69,8 +69,14 @@ public class PlcCodeStorage {
     /** The expression generator to use for generating code in the main program. Initialized lazily. */
     private ExprGenerator exprGenerator = null;
 
+    /** The variable that tracks progress is made in performing events. Initialized lazily. */
+    private PlcVariable isProgressVariable = null;
+
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
+
+    /** If not {@code null}, code to perform one iteration of all events. */
+    private List<PlcStatement> eventTransitionsIterationCode = null;
 
     /**
      * Constructor of the {@link PlcCodeStorage} class.
@@ -103,6 +109,18 @@ public class PlcCodeStorage {
             exprGenerator = new ExprGenerator(target, target.getVarStorage().getRootCifDataProvider());
         }
         return exprGenerator;
+    }
+
+    /**
+     * Get the variable to set if an event transition is performed.
+     *
+     * @return The variable to set if an event transition is performed.
+     */
+    public PlcVariable getIsProgressVariable() {
+        if (isProgressVariable == null) {
+            isProgressVariable = getExprGenerator().getTempVariable("isProgress", PlcElementaryType.BOOL_TYPE);
+        }
+        return isProgressVariable;
     }
 
     /**
@@ -176,6 +194,21 @@ public class PlcCodeStorage {
         }
     }
 
+    /**
+     * Add code to (try to) perform one iteration of all event transitions. Code should update the
+     * {@link #isProgressVariable} if an event is performed.
+     *
+     * @param eventTransitionsIterationCode Code that (tries to) perform one iteration of all event transitions. Code
+     *     should update the {@link #isProgressVariable} if an event is performed.
+     * @see #getIsProgressVariable
+     */
+    public void addEventTransitions(List<PlcStatement> eventTransitionsIterationCode) {
+        Assert.check(this.eventTransitionsIterationCode == null);
+        if (PlcModelUtils.isNonEmptyCode(eventTransitionsIterationCode)) {
+            this.eventTransitionsIterationCode = eventTransitionsIterationCode;
+        }
+    }
+
     /** Perform any additional processing to make the generated PLC program ready. */
     public void finishPlcProgram() {
         // Add all created variable tables.
@@ -193,6 +226,7 @@ public class PlcCodeStorage {
         addGlobalVariableTable(mainVariables);
 
         ExprGenerator exprGen = getExprGenerator();
+
         if (stateInitializationCode != null) {
             // Insert code to create the initial state.
             PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
@@ -207,13 +241,32 @@ public class PlcCodeStorage {
             target.getModelTextGenerator().toText(stateInitializationCode, box, main.name, false);
             box.dedent();
             box.add("END_IF;");
+
+            // Add event transitions code.
+            if (eventTransitionsIterationCode != null) {
+                String progressVarName = getIsProgressVariable().name;
+                box.add();
+                box.add("%s := TRUE;", progressVarName);
+                box.add("WHILE %s DO", progressVarName);
+                box.indent();
+                box.add("%s := FALSE;", progressVarName);
+                box.add();
+                target.getModelTextGenerator().toText(eventTransitionsIterationCode, box, main.name, false);
+                box.dedent();
+                box.add("END_WHILE;");
+            }
         }
 
-        // Add main program variables.
+        exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
+
+        // Add main program timer variables.
         PlcType tonType = new PlcDerivedType("TON");
         mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
         mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
         mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
+
+        // Add temporary variables of the main program code.
+        main.tempVars = exprGen.getCreatedTempVariables();
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));

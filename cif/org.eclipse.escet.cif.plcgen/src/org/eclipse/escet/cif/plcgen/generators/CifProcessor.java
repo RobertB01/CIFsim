@@ -13,14 +13,23 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -53,17 +62,33 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
@@ -77,10 +102,10 @@ public class CifProcessor {
     private final String absInputPath;
 
     /** Whether to simplify values during pre-processing. */
-    public boolean simplifyValues;
+    private final boolean simplifyValues;
 
     /** How to treat enumerations. */
-    public final ConvertEnums enumConversion;
+    private final ConvertEnums enumConversion;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
@@ -122,6 +147,345 @@ public class CifProcessor {
             // TODO Initial value -> precheckers restrict to constant initial value.
             // TODO Extend allowed initial values by computing at runtime.
         }
+
+        // Collect edge transitions from automata and pass them to the transitions generator.
+        Map<Event, CifEventTransition> eventTransitions = map();
+        for (Automaton aut: collectAutomata(spec, list())) {
+            // Classify the role of the automaton, per relevant event.
+            Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = classifyAutomatonRole(aut);
+
+            // Merge the found data into the collection.
+            for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+                CifEventTransition eventTrans = eventTransitions.computeIfAbsent(autRoleInfo.event,
+                        evt -> new CifEventTransition(evt));
+
+                if (autRoleInfo.isSenderAutomaton()) {
+                    eventTrans.senders.add(new TransitionAutomaton(aut, autRoleInfo.getSenderEdges()));
+                    //
+                } else if (autRoleInfo.isReceiverAutomaton()) {
+                    eventTrans.receivers.add(new TransitionAutomaton(aut, autRoleInfo.getReceiverEdges()));
+                    //
+                } else if (autRoleInfo.isSyncerAutomaton()) {
+                    eventTrans.syncers.add(new TransitionAutomaton(aut, autRoleInfo.getSyncerEdges()));
+                    //
+                } else if (autRoleInfo.isMonitorAutomaton()) {
+                    eventTrans.monitors.add(new TransitionAutomaton(aut, autRoleInfo.getMonitorEdges()));
+                } else {
+                    throw new AssertionError("Undecided automaton role.");
+                }
+            }
+        }
+
+        // Construct the result to pass into the transition generator,
+        List<CifEventTransition> cifEventTransitions = listc(eventTransitions.values().size());
+        cifEventTransitions.addAll(eventTransitions.values());
+
+        // And give the result to the transition generator.
+        target.getTransitionGenerator().setTransitions(cifEventTransitions);
+    }
+
+    /**
+     * Return the {@link AutomatonRoleInfo} for the given event from {@code autRoleInfoPerEvent}, possibly after
+     * creating it.
+     *
+     * @param autRoleInfoPerEvent Available {@link AutomatonRoleInfo}s. May be expanded in-place.
+     * @param event Event for which to obtain the automaton role information.
+     * @return The automaton role information for the event.
+     */
+    private static AutomatonRoleInfo getAutRoleInfo(Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent, Event event) {
+        return autRoleInfoPerEvent.computeIfAbsent(event, evt -> new AutomatonRoleInfo(evt));
+    }
+
+    /**
+     * Classify the {@link AutomatonRole role of the automaton} for the different events, based on the edges that exist
+     * in the automaton, and the automaton's monitor declaration (if present).
+     *
+     * @param aut Automaton to analyze.
+     * @return An {@link AutomatonRoleInfo} for every event that is in the automaton's alphabet, or for which the
+     *     automaton is a sender or receiver.
+     */
+    private Map<Event, AutomatonRoleInfo> classifyAutomatonRole(Automaton aut) {
+        Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = map();
+
+        // Explicit alphabet definition.
+        if (aut.getAlphabet() != null) {
+            for (Expression expr: aut.getAlphabet().getEvents()) {
+                EventExpression eve = (EventExpression)expr;
+                getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent()); // Create an entry.
+            }
+        }
+
+        // Consider all the edges of the automaton for the classification.
+        for (Location loc: aut.getLocations()) {
+            for (Edge edge: loc.getEdges()) {
+                Location destLoc = CifEdgeUtils.getTarget(edge);
+
+                Assert.check(!edge.getEvents().isEmpty()); // Pre-condition violation.
+                for (EdgeEvent ee: edge.getEvents()) {
+                    Expression eventRef = ee.getEvent();
+                    Assert.check(!(eventRef instanceof TauExpression)); // Pre-condition violation.
+                    EventExpression eve = (EventExpression)eventRef;
+                    AutomatonRoleInfo autRoleInfo = getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent());
+
+                    if (ee instanceof EdgeSend es) {
+                        TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
+                                edge.getUpdates());
+                        autRoleInfo.addEdge(te, AutomatonRole.SENDER);
+                    } else if (ee instanceof EdgeReceive) {
+                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        autRoleInfo.addEdge(te, AutomatonRole.RECEIVER);
+                    } else {
+                        // Automaton synchronizes on the event. Whether it is a monitor is decided below.
+                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        autRoleInfo.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
+                    }
+                }
+            }
+        }
+
+        // Handle monitors: if the automaton monitors a event, we can classify it as a monitor, resolving the 'syncer or
+        // monitor' ambiguity.
+        if (aut.getMonitors() != null) {
+            Monitors mons = aut.getMonitors();
+            if (mons.getEvents().isEmpty()) {
+                // The automaton monitors all events in its alphabet.
+                for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+                    autRoleInfo.setIsMonitor(true);
+                }
+            } else {
+                // The automaton monitors some explicit events.
+                Set<Event> monitorEvents = mons.getEvents().stream().map(expr -> ((EventExpression)expr).getEvent())
+                        .collect(Sets.toSet());
+                for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+                    autRoleInfo.setIsMonitor(monitorEvents.contains(autRoleInfo.event));
+                }
+            }
+        }
+
+        // Automata that do not send or receive over the channel event, and also don't monitor the event, are a syncer
+        // automaton for the event.
+        for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+            if (EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRoleInfo.autRole)) {
+                autRoleInfo.setIsSyncer();
+            }
+        }
+
+        // Ensure that we have fully classified the role of the automaton, for all relevant events, before returning it
+        // to the caller.
+        for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
+            autRoleInfo.checkAutRoleIsDecided();
+        }
+        return autRoleInfoPerEvent;
+    }
+
+    /** Information used to classify the {@link AutomatonRole role of an automaton}, for a certain event. */
+    private static class AutomatonRoleInfo {
+        /** The event for which to classify the role of the automaton. */
+        public final Event event;
+
+        /**
+         * Role of the automaton with respect to the {@link #event}. This may be modified multiple times during the
+         * classification process.
+         */
+        private AutomatonRole autRole;
+
+        /** Edges of the automaton for the {@link #event}. */
+        private final List<TransitionEdge> edges = list();
+
+        /**
+         * Constructor of the {@link AutomatonRoleInfo} class.
+         *
+         * @param event The event for which to classify the role of the automaton.
+         */
+        public AutomatonRoleInfo(Event event) {
+            this.event = event;
+            autRole = (event.getType() == null) ? AutomatonRole.SYNCER_OR_MONITOR : AutomatonRole.UNKNOWN;
+        }
+
+        /**
+         * Consider an edge for classification.
+         *
+         * @param transEdge Edge to consider.
+         * @param edgeAutRole The role of the automaton as implied by the edge.
+         */
+        public void addEdge(TransitionEdge transEdge, AutomatonRole edgeAutRole) {
+            // Check for allowed roles implied by edges. Note that in an edge context it is not possible to decide
+            // between a syncer and a monitor.
+            Assert.check(EnumSet.of(AutomatonRole.SENDER, AutomatonRole.RECEIVER, AutomatonRole.SYNCER_OR_MONITOR)
+                    .contains(edgeAutRole));
+
+            // Add the edge.
+            edges.add(transEdge);
+
+            // Update the classification of the automaton's role.
+            switch (autRole) {
+                case UNKNOWN:
+                    autRole = edgeAutRole; // This role implied by this edge is the only information we have, so far.
+                    break;
+                case MONITOR:
+                case SYNCER:
+                case SYNCER_OR_MONITOR:
+                    Assert.check(edgeAutRole.equals(AutomatonRole.SYNCER_OR_MONITOR)); // Should not be sender/receiver.
+                    break;
+                case SENDER:
+                case RECEIVER:
+                    // Once the automaton is a sender or receiver, all edges must imply that.
+                    Assert.check(edgeAutRole.equals(autRole));
+                    break;
+                default:
+                    throw new AssertionError("Unexpected automaton role \"" + autRole + "\".");
+            }
+        }
+
+        /**
+         * Update the classification of the automaton's role, based on whether the automaton monitors the {@link #event}
+         * or not.
+         *
+         * @param isMonitor {@code true} if the automaton is a monitor automaton for the {@link #event}, {@code false}
+         *     otherwise.
+         */
+        public void setIsMonitor(boolean isMonitor) {
+            // If already a sender or receiver, it can not also be a monitor.
+            if (EnumSet.of(AutomatonRole.SENDER, AutomatonRole.RECEIVER).contains(autRole)) {
+                Assert.check(!isMonitor);
+                return; // Completely done with sender and receiver.
+            }
+
+            // Resolve ambiguity between syncer and monitor.
+            AutomatonRole resultRole = isMonitor ? AutomatonRole.MONITOR : AutomatonRole.SYNCER;
+            if (autRole.equals(resultRole)) {
+                return; // Do nothing if the classification is already correct.
+                //
+            } else if (EnumSet.of(AutomatonRole.SYNCER_OR_MONITOR, AutomatonRole.UNKNOWN).contains(autRole)) {
+                autRole = resultRole; // Resolve the ambiguity if it exists.
+                return;
+            }
+
+            // The information is contradicting in some way.
+            throw new AssertionError("Encountered unexpected automaton role \"" + autRole + "\".");
+        }
+
+        /** Update the classification of the automaton's role to being a syncer automaton. */
+        public void setIsSyncer() {
+            Assert.check(EnumSet.of(AutomatonRole.UNKNOWN, AutomatonRole.SYNCER_OR_MONITOR).contains(autRole));
+            autRole = AutomatonRole.SYNCER;
+        }
+
+        /** Check that the automaton's role has been fully decided (there are no remaining ambiguities). */
+        private void checkAutRoleIsDecided() {
+            Assert.check(EnumSet
+                    .of(AutomatonRole.SENDER, AutomatonRole.RECEIVER, AutomatonRole.SYNCER, AutomatonRole.MONITOR)
+                    .contains(autRole));
+        }
+
+        /**
+         * Is the automaton a {@link AutomatonRole#SENDER sender} automaton?
+         *
+         * @return Whether the automaton is a sender automaton.
+         */
+        public boolean isSenderAutomaton() {
+            checkAutRoleIsDecided();
+            return autRole.equals(AutomatonRole.SENDER);
+        }
+
+        /**
+         * Is the automaton a {@link AutomatonRole#RECEIVER receiver} automaton?
+         *
+         * @return Whether the automaton is a receiver automaton.
+         */
+        public boolean isReceiverAutomaton() {
+            checkAutRoleIsDecided();
+            return autRole.equals(AutomatonRole.RECEIVER);
+        }
+
+        /**
+         * Is the automaton a {@link AutomatonRole#SYNCER syncer} automaton?
+         *
+         * @return Whether the automaton is a syncer automaton.
+         */
+        public boolean isSyncerAutomaton() {
+            checkAutRoleIsDecided();
+            return autRole.equals(AutomatonRole.SYNCER);
+        }
+
+        /**
+         * Is the automaton a {@link AutomatonRole#MONITOR monitor} automaton?
+         *
+         * @return Whether the automaton is a monitor automaton.
+         */
+        public boolean isMonitorAutomaton() {
+            checkAutRoleIsDecided();
+            return autRole.equals(AutomatonRole.MONITOR);
+        }
+
+        /**
+         * Get the edges of the {@link AutomatonRole#SENDER sender} automaton. May only be called when
+         * {@link #isSenderAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton, for the {@link #event}.
+         */
+        public List<TransitionEdge> getSenderEdges() {
+            Assert.check(isSenderAutomaton());
+            return edges;
+        }
+
+        /**
+         * Get the edges of the {@link AutomatonRole#RECEIVER receiver} automaton. May only be called when
+         * {@link #isReceiverAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton, for the {@link #event}.
+         */
+        public List<TransitionEdge> getReceiverEdges() {
+            Assert.check(isReceiverAutomaton());
+            return edges;
+        }
+
+        /**
+         * Get the edges of the {@link AutomatonRole#SYNCER syncer} automaton. May only be called when
+         * {@link #isSyncerAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton, for the {@link #event}.
+         */
+        public List<TransitionEdge> getSyncerEdges() {
+            Assert.check(isSyncerAutomaton());
+            return edges;
+        }
+
+        /**
+         * Get the edges of the {@link AutomatonRole#MONITOR monitor} automaton. May only be called when
+         * {@link #isMonitorAutomaton} returns {@code true}.
+         *
+         * @return The edges of the automaton, for the {@link #event}.
+         */
+        public List<TransitionEdge> getMonitorEdges() {
+            Assert.check(isMonitorAutomaton());
+            return edges;
+        }
+    }
+
+    /**
+     * The role of an automaton with respect to a certain event. For a certain event, an automaton can only have a
+     * single role, but there may be ambiguity while the automaton is being classified, i.e., its role is being
+     * determined.
+     */
+    public static enum AutomatonRole {
+        /** The role of the automaton is not yet known. */
+        UNKNOWN,
+
+        /** The automaton is a sender automaton, that sends values over the channel. */
+        SENDER,
+
+        /** The automaton is a receiver automaton, that receives values from the channel. */
+        RECEIVER,
+
+        /** The automaton is a syncer automaton, that synchronizes on the event, but does not monitor it. */
+        SYNCER,
+
+        /** The automaton is a monitor automaton, that synchronizes on the event, and monitors it. */
+        MONITOR,
+
+        /** The automaton is either a {@link #SYNCER syncer} or a {@link #MONITOR monitor}. */
+        SYNCER_OR_MONITOR;
     }
 
     /**
@@ -196,6 +560,9 @@ public class CifProcessor {
                             .ignoreNeverBlockingInvariants() //
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
+
+                    // Disallow tau events.
+                    new EventNoTauCheck(),
 
                     // Disallow equations.
                     // TODO This may be too strict. Consider what equations should be allowed more closely.
