@@ -174,14 +174,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * <p>
      * The general structure of code of an event transition is: <pre>
-     * &lt;test-code&gt;; IF eventEnabled THEN &lt;perform-codes&gt;; END_IF;
+     * &lt;test-code&gt;; IF eventEnabled THEN &lt;perform-code&gt;; END_IF;
      * </pre>
      * </p>
      *
      * <p>
      * The {@code test-code} block visits the involved automata of an event, checks for enabled edges and sets the
-     * {@code eventEnabled} flag to communicate its result to the {@code perform-code}. It has the following structure:
-     * <pre>
+     * {@code eventEnabled} variable to communicate its result to the {@code perform-code}. It has the following
+     * structure: <pre>
      * eventEnabled := TRUE;
      *
      * &lt;find-a-sender-automaton-with-enabled-edge&gt;
@@ -238,7 +238,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     {
         // Both code parts visit the same automata and the check or perform the same edges. For this reason it makes
         // sense to generate both test-code and perform-code at the same time for each automaton.
-        // At the end of the function both parts are combined into the above sequence.
+        // At the end of this method both parts are combined.
         List<PlcStatement> testCode = list(); // Code that decides whether the event is enabled.
         List<PlcStatement> performCode = list(); // Code that performs the event assuming the event is enabled.
         List<PlcVariable> createdTempVariables = list();
