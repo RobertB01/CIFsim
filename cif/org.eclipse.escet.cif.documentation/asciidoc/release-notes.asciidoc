@@ -26,6 +26,10 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version
 
 TBD
 
+Improvements and fixes:
+
+* The CIF to Supremica transformation does now correctly transform multiple guards on an edge. Multiple guards are now combined into a single conjunction (issue {escet-issue}620[#620]).
+
 === Version 0.10 (2023-06-30)
 
 Language changes:
