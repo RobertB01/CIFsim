@@ -32,7 +32,8 @@ TBD
 
 Improvements and fixes:
 
-* The DSM clustering tool's DSM input file format has been changed from a CSV-like file to an RFC-4180 compliant CSV file (issue {escet-issue}629[#629]).
+* The DSM clustering tool's DSM input file format has been changed from a CSV-like file to an RFC-4180 compliant CSV file.
+Tab characters are no longer supported in the input files (issue {escet-issue}629[#629]).
 
 === Version 0.10 (2023-06-30)
 
