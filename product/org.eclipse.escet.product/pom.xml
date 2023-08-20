@@ -41,6 +41,9 @@
 
                     <!-- Include all P2 update sites from the target platform as references in the update site. -->
                     <addIUTargetRepositoryReferences>true</addIUTargetRepositoryReferences>
+
+                    <!-- Include sources for all artifacts in the update site, if available. -->
+                    <includeAllSources>true</includeAllSources>
                 </configuration>
             </plugin>
 
