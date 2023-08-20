@@ -111,7 +111,7 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 To prepare the Git repository for the next version (not a milestone or release candidate), follow these steps:
 
-* Run in the root of the Git repository the command `./mvn_escet.sh org.eclipse.tycho:tycho-versions-plugin:set-parent-version -DnewParentVersion=<new-version>`, where `<new-version>` is replaced by the new version, e.g. `0.2.0.qualifier`.
+* Run in the root of the Git repository the command `mvn org.eclipse.tycho:tycho-versions-plugin:set-parent-version -DnewParentVersion=<new-version>`, where `<new-version>` is replaced by the new version, e.g. `0.2.0.qualifier`.
 This replaces most version numbers automatically.
 Check all changes to ensure no versions are updated that should not be updated.
 
