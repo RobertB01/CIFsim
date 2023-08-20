@@ -54,13 +54,6 @@
                 <version>${tycho.version}</version>
 
                 <configuration>
-                    <!-- Set archive format to use, per platform. -->
-                    <formats>
-                        <linux>tar.gz</linux>
-                        <macosx>tar.gz</macosx>
-                        <win32>zip</win32>
-                    </formats>
-
                     <!-- Set archive file name to use. -->
                     <products>
                         <product>
