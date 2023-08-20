@@ -38,6 +38,9 @@
 
                     <!-- Custom archive file name (excluding file extension). -->
                     <finalName>eclipse-escet-incubation-${escet.version.enduser}-updatesite</finalName>
+
+                    <!-- Include all P2 update sites from the target platform as references in the update site. -->
+                    <addIUTargetRepositoryReferences>true</addIUTargetRepositoryReferences>
                 </configuration>
             </plugin>
 
