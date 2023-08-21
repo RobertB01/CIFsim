@@ -140,6 +140,14 @@ SPDX-License-Identifier: MIT
                 <version>${tycho.version}</version>
             </plugin>
 
+            <!-- Prevent warnings for projects with multiple source directories. -->
+            <!-- See also https://github.com/eclipse-tycho/tycho/discussions/2717. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+
             <!-- Configure packaging of JARs. -->
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
