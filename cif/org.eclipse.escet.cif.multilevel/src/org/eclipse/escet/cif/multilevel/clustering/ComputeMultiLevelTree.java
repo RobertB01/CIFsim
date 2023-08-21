@@ -39,7 +39,7 @@ import org.eclipse.escet.common.java.BitSetIterator;
  * Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis.
  *
  * <p>
- * This implementation is described in Goorden 2020:
+ * This implementation is based on the paper Goorden 2020:
  *
  * M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event
  * Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages
@@ -77,10 +77,10 @@ public class ComputeMultiLevelTree {
         // Lines 1, 7, 8:
         //
         // Both 'T' and 'm' exist in the paper to compute the plant and requirement sets from the recursive calls. In
-        // the implementation those sets are passed around in the recursion and updated during the recursive calls so
-        // the information is immediately available when this function has performed all its recursive calls. In the
-        // implementation, expanding the plant and requirement groups to their automata collection is not done, instead
-        // the plant and requirement groups of the node are returned.
+        // this implementation, those sets are passed around in the recursion and updated during the recursive calls so
+        // the information is immediately available when this function has performed all its recursive calls. 
+        //
+        // Also, in this implementation, expanding the plant and requirement groups to their automata collection is not done. Instead, the plant and requirement groups of the node are returned.
 
         dbg("Make tree node for plant groups:");
         idbg();
@@ -92,9 +92,9 @@ public class ComputeMultiLevelTree {
         p = content.p;
         rp = content.rp;
 
-        // Line 4, we have the M = 1 case but as a child cluster group. All that needs to be done is already computed
-        // above. Note you can only arrive here if you start with a single plant group, since the DMM has no local
-        // nodes.
+        // Line 4, we have the size(M) = 1 case but as a child cluster group. All that needs to be done is already
+        // computed above. Note you can only arrive here if you start with a single plant group, since the DMM has no
+        // local nodes.
         if (clusterGroup.members.cardinality() == 1) {
             ddbg();
             dbg();
@@ -106,7 +106,6 @@ public class ComputeMultiLevelTree {
             // The paper sees all children of a group as other (child) cluster groups. The clustering implementation
             // however splits between local single node cluster nodes and multi node cluster child groups so here there
             // are two parts to do.
-            //
             // Add local nodes.
             List<TreeNode> childNodes = list();
             if (clusterGroup.localNodes != null) {
@@ -128,7 +127,7 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a single node
+     * Build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a single-node
      * cluster. Expansion of plant groups and requirement groups (lines 18 and 19) is not performed here.
      *
      * @param plantGroup Singleton plant group in the clustered result to convert to a tree node.
@@ -150,7 +149,8 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for more than one group (M > 1 case).
+     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for more than one group (size(M) > 1
+     * case).
      *
      * @param grp Cluster group to analyze.
      * @param p Plant group relations.
@@ -187,10 +187,10 @@ public class ComputeMultiLevelTree {
         Algo2Data groupContent = new Algo2Data(p.copy(), rp.copy(), new BitSet(), new BitSet());
 
         // Lines 6-17, 'M' in the paper contains all child groups. The clustering implementation however moves singleton
-        // nodes in the cluster to local nodes. They must be dealt with separately. As a result line 6 expends into
-        // four double nested searches: singleton-singleton, singleton-multi, and multi-mult and multi-singleton. Note
+        // nodes in the cluster to local nodes. They must be dealt with separately. As a result line 6 expands into
+        // four double nested searches: singleton-singleton, singleton-multi, and multi-multi and multi-singleton. Note
         // that both loops cover the full range so you get all (a, b) and (b, a) pairs that exist.
-        // Having 4 searches also means getting lines 8-14 three times (not all lines are needed). To avoid code
+        // Having 4 searches also means getting lines 8-14 four times (not all lines are needed). To avoid code
         // duplication this has been factored out to 'update'.
         if (grp.localNodes != null) {
             for (int node1: new BitSetIterator(grp.localNodes)) {
@@ -233,6 +233,7 @@ public class ComputeMultiLevelTree {
             }
         }
 
+        // Dump and return result.
         dbg("computeGroupContents RESULT for plant group members %s: %s plant groups, %s req groups", grp.members,
                 groupContent.plantGroups, groupContent.reqGroups);
         dbg("Updated matrices:");
@@ -288,7 +289,7 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for one group (M = 1 case).
+     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for one group (size(M) = 1 case).
      *
      * @param plantGroup Plant group to use.
      * @param p Plant group relations.

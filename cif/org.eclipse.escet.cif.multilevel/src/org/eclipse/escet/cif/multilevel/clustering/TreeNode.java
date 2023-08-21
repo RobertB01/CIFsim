@@ -64,7 +64,7 @@ public class TreeNode {
 
     /**
      * Walk recursively depth-first left to right through the node tree rooted at the given node, collect all
-     * encountered nodes, and return them as a list of nodes.
+     * encountered nodes, and return them as a list of nodes. Also sets {@link #index} for each node in the tree.
      *
      * @param root Root node to start the walk.
      * @return All encountered nodes in the tree rooted at {@code root}.
@@ -75,7 +75,7 @@ public class TreeNode {
 
     /**
      * Walk recursively depth-first left to right through the node tree, and add all encountered nodes to the result
-     * list.
+     * list. Also sets {@link #index} for each node in the tree.
      *
      * @param node Node to start the walk.
      * @param nodes Storage for encountered nodes, {@code node} is assumed not to be in the storage yet. Is extended

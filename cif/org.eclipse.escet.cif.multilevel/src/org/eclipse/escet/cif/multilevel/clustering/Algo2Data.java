@@ -25,7 +25,7 @@ import org.eclipse.escet.common.java.BitSetIterator;
  * <p>
  * As the input data and the output data is the same, this class is used for both purposes. It also provides some
  * information collection functions from its data to reduce the clutter in the code of
- * {@link ComputeMultiLevelTree#update} the implements the algorithm.
+ * {@link ComputeMultiLevelTree#update} that implements the algorithm.
  * </p>
  */
 public class Algo2Data {

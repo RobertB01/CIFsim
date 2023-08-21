@@ -174,7 +174,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
 
         // The cluster result contains the found cluster groups with original indices. For debugging however, it seems
         // useful to also dump the clustered DSM, to understand group information.
-        dbg("Clustered reqsPlants (for information only, this data is not actually used):");
+        dbg("Clustered DSM for reqsPlantsDmm (for information only, this data is not actually used):");
         dbg(ComputeMultiLevelTree.MAT_DEBUG_FORMAT.format(clusteredDsm.adjacencies));
         dbg();
         if (isTerminationRequested()) {
