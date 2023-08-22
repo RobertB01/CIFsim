@@ -24,7 +24,9 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
 import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataFactory;
@@ -179,7 +181,6 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
     {
         super(eNS_URI, AutomataFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

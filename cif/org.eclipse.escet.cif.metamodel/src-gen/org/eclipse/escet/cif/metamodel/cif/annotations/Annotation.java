@@ -41,9 +41,6 @@ public interface Annotation extends PositionObject
      * Returns the value of the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Name of the annotation.
-     * <!-- end-model-doc -->
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage#getAnnotation_Name()

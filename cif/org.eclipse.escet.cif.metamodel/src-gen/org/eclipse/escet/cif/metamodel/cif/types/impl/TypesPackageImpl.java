@@ -24,7 +24,9 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
 import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.AutomataPackageImpl;
@@ -235,7 +237,6 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
     {
         super(eNS_URI, TypesFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

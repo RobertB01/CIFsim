@@ -41,9 +41,6 @@ public interface AnnotationArgument extends PositionObject
      * Returns the value of the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Name of the annotation argument.
-     * <!-- end-model-doc -->
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage#getAnnotationArgument_Name()
@@ -63,25 +60,22 @@ public interface AnnotationArgument extends PositionObject
     void setName(String value);
 
     /**
-     * Returns the value of the '<em><b>Value</b></em>' reference.
+     * Returns the value of the '<em><b>Value</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Value of the annotation argument.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Value</em>' reference.
+     * @return the value of the '<em>Value</em>' containment reference.
      * @see #setValue(Expression)
      * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage#getAnnotationArgument_Value()
-     * @model required="true"
+     * @model containment="true" required="true"
      * @generated
      */
     Expression getValue();
 
     /**
-     * Sets the value of the '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument#getValue <em>Value</em>}' reference.
+     * Sets the value of the '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument#getValue <em>Value</em>}' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Value</em>' reference.
+     * @param value the new value of the '<em>Value</em>' containment reference.
      * @see #getValue()
      * @generated
      */

@@ -44,7 +44,9 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
 import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.AutomataPackageImpl;
@@ -223,7 +225,6 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
     {
         super(eNS_URI, CifFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
