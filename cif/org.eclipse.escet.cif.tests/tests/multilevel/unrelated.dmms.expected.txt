@@ -1,14 +1,14 @@
 DMMs of the "multilevel/unrelated.cif" CIF specification.
 
 Plant groups:
-"","PG1","PG2"
-"I",1,0
-"P",0,1
+"""""","PG1","PG2"
+"I","1","0"
+"P","0","1"
 
 Requirement groups:
-"","RG1"
-"R",1
+"""""","RG1"
+"R","1"
 
 Plant-groups/requirement-groups relations:
-"","PG1","PG2"
-"RG1",0,0
+"""""","PG1","PG2"
+"RG1","0","0"
