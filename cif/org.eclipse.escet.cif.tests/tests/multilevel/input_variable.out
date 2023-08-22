@@ -1,0 +1,121 @@
+Plant groups:
+"","PG1","PG2"
+"var","1","0"
+"A","0","1"
+
+Requirement groups:
+"","RG1"
+"requirement invariant A.a needs var","1"
+
+Requirement / Plant relations:
+"","PG1","PG2"
+"RG1","1","1"
+
+Unclustered reqsPlants:
+  1 1
+  1 1
+
+--- Start of clustering --
+    Flow-based Markov clustering for 2 nodes.
+    No bus found.
+    
+    subjAdjacencies:
+    BlockRealMatrix{{0.0,1.0},{1.0,0.0}}
+    
+    probData:
+    BlockRealMatrix{{0.5,0.5},{0.5,0.5}}
+    
+    Input to Markov:
+    BlockRealMatrix{{0.5,0.5},{0.5,0.5}}
+    Output from Markov:
+    BlockRealMatrix{{0.5,0.5},{0.5,0.5}}
+    
+    Clustering-group found:
+      - Grouptype CLUSTER
+        Local nodes: {0, 1}
+    
+    Node mapping new <- original:
+      0 <- 0
+      1 <- 1
+    
+    Shuffled nodes of groups near each other:
+      - Grouptype CLUSTER
+        Local nodes: {0, 1}
+--- End of clustering --
+
+Clustered DSM for reqsPlantsDmm (for information only, this data is not actually used):
+  1 1
+  1 1
+
+Make tree node for plant groups:
+        - Grouptype CLUSTER
+          Local nodes: {0, 1}
+    
+    Starting computing group content.
+        Dumping P:
+               :  0  1
+              0:  .  1
+              1:  1  .
+        
+        Dumping RP:
+              0: {0, 1}
+        
+        
+        Starting search
+        Found P cell (0, 1), with {0} requirements 
+            (0, 1): add -1
+        Found P cell (1, 0), but no requirements
+        computeGroupContents RESULT for plant group members {0, 1}: {0, 1} plant groups, {0} req groups
+        Updated matrices:
+            Dumping P:
+                   :  0  1
+                  0:  .  .
+                  1:  1  .
+            
+            Dumping RP:
+                  0: {}
+            
+        
+    Make singleton tree node for plant group 0:
+        Dumping P:
+               :  0  1
+              0:  .  .
+              1:  1  .
+        
+        Dumping RP:
+              0: {}
+        
+        computeGroupContents RESULT for plant singleton group 0: {0} plant groups, {} req groups
+        
+    ---------- DONE transformCluster for singleton
+    
+    Make singleton tree node for plant group 1:
+        Dumping P:
+               :  0  1
+              0:  .  .
+              1:  1  .
+        
+        Dumping RP:
+              0: {}
+        
+        computeGroupContents RESULT for plant singleton group 1: {1} plant groups, {} req groups
+        
+    ---------- DONE transformCluster for singleton
+    
+---------- DONE transformCluster for group
+
+Index: 0
+Plant groups: {0, 1}
+Req groups:   {0}
+Child nodes: 1, 2
+
+Index: 1
+Plant groups: {0}
+Req groups:   <none>
+Child nodes: <none>
+
+Index: 2
+Plant groups: {1}
+Req groups:   <none>
+Child nodes: <none>
+
