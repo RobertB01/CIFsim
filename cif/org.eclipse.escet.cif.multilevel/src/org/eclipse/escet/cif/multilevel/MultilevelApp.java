@@ -182,11 +182,6 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Figure 1 of Goorden 2020: Create the node tree.
-        //
-        // Recursively build the tree nodes.
-        // Both Algorithm 1 and Algorithm 2 change the computation for the single node case. In this implementation that
-        // distinction is more separated. Both 'transformCluster' and 'calculateGandK' have separate implementations,
-        // one for the single group case and one for the multiple groups case.
         TreeNode rootNode = ComputeMultiLevelTree.transformCluster(clusteredDsm.rootGroup, unclusteredMatrix,
                 reqsPlantsDmm.adjacencies);
         if (isTerminationRequested()) {

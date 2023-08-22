@@ -61,9 +61,8 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Recursively build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a
-     * cluster group with more than one child group. Expansion of plant groups and requirement groups (lines 18 and 19)
-     * is not performed here.
+     * Recursively build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020. Expansion
+     * of plant groups and requirement groups is not performed.
      *
      * @param clusterGroup Group in the clustered result to convert to a tree node.
      * @param p Plant group relations.
@@ -72,15 +71,40 @@ public class ComputeMultiLevelTree {
      *     collection.
      */
     public static TreeNode transformCluster(Group clusterGroup, RealMatrix p, RealMatrix rp) {
+        if (clusterGroup.members.cardinality() == 1) {
+            // Edge case of a specification with one event.
+            return transformClusterInternal(clusterGroup.members.nextSetBit(0), p, rp);
+        } else {
+            return transformClusterInternal(clusterGroup, p, rp);
+        }
+    }
+
+    /**
+     * Recursively build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a
+     * cluster group with more than one child group. Expansion of plant groups and requirement groups is not performed.
+     *
+     * <p>
+     * The implementation for the single child group is at
+     * {@link #transformClusterInternal(int, RealMatrix, RealMatrix)},
+     * </p>
+     *
+     * @param clusterGroup Group in the clustered result to convert to a tree node.
+     * @param p Plant group relations.
+     * @param rp Requirement group rows to plant group columns.
+     * @return Tree node of the cluster group, without expanding the plant and requirement groups to their automata
+     *     collection.
+     */
+    private static TreeNode transformClusterInternal(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Lines 1, 7, 8:
         //
         // Both 'T' and 'm' exist in the paper to compute the plant and requirement sets from the recursive calls. In
         // this implementation, those sets are passed around in the recursion and updated during the recursive calls so
-        // the information is immediately available when this function has performed all its recursive calls. 
+        // the information is immediately available when this function has performed all its recursive calls.
         //
-        // Also, in this implementation, expanding the plant and requirement groups to their automata collection is not done. Instead, the plant and requirement groups of the node are returned.
+        // Also, in this implementation, expanding the plant and requirement groups to their automata collection is not
+        // done. Instead, the plant and requirement groups of the node are returned.
 
         dbg("Make tree node for plant groups:");
         idbg();
@@ -92,43 +116,42 @@ public class ComputeMultiLevelTree {
         p = content.p;
         rp = content.rp;
 
-        // Line 4, we have the size(M) = 1 case but as a child cluster group. All that needs to be done is already
-        // computed above. Note you can only arrive here if you start with a single plant group, since the DMM has no
-        // local nodes.
-        if (clusterGroup.members.cardinality() == 1) {
-            ddbg();
-            dbg();
-            return new TreeNode(content.plantGroups, content.reqGroups);
-            //
-        } else {
-            // Lines 5, 6 (and 7 implicitly), transform all child clusters groups.
-            //
-            // The paper sees all children of a group as other (child) cluster groups. The clustering implementation
-            // however splits between local single node cluster nodes and multi node cluster child groups so here there
-            // are two parts to do.
-            // Add local nodes.
-            List<TreeNode> childNodes = list();
-            if (clusterGroup.localNodes != null) {
-                for (int childNode: new BitSetIterator(clusterGroup.localNodes)) {
-                    childNodes.add(transformCluster(childNode, p, rp));
-                }
+        // Lines 5, 6 (and 7 implicitly), transform all child clusters groups.
+        //
+        // The paper sees all children of a group as other (child) cluster groups. The clustering implementation
+        // however splits between local single node cluster nodes and multi node cluster child groups so here there
+        // are two parts to do.
+        // Add local nodes.
+        List<TreeNode> childNodes = list();
+        if (clusterGroup.localNodes != null) {
+            for (int childNode: new BitSetIterator(clusterGroup.localNodes)) {
+                childNodes.add(transformClusterInternal(childNode, p, rp));
             }
-
-            // Add child groups.
-            for (Group childGroup: clusterGroup.childGroups) {
-                childNodes.add(transformCluster(childGroup, p, rp));
-            }
-            ddbg();
-            dbg("---------- DONE transformCluster for group");
-            dbg();
-
-            return new TreeNode(content.plantGroups, content.reqGroups, childNodes);
         }
+
+        // Add child groups.
+        //
+        // Line 7 in the paper collects the plant automata automata and requirement automata from calls to
+        // Algorithm 2. In this implementation of that algorithm, it returns found plant groups and requirement
+        // groups instead. Here we also collect and eventually return those groups.
+        for (Group childGroup: clusterGroup.childGroups) {
+            childNodes.add(transformCluster(childGroup, p, rp));
+        }
+        ddbg();
+        dbg("---------- DONE transformCluster for group");
+        dbg();
+
+        return new TreeNode(content.plantGroups, content.reqGroups, childNodes);
     }
 
     /**
      * Build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a single-node
-     * cluster. Expansion of plant groups and requirement groups (lines 18 and 19) is not performed here.
+     * cluster. Expansion of plant groups and requirement groups is not performed.
+     *
+     * <p>
+     * The implementation for multiple child groups is at
+     * {@link #transformClusterInternal(Group, RealMatrix, RealMatrix)}.
+     * </p>
      *
      * @param plantGroup Singleton plant group in the clustered result to convert to a tree node.
      * @param p Plant group relations.
@@ -136,9 +159,13 @@ public class ComputeMultiLevelTree {
      * @return Tree node of the cluster group, without expanding the plant and requirement groups to their automata
      *     collection.
      */
-    private static TreeNode transformCluster(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode transformClusterInternal(int plantGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
+        // Since 'size(M) = 1' here, lines 4 to 10 are never done. Also in line with the transformCluster method
+        // for a group above, expanding back to plant automata is not performed either.
+        // Thus this only implements line 2, and then immediately builds a result that fits for the recursion used in
+        // the implementation.
         dbg("Make singleton tree node for plant group %d:", plantGroup);
         idbg();
         Algo2Data content = calculateGandK(plantGroup, p, rp);
@@ -149,8 +176,12 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for more than one group (size(M) > 1
+     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for a group (size(M) > 1
      * case).
+     *
+     * <p>
+     * The implementation for a single node is at {@link #calculateGandK(int, RealMatrix, RealMatrix)}.
+     * </p>
      *
      * @param grp Cluster group to analyze.
      * @param p Plant group relations.
@@ -167,16 +198,6 @@ public class ComputeMultiLevelTree {
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
         dbg();
-
-        // Line 2, check for cluster with one node.
-        // This seems only possible with clustering a single plant group. Let the single group implementation compute
-        // the result.
-        if (grp.members.cardinality() == 1) {
-            Algo2Data gc = calculateGandK(grp.members.nextSetBit(0), p, rp);
-            ddbg();
-            return gc;
-        }
-
         dbg("Starting search");
 
         // Line 2 fails, dropping into the 'else' case here.
@@ -192,14 +213,16 @@ public class ComputeMultiLevelTree {
         // that both loops cover the full range so you get all (a, b) and (b, a) pairs that exist.
         // Having 4 searches also means getting lines 8-14 four times (not all lines are needed). To avoid code
         // duplication this has been factored out to 'update'.
+
+        // Compare local nodes.
         if (grp.localNodes != null) {
             for (int node1: new BitSetIterator(grp.localNodes)) {
-                // Check against other local nodes.
+                // Compare local nodes against each other.
                 for (int node2: new BitSetIterator(grp.localNodes)) {
-                    update(groupContent, node1, node2); // Compare local nodes against each other.
+                    update(groupContent, node1, node2);
                 }
 
-                // Check local node against child groups.
+                // Compare local nodes against nodes of child groups.
                 for (Group childGroup: grp.childGroups) {
                     for (int node2: new BitSetIterator(childGroup.members)) {
                         update(groupContent, node1, node2); // Compare local nodes against nodes of child groups.
@@ -208,25 +231,27 @@ public class ComputeMultiLevelTree {
             }
         }
 
-        // Compare child groups against each other.
+        // Compare child groups.
         int numChildGroups = grp.childGroups.size();
         for (int grp1 = 0; grp1 < numChildGroups; grp1++) {
             Group child1 = grp.childGroups.get(grp1);
 
-            for (int grp2 = 0; grp2 < numChildGroups; grp2++) {
-                if (grp1 == grp2) {
-                    continue;
-                }
-
-                Group child2 = grp.childGroups.get(grp2);
+            if (grp.localNodes != null) {
                 for (int node1: new BitSetIterator(child1.members)) {
-                    for (int node2: new BitSetIterator(child2.members)) {
-                        update(groupContent, node1, node2); // Compare nodes of child groups against each other.
+                    // Compare nodes of child groups against local nodes.
+                    for (int node2: new BitSetIterator(grp.localNodes)) {
+                        update(groupContent, node1, node2);
                     }
+                }
+            }
 
-                    if (grp.localNodes != null) {
-                        for (int node2: new BitSetIterator(grp.localNodes)) {
-                            update(groupContent, node1, node2); // Compare nodes of child groups against local nodes.
+            for (int grp2 = 0; grp2 < numChildGroups; grp2++) {
+                if (grp1 != grp2) {
+                    Group child2 = grp.childGroups.get(grp2);
+                    for (int node1: new BitSetIterator(child1.members)) {
+                        // Compare nodes of child groups against each other.
+                        for (int node2: new BitSetIterator(child2.members)) {
+                            update(groupContent, node1, node2);
                         }
                     }
                 }
@@ -290,6 +315,10 @@ public class ComputeMultiLevelTree {
 
     /**
      * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for one group (size(M) = 1 case).
+     *
+     * <p>
+     * The implementation for multiple groups is at {@link #calculateGandK(Group, RealMatrix, RealMatrix)}.
+     * </p>
      *
      * @param plantGroup Plant group to use.
      * @param p Plant group relations.
