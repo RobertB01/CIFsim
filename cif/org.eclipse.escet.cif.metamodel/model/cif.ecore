@@ -720,27 +720,15 @@
       nsPrefix="annotations">
     <eClassifiers xsi:type="ecore:EClass" name="Annotation" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Name of the annotation."/>
-        </eAnnotations>
-      </eStructuralFeatures>
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
           eType="#//annotations/AnnotationArgument" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AnnotationArgument" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Name of the annotation argument."/>
-        </eAnnotations>
-      </eStructuralFeatures>
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
-          eType="#//expressions/Expression" containment="true">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Value of the annotation argument."/>
-        </eAnnotations>
-      </eStructuralFeatures>
+          eType="#//expressions/Expression" containment="true"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>
