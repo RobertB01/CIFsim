@@ -474,6 +474,8 @@ public abstract class CifWalker {
         if (_position != null) {
             walkPosition(_position);
         }
+        Expression _value = obj.getValue();
+        walkExpression(_value);
         postcrawlAnnotationArgument(obj);
     }
 

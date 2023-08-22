@@ -503,6 +503,8 @@ public abstract class CifWithArgWalker<T> {
         if (_position != null) {
             walkPosition(_position, arg);
         }
+        Expression _value = obj.getValue();
+        walkExpression(_value, arg);
         postcrawlAnnotationArgument(obj, arg);
     }
 
