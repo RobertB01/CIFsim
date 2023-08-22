@@ -9,7 +9,7 @@
     <semanticResources>position.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_W0BeUHyTEeW1mMYaZaELpw">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_J24mEYlfEeqQaNL0VWGLjw" name="position" repPath="#_mO3JwHyVEeW1mMYaZaELpw" changeId="e1b438db-2803-4e55-8bc4-8b5f4a3e941f">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_J24mEYlfEeqQaNL0VWGLjw" name="position" repPath="#_mO3JwHyVEeW1mMYaZaELpw" changeId="38401630-154b-4d00-b795-8ef1fb23f807">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="position.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -114,7 +114,7 @@
         <styles xmi:type="notation:DiagramStyle" xmi:id="_mO4-8nyVEeW1mMYaZaELpw"/>
         <edges xmi:type="notation:Edge" xmi:id="_nUTH2XyVEeW1mMYaZaELpw" type="4001" element="_nUQrkHyVEeW1mMYaZaELpw" source="_nUR5s3yVEeW1mMYaZaELpw" target="_nURSoHyVEeW1mMYaZaELpw">
           <children xmi:type="notation:Node" xmi:id="_nUTH3XyVEeW1mMYaZaELpw" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nUTH3nyVEeW1mMYaZaELpw" x="-13" y="-13"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nUTH3nyVEeW1mMYaZaELpw" x="25" y="-15"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_nUTH33yVEeW1mMYaZaELpw" type="6002">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nUTH4HyVEeW1mMYaZaELpw" y="10"/>
