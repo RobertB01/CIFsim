@@ -555,13 +555,11 @@
     <nestedGenPackages prefix="Annotations" disposableProviderFactory="true" ecorePackage="cif.ecore#//annotations">
       <genClasses ecoreClass="cif.ecore#//annotations/Annotation">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//annotations/Annotation/name"/>
-        <genFeatures children="true" createChild="true" propertySortChoices="true"
-            ecoreFeature="ecore:EReference cif.ecore#//annotations/Annotation/arguments"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//annotations/Annotation/arguments"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//annotations/AnnotationArgument">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//annotations/AnnotationArgument/name"/>
-        <genFeatures children="true" createChild="true" propertySortChoices="true"
-            ecoreFeature="ecore:EReference cif.ecore#//annotations/AnnotationArgument/value"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//annotations/AnnotationArgument/value"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>
