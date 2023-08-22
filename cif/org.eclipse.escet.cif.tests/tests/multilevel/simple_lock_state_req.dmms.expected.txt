@@ -1,7 +1,7 @@
 DMMs of the "multilevel/simple_lock_state_req.cif" CIF specification.
 
 Plant groups:
-"""""","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
+"","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
 "S1_LampEntering","1","0","0","0","0","0","0","0","0","0"
 "S1_LampLeaving","0","1","0","0","0","0","0","0","0","0"
 "S1_Door_Acc","0","0","1","0","0","0","0","0","0","0"
@@ -18,7 +18,7 @@ Plant groups:
 "S2_EqualWater","0","0","0","0","0","0","0","0","0","1"
 
 Requirement groups:
-"""""","RG1","RG2","RG3","RG4","RG5","RG6","RG7","RG8","RG9","RG10","RG11","RG12","RG13","RG14","RG15","RG16","RG17","RG18","RG19","RG20","RG21","RG22","RG23","RG24","RG25","RG26","RG27","RG28","RG29","RG30"
+"","RG1","RG2","RG3","RG4","RG5","RG6","RG7","RG8","RG9","RG10","RG11","RG12","RG13","RG14","RG15","RG16","RG17","RG18","RG19","RG20","RG21","RG22","RG23","RG24","RG25","RG26","RG27","RG28","RG29","RG30"
 "requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Sewer_Acc.c_open","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
 "requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Sewer_Acc.c_open","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
 "requirement invariant S1_EqualWater.Off disables S1_Door_Acc.c_on_open","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
@@ -51,7 +51,7 @@ Requirement groups:
 "requirement invariant not S2_Door_Acc.Rest disables S2_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
 
 Plant-groups/requirement-groups relations:
-"""""","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
+"","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
 "RG1","0","0","0","1","0","0","0","0","1","0"
 "RG2","0","0","1","0","0","0","0","0","1","0"
 "RG3","0","0","1","0","1","0","0","0","0","0"
