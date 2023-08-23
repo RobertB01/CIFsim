@@ -244,7 +244,7 @@ Final synthesis result:
     Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
     Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
 
-Controlled system:                     exactly 12 states.
+Controlled system: exactly 12 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         Counter.zero and Actuator.Off

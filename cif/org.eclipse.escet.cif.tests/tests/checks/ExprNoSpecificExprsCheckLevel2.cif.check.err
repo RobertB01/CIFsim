@@ -1,3 +1,6 @@
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 120, column 13: The switch expression has only one case, which is deprecated.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 127, column 13: The switch expression has only one case, which is deprecated.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 320, column 13: The switch expression has only one case, which is deprecated.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -------------------------------------------

@@ -2,11 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Common Multivalue Trees (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.multivaluetrees;singleton:=true
-Bundle-Version: 0.10.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse ESCET
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.10.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.10.0"
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="1.0.0",
+ org.eclipse.escet.common.app.framework;bundle-version="1.0.0"
+Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.common.multivaluetrees
 Automatic-Module-Name: org.eclipse.escet.common.multivaluetrees

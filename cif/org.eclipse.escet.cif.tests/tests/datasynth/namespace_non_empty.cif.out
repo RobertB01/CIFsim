@@ -71,7 +71,7 @@ Final synthesis result:
     Edge: (event: g.h.c) (guard: true)
     Edge: (event: g.h.u) (guard: true)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         true

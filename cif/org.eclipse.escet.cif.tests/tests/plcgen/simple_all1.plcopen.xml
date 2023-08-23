@@ -96,7 +96,85 @@
     </dataTypes>
     <pous>
       <pou name="MAIN" pouType="program">
-        <interface/>
+        <interface>
+          <tempVars>
+            <variable name="current_p">
+              <type>
+                <derived name="p_location"/>
+              </type>
+            </variable>
+            <variable name="current_p_b">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="current_p_j">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="current_p_r">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="current_p_tv">
+              <type>
+                <derived name="TupleStruct__2"/>
+              </type>
+            </variable>
+            <variable name="current_p_v3">
+              <type>
+                <derived name="TupleStruct__1"/>
+              </type>
+            </variable>
+            <variable name="current_p_ve">
+              <type>
+                <derived name="g_E"/>
+              </type>
+            </variable>
+            <variable name="current_p_x">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="eventEnabled">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="isProgress">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="litStruct">
+              <type>
+                <derived name="TupleStruct"/>
+              </type>
+            </variable>
+            <variable name="litStruct__1">
+              <type>
+                <derived name="TupleStruct__1"/>
+              </type>
+            </variable>
+            <variable name="litStruct__2">
+              <type>
+                <derived name="TupleStruct__2"/>
+              </type>
+            </variable>
+            <variable name="rightValue">
+              <type>
+                <derived name="TupleStruct__2"/>
+              </type>
+            </variable>
+            <variable name="syncAutEdge">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </tempVars>
+        </interface>
         <body>
           <ST>
             <xhtml xmlns="http://www.w3.org/1999/xhtml">IF firstRun THEN
@@ -122,7 +200,97 @@
     p_j := 0;
     p_r := 1000000.0;
     p := p_l1;
-END_IF;</xhtml>
+END_IF;
+
+isProgress := TRUE;
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (* Try to perform event "p.evt". *)
+    eventEnabled := TRUE;
+    IF p = p_l1 THEN
+        syncAutEdge := 1;
+    ELSIF p = p_l6 THEN
+        syncAutEdge := 2;
+    ELSIF p = p_l7 THEN
+        syncAutEdge := 3;
+    ELSIF p = p_l8 THEN
+        syncAutEdge := 4;
+    ELSIF p = p_l9 THEN
+        syncAutEdge := 5;
+    ELSIF p = p_l10 THEN
+        syncAutEdge := 6;
+    ELSIF p = p_l11 THEN
+        syncAutEdge := 7;
+    ELSIF p = p_l12 THEN
+        syncAutEdge := 8;
+    ELSIF p = p_l13 THEN
+        syncAutEdge := 9;
+    ELSIF p = p_l14 THEN
+        syncAutEdge := 10;
+    ELSIF p = p_l15 THEN
+        syncAutEdge := 11;
+    ELSE
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        current_p := p;
+        current_p_b := p_b;
+        current_p_j := p_j;
+        current_p_r := p_r;
+        current_p_tv := p_tv;
+        current_p_v3 := p_v3;
+        current_p_ve := p_ve;
+        current_p_x := p_x;
+        IF syncAutEdge = 1 THEN
+            litStruct__2.field1 := 1;
+            litStruct__2.field2 := 2;
+            p_tv := litStruct__2;
+            p := p_l6;
+        ELSIF syncAutEdge = 2 THEN
+            p_x := 3;
+            p_j := 4;
+            p := p_l7;
+        ELSIF syncAutEdge = 3 THEN
+            rightValue := current_p_tv;
+            p_x := rightValue.field1;
+            p_j := rightValue.field2;
+            p := p_l8;
+        ELSIF syncAutEdge = 4 THEN
+            p_tv.field1 := 5;
+            p := p_l9;
+        ELSIF syncAutEdge = 5 THEN
+            p_tv.field2 := 6;
+            p_j := 7;
+            p := p_l10;
+        ELSIF syncAutEdge = 6 THEN
+            p_v3.field1.field2 := 7.8;
+            p := p_l11;
+        ELSIF syncAutEdge = 7 THEN
+            litStruct.field1 := 1.2;
+            litStruct.field2 := 3.4;
+            litStruct__1.field1 := litStruct;
+            litStruct__1.field2 := 5.6;
+            p_v3 := litStruct__1;
+            p := p_l12;
+        ELSIF syncAutEdge = 8 THEN
+            p_j := current_p_j + 1;
+            p := p_l13;
+        ELSIF syncAutEdge = 9 THEN
+            p_b := FALSE;
+            p := p_l14;
+        ELSIF syncAutEdge = 10 THEN
+            IF NOT(IN := current_p_b) THEN
+                p_ve := g_LIT2;
+            END_IF;
+            p := p_l15;
+        ELSIF syncAutEdge = 11 THEN
+            p_r := DINT_TO_LREAL(IN := g_inp) + 10.0;
+            p := p_l16;
+        END_IF;
+    END_IF;
+END_WHILE;</xhtml>
           </ST>
         </body>
       </pou>

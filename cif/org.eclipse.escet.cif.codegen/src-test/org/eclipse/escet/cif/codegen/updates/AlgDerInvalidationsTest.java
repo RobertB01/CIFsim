@@ -30,7 +30,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTimeExpres
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Set;
@@ -44,7 +44,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for invalidation computations of algebraic and derivative expressions. */
 public class AlgDerInvalidationsTest {

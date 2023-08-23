@@ -240,7 +240,7 @@ Final synthesis result:
     Edge: (event: remove_f) (guard: true -> (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1))) (assignments: buffer.f := buffer.f - 2)
     Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
 
-Controlled system:                     exactly 2,592 states.
+Controlled system: exactly 2,592 states.
 
 Initial (synthesis result):            <bdd 11n 32p>
 Initial (uncontrolled system):         <bdd 11n 32p>

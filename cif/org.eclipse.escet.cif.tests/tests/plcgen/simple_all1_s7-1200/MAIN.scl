@@ -1,5 +1,22 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
+    VAR_TEMP
+        current_p: DINT;
+        current_p_b: BOOL;
+        current_p_j: DINT;
+        current_p_r: LREAL;
+        current_p_tv: TupleStruct__2;
+        current_p_v3: TupleStruct__1;
+        current_p_ve: DINT;
+        current_p_x: DINT;
+        eventEnabled: BOOL;
+        isProgress: BOOL;
+        litStruct: TupleStruct;
+        litStruct__1: TupleStruct__1;
+        litStruct__2: TupleStruct__2;
+        rightValue: TupleStruct__2;
+        syncAutEdge: DINT;
+    END_VAR
 
 BEGIN
     IF firstRun THEN
@@ -26,4 +43,94 @@ BEGIN
         p_r := 1000000.0;
         p := someConstantvariable;
     END_IF;
+
+    isProgress := TRUE;
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (* Try to perform event "p.evt". *)
+        eventEnabled := TRUE;
+        IF p = someConstantvariable THEN
+            syncAutEdge := 1;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 2;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 3;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 4;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 5;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 6;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 7;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 8;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 9;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 10;
+        ELSIF p = someConstantvariable THEN
+            syncAutEdge := 11;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_p := p;
+            current_p_b := p_b;
+            current_p_j := p_j;
+            current_p_r := p_r;
+            current_p_tv := p_tv;
+            current_p_v3 := p_v3;
+            current_p_ve := p_ve;
+            current_p_x := p_x;
+            IF syncAutEdge = 1 THEN
+                litStruct__2.field1 := 1;
+                litStruct__2.field2 := 2;
+                p_tv := litStruct__2;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 2 THEN
+                p_x := 3;
+                p_j := 4;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 3 THEN
+                rightValue := current_p_tv;
+                p_x := rightValue.field1;
+                p_j := rightValue.field2;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 4 THEN
+                p_tv.field1 := 5;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 5 THEN
+                p_tv.field2 := 6;
+                p_j := 7;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 6 THEN
+                p_v3.field1.field2 := 7.8;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 7 THEN
+                litStruct.field1 := 1.2;
+                litStruct.field2 := 3.4;
+                litStruct__1.field1 := litStruct;
+                litStruct__1.field2 := 5.6;
+                p_v3 := litStruct__1;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 8 THEN
+                p_j := current_p_j + 1;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 9 THEN
+                p_b := FALSE;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 10 THEN
+                IF NOT(IN := current_p_b) THEN
+                    p_ve := someConstantvariable;
+                END_IF;
+                p := someConstantvariable;
+            ELSIF syncAutEdge = 11 THEN
+                p_r := DINT_TO_LREAL(IN := g_inp) + 10.0;
+                p := someConstantvariable;
+            END_IF;
+        END_IF;
+    END_WHILE;
 END_ORGANIZATION_BLOCK

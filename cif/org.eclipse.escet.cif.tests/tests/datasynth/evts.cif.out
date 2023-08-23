@@ -105,7 +105,7 @@ Final synthesis result:
     Edge: (event: uea) (guard: true)
     Edge: (event: uee) (guard: true)
 
-Controlled system:                     exactly 0 states.
+Controlled system: exactly 0 states.
 
 Initial (synthesis result):            false
 Initial (uncontrolled system):         true

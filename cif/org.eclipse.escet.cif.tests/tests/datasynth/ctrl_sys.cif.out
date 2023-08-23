@@ -221,7 +221,7 @@ Final synthesis result:
     Edge: (event: c) (guard: g.p.l0 -> g.p.x = 4 and g.p.l0 or g.p.x = 3 and g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
     Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
 
-Controlled system:                     exactly 7 states.
+Controlled system: exactly 7 states.
 
 Initial (synthesis result):            g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)
 Initial (uncontrolled system):         (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0))

@@ -309,7 +309,7 @@ Final synthesis result:
     Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
     Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
-Controlled system:                     exactly 21 states.
+Controlled system: exactly 21 states.
 
 Initial (synthesis result):            a.x = 16 and a.l2 or a.x = 8 and a.l2 or (a.x = 4 and a.l1 or a.x = 20 and a.l2) or (a.x = 12 and a.l2 or a.x = 2 and a.l1 or (a.x = 18 and a.l2 or (a.x = 10 and a.l2 or (a.x = 6 or a.x = 14) and a.l2))) or (a.x = 1 and a.l1 or a.x = 17 and a.l2 or (a.x = 9 and a.l2 or a.x = 5) or (a.x = 13 and a.l2 or a.x = 3 and a.l1 or (a.x = 19 and a.l2 or (a.x = 11 and a.l2 or (a.x = 7 or a.x = 15) and a.l2))))
 Initial (uncontrolled system):         a.x = 1 and a.l1

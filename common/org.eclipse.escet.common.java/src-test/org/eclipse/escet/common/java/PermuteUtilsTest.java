@@ -14,14 +14,14 @@
 package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link PermuteUtils} class. */
 public class PermuteUtilsTest {

@@ -238,7 +238,7 @@ Final synthesis result:
     Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
     Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
 
-Controlled system:                     exactly 12 states.
+Controlled system: exactly 12 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         Counter.zero and Actuator.Off
@@ -258,7 +258,7 @@ BDD cache statistics:
   Node creation chain accesses: 0
   Node creation cache hits:     344
   Node creation cache misses:   222
-  Operation count:              3151
+  Operation count:              3155
   Operation cache hits:         896
   Operation cache misses:       789
 Maximum used BDD nodes: 108.

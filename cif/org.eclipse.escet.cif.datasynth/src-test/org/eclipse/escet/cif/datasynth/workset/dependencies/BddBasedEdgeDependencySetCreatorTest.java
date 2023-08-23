@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -43,9 +43,9 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Lists;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.JFactory;
@@ -53,7 +53,7 @@ import com.github.javabdd.JFactory;
 /** Tests for {@link BddBasedEdgeDependencySetCreator}. */
 public class BddBasedEdgeDependencySetCreatorTest {
     /** Register application and options. */
-    @BeforeClass
+    @BeforeAll
     public static void before() {
         AppEnv.registerSimple();
 
@@ -77,7 +77,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
     }
 
     /** Unregister application. */
-    @AfterClass
+    @AfterAll
     public static void after() {
         AppEnv.unregisterApplication();
     }

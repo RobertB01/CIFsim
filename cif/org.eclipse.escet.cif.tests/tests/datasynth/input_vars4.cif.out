@@ -86,7 +86,7 @@ Final synthesis result:
   State: (controlled-behavior: true)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
-Controlled system:                     exactly 4 states.
+Controlled system: exactly 4 states.
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         io.sensor = 1

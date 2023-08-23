@@ -16,20 +16,18 @@ const COLOR r = RED;
 const COLOR g = GREEN;
 
 enum E1 = L1;
-enum E2 = {L2}; // Syntax with brackets kept for backward compatibility.
 
 automaton p:
   event e;
   disc COLOR c;
   disc E1 v1 = L1;
-  disc E2 v2 = L2;
   location l:
     initial;
     edge e do c := r;
     edge e do c := RED;
 end
 
-invariant g = BLUE or p.v1 = L1 or p.v2 = L2;
+invariant g = BLUE or p.v1 = L1;
 
 automaton q:
   enum F1 = L1;

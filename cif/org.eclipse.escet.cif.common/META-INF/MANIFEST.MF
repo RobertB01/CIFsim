@@ -2,18 +2,19 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF Common (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.common;singleton:=true
-Bundle-Version: 0.10.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.cif.common
-Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="0.10.0",
- org.eclipse.escet.common.java;bundle-version="0.10.0",
- org.eclipse.escet.cif.metamodel.java;bundle-version="0.10.0",
- org.eclipse.escet.cif.parser;bundle-version="0.10.0",
- org.eclipse.escet.common.emf;bundle-version="0.10.0",
+Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="1.0.0",
+ org.eclipse.escet.common.java;bundle-version="1.0.0",
+ org.eclipse.escet.cif.metamodel.java;bundle-version="1.0.0",
+ org.eclipse.escet.cif.parser;bundle-version="1.0.0",
+ org.eclipse.escet.common.emf;bundle-version="1.0.0",
  org.apache.commons.lang3;bundle-version="3.1.0",
  org.apache.commons.math3;bundle-version="3.5.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.10.0",
- org.eclipse.escet.common.position.common;bundle-version="0.10.0"
+ org.eclipse.escet.common.app.framework;bundle-version="1.0.0",
+ org.eclipse.escet.common.position.common;bundle-version="1.0.0"
+Import-Package: org.junit.jupiter.api;version="5.9.2"
 Automatic-Module-Name: org.eclipse.escet.cif.common

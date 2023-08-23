@@ -27,20 +27,22 @@ import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Lists.slice;
+import static org.eclipse.escet.common.java.Lists.toList;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the methods of the {@link Lists} class. */
 public class ListsTest {
@@ -470,11 +472,11 @@ public class ListsTest {
         assertSame(e2, lastoo);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testLastEmpty() {
         List<Object> l = list();
-        last(l);
+        assertThrows(IndexOutOfBoundsException.class, () -> last(l));
     }
 
     @Test
@@ -515,11 +517,11 @@ public class ListsTest {
         assertSame(e1, firstoo);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testFirstEmpty() {
         List<Object> l = list();
-        first(l);
+        assertThrows(IndexOutOfBoundsException.class, () -> first(l));
     }
 
     /**
@@ -690,7 +692,7 @@ public class ListsTest {
                     System.out.format("%s = \"%s\" %s= \"%s\"\n", msg, expected, expected.equals(actual) ? "" : "!",
                             actual);
                 } else {
-                    assertEquals(msg, expected, actual);
+                    assertEquals(expected, actual, msg);
                 }
             }
         }
@@ -730,5 +732,15 @@ public class ListsTest {
     public void testSingleNotOneElement() {
         assertThrows(IllegalArgumentException.class, () -> single(list()));
         assertThrows(IllegalArgumentException.class, () -> single(list(1, 2)));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testToList() {
+        assertEquals(list(), list().stream().collect(toList()));
+        assertEquals(list(1), list(1).stream().collect(toList()));
+        assertEquals(list(1, 2), list(1, 2).stream().collect(toList()));
+        assertEquals(list("a", "b"), list("a", "b").stream().collect(toList()));
+        assertEquals(list(1, 3, 5), IntStream.rangeClosed(1, 5).filter(i -> i % 2 != 0).boxed().collect(toList()));
     }
 }

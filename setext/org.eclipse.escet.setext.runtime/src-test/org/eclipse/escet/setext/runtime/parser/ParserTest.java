@@ -14,8 +14,8 @@
 package org.eclipse.escet.setext.runtime.parser;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +34,7 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.app.framework.output.StreamOutputComponent;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.ParseException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Parser unit tests. */
 public class ParserTest {

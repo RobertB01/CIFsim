@@ -14,23 +14,24 @@
 package org.eclipse.escet.common.dsm.io;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
+import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.dsm.ClusterInputData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link ReadMatrix} class. */
 public class ReadMatrixTest {
     @SuppressWarnings("javadoc")
     @Test
-    public void testReadMatrixLines() throws IOException {
-        String matrix = ", A, \"BB, \" , C \t \nA, 0, \"\", 1\nBB, \t  0.1,,1e-4";
-        List<List<String>> expectedLines = list(list("", "A", "BB, ", "C"), list("A", "0", "", "1"),
+    public void testReadMatrixLines() {
+        String matrix = ", A,\"BB, \", C  \nA, 0,\"\", 1\nBB,   0.1,,1e-4";
+        List<List<String>> expectedLines = list(list("", "A", "BB,", "C"), list("A", "0", "", "1"),
                 list("BB", "0.1", "", "1e-4"));
         BufferedReader reader = new BufferedReader(new StringReader(matrix));
         List<List<String>> actualLines = ReadMatrix.readMatrixLines(reader);
@@ -38,16 +39,8 @@ public class ReadMatrixTest {
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testReadMatrixLinesMissingSeparator() throws IOException {
-        String matrix = "A B";
-        BufferedReader reader = new BufferedReader(new StringReader(matrix));
-        ReadMatrix.readMatrixLines(reader);
-    }
-
-    @SuppressWarnings("javadoc")
     @Test
-    public void testConvertToMatrixWithColumnLabels() throws IOException {
+    public void testConvertToMatrixWithColumnLabels() {
         List<List<String>> lines = list(list("", "A", "B"), list("A", "0", "1"), list("B", "0.1", "1e-4"));
         ClusterInputData data = ReadMatrix.convertToMatrix(lines);
         assertEquals(2, data.labels.length);
@@ -63,7 +56,7 @@ public class ReadMatrixTest {
 
     @SuppressWarnings("javadoc")
     @Test
-    public void testConvertToMatrixWithoutColumnLabels() throws IOException {
+    public void testConvertToMatrixWithoutColumnLabels() {
         List<List<String>> lines = list(list("A", "0", "1"), list("B", "0.1", "1e-4"));
         ClusterInputData data = ReadMatrix.convertToMatrix(lines);
         assertEquals(2, data.labels.length);
@@ -79,7 +72,7 @@ public class ReadMatrixTest {
 
     @SuppressWarnings("javadoc")
     @Test
-    public void testConvertToMatrixJagged() throws IOException {
+    public void testConvertToMatrixJagged() {
         List<List<String>> lines = list(list("A", "0", "1", "", "3"), list("B"), list("C", "4"), list("D", "5", "6"));
         ClusterInputData data = ReadMatrix.convertToMatrix(lines);
         assertEquals(4, data.labels.length);
@@ -108,72 +101,72 @@ public class ReadMatrixTest {
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixWithoutColumnLabelsMissingRow() throws IOException {
+    @Test
+    public void testConvertToMatrixWithoutColumnLabelsMissingRow() {
         List<List<String>> lines = list(list("A", "0", "1"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixWithoutColumnLabelsMissingColumn() throws IOException {
+    @Test
+    public void testConvertToMatrixWithoutColumnLabelsMissingColumn() {
         List<List<String>> lines = list(list("A", "0"), list("B", "1"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixWithColumnLabelsMissingRow() throws IOException {
+    @Test
+    public void testConvertToMatrixWithColumnLabelsMissingRow() {
         List<List<String>> lines = list(list("", "A", "B"), list("A", "0", "1"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixWithColumnLabelsMissingColumn() throws IOException {
+    @Test
+    public void testConvertToMatrixWithColumnLabelsMissingColumn() {
         List<List<String>> lines = list(list("", "A"), list("A", "0"), list("B", "1"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixNonNumericValue() throws IOException {
+    @Test
+    public void testConvertToMatrixNonNumericValue() {
         List<List<String>> lines = list(list("A", "x"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixNegativeValue() throws IOException {
+    @Test
+    public void testConvertToMatrixNegativeValue() {
         List<List<String>> lines = list(list("A", "-1"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixNaNValue() throws IOException {
+    @Test
+    public void testConvertToMatrixNaNValue() {
         List<List<String>> lines = list(list("A", "NaN"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixInfiniteValue() throws IOException {
+    @Test
+    public void testConvertToMatrixInfiniteValue() {
         List<List<String>> lines = list(list("A", "Infinity"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixTopLeftNotEmpty() throws IOException {
+    @Test
+    public void testConvertToMatrixTopLeftNotEmpty() {
         List<List<String>> lines = list(list("x", "A"), list("A", "0"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 
     @SuppressWarnings("javadoc")
-    @Test(expected = IOException.class)
-    public void testConvertToMatrixRowColumnLabelMismatch() throws IOException {
+    @Test
+    public void testConvertToMatrixRowColumnLabelMismatch() {
         List<List<String>> lines = list(list("", "A"), list("B", "0"));
-        ReadMatrix.convertToMatrix(lines);
+        assertThrows(InputOutputException.class, () -> ReadMatrix.convertToMatrix(lines));
     }
 }

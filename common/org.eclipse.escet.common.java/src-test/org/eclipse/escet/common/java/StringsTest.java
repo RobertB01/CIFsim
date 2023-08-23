@@ -15,13 +15,14 @@ package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeElementsChoiceText;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the methods of the {@link Strings} class. */
 public class StringsTest {
@@ -48,22 +49,22 @@ public class StringsTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testFormatWrapNoSpace1() {
-        Strings.wrap(5, "123456789");
+        assertThrows(IllegalArgumentException.class, () -> Strings.wrap(5, "123456789"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testFormatWrapNoSpace2() {
-        Strings.wrap(5, "123456");
+        assertThrows(IllegalArgumentException.class, () -> Strings.wrap(5, "123456"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testFormatWrapNoSpace3() {
-        Strings.wrap(5, "123456 ");
+        assertThrows(IllegalArgumentException.class, () -> Strings.wrap(5, "123456 "));
     }
 
     @Test
@@ -71,7 +72,7 @@ public class StringsTest {
     public void testFormatWrapNoSpaceMsg() {
         try {
             Strings.wrap(5, "123456789");
-            assertTrue("Exception expected.", false);
+            assertTrue(false, "Exception expected.");
         } catch (IllegalArgumentException e) {
             assertEquals("No whitespace in \"123456\".", e.getMessage());
         }
@@ -88,16 +89,16 @@ public class StringsTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testStringEscapingInvalidEscapeSequence() {
-        Strings.unescape("\\k");
+        assertThrows(IllegalArgumentException.class, () -> Strings.unescape("\\k"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testStringEscapingPrematureEnd() {
-        Strings.unescape("abc\\");
+        assertThrows(IllegalArgumentException.class, () -> Strings.unescape("abc\\"));
     }
 
     @Test
@@ -150,7 +151,7 @@ public class StringsTest {
                     System.out.format("%s = \"%s\" %s= \"%s\"\n", msg, expected, expected.equals(actual) ? "" : "!",
                             actual);
                 } else {
-                    assertEquals(msg, expected, actual);
+                    assertEquals(expected, actual, msg);
                 }
             }
         }
@@ -205,10 +206,10 @@ public class StringsTest {
         }
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     @SuppressWarnings("javadoc")
     public void testMakeElementsChoiceTextNone() {
-        assertEquals("", makeElementsChoiceText(List.of(), null));
+        assertThrows(AssertionError.class, () -> assertEquals("", makeElementsChoiceText(List.of(), null)));
     }
 
     @Test

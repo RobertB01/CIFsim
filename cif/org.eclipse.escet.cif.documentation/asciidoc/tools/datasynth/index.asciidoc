@@ -52,6 +52,7 @@ The following additional information is available:
 * <<tools-datasynth-supervisor>>
 * <<tools-datasynth-simplification>>
 * <<tools-datasynth-forward-reach>>
+* <<tools-datasynth-fixed-point-order>>
 * <<tools-datasynth-input-vars>>
 * <<tools-datasynth-init>>
 * <<tools-datasynth-performance>>

@@ -16,7 +16,7 @@ SPDX-License-Identifier: MIT
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.escet</groupId>
     <artifactId>org.eclipse.escet.releng.configuration</artifactId>
-    <version>0.10.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -48,14 +48,13 @@ SPDX-License-Identifier: MIT
         <maven.compiler.release>${escet.java.version}</maven.compiler.release>
 
         <!-- Minimal Maven version to use. -->
-        <maven.minimal.version>3.6.3</maven.minimal.version>
+        <maven.minimal.version>3.9.0</maven.minimal.version>
 
         <!-- Maven enforcer version. -->
         <maven.enforcer.version>3.0.0</maven.enforcer.version>
 
         <!-- Tycho version to use. -->
-        <tycho.version>2.7.5</tycho.version>
-        <tycho.extras.version>${tycho.version}</tycho.extras.version>
+        <tycho.version>4.0.1</tycho.version>
 
         <!-- Documentation plug-in versions. -->
         <asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
@@ -141,6 +140,14 @@ SPDX-License-Identifier: MIT
                 <version>${tycho.version}</version>
             </plugin>
 
+            <!-- Prevent warnings for projects with multiple source directories. -->
+            <!-- See also https://github.com/eclipse-tycho/tycho/discussions/2717. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+
             <!-- Configure packaging of JARs. -->
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
@@ -203,33 +210,6 @@ SPDX-License-Identifier: MIT
 
                     <!-- For building and using Maven plugins during the build. -->
                     <pomDependencies>consider</pomDependencies>
-                </configuration>
-            </plugin>
-
-            <!-- Enable and configure unit/integration testing. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>3.0.0</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <!-- Execute tests in alphabetical order, to make it easier to compare different build logs. -->
-                    <runOrder>alphabetical</runOrder>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>tycho-surefire-plugin</artifactId>
-                <version>${tycho.version}</version>
-                <configuration>
-                    <!-- Execute tests in alphabetical order, to make it easier to compare different build logs. -->
-                    <runOrder>alphabetical</runOrder>
                 </configuration>
             </plugin>
 
@@ -309,6 +289,29 @@ SPDX-License-Identifier: MIT
 
         <pluginManagement>
             <plugins>
+                <!-- Configure shared unit/integration testing configuration, used by profiles below. -->
+                <plugin>
+                    <groupId>org.eclipse.tycho</groupId>
+                    <artifactId>tycho-surefire-plugin</artifactId>
+                    <version>${tycho.version}</version>
+                    <configuration>
+                        <!-- Execute tests in alphabetical order, to more easily compare different build logs. -->
+                        <runOrder>alphabetical</runOrder>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>execute-tests</id>
+                            <configuration>
+                                <failIfNoTests>false</failIfNoTests>
+                            </configuration>
+                            <goals>
+                                <goal>plugin-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <!-- AsciiDoctor documentation generation configuration. -->
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
@@ -376,6 +379,44 @@ SPDX-License-Identifier: MIT
     </build>
 
     <profiles>
+        <!-- Enable unit/integration testing, but only for projects with tests. -->
+        <!-- Use multiple profiles, as Maven does multiple 'file' activations on a single profile. -->
+        <!-- The configuration of unit/integration testing is configured above, and applies to both profiles. -->
+        <profile>
+            <id>tycho-surefire-test-src</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <file>
+                    <exists>${basedir}/src-test/</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-surefire-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>tycho-surefire-test-src-gen</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <file>
+                    <exists>${basedir}/src-test-gen/</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-surefire-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- Enable Checkstyle code analysis. -->
         <profile>
             <id>checkstyle-check</id>

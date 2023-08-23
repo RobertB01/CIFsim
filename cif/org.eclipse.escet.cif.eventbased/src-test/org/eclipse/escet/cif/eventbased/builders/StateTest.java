@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.eventbased.builders;
 
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Set;
 
@@ -22,7 +22,7 @@ import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
 import org.eclipse.escet.cif.eventbased.automata.Location;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link State} class. */
 public class StateTest {

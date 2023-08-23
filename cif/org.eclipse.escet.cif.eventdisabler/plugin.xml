@@ -40,12 +40,12 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/event_disabler.png"
+               icon="icons/cif_event_disabler.png"
                id="org.eclipse.escet.cif.menu.misc"
                label="CIF miscellaneo&amp;us tools">
             <command
                   commandId="org.eclipse.escet.cif.eventdisabler.EventDisablerCommand"
-                  icon="icons/event_disabler.png"
+                  icon="icons/cif_event_disabler.png"
                   label="&amp;Disable events of CIF specification...">
                <visibleWhen>
                   <or>

@@ -35,7 +35,7 @@ public abstract class CifDataProvider {
      * @param constant Constant to access.
      * @return The expression to get the value of the constant in the PLC.
      */
-    protected abstract PlcExpression getValueForConstant(Constant constant);
+    public abstract PlcExpression getValueForConstant(Constant constant);
 
     /**
      * Return the PLC expression to read the provided discrete variable.
@@ -43,7 +43,7 @@ public abstract class CifDataProvider {
      * @param variable Variable to read.
      * @return The expression to read the provided discrete variable.
      */
-    protected abstract PlcExpression getValueForDiscVar(DiscVariable variable);
+    public abstract PlcExpression getValueForDiscVar(DiscVariable variable);
 
     /**
      * Return the PLC expression to write the provided discrete variable.
@@ -51,7 +51,7 @@ public abstract class CifDataProvider {
      * @param variable Variable to write.
      * @return The expression to write the provided discrete variable.
      */
-    protected abstract PlcVarExpression getAddressableForDiscVar(DiscVariable variable);
+    public abstract PlcVarExpression getAddressableForDiscVar(DiscVariable variable);
 
     /**
      * Return the PLC expression to read the value or the derivative of the provided continuous variable.
@@ -61,7 +61,7 @@ public abstract class CifDataProvider {
      *     variable itself is requested.
      * @return The expression to read a value of the provided continuous variable.
      */
-    protected abstract PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative);
+    public abstract PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative);
 
     /**
      * Return the PLC expression to write the value or the derivative of the provided continuous variable.
@@ -71,7 +71,7 @@ public abstract class CifDataProvider {
      *     variable itself is requested.
      * @return The expression to write a value of the provided continuous variable.
      */
-    protected abstract PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative);
+    public abstract PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative);
 
     /**
      * Return the PLC expression to access the provided input variable.
@@ -80,5 +80,5 @@ public abstract class CifDataProvider {
      * @return The expression to access the provided input variable.
      * @note The returned expression may not allow writing to the variable.
      */
-    protected abstract PlcExpression getValueForInputVar(InputVariable variable);
+    public abstract PlcExpression getValueForInputVar(InputVariable variable);
 }

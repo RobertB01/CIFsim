@@ -16,6 +16,30 @@ indexterm:[data-based supervisory controller synthesis,performance]
 [[tools-datasynth-performance]]
 == Performance
 
+There are quite a few factors that influence the performance of data-based synthesis.
+Here are some of those factors, which affect both the time it takes to complete a synthesis and the memory that is used for it:
+
+* Obviously, the actual model that is used has a large impact.
+A model with more variables often has to longer synthesis time and requires more memory.
+However, the predicates that are used may also significantly impact performance.
+
+* The modeling style used when modeling the plants and requirements can also have a significant impact on the performance.
+See for instance <<sbe-in-practice-advanced-performance,these suggestions>>.
+
+* Several options of the data-based synthesis tool impact its performance.
+A list of such option is given below.
+
+[[tools-datasynth-performance-out-of-memory]]
+If you run out of memory, here are some potential solutions:
+
+* Increase the memory available to the synthesis tool.
+For more information, see the page of the Eclipse ESCET general toolkit documentation on link:https://eclipse.dev/escet/{escet-website-version}/performance/index.html[resolving performance and memory problems].
+
+* Decrease the <<tools-datasynth-op-cache,size of the BDD operation caches>>, to make sure more memory remains available for the actual data used during synthesis.
+While decreasing the size of caches may increase the synthesis time, it is better to be able to synthesize a supervisor in a longer time than to not be able to synthesize it at all.
+
+=== Performance-related options
+
 The following <<tools-datasynth-options,options>> have an effect on the performance of data-based synthesis:
 
 [cols="5,15,15,20,40",options="header"]
@@ -49,6 +73,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | <<tools-datasynth-simplification>>
 | Potentially smaller BDDs in the output
 | Enable for smaller output, although simplification itself also takes time
+
+| Order
+| Fixed-point computations order
+| <<tools-datasynth-fixed-point-order>>
+| Better order for less computations and smaller BDD representations
+| Choose the best ordering, depends on the model
 
 | Order
 | BDD initial variable ordering
@@ -164,10 +194,3 @@ The second column lists the different options.
 The third column indicates in which section of the data-based synthesis tool documentation you can find more information about that option.
 The fourth column indicates the effect of the option.
 The fifth column indicates what to choose for the option, for best performance, although a trade-off may be involved.
-
-Obviously, the actual model that is used has a large impact as well.
-More variables often leads to longer synthesis times.
-However, the predicates that are used may also significantly impact performance.
-
-Try to use state/event exclusion requirement invariants instead of requirement automata with a single location and self loops.
-Also, try to avoid an event-based modeling style, and use a data-based modeling style instead, if possible.

@@ -16,8 +16,8 @@ package org.eclipse.escet.setext.generator.parser;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +33,7 @@ import org.eclipse.escet.setext.parser.ast.parser.ParserRule;
 import org.eclipse.escet.setext.parser.ast.parser.ParserRulePart;
 import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
 import org.eclipse.escet.setext.parser.ast.scanner.Terminal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests based on the test grammar taken from Example 4.40 of the book "Compilers: Principles, Techniques, & Tools"

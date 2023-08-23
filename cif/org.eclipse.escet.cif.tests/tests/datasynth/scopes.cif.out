@@ -203,7 +203,7 @@ Final synthesis result:
     Edge: (event: g.c2) (guard: true -> g.p.x != 4) (assignments: g.p.x := g.p.x + 1, p.x := 1)
     Edge: (event: g.p.c3) (guard: true -> g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) (assignments: g.p.x := g.p.x + 1)
 
-Controlled system:                     exactly 3 states.
+Controlled system: exactly 3 states.
 
 Initial (synthesis result):            g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1)
 Initial (uncontrolled system):         g.p.x = 2 and p.x = 1

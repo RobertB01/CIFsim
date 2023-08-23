@@ -29,7 +29,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.str;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link CifValueUtils} class. */
 public class CifValueUtilsTest {
@@ -227,7 +227,7 @@ public class CifValueUtilsTest {
             String msg = CifTextUtils.typeToStr(type);
             double expected = expecteds[i];
             double actual = CifValueUtils.getPossibleValueCount(type);
-            assertEquals(msg, expected, actual, 0.0);
+            assertEquals(expected, actual, 0.0, msg);
         }
     }
 
@@ -468,10 +468,10 @@ public class CifValueUtilsTest {
             // Check expected and actual counts.
             double expCount = CifValueUtils.getPossibleValueCount(type);
             double actCount = values.size();
-            assertEquals(msg, expCount, actCount, 0.0);
+            assertEquals(expCount, actCount, 0.0, msg);
 
             // Check expected and actual values.
-            assertEquals(msg, expected, actual);
+            assertEquals(expected, actual, msg);
         }
     }
 

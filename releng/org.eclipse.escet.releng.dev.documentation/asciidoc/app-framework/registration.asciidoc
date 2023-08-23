@@ -49,12 +49,12 @@ It can be used in a unit test class as follows:
 
 [source, java]
 ----
-/***/ @BeforeClass
+/***/ @BeforeAll
 public static void oneTimeSetUp() {
     AppEnv.registerSimple();
 }
 
-/***/ @AfterClass
+/***/ @AfterAll
 public static void oneTimeTearDown() {
     AppEnv.unregisterApplication();
 }

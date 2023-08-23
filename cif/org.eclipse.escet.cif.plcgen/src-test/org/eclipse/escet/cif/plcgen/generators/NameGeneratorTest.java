@@ -14,14 +14,14 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link DefaultNameGenerator} class. */
 public class NameGeneratorTest {
@@ -29,7 +29,7 @@ public class NameGeneratorTest {
     public DefaultNameGenerator nameGenerator;
 
     @SuppressWarnings("javadoc")
-    @Before
+    @BeforeEach
     public void setup() {
         PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, PlcNumberBits.AUTO,
                 PlcNumberBits.AUTO, false, null, null, false, null);

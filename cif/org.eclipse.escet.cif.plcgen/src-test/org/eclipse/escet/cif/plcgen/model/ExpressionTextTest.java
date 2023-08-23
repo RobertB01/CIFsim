@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcStructLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Pretty-print expressions test. */
 public class ExpressionTextTest {

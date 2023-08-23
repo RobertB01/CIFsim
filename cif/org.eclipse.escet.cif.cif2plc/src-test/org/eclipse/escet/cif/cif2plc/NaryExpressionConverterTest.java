@@ -20,13 +20,13 @@ import static org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator.INVE
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newUnaryExpression;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.escet.cif.cif2plc.NaryExpressionConverter.NaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link NaryExpressionConverter} class. */
 @SuppressWarnings("javadoc")

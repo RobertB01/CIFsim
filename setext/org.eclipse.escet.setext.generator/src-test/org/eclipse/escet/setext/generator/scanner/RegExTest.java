@@ -15,7 +15,7 @@ package org.eclipse.escet.setext.generator.scanner;
 
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.setext.io.SeTextReader.parseRegEx;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 
@@ -26,20 +26,20 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.parser.ast.regex.RegEx;
 import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Regular expression tests. */
 public class RegExTest {
-    @Before
+    @BeforeEach
     @SuppressWarnings("javadoc")
     public void before() {
         AppEnv.registerSimple();
         Options.set(OutputModeOption.class, OutputMode.ERROR);
     }
 
-    @After
+    @AfterEach
     @SuppressWarnings("javadoc")
     public void after() {
         AppEnv.unregisterApplication();

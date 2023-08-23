@@ -103,7 +103,7 @@ Final synthesis result:
   State: (controlled-behavior: p.x = 2)
     Edge: (event: next) (guard: true -> p.x = 1) (assignments: p.x := (p.x + 1) mod count)
 
-Controlled system:                     exactly 1 state.
+Controlled system: exactly 1 state.
 
 Initial (synthesis result):            p.x = 2
 Initial (uncontrolled system):         p.x = 2

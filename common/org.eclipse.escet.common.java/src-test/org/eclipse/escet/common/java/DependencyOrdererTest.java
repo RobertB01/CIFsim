@@ -17,15 +17,16 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.str;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the {@link DependencyOrderer} class. */
 public class DependencyOrdererTest {
@@ -63,7 +64,7 @@ public class DependencyOrdererTest {
     }
 
     /** Test immutable non-empty set of direct dependencies. */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testImmutableDepSet() {
         Map<TestObject, Set<TestObject>> directDeps = map();
         directDeps.put(OBJ1, Collections.unmodifiableSet(set(OBJ2)));
@@ -73,7 +74,7 @@ public class DependencyOrdererTest {
         orderer.addObject(OBJ2);
         orderer.addObject(OBJ1);
 
-        orderer.computeOrder();
+        assertThrows(UnsupportedOperationException.class, () -> orderer.computeOrder());
     }
 
     /** Test single object without dependencies. */

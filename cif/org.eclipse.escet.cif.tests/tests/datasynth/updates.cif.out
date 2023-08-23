@@ -261,7 +261,7 @@ Final synthesis result:
     Edge: (event: k) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v div 1)
     Edge: (event: k) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v mod 2)
 
-Controlled system:                     exactly 31 states.
+Controlled system: exactly 31 states.
 
 Initial (synthesis result):            (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))
 Initial (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)

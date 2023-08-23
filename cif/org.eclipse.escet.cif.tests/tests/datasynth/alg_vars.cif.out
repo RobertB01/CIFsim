@@ -246,7 +246,7 @@ Final synthesis result:
     Edge: (event: r3.activate) (guard: r3.inactive -> r1.inactive and r3.inactive) (assignments: r3 := r3.active)
     Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
 
-Controlled system:                     exactly 48 states.
+Controlled system: exactly 48 states.
 
 Initial (synthesis result):            r1.inactive or r3.inactive
 Initial (uncontrolled system):         r1.inactive and r2.inactive and (r3.inactive and q.l1)

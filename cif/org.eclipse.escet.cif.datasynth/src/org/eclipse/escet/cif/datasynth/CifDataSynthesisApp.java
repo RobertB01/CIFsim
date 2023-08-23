@@ -51,6 +51,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
+import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.PlantsRefReqsWarnOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
@@ -288,7 +289,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Starting data-based synthesis.");
             }
-            CifDataSynthesis.synthesize(aut, dbgEnabled, doTiming, timing);
+            boolean doPrintCtrlSysStates = stats.contains(SynthesisStatistics.CTRL_SYS_STATES);
+            CifDataSynthesis.synthesize(aut, dbgEnabled, doTiming, timing, doPrintCtrlSysStates);
             if (isTerminationRequested()) {
                 return;
             }
@@ -461,6 +463,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNameOption.class));
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
+        synthOpts.add(Options.getInstance(FixedPointComputationsOrderOption.class));
         synthOpts.add(Options.getInstance(EdgeGranularityOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderOption.class)); // No longer supported.
         synthOpts.add(Options.getInstance(EdgeOrderBackwardOption.class));

@@ -15,6 +15,9 @@ package org.eclipse.escet.cif.eventbased.builders;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.escet.cif.eventbased.SynchronousProduct;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -22,8 +25,7 @@ import org.eclipse.escet.cif.eventbased.automata.Edge;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
 import org.eclipse.escet.cif.eventbased.automata.Location;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("javadoc")
 public class ProductTest {
@@ -72,7 +74,7 @@ public class ProductTest {
         Edge.addEdge(b, y3, y1);
 
         Automaton result = SynchronousProduct.product(list(aa, bb));
-        Assert.assertEquals(8, result.size());
+        assertEquals(8, result.size());
         Location s0 = result.initial;
         Edge e01a = s0.getOutgoing(a).next(); // (state-0, state-1, a)
         Location s1 = e01a.dstLoc;
@@ -89,62 +91,62 @@ public class ProductTest {
         Edge e57q = s5.getOutgoing(q).next(); // (state-5, state-7, q),
         Location s7 = e57q.dstLoc;
         Edge e67c = s6.getOutgoing(c).next(); // (state-6, state-7, c)
-        Assert.assertEquals(s7, e67c.dstLoc);
+        assertEquals(s7, e67c.dstLoc);
 
         // Verify location inequalities
-        Assert.assertFalse(s0 == s1);
-        Assert.assertFalse(s0 == s2);
-        Assert.assertFalse(s0 == s3);
-        Assert.assertFalse(s0 == s4);
-        Assert.assertFalse(s0 == s5);
-        Assert.assertFalse(s0 == s6);
-        Assert.assertFalse(s0 == s7);
+        assertFalse(s0 == s1);
+        assertFalse(s0 == s2);
+        assertFalse(s0 == s3);
+        assertFalse(s0 == s4);
+        assertFalse(s0 == s5);
+        assertFalse(s0 == s6);
+        assertFalse(s0 == s7);
 
-        Assert.assertFalse(s1 == s2);
-        Assert.assertFalse(s1 == s3);
-        Assert.assertFalse(s1 == s4);
-        Assert.assertFalse(s1 == s5);
-        Assert.assertFalse(s1 == s6);
-        Assert.assertFalse(s1 == s7);
+        assertFalse(s1 == s2);
+        assertFalse(s1 == s3);
+        assertFalse(s1 == s4);
+        assertFalse(s1 == s5);
+        assertFalse(s1 == s6);
+        assertFalse(s1 == s7);
 
-        Assert.assertFalse(s2 == s3);
-        Assert.assertFalse(s2 == s4);
-        Assert.assertFalse(s2 == s5);
-        Assert.assertFalse(s2 == s6);
-        Assert.assertFalse(s2 == s7);
+        assertFalse(s2 == s3);
+        assertFalse(s2 == s4);
+        assertFalse(s2 == s5);
+        assertFalse(s2 == s6);
+        assertFalse(s2 == s7);
 
-        Assert.assertFalse(s3 == s4);
-        Assert.assertFalse(s3 == s5);
-        Assert.assertFalse(s3 == s6);
-        Assert.assertFalse(s3 == s7);
+        assertFalse(s3 == s4);
+        assertFalse(s3 == s5);
+        assertFalse(s3 == s6);
+        assertFalse(s3 == s7);
 
-        Assert.assertFalse(s4 == s5);
-        Assert.assertFalse(s4 == s6);
-        Assert.assertFalse(s4 == s7);
+        assertFalse(s4 == s5);
+        assertFalse(s4 == s6);
+        assertFalse(s4 == s7);
 
-        Assert.assertFalse(s5 == s6);
-        Assert.assertFalse(s5 == s7);
+        assertFalse(s5 == s6);
+        assertFalse(s5 == s7);
 
-        Assert.assertFalse(s6 == s7);
+        assertFalse(s6 == s7);
 
         // Verify markers.
-        Assert.assertFalse(s0.marked);
-        Assert.assertFalse(s1.marked);
-        Assert.assertFalse(s2.marked);
-        Assert.assertFalse(s3.marked);
-        Assert.assertFalse(s4.marked);
-        Assert.assertFalse(s5.marked);
-        Assert.assertFalse(s6.marked);
-        Assert.assertTrue(s7.marked);
+        assertFalse(s0.marked);
+        assertFalse(s1.marked);
+        assertFalse(s2.marked);
+        assertFalse(s3.marked);
+        assertFalse(s4.marked);
+        assertFalse(s5.marked);
+        assertFalse(s6.marked);
+        assertTrue(s7.marked);
 
         // Verify edge count.
-        Assert.assertEquals(1, edgeCount(s0));
-        Assert.assertEquals(1, edgeCount(s1));
-        Assert.assertEquals(1, edgeCount(s2));
-        Assert.assertEquals(1, edgeCount(s3));
-        Assert.assertEquals(2, edgeCount(s4));
-        Assert.assertEquals(1, edgeCount(s5));
-        Assert.assertEquals(1, edgeCount(s6));
-        Assert.assertEquals(0, edgeCount(s7));
+        assertEquals(1, edgeCount(s0));
+        assertEquals(1, edgeCount(s1));
+        assertEquals(1, edgeCount(s2));
+        assertEquals(1, edgeCount(s3));
+        assertEquals(2, edgeCount(s4));
+        assertEquals(1, edgeCount(s5));
+        assertEquals(1, edgeCount(s6));
+        assertEquals(0, edgeCount(s7));
     }
 }

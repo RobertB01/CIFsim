@@ -1,5 +1,36 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
+    VAR_TEMP
+        current_hw_button: DINT;
+        current_hw_button__1: DINT;
+        current_hw_lamp: DINT;
+        current_hw_lamp__1: DINT;
+        current_hw_lamp_bit: BOOL;
+        current_hw_lamp_bit__1: BOOL;
+        current_sup: DINT;
+        current_sup__1: DINT;
+        current_sup__2: DINT;
+        current_sup__3: DINT;
+        current_sup__4: DINT;
+        current_sup__5: DINT;
+        current_timer: DINT;
+        current_timer__1: DINT;
+        current_timer_t: LREAL;
+        eventEnabled: BOOL;
+        isProgress: BOOL;
+        syncAutEdge: DINT;
+        syncAutEdge__1: DINT;
+        syncAutEdge__10: DINT;
+        syncAutEdge__11: DINT;
+        syncAutEdge__2: DINT;
+        syncAutEdge__3: DINT;
+        syncAutEdge__4: DINT;
+        syncAutEdge__5: DINT;
+        syncAutEdge__6: DINT;
+        syncAutEdge__7: DINT;
+        syncAutEdge__8: DINT;
+        syncAutEdge__9: DINT;
+    END_VAR
 
 BEGIN
     IF firstRun THEN
@@ -12,4 +43,214 @@ BEGIN
         hw_lamp_bit := FALSE;
         hw_lamp := someConstantvariable;
     END_IF;
+
+    isProgress := TRUE;
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (* Try to perform event "timer.start". *)
+        eventEnabled := TRUE;
+        IF timer = someConstantvariable THEN
+            syncAutEdge := 1;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            IF sup = someConstantvariable THEN
+                syncAutEdge__1 := 1;
+            ELSIF sup = someConstantvariable THEN
+                syncAutEdge__1 := 2;
+            ELSE
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_sup := sup;
+            current_timer := timer;
+            current_timer_t := someContvariable;
+            IF syncAutEdge = 1 THEN
+                someContvariable := 0.0;
+                timer := someConstantvariable;
+            END_IF;
+            IF syncAutEdge__1 = 1 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__1 = 2 THEN
+                sup := someConstantvariable;
+            END_IF;
+        END_IF;
+        (* Try to perform event "timer.timeout". *)
+        eventEnabled := TRUE;
+        IF timer = someConstantvariable AND someContvariable >= 3.0 THEN
+            syncAutEdge__2 := 1;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            IF sup = someConstantvariable THEN
+                syncAutEdge__3 := 1;
+            ELSIF sup = someConstantvariable THEN
+                syncAutEdge__3 := 2;
+            ELSE
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_sup__1 := sup;
+            current_timer__1 := timer;
+            IF syncAutEdge__2 = 1 THEN
+                timer := someConstantvariable;
+            END_IF;
+            IF syncAutEdge__3 = 1 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__3 = 2 THEN
+                sup := someConstantvariable;
+            END_IF;
+        END_IF;
+        (* Try to perform event "button.push". *)
+        eventEnabled := TRUE;
+        IF sup = someConstantvariable THEN
+            syncAutEdge__4 := 1;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__4 := 2;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__4 := 3;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__4 := 4;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__4 := 5;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            IF hw_button = someConstantvariable AND hw_button_bit THEN
+                syncAutEdge__5 := 1;
+            ELSE
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_hw_button := hw_button;
+            current_sup__2 := sup;
+            IF syncAutEdge__4 = 1 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__4 = 2 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__4 = 3 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__4 = 4 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__4 = 5 THEN
+                sup := someConstantvariable;
+            END_IF;
+            IF syncAutEdge__5 = 1 THEN
+                hw_button := someConstantvariable;
+            END_IF;
+        END_IF;
+        (* Try to perform event "button.release". *)
+        eventEnabled := TRUE;
+        IF sup = someConstantvariable THEN
+            syncAutEdge__6 := 1;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__6 := 2;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__6 := 3;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__6 := 4;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__6 := 5;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            IF hw_button = someConstantvariable AND NOT(IN := hw_button_bit) THEN
+                syncAutEdge__7 := 1;
+            ELSE
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_hw_button__1 := hw_button;
+            current_sup__3 := sup;
+            IF syncAutEdge__6 = 1 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__6 = 2 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__6 = 3 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__6 = 4 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__6 = 5 THEN
+                sup := someConstantvariable;
+            END_IF;
+            IF syncAutEdge__7 = 1 THEN
+                hw_button := someConstantvariable;
+            END_IF;
+        END_IF;
+        (* Try to perform event "lamp.on". *)
+        eventEnabled := TRUE;
+        IF sup = someConstantvariable THEN
+            syncAutEdge__8 := 1;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__8 := 2;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            IF hw_lamp = someConstantvariable THEN
+                syncAutEdge__9 := 1;
+            ELSE
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_hw_lamp := hw_lamp;
+            current_hw_lamp_bit := hw_lamp_bit;
+            current_sup__4 := sup;
+            IF syncAutEdge__8 = 1 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__8 = 2 THEN
+                sup := someConstantvariable;
+            END_IF;
+            IF syncAutEdge__9 = 1 THEN
+                hw_lamp_bit := TRUE;
+                hw_lamp := someConstantvariable;
+            END_IF;
+        END_IF;
+        (* Try to perform event "lamp.off". *)
+        eventEnabled := TRUE;
+        IF sup = someConstantvariable THEN
+            syncAutEdge__10 := 1;
+        ELSIF sup = someConstantvariable THEN
+            syncAutEdge__10 := 2;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            IF hw_lamp = someConstantvariable THEN
+                syncAutEdge__11 := 1;
+            ELSE
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_hw_lamp__1 := hw_lamp;
+            current_hw_lamp_bit__1 := hw_lamp_bit;
+            current_sup__5 := sup;
+            IF syncAutEdge__10 = 1 THEN
+                sup := someConstantvariable;
+            ELSIF syncAutEdge__10 = 2 THEN
+                sup := someConstantvariable;
+            END_IF;
+            IF syncAutEdge__11 = 1 THEN
+                hw_lamp_bit := FALSE;
+                hw_lamp := someConstantvariable;
+            END_IF;
+        END_IF;
+    END_WHILE;
 END_ORGANIZATION_BLOCK

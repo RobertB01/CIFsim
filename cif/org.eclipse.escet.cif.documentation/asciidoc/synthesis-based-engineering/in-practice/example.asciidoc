@@ -221,6 +221,7 @@ To execute the script, right click it an choose menu:Execute ToolDef[] or select
 indexterm:[model, simulation]
 indexterm:[simulation, model]
 
+[[sbe-in-practice-example-simulation-model]]
 === Simulation model
 
 To <<sbe-in-practice-steps-validation,validate the system>> controlled by the synthesized supervisor, it can be useful to simulate it.

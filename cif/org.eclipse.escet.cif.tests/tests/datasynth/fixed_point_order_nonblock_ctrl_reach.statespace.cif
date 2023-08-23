@@ -1,0 +1,43 @@
+group p:
+  controllable c1;
+  controllable c3;
+  uncontrollable u2;
+  uncontrollable u4;
+end
+automaton statespace:
+  alphabet p.c1, p.u2, p.c3, p.u4;
+  location loc1:
+    initial;
+    edge p.c1 goto loc2;
+  location loc2:
+    initial;
+    edge p.c1 goto loc3;
+  location loc3:
+    initial;
+    edge p.c1 goto loc4;
+  location loc4:
+    initial;
+    edge p.c1 goto loc5;
+  location loc5:
+    edge p.u2 goto loc6;
+  location loc6:
+    edge p.u2 goto loc7;
+  location loc7:
+    edge p.u2 goto loc8;
+  location loc8:
+    edge p.u2 goto loc9;
+  location loc9:
+    edge p.c3 goto loc10;
+  location loc10:
+    edge p.c3 goto loc11;
+  location loc11:
+    edge p.c3 goto loc12;
+  location loc12:
+    edge p.u4 goto loc13;
+  location loc13:
+    edge p.u4 goto loc14;
+  location loc14:
+    edge p.u4 goto loc15;
+  location loc15:
+    marked;
+end

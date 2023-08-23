@@ -15,14 +15,15 @@ package org.eclipse.escet.tooldef.runtime;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** ToolDef set value tests. */
 @SuppressWarnings("javadoc")
@@ -45,10 +46,9 @@ public class ToolDefSetTest {
         assertEquals("{1, 2}", set5.toString());
     }
 
-    @SuppressWarnings("unused")
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateInitialCapacityNegative() {
-        new ToolDefSet<>(-1);
+        assertThrows(IllegalArgumentException.class, () -> new ToolDefSet<>(-1));
     }
 
     @Test
