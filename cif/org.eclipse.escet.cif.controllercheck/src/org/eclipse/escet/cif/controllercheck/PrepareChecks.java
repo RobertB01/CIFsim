@@ -82,11 +82,23 @@ public class PrepareChecks {
     /** Global guarded update of each used controllable event. */
     private Map<Event, Node> globalGuardedUpdatesByEvent = map();
 
+    /** Whether to compute the {@link #globalGuardedUpdatesByEvent global guarded updates}. */
+    private boolean computeGlobalGuardedUpdates;
+
     /** Updated variables of each used controllable event. */
     private Map<Event, Set<Declaration>> updatedVariablesByEvent = map();
 
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
+
+    /**
+     * Constructor for the {@link PrepareChecks} class.
+     *
+     * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
+     */
+    public PrepareChecks(boolean computeGlobalGuardedUpdates) {
+        this.computeGlobalGuardedUpdates = computeGlobalGuardedUpdates;
+    }
 
     /**
      * Extract the events and variables structure from the CIF specification, and organize it into a form needed by the
@@ -149,17 +161,22 @@ public class PrepareChecks {
 
         // Guards and guarded updates of the automaton.
         Map<Event, Node> autGuards = mapc(controllableAutEvents.size());
-        Map<Event, Node> autGuardedUpdates = mapc(controllableAutEvents.size());
+        Map<Event, Node> autGuardedUpdates = computeGlobalGuardedUpdates ? mapc(controllableAutEvents.size())
+                : Map.of(); // Initialize to an empty map if not used, to prevent Java warnings about 'null' values.
 
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
             autGuards.put(evt, Tree.ZERO);
-            autGuardedUpdates.put(evt, Tree.ZERO);
+            if (computeGlobalGuardedUpdates) {
+                autGuardedUpdates.put(evt, Tree.ZERO);
+            }
 
             if (!controllableEvents.contains(evt)) {
                 controllableEvents.add(evt);
                 globalGuardsByEvent.put(evt, Tree.ONE);
-                globalGuardedUpdatesByEvent.put(evt, Tree.ONE);
+                if (computeGlobalGuardedUpdates) {
+                    globalGuardedUpdatesByEvent.put(evt, Tree.ONE);
+                }
                 updatedVariablesByEvent.put(evt, set());
             }
         }
@@ -175,15 +192,20 @@ public class PrepareChecks {
 
                 // Compute guard and update of the edge.
                 Node guard = computeGuard(edge);
-                Node guardedUpdate = tree.conjunct(guard, computeUpdate(edge, controllableEdgeEvents));
+                Node guardedUpdate = Tree.ZERO;
+                if (computeGlobalGuardedUpdates) {
+                    guardedUpdate = tree.conjunct(guard, computeUpdate(edge, controllableEdgeEvents));
+                }
 
                 // Add the guard and guarded update as alternative to the relevant events of the edge.
                 for (Event evt: controllableEdgeEvents) {
                     Node autGuard = autGuards.get(evt);
                     autGuards.put(evt, tree.disjunct(autGuard, guard));
 
-                    Node autGuardedUpdate = autGuardedUpdates.get(evt);
-                    autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
+                    if (computeGlobalGuardedUpdates) {
+                        Node autGuardedUpdate = autGuardedUpdates.get(evt);
+                        autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
+                    }
                 }
 
                 // Abort computation if the user requests it.
@@ -198,9 +220,11 @@ public class PrepareChecks {
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
 
-            Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
-            globalGuardedUpdatesByEvent.put(autEvent,
-                    tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
+            if (computeGlobalGuardedUpdates) {
+                Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
+                globalGuardedUpdatesByEvent.put(autEvent,
+                        tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
+            }
         }
 
         return true;
@@ -343,11 +367,15 @@ public class PrepareChecks {
     }
 
     /**
-     * Get the global guarded updates of each used controllable event.
+     * Get the global guarded updates of each used controllable event, it computing it is enabled.
      *
      * @return The global guarded updates of each used controllable event.
+     * @throws IllegalStateException If computing global guarded updates is disabled.
      */
     public Map<Event, Node> getGlobalGuardedUpdatesByEvent() {
+        if (!computeGlobalGuardedUpdates) {
+            throw new IllegalStateException("Computing global guarded updates is disabled.");
+        }
         return Collections.unmodifiableMap(globalGuardedUpdatesByEvent);
     }
 
