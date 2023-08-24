@@ -163,6 +163,12 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
         boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
 
+        // Ensure at least one check is enabled.
+        if (!checkFiniteResponse && !checkConfluence) {
+            throw new InvalidOptionException(
+                    "No checks enabled. Enable one of the checks for the controller property checker to check.");
+        }
+
         // Perform computations for both checkers.
         boolean computeGlobalGuardedUpdates = checkConfluence;
         PrepareChecks prepareChecks = new PrepareChecks(computeGlobalGuardedUpdates);

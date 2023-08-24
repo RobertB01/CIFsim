@@ -18,7 +18,9 @@ string test_path = "controllercheck";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1", "--output-mode=debug"];
 
-map(string:list string) test_options = {};
+map(string:list string) test_options = {
+    "controllercheck/no_checks_enabled.cif": ["--finite-response-check=false", "--confluence-check=false"],
+};
 set string test_skip = {};
 
 // Initialize counts.
