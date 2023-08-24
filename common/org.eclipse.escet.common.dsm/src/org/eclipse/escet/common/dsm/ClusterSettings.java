@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.BlackHoleOutput;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /**
@@ -117,7 +117,7 @@ public class ClusterSettings {
         this.epsilon = epsilon;
         this.busDetectionAlgorithm = busDetectionAlgorithm;
         setBusInclusionFactor(busInclusion);
-        this.debugOut = (debugOut != null) ? debugOut : new BlackHoleOutputProvider();
+        this.debugOut = (debugOut != null) ? debugOut : new BlackHoleOutput();
     }
 
     /**

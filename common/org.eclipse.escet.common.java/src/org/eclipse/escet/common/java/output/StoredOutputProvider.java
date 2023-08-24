@@ -218,7 +218,7 @@ public class StoredOutputProvider {
      *
      * @return The constructed warning output stream.
      */
-    public WarnOutput geWarnOutput() {
+    public WarnOutput getWarnOutput() {
         return getWarnOutput("WARNING: ");
     }
 

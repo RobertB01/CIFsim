@@ -17,7 +17,7 @@ package org.eclipse.escet.common.java.output;
  * Output stream that is never enabled and never produces any output. Can be used for suppressing debug, normal, warning
  * and/or error output.
  */
-public class BlackHoleOutputProvider implements DebugNormalOutput, WarnOutput, ErrorOutput {
+public class BlackHoleOutput implements DebugNormalOutput, WarnOutput, ErrorOutput {
     @Override
     public boolean isEnabled() {
         return false;

@@ -32,7 +32,7 @@ import org.eclipse.escet.common.dsm.Label;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
 import org.eclipse.escet.common.java.CsvParser.CsvParseError;
-import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.BlackHoleOutput;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /** Code for reading and writing a matrix. */
@@ -137,7 +137,7 @@ public class ReadMatrix {
         }
 
         // Return cluster input data.
-        return new ClusterSettings(adjMat, rowLabels, (debugOut != null) ? debugOut : new BlackHoleOutputProvider());
+        return new ClusterSettings(adjMat, rowLabels, (debugOut != null) ? debugOut : new BlackHoleOutput());
     }
 
     /**
