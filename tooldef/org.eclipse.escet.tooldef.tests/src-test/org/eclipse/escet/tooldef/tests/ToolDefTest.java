@@ -14,7 +14,7 @@
 package org.eclipse.escet.tooldef.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** ToolDef integration and regression tests. */
 public class ToolDefTest extends ToolDefBasedPluginUnitTest {

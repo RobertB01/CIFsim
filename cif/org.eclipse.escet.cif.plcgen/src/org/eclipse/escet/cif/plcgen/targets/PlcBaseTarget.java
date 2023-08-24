@@ -55,22 +55,22 @@ public abstract class PlcBaseTarget implements PlcTarget {
     private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
 
     /** Extracts information from the CIF input file, to be used during PLC code generation. */
-    private CifProcessor cifProcessor;
+    protected CifProcessor cifProcessor;
 
     /** Generates PLC code for performing CIF event transitions. */
-    private TransitionGenerator transitionGenerator;
+    protected TransitionGenerator transitionGenerator;
 
     /** Handles storage and retrieval of globally used variables in the PLC program. */
-    private VariableStorage varStorage;
+    protected VariableStorage varStorage;
 
     /** Handles type storage and conversions. */
-    private TypeGenerator typeGenerator;
+    protected TypeGenerator typeGenerator;
 
     /** Stores and writes generated PLC code. */
-    private PlcCodeStorage codeStorage;
+    protected PlcCodeStorage codeStorage;
 
     /** Generate clash-free names in the generated code. */
-    private NameGenerator nameGenerator;
+    protected NameGenerator nameGenerator;
 
     /**
      * Constructor of the {@link PlcBaseTarget} class.

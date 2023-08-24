@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='STATE'>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>Good_x</Tag>
+</Tagtable>

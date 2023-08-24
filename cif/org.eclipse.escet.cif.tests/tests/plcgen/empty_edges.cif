@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Test for code generation to globally block "noSync" and allow "noMonitor".
+
+controllable noSync, noMonitor;
+
+automaton Good:
+  disc int x;
+  location G:
+    initial;
+    edge noSync do x := (x + 1) mod 6;
+    edge noMonitor do x := (x + 5) mod 6;
+end
+
+automaton Block:
+  alphabet noSync, noMonitor;
+  monitor noMonitor;
+  location B:
+    initial;
+end
+
+controllable int channel;
+automaton UseChannel:
+  alphabet channel;
+  location C:
+    initial;
+end

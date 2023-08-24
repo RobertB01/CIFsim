@@ -59,16 +59,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;automaton abstraction...">
                   <visibleWhen>
                      <or>
@@ -98,16 +98,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.ProjectionCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply automaton pro&amp;jection...">
                   <visibleWhen>
                      <or>
@@ -138,16 +138,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.NfaToDfaCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply N&amp;FA to DFA automaton conversion...">
                   <visibleWhen>
                      <or>
@@ -177,16 +177,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;controllability check...">
                   <visibleWhen>
                      <or>
@@ -216,16 +216,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;language equivalence check...">
                   <visibleWhen>
                      <or>
@@ -255,16 +255,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;nonconflicting check...">
                   <visibleWhen>
                      <or>
@@ -294,16 +294,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.ObserverCheckCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply o&amp;bserver check...">
                   <visibleWhen>
                      <or>
@@ -333,16 +333,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;supervisor synthesis...">
                   <visibleWhen>
                      <or>
@@ -372,16 +372,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.SynchronousProductCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply synchronous &amp;product...">
                   <visibleWhen>
                      <or>
@@ -411,16 +411,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.TrimCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply tri&amp;m...">
                   <visibleWhen>
                      <or>
@@ -450,16 +450,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.TrimCheckCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;trim check...">
                   <visibleWhen>
                      <or>
@@ -489,16 +489,16 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <menu
-                  icon="icons/eventbased_cif.png"
+                  icon="icons/cif_eventbased.png"
                   id="org.eclipse.escet.cif.menu.synthesis.eventbased"
                   label="&amp;Event-based synthesis tools">
                <command
                      commandId="org.eclipse.escet.cif.eventbased.apps.DfaMinimizationCommand"
-                     icon="icons/eventbased_cif.png"
+                     icon="icons/cif_eventbased.png"
                      label="Apply &amp;DFA minimization...">
                   <visibleWhen>
                      <or>
@@ -541,7 +541,7 @@
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <command
                commandId="org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisCommand"
-               icon="icons/eventbased_cif.png"
+               icon="icons/cif_eventbased.png"
                label="Analyze Synthesis &amp;Result">
             <visibleWhen>
                <with variable="activeMenuSelection">

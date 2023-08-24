@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.java;
 
-import java.io.CharArrayReader;
+import java.io.StringReader;
 import java.util.List;
 
 /** Utility functions for handling CSV data. */
@@ -30,7 +30,7 @@ public class CsvUtils {
      * @return The constructed CSV parser.
      */
     public static CsvParser makeParser(String text) {
-        return new CsvParser(new CharArrayReader(text.toCharArray()));
+        return new CsvParser(new StringReader(text));
     }
 
     /**

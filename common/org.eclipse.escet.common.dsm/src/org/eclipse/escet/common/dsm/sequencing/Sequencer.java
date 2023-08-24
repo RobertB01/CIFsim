@@ -355,7 +355,9 @@ public class Sequencer {
             BitSet nonTearedOutputs = new BitSet();
             for (Edge e: vertex.outputs) {
                 collectionOutputs.set(e.consumingVertex);
-                nonTearedOutputs.set(e.consumingVertex, !e.teared);
+                if (!e.teared) {
+                    nonTearedOutputs.set(e.consumingVertex);
+                }
             }
 
             // Restrict the inputs and outputs of the internal element, and store it.

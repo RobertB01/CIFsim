@@ -19,17 +19,18 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Locale;
 
 /**
- * Parse a CSV file.
+ * Parse a Comma Separated Value (CSV) text in <a href="https://www.ietf.org/rfc/rfc4180.txt">RFC-4180</a> format.
  *
  * <p>
- * Provide the input to read through the constructor or {@link #setInput}, and
+ * Provide the input to read through the constructor or {@link #setInput}, and:
  * <ul>
  * <li>call repeatedly {@link #getLine} to get the next line until {@code null} is returned, or</li>
- * <li>call {@link #parseFile} to interpret the entire input as an RFC-4180 CSV file.</li>
+ * <li>call {@link #parse} to parse the entire input as an RFC-4180 CSV text.</li>
  * </ul>
- * Input is not closed by the class.
+ * The input reader is not closed by the parser.
  * </p>
  */
 public class CsvParser {
@@ -46,13 +47,13 @@ public class CsvParser {
     public static final char DQUOTE = '"';
 
     /**
-     * Input handle for reading characters, {@code null} if EOF has been seen.
+     * Reader for reading input characters, {@code null} if EOF has been seen.
      *
      * <p>
-     * Class does not handle closing the file handle, the caller is responsible for managing the file.
+     * The parser does not close the reader. The caller is responsible for closing it.
      * </p>
      */
-    private Reader handle = null;
+    private Reader reader = null;
 
     /**
      * Last read but not processed character. Negative if not valid.
@@ -65,8 +66,8 @@ public class CsvParser {
      * <p>
      * That decision also solves a second problem inside {@link #isEof}. In the {@link #isEof} function, if the
      * {@link #nextChar} buffer is empty, then trying to read from the input is the only way to detect that EOF has been
-     * reached in the file. However, if the file has not reached EOF, the read action unavoidably produces the next
-     * character from the file. That next character must be dealt with then. The decision to let the {@link #isEof}
+     * reached in the input. However, if the input has not reached EOF, the read action unavoidably produces the next
+     * character from the input. That next character must be dealt with then. The decision to let the {@link #isEof}
      * function handle filling {@link #nextChar} gives a simple way to solve that.
      * </p>
      */
@@ -79,41 +80,42 @@ public class CsvParser {
      * Constructor of the {@link CsvParser} class.
      *
      * <p>
-     * The input to process can also be set with {@link #setInput}.
+     * The input to parse can also be set with {@link #setInput}.
      * </p>
      *
-     * @param handle Input file to parse or {@code null} if it is set after construction. This class does not close the
-     *     handle.
+     * @param reader Reader for reading the input to parse, or {@code null} if it is set after construction. The parser
+     *     does not close the reader. The caller is responsible for closing it.
      */
-    public CsvParser(Reader handle) {
-        if (handle != null) {
-            setInput(handle);
+    public CsvParser(Reader reader) {
+        if (reader != null) {
+            setInput(reader);
         }
     }
 
     /**
-     * Setup file handle to read input.
+     * Setup reader to read input.
      *
-     * @param handle File handle to use for reading input, this class does not close the handle.
+     * @param reader Reader to use for reading input. The parser does not close the reader. The caller is responsible
+     *     for closing it.
      */
-    public void setInput(Reader handle) {
-        this.handle = handle;
+    public void setInput(Reader reader) {
+        this.reader = reader;
         nextChar = -1;
         numFields = -1;
     }
 
     /**
-     * Parse the CSV file text provided earlier as a list of lines of fields. Each line has the same number of fields,
-     * and there is at least one field and one line.
+     * Parse the CSV text provided as input, and produce a list of lines of fields. Each line has the same number of
+     * fields, and there is at least one field and one line.
      *
      * <p>
      * See RFC-4180 for details on the accepted syntax.
      * </p>
      *
      * @return Lines of the CSV text.
-     * @throws CsvParseError If the input data does not follow the RFC-4180 standard,
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
-    public List<List<String>> parseFile() {
+    public List<List<String>> parse() {
         List<List<String>> lines = list();
         while (true) {
             List<String> line = getLine();
@@ -126,10 +128,10 @@ public class CsvParser {
     }
 
     /**
-     * Read a line from the CSV file.
+     * Read a line from the CSV text.
      *
-     * @return Next line, or {@code null} if end of file has been reached.
-     * @throws CsvParseError If the input data does not follow the RFC-4180 standard.
+     * @return Next line, or {@code null} if end of input has been reached.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     public List<String> getLine() {
         if (numFields >= 0) {
@@ -143,9 +145,11 @@ public class CsvParser {
             if (!advanced) {
                 char k = get();
                 if (isPrintable(k)) {
-                    throw new CsvParseError(fmt("Unexpected character ('%c', value %d) found.", k, (int)k));
+                    throw new CsvParseError(fmt("Unexpected character '%c' (Unicode U+%s) found.", k,
+                            Integer.toHexString(k).toUpperCase(Locale.US)));
                 } else {
-                    throw new CsvParseError(fmt("Unexpected character (value %d) found.", (int)k));
+                    throw new CsvParseError(fmt("Unexpected character (Unicode U+%s) found.",
+                            Integer.toHexString(k).toUpperCase(Locale.US)));
                 }
             }
         }
@@ -163,9 +167,10 @@ public class CsvParser {
     }
 
     /**
-     * Read the next line from the input, aborts reading on anything non-familiar.
+     * Read the next line from the input.
      *
      * @return The fields of the read line.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     private List<String> readLine() {
         // ABNF: record = field *(COMMA field)
@@ -182,9 +187,10 @@ public class CsvParser {
     }
 
     /**
-     * Read the next field from the input, aborts reading on anything non-familiar.
+     * Read the next field from the input.
      *
-     * @return The text of the read field, may be the empty string.
+     * @return The text of the read field. May be an empty string.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     private String readField() {
         // ABNF: field = (escaped / non-escaped)
@@ -198,62 +204,63 @@ public class CsvParser {
     /**
      * Read a field protected with double quotes.
      *
-     * @return The text of the field.
+     * @return The text of the field. May be an empty string.
+     * @throws CsvParseError In case of an I/O error or if the input does not follow the RFC-4180 standard.
      */
     private String getQuotedField() {
         // ABNF: escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
         Assert.check(advanceChar(DQUOTE));
-        String s = "";
+        StringBuilder s = new StringBuilder();
         while (true) {
             if (isEof()) {
                 throw new CsvParseError("Unexpected EOF while reading a quoted string.");
             }
             char k = get();
             if (isTextData(k) || k == COMMA || k == CR || k == LF) {
-                s += k;
+                s.append(k);
                 advance();
                 continue;
             }
             if (k == DQUOTE) {
                 advance();
-                if (isEof()) { // DQUOTE and EOF, finish after DQUOTE
-                    return s;
+                if (isEof()) { // DQUOTE and EOF, finish after DQUOTE.
+                    return s.toString();
                 }
                 if (advanceChar(DQUOTE)) { // 2DQUOTE, unescape it and continue.
-                    s += DQUOTE;
-                    advance();
+                    s.append(DQUOTE);
                     continue;
                 }
-                return s; // DQUOTE and something else, finish after DQUOTE
+                return s.toString(); // DQUOTE and something else, finish after DQUOTE.
             }
         }
     }
 
     /**
-     * Collect the contents of an unquoted field, caller should check for the field being unquoted.
+     * Collect the contents of an unquoted field. Caller should check for the field being unquoted.
      *
-     * @return The collected field text.
+     * @return The collected field text. May be an empty string.
+     * @throws CsvParseError In case of an I/O error.
      */
     private String getUnquotedField() {
         // ABNF: non-escaped = *TEXTDATA
-        String s = "";
+        StringBuilder s = new StringBuilder();
         while (true) {
             if (isEof()) {
                 break;
             }
             char k = get();
             if (isTextData(k)) {
-                s += k;
+                s.append(k);
                 advance();
             } else {
                 break;
             }
         }
-        return s;
+        return s.toString();
     }
 
     /**
-     * Check if the given character is text data.
+     * Check whether the given character is text data.
      *
      * @param k Character to test.
      * @return Whether the character is text data.
@@ -266,7 +273,7 @@ public class CsvParser {
     }
 
     /**
-     * Check if the given character is printable.
+     * Check whether the given character is printable.
      *
      * @param k Character to test.
      * @return Whether the character is printable.
@@ -276,10 +283,11 @@ public class CsvParser {
     }
 
     /**
-     * Check if the next character is {@code k}. If so, advance the input.
+     * Check whether the next character is {@code k}. If so, advance the input.
      *
      * @param k Character to test against.
      * @return Whether a match was found and the input is advanced.
+     * @throws CsvParseError In case of an I/O error.
      */
     private boolean advanceChar(char k) {
         if (!isEof() && get() == k) {
@@ -291,9 +299,11 @@ public class CsvParser {
     }
 
     /**
-     * Get the next character from the input. The end of the input must not have been reached, input is not advanced.
+     * Get the next character from the input. The end of the input must not have been reached, and input is not
+     * advanced.
      *
      * @return The next character at the input.
+     * @throws CsvParseError In case of an I/O error.
      */
     private char get() {
         Assert.check(!isEof());
@@ -302,42 +312,47 @@ public class CsvParser {
         return (char)nextChar;
     }
 
-    /** Advance to the next input. The end of the input must not have been reached. */
+    /**
+     * Advance to the next input. The end of the input must not have been reached.
+     *
+     * @throws CsvParseError In case of an I/O error.
+     */
     private void advance() {
         Assert.check(!isEof());
         Assert.check(nextChar >= 0); // Side-effect of isEof() returning false.
 
-        // Invalidate read-ahead buffer, next call to a low-level IO function in the parser will fill it again if the
-        // file is not at EOF.
+        // Invalidate read-ahead buffer. Next call to a low-level I/O function in the parser will fill it again, if the
+        // input is not at EOF.
         nextChar = -1;
     }
 
     /**
-     * Check if the end of the input has been reached.
+     * Check whether the end of the input has been reached.
      *
      * <p>
      * This function also fills the read-ahead buffer {@link #nextChar}. For details, see {@link #nextChar}.
      * </p>
      *
      * @return Whether the end has been reached.
+     * @throws CsvParseError In case of an I/O error.
      */
     private boolean isEof() {
         if (nextChar >= 0) { // Data is available -> not EOF.
             return false;
         }
-        if (handle == null) { // No data and no input stream -> EOF.
+        if (reader == null) { // No data and no input stream -> EOF.
             return true;
         }
 
         // Read the next character.
         try {
-            nextChar = handle.read();
+            nextChar = reader.read();
         } catch (IOException ex) {
             throw new CsvParseError("Read error.", ex);
         }
 
         if (nextChar < 0) { // Read failed -> EOF found, disable further reading.
-            handle = null;
+            reader = null;
             return true;
         }
         return false; // Read succeeded, not at EOF.

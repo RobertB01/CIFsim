@@ -20,9 +20,15 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 /** {@link Set}s helper methods. */
 public class Sets {
@@ -355,5 +361,49 @@ public class Sets {
      */
     public static List<String> sortedstrings(Set<String> set) {
         return sortedgeneric(set, Strings.SORTER);
+    }
+
+    /**
+     * Construct a collector for storing the result of a stream in a set created using {@link #set}.
+     *
+     * @param <T> Type of the elements of the resulting set.
+     * @return Collector for collecting the result of the stream.
+     */
+    public static <T> Collector<T, Set<T>, Set<T>> toSet() {
+        return new Collector<>() {
+            @Override
+            public Supplier<Set<T>> supplier() {
+                return () -> set();
+            }
+
+            @Override
+            public BiConsumer<Set<T>, T> accumulator() {
+                return (collection, val) -> collection.add(val);
+            }
+
+            @Override
+            public BinaryOperator<Set<T>> combiner() {
+                return (firstSet, secondSet) -> {
+                    // Merge the smaller set into the bigger set.
+                    if (firstSet.size() > secondSet.size()) {
+                        firstSet.addAll(secondSet);
+                        return firstSet;
+                    } else {
+                        secondSet.addAll(firstSet);
+                        return secondSet;
+                    }
+                };
+            }
+
+            @Override
+            public Function<Set<T>, Set<T>> finisher() {
+                return result -> result;
+            }
+
+            @Override
+            public Set<Characteristics> characteristics() {
+                return EnumSet.of(Characteristics.IDENTITY_FINISH);
+            }
+        };
     }
 }
