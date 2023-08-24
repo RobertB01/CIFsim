@@ -46,6 +46,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -158,8 +159,13 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Determine checks to perform.
+        boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
+        boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
+
         // Perform computations for both checkers.
-        PrepareChecks prepareChecks = new PrepareChecks();
+        boolean computeGlobalGuardedUpdates = checkConfluence;
+        PrepareChecks prepareChecks = new PrepareChecks(computeGlobalGuardedUpdates);
         if (!prepareChecks.compute(spec)) {
             return 0; // Termination requested.
         }
@@ -171,9 +177,10 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             warn("The specification contains no used controllable events.");
         }
 
+        // Check finite response.
         CheckConclusion finiteResponseConclusion = null;
         boolean finiteResponseHolds;
-        if (EnableFiniteResponseChecking.checkFiniteResponse()) {
+        if (checkFiniteResponse) {
             // Check the finite response property.
             OutputProvider.out("Checking for finite response...");
             finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
@@ -185,9 +192,10 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             finiteResponseHolds = true; // Don't invalidate confluence checking result.
         }
 
+        // Check confluence.
         CheckConclusion confluenceConclusion = null;
         boolean confluenceHolds;
-        if (EnableConfluenceChecking.checkConfluence()) {
+        if (checkConfluence) {
             // Check the confluence property.
             OutputProvider.out();
             OutputProvider.out("Checking for confluence...");
@@ -223,6 +231,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
         dout();
 
+        // Return the application exit code, indicating whether the specification satisfies the checks.
         return (finiteResponseHolds && confluenceHolds) ? 0 : 1;
     }
 
