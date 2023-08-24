@@ -42,7 +42,7 @@ import org.eclipse.escet.common.java.Strings;
  * </p>
  */
 public class StoredOutputProvider {
-    /** Stroage of the produced output. */
+    /** Storage of the produced output. */
     private final StringBuilder stringStore = new StringBuilder();
 
     /** Whether debug output is enabled. */
@@ -103,7 +103,7 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the debug output stream for this string storage. Every call returns the same instance.
+     * Get the debug output stream for this provider. Every call returns the same instance.
      *
      * <p>
      * This function sets the prefix to {@code "DBG: "} if no debug output stream has been created before.
@@ -112,11 +112,11 @@ public class StoredOutputProvider {
      * @return The constructed debug output stream.
      */
     public DebugNormalOutput getDebugOutput() {
-        return getDebugOutput("DBG: ");
+        return getDebugOutput(null);
     }
 
     /**
-     * Get the debug output stream for this string storage. Every call returns the same instance.
+     * Get the debug output stream for this provider. Every call returns the same instance.
      *
      * @param linePrefix Prefix text added before a debug line. May be {@code null} to disable a prefix. Is used only
      *     during the first call since every next call will return the same instance.
@@ -130,7 +130,7 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the normal output stream for this string storage. Every call returns the same instance.
+     * Get the normal output stream for this provider. Every call returns the same instance.
      *
      * <p>
      * This function sets an empty prefix if no debug output stream has been created before.
@@ -143,7 +143,7 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the normal output stream for this string storage. Every call returns the same instance.
+     * Get the normal output stream for this provider. Every call returns the same instance.
      *
      * @param linePrefix Prefix text added before a normal line. May be {@code null} to disable a prefix. Is used only
      *     during the first call since every next call will return the same instance.
@@ -210,20 +210,20 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the warning output stream for this string storage. Every call returns the same instance.
+     * Get the warning output stream for this provider. Every call returns the same instance.
      *
      * <p>
-     * This function sets the prefix to {@code "WARN: "} if no warn output stream has been created before.
+     * This function sets the prefix to {@code "WARNING: "} if no warn output stream has been created before.
      * </p>
      *
      * @return The constructed warning output stream.
      */
     public WarnOutput geWarnOutput() {
-        return getWarnOutput("WARN");
+        return getWarnOutput("WARNING: ");
     }
 
     /**
-     * Get the warning output stream for this string storage. Every call returns the same instance.
+     * Get the warning output stream for this provider. Every call returns the same instance.
      *
      * @param linePrefix Prefix text added before a warning line. May be {@code null} to disable a prefix. Is used only
      *     during the first call since every next call will return the same instance.
@@ -252,7 +252,7 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the error output stream for this string storage. Every call returns the same instance.
+     * Get the error output stream for this provider. Every call returns the same instance.
      *
      * <p>
      * This function sets the prefix to {@code "ERROR: "} if no error output stream has been created before.
@@ -265,7 +265,7 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the error output stream for this string storage. Every call returns the same instance.
+     * Get the error output stream for this provider. Every call returns the same instance.
      *
      * @param linePrefix Prefix text added before an error line. May be {@code null} to disable a prefix. Is used only
      *     during the first call since every next call will return the same instance.
