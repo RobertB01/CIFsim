@@ -63,7 +63,7 @@ Make tree node for plant groups:
             - Grouptype CLUSTER
               Local nodes: {1}
     
-    Starting computing group content.
+    Starting computing Algorithm2 data by searching and modifying the matrices based on group information.
         Dumping P:
                :  0  1
               0:  .  .
@@ -73,8 +73,7 @@ Make tree node for plant groups:
               0: {}
         
         
-        Starting search
-        computeGroupContents RESULT for plant group members {0, 1}: {} plant groups, {} req groups
+        Updated Algorithm 2 data for plant group members {0, 1}: {} plant groups, {} req groups.
         Updated matrices:
             Dumping P:
                    :  0  1
@@ -94,9 +93,9 @@ Make tree node for plant groups:
         Dumping RP:
               0: {}
         
-        computeGroupContents RESULT for plant singleton group 0: {0} plant groups, {} req groups
+        Algorithm 2 data for singleton plant group 0: {0} plant groups, {} req groups.
         
-    ---------- DONE transformCluster for singleton
+    ---------- DONE transformCluster for singleton node.
     
     Make singleton tree node for plant group 1:
         Dumping P:
@@ -107,11 +106,11 @@ Make tree node for plant groups:
         Dumping RP:
               0: {}
         
-        computeGroupContents RESULT for plant singleton group 1: {1} plant groups, {} req groups
+        Algorithm 2 data for singleton plant group 1: {1} plant groups, {} req groups.
         
-    ---------- DONE transformCluster for singleton
+    ---------- DONE transformCluster for singleton node.
     
----------- DONE transformCluster for group
+---------- DONE transformCluster for group.
 
 Index: 0
 Plant groups: <none>
