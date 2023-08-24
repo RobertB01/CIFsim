@@ -41,7 +41,7 @@ public interface DebugNormalOutput {
     public void dec();
 
     /**
-     * Produce a line with the given message in the output stream if and only if the stream is enabled.
+     * Produce a line with the given message in the output stream, if and only if the stream is enabled.
      *
      * @param message Message to output.
      * @see #isEnabled
@@ -50,12 +50,12 @@ public interface DebugNormalOutput {
 
     /**
      * {@link Strings#fmt Format} the parameterized message and produce the result as a line of text in the output
-     * stream if and only if the stream is enabled.
+     * stream, if and only if the stream is enabled.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
      *
-     * <pre>if (isEnabled()) { line(...) }</pre>
+     * <pre>if (isEnabled()) { line(...); }</pre>
      *
      * This avoids evaluating the arguments if the output stream is disabled.
      * </p>
@@ -69,29 +69,29 @@ public interface DebugNormalOutput {
     }
 
     /**
-     * Produce an empty line in the output stream if and only if the stream is enabled.
+     * Produce an empty line in the output stream, if and only if the stream is enabled.
      *
-     * @see #isEnabled()
+     * @see #isEnabled
      */
     public default void line() {
         line("");
     }
 
     /**
-     * {@link Strings#fmt Format} the parameterized message, {@link Strings#wrap Wrap} the line if it is too long, and
-     * produce the result in the output stream if the stream is enabled.
+     * {@link Strings#fmt Format} the parameterized message, {@link Strings#wrap wrap} the line if it is too long. Then
+     * produce the result in the output stream, if the stream is enabled.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
      *
-     * <pre>if (isEnabled()) { wrap(...) }</pre>
+     * <pre>if (isEnabled()) { wrapped(...); }</pre>
      *
      * This avoids evaluating the arguments if the output is not enabled.
      * </p>
      *
-     * @param msg The 'normal' output (pattern) to wrap and forward.
-     * @param args The arguments of the 'normal' output pattern.
-     * @see #isEnabled()
+     * @param msg Pattern of the message text to wrap and output.
+     * @param args The arguments of the pattern text.
+     * @see #isEnabled
      */
     public default void wrapped(String msg, Object... args) {
         for (String txt: Strings.wrap(fmt(msg, args))) {

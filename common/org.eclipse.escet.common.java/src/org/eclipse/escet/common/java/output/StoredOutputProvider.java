@@ -17,16 +17,16 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 
 /**
- * Class that stores output lines from debug, normal, warning and/or error output streams.
+ * Provider that provides debug, normal, warning and/or error output streams, and stores their output.
  *
  * <p>
  * <ol>
- * <li>Instantiate the class to create output storage facilities. The instance can be queried afterwards to obtain the
- * stored output.</li>
- * <li>Create one or more output streams connected to the output storage by calling {@link #getDebugOutput},
+ * <li>Instantiate the class to create an output provider with storage. The provider can be queried afterwards to
+ * obtain the stored output.</li>
+ * <li>Create one or more output streams connected to the provider by calling {@link #getDebugOutput},
  * {@link #getNormalOutput}, {@link #getWarnOutput}, and/or {@link #getErrorOutput}. All created outputs share the
- * string storage, output from all created streams is added in the order of producing it.</li>
- * <li>To get the stored output, use {@link #toString} of the output storage instance.</li>
+ * same storage. Output from all created streams is added in the order of producing it.</li>
+ * <li>To get the stored output, invoke {@link #toString} on the provider.</li>
  * </ol>
  * </p>
  *
@@ -34,13 +34,12 @@ import org.eclipse.escet.common.java.Strings;
  * Other notes:
  * <ul>
  * <li>The output streams of {@link #getDebugOutput}, {@link #getNormalOutput}, {@link #getWarnOutput} and
- * {@link #getErrorOutput}.are lazily created and saved. Asking for the same stream more than once will return the same
+ * {@link #getErrorOutput} are lazily created and saved. Asking for the same stream more than once will return the same
  * output stream object on every call. This ensures that indentation levels etc are shared.</li>
- * <li>To get separate storage of the output for a stream, create an instance of this class dedicated for that
+ * <li>To get separate storage of the output for a stream, create a provider dedicated for that
  * stream.</li>
  * </ul>
  * </p>
- * ]
  */
 public class StoredOutputProvider {
     /** Stroage of the produced output. */
@@ -55,7 +54,7 @@ public class StoredOutputProvider {
     /** Whether warning output is enabled. */
     private final boolean isWarnEnabled;
 
-    /** Number of space to insert for a single indent level. */
+    /** Number of spaces to insert for a single indent level. */
     private final int indentSize;
 
     /** Output stream for debug output. Is lazily constructed. */
@@ -67,7 +66,7 @@ public class StoredOutputProvider {
     /** Output stream for waning output. Is lazily constructed. */
     private WarnOutput warnOutput = null;
 
-    /** Output stream for errpr output. Is lazily constructed. */
+    /** Output stream for error output. Is lazily constructed. */
     private ErrorOutput errorOutput = null;
 
     /** Constructor of the {@link StoredOutputProvider} class. */
@@ -76,7 +75,7 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Constructor of the {@link StoredOutputProvider} class.
+     * Constructor of the {@link StoredOutputProvider} class. Enables all streams. Uses 4 spaces for each indentation level.
      *
      * @param isDebugEnabled Whether debug output is enabled.
      * @param isNormalEnabled Whether normal output is enabled.
@@ -87,12 +86,12 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Constructor of the {@link StoredOutputProvider} class.
+     * Constructor of the {@link StoredOutputProvider} class. Uses 4 spaces for each indentation level.
      *
      * @param isDebugEnabled Whether debug output is enabled.
      * @param isNormalEnabled Whether normal output is enabled.
      * @param isWarnEnabled Whether warning output is enabled.
-     * @param indentSize Number of space to insert for a single indent level.
+     * @param indentSize Number of spaces to insert for a single indent level.
      */
     public StoredOutputProvider(boolean isDebugEnabled, boolean isNormalEnabled, boolean isWarnEnabled,
             int indentSize)
@@ -211,24 +210,24 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Get the warn output stream for this string storage. Every call returns the same instance.
+     * Get the warning output stream for this string storage. Every call returns the same instance.
      *
      * <p>
      * This function sets the prefix to {@code "WARN: "} if no warn output stream has been created before.
      * </p>
      *
-     * @return The constructed warn output stream.
+     * @return The constructed warning output stream.
      */
     public WarnOutput geWarnOutput() {
         return getWarnOutput("WARN");
     }
 
     /**
-     * Get the warn output stream for this string storage. Every call returns the same instance.
+     * Get the warning output stream for this string storage. Every call returns the same instance.
      *
-     * @param linePrefix Prefix text added before a warn line. May be {@code null} to disable a prefix. Is used only
+     * @param linePrefix Prefix text added before a warning line. May be {@code null} to disable a prefix. Is used only
      *     during the first call since every next call will return the same instance.
-     * @return The constructed warn output stream.
+     * @return The constructed warning output stream.
      */
     public WarnOutput getWarnOutput(String linePrefix) {
         if (warnOutput == null) {
