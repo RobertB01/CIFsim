@@ -39,16 +39,16 @@ import org.eclipse.escet.common.java.output.WarnOutput;
  */
 public class OutputProvider<T extends IOutputComponent> {
     /** Implementation of the application debug output stream. */
-    private static final DebugNormalOutput DEBUG_OUTPUT_PROVIDER;
+    private static final DebugNormalOutput DEBUG_OUTPUT;
 
     /** Implementation of the application normal output stream. */
-    private static final DebugNormalOutput NORMAL_OUTPUT_PROVIDER;
+    private static final DebugNormalOutput NORMAL_OUTPUT;
 
     /** Implementation of the application warning output stream. */
-    private static final WarnOutput WARN_OUTPUT_PROVIDER;
+    private static final WarnOutput WARN_OUTPUT;
 
     /** Implementation of the application error output stream. */
-    private static final ErrorOutput ERROR_OUTPUT_PROVIDER;
+    private static final ErrorOutput ERROR_OUTPUT;
 
     /** The output components to send output to. */
     protected final List<T> components = new CopyOnWriteArrayList<>();
@@ -63,7 +63,7 @@ public class OutputProvider<T extends IOutputComponent> {
     protected int warningCount = 0;
 
     static {
-        DEBUG_OUTPUT_PROVIDER = new DebugNormalOutput() {
+        DEBUG_OUTPUT = new DebugNormalOutput() {
             @Override
             public void line(String message) {
                 dbg(message);
@@ -84,7 +84,7 @@ public class OutputProvider<T extends IOutputComponent> {
                 ddbg();
             }
         };
-        NORMAL_OUTPUT_PROVIDER = new DebugNormalOutput() {
+        NORMAL_OUTPUT = new DebugNormalOutput() {
             @Override
             public void line(String message) {
                 out(message);
@@ -105,7 +105,7 @@ public class OutputProvider<T extends IOutputComponent> {
                 dout();
             }
         };
-        WARN_OUTPUT_PROVIDER = new WarnOutput() {
+        WARN_OUTPUT = new WarnOutput() {
             @Override
             public void line(String message) {
                 warn(message);
@@ -116,7 +116,7 @@ public class OutputProvider<T extends IOutputComponent> {
                 return dowarn();
             }
         };
-        ERROR_OUTPUT_PROVIDER = new ErrorOutput() {
+        ERROR_OUTPUT = new ErrorOutput() {
             @Override
             public void line(String message) {
                 err(message);
@@ -130,7 +130,7 @@ public class OutputProvider<T extends IOutputComponent> {
      * @return The debug output stream of the application.
      */
     public static DebugNormalOutput getDebugOutputStream() {
-        return DEBUG_OUTPUT_PROVIDER;
+        return DEBUG_OUTPUT;
     }
 
     /**
@@ -139,7 +139,7 @@ public class OutputProvider<T extends IOutputComponent> {
      * @return The normal output stream of the application.
      */
     public static DebugNormalOutput getNormalOutputStream() {
-        return NORMAL_OUTPUT_PROVIDER;
+        return NORMAL_OUTPUT;
     }
 
     /**
@@ -148,7 +148,7 @@ public class OutputProvider<T extends IOutputComponent> {
      * @return The warning output stream of the application.
      */
     public static WarnOutput getWarningOutputStream() {
-        return WARN_OUTPUT_PROVIDER;
+        return WARN_OUTPUT;
     }
 
     /**
@@ -157,7 +157,7 @@ public class OutputProvider<T extends IOutputComponent> {
      * @return The error output stream of the application.
      */
     public static ErrorOutput getErrorOutputStream() {
-        return ERROR_OUTPUT_PROVIDER;
+        return ERROR_OUTPUT;
     }
 
     /**
