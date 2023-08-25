@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import java.util.List;
+
 /** Interface for generators that construct PLC code for performing CIF events in the PLC. */
 public interface TransitionGenerator {
     /**
@@ -20,7 +22,7 @@ public interface TransitionGenerator {
      *
      * @param transitions Description of the event transitions that should be generated.
      */
-    void setTransitions(CifEventTransition transitions);
+    void setTransitions(List<CifEventTransition> transitions);
 
     /** Generate the event transition functions. */
     void generate();

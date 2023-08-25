@@ -22,9 +22,17 @@ The release notes for the versions of CIF and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 0.10
+=== Version 1.0
 
 TBD
+
+Improvements and fixes:
+
+* The CIF to Supremica transformation now correctly transforms multiple guards on an edge.
+Multiple guards are now combined into a single conjunction (issue {escet-issue}620[#620]).
+* The CIF documentation pages for the CIF code generator now use syntax highlighting for C and Java code (issue {escet-issue}569[#569]).
+
+=== Version 0.10 (2023-06-30)
 
 Language changes:
 

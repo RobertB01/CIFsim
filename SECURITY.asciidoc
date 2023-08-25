@@ -10,4 +10,14 @@ Whenever the Eclipse ESCET project fixes a vulnerability, it will be included in
 
 == Reporting a Vulnerability
 
-We recommend that in case of suspected vulnerabilities you do not use the ESCET public issue tracker, but instead contact the Eclipse Security Team directly via security@eclipse.org.
+We recommend that in case of suspected vulnerabilities you do not use the ESCET public issue tracker, but instead use one of the following options:
+
+* Report the vulnerability to the Eclipse Security Team, by creating an issue in their dedicated GitLab project:
+** Go to https://gitlab.eclipse.org.
+** Log in with your Eclipse Foundation account.
+** Go to https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/new?issuable_template=new_vulnerability.
+** Fill in the template as completely as possible.
+** Click _Create issue_.
+
+* Contact the Eclipse Security Team directly via security@eclipse-foundation.org.
+Please clearly mention that the suspected vulnerability affects the Eclipse ESCET project.

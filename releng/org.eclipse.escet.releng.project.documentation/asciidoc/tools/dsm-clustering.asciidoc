@@ -86,9 +86,9 @@ indexterm:[DSM clustering,input]
 [[tools-dsm-input]]
 === DSM file format
 
-A Design Structure Matrix (DSM) file is a CSV-like file that contains an _N_ times _N_ matrix of values.
+A Design Structure Matrix (DSM) file is an RFC-4180 compliant CSV file that contains an _N_ times _N_ matrix of values.
 Each line of the file contains a row of the matrix.
-Within the line, values are separated by commas.
+Within the line, values are separated by commas, and leading and trailing white space around each value is discarded.
 Both integer and real values are supported, such as `0`, `1`, `1.5`, `1e3` and `1.5e-4`.
 Negative values, `NaN` and infinite values are not allowed.
 Before the first number at each row there should be a label indicating the name of the element of that row.

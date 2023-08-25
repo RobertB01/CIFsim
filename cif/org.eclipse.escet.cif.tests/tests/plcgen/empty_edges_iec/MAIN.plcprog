@@ -1,0 +1,79 @@
+PROGRAM MAIN
+VAR_TEMP
+    channelValue: DINT;
+    current_Good_x: DINT;
+    current_Good_x__1: DINT;
+    eventEnabled: BOOL;
+    isProgress: BOOL;
+    receiverAut: DINT;
+    receiverEdge: DINT;
+    senderAut: DINT;
+    senderEdge: DINT;
+    syncAutEdge: DINT;
+    syncAutEdge__1: DINT;
+    syncAutEdge__2: DINT;
+    syncAutEdge__3: DINT;
+END_VAR
+
+IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    Good_x := 0;
+END_IF;
+
+isProgress := TRUE;
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (* Try to perform event "noSync". *)
+    eventEnabled := TRUE;
+    IF TRUE THEN
+        syncAutEdge := 1;
+    ELSE
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        current_Good_x := Good_x;
+        IF syncAutEdge = 1 THEN
+            Good_x := MOD(IN1 := current_Good_x + 1, IN2 := 6);
+        END_IF;
+    END_IF;
+    (* Try to perform event "noMonitor". *)
+    eventEnabled := TRUE;
+    IF TRUE THEN
+        syncAutEdge__2 := 1;
+    ELSE
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        current_Good_x__1 := Good_x;
+        IF syncAutEdge__2 = 1 THEN
+            Good_x := MOD(IN1 := current_Good_x__1 + 5, IN2 := 6);
+        END_IF;
+    END_IF;
+    (* Try to perform event "channel". *)
+    eventEnabled := TRUE;
+    senderAut := 0;
+    IF senderAut = 0 THEN
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        receiverAut := 0;
+        IF receiverAut = 0 THEN
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    IF eventEnabled THEN
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        isProgress := TRUE;
+    END_IF;
+END_WHILE;
+END_PROGRAM

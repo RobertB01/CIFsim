@@ -123,6 +123,10 @@ This should be automatic.
 The old version should no longer be present.
 This should be automatic.
 
+* Verify that the `version` of each `import feature` in all `feature.xml` files is properly updated.
+The old version should no longer be present.
+This should be automatic.
+
 * Verify that the `Bundle-Version` of all `MANIFEST.MF` files in `org.eclipse.escet.*` projects are properly updated.
 The old version should no longer be present.
 This should be automatic.
@@ -157,9 +161,6 @@ This should be automatic.
 * Verify that the `license-feature-version` of all `feature.xml` files in `org.eclipse.escet.*` projects are properly updated.
 The old version should no longer be present.
 This should be automatic.
-
-* Manually replace in all `feature.xml` files the regex `+<import feature="([^"]+)" version="<old-version>"/>+` by `+<import feature="\1" version="<new-version>"/>+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0.qualifier`.
-Check for unintended changes.
 
 * Manually search for the old version in all `features.xml` files to ensure none remain.
 
@@ -384,11 +385,9 @@ Immediately after the downloads being available, downloading them may thus be sl
 
 * Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
 For a version `v0.1`, the website can be accessed at `\https://eclipse.dev/escet/v0.1`.
-It may take a few minutes for the Git repository to be synced to the webserver and for the website for the new version to become available.
+It may take a few minutes for the link:https://gitlab.eclipse.org/eclipse/escet/escet-website/-/commits/master[new commit] to the Git repository to be synced to the webserver and for the website for the new version to become available.
 
-* If the website for the new release is to be the standard visible website for the project (at `https://eclipse.dev/escet`), it has to be manually replaced.
-This is to ensure that a bugfix release for an older version doesn't override the standard visible website.
-The following steps explain how to 'promote' a website for a specific version to become the standard visible website:
+* For a final release with a version number higher than that of the current standard visible website (at `https://eclipse.dev/escet`), promote the newly released website to be the new standard visible website:
 
 ** These steps assume that you've set up an Eclipse ESCET development environment, using the <<development-dev-env-setup-chapter-index,standard instructions>>, at `<path-to-dev-env>`.
 
