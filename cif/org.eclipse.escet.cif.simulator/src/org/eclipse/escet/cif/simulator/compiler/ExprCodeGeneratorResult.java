@@ -45,12 +45,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     /** The base name used for generating names for the extra methods. */
     public static final String METHOD_BASE_NAME = "evalExpression";
 
-    /**
-     * The counter with the next number to postfix to the {@link #methodBaseName base method name} to generate a unique
-     * method name.
-     */
-    private static int counter = 0;
-
     /** The limit after which generated code should be wrapped in separate method. */
     private static final int LIMIT = 1000;
 
@@ -62,11 +56,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
      */
     public ExprCodeGeneratorResult(String currentExprText, Expression expr) {
         this(list(), currentExprText, expr, 1);
-    }
-
-    /** Reset the method name postfix counter. */
-    public static void resetCounter() {
-        counter = 0;
     }
 
     /**
@@ -149,10 +138,8 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         }
 
         List<Triple<String, String, String>> newSubExprs = result.subExprs();
-        String methodName = fmt("%s%d", METHOD_BASE_NAME, counter);
+        String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.atomicIntegerGenerator.getAndIncrement());
         newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.expr().getType(), ctxt)));
-
-        counter++;
 
         return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.expr(), 1);
     }
