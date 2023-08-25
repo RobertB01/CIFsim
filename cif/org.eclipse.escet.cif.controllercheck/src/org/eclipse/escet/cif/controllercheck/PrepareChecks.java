@@ -367,7 +367,7 @@ public class PrepareChecks {
     }
 
     /**
-     * Get the global guarded updates of each used controllable event, it computing it is enabled.
+     * Get the global guarded updates of each used controllable event, if computing it is enabled.
      *
      * @return The global guarded updates of each used controllable event.
      * @throws IllegalStateException If computing global guarded updates is disabled.
