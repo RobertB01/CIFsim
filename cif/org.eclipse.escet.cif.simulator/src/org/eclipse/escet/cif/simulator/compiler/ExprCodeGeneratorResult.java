@@ -105,9 +105,10 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         while (!doesFit(resultsCopy)) {
             // Identify the largest result.
             ExprCodeGeneratorResult largest = getLargestResult(resultsCopy);
-            resultsCopy.remove(largest);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
-            resultsCopy.add(newLargest);
+            for (int index; (index = resultsCopy.indexOf(largest)) >= 0;) {
+                resultsCopy.set(index, newLargest);
+            }
         }
 
         String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[0]));
@@ -190,7 +191,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         Assert.check(!results.isEmpty());
 
         ExprCodeGeneratorResult largest = results.get(0);
-        int largestSize = largest.numNodes();
+        int largestSize = results.get(0).numNodes();
         for (int i = 1; i < results.size(); i++) {
             if (results.get(i).numNodes() > largestSize) {
                 largest = results.get(i);
