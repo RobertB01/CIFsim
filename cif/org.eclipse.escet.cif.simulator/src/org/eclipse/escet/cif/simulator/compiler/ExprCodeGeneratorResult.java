@@ -32,7 +32,7 @@ import org.eclipse.escet.common.java.Triple;
  *
  * @param subExprs The code to place in extra methods. Each triple consists of the expression code, the corresponding
  *     method name, and the return type of the method.
- * @param currentExprText The expression code that is below the {@link #limit} and thus not (yet) assigned to an extra
+ * @param currentExprText The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra
  *     method.
  * @param expr The expression of the {@link #currentExprText}. May be {@code null} if the result represents a list of
  *     expressions.
@@ -43,7 +43,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         Expression expr, int numNodes)
 {
     /** The base name used for generating names for the extra methods. */
-    public static String methodBaseName = "evalExpression";
+    public static final String METHOD_BASE_NAME = "evalExpression";
 
     /**
      * The counter with the next number to postfix to the {@link #methodBaseName base method name} to generate a unique
@@ -52,7 +52,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     private static int counter = 0;
 
     /** The limit after which generated code should be wrapped in separate method. */
-    private static int limit = 1000;
+    private static final int LIMIT = 1000;
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
@@ -67,15 +67,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     /** Reset the method name postfix counter. */
     public static void resetCounter() {
         counter = 0;
-    }
-
-    /**
-     * Set the base name used for generating names for the extra methods.
-     *
-     * @param baseName The new base name.
-     */
-    public void changeBaseName(String baseName) {
-        methodBaseName = baseName;
     }
 
     /**
@@ -119,7 +110,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         }
 
         // Prepare the merge.
-        Assert.check(limit > results.size()); // Otherwise the merged result will never fit within the limit.
+        Assert.check(LIMIT > results.size()); // Otherwise the merged result will never fit within the limit.
         List<ExprCodeGeneratorResult> resultsCopy = list(); // Make copy so we can mutate the list.
         resultsCopy.addAll(results);
         while (!doesFit(resultsCopy)) {
@@ -158,7 +149,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         }
 
         List<Triple<String, String, String>> newSubExprs = result.subExprs();
-        String methodName = fmt("%s%d", methodBaseName, counter);
+        String methodName = fmt("%s%d", METHOD_BASE_NAME, counter);
         newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.expr().getType(), ctxt)));
 
         counter++;
@@ -182,7 +173,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         String newExprText = fmt(formatString, this);
 
         ExprCodeGeneratorResult result = new ExprCodeGeneratorResult(this.subExprs, newExprText, expr, numNodes + 1);
-        if (numNodes + 1 >= limit) {
+        if (numNodes + 1 >= LIMIT) {
             result = createMethod(result, ctxt);
         }
         return result;
@@ -199,7 +190,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         for (ExprCodeGeneratorResult other: results) {
             total += other.numNodes;
         }
-        return total < limit;
+        return total < LIMIT;
     }
 
     /**
