@@ -29,8 +29,19 @@ import org.eclipse.escet.common.java.Triple;
 /**
  * The code generated for an expression. Parts of the code may be assigned to extra methods, to prevent issues with Java
  * code size limits, such as too much code in a single method.
+ *
+ * @param subExprs The code to place in extra methods. Each triple consists of the expression code, the corresponding
+ *     method name, and the return type of the method.
+ * @param currentExprText The expression code that is below the {@link #limit} and thus not (yet) assigned to an extra
+ *     method.
+ * @param expr The expression of the {@link #currentExprText}. May be {@code null} if the result represents a list of
+ *     expressions.
+ * @param numNodes Number of visited expression tree nodes that are captured by {@code currentExprText}. Is reset each
+ *     time code is assigned to an extra method.
  */
-public class ExprCodeGeneratorResult {
+public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subExprs, String currentExprText,
+        Expression expr, int numNodes)
+{
     /** The base name used for generating names for the extra methods. */
     public static String methodBaseName = "evalExpression";
 
@@ -44,48 +55,13 @@ public class ExprCodeGeneratorResult {
     private static int limit = 1000;
 
     /**
-     * The code to place in extra methods. Each triple consists of the expression code, the corresponding method name,
-     * and the return type of the method.
-     */
-    public List<Triple<String, String, String>> subExprs = list();
-
-    /** The expression code that is below the {@link #limit} and thus not (yet) assigned to an extra method. */
-    public String currentExprText;
-
-    /**
-     * The expression of the {@link #currentExprText}. May be {@code null} if the result represents a list of
-     * expressions.
-     */
-    public Expression expr;
-
-    /**
-     * Number of visited expression tree nodes that are captured by {@code currentExprText}. Is reset each time code is
-     * assigned to an extra method.
-     */
-    public int numNodes;
-
-    /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
-     * @param exprCode The initial expression code.
+     * @param currentExprText The initial expression code.
      * @param expr The expression of the code.
      */
-    public ExprCodeGeneratorResult(String exprCode, Expression expr) {
-        currentExprText = exprCode;
-        this.expr = expr;
-        numNodes = 1;
-    }
-
-    /**
-     * Constructor for the {@link ExprCodeGeneratorResult} class.
-     *
-     * @param result The {@link ExprCodeGeneratorResult} to copy.
-     */
-    public ExprCodeGeneratorResult(ExprCodeGeneratorResult result) {
-        subExprs = result.subExprs;
-        currentExprText = result.currentExprText;
-        expr = result.expr;
-        numNodes = result.numNodes;
+    public ExprCodeGeneratorResult(String currentExprText, Expression expr) {
+        this(list(), currentExprText, expr, 1);
     }
 
     /** Reset the method name postfix counter. */
@@ -101,42 +77,6 @@ public class ExprCodeGeneratorResult {
     public void changeBaseName(String baseName) {
         methodBaseName = baseName;
     }
-
-    // TODO Temporarily disabled non-static merge, because when we use a format string as input, we need the order of
-    // results to add. 'others' has an order, but unclear where 'this' to insert...
-//    /**
-//     * Merge one or more {@link ExprCodeGeneratorResult}s into this result.
-//     *
-//     * @param mergeFormatString The code string that represents the merging of the results.
-//     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-//     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
-//     */
-//    public void mergeInto(String mergeFormatString, String type, ExprCodeGeneratorResult... others) {
-//        mergeInto(mergeFormatString, type, Arrays.asList(others));
-//    }
-//
-//    /**
-//     * Merge one or more {@link ExprCodeGeneratorResult}s into this result.
-//     *
-//     * @param mergeFormatString The code string that represents the merging of the results.
-//     * @param type The output type of the new method, if created. If {@code null}, no new method is created.
-//     * @param others The other {@link ExprCodeGeneratorResult} to be merged into this result.
-//     */
-//    public void mergeInto(String mergeFormatString, String type, List<ExprCodeGeneratorResult> others) {
-//        // With merging, the {@code subExprs} are added to this one. If the number of combined nodes exceeds the limit,
-//        // the current expression code is assigned to a method and the new current code expression text starts with a
-//        // call to this method.
-//        // TODO We need the order of results to add. 'others' has an order, but unclear where 'this' to insert.
-//        currentExprText = fmt(mergeFormatString);
-//        for (ExprCodeGeneratorResult other: others) {
-//            subExprs.addAll(other.subExprs);
-//            numNodes += other.numNodes;
-//        }
-//
-//        if (type != null && numNodes >= limit) {
-//            createMethod(type);
-//        }
-//    }
 
     /**
      * Merge {@link ExprCodeGeneratorResult}s together. The order of the supplied results should match with the order of
@@ -175,48 +115,55 @@ public class ExprCodeGeneratorResult {
         }
 
         if (results.size() == 1) {
-            results.get(0).updateCurrentExprText(mergeFormatString, expr, ctxt);
-            return results.get(0);
+            return results.get(0).updateCurrentExprText(mergeFormatString, expr, ctxt);
         }
 
         // Prepare the merge.
         Assert.check(limit > results.size()); // Otherwise the merged result will never fit within the limit.
-        while (!doesFit(results)) {
+        List<ExprCodeGeneratorResult> resultsCopy = list(); // Make copy so we can mutate the list.
+        resultsCopy.addAll(results);
+        while (!doesFit(resultsCopy)) {
             // Identify the largest result.
-            ExprCodeGeneratorResult largest = getLargestResult(results);
-            largest.createMethod(ctxt);
+            ExprCodeGeneratorResult largest = getLargestResult(resultsCopy);
+            resultsCopy.remove(largest);
+            ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
+            resultsCopy.add(newLargest);
         }
 
-        String exprText = fmt(mergeFormatString, results.toArray(new ExprCodeGeneratorResult[0]));
+        String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[0]));
 
         // Perform the actual merge.
-        List<ExprCodeGeneratorResult> subResults = results.subList(0, results.size() - 1);
-        ExprCodeGeneratorResult lastResult = results.get(results.size() - 1);
-        for (ExprCodeGeneratorResult result: subResults) {
-            lastResult.subExprs.addAll(result.subExprs);
-            lastResult.numNodes += result.numNodes;
+        List<Triple<String, String, String>> mergedSubExprs = list();
+        int mergedNumNodes = 0;
+        for (ExprCodeGeneratorResult result: resultsCopy) {
+            mergedSubExprs.addAll(result.subExprs);
+            mergedNumNodes += result.numNodes;
         }
-        lastResult.currentExprText = exprText;
-        lastResult.expr = expr;
-        return lastResult;
+
+        return new ExprCodeGeneratorResult(mergedSubExprs, exprText, expr, mergedNumNodes);
     }
 
     /**
-     * Assign the current expression code to a new method.
+     * Assign the supplied expression code to a new method.
      *
+     * @param result The result to encapsulate with a new method.
      * @param ctxt The compiler context to use.
+     * @return New result where the current expression code is assigned to a new method, if possible.
      */
-    public void createMethod(CifCompilerContext ctxt) {
+    private static ExprCodeGeneratorResult createMethod(ExprCodeGeneratorResult result, CifCompilerContext ctxt) {
         // Skip if expr is null, as we cannot fetch a proper return type.
-        if (expr == null) {
-            return;
+        // TODO See if we can get rid of having potential null expressions.
+        if (result.expr() == null) {
+            return result;
         }
 
+        List<Triple<String, String, String>> newSubExprs = result.subExprs();
         String methodName = fmt("%s%d", methodBaseName, counter);
-        subExprs.add(triple(currentExprText, methodName, gencodeType(expr.getType(), ctxt)));
-        currentExprText = fmt("%s(state)", methodName);
+        newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.expr().getType(), ctxt)));
+
         counter++;
-        numNodes = 1;
+
+        return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.expr(), 1);
     }
 
     /**
@@ -225,17 +172,20 @@ public class ExprCodeGeneratorResult {
      * @param formatString The format string in which the current expression code text is inserted.
      * @param expr The expression of the code.
      * @param ctxt The compiler context to use.
+     * @return The updated result.
      */
-    public void updateCurrentExprText(String formatString, Expression expr, CifCompilerContext ctxt) {
+    public ExprCodeGeneratorResult updateCurrentExprText(String formatString, Expression expr,
+            CifCompilerContext ctxt)
+    {
         // TODO We now rely upon fmt to check whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
-        currentExprText = fmt(formatString, this);
-        this.expr = expr;
-        numNodes++;
+        String newExprText = fmt(formatString, this);
 
-        if (numNodes >= limit) {
-            createMethod(ctxt);
+        ExprCodeGeneratorResult result = new ExprCodeGeneratorResult(this.subExprs, newExprText, expr, numNodes + 1);
+        if (numNodes + 1 >= limit) {
+            result = createMethod(result, ctxt);
         }
+        return result;
     }
 
     /**
@@ -253,19 +203,23 @@ public class ExprCodeGeneratorResult {
     }
 
     /**
-     * Get the largest result in terms of number of nodes.
+     * Get the index of the largest result in terms of number of nodes.
      *
      * @param results The results to search in.
-     * @return The largest result in terms of number of nodes.
+     * @return The index of the largest result in terms of number of nodes.
      */
     private static ExprCodeGeneratorResult getLargestResult(List<ExprCodeGeneratorResult> results) {
-        ExprCodeGeneratorResult largest = null;
-        int sizeLargest = 0;
-        for (ExprCodeGeneratorResult result: results) {
-            if (result.numNodes > sizeLargest) {
-                largest = result;
+        Assert.check(!results.isEmpty());
+
+        ExprCodeGeneratorResult largest = results.get(0);
+        int largestSize = largest.numNodes();
+        for (int i = 1; i < results.size(); i++) {
+            if (results.get(i).numNodes() > largestSize) {
+                largest = results.get(i);
+                largestSize = largest.numNodes();
             }
         }
+
         return largest;
     }
 

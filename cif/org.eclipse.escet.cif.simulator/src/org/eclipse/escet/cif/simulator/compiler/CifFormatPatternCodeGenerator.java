@@ -102,11 +102,11 @@ public class CifFormatPatternCodeGenerator {
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
-                        String argCode = valueRslts.get(idx).currentExprText;
+                        String argCode = valueRslts.get(idx).currentExprText();
                         argCode = "runtimeToString(" + argCode + ")";
-                        // A copy is made to prevent multiple uses to be affected.
-                        rslt = new ExprCodeGeneratorResult(valueRslts.get(idx));
-                        rslt.currentExprText = argCode;
+                        ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
+                        rslt = new ExprCodeGeneratorResult(valueRslt.subExprs(), argCode, valueRslt.expr(),
+                                valueRslt.numNodes());
                     } else {
                         rslt = valueRslts.get(idx);
                     }

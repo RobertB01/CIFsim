@@ -150,10 +150,10 @@ public class ExprCodeGenerator {
         }
 
         // General case.
-        rslt.updateCurrentExprText(fmt("(%s)", rslt), preds.get(0), ctxt);
+        rslt = rslt.updateCurrentExprText(fmt("(%s)", rslt), preds.get(0), ctxt);
         for (int i = 1; i < preds.size(); i++) {
             ExprCodeGeneratorResult prslt = gencodeExpr(preds.get(i), ctxt, state);
-            prslt.updateCurrentExprText(fmt("(%s)", prslt), preds.get(i), ctxt);
+            prslt = prslt.updateCurrentExprText(fmt("(%s)", prslt), preds.get(i), ctxt);
             rslt = merge("%s && %s", null, ctxt, rslt, prslt);
         }
         return rslt;
@@ -330,8 +330,7 @@ public class ExprCodeGenerator {
             throw new RuntimeException(msg);
         }
 
-        crslt.updateCurrentExprText(text, expr, ctxt);
-        return crslt;
+        return crslt.updateCurrentExprText(text, expr, ctxt);
     }
 
     /**
@@ -374,8 +373,7 @@ public class ExprCodeGenerator {
                 throw new RuntimeException("Unknown unop: " + expr.getOperator());
         }
 
-        crslt.updateCurrentExprText(text, expr, ctxt);
-        return crslt;
+        return crslt.updateCurrentExprText(text, expr, ctxt);
     }
 
     /**
@@ -508,8 +506,7 @@ public class ExprCodeGenerator {
                 throw new RuntimeException("Unknown binop: " + expr.getOperator());
         }
 
-        lrslt = merge(text, expr, ctxt, lrslt, rrslt);
-        return lrslt;
+        return merge(text, expr, ctxt, lrslt, rrslt);
     }
 
     /**
@@ -588,7 +585,7 @@ public class ExprCodeGenerator {
 
             ExprCodeGeneratorResult keyRslt = gencodeExpr(key, ctxt, state);
             if (valueTxt != null) {
-                keyRslt.updateCurrentExprText(fmt("equal(%s, %s)", valueTxt, keyRslt), expr, ctxt);
+                keyRslt = keyRslt.updateCurrentExprText(fmt("equal(%s, %s)", valueTxt, keyRslt), expr, ctxt);
             }
 
             // Wrap result code for this case.
@@ -621,8 +618,7 @@ public class ExprCodeGenerator {
             // Get field (name).
             Field field = ((FieldExpression)expr.getIndex()).getField();
             String fieldName = ctxt.getTupleTypeFieldFieldName(field);
-            crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), expr, ctxt);
-            return crslt;
+            return crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), expr, ctxt);
         }
 
         // Case distinction on child.
@@ -640,8 +636,7 @@ public class ExprCodeGenerator {
             // Generate and return projection code.
             TupleType tupleType = (TupleType)nctype;
             String fieldName = ctxt.getTupleTypeFieldFieldName(tupleType, idx);
-            crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), expr, ctxt);
-            return crslt;
+            return crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), expr, ctxt);
         } else {
             // List, dictionary, and string.
             ExprCodeGeneratorResult irslt = gencodeExpr(expr.getIndex(), ctxt, state);
@@ -954,8 +949,7 @@ public class ExprCodeGenerator {
                 // Should never get here.
                 throw new RuntimeException("Unknown stdlib func: " + stdlib);
         }
-        argsTxt.updateCurrentExprText(text, expr, ctxt);
-        return argsTxt;
+        return argsTxt.updateCurrentExprText(text, expr, ctxt);
     }
 
     /**
@@ -990,8 +984,7 @@ public class ExprCodeGenerator {
 
         // For non-empty lists, add the elements.
         ExprCodeGeneratorResult elemRslt = gencodeExprs(expr.getElements(), ctxt, state);
-        elemRslt.updateCurrentExprText(fmt("makelist(%s, %s)", rslt, elemRslt), expr, ctxt);
-        return elemRslt;
+        return elemRslt.updateCurrentExprText(fmt("makelist(%s, %s)", rslt, elemRslt), expr, ctxt);
     }
 
     /**
@@ -1026,8 +1019,7 @@ public class ExprCodeGenerator {
 
         // For non-empty sets, add the elements.
         ExprCodeGeneratorResult elemRslt = gencodeExprs(expr.getElements(), ctxt, state);
-        elemRslt.updateCurrentExprText(fmt("makeset(%s, %s)", rslt, elemRslt), expr, ctxt);
-        return elemRslt;
+        return elemRslt.updateCurrentExprText(fmt("makeset(%s, %s)", rslt, elemRslt), expr, ctxt);
     }
 
     /**
@@ -1048,8 +1040,7 @@ public class ExprCodeGenerator {
 
         // Generate constructor call code.
         ExprCodeGeneratorResult frslt = gencodeExprs(expr.getFields(), ctxt, state);
-        frslt.updateCurrentExprText(fmt("new %s(%s)", className, frslt), expr, ctxt);
-        return frslt;
+        return frslt.updateCurrentExprText(fmt("new %s(%s)", className, frslt), expr, ctxt);
     }
 
     /**
