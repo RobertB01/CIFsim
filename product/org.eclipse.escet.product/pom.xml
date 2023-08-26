@@ -38,6 +38,12 @@
 
                     <!-- Custom archive file name (excluding file extension). -->
                     <finalName>eclipse-escet-incubation-${escet.version.enduser}-updatesite</finalName>
+
+                    <!-- Include all P2 update sites from the target platform as references in the update site. -->
+                    <addIUTargetRepositoryReferences>true</addIUTargetRepositoryReferences>
+
+                    <!-- Include sources for all artifacts in the update site, if available. -->
+                    <includeAllSources>true</includeAllSources>
                 </configuration>
             </plugin>
 
@@ -48,13 +54,6 @@
                 <version>${tycho.version}</version>
 
                 <configuration>
-                    <!-- Set archive format to use, per platform. -->
-                    <formats>
-                        <linux>tar.gz</linux>
-                        <macosx>tar.gz</macosx>
-                        <win32>zip</win32>
-                    </formats>
-
                     <!-- Set archive file name to use. -->
                     <products>
                         <product>

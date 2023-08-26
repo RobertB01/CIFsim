@@ -88,6 +88,4 @@
          Eclipse ESCET tooling for the ToolDef scripting language.
       </description>
    </category-def>
-   <repository-reference location="https://download.eclipse.org/releases/2023-03" enabled="true" />
-   <repository-reference location="https://download.eclipse.org/tools/orbit/downloads/drops/R20230302014618/repository" enabled="true" />
 </site>
