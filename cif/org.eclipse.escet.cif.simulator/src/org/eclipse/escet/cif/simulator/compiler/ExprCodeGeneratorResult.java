@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Triple;
 
@@ -36,28 +36,27 @@ import org.eclipse.escet.common.java.Triple;
  *     method name, and the return type of the method.
  * @param currentExprText The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra
  *     method.
- * @param expr The expression for which the code was generated. May be {@code null} if the result represents a list of
- *     expressions.
+ * @param type The expression's type for which the code was generated.
  * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
  *     code is assigned to an extra method.
  */
 public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subExprs, String currentExprText,
-        Expression expr, int numNodes)
+        CifType type, int numNodes)
 {
     /** The base name used for generating names for the extra methods. */
     public static final String METHOD_BASE_NAME = "evalExpression";
 
     /** The limit after which generated code should be wrapped in separate method. */
-    private static final int LIMIT = 10;
+    private static final int LIMIT = 100;
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
      * @param currentExprText The initial expression code.
-     * @param expr The expression of the code.
+     * @param type The type of the code.
      */
-    public ExprCodeGeneratorResult(String currentExprText, Expression expr) {
-        this(list(), currentExprText, expr, 1);
+    public ExprCodeGeneratorResult(String currentExprText, CifType type) {
+        this(list(), currentExprText, type, 1);
     }
 
     /**
@@ -65,15 +64,15 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
      * placeholders in the format string.
      *
      * @param mergeFormatString The code format string that represents the merging of the results.
-     * @param expr The expression of the code.
+     * @param type The type of the code.
      * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
      */
-    public static ExprCodeGeneratorResult merge(String mergeFormatString, Expression expr, CifCompilerContext ctxt,
+    public static ExprCodeGeneratorResult merge(String mergeFormatString, CifType type, CifCompilerContext ctxt,
             ExprCodeGeneratorResult... results)
     {
-        return merge(mergeFormatString, expr, ctxt, Arrays.asList(results));
+        return merge(mergeFormatString, type, ctxt, Arrays.asList(results));
     }
 
     /**
@@ -81,23 +80,23 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
      * placeholders in the format string.
      *
      * @param mergeFormatString The format code string that represents the merging of the results.
-     * @param expr The expression of the code.
+     * @param type The type of the code.
      * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
      */
-    public static ExprCodeGeneratorResult merge(String mergeFormatString, Expression expr, CifCompilerContext ctxt,
+    public static ExprCodeGeneratorResult merge(String mergeFormatString, CifType type, CifCompilerContext ctxt,
             List<ExprCodeGeneratorResult> results)
     {
         // TODO I am using/abusing fmt to check the whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
 
         if (results.isEmpty()) {
-            return new ExprCodeGeneratorResult(fmt(mergeFormatString), expr);
+            return new ExprCodeGeneratorResult(fmt(mergeFormatString), type);
         }
 
         if (results.size() == 1) {
-            return results.get(0).updateCurrentExprText(mergeFormatString, expr, ctxt);
+            return results.get(0).updateCurrentExprText(mergeFormatString, type, ctxt);
         }
 
         // Prepare the merge.
@@ -128,7 +127,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
             mergedNumNodes += result.numNodes();
         }
 
-        return new ExprCodeGeneratorResult(mergedSubExprs, exprText, expr, mergedNumNodes);
+        return new ExprCodeGeneratorResult(mergedSubExprs, exprText, type, mergedNumNodes);
     }
 
     /**
@@ -141,33 +140,32 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     private static ExprCodeGeneratorResult createMethod(ExprCodeGeneratorResult result, CifCompilerContext ctxt) {
         // Skip if expr is null, as we cannot fetch a proper return type.
         // TODO See if we can get rid of having potential null expressions.
-        if (result.expr() == null) {
+        Assert.notNull(result.type()); // TODO To see which expressions are still problematic.
+        if (result.type() == null) {
             return result;
         }
 
         List<Triple<String, String, String>> newSubExprs = result.subExprs();
         String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.atomicIntegerGenerator.getAndIncrement());
-        newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.expr().getType(), ctxt)));
+        newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.type(), ctxt)));
 
-        return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.expr(), 1);
+        return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.type(), 1);
     }
 
     /**
      * Update the current expression code text and, if needed, create a new method.
      *
      * @param formatString The format string in which the current expression code text is inserted.
-     * @param expr The expression of the code.
+     * @param type The type of the code.
      * @param ctxt The compiler context to use.
      * @return The updated result.
      */
-    public ExprCodeGeneratorResult updateCurrentExprText(String formatString, Expression expr,
-            CifCompilerContext ctxt)
-    {
+    public ExprCodeGeneratorResult updateCurrentExprText(String formatString, CifType type, CifCompilerContext ctxt) {
         // TODO We now rely upon fmt to check whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
         String newExprText = fmt(formatString, this);
 
-        ExprCodeGeneratorResult result = new ExprCodeGeneratorResult(this.subExprs, newExprText, expr, numNodes + 1);
+        ExprCodeGeneratorResult result = new ExprCodeGeneratorResult(this.subExprs, newExprText, type, numNodes + 1);
         if (numNodes + 1 >= LIMIT) {
             result = createMethod(result, ctxt);
         }

@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCastExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -110,9 +109,8 @@ public class CifFormatPatternCodeGenerator {
                         rslt = indicesSeen.get(idx);
                         if (rslt == null) {
                             ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
-                            Expression castExpr = newCastExpression(null, null, newStringType());
-                            rslt = valueRslt.updateCurrentExprText(fmt("runtimeToString(%s)", valueRslt), castExpr,
-                                    ctxt);
+                            rslt = valueRslt.updateCurrentExprText(fmt("runtimeToString(%s)", valueRslt),
+                                    newStringType(), ctxt);
                             indicesSeen.put(idx, rslt);
                         }
                     } else {
@@ -142,6 +140,6 @@ public class CifFormatPatternCodeGenerator {
         }
         rslt.append(String.join(", ", argCodes));
         rslt.append(")");
-        return ExprCodeGeneratorResult.merge(rslt.toString(), expr, ctxt, argRslts);
+        return ExprCodeGeneratorResult.merge(rslt.toString(), expr.getType(), ctxt, argRslts);
     }
 }
