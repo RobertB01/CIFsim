@@ -3,8 +3,6 @@ Checking for finite response...
 
 Iteration 1.
 
-Checking for confluence...
-
 CONCLUSION:
     [OK] The specification has finite response.
-    [OK] The specification has confluence.
+    Confluence checking was disabled, confluence property is unknown.

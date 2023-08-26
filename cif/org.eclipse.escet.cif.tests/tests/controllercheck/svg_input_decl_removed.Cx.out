@@ -1,17 +1,7 @@
 Loading CIF specification "controllercheck/svg_input_decl_removed.cif"...
-Checking for finite response...
-
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton p:
-        (p.c), which is not controllable unconnectable.
 
 Checking for confluence...
 
 CONCLUSION:
-    [ERROR] The specification may NOT have finite response.
-    
-        At least one controllable-event loop was found.
-        The following events might still occur in a controllable-event loop:
-            - p.c
-
+    Finite response checking was disabled, finite response property is unknown.
     [OK] The specification has confluence.

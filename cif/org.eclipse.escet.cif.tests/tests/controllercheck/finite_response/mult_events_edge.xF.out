@@ -8,14 +8,6 @@ Iteration 1.
         (A.b A.c A.e), which is not controllable unconnectable.
         (A.b A.d A.e), which is not controllable unconnectable.
 
-Checking for confluence...
-
-Mutual exclusive event pairs:
-    (A.a, A.c), (A.a, A.d), (A.a, A.e), (A.b, A.c), (A.b, A.d), (A.b, A.e), (A.c, A.e), (A.d, A.e)
-
-Update equivalent event pairs:
-    (A.a, A.b), (A.c, A.d)
-
 CONCLUSION:
     [ERROR] The specification may NOT have finite response.
     
@@ -27,4 +19,4 @@ CONCLUSION:
             - A.d
             - A.e
 
-    [OK] The specification has confluence.
+    Confluence checking was disabled, confluence property is unknown.

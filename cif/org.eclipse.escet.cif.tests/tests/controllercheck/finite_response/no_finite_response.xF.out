@@ -8,11 +8,6 @@ Iteration 1.
         (Actuator.c_on), which is not controllable unconnectable.
         (Actuator.c_off), which is not controllable unconnectable.
 
-Checking for confluence...
-
-Mutual exclusive event pairs:
-    (Actuator.c_off, Actuator.c_on)
-
 CONCLUSION:
     [ERROR] The specification may NOT have finite response.
     
@@ -21,4 +16,4 @@ CONCLUSION:
             - Actuator.c_off
             - Actuator.c_on
 
-    [OK] The specification has confluence.
+    Confluence checking was disabled, confluence property is unknown.

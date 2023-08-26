@@ -23,14 +23,6 @@ Iteration 2.
         (Aut1.c_a), which is not controllable unconnectable.
         (Aut4.c_a), which is not controllable unconnectable.
 
-Checking for confluence...
-
-Mutual exclusive event pairs:
-    (Aut1.c_a, Aut1.c_b), (Aut1.c_a, Aut2.c_a), (Aut1.c_a, Aut5.c_a), (Aut1.c_b, Aut2.c_a), (Aut1.c_b, Aut5.c_a), (Aut2.c_a, Aut2.c_b), (Aut2.c_a, Aut3.c_a), (Aut2.c_a, Aut3.c_b), (Aut2.c_a, Aut4.c_a), (Aut2.c_a, Aut4.c_b), (Aut2.c_a, Aut5.c_a), (Aut2.c_a, Aut5.c_b), (Aut2.c_a, Aut6.c_a), (Aut2.c_a, Aut6.c_b), (Aut2.c_b, Aut5.c_a), (Aut3.c_a, Aut3.c_b), (Aut3.c_a, Aut5.c_a), (Aut3.c_a, Aut6.c_b), (Aut3.c_b, Aut5.c_a), (Aut3.c_b, Aut6.c_a), (Aut4.c_a, Aut4.c_b), (Aut4.c_a, Aut5.c_a), (Aut4.c_b, Aut5.c_a), (Aut5.c_a, Aut5.c_b), (Aut5.c_a, Aut6.c_a), (Aut5.c_a, Aut6.c_b), (Aut6.c_a, Aut6.c_b)
-
-Independent event pairs:
-    (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
-
 CONCLUSION:
     [ERROR] The specification may NOT have finite response.
     
@@ -41,7 +33,4 @@ CONCLUSION:
             - Aut4.c_a
             - Aut4.c_b
 
-    [ERROR] The specification may NOT have confluence.
-    
-        Confluence of the following event pairs could not be decided:
-            (Aut1.c_a, Aut2.c_b), (Aut1.c_a, Aut3.c_a), (Aut1.c_a, Aut3.c_b), (Aut1.c_a, Aut4.c_a), (Aut1.c_a, Aut4.c_b), (Aut1.c_a, Aut5.c_b), (Aut1.c_a, Aut6.c_a), (Aut1.c_a, Aut6.c_b), (Aut1.c_b, Aut3.c_a), (Aut1.c_b, Aut3.c_b), (Aut1.c_b, Aut4.c_a), (Aut1.c_b, Aut6.c_a), (Aut1.c_b, Aut6.c_b), (Aut2.c_b, Aut3.c_a), (Aut2.c_b, Aut3.c_b), (Aut2.c_b, Aut4.c_a), (Aut2.c_b, Aut6.c_a), (Aut2.c_b, Aut6.c_b), (Aut3.c_a, Aut4.c_a), (Aut3.c_a, Aut4.c_b), (Aut3.c_a, Aut5.c_b), (Aut3.c_a, Aut6.c_a), (Aut3.c_b, Aut4.c_a), (Aut3.c_b, Aut4.c_b), (Aut3.c_b, Aut5.c_b), (Aut3.c_b, Aut6.c_b), (Aut4.c_a, Aut5.c_b), (Aut4.c_a, Aut6.c_a), (Aut4.c_a, Aut6.c_b), (Aut4.c_b, Aut6.c_a), (Aut4.c_b, Aut6.c_b), (Aut5.c_b, Aut6.c_a), (Aut5.c_b, Aut6.c_b)
+    Confluence checking was disabled, confluence property is unknown.

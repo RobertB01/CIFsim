@@ -17,11 +17,6 @@ Iteration 2.
         (A.m A.o), which is not controllable unconnectable.
         (A.r A.s A.t), which is not controllable unconnectable.
 
-Checking for confluence...
-
-Mutual exclusive event pairs:
-    (A.a, A.b), (A.a, A.c), (A.a, A.d), (A.a, A.e), (A.a, A.f), (A.a, A.g), (A.a, A.h), (A.a, A.i), (A.a, A.j), (A.a, A.k), (A.a, A.l), (A.a, A.m), (A.a, A.o), (A.a, A.p), (A.a, A.q), (A.a, A.r), (A.a, A.s), (A.a, A.t), (A.b, A.e), (A.b, A.f), (A.b, A.g), (A.b, A.h), (A.b, A.i), (A.b, A.j), (A.b, A.k), (A.b, A.l), (A.b, A.m), (A.b, A.o), (A.b, A.p), (A.b, A.q), (A.b, A.r), (A.b, A.s), (A.b, A.t), (A.c, A.e), (A.c, A.f), (A.c, A.g), (A.c, A.h), (A.c, A.i), (A.c, A.j), (A.c, A.k), (A.c, A.l), (A.c, A.m), (A.c, A.o), (A.c, A.p), (A.c, A.q), (A.c, A.r), (A.c, A.s), (A.c, A.t), (A.d, A.e), (A.d, A.f), (A.d, A.g), (A.d, A.h), (A.d, A.i), (A.d, A.j), (A.d, A.k), (A.d, A.l), (A.d, A.m), (A.d, A.o), (A.d, A.p), (A.d, A.q), (A.d, A.r), (A.d, A.s), (A.d, A.t), (A.e, A.f), (A.e, A.g), (A.e, A.h), (A.e, A.i), (A.e, A.j), (A.e, A.k), (A.e, A.l), (A.e, A.m), (A.e, A.o), (A.e, A.p), (A.e, A.q), (A.e, A.r), (A.e, A.s), (A.e, A.t), (A.f, A.h), (A.f, A.i), (A.f, A.j), (A.f, A.k), (A.f, A.l), (A.f, A.m), (A.f, A.o), (A.f, A.p), (A.f, A.q), (A.f, A.r), (A.f, A.s), (A.f, A.t), (A.g, A.h), (A.g, A.i), (A.g, A.j), (A.g, A.k), (A.g, A.l), (A.g, A.m), (A.g, A.o), (A.g, A.p), (A.g, A.q), (A.g, A.r), (A.g, A.s), (A.g, A.t), (A.h, A.k), (A.h, A.l), (A.h, A.m), (A.h, A.o), (A.h, A.p), (A.h, A.q), (A.h, A.r), (A.h, A.s), (A.h, A.t), (A.i, A.k), (A.i, A.l), (A.i, A.m), (A.i, A.o), (A.i, A.p), (A.i, A.q), (A.i, A.r), (A.i, A.s), (A.i, A.t), (A.j, A.k), (A.j, A.l), (A.j, A.m), (A.j, A.o), (A.j, A.p), (A.j, A.q), (A.j, A.r), (A.j, A.s), (A.j, A.t), (A.k, A.m), (A.k, A.o), (A.k, A.p), (A.k, A.q), (A.k, A.r), (A.k, A.s), (A.k, A.t), (A.l, A.m), (A.l, A.o), (A.l, A.p), (A.l, A.q), (A.l, A.r), (A.l, A.s), (A.l, A.t), (A.m, A.o), (A.m, A.p), (A.m, A.q), (A.m, A.r), (A.m, A.s), (A.m, A.t), (A.o, A.p), (A.o, A.q), (A.o, A.r), (A.o, A.s), (A.o, A.t), (A.p, A.q), (A.p, A.r), (A.p, A.s), (A.p, A.t), (A.q, A.s), (A.q, A.t), (A.r, A.s), (A.r, A.t), (A.s, A.t)
-
 CONCLUSION:
     [ERROR] The specification may NOT have finite response.
     
@@ -39,7 +34,4 @@ CONCLUSION:
             - A.s
             - A.t
 
-    [ERROR] The specification may NOT have confluence.
-    
-        Confluence of the following event pairs could not be decided:
-            (A.b, A.c), (A.b, A.d), (A.c, A.d), (A.f, A.g), (A.h, A.i), (A.h, A.j), (A.i, A.j), (A.k, A.l), (A.q, A.r)
+    Confluence checking was disabled, confluence property is unknown.

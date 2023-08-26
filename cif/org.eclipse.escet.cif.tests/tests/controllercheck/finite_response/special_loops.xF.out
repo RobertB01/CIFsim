@@ -7,11 +7,6 @@ Iteration 1.
     The following events have been encountered in a controllable-event loop of automaton B:
         (B.a B.a), which is not controllable unconnectable.
 
-Checking for confluence...
-
-Independent event pairs:
-    (A.a, B.a), (A.b, B.a)
-
 CONCLUSION:
     [ERROR] The specification may NOT have finite response.
     
@@ -21,7 +16,4 @@ CONCLUSION:
             - A.b
             - B.a
 
-    [ERROR] The specification may NOT have confluence.
-    
-        Confluence of the following event pair could not be decided:
-            (A.a, A.b)
+    Confluence checking was disabled, confluence property is unknown.

@@ -5,11 +5,6 @@ Iteration 1.
     The following events have been encountered in a controllable-event loop of automaton Actuator:
         (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
 
-Checking for confluence...
-
-Mutual exclusive event pairs:
-    (Actuator.c_off, Actuator.c_on)
-
 CONCLUSION:
     [OK] The specification has finite response.
-    [OK] The specification has confluence.
+    Confluence checking was disabled, confluence property is unknown.
