@@ -185,23 +185,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         return largest;
     }
 
-    /**
-     * Convert a list of {@link ExprCodeGeneratorResult}s into a list of strings, where each string is the code
-     * generated.
-     *
-     * @param input The list to convert.
-     * @return A list of strings.
-     * @see #toString
-     */
-    public static List<String> convertToStringList(List<ExprCodeGeneratorResult> input) {
-        List<String> result = listc(input.size());
-
-        for (ExprCodeGeneratorResult elem: input) {
-            result.add(elem.currentExprText);
-        }
-        return result;
-    }
-
     @Override
     public String toString() {
         return currentExprText;
