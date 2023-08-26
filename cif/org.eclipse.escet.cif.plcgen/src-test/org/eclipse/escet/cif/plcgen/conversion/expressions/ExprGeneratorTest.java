@@ -128,17 +128,17 @@ public class ExprGeneratorTest {
     // - automaton *: location here; end [[only the location is created]]
     // - disc tuple(real field1, field2, field3) tupVar;
 
-    private static Constant constantVar = newConstant("fixed", null, newBoolType(),
+    private static Constant constantVar = newConstant(null, "fixed", null, newBoolType(),
             newBoolExpression(null, newBoolType(), false));
 
-    private static InputVariable inputVar = newInputVariable("theInput", null, newIntType());
+    private static InputVariable inputVar = newInputVariable(null, "theInput", null, newIntType());
 
-    private static DiscVariable discVar = newDiscVariable("flatDisc", null, newRealType(), null);
+    private static DiscVariable discVar = newDiscVariable(null, "flatDisc", null, newRealType(), null);
 
-    private static ContVariable contVar = newContVariable(newRealExpression(null, newRealType(), "1.0"), "timer", null,
-            null);
+    private static ContVariable contVar = newContVariable(null, newRealExpression(null, newRealType(), "1.0"), "timer",
+            null, null);
 
-    private static DiscVariable tupVar = newDiscVariable("tupVar", null, makeTupleType(3), null);
+    private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
 
     private static TupleType makeTupleType(int length) {
         List<Field> fields = listc(length);

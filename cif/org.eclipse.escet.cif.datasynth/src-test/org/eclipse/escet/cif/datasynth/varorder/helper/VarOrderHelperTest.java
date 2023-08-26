@@ -68,11 +68,11 @@ public class VarOrderHelperTest {
         // Create CIF specification.
         Specification spec = newSpecification();
 
-        InputVariable va = newInputVariable("a", null, newIntType(0, null, 0));
-        InputVariable vb = newInputVariable("b", null, newIntType(0, null, 0));
-        InputVariable vc = newInputVariable("c", null, newIntType(0, null, 0));
-        InputVariable vd = newInputVariable("d", null, newIntType(0, null, 0));
-        InputVariable ve = newInputVariable("e", null, newIntType(0, null, 0));
+        InputVariable va = newInputVariable(null, "a", null, newIntType(0, null, 0));
+        InputVariable vb = newInputVariable(null, "b", null, newIntType(0, null, 0));
+        InputVariable vc = newInputVariable(null, "c", null, newIntType(0, null, 0));
+        InputVariable vd = newInputVariable(null, "d", null, newIntType(0, null, 0));
+        InputVariable ve = newInputVariable(null, "e", null, newIntType(0, null, 0));
         spec.getDeclarations().add(va);
         spec.getDeclarations().add(vb);
         spec.getDeclarations().add(vc);
@@ -88,7 +88,7 @@ public class VarOrderHelperTest {
         aut.getLocations().add(loc2);
         loc1.setName("loc1");
         loc2.setName("loc2");
-        DiscVariable vf = newDiscVariable("f", null, null, null);
+        DiscVariable vf = newDiscVariable(null, "f", null, null, null);
 
         // Create synthesis variables.
         SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 0), 1, 0, 0);
