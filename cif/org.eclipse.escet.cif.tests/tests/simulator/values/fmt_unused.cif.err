@@ -1,3 +1,3 @@
-WARNING: File "simulator/values/fmt_unused.cif": Semantic warning at line 14, column 46: The 3rd value is not used in the format pattern.
-WARNING: File "simulator/values/fmt_unused.cif": Semantic warning at line 14, column 52: The 5th value is not used in the format pattern.
-WARNING: File "simulator/values/fmt_unused.cif": Semantic warning at line 14, column 60: The 7th value is not used in the format pattern.
+WARNING: File "simulator/values/fmt_unused.cif": Semantic warning at line 14, column 51: The 3rd value is not used in the format pattern.
+WARNING: File "simulator/values/fmt_unused.cif": Semantic warning at line 14, column 57: The 5th value is not used in the format pattern.
+WARNING: File "simulator/values/fmt_unused.cif": Semantic warning at line 14, column 65: The 7th value is not used in the format pattern.

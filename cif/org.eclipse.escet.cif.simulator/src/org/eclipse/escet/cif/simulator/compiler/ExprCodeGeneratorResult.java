@@ -47,7 +47,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     public static final String METHOD_BASE_NAME = "evalExpression";
 
     /** The limit after which generated code should be wrapped in separate method. */
-    private static final int LIMIT = 100;
+    private static final int LIMIT = 1000;
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
@@ -93,10 +93,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
 
         if (results.isEmpty()) {
             return new ExprCodeGeneratorResult(fmt(mergeFormatString), type);
-        }
-
-        if (results.size() == 1) {
-            return results.get(0).updateCurrentExprText(mergeFormatString, type, ctxt);
         }
 
         // Prepare the merge.
@@ -150,26 +146,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.type(), ctxt)));
 
         return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.type(), 1);
-    }
-
-    /**
-     * Update the current expression code text and, if needed, create a new method.
-     *
-     * @param formatString The format string in which the current expression code text is inserted.
-     * @param type The type of the code.
-     * @param ctxt The compiler context to use.
-     * @return The updated result.
-     */
-    public ExprCodeGeneratorResult updateCurrentExprText(String formatString, CifType type, CifCompilerContext ctxt) {
-        // TODO We now rely upon fmt to check whether the number of placeholders match the number of arguments.
-        // Should we do this check ourselves or provide better exception catching here?
-        String newExprText = fmt(formatString, this);
-
-        ExprCodeGeneratorResult result = new ExprCodeGeneratorResult(this.subExprs, newExprText, type, numNodes + 1);
-        if (numNodes + 1 >= LIMIT) {
-            result = createMethod(result, ctxt);
-        }
-        return result;
     }
 
     /**

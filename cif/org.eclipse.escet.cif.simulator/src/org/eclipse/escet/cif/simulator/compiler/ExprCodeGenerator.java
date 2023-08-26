@@ -153,10 +153,10 @@ public class ExprCodeGenerator {
         }
 
         // General case.
-        rslt = rslt.updateCurrentExprText(fmt("(%s)", rslt), preds.get(0).getType(), ctxt);
+        rslt = merge("(%s)", preds.get(0).getType(), ctxt, rslt);
         for (int i = 1; i < preds.size(); i++) {
             ExprCodeGeneratorResult prslt = gencodeExpr(preds.get(i), ctxt, state);
-            prslt = prslt.updateCurrentExprText(fmt("(%s)", prslt), preds.get(i).getType(), ctxt);
+            prslt = merge("(%s)", preds.get(i).getType(), ctxt, prslt);
             rslt = merge("%s && %s", newBoolType(), ctxt, rslt, prslt);
         }
         return rslt;
@@ -315,19 +315,19 @@ public class ExprCodeGenerator {
         CifType ntype = normalizeType(expr.getType());
         String text;
         if (nctype instanceof IntType && ntype instanceof RealType) {
-            text = fmt("intToReal(%s)", crslt);
+            text = "intToReal(%s)";
         } else if (nctype instanceof IntType && ntype instanceof StringType) {
-            text = fmt("intToStr(%s)", crslt);
+            text = "intToStr(%s)";
         } else if (nctype instanceof RealType && ntype instanceof StringType) {
-            text = fmt("realToStr(%s)", crslt);
+            text = "realToStr(%s)";
         } else if (nctype instanceof BoolType && ntype instanceof StringType) {
-            text = fmt("boolToStr(%s)", crslt);
+            text = "boolToStr(%s)";
         } else if (nctype instanceof StringType && ntype instanceof IntType) {
-            text = fmt("strToInt(%s)", crslt);
+            text = "strToInt(%s)";
         } else if (nctype instanceof StringType && ntype instanceof RealType) {
-            text = fmt("strToReal(%s)", crslt);
+            text = "strToReal(%s)";
         } else if (nctype instanceof StringType && ntype instanceof BoolType) {
-            text = fmt("strToBool(%s)", crslt);
+            text = "strToBool(%s)";
         } else if (CifTypeUtils.checkTypeCompat(nctype, ntype, RangeCompat.EQUAL)) {
             // Ignore cast to child type.
             return crslt;
@@ -336,7 +336,7 @@ public class ExprCodeGenerator {
             throw new RuntimeException(msg);
         }
 
-        return crslt.updateCurrentExprText(text, expr.getType(), ctxt);
+        return merge(text, expr.getType(), ctxt, crslt);
     }
 
     /**
@@ -358,11 +358,11 @@ public class ExprCodeGenerator {
         String text;
         switch (expr.getOperator()) {
             case INVERSE:
-                text = fmt("!(%s)", crslt);
+                text = "!(%s)";
                 break;
 
             case NEGATE:
-                text = fmt("negate(%s)", crslt);
+                text = "negate(%s)";
                 break;
 
             case PLUS:
@@ -371,7 +371,7 @@ public class ExprCodeGenerator {
 
             case SAMPLE: {
                 ctxt.needSampler = true;
-                text = fmt("Sampler.sample(%s)", crslt);
+                text = "Sampler.sample(%s)";
                 break;
             }
             default:
@@ -379,7 +379,7 @@ public class ExprCodeGenerator {
                 throw new RuntimeException("Unknown unop: " + expr.getOperator());
         }
 
-        return crslt.updateCurrentExprText(text, expr.getType(), ctxt);
+        return merge(text, expr.getType(), ctxt, crslt);
     }
 
     /**
@@ -590,7 +590,7 @@ public class ExprCodeGenerator {
 
             ExprCodeGeneratorResult keyRslt = gencodeExpr(key, ctxt, state);
             if (valueTxt != null) {
-                keyRslt = keyRslt.updateCurrentExprText(fmt("equal(%s, %s)", valueTxt, keyRslt), expr.getType(), ctxt);
+                keyRslt = merge(fmt("equal(%s, %%s)", valueTxt), expr.getType(), ctxt, keyRslt);
             }
 
             // Wrap result code for this case.
@@ -623,7 +623,7 @@ public class ExprCodeGenerator {
             // Get field (name).
             Field field = ((FieldExpression)expr.getIndex()).getField();
             String fieldName = ctxt.getTupleTypeFieldFieldName(field);
-            return crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), expr.getType(), ctxt);
+            return merge(fmt("(%%s).%s", fieldName), expr.getType(), ctxt, crslt);
         }
 
         // Case distinction on child.
@@ -641,7 +641,7 @@ public class ExprCodeGenerator {
             // Generate and return projection code.
             TupleType tupleType = (TupleType)nctype;
             String fieldName = ctxt.getTupleTypeFieldFieldName(tupleType, idx);
-            return crslt.updateCurrentExprText(fmt("(%s).%s", crslt, fieldName), expr.getType(), ctxt);
+            return merge(fmt("(%%s).%s", fieldName), expr.getType(), ctxt, crslt);
         } else {
             // List, dictionary, and string.
             ExprCodeGeneratorResult irslt = gencodeExpr(expr.getIndex(), ctxt, state);
