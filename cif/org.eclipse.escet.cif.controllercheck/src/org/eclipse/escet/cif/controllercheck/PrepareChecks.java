@@ -189,8 +189,8 @@ public class PrepareChecks {
 
                 // Compute guard and update of the edge.
                 Node guard = computeGuard(edge);
-                Node guardedUpdate = (autGuardedUpdates == null) ? null
-                        : tree.conjunct(guard, computeUpdate(edge, controllableEdgeEvents));
+                Node update = computeUpdate(edge, controllableEdgeEvents);
+                Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
 
                 // Add the guard and guarded update as alternative to the relevant events of the edge.
                 for (Event evt: controllableEdgeEvents) {
@@ -241,17 +241,20 @@ public class PrepareChecks {
     }
 
     /**
-     * Convert updates of an edge to an MDD relation.
+     * Convert updates of an edge to an MDD relation, and mark variables assigned by these updates as being updated by
+     * the events on the edge. If computing the global guarded updates is disabled, the update is not computed, and only
+     * the variables are marked.
      *
      * @param edge Edge to use.
      * @param controllableEdgeEvents The controllable events of the edge.
-     * @return The computed MDD update relation. The result should get connected to the edge guard.
+     * @return The computed MDD update relation. The result should get connected to the edge guard. {@code null} is
+     *     returned if computing the global guarded updates is disabled.
      */
     private Node computeUpdate(Edge edge, Set<Event> controllableEdgeEvents) {
         Tree tree = builder.tree;
 
         // Collect assigned variables, and assign RHS values to the LHS variables of the updates.
-        Node updateNode = Tree.ONE;
+        Node updateNode = (globalGuardedUpdatesByEvent == null) ? null : Tree.ONE;
         Set<Declaration> assignedVariables = set();
         for (Update upd: edge.getUpdates()) {
             Assert.check(upd instanceof Assignment);
@@ -259,15 +262,20 @@ public class PrepareChecks {
             Assert.check(asg.getAddressable() instanceof DiscVariableExpression);
             Declaration lhs = ((DiscVariableExpression)asg.getAddressable()).getVariable();
             assignedVariables.add(lhs);
-            Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
-            updateNode = tree.conjunct(updateNode, asgNode);
+
+            if (updateNode != null) {
+                Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
+                updateNode = tree.conjunct(updateNode, asgNode);
+            }
         }
 
         // Add identity updates for all the non-assigned variables.
-        for (Declaration otherVariable: variables) {
-            if (!assignedVariables.contains(otherVariable)) {
-                VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
-                updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
+        if (updateNode != null) {
+            for (Declaration otherVariable: variables) {
+                if (!assignedVariables.contains(otherVariable)) {
+                    VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
+                    updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
+                }
             }
         }
 
