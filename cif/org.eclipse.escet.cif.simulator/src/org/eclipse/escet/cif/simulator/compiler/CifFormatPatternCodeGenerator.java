@@ -89,10 +89,8 @@ public class CifFormatPatternCodeGenerator {
                 implicitIndex++;
             }
 
-            // Collect argument code.
-            ExprCodeGeneratorResult rslt;
-
             // Add to formatted result.
+            ExprCodeGeneratorResult rslt;
             switch (part.conversion) {
                 case BOOLEAN:
                 case INTEGER:
@@ -105,6 +103,7 @@ public class CifFormatPatternCodeGenerator {
 
                 case STRING: {
                     patternCode.append(part.toString(false).replace("%", "%%"));
+                    argCodes.add("%s");
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
@@ -119,7 +118,6 @@ public class CifFormatPatternCodeGenerator {
                     } else {
                         rslt = valueRslts.get(idx);
                     }
-                    argCodes.add("%s");
                     break;
                 }
 

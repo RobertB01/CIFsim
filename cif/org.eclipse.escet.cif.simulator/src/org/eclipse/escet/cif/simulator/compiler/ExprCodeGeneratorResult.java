@@ -16,11 +16,13 @@ package org.eclipse.escet.cif.simulator.compiler;
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Triple.triple;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
@@ -34,10 +36,10 @@ import org.eclipse.escet.common.java.Triple;
  *     method name, and the return type of the method.
  * @param currentExprText The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra
  *     method.
- * @param expr The expression of the {@link #currentExprText}. May be {@code null} if the result represents a list of
+ * @param expr The expression for which the code was generated. May be {@code null} if the result represents a list of
  *     expressions.
- * @param numNodes Number of visited expression tree nodes that are captured by {@code currentExprText}. Is reset each
- *     time code is assigned to an extra method.
+ * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
+ *     code is assigned to an extra method.
  */
 public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subExprs, String currentExprText,
         Expression expr, int numNodes)
@@ -46,7 +48,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     public static final String METHOD_BASE_NAME = "evalExpression";
 
     /** The limit after which generated code should be wrapped in separate method. */
-    private static final int LIMIT = 1000;
+    private static final int LIMIT = 10;
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
@@ -102,7 +104,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         Assert.check(LIMIT > results.size()); // Otherwise the merged result will never fit within the limit.
         List<ExprCodeGeneratorResult> resultsCopy = list(); // Make copy so we can mutate the list.
         resultsCopy.addAll(results);
-        while (!doesFit(resultsCopy)) {
+        while (!areUnderTheLimit(resultsCopy)) {
             // Identify the largest result.
             ExprCodeGeneratorResult largest = getLargestResult(resultsCopy);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
@@ -178,19 +180,21 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
      * @param results The {@link ExprCodeGeneratorResult}s to check.
      * @return {@code true} if merging the results would remain under the limit, otherwise {@code false}.
      */
-    private static boolean doesFit(List<ExprCodeGeneratorResult> results) {
+    private static boolean areUnderTheLimit(List<ExprCodeGeneratorResult> results) {
         int total = 0;
-        for (ExprCodeGeneratorResult other: results) {
-            total += other.numNodes;
+        for (ExprCodeGeneratorResult result: results) {
+            total += result.numNodes;
         }
         return total < LIMIT;
     }
 
     /**
-     * Get the index of the largest result in terms of number of nodes.
+     * Get the index of the largest result in terms of number of nodes (or the first of them in case there are
+     * multiple).
      *
-     * @param results The results to search in.
-     * @return The index of the largest result in terms of number of nodes.
+     * @param results The results from which to return the largest one.
+     * @return The index of the largest result in terms of number of nodes (or the first of them in case there are
+     *     multiple).
      */
     private static ExprCodeGeneratorResult getLargestResult(List<ExprCodeGeneratorResult> results) {
         Assert.check(!results.isEmpty());
@@ -208,8 +212,8 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     }
 
     /**
-     * Convert a list of {@link ExprCodeGeneratorResult} into a list of strings, where each string is the
-     * {@code currentExprText}.
+     * Convert a list of {@link ExprCodeGeneratorResult}s into a list of strings, where each string is the code
+     * generated.
      *
      * @param input The list to convert.
      * @return A list of strings.
