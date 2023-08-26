@@ -114,11 +114,16 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[0]));
 
         // Perform the actual merge.
+        // We want to keep the multiplicity of duplicates for the total number of nodes in the merged results, but we
+        // dont't want duplicates in mergedSubExprs.
         List<Triple<String, String, String>> mergedSubExprs = list();
         int mergedNumNodes = 0;
+        Set<ExprCodeGeneratorResult> seen = set();
         for (ExprCodeGeneratorResult result: resultsCopy) {
-            mergedSubExprs.addAll(result.subExprs);
-            mergedNumNodes += result.numNodes;
+            if (seen.add(result)) {
+                mergedSubExprs.addAll(result.subExprs());
+            }
+            mergedNumNodes += result.numNodes();
         }
 
         return new ExprCodeGeneratorResult(mergedSubExprs, exprText, expr, mergedNumNodes);

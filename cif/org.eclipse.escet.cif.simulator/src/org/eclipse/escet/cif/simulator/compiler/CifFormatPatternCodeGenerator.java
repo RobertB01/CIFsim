@@ -14,9 +14,14 @@
 package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCastExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.escet.cif.common.CifMath;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
@@ -61,8 +66,9 @@ public class CifFormatPatternCodeGenerator {
         // Process all parts.
         StringBuilder patternCode = new StringBuilder();
         List<String> argCodes = listc(parts.size());
-        List<ExprCodeGeneratorResult> usedValueRslts = listc(valueRslts.size());
+        List<ExprCodeGeneratorResult> argRslts = listc(valueRslts.size());
         int implicitIndex = 0;
+        Map<Integer, ExprCodeGeneratorResult> indicesSeen = map();
         for (FormatDescription part: parts) {
             // Literal.
             if (part.conversion == Conversion.LITERAL) {
@@ -102,11 +108,14 @@ public class CifFormatPatternCodeGenerator {
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
-                        String argCode = valueRslts.get(idx).currentExprText();
-                        argCode = "runtimeToString(" + argCode + ")";
-                        ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
-                        rslt = new ExprCodeGeneratorResult(valueRslt.subExprs(), argCode, valueRslt.expr(),
-                                valueRslt.numNodes());
+                        rslt = indicesSeen.get(idx);
+                        if (rslt == null) {
+                            ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
+                            Expression castExpr = newCastExpression(null, null, newStringType());
+                            rslt = valueRslt.updateCurrentExprText(fmt("runtimeToString(%s)", valueRslt), castExpr,
+                                    ctxt);
+                            indicesSeen.put(idx, rslt);
+                        }
                     } else {
                         rslt = valueRslts.get(idx);
                     }
@@ -118,7 +127,12 @@ public class CifFormatPatternCodeGenerator {
                     String msg = "Unexpected: " + part.conversion;
                     throw new RuntimeException(msg);
             }
-            usedValueRslts.add(rslt);
+            int index = argRslts.indexOf(rslt);
+            if (index >= 0) {
+                argRslts.add(argRslts.get(index));
+            } else {
+                argRslts.add(rslt);
+            }
         }
 
         // Return actual code for the entire 'fmt' function call.
@@ -130,6 +144,6 @@ public class CifFormatPatternCodeGenerator {
         }
         rslt.append(String.join(", ", argCodes));
         rslt.append(")");
-        return ExprCodeGeneratorResult.merge(rslt.toString(), expr, ctxt, usedValueRslts);
+        return ExprCodeGeneratorResult.merge(rslt.toString(), expr, ctxt, argRslts);
     }
 }
