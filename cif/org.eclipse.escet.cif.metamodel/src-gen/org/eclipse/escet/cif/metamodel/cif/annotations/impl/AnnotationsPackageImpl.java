@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsFactory;
@@ -81,6 +82,13 @@ public class AnnotationsPackageImpl extends EPackageImpl implements AnnotationsP
      * @generated
      */
     private EClass annotationArgumentEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass annotatedObjectEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -253,6 +261,28 @@ public class AnnotationsPackageImpl extends EPackageImpl implements AnnotationsP
      * @generated
      */
     @Override
+    public EClass getAnnotatedObject()
+    {
+        return annotatedObjectEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EReference getAnnotatedObject_Annotations()
+    {
+        return (EReference)annotatedObjectEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public AnnotationsFactory getAnnotationsFactory()
     {
         return (AnnotationsFactory)getEFactoryInstance();
@@ -285,6 +315,9 @@ public class AnnotationsPackageImpl extends EPackageImpl implements AnnotationsP
         annotationArgumentEClass = createEClass(ANNOTATION_ARGUMENT);
         createEAttribute(annotationArgumentEClass, ANNOTATION_ARGUMENT__NAME);
         createEReference(annotationArgumentEClass, ANNOTATION_ARGUMENT__VALUE);
+
+        annotatedObjectEClass = createEClass(ANNOTATED_OBJECT);
+        createEReference(annotatedObjectEClass, ANNOTATED_OBJECT__ANNOTATIONS);
     }
 
     /**
@@ -322,6 +355,7 @@ public class AnnotationsPackageImpl extends EPackageImpl implements AnnotationsP
         // Add supertypes to classes
         annotationEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         annotationArgumentEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        annotatedObjectEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
 
         // Initialize classes, features, and operations; add parameters
         initEClass(annotationEClass, Annotation.class, "Annotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -331,6 +365,9 @@ public class AnnotationsPackageImpl extends EPackageImpl implements AnnotationsP
         initEClass(annotationArgumentEClass, AnnotationArgument.class, "AnnotationArgument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getAnnotationArgument_Name(), ecorePackage.getEString(), "name", null, 1, 1, AnnotationArgument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getAnnotationArgument_Value(), theExpressionsPackage.getExpression(), null, "value", null, 1, 1, AnnotationArgument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(annotatedObjectEClass, AnnotatedObject.class, "AnnotatedObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getAnnotatedObject_Annotations(), this.getAnnotation(), null, "annotations", null, 0, -1, AnnotatedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     }
 
 } //AnnotationsPackageImpl

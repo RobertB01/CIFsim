@@ -645,17 +645,18 @@ public class DeclarationsPackageImpl extends EPackageImpl implements Declaration
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
-        PositionPackage thePositionPackage = (PositionPackage)EPackage.Registry.INSTANCE.getEPackage(PositionPackage.eNS_URI);
+        AnnotationsPackage theAnnotationsPackage = (AnnotationsPackage)EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
         CifPackage theCifPackage = (CifPackage)EPackage.Registry.INSTANCE.getEPackage(CifPackage.eNS_URI);
         ExpressionsPackage theExpressionsPackage = (ExpressionsPackage)EPackage.Registry.INSTANCE.getEPackage(ExpressionsPackage.eNS_URI);
         TypesPackage theTypesPackage = (TypesPackage)EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
+        PositionPackage thePositionPackage = (PositionPackage)EPackage.Registry.INSTANCE.getEPackage(PositionPackage.eNS_URI);
 
         // Create type parameters
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        declarationEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        declarationEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
         algVariableEClass.getESuperTypes().add(this.getDeclaration());
         eventEClass.getESuperTypes().add(this.getDeclaration());
         enumDeclEClass.getESuperTypes().add(this.getDeclaration());

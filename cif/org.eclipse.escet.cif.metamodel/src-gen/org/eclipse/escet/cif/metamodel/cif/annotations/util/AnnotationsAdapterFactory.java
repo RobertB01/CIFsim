@@ -99,6 +99,11 @@ public class AnnotationsAdapterFactory extends AdapterFactoryImpl
                 return createAnnotationArgumentAdapter();
             }
             @Override
+            public Adapter caseAnnotatedObject(AnnotatedObject object)
+            {
+                return createAnnotatedObjectAdapter();
+            }
+            @Override
             public Adapter casePositionObject(PositionObject object)
             {
                 return createPositionObjectAdapter();
@@ -151,6 +156,21 @@ public class AnnotationsAdapterFactory extends AdapterFactoryImpl
      * @generated
      */
     public Adapter createAnnotationArgumentAdapter()
+    {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject <em>Annotated Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject
+     * @generated
+     */
+    public Adapter createAnnotatedObjectAdapter()
     {
         return null;
     }

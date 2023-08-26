@@ -93,6 +93,15 @@ public interface FunctionsPackage extends EPackage
     int FUNCTION__POSITION = DeclarationsPackage.DECLARATION__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FUNCTION__ANNOTATIONS = DeclarationsPackage.DECLARATION__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -203,6 +212,15 @@ public interface FunctionsPackage extends EPackage
     int INTERNAL_FUNCTION__POSITION = FUNCTION__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTERNAL_FUNCTION__ANNOTATIONS = FUNCTION__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -283,6 +301,15 @@ public interface FunctionsPackage extends EPackage
      * @ordered
      */
     int EXTERNAL_FUNCTION__POSITION = FUNCTION__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTERNAL_FUNCTION__ANNOTATIONS = FUNCTION__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.

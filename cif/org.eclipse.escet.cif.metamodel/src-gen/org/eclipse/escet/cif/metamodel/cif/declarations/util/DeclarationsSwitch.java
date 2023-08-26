@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
+
 import org.eclipse.escet.cif.metamodel.cif.declarations.*;
 
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -90,6 +92,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
             {
                 Declaration declaration = (Declaration)theEObject;
                 T result = caseDeclaration(declaration);
+                if (result == null) result = caseAnnotatedObject(declaration);
                 if (result == null) result = casePositionObject(declaration);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -99,6 +102,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 AlgVariable algVariable = (AlgVariable)theEObject;
                 T result = caseAlgVariable(algVariable);
                 if (result == null) result = caseDeclaration(algVariable);
+                if (result == null) result = caseAnnotatedObject(algVariable);
                 if (result == null) result = casePositionObject(algVariable);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -108,6 +112,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 Event event = (Event)theEObject;
                 T result = caseEvent(event);
                 if (result == null) result = caseDeclaration(event);
+                if (result == null) result = caseAnnotatedObject(event);
                 if (result == null) result = casePositionObject(event);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -117,6 +122,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 EnumDecl enumDecl = (EnumDecl)theEObject;
                 T result = caseEnumDecl(enumDecl);
                 if (result == null) result = caseDeclaration(enumDecl);
+                if (result == null) result = caseAnnotatedObject(enumDecl);
                 if (result == null) result = casePositionObject(enumDecl);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -126,6 +132,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 TypeDecl typeDecl = (TypeDecl)theEObject;
                 T result = caseTypeDecl(typeDecl);
                 if (result == null) result = caseDeclaration(typeDecl);
+                if (result == null) result = caseAnnotatedObject(typeDecl);
                 if (result == null) result = casePositionObject(typeDecl);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -143,6 +150,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 DiscVariable discVariable = (DiscVariable)theEObject;
                 T result = caseDiscVariable(discVariable);
                 if (result == null) result = caseDeclaration(discVariable);
+                if (result == null) result = caseAnnotatedObject(discVariable);
                 if (result == null) result = casePositionObject(discVariable);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -160,6 +168,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 Constant constant = (Constant)theEObject;
                 T result = caseConstant(constant);
                 if (result == null) result = caseDeclaration(constant);
+                if (result == null) result = caseAnnotatedObject(constant);
                 if (result == null) result = casePositionObject(constant);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -169,6 +178,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 ContVariable contVariable = (ContVariable)theEObject;
                 T result = caseContVariable(contVariable);
                 if (result == null) result = caseDeclaration(contVariable);
+                if (result == null) result = caseAnnotatedObject(contVariable);
                 if (result == null) result = casePositionObject(contVariable);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -178,6 +188,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
                 InputVariable inputVariable = (InputVariable)theEObject;
                 T result = caseInputVariable(inputVariable);
                 if (result == null) result = caseDeclaration(inputVariable);
+                if (result == null) result = caseAnnotatedObject(inputVariable);
                 if (result == null) result = casePositionObject(inputVariable);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -374,6 +385,22 @@ public class DeclarationsSwitch<T> extends Switch<T>
      * @generated
      */
     public T casePositionObject(PositionObject object)
+    {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAnnotatedObject(AnnotatedObject object)
     {
         return null;
     }

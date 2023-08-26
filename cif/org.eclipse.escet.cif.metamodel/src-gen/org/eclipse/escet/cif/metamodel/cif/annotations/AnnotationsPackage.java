@@ -181,6 +181,52 @@ public interface AnnotationsPackage extends EPackage
      */
     int ANNOTATION_ARGUMENT_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
 
+    /**
+     * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl <em>Annotated Object</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl
+     * @see org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl#getAnnotatedObject()
+     * @generated
+     */
+    int ANNOTATED_OBJECT = 2;
+
+    /**
+     * The feature id for the '<em><b>Position</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ANNOTATED_OBJECT__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ANNOTATED_OBJECT__ANNOTATIONS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Annotated Object</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ANNOTATED_OBJECT_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+
+    /**
+     * The number of operations of the '<em>Annotated Object</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ANNOTATED_OBJECT_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+
 
     /**
      * Returns the meta object for class '{@link org.eclipse.escet.cif.metamodel.cif.annotations.Annotation <em>Annotation</em>}'.
@@ -245,6 +291,27 @@ public interface AnnotationsPackage extends EPackage
      * @generated
      */
     EReference getAnnotationArgument_Value();
+
+    /**
+     * Returns the meta object for class '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject <em>Annotated Object</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Annotated Object</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject
+     * @generated
+     */
+    EClass getAnnotatedObject();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject#getAnnotations <em>Annotations</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Annotations</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject#getAnnotations()
+     * @see #getAnnotatedObject()
+     * @generated
+     */
+    EReference getAnnotatedObject_Annotations();
 
     /**
      * Returns the factory that creates the instances of the model.
@@ -321,6 +388,24 @@ public interface AnnotationsPackage extends EPackage
          * @generated
          */
         EReference ANNOTATION_ARGUMENT__VALUE = eINSTANCE.getAnnotationArgument_Value();
+
+        /**
+         * The meta object literal for the '{@link org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl <em>Annotated Object</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl
+         * @see org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl#getAnnotatedObject()
+         * @generated
+         */
+        EClass ANNOTATED_OBJECT = eINSTANCE.getAnnotatedObject();
+
+        /**
+         * The meta object literal for the '<em><b>Annotations</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ANNOTATED_OBJECT__ANNOTATIONS = eINSTANCE.getAnnotatedObject_Annotations();
 
     }
 
