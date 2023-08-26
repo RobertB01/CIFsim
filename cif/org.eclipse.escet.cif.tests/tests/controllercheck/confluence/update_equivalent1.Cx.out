@@ -1,0 +1,13 @@
+Loading CIF specification "controllercheck/confluence/update_equivalent1.cif"...
+Checking for finite response...
+
+Iteration 1.
+
+Checking for confluence...
+
+Update equivalent event pairs:
+    (SingleAut.a, SingleAut.b)
+
+CONCLUSION:
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

@@ -1,0 +1,10 @@
+Loading CIF specification "controllercheck/finite_response/self_loop.cif"...
+Checking for finite response...
+
+Iteration 1.
+
+Checking for confluence...
+
+CONCLUSION:
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

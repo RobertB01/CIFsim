@@ -1,0 +1,14 @@
+Loading CIF specification "controllercheck/confluence/not_confluent.cif"...
+Checking for finite response...
+
+Iteration 1.
+
+Checking for confluence...
+
+CONCLUSION:
+    [OK] The specification has finite response.
+
+    [ERROR] The specification may NOT have confluence.
+    
+        Confluence of the following event pair could not be decided:
+            (SingleAut.a, SingleAut.b)
