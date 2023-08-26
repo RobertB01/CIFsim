@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.RCVD_VALUE_VAR_NAME;
@@ -28,6 +30,7 @@ import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -154,7 +157,7 @@ public class ExprCodeGenerator {
         for (int i = 1; i < preds.size(); i++) {
             ExprCodeGeneratorResult prslt = gencodeExpr(preds.get(i), ctxt, state);
             prslt = prslt.updateCurrentExprText(fmt("(%s)", prslt), preds.get(i), ctxt);
-            rslt = merge("%s && %s", null, ctxt, rslt, prslt);
+            rslt = merge("%s && %s", newBoolExpression(null, newBoolType(), null), ctxt, rslt, prslt);
         }
         return rslt;
     }
@@ -1081,14 +1084,13 @@ public class ExprCodeGenerator {
             valueRslts.add(gencodeExpr(pair.getValue(), ctxt, state));
         }
 
-        // Generate code for key/value arrays.
-        String keysTxt = fmt("array(%s)", String.join(", ", convertToStringList(keyRslts)));
-        ExprCodeGeneratorResult keyRslt = merge(keysTxt, null, ctxt, keyRslts);
-        String valuesTxt = fmt("array(%s)", String.join(", ", convertToStringList(valueRslts)));
-        ExprCodeGeneratorResult valueRslt = merge(valuesTxt, null, ctxt, valueRslts);
+        // Generate code text placeholders for key/value arrays.
+        String keysTxt = fmt("array(%s)", String.join(", ", Collections.nCopies(keyRslts.size(), "%s")));
+        String valuesTxt = fmt("array(%s)", String.join(", ", Collections.nCopies(valueRslts.size(), "%s")));
 
         // Return the code for the dictionary literal.
-        return merge(fmt("addpairs(%s, %%s, %%s)", rslt), expr, ctxt, keyRslt, valueRslt);
+        keyRslts.addAll(valueRslts);
+        return merge(fmt("addpairs(%s, %s, %s)", rslt, keysTxt, valuesTxt), expr, ctxt, keyRslts);
     }
 
     /**
