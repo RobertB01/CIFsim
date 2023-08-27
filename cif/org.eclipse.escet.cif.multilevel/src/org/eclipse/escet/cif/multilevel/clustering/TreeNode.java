@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.BitSet;
 import java.util.List;
 
-/** Node in the multi-level synthesis tree. */
+/** Node in a multi-level synthesis tree. */
 public class TreeNode {
     /**
      * Index of the tree node.
@@ -30,20 +30,20 @@ public class TreeNode {
      */
     public int index;
 
-    /** Plant-groups that are included in the tree node. */
+    /** The plant groups that are included in the tree node. */
     public final BitSet plantGroups;
 
-    /** Requirement-groups that are included in the tree node. */
+    /** The requirement groups that are included in the tree node. */
     public final BitSet requirementGroups;
 
-    /** Child nodes. */
+    /** The child nodes of the tree node. */
     public final List<TreeNode> childNodes;
 
     /**
      * Constructor of the {@link TreeNode} class.
      *
-     * @param plantGroups Plant-groups that are included in the tree node.
-     * @param requirementGroups Requirement-groups that are included in the tree node.
+     * @param plantGroups The plant groups that are included in the tree node.
+     * @param requirementGroups The requirement groups that are included in the tree node.
      */
     public TreeNode(BitSet plantGroups, BitSet requirementGroups) {
         this(plantGroups, requirementGroups, list());
@@ -52,9 +52,9 @@ public class TreeNode {
     /**
      * Constructor of the {@link TreeNode} class.
      *
-     * @param plantGroups Plant-groups that are included in the tree node.
-     * @param requirementGroups Requirement-groups that are included in the tree node.
-     * @param childNodes Child nodes.
+     * @param plantGroups The plant groups that are included in the tree node.
+     * @param requirementGroups The requirement groups that are included in the tree node.
+     * @param childNodes The child nodes of the tree node.
      */
     public TreeNode(BitSet plantGroups, BitSet requirementGroups, List<TreeNode> childNodes) {
         this.plantGroups = plantGroups;
@@ -63,10 +63,10 @@ public class TreeNode {
     }
 
     /**
-     * Walk recursively depth-first left to right through the node tree rooted at the given node, collect all
+     * Walk recursively depth-first left-to-right through the node tree rooted at the given node, collect all
      * encountered nodes, and return them as a list of nodes. Also sets {@link #index} for each node in the tree.
      *
-     * @param root Root node to start the walk.
+     * @param root The root node to start the walk.
      * @return All encountered nodes in the tree rooted at {@code root}.
      */
     public static List<TreeNode> linearizeTree(TreeNode root) {
@@ -74,10 +74,10 @@ public class TreeNode {
     }
 
     /**
-     * Walk recursively depth-first left to right through the node tree, and add all encountered nodes to the result
+     * Walk recursively depth-first left-to-right through the node tree, and add all encountered nodes to the result
      * list. Also sets {@link #index} for each node in the tree.
      *
-     * @param node Node to start the walk.
+     * @param node The node to start the walk.
      * @param nodes Storage for encountered nodes, {@code node} is assumed not to be in the storage yet. Is extended
      *     in-place.
      * @return The encountered nodes including the (sub)tree rooted at {@code node}.

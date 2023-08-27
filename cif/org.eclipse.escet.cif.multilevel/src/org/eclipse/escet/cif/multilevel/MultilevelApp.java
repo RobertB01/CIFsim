@@ -199,7 +199,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Dump result of computing multi-level tree.
+        // Dump the multi-level tree.
         for (TreeNode node: TreeNode.linearizeTree(rootNode)) {
             out("Index: %d", node.index);
             out("Plant groups: %s", node.plantGroups.isEmpty() ? "<none>" : node.plantGroups.toString());
