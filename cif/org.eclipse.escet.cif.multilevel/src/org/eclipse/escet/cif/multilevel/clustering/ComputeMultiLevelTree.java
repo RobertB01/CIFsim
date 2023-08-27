@@ -91,7 +91,7 @@ public class ComputeMultiLevelTree {
         // While the paper expands plant groups and requirement groups to their original plants and requirements, we
         // do not do that. Instead, the plant and requirement groups are kept, and put into tree nodes.
 
-        dbg("Make tree node for plant groups:");
+        dbg("Make a multi-level tree node for a cluster group with multiple nodes:");
         idbg();
         clusterGroup.dbgDump();
         dbg();
@@ -118,7 +118,7 @@ public class ComputeMultiLevelTree {
             treeNode.childNodes.add(transformCluster(childGroup, p, rp));
         }
         ddbg();
-        dbg("---------- DONE transformCluster for group.");
+        dbg("---------- DONE Created tree node for cluster with multiple nodes.");
         dbg();
 
         return treeNode;
@@ -141,11 +141,11 @@ public class ComputeMultiLevelTree {
         // Since 'size(M) = 1' here, lines 4 to 10 are never done. Also here, expanding the plant and requirement groups
         // back to their elements is not performed. That eliminates line 3. Thus this only implements line 2, and then
         // immediately returns the tree node.
-        dbg("Make singleton tree node for plant group %d:", clusterGroup);
+        dbg("Make a multi-level tree node for a cluster group with a single node (plant group %d):", clusterGroup);
         idbg();
         TreeNode treeNode = calculateGandKSingle(clusterGroup, p, rp);
         ddbg();
-        dbg("---------- DONE transformCluster for singleton node.");
+        dbg("---------- DONE Created tree node for cluster with a single node.");
         dbg();
         return treeNode;
     }
@@ -165,7 +165,7 @@ public class ComputeMultiLevelTree {
         Assert.check(p.isSquare());
 
         // Start by dumping the input.
-        dbg("Starting computing Algorithm2 data by searching and modifying the matrices based on group information.");
+        dbg("Starting Algorithm 2 by searching and modifying the matrices based on group information.");
         idbg();
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
@@ -229,7 +229,7 @@ public class ComputeMultiLevelTree {
         }
 
         // Dump result.
-        dbg("Updated Algorithm 2 data for plant group members %s: %s plant groups, %s req groups.",
+        dbg("Updated Algorithm 2 data for cluster group members %s: %s plant groups, %s req groups.",
                 clusterGroup.members, treeNode.plantGroups, treeNode.requirementGroups);
         dbg("Updated matrices:");
         idbg();
@@ -366,7 +366,7 @@ public class ComputeMultiLevelTree {
 
         // Line 4: Collect the requirement groups only used by the plant group.
         BitSet reqGroups = reqGroupsOnlyUsedBy(rp, clusterGroup);
-        dbg("Algorithm 2 data for singleton plant group %d: %s plant groups, %s req groups.", clusterGroup, plantGroups,
+        dbg("Tree node for singleton cluster group %d: %s plant groups, %s req groups.", clusterGroup, plantGroups,
                 reqGroups);
         dbg();
 

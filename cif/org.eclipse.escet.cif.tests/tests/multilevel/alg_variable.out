@@ -59,7 +59,7 @@ Clustered DSM for reqsPlantsDmm (for information only, this data is not actually
   0 1 1
   0 1 1
 
-Make tree node for plant groups:
+Make a multi-level tree node for a cluster group with multiple nodes:
         - Grouptype CLUSTER
           Local nodes: <none>
             - Grouptype CLUSTER
@@ -67,7 +67,7 @@ Make tree node for plant groups:
             - Grouptype CLUSTER
               Local nodes: {0, 2}
     
-    Starting computing Algorithm2 data by searching and modifying the matrices based on group information.
+    Starting Algorithm 2 by searching and modifying the matrices based on group information.
         Dumping P:
                :  0  1  2
               0:  .  .  1
@@ -78,7 +78,7 @@ Make tree node for plant groups:
               0: {0, 2}
         
         
-        Updated Algorithm 2 data for plant group members {0, 1, 2}: {} plant groups, {} req groups.
+        Updated Algorithm 2 data for cluster group members {0, 1, 2}: {} plant groups, {} req groups.
         Updated matrices:
             Dumping P:
                    :  0  1  2
@@ -90,7 +90,7 @@ Make tree node for plant groups:
                   0: {0, 2}
             
         
-    Make singleton tree node for plant group 1:
+    Make a multi-level tree node for a cluster group with a single node (plant group 1):
         Dumping P:
                :  0  1  2
               0:  .  .  1
@@ -100,15 +100,15 @@ Make tree node for plant groups:
         Dumping RP:
               0: {0, 2}
         
-        Algorithm 2 data for singleton plant group 1: {1} plant groups, {} req groups.
+        Tree node for singleton cluster group 1: {1} plant groups, {} req groups.
         
-    ---------- DONE transformCluster for singleton node.
+    ---------- DONE Created tree node for cluster with a single node.
     
-    Make tree node for plant groups:
+    Make a multi-level tree node for a cluster group with multiple nodes:
             - Grouptype CLUSTER
               Local nodes: {0, 2}
         
-        Starting computing Algorithm2 data by searching and modifying the matrices based on group information.
+        Starting Algorithm 2 by searching and modifying the matrices based on group information.
             Dumping P:
                    :  0  1  2
                   0:  .  .  1
@@ -122,7 +122,7 @@ Make tree node for plant groups:
             Found P cell (0, 2), with {0} requirements:
                 (0, 2): add -1
             Found P cell (2, 0), but no requirements.
-            Updated Algorithm 2 data for plant group members {0, 2}: {0, 2} plant groups, {0} req groups.
+            Updated Algorithm 2 data for cluster group members {0, 2}: {0, 2} plant groups, {0} req groups.
             Updated matrices:
                 Dumping P:
                        :  0  1  2
@@ -134,7 +134,7 @@ Make tree node for plant groups:
                       0: {}
                 
             
-        Make singleton tree node for plant group 0:
+        Make a multi-level tree node for a cluster group with a single node (plant group 0):
             Dumping P:
                    :  0  1  2
                   0:  .  .  .
@@ -144,11 +144,11 @@ Make tree node for plant groups:
             Dumping RP:
                   0: {}
             
-            Algorithm 2 data for singleton plant group 0: {0} plant groups, {} req groups.
+            Tree node for singleton cluster group 0: {0} plant groups, {} req groups.
             
-        ---------- DONE transformCluster for singleton node.
+        ---------- DONE Created tree node for cluster with a single node.
         
-        Make singleton tree node for plant group 2:
+        Make a multi-level tree node for a cluster group with a single node (plant group 2):
             Dumping P:
                    :  0  1  2
                   0:  .  .  .
@@ -158,13 +158,13 @@ Make tree node for plant groups:
             Dumping RP:
                   0: {}
             
-            Algorithm 2 data for singleton plant group 2: {2} plant groups, {} req groups.
+            Tree node for singleton cluster group 2: {2} plant groups, {} req groups.
             
-        ---------- DONE transformCluster for singleton node.
+        ---------- DONE Created tree node for cluster with a single node.
         
-    ---------- DONE transformCluster for group.
+    ---------- DONE Created tree node for cluster with multiple nodes.
     
----------- DONE transformCluster for group.
+---------- DONE Created tree node for cluster with multiple nodes.
 
 Index: 0
 Plant groups: <none>
