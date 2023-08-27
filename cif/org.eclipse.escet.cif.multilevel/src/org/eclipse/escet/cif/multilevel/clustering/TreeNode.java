@@ -20,15 +20,8 @@ import java.util.List;
 
 /** Node in a multi-level synthesis tree. */
 public class TreeNode {
-    /**
-     * Index of the tree node.
-     *
-     * <p>
-     * A user may attach any desired meaning to this variable and change it at any time. The {@link #linearizeTree}
-     * function sets it to the index of the returned list where the node is stored.
-     * </p>
-     */
-    public int index;
+    /** Index of the tree node. Is {@code -1} until set by {@link #linearizeTree}. */
+    public int index = -1;
 
     /** The plant groups that are included in the tree node. */
     public final BitSet plantGroups;
@@ -56,14 +49,13 @@ public class TreeNode {
     }
 
     /**
-     * Walk recursively depth-first left-to-right through the node tree rooted at the given node, collect all
-     * encountered nodes, and return them as a list of nodes. Also sets {@link #index} for each node in the tree.
+     * Walk recursively depth-first left-to-right through the node tree rooted at this node, collect all encountered
+     * nodes, and return them as a list of nodes. Also sets {@link #index} for each node in the tree.
      *
-     * @param root The root node to start the walk.
-     * @return All encountered nodes in the tree rooted at {@code root}.
+     * @return All encountered nodes in the tree rooted at this node.
      */
-    public static List<TreeNode> linearizeTree(TreeNode root) {
-        return linearizeTree(root, list());
+    public List<TreeNode> linearizeTree() {
+        return linearizeTree(this, list());
     }
 
     /**
