@@ -255,8 +255,8 @@ public class ComputeMultiLevelTree {
      * @param plantGroup2 Second plant group to use.
      */
     private static void update(RealMatrix p, RealMatrix rp, TreeNode treeNode, int plantGroup1, int plantGroup2) {
-        // Line 8: Check for a non main-diagonal and non-zero entry. This ensures that we ignore self-relations and
-        // unrelated plant groups. If we do proceed, we will have two distinct plant groups that are related.
+        // Line 6: Check for non main-diagonal, i.e., no self-relation. Continue only with distinct plant groups.
+        // Line 8: Check for non-zero entry. Continue only with related plant groups.
         if (plantGroup1 == plantGroup2 || p.getEntry(plantGroup1, plantGroup2) == 0) {
             return;
         }
