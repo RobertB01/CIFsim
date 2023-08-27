@@ -166,8 +166,7 @@ public class ComputeMultiLevelTree {
         // the implementation.
         dbg("Make singleton tree node for plant group %d:", plantGroup);
         idbg();
-        Pair<Algo2Data, TreeNode> algo2Result = calculateGandK(plantGroup, p, rp);
-        TreeNode treeNode = algo2Result.right;
+        TreeNode treeNode = calculateGandK(plantGroup, p, rp);
         ddbg();
         dbg("---------- DONE transformCluster for singleton node.");
         dbg();
@@ -326,7 +325,7 @@ public class ComputeMultiLevelTree {
      * @param rp Requirement group rows to plant group columns.
      * @return The computed Algorithm 2 data and new tree node.
      */
-    private static Pair<Algo2Data, TreeNode> calculateGandK(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandK(int plantGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
@@ -345,7 +344,7 @@ public class ComputeMultiLevelTree {
         dbg();
 
         // Lines 18 and 19 are not performed in this implementation, the plant and requirement groups are returned.
-        return pair(new Algo2Data(p, rp), new TreeNode(plantGroups, reqGroups));
+        return new TreeNode(plantGroups, reqGroups);
     }
 
     /**
