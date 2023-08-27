@@ -19,16 +19,13 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.BitSets.toBitSet;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.text.NumberFormat;
 import java.util.BitSet;
-import java.util.Locale;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
@@ -45,14 +42,6 @@ import org.eclipse.escet.common.java.BitSetIterator;
  * </p>
  */
 public class ComputeMultiLevelTree {
-    /** Matrix debug output format. */
-    public static final RealMatrixFormat MAT_DEBUG_FORMAT;
-
-    static {
-        NumberFormat valueFmt = NumberFormat.getIntegerInstance(Locale.US);
-        MAT_DEBUG_FORMAT = new RealMatrixFormat("", "", "  ", "", "\n", " ", valueFmt);
-    }
-
     /** Constructor of the static {@link ComputeMultiLevelTree} class. */
     private ComputeMultiLevelTree() {
         // Static class.
