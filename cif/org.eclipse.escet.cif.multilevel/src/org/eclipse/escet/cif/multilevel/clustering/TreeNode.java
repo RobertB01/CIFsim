@@ -36,30 +36,23 @@ public class TreeNode {
     /** The requirement groups that are included in the tree node. */
     public final BitSet requirementGroups;
 
-    /** The child nodes of the tree node. */
-    public final List<TreeNode> childNodes;
+    /** The child nodes of the tree node. Creates a node that is initially empty. */
+    public final List<TreeNode> childNodes = list();
+
+    /** Constructor of the {@link TreeNode} class. */
+    public TreeNode() {
+        this(new BitSet(), new BitSet());
+    }
 
     /**
-     * Constructor of the {@link TreeNode} class.
+     * Constructor of the {@link TreeNode} class. Creates a node that initially has no children.
      *
      * @param plantGroups The plant groups that are included in the tree node.
      * @param requirementGroups The requirement groups that are included in the tree node.
      */
     public TreeNode(BitSet plantGroups, BitSet requirementGroups) {
-        this(plantGroups, requirementGroups, list());
-    }
-
-    /**
-     * Constructor of the {@link TreeNode} class.
-     *
-     * @param plantGroups The plant groups that are included in the tree node.
-     * @param requirementGroups The requirement groups that are included in the tree node.
-     * @param childNodes The child nodes of the tree node.
-     */
-    public TreeNode(BitSet plantGroups, BitSet requirementGroups, List<TreeNode> childNodes) {
         this.plantGroups = plantGroups;
         this.requirementGroups = requirementGroups;
-        this.childNodes = childNodes;
     }
 
     /**

@@ -187,7 +187,7 @@ public class ComputeMultiLevelTree {
         //
         // Lines 6-17: Perform a search in the matrix and an update of them while collecting the found non-zero
         // matches. Start by creating the new tree node that will hold the results.
-        TreeNode treeNode = new TreeNode(new BitSet(), new BitSet());
+        TreeNode treeNode = new TreeNode();
 
         // For lines 6-17 in the paper, 'M' contains all child cluster groups. Our clustering implementation however
         // moves singleton nodes in the cluster to local nodes, so they must be dealt with separately. As a result
