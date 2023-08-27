@@ -297,7 +297,8 @@ public class ComputeMultiLevelTree {
         algo2Data.p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
         ddbg();
 
-        // Line 11, find all plant groups that need at least one of the above requirements, and add them to the data for Algorithm 2.
+        // Line 11, find all plant groups that need at least one of the above requirements, and add them to the data for
+        // Algorithm 2.
         BitSet plantGroups = algo2Data.collectPlantGroupsForRequirementGroups(reqGroups);
         algo2Data.plantGroups.or(plantGroups);
 
