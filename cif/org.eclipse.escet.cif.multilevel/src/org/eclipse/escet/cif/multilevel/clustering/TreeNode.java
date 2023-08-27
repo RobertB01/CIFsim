@@ -46,7 +46,7 @@ public class TreeNode {
      * @param requirementGroups Requirement-groups that are included in the tree node.
      */
     public TreeNode(BitSet plantGroups, BitSet requirementGroups) {
-        this(plantGroups, requirementGroups, List.of());
+        this(plantGroups, requirementGroups, list());
     }
 
     /**

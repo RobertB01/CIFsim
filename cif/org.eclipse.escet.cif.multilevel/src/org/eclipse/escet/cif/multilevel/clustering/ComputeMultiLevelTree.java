@@ -17,12 +17,11 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.BitSets.toBitSet;
-import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.text.NumberFormat;
 import java.util.BitSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
@@ -34,6 +33,7 @@ import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
+import org.eclipse.escet.common.java.Pair;
 
 /**
  * Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis.
@@ -113,17 +113,18 @@ public class ComputeMultiLevelTree {
         dbg();
 
         // Line 2, compute what the tree node should contain.
-        Algo2Data algo2Data = calculateGandK(clusterGroup, p, rp);
+        Pair<Algo2Data, TreeNode> algo2Result = calculateGandK(clusterGroup, p, rp);
+        Algo2Data algo2Data = algo2Result.left;
+        TreeNode treeNode = algo2Result.right;
         p = algo2Data.p;
         rp = algo2Data.rp;
 
         // Lines 5, 6 (and 7 implicitly): Transform all child clusters groups.
 
         // Add local nodes.
-        List<TreeNode> childNodes = list();
         if (clusterGroup.localNodes != null) {
             for (int childNode: new BitSetIterator(clusterGroup.localNodes)) {
-                childNodes.add(transformClusterInternal(childNode, p, rp));
+                treeNode.childNodes.add(transformClusterInternal(childNode, p, rp));
             }
         }
 
@@ -132,13 +133,13 @@ public class ComputeMultiLevelTree {
         // Line 7 in the paper collects the plant automata automata and requirement automata from calls to
         // Algorithm 2. In the implementation here it returns found plant groups and requirement groups instead.
         for (Group childGroup: clusterGroup.childGroups) {
-            childNodes.add(transformCluster(childGroup, p, rp));
+            treeNode.childNodes.add(transformCluster(childGroup, p, rp));
         }
         ddbg();
         dbg("---------- DONE transformCluster for group.");
         dbg();
 
-        return new TreeNode(algo2Data.plantGroups, algo2Data.reqGroups, childNodes);
+        return treeNode;
     }
 
     /**
@@ -165,11 +166,12 @@ public class ComputeMultiLevelTree {
         // the implementation.
         dbg("Make singleton tree node for plant group %d:", plantGroup);
         idbg();
-        Algo2Data algo2Data = calculateGandK(plantGroup, p, rp);
+        Pair<Algo2Data, TreeNode> algo2Result = calculateGandK(plantGroup, p, rp);
+        TreeNode treeNode = algo2Result.right;
         ddbg();
         dbg("---------- DONE transformCluster for singleton node.");
         dbg();
-        return new TreeNode(algo2Data.plantGroups, algo2Data.reqGroups);
+        return treeNode;
     }
 
     /**
@@ -183,9 +185,9 @@ public class ComputeMultiLevelTree {
      * @param grp Cluster group to analyze.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return The computed Algorithm 2 data of the tree node.
+     * @return The computed Algorithm 2 data and new tree node.
      */
-    private static Algo2Data calculateGandK(Group grp, RealMatrix p, RealMatrix rp) {
+    private static Pair<Algo2Data, TreeNode> calculateGandK(Group grp, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Line 18 and 19 is not performed in this implementation. Instead the collected results of line 11 and 12 are
@@ -201,7 +203,8 @@ public class ComputeMultiLevelTree {
         // Lines 6-17 perform a search in the matrix and an update of them while collecting the found non-zero
         // matches. Prepare the return value of this call so its data can be passed downwards for copying and updating
         // recursively.
-        Algo2Data algo2Data = new Algo2Data(p.copy(), rp.copy(), new BitSet(), new BitSet());
+        Algo2Data algo2Data = new Algo2Data(p.copy(), rp.copy());
+        TreeNode treeNode = new TreeNode(new BitSet(), new BitSet());
 
         // Lines 6-17, 'M' in the paper contains all child groups. The clustering implementation however moves singleton
         // nodes in the cluster to local nodes. They must be dealt with separately. As a result line 6 expands into
@@ -215,13 +218,13 @@ public class ComputeMultiLevelTree {
             for (int node1: new BitSetIterator(grp.localNodes)) {
                 // Compare local nodes against each other.
                 for (int node2: new BitSetIterator(grp.localNodes)) {
-                    update(algo2Data, node1, node2);
+                    update(algo2Data, treeNode, node1, node2);
                 }
 
                 // Compare local nodes against nodes of child groups.
                 for (Group childGroup: grp.childGroups) {
                     for (int node2: new BitSetIterator(childGroup.members)) {
-                        update(algo2Data, node1, node2); // Compare local nodes against nodes of child groups.
+                        update(algo2Data, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
                     }
                 }
             }
@@ -236,7 +239,7 @@ public class ComputeMultiLevelTree {
                 for (int node1: new BitSetIterator(child1.members)) {
                     // Compare nodes of child groups against local nodes.
                     for (int node2: new BitSetIterator(grp.localNodes)) {
-                        update(algo2Data, node1, node2);
+                        update(algo2Data, treeNode, node1, node2);
                     }
                 }
             }
@@ -247,7 +250,7 @@ public class ComputeMultiLevelTree {
                     for (int node1: new BitSetIterator(child1.members)) {
                         // Compare nodes of child groups against each other.
                         for (int node2: new BitSetIterator(child2.members)) {
-                            update(algo2Data, node1, node2);
+                            update(algo2Data, treeNode, node1, node2);
                         }
                     }
                 }
@@ -256,7 +259,7 @@ public class ComputeMultiLevelTree {
 
         // Dump and return result.
         dbg("Updated Algorithm 2 data for plant group members %s: %s plant groups, %s req groups.", grp.members,
-                algo2Data.plantGroups, algo2Data.reqGroups);
+                treeNode.plantGroups, treeNode.requirementGroups);
         dbg("Updated matrices:");
         idbg();
         dbgDumpPmatrix(algo2Data.p);
@@ -264,18 +267,19 @@ public class ComputeMultiLevelTree {
         ddbg();
         dbg();
         ddbg();
-        return algo2Data;
+        return pair(algo2Data, treeNode);
     }
 
     /**
-     * Update the Algorithm 2 data for the given pair of plant groups by searching the shared cells of both plant groups
-     * for non-zero entries.
+     * Update the Algorithm 2 data and tree node for the given pair of plant groups by searching the shared cells of
+     * both plant groups for non-zero entries.
      *
      * @param algo2Data Data of the 2nd algorithm that is in-place updated if necessary.
+     * @param treeNode The tree node to update.
      * @param plantGroup1 First plant group to use.
      * @param plantGroup2 Second plant group to use.
      */
-    private static void update(Algo2Data algo2Data, int plantGroup1, int plantGroup2) {
+    private static void update(Algo2Data algo2Data, TreeNode treeNode, int plantGroup1, int plantGroup2) {
         // Line 8, check for a non-zero and non main-diagonal entry.
         if (plantGroup1 == plantGroup2 || algo2Data.p.getEntry(plantGroup1, plantGroup2) == 0) {
             return;
@@ -300,10 +304,10 @@ public class ComputeMultiLevelTree {
         // Line 11, find all plant groups that need at least one of the above requirements, and add them to the data for
         // Algorithm 2.
         BitSet plantGroups = algo2Data.collectPlantGroupsForRequirementGroups(reqGroups);
-        algo2Data.plantGroups.or(plantGroups);
+        treeNode.plantGroups.or(plantGroups);
 
         // Line 12, add the above requirements to the Algorithm 2 data.
-        algo2Data.reqGroups.or(reqGroups);
+        treeNode.requirementGroups.or(reqGroups);
 
         // Line 13, clear out the above requirement to plant group relations so the requirements are not added again.
         algo2Data.clearPlantGroupsOfRequirementGroups(reqGroups);
@@ -320,9 +324,9 @@ public class ComputeMultiLevelTree {
      * @param plantGroup Plant group to use.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return The computed Algorithm 2 data of the tree node.
+     * @return The computed Algorithm 2 data and new tree node.
      */
-    private static Algo2Data calculateGandK(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static Pair<Algo2Data, TreeNode> calculateGandK(int plantGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
@@ -341,7 +345,7 @@ public class ComputeMultiLevelTree {
         dbg();
 
         // Lines 18 and 19 are not performed in this implementation, the plant and requirement groups are returned.
-        return new Algo2Data(p, rp, plantGroups, reqGroups);
+        return pair(new Algo2Data(p, rp), new TreeNode(plantGroups, reqGroups));
     }
 
     /**

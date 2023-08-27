@@ -35,27 +35,17 @@ public class Algo2Data {
     /** Requirement group rows to plant group columns, modified in-place. */
     public final RealMatrix rp;
 
-    /** Plant groups to include in the node, modified in-place. */
-    public final BitSet plantGroups;
-
-    /** Requirement groups to include in the node, modified in-place. */
-    public final BitSet reqGroups;
-
     /**
      * Constructor of the {@link Algo2Data} class.
      *
      * @param p Unclustered plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @param plantGroups Plant groups to include in the node.
-     * @param reqGroups Requirement groups to include in the node.
      */
-    public Algo2Data(RealMatrix p, RealMatrix rp, BitSet plantGroups, BitSet reqGroups) {
+    public Algo2Data(RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         this.p = p;
         this.rp = rp;
-        this.plantGroups = plantGroups;
-        this.reqGroups = reqGroups;
     }
 
     /**
