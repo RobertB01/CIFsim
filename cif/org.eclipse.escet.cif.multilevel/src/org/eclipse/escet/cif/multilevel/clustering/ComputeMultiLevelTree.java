@@ -217,13 +217,13 @@ public class ComputeMultiLevelTree {
             for (int node1: new BitSetIterator(grp.localNodes)) {
                 // Compare local nodes against each other.
                 for (int node2: new BitSetIterator(grp.localNodes)) {
-                    update(algo2Data, treeNode, node1, node2);
+                    update(algo2Data.p, algo2Data.rp, treeNode, node1, node2);
                 }
 
                 // Compare local nodes against nodes of child groups.
                 for (Group childGroup: grp.childGroups) {
                     for (int node2: new BitSetIterator(childGroup.members)) {
-                        update(algo2Data, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
+                        update(algo2Data.p, algo2Data.rp, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
                     }
                 }
             }
@@ -238,7 +238,7 @@ public class ComputeMultiLevelTree {
                 for (int node1: new BitSetIterator(child1.members)) {
                     // Compare nodes of child groups against local nodes.
                     for (int node2: new BitSetIterator(grp.localNodes)) {
-                        update(algo2Data, treeNode, node1, node2);
+                        update(algo2Data.p, algo2Data.rp, treeNode, node1, node2);
                     }
                 }
             }
@@ -249,7 +249,7 @@ public class ComputeMultiLevelTree {
                     for (int node1: new BitSetIterator(child1.members)) {
                         // Compare nodes of child groups against each other.
                         for (int node2: new BitSetIterator(child2.members)) {
-                            update(algo2Data, treeNode, node1, node2);
+                            update(algo2Data.p, algo2Data.rp, treeNode, node1, node2);
                         }
                     }
                 }
@@ -273,19 +273,20 @@ public class ComputeMultiLevelTree {
      * Update the Algorithm 2 data and tree node for the given pair of plant groups by searching the shared cells of
      * both plant groups for non-zero entries.
      *
-     * @param algo2Data Data of the 2nd algorithm that is in-place updated if necessary.
+     * @param p Plant group relations.
+     * @param rp Requirement group rows to plant group columns.
      * @param treeNode The tree node to update.
      * @param plantGroup1 First plant group to use.
      * @param plantGroup2 Second plant group to use.
      */
-    private static void update(Algo2Data algo2Data, TreeNode treeNode, int plantGroup1, int plantGroup2) {
+    private static void update(RealMatrix p, RealMatrix rp, TreeNode treeNode, int plantGroup1, int plantGroup2) {
         // Line 8, check for a non-zero and non main-diagonal entry.
-        if (plantGroup1 == plantGroup2 || algo2Data.p.getEntry(plantGroup1, plantGroup2) == 0) {
+        if (plantGroup1 == plantGroup2 || p.getEntry(plantGroup1, plantGroup2) == 0) {
             return;
         }
 
         // Line 9, find requirement groups for the pair of plant groups.
-        BitSet reqGroups = collectRequirementsForPlantGroupPair(algo2Data.rp, plantGroup1, plantGroup2);
+        BitSet reqGroups = collectRequirementsForPlantGroupPair(rp, plantGroup1, plantGroup2);
         if (reqGroups.isEmpty()) {
             dbg("Found P cell (%d, %d), but no requirements.", plantGroup1, plantGroup2);
             return;
@@ -297,19 +298,19 @@ public class ComputeMultiLevelTree {
         // the matrix but can add a negative value.
         idbg();
         dbg("(%d, %d): add %d", plantGroup1, plantGroup2, -reqGroups.cardinality());
-        algo2Data.p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
+        p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
         ddbg();
 
         // Line 11, find all plant groups that need at least one of the above requirements, and add them to the data for
         // Algorithm 2.
-        BitSet plantGroups = collectPlantGroupsForRequirementGroups(algo2Data.rp, reqGroups);
+        BitSet plantGroups = collectPlantGroupsForRequirementGroups(rp, reqGroups);
         treeNode.plantGroups.or(plantGroups);
 
         // Line 12, add the above requirements to the Algorithm 2 data.
         treeNode.requirementGroups.or(reqGroups);
 
         // Line 13, clear out the above requirement to plant group relations so the requirements are not added again.
-        clearPlantGroupsOfRequirementGroups(algo2Data.rp, reqGroups);
+        clearPlantGroupsOfRequirementGroups(rp, reqGroups);
     }
 
     /**
