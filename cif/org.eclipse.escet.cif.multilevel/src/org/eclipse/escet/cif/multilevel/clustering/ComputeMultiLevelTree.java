@@ -285,7 +285,7 @@ public class ComputeMultiLevelTree {
         }
 
         // Line 9, find requirement groups for the pair of plant groups.
-        BitSet reqGroups = algo2Data.collectRequirementsForPlantGroupPair(plantGroup1, plantGroup2);
+        BitSet reqGroups = collectRequirementsForPlantGroupPair(algo2Data.rp, plantGroup1, plantGroup2);
         if (reqGroups.isEmpty()) {
             dbg("Found P cell (%d, %d), but no requirements.", plantGroup1, plantGroup2);
             return;
@@ -302,24 +302,25 @@ public class ComputeMultiLevelTree {
 
         // Line 11, find all plant groups that need at least one of the above requirements, and add them to the data for
         // Algorithm 2.
-        BitSet plantGroups = algo2Data.collectPlantGroupsForRequirementGroups(reqGroups);
+        BitSet plantGroups = collectPlantGroupsForRequirementGroups(algo2Data.rp, reqGroups);
         treeNode.plantGroups.or(plantGroups);
 
         // Line 12, add the above requirements to the Algorithm 2 data.
         treeNode.requirementGroups.or(reqGroups);
 
         // Line 13, clear out the above requirement to plant group relations so the requirements are not added again.
-        algo2Data.clearPlantGroupsOfRequirementGroups(reqGroups);
+        clearPlantGroupsOfRequirementGroups(algo2Data.rp, reqGroups);
     }
 
     /**
      * Find all requirement groups that are related to both plant groups.
      *
+     * @param rp Requirement group rows to plant group columns, modified in-place.
      * @param plantGrp1 First plant group.
      * @param plantGrp2 Second plant group.
      * @return Requirements that relate to both plant groups.
      */
-    public BitSet collectRequirementsForPlantGroupPair(int plantGrp1, int plantGrp2) {
+    private static BitSet collectRequirementsForPlantGroupPair(RealMatrix rp, int plantGrp1, int plantGrp2) {
         BitSet reqGroups = new BitSet();
         for (int row = 0; row < rp.getRowDimension(); row++) {
             if (rp.getEntry(row, plantGrp1) != 0 && rp.getEntry(row, plantGrp2) != 0) {
@@ -332,10 +333,11 @@ public class ComputeMultiLevelTree {
     /**
      * Collect the plant groups that relate to at least one of the given requirement groups.
      *
+     * @param rp Requirement group rows to plant group columns, modified in-place.
      * @param reqGroups Requirement groups to match with.
      * @return The plant groups that relate to at least one of the given requirement groups.
      */
-    public BitSet collectPlantGroupsForRequirementGroups(BitSet reqGroups) {
+    private static BitSet collectPlantGroupsForRequirementGroups(RealMatrix rp, BitSet reqGroups) {
         BitSet plantGroups = new BitSet();
         for (int col = 0; col < rp.getColumnDimension(); col++) {
             for (int reqGrp: new BitSetIterator(reqGroups)) {
@@ -349,11 +351,12 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Clear the given requirement group rows in the {@link #rp} matrix.
+     * Clear the given requirement group rows in the {@code rp} matrix.
      *
+     * @param rp Requirement group rows to plant group columns, modified in-place.
      * @param reqGroups Requirement rows to clear.
      */
-    public void clearPlantGroupsOfRequirementGroups(BitSet reqGroups) {
+    private static void clearPlantGroupsOfRequirementGroups(RealMatrix rp, BitSet reqGroups) {
         for (int row: new BitSetIterator(reqGroups)) {
             for (int col = 0; col < rp.getColumnDimension(); col++) {
                 rp.setEntry(row, col, 0);
