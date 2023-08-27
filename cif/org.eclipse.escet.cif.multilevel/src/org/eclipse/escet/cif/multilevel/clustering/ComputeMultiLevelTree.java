@@ -62,9 +62,9 @@ public class ComputeMultiLevelTree {
     public static TreeNode transformCluster(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         // Depending on the size of the cluster group, forward the call to the method that deals with it.
         if (clusterGroup.members.cardinality() == 1) {
-            return transformClusterInternal(clusterGroup.members.nextSetBit(0), p, rp);
+            return transformClusterSingle(clusterGroup.members.nextSetBit(0), p, rp);
         } else {
-            return transformClusterInternal(clusterGroup, p, rp);
+            return transformClusterMultiple(clusterGroup, p, rp);
         }
     }
 
@@ -73,17 +73,13 @@ public class ComputeMultiLevelTree {
      * cluster group with more than one node. Unlike in the paper, expansion of plant groups and requirement groups to
      * their original plants and requirements is not performed.
      *
-     * <p>
-     * The implementation for the single node is at {@link #transformClusterInternal(int, RealMatrix, RealMatrix)}.
-     * </p>
-     *
      * @param clusterGroup The cluster group to convert to a tree node.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
      * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
      *     elements.
      */
-    private static TreeNode transformClusterInternal(Group clusterGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode transformClusterMultiple(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Lines 1, 7, 8:
@@ -103,14 +99,14 @@ public class ComputeMultiLevelTree {
         // Line 2: Compute what the tree node should contain.
         p = p.copy();
         rp = rp.copy();
-        TreeNode treeNode = calculateGandK(clusterGroup, p, rp);
+        TreeNode treeNode = calculateGandKMultiple(clusterGroup, p, rp);
 
         // Lines 5, 6 (and 7 implicitly): Transform all child cluster groups.
 
         // Add local nodes of the cluster group.
         if (clusterGroup.localNodes != null) {
             for (int childNode: new BitSetIterator(clusterGroup.localNodes)) {
-                treeNode.childNodes.add(transformClusterInternal(childNode, p, rp));
+                treeNode.childNodes.add(transformClusterSingle(childNode, p, rp));
             }
         }
 
@@ -133,17 +129,13 @@ public class ComputeMultiLevelTree {
      * cluster. Unlike in the paper, expansion of plant groups and requirement groups to their original plants and
      * requirements is not performed.
      *
-     * <p>
-     * The implementation for multiple nodes is at {@link #transformClusterInternal(Group, RealMatrix, RealMatrix)}.
-     * </p>
-     *
      * @param clusterGroup The cluster group to convert to a tree node. Contains a single plant group.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
      * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
      *     elements.
      */
-    private static TreeNode transformClusterInternal(int clusterGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode transformClusterSingle(int clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Since 'size(M) = 1' here, lines 4 to 10 are never done. Also here, expanding the plant and requirement groups
@@ -151,7 +143,7 @@ public class ComputeMultiLevelTree {
         // immediately returns the tree node.
         dbg("Make singleton tree node for plant group %d:", clusterGroup);
         idbg();
-        TreeNode treeNode = calculateGandK(clusterGroup, p, rp);
+        TreeNode treeNode = calculateGandKSingle(clusterGroup, p, rp);
         ddbg();
         dbg("---------- DONE transformCluster for singleton node.");
         dbg();
@@ -163,17 +155,13 @@ public class ComputeMultiLevelTree {
      * nodes (the {@code size(M) > 1} case). Unlike in the paper, expansion of plant groups and requirement groups to
      * their original plants and requirements is not performed.
      *
-     * <p>
-     * The implementation for a single node is at {@link #calculateGandK(int, RealMatrix, RealMatrix)}.
-     * </p>
-     *
      * @param clusterGroup Cluster group to consider.
      * @param p Plant group relations. Is modified in-place.
      * @param rp Requirement group rows to plant group columns. Is modified in-place.
      * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
      *     elements.
      */
-    private static TreeNode calculateGandK(Group clusterGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandKMultiple(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Start by dumping the input.
@@ -359,16 +347,12 @@ public class ComputeMultiLevelTree {
      * {@code size(M) = 1} case). Unlike in the paper, expansion of plant groups and requirement groups to their
      * original plants and requirements is not performed.
      *
-     * <p>
-     * The implementation for multiple groups is at {@link #calculateGandK(Group, RealMatrix, RealMatrix)}.
-     * </p>
-     *
      * @param clusterGroup The cluster group to consider. Contains a single plant group.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
      * @return The new tree node for the plant group.
      */
-    private static TreeNode calculateGandK(int clusterGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandKSingle(int clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
