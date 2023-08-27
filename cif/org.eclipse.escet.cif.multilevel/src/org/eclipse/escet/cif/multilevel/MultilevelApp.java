@@ -55,7 +55,7 @@ import org.eclipse.escet.common.dsm.DsmClustering;
  * CIF multi-level synthesis application.
  *
  * <p>
- * This implementation is described in Goorden 2020:
+ * This implementation is based on the paper Goorden 2020:
  *
  * M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event
  * Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages
