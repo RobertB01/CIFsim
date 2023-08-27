@@ -202,7 +202,8 @@ public class ComputeMultiLevelTree {
         // Lines 6-17 perform a search in the matrix and an update of them while collecting the found non-zero
         // matches. Prepare the return value of this call so its data can be passed downwards for copying and updating
         // recursively.
-        Algo2Data algo2Data = new Algo2Data(p.copy(), rp.copy());
+        p = p.copy();
+        rp = rp.copy();
         TreeNode treeNode = new TreeNode(new BitSet(), new BitSet());
 
         // Lines 6-17, 'M' in the paper contains all child groups. The clustering implementation however moves singleton
@@ -217,13 +218,13 @@ public class ComputeMultiLevelTree {
             for (int node1: new BitSetIterator(grp.localNodes)) {
                 // Compare local nodes against each other.
                 for (int node2: new BitSetIterator(grp.localNodes)) {
-                    update(algo2Data.p, algo2Data.rp, treeNode, node1, node2);
+                    update(p, rp, treeNode, node1, node2);
                 }
 
                 // Compare local nodes against nodes of child groups.
                 for (Group childGroup: grp.childGroups) {
                     for (int node2: new BitSetIterator(childGroup.members)) {
-                        update(algo2Data.p, algo2Data.rp, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
+                        update(p, rp, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
                     }
                 }
             }
@@ -238,7 +239,7 @@ public class ComputeMultiLevelTree {
                 for (int node1: new BitSetIterator(child1.members)) {
                     // Compare nodes of child groups against local nodes.
                     for (int node2: new BitSetIterator(grp.localNodes)) {
-                        update(algo2Data.p, algo2Data.rp, treeNode, node1, node2);
+                        update(p, rp, treeNode, node1, node2);
                     }
                 }
             }
@@ -249,7 +250,7 @@ public class ComputeMultiLevelTree {
                     for (int node1: new BitSetIterator(child1.members)) {
                         // Compare nodes of child groups against each other.
                         for (int node2: new BitSetIterator(child2.members)) {
-                            update(algo2Data.p, algo2Data.rp, treeNode, node1, node2);
+                            update(p, rp, treeNode, node1, node2);
                         }
                     }
                 }
@@ -261,12 +262,12 @@ public class ComputeMultiLevelTree {
                 treeNode.plantGroups, treeNode.requirementGroups);
         dbg("Updated matrices:");
         idbg();
-        dbgDumpPmatrix(algo2Data.p);
-        dbgDumpRPmatrix(algo2Data.rp);
+        dbgDumpPmatrix(p);
+        dbgDumpRPmatrix(rp);
         ddbg();
         dbg();
         ddbg();
-        return pair(algo2Data, treeNode);
+        return pair(new Algo2Data(p, rp), treeNode);
     }
 
     /**
