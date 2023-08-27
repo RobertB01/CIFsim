@@ -137,21 +137,21 @@ public class ComputeMultiLevelTree {
      * The implementation for multiple nodes is at {@link #transformClusterInternal(Group, RealMatrix, RealMatrix)}.
      * </p>
      *
-     * @param plantGroup Singleton cluster group to a tree node. Contains a single plant group.
+     * @param clusterGroup The cluster group to convert to a tree node. Contains a single plant group.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
      * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
      *     elements.
      */
-    private static TreeNode transformClusterInternal(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode transformClusterInternal(int clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Since 'size(M) = 1' here, lines 4 to 10 are never done. Also here, expanding the plant and requirement groups
         // back to their elements is not performed. That eliminates line 3. Thus this only implements line 2, and then
         // immediately returns the tree node.
-        dbg("Make singleton tree node for plant group %d:", plantGroup);
+        dbg("Make singleton tree node for plant group %d:", clusterGroup);
         idbg();
-        TreeNode treeNode = calculateGandK(plantGroup, p, rp);
+        TreeNode treeNode = calculateGandK(clusterGroup, p, rp);
         ddbg();
         dbg("---------- DONE transformCluster for singleton node.");
         dbg();
@@ -167,13 +167,13 @@ public class ComputeMultiLevelTree {
      * The implementation for a single node is at {@link #calculateGandK(int, RealMatrix, RealMatrix)}.
      * </p>
      *
-     * @param grp Cluster group to consider.
+     * @param clusterGroup Cluster group to consider.
      * @param p Plant group relations. Is modified in-place.
      * @param rp Requirement group rows to plant group columns. Is modified in-place.
      * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
      *     elements.
      */
-    private static TreeNode calculateGandK(Group grp, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandK(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Start by dumping the input.
@@ -197,15 +197,15 @@ public class ComputeMultiLevelTree {
         // duplication this has been factored out to 'update'.
 
         // Compare local nodes.
-        if (grp.localNodes != null) {
-            for (int node1: new BitSetIterator(grp.localNodes)) {
+        if (clusterGroup.localNodes != null) {
+            for (int node1: new BitSetIterator(clusterGroup.localNodes)) {
                 // Compare local nodes against each other.
-                for (int node2: new BitSetIterator(grp.localNodes)) {
+                for (int node2: new BitSetIterator(clusterGroup.localNodes)) {
                     update(p, rp, treeNode, node1, node2);
                 }
 
                 // Compare local nodes against nodes of child groups.
-                for (Group childGroup: grp.childGroups) {
+                for (Group childGroup: clusterGroup.childGroups) {
                     for (int node2: new BitSetIterator(childGroup.members)) {
                         update(p, rp, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
                     }
@@ -214,14 +214,14 @@ public class ComputeMultiLevelTree {
         }
 
         // Compare child groups.
-        int numChildGroups = grp.childGroups.size();
+        int numChildGroups = clusterGroup.childGroups.size();
         for (int grp1 = 0; grp1 < numChildGroups; grp1++) {
-            Group child1 = grp.childGroups.get(grp1);
+            Group child1 = clusterGroup.childGroups.get(grp1);
 
-            if (grp.localNodes != null) {
+            if (clusterGroup.localNodes != null) {
                 for (int node1: new BitSetIterator(child1.members)) {
                     // Compare nodes of child groups against local nodes.
-                    for (int node2: new BitSetIterator(grp.localNodes)) {
+                    for (int node2: new BitSetIterator(clusterGroup.localNodes)) {
                         update(p, rp, treeNode, node1, node2);
                     }
                 }
@@ -229,7 +229,7 @@ public class ComputeMultiLevelTree {
 
             for (int grp2 = 0; grp2 < numChildGroups; grp2++) {
                 if (grp1 != grp2) {
-                    Group child2 = grp.childGroups.get(grp2);
+                    Group child2 = clusterGroup.childGroups.get(grp2);
                     for (int node1: new BitSetIterator(child1.members)) {
                         // Compare nodes of child groups against each other.
                         for (int node2: new BitSetIterator(child2.members)) {
@@ -241,8 +241,8 @@ public class ComputeMultiLevelTree {
         }
 
         // Dump result.
-        dbg("Updated Algorithm 2 data for plant group members %s: %s plant groups, %s req groups.", grp.members,
-                treeNode.plantGroups, treeNode.requirementGroups);
+        dbg("Updated Algorithm 2 data for plant group members %s: %s plant groups, %s req groups.",
+                clusterGroup.members, treeNode.plantGroups, treeNode.requirementGroups);
         dbg("Updated matrices:");
         idbg();
         dbgDumpPmatrix(p);
@@ -363,12 +363,12 @@ public class ComputeMultiLevelTree {
      * The implementation for multiple groups is at {@link #calculateGandK(Group, RealMatrix, RealMatrix)}.
      * </p>
      *
-     * @param plantGroup Plant group to consider.
+     * @param clusterGroup The cluster group to consider. Contains a single plant group.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
      * @return The new tree node for the plant group.
      */
-    private static TreeNode calculateGandK(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandK(int clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
@@ -378,11 +378,11 @@ public class ComputeMultiLevelTree {
         // Line 3 is trivial here, as there is exactly one given plant group, and expansion of plant groups to their
         // plants is not performed.
         BitSet plantGroups = new BitSet();
-        plantGroups.set(plantGroup);
+        plantGroups.set(clusterGroup);
 
         // Line 4: Collect the requirement groups only used by the plant group.
-        BitSet reqGroups = reqGroupsOnlyUsedBy(rp, plantGroup);
-        dbg("Algorithm 2 data for singleton plant group %d: %s plant groups, %s req groups.", plantGroup, plantGroups,
+        BitSet reqGroups = reqGroupsOnlyUsedBy(rp, clusterGroup);
+        dbg("Algorithm 2 data for singleton plant group %d: %s plant groups, %s req groups.", clusterGroup, plantGroups,
                 reqGroups);
         dbg();
 
