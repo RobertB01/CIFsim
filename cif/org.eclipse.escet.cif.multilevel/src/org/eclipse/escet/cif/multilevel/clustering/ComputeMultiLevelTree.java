@@ -418,22 +418,22 @@ public class ComputeMultiLevelTree {
     /**
      * Dump the 'P' matrix at the debugging output stream.
      *
-     * @param m The 'P' matrix to dump.
+     * @param p The 'P' matrix to dump.
      */
-    public static void dbgDumpPmatrix(RealMatrix m) {
-        Assert.check(m.isSquare());
+    public static void dbgDumpPmatrix(RealMatrix p) {
+        Assert.check(p.isSquare());
         dbg("Dumping P:");
         idbg();
-        String headerLine = IntStream.range(0, m.getColumnDimension()).mapToObj(c -> fmt("%2d", c))
+        String headerLine = IntStream.range(0, p.getColumnDimension()).mapToObj(c -> fmt("%2d", c))
                 .collect(Collectors.joining(" "));
         dbg("   : " + headerLine);
-        for (int row = 0; row < m.getRowDimension(); row++) {
+        for (int row = 0; row < p.getRowDimension(); row++) {
             final int finalRow = row;
             IntFunction<String> convertValue = col -> {
-                double v = m.getEntry(finalRow, col);
+                double v = p.getEntry(finalRow, col);
                 return (v == 0) ? " ." : fmt("%2d", (int)v);
             };
-            String line = fmt("%3d: ", row) + IntStream.range(0, m.getColumnDimension()).mapToObj(convertValue)
+            String line = fmt("%3d: ", row) + IntStream.range(0, p.getColumnDimension()).mapToObj(convertValue)
                     .collect(Collectors.joining(" "));
             dbg(line);
         }
@@ -444,16 +444,16 @@ public class ComputeMultiLevelTree {
     /**
      * Dump the 'RP' matrix at the debugging output stream.
      *
-     * @param m The 'RP' matrix to dump.
+     * @param rp The 'RP' matrix to dump.
      */
-    public static void dbgDumpRPmatrix(RealMatrix m) {
+    public static void dbgDumpRPmatrix(RealMatrix rp) {
         dbg("Dumping RP:");
         idbg();
-        for (int row = 0; row < m.getRowDimension(); row++) {
+        for (int row = 0; row < rp.getRowDimension(); row++) {
             final int finalRow = row;
-            IntPredicate nonzero = col -> m.getEntry(finalRow, col) != 0;
-            String line = fmt("%3d: ", row)
-                    + IntStream.range(0, m.getColumnDimension()).filter(nonzero).boxed().collect(toBitSet()).toString();
+            IntPredicate nonzero = col -> rp.getEntry(finalRow, col) != 0;
+            String line = fmt("%3d: ", row) + IntStream.range(0, rp.getColumnDimension()).filter(nonzero).boxed()
+                    .collect(toBitSet()).toString();
             dbg(line);
         }
         ddbg();
