@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.BitSets.toBitSet;
-import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.text.NumberFormat;
@@ -33,7 +32,6 @@ import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
-import org.eclipse.escet.common.java.Pair;
 
 /**
  * Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis.
@@ -113,11 +111,9 @@ public class ComputeMultiLevelTree {
         dbg();
 
         // Line 2, compute what the tree node should contain.
-        Pair<Algo2Data, TreeNode> algo2Result = calculateGandK(clusterGroup, p, rp);
-        Algo2Data algo2Data = algo2Result.left;
-        TreeNode treeNode = algo2Result.right;
-        p = algo2Data.p;
-        rp = algo2Data.rp;
+        p = p.copy();
+        rp = rp.copy();
+        TreeNode treeNode = calculateGandK(clusterGroup, p, rp);
 
         // Lines 5, 6 (and 7 implicitly): Transform all child clusters groups.
 
@@ -184,9 +180,9 @@ public class ComputeMultiLevelTree {
      * @param grp Cluster group to analyze.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return The computed Algorithm 2 data and new tree node.
+     * @return The new tree node.
      */
-    private static Pair<Algo2Data, TreeNode> calculateGandK(Group grp, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandK(Group grp, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Line 18 and 19 is not performed in this implementation. Instead the collected results of line 11 and 12 are
@@ -202,8 +198,6 @@ public class ComputeMultiLevelTree {
         // Lines 6-17 perform a search in the matrix and an update of them while collecting the found non-zero
         // matches. Prepare the return value of this call so its data can be passed downwards for copying and updating
         // recursively.
-        p = p.copy();
-        rp = rp.copy();
         TreeNode treeNode = new TreeNode(new BitSet(), new BitSet());
 
         // Lines 6-17, 'M' in the paper contains all child groups. The clustering implementation however moves singleton
@@ -267,7 +261,7 @@ public class ComputeMultiLevelTree {
         ddbg();
         dbg();
         ddbg();
-        return pair(new Algo2Data(p, rp), treeNode);
+        return treeNode;
     }
 
     /**
