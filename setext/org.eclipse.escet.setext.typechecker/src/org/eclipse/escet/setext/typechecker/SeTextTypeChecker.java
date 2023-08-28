@@ -347,8 +347,8 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
     /**
      * Type checks a regular expression.
      *
-     * @param isShortcut Is this regular expression part of shortcut definition?
      * @param regEx The regular expression to check.
+     * @param isShortcut Is this regular expression part of shortcut definition?
      */
     private void tcheckRegEx(RegEx regEx, boolean isShortcut) {
         if (regEx instanceof RegExAlts) {
