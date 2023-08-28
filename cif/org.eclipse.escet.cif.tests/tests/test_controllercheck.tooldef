@@ -18,7 +18,9 @@ string test_path = "controllercheck";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1", "--output-mode=debug"];
 
-map(string:list string) test_options = {};
+map(string:list string) test_options = {
+    "controllercheck/no_checks_enabled.cif": ["--finite-response-check=false", "--confluence-check=false"],
+};
 set string test_skip = {};
 
 // Initialize counts.
@@ -44,38 +46,60 @@ end
 
 // Test all tests.
 for test in tests:
-    // Get test specific options.
-    list string options = default_options;
-    list string extra_options;
-    if contains(test_options, test):: extra_options = test_options[test];
-    options = options + extra_options;
+    // Test with certain checks enabled/disabled:
+    // - Root folder: all checks enabled, each individual check enabled.
+    // - Sub-folders: all checks enabled, only that specific check enabled.
+    list tuple(bool, bool) checks_enabled_variants; // Entries contain check enablements: confluence, finite response.
+    if contains(replace(test, "\\", "/"), "/confluence/"):
+        checks_enabled_variants = [(true, true), (true, false)];
+    elif contains(replace(test, "\\", "/"), "/finite_response/"):
+        checks_enabled_variants = [(true, true), (false, true)];
+    else
+        checks_enabled_variants = [(true, true), (true, false), (false, true)];
+    end
 
-    // Print what we are testing.
-    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+    // Test per enablement combination:
+    for confluence_enabled, finite_response_enabled in checks_enabled_variants:
+        // Get test specific options.
+        list string options = default_options;
+        if not confluence_enabled::       options = options + ["--confluence-check=false"];
+        if not finite_response_enabled::  options = options + ["--finite-response-check=false"];
+        list string extra_options;
+        if contains(test_options, test):: extra_options = test_options[test];
+        options = options + extra_options;
 
-    // Get paths.
-    string test_out_exp  = chfileext(test, oldext="cif", newext="out");
-    string test_err_exp  = chfileext(test, oldext="cif", newext="err");
-    string test_out_real = chfileext(test, oldext="cif", newext="out.real");
-    string test_err_real = chfileext(test, oldext="cif", newext="err.real");
+        // Determine path postfix.
+        string postfix = "";
+        if confluence_enabled:      postfix = postfix + "C"; else postfix = postfix + "x"; end
+        if finite_response_enabled: postfix = postfix + "F"; else postfix = postfix + "x"; end
 
-    // Execute.
-    cifcontrollercheck([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+        // Print what we are testing.
+        outln("Testing \"%s\" using checks \"%s\" and options \"%s\"...", test, postfix, join(extra_options, " "));
 
-    // Compare output.
-    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
-    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
-    if not stdout_diff:: rmfile(test_out_real);
-    if not stderr_diff:: rmfile(test_err_real);
+        // Get paths.
+        string test_out_exp  = chfileext(test, oldext="cif", newext=postfix+".out");
+        string test_err_exp  = chfileext(test, oldext="cif", newext=postfix+".err");
+        string test_out_real = chfileext(test, oldext="cif", newext=postfix+".out.real");
+        string test_err_real = chfileext(test, oldext="cif", newext=postfix+".err.real");
 
-    // Update counts.
-    int diff_count = 0;
-    if stdout_diff:: diff_count = diff_count + 1;
-    if stderr_diff:: diff_count = diff_count + 1;
+        // Execute.
+        cifcontrollercheck([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
-    count = count + 1;
-    if diff_count == 0:: successes = successes + 1;
-    if diff_count > 0:: failures = failures + 1;
+        // Compare output.
+        bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+        bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+        if not stdout_diff:: rmfile(test_out_real);
+        if not stderr_diff:: rmfile(test_err_real);
+
+        // Update counts.
+        int diff_count = 0;
+        if stdout_diff:: diff_count = diff_count + 1;
+        if stderr_diff:: diff_count = diff_count + 1;
+
+        count = count + 1;
+        if diff_count == 0:: successes = successes + 1;
+        if diff_count > 0:: failures = failures + 1;
+    end
 end
 
 // Get result message.

@@ -1,0 +1,10 @@
+Loading CIF specification "controllercheck/confluence/skippable1.cif"...
+
+Checking for confluence...
+
+Skippable event pairs:
+    (OptionalChangeBool.a, OptionalChangeBool.b)
+
+CONCLUSION:
+    Finite response checking was disabled, finite response property is unknown.
+    [OK] The specification has confluence.

@@ -1,0 +1,22 @@
+Loading CIF specification "controllercheck/finite_response/mult_events_edge.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.a A.c A.e), which is not controllable unconnectable.
+        (A.a A.d A.e), which is not controllable unconnectable.
+        (A.b A.c A.e), which is not controllable unconnectable.
+        (A.b A.d A.e), which is not controllable unconnectable.
+
+CONCLUSION:
+    [ERROR] The specification may NOT have finite response.
+    
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - A.a
+            - A.b
+            - A.c
+            - A.d
+            - A.e
+
+    Confluence checking was disabled, confluence property is unknown.

@@ -61,6 +61,8 @@ If unset, finite response checking is not performed.
 * _Enable confluence checking_: If set (the default), confluence is checked in the CIF specification.
 If unset, confluence checking is not performed.
 
+At least one of the checks must be enabled.
+
 indexterm:[controller property checker,supported specifications]
 
 === Supported specifications

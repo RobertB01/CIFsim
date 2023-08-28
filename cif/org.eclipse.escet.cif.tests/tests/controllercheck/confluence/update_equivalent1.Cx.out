@@ -1,0 +1,10 @@
+Loading CIF specification "controllercheck/confluence/update_equivalent1.cif"...
+
+Checking for confluence...
+
+Update equivalent event pairs:
+    (SingleAut.a, SingleAut.b)
+
+CONCLUSION:
+    Finite response checking was disabled, finite response property is unknown.
+    [OK] The specification has confluence.

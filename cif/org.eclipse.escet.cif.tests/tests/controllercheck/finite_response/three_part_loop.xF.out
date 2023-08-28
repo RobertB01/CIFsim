@@ -1,0 +1,10 @@
+Loading CIF specification "controllercheck/finite_response/three_part_loop.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton X:
+        (X.a X.b X.c), which is controllable unconnectable.
+
+CONCLUSION:
+    [OK] The specification has finite response.
+    Confluence checking was disabled, confluence property is unknown.
