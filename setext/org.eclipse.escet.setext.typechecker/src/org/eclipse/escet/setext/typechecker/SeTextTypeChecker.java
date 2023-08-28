@@ -160,12 +160,12 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
                 continue;
             }
 
-            // Store shortcut in symbol table.
-            ShortcutDecl shortcut = (ShortcutDecl)decl;
-            symtable.add(shortcut.name, shortcut);
-
             // Type check regular expression.
+            ShortcutDecl shortcut = (ShortcutDecl)decl;
             tcheckRegEx(shortcut.regEx, true);
+
+            // Store shortcut in symbol table.
+            symtable.add(shortcut.name, shortcut);
         }
     }
 
