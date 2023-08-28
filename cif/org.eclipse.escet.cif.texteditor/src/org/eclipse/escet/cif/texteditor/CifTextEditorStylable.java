@@ -18,6 +18,9 @@ public enum CifTextEditorStylable {
     /** Default. */
     DEFAULT,
 
+    /** Annotation. */
+    ANNOTATION,
+
     /** Identifier. */
     IDENTIFIER,
 
