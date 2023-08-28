@@ -45,7 +45,7 @@ Decl : "type" TypeDefs ";"
      |    Controllability         EventType Identifiers ";"
      | "const" Type ConstantDefs ";"
      | "alg" Type AlgVarsDefs ";"
-     | "input" Type Identifiers ";"
+     | OptAnnos "input" Type Identifiers ";"
      | "cont" ContDecls ";"
      | "equation" Equations ";"
      | "initial" Expressions ";"
@@ -564,6 +564,29 @@ Name : Identifier
      | ABSOLUTENAMETK
      | ROOTNAMETK
      ;
+
+///////////////////////////////////////////////////////////////////////////////
+
+OptAnnos : /* empty */
+         | OptAnnos Annotation
+         ;
+
+Annotation : ANNOTATIONNAMETK
+           | ANNOTATIONNAMETK "(" ")"
+           | ANNOTATIONNAMETK "(" AnnotationArgs OptComma ")"
+           ;
+
+AnnotationArgs : AnnotationArg
+               | AnnotationArgs "," AnnotationArg
+               ;
+
+AnnotationArg : IDENTIFIERTK "=" Expression
+              | RELATIVENAMETK "=" Expression
+              ;
+
+OptComma : /* empty */
+         | ","
+         ;
 
 SupKind : "plant"
         | "requirement"
