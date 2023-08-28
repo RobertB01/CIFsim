@@ -135,9 +135,9 @@ public class TransitionGeneratorTest {
     private DefaultTransitionGenerator transitionGenerator;
 
     /** Variable for receivers to receive channel values. */
-    private DiscVariable recVar = newDiscVariable("recVar", null, newIntType(), null);
+    private DiscVariable recVar = newDiscVariable(null, "recVar", null, newIntType(), null);
 
-    private DiscVariable otherVar = newDiscVariable("otherVar", null, newIntType(), null);
+    private DiscVariable otherVar = newDiscVariable(null, "otherVar", null, newIntType(), null);
 
     private Specification spec = newSpecification(null, List.of(recVar, otherVar), null, null, null, null, null, null,
             "specification", null);
@@ -159,7 +159,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testSingleUnconditionalSender() {
-        Event event = newEvent(true, "sendEvent", null, newIntType());
+        Event event = newEvent(null, true, "sendEvent", null, newIntType());
         spec.getDeclarations().add(event);
 
         // Create sender edge.
@@ -210,7 +210,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testChannelOneSenderTwoReceivers() {
-        Event event = newEvent(true, "channelEvent", null, newIntType());
+        Event event = newEvent(null, true, "channelEvent", null, newIntType());
         spec.getDeclarations().add(event);
 
         // automaton sender1: edge channelEvent!1;
@@ -296,7 +296,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testTwoSyncers() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // automaton syncer1: edge event when otherVar = 1 do otherVar := 2;
@@ -370,7 +370,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testOneMonitor() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // automaton monitor: edge event when otherVar = 1 do otherVar := 2;
@@ -406,7 +406,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testMultiAssignUnfold() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // Pairwise assignment.
@@ -458,7 +458,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testMultiAssignProject() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // Unpack "true" tuple.

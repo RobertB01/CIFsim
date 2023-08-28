@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
@@ -251,6 +252,20 @@ public abstract class CompositeCifWithArgWalker<T> extends CifWithArgWalker<T> {
     protected void postprocessAlphabet(Alphabet obj, T arg) {
         for (CifWithArgWalker<T> walker: walkers) {
             walker.postprocessAlphabet(obj, arg);
+        }
+    }
+
+    @Override
+    protected void preprocessAnnotatedObject(AnnotatedObject obj, T arg) {
+        for (CifWithArgWalker<T> walker: walkers) {
+            walker.preprocessAnnotatedObject(obj, arg);
+        }
+    }
+
+    @Override
+    protected void postprocessAnnotatedObject(AnnotatedObject obj, T arg) {
+        for (CifWithArgWalker<T> walker: walkers) {
+            walker.postprocessAnnotatedObject(obj, arg);
         }
     }
 

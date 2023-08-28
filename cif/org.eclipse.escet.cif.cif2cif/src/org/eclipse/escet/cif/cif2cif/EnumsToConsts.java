@@ -122,7 +122,7 @@ public class EnumsToConsts extends EnumsToBase {
         Constant constant = enumConst.get(lit);
         if (constant == null) {
             int value = literalToInt(lit);
-            constant = newConstant(lit.getName(), null, getIntType(value), CifValueUtils.makeInt(value));
+            constant = newConstant(null, lit.getName(), null, getIntType(value), CifValueUtils.makeInt(value));
             enumConst.put(lit, constant);
         }
         return constant;

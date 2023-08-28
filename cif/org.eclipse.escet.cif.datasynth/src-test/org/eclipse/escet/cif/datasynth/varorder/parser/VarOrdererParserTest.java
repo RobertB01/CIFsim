@@ -194,9 +194,9 @@ public class VarOrdererParserTest {
     @SuppressWarnings("javadoc")
     public void testCustomValid() {
         Specification spec = newSpecification();
-        InputVariable va = newInputVariable("a", null, newIntType(0, null, 1));
-        InputVariable vb = newInputVariable("b", null, newIntType(0, null, 1));
-        InputVariable vc = newInputVariable("c", null, newIntType(0, null, 1));
+        InputVariable va = newInputVariable(null, "a", null, newIntType(0, null, 1));
+        InputVariable vb = newInputVariable(null, "b", null, newIntType(0, null, 1));
+        InputVariable vc = newInputVariable(null, "c", null, newIntType(0, null, 1));
         spec.getDeclarations().add(va);
         spec.getDeclarations().add(vb);
         spec.getDeclarations().add(vc);
@@ -236,9 +236,9 @@ public class VarOrdererParserTest {
                 + "matches the given name pattern.");
 
         Specification spec = newSpecification();
-        InputVariable va = newInputVariable("a", null, newIntType(0, null, 1));
-        InputVariable vb = newInputVariable("b", null, newIntType(0, null, 1));
-        InputVariable vc = newInputVariable("c", null, newIntType(0, null, 1));
+        InputVariable va = newInputVariable(null, "a", null, newIntType(0, null, 1));
+        InputVariable vb = newInputVariable(null, "b", null, newIntType(0, null, 1));
+        InputVariable vc = newInputVariable(null, "c", null, newIntType(0, null, 1));
         spec.getDeclarations().add(va);
         spec.getDeclarations().add(vb);
         spec.getDeclarations().add(vc);
