@@ -1,0 +1,10 @@
+input bool i0;
+input bool i1;
+input bool i2;
+input bool i3;
+input int[1..3] i4;
+input bool i5;
+input bool i6;
+input bool i7;
+input bool i8;
+input bool i9;
