@@ -173,8 +173,8 @@ public class ComputeMultiLevelTree {
 
         // This method handles the 'else' case, starting at line 5.
         //
-        // Lines 6-17: Perform a search in the matrix and an update of them while collecting the found non-zero
-        // matches. Start by creating the new tree node that will hold the results.
+        // Lines 6-17: Perform a search in the cells of the matrix and an update of them while collecting the found
+        // non-zero matches. Start by creating the new tree node that will hold the results.
         TreeNode treeNode = new TreeNode();
 
         // For lines 6-17 in the paper, 'M' contains all child cluster groups. Our clustering implementation however
@@ -271,7 +271,7 @@ public class ComputeMultiLevelTree {
         dbg("Found P cell (%d, %d), with %s requirements:", plantGroup1, plantGroup2, reqGroups);
 
         // Line 10: Remove the above found requirement groups from the plant group relations. The matrix representation
-        // that we use, does not allow for subtraction. Hence, we add a negative value instead.
+        // that we use does not allow for subtraction. Hence, we add a negative value instead.
         idbg();
         dbg("(%d, %d): add %d", plantGroup1, plantGroup2, -reqGroups.cardinality());
         p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
