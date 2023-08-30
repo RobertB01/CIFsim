@@ -18,66 +18,51 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.BitSet;
 import java.util.List;
 
-/** Node in the multi-level synthesis tree. */
+/** Node in a multi-level synthesis tree. */
 public class TreeNode {
-    /**
-     * Index of the tree node.
-     *
-     * <p>
-     * A user may attach any desired meaning to this variable and change it at any time. The {@link #linearizeTree}
-     * function sets it to the index of the returned list where the node is stored.
-     * </p>
-     */
-    public int index;
+    /** Index of the tree node. Is {@code -1} until set by {@link #linearizeTree}. */
+    public int index = -1;
 
-    /** Plant-groups that are included in the tree node. */
+    /** The plant groups that are included in the tree node. */
     public final BitSet plantGroups;
 
-    /** Requirement-groups that are included in the tree node. */
+    /** The requirement groups that are included in the tree node. */
     public final BitSet requirementGroups;
 
-    /** Child nodes. */
-    public final List<TreeNode> childNodes;
+    /** The child nodes of the tree node. Creates a node that is initially empty. */
+    public final List<TreeNode> childNodes = list();
+
+    /** Constructor of the {@link TreeNode} class. */
+    public TreeNode() {
+        this(new BitSet(), new BitSet());
+    }
 
     /**
-     * Constructor of the {@link TreeNode} class.
+     * Constructor of the {@link TreeNode} class. Creates a node that initially has no children.
      *
-     * @param plantGroups Plant-groups that are included in the tree node.
-     * @param requirementGroups Requirement-groups that are included in the tree node.
+     * @param plantGroups The plant groups that are included in the tree node.
+     * @param requirementGroups The requirement groups that are included in the tree node.
      */
     public TreeNode(BitSet plantGroups, BitSet requirementGroups) {
-        this(plantGroups, requirementGroups, List.of());
-    }
-
-    /**
-     * Constructor of the {@link TreeNode} class.
-     *
-     * @param plantGroups Plant-groups that are included in the tree node.
-     * @param requirementGroups Requirement-groups that are included in the tree node.
-     * @param childNodes Child nodes.
-     */
-    public TreeNode(BitSet plantGroups, BitSet requirementGroups, List<TreeNode> childNodes) {
         this.plantGroups = plantGroups;
         this.requirementGroups = requirementGroups;
-        this.childNodes = childNodes;
     }
 
     /**
-     * Walk recursively depth-first left to right through the node tree rooted at the given node, collect all
-     * encountered nodes, and return them as a list of nodes. Also sets {@link #index} for each node in the tree.
+     * Walk recursively depth-first left-to-right through the node tree rooted at this node, collect all encountered
+     * nodes, and return them as a list of nodes. Also sets {@link #index} for each node in the tree.
      *
-     * @param root Root node to start the walk.
-     * @return All encountered nodes in the tree rooted at {@code root}.
+     * @return All encountered nodes in the tree rooted at this node.
      */
-    public static List<TreeNode> linearizeTree(TreeNode root) {
-        return linearizeTree(root, list());
+    public List<TreeNode> linearizeTree() {
+        return linearizeTree(this, list());
     }
 
     /**
-     * Walk recursively depth-first left to right through the node tree, and add all encountered nodes to the result
+     * Walk recursively depth-first left-to-right through the node tree, and add all encountered nodes to the result
      * list. Also sets {@link #index} for each node in the tree.
      *
-     * @param node Node to start the walk.
+     * @param node The node to start the walk.
      * @param nodes Storage for encountered nodes, {@code node} is assumed not to be in the storage yet. Is extended
      *     in-place.
      * @return The encountered nodes including the (sub)tree rooted at {@code node}.

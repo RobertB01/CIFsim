@@ -17,26 +17,22 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.BitSets.toBitSet;
-import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.text.NumberFormat;
 import java.util.BitSet;
-import java.util.List;
-import java.util.Locale;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 
 /**
- * Construct elementary groups of CIF elements that function as elementary nodes in the multi-level synthesis.
+ * Functionality to construct a multi-level synthesis tree, by placing plant and requirement groups at the right tree
+ * nodes, based on a given clustering of plant and requirement groups.
  *
  * <p>
  * This implementation is based on the paper Goorden 2020:
@@ -47,14 +43,6 @@ import org.eclipse.escet.common.java.BitSetIterator;
  * </p>
  */
 public class ComputeMultiLevelTree {
-    /** Matrix debug output format. */
-    public static final RealMatrixFormat MAT_DEBUG_FORMAT;
-
-    static {
-        NumberFormat valueFmt = NumberFormat.getIntegerInstance(Locale.US);
-        MAT_DEBUG_FORMAT = new RealMatrixFormat("", "", "  ", "", "\n", " ", valueFmt);
-    }
-
     /** Constructor of the static {@link ComputeMultiLevelTree} class. */
     private ComputeMultiLevelTree() {
         // Static class.
@@ -62,227 +50,219 @@ public class ComputeMultiLevelTree {
 
     /**
      * Recursively build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020. Unlike in
-     * the paper, expansion of plant groups and requirement groups to their original automata and requirements is not
+     * the paper, expansion of plant groups and requirement groups to their original plants and requirements is not
      * performed.
      *
-     * @param clusterGroup Group in the clustered result to convert to a tree node.
+     * @param clusterGroup The cluster group to convert to a tree node.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return Tree node of the cluster group, without expanding the plant and requirement groups to their automata
-     *     collections.
+     * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
+     *     elements.
      */
     public static TreeNode transformCluster(Group clusterGroup, RealMatrix p, RealMatrix rp) {
-        // Depending on the size of the group, forward the call to the method that deals with it,
+        // Depending on the size of the cluster group, forward the call to the method that deals with it.
         if (clusterGroup.members.cardinality() == 1) {
-            return transformClusterInternal(clusterGroup.members.nextSetBit(0), p, rp);
+            return transformClusterSingle(clusterGroup.members.nextSetBit(0), p, rp);
         } else {
-            return transformClusterInternal(clusterGroup, p, rp);
+            return transformClusterMultiple(clusterGroup, p, rp);
         }
     }
 
     /**
      * Recursively build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a
      * cluster group with more than one node. Unlike in the paper, expansion of plant groups and requirement groups to
-     * their original automata and requirements is not performed.
+     * their original plants and requirements is not performed.
      *
-     * <p>
-     * The implementation for the single node is at {@link #transformClusterInternal(int, RealMatrix, RealMatrix)},
-     * </p>
-     *
-     * @param clusterGroup Group in the clustered result to convert to a tree node.
+     * @param clusterGroup The cluster group to convert to a tree node.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return Tree node of the cluster group, without expanding the plant and requirement groups to their automata
-     *     collections.
+     * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
+     *     elements.
      */
-    private static TreeNode transformClusterInternal(Group clusterGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode transformClusterMultiple(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
         // Lines 1, 7, 8:
         //
         // Both 'T' and 'm' exist in the paper to compute the plant and requirement sets from the recursive calls. In
-        // this implementation, those sets are passed around in the recursion and updated during the recursive calls so
+        // this implementation, those sets are passed around in the recursion and updated during the recursive calls, so
         // the information is immediately available when this function has performed all its recursive calls.
         //
-        // Also, in the implementation, expanding the plant and requirement groups to their automata collection is not
-        // done. Instead, the plant and requirement groups of the node are returned.
+        // While the paper expands plant groups and requirement groups to their original plants and requirements, we
+        // do not do that. Instead, the plant and requirement groups are kept, and put into tree nodes.
 
-        dbg("Make tree node for plant groups:");
+        dbg("Make a multi-level tree node for a cluster group with multiple nodes:");
         idbg();
         clusterGroup.dbgDump();
         dbg();
 
-        // Line 2, compute what the tree node should contain.
-        Algo2Data algo2Data = calculateGandK(clusterGroup, p, rp);
-        p = algo2Data.p;
-        rp = algo2Data.rp;
+        // Line 2: Compute what the tree node should contain.
+        p = p.copy();
+        rp = rp.copy();
+        TreeNode treeNode = calculateGandKMultiple(clusterGroup, p, rp);
 
-        // Lines 5, 6 (and 7 implicitly): Transform all child clusters groups.
+        // Lines 5, 6 (and 7 implicitly): Transform all child cluster groups.
 
-        // Add local nodes.
-        List<TreeNode> childNodes = list();
+        // Add local nodes of the cluster group.
         if (clusterGroup.localNodes != null) {
             for (int childNode: new BitSetIterator(clusterGroup.localNodes)) {
-                childNodes.add(transformClusterInternal(childNode, p, rp));
+                treeNode.childNodes.add(transformClusterSingle(childNode, p, rp));
             }
         }
 
-        // Add child groups.
+        // Add child groups of the cluster group.
         //
-        // Line 7 in the paper collects the plant automata automata and requirement automata from calls to
-        // Algorithm 2. In the implementation here it returns found plant groups and requirement groups instead.
+        // Line 7: In the paper collects the plants and requirements from calls to Algorithm 2. Instead, we keep the
+        // plant groups and requirement groups.
         for (Group childGroup: clusterGroup.childGroups) {
-            childNodes.add(transformCluster(childGroup, p, rp));
+            treeNode.childNodes.add(transformCluster(childGroup, p, rp));
         }
         ddbg();
-        dbg("---------- DONE transformCluster for group.");
+        dbg("---------- DONE Created tree node for cluster with multiple nodes.");
         dbg();
 
-        return new TreeNode(algo2Data.plantGroups, algo2Data.reqGroups, childNodes);
+        return treeNode;
     }
 
     /**
      * Build the tree of multi-level synthesis nodes as described in Algorithm 1 of Goorden 2020, for a single-node
-     * cluster.Unlike in the paper, expansion of plant groups and requirement groups to their original automata and
+     * cluster. Unlike in the paper, expansion of plant groups and requirement groups to their original plants and
      * requirements is not performed.
      *
-     * <p>
-     * The implementation for multiple nodes is at {@link #transformClusterInternal(Group, RealMatrix, RealMatrix)}.
-     * </p>
-     *
-     * @param plantGroup Singleton plant group in the clustered result to convert to a tree node.
+     * @param clusterGroup The cluster group to convert to a tree node. Contains a single plant group.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return Tree node of the cluster group, without expanding the plant and requirement groups to their automata
-     *     collections.
+     * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
+     *     elements.
      */
-    private static TreeNode transformClusterInternal(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode transformClusterSingle(int clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
-        // Since 'size(M) = 1' here, lines 4 to 10 are never done. Also here, expanding the group back to plant automata
-        // is not performed. That eliminates line 3.
-        // Thus this only implements line 2, and then immediately builds a result that fits for the recursion used in
-        // the implementation.
-        dbg("Make singleton tree node for plant group %d:", plantGroup);
+        // Since 'size(M) = 1' here, lines 4 to 10 are never done. Also here, expanding the plant and requirement groups
+        // back to their elements is not performed. That eliminates line 3. Thus this only implements line 2, and then
+        // immediately returns the tree node.
+        dbg("Make a multi-level tree node for a cluster group with a single node (plant group %d):", clusterGroup);
         idbg();
-        Algo2Data algo2Data = calculateGandK(plantGroup, p, rp);
+        TreeNode treeNode = calculateGandKSingle(clusterGroup, p, rp);
         ddbg();
-        dbg("---------- DONE transformCluster for singleton node.");
+        dbg("---------- DONE Created tree node for cluster with a single node.");
         dbg();
-        return new TreeNode(algo2Data.plantGroups, algo2Data.reqGroups);
+        return treeNode;
     }
 
     /**
-     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for a group with multiple nodes (the
-     * {@code size(M) > 1} case).
+     * Compute the results of a call to Algorithm 2 as described in Goorden 2020, for a cluster group with multiple
+     * nodes (the {@code size(M) > 1} case). Unlike in the paper, expansion of plant groups and requirement groups to
+     * their original plants and requirements is not performed.
      *
-     * <p>
-     * The implementation for a single node is at {@link #calculateGandK(int, RealMatrix, RealMatrix)}.
-     * </p>
-     *
-     * @param grp Cluster group to analyze.
-     * @param p Plant group relations.
-     * @param rp Requirement group rows to plant group columns.
-     * @return The computed Algorithm 2 data of the tree node.
+     * @param clusterGroup Cluster group to consider.
+     * @param p Plant group relations. Is modified in-place.
+     * @param rp Requirement group rows to plant group columns. Is modified in-place.
+     * @return The new tree node for the cluster group, without expanding the plant and requirement groups to their
+     *     elements.
      */
-    private static Algo2Data calculateGandK(Group grp, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandKMultiple(Group clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
 
-        // Line 18 and 19 is not performed in this implementation. Instead the collected results of line 11 and 12 are
-        // returned.
-        dbg("Starting computing Algorithm2 data by searching and modifying the matrices based on group information.");
+        // Start by dumping the input.
+        dbg("Starting Algorithm 2 by searching and modifying the matrices based on group information.");
         idbg();
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
         dbg();
 
-        // Line 2 fails, dropping into the 'else' case here.
+        // This method handles the 'else' case, starting at line 5.
         //
-        // Lines 6-17 perform a search in the matrix and an update of them while collecting the found non-zero
-        // matches. Prepare the return value of this call so its data can be passed downwards for copying and updating
-        // recursively.
-        Algo2Data algo2Data = new Algo2Data(p.copy(), rp.copy(), new BitSet(), new BitSet());
+        // Lines 6-17: Perform a search in the cells of the matrix and an update of them while collecting the found
+        // non-zero matches. Start by creating the new tree node that will hold the results.
+        TreeNode treeNode = new TreeNode();
 
-        // Lines 6-17, 'M' in the paper contains all child groups. The clustering implementation however moves singleton
-        // nodes in the cluster to local nodes. They must be dealt with separately. As a result line 6 expands into
-        // four double nested searches: singleton-singleton, singleton-multi, and multi-multi and multi-singleton. Note
-        // that both loops cover the full range so you get all (a, b) and (b, a) pairs that exist.
-        // Having 4 searches also means getting lines 8-14 four times (not all lines are needed). To avoid code
+        // For lines 6-17 in the paper, 'M' contains all child cluster groups. Our clustering implementation however
+        // moves singleton nodes in the cluster to local nodes, so they must be dealt with separately. As a result
+        // line 6 expands into four double nested loops: singleton-singleton, singleton-multi, and multi-multi and
+        // multi-singleton. Note that both loops cover the full range so you get all (a, b) and (b, a) pairs that exist.
+        // Having four cases also means getting lines 8-14 four times (not all lines are needed). To avoid code
         // duplication this has been factored out to 'update'.
 
         // Compare local nodes.
-        if (grp.localNodes != null) {
-            for (int node1: new BitSetIterator(grp.localNodes)) {
+        if (clusterGroup.localNodes != null) {
+            for (int node1: new BitSetIterator(clusterGroup.localNodes)) {
                 // Compare local nodes against each other.
-                for (int node2: new BitSetIterator(grp.localNodes)) {
-                    update(algo2Data, node1, node2);
+                for (int node2: new BitSetIterator(clusterGroup.localNodes)) {
+                    update(p, rp, treeNode, node1, node2);
                 }
 
                 // Compare local nodes against nodes of child groups.
-                for (Group childGroup: grp.childGroups) {
+                for (Group childGroup: clusterGroup.childGroups) {
                     for (int node2: new BitSetIterator(childGroup.members)) {
-                        update(algo2Data, node1, node2); // Compare local nodes against nodes of child groups.
+                        update(p, rp, treeNode, node1, node2); // Compare local nodes against nodes of child groups.
                     }
                 }
             }
         }
 
         // Compare child groups.
-        int numChildGroups = grp.childGroups.size();
+        int numChildGroups = clusterGroup.childGroups.size();
         for (int grp1 = 0; grp1 < numChildGroups; grp1++) {
-            Group child1 = grp.childGroups.get(grp1);
+            Group child1 = clusterGroup.childGroups.get(grp1);
 
-            if (grp.localNodes != null) {
+            if (clusterGroup.localNodes != null) {
                 for (int node1: new BitSetIterator(child1.members)) {
                     // Compare nodes of child groups against local nodes.
-                    for (int node2: new BitSetIterator(grp.localNodes)) {
-                        update(algo2Data, node1, node2);
+                    for (int node2: new BitSetIterator(clusterGroup.localNodes)) {
+                        update(p, rp, treeNode, node1, node2);
                     }
                 }
             }
 
             for (int grp2 = 0; grp2 < numChildGroups; grp2++) {
                 if (grp1 != grp2) {
-                    Group child2 = grp.childGroups.get(grp2);
+                    Group child2 = clusterGroup.childGroups.get(grp2);
                     for (int node1: new BitSetIterator(child1.members)) {
                         // Compare nodes of child groups against each other.
                         for (int node2: new BitSetIterator(child2.members)) {
-                            update(algo2Data, node1, node2);
+                            update(p, rp, treeNode, node1, node2);
                         }
                     }
                 }
             }
         }
 
-        // Dump and return result.
-        dbg("Updated Algorithm 2 data for plant group members %s: %s plant groups, %s req groups.", grp.members,
-                algo2Data.plantGroups, algo2Data.reqGroups);
+        // Dump result.
+        dbg("Updated Algorithm 2 data for cluster group members %s: %s plant groups, %s req groups.",
+                clusterGroup.members, treeNode.plantGroups, treeNode.requirementGroups);
         dbg("Updated matrices:");
         idbg();
-        dbgDumpPmatrix(algo2Data.p);
-        dbgDumpRPmatrix(algo2Data.rp);
+        dbgDumpPmatrix(p);
+        dbgDumpRPmatrix(rp);
         ddbg();
         dbg();
         ddbg();
-        return algo2Data;
+
+        // Lines 18 and 19 are not performed in this implementation. Instead the collected results of lines 11 and 12
+        // are used. Since have already been put in the new tree node, we simply return that tree node.
+        return treeNode;
     }
 
     /**
-     * Update the Algorithm 2 data for the given pair of plant groups by searching the shared cells of both plant groups
-     * for non-zero entries.
+     * Update the Algorithm 2 matrices and tree node, for the given pair of plant groups, by searching the shared cells
+     * of both plant groups for non-zero entries.
      *
-     * @param algo2Data Data of the 2nd algorithm that is in-place updated if necessary.
+     * @param p Plant group relations. Is modified in-place.
+     * @param rp Requirement group rows to plant group columns. Is modified in-place.
+     * @param treeNode The tree node to update. Is modified in-place.
      * @param plantGroup1 First plant group to use.
      * @param plantGroup2 Second plant group to use.
      */
-    private static void update(Algo2Data algo2Data, int plantGroup1, int plantGroup2) {
-        // Line 8, check for a non-zero and non main-diagonal entry.
-        if (plantGroup1 == plantGroup2 || algo2Data.p.getEntry(plantGroup1, plantGroup2) == 0) {
+    private static void update(RealMatrix p, RealMatrix rp, TreeNode treeNode, int plantGroup1, int plantGroup2) {
+        // Line 6: Check for non main-diagonal, i.e., no self-relation. Continue only with distinct plant groups.
+        // Line 8: Check for non-zero entry. Continue only with related plant groups.
+        if (plantGroup1 == plantGroup2 || p.getEntry(plantGroup1, plantGroup2) == 0) {
             return;
         }
 
-        // Line 9, find requirement groups for the pair of plant groups.
-        BitSet reqGroups = algo2Data.collectRequirementsForPlantGroupPair(plantGroup1, plantGroup2);
+        // Line 9: Find requirement groups related to the pair of plant groups.
+        BitSet reqGroups = collectRequirementsForPlantGroupPair(rp, plantGroup1, plantGroup2);
         if (reqGroups.isEmpty()) {
             dbg("Found P cell (%d, %d), but no requirements.", plantGroup1, plantGroup2);
             return;
@@ -290,57 +270,109 @@ public class ComputeMultiLevelTree {
 
         dbg("Found P cell (%d, %d), with %s requirements:", plantGroup1, plantGroup2, reqGroups);
 
-        // Line 10, remove the above found requirement groups from the plant group relations. Code cannot subtract in
-        // the matrix but can add a negative value.
+        // Line 10: Remove the above found requirement groups from the plant group relations. The matrix representation
+        // that we use does not allow for subtraction. Hence, we add a negative value instead.
         idbg();
         dbg("(%d, %d): add %d", plantGroup1, plantGroup2, -reqGroups.cardinality());
-        algo2Data.p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
+        p.addToEntry(plantGroup1, plantGroup2, -reqGroups.cardinality());
         ddbg();
 
-        // Line 11, find all plant groups that need at least one of the above requirements, and add them to the data for Algorithm 2.
-        BitSet plantGroups = algo2Data.collectPlantGroupsForRequirementGroups(reqGroups);
-        algo2Data.plantGroups.or(plantGroups);
+        // Line 11: Find all plant groups that need at least one of the above requirement groups, and add them to the
+        // tree node.
+        BitSet plantGroups = collectPlantGroupsForRequirementGroups(rp, reqGroups);
+        treeNode.plantGroups.or(plantGroups);
 
-        // Line 12, add the above requirements to the Algorithm 2 data.
-        algo2Data.reqGroups.or(reqGroups);
+        // Line 12: Add the above requirement groups to the tree node.
+        treeNode.requirementGroups.or(reqGroups);
 
-        // Line 13, clear out the above requirement to plant group relations so the requirements are not added again.
-        algo2Data.clearPlantGroupsOfRequirementGroups(reqGroups);
+        // Line 13: Clear out the above requirement groups from the requirement groups to plant group relations, to
+        // ensure that those requirement groups are not added to any other tree node.
+        clearPlantGroupsOfRequirementGroups(rp, reqGroups);
     }
 
     /**
-     * Compute the results of a call to Algorithm 2 as described in Goorden 2020 for a group with one node (the
-     * {@code size(M) = 1} case).
+     * Find all requirement groups that are related to both plant groups.
      *
-     * <p>
-     * The implementation for multiple groups is at {@link #calculateGandK(Group, RealMatrix, RealMatrix)}.
-     * </p>
+     * @param rp Requirement group rows to plant group columns.
+     * @param plantGrp1 First plant group.
+     * @param plantGrp2 Second plant group.
+     * @return Requirement groups that relate to both plant groups.
+     */
+    private static BitSet collectRequirementsForPlantGroupPair(RealMatrix rp, int plantGrp1, int plantGrp2) {
+        BitSet reqGroups = new BitSet();
+        for (int row = 0; row < rp.getRowDimension(); row++) {
+            if (rp.getEntry(row, plantGrp1) != 0 && rp.getEntry(row, plantGrp2) != 0) {
+                reqGroups.set(row);
+            }
+        }
+        return reqGroups;
+    }
+
+    /**
+     * Collect the plant groups that relate to at least one of the given requirement groups.
      *
-     * @param plantGroup Plant group to use.
+     * @param rp Requirement group rows to plant group columns.
+     * @param reqGroups Requirement groups to match with.
+     * @return The plant groups that relate to at least one of the given requirement groups.
+     */
+    private static BitSet collectPlantGroupsForRequirementGroups(RealMatrix rp, BitSet reqGroups) {
+        BitSet plantGroups = new BitSet();
+        for (int col = 0; col < rp.getColumnDimension(); col++) {
+            for (int reqGrp: new BitSetIterator(reqGroups)) {
+                if (rp.getEntry(reqGrp, col) != 0) {
+                    plantGroups.set(col);
+                    break;
+                }
+            }
+        }
+        return plantGroups;
+    }
+
+    /**
+     * Clear the given requirement group rows in the given {@code rp} matrix.
+     *
+     * @param rp Requirement group rows to plant group columns. Is modified in-place.
+     * @param reqGroups Requirement group rows to clear.
+     */
+    private static void clearPlantGroupsOfRequirementGroups(RealMatrix rp, BitSet reqGroups) {
+        for (int row: new BitSetIterator(reqGroups)) {
+            for (int col = 0; col < rp.getColumnDimension(); col++) {
+                rp.setEntry(row, col, 0);
+            }
+        }
+    }
+
+    /**
+     * Compute the results of a call to Algorithm 2 as described in Goorden 2020, for a cluster group with one node (the
+     * {@code size(M) = 1} case). Unlike in the paper, expansion of plant groups and requirement groups to their
+     * original plants and requirements is not performed.
+     *
+     * @param clusterGroup The cluster group to consider. Contains a single plant group.
      * @param p Plant group relations.
      * @param rp Requirement group rows to plant group columns.
-     * @return The computed Algorithm 2 data of the tree node.
+     * @return The new tree node for the plant group.
      */
-    private static Algo2Data calculateGandK(int plantGroup, RealMatrix p, RealMatrix rp) {
+    private static TreeNode calculateGandKSingle(int clusterGroup, RealMatrix p, RealMatrix rp) {
         Assert.check(p.isSquare());
         dbgDumpPmatrix(p);
         dbgDumpRPmatrix(rp);
 
         // Line 2 is already established to hold.
 
-        // Line 3 is trivial here, as there is exactly one given plant group and expansion of plant groups to the plants
-        // is not performed.
+        // Line 3 is trivial here, as there is exactly one given plant group, and expansion of plant groups to their
+        // plants is not performed.
         BitSet plantGroups = new BitSet();
-        plantGroups.set(plantGroup);
+        plantGroups.set(clusterGroup);
 
-        // Line 4, collect its requirement groups.
-        BitSet reqGroups = reqGroupsOnlyUsedBy(rp, plantGroup);
-        dbg("Algorithm 2 data for singleton plant group %d: %s plant groups, %s req groups.", plantGroup, plantGroups,
+        // Line 4: Collect the requirement groups only used by the plant group.
+        BitSet reqGroups = reqGroupsOnlyUsedBy(rp, clusterGroup);
+        dbg("Tree node for singleton cluster group %d: %s plant groups, %s req groups.", clusterGroup, plantGroups,
                 reqGroups);
         dbg();
 
-        // Lines 18 and 19 are not performed in this implementation, the plant and requirement groups are returned.
-        return new Algo2Data(p, rp, plantGroups, reqGroups);
+        // Lines 18 and 19 are not performed in this implementation. Instead the plant groups and requirement groups are
+        // kept, and put into a new tree node.
+        return new TreeNode(plantGroups, reqGroups);
     }
 
     /**
@@ -368,24 +400,24 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Dump the P matrix at the debugging output stream.
+     * Dump the 'P' matrix at the debugging output stream.
      *
-     * @param m P matrix to dump.
+     * @param p The 'P' matrix to dump.
      */
-    public static void dbgDumpPmatrix(RealMatrix m) {
-        Assert.check(m.isSquare());
+    public static void dbgDumpPmatrix(RealMatrix p) {
+        Assert.check(p.isSquare());
         dbg("Dumping P:");
         idbg();
-        String headerLine = IntStream.range(0, m.getColumnDimension()).mapToObj(c -> fmt("%2d", c))
+        String headerLine = IntStream.range(0, p.getColumnDimension()).mapToObj(c -> fmt("%2d", c))
                 .collect(Collectors.joining(" "));
         dbg("   : " + headerLine);
-        for (int row = 0; row < m.getRowDimension(); row++) {
+        for (int row = 0; row < p.getRowDimension(); row++) {
             final int finalRow = row;
             IntFunction<String> convertValue = col -> {
-                double v = m.getEntry(finalRow, col);
+                double v = p.getEntry(finalRow, col);
                 return (v == 0) ? " ." : fmt("%2d", (int)v);
             };
-            String line = fmt("%3d: ", row) + IntStream.range(0, m.getColumnDimension()).mapToObj(convertValue)
+            String line = fmt("%3d: ", row) + IntStream.range(0, p.getColumnDimension()).mapToObj(convertValue)
                     .collect(Collectors.joining(" "));
             dbg(line);
         }
@@ -394,18 +426,18 @@ public class ComputeMultiLevelTree {
     }
 
     /**
-     * Dump the RP matrix at the debugging output stream.
+     * Dump the 'RP' matrix at the debugging output stream.
      *
-     * @param m RP matrix to dump.
+     * @param rp The 'RP' matrix to dump.
      */
-    public static void dbgDumpRPmatrix(RealMatrix m) {
+    public static void dbgDumpRPmatrix(RealMatrix rp) {
         dbg("Dumping RP:");
         idbg();
-        for (int row = 0; row < m.getRowDimension(); row++) {
+        for (int row = 0; row < rp.getRowDimension(); row++) {
             final int finalRow = row;
-            IntPredicate nonzero = col -> m.getEntry(finalRow, col) != 0;
-            String line = fmt("%3d: ", row)
-                    + IntStream.range(0, m.getColumnDimension()).filter(nonzero).boxed().collect(toBitSet()).toString();
+            IntPredicate nonzero = col -> rp.getEntry(finalRow, col) != 0;
+            String line = fmt("%3d: ", row) + IntStream.range(0, rp.getColumnDimension()).filter(nonzero).boxed()
+                    .collect(toBitSet()).toString();
             dbg(line);
         }
         ddbg();

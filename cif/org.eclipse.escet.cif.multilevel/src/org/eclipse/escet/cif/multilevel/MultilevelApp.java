@@ -19,10 +19,13 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
@@ -52,7 +55,7 @@ import org.eclipse.escet.common.dsm.DsmClustering;
  * CIF multi-level synthesis application.
  *
  * <p>
- * This implementation is described in Goorden 2020:
+ * This implementation is based on the paper Goorden 2020:
  *
  * M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event
  * Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages
@@ -60,6 +63,14 @@ import org.eclipse.escet.common.dsm.DsmClustering;
  * </p>
  */
 public class MultilevelApp extends Application<IOutputComponent> {
+    /** Matrix debug output format. */
+    private static final RealMatrixFormat MAT_DEBUG_FORMAT;
+
+    static {
+        NumberFormat valueFmt = NumberFormat.getIntegerInstance(Locale.US);
+        MAT_DEBUG_FORMAT = new RealMatrixFormat("", "", "  ", "", "\n", " ", valueFmt);
+    }
+
     /**
      * Application main method.
      *
@@ -157,7 +168,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Do the standard T . T^-1 conversion, except here T is already transposed.
         RealMatrix unclusteredMatrix = reqsPlantsDmm.adjacencies.transpose().multiply(reqsPlantsDmm.adjacencies);
         dbg("Unclustered reqsPlants:");
-        dbg(ComputeMultiLevelTree.MAT_DEBUG_FORMAT.format(unclusteredMatrix));
+        dbg(MAT_DEBUG_FORMAT.format(unclusteredMatrix));
         dbg();
         if (isTerminationRequested()) {
             return 0;
@@ -175,7 +186,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // The cluster result contains the found cluster groups with original indices. For debugging however, it seems
         // useful to also dump the clustered DSM, to understand group information.
         dbg("Clustered DSM for reqsPlantsDmm (for information only, this data is not actually used):");
-        dbg(ComputeMultiLevelTree.MAT_DEBUG_FORMAT.format(clusteredDsm.adjacencies));
+        dbg(MAT_DEBUG_FORMAT.format(clusteredDsm.adjacencies));
         dbg();
         if (isTerminationRequested()) {
             return 0;
@@ -188,8 +199,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Dump result of computing multi-level tree.
-        for (TreeNode node: TreeNode.linearizeTree(rootNode)) {
+        // Dump the multi-level tree.
+        for (TreeNode node: rootNode.linearizeTree()) {
             out("Index: %d", node.index);
             out("Plant groups: %s", node.plantGroups.isEmpty() ? "<none>" : node.plantGroups.toString());
             out("Req groups:   %s", node.requirementGroups.isEmpty() ? "<none>" : node.requirementGroups.toString());
