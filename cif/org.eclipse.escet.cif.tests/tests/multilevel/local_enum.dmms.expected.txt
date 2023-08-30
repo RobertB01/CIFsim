@@ -2,14 +2,14 @@ DMMs of the "multilevel/local_enum.cif" CIF specification.
 
 Plant groups:
 "","PG1","PG2","PG3"
-"A",1,0,0
-"B",0,1,0
-"C",0,0,1
+"A","1","0","0"
+"B","0","1","0"
+"C","0","0","1"
 
 Requirement groups:
 "","RG1"
-"requirement invariant C.e needs B.x = A.ON",1
+"requirement invariant C.e needs B.x = A.ON","1"
 
 Plant-groups/requirement-groups relations:
 "","PG1","PG2","PG3"
-"RG1",0,1,1
+"RG1","0","1","1"
