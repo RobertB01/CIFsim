@@ -17,8 +17,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.eclipse.ui.SingleFileCommandHandler;
 
-/** Handler for Eclipse UI command for SeText scanner/parser generation, using default options. */
-public class SeTextGeneratorCommandHandler extends SingleFileCommandHandler {
+/** Handler for Eclipse UI command for SeText scanner/parser generation, with showing the option dialog. */
+public class SeTextGeneratorWithOptionsCommandHandler extends SingleFileCommandHandler {
     @Override
     protected Class<? extends Application<?>> getApplicationClass() {
         return SeTextGeneratorApp.class;
@@ -26,6 +26,6 @@ public class SeTextGeneratorCommandHandler extends SingleFileCommandHandler {
 
     @Override
     protected String[] getCommandLineArgs(IFile file) {
-        return new String[] {getFileName(file)};
+        return new String[] {getFileName(file), "--option-dialog=yes"};
     }
 }
