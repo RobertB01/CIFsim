@@ -1,0 +1,7 @@
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 14, column 4: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 14, column 9: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 14, column 14: Duplicate argument "y" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 14, column 19: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 14, column 24: Duplicate argument "y" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 14, column 34: Duplicate argument "y" for annotation "a".
+ERROR: Failed to load CIF file "tchecker/anno_dupl_arg.cif": the file has errors.
