@@ -23,16 +23,16 @@ input bool i2;
 input bool i3;
 
 @a
-@a()
-@a(p=1)
-@a(p=1,)
-@a(p=1, q=2)
-@a(p=1, q=2,)
-@a(p=1, q=2, r=3)
-@a(p=1, q=2, r=3,)
-@a(p=true, q="a")
-@a(p=1, q=i2+1)
-@a(b=1, c.d=2, e.f.g.h=[true, false])
+@b()
+@c(p=1)
+@d(p=1,)
+@e(p=1, q=2)
+@f(p=1, q=2,)
+@g(p=1, q=2, r=3)
+@h(p=1, q=2, r=3,)
+@i(p=true, q="a")
+@j(p=1, q=i4+1)
+@k(b=1, c.d=2, e.f.g.h=[true, false])
 input int[1..3] i4;
 
 @abc:def input bool i5;
@@ -45,3 +45,6 @@ input bool i6, i7, i8;
  [true, false] // a
    )
 input bool i9;
+
+@a($disc=5, $const.$apple.$alg=123)
+input bool i10;
