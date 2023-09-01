@@ -35,8 +35,8 @@ public enum Message {
 
     SHORTCUT_UNDEFINED("Undefined shortcut \"%s\".", 1, ERROR),
 
-    SHORTCUT_UNDEFINED_ORDER("Undefined shortcut \"%s\". Note that a shortcut can only reference "
-            + "another shortcut, if the former shortcut is defined after the latter shortcut.", 1, ERROR),
+    SHORTCUT_UNDEFINED_ORDER("Undefined shortcut \"%s\". Note that a shortcut can only refer to another shortcut, "
+            + "if that other shortcut is defined earlier in the specification.", 1, ERROR),
 
     SHORTCUT_INVALID_REF("Definition \"%s\" does not define a shortcut.", 1, ERROR),
 
