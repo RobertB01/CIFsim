@@ -15,12 +15,16 @@ package org.eclipse.escet.cif.typechecker.declwrap;
 
 import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.declarations.AInputVariableDecl;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -81,13 +85,24 @@ public class InputVariableDeclWrap extends DeclWrap<InputVariable> {
         // Set the type of the input variable.
         mmDecl.setType(type);
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked for use.
+        status = CheckStatus.USE;
     }
 
     @Override
     public void tcheckFull() {
-        // The 'for use' check already fully checks the input variable.
+        // First, check 'for use', and make sure we haven't checked it before.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
+                tchecker);
+        mmDecl.getAnnotations().addAll(annos);
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 }
