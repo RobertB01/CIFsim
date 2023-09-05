@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.parser.ast.ASpecification;
+import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifPostCheckEnv;
 import org.eclipse.escet.cif.typechecker.postchk.CifPrintPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
@@ -236,6 +237,9 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
             // Checks various constraints related to events that are difficult to check when component
             // definition/instantiation is not yet eliminated.
             new EventsPostChecker().check(specNoCompDef, env);
+
+            // Perform additional checks on annotations, using annotation providers.
+            new CifAnnotationsPostChecker(env).check(specNoCompDef);
         }
 
         // Check specification to ensure all objects have position information.
