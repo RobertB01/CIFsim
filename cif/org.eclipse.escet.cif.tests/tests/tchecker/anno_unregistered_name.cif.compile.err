@@ -1,0 +1,2 @@
+WARNING: File "tchecker/anno_unregistered_name.cif": Semantic warning at line 14, column 1: Unknown annotation name "cif:typechecker:tests:anno:does_not_exist": no annotation provider is registered for it in the current environment.
+WARNING: File "tchecker/anno_unregistered_name.cif": Semantic warning at line 15, column 1: Unknown annotation name "cif:typechecker:tests:anno:does_not_exist2": no annotation provider is registered for it in the current environment.
