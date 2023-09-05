@@ -1924,6 +1924,6 @@ public final class CifPrettyPrinter {
     public String pprint(AnnotationArgument arg) {
         String escapedArgName = Arrays.stream(arg.getName().split("\\.")).map(id -> escapeIdentifier(id))
                 .collect(Collectors.joining("."));
-        return fmt("%s=%s", escapedArgName, pprint(arg.getValue()));
+        return fmt("%s = %s", escapedArgName, pprint(arg.getValue()));
     }
 }
