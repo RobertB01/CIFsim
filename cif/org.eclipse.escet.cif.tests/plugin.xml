@@ -36,7 +36,7 @@
       </provider>
       <provider
             annotationName="cif:typechecker:tests:anno:pluginNotFound"
-            class="org.eclipse.escet.cif.tests.doesNotExist.DoesNotExistProvider"
+            class="org.eclipse.escet.cif.tests.annotations.Anno1Provider"
             plugin="org.eclipse.escet.cif.tests.doesNotExist">
       </provider>
       <provider
