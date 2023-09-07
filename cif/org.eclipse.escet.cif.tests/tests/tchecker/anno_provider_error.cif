@@ -22,7 +22,3 @@ input bool i2;
 // Annotation provider plugin not found.
 @cif:typechecker:tests:anno:pluginNotFound
 input bool i3;
-
-// Annotation provider class not found.
-@cif:typechecker:tests:anno:classNotFound
-input bool i4;

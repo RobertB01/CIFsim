@@ -39,11 +39,6 @@
             class="org.eclipse.escet.cif.tests.annotations.Anno1Provider"
             plugin="org.eclipse.escet.cif.tests.doesNotExist">
       </provider>
-      <provider
-            annotationName="cif:typechecker:tests:anno:classNotFound"
-            class="org.eclipse.escet.cif.tests.annotations.DoesNotExistProvider"
-            plugin="org.eclipse.escet.cif.tests">
-      </provider>
    </extension>
 
 </plugin>
