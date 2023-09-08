@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
  */
 public class CrashingAnnoProvider extends AnnotationProvider {
     /**
-     * Constructor for the {@link AnnotationProvider} class.
+     * Constructor for the {@link CrashingAnnoProvider} class.
      *
      * @param annotationName The name of the annotations handled by this annotation provider.
      */
