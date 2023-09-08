@@ -27,7 +27,7 @@ maven/mavencentral/org.apiguardian/apiguardian-api/1.1.2, Apache-2.0, approved, 
 maven/mavencentral/org.bouncycastle/bcpg-jdk18on/1.72.2, Apache-2.0, approved, #4295
 maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.72, MIT AND CC0-1.0, approved, #3538
 maven/mavencentral/org.checkerframework/checker-qual/3.12.0, MIT, approved, clearlydefined
-maven/mavencentral/org.codehaus.groovy/groovy-ant/3.0.8, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.codehaus.groovy/groovy-ant/3.0.8, Apache-2.0, approved, #10342
 maven/mavencentral/org.codehaus.groovy/groovy-json/3.0.8, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.codehaus.groovy/groovy/3.0.8, Apache-2.0, approved, #818
 maven/mavencentral/org.codehaus.mojo/animal-sniffer-annotations/1.9, MIT, approved, clearlydefined
