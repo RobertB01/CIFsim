@@ -141,6 +141,11 @@ public final class SvgInputComponent<S extends RuntimeState> extends InputCompon
     @SuppressWarnings("null")
     @Override
     public Transition<S> chooseTransition(S state, List<Transition<S>> transitions, SimulationResult result) {
+        // If no transitions possible, stop simulating.
+        if (transitions.isEmpty()) {
+            throw new SimulatorExitException(result);
+        }
+
         // Peek the queue for an SVG element id.
         Pair<SvgSelector, String> idPair = queue.peek();
 
