@@ -141,11 +141,6 @@ public final class SvgInputComponent<S extends RuntimeState> extends InputCompon
     @SuppressWarnings("null")
     @Override
     public Transition<S> chooseTransition(S state, List<Transition<S>> transitions, SimulationResult result) {
-        // If no transitions possible, stop simulating.
-        if (transitions.isEmpty()) {
-            throw new SimulatorExitException(result);
-        }
-
         // Peek the queue for an SVG element id.
         Pair<SvgSelector, String> idPair = queue.peek();
 
@@ -217,13 +212,11 @@ public final class SvgInputComponent<S extends RuntimeState> extends InputCompon
             }
         }
 
-        // If no matches, we have deadlock.
+        // If no matches, the transition is disabled in the current state.
         if (matches.isEmpty()) {
-            // Deadlock.
             warn("The SVG element (\"%s\") with id \"%s\" was clicked, but the corresponding event \"%s\" is not "
-                    + "enabled in the current state, leading to deadlock.", cifSvgDecls.getSvgRelPath(), id,
-                    spec.events.get(eventIdx).name);
-            throw new SimulatorExitException(SimulationResult.DEADLOCK);
+                    + "enabled in the current state.", cifSvgDecls.getSvgRelPath(), id, spec.events.get(eventIdx).name);
+            return null;
         }
 
         // Defer the choice to the automatic input component.
