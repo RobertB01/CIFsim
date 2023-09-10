@@ -426,8 +426,11 @@ public class CifCompilerContext {
     /** The Java compiler to use to compile the generated code. */
     private RuntimeJavaCompiler compiler;
 
-    /** Generator used to create unique integer values within this compiler context. */
-    public AtomicInteger atomicIntegerGenerator = new AtomicInteger();
+    /**
+     * Generator used to create successive unique numbers to use as postfixes for the names of extra methods in
+     * {@link ExprCodeGeneratorResult}.
+     */
+    public final AtomicInteger exprCodeGenExtraMethodCounter = new AtomicInteger();
 
     /**
      * Sets the specification being compiled.

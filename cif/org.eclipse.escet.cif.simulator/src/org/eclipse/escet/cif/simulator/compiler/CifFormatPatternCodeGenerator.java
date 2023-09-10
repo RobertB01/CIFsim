@@ -67,7 +67,8 @@ public class CifFormatPatternCodeGenerator {
         List<String> argCodes = listc(parts.size());
         List<ExprCodeGeneratorResult> argRslts = listc(valueRslts.size());
         int implicitIndex = 0;
-        Map<Integer, ExprCodeGeneratorResult> indicesSeen = map();
+        // Keeps track of indices for which already code has been converted to prevent the generation of duplicate code.
+        Map<Integer, ExprCodeGeneratorResult> argIdxToConvertCode = map();
         for (FormatDescription part: parts) {
             // Literal.
             if (part.conversion == Conversion.LITERAL) {
@@ -106,11 +107,11 @@ public class CifFormatPatternCodeGenerator {
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
-                        rslt = indicesSeen.get(idx);
+                        rslt = argIdxToConvertCode.get(idx);
                         if (rslt == null) {
                             ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
                             rslt = merge("runtimeToString(%s)", newStringType(), ctxt, valueRslt);
-                            indicesSeen.put(idx, rslt);
+                            argIdxToConvertCode.put(idx, rslt);
                         }
                     } else {
                         rslt = valueRslts.get(idx);

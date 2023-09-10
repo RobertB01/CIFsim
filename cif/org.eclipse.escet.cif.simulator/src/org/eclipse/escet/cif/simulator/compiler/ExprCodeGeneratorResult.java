@@ -14,8 +14,8 @@
 package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
+import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Triple.triple;
@@ -34,17 +34,16 @@ import org.eclipse.escet.common.java.Triple;
  *
  * @param subExprs The code to place in extra methods. Each triple consists of the expression code, the corresponding
  *     method name, and the return type of the method.
- * @param currentExprText The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra
- *     method.
- * @param type The expression's type for which the code was generated.
+ * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
+ * @param type The type of the expression for which the code was generated.
  * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
  *     code is assigned to an extra method.
  */
-public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subExprs, String currentExprText,
-        CifType type, int numNodes)
+public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subExprs, String exprCode, CifType type,
+        int numNodes)
 {
     /** The base name used for generating names for the extra methods. */
-    public static final String METHOD_BASE_NAME = "evalExpression";
+    private static final String METHOD_BASE_NAME = "evalExpression";
 
     /** The limit after which generated code should be wrapped in separate method. */
     private static final int LIMIT = 1000;
@@ -52,19 +51,19 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
-     * @param currentExprText The initial expression code.
+     * @param exprCode The initial expression code.
      * @param type The type of the code.
      */
-    public ExprCodeGeneratorResult(String currentExprText, CifType type) {
-        this(list(), currentExprText, type, 1);
+    public ExprCodeGeneratorResult(String exprCode, CifType type) {
+        this(list(), exprCode, type, 1);
     }
 
     /**
      * Merge {@link ExprCodeGeneratorResult}s together. The order of the supplied results should match with the order of
-     * placeholders in the format string.
+     * the placeholders in the format string.
      *
      * @param mergeFormatString The code format string that represents the merging of the results.
-     * @param type The type of the code.
+     * @param type The type of the expression for which the code was generated.
      * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
@@ -80,7 +79,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
      * placeholders in the format string.
      *
      * @param mergeFormatString The format code string that represents the merging of the results.
-     * @param type The type of the code.
+     * @param type The type of the expression for which the code was generated.
      * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
@@ -91,24 +90,26 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         // TODO I am using/abusing fmt to check the whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
 
+        // Optimization for empty results list.
         if (results.isEmpty()) {
             return new ExprCodeGeneratorResult(fmt(mergeFormatString), type);
         }
 
         // Prepare the merge.
         Assert.check(LIMIT > results.size()); // Otherwise the merged result will never fit within the limit.
-        List<ExprCodeGeneratorResult> resultsCopy = list(); // Make copy so we can mutate the list.
-        resultsCopy.addAll(results);
+        List<ExprCodeGeneratorResult> resultsCopy = copy(results); // Make copy so we can mutate the list.
         while (!areUnderTheLimit(resultsCopy)) {
             // Identify the largest result.
             ExprCodeGeneratorResult largest = getLargestResult(resultsCopy);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
+            // Internal loop to replace all largest results (potential duplicates) with the new method that keeps
+            // the order of the results intact.
             for (int index; (index = resultsCopy.indexOf(largest)) >= 0;) {
                 resultsCopy.set(index, newLargest);
             }
         }
 
-        String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[0]));
+        String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[resultsCopy.size()]));
 
         // Perform the actual merge.
         // We want to keep the multiplicity of duplicates for the total number of nodes in the merged results, but we
@@ -127,11 +128,11 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     }
 
     /**
-     * Assign the supplied expression code to a new method.
+     * Assign the supplied expression code to a new extra method.
      *
-     * @param result The result to encapsulate with a new method.
+     * @param result The result to encapsulate with a new extra method.
      * @param ctxt The compiler context to use.
-     * @return New result where the current expression code is assigned to a new method, if possible.
+     * @return New result where the current expression code is assigned to a new extra method.
      */
     private static ExprCodeGeneratorResult createMethod(ExprCodeGeneratorResult result, CifCompilerContext ctxt) {
         // Skip if expr is null, as we cannot fetch a proper return type.
@@ -142,17 +143,17 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         }
 
         List<Triple<String, String, String>> newSubExprs = result.subExprs();
-        String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.atomicIntegerGenerator.getAndIncrement());
-        newSubExprs.add(triple(result.currentExprText(), methodName, gencodeType(result.type(), ctxt)));
+        String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.exprCodeGenExtraMethodCounter.getAndIncrement());
+        newSubExprs.add(triple(result.exprCode(), methodName, gencodeType(result.type(), ctxt)));
 
         return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.type(), 1);
     }
 
     /**
-     * Check whether {@link ExprCodeGeneratorResult}s would fit together without reaching the limit when being merged.
+     * Check whether {@link ExprCodeGeneratorResult}s would fit together without reaching the limit.
      *
      * @param results The {@link ExprCodeGeneratorResult}s to check.
-     * @return {@code true} if merging the results would remain under the limit, otherwise {@code false}.
+     * @return {@code true} if the combined counts would remain under the limit, otherwise {@code false}.
      */
     private static boolean areUnderTheLimit(List<ExprCodeGeneratorResult> results) {
         int total = 0;
@@ -174,7 +175,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         Assert.check(!results.isEmpty());
 
         ExprCodeGeneratorResult largest = results.get(0);
-        int largestSize = results.get(0).numNodes();
+        int largestSize = largest.numNodes();
         for (int i = 1; i < results.size(); i++) {
             if (results.get(i).numNodes() > largestSize) {
                 largest = results.get(i);
@@ -187,6 +188,6 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
 
     @Override
     public String toString() {
-        return currentExprText;
+        return exprCode;
     }
 }
