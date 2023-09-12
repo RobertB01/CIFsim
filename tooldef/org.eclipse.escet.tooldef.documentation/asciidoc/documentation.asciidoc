@@ -20,9 +20,8 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-= ToolDef documentation (Incubation)
+= ToolDef documentation
 :author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
-:title-logo-image: {imgsdir}/eclipse-incubation.png
 :favicon: favicon.png
 
 ToolDef is a cross-platform and machine-independent scripting language.
@@ -31,15 +30,8 @@ It supports command line execution, but is also available as plug-in for the lin
 ToolDef is one of the tools of the Eclipse ESCET(TM) project.
 Visit the link:https://eclipse.dev/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
-[WARNING]
-====
-The Eclipse ESCET project, including the ToolDef language and toolset, is currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
-
-image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
-====
-
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-tooldef-manual.pdf[download this manual] as a PDF as well.
+TIP: You can link:eclipse-escet-tooldef-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
 The documentation consists of:
