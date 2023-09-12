@@ -135,12 +135,8 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
      * @return New result where the current expression code is assigned to a new extra method.
      */
     private static ExprCodeGeneratorResult createMethod(ExprCodeGeneratorResult result, CifCompilerContext ctxt) {
-        // Skip if expr is null, as we cannot fetch a proper return type.
-        // TODO See if we can get rid of having potential null expressions.
-        Assert.notNull(result.type()); // TODO To see which expressions are still problematic.
-        if (result.type() == null) {
-            return result;
-        }
+        // We cannot fetch a proper return type if it is null.
+        Assert.notNull(result.type());
 
         List<Triple<String, String, String>> newSubExprs = result.subExprs();
         String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.exprCodeGenExtraMethodCounter.getAndIncrement());

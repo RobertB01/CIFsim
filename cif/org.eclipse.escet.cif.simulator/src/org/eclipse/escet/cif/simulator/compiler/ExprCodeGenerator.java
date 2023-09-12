@@ -174,8 +174,7 @@ public class ExprCodeGenerator {
     {
         // Optimization for no expressions.
         if (exprs.isEmpty()) {
-            return list(new ExprCodeGeneratorResult("", null)); // TODO What should be a correct type for an empty
-                                                                // expression.
+            return list();
         }
 
         // Optimization for single expression.
