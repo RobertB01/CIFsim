@@ -46,7 +46,7 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     private static final String METHOD_BASE_NAME = "evalExpression";
 
     /** The limit after which generated code should be wrapped in separate method. */
-    private static final int LIMIT = 10;
+    private static final int LIMIT = 1000;
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.

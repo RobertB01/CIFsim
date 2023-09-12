@@ -172,22 +172,11 @@ public class ExprCodeGenerator {
     public static List<ExprCodeGeneratorResult> gencodeExprs(List<Expression> exprs, CifCompilerContext ctxt,
             String state)
     {
-        // Optimization for no expressions.
-        if (exprs.isEmpty()) {
-            return list();
+        List<ExprCodeGeneratorResult> rslts = listc(exprs.size());
+        for (Expression expr: exprs) {
+            rslts.add(gencodeExpr(expr, ctxt, state));
         }
-
-        // Optimization for single expression.
-        List<ExprCodeGeneratorResult> rslt = list(gencodeExpr(first(exprs), ctxt, state));
-        if (exprs.size() == 1) {
-            return rslt;
-        }
-
-        // General case.
-        for (int i = 1; i < exprs.size(); i++) {
-            rslt.add(gencodeExpr(exprs.get(i), ctxt, state));
-        }
-        return rslt;
+        return rslts;
     }
 
     /**
