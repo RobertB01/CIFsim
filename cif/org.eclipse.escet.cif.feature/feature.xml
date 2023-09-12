@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.cif.feature"
-      label="ESCET CIF (Incubation)"
+      label="ESCET CIF"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"

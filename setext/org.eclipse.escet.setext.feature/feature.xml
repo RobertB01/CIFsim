@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.setext.feature"
-      label="ESCET SeText (Incubation)"
+      label="ESCET SeText"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
