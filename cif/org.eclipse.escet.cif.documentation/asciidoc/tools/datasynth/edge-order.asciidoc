@@ -85,7 +85,7 @@ The workset algorithm may perform better than a fixed order, if a suitable heuri
 
 The order in which the edges are considered when a fixed order is used, is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
 If the workset algorithm is used, the edges in the workset are ordered according to the configured order.
-Since the workset algorithm always selects the first edge in the workset, the configured order thus influences the order in which edges are selected by the workset algorithm.
+The configured order may therefore also influence the order in which edges are selected by the workset algorithm's edge selection heuristics.
 
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the _model ordering_ is used for both backward and forward reachability computations.
