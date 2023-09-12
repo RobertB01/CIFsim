@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF Simulator Debug Project (Incubation)
+Bundle-Name: ESCET CIF Simulator Debug Project
 Bundle-SymbolicName: org.eclipse.escet.cif.simulator.debug;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

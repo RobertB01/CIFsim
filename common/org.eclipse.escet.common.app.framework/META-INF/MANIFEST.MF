@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Common Application Framework (Incubation)
+Bundle-Name: ESCET Common Application Framework
 Bundle-SymbolicName: org.eclipse.escet.common.app.framework;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

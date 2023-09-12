@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET SeText I/O Functionality (Incubation)
+Bundle-Name: ESCET SeText I/O Functionality
 Bundle-SymbolicName: org.eclipse.escet.setext.io;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17

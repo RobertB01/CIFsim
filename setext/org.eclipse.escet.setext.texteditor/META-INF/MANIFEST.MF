@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET SeText Text Editor (Incubation)
+Bundle-Name: ESCET SeText Text Editor
 Bundle-SymbolicName: org.eclipse.escet.setext.texteditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

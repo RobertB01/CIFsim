@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF Documentation Utils (Incubation)
+Bundle-Name: ESCET CIF Documentation Utils
 Bundle-SymbolicName: org.eclipse.escet.cif.documentation.utils;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

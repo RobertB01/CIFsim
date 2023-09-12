@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF Code Generator (Incubation)
+Bundle-Name: ESCET CIF Code Generator
 Bundle-SymbolicName: org.eclipse.escet.cif.codegen;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17

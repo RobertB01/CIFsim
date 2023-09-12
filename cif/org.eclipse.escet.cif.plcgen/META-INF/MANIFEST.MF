@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF PLC Code Generator v2 (Incubation)
+Bundle-Name: ESCET CIF PLC Code Generator v2
 Bundle-SymbolicName: org.eclipse.escet.cif.plcgen;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

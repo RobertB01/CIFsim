@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Common Application Framework Apps View (Incubation)
+Bundle-Name: ESCET Common Application Framework Apps View
 Bundle-SymbolicName: org.eclipse.escet.common.app.framework.appsview.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.escet.common.java;bundle-version="1.0.0",

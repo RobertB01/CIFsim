@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Chi Java Code Generator (Incubation)
+Bundle-Name: ESCET Chi Java Code Generator
 Bundle-SymbolicName: org.eclipse.escet.chi.codegen;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

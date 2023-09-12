@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF to Supremica Transformation (Incubation)
+Bundle-Name: ESCET CIF to Supremica Transformation
 Bundle-SymbolicName: org.eclipse.escet.cif.cif2supremica;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17

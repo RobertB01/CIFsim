@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Chi Parser (Incubation)
+Bundle-Name: ESCET Chi Parser
 Bundle-SymbolicName: org.eclipse.escet.chi.parser;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

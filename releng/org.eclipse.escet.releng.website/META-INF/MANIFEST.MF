@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Eclipse ESCET Website (Incubation)
+Bundle-Name: Eclipse ESCET Website
 Bundle-SymbolicName: org.eclipse.escet.releng.website;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

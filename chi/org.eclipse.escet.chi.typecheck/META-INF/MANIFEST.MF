@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Chi Type Checker (Incubation)
+Bundle-Name: ESCET Chi Type Checker
 Bundle-SymbolicName: org.eclipse.escet.chi.typecheck;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

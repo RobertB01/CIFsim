@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET ToolDef Metamodel Java Support (Incubation)
+Bundle-Name: ESCET ToolDef Metamodel Java Support
 Bundle-SymbolicName: org.eclipse.escet.tooldef.metamodel.java;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

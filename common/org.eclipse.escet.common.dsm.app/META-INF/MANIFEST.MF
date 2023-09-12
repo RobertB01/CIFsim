@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Common Design Structure Matrix Application (Incubation)
+Bundle-Name: ESCET Common Design Structure Matrix Application
 Bundle-SymbolicName: org.eclipse.escet.common.dsm.app;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
