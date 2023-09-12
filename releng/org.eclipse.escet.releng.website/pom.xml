@@ -70,7 +70,7 @@
                         <configuration>
                             <target>
                                 <zip encoding="utf-8" basedir="${project.build.directory}/website"
-                                    destfile="${project.build.directory}/eclipse-escet-incubation-${escet.version.enduser}-website.zip" />
+                                    destfile="${project.build.directory}/eclipse-escet-${escet.version.enduser}-website.zip" />
                             </target>
                         </configuration>
                     </execution>
