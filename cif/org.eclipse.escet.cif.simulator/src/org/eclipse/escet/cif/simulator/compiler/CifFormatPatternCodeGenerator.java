@@ -107,6 +107,9 @@ public class CifFormatPatternCodeGenerator {
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
+                        // We need to cast the value to the string type.
+                        // Only create a new ExprCodeGeneratorResult with the type cast code if we don't have it yet.
+                        // Therefore, we don't obtain functional duplicate rslt in the argRslts.
                         rslt = argIdxToConvertCode.get(idx);
                         if (rslt == null) {
                             ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
@@ -123,12 +126,7 @@ public class CifFormatPatternCodeGenerator {
                     String msg = "Unexpected: " + part.conversion;
                     throw new RuntimeException(msg);
             }
-            int index = argRslts.indexOf(rslt);
-            if (index >= 0) {
-                argRslts.add(argRslts.get(index));
-            } else {
-                argRslts.add(rslt);
-            }
+            argRslts.add(rslt);
         }
 
         // Return actual code for the entire 'fmt' function call.
