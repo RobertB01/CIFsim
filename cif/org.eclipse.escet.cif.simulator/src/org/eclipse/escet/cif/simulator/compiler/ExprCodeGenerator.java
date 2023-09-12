@@ -670,7 +670,8 @@ public class ExprCodeGenerator {
     {
         // User-defined functions.
         if (!(expr.getFunction() instanceof StdLibFunctionExpression)) {
-            List<ExprCodeGeneratorResult> funcAndArgResults = list(gencodeExpr(expr.getFunction(), ctxt, state));
+            List<ExprCodeGeneratorResult> funcAndArgResults = listc(expr.getParams().size() + 1);
+            funcAndArgResults.add(gencodeExpr(expr.getFunction(), ctxt, state));
             funcAndArgResults.addAll(gencodeExprs(expr.getParams(), ctxt, state));
             String paramsTxt = String.join(", ", Collections.nCopies(expr.getParams().size(), "%s"));
             return merge(fmt("(%%s).evalFunc(%s)", paramsTxt), expr.getType(), ctxt, funcAndArgResults);
