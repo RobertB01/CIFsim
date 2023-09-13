@@ -48,8 +48,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
+import org.eclipse.escet.cif.simulator.compiler.ExprCodeGeneratorResult.ExtraMethod;
 import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.java.Triple;
 
 /**
  * Automaton code generator. Supports all features of automata. Does not support automata with large numbers of
@@ -664,7 +664,7 @@ public class AutomatonNormalCodeGenerator {
                 // TODO In case the expression is split (because it was long), it was still printed in full here. That
                 // is also a problem.
                 // Can we identify the edge in a different way?
-                if (result.subExprs().isEmpty()) {
+                if (result.extraMethods().isEmpty()) {
                     c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
                             + "e, state);", escapeJava(exprToStr(guard)), escapeJava(locTxt));
                 } else {
@@ -684,11 +684,11 @@ public class AutomatonNormalCodeGenerator {
 
         // Add potential extra guard expression evaluation methods.
         for (ExprCodeGeneratorResult guardResult: guardResults) {
-            for (Triple<String, String, String> subExpr: guardResult.subExprs()) {
+            for (ExtraMethod extraMethod: guardResult.extraMethods()) {
                 c.add();
-                c.add("private static %s %s(State state) {", subExpr.third, subExpr.second);
+                c.add("private static %s %s(State state) {", extraMethod.type(), extraMethod.name());
                 c.indent();
-                c.add("return %s;", subExpr.first);
+                c.add("return %s;", extraMethod.bodyCode());
                 c.dedent();
                 c.add("}");
             }

@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.java.Triple.triple;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,20 +25,18 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Triple;
 
 /**
  * The code generated for an expression. Parts of the code may be assigned to extra methods, to prevent issues with Java
  * code size limits, such as too much code in a single method.
  *
- * @param subExprs The code to place in extra methods. Each triple consists of the expression code, the corresponding
- *     method name, and the return type of the method.
+ * @param extraMethods List of new extra methods.
  * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
  * @param type The type of the expression for which the code was generated.
  * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
  *     code is assigned to an extra method.
  */
-public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subExprs, String exprCode, CifType type,
+public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exprCode, CifType type,
         int numNodes)
 {
     /** The base name used for generating names for the extra methods. */
@@ -113,18 +110,18 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
 
         // Perform the actual merge.
         // We want to keep the multiplicity of duplicates for the total number of nodes in the merged results, but we
-        // dont't want duplicates in mergedSubExprs.
-        List<Triple<String, String, String>> mergedSubExprs = list();
+        // dont't want duplicates in mergedExtraMethods.
+        List<ExtraMethod> mergedExtraMethods = list();
         int mergedNumNodes = 0;
         Set<ExprCodeGeneratorResult> seen = set();
         for (ExprCodeGeneratorResult result: resultsCopy) {
             if (seen.add(result)) {
-                mergedSubExprs.addAll(result.subExprs());
+                mergedExtraMethods.addAll(result.extraMethods());
             }
             mergedNumNodes += result.numNodes();
         }
 
-        return new ExprCodeGeneratorResult(mergedSubExprs, exprText, type, mergedNumNodes);
+        return new ExprCodeGeneratorResult(mergedExtraMethods, exprText, type, mergedNumNodes);
     }
 
     /**
@@ -138,9 +135,9 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
         // We cannot fetch a proper return type if it is null.
         Assert.notNull(result.type());
 
-        List<Triple<String, String, String>> newSubExprs = result.subExprs();
+        List<ExtraMethod> newSubExprs = result.extraMethods();
         String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.exprCodeGenExtraMethodCounter.getAndIncrement());
-        newSubExprs.add(triple(result.exprCode(), methodName, gencodeType(result.type(), ctxt)));
+        newSubExprs.add(new ExtraMethod(result.exprCode(), methodName, gencodeType(result.type(), ctxt)));
 
         return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.type(), 1);
     }
@@ -185,5 +182,15 @@ public record ExprCodeGeneratorResult(List<Triple<String, String, String>> subEx
     @Override
     public String toString() {
         return exprCode;
+    }
+
+    /**
+     * Extra method that encapsulate an expression.
+     *
+     * @param bodyCode The code to be put inside the body of the extra method.
+     * @param name The name of the extra method.
+     * @param type The return type of the extra method.
+     */
+    public record ExtraMethod(String bodyCode, String name, String type) {
     }
 }
