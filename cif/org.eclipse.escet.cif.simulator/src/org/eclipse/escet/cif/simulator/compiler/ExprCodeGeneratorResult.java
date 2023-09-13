@@ -97,12 +97,17 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         List<ExprCodeGeneratorResult> resultsCopy = copy(results); // Make copy so we can mutate the list.
         while (!areUnderTheLimit(resultsCopy)) {
             // Identify the largest result.
-            ExprCodeGeneratorResult largest = getLargestResult(resultsCopy);
+            int indexLargest = getLargestResult(resultsCopy);
+            ExprCodeGeneratorResult largest = resultsCopy.get(indexLargest);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
-            // Internal loop to replace all largest results (potential duplicates) with the new method that keeps
+            resultsCopy.set(indexLargest, newLargest);
+
+            // Replace all instances of the largest result (there may be duplicates) with the new method, keeping
             // the order of the results intact.
-            for (int index; (index = resultsCopy.indexOf(largest)) >= 0;) {
-                resultsCopy.set(index, newLargest);
+            for (int index = indexLargest + 1; index < resultsCopy.size(); index++) {
+                if (resultsCopy.get(index).equals(largest)) {
+                    resultsCopy.set(index, newLargest);
+                }
             }
         }
 
@@ -164,19 +169,19 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * @return The index of the largest result in terms of number of nodes (or the first of them in case there are
      *     multiple).
      */
-    private static ExprCodeGeneratorResult getLargestResult(List<ExprCodeGeneratorResult> results) {
+    private static int getLargestResult(List<ExprCodeGeneratorResult> results) {
         Assert.check(!results.isEmpty());
 
-        ExprCodeGeneratorResult largest = results.get(0);
-        int largestSize = largest.numNodes();
+        int largestSize = results.get(0).numNodes();
+        int largestIndex = 0;
         for (int i = 1; i < results.size(); i++) {
             if (results.get(i).numNodes() > largestSize) {
-                largest = results.get(i);
-                largestSize = largest.numNodes();
+                largestSize = results.get(i).numNodes();
+                largestIndex = i;
             }
         }
 
-        return largest;
+        return largestIndex;
     }
 
     @Override
