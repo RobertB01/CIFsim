@@ -160,13 +160,13 @@ public class ExprCodeGenerator {
     }
 
     /**
-     * Generate a list of Java code fragment for the given expressions.
+     * Generate Java code fragments for the given expressions.
      *
      * @param exprs The expressions.
      * @param ctxt The compiler context to use.
      * @param state The name of the state variable in the context where the generated code is used. May be {@code null}
      *     only if the context in which the expression occurs can not access the state.
-     * @return The list of Java code fragments that represents the given expressions.
+     * @return The Java code fragments that represent the given expressions.
      */
     public static List<ExprCodeGeneratorResult> gencodeExprs(List<Expression> exprs, CifCompilerContext ctxt,
             String state)
@@ -574,7 +574,7 @@ public class ExprCodeGenerator {
 
             ExprCodeGeneratorResult keyRslt = gencodeExpr(key, ctxt, state);
             if (valueRslt != null) {
-                keyRslt = merge("equal(%s, %s)", expr.getType(), ctxt, valueRslt, keyRslt);
+                keyRslt = merge("equal(%s, %s)", newBoolType(), ctxt, valueRslt, keyRslt);
             }
 
             // Wrap result code for this case.

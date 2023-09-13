@@ -32,7 +32,7 @@ import org.eclipse.escet.common.java.Assert;
  *
  * @param extraMethods List of new extra methods.
  * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
- * @param type The type of the expression for which the code was generated.
+ * @param type The type of the generated code.
  * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
  *     code is assigned to an extra method.
  */
@@ -49,7 +49,7 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
      * @param exprCode The initial expression code.
-     * @param type The type of the code.
+     * @param type The type of the generated code.
      */
     public ExprCodeGeneratorResult(String exprCode, CifType type) {
         this(list(), exprCode, type, 1);
@@ -60,7 +60,7 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * the placeholders in the format string.
      *
      * @param mergeFormatString The code format string that represents the merging of the results.
-     * @param type The type of the expression for which the code was generated.
+     * @param type The type of the generated code.
      * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
@@ -73,10 +73,10 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
 
     /**
      * Merge {@link ExprCodeGeneratorResult}s together. The order of the supplied results should match with the order of
-     * placeholders in the format string.
+     * the placeholders in the format string.
      *
      * @param mergeFormatString The format code string that represents the merging of the results.
-     * @param type The type of the expression for which the code was generated.
+     * @param type The type of the generated code.
      * @param ctxt The compiler context to use.
      * @param results The {@link ExprCodeGeneratorResult}s to be merged into this result.
      * @return A merged result.
@@ -87,7 +87,7 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         // TODO I am using/abusing fmt to check the whether the number of placeholders match the number of arguments.
         // Should we do this check ourselves or provide better exception catching here?
 
-        // Optimization for empty results list.
+        // Optimization for no results to be merged (format string has the full code).
         if (results.isEmpty()) {
             return new ExprCodeGeneratorResult(fmt(mergeFormatString), type);
         }
@@ -137,7 +137,7 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * @return New result where the current expression code is assigned to a new extra method.
      */
     private static ExprCodeGeneratorResult createMethod(ExprCodeGeneratorResult result, CifCompilerContext ctxt) {
-        // We cannot fetch a proper return type if it is null.
+        // Sanity check: make sure a type is available.
         Assert.notNull(result.type());
 
         List<ExtraMethod> newSubExprs = result.extraMethods();

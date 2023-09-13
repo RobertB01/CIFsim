@@ -63,12 +63,16 @@ public class CifFormatPatternCodeGenerator {
         List<FormatDescription> parts = decoder.decode(pattern);
 
         // Process all parts.
+        // - patternCode: The code of the format pattern being generated.
+        // - argCodes: The format specifiers to be replaced by the code generated for the arguments.
+        // - implicitIndex: The explicit index for the next format specifier with an implicit index.
+        // - argIdxToConvertCode: Maps an argument index to 'argument to string' conversion code (if already
+        //  generated). This mapping is used to prevent generating duplicate code.
         StringBuilder patternCode = new StringBuilder();
         List<String> argCodes = listc(parts.size());
-        List<ExprCodeGeneratorResult> argRslts = listc(valueRslts.size());
         int implicitIndex = 0;
-        // Keeps track of indices for which already code has been converted to prevent the generation of duplicate code.
         Map<Integer, ExprCodeGeneratorResult> argIdxToConvertCode = map();
+        List<ExprCodeGeneratorResult> argRslts = listc(valueRslts.size());
         for (FormatDescription part: parts) {
             // Literal.
             if (part.conversion == Conversion.LITERAL) {
@@ -107,9 +111,9 @@ public class CifFormatPatternCodeGenerator {
                     CifType t = valueTypes.get(idx);
                     CifType nt = normalizeType(t);
                     if (!(nt instanceof StringType)) {
-                        // We need to cast the value to the string type.
-                        // Only create a new ExprCodeGeneratorResult with the type cast code if we don't have it yet.
-                        // Therefore, we don't obtain functional duplicate rslt in the argRslts.
+                        // Convert argument values ourselves, as CIF textual syntax of values differs from Java.
+                        // Only generate new argument value conversion code if we don't have it yet.
+                        // If we already have it, reuse it to prevent generating duplicate code.
                         rslt = argIdxToConvertCode.get(idx);
                         if (rslt == null) {
                             ExprCodeGeneratorResult valueRslt = valueRslts.get(idx);
