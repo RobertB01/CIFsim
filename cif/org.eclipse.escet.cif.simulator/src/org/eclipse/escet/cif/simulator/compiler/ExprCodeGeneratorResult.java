@@ -30,7 +30,7 @@ import org.eclipse.escet.common.java.Assert;
  * The code generated for an expression. Parts of the code may be assigned to extra methods, to prevent issues with Java
  * code size limits, such as too much code in a single method.
  *
- * @param extraMethods List of new extra methods.
+ * @param extraMethods The new extra methods.
  * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
  * @param type The type of the generated code.
  * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
@@ -190,12 +190,12 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
     }
 
     /**
-     * Extra method that encapsulate an expression.
+     * Extra method that encapsulates code for an expression that has become too large to inline it.
      *
      * @param bodyCode The code to be put inside the body of the extra method.
      * @param name The name of the extra method.
      * @param type The return type of the extra method.
      */
-    public record ExtraMethod(String bodyCode, String name, String type) {
+    public static record ExtraMethod(String bodyCode, String name, String type) {
     }
 }

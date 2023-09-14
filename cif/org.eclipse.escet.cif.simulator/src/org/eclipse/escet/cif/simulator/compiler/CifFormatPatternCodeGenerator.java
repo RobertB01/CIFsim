@@ -68,6 +68,7 @@ public class CifFormatPatternCodeGenerator {
         // - implicitIndex: The explicit index for the next format specifier with an implicit index.
         // - argIdxToConvertCode: Maps an argument index to 'argument to string' conversion code (if already
         //  generated). This mapping is used to prevent generating duplicate code.
+        // - argRslts: Code generated for the arguments.
         StringBuilder patternCode = new StringBuilder();
         List<String> argCodes = listc(parts.size());
         int implicitIndex = 0;
