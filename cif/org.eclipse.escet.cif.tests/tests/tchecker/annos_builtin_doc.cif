@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Missing argument.
+@doc
+input bool i1;
+
+// Unsupported arguments.
+@doc(a = "a", $text = "text", b = "b")
+input bool i2;
+
+// Not a string-typed argument.
+@doc($text = false)
+input bool i3;
+
+// Not a statically-evaluable argument.
+@doc($text = fmt("%s", i4))
+input bool i4;
+
+// Argument evaluation error.
+@doc($text = fmt("%s", sqrt(-1) > 0))
+input bool i5;
