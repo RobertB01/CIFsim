@@ -39,5 +39,6 @@ Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="1.0.0",
  org.eclipse.escet.cif.multilevel;bundle-version="1.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.cif.tests,
+ org.eclipse.escet.cif.tests.annotations,
  org.eclipse.escet.cif.tests.checkers.checks
 Automatic-Module-Name: org.eclipse.escet.cif.tests

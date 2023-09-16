@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <extension
+         point="org.eclipse.escet.cif.annotations">
+      <provider
+            annotationName="cif:typechecker:tests:anno1"
+            class="org.eclipse.escet.cif.tests.annotations.Anno1Provider"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
+            annotationName="cif:typechecker:tests:anno:crash"
+            class="org.eclipse.escet.cif.tests.annotations.CrashingAnnoProvider"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
+            annotationName="cif:typechecker:tests:anno:multi"
+            class="org.eclipse.escet.cif.tests.annotations.MultiAnnotationProvider1"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
+            annotationName="cif:typechecker:tests:anno:multi"
+            class="org.eclipse.escet.cif.tests.annotations.MultiAnnotationProvider2"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
+            annotationName="cif:typechecker:tests:anno:pluginNotFound"
+            class="org.eclipse.escet.cif.tests.annotations.Anno1Provider"
+            plugin="org.eclipse.escet.cif.tests.doesNotExist">
+      </provider>
+   </extension>
+
+</plugin>
