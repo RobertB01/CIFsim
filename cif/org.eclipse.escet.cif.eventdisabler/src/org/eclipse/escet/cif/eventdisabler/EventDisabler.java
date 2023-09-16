@@ -170,10 +170,10 @@ public class EventDisabler {
         if (eventFile != null) {
             String path = Paths.resolve(eventFile);
             List<String> lines;
-            try {
-                InputStream stream = new FileInputStream(path);
-                stream = new BufferedInputStream(stream);
-                lines = IOUtils.readLines(stream, "UTF-8");
+            try (InputStream fstream = new FileInputStream(path);
+                 BufferedInputStream bstream = new BufferedInputStream(fstream))
+            {
+                lines = IOUtils.readLines(bstream, "UTF-8");
             } catch (IOException e) {
                 String msg = fmt("Failed to read \"%s\".", eventFile);
                 throw new InputOutputException(msg, e);
