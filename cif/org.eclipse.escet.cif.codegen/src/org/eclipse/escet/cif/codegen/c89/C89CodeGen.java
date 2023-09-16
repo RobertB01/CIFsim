@@ -76,8 +76,10 @@ import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
+import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Main code generator class for generating C89 code from CIF. */
@@ -586,21 +588,32 @@ public class C89CodeGen extends CodeGen {
     protected void addInputVars(CodeContext ctxt) {
         String prefix = replacements.get("prefix");
 
-        GridBox varDefCode = new GridBox(inputVars.size(), 2, 0, 1);
-        GridBox varDeclCode = new GridBox(inputVars.size(), 2, 0, 1);
-
         // Generate state variable definitions/declarations.
+        CodeBox varDefCode = new MemoryCodeBox();
+        CodeBox varDeclCode = new MemoryCodeBox();
         for (int i = 0; i < inputVars.size(); i++) {
-            InputVariable decl = inputVars.get(i);
-            String typeText = typeToStr(decl.getType());
-            VariableInformation declVarInfo = ctxt.getWriteVarInfo(decl);
+            InputVariable var = inputVars.get(i);
+            String typeText = typeToStr(var.getType());
+            VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetName);
-            String comment = fmt("/**< Input variable \"%s %s\". */", typeText, declVarInfo.name);
+            String doc = DocAnnotationProvider.getDoc(var);
 
-            varDefCode.set(i, 0, declaration);
-            varDefCode.set(i, 1, comment);
-            varDeclCode.set(i, 0, "extern " + declaration);
-            varDeclCode.set(i, 1, comment);
+            for (boolean isDecl: new boolean[] {false, true}) {
+                CodeBox code = isDecl ? varDeclCode : varDefCode;
+                String fullDeclaration = isDecl ? "extern " + declaration : declaration;
+                if (doc == null) {
+                    code.add("%s /**< Input variable \"%s %s\". */", fullDeclaration, typeText, declVarInfo.name);
+                } else {
+                    code.add("/**");
+                    code.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
+                    code.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" */");
+                    code.add(fullDeclaration);
+                }
+            }
         }
         replacements.put("inputvar-definitions", varDefCode.toString());
         replacements.put("inputvar-declarations", varDeclCode.toString());
