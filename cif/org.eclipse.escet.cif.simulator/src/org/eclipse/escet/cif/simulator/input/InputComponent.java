@@ -83,8 +83,8 @@ public abstract class InputComponent<S extends RuntimeState> {
      * @param transitions The transitions that are possible from the current state. May be empty if no transitions are
      *     possible.
      * @param result Indicates the simulation result, in case no transitions are possible. Is {@code null} if at least
-     *     one transition is possible. May be {@link SimulationResult#DEADLOCK} or
-     *     {@link SimulationResult#ENDTIME_REACHED} otherwise.
+     *     one transition is possible. Is {@link SimulationResult#DEADLOCK} or {@link SimulationResult#ENDTIME_REACHED}
+     *     otherwise.
      * @return The transition that is chosen to be taken, or {@code null} if no transition is chosen.
      * @throws SimulatorExitException May be thrown if no transitions are possible, to stop simulation, rather than
      *     performing a history transition.

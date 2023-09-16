@@ -217,7 +217,7 @@ public final class SvgInputComponent<S extends RuntimeState> extends InputCompon
             }
         }
 
-        // If no matches, the transition is disabled in the current state.
+        // If no matches, the event is disabled in the current state.
         if (matches.isEmpty()) {
             warn("The SVG element (\"%s\") with id \"%s\" was clicked, but the corresponding event \"%s\" is not "
                     + "enabled in the current state.", cifSvgDecls.getSvgRelPath(), id, spec.events.get(eventIdx).name);
