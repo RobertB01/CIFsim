@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,27 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-input bool inp0;
-invariant inp0 or false;
-
-type t2 = bool;
-input t2 inp1;
-invariant inp1 or false;
-
-plant p2:
-  input t2 inp2;
-  plant invariant inp2 or false;
-  location:
-    initial inp2;
-end
-
-group p3:
-  input t2 inp3;
-  requirement invariant inp3 or false;
-end
-
-group annos:
-  @cif:typechecker:tests:anno2
+group g:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
   @cif:typechecker:tests:anno4
   input bool i;
   invariant i;

@@ -29,3 +29,10 @@ requirement p3:
   location:
     initial inp3;
 end
+
+group annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  input bool i;
+  invariant i;
+end

@@ -20,6 +20,21 @@
             plugin="org.eclipse.escet.cif.tests">
       </provider>
       <provider
+            annotationName="cif:typechecker:tests:anno2"
+            class="org.eclipse.escet.cif.tests.annotations.Anno2Provider"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
+            annotationName="cif:typechecker:tests:anno3"
+            class="org.eclipse.escet.cif.tests.annotations.Anno3Provider"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
+            annotationName="cif:typechecker:tests:anno4"
+            class="org.eclipse.escet.cif.tests.annotations.Anno4Provider"
+            plugin="org.eclipse.escet.cif.tests">
+      </provider>
+      <provider
             annotationName="cif:typechecker:tests:anno:crash"
             class="org.eclipse.escet.cif.tests.annotations.CrashingAnnoProvider"
             plugin="org.eclipse.escet.cif.tests">
