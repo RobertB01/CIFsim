@@ -279,7 +279,7 @@ const char *enum_names[] = {
 
 /* Input variables. */
 BoolType b_; /**< Input variable "bool b". */
-IntType i_;  /**< Input variable "int i". */
+IntType i_; /**< Input variable "int i". */
 RealType r_; /**< Input variable "real r". */
 
 /* State variables. */

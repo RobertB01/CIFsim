@@ -118,8 +118,8 @@ RealType f1_(IntType f1_x_) {
 }
 
 /* Input variables. */
-IntType i1_;   /**< Input variable "int i1". */
-RealType i2_;  /**< Input variable "real i2". */
+IntType i1_; /**< Input variable "int i1". */
+RealType i2_; /**< Input variable "real i2". */
 T3IIRType i3_; /**< Input variable "tuple(int a; int b; real c) i3". */
 
 /* State variables. */

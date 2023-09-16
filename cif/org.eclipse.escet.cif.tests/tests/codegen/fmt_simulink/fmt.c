@@ -1454,8 +1454,8 @@ struct WorkStruct {
 
 
     BoolType b_; /**< Input variable "bool b". */
-    int_T i_;    /**< Input variable "int i". */
-    real_T r_;   /**< Input variable "real r". */
+    int_T i_; /**< Input variable "int i". */
+    real_T r_; /**< Input variable "real r". */
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;

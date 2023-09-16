@@ -180,8 +180,8 @@ IntType inc_(IntType inc_x_) {
 }
 
 /* Input variables. */
-IntType x_;        /**< Input variable "int x". */
-IntType y_;        /**< Input variable "int y". */
+IntType x_; /**< Input variable "int x". */
+IntType y_; /**< Input variable "int y". */
 A3IType input_li_; /**< Input variable "list[3] int[0..5] input_li". */
 
 /* State variables. */

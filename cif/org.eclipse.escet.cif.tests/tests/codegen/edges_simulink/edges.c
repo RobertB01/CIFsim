@@ -2018,8 +2018,8 @@ struct WorkStruct {
     real_T aut13_z_;             /**< Discrete variable "real aut13.z". */
 
     BoolType aut14_b_; /**< Input variable "bool aut14.b". */
-    int_T aut14_i_;    /**< Input variable "int aut14.i". */
-    real_T aut14_r_;   /**< Input variable "real aut14.r". */
+    int_T aut14_i_; /**< Input variable "int aut14.i". */
+    real_T aut14_r_; /**< Input variable "real aut14.r". */
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;

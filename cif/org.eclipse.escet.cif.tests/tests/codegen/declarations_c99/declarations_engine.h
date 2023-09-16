@@ -56,8 +56,8 @@ extern RealType c3_; /**< Constant "c3". */
 extern RealType c2_; /**< Constant "c2". */
 
 /* Input variables. */
-extern IntType i1_;   /**< Input variable "int i1". */
-extern RealType i2_;  /**< Input variable "real i2". */
+extern IntType i1_; /**< Input variable "int i1". */
+extern RealType i2_; /**< Input variable "real i2". */
 extern T3IIRType i3_; /**< Input variable "tuple(int a; int b; real c) i3". */
 
 extern void declarations_AssignInputVariables();

@@ -1,4 +1,4 @@
-/* Simulink S-Function code for various CIF file.
+/* Simulink S-Function code for annos_doc CIF file.
  *
  * GENERATED CODE, DO NOT EDIT
  */
@@ -10,7 +10,7 @@
 #include <string.h>
 #include <errno.h>
 
-#define S_FUNCTION_NAME various
+#define S_FUNCTION_NAME annos_doc
 #define S_FUNCTION_LEVEL 2
 
 #include "simstruc.h"
@@ -1056,40 +1056,6 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 /* }}} */
 
 /* {{{ CIF types. */
-/* CIF type: list[2] int[0..3] */
-struct A2I_struct {
-    int_T data[2];
-};
-typedef struct A2I_struct A2IType;
-
-static BoolType A2ITypeEquals(A2IType *left, A2IType *right);
-static int_T A2ITypeProject(A2IType *array, IntType index);
-static void A2ITypeModify(A2IType *array, IntType index, int_T value);
-static int A2ITypePrint(A2IType *array, char *dest, int start, int end);
-static A2IType A2ITypeFromSimulink(real_T *vec);
-static void A2ITypeToSimulink(real_T *vec, A2IType *arr);
-
-/* CIF type: list[3] int[0..5] */
-struct A3I_struct {
-    int_T data[3];
-};
-typedef struct A3I_struct A3IType;
-
-static BoolType A3ITypeEquals(A3IType *left, A3IType *right);
-static int_T A3ITypeProject(A3IType *array, IntType index);
-static void A3ITypeModify(A3IType *array, IntType index, int_T value);
-static int A3ITypePrint(A3IType *array, char *dest, int start, int end);
-static A3IType A3ITypeFromSimulink(real_T *vec);
-static void A3ITypeToSimulink(real_T *vec, A3IType *arr);
-
-enum Enumvarious_ {
-    _various_l1,
-    _various_l2,
-};
-typedef enum Enumvarious_ variousEnum;
-
-static const char *enum_names[];
-static int EnumTypePrint(variousEnum value, char *dest, int start, int end);
 
 /* }}} */
 
@@ -1166,279 +1132,79 @@ static real_T SimulinkToReal(real_T sr) {
 /* }}} */
 
 /* {{{ Type functions. */
-/**
- * Compare two arrays for equality.
- * @param left First array to compare.
- * @param right Second array to compare.
- * @return Whether both arrays are the same.
- */
-static BoolType A2ITypeEquals(A2IType *left, A2IType *right) {
-    if (left == right) return TRUE;
-    return memcmp(left, right, sizeof(A2IType)) == 0;
-}
-
-/**
- * Extract an element from the array.
- * @param array Array with value to retrieve.
- * @param index Element index in the array (not normalized).
- * @return Element value at the indicated index from the array.
- */
-static int_T A2ITypeProject(A2IType *array, IntType index) {
-    if (index < 0) index += 2; /* Normalize index. */
-    assert(index >= 0 && index < 2);
-
-    return array->data[index];
-}
-
-/**
- * In-place change of the array.
- * @param array Array to modify.
- * @param index Element index in the array (not normalized).
- * @param value New value to copy into the array.
- */
-static void A2ITypeModify(A2IType *array, IntType index, int_T value) {
-    if (index < 0) index += 2; /* Normalize index. */
-    assert(index >= 0 && index < 2);
-
-    array->data[index] = value;
-}
-
-/**
- * Append textual representation of the array value into the provided
- * destination, space permitting.
- * @param array Array to print.
- * @param dest Destination to write text to.
- * @param start First available offset in \a dest for new text.
- * @param end Fist offset behind \a dest.
- * @return First free offset in \a dest, mat be \a end.
- */
-static int A2ITypePrint(A2IType *array, char *dest, int start, int end) {
-    int last = end - 1;
-    if (start < last) { dest[start++] = '['; }
-    int index;
-    for (index = 0; index < 2; index++) {
-        if (index > 0) {
-            if (start < last) { dest[start++] = ','; }
-            if (start < last) { dest[start++] = ' '; }
-        }
-        start = IntTypePrint(array->data[index], dest, start, end);
-    }
-    if (start < last) { dest[start++] = ']'; }
-    dest[start] = '\0';
-    return start;
-}
-
-/**
- * Construct a CIF array from a Simulink vector.
- * @param vec Simulink vector to copy.
- * @return The constructed array.
- */
-static A2IType A2ITypeFromSimulink(real_T *vec) {
-    A2IType result;
-    int i;
-    for (i = 0; i < 2; i++) result.data[i] = SimulinkToInt(vec[i]);
-    return result;
-}
-
-/**
- * Fill a Simulink vector from a CIF array.
- * @param vec Simulink vector to copy to.
- * @param arr Source array to get values from.
- */
-static void A2ITypeToSimulink(real_T *vec, A2IType *arr) {
-    int i;
-    for (i = 0; i < 2; i++) vec[i] = IntToSimulink(arr->data[i]);
-}
-
-/**
- * Compare two arrays for equality.
- * @param left First array to compare.
- * @param right Second array to compare.
- * @return Whether both arrays are the same.
- */
-static BoolType A3ITypeEquals(A3IType *left, A3IType *right) {
-    if (left == right) return TRUE;
-    return memcmp(left, right, sizeof(A3IType)) == 0;
-}
-
-/**
- * Extract an element from the array.
- * @param array Array with value to retrieve.
- * @param index Element index in the array (not normalized).
- * @return Element value at the indicated index from the array.
- */
-static int_T A3ITypeProject(A3IType *array, IntType index) {
-    if (index < 0) index += 3; /* Normalize index. */
-    assert(index >= 0 && index < 3);
-
-    return array->data[index];
-}
-
-/**
- * In-place change of the array.
- * @param array Array to modify.
- * @param index Element index in the array (not normalized).
- * @param value New value to copy into the array.
- */
-static void A3ITypeModify(A3IType *array, IntType index, int_T value) {
-    if (index < 0) index += 3; /* Normalize index. */
-    assert(index >= 0 && index < 3);
-
-    array->data[index] = value;
-}
-
-/**
- * Append textual representation of the array value into the provided
- * destination, space permitting.
- * @param array Array to print.
- * @param dest Destination to write text to.
- * @param start First available offset in \a dest for new text.
- * @param end Fist offset behind \a dest.
- * @return First free offset in \a dest, mat be \a end.
- */
-static int A3ITypePrint(A3IType *array, char *dest, int start, int end) {
-    int last = end - 1;
-    if (start < last) { dest[start++] = '['; }
-    int index;
-    for (index = 0; index < 3; index++) {
-        if (index > 0) {
-            if (start < last) { dest[start++] = ','; }
-            if (start < last) { dest[start++] = ' '; }
-        }
-        start = IntTypePrint(array->data[index], dest, start, end);
-    }
-    if (start < last) { dest[start++] = ']'; }
-    dest[start] = '\0';
-    return start;
-}
-
-/**
- * Construct a CIF array from a Simulink vector.
- * @param vec Simulink vector to copy.
- * @return The constructed array.
- */
-static A3IType A3ITypeFromSimulink(real_T *vec) {
-    A3IType result;
-    int i;
-    for (i = 0; i < 3; i++) result.data[i] = SimulinkToInt(vec[i]);
-    return result;
-}
-
-/**
- * Fill a Simulink vector from a CIF array.
- * @param vec Simulink vector to copy to.
- * @param arr Source array to get values from.
- */
-static void A3ITypeToSimulink(real_T *vec, A3IType *arr) {
-    int i;
-    for (i = 0; i < 3; i++) vec[i] = IntToSimulink(arr->data[i]);
-}
-
-static int EnumTypePrint(variousEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
 
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
 
 
-    A2IType a_li_;   /**< Discrete variable "list[2] int[0..3] a.li". */
-    int_T a_x_;      /**< Discrete variable "int[2..5] a.x". */
-    int_T g_rcv_v_;  /**< Discrete variable "int g.rcv.v". */
-    int_T g_rcv_v2_; /**< Discrete variable "int g.rcv.v2". */
-    int_T g_snd_a_;  /**< Discrete variable "int g.snd.a". */
 
-    int_T x_; /**< Input variable "int x". */
-    int_T y_; /**< Input variable "int y". */
-    A3IType input_li_; /**< Input variable "list[3] int[0..5] input_li". */
+
+    BoolType i1_; /**< Input variable "bool i1". */
+    /**
+     * Input variable "bool i2".
+     *
+     * single line doc
+     */
+    BoolType i2_;
+    /**
+     * Input variable "bool i3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    BoolType i3_;
+    /**
+     * Input variable "bool i4".
+     *
+     * some doc
+     */
+    BoolType i4_;
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;
+    unsigned char input_loaded03;
 };
 /* }}} */
 
 /* {{{ algvar, derivative, function declarations. */
-static int_T z_(SimStruct *sim_struct);
 
 
-static real_T deriv01(SimStruct *sim_struct);
 
-static int_T inc_(SimStruct *sim_struct, int_T inc_x_);
+
+
 /* }}} */
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable z = x + y; */
-static int_T z_(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
 
-    if (!work->input_loaded00) {
-        InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(sim_struct, 0);
-        work->x_ = SimulinkToInt(*uPtrs[0]);
-        work->input_loaded00 = TRUE;
-    }
-    if (!work->input_loaded01) {
-        InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(sim_struct, 1);
-        work->y_ = SimulinkToInt(*uPtrs[0]);
-        work->input_loaded01 = TRUE;
-    }
-    return IntegerAdd(work->x_, work->y_);
-}
 /* }}} */
 
 /* {{{ Derivative definitions. */
-/** Derivative of "g.sync.c". */
-static real_T deriv01(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
 
-    return 1.0;
-}
 /* }}} */
 
 /* {{{ Function definitions. */
-static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    return IntegerAdd(inc_x_, 1);
-    assert(0); /* Falling through the end of the function. */
-}
 /* }}} */
 /* }}} */
 
-enum variousEventEnum_ {
+enum annos_docEventEnum_ {
     EVT_INITIAL_, /**< Initial step. */
     EVT_DELAY_,   /**< Delay step. */
     EVT_TAU_,     /**< Tau step. */
-    e1_,          /**< Event e1. */
-    g_h1_,        /**< Event g.h1. */
 };
-typedef enum variousEventEnum_ various_Event_;
+typedef enum annos_docEventEnum_ annos_doc_Event_;
 
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e1",           /**< Event e1. */
-    "g.h1",         /**< Event g.h1. */
 };
 
 /** Enum names. */
-static const char *enum_names[] = {
-    "l1",
-    "l2",
-};
+${enum-names-list}
 
 /**
  * Reset 'loaded' status of all input variables.
@@ -1448,110 +1214,17 @@ static void ClearInputFlags(struct WorkStruct *work) {
     work->input_loaded00 = FALSE;
     work->input_loaded01 = FALSE;
     work->input_loaded02 = FALSE;
+    work->input_loaded03 = FALSE;
 }
 
 /* Time-dependent guards. */
-static BoolType GuardEval01(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
 
-    return ((modes[0]) == (_various_l2)) && ((cstate[1]) >= (2));
-}
 
 /* Event execution. */
 
-/**
- * Execute code for event "e1".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent0(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[0]) == (_various_l1);
-    if (!guard) return FALSE;
-
-    #if PRINT_OUTPUT
-        PrintOutput(e1_, TRUE);
-    #endif
-
-    modes[0] = _various_l2;
-
-    #if PRINT_OUTPUT
-        PrintOutput(e1_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "g.h1".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent1(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = GuardEval01(sim_struct);
-    if (!guard) return FALSE;
-
-    #if PRINT_OUTPUT
-        PrintOutput(g_h1_, TRUE);
-    #endif
-
-    work->g_rcv_v_ = IntegerMultiply(work->g_rcv_v2_, IntegerAdd(z_(sim_struct), work->g_snd_a_));
-    work->g_snd_a_ = IntegerAdd(work->g_snd_a_, 1);
-    cstate[1] = 0.0;
-    modes[0] = _various_l1;
-
-    #if PRINT_OUTPUT
-        PrintOutput(g_h1_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent2(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = FALSE;
-    if (!guard) return FALSE;
-
-    #if PRINT_OUTPUT
-        PrintOutput(EVT_TAU_, TRUE);
-    #endif
-
-    {
-        int_T rhs2 = work->a_x_;
-        int_T index3 = 0;
-        #if CHECK_RANGES
-        if ((rhs2) > 3) {
-            fprintf(stderr, "RangeError: Writing %d into \"list[2] int[0..3]\"\n", rhs2);
-            fprintf(stderr, "            at " "a.li" "[%d]" "\n", index3);
-            RangeErrorDetected();
-        }
-        #endif
-        A2ITypeModify(&work->a_li_, index3, rhs2);
-    }
-
-    #if PRINT_OUTPUT
-        PrintOutput(EVT_TAU_, FALSE);
-    #endif
-    return TRUE;
-}
 
 #if PRINT_OUTPUT
-static void PrintOutput(various_Event_ event, BoolType pre) {
+static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
 }
 #endif
 
@@ -1562,38 +1235,32 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     if (ssGetNumSFcnParams(sim_struct) != ssGetSFcnParamsCount(sim_struct)) return;
 
     /* Inputs. */
-    if (!ssSetNumInputPorts(sim_struct, 3)) return;
+    if (!ssSetNumInputPorts(sim_struct, 4)) return;
 
     ssSetInputPortWidth(sim_struct, 0, 1);
     ssSetInputPortWidth(sim_struct, 1, 1);
-    ssSetInputPortWidth(sim_struct, 2, 3);
+    ssSetInputPortWidth(sim_struct, 2, 1);
+    ssSetInputPortWidth(sim_struct, 3, 1);
 
     int idx;
-    for (idx = 0; idx < 3; idx++) {
+    for (idx = 0; idx < 4; idx++) {
         ssSetInputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetInputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
         ssSetInputPortDirectFeedThrough(sim_struct, idx, 1); /* Assume always feed-through. */
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 8)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 0)) return;
 
-    ssSetOutputPortWidth(sim_struct, 0, 1);
-    ssSetOutputPortWidth(sim_struct, 1, 1);
-    ssSetOutputPortWidth(sim_struct, 2, 2);
-    ssSetOutputPortWidth(sim_struct, 3, 1);
-    ssSetOutputPortWidth(sim_struct, 4, 1);
-    ssSetOutputPortWidth(sim_struct, 5, 1);
-    ssSetOutputPortWidth(sim_struct, 6, 1);
-    ssSetOutputPortWidth(sim_struct, 7, 1);
 
-    for (idx = 0; idx < 8; idx++) {
+
+    for (idx = 0; idx < 0; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
 
     /* Disc state and cont state. */
-    ssSetNumContStates(sim_struct, 2); /* CState[0] is time. */
+    ssSetNumContStates(sim_struct, 1); /* CState[0] is time. */
     ssSetNumDiscStates(sim_struct, 0);
 
     /* Work vectors. */
@@ -1602,10 +1269,10 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 1);
+    ssSetNumModes(sim_struct, 0);
 
     ssSetNumSampleTimes(sim_struct, 1);
-    ssSetNumNonsampledZCs(sim_struct, 1);
+    ssSetNumNonsampledZCs(sim_struct, 0);
 
     ssSetOptions(sim_struct, 0);
 }
@@ -1645,20 +1312,13 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 
     /* Initialize discrete, continuous, and location pointer variables. */
     cstate[0] = 0.0; /* time = 0.0 */
-    (work->a_li_).data[0] = 0;
-    (work->a_li_).data[1] = 0;
-    work->a_x_ = 2;
-    work->g_rcv_v_ = 0;
-    work->g_rcv_v2_ = work->g_rcv_v_;
-    work->g_snd_a_ = IntegerAdd((5) + (3), inc_(sim_struct, work->g_rcv_v_));
-    cstate[1] = 0.0;
-    modes[0] = _various_l1;
+
 }
 #endif
 /* }}} */
 
 /* {{{ mdlZeroCrossings */
-#define MDL_ZERO_CROSSINGS
+#undef MDL_ZERO_CROSSINGS
 #if defined(MDL_ZERO_CROSSINGS) && (defined(MATLAB_MEX_FILE) || defined(NRT))
 static void mdlZeroCrossings(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1667,7 +1327,7 @@ static void mdlZeroCrossings(SimStruct *sim_struct) {
     ClearInputFlags(work);
     real_T *zcSignals = ssGetNonsampledZCs(sim_struct);
 
-    zcSignals[0] = GuardEval01(sim_struct);
+
 }
 #endif
 /* }}} */
@@ -1683,7 +1343,6 @@ static void mdlDerivatives(SimStruct *sim_struct) {
     real_T *derivs = ssGetdX(sim_struct);
 
     derivs[0] = 1.0;
-    derivs[1] = deriv01(sim_struct);
 }
 #endif
 /* }}} */
@@ -1697,29 +1356,6 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     UNUSED_ARG(tid);
 
     real_T *y;
-    y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = IntToSimulink(modes[0]);
-
-    y = ssGetOutputPortSignal(sim_struct, 1);
-    *y = RealToSimulink(cstate[1]);
-
-    y = ssGetOutputPortSignal(sim_struct, 2);
-    A2ITypeToSimulink(y, &work->a_li_);
-
-    y = ssGetOutputPortSignal(sim_struct, 3);
-    *y = IntToSimulink(work->a_x_);
-
-    y = ssGetOutputPortSignal(sim_struct, 4);
-    *y = IntToSimulink(work->g_rcv_v_);
-
-    y = ssGetOutputPortSignal(sim_struct, 5);
-    *y = IntToSimulink(work->g_rcv_v2_);
-
-    y = ssGetOutputPortSignal(sim_struct, 6);
-    *y = IntToSimulink(work->g_snd_a_);
-
-    y = ssGetOutputPortSignal(sim_struct, 7);
-    *y = IntToSimulink(z_(sim_struct));
 }
 /* }}} */
 
@@ -1748,9 +1384,7 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
     }
 
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "e1". */
-        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "g.h1". */
-        if (ExecEvent2(sim_struct)) continue;  /* (Try to) perform event "tau". */
+
 
         break; /* None of the events triggered. */
     }

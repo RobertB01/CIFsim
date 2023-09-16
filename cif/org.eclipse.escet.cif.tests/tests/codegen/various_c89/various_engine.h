@@ -59,8 +59,8 @@ extern const char *various_event_names[];
 
 
 /* Input variables. */
-extern IntType x_;        /**< Input variable "int x". */
-extern IntType y_;        /**< Input variable "int y". */
+extern IntType x_; /**< Input variable "int x". */
+extern IntType y_; /**< Input variable "int y". */
 extern A3IType input_li_; /**< Input variable "list[3] int[0..5] input_li". */
 
 extern void various_AssignInputVariables();
