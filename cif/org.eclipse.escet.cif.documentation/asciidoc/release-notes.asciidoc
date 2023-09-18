@@ -26,10 +26,23 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version
 
 TBD
 
+Language changes:
+
+* The CIF language now features annotations, that can be used to annotate elements of the specification with extra information.
+Documentation about this feature is mostly absent.
+Annotations should be considered an experimental language feature for now (issue {escet-issue}593[#593]).
+
 Improvements and fixes:
 
+* The CIF controller checker had a performance regression since version 0.7, in case finite response is checked, and confluence is not checked.
+This performance regression has been fixed (issue {escet-issue}639[#639]).
+* The CIF controller checker now requires at least one check to be enabled (issue {escet-issue}639[#639]).
+* The CIF data-based synthesis tool now has improved edge selection heuristics for the workset algorithm, improving the performance of the workset algorithm.
+The workset algorithm is still be considered experimental (issues {escet-issue}520[#520] and {escet-issue}605[#605]).
 * The CIF to Supremica transformation now correctly transforms multiple guards on an edge.
 Multiple guards are now combined into a single conjunction (issue {escet-issue}620[#620]).
+* The CIF event disabler tool now properly closes the event names file after reading it, preventing a resource leak (issue {escet-issue}649[#649]).
+* The 'festo' benchmark model has been changed, removing a duplicate invariant (issue {escet-issue}646[#646]).
 * The CIF documentation pages for the CIF code generator now use syntax highlighting for C and Java code (issue {escet-issue}569[#569]).
 
 === Version 0.10 (2023-06-30)
