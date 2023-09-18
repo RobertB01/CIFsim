@@ -29,7 +29,14 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 
-/** Annotation provider for "doc" annotations. */
+/**
+ * Annotation provider for "doc" annotations.
+ *
+ * <p>
+ * A "doc" annotation adds documentation to a model element. It has exactly one argument, named 'text', of type
+ * 'string', that can be statically evaluated.
+ * </p>
+ */
 public class DocAnnotationProvider extends AnnotationProvider {
     /**
      * Constructor for the {@link DocAnnotationProvider} class.
@@ -42,19 +49,19 @@ public class DocAnnotationProvider extends AnnotationProvider {
 
     @Override
     public final void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
-        // Must have exactly one argument, named 'text', of type 'string', that can be statically evaluated.
         if (annotation.getArguments().isEmpty()) {
             reporter.reportProblem(annotation, "missing mandatory \"text\" argument.", annotation.getPosition(),
                     SemanticProblemSeverity.ERROR);
             // Non-fatal problem.
         }
+
         for (AnnotationArgument arg: annotation.getArguments()) {
             if (!arg.getName().equals("text")) {
                 reporter.reportProblem(annotation, fmt("unsupported argument \"%s\".", arg.getName()),
                         arg.getPosition(), SemanticProblemSeverity.ERROR);
                 // Non-fatal problem.
             } else {
-                boolean ok = true;
+                boolean doEvaluationCheck = true;
 
                 // Check for argument having a boolean value. Tests reporting a second warning.
                 CifType valueType = CifTypeUtils.normalizeType(arg.getValue().getType());
@@ -64,7 +71,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
                                     + "but has a value of type \"%s\".", CifTextUtils.typeToStr(valueType)),
                             arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
                     // Non-fatal problem.
-                    ok = false;
+                    doEvaluationCheck = false;
                 }
 
                 // Check that argument can be statically evaluated.
@@ -72,11 +79,11 @@ public class DocAnnotationProvider extends AnnotationProvider {
                     reporter.reportProblem(annotation, "argument \"text\" cannot be evaluated statically.",
                             arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
                     // Non-fatal problem.
-                    ok = false;
+                    doEvaluationCheck = false;
                 }
 
                 // Check for evaluation errors.
-                if (ok) {
+                if (doEvaluationCheck) {
                     try {
                         getDoc(annotation);
                     } catch (InvalidModelException e) {
