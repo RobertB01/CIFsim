@@ -949,7 +949,7 @@ public class CifMerger {
     }
 
     /**
-     * Check for duplicate annotations that prevent merging to objects.
+     * Check for duplicate annotations that prevent merging two objects.
      *
      * @param annos1 The annotations of the first object to merge.
      * @param annos2 The annotations of the second object to merge.
@@ -965,7 +965,7 @@ public class CifMerger {
             }
         }
 
-        // If there are no duplicates, the check succeeded.
+        // If there are no duplicates, the check succeeds.
         if (duplAnnoNames.isEmpty()) {
             return;
         }
