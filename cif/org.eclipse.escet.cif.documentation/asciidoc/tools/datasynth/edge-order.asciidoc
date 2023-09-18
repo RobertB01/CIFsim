@@ -76,8 +76,9 @@ Which approach to use during synthesis, can be configured using the _Edge workse
 By default a fixed order is used, and the workset algorithm is disabled.
 By enabling the workset algorithm, it is used instead.
 
-Which approach works best depends on the model.
-The workset algorithm may perform better than a fixed order, if a suitable heuristic is used to select the next edge to use.
+Which approach works best depends on the model, and this may involve a trade-off.
+The workset algorithm may reduce the maximum amount of memory used during synthesis, compared to using a fixed order.
+However, this often comes at the cost of extra computations that require more time, especially if edges have many other edges as their dependencies.
 
 === Configuring the order
 
