@@ -71,8 +71,6 @@ The dependencies of an edge are those other edges that may be enabled after usin
 +
 The workset algorithm can only be used in combination with a 'per event' <<tools-datasynth-edge-granularity,edge granularity>>.
 The workset algorithm can not be used when duplicate events are allowed in a <<tools-datasynth-edge-order-custom,custom edge order>>.
-+
-The workset algorithm is experimental.
 
 Which approach to use during synthesis, can be configured using the _Edge workset algorithm_ option (see the <<tools-datasynth-options,options section>>).
 By default a fixed order is used, and the workset algorithm is disabled.
