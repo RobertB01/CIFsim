@@ -47,6 +47,9 @@ public class PlcGenSettings {
     /** Absolute base path to which to write the generated code. */
     public final String outputPath;
 
+    /** File path to the IO table file, may not exist. */
+    public final String ioTablePath;
+
     /** User-defined integer type size to use by the PLC. */
     public final PlcNumberBits intTypeSize;
 
@@ -81,6 +84,7 @@ public class PlcGenSettings {
      * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
      * @param outputPath Absolute base path to which to write the generated code.
+     * @param ioTablePath File path to the IO table file, may not exist.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
@@ -91,8 +95,8 @@ public class PlcGenSettings {
      */
     public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
-            PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
-            Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
+            String ioTablePath, PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues,
+            ConvertEnums enumConversion, Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;
@@ -103,6 +107,7 @@ public class PlcGenSettings {
         this.inputPath = inputPath;
         this.absInputPath = absInputPath;
         this.outputPath = outputPath;
+        this.ioTablePath = ioTablePath;
         this.intTypeSize = intTypeSize;
         this.realTypeSize = realTypeSize;
         this.simplifyValues = simplifyValues;

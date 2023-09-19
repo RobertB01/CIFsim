@@ -31,8 +31,8 @@ public class NameGeneratorTest {
     @SuppressWarnings("javadoc")
     @BeforeEach
     public void setup() {
-        PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, PlcNumberBits.AUTO,
-                PlcNumberBits.AUTO, false, null, null, false, null);
+        PlcGenSettings settings = new PlcGenSettings(null, null, null, null, 0, 0, null, null, null, null,
+                PlcNumberBits.AUTO, PlcNumberBits.AUTO, false, null, null, false, null);
         nameGenerator = new DefaultNameGenerator(settings);
     }
 
