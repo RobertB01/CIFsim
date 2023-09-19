@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-extensions-chapter-annotations]]
+== Annotations
+
+WARNING: Annotations are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner the future.
+
+indexterm:[annotation]
+Annotations can be added to elements of a CIF specification, to annotate them with extra information.
+Annotations have two main purposes:
+
+* Annotations allow us to test out language extensions before actually adding them to the language.
+* Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, for private use, or even for testing.
+
+Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
+
+indexterm:[annotation, doc]
+indexterm:[doc, annotation]
+
+=== Documentation annotations
+
+Documentation can be added to input variables.
+This documentation can then be used by CIF tools in various ways.
+For instance, the CIF code generator includes this documentation in the generated code, such as C and Java code.
+
+[source, cif]
+----
+@doc($text = "The lower limit sensor of the elevator.")
+input bool ElevatorDownSensor;
+----

@@ -316,6 +316,8 @@ include::language-tutorial/stochastics/pseudo-randomness.asciidoc[]
 
 include::language-tutorial/extensions/synthesis.asciidoc[]
 
+include::language-tutorial/extensions/annotations.asciidoc[]
+
 :leveloffset: -2
 
 // Language reference manual
