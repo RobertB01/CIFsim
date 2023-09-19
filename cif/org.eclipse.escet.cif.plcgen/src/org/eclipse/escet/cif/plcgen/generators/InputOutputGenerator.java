@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BOOL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.DINT_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
@@ -27,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,9 +36,15 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoEntry;
 import org.eclipse.escet.cif.plcgen.generators.io.IoKind;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -78,6 +86,7 @@ public class InputOutputGenerator {
     /** Generate input/output code for communicating with the world outside the PLC. */
     public void process() {
         List<IoEntry> entries = convertIoTableEntries();
+        generateIoCode(entries);
     }
 
     /**
@@ -302,5 +311,71 @@ public class InputOutputGenerator {
             }
         }
         return null;
+    }
+
+    /**
+     * Generate IO variables and input/output function code for transferring values between input IO, the CIF state, and
+     * output IO.
+     *
+     * @param entries IO entries to use.
+     */
+    private void generateIoCode(List<IoEntry> entries) {
+        List<PlcStatement> inputStats = list();
+        List<PlcStatement> outputStats = list();
+
+        NameGenerator nameGenerator = target.getNameGenerator();
+        PlcCodeStorage codeStorage = target.getCodeStorage();
+
+        CifDataProvider dataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
+        for (IoEntry entry: entries) {
+            // Preliminaries (check io-kind, construct links to the correct local data structures.
+            Assert.check(EnumSet.of(IoKind.INPUT, IoKind.OUTPUT).contains(entry.ioKind));
+            boolean isInput = entry.ioKind.equals(IoKind.INPUT);
+            List<PlcStatement> stats = isInput ? inputStats : outputStats;
+
+            // Construct a variable with the IO address,
+            String varPrefix = isInput ? "in_" : "out_";
+            String ioVarname = varPrefix + getAbsName(entry.cifObject);
+            ioVarname = nameGenerator.generateGlobalName(ioVarname, false);
+            PlcVariable ioVar = new PlcVariable(ioVarname, entry.varType, entry.plcAddress.getAddress(), null);
+            if (isInput) {
+                codeStorage.addInputVariable(ioVar);
+            } else {
+                codeStorage.addOutputVariable(ioVar);
+            }
+
+            // Construct the assignment to perform the IO.
+            if (isInput) { // state-Var := io-var;
+                PlcVarExpression leftSide;
+                if (entry.cifObject instanceof DiscVariable discVar) {
+                    leftSide = dataProvider.getAddressableForDiscVar(discVar);
+                } else if (entry.cifObject instanceof InputVariable inpVar) {
+                    leftSide = dataProvider.getAddressableForInputVar(inpVar);
+                } else {
+                    throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
+                }
+
+                PlcExpression rightSide = new PlcVarExpression(ioVar);
+                stats.add(new PlcAssignmentStatement(leftSide, rightSide));
+            } else { // io-var := state-var;
+                PlcVarExpression leftSide = new PlcVarExpression(ioVar);
+
+                PlcExpression rightSide;
+                if (entry.cifObject instanceof DiscVariable discVar) {
+                    rightSide = dataProvider.getValueForDiscVar(discVar);
+                } else if (entry.cifObject instanceof InputVariable inpVar) {
+                    rightSide = dataProvider.getValueForInputVar(inpVar);
+                } else {
+                    throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
+                }
+                stats.add(new PlcAssignmentStatement(leftSide, rightSide));
+            }
+        }
+        if (!inputStats.isEmpty()) {
+            codeStorage.addInputFuncCode(inputStats);
+        }
+        if (!outputStats.isEmpty()) {
+            codeStorage.addOutputFuncCode(outputStats);
+        }
     }
 }
