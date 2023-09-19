@@ -64,6 +64,9 @@ import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.io.CifReader;
+import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.metamodel.cif.Component;
+import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -88,7 +91,9 @@ import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
@@ -109,6 +114,9 @@ public class CifProcessor {
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
+
+    /** CIF specification being processed, is {@code null} until the specification has been checked and normalized. */
+    private Specification spec = null;
 
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
@@ -132,6 +140,7 @@ public class CifProcessor {
         widenSpec(spec);
         preCheckSpec(spec, absInputPath);
         normalizeSpec(spec);
+        this.spec = spec; // Store the specification for querying.
 
         // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
@@ -703,6 +712,61 @@ public class CifProcessor {
             String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
                     + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
             throw new InvalidInputException(msg);
+        }
+    }
+
+    /**
+     * Try to match the given path to a CIF object in the specification.
+     *
+     * <p>
+     * Currently it only finds Complex components and declarations.
+     * </p>
+     *
+     * @param path Dotted non-escaped path to the CIF object to find.
+     * @return A pair of successful matched path and the CIF object that was found at the end of it. If the given path
+     *     is not the same as the successful matched path the search ended early.
+     */
+    public Pair<String, PositionObject> findCifObjectByPath(String path) {
+        Assert.notNull(spec); // Function should be called after loading the CIF file.
+
+        PositionObject obj = spec; // Object to search for child objects.
+        int pathIndex = 0; // First unused index in the path.
+
+        nextSearch:
+        while (true) {
+            // End the search when we run out of names to look for.
+            if (pathIndex >= path.length()) {
+                return new Pair<>(path, obj);
+            }
+
+            // Find the next name to match in the specification.
+            int dotIndex = path.indexOf('.', pathIndex + 1);
+            dotIndex = (dotIndex < 0) ? path.length() : dotIndex; // Index just after the next name to find.
+            String nameToFind = path.substring(pathIndex, dotIndex);
+
+            // Try to find a declaration.
+            if (obj instanceof ComplexComponent cc) {
+                // Check variables
+                for (Declaration decl: cc.getDeclarations()) {
+                    if (nameToFind.equals(decl.getName())) {
+                        return new Pair<>(path.substring(0, dotIndex), decl); // Declarations don't have sub-names.
+                    }
+                }
+            }
+
+            // Try to find a child component if the object is a Group as well.
+            if (obj instanceof Group grp) {
+                for (Component comp: grp.getComponents()) {
+                    if (nameToFind.equals(comp.getName())) {
+                        obj = comp;
+                        pathIndex = dotIndex + 1; // May be one position after the end of the string.
+                        continue nextSearch;
+                    }
+                }
+            }
+
+            // Nothing else to try, return what we found.
+            return new Pair<>(path.substring(0, dotIndex), obj);
         }
     }
 }
