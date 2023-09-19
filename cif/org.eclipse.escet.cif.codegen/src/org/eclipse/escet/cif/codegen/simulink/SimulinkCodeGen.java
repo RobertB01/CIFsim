@@ -793,6 +793,7 @@ public class SimulinkCodeGen extends CodeGen {
         List<Pair<String, String>> inputReport = list();
 
         // Generate state variable definitions/declarations.
+        boolean first = true;
         for (int i = 0; i < inputVars.size(); i++) {
             InputVariable var = inputVars.get(i);
             String typeText = typeToStr(var.getType());
@@ -800,8 +801,13 @@ public class SimulinkCodeGen extends CodeGen {
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetVariableName);
             String doc = DocAnnotationProvider.getDoc(var);
 
+            if (!first) {
+                varDefCode.add();
+            }
+            first = false;
+
             if (doc == null) {
-                varDefCode.add("%s /**< Input variable \"%s %s\". */", declaration, typeText, declVarInfo.name);
+                varDefCode.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
             } else {
                 varDefCode.add("/**");
                 varDefCode.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
@@ -810,8 +816,8 @@ public class SimulinkCodeGen extends CodeGen {
                     varDefCode.add(" * %s", line);
                 }
                 varDefCode.add(" */");
-                varDefCode.add(declaration);
             }
+            varDefCode.add(declaration);
             reportLine(var, i, inputReport);
 
             String flagName = fmt("input_loaded%02d", i);
@@ -820,6 +826,7 @@ public class SimulinkCodeGen extends CodeGen {
         }
         CodeBox indentBox = makeCodeBox(1);
         indentBox.add(varDefCode);
+        indentBox.add();
         indentBox.add(inputFlagsCode);
         replacements.put("inputvar-definitions", indentBox.toString());
         replacements.put("clear-inputflags-code", inputClearCode.toString());

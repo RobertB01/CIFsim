@@ -601,8 +601,9 @@ public class C89CodeGen extends CodeGen {
             for (boolean isDecl: new boolean[] {false, true}) {
                 CodeBox code = isDecl ? varDeclCode : varDefCode;
                 String fullDeclaration = isDecl ? "extern " + declaration : declaration;
+                code.add();
                 if (doc == null) {
-                    code.add("%s /**< Input variable \"%s %s\". */", fullDeclaration, typeText, declVarInfo.name);
+                    code.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
                 } else {
                     code.add("/**");
                     code.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
@@ -611,8 +612,8 @@ public class C89CodeGen extends CodeGen {
                         code.add(" * %s", line);
                     }
                     code.add(" */");
-                    code.add(fullDeclaration);
                 }
+                code.add(fullDeclaration);
             }
         }
         replacements.put("inputvar-definitions", varDefCode.toString());
