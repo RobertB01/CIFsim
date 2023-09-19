@@ -25,9 +25,12 @@ import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
+import org.eclipse.escet.cif.plcgen.generators.io.IoKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 
@@ -243,6 +246,13 @@ public abstract class PlcBaseTarget implements PlcTarget {
         int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());
         int userSpecifiedRealSize = realTypeSize.getTypeSize(generatorBestRealSize);
         return PlcElementaryType.getRealTypeBySize(userSpecifiedRealSize);
+    }
+
+    @Override
+    public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoKind kindFromCif,
+            String tableLinePositionText)
+    {
+        // Accept all entries.
     }
 
     @Override

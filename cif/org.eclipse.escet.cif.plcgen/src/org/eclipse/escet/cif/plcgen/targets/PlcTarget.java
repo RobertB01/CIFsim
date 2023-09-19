@@ -20,9 +20,15 @@ import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.io.DefaultIoAddress;
+import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
+import org.eclipse.escet.cif.plcgen.generators.io.IoKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 
 /** Code generator interface for a {@link PlcBaseTarget}. */
 public interface PlcTarget {
@@ -146,6 +152,33 @@ public interface PlcTarget {
      * @return The type of a standard real value in the PLC.
      */
     public abstract PlcElementaryType getRealType();
+
+    /**
+     * Parse the PLC IO address.
+     *
+     * @param plcAddressText Text to parse.
+     * @return The parsed address information and its properties.
+     */
+    public default IoAddress parseIoAddress(String plcAddressText) {
+        return DefaultIoAddress.parseAddress(plcAddressText);
+    }
+
+    /**
+     * Verify that the given IO table entry is acceptable to the target.
+     *
+     * <p>
+     * If the entry is not acceptable, it should be reported to the user with an {@link InvalidInputException}.
+     * </p>
+     *
+     * @param parsedAddress The parsed IO address.
+     * @param plcTableType Type of the IO data being transferred.
+     * @param kindFromCif Kind of the IO table entry.
+     * @param tableLinePositionText Text describing the table line for this entry, to use for reporting an error. The
+     *     text is {@code "at line ... of io table file \"..."}.
+     * @throws InputOutputException If the provided entry is not acceptable to the target.
+     */
+    public abstract void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoKind kindFromCif,
+            String tableLinePositionText);
 
     /**
      * Get replacement string for the CIF input file extension including dot, used to derive an output path.
