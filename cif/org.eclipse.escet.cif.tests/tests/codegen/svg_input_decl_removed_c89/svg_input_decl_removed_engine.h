@@ -36,7 +36,9 @@ extern const char *svg_input_decl_removed_event_names[];
 
 
 /* Input variables. */
-extern BoolType x_; /**< Input variable "bool x". */
+
+/** Input variable "bool x". */
+extern BoolType x_;
 
 extern void svg_input_decl_removed_AssignInputVariables();
 

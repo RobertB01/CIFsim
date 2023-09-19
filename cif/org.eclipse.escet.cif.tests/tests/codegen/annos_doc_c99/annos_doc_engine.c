@@ -37,13 +37,17 @@ const char *annos_doc_event_names[] = {
 
 
 /* Input variables. */
-BoolType i1_; /**< Input variable "bool i1". */
+
+/** Input variable "bool i1". */
+BoolType i1_;
+
 /**
  * Input variable "bool i2".
  *
  * single line doc
  */
 BoolType i2_;
+
 /**
  * Input variable "bool i3".
  *
@@ -52,6 +56,7 @@ BoolType i2_;
  *  text
  */
 BoolType i3_;
+
 /**
  * Input variable "bool i4".
  *

@@ -218,9 +218,15 @@ extern const char *edges_event_names[];
 
 
 /* Input variables. */
-extern BoolType aut14_b_; /**< Input variable "bool aut14.b". */
-extern IntType aut14_i_; /**< Input variable "int aut14.i". */
-extern RealType aut14_r_; /**< Input variable "real aut14.r". */
+
+/** Input variable "bool aut14.b". */
+extern BoolType aut14_b_;
+
+/** Input variable "int aut14.i". */
+extern IntType aut14_i_;
+
+/** Input variable "real aut14.r". */
+extern RealType aut14_r_;
 
 extern void edges_AssignInputVariables();
 

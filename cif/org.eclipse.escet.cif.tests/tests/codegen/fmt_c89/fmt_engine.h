@@ -78,9 +78,15 @@ extern const char *fmt_event_names[];
 
 
 /* Input variables. */
-extern BoolType b_; /**< Input variable "bool b". */
-extern IntType i_; /**< Input variable "int i". */
-extern RealType r_; /**< Input variable "real r". */
+
+/** Input variable "bool b". */
+extern BoolType b_;
+
+/** Input variable "int i". */
+extern IntType i_;
+
+/** Input variable "real r". */
+extern RealType r_;
 
 extern void fmt_AssignInputVariables();
 

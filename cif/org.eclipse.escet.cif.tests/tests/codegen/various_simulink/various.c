@@ -1356,9 +1356,15 @@ struct WorkStruct {
     int_T g_rcv_v2_; /**< Discrete variable "int g.rcv.v2". */
     int_T g_snd_a_;  /**< Discrete variable "int g.snd.a". */
 
-    int_T x_; /**< Input variable "int x". */
-    int_T y_; /**< Input variable "int y". */
-    A3IType input_li_; /**< Input variable "list[3] int[0..5] input_li". */
+    /** Input variable "int x". */
+    int_T x_;
+
+    /** Input variable "int y". */
+    int_T y_;
+
+    /** Input variable "list[3] int[0..5] input_li". */
+    A3IType input_li_;
+
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;

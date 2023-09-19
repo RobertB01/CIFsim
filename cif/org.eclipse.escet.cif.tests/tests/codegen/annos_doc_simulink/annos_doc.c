@@ -1140,13 +1140,16 @@ struct WorkStruct {
 
 
 
-    BoolType i1_; /**< Input variable "bool i1". */
+    /** Input variable "bool i1". */
+    BoolType i1_;
+
     /**
      * Input variable "bool i2".
      *
      * single line doc
      */
     BoolType i2_;
+
     /**
      * Input variable "bool i3".
      *
@@ -1155,12 +1158,14 @@ struct WorkStruct {
      *  text
      */
     BoolType i3_;
+
     /**
      * Input variable "bool i4".
      *
      * some doc
      */
     BoolType i4_;
+
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;

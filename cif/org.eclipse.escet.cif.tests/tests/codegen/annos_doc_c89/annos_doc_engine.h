@@ -27,13 +27,17 @@ extern const char *annos_doc_event_names[];
 
 
 /* Input variables. */
-extern BoolType i1_; /**< Input variable "bool i1". */
+
+/** Input variable "bool i1". */
+extern BoolType i1_;
+
 /**
  * Input variable "bool i2".
  *
  * single line doc
  */
 extern BoolType i2_;
+
 /**
  * Input variable "bool i3".
  *
@@ -42,6 +46,7 @@ extern BoolType i2_;
  *  text
  */
 extern BoolType i3_;
+
 /**
  * Input variable "bool i4".
  *
