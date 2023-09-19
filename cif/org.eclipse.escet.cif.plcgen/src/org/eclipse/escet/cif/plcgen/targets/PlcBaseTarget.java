@@ -20,6 +20,7 @@ import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.InputOutputGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
@@ -62,6 +63,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Generates PLC code for performing CIF event transitions. */
     protected TransitionGenerator transitionGenerator;
+
+    /** Generator that creates input and output PLC code. */
+    protected InputOutputGenerator ioGenerator;
 
     /** Handles storage and retrieval of globally used variables in the PLC program. */
     protected VariableStorage varStorage;
@@ -131,9 +135,16 @@ public abstract class PlcBaseTarget implements PlcTarget {
         varStorage = new DefaultVariableStorage(this);
         cifProcessor = new CifProcessor(this, settings);
         transitionGenerator = new DefaultTransitionGenerator(this);
+        ioGenerator = new InputOutputGenerator(this, settings);
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Generate input and output code.
+        ioGenerator.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
@@ -146,6 +157,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
         // Generate the event transition functions.
         transitionGenerator.generate();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
 
         // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
