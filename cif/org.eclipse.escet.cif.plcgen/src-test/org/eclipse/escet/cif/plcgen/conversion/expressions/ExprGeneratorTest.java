@@ -307,13 +307,18 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
-            String name = "new_" + variable.getName() + (getDerivative ? "_der" : "");
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
+            String name = "new_" + variable.getName() + (writeDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForInputVar(InputVariable variable) {
+            return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
             return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
@@ -954,5 +959,13 @@ public class ExprGeneratorTest {
         String realText = runValueTest(newInputVariableExpression(null, newIntType(), inputVar));
         String expectedText = "==> theInput";
         assertEquals(expectedText, realText);
+    }
+
+    @Test
+    public void testInputVariableAddressableConversion() {
+        // While the CIF data provider can provide a destination to write into, the CIF code should never contain such
+        // expressions.
+        assertThrows(RuntimeException.class,
+                () -> runAddressableTest(newInputVariableExpression(null, newIntType(), inputVar)));
     }
 }

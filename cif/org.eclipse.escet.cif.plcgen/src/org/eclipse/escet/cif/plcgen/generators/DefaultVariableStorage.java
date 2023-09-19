@@ -135,13 +135,20 @@ public class DefaultVariableStorage implements VariableStorage {
             }
 
             @Override
-            public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
+            public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
                 // TODO Return the proper PLC expression for the requested continuous variable.
                 return new PlcVarExpression(new PlcVariable("someContvariable", PlcElementaryType.LREAL_TYPE));
             }
 
             @Override
             public PlcExpression getValueForInputVar(InputVariable variable) {
+                PlcVariable plcInpvar = variables.get(variable);
+                Assert.notNull(plcInpvar);
+                return new PlcVarExpression(plcInpvar);
+            }
+
+            @Override
+            public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
                 PlcVariable plcInpvar = variables.get(variable);
                 Assert.notNull(plcInpvar);
                 return new PlcVarExpression(plcInpvar);
