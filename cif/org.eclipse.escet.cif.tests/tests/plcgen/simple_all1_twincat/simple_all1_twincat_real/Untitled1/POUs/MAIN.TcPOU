@@ -20,7 +20,8 @@ VAR_TEMP
     syncAutEdge: DINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF firstRun THEN
+      <ST><![CDATA[(* --- Initialize state ----------------- *)
+IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
@@ -45,6 +46,7 @@ END_VAR]]></Declaration>
     p := p_l1;
 END_IF;
 
+(* --- Process all events ----------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;

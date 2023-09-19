@@ -16,6 +16,12 @@
     <Compile Include="DUTs\hw_lamp_location.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVLs\INPUTS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\OUTPUTS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\STATE.TcGVL">
       <SubType>Code</SubType>
     </Compile>

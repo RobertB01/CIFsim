@@ -15,6 +15,7 @@ VAR_TEMP
     syncAutEdge__3: DINT;
 END_VAR
 
+(* --- Initialize state ----------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
@@ -22,6 +23,7 @@ IF firstRun THEN
     Good_x := 0;
 END_IF;
 
+(* --- Process all events ----------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;

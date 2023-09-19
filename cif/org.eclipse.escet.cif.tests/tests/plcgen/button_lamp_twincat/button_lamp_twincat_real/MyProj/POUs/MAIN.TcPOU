@@ -34,7 +34,11 @@ VAR_TEMP
     syncAutEdge__9: DINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF firstRun THEN
+      <ST><![CDATA[(* --- Read input from sensors ----------------- *)
+hw_button_bit := in_hw_button_bit;
+
+(* --- Initialize state ----------------- *)
+IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
@@ -45,6 +49,7 @@ END_VAR]]></Declaration>
     hw_lamp := hw_lamp_Off;
 END_IF;
 
+(* --- Process all events ----------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
@@ -253,7 +258,10 @@ WHILE isProgress DO
             hw_lamp := hw_lamp_Off;
         END_IF;
     END_IF;
-END_WHILE;]]></ST>
+END_WHILE;
+
+(* --- Write output to actuators ----------------- *)
+out_hw_lamp_bit := hw_lamp_bit;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>
