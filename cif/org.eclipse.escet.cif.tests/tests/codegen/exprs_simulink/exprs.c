@@ -1636,7 +1636,9 @@ struct WorkStruct {
     int_T AA_f_size2_;      /**< Discrete variable "int AA.f_size2". */
     real_T AA_f_sqrt_;      /**< Discrete variable "real AA.f_sqrt". */
 
-    int_T x8_; /**< Input variable "int x8". */
+    /** Input variable "int x8". */
+    int_T x8_;
+
     unsigned char input_loaded00;
 };
 /* }}} */

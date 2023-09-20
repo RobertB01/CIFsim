@@ -1140,7 +1140,9 @@ struct WorkStruct {
 
 
 
-    int_T x_; /**< Input variable "int x". */
+    /** Input variable "int x". */
+    int_T x_;
+
     unsigned char input_loaded00;
 };
 /* }}} */

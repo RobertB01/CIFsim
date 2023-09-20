@@ -29,3 +29,10 @@ group p3:
   input t2 inp3;
   requirement invariant inp3 or false;
 end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  input bool i;
+  invariant i;
+end

@@ -1158,7 +1158,9 @@ struct WorkStruct {
 
 
 
-    BoolType x_; /**< Input variable "bool x". */
+    /** Input variable "bool x". */
+    BoolType x_;
+
     unsigned char input_loaded00;
 };
 /* }}} */
