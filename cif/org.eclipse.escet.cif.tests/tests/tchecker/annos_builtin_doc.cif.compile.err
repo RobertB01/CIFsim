@@ -1,0 +1,7 @@
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 15, column 1: Annotation "doc": missing mandatory "text" argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 19, column 6: Annotation "doc": unsupported argument "a".
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 19, column 31: Annotation "doc": unsupported argument "b".
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 23, column 14: Annotation "doc": argument "text" must have a value of type "string", but has a value of type "bool".
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 27, column 17: Annotation "doc": argument "text" cannot be evaluated statically.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 31, column 17: Annotation "doc": argument "text" cannot be evaluated statically, as evaluating it results in an evaluation error: Invalid operation: sqrt(-1.0).
+ERROR: Failed to load CIF file "tchecker/annos_builtin_doc.cif": the file has errors.

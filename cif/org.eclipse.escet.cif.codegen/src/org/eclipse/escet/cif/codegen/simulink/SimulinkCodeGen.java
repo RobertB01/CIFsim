@@ -96,10 +96,12 @@ import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.options.processing.PatternMatchingOptionProcessing.OptionMatcher;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
+import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -785,21 +787,38 @@ public class SimulinkCodeGen extends CodeGen {
 
     @Override
     protected void addInputVars(CodeContext ctxt) {
-        GridBox varDefCode = new GridBox(inputVars.size(), 2, 0, 1);
+        CodeBox varDefCode = new MemoryCodeBox();
         CodeBox inputFlagsCode = makeCodeBox();
         CodeBox inputClearCode = makeCodeBox(1);
         List<Pair<String, String>> inputReport = list();
 
         // Generate state variable definitions/declarations.
+        boolean first = true;
         for (int i = 0; i < inputVars.size(); i++) {
-            InputVariable decl = inputVars.get(i);
-            String typeText = typeToStr(decl.getType());
-            VariableInformation declVarInfo = ctxt.getWriteVarInfo(decl);
+            InputVariable var = inputVars.get(i);
+            String typeText = typeToStr(var.getType());
+            VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetVariableName);
-            String comment = fmt("/**< Input variable \"%s %s\". */", typeText, declVarInfo.name);
-            varDefCode.set(i, 0, declaration);
-            varDefCode.set(i, 1, comment);
-            reportLine(decl, i, inputReport);
+            String doc = DocAnnotationProvider.getDoc(var);
+
+            if (!first) {
+                varDefCode.add();
+            }
+            first = false;
+
+            if (doc == null) {
+                varDefCode.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
+            } else {
+                varDefCode.add("/**");
+                varDefCode.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
+                varDefCode.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    varDefCode.add(" * %s", line);
+                }
+                varDefCode.add(" */");
+            }
+            varDefCode.add(declaration);
+            reportLine(var, i, inputReport);
 
             String flagName = fmt("input_loaded%02d", i);
             inputFlagsCode.add("unsigned char %s;", flagName);
@@ -807,6 +826,7 @@ public class SimulinkCodeGen extends CodeGen {
         }
         CodeBox indentBox = makeCodeBox(1);
         indentBox.add(varDefCode);
+        indentBox.add();
         indentBox.add(inputFlagsCode);
         replacements.put("inputvar-definitions", indentBox.toString());
         replacements.put("clear-inputflags-code", inputClearCode.toString());

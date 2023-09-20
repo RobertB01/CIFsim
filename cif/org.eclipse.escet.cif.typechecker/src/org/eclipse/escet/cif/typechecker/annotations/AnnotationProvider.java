@@ -60,7 +60,7 @@ public abstract class AnnotationProvider {
     /**
      * Perform additional type checking on an annotation.
      *
-     * @param annotation The annotation check.
+     * @param annotation The annotation to check.
      * @param reporter The reporter to use to report problems in the annotation.
      */
     public abstract void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter);

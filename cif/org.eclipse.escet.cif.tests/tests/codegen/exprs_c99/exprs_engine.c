@@ -288,7 +288,9 @@ IntType inc_(IntType inc_x_) {
 }
 
 /* Input variables. */
-IntType x8_; /**< Input variable "int x8". */
+
+/** Input variable "int x8". */
+IntType x8_;
 
 /* State variables. */
 RealType x5_;           /**< Continuous variable "real x5". */

@@ -51,7 +51,9 @@ const char *enum_names[] = {
 
 
 /* Input variables. */
-BoolType x_; /**< Input variable "bool x". */
+
+/** Input variable "bool x". */
+BoolType x_;
 
 /* State variables. */
 svg_input_decl_removedEnum p_; /**< Discrete variable "E p". */

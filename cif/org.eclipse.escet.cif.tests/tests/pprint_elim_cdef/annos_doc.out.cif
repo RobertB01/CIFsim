@@ -1,0 +1,7 @@
+input bool i1;
+@doc($text = "single line doc")
+input bool i2;
+@doc($text = "doc with multiple\nlines " + "of\n text")
+input bool i3;
+@doc($text = fmt("%s", "some doc"))
+input bool i4;

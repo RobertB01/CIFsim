@@ -28,7 +28,9 @@ extern const char *state_event_exclusion_invariants_event_names[];
 
 
 /* Input variables. */
-extern IntType x_; /**< Input variable "int x". */
+
+/** Input variable "int x". */
+extern IntType x_;
 
 extern void state_event_exclusion_invariants_AssignInputVariables();
 

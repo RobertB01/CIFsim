@@ -17,4 +17,13 @@
         name="CIF Annotations"
         schema="schema/org.eclipse.escet.cif.annotations.exsd"/>
 
+   <extension
+         point="org.eclipse.escet.cif.annotations">
+      <provider
+            annotationName="doc"
+            class="org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider"
+            plugin="org.eclipse.escet.cif.typechecker">
+      </provider>
+   </extension>
+
 </plugin>
