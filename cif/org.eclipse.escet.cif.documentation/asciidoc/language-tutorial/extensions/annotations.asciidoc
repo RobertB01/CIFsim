@@ -23,8 +23,8 @@ indexterm:[annotation]
 Annotations can be added to elements of a CIF specification, to annotate them with extra information.
 Annotations have two main purposes:
 
-* Annotations allow us to test out language extensions before actually adding them to the language.
 * Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, for private use, or even for testing.
+* Annotations allow us to test out language extensions before actually adding them to the language.
 
 Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
 
