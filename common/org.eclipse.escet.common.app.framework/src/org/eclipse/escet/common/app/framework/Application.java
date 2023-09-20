@@ -431,7 +431,7 @@ public abstract class Application<T extends IOutputComponent> {
         }
 
         // Process exit code.
-        if (!exit || (Platform.isRunning() && PlatformUI.isWorkbenchRunning())) {
+        if (!exit || (Platform.isRunning())) {
             // We can't use {@link System#exit} in Eclipse, as it would shut
             // down the JVM, and thus Eclipse. So, we simply return the exit
             // code. The application main methods should decide what to do with
@@ -439,7 +439,7 @@ public abstract class Application<T extends IOutputComponent> {
             return exitCode;
         }
 
-        // Stand-alone.
+        // As Java application or Test.
         System.exit(exitCode);
         return 0; // Never reached.
     }
