@@ -27,23 +27,33 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * The code generated for an expression. Parts of the code may be assigned to extra methods, to prevent issues with Java
- * code size limits, such as too much code in a single method.
+ * The code generated for an expression. Parts of the code may be assigned to extra methods to prevent issues with Java
+ * Virtual Machine code size limits, such as too much code in a single method.
  *
  * @param extraMethods The new extra methods.
  * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
  * @param type The type of the generated code.
- * @param numNodes Number of visited expression tree nodes that are captured by the generated code. Is reset each time
- *     code is assigned to an extra method.
  */
-public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exprCode, CifType type,
-        int numNodes)
-{
+public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exprCode, CifType type) {
     /** The base name used for generating names for the extra methods. */
     private static final String METHOD_BASE_NAME = "evalExpression";
 
-    /** The limit after which generated code should be wrapped in separate method. */
-    private static final int LIMIT = 1000;
+    /**
+     * The limit after which generated code should be wrapped in separate method. The length of the generated Java code
+     * is used in the limit calculations as an approximation of the potential size of the compiled bytecode.
+     */
+    private static final int LIMIT = 100000;
+
+    /**
+     * Constructor for the {@link ExprCodeGeneratorResult} class.
+     *
+     * @param extraMethods The new extra methods.
+     * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
+     * @param type The type of the generated code.
+     */
+    public ExprCodeGeneratorResult {
+        Assert.check(exprCode.length() < LIMIT);
+    }
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
@@ -52,7 +62,7 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * @param type The type of the generated code.
      */
     public ExprCodeGeneratorResult(String exprCode, CifType type) {
-        this(list(), exprCode, type, 1);
+        this(list(), exprCode, type);
     }
 
     /**
@@ -93,9 +103,13 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         }
 
         // Prepare the merge.
-        Assert.check(LIMIT > results.size()); // Otherwise the merged result will never fit within the limit.
+        // TODO Might there be another assert that makes more sense? Now it checks the case when all results are
+        // transformed into a separate method call.
+        // But this ignores method id number and potential other stuff in mergeFormatString.
+        Assert.check(LIMIT > results.size() * METHOD_BASE_NAME.length()); // Otherwise the merged result will never fit
+                                                                          // within the limit.
         List<ExprCodeGeneratorResult> resultsCopy = copy(results); // Make copy so we can mutate the list.
-        while (!areUnderTheLimit(resultsCopy)) {
+        while (!areUnderTheLimit(resultsCopy, mergeFormatString.length())) {
             // Identify the largest result.
             int indexLargest = getLargestResult(resultsCopy);
             ExprCodeGeneratorResult largest = resultsCopy.get(indexLargest);
@@ -112,21 +126,18 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         }
 
         String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[resultsCopy.size()]));
+        Assert.check(exprText.length() < LIMIT);
 
         // Perform the actual merge.
-        // We want to keep the multiplicity of duplicates for the total number of nodes in the merged results, but we
-        // dont't want duplicates in mergedExtraMethods.
+        // We dont't want duplicates in mergedExtraMethods.
         List<ExtraMethod> mergedExtraMethods = list();
-        int mergedNumNodes = 0;
         Set<ExprCodeGeneratorResult> seen = set();
         for (ExprCodeGeneratorResult result: resultsCopy) {
             if (seen.add(result)) {
                 mergedExtraMethods.addAll(result.extraMethods());
             }
-            mergedNumNodes += result.numNodes();
         }
-
-        return new ExprCodeGeneratorResult(mergedExtraMethods, exprText, type, mergedNumNodes);
+        return new ExprCodeGeneratorResult(mergedExtraMethods, exprText, type);
     }
 
     /**
@@ -144,39 +155,41 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         String methodName = fmt("%s%d", METHOD_BASE_NAME, ctxt.exprCodeGenExtraMethodCounter.getAndIncrement());
         newSubExprs.add(new ExtraMethod(result.exprCode(), methodName, gencodeType(result.type(), ctxt)));
 
-        return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.type(), 1);
+        return new ExprCodeGeneratorResult(newSubExprs, fmt("%s(state)", methodName), result.type());
     }
 
     /**
-     * Check whether {@link ExprCodeGeneratorResult}s would fit together without reaching the limit.
+     * Check whether {@link ExprCodeGeneratorResult}s would fit together in the merge format string without reaching the
+     * limit.
      *
      * @param results The {@link ExprCodeGeneratorResult}s to check.
+     * @param mergeFormatStringLength The length of the format code string that represents the merging of the results.
      * @return {@code true} if the combined counts would remain under the limit, otherwise {@code false}.
      */
-    private static boolean areUnderTheLimit(List<ExprCodeGeneratorResult> results) {
+    private static boolean areUnderTheLimit(List<ExprCodeGeneratorResult> results, int mergeFormatStringLength) {
         int total = 0;
         for (ExprCodeGeneratorResult result: results) {
-            total += result.numNodes;
+            total += result.exprCode.length();
         }
-        return total < LIMIT;
+        return total + mergeFormatStringLength < LIMIT;
     }
 
     /**
-     * Get the index of the largest result in terms of number of nodes (or the first of them in case there are
+     * Get the index of the largest result in terms of the length of the code (or the first of them in case there are
      * multiple).
      *
      * @param results The results from which to return the largest one.
-     * @return The index of the largest result in terms of number of nodes (or the first of them in case there are
-     *     multiple).
+     * @return The index of the largest result in terms of the length of the code (or the first of them in case there
+     *     are multiple).
      */
     private static int getLargestResult(List<ExprCodeGeneratorResult> results) {
         Assert.check(!results.isEmpty());
 
-        int largestSize = results.get(0).numNodes();
+        int largestSize = results.get(0).exprCode.length();
         int largestIndex = 0;
         for (int i = 1; i < results.size(); i++) {
-            if (results.get(i).numNodes() > largestSize) {
-                largestSize = results.get(i).numNodes();
+            if (results.get(i).exprCode.length() > largestSize) {
+                largestSize = results.get(i).exprCode.length();
                 largestIndex = i;
             }
         }
