@@ -17,7 +17,7 @@ include::../_part_attributes.asciidoc[]
 == Annotations
 
 WARNING: Annotations are currently an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner the future.
+Their design may change in a backward incompatible manner.
 
 indexterm:[annotation]
 Annotations can be added to elements of a CIF specification, to annotate them with extra information.
