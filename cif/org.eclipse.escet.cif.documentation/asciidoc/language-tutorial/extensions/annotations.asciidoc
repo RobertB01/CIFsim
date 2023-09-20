@@ -21,24 +21,52 @@ Their design may change in a backward incompatible manner.
 
 indexterm:[annotation]
 Annotations can be added to elements of a CIF specification, to annotate them with extra information.
+Annotations are a form of structured data, and the CIF type checker checks their validity.
+Tools that take CIF specifications as input can processed the annotations that are attached to elements of the specification.
+This contrasts annotations from comments, which do not have these properties.
+
 Annotations have two main purposes:
 
-* Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, for private use, or even for testing.
-* Annotations allow us to test out language extensions before actually adding them to the language.
+* Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
+* Annotations allow to test out language extensions before actually adding them to the language.
 
 Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
+
+The following annotations are bundled with CIF:
+
+[cols="2,1"]
+|===
+| Category | Annotation
+
+| <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
+| `doc`
+|===
 
 indexterm:[annotation, doc]
 indexterm:[doc, annotation]
 
+[[lang-tut-extensions-chapter-annotations-documentation]]
 === Documentation annotations
 
-Documentation can be added to input variables.
-This documentation can then be used by CIF tools in various ways.
-For instance, the CIF code generator includes this documentation in the generated code, such as C and Java code.
+Documentation can be added to input variables:
 
 [source, cif]
 ----
 @doc($text = "The lower limit sensor of the elevator.")
 input bool ElevatorDownSensor;
 ----
+
+This documentation can then be used by CIF tools in various ways.
+For instance, the <<tools-codegen-chapter-index,CIF code generator>> includes this documentation in the generated code.
+For the above example, it may generate the following Java code:
+
+```java
+/**
+ * Input variable "ElevatorDownSensor".
+ *
+ * <p>
+ * The lower limit sensor of the elevator.
+ * </p>
+ */
+public boolean ElevatorDownSensor;
+```
