@@ -22,13 +22,13 @@ Their design may change in a backward incompatible manner.
 indexterm:[annotation]
 Annotations can be added to elements of a CIF specification, to annotate them with extra information.
 Annotations are a form of structured data, and the CIF type checker checks their validity.
-Tools that take CIF specifications as input can processed the annotations that are attached to elements of the specification.
+Tools that take CIF specifications as input can process the annotations that are attached to elements of the specification, and use the supplied information.
 This contrasts annotations from comments, which do not have these properties.
 
 Annotations have two main purposes:
 
 * Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
-* Annotations allow to test out language extensions before actually adding them to the language.
+* Annotations allow to test out language extensions before fully integrating them into the language.
 
 Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
 
