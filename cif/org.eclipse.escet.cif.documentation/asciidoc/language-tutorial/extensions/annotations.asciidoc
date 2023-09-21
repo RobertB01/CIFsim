@@ -23,7 +23,13 @@ indexterm:[annotation]
 Annotations can be added to elements of a CIF specification, to annotate them with extra information.
 Annotations are a form of structured data, and the CIF type checker checks their validity.
 Tools that take CIF specifications as input can process the annotations that are attached to elements of the specification, and use the supplied information.
-This contrasts annotations from comments, which do not have these properties.
+
+Annotations differ from comments.
+Comments can also be used to add additional information to a specification.
+However, comments are completely free form, as you can write anything in them.
+They can even be used to (temporarily) comment out some parts of the specification.
+Furthermore, comments are purely for the benefit of the modeler.
+They are never interpreted by a tool.
 
 Annotations have two main purposes:
 
