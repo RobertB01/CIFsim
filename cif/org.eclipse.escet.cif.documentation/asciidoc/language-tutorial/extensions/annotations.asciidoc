@@ -60,7 +60,8 @@ This documentation can then be used by CIF tools in various ways.
 For instance, the <<tools-codegen-chapter-index,CIF code generator>> includes this documentation in the generated code.
 For the above example, it may generate the following Java code:
 
-```java
+[source, java]
+----
 /**
  * Input variable "ElevatorDownSensor".
  *
@@ -69,4 +70,4 @@ For the above example, it may generate the following Java code:
  * </p>
  */
 public boolean ElevatorDownSensor;
-```
+----
