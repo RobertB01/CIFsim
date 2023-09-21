@@ -40,7 +40,7 @@ import org.eclipse.escet.common.java.Strings;
  * </ul>
  * </p>
  */
-public class StoredOutputProvider {
+public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProvider, DebugNormalOutputProvider {
     /** Storage of the produced output. */
     private final StringBuilder stringStore = new StringBuilder();
 
@@ -68,7 +68,10 @@ public class StoredOutputProvider {
     /** Output stream for error output. Is lazily constructed. */
     private ErrorOutput errorOutput = null;
 
-    /** Constructor of the {@link StoredOutputProvider} class. */
+    /**
+     * Constructor of the {@link StoredOutputProvider} class. Enables all streams. Uses 4 spaces for each indentation
+     * level.
+     */
     public StoredOutputProvider() {
         this(true, true, true, 4);
     }
@@ -102,26 +105,7 @@ public class StoredOutputProvider {
         this.indentSize = indentSize;
     }
 
-    /**
-     * Get the debug output stream for this provider. Every call returns the same instance.
-     *
-     * <p>
-     * This function sets an empty prefix if no debug output stream has been created before.
-     * </p>
-     *
-     * @return The constructed debug output stream.
-     */
-    public DebugNormalOutput getDebugOutput() {
-        return getDebugOutput(null);
-    }
-
-    /**
-     * Get the debug output stream for this provider. Every call returns the same instance.
-     *
-     * @param linePrefix Prefix text added before a debug line. May be {@code null} to disable a prefix. Is used only
-     *     during the first call since every next call will return the same instance.
-     * @return The constructed debug output stream.
-     */
+    @Override
     public DebugNormalOutput getDebugOutput(String linePrefix) {
         if (debugOutput == null) {
             debugOutput = makeDebugNormalOutput(isDebugEnabled, linePrefix);
@@ -129,26 +113,7 @@ public class StoredOutputProvider {
         return debugOutput;
     }
 
-    /**
-     * Get the normal output stream for this provider. Every call returns the same instance.
-     *
-     * <p>
-     * This function sets an empty prefix if no debug output stream has been created before.
-     * </p>
-     *
-     * @return The constructed normal output stream.
-     */
-    public DebugNormalOutput getNormalOutput() {
-        return getNormalOutput(null);
-    }
-
-    /**
-     * Get the normal output stream for this provider. Every call returns the same instance.
-     *
-     * @param linePrefix Prefix text added before a normal line. May be {@code null} to disable a prefix. Is used only
-     *     during the first call since every next call will return the same instance.
-     * @return The constructed normal output stream.
-     */
+    @Override
     public DebugNormalOutput getNormalOutput(String linePrefix) {
         if (normalOutput == null) {
             normalOutput = makeDebugNormalOutput(isNormalEnabled, linePrefix);
@@ -173,10 +138,17 @@ public class StoredOutputProvider {
 
             @Override
             public void line(String message) {
+                // Do nothing if the stream is not enabled.
+                if (!isEnabled()) {
+                    return;
+                }
+
                 // Update the indentation string if necessary.
                 if (curIndentText == null) {
                     curIndentText = Strings.spaces(indentLevel * indentSize);
                 }
+
+                // And construct the output.
                 if (linePrefix != null && !linePrefix.isEmpty()) {
                     message = linePrefix + curIndentText + message + "\n";
                 } else if (!message.isEmpty()) {
@@ -213,31 +185,18 @@ public class StoredOutputProvider {
         };
     }
 
-    /**
-     * Get the warning output stream for this provider. Every call returns the same instance.
-     *
-     * <p>
-     * This function sets the prefix to {@code "WARNING: "} if no warn output stream has been created before.
-     * </p>
-     *
-     * @return The constructed warning output stream.
-     */
-    public WarnOutput getWarnOutput() {
-        return getWarnOutput("WARNING: ");
-    }
-
-    /**
-     * Get the warning output stream for this provider. Every call returns the same instance.
-     *
-     * @param linePrefix Prefix text added before a warning line. May be {@code null} to disable a prefix. Is used only
-     *     during the first call since every next call will return the same instance.
-     * @return The constructed warning output stream.
-     */
+    @Override
     public WarnOutput getWarnOutput(String linePrefix) {
         if (warnOutput == null) {
             warnOutput = new WarnOutput() {
                 @Override
                 public void line(String message) {
+                    // Do nothing if the stream is not enabled.
+                    if (!isEnabled()) {
+                        return;
+                    }
+
+                    // Construct the output.
                     if (linePrefix != null && !linePrefix.isEmpty()) {
                         message = linePrefix + message + "\n";
                     } else {
@@ -255,26 +214,7 @@ public class StoredOutputProvider {
         return warnOutput;
     }
 
-    /**
-     * Get the error output stream for this provider. Every call returns the same instance.
-     *
-     * <p>
-     * This function sets the prefix to {@code "ERROR: "} if no error output stream has been created before.
-     * </p>
-     *
-     * @return The constructed error output stream.
-     */
-    public ErrorOutput getErrorOutput() {
-        return getErrorOutput("ERROR: ");
-    }
-
-    /**
-     * Get the error output stream for this provider. Every call returns the same instance.
-     *
-     * @param linePrefix Prefix text added before an error line. May be {@code null} to disable a prefix. Is used only
-     *     during the first call since every next call will return the same instance.
-     * @return The constructed error output stream.
-     */
+    @Override
     public ErrorOutput getErrorOutput(String linePrefix) {
         if (errorOutput == null) {
             errorOutput = new ErrorOutput() {
