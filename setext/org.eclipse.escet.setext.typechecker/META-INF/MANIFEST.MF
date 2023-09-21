@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET SeText Type Checker (Incubation)
+Bundle-Name: ESCET SeText Type Checker
 Bundle-SymbolicName: org.eclipse.escet.setext.typechecker;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF Text Editor (Incubation)
+Bundle-Name: ESCET CIF Text Editor
 Bundle-SymbolicName: org.eclipse.escet.cif.texteditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

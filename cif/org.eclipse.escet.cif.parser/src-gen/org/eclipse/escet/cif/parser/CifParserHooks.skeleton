@@ -24,6 +24,8 @@ import org.eclipse.escet.cif.parser.ast.AImport;
 import org.eclipse.escet.cif.parser.ast.AInvariant;
 import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
 import org.eclipse.escet.cif.parser.ast.ASpecification;
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotationArgument;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
 import org.eclipse.escet.cif.parser.ast.automata.ACoreEdge;
 import org.eclipse.escet.cif.parser.ast.automata.AEdgeEvent;
@@ -494,8 +496,8 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Decl : @INPUTKW Type Identifiers SEMICOLTK;
-    public ADecl parseDecl09(Token t1, ACifType a2, List<AIdentifier> l3) {
+    @Override // Decl : OptAnnos @INPUTKW Type Identifiers SEMICOLTK;
+    public ADecl parseDecl09(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
         // return null;
     }
 
@@ -2001,6 +2003,61 @@ implements CifParser.Hooks
 
     @Override // Name : @ROOTNAMETK;
     public AName parseName4(Token t1) {
+        // return null;
+    }
+
+    @Override // OptAnnos : ;
+    public List<AAnnotation> parseOptAnnos1() {
+        // return null;
+    }
+
+    @Override // OptAnnos : OptAnnos Annotation;
+    public List<AAnnotation> parseOptAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+        // return null;
+    }
+
+    @Override // Annotation : @ANNOTATIONNAMETK;
+    public AAnnotation parseAnnotation1(Token t1) {
+        // return null;
+    }
+
+    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK PARCLOSETK;
+    public AAnnotation parseAnnotation2(Token t1) {
+        // return null;
+    }
+
+    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    public AAnnotation parseAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
+        // return null;
+    }
+
+    @Override // AnnotationArgs : AnnotationArg;
+    public List<AAnnotationArgument> parseAnnotationArgs1(AAnnotationArgument a1) {
+        // return null;
+    }
+
+    @Override // AnnotationArgs : AnnotationArgs COMMATK AnnotationArg;
+    public List<AAnnotationArgument> parseAnnotationArgs2(List<AAnnotationArgument> l1, AAnnotationArgument a3) {
+        // return null;
+    }
+
+    @Override // AnnotationArg : @IDENTIFIERTK EQTK Expression;
+    public AAnnotationArgument parseAnnotationArg1(Token t1, AExpression a3) {
+        // return null;
+    }
+
+    @Override // AnnotationArg : @RELATIVENAMETK EQTK Expression;
+    public AAnnotationArgument parseAnnotationArg2(Token t1, AExpression a3) {
+        // return null;
+    }
+
+    @Override // OptComma : ;
+    public Token parseOptComma1() {
+        // return null;
+    }
+
+    @Override // OptComma : @COMMATK;
+    public Token parseOptComma2(Token t1) {
         // return null;
     }
 }

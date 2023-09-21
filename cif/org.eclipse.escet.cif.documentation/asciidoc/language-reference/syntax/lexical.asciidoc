@@ -178,6 +178,27 @@ Examples:
 ^some_group.some_event
 ----
 
+indexterm:[syntax,annotation name]
+indexterm:[annotation,name]
+
+`ANNOTATIONNAMETK`::
+An annotation name.
+Annotations names are used to refer to annotations.
++
+Defined by the regular expression:
+`+@[a-zA-Z_][a-zA-Z0-9_]*(:[a-zA-Z_][a-zA-Z0-9_]*)*+`.
+It starts with an at sign (`@`), and then follow one or more `IDENTIFIER` terminals, separated by colons (`:`).
+Within annotation names, the identifiers are never escaped (no `$`).
+The at sign is only used to indicate that an annotation name follows, but it is not part of the annotation name itself.
++
+Examples:
++
+[source, cif]
+----
+@doc
+@plc:input
+----
+
 indexterm:[int,literal]
 indexterm:[number,literal]
 indexterm:[syntax,number]

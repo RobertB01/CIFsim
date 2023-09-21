@@ -20,21 +20,13 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-= Eclipse ESCET(TM) development documentation (Incubation)
+= Eclipse ESCET(TM) development documentation
 :author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
-:title-logo-image: {imgsdir}/eclipse-incubation.png
 
 This documentation concerns the development of the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) open-source project.
 
-[WARNING]
-====
-The Eclipse ESCET project and all its tools are currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
-
-image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
-====
-
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-dev-incubation-manual.pdf[download this manual] as a PDF as well.
+TIP: You can link:eclipse-escet-dev-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
 *Eclipse ESCET development*

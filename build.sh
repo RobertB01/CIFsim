@@ -12,4 +12,4 @@
 # SPDX-License-Identifier: MIT
 ################################################################################
 
-./mvn_escet.sh clean verify $*
+mvn clean verify $*

@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.product.headless.feature"
-      label="ESCET Headless (Incubation)"
+      label="ESCET Headless"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET"
       license-feature="org.eclipse.escet.releng.license.mit"

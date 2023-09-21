@@ -797,6 +797,9 @@ public class SeTextGenerator {
                 }
             }
         }
+
+        // Done writing.
+        out("Syntax in BNF format written to file \"%s\".", path);
     }
 
     /**

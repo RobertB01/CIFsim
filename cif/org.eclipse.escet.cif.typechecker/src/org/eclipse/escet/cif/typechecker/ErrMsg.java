@@ -773,11 +773,33 @@ public enum ErrMsg {
     PRINT_DUPL_FILE("Duplicate print file declared in %s.", 1, ERROR),
 
     // Print.duplFor
-    PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING);
+    PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING),
 
-    // The following metamodel constraints are satisfied by construction:
+    // AnnotatedObject.uniqueAnnotations
+    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for \"%s\".", 2, ERROR),
+
+    // Annotation.annotationSpecificErrors
+    ANNO_SPECIFIC_ERR("Annotation \"%s\": %s", 2, ERROR),
+
+    // Annotation.annotationSpecificWarnings
+    ANNO_SPECIFIC_WARN("Annotation \"%s\": %s", 2, WARNING),
+
+    // Annotation.registeredName
+    ANNO_UNREGISTERED_NAME("Unknown annotation name \"%s\": "
+            + "no annotation provider is registered for it in the current environment.", 1, WARNING),
+
+    // Annotation.uniqueArguments
+    ANNO_DUPL_ARG("Duplicate argument \"%s\" for annotation \"%s\".", 2, ERROR),
+
+    // Type checker related constraints.
+    ANNO_PROVIDER_ERROR("Annotation \"%s\": %s", 2, ERROR);
+
+    // The following metamodel constraints are satisfied by parsing or metamodel construction:
     // - AlgVariableExpression.type
     // - AlgParameter.noValue
+    // - AnnotatedObject.onlyForInputVariables
+    // - Annotation.validName
+    // - AnnotationArgument.validName
     // - Automaton.noFuncDecl
     // - BoolExpression.type
     // - CompInstWrapExpression.noCompDefBody

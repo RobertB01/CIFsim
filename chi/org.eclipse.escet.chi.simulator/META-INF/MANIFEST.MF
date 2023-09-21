@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Chi Simulator (Incubation)
+Bundle-Name: ESCET Chi Simulator
 Bundle-SymbolicName: org.eclipse.escet.chi.simulator;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

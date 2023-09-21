@@ -74,7 +74,7 @@
                         </goals>
                         <configuration>
                             <outputFile>
-                                ${project.build.directory}/website-intermediate/eclipse-escet-dev-incubation-manual.pdf
+                                ${project.build.directory}/website-intermediate/eclipse-escet-dev-manual.pdf
                             </outputFile>
                             <backend>pdf</backend>
                             <logHandler>

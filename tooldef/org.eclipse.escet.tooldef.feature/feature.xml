@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.tooldef.feature"
-      label="ESCET ToolDef (Incubation)"
+      label="ESCET ToolDef"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"

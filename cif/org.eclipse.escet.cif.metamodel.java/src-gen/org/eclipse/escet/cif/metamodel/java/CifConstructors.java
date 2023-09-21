@@ -37,6 +37,9 @@ import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsFactory;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataFactory;
@@ -203,14 +206,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link AlgVariable} class.
      *
+     * @param annotations The "annotations" of the new "AlgVariable". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "AlgVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "AlgVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "AlgVariable". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "AlgVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link AlgVariable} class.
      */
-    public static AlgVariable newAlgVariable(String name, Position position, CifType type, Expression value) {
+    public static AlgVariable newAlgVariable(List<Annotation> annotations, String name, Position position, CifType type, Expression value) {
         AlgVariable rslt_ = newAlgVariable();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }
@@ -280,6 +287,68 @@ public class CifConstructors {
         }
         if (position != null) {
             rslt_.setPosition(position);
+        }
+        return rslt_;
+    }
+
+    /**
+     * Returns a new instance of the {@link Annotation} class. This constructs a new object, without setting any of its features.
+     *
+     * @return A new instance of the {@link Annotation} class.
+     */
+    public static Annotation newAnnotation() {
+        return AnnotationsFactory.eINSTANCE.createAnnotation();
+    }
+
+    /**
+     * Returns a new instance of the {@link Annotation} class.
+     *
+     * @param arguments The "arguments" of the new "Annotation". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments", or to set it later.
+     * @param name The "name" of the new "Annotation". Multiplicity [1..1]. May be {@code null} to set the "name" later.
+     * @param position The "position" of the new "Annotation". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @return A new instance of the {@link Annotation} class.
+     */
+    public static Annotation newAnnotation(List<AnnotationArgument> arguments, String name, Position position) {
+        Annotation rslt_ = newAnnotation();
+        if (arguments != null) {
+            rslt_.getArguments().addAll(arguments);
+        }
+        if (name != null) {
+            rslt_.setName(name);
+        }
+        if (position != null) {
+            rslt_.setPosition(position);
+        }
+        return rslt_;
+    }
+
+    /**
+     * Returns a new instance of the {@link AnnotationArgument} class. This constructs a new object, without setting any of its features.
+     *
+     * @return A new instance of the {@link AnnotationArgument} class.
+     */
+    public static AnnotationArgument newAnnotationArgument() {
+        return AnnotationsFactory.eINSTANCE.createAnnotationArgument();
+    }
+
+    /**
+     * Returns a new instance of the {@link AnnotationArgument} class.
+     *
+     * @param name The "name" of the new "AnnotationArgument". Multiplicity [1..1]. May be {@code null} to set the "name" later.
+     * @param position The "position" of the new "AnnotationArgument". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param value The "value" of the new "AnnotationArgument". Multiplicity [1..1]. May be {@code null} to set the "value" later.
+     * @return A new instance of the {@link AnnotationArgument} class.
+     */
+    public static AnnotationArgument newAnnotationArgument(String name, Position position, Expression value) {
+        AnnotationArgument rslt_ = newAnnotationArgument();
+        if (name != null) {
+            rslt_.setName(name);
+        }
+        if (position != null) {
+            rslt_.setPosition(position);
+        }
+        if (value != null) {
+            rslt_.setValue(value);
         }
         return rslt_;
     }
@@ -917,14 +986,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Constant} class.
      *
+     * @param annotations The "annotations" of the new "Constant". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "Constant". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "Constant". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "Constant". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "Constant". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link Constant} class.
      */
-    public static Constant newConstant(String name, Position position, CifType type, Expression value) {
+    public static Constant newConstant(List<Annotation> annotations, String name, Position position, CifType type, Expression value) {
         Constant rslt_ = newConstant();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }
@@ -983,14 +1056,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ContVariable} class.
      *
+     * @param annotations The "annotations" of the new "ContVariable". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param derivative The "derivative" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "derivative", or to set it later.
      * @param name The "name" of the new "ContVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link ContVariable} class.
      */
-    public static ContVariable newContVariable(Expression derivative, String name, Position position, Expression value) {
+    public static ContVariable newContVariable(List<Annotation> annotations, Expression derivative, String name, Position position, Expression value) {
         ContVariable rslt_ = newContVariable();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (derivative != null) {
             rslt_.setDerivative(derivative);
         }
@@ -1169,14 +1246,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link DiscVariable} class.
      *
+     * @param annotations The "annotations" of the new "DiscVariable". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "DiscVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "DiscVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "DiscVariable". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "DiscVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link DiscVariable} class.
      */
-    public static DiscVariable newDiscVariable(String name, Position position, CifType type, VariableValue value) {
+    public static DiscVariable newDiscVariable(List<Annotation> annotations, String name, Position position, CifType type, VariableValue value) {
         DiscVariable rslt_ = newDiscVariable();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }
@@ -1483,13 +1564,17 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link EnumDecl} class.
      *
+     * @param annotations The "annotations" of the new "EnumDecl". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param literals The "literals" of the new "EnumDecl". Multiplicity [1..*]. May be {@code null} to set the "literals" later.
      * @param name The "name" of the new "EnumDecl". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "EnumDecl". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EnumDecl} class.
      */
-    public static EnumDecl newEnumDecl(List<EnumLiteral> literals, String name, Position position) {
+    public static EnumDecl newEnumDecl(List<Annotation> annotations, List<EnumLiteral> literals, String name, Position position) {
         EnumDecl rslt_ = newEnumDecl();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (literals != null) {
             rslt_.getLiterals().addAll(literals);
         }
@@ -1634,14 +1719,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Event} class.
      *
+     * @param annotations The "annotations" of the new "Event". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param controllable The "controllable" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "controllable", or to set it later.
      * @param name The "name" of the new "Event". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link Event} class.
      */
-    public static Event newEvent(Boolean controllable, String name, Position position, CifType type) {
+    public static Event newEvent(List<Annotation> annotations, Boolean controllable, String name, Position position, CifType type) {
         Event rslt_ = newEvent();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (controllable != null) {
             rslt_.setControllable(controllable);
         }
@@ -1739,6 +1828,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ExternalFunction} class.
      *
+     * @param annotations The "annotations" of the new "ExternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param function The "function" of the new "ExternalFunction". Multiplicity [1..1]. May be {@code null} to set the "function" later.
      * @param name The "name" of the new "ExternalFunction". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param parameters The "parameters" of the new "ExternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
@@ -1746,8 +1836,11 @@ public class CifConstructors {
      * @param returnTypes The "returnTypes" of the new "ExternalFunction". Multiplicity [1..*]. May be {@code null} to set the "returnTypes" later.
      * @return A new instance of the {@link ExternalFunction} class.
      */
-    public static ExternalFunction newExternalFunction(String function, String name, List<FunctionParameter> parameters, Position position, List<CifType> returnTypes) {
+    public static ExternalFunction newExternalFunction(List<Annotation> annotations, String function, String name, List<FunctionParameter> parameters, Position position, List<CifType> returnTypes) {
         ExternalFunction rslt_ = newExternalFunction();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (function != null) {
             rslt_.setFunction(function);
         }
@@ -2144,13 +2237,17 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link InputVariable} class.
      *
+     * @param annotations The "annotations" of the new "InputVariable". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "InputVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "InputVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "InputVariable". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link InputVariable} class.
      */
-    public static InputVariable newInputVariable(String name, Position position, CifType type) {
+    public static InputVariable newInputVariable(List<Annotation> annotations, String name, Position position, CifType type) {
         InputVariable rslt_ = newInputVariable();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }
@@ -2268,6 +2365,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link InternalFunction} class.
      *
+     * @param annotations The "annotations" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "InternalFunction". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param parameters The "parameters" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
      * @param position The "position" of the new "InternalFunction". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
@@ -2276,8 +2374,11 @@ public class CifConstructors {
      * @param variables The "variables" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "variables", or to set it later.
      * @return A new instance of the {@link InternalFunction} class.
      */
-    public static InternalFunction newInternalFunction(String name, List<FunctionParameter> parameters, Position position, List<CifType> returnTypes, List<FunctionStatement> statements, List<DiscVariable> variables) {
+    public static InternalFunction newInternalFunction(List<Annotation> annotations, String name, List<FunctionParameter> parameters, Position position, List<CifType> returnTypes, List<FunctionStatement> statements, List<DiscVariable> variables) {
         InternalFunction rslt_ = newInternalFunction();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }
@@ -3518,13 +3619,17 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link TypeDecl} class.
      *
+     * @param annotations The "annotations" of the new "TypeDecl". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "TypeDecl". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "TypeDecl". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TypeDecl". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TypeDecl} class.
      */
-    public static TypeDecl newTypeDecl(String name, Position position, CifType type) {
+    public static TypeDecl newTypeDecl(List<Annotation> annotations, String name, Position position, CifType type) {
         TypeDecl rslt_ = newTypeDecl();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }

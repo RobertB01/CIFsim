@@ -23,9 +23,11 @@ For each change to the CIF language, follow these steps:
 * Update metamodel (`org.eclipse.escet.cif.metamodel`).
 ** Update Ecore diagrams (open `model/cif.aird` and unfold _Design_ and then _Entities in a Class Diagram_).
 ** Update diagram images.
-*** Right click a diagram and choose menu:Export representations as images[].
+*** Remove all `*.png` files in the `model/images` folder of the CIF metamodel project.
+*** Right click the `cif.aird` file in the _Package Explorer`_ and choose menu:Export representations as images[].
+*** Set _To directory_ to the `model/images` folder of the CIF metamodel project.
+*** Set _Image Format_ to _PNG_.
 *** Set _Image Size_ to _Nominal_.
-*** Set _To file_ to the diagram's `.png` file in the `images` folder.
 *** Click btn:[OK].
 ** Update genmodel.
 *** Delete `model/cif.genmodel`.

@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.thirdparty.feature"
-      label="ESCET Third Party Dependencies (Incubation)"
+      label="ESCET Third Party Dependencies"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET">
 

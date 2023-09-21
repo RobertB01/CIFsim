@@ -20,9 +20,8 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-= Chi documentation (Incubation)
+= Chi documentation
 :author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
-:title-logo-image: {imgsdir}/eclipse-incubation.png
 :favicon: favicon.png
 
 Chi is a modeling language for describing and analyzing performance of discrete event systems by means of simulation.
@@ -32,15 +31,8 @@ A process is written as an imperative program, with a syntax much inspired by th
 Chi is one of the tools of the Eclipse ESCET(TM) project.
 Visit the link:https://eclipse.dev/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
-[WARNING]
-====
-The Eclipse ESCET project, including the Chi language and toolset, is currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
-
-image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
-====
-
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-chi-manual.pdf[download this manual] as a PDF as well.
+TIP: You can link:eclipse-escet-chi-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
 Tutorial::

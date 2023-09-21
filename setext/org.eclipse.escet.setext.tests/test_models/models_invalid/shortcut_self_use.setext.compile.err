@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/shortcut_self_use.setext": Semantic error at line 13, column 16: Undefined shortcut "a". Note that a shortcut can only refer to another shortcut, if that other shortcut is defined earlier in the specification.
+ERROR: Failed to load SeText file "models_invalid/shortcut_self_use.setext": the file has errors.

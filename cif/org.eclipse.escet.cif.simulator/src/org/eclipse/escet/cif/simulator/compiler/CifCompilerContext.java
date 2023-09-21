@@ -207,7 +207,7 @@ public class CifCompilerContext {
     public static final String FILE_EXT_EDGE_DATA = "edgedata";
 
     /** The 'tau' event. */
-    public final Event tauEvent = newEvent(null, "tau", null, null);
+    public final Event tauEvent = newEvent(null, null, "tau", null, null);
 
     /** The application compiling the CIF specification. Is {@code null} if not yet or no longer available. */
     public Application<?> app;

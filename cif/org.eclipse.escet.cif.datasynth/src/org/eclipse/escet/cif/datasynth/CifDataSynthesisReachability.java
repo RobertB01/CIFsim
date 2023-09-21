@@ -31,6 +31,12 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.Ed
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
+import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
+import org.eclipse.escet.cif.datasynth.workset.pruners.RewardBasedEdgePruner;
+import org.eclipse.escet.cif.datasynth.workset.pruners.SequentialEdgePruner;
+import org.eclipse.escet.cif.datasynth.workset.selectors.EdgeSelector;
+import org.eclipse.escet.cif.datasynth.workset.selectors.FirstEdgeSelector;
+import org.eclipse.escet.cif.datasynth.workset.selectors.PruningEdgeSelector;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;
@@ -223,11 +229,14 @@ public class CifDataSynthesisReachability {
     private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<SynthesisEdge> edges, BitSet edgesMask) {
         boolean changed = false;
         List<BitSet> dependencies = forward ? aut.worksetDependenciesForward : aut.worksetDependenciesBackward;
+        EdgeSelector edgeSelector = new PruningEdgeSelector(
+                new SequentialEdgePruner(new MaxCardinalityEdgePruner(dependencies),
+                        new RewardBasedEdgePruner(edges.size(), 1, -1)),
+                new FirstEdgeSelector());
         BitSet workset = copy(edgesMask);
         while (!workset.isEmpty()) {
             // Select the next edge to apply.
-            // TODO: For now, choose the first edge in the workset. Better heuristics will be added later.
-            int edgeIdx = workset.nextSetBit(0);
+            int edgeIdx = edgeSelector.select(workset);
             SynthesisEdge edge = edges.get(edgeIdx);
 
             // Repeatedly apply the selected edge, until it no longer has an effect.
@@ -285,6 +294,9 @@ public class CifDataSynthesisReachability {
             // removing this edge after adding its dependencies, it does not matter whether an edge is a dependency of
             // itself or not.
             workset.clear(edgeIdx);
+
+            // Update the edge selector, based on the effect of applying the selected edge.
+            edgeSelector.update(edgeIdx, changedByEdge);
         }
         return pair(pred, changed);
     }

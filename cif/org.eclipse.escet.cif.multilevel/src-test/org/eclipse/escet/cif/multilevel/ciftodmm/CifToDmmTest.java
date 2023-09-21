@@ -152,7 +152,7 @@ public class CifToDmmTest {
      * @return The created variable.
      */
     private InputVariable makeInputVar(String name) {
-        return newInputVariable(name, null, newBoolType());
+        return newInputVariable(null, name, null, newBoolType());
     }
 
     /**
@@ -162,7 +162,7 @@ public class CifToDmmTest {
      * @return The created variable.
      */
     private DiscVariable makeDiscVar(String name) {
-        return newDiscVariable(name, null, newBoolType(), null);
+        return newDiscVariable(null, name, null, newBoolType(), null);
     }
 
     @SuppressWarnings("javadoc")
@@ -186,12 +186,12 @@ public class CifToDmmTest {
         Location rloc = addLocation(reqAut, "loc1");
 
         // Unused event in the root of the specification.
-        Event specEvt = newEvent(true, "specEvt", null, null);
+        Event specEvt = newEvent(null, true, "specEvt", null, null);
         spec.getDeclarations().add(specEvt);
 
         // Add events for plant and requirement edge, add the events to the other automaton.
-        Event pevt = newEvent(true, "pevt", null, null);
-        Event revt = newEvent(true, "revt", null, null);
+        Event pevt = newEvent(null, true, "pevt", null, null);
+        Event revt = newEvent(null, true, "revt", null, null);
         plantAut.getDeclarations().add(revt); // Define requirement event in the plant.
         reqAut.getDeclarations().add(pevt); // Define plant event in the requirement.
 
@@ -313,7 +313,7 @@ public class CifToDmmTest {
         Automaton plantAut = makeAddPlantAut("p");
         Automaton reqAut = makeAddRequirementAut("r");
         InputVariable plantInput = makeInputVar("pinput");
-        Event evt = newEvent(true, "evt", null, null);
+        Event evt = newEvent(null, true, "evt", null, null);
         Invariant reqInv = newInvariant(newEventExpression(evt, null, null), InvKind.EVENT_DISABLES, "reqInv", null,
                 newBoolExpression(null, newBoolType(), true), SupKind.REQUIREMENT);
 
@@ -344,7 +344,7 @@ public class CifToDmmTest {
     public void mergePlantAutsOnEventTest() {
         Automaton plantAut1 = makeAddPlantAut("p1");
         Automaton plantAut2 = makeAddPlantAut("p2");
-        Event evt = newEvent(true, "evt", null, null);
+        Event evt = newEvent(null, true, "evt", null, null);
         spec.getDeclarations().add(evt);
         addEdge(plantAut1, evt);
         addEdge(plantAut2, evt);
@@ -362,7 +362,7 @@ public class CifToDmmTest {
         InputVariable inpVar = makeInputVar("inputvar");
         spec.getDeclarations().add(inpVar);
 
-        Event evt = newEvent(true, "evt", null, null);
+        Event evt = newEvent(null, true, "evt", null, null);
         spec.getDeclarations().add(evt);
 
         Automaton plantAut1 = makeAddPlantAut("p1");
@@ -387,8 +387,8 @@ public class CifToDmmTest {
         // 2 plants with different events accessing the discrete variable.
         Automaton plantAut1 = makeAddPlantAut("p1");
         Automaton plantAut2 = makeAddPlantAut("p2");
-        Event evt1 = newEvent(true, "evt1", null, null);
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt1 = newEvent(null, true, "evt1", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt1);
         spec.getDeclarations().add(evt2);
 
@@ -420,7 +420,7 @@ public class CifToDmmTest {
 
         // Plant2 accesses the variable.
         Automaton plantAut2 = makeAddPlantAut("p2");
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt2);
 
         Edge edge2 = addEdge(plantAut2, evt2);
@@ -460,8 +460,8 @@ public class CifToDmmTest {
         Automaton reqAut = makeAddRequirementAut("r1");
         Location rloc = addLocation(reqAut, "rloc");
 
-        Event evt1 = newEvent(true, "evt1", null, null);
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt1 = newEvent(null, true, "evt1", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt2);
         spec.getDeclarations().add(evt1);
 
@@ -498,7 +498,7 @@ public class CifToDmmTest {
         Automaton plantAut1 = makeAddPlantAut("p1");
         Location loc1 = addLocation(plantAut1, "loc1");
 
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt2);
 
         Automaton plantAut2 = makeAddPlantAut("p2");
@@ -529,7 +529,7 @@ public class CifToDmmTest {
         // location loc2:
         // edge evt;
         // end
-        Event evt = newEvent(true, "evt", null, null);
+        Event evt = newEvent(null, true, "evt", null, null);
         spec.getDeclarations().add(evt);
 
         Automaton req1 = makeAddRequirementAut("req1");
@@ -567,7 +567,7 @@ public class CifToDmmTest {
         // location loc2:
         // edge evt;
         // end
-        Event evt = newEvent(true, "evt", null, null);
+        Event evt = newEvent(null, true, "evt", null, null);
         spec.getDeclarations().add(evt);
 
         Automaton plant = makeAddPlantAut("plant");
@@ -602,8 +602,8 @@ public class CifToDmmTest {
         // location loc2:
         // edge evt2 when inp;
         // end
-        Event evt1 = newEvent(true, "evt1", null, null);
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt1 = newEvent(null, true, "evt1", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt1);
         spec.getDeclarations().add(evt2);
 
@@ -641,8 +641,8 @@ public class CifToDmmTest {
         // location loc2:
         // edge evt2 when dvar;
         // end
-        Event evt1 = newEvent(true, "evt1", null, null);
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt1 = newEvent(null, true, "evt1", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt1);
         spec.getDeclarations().add(evt2);
 
@@ -678,8 +678,8 @@ public class CifToDmmTest {
         // location loc2:
         // edge evt2 when dvar;
         // end
-        Event evt1 = newEvent(true, "evt1", null, null);
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt1 = newEvent(null, true, "evt1", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt1);
         spec.getDeclarations().add(evt2);
 
@@ -721,8 +721,8 @@ public class CifToDmmTest {
         // location loc2:
         // edge evt2 when ploc;
         // end
-        Event evt1 = newEvent(true, "evt1", null, null);
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt1 = newEvent(null, true, "evt1", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt1);
         spec.getDeclarations().add(evt2);
 
@@ -751,7 +751,7 @@ public class CifToDmmTest {
         // end
         //
         // requirement r2: loc1 disables evt2;
-        Event evt2 = newEvent(true, "evt2", null, null);
+        Event evt2 = newEvent(null, true, "evt2", null, null);
         spec.getDeclarations().add(evt2);
 
         Automaton req1 = makeAddRequirementAut("req1");

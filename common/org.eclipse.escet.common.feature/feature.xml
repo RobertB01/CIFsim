@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.common.feature"
-      label="ESCET Common (Incubation)"
+      label="ESCET Common"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"

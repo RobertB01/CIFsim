@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Development Documentation (Incubation)
+Bundle-Name: ESCET Development Documentation
 Bundle-SymbolicName: org.eclipse.escet.releng.dev.documentation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

@@ -4580,3 +4580,97 @@ expressions to be used. See also Section~\ref{sec:scoping}.
 \newcommand{\featdocuPrintForkind}{
 The kind of the `for' filter.
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package annotations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\pkgdocuannotations}{
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{../model/images/annotations.png}
+  \caption{\textit{annotations} package}\label{fig:pkg:annotations}
+\end{figure}
+
+Figure~\ref{fig:pkg:annotations} shows the \textit{annotations} package.
+The main class is the \cifclass{Annotation} class. It represents a single
+annotations on a single object. The \cifclass{AnnotationArgument} class
+represents a single arguments of an annotation. And the
+\cifclass{AnnotatedObject} class is the base class for all objects
+that can be annotated.
+}
+
+% AnnotatedObject (abstract class)
+\newcommand{\clsdocuAnnotatedObject}{
+Base class for all objects that can be annotated.
+}
+
+\newcommand{\featdocuAnnotatedObjectannotations}{
+The annotations of the annotated object.
+
+\begin{constraints}
+\citem{AnnotatedObject.uniqueAnnotations}
+  The names of each of the annotations must be unique within the annotated
+  object.
+\citem{AnnotatedObject.onlyForInputVariables}
+  For now, only input variables may have annotations. This restriction may be
+  removed or relaxed in the future.
+\end{constraints}
+}
+
+% Annotation (class)
+\newcommand{\clsdocuAnnotation}{
+An annotation.
+
+\begin{constraints}
+\citem{Annotation.annotationSpecificErrors}
+  The annotation and its arguments must satisfy any additional constraints
+  imposed on the annotation by the registered annotation provider.
+\citemnf{Annotation.annotationSpecificWarnings}
+  The annotation and its arguments must satisfy any additional constraints
+  imposed on the annotation by the registered annotation provider.
+\end{constraints}
+}
+
+\newcommand{\featdocuAnnotationarguments}{
+The arguments of the annotation.
+
+\begin{constraints}
+\citem{Annotation.uniqueArguments}
+  The names of each of the arguments must be unique within the annotation.
+\end{constraints}
+}
+
+\newcommand{\featdocuAnnotationname}{
+The name of the annotation.
+
+\begin{constraints}
+\citem{Annotation.validName}
+  The name must be a CIF identifier, or multiple CIF identifiers joined
+  together using colons (\texttt{:}). For instance, \texttt{name} or
+  \texttt{some:name}.
+\citemnf{Annotation.registeredName}
+  The annotation name must be a registered annotation name, within the
+  environment where the CIF model is used.
+\end{constraints}
+}
+
+% AnnotationArgument (class)
+\newcommand{\clsdocuAnnotationArgument}{
+An argument of an \cifclass{Annotation}.
+}
+
+\newcommand{\featdocuAnnotationArgumentname}{
+The name of the annotation argument.
+
+\begin{constraints}
+\citem{AnnotationArgument.validName}
+  The name must be a CIF identifier, or multiple CIF identifiers joined
+  together using periods (\texttt{.}). For instance, \texttt{arg} or
+  \texttt{some.arg}.
+\end{constraints}
+}
+
+\newcommand{\featdocuAnnotationArgumentvalue}{
+The value of the annotation argument.
+}

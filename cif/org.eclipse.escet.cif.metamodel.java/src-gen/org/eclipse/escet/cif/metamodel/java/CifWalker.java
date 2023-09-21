@@ -34,6 +34,9 @@ import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -244,6 +247,10 @@ public abstract class CifWalker {
      */
     protected void walkAlgVariable(AlgVariable obj) {
         precrawlAlgVariable(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);
@@ -402,6 +409,168 @@ public abstract class CifWalker {
      * @param obj The object to post-process.
      */
     protected void postprocessAlphabet(Alphabet obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Walking function for the {@link AnnotatedObject} class.
+     *
+     * @param obj The object to walk over.
+     */
+    protected void walkAnnotatedObject(AnnotatedObject obj) {
+        if (obj instanceof Declaration) {
+            walkDeclaration((Declaration)obj);
+            return;
+        }
+        String msg = "No redirect; unexpected object type: " + obj;
+        throw new IllegalArgumentException(msg);
+    }
+
+    /**
+     * Pre-crawling function for the {@link AnnotatedObject} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void precrawlAnnotatedObject(AnnotatedObject obj) {
+        precrawlPositionObject(obj);
+        preprocessAnnotatedObject(obj);
+    }
+
+    /**
+     * Post-crawling function for the {@link AnnotatedObject} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void postcrawlAnnotatedObject(AnnotatedObject obj) {
+        postprocessAnnotatedObject(obj);
+        postcrawlPositionObject(obj);
+    }
+
+    /**
+     * Pre-processing function for the {@link AnnotatedObject} class.
+     *
+     * @param obj The object to pre-process.
+     */
+    protected void preprocessAnnotatedObject(AnnotatedObject obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Post-processing function for the {@link AnnotatedObject} class.
+     *
+     * @param obj The object to post-process.
+     */
+    protected void postprocessAnnotatedObject(AnnotatedObject obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Walking function for the {@link Annotation} class.
+     *
+     * @param obj The object to walk over.
+     */
+    protected void walkAnnotation(Annotation obj) {
+        precrawlAnnotation(obj);
+        List<AnnotationArgument> _arguments = obj.getArguments();
+        for (AnnotationArgument x: _arguments) {
+            walkAnnotationArgument(x);
+        }
+        Position _position = obj.getPosition();
+        if (_position != null) {
+            walkPosition(_position);
+        }
+        postcrawlAnnotation(obj);
+    }
+
+    /**
+     * Pre-crawling function for the {@link Annotation} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void precrawlAnnotation(Annotation obj) {
+        precrawlPositionObject(obj);
+        preprocessAnnotation(obj);
+    }
+
+    /**
+     * Post-crawling function for the {@link Annotation} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void postcrawlAnnotation(Annotation obj) {
+        postprocessAnnotation(obj);
+        postcrawlPositionObject(obj);
+    }
+
+    /**
+     * Pre-processing function for the {@link Annotation} class.
+     *
+     * @param obj The object to pre-process.
+     */
+    protected void preprocessAnnotation(Annotation obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Post-processing function for the {@link Annotation} class.
+     *
+     * @param obj The object to post-process.
+     */
+    protected void postprocessAnnotation(Annotation obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Walking function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to walk over.
+     */
+    protected void walkAnnotationArgument(AnnotationArgument obj) {
+        precrawlAnnotationArgument(obj);
+        Position _position = obj.getPosition();
+        if (_position != null) {
+            walkPosition(_position);
+        }
+        Expression _value = obj.getValue();
+        walkExpression(_value);
+        postcrawlAnnotationArgument(obj);
+    }
+
+    /**
+     * Pre-crawling function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void precrawlAnnotationArgument(AnnotationArgument obj) {
+        precrawlPositionObject(obj);
+        preprocessAnnotationArgument(obj);
+    }
+
+    /**
+     * Post-crawling function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void postcrawlAnnotationArgument(AnnotationArgument obj) {
+        postprocessAnnotationArgument(obj);
+        postcrawlPositionObject(obj);
+    }
+
+    /**
+     * Pre-processing function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to pre-process.
+     */
+    protected void preprocessAnnotationArgument(AnnotationArgument obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Post-processing function for the {@link AnnotationArgument} class.
+     *
+     * @param obj The object to post-process.
+     */
+    protected void postprocessAnnotationArgument(AnnotationArgument obj) {
         // Derived classes may override this method to do actual processing.
     }
 
@@ -1770,6 +1939,10 @@ public abstract class CifWalker {
      */
     protected void walkConstant(Constant obj) {
         precrawlConstant(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);
@@ -1880,6 +2053,10 @@ public abstract class CifWalker {
      */
     protected void walkContVariable(ContVariable obj) {
         precrawlContVariable(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Expression _derivative = obj.getDerivative();
         if (_derivative != null) {
             walkExpression(_derivative);
@@ -2091,7 +2268,7 @@ public abstract class CifWalker {
      * @param obj The object to crawl over.
      */
     protected void precrawlDeclaration(Declaration obj) {
-        precrawlPositionObject(obj);
+        precrawlAnnotatedObject(obj);
         preprocessDeclaration(obj);
     }
 
@@ -2102,7 +2279,7 @@ public abstract class CifWalker {
      */
     protected void postcrawlDeclaration(Declaration obj) {
         postprocessDeclaration(obj);
-        postcrawlPositionObject(obj);
+        postcrawlAnnotatedObject(obj);
     }
 
     /**
@@ -2300,6 +2477,10 @@ public abstract class CifWalker {
      */
     protected void walkDiscVariable(DiscVariable obj) {
         precrawlDiscVariable(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);
@@ -2883,6 +3064,10 @@ public abstract class CifWalker {
      */
     protected void walkEnumDecl(EnumDecl obj) {
         precrawlEnumDecl(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<EnumLiteral> _literals = obj.getLiterals();
         for (EnumLiteral x: _literals) {
             walkEnumLiteral(x);
@@ -3151,6 +3336,10 @@ public abstract class CifWalker {
      */
     protected void walkEvent(Event obj) {
         precrawlEvent(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);
@@ -3499,6 +3688,10 @@ public abstract class CifWalker {
      */
     protected void walkExternalFunction(ExternalFunction obj) {
         precrawlExternalFunction(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<FunctionParameter> _parameters = obj.getParameters();
         for (FunctionParameter x: _parameters) {
             walkFunctionParameter(x);
@@ -4312,6 +4505,10 @@ public abstract class CifWalker {
      */
     protected void walkInputVariable(InputVariable obj) {
         precrawlInputVariable(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);
@@ -4526,6 +4723,10 @@ public abstract class CifWalker {
      */
     protected void walkInternalFunction(InternalFunction obj) {
         precrawlInternalFunction(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<FunctionParameter> _parameters = obj.getParameters();
         for (FunctionParameter x: _parameters) {
             walkFunctionParameter(x);
@@ -5189,6 +5390,18 @@ public abstract class CifWalker {
             walkAlphabet((Alphabet)obj);
             return;
         }
+        if (obj instanceof AnnotatedObject) {
+            walkAnnotatedObject((AnnotatedObject)obj);
+            return;
+        }
+        if (obj instanceof Annotation) {
+            walkAnnotation((Annotation)obj);
+            return;
+        }
+        if (obj instanceof AnnotationArgument) {
+            walkAnnotationArgument((AnnotationArgument)obj);
+            return;
+        }
         if (obj instanceof CifType) {
             walkCifType((CifType)obj);
             return;
@@ -5199,10 +5412,6 @@ public abstract class CifWalker {
         }
         if (obj instanceof ComponentDef) {
             walkComponentDef((ComponentDef)obj);
-            return;
-        }
-        if (obj instanceof Declaration) {
-            walkDeclaration((Declaration)obj);
             return;
         }
         if (obj instanceof DictPair) {
@@ -7142,6 +7351,10 @@ public abstract class CifWalker {
      */
     protected void walkTypeDecl(TypeDecl obj) {
         precrawlTypeDecl(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);

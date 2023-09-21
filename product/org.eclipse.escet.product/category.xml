@@ -47,47 +47,45 @@
    <feature id="org.eclipse.escet.tooldef.feature.source">
       <category name="org.eclipse.escet.tooldef.category"/>
    </feature>
-   <category-def name="org.eclipse.escet.category" label="Eclipse ESCET (Incubation)">
+   <category-def name="org.eclipse.escet.category" label="Eclipse ESCET">
       <description>
          Eclipse ESCET tooling.
       </description>
    </category-def>
-   <category-def name="org.eclipse.escet.chi.category" label="Eclipse ESCET Chi (Incubation)">
+   <category-def name="org.eclipse.escet.chi.category" label="Eclipse ESCET Chi">
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET tooling for the Chi language.
       </description>
    </category-def>
-   <category-def name="org.eclipse.escet.cif.category" label="Eclipse ESCET CIF (Incubation)">
+   <category-def name="org.eclipse.escet.cif.category" label="Eclipse ESCET CIF">
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET tooling for the CIF language.
       </description>
    </category-def>
-   <category-def name="org.eclipse.escet.common.category" label="Eclipse ESCET Common (Incubation)">
+   <category-def name="org.eclipse.escet.common.category" label="Eclipse ESCET Common">
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET common components.
       </description>
    </category-def>
-   <category-def name="org.eclipse.escet.setext.category" label="Eclipse ESCET SeText (Incubation)">
+   <category-def name="org.eclipse.escet.setext.category" label="Eclipse ESCET SeText">
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET tooling for the SeText language.
       </description>
    </category-def>
-   <category-def name="org.eclipse.escet.thirdparty.category" label="Eclipse ESCET Third Party (Incubation)">
+   <category-def name="org.eclipse.escet.thirdparty.category" label="Eclipse ESCET Third Party">
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET third party dependencies that are redistributed by the Eclipse ESCET project.
       </description>
    </category-def>
-   <category-def name="org.eclipse.escet.tooldef.category" label="Eclipse ESCET ToolDef (Incubation)">
+   <category-def name="org.eclipse.escet.tooldef.category" label="Eclipse ESCET ToolDef">
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET tooling for the ToolDef scripting language.
       </description>
    </category-def>
-   <repository-reference location="https://download.eclipse.org/releases/2023-03" enabled="true" />
-   <repository-reference location="https://download.eclipse.org/tools/orbit/downloads/drops/R20230302014618/repository" enabled="true" />
 </site>

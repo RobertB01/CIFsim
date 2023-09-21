@@ -12,7 +12,7 @@
 -->
 <feature
       id="org.eclipse.escet.chi.feature"
-      label="ESCET Chi (Incubation)"
+      label="ESCET Chi"
       version="1.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"

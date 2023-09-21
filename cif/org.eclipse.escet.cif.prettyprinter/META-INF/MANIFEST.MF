@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET CIF Pretty Printer (Incubation)
+Bundle-Name: ESCET CIF Pretty Printer
 Bundle-SymbolicName: org.eclipse.escet.cif.prettyprinter;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

@@ -160,12 +160,12 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
                 continue;
             }
 
-            // Store shortcut in symbol table.
-            ShortcutDecl shortcut = (ShortcutDecl)decl;
-            symtable.add(shortcut.name, shortcut);
-
             // Type check regular expression.
+            ShortcutDecl shortcut = (ShortcutDecl)decl;
             tcheckRegEx(shortcut.regEx, true);
+
+            // Store shortcut in symbol table.
+            symtable.add(shortcut.name, shortcut);
         }
     }
 
@@ -347,8 +347,8 @@ public class SeTextTypeChecker extends TypeChecker<Specification, Specification>
     /**
      * Type checks a regular expression.
      *
-     * @param isShortcut Is this regular expression part of shortcut definition?
      * @param regEx The regular expression to check.
+     * @param isShortcut Is this regular expression part of shortcut definition?
      */
     private void tcheckRegEx(RegEx regEx, boolean isShortcut) {
         if (regEx instanceof RegExAlts) {

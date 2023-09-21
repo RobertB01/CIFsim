@@ -89,7 +89,6 @@ Especially, consider what is no longer compatible with the new Eclipse version a
 ** Update `dev-env-setup.asciidoc` to match the new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Update Eclipse and Orbit update site URLs in the product (`org.eclipse.escet.product/escet.product`).
-** Update Eclipse and Orbit update site URLs in the update site (`org.eclipse.escet.product/category.xml`).
 ** Update Maven plugin third party dependency versions to match the versions of these plugins from Orbit (`org.eclipse.escet.common.asciidoc/pom.xml`).
 ** Commit any changes.
 

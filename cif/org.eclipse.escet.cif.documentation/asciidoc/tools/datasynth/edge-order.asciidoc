@@ -71,21 +71,20 @@ The dependencies of an edge are those other edges that may be enabled after usin
 +
 The workset algorithm can only be used in combination with a 'per event' <<tools-datasynth-edge-granularity,edge granularity>>.
 The workset algorithm can not be used when duplicate events are allowed in a <<tools-datasynth-edge-order-custom,custom edge order>>.
-+
-The workset algorithm is experimental.
 
 Which approach to use during synthesis, can be configured using the _Edge workset algorithm_ option (see the <<tools-datasynth-options,options section>>).
 By default a fixed order is used, and the workset algorithm is disabled.
 By enabling the workset algorithm, it is used instead.
 
-Which approach works best depends on the model.
-The workset algorithm may perform better than a fixed order, if a suitable heuristic is used to select the next edge to use.
+Which approach works best depends on the model, and this may involve a trade-off.
+The workset algorithm may reduce the maximum amount of memory used during synthesis, compared to using a fixed order.
+However, this often comes at the cost of extra computations that require more time, especially if edges have many other edges as their dependencies.
 
 === Configuring the order
 
 The order in which the edges are considered when a fixed order is used, is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
 If the workset algorithm is used, the edges in the workset are ordered according to the configured order.
-Since the workset algorithm always selects the first edge in the workset, the configured order thus influences the order in which edges are selected by the workset algorithm.
+The configured order may therefore also influence the order in which edges are selected by the workset algorithm's edge selection heuristics.
 
 Several predefined orders exist, and it is also possible to define a custom order.
 By default, the _model ordering_ is used for both backward and forward reachability computations.

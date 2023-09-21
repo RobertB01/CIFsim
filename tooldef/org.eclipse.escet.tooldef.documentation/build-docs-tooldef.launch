@@ -7,7 +7,6 @@
     <booleanAttribute key="M2_OFFLINE" value="false"/>
     <stringAttribute key="M2_PROFILES" value=""/>
     <listAttribute key="M2_PROPERTIES">
-        <listEntry value="tycho.pomless.aggregator.names=releng,chi,cif,common,setext,thirdparty,tooldef,product"/>
         <listEntry value="jacoco.skip=true"/>
     </listAttribute>
     <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>

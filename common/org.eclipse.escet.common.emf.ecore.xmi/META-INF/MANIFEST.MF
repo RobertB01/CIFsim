@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Common EMF Ecore XMI Resource Factory (Incubation)
+Bundle-Name: ESCET Common EMF Ecore XMI Resource Factory
 Bundle-SymbolicName: org.eclipse.escet.common.emf.ecore.xmi;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET

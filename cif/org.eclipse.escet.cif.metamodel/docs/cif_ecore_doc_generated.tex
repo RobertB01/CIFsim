@@ -27,7 +27,7 @@
 \begin{description}
 \item[Package URI] http://eclipse.org/escet/cif
 \item[Namespace prefix] cif
-\item[Sub-packages] \cifpkg{declarations}, \cifpkg{automata}, \cifpkg{types}, \cifpkg{expressions}, \cifpkg{functions}, \cifpkg{cifsvg}, \cifpkg{print}
+\item[Sub-packages] \cifpkg{declarations}, \cifpkg{automata}, \cifpkg{types}, \cifpkg{expressions}, \cifpkg{functions}, \cifpkg{cifsvg}, \cifpkg{print}, \cifpkg{annotations}
 \end{description}
 
 \subsection{CifIdentifier (datatype)}\label{cifclass:CifIdentifier}
@@ -403,8 +403,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{AlgVariable}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{AlgVariable}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -412,6 +413,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AlgVariable.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:AlgVariable.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:AlgVariable.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:AlgVariable.type}}
@@ -426,8 +429,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{Constant}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{Constant}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -435,6 +439,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Constant.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:Constant.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:Constant.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:Constant.type}}
@@ -449,8 +455,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{ContVariable}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{ContVariable}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -458,6 +465,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ContVariable.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:ContVariable.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:ContVariable.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{derivative}{{[0..1]}}{Expression}{}{\label{cifattr:ContVariable.derivative}}
@@ -472,7 +481,8 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\emph{Declaration}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\emph{Declaration}
 
 ~\\ \noindent Direct derived classes:
 \cifclass{AlgVariable}, \cifclass{Constant}, \cifclass{ContVariable}, \cifclass{DiscVariable}, \cifclass{EnumDecl}, \cifclass{Event}, \cifclass{Function}, \cifclass{InputVariable}, \cifclass{TypeDecl}
@@ -480,6 +490,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Declaration.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:Declaration.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{}{\label{cifattr:Declaration.name}}
 {\featdocuDeclarationname}
 \end{description}
@@ -490,8 +502,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{DiscVariable}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{DiscVariable}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -499,6 +512,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DiscVariable.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:DiscVariable.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:DiscVariable.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:DiscVariable.type}}
@@ -513,8 +528,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{EnumDecl}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{EnumDecl}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -522,6 +538,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EnumDecl.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:EnumDecl.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:EnumDecl.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{literals}{{[1..*]}}{EnumLiteral}{}{\label{cifattr:EnumDecl.literals}}
@@ -552,8 +570,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{Event}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{Event}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -561,6 +580,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Event.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:Event.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:Event.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{attr}{controllable}{{[0..1]}}{EBooleanObject}{}{\label{cifattr:Event.controllable}}
@@ -575,8 +596,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{InputVariable}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{InputVariable}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -584,6 +606,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:InputVariable.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:InputVariable.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:InputVariable.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:InputVariable.type}}
@@ -596,8 +620,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{TypeDecl}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{TypeDecl}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -605,6 +630,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TypeDecl.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:TypeDecl.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:TypeDecl.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:TypeDecl.type}}
@@ -2327,9 +2354,10 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\cifclass{Function} \\
-\hookindent\hookindent\hookindent\hook~\emph{ExternalFunction}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\cifclass{Function} \\
+\hookindent\hookindent\hookindent\hookindent\hook~\emph{ExternalFunction}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -2337,6 +2365,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ExternalFunction.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:ExternalFunction.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:ExternalFunction.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{parameters}{{[0..*]}}{FunctionParameter}{(inherited from \textit{Function})}{\label{cifattr:ExternalFunction.parameters}}
@@ -2353,8 +2383,9 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\emph{Function}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\emph{Function}
 
 ~\\ \noindent Direct derived classes:
 \cifclass{ExternalFunction}, \cifclass{InternalFunction}
@@ -2362,6 +2393,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Function.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:Function.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:Function.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{parameters}{{[0..*]}}{FunctionParameter}{}{\label{cifattr:Function.parameters}}
@@ -2435,9 +2468,10 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\cifclass{Declaration} \\
-\hookindent\hookindent\hook~\cifclass{Function} \\
-\hookindent\hookindent\hookindent\hook~\emph{InternalFunction}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hookindent\hook~\cifclass{Function} \\
+\hookindent\hookindent\hookindent\hookindent\hook~\emph{InternalFunction}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -2445,6 +2479,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:InternalFunction.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:InternalFunction.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:InternalFunction.name}}
 {\featdocuDeclarationname}
 \cifclassDetail{cont}{parameters}{{[0..*]}}{FunctionParameter}{(inherited from \textit{Function})}{\label{cifattr:InternalFunction.parameters}}
@@ -2787,6 +2823,74 @@ none
 {\featdocuPrintForevent}
 \cifclassDetail{attr}{kind}{{[1]}}{PrintForKind}{}{\label{cifattr:PrintFor.kind}}
 {\featdocuPrintForkind}
+\end{description}
+
+
+
+\section{Package annotations}\label{cifpkg:annotations}
+\pkgdocuannotations
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/annotations
+\item[Namespace prefix] annotations
+\item[Sub-packages] none
+\end{description}
+
+\subsection{AnnotatedObject (abstract class)}\label{cifclass:AnnotatedObject}
+\clsdocuAnnotatedObject
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{AnnotatedObject}
+
+~\\ \noindent Direct derived classes:
+\cifclass{Declaration}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AnnotatedObject.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{}{\label{cifattr:AnnotatedObject.annotations}}
+{\featdocuAnnotatedObjectannotations}
+\end{description}
+
+
+\subsection{Annotation (class)}\label{cifclass:Annotation}
+\clsdocuAnnotation
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Annotation}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Annotation.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{arguments}{{[0..*]}}{AnnotationArgument}{}{\label{cifattr:Annotation.arguments}}
+{\featdocuAnnotationarguments}
+\cifclassDetail{attr}{name}{{[1]}}{EString}{}{\label{cifattr:Annotation.name}}
+{\featdocuAnnotationname}
+\end{description}
+
+
+\subsection{AnnotationArgument (class)}\label{cifclass:AnnotationArgument}
+\clsdocuAnnotationArgument
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{AnnotationArgument}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AnnotationArgument.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{EString}{}{\label{cifattr:AnnotationArgument.name}}
+{\featdocuAnnotationArgumentname}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:AnnotationArgument.value}}
+{\featdocuAnnotationArgumentvalue}
 \end{description}
 
 

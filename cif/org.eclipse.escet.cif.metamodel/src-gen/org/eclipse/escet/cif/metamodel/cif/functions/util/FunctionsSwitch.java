@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
+
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 
 import org.eclipse.escet.cif.metamodel.cif.functions.*;
@@ -93,6 +95,7 @@ public class FunctionsSwitch<T> extends Switch<T>
                 Function function = (Function)theEObject;
                 T result = caseFunction(function);
                 if (result == null) result = caseDeclaration(function);
+                if (result == null) result = caseAnnotatedObject(function);
                 if (result == null) result = casePositionObject(function);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -111,6 +114,7 @@ public class FunctionsSwitch<T> extends Switch<T>
                 T result = caseInternalFunction(internalFunction);
                 if (result == null) result = caseFunction(internalFunction);
                 if (result == null) result = caseDeclaration(internalFunction);
+                if (result == null) result = caseAnnotatedObject(internalFunction);
                 if (result == null) result = casePositionObject(internalFunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -121,6 +125,7 @@ public class FunctionsSwitch<T> extends Switch<T>
                 T result = caseExternalFunction(externalFunction);
                 if (result == null) result = caseFunction(externalFunction);
                 if (result == null) result = caseDeclaration(externalFunction);
+                if (result == null) result = caseAnnotatedObject(externalFunction);
                 if (result == null) result = casePositionObject(externalFunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -403,6 +408,22 @@ public class FunctionsSwitch<T> extends Switch<T>
      * @generated
      */
     public T casePositionObject(PositionObject object)
+    {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAnnotatedObject(AnnotatedObject object)
     {
         return null;
     }

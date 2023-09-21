@@ -1,0 +1,20 @@
+ERROR: CIF controller properties check application failed due to unsatisfied preconditions:
+ - Unsupported declaration "g.p0.cnt": continuous variables are currently unsupported.
+ - Unsupported event "g.e1": event is not declared as controllable or uncontrollable.
+ - Unsupported event "g.e2": event is a channel (has a data type).
+ - Unsupported event "tau": event is not controllable or uncontrollable (explicit use of "tau").
+ - Unsupported event "tau": event is not controllable or uncontrollable (implicit use of "tau").
+ - Unsupported expression "(1, 2)": tuple expressions are currently not supported.
+ - Unsupported expression "(g.p0.x1, g.p0.x2)": tuple expressions are currently not supported.
+ - Unsupported expression "1.0": real number expressions are currently not supported.
+ - Unsupported expression "[true]": list expressions are currently not supported.
+ - Unsupported expression "g.p0.lb[0]": projection expressions are currently not supported.
+ - Unsupported group "g": state invariants in components are currently not supported.
+ - Unsupported location "l1" of automaton "g.p0": edges with multi-assignments are currently unsupported.
+ - Unsupported location "l1" of automaton "g.p0": edges with partial variable assignments are currently unsupported.
+ - Unsupported location "l1" of automaton "g.p0": state invariants in locations are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list[1] bool": list types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "tuple(int[1..1]; int[2..2])": tuple types are currently not supported.
+ - Unsupported type "tuple(int[1..2]; int[1..2])": tuple types are currently not supported.

@@ -24,6 +24,8 @@ public class CifTextEditorDarkTheme implements TextEditorTheme<CifTextEditorStyl
         switch (stylable) {
             case DEFAULT:
                 return new Style(240, 240, 240);
+            case ANNOTATION:
+                return new Style(150, 150, 150);
             case IDENTIFIER:
                 return new Style(240, 240, 240);
             case COMMENT_SL:

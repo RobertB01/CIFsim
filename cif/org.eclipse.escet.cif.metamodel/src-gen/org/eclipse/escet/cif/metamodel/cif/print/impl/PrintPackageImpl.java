@@ -24,6 +24,10 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.AutomataPackageImpl;
@@ -114,7 +118,6 @@ public class PrintPackageImpl extends EPackageImpl implements PrintPackage
     {
         super(eNS_URI, PrintFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -162,6 +165,8 @@ public class PrintPackageImpl extends EPackageImpl implements PrintPackage
         FunctionsPackageImpl theFunctionsPackage = (FunctionsPackageImpl)(registeredPackage instanceof FunctionsPackageImpl ? registeredPackage : FunctionsPackage.eINSTANCE);
         registeredPackage = EPackage.Registry.INSTANCE.getEPackage(CifsvgPackage.eNS_URI);
         CifsvgPackageImpl theCifsvgPackage = (CifsvgPackageImpl)(registeredPackage instanceof CifsvgPackageImpl ? registeredPackage : CifsvgPackage.eINSTANCE);
+        registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
+        AnnotationsPackageImpl theAnnotationsPackage = (AnnotationsPackageImpl)(registeredPackage instanceof AnnotationsPackageImpl ? registeredPackage : AnnotationsPackage.eINSTANCE);
 
         // Create package meta-data objects
         thePrintPackage.createPackageContents();
@@ -172,6 +177,7 @@ public class PrintPackageImpl extends EPackageImpl implements PrintPackage
         theExpressionsPackage.createPackageContents();
         theFunctionsPackage.createPackageContents();
         theCifsvgPackage.createPackageContents();
+        theAnnotationsPackage.createPackageContents();
 
         // Initialize created meta-data
         thePrintPackage.initializePackageContents();
@@ -182,6 +188,7 @@ public class PrintPackageImpl extends EPackageImpl implements PrintPackage
         theExpressionsPackage.initializePackageContents();
         theFunctionsPackage.initializePackageContents();
         theCifsvgPackage.initializePackageContents();
+        theAnnotationsPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         thePrintPackage.freeze();

@@ -40,6 +40,8 @@ import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
 import org.eclipse.escet.cif.parser.ast.AMarkedDecl;
 import org.eclipse.escet.cif.parser.ast.ANamespaceDecl;
 import org.eclipse.escet.cif.parser.ast.ASpecification;
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotationArgument;
 import org.eclipse.escet.cif.parser.ast.automata.AAlphabetDecl;
 import org.eclipse.escet.cif.parser.ast.automata.AAssignmentUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
@@ -598,9 +600,9 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new AAlgVariableDecl(a2, l3, t1.position);
     }
 
-    @Override // Decl : @INPUTKW Type Identifiers SEMICOLTK;
-    public ADecl parseDecl09(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AInputVariableDecl(a2, l3, t1.position);
+    @Override // Decl : OptAnnos @INPUTKW Type Identifiers SEMICOLTK;
+    public ADecl parseDecl09(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+        return new AInputVariableDecl(l1, a3, l4, t2.position);
     }
 
     @Override // Decl : @CONTKW ContDecls SEMICOLTK;
@@ -2240,5 +2242,62 @@ public final class CifParserHooks implements CifParser.Hooks {
     @Override // Name : @ROOTNAMETK;
     public AName parseName4(Token t1) {
         return new AName(t1.text, t1.position);
+    }
+
+    @Override // OptAnnos : ;
+    public List<AAnnotation> parseOptAnnos1() {
+        return list();
+    }
+
+    @Override // OptAnnos : OptAnnos Annotation;
+    public List<AAnnotation> parseOptAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+        l1.add(a2);
+        return l1;
+    }
+
+    @Override // Annotation : @ANNOTATIONNAMETK;
+    public AAnnotation parseAnnotation1(Token t1) {
+        return new AAnnotation(t1, list());
+    }
+
+    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK PARCLOSETK;
+    public AAnnotation parseAnnotation2(Token t1) {
+        return new AAnnotation(t1, list());
+    }
+
+    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    public AAnnotation parseAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
+        return new AAnnotation(t1, l3);
+    }
+
+    @Override // AnnotationArgs : AnnotationArg;
+    public List<AAnnotationArgument> parseAnnotationArgs1(AAnnotationArgument a1) {
+        return list(a1);
+    }
+
+    @Override // AnnotationArgs : AnnotationArgs COMMATK AnnotationArg;
+    public List<AAnnotationArgument> parseAnnotationArgs2(List<AAnnotationArgument> l1, AAnnotationArgument a3) {
+        l1.add(a3);
+        return l1;
+    }
+
+    @Override // AnnotationArg : @IDENTIFIERTK EQTK Expression;
+    public AAnnotationArgument parseAnnotationArg1(Token t1, AExpression a3) {
+        return new AAnnotationArgument(t1, a3);
+    }
+
+    @Override // AnnotationArg : @RELATIVENAMETK EQTK Expression;
+    public AAnnotationArgument parseAnnotationArg2(Token t1, AExpression a3) {
+        return new AAnnotationArgument(t1, a3);
+    }
+
+    @Override // OptComma : ;
+    public Token parseOptComma1() {
+        return null;
+    }
+
+    @Override // OptComma : @COMMATK;
+    public Token parseOptComma2(Token t1) {
+        return t1;
     }
 }

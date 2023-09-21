@@ -1,0 +1,2 @@
+ERROR: CIF controller properties check application failed due to unsatisfied preconditions:
+ - Unsupported location of automaton "p": non-determinism detected for edge of controllable event "p.a" with overlapping guards.

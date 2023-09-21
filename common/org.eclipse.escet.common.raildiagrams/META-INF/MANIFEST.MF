@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Common Rail Diagram Generator (Incubation)
+Bundle-Name: ESCET Common Rail Diagram Generator
 Bundle-SymbolicName: org.eclipse.escet.common.raildiagrams;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.eclipse.escet.common.raildiagrams

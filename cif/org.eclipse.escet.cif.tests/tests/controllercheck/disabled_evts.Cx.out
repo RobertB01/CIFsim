@@ -1,0 +1,7 @@
+Loading CIF specification "controllercheck/disabled_evts.cif"...
+
+Checking for confluence...
+
+CONCLUSION:
+    Finite response checking was disabled, finite response property is unknown.
+    [OK] The specification has confluence.

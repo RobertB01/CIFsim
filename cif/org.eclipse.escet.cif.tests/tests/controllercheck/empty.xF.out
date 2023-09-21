@@ -1,0 +1,6 @@
+Loading CIF specification "controllercheck/empty.cif"...
+Checking for finite response...
+
+CONCLUSION:
+    [OK] The specification has finite response.
+    Confluence checking was disabled, confluence property is unknown.
