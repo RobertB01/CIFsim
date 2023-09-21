@@ -41,7 +41,7 @@ public interface WarnOutput {
      * <p>
      * For performance reasons, it may be better to call this method like this:
      *
-     * <pre>if (isEnabled()) { line(...) }</pre>
+     * <pre>if (isEnabled()) { line(...); }</pre>
      *
      * This avoids evaluating the arguments if the output stream is disabled.
      * </p>

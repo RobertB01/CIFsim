@@ -21,11 +21,11 @@ import org.eclipse.escet.common.java.Strings;
  *
  * <p>
  * <ol>
- * <li>Instantiate the class to create an output provider with storage. The provider can be queried afterwards to
- * obtain the stored output.</li>
+ * <li>Instantiate the class to create an output provider with storage. The provider can be queried afterwards to obtain
+ * the stored output.</li>
  * <li>Create one or more output streams connected to the provider by calling {@link #getDebugOutput},
- * {@link #getNormalOutput}, {@link #getWarnOutput}, and/or {@link #getErrorOutput}. All created outputs share the
- * same storage. Output from all created streams is added in the order of producing it.</li>
+ * {@link #getNormalOutput}, {@link #getWarnOutput}, and/or {@link #getErrorOutput}. All created outputs share the same
+ * storage. Output from all created streams is added in the order of producing it.</li>
  * <li>To get the stored output, invoke {@link #toString} on the provider.</li>
  * </ol>
  * </p>
@@ -36,8 +36,7 @@ import org.eclipse.escet.common.java.Strings;
  * <li>The output streams of {@link #getDebugOutput}, {@link #getNormalOutput}, {@link #getWarnOutput} and
  * {@link #getErrorOutput} are lazily created and saved. Asking for the same stream more than once will return the same
  * output stream object on every call. This ensures that indentation levels etc are shared.</li>
- * <li>To get separate storage of the output for a stream, create a provider dedicated for that
- * stream.</li>
+ * <li>To get separate storage of the output for a stream, create a provider dedicated for that stream.</li>
  * </ul>
  * </p>
  */
@@ -75,7 +74,8 @@ public class StoredOutputProvider {
     }
 
     /**
-     * Constructor of the {@link StoredOutputProvider} class. Enables all streams. Uses 4 spaces for each indentation level.
+     * Constructor of the {@link StoredOutputProvider} class. Enables all streams. Uses 4 spaces for each indentation
+     * level.
      *
      * @param isDebugEnabled Whether debug output is enabled.
      * @param isNormalEnabled Whether normal output is enabled.
@@ -106,7 +106,7 @@ public class StoredOutputProvider {
      * Get the debug output stream for this provider. Every call returns the same instance.
      *
      * <p>
-     * This function sets the prefix to {@code "DBG: "} if no debug output stream has been created before.
+     * This function sets an empty prefix if no debug output stream has been created before.
      * </p>
      *
      * @return The constructed debug output stream.
@@ -179,8 +179,12 @@ public class StoredOutputProvider {
                 }
                 if (linePrefix != null && !linePrefix.isEmpty()) {
                     message = linePrefix + curIndentText + message + "\n";
-                } else {
+                } else if (!message.isEmpty()) {
+                    // Avoid creating an empty line with just indentation. Note than blank messages do get indented as
+                    // technically it can be considered to be a massage.
                     message = curIndentText + message + "\n";
+                } else {
+                    message = "\n";
                 }
                 stringStore.append(message);
             }
