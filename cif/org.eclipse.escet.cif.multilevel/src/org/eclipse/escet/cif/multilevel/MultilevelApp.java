@@ -46,7 +46,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.dsm.ClusterInputData;
+import org.eclipse.escet.common.dsm.ClusterSettings;
 import org.eclipse.escet.common.dsm.Dmm;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.DsmClustering;
@@ -177,7 +177,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Figure 1 of Goorden 2020: And cluster the DSM.
         dbg("--- Start of clustering --");
         idbg();
-        ClusterInputData clusteringData = new ClusterInputData(unclusteredMatrix, reqsPlantsDmm.columnLabels);
+        ClusterSettings clusteringData = new ClusterSettings(unclusteredMatrix, reqsPlantsDmm.columnLabels,
+                OutputProvider.getDebugOutputStream());
         Dsm clusteredDsm = DsmClustering.flowBasedMarkovClustering(clusteringData);
         ddbg();
         dbg("--- End of clustering --");
