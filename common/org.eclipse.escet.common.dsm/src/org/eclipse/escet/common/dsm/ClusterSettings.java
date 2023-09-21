@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.output.BlackHoleOutput;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /**
@@ -34,17 +34,13 @@ public class ClusterSettings {
     /** Stream for sending debug output. */
     public final DebugNormalOutput debugOut;
 
-    /**
-     * Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}.
-     */
+    /** Adjacency matrix of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to node {@code j}. */
     public final RealMatrix adjacencies;
 
     /** Names of the nodes. */
     public final Label[] labels;
 
-    /**
-     * Evaporation constant. Named μ in the algorithm, between 1.5 and 3.5, default 2.5.
-     */
+    /** Evaporation constant. Named μ in the algorithm, between 1.5 and 3.5, default 2.5. */
     public double evap;
 
     /**
@@ -53,14 +49,10 @@ public class ClusterSettings {
      */
     public int stepCount;
 
-    /**
-     * Inflation coefficient. Named β in the algorithm, between 1.5 and 3.5, default 2.5.
-     */
+    /** Inflation coefficient. Named β in the algorithm, between 1.5 and 3.5, default 2.5. */
     public double inflation;
 
-    /**
-     * Numeric convergence limit. Default value 1e-4.
-     */
+    /** Numeric convergence limit. Default value 1e-4. */
     public double epsilon;
 
     /** Bus detection algorithm. */
@@ -117,7 +109,7 @@ public class ClusterSettings {
         this.epsilon = epsilon;
         this.busDetectionAlgorithm = busDetectionAlgorithm;
         setBusInclusionFactor(busInclusion);
-        this.debugOut = (debugOut != null) ? debugOut : new BlackHoleOutput();
+        this.debugOut = (debugOut != null) ? debugOut : new BlackHoleOutputProvider().getDebugOutput();
     }
 
     /**
