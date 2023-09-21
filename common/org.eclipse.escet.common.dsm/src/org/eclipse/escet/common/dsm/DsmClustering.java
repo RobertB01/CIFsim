@@ -58,7 +58,7 @@ public class DsmClustering {
     /**
      * Compute flow-based hierarchical Markov clustering of nodes in a graph.
      *
-     * @param clusterSettings Data for the computation.
+     * @param clusterSettings Settings for the computation.
      * @return The computed clustered DSM.
      */
     public static Dsm flowBasedMarkovClustering(ClusterSettings clusterSettings) {
