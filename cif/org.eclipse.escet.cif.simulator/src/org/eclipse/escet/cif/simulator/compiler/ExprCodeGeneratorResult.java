@@ -108,31 +108,30 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         // But this ignores method id number and potential other stuff in mergeFormatString.
         Assert.check(LIMIT > results.size() * METHOD_BASE_NAME.length()); // Otherwise the merged result will never fit
                                                                           // within the limit.
-        List<ExprCodeGeneratorResult> resultsCopy = copy(results); // Make copy so we can mutate the list.
-        while (!areUnderTheLimit(resultsCopy, mergeFormatString.length())) {
+        while (!areUnderTheLimit(results, mergeFormatString.length())) {
             // Identify the largest result.
-            int indexLargest = getLargestResult(resultsCopy);
-            ExprCodeGeneratorResult largest = resultsCopy.get(indexLargest);
+            int indexLargest = getLargestResult(results);
+            ExprCodeGeneratorResult largest = results.get(indexLargest);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
-            resultsCopy.set(indexLargest, newLargest);
+            results.set(indexLargest, newLargest);
 
             // Replace all instances of the largest result (there may be duplicates) with the new method, keeping
             // the order of the results intact.
-            for (int index = indexLargest + 1; index < resultsCopy.size(); index++) {
-                if (resultsCopy.get(index).equals(largest)) {
-                    resultsCopy.set(index, newLargest);
+            for (int index = indexLargest + 1; index < results.size(); index++) {
+                if (results.get(index).equals(largest)) {
+                    results.set(index, newLargest);
                 }
             }
         }
 
-        String exprText = fmt(mergeFormatString, resultsCopy.toArray(new ExprCodeGeneratorResult[resultsCopy.size()]));
+        String exprText = fmt(mergeFormatString, results.toArray(new ExprCodeGeneratorResult[results.size()]));
         Assert.check(exprText.length() < LIMIT);
 
         // Perform the actual merge.
         // We dont't want duplicates in mergedExtraMethods.
         List<ExtraMethod> mergedExtraMethods = list();
         Set<ExprCodeGeneratorResult> seen = set();
-        for (ExprCodeGeneratorResult result: resultsCopy) {
+        for (ExprCodeGeneratorResult result: results) {
             if (seen.add(result)) {
                 mergedExtraMethods.addAll(result.extraMethods());
             }
