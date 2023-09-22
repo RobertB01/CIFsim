@@ -56,6 +56,12 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
     /** Number of spaces to insert for a single indent level. */
     private final int indentSize;
 
+    /** Current indentation level. */
+    private int indentLevel = 0;
+
+    /** Cached indentation string, {@code null} means it must be recomputed. */
+    private String curIndentText = "";
+
     /** Output stream for debug output. Is lazily constructed. */
     private DebugNormalOutput debugOutput = null;
 
@@ -77,8 +83,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
     }
 
     /**
-     * Constructor of the {@link StoredOutputProvider} class. Enables all streams. Uses 4 spaces for each indentation
-     * level.
+     * Constructor of the {@link StoredOutputProvider} class. Uses 4 spaces for each indentation level.
      *
      * @param isDebugEnabled Whether debug output is enabled.
      * @param isNormalEnabled Whether normal output is enabled.
@@ -89,7 +94,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
     }
 
     /**
-     * Constructor of the {@link StoredOutputProvider} class. Uses 4 spaces for each indentation level.
+     * Constructor of the {@link StoredOutputProvider} class.
      *
      * @param isDebugEnabled Whether debug output is enabled.
      * @param isNormalEnabled Whether normal output is enabled.
@@ -121,6 +126,32 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
         return normalOutput;
     }
 
+    /** Increment the indentation level by {@code 1}. */
+    private void incIndentLevel() {
+        indentLevel++;
+        curIndentText = null;
+    }
+
+    /** Decrement the indentation level by {code 1}. */
+    private void decIndentLevel() {
+        Assert.check(indentLevel > 0);
+        indentLevel--;
+        curIndentText = null;
+    }
+
+    /**
+     * Get the text to use for indenting a line for the current indentation level.
+     *
+     * @return The text to use for indenting a line.
+     */
+    private String getIndentText() {
+        // Update the indentation string if necessary.
+        if (curIndentText == null) {
+            curIndentText = Strings.spaces(indentLevel * indentSize);
+        }
+        return curIndentText;
+    }
+
     /**
      * Construct a debug or normal output stream.
      *
@@ -130,12 +161,6 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
      */
     private DebugNormalOutput makeDebugNormalOutput(boolean isEnabled, String linePrefix) {
         return new DebugNormalOutput() {
-            /** Indentation level of the output stream. */
-            private int indentLevel = 0;
-
-            /** Cached indentation string, {@code null} means it must be recomputed. */
-            private String curIndentText = "";
-
             @Override
             public void line(String message) {
                 // Do nothing if the stream is not enabled.
@@ -143,12 +168,8 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     return;
                 }
 
-                // Update the indentation string if necessary.
-                if (curIndentText == null) {
-                    curIndentText = Strings.spaces(indentLevel * indentSize);
-                }
-
                 // And construct the output.
+                String curIndentText = getIndentText();
                 if (linePrefix != null && !linePrefix.isEmpty()) {
                     message = linePrefix + curIndentText + message + "\n";
                 } else if (!message.isEmpty()) {
@@ -169,17 +190,14 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
             @Override
             public void inc() {
                 if (isEnabled()) {
-                    indentLevel++;
-                    curIndentText = null;
+                    incIndentLevel();
                 }
             }
 
             @Override
             public void dec() {
                 if (isEnabled()) {
-                    Assert.check(indentLevel > 0);
-                    indentLevel--;
-                    curIndentText = null;
+                    decIndentLevel();
                 }
             }
         };

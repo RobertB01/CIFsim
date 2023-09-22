@@ -41,7 +41,7 @@ public interface DebugNormalOutputProvider {
      * Get the normal output stream for this provider. Every call returns the same instance.
      *
      * <p>
-     * This function sets an empty prefix if no debug output stream has been created before.
+     * This function sets an empty prefix if no normal output stream has been created before.
      * </p>
      *
      * @return The constructed normal output stream.
