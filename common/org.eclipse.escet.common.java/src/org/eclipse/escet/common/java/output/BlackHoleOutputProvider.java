@@ -18,7 +18,7 @@ package org.eclipse.escet.common.java.output;
  * normal, warning and/or error output.
  */
 public class BlackHoleOutputProvider implements WarnOutputProvider, ErrorOutputProvider, DebugNormalOutputProvider {
-    /** The black hole that that accepts all output. */
+    /** The black hole that accepts all output. */
     private BlackHoleOutput blackHole = new BlackHoleOutput();
 
     /** Black hole class that accepts all output. */

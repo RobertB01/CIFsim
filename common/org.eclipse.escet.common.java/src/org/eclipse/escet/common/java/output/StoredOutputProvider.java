@@ -153,7 +153,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     message = linePrefix + curIndentText + message + "\n";
                 } else if (!message.isEmpty()) {
                     // Avoid creating an empty line with just indentation. Note than blank messages do get indented as
-                    // technically it can be considered to be a massage.
+                    // technically it can be considered to be a message.
                     message = curIndentText + message + "\n";
                 } else {
                     message = "\n";

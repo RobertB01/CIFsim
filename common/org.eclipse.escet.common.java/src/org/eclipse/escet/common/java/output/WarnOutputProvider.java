@@ -19,7 +19,7 @@ public interface WarnOutputProvider {
      * Get the warning output stream for this provider. Every call returns the same instance.
      *
      * <p>
-     * This function sets the prefix to {@code "WARNING: "} if no warn output stream has been created before.
+     * This function sets the prefix to {@code "WARNING: "} if no warning output stream has been created before.
      * </p>
      *
      * @return The constructed warning output stream.

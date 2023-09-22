@@ -57,7 +57,7 @@ public interface WarnOutput {
     /**
      * Produce an empty line in the output stream if and only if the stream is enabled.
      *
-     * @see #isEnabled()
+     * @see #isEnabled
      */
     public default void line() {
         line("");
