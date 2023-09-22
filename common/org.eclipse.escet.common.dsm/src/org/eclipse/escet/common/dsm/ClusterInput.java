@@ -30,7 +30,7 @@ import org.eclipse.escet.common.java.output.DebugNormalOutput;
  * instance. All other parameters can be freely changed, giving a lot of freedom in tuning them for the problem at hand.
  * </p>
  */
-public class ClusterSettings {
+public class ClusterInput {
     /** Stream for sending debug output. */
     public final DebugNormalOutput debugOut;
 
@@ -68,7 +68,7 @@ public class ClusterSettings {
     public double busInclusion;
 
     /**
-     * Constructor of the {@link ClusterSettings} class.
+     * Constructor of the {@link ClusterInput} class.
      *
      * <p>
      * Clustering is configured with the default parameter values.
@@ -79,12 +79,12 @@ public class ClusterSettings {
      * @param labels Names of the nodes.
      * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
      */
-    public ClusterSettings(RealMatrix adjacencies, Label[] labels, DebugNormalOutput debugOut) {
+    public ClusterInput(RealMatrix adjacencies, Label[] labels, DebugNormalOutput debugOut) {
         this(adjacencies, labels, 2.5, 2, 2.5, 1e-4, NO_BUS, 2, debugOut);
     }
 
     /**
-     * Constructor of the {@link ClusterSettings} class.
+     * Constructor of the {@link ClusterInput} class.
      *
      * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
      *     node {@code j}.
@@ -97,7 +97,7 @@ public class ClusterSettings {
      * @param busInclusion Tuning factor for the bus detection algorithm.
      * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
      */
-    public ClusterSettings(RealMatrix adjacencies, Label[] labels, double evap, int stepCount, double inflation,
+    public ClusterInput(RealMatrix adjacencies, Label[] labels, double evap, int stepCount, double inflation,
             double epsilon, BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion,
             DebugNormalOutput debugOut)
     {

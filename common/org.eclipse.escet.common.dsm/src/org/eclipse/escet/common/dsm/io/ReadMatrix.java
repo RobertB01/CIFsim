@@ -27,7 +27,7 @@ import java.util.function.Function;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.dsm.ClusterSettings;
+import org.eclipse.escet.common.dsm.ClusterInput;
 import org.eclipse.escet.common.dsm.Label;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
@@ -54,7 +54,7 @@ public class ReadMatrix {
      * @return The found cluster input data (adjacency values and labels).
      * @throws InputOutputException In case of a conversion error.
      */
-    static ClusterSettings convertToMatrix(List<List<String>> matrixLines, DebugNormalOutput debugOut) {
+    static ClusterInput convertToMatrix(List<List<String>> matrixLines, DebugNormalOutput debugOut) {
         // Decide on the size of the matrix.
         // Note that rows may be one longer than columns, as row labels are mandatory, while column labels are optional.
         int matRowCount = matrixLines.size();
@@ -137,7 +137,7 @@ public class ReadMatrix {
         }
 
         // Return cluster input data.
-        return new ClusterSettings(adjMat, rowLabels,
+        return new ClusterInput(adjMat, rowLabels,
                 (debugOut != null) ? debugOut : new BlackHoleOutputProvider().getDebugOutput());
     }
 
@@ -180,7 +180,7 @@ public class ReadMatrix {
      * @return The read data.
      * @throws InputOutputException In case of an I/O error, or the file is not in the right format.
      */
-    public static ClusterSettings readMatrixFile(String filepath, DebugNormalOutput debugOut) {
+    public static ClusterInput readMatrixFile(String filepath, DebugNormalOutput debugOut) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
             List<List<String>> matrixLines = readMatrixLines(reader);
             return convertToMatrix(matrixLines, debugOut);

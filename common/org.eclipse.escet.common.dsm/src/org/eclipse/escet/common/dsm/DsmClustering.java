@@ -58,17 +58,17 @@ public class DsmClustering {
     /**
      * Compute flow-based hierarchical Markov clustering of nodes in a graph.
      *
-     * @param clusterSettings Settings for the computation.
+     * @param clusterInput Input and settings for the computation.
      * @return The computed clustered DSM.
      */
-    public static Dsm flowBasedMarkovClustering(ClusterSettings clusterSettings) {
-        RealMatrix adjacencies = clusterSettings.adjacencies;
-        double busInclusion = clusterSettings.busInclusion;
-        double evap = clusterSettings.evap;
-        int stepCount = clusterSettings.stepCount;
-        double inflation = clusterSettings.inflation;
-        double epsilon = clusterSettings.epsilon;
-        DebugNormalOutput dbg = clusterSettings.debugOut;
+    public static Dsm flowBasedMarkovClustering(ClusterInput clusterInput) {
+        RealMatrix adjacencies = clusterInput.adjacencies;
+        double busInclusion = clusterInput.busInclusion;
+        double evap = clusterInput.evap;
+        int stepCount = clusterInput.stepCount;
+        double inflation = clusterInput.inflation;
+        double epsilon = clusterInput.epsilon;
+        DebugNormalOutput dbg = clusterInput.debugOut;
 
         final int size = adjacencies.getRowDimension();
         dbg.line("Flow-based Markov clustering for %d nodes.", size);
@@ -78,7 +78,7 @@ public class DsmClustering {
         clearDiagonal(adjacencies);
         BitSet potentionalBusNodes = ones(size);
         BitSet busNodes = new BitSet();
-        switch (clusterSettings.busDetectionAlgorithm) {
+        switch (clusterInput.busDetectionAlgorithm) {
             case NO_BUS: {
                 // No bus nodes should be detected.
                 break;
@@ -129,7 +129,7 @@ public class DsmClustering {
             rootGroup = new Group(GroupType.COLLECTION, null, groups);
         }
 
-        Dsm dsm = shuffleNodes(adjacenciesOriginal, clusterSettings.labels, rootGroup, dbg);
+        Dsm dsm = shuffleNodes(adjacenciesOriginal, clusterInput.labels, rootGroup, dbg);
         dbg.line("Shuffled nodes of groups near each other:");
         dsm.rootGroup.dbgDump("  ", dbg);
         return dsm;

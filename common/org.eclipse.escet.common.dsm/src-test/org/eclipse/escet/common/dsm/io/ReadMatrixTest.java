@@ -22,7 +22,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.dsm.ClusterSettings;
+import org.eclipse.escet.common.dsm.ClusterInput;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link ReadMatrix} class. */
@@ -42,62 +42,62 @@ public class ReadMatrixTest {
     @Test
     public void testConvertToMatrixWithColumnLabels() {
         List<List<String>> lines = list(list("", "A", "B"), list("A", "0", "1"), list("B", "0.1", "1e-4"));
-        ClusterSettings settings = ReadMatrix.convertToMatrix(lines, null);
-        assertEquals(2, settings.labels.length);
-        assertEquals("A", settings.labels[0].toString());
-        assertEquals("B", settings.labels[1].toString());
-        assertEquals(2, settings.adjacencies.getRowDimension());
-        assertEquals(2, settings.adjacencies.getColumnDimension());
-        assertEquals(0.0, settings.adjacencies.getEntry(0, 0), 0.0);
-        assertEquals(1.0, settings.adjacencies.getEntry(0, 1), 0.0);
-        assertEquals(0.1, settings.adjacencies.getEntry(1, 0), 0.0);
-        assertEquals(1e-4, settings.adjacencies.getEntry(1, 1), 0.0);
+        ClusterInput custerInput = ReadMatrix.convertToMatrix(lines, null);
+        assertEquals(2, custerInput.labels.length);
+        assertEquals("A", custerInput.labels[0].toString());
+        assertEquals("B", custerInput.labels[1].toString());
+        assertEquals(2, custerInput.adjacencies.getRowDimension());
+        assertEquals(2, custerInput.adjacencies.getColumnDimension());
+        assertEquals(0.0, custerInput.adjacencies.getEntry(0, 0), 0.0);
+        assertEquals(1.0, custerInput.adjacencies.getEntry(0, 1), 0.0);
+        assertEquals(0.1, custerInput.adjacencies.getEntry(1, 0), 0.0);
+        assertEquals(1e-4, custerInput.adjacencies.getEntry(1, 1), 0.0);
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void testConvertToMatrixWithoutColumnLabels() {
         List<List<String>> lines = list(list("A", "0", "1"), list("B", "0.1", "1e-4"));
-        ClusterSettings settings = ReadMatrix.convertToMatrix(lines, null);
-        assertEquals(2, settings.labels.length);
-        assertEquals("A", settings.labels[0].toString());
-        assertEquals("B", settings.labels[1].toString());
-        assertEquals(2, settings.adjacencies.getRowDimension());
-        assertEquals(2, settings.adjacencies.getColumnDimension());
-        assertEquals(0.0, settings.adjacencies.getEntry(0, 0), 0.0);
-        assertEquals(1.0, settings.adjacencies.getEntry(0, 1), 0.0);
-        assertEquals(0.1, settings.adjacencies.getEntry(1, 0), 0.0);
-        assertEquals(1e-4, settings.adjacencies.getEntry(1, 1), 0.0);
+        ClusterInput custerInput = ReadMatrix.convertToMatrix(lines, null);
+        assertEquals(2, custerInput.labels.length);
+        assertEquals("A", custerInput.labels[0].toString());
+        assertEquals("B", custerInput.labels[1].toString());
+        assertEquals(2, custerInput.adjacencies.getRowDimension());
+        assertEquals(2, custerInput.adjacencies.getColumnDimension());
+        assertEquals(0.0, custerInput.adjacencies.getEntry(0, 0), 0.0);
+        assertEquals(1.0, custerInput.adjacencies.getEntry(0, 1), 0.0);
+        assertEquals(0.1, custerInput.adjacencies.getEntry(1, 0), 0.0);
+        assertEquals(1e-4, custerInput.adjacencies.getEntry(1, 1), 0.0);
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void testConvertToMatrixJagged() {
         List<List<String>> lines = list(list("A", "0", "1", "", "3"), list("B"), list("C", "4"), list("D", "5", "6"));
-        ClusterSettings settings = ReadMatrix.convertToMatrix(lines, null);
-        assertEquals(4, settings.labels.length);
-        assertEquals("A", settings.labels[0].toString());
-        assertEquals("B", settings.labels[1].toString());
-        assertEquals("C", settings.labels[2].toString());
-        assertEquals("D", settings.labels[3].toString());
-        assertEquals(4, settings.adjacencies.getRowDimension());
-        assertEquals(4, settings.adjacencies.getColumnDimension());
-        assertEquals(0.0, settings.adjacencies.getEntry(0, 0), 0.0);
-        assertEquals(1.0, settings.adjacencies.getEntry(0, 1), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(0, 2), 0.0);
-        assertEquals(3.0, settings.adjacencies.getEntry(0, 3), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(1, 0), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(1, 1), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(1, 2), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(1, 3), 0.0);
-        assertEquals(4.0, settings.adjacencies.getEntry(2, 0), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(2, 1), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(2, 2), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(2, 3), 0.0);
-        assertEquals(5.0, settings.adjacencies.getEntry(3, 0), 0.0);
-        assertEquals(6.0, settings.adjacencies.getEntry(3, 1), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(3, 2), 0.0);
-        assertEquals(0.0, settings.adjacencies.getEntry(3, 3), 0.0);
+        ClusterInput custerInput = ReadMatrix.convertToMatrix(lines, null);
+        assertEquals(4, custerInput.labels.length);
+        assertEquals("A", custerInput.labels[0].toString());
+        assertEquals("B", custerInput.labels[1].toString());
+        assertEquals("C", custerInput.labels[2].toString());
+        assertEquals("D", custerInput.labels[3].toString());
+        assertEquals(4, custerInput.adjacencies.getRowDimension());
+        assertEquals(4, custerInput.adjacencies.getColumnDimension());
+        assertEquals(0.0, custerInput.adjacencies.getEntry(0, 0), 0.0);
+        assertEquals(1.0, custerInput.adjacencies.getEntry(0, 1), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(0, 2), 0.0);
+        assertEquals(3.0, custerInput.adjacencies.getEntry(0, 3), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(1, 0), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(1, 1), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(1, 2), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(1, 3), 0.0);
+        assertEquals(4.0, custerInput.adjacencies.getEntry(2, 0), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(2, 1), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(2, 2), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(2, 3), 0.0);
+        assertEquals(5.0, custerInput.adjacencies.getEntry(3, 0), 0.0);
+        assertEquals(6.0, custerInput.adjacencies.getEntry(3, 1), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(3, 2), 0.0);
+        assertEquals(0.0, custerInput.adjacencies.getEntry(3, 3), 0.0);
     }
 
     @SuppressWarnings("javadoc")
