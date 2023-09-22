@@ -19,10 +19,10 @@ package org.eclipse.escet.common.java.output;
  */
 public class BlackHoleOutputProvider implements WarnOutputProvider, ErrorOutputProvider, DebugNormalOutputProvider {
     /** The black hole that accepts all output. */
-    private BlackHoleOutput blackHole = new BlackHoleOutput();
+    private static final BlackHoleOutput BLACK_HOLE = new BlackHoleOutput();
 
     /** Black hole class that accepts all output. */
-    private class BlackHoleOutput implements DebugNormalOutput, WarnOutput, ErrorOutput {
+    private static class BlackHoleOutput implements DebugNormalOutput, WarnOutput, ErrorOutput {
         @Override
         public boolean isEnabled() {
             return false;
@@ -56,22 +56,22 @@ public class BlackHoleOutputProvider implements WarnOutputProvider, ErrorOutputP
 
     @Override
     public DebugNormalOutput getDebugOutput(String linePrefix) {
-        return blackHole;
+        return BLACK_HOLE;
     }
 
     @Override
     public DebugNormalOutput getNormalOutput(String linePrefix) {
-        return blackHole;
+        return BLACK_HOLE;
     }
 
     @Override
     public ErrorOutput getErrorOutput(String linePrefix) {
-        return blackHole;
+        return BLACK_HOLE;
     }
 
     @Override
     public WarnOutput getWarnOutput(String linePrefix) {
-        return blackHole;
+        return BLACK_HOLE;
     }
 
     @Override
