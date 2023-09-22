@@ -25,7 +25,7 @@ public class DebugNormalOutputTest {
      *
      * @param stream Output stream to use.
      */
-    private void useWarnStream(DebugNormalOutput stream) {
+    private void useStream(DebugNormalOutput stream) {
         stream.line("hello world");
         stream.inc();
         stream.line();
@@ -38,7 +38,7 @@ public class DebugNormalOutputTest {
     public void testDebugBlackHoleOutput() {
         DebugNormalOutputProvider outputProvider = new BlackHoleOutputProvider();
         DebugNormalOutput dbg = outputProvider.getDebugOutput();
-        useWarnStream(dbg);
+        useStream(dbg);
         String expected = "";
         assertEquals(expected, outputProvider.toString());
     }
@@ -48,7 +48,7 @@ public class DebugNormalOutputTest {
     public void testDebugStoredOutput() {
         DebugNormalOutputProvider outputProvider = new StoredOutputProvider();
         DebugNormalOutput dbg = outputProvider.getDebugOutput();
-        useWarnStream(dbg);
+        useStream(dbg);
         String expected = """
                 hello world
 
@@ -62,7 +62,7 @@ public class DebugNormalOutputTest {
     public void testDisabledDebugStoredOutput() {
         DebugNormalOutputProvider outputProvider = new StoredOutputProvider(false, true, true);
         DebugNormalOutput dbg = outputProvider.getDebugOutput();
-        useWarnStream(dbg);
+        useStream(dbg);
         String expected = "";
         assertEquals(expected, outputProvider.toString());
     }
@@ -72,7 +72,7 @@ public class DebugNormalOutputTest {
     public void testNormalStoredOutput() {
         DebugNormalOutputProvider outputProvider = new StoredOutputProvider();
         DebugNormalOutput out = outputProvider.getNormalOutput();
-        useWarnStream(out);
+        useStream(out);
         String expected = """
                 hello world
 
@@ -86,9 +86,9 @@ public class DebugNormalOutputTest {
     public void testMultiIndentNormalStoredOutput() {
         DebugNormalOutputProvider outputProvider = new StoredOutputProvider();
         DebugNormalOutput out = outputProvider.getNormalOutput();
-        useWarnStream(out);
+        useStream(out);
         out.inc();
-        useWarnStream(out);
+        useStream(out);
         out.dec();
         String expected = """
                 hello world
@@ -97,6 +97,35 @@ public class DebugNormalOutputTest {
                     hello world
 
                         >123<
+                """;
+        assertEquals(expected, outputProvider.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMultiStreamStoredOutput() {
+        StoredOutputProvider outputProvider = new StoredOutputProvider();
+        DebugNormalOutput out = outputProvider.getNormalOutput();
+        DebugNormalOutput dbg = outputProvider.getDebugOutput();
+        WarnOutput warn = outputProvider.getWarnOutput();
+        ErrorOutput err = outputProvider.getErrorOutput();
+        out.line("normal");
+        dbg.line("debug");
+        out.inc();
+        warn.line("warning ignores indenting");
+        err.line("error ignores indenting");
+        out.line("out does indent");
+        dbg.line("debug does indent");
+        out.dec();
+        dbg.line("debug done");
+        String expected = """
+                normal
+                debug
+                WARNING: warning ignores indenting
+                ERROR: error ignores indenting
+                    out does indent
+                    debug does indent
+                debug done
                 """;
         assertEquals(expected, outputProvider.toString());
     }
