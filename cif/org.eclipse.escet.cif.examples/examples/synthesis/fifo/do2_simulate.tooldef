@@ -16,4 +16,4 @@
 
 from "lib:cif" import *;
 
-cifsim("fifo.simulation.cif -i svg --frame-rate=10");
+cifsim("fifo.simulation.cif -i svg --frame-rate=30");
