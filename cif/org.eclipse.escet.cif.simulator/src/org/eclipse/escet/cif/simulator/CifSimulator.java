@@ -368,6 +368,10 @@ public final class CifSimulator {
 
             // Choose a transition.
             Transition<?> transition = state.chooseTransition(state, transitions, simulationResult);
+            if (transition == null) {
+                // No transition has been chosen. Try again.
+                continue;
+            }
             ctxt.checkTermination();
 
             // Get target time (for time transitions).
