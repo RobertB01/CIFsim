@@ -286,6 +286,9 @@ Explains how computers implement stochastics using pseudo-random number generato
 <<lang-tut-extensions-chapter-synthesis>>::
 Explains how to extend a model to make it suitable for supervisory controller synthesis.
 
+<<lang-tut-extensions-chapter-annotations>>::
+Explains how to annotate elements of the specification with extra information.
+
 <<tools-cifsim-output-print-chapter-index,Print output>>::
 Explains how to extend a model to include printing of textual output.
 +

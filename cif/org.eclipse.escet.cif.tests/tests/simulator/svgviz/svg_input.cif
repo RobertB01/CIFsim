@@ -99,7 +99,7 @@ svgout id "vd" text value fmt("vd = %s", aut_d.vd);
 
 svgin id "x7" event d;
 
-// Chosen interactive event not enabled (deadlock, with warning).
+// Chosen interactive event not enabled (show warning).
 svgin id "x8" event e;
 
 // Clicking on object that results in hiding itself (keep pushed a few secs).

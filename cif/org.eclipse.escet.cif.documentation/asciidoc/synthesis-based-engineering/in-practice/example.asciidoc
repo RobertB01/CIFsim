@@ -259,6 +259,17 @@ svgout id "chk-rslt"        attr "fill"       value switch CHK:
                                                     end;
 ----
 
+By using <<tools-cifsim-input-svg-chapter-svgin,CIF/SVG input mappings>>, certain elements of the SVG image can be clicked to trigger events in the model.
+Here are some examples:
+
+[source, cif]
+----
+svgin id "enter"    event c_enter;
+svgin id "start"    event c_start;
+svgin id "finished" event c_finished;
+svgin id "exit"     event c_exit;
+----
+
 The following figure shows a potential visualization of the state of the system during a simulation:
 
 image:{sbe-imgsdir}/example_fifo_sim_viz.png[]
@@ -298,6 +309,10 @@ end
 As products enter (event `c_enter`) or exit (event `c_exit`) the variables are updated as needed.
 The variables are used in the CIF/SVG output mappings.
 
+The labeled arrows in the figure can be clicked to trigger their corresponding events.
+For example, clicking the arrow labeled with `enter` triggers event `c_enter`.
+When an arrow is clicked and the corresponding event is not enabled, a warning will be printed to the console.
+
 === Simulating the supervised system
 
 Similar to having a script to perform synthesis, a script is present to perform simulation (file `do2_simulate.tooldef`):
@@ -306,20 +321,15 @@ Similar to having a script to perform synthesis, a script is present to perform 
 ----
 from "lib:cif" import *;
 
-cifsim("fifo.simulation.cif -i gui");
+cifsim("fifo.simulation.cif -i svg --frame-rate=30");
 ----
 
 This script also imports the CIF tools.
 It then starts the <<tools-cifsim-chapter-index,CIF simulator>>.
-It configures some of the <<tools-cifsim-chapter-options,simulator's options>>, among others to indicate the simulation model as model to simulate.
+It configures some of the <<tools-cifsim-chapter-options,simulator's options>>, among others to indicate the simulation model to simulate.
 
 Start the script as before.
-Simulation will start and open two windows within the Eclipse ESCET IDE.
-One <<tools-cifsim-output-svgviz-chapter-viewer,shows the visualization>>.
-The other allows events to be triggered in the system <<tools-cifsim-input-chapter-gui,by clicking buttons>>.
-The following figure shows an example of what this could look like during a simulation:
-
-image:{sbe-imgsdir}/example_fifo_sim_and_interact.png[]
+Simulation will start and <<tools-cifsim-output-svgviz-chapter-viewer,show the visualization>>.
 
 === Manually modeled supervisor
 

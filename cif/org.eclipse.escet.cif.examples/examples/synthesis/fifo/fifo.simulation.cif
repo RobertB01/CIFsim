@@ -73,3 +73,15 @@ svgout id "chk-rslt" attr "fill" value switch CHK:
                                          case Success: COLOR_SUCCESS
                                          case Failure: COLOR_FAILURE
                                        end;
+
+// Map clicks on the SVG image to events.
+svgin id "enter"    event c_enter;
+svgin id "start"    event c_start;
+svgin id "do1"      event c_do1;
+svgin id "do2"      event c_do2;
+svgin id "done1"    event c_done1;
+svgin id "done2"    event c_done2;
+svgin id "redo"     event c_redo;
+svgin id "leave"    event c_leave;
+svgin id "finished" event c_finished;
+svgin id "exit"     event c_exit;
