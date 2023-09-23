@@ -41,7 +41,7 @@ public class CifToUppaalApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToUppaalApp app = new CifToUppaalApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToUppaalApp} class. */

@@ -57,7 +57,7 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
      */
     public static void main(String[] args) {
         SupervisorSynthesisApplication app = new SupervisorSynthesisApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SupervisorSynthesisApplication} class. */

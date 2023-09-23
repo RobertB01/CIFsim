@@ -170,42 +170,19 @@ public abstract class Application<T extends IOutputComponent> {
      * </p>
      *
      * @param args The command line arguments supplied to the application.
-     * @return The application exit code, but only if called from an Eclipse (OSGi platform) environment. See the
-     *     application framework documentation for a description of the exit codes.
+     * @param exit If enabled this method never returns and terminate the application after completion using the
+     *     {@link System#exit} method. When disabled this method returns the exit code of the application.
+     * @return The application exit code, but only if called while {@code exit} is disabled. See the application
+     *     framework documentation for a description of the exit codes.
      */
-    public final int run(String[] args) {
+    public final int run(String[] args, boolean exit) {
         // Add application to application manager.
         AppManager.add(this, null);
 
         // Run the application.
         int exitCode;
         try {
-            exitCode = run(args, true);
-        } finally {
-            // Remove application from application manager.
-            AppManager.remove(this);
-        }
-
-        // Return exit code.
-        return exitCode;
-    }
-
-    /**
-     * Runs the actual application, in the application framework. Should in general be called from Eclipse plug-in unit
-     * tests.
-     *
-     * @param args The command line arguments supplied to the application.
-     * @return The application exit code. See the application framework documentation for a description of the exit
-     *     codes.
-     */
-    public final int runTest(String[] args) {
-        // Add application to application manager.
-        AppManager.add(this, null);
-
-        // Run the application.
-        int exitCode;
-        try {
-            exitCode = run(args, false);
+            exitCode = runApplication(args, exit);
         } finally {
             // Remove application from application manager.
             AppManager.remove(this);
@@ -233,7 +210,7 @@ public abstract class Application<T extends IOutputComponent> {
      * @return The application exit code, but only if called from an Eclipse (OSGi platform) environment. See the
      *     application framework documentation for a description of the exit codes.
      */
-    public final int run(String[] args, boolean exit) {
+    public final int runApplication(String[] args, boolean exit) {
         // Make sure application is added to application manager.
         if (!AppManager.checkExists(this)) {
             throw new RuntimeException("Application is not known by the application manager.");
@@ -431,7 +408,7 @@ public abstract class Application<T extends IOutputComponent> {
         }
 
         // Process exit code.
-        if (!exit || (Platform.isRunning())) {
+        if (!exit) {
             // We can't use {@link System#exit} in Eclipse, as it would shut
             // down the JVM, and thus Eclipse. So, we simply return the exit
             // code. The application main methods should decide what to do with
@@ -439,7 +416,7 @@ public abstract class Application<T extends IOutputComponent> {
             return exitCode;
         }
 
-        // As Java application or Test.
+        // As Java application.
         System.exit(exitCode);
         return 0; // Never reached.
     }

@@ -124,7 +124,7 @@ public class AppEclipseApplication implements IApplication {
         Application<?> app = appConstructor.newInstance();
 
         // Run application.
-        app.run(cmdLineArgs);
+        app.run(cmdLineArgs, false);
 
         // Never reached. Needed to satisfy compiler.
         return IApplication.EXIT_OK;

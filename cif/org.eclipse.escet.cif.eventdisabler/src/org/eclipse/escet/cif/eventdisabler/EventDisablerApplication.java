@@ -50,7 +50,7 @@ public class EventDisablerApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         EventDisablerApplication app = new EventDisablerApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link EventDisablerApplication} class. */

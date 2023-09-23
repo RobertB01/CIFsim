@@ -53,7 +53,7 @@ public class ProjectionApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ProjectionApplication app = new ProjectionApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ProjectionApplication} class. */

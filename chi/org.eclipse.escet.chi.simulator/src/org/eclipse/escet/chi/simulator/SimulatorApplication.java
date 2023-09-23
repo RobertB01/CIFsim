@@ -80,7 +80,7 @@ public class SimulatorApplication extends Application<OutputComponentBase> {
      */
     public static void main(String[] args) {
         SimulatorApplication app = new SimulatorApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SimulatorApplication} class. */

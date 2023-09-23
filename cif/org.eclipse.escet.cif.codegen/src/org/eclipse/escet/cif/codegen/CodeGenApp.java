@@ -51,7 +51,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CodeGenApp app = new CodeGenApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CodeGenApp} class. */

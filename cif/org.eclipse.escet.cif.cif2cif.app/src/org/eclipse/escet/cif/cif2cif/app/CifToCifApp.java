@@ -43,7 +43,7 @@ public class CifToCifApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToCifApp app = new CifToCifApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToCifApp} class. */

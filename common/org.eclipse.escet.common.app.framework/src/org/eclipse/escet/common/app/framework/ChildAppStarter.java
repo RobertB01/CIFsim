@@ -278,7 +278,7 @@ public class ChildAppStarter {
                 // to ensure the application properly cleans up after itself.
                 // In such cases, only application framework code will run, no
                 // user code.
-                int appExitCode = app.get().run(args, false);
+                int appExitCode = app.get().runApplication(args, false);
 
                 // Remove application from the application manager.
                 AppManager.remove(app.get());

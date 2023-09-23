@@ -55,7 +55,7 @@ public class CifToYedApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToYedApp app = new CifToYedApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToYedApp} class. */

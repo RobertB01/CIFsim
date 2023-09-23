@@ -37,7 +37,7 @@ public class SeTextGeneratorApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         SeTextGeneratorApp app = new SeTextGeneratorApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SeTextGeneratorApp} class. */

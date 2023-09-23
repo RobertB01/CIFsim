@@ -52,7 +52,7 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         DfaMinimizationApplication app = new DfaMinimizationApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link DfaMinimizationApplication} class. */

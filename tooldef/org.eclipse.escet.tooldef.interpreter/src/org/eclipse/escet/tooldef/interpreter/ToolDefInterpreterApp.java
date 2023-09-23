@@ -57,7 +57,7 @@ public class ToolDefInterpreterApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ToolDefInterpreterApp app = new ToolDefInterpreterApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ToolDefInterpreterApp} class. */

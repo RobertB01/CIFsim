@@ -83,7 +83,7 @@ public class CifSimulatorApp extends Application<SimulatorOutputComponent> {
      */
     public static void main(String[] args) {
         CifSimulatorApp app = new CifSimulatorApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifSimulatorApp} class. */

@@ -40,7 +40,7 @@ public class SynthesisAnalysisApplication extends Application<IOutputComponent> 
      */
     public static void main(String[] args) {
         SynthesisAnalysisApplication app = new SynthesisAnalysisApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SynthesisAnalysisApplication} class. */

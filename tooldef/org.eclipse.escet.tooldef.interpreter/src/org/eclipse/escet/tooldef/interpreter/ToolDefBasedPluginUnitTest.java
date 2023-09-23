@@ -51,7 +51,7 @@ public abstract class ToolDefBasedPluginUnitTest {
 
         ToolDefInterpreterApp app = new ToolDefInterpreterApp();
         app.getAppEnvData().getProperties().set("user.dir", scriptDir.toString());
-        int exitCode = app.runTest(new String[] {scriptFilename});
+        int exitCode = app.run(new String[] {scriptFilename}, false);
         if (exitCode != 0) {
             throw new AssertionError(Integer.toString(exitCode) + " tests failed. See console output for details.");
         }

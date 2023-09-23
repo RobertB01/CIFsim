@@ -64,7 +64,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ControllerCheckApp app = new ControllerCheckApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ControllerCheckApp} class. */
