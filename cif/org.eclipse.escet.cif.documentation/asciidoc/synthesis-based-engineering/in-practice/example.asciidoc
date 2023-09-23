@@ -259,7 +259,7 @@ svgout id "chk-rslt"        attr "fill"       value switch CHK:
                                                     end;
 ----
 
-By using <<tools-cifsim-input-svg-chapter-svgin,CIF/SVG input mappings>>, clicks on elements in SVG image trigger events in the model.
+By using <<tools-cifsim-input-svg-chapter-svgin,CIF/SVG input mappings>>, certain elements of the SVG image can be clicked to trigger events in the model.
 Here are some examples:
 
 [source, cif]
@@ -309,9 +309,9 @@ end
 As products enter (event `c_enter`) or exit (event `c_exit`) the variables are updated as needed.
 The variables are used in the CIF/SVG output mappings.
 
-The labeled edges in the figure can be clicked to trigger the corresponding event.
-For example, clicking the edge labeled with `enter` triggers event `c_enter`.
-When an edge is clicked and the corresponding event is not enabled, a warning will be printed to the console.
+The labeled arrows in the figure can be clicked to trigger their corresponding events.
+For example, clicking the arrow labeled with `enter` triggers event `c_enter`.
+When an arrow is clicked and the corresponding event is not enabled, a warning will be printed to the console.
 
 === Simulating the supervised system
 
@@ -326,7 +326,7 @@ cifsim("fifo.simulation.cif -i svg --frame-rate=30");
 
 This script also imports the CIF tools.
 It then starts the <<tools-cifsim-chapter-index,CIF simulator>>.
-It configures some of the <<tools-cifsim-chapter-options,simulator's options>>, among others to indicate the simulation model as model to simulate.
+It configures some of the <<tools-cifsim-chapter-options,simulator's options>>, among others to indicate the simulation model to simulate.
 
 Start the script as before.
 Simulation will start and <<tools-cifsim-output-svgviz-chapter-viewer,show the visualization>>.
