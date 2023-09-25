@@ -19,23 +19,22 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 
 /** PLC IO table path option. */
 public class IoTablePathOption extends StringOption {
+    /** The description of the option. */
+    private static final String DESCRIPTION = "The path of the CSV file that contains the types and PLC memory "
+            + "addresses of the input/output variables. By default, the path to the input CIF file is used, with its "
+            + "\".cif\" file extension removed if present, and the \".csv\" file extension added.";
+
     /** Constructor for the {@link IoTablePathOption} class. */
     public IoTablePathOption() {
         super("I/O table path", // name.
-                "The path of the CSV file that contains the types and PLC memory addresses "
-                        + "of the input/output variables. By default, the path to the input "
-                        + "CIF file is used, with its \".cif\" file extension removed if present, "
-                        + "and the \".csv" file extension added.", // description.
+                DESCRIPTION, // description.
                 null, // cmdShort.
                 "io-table-path", // cmdLong.
                 "TABLEPATH", // cmdValue.
                 null, // defaultValue.
                 true, // emptyAsNull.
                 true, // showInDialog.
-            "The path of the CSV file that contains the types and PLC memory addresses "
-                    + "of the input/output variables. By default, the path to the input "
-                    + "CIF file is used, with its \".cif\" file extension removed if present, "
-                    + "and the \".csv" file extension added."", // optDialogDescr.
+                DESCRIPTION, // optDialogDescr.
                 "Path:"); // optDialogLabelText.
     }
 
