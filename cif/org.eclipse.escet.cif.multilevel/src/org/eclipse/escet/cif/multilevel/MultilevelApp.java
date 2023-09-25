@@ -177,9 +177,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Figure 1 of Goorden 2020: And cluster the DSM.
         dbg("--- Start of clustering --");
         idbg();
-        ClusterInput clusteringData = new ClusterInput(unclusteredMatrix, reqsPlantsDmm.columnLabels,
+        ClusterInput clusteringInput = new ClusterInput(unclusteredMatrix, reqsPlantsDmm.columnLabels,
                 OutputProvider.getDebugOutputStream());
-        Dsm clusteredDsm = DsmClustering.flowBasedMarkovClustering(clusteringData);
+        Dsm clusteredDsm = DsmClustering.flowBasedMarkovClustering(clusteringInput);
         ddbg();
         dbg("--- End of clustering --");
         dbg();
