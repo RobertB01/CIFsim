@@ -85,7 +85,6 @@ public class DefaultVariableStorage implements VariableStorage {
         // Generate initialization code and store it.
         List<PlcStatement> statements = list();
         // TODO Initialize the constants if not done in its declaration.
-        // TODO Initialize input variables by reading the sensors.
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
             ExprValueResult exprResult;
