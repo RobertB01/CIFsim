@@ -134,15 +134,15 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global constants table.
      *
-     * @param var Variable to add. Name is assumed to be unique.
+     * @param plcVar Variable to add. Name is assumed to be unique.
      */
-    public void addConstant(PlcVariable var) {
+    public void addConstant(PlcVariable plcVar) {
         Assert.check(target.supportsConstants());
 
         if (globalConstants == null) {
             globalConstants = new PlcGlobalVarList("CONSTANTS", true);
         }
-        globalConstants.variables.add(var);
+        globalConstants.variables.add(plcVar);
     }
 
     /**
@@ -267,7 +267,7 @@ public class PlcCodeStorage {
 
         // Add input code if it exists.
         if (inputFuncCode != null) {
-            generateCommentHeader("Read input from sensors", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             textGenerator.toText(inputFuncCode, box, main.name, false);
@@ -275,7 +275,7 @@ public class PlcCodeStorage {
 
         // Add initialization code if it exists.
         if (stateInitializationCode != null) {
-            generateCommentHeader("Initialize state", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Initialize state.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             // Insert code to create the initial state.
@@ -294,7 +294,7 @@ public class PlcCodeStorage {
 
         // Add event transitions code.
         if (eventTransitionsIterationCode != null) {
-            generateCommentHeader("Process all events", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
 
             String progressVarName = getIsProgressVariable().name;
             box.add("%s := TRUE;", progressVarName);
@@ -310,7 +310,7 @@ public class PlcCodeStorage {
 
         // Generate output code if it exists. */
         if (outputFuncCode != null) {
-            generateCommentHeader("Write output to actuators", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             textGenerator.toText(outputFuncCode, box, main.name, false);
@@ -347,7 +347,7 @@ public class PlcCodeStorage {
         char[] afterText = {' '};
 
         int layoutLength = pre.length + afterText.length + post.length;
-        length = layoutLength + Math.min(length, layoutLength + text.length());
+        length = Math.max(length, layoutLength + text.length());
 
         char[] line = new char[length];
         Arrays.fill(line, dashChar);
