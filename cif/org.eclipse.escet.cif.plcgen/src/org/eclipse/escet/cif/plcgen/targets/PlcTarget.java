@@ -170,14 +170,14 @@ public interface PlcTarget {
      * If the entry is not acceptable, it should be reported to the user with an {@link InvalidInputException}.
      * </p>
      *
-     * @param parsedAddress The parsed I/O address.
+     * @param address The I/O address tp verify.
      * @param plcTableType Type of the I/O data being transferred.
      * @param directionFromCif Kind of the I/O table entry.
      * @param tableLinePositionText Text describing the table line for this entry, to use for reporting an error. The
      *     text is {@code "at line ... of I/O table file \"..."}.
      * @throws InputOutputException If the provided entry is not acceptable to the target.
      */
-    public abstract void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
+    public abstract void verifyIoTableEntry(IoAddress address, PlcType plcTableType, IoDirection directionFromCif,
             String tableLinePositionText);
 
     /**
