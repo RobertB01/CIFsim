@@ -157,7 +157,7 @@ public interface PlcTarget {
      * Parse a PLC I/O address.
      *
      * @param plcAddressText Text to parse.
-     * @return The parsed address information and its properties.
+     * @return The parsed address information and its properties or {@code null} if the text cannot be parsed.
      */
     public default IoAddress parseIoAddress(String plcAddressText) {
         return DefaultIoAddress.parseAddress(plcAddressText);

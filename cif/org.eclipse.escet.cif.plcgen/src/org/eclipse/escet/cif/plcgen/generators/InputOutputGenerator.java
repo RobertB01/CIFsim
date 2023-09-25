@@ -177,6 +177,11 @@ public class InputOutputGenerator {
                     throw new InvalidInputException(message);
                 }
                 IoAddress plcAddress = target.parseIoAddress(plcAddressText);
+                if (plcAddress == null) {
+                    String message = fmt("The 'address' field does not have a correct form (first field %s).",
+                            tableLinePositionText);
+                    throw new InvalidInputException(message);
+                }
 
                 // Check for output conflicts (multiple uses of a PLC output).
                 if (directionFromCif.equals(IoDirection.IO_WRITE)) {
