@@ -140,19 +140,19 @@ public class InputOutputGenerator {
                 PlcType plcTableType = checkIoType(plcTableTypeText, tableLinePositionText);
 
                 // Third field, the CIF object path to connect to the I/O address.
-                String cifNamePath = line.get(2).trim();
+                String absCifName = line.get(2).trim();
                 PositionObject cifObj;
                 try {
-                    cifObj = target.getCifProcessor().findCifObjectByPath(cifNamePath);
+                    cifObj = target.getCifProcessor().findCifObjectByPath(absCifName);
                 } catch (IllegalArgumentException ex) {
                     String message = fmt(
                             "The 'CIF name' field containing \"%s\" could not be fully matched (third field %s).",
-                            cifNamePath, tableLinePositionText);
+                            absCifName, tableLinePositionText);
                     throw new InvalidInputException(message, ex);
                 }
 
                 // Verify the returned CIF object.
-                PlcType plcTypeFromCif = decideTypeFromCif(cifNamePath, cifObj, tableLinePositionText);
+                PlcType plcTypeFromCif = decideTypeFromCif(absCifName, cifObj, tableLinePositionText);
                 IoDirection directionFromCif = decideIoDirectionFromCif(cifObj);
 
                 // Don't allow 2 uses for input with the same CIF object.
@@ -168,7 +168,7 @@ public class InputOutputGenerator {
                 }
 
                 // Check that the type from CIF does not conflict with the PLC table type and settle on the final type.
-                plcTableType = decidePlcType(plcTableType, cifNamePath, plcTypeFromCif, tableLinePositionText);
+                plcTableType = decidePlcType(plcTableType, absCifName, plcTypeFromCif, tableLinePositionText);
 
                 // First field, the I/O address. Convert to the parsed form.
                 String plcAddressText = line.get(0).trim();
@@ -278,12 +278,12 @@ public class InputOutputGenerator {
      * Make the final decision about the PLC type of the I/O value.
      *
      * @param plcTableType PLC type stated in the CSV file, may be {@code null}.
-     * @param cifNamePath CIF object connected to the I/O address.
+     * @param absCifName Absolute name of the CIF object connected to the I/O address.
      * @param plcTypeFromCif PLC type related to the CIF object.
      * @param tableLinePositionText Text for reporting about the CSV line.
      * @return The final PLC type to use for the I/O entry.
      */
-    private PlcType decidePlcType(PlcType plcTableType, String cifNamePath, PlcType plcTypeFromCif,
+    private PlcType decidePlcType(PlcType plcTableType, String absCifName, PlcType plcTypeFromCif,
             String tableLinePositionText)
     {
         Assert.notNull(plcTypeFromCif); // This is assumed in the next code block.
@@ -291,7 +291,7 @@ public class InputOutputGenerator {
             if (!plcTableType.equals(plcTypeFromCif)) {
                 String message = fmt("The type stated in the 'PLC type' field does not correspond with the type "
                         + "of the connected CIF variable from the 'CIF name' field containing \"%s\", "
-                        + "for the entry %s.", cifNamePath, tableLinePositionText);
+                        + "for the entry %s.", absCifName, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
             // TODO Allow for a different sized type, like DINT <-> INT, REAL <-> LREAL, etc.
@@ -300,7 +300,7 @@ public class InputOutputGenerator {
             if (!FEASIBLE_IO_VAR_TYPES.contains(plcTypeFromCif)) {
                 String message = fmt(
                         "The type of CIF variable \"%s\" is not a usable type for input/output (third field %s).",
-                        cifNamePath, tableLinePositionText);
+                        absCifName, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
             plcTableType = plcTypeFromCif; // Use found CIF type as the I/O table type.
