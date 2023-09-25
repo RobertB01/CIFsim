@@ -78,7 +78,7 @@
         },
         {
             "script_name": "cifexplorer",
-            "plugin_name": "org.eclipse.escet.cif.explorer.app",
+            "plugin_name": "org.eclipse.escet.cif.explorer",
             "class_name": "org.eclipse.escet.cif.explorer.app.ExplorerApplication"
         },
         {
