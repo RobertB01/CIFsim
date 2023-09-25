@@ -27,7 +27,7 @@ import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
-import org.eclipse.escet.cif.plcgen.generators.io.IoKind;
+import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -263,7 +263,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
     }
 
     @Override
-    public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoKind kindFromCif,
+    public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
             String tableLinePositionText)
     {
         // Accept all entries.

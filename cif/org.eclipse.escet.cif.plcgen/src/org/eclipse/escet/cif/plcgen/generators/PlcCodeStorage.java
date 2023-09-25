@@ -80,10 +80,10 @@ public class PlcCodeStorage {
     /** If not {@code null}, code to perform one iteration of all events. */
     private List<PlcStatement> eventTransitionsIterationCode = null;
 
-    /** If not {@code null}, code for copying IO input to CIF state. */
+    /** If not {@code null}, code for copying I/O input to CIF state. */
     private List<PlcStatement> inputFuncCode = null;
 
-    /** If not {@code null}, code for copying CIF state to IO output. */
+    /** If not {@code null}, code for copying CIF state to I/O output. */
     private List<PlcStatement> outputFuncCode = null;
 
     /**
@@ -218,7 +218,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add code for copying input IO to CIF state.
+     * Add code for copying input I/O to CIF state.
      *
      * @param inputFuncCode Code of the input function.
      */
@@ -230,7 +230,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add code for copying CIF state to output IO.
+     * Add code for copying CIF state to output I/O.
      *
      * @param outputFuncCode Code of the output function.
      */

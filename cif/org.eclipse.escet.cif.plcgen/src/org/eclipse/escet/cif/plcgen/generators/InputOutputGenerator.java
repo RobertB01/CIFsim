@@ -38,8 +38,8 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
+import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.generators.io.IoEntry;
-import org.eclipse.escet.cif.plcgen.generators.io.IoKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -58,14 +58,14 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
 public class InputOutputGenerator {
-    /** PLC types that may be used for IO. */
+    /** PLC types that may be used for I/O. */
     private static final Set<PlcElementaryType> FEASIBLE_IO_VAR_TYPES = set(BOOL_TYPE, INT_TYPE, DINT_TYPE, LINT_TYPE,
             REAL_TYPE, LREAL_TYPE);
 
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** File path to the IO table file. File may not exist. */
+    /** File path to the I/O table file. File may not exist. */
     private final String ioTablePath;
 
     /** Callback to send warnings to the user. */
@@ -96,21 +96,21 @@ public class InputOutputGenerator {
      * Table format: Each line is an input or an output that connects a CIF variable to an input or output port.
      *
      * <ul>
-     * <li>First field contains the PLC IO address. Address syntax may vary between PLCs.</li>
+     * <li>First field contains the PLC I/O address. Address syntax may vary between PLCs.</li>
      * <li>Second field contains the PLC type. If empty, the CIF type of the variable is used instead.</li>
      * <li>Third field contains the absolute name of the CIF variable to connect to the input or output in non-escaped
      * notation.</li>
      * </ul>
      * </p>
      *
-     * @return The collected entries of the IO table, list is empty if no table file was found.
+     * @return The collected entries of the I/O table, list is empty if no table file was found.
      */
     private List<IoEntry> convertIoTableEntries() {
         try (BufferedReader ioTableText = new BufferedReader(new FileReader(Paths.resolve(ioTablePath)))) {
             Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
             Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
 
-            // Read the IO table file, process each line, and store the entries.
+            // Read the I/O table file, process each line, and store the entries.
             List<IoEntry> entries = list();
 
             CsvParser parser = new CsvParser(ioTableText);
@@ -137,16 +137,16 @@ public class InputOutputGenerator {
                 String plcTableTypeText = line.get(1).trim();
                 PlcType plcTableType = checkIoType(plcTableTypeText, tableLinePositionText);
 
-                // Third field, the CIF object path to connect to the IO address.
+                // Third field, the CIF object path to connect to the I/O address.
                 String cifNamePath = line.get(2).trim();
                 Pair<String, PositionObject> matched = target.getCifProcessor().findCifObjectByPath(cifNamePath);
 
                 // Verify the returned CIF object.
                 PlcType plcTypeFromCif = decideTypeFromCif(cifNamePath, matched, tableLinePositionText);
-                IoKind kindFromCif = decideIoDirectionFromCif(matched.right);
+                IoDirection directionFromCif = decideIoDirectionFromCif(matched.right);
 
                 // Don't allow 2 uses for input with the same CIF object.
-                if (kindFromCif.equals(IoKind.INPUT)) {
+                if (directionFromCif.equals(IoDirection.IO_READ)) {
                     if (connectedInputCifObjects.contains(matched.right)) {
                         String message = fmt(
                                 "The CIF variable for entry %s is already in use for receiving a value from an input, as specified by an earlier I/O table entry.",
@@ -159,7 +159,7 @@ public class InputOutputGenerator {
                 // Check that the type from CIF does not conflict with the PLC table type and settle on the final type.
                 plcTableType = decidePlcType(plcTableType, cifNamePath, plcTypeFromCif, tableLinePositionText);
 
-                // First field, the IO address. Convert to the parsed form.
+                // First field, the I/O address. Convert to the parsed form.
                 String plcAddressText = line.get(0).trim();
                 if (plcAddressText.isEmpty()) {
                     String message = fmt("The 'address' field is empty (first field %s).", tableLinePositionText);
@@ -168,7 +168,7 @@ public class InputOutputGenerator {
                 IoAddress plcAddress = target.parseIoAddress(plcAddressText);
 
                 // Check for output conflicts (multiple uses of a PLC output).
-                if (kindFromCif.equals(IoKind.OUTPUT)) {
+                if (directionFromCif.equals(IoDirection.IO_WRITE)) {
                     if (connectedPlcAddresses.contains(plcAddress)) {
                         String message = fmt(
                                 "The PLC address for the entry %s is already in use for outputting a value, as specified by an earlier I/O table entry.",
@@ -178,15 +178,15 @@ public class InputOutputGenerator {
                     connectedPlcAddresses.add(plcAddress);
                 }
 
-                // Verify with the target whether the configured IO table data makes sense.
-                target.verifyIoTableEntry(plcAddress, plcTableType, kindFromCif, tableLinePositionText);
+                // Verify with the target whether the configured I/O table data makes sense.
+                target.verifyIoTableEntry(plcAddress, plcTableType, directionFromCif, tableLinePositionText);
 
-                IoEntry entry = new IoEntry(plcAddress, plcTableType, matched.right, kindFromCif);
+                IoEntry entry = new IoEntry(plcAddress, plcTableType, matched.right, directionFromCif);
                 entries.add(entry);
             }
             return entries;
         } catch (FileNotFoundException ex) {
-            // File does not exist, don't generate IO handling.
+            // File does not exist, don't generate I/O handling.
             warnOutput.warn("I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
                     ioTablePath);
             return List.of();
@@ -224,7 +224,7 @@ public class InputOutputGenerator {
      * @param cifNamePath Name of the object in CIF.
      * @param matched Result of the search in CIF.
      * @param tableLinePositionText Text for reporting about the CSV line.
-     * @return The PLC type to use for the IO entry according to the matched CIF object.
+     * @return The PLC type to use for the I/O entry according to the matched CIF object.
      * @throws InvalidInputException If no valid CIF object can be attached to the provided search result.
      */
     private PlcType decideTypeFromCif(String cifNamePath, Pair<String, PositionObject> matched,
@@ -246,29 +246,29 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Obtain the IO direction of the IO entry from the attached CIF object.
+     * Obtain the I/O direction of the I/O from the CIF object associated with the I/O entry.
      *
      * @param posObject CIF object attached to the entry.
-     * @return Direction of IO for the entry in the PLC.
+     * @return Direction of I/O for the entry in the PLC.
      */
-    private IoKind decideIoDirectionFromCif(PositionObject posObject) {
+    private IoDirection decideIoDirectionFromCif(PositionObject posObject) {
         if (posObject instanceof DiscVariable) {
-            return IoKind.OUTPUT;
+            return IoDirection.IO_WRITE;
         } else if (posObject instanceof InputVariable) {
-            return IoKind.INPUT;
+            return IoDirection.IO_READ;
         } else {
             throw new AssertionError("Unexpected CIF object \"" + posObject + "\".");
         }
     }
 
     /**
-     * Make the final decision about the PLC type of the IO value.
+     * Make the final decision about the PLC type of the I/O value.
      *
      * @param plcTableType PLC type stated in the CSV file, may be {@code null}.
-     * @param cifNamePath CIF object connected to the IO address.
+     * @param cifNamePath CIF object connected to the I/O address.
      * @param plcTypeFromCif PLC type related to the CIF object.
      * @param tableLinePositionText Text for reporting about the CSV line.
-     * @return The final PLC type to use for the IO entry
+     * @return The final PLC type to use for the I/O entry.
      */
     private PlcType decidePlcType(PlcType plcTableType, String cifNamePath, PlcType plcTypeFromCif,
             String tableLinePositionText)
@@ -292,7 +292,7 @@ public class InputOutputGenerator {
                         cifNamePath, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
-            plcTableType = plcTypeFromCif; // Use found CIF type as the IO table type.
+            plcTableType = plcTypeFromCif; // Use found CIF type as the I/O table type.
         }
         return plcTableType;
     }
@@ -313,10 +313,10 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Generate IO variables and input/output function code for transferring values between input IO, the CIF state, and
-     * output IO.
+     * Generate I/O variables and input/output function code for transferring values between input IO, the CIF state, and
+     * output I/O.
      *
-     * @param entries IO entries to use.
+     * @param entries I/O entries to use.
      */
     private void generateIoCode(List<IoEntry> entries) {
         List<PlcStatement> inputStats = list();
@@ -328,8 +328,8 @@ public class InputOutputGenerator {
         CifDataProvider dataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
         for (IoEntry entry: entries) {
             // Preliminaries (check I/O kind, construct links to the correct local data structures).
-            Assert.check(EnumSet.of(IoKind.INPUT, IoKind.OUTPUT).contains(entry.ioKind));
-            boolean isInput = entry.ioKind.equals(IoKind.INPUT);
+            Assert.check(EnumSet.of(IoDirection.IO_READ, IoDirection.IO_WRITE).contains(entry.ioDirection));
+            boolean isInput = entry.ioDirection.equals(IoDirection.IO_READ);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;
 
             // Construct a variable with the I/O address.
@@ -343,7 +343,7 @@ public class InputOutputGenerator {
                 codeStorage.addOutputVariable(ioVar);
             }
 
-            // Construct the assignment to perform the IO.
+            // Construct the assignment to perform the I/O.
             if (isInput) { // state-var := io-var;
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {

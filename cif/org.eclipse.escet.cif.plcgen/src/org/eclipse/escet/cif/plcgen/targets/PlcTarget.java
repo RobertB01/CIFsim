@@ -22,7 +22,7 @@ import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.io.DefaultIoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
-import org.eclipse.escet.cif.plcgen.generators.io.IoKind;
+import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -154,7 +154,7 @@ public interface PlcTarget {
     public abstract PlcElementaryType getRealType();
 
     /**
-     * Parse a PLC IO address.
+     * Parse a PLC I/O address.
      *
      * @param plcAddressText Text to parse.
      * @return The parsed address information and its properties.
@@ -164,20 +164,20 @@ public interface PlcTarget {
     }
 
     /**
-     * Verify that the given IO table entry is acceptable to the target.
+     * Verify that the given I/O table entry is acceptable to the target.
      *
      * <p>
      * If the entry is not acceptable, it should be reported to the user with an {@link InvalidInputException}.
      * </p>
      *
-     * @param parsedAddress The parsed IO address.
-     * @param plcTableType Type of the IO data being transferred.
-     * @param kindFromCif Kind of the IO table entry.
+     * @param parsedAddress The parsed I/O address.
+     * @param plcTableType Type of the I/O data being transferred.
+     * @param directionFromCif Kind of the I/O table entry.
      * @param tableLinePositionText Text describing the table line for this entry, to use for reporting an error. The
      *     text is {@code "at line ... of I/O table file \"..."}.
      * @throws InputOutputException If the provided entry is not acceptable to the target.
      */
-    public abstract void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoKind kindFromCif,
+    public abstract void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
             String tableLinePositionText);
 
     /**

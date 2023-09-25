@@ -17,7 +17,7 @@ import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** PLC IO table path option. */
+/** PLC I/O table path option. */
 public class IoTablePathOption extends StringOption {
     /** The description of the option. */
     private static final String DESCRIPTION = "The path of the CSV file that contains the types and PLC memory "
