@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
@@ -54,6 +55,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Absolute base path to which to write the generated code. */
     private String absOutputPath;
+
+    /** Callback to send warnings to the user. */
+    private WarnOutput warnOutput;
 
     /** Conversion of PLC models to text for the target. */
     private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
@@ -97,27 +101,25 @@ public abstract class PlcBaseTarget implements PlcTarget {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
         absOutputPath = settings.absOutputPath;
+        warnOutput = settings.warnOutput;
 
         // Warn the user about getting a possibly too small integer type size.
         if (settings.intTypeSize.getTypeSize(CIF_INTEGER_SIZE) < CIF_INTEGER_SIZE) {
-            settings.warnOutput.warn(
+            warnOutput.warn(
                     "Configured integer type size is less than the CIF integer type size. Some values in the program "
                             + "may be truncated.");
         } else if (getMaxIntegerTypeSize() < CIF_INTEGER_SIZE) {
-            settings.warnOutput
-                    .warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. Some "
-                            + "values in the program may be truncated.");
+            warnOutput.warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. "
+                    + " Some values in the program may be truncated.");
         }
 
         // Warn the user about getting a possibly too small real type size.
         if (settings.realTypeSize.getTypeSize(CIF_REAL_SIZE) < CIF_REAL_SIZE) {
-            settings.warnOutput
-                    .warn("Configured real type size is less than the CIF real type size. Some values in the program "
-                            + "may be truncated.");
+            warnOutput.warn("Configured real type size is less than the CIF real type size. Some values in the program "
+                    + "may be truncated.");
         } else if (getMaxRealTypeSize() < CIF_REAL_SIZE) {
-            settings.warnOutput
-                    .warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
-                            + "values in the program may be truncated.");
+            warnOutput.warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
+                    + "values in the program may be truncated.");
         }
     }
 
@@ -266,7 +268,13 @@ public abstract class PlcBaseTarget implements PlcTarget {
     public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
             String tableLinePositionText)
     {
-        // Accept all entries.
+        if (parsedAddress.size() > getMaxIntegerTypeSize()) {
+            // Accept everything, but give a warning if trouble may arise at runtime.
+            warnOutput.warn(
+                    "Size of I/O address \"%s\" (of %d bits) exceeds the size of the largest supported integer type "
+                            + "(of %d bits)",
+                    parsedAddress.getAddress(), parsedAddress.size(), getMaxIntegerTypeSize());
+        }
     }
 
     @Override
