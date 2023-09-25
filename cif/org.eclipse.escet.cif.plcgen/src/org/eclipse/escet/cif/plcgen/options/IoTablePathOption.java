@@ -43,7 +43,7 @@ public class IoTablePathOption extends StringOption {
      *
      * @return The I/O table path, or {@code null} if not entered or left blank.
      */
-    public static String getTableFilename() {
+    public static String getTablePath() {
         return Options.get(IoTablePathOption.class);
     }
 
@@ -54,7 +54,7 @@ public class IoTablePathOption extends StringOption {
      * @see InputFileOption
      */
     public static String getDerivedPath() {
-        String rslt = getTableFilename();
+        String rslt = getTablePath();
         if (rslt == null) {
             rslt = InputFileOption.getDerivedPath(".cif", ".csv");
         }
