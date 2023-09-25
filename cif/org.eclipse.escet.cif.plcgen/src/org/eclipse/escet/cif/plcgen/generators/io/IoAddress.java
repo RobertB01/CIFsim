@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators.io;
 
-/** Parsed IO address with its properties. */
+/** I/O address with its properties. */
 public interface IoAddress {
     /**
      * Compute whether the address supports reading the value.
@@ -37,9 +37,9 @@ public interface IoAddress {
     public int size();
 
     /**
-     * Compose the Io address for the PLC.
+     * Compose the I/O address for the PLC.
      *
-     * @return The Io address in a format acceptable to the PLC system..
+     * @return The I/O address in a format acceptable to the PLC system.
      */
     public String getAddress();
 

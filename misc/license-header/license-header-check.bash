@@ -46,8 +46,8 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.slx"
 # Exclude text files that don't support comments.
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=MANIFEST.MF"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.bib"
-EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.dsm"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.csv"
+EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.dsm"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.json"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.pptx"
 # Exclude text files where Eclipse removes comments when editing them.

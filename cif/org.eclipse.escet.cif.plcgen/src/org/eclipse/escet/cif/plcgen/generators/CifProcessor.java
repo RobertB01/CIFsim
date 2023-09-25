@@ -719,7 +719,7 @@ public class CifProcessor {
      * Try to match the given path to a CIF object in the specification.
      *
      * <p>
-     * Currently it only finds Complex components and declarations.
+     * Currently it only finds complex components and declarations.
      * </p>
      *
      * @param path Dotted non-escaped path to the CIF object to find.

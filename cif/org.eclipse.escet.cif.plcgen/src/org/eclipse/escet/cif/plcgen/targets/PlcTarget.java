@@ -154,7 +154,7 @@ public interface PlcTarget {
     public abstract PlcElementaryType getRealType();
 
     /**
-     * Parse the PLC IO address.
+     * Parse a PLC IO address.
      *
      * @param plcAddressText Text to parse.
      * @return The parsed address information and its properties.
@@ -174,7 +174,7 @@ public interface PlcTarget {
      * @param plcTableType Type of the IO data being transferred.
      * @param kindFromCif Kind of the IO table entry.
      * @param tableLinePositionText Text describing the table line for this entry, to use for reporting an error. The
-     *     text is {@code "at line ... of io table file \"..."}.
+     *     text is {@code "at line ... of I/O table file \"..."}.
      * @throws InputOutputException If the provided entry is not acceptable to the target.
      */
     public abstract void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoKind kindFromCif,

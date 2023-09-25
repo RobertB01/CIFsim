@@ -232,7 +232,7 @@ public class PlcCodeStorage {
     /**
      * Add code for copying CIF state to output IO.
      *
-     * @param outputFuncCode Code of the input function.
+     * @param outputFuncCode Code of the output function.
      */
     public void addOutputFuncCode(List<PlcStatement> outputFuncCode) {
         Assert.check(this.outputFuncCode == null);
@@ -257,6 +257,7 @@ public class PlcCodeStorage {
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
+        // Prepare adding code to the program.
         CodeBox box = main.body;
         boolean boxNeedsEmptyLine = false;
         int commentLength = 79; // Length of a comment header line.
@@ -264,7 +265,7 @@ public class PlcCodeStorage {
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
 
-        // Add input code if it exists. */
+        // Add input code if it exists.
         if (inputFuncCode != null) {
             generateCommentHeader("Read input from sensors", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
@@ -272,7 +273,7 @@ public class PlcCodeStorage {
             textGenerator.toText(inputFuncCode, box, main.name, false);
         }
 
-        // Add initialization code if it exists. */
+        // Add initialization code if it exists.
         if (stateInitializationCode != null) {
             generateCommentHeader("Initialize state", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
@@ -341,9 +342,9 @@ public class PlcCodeStorage {
      */
     private void generateCommentHeader(String text, char dashChar, int length, boolean addEmptyLine, CodeBox box) {
         // Construct header line. As it is mostly constant data, code will be much more efficient than it seems.
-        char[] pre = new char[] {'(', '*', ' ', dashChar, dashChar, dashChar, ' '};
-        char[] post = new char[] {dashChar, dashChar, dashChar, ' ', '*', ')'};
-        char[] afterText = new char[] {' '};
+        char[] pre = {'(', '*', ' ', dashChar, dashChar, dashChar, ' '};
+        char[] post = {dashChar, dashChar, dashChar, ' ', '*', ')'};
+        char[] afterText = {' '};
 
         int layoutLength = pre.length + afterText.length + post.length;
         length = layoutLength + Math.min(length, layoutLength + text.length());

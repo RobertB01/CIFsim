@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.common.java.Assert;
 
-/** Parsed data of a PLC IO address. */
+/** Data of a PLC IO address. */
 public class DefaultIoAddress implements IoAddress {
     /** Regular expression to match an address. */
     private static final Pattern ADDRESSPATTERN = Pattern.compile(" *%([IQM])([XBWDL]?)([0-9]+(\\.[0-9]+)*) *");
@@ -79,7 +79,7 @@ public class DefaultIoAddress implements IoAddress {
     }
 
     /**
-     * Parse the supplied address text, and convert it into an {@link DefaultIoAddress} instance.
+     * Parse the supplied address text, and convert it into a {@link DefaultIoAddress} instance.
      *
      * @param addressText Text to parse.
      * @return The converted address or {@code null} if the text cannot be parsed.

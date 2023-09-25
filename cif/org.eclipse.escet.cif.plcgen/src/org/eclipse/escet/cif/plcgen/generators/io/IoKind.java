@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators.io;
 
-/** Available kinds of Io table entries. */
+/** Available kinds of I/O table entries. */
 public enum IoKind {
     /** IO entry is used for input into the PLC. */
     INPUT("input"),

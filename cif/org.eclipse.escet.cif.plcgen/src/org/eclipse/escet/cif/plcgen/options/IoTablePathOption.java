@@ -21,32 +21,37 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 public class IoTablePathOption extends StringOption {
     /** Constructor for the {@link IoTablePathOption} class. */
     public IoTablePathOption() {
-        super("Io table name", // name.
-                "Path of the CSV file that contains the type and PLC memory address "
-                        + "of the input/output variables.", // description.
+        super("I/O table path", // name.
+                "The path of the CSV file that contains the types and PLC memory addresses "
+                        + "of the input/output variables. By default, the path to the input "
+                        + "CIF file is used, with its \".cif\" file extension removed if present, "
+                        + "and the \".csv" file extension added.", // description.
                 null, // cmdShort.
                 "io-table-path", // cmdLong.
                 "TABLEPATH", // cmdValue.
                 null, // defaultValue.
                 true, // emptyAsNull.
                 true, // showInDialog.
-                "The name of the file with input and output variables.", // optDialogDescr.
-                "Table filename:"); // optDialogLabelText.
+            "The path of the CSV file that contains the types and PLC memory addresses "
+                    + "of the input/output variables. By default, the path to the input "
+                    + "CIF file is used, with its \".cif\" file extension removed if present, "
+                    + "and the \".csv" file extension added."", // optDialogDescr.
+                "Path:"); // optDialogLabelText.
     }
 
     /**
-     * Returns the table filename if it was entered.
+     * Returns the I/O table path if it was entered.
      *
-     * @return The table filename, or {@code null} if not entered or left blank.
+     * @return The I/O table path, or {@code null} if not entered or left blank.
      */
     public static String getTableFilename() {
         return Options.get(IoTablePathOption.class);
     }
 
     /**
-     * Returns the path of the table file. If the table file path is not specified, a modified input file path is used.
+     * Returns the path of the I/O table file. If the file path is not specified, a modified input file path is used.
      *
-     * @return The path of the output file.
+     * @return The path of the I/O table file.
      * @see InputFileOption
      */
     public static String getDerivedPath() {

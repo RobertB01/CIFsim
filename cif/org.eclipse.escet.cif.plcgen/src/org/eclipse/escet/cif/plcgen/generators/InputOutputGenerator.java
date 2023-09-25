@@ -58,7 +58,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
 public class InputOutputGenerator {
-    /** Plc types that may be used for IO. */
+    /** PLC types that may be used for IO. */
     private static final Set<PlcElementaryType> FEASIBLE_IO_VAR_TYPES = set(BOOL_TYPE, INT_TYPE, DINT_TYPE, LINT_TYPE,
             REAL_TYPE, LREAL_TYPE);
 
@@ -90,10 +90,10 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Load the IO table from the table file path, process each line and collect the found entries.
+     * Load the I/O table from the table file, process each line and collect the found entries.
      *
      * <p>
-     * Table format: Each line is an input or an output thjat connects a CIF variable to an input or output port.
+     * Table format: Each line is an input or an output that connects a CIF variable to an input or output port.
      *
      * <ul>
      * <li>First field contains the PLC IO address. Address syntax may vary between PLCs.</li>
@@ -108,9 +108,9 @@ public class InputOutputGenerator {
     private List<IoEntry> convertIoTableEntries() {
         try (BufferedReader ioTableText = new BufferedReader(new FileReader(Paths.resolve(ioTablePath)))) {
             Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
-            Set<IoAddress> connectedPlcAddresses = set(); // used PLC addresses for output.
+            Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
 
-            // Read the IO table file, process each line, and store the entries
+            // Read the IO table file, process each line, and store the entries.
             List<IoEntry> entries = list();
 
             CsvParser parser = new CsvParser(ioTableText);
@@ -124,7 +124,7 @@ public class InputOutputGenerator {
                 }
 
                 // Text stating the CSV line being processed, for reporting any error.
-                String tableLinePositionText = fmt("at line %d of io table file \"%s\"", lineNumber, ioTablePath);
+                String tableLinePositionText = fmt("at line %d of I/O table file \"%s\"", lineNumber, ioTablePath);
 
                 // Check the line length of the CSV parser.
                 if (line.size() != 3) {
@@ -149,7 +149,7 @@ public class InputOutputGenerator {
                 if (kindFromCif.equals(IoKind.INPUT)) {
                     if (connectedInputCifObjects.contains(matched.right)) {
                         String message = fmt(
-                                "The CIF object is already in use for receiving another value from input %s.",
+                                "The CIF variable for entry %s is already in use for receiving a value from an input, as specified by an earlier I/O table entry.",
                                 tableLinePositionText);
                         throw new InvalidInputException(message);
                     }
@@ -162,16 +162,16 @@ public class InputOutputGenerator {
                 // First field, the IO address. Convert to the parsed form.
                 String plcAddressText = line.get(0).trim();
                 if (plcAddressText.isEmpty()) {
-                    String message = fmt("The 'address' entry is empty (first field %s).", tableLinePositionText);
+                    String message = fmt("The 'address' field is empty (first field %s).", tableLinePositionText);
                     throw new InvalidInputException(message);
                 }
                 IoAddress plcAddress = target.parseIoAddress(plcAddressText);
 
-                // Check for output conflicts (multiple uses of a PLC output)/
+                // Check for output conflicts (multiple uses of a PLC output).
                 if (kindFromCif.equals(IoKind.OUTPUT)) {
                     if (connectedPlcAddresses.contains(plcAddress)) {
                         String message = fmt(
-                                "The PLC address is already in use for receiving another value to output %s.",
+                                "The PLC address for the entry %s is already in use for outputting a value, as specified by an earlier I/O table entry.",
                                 tableLinePositionText);
                         throw new InvalidInputException(message);
                     }
@@ -187,7 +187,7 @@ public class InputOutputGenerator {
             return entries;
         } catch (FileNotFoundException ex) {
             // File does not exist, don't generate IO handling.
-            warnOutput.warn("IO table file \"%s\" not found, PLC code will not perform any IO with the environment.",
+            warnOutput.warn("I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
                     ioTablePath);
             return List.of();
         } catch (IOException ex) {
@@ -198,7 +198,7 @@ public class InputOutputGenerator {
     /**
      * Check the IO type field from a CSV line.
      *
-     * @param plcTableTypeText Text of of the second field of the CSV line, may be empty.
+     * @param plcTableTypeText Text of the second field of the CSV line, may be empty.
      * @param tableLinePositionText Text for reporting about the CSV line.
      * @return The derived PLC type of the type field, or {@code null} if the field was empty.
      */
@@ -208,7 +208,7 @@ public class InputOutputGenerator {
             plcTableType = getIoVarType(plcTableTypeText);
             if (plcTableType == null) {
                 String message = fmt(
-                        "The 'plc type' field containing \"%s\" is not usable type for input/output (second field %s).",
+                        "Type \"%s\" contained in the 'PLC type' field is not a usable type for input/output (second field %s).",
                         plcTableTypeText, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
@@ -231,7 +231,7 @@ public class InputOutputGenerator {
             String tableLinePositionText)
     {
         if (!cifNamePath.equals(matched.left)) { // Partial path match.
-            String message = fmt("The 'cif name' entry containing \"%s\" could not be fully matched (third field %s).",
+            String message = fmt("The 'CIF name' field containing \"%s\" could not be fully matched (third field %s).",
                     cifNamePath, tableLinePositionText);
             throw new InvalidInputException(message);
         } else if (matched.right instanceof DiscVariable dv) {
@@ -239,7 +239,7 @@ public class InputOutputGenerator {
         } else if (matched.right instanceof InputVariable iv) {
             return target.getTypeGenerator().convertType(iv.getType());
         } else {
-            String message = fmt("The 'cif name' entry containing \"%s\" does not indicate an input or discrete "
+            String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an input or discrete "
                     + "variable (third field %s).", cifNamePath, tableLinePositionText);
             throw new InvalidInputException(message);
         }
@@ -248,7 +248,7 @@ public class InputOutputGenerator {
     /**
      * Obtain the IO direction of the IO entry from the attached CIF object.
      *
-     * @param posObject Attached CIF object to the entry.
+     * @param posObject CIF object attached to the entry.
      * @return Direction of IO for the entry in the PLC.
      */
     private IoKind decideIoDirectionFromCif(PositionObject posObject) {
@@ -268,7 +268,7 @@ public class InputOutputGenerator {
      * @param cifNamePath CIF object connected to the IO address.
      * @param plcTypeFromCif PLC type related to the CIF object.
      * @param tableLinePositionText Text for reporting about the CSV line.
-     * @return Check or assign the PLC type to use for the IO entry.
+     * @return The final PLC type to use for the IO entry
      */
     private PlcType decidePlcType(PlcType plcTableType, String cifNamePath, PlcType plcTypeFromCif,
             String tableLinePositionText)
@@ -277,9 +277,9 @@ public class InputOutputGenerator {
         if (plcTableType != null) {
             if (!plcTableType.equals(plcTypeFromCif)) {
                 String message = fmt(
-                        "The type stated in the 'plc type' field does not correspond with the type "
-                                + "of the connected CIF element from the 'cif name' entry containing \"%s\" "
-                                + "does not indicate an input or discrete variable (third field %s).",
+                        "The type stated in the 'PLC type' field does not correspond with the type "
+                                + "of the connected CIF variable from the 'CIF name' field containing \"%s\", "
+                                + "for the entry %s.",
                         cifNamePath, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
@@ -288,8 +288,7 @@ public class InputOutputGenerator {
             // Verify that the CIF type is a feasible type before selecting it.
             if (!FEASIBLE_IO_VAR_TYPES.contains(plcTypeFromCif)) {
                 String message = fmt(
-                        "The type of the variable indicated in \"%s\" 'cif name' field is not usable type for "
-                                + "input/output (third field %s).",
+                        "The type of CIF variable \"%s\" is not a usable type for input/output (third field %s).",
                         cifNamePath, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
@@ -328,13 +327,13 @@ public class InputOutputGenerator {
 
         CifDataProvider dataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
         for (IoEntry entry: entries) {
-            // Preliminaries (check io-kind, construct links to the correct local data structures.
+            // Preliminaries (check I/O kind, construct links to the correct local data structures).
             Assert.check(EnumSet.of(IoKind.INPUT, IoKind.OUTPUT).contains(entry.ioKind));
             boolean isInput = entry.ioKind.equals(IoKind.INPUT);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;
 
-            // Construct a variable with the IO address,
-            String varPrefix = isInput ? "in_" : "out_";
+            // Construct a variable with the I/O address.
+            String varPrefix = isInput ? "in__" : "out__";
             String ioVarname = varPrefix + getAbsName(entry.cifObject);
             ioVarname = nameGenerator.generateGlobalName(ioVarname, false);
             PlcVariable ioVar = new PlcVariable(ioVarname, entry.varType, entry.plcAddress.getAddress(), null);
@@ -345,7 +344,7 @@ public class InputOutputGenerator {
             }
 
             // Construct the assignment to perform the IO.
-            if (isInput) { // state-Var := io-var;
+            if (isInput) { // state-var := io-var;
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     leftSide = dataProvider.getAddressableForDiscVar(discVar);

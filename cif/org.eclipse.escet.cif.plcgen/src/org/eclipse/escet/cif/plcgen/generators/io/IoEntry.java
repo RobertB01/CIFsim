@@ -21,7 +21,7 @@ public class IoEntry {
     /** IO address in the PLC. */
     public final IoAddress plcAddress;
 
-    /** TYpe of the data being transfered at the iO address. */
+    /** Type of the data being transferred at the I/O address. */
     public final PlcType varType;
 
     /** CIF object linked to the entry. */
@@ -34,7 +34,7 @@ public class IoEntry {
      * Constructor of the {@link IoEntry} class.
      *
      * @param plcAddress IO address in the PLC.
-     * @param varType TYpe of the data being transfered at the IO address.
+     * @param varType Type of the data being transferred at the I/O address.
      * @param cifObject CIF object linked to the entry.
      * @param ioKind Kind of IO being performed.
      */
