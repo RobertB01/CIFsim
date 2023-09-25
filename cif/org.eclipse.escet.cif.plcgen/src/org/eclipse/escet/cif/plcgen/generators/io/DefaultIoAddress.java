@@ -62,20 +62,14 @@ public class DefaultIoAddress implements IoAddress {
 
     @Override
     public int size() {
-        if ("X".equals(sizeType) || sizeType.isEmpty()) {
-            return 1;
-        }
-        if ("B".equals(sizeType)) {
-            return 8;
-        }
-        if ("W".equals(sizeType)) {
-            return 16;
-        }
-        if ("D".equals(sizeType)) {
-            return 32;
-        }
-        Assert.check("L".equals(sizeType));
-        return 64;
+        return switch (sizeType) {
+            case "X", "" -> 1;
+            case "B" -> 8;
+            case "W" -> 16;
+            case "D" -> 32;
+            case "L" -> 64;
+            default -> throw new AssertionError("Unknown size type: " + sizeType);
+        };
     }
 
     /**
@@ -97,7 +91,7 @@ public class DefaultIoAddress implements IoAddress {
 
     @Override
     public String getAddress() {
-        String numericAddress = Arrays.stream(numericParts).collect(Collectors.joining("."));
+        String numericAddress = String.join(".", numericParts);
         return fmt("%%%s%s%s", memType, sizeType, numericAddress);
     }
 
@@ -120,6 +114,6 @@ public class DefaultIoAddress implements IoAddress {
 
     @Override
     public int hashCode() {
-        return memType.hashCode() + sizeType.hashCode() + numericParts.hashCode();
+        return memType.hashCode() + sizeType.hashCode() + Arrays.hashCode(numericParts);
     }
 }
