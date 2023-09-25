@@ -232,7 +232,7 @@ public class InputOutputGenerator {
                 throw new InvalidInputException(message);
             }
         } else {
-            plcTableType = null; // Try to derive the type from the CIF name below.
+            plcTableType = null;
         }
         return plcTableType;
     }
@@ -345,9 +345,9 @@ public class InputOutputGenerator {
 
             // Construct a variable with the I/O address.
             String varPrefix = isInput ? "in__" : "out__";
-            String ioVarname = varPrefix + getAbsName(entry.cifObject);
-            ioVarname = nameGenerator.generateGlobalName(ioVarname, false);
-            PlcVariable ioVar = new PlcVariable(ioVarname, entry.varType, entry.plcAddress.getAddress(), null);
+            String ioVarName = varPrefix + getAbsName(entry.cifObject, false);
+            ioVarName = nameGenerator.generateGlobalName(ioVarName, false);
+            PlcVariable ioVar = new PlcVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
             if (isInput) {
                 codeStorage.addInputVariable(ioVar);
             } else {
