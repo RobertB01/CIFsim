@@ -53,7 +53,6 @@ import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
-import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
@@ -139,21 +138,30 @@ public class InputOutputGenerator {
 
                 // Third field, the CIF object path to connect to the I/O address.
                 String cifNamePath = line.get(2).trim();
-                Pair<String, PositionObject> matched = target.getCifProcessor().findCifObjectByPath(cifNamePath);
+                PositionObject cifObj;
+                try {
+                    cifObj = target.getCifProcessor().findCifObjectByPath(cifNamePath);
+                } catch (IllegalArgumentException ex) {
+                    String message = fmt(
+                            "The 'CIF name' field containing \"%s\" could not be fully matched (third field %s).",
+                            cifNamePath, tableLinePositionText);
+                    throw new InvalidInputException(message, ex);
+                }
 
                 // Verify the returned CIF object.
-                PlcType plcTypeFromCif = decideTypeFromCif(cifNamePath, matched, tableLinePositionText);
-                IoDirection directionFromCif = decideIoDirectionFromCif(matched.right);
+                PlcType plcTypeFromCif = decideTypeFromCif(cifNamePath, cifObj, tableLinePositionText);
+                IoDirection directionFromCif = decideIoDirectionFromCif(cifObj);
 
                 // Don't allow 2 uses for input with the same CIF object.
                 if (directionFromCif.equals(IoDirection.IO_READ)) {
-                    if (connectedInputCifObjects.contains(matched.right)) {
+                    if (connectedInputCifObjects.contains(cifObj)) {
                         String message = fmt(
-                                "The CIF variable for entry %s is already in use for receiving a value from an input, as specified by an earlier I/O table entry.",
+                                "The CIF variable for entry %s is already in use for receiving a value from an input, "
+                                        + "as specified by an earlier I/O table entry.",
                                 tableLinePositionText);
                         throw new InvalidInputException(message);
                     }
-                    connectedInputCifObjects.add(matched.right);
+                    connectedInputCifObjects.add(cifObj);
                 }
 
                 // Check that the type from CIF does not conflict with the PLC table type and settle on the final type.
@@ -171,7 +179,8 @@ public class InputOutputGenerator {
                 if (directionFromCif.equals(IoDirection.IO_WRITE)) {
                     if (connectedPlcAddresses.contains(plcAddress)) {
                         String message = fmt(
-                                "The PLC address for the entry %s is already in use for outputting a value, as specified by an earlier I/O table entry.",
+                                "The PLC address for the entry %s is already in use for outputting a value, as "
+                                        + "specified by an earlier I/O table entry.",
                                 tableLinePositionText);
                         throw new InvalidInputException(message);
                     }
@@ -181,13 +190,14 @@ public class InputOutputGenerator {
                 // Verify with the target whether the configured I/O table data makes sense.
                 target.verifyIoTableEntry(plcAddress, plcTableType, directionFromCif, tableLinePositionText);
 
-                IoEntry entry = new IoEntry(plcAddress, plcTableType, matched.right, directionFromCif);
+                IoEntry entry = new IoEntry(plcAddress, plcTableType, cifObj, directionFromCif);
                 entries.add(entry);
             }
             return entries;
         } catch (FileNotFoundException ex) {
             // File does not exist, don't generate I/O handling.
-            warnOutput.warn("I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
+            warnOutput.warn(
+                    "I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
                     ioTablePath);
             return List.of();
         } catch (IOException ex) {
@@ -208,7 +218,8 @@ public class InputOutputGenerator {
             plcTableType = getIoVarType(plcTableTypeText);
             if (plcTableType == null) {
                 String message = fmt(
-                        "Type \"%s\" contained in the 'PLC type' field is not a usable type for input/output (second field %s).",
+                        "Type \"%s\" contained in the 'PLC type' field is not a usable type for input/output (second "
+                                + "field %s).",
                         plcTableTypeText, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
@@ -221,26 +232,20 @@ public class InputOutputGenerator {
     /**
      * Derive a PLC type for an entry from its attached CIF object.
      *
-     * @param cifNamePath Name of the object in CIF.
-     * @param matched Result of the search in CIF.
+     * @param absName Absolute name of the object in CIF.
+     * @param cifObj The CIF object found from the absolute name in the specification.
      * @param tableLinePositionText Text for reporting about the CSV line.
      * @return The PLC type to use for the I/O entry according to the matched CIF object.
      * @throws InvalidInputException If no valid CIF object can be attached to the provided search result.
      */
-    private PlcType decideTypeFromCif(String cifNamePath, Pair<String, PositionObject> matched,
-            String tableLinePositionText)
-    {
-        if (!cifNamePath.equals(matched.left)) { // Partial path match.
-            String message = fmt("The 'CIF name' field containing \"%s\" could not be fully matched (third field %s).",
-                    cifNamePath, tableLinePositionText);
-            throw new InvalidInputException(message);
-        } else if (matched.right instanceof DiscVariable dv) {
+    private PlcType decideTypeFromCif(String absName, PositionObject cifObj, String tableLinePositionText) {
+        if (cifObj instanceof DiscVariable dv) {
             return target.getTypeGenerator().convertType(dv.getType());
-        } else if (matched.right instanceof InputVariable iv) {
+        } else if (cifObj instanceof InputVariable iv) {
             return target.getTypeGenerator().convertType(iv.getType());
         } else {
             String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an input or discrete "
-                    + "variable (third field %s).", cifNamePath, tableLinePositionText);
+                    + "variable (third field %s).", absName, tableLinePositionText);
             throw new InvalidInputException(message);
         }
     }
@@ -276,11 +281,9 @@ public class InputOutputGenerator {
         Assert.notNull(plcTypeFromCif); // This is assumed in the next code block.
         if (plcTableType != null) {
             if (!plcTableType.equals(plcTypeFromCif)) {
-                String message = fmt(
-                        "The type stated in the 'PLC type' field does not correspond with the type "
-                                + "of the connected CIF variable from the 'CIF name' field containing \"%s\", "
-                                + "for the entry %s.",
-                        cifNamePath, tableLinePositionText);
+                String message = fmt("The type stated in the 'PLC type' field does not correspond with the type "
+                        + "of the connected CIF variable from the 'CIF name' field containing \"%s\", "
+                        + "for the entry %s.", cifNamePath, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
             // TODO Allow for a different sized type, like DINT <-> INT, REAL <-> LREAL, etc.
@@ -313,8 +316,8 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Generate I/O variables and input/output function code for transferring values between input IO, the CIF state, and
-     * output I/O.
+     * Generate I/O variables and input/output function code for transferring values between input IO, the CIF state,
+     * and output I/O.
      *
      * @param entries I/O entries to use.
      */

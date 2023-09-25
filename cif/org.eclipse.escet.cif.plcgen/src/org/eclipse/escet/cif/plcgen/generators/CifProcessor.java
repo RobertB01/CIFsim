@@ -63,10 +63,8 @@ import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Component;
-import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -91,7 +89,6 @@ import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -718,55 +715,17 @@ public class CifProcessor {
     /**
      * Try to match the given path to a CIF object in the specification.
      *
-     * <p>
-     * Currently it only finds complex components and declarations.
-     * </p>
-     *
-     * @param path Dotted non-escaped path to the CIF object to find.
-     * @return A pair of successful matched path and the CIF object that was found at the end of it. If the given path
-     *     is not the same as the successful matched path the search ended early.
+     * @param absName The absolute name of the CIF object to find.
+     * @return The found CIF object indicated by the path.
+     * @throws IllegalArgumentException If no CIF object with the given name is available.
      */
-    public Pair<String, PositionObject> findCifObjectByPath(String path) {
+    public PositionObject findCifObjectByPath(String absName) {
         Assert.notNull(spec); // Function should be called after loading the CIF file.
 
-        PositionObject obj = spec; // Object to search for child objects.
-        int pathIndex = 0; // First unused index in the path.
-
-        nextSearch:
-        while (true) {
-            // End the search when we run out of names to look for.
-            if (pathIndex >= path.length()) {
-                return new Pair<>(path, obj);
-            }
-
-            // Find the next name to match in the specification.
-            int dotIndex = path.indexOf('.', pathIndex + 1);
-            dotIndex = (dotIndex < 0) ? path.length() : dotIndex; // Index just after the next name to find.
-            String nameToFind = path.substring(pathIndex, dotIndex);
-
-            // Try to find a declaration.
-            if (obj instanceof ComplexComponent cc) {
-                // Check variables
-                for (Declaration decl: cc.getDeclarations()) {
-                    if (nameToFind.equals(decl.getName())) {
-                        return new Pair<>(path.substring(0, dotIndex), decl); // Declarations don't have sub-names.
-                    }
-                }
-            }
-
-            // Try to find a child component if the object is a Group as well.
-            if (obj instanceof Group grp) {
-                for (Component comp: grp.getComponents()) {
-                    if (nameToFind.equals(comp.getName())) {
-                        obj = comp;
-                        pathIndex = dotIndex + 1; // May be one position after the end of the string.
-                        continue nextSearch;
-                    }
-                }
-            }
-
-            // Nothing else to try, return what we found.
-            return new Pair<>(path.substring(0, dotIndex), obj);
+        PositionObject obj = spec; // Object to refine by following the components of the given path.
+        for (String compName: absName.split("\\.")) {
+            obj = CifScopeUtils.getObject(obj, compName);
         }
+        return obj;
     }
 }

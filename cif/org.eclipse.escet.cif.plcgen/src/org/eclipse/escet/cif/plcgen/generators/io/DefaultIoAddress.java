@@ -19,14 +19,11 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.eclipse.escet.common.java.Assert;
 
 /** Data of a PLC IO address. */
 public class DefaultIoAddress implements IoAddress {
     /** Regular expression to match an address. */
-    private static final Pattern ADDRESSPATTERN = Pattern.compile(" *%([IQM])([XBWDL]?)([0-9]+(\\.[0-9]+)*) *");
+    private static final Pattern ADDRESS_PATTERN = Pattern.compile(" *%([IQM])([XBWDL]?)([0-9]+(\\.[0-9]+)*) *");
 
     /** Type of memory being accessed {@code (I, M, Q)}. */
     public final String memType;
@@ -81,7 +78,7 @@ public class DefaultIoAddress implements IoAddress {
     public static DefaultIoAddress parseAddress(String addressText) {
         addressText = addressText.toUpperCase(Locale.US); // Enforce upper-case.
 
-        Matcher matcher = ADDRESSPATTERN.matcher(addressText);
+        Matcher matcher = ADDRESS_PATTERN.matcher(addressText);
         if (!matcher.matches()) {
             return null;
         }
