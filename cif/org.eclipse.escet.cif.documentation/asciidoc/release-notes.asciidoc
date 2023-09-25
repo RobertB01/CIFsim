@@ -48,9 +48,10 @@ This performance regression has been fixed (issue {escet-issue}639[#639]).
 * The CIF to Supremica transformation now correctly transforms multiple guards on an edge.
 Multiple guards are now combined into a single conjunction (issue {escet-issue}620[#620]).
 * The CIF merger does not allow merging two input variables with the same annotations (issue {escet-issue}593[#593]).
-* The CIF code generator's now supports `doc` annotations on input variables.
+* The CIF code generator now supports `doc` annotations on input variables.
 The comments in the generated C, Java and Simulink code for `doc`-annotated input variables, now include the documentation from their documentation annotations (issue {escet-issue}593[#593]).
 * The CIF event disabler tool now properly closes the event names file after reading it, preventing a resource leak (issue {escet-issue}649[#649]).
+* The CIF explorer command line script no longer crashes due to a failure to find the application to execute (issue {escet-issue}658[#658]).
 * The 'festo' benchmark model has been changed, removing a duplicate invariant (issue {escet-issue}646[#646]).
 * The FIFO CIF example now uses SVG input, rather than GUI input.
 It is now possible to click the arrows in the SVG image to control the simulation (issue {escet-issue}639[#639]).
