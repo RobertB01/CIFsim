@@ -177,7 +177,7 @@
         </interface>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state ----------------- *)
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
@@ -203,7 +203,7 @@ IF firstRun THEN
     p := p_l1;
 END_IF;
 
-(* --- Process all events ----------------- *)
+(* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;

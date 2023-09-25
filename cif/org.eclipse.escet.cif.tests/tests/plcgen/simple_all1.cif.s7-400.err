@@ -1,2 +1,2 @@
 WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
-WARNING: IO table file "plcgen/simple_all1.csv" not found, PLC code will not perform any IO with the environment.
+WARNING: I/O table file "plcgen/simple_all1.csv" not found. The PLC code will not perform any I/O with the environment.

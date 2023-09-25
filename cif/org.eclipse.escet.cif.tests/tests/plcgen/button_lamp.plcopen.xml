@@ -217,10 +217,10 @@
         </interface>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Read input from sensors ----------------- *)
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 
-(* --- Initialize state ----------------- *)
+(* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
@@ -232,7 +232,7 @@ IF firstRun THEN
     hw_lamp := hw_lamp_Off;
 END_IF;
 
-(* --- Process all events ----------------- *)
+(* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
@@ -443,7 +443,7 @@ WHILE isProgress DO
     END_IF;
 END_WHILE;
 
-(* --- Write output to actuators ----------------- *)
+(* --- Write output to actuators. ------------------------------------------ *)
 out_hw_lamp_bit := hw_lamp_bit;</xhtml>
           </ST>
         </body>
