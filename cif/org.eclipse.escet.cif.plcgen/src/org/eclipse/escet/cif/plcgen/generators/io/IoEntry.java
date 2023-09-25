@@ -18,7 +18,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** An entry in the I/O table for the PLC. */
 public class IoEntry {
-    /** IO address in the PLC. */
+    /** I/O address in the PLC. */
     public final IoAddress plcAddress;
 
     /** Type of the data being transferred at the I/O address. */
@@ -27,13 +27,13 @@ public class IoEntry {
     /** CIF object linked to the entry. */
     public final PositionObject cifObject;
 
-    /** Kind of IO being performed. */
+    /** Kind of I/O being performed. */
     public final IoDirection ioDirection;
 
     /**
      * Constructor of the {@link IoEntry} class.
      *
-     * @param plcAddress IO address in the PLC.
+     * @param plcAddress I/O address in the PLC.
      * @param varType Type of the data being transferred at the I/O address.
      * @param cifObject CIF object linked to the entry.
      * @param ioDirection Direction of the I/O being performed.

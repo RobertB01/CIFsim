@@ -15,9 +15,9 @@ package org.eclipse.escet.cif.plcgen.generators.io;
 
 /** Available directions of I/O with respect to the PLC. */
 public enum IoDirection {
-    /** IO address is read to obtain its current value. */
+    /** I/O address is read to obtain its current value. */
     IO_READ,
 
-    /** IO address is written to change it to the desired value. */
+    /** I/O address is written to change it to the desired value. */
     IO_WRITE;
 }

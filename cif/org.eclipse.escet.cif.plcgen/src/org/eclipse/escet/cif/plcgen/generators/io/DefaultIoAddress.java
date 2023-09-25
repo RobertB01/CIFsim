@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Data of a PLC IO address. */
+/** Data of a PLC I/O address. */
 public class DefaultIoAddress implements IoAddress {
     /** Regular expression to match an address. */
     private static final Pattern ADDRESS_PATTERN = Pattern.compile(" *%([IQM])([XBWDL]?)([0-9]+(\\.[0-9]+)*) *");

@@ -209,12 +209,12 @@ public class InputOutputGenerator {
                     ioTablePath);
             return List.of();
         } catch (IOException ex) {
-            throw new InputOutputException("Failed to close the IO table file \"" + ioTablePath + "\".", ex);
+            throw new InputOutputException("Failed to read the I/O table file \"" + ioTablePath + "\".", ex);
         }
     }
 
     /**
-     * Check the IO type field from a CSV line.
+     * Check the I/O type field from a CSV line.
      *
      * @param plcTableTypeText Text of the second field of the CSV line, may be empty.
      * @param tableLinePositionText Text for reporting about the CSV line.
@@ -324,7 +324,7 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Generate I/O variables and input/output function code for transferring values between input IO, the CIF state,
+     * Generate I/O variables and input/output function code for transferring values between input I/O, the CIF state,
      * and output I/O.
      *
      * @param entries I/O entries to use.
