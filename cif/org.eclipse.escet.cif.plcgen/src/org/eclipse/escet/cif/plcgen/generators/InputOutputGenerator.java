@@ -48,7 +48,6 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
@@ -64,8 +63,11 @@ public class InputOutputGenerator {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** File path to the I/O table file. File may not exist. */
+    /** User-provided file path to the I/O table file. File may not exist. */
     private final String ioTablePath;
+
+    /** Absolute file path to the I/O table file. File may not exist. */
+    private final String absIoTablePath;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
@@ -79,6 +81,7 @@ public class InputOutputGenerator {
     public InputOutputGenerator(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         ioTablePath = settings.ioTablePath;
+        absIoTablePath = settings.absIoTablePath;
         warnOutput = settings.warnOutput;
     }
 
@@ -105,7 +108,7 @@ public class InputOutputGenerator {
      * @return The collected entries of the I/O table, list is empty if no table file was found.
      */
     private List<IoEntry> convertIoTableEntries() {
-        try (BufferedReader ioTableText = new BufferedReader(new FileReader(Paths.resolve(ioTablePath)))) {
+        try (BufferedReader ioTableText = new BufferedReader(new FileReader(absIoTablePath))) {
             Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
             Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
 

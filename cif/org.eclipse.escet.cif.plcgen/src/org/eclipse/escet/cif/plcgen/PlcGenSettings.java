@@ -45,10 +45,13 @@ public class PlcGenSettings {
     public final String absInputPath;
 
     /** Absolute base path to which to write the generated code. */
-    public final String outputPath;
+    public final String absOutputPath;
 
     /** File path to the IO table file, may not exist. */
     public final String ioTablePath;
+
+    /** Absolute file path to the IO table file, may not exist. */
+    public final String absIoTablePath;
 
     /** User-defined integer type size to use by the PLC. */
     public final PlcNumberBits intTypeSize;
@@ -83,8 +86,9 @@ public class PlcGenSettings {
      * @param taskPriority Priority of the PLC task. Must be in the range [0..65535].
      * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
-     * @param outputPath Absolute base path to which to write the generated code.
+     * @param absOutputPath Absolute base path to which to write the generated code.
      * @param ioTablePath File path to the IO table file, may not exist.
+     * @param absIoTablePath Absolute file path to the IO table file, may not exist.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
@@ -94,9 +98,10 @@ public class PlcGenSettings {
      * @param warnOutput Callback to send warnings to the user.
      */
     public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
-            int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String outputPath,
-            String ioTablePath, PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues,
-            ConvertEnums enumConversion, Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
+            int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String absOutputPath,
+            String ioTablePath, String absIoTablePath, PlcNumberBits intTypeSize, PlcNumberBits realTypeSize,
+            boolean simplifyValues, ConvertEnums enumConversion, Supplier<Boolean> shouldTerminate,
+            boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;
@@ -106,8 +111,9 @@ public class PlcGenSettings {
         this.taskPriority = taskPriority;
         this.inputPath = inputPath;
         this.absInputPath = absInputPath;
-        this.outputPath = outputPath;
+        this.absOutputPath = absOutputPath;
         this.ioTablePath = ioTablePath;
+        this.absIoTablePath = absIoTablePath;
         this.intTypeSize = intTypeSize;
         this.realTypeSize = realTypeSize;
         this.simplifyValues = simplifyValues;

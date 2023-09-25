@@ -53,7 +53,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
     private PlcNumberBits realTypeSize;
 
     /** Absolute base path to which to write the generated code. */
-    private String outputPath;
+    private String absOutputPath;
 
     /** Conversion of PLC models to text for the target. */
     private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
@@ -96,7 +96,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
     public void setup(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
-        outputPath = settings.outputPath;
+        absOutputPath = settings.absOutputPath;
 
         // Warn the user about getting a possibly too small integer type size.
         if (settings.intTypeSize.getTypeSize(CIF_INTEGER_SIZE) < CIF_INTEGER_SIZE) {
@@ -272,6 +272,6 @@ public abstract class PlcBaseTarget implements PlcTarget {
     @Override
     public void writeOutput(PlcProject project) {
         Writer writer = getPlcCodeWriter();
-        writer.write(project, outputPath);
+        writer.write(project, absOutputPath);
     }
 }

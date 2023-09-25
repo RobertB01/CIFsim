@@ -69,7 +69,7 @@ public class TransitionGeneratorTest {
             int taskCyceTime = 1;
             int priority = 1;
             String inputPath = "input/path";
-            String outputPath = "/output/path";
+            String outputPath = "output/path";
             String ioTablePath = "io/path";
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
@@ -80,8 +80,9 @@ public class TransitionGeneratorTest {
             WarnOutput warnOutput = message -> { /* Do nothing. */ };
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, inputPath, "/" + inputPath, outputPath, ioTablePath, intSize, realSize,
-                    simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                    taskCyceTime, priority, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
+                    "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    warnOutput);
             setup(settings);
 
             // Setup the generators, part of PlcBaseTarget.generate() normally.

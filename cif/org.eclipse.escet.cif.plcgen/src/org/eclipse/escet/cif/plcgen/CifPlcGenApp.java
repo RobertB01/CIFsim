@@ -147,7 +147,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         int priority = PlcTaskPriorityOption.getTaskPrio();
 
         String inputPath = InputFileOption.getPath();
-        String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
+        String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
         String ioTablePath = IoTablePathOption.getDerivedPath();
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
@@ -162,8 +162,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = message -> OutputProvider.warn(message);
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, ioTablePath, intSize, realSize, simplifyValues,
-                enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath),
+                intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override
