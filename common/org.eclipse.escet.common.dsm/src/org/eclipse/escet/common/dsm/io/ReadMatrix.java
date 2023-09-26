@@ -177,7 +177,7 @@ public class ReadMatrix {
      *
      * @param filepath Path of the file to read.
      * @param debugOut Stream for sending debug output. Use {@code null} to disable debug output.
-     * @return The clustering input, based on the data that was read..
+     * @return The clustering input, based on the data that was read.
      * @throws InputOutputException In case of an I/O error, or the file is not in the right format.
      */
     public static ClusterInput readMatrixFile(String filepath, DebugNormalOutput debugOut) {
