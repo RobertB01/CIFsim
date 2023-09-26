@@ -646,11 +646,9 @@ public class ExprCodeGenerator {
             String state)
     {
         ExprCodeGeneratorResult crslt = gencodeExpr(expr.getChild(), ctxt, state);
-        ExprCodeGeneratorResult brslt = (expr.getBegin() == null)
-                ? new ExprCodeGeneratorResult("null", expr.getType())
+        ExprCodeGeneratorResult brslt = (expr.getBegin() == null) ? new ExprCodeGeneratorResult("null", expr.getType())
                 : gencodeExpr(expr.getBegin(), ctxt, state);
-        ExprCodeGeneratorResult erslt = (expr.getEnd() == null)
-                ? new ExprCodeGeneratorResult("null", expr.getType())
+        ExprCodeGeneratorResult erslt = (expr.getEnd() == null) ? new ExprCodeGeneratorResult("null", expr.getType())
                 : gencodeExpr(expr.getEnd(), ctxt, state);
         return merge("slice(%s, %s, %s)", expr.getType(), ctxt, crslt, brslt, erslt);
     }
@@ -886,7 +884,8 @@ public class ExprCodeGenerator {
                 break;
 
             case GAMMA:
-                text = fmt("new GammaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, paramsTxt);
+                text = fmt("new GammaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
+                        paramsTxt);
                 break;
 
             case GEOMETRIC:
