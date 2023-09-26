@@ -116,6 +116,9 @@ public class DebugNormalOutputTest {
         err.line("error ignores indenting");
         out.line("out does indent");
         dbg.line("debug does indent");
+        dbg.inc();
+        dbg.line("debug does more indent");
+        dbg.dec();
         out.dec();
         dbg.line("debug done");
         String expected = """
@@ -125,9 +128,34 @@ public class DebugNormalOutputTest {
                 ERROR: error ignores indenting
                     out does indent
                     debug does indent
+                        debug does more indent
                 debug done
                 """;
         assertEquals(expected, outputProvider.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testIncorrectDedentWithDebug() {
+        StoredOutputProvider outputProvider = new StoredOutputProvider();
+        DebugNormalOutput out = outputProvider.getNormalOutput();
+        DebugNormalOutput dbg = outputProvider.getDebugOutput();
+        out.line("normal");
+        out.inc();
+        dbg.line("debug (with indent)");
+        assertThrows(AssertionError.class, () -> dbg.dec());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testIncorrectDedentWithNormal() {
+        StoredOutputProvider outputProvider = new StoredOutputProvider();
+        DebugNormalOutput out = outputProvider.getNormalOutput();
+        DebugNormalOutput dbg = outputProvider.getDebugOutput();
+        dbg.line("debug");
+        dbg.inc();
+        out.line("noral (with indent)");
+        assertThrows(AssertionError.class, () -> out.dec());
     }
 
     @Test

@@ -56,8 +56,8 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
     /** Number of spaces to insert for a single indent level. */
     private final int indentSize;
 
-    /** Current indentation level. */
-    private int indentLevel = 0;
+    /** Current total indentation level for both normal and debug output. */
+    private int totalIndentLevel = 0;
 
     /** Cached indentation string, {@code null} means it must be recomputed. */
     private String curIndentText = "";
@@ -127,15 +127,15 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
     }
 
     /** Increment the indentation level by {@code 1}. */
-    private void incIndentLevel() {
-        indentLevel++;
+    private void incTotalIndentLevel() {
+        totalIndentLevel++;
         curIndentText = null;
     }
 
     /** Decrement the indentation level by {code 1}. */
-    private void decIndentLevel() {
-        Assert.check(indentLevel > 0);
-        indentLevel--;
+    private void decTotalIndentLevel() {
+        Assert.check(totalIndentLevel > 0);
+        totalIndentLevel--;
         curIndentText = null;
     }
 
@@ -147,7 +147,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
     private String getIndentText() {
         // Update the indentation string if necessary.
         if (curIndentText == null) {
-            curIndentText = Strings.spaces(indentLevel * indentSize);
+            curIndentText = Strings.spaces(totalIndentLevel * indentSize);
         }
         return curIndentText;
     }
@@ -161,6 +161,9 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
      */
     private DebugNormalOutput makeDebugNormalOutput(boolean isEnabled, String linePrefix) {
         return new DebugNormalOutput() {
+            /** Indentation level of this stream. */
+            private int streamIndentLevel = 0;
+
             @Override
             public void line(String message) {
                 // Do nothing if the stream is not enabled.
@@ -190,14 +193,17 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
             @Override
             public void inc() {
                 if (isEnabled()) {
-                    incIndentLevel();
+                    streamIndentLevel++;
+                    incTotalIndentLevel();
                 }
             }
 
             @Override
             public void dec() {
                 if (isEnabled()) {
-                    decIndentLevel();
+                    Assert.check(streamIndentLevel > 0);
+                    streamIndentLevel--;
+                    decTotalIndentLevel();
                 }
             }
         };
