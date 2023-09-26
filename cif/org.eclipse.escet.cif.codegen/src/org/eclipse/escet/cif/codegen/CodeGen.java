@@ -663,6 +663,7 @@ public abstract class CodeGen {
         // specifications.
         switch (language) {
             case JAVA:
+            case JAVASCRIPT:
             case C89:
             case C99:
                 new CodeGenPreChecker().check(spec);

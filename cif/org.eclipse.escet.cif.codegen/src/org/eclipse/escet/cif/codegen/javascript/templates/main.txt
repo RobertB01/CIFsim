@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html>
+    <title>${prefix} | Eclipse ESCET</title>
+    <head></head>
+    <body></body>
+</html>

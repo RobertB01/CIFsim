@@ -25,7 +25,10 @@ public enum TargetLanguage {
     C99("C99"),
 
     /** Simulink. */
-    SIMULINK("Simulink");
+    SIMULINK("Simulink"),
+
+    /** Javascript. */
+    JAVASCRIPT("Javascript");
 
     /** The name of the target language. End-user readable. */
     public final String readableName;
