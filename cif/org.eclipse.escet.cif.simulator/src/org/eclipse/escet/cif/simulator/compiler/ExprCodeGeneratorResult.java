@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
-import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -39,16 +38,17 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
     private static final String METHOD_BASE_NAME = "evalExpression";
 
     /**
-     * The limit after which generated code should be wrapped in separate method. The length of the generated Java code
+     * The limit at which generated code should be wrapped in a new extra method. The length of the generated Java code
      * is used in the limit calculations as an approximation of the potential size of the compiled bytecode.
      */
-    private static final int LIMIT = 100000;
+    private static final int LIMIT = 100_000;
 
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
      * @param extraMethods The new extra methods.
-     * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
+     * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra
+     *     method.
      * @param type The type of the generated code.
      */
     public ExprCodeGeneratorResult {
@@ -58,7 +58,8 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
     /**
      * Constructor for the {@link ExprCodeGeneratorResult} class.
      *
-     * @param exprCode The initial expression code.
+     * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra
+     *     method.
      * @param type The type of the generated code.
      */
     public ExprCodeGeneratorResult(String exprCode, CifType type) {
@@ -103,19 +104,20 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
         }
 
         // Prepare the merge.
-        // TODO Might there be another assert that makes more sense? Now it checks the case when all results are
-        // transformed into a separate method call.
-        // But this ignores method id number and potential other stuff in mergeFormatString.
-        Assert.check(LIMIT > results.size() * METHOD_BASE_NAME.length()); // Otherwise the merged result will never fit
-                                                                          // within the limit.
         while (!areUnderTheLimit(results, mergeFormatString.length())) {
             // Identify the largest result.
             int indexLargest = getLargestResult(results);
             ExprCodeGeneratorResult largest = results.get(indexLargest);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
+
+            // Escape loop if largest result is no longer reduced in size.
+            if (newLargest.exprCode().length() >= largest.exprCode().length()) {
+                break;
+            }
+
             results.set(indexLargest, newLargest);
 
-            // Replace all instances of the largest result (there may be duplicates) with the new method, keeping
+            // Replace all instances of the largest result (there may be duplicates) with the new extra method, keeping
             // the order of the results intact.
             for (int index = indexLargest + 1; index < results.size(); index++) {
                 if (results.get(index).equals(largest)) {
@@ -124,11 +126,10 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
             }
         }
 
-        String exprText = fmt(mergeFormatString, results.toArray(new ExprCodeGeneratorResult[results.size()]));
-        Assert.check(exprText.length() < LIMIT);
+        String exprText = fmt(mergeFormatString,
+                (Object[])results.toArray(new ExprCodeGeneratorResult[results.size()]));
 
-        // Perform the actual merge.
-        // We dont't want duplicates in mergedExtraMethods.
+        // Perform the actual merge. Ensure we don't get any duplicate extra methods.
         List<ExtraMethod> mergedExtraMethods = list();
         Set<ExprCodeGeneratorResult> seen = set();
         for (ExprCodeGeneratorResult result: results) {
@@ -166,11 +167,11 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * @return {@code true} if the combined counts would remain under the limit, otherwise {@code false}.
      */
     private static boolean areUnderTheLimit(List<ExprCodeGeneratorResult> results, int mergeFormatStringLength) {
-        int total = 0;
+        int total = mergeFormatStringLength;
         for (ExprCodeGeneratorResult result: results) {
             total += result.exprCode.length();
         }
-        return total + mergeFormatStringLength < LIMIT;
+        return total < LIMIT;
     }
 
     /**
