@@ -163,17 +163,12 @@ public abstract class Application<T extends IOutputComponent> {
      * Runs the actual application, in the application framework. Should in general be called from the application's
      * 'main' method.
      *
-     * <p>
-     * If run in within Eclipse (OSGi platform), this method returns the exit code of the application. If this method is
-     * called from a stand-alone application, this method never returns. Instead, the {@link System#exit} method is used
-     * to return the exit code, and terminate the application.
-     * </p>
-     *
      * @param args The command line arguments supplied to the application.
-     * @param exit If enabled this method never returns and terminate the application after completion using the
-     *     {@link System#exit} method. When disabled this method returns the exit code of the application.
-     * @return The application exit code, but only if called while {@code exit} is disabled. See the application
-     *     framework documentation for a description of the exit codes.
+     * @param exit If {@code true}, this method never returns, as it terminates the application and JVM after
+     *     completion, using the {@link System#exit} method. If {@code false}, this method returns the exit code of the
+     *     application.
+     * @return The application exit code, but only if {@code exit} is {@code false}. See the application framework
+     *     documentation for a description of the exit codes.
      */
     public final int run(String[] args, boolean exit) {
         // Add application to application manager.
@@ -203,12 +198,11 @@ public abstract class Application<T extends IOutputComponent> {
      * </p>
      *
      * @param args The command line arguments supplied to the application.
-     * @param exit If enabled and run within Eclipse (OSGi platform), this method returns the exit code of the
-     *     application. If enabled and this method is called from a stand-alone application, this method never returns.
-     *     Instead, the {@link System#exit} method is used to return the exit code, and terminate the application. If
-     *     disabled, always returns the exit code.
-     * @return The application exit code, but only if called from an Eclipse (OSGi platform) environment. See the
-     *     application framework documentation for a description of the exit codes.
+     * @param exit If {@code true}, this method never returns, as it terminates the application and JVM after
+     *     completion, using the {@link System#exit} method. If {@code false}, this method returns the exit code of the
+     *     application.
+     * @return The application exit code, but only if {@code exit} is {@code false}. See the application framework
+     *     documentation for a description of the exit codes.
      */
     public final int runApplication(String[] args, boolean exit) {
         // Make sure application is added to application manager.
@@ -407,18 +401,15 @@ public abstract class Application<T extends IOutputComponent> {
             AppEnv.unregisterApplication();
         }
 
-        // Process exit code.
-        if (!exit) {
-            // We can't use {@link System#exit} in Eclipse, as it would shut
-            // down the JVM, and thus Eclipse. So, we simply return the exit
-            // code. The application main methods should decide what to do with
-            // non-zero exit codes. It could for instance throw an exception.
+        // Terminate with the proper exit code. We allow the option to not exit
+        // the JVM, as when we for instance run in Eclipse, we don't want to
+        // terminate the IDE.
+        if (exit) {
+            System.exit(exitCode);
+            return 0; // Never reached.
+        } else {
             return exitCode;
         }
-
-        // As Java application.
-        System.exit(exitCode);
-        return 0; // Never reached.
     }
 
     /**

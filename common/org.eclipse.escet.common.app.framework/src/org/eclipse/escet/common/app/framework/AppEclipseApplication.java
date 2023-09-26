@@ -123,11 +123,11 @@ public class AppEclipseApplication implements IApplication {
         // Construct application.
         Application<?> app = appConstructor.newInstance();
 
-        // Run application.
-        app.run(cmdLineArgs, false);
+        // Suppress error message when app.run() returns value not equal to zero.
+        System.setProperty(IApplicationContext.EXIT_DATA_PROPERTY, "");
 
-        // Never reached. Needed to satisfy compiler.
-        return IApplication.EXIT_OK;
+        // Run application.
+        return app.run(cmdLineArgs, false);
     }
 
     @Override
