@@ -1031,6 +1031,13 @@ public class ExprCodeGenerator {
     private static ExprCodeGeneratorResult gencodeTupleExpr(TupleExpression expr, CifCompilerContext ctxt,
             String state)
     {
+        // Don't generate code for large tuple literals. Generate a data
+        // file and read it again at runtime. Prevents generating so much Java
+        // code that the Java compiler can't compile it.
+        if (expr.getFields().size() >= 100 && isSerializableLiteral(expr)) {
+            return new ExprCodeGeneratorResult(gencodeLiteral(expr, ctxt), expr.getType());
+        }
+
         // Get tuple type class name.
         TupleType tupleType = (TupleType)normalizeType(expr.getType());
         String className = ctxt.getTupleTypeClassName(tupleType);
