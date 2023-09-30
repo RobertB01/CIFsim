@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Common Design Structure Matrix Application
 Bundle-SymbolicName: org.eclipse.escet.common.dsm.app;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.common.dsm.app
 Bundle-RequiredExecutionEnvironment: JavaSE-17
