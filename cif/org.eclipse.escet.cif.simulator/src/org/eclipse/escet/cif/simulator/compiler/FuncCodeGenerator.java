@@ -273,6 +273,7 @@ public class FuncCodeGenerator {
         c.add("boolean b; // temp var for pred eval rslts");
 
         // Generate code for the local variables of the function.
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (DiscVariable var: localVars) {
             // Special case for default initial value.
             if (var.getValue() == null) {
@@ -292,7 +293,9 @@ public class FuncCodeGenerator {
             c.add("try {");
             c.indent();
 
-            c.add("%s = %s;", ctxt.getFuncLocalVarName(var), gencodeExpr(value, ctxt, null));
+            ExprCodeGeneratorResult result = gencodeExpr(value, ctxt, null);
+            c.add("%s = %s;", ctxt.getFuncLocalVarName(var), result);
+            exprResults.add(result);
 
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
@@ -307,7 +310,7 @@ public class FuncCodeGenerator {
         }
 
         // Generate statements.
-        List<ExprCodeGeneratorResult> exprResults = gencodeStatements(func.getStatements(), c, ctxt);
+        exprResults.addAll(gencodeStatements(func.getStatements(), c, ctxt));
 
         // Generate 'throw' statement at the end of the body, to ensure we
         // don't get compilation errors, due to Java thinking that the method
@@ -433,7 +436,9 @@ public class FuncCodeGenerator {
             // Actual return statement code. We generate 'if (true) ' to avoid
             // unreachable statements in the Java code, leading to compilation
             // errors.
-            c.add("if (true) return %s;", gencodeExpr(retValue, ctxt, null));
+            ExprCodeGeneratorResult result = gencodeExpr(retValue, ctxt, null);
+            c.add("if (true) return %s;", result);
+            exprResults.add(result);
 
             // End of 'try'.
             c.dedent();
