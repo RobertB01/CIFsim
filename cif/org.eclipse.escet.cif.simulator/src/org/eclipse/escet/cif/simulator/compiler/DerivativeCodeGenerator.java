@@ -130,7 +130,9 @@ public class DerivativeCodeGenerator {
      * @param c The code box in which to generate the code.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodeDerivativesPerLoc(ContVariable var, CifCompilerContext ctxt, CodeBox c) {
+    private static List<ExprCodeGeneratorResult> gencodeDerivativesPerLoc(ContVariable var, CifCompilerContext ctxt,
+            CodeBox c)
+    {
         // Get automaton.
         Automaton aut = (Automaton)var.eContainer();
 

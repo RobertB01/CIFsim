@@ -358,7 +358,9 @@ public class PrintCodeGenerator {
      * @param ctxt The compiler context to use.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodePrint(Print print, int idx, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodePrint(Print print, int idx, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         // Start with all runtime kinds.
         Set<PrintTransitionKind> kinds = set();
         for (PrintTransitionKind kind: PrintTransitionKind.values()) {

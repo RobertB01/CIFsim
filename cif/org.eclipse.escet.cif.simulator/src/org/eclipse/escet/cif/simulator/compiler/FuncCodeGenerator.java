@@ -262,7 +262,9 @@ public class FuncCodeGenerator {
      * @param ctxt The compiler context to use.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodeBody(InternalFunction func, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodeBody(InternalFunction func, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         // Order local variables by their initialization interdependencies.
         List<DiscVariable> localVars = func.getVariables();
         localVars = new FuncLocalVarOrderer().computeOrder(localVars);
@@ -327,7 +329,9 @@ public class FuncCodeGenerator {
      * @param ctxt The compiler context to use.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodeStatements(List<FunctionStatement> statements, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodeStatements(List<FunctionStatement> statements, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         List<ExprCodeGeneratorResult> exprResults = list();
         for (FunctionStatement statement: statements) {
             exprResults.addAll(gencodeStatement(statement, c, ctxt));
@@ -343,7 +347,9 @@ public class FuncCodeGenerator {
      * @param ctxt The compiler context to use.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodeStatement(FunctionStatement statement, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodeStatement(FunctionStatement statement, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         List<ExprCodeGeneratorResult> exprResults = list();
         if (statement instanceof AssignmentFuncStatement) {
             AssignmentFuncStatement asgn = (AssignmentFuncStatement)statement;
