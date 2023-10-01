@@ -108,7 +108,7 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
             ExprCodeGeneratorResult largest = results.get(indexLargest);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
 
-            // The largest result should be reduced in size, fail otherwise.
+            // Ensure we reduced the size, as otherwise the loop may never terminate.
             Assert.check(newLargest.exprCode().length() < largest.exprCode().length());
 
             // Replace all instances of the largest result (there may be duplicates) with the new extra method, keeping
