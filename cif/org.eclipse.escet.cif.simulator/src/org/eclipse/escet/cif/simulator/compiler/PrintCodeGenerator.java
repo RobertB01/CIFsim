@@ -290,9 +290,14 @@ public class PrintCodeGenerator {
             c.add("State preState = (State)_preState;");
             c.add("State postState = (State)_postState;");
             c.add();
-            gencodePrint(print, i, c, ctxt);
+            List<ExprCodeGeneratorResult> exprResults = gencodePrint(print, i, c, ctxt);
             c.dedent();
             c.add("}");
+
+            // Add potential extra expression evaluation methods.
+            for (ExprCodeGeneratorResult exprResult: exprResults) {
+                exprResult.addExtraMethods(c);
+            }
         }
     }
 
@@ -351,8 +356,9 @@ public class PrintCodeGenerator {
      * @param idx The 0-based index of the print declaration.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodePrint(Print print, int idx, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodePrint(Print print, int idx, CodeBox c, CifCompilerContext ctxt) {
         // Start with all runtime kinds.
         Set<PrintTransitionKind> kinds = set();
         for (PrintTransitionKind kind: PrintTransitionKind.values()) {
@@ -403,12 +409,15 @@ public class PrintCodeGenerator {
 
         // Filter on 'pre' state, if applicable.
         Expression whenPre = print.getWhenPre();
+        List<ExprCodeGeneratorResult> exprResults = list();
         if (whenPre != null) {
             c.add();
             c.add("boolean whenPre;");
             c.add("try {");
             c.indent();
-            c.add("whenPre = %s;", gencodeExpr(whenPre, ctxt, "preState"));
+            ExprCodeGeneratorResult result = gencodeExpr(whenPre, ctxt, "preState");
+            c.add("whenPre = %s;", result);
+            exprResults.add(result);
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
@@ -426,7 +435,9 @@ public class PrintCodeGenerator {
             c.add("boolean whenPost;");
             c.add("try {");
             c.indent();
-            c.add("whenPost = %s;", gencodeExpr(whenPost, ctxt, "postState"));
+            ExprCodeGeneratorResult result = gencodeExpr(whenPost, ctxt, "postState");
+            c.add("whenPost = %s;", result);
+            exprResults.add(result);
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
@@ -454,7 +465,9 @@ public class PrintCodeGenerator {
             c.add("%s value;", gencodeType(ntype, ctxt));
             c.add("try {");
             c.indent();
-            c.add("value = %s;", gencodeExpr(txtPre, ctxt, "preState"));
+            ExprCodeGeneratorResult result = gencodeExpr(txtPre, ctxt, "preState");
+            c.add("value = %s;", result);
+            exprResults.add(result);
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
@@ -488,7 +501,9 @@ public class PrintCodeGenerator {
             c.add("%s value;", gencodeType(ntype, ctxt));
             c.add("try {");
             c.indent();
-            c.add("value = %s;", gencodeExpr(txtPost, ctxt, "postState"));
+            ExprCodeGeneratorResult result = gencodeExpr(txtPost, ctxt, "postState");
+            c.add("value = %s;", result);
+            exprResults.add(result);
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
@@ -513,5 +528,7 @@ public class PrintCodeGenerator {
         // Do actual printing.
         c.add();
         c.add("stream.println(txt);");
+
+        return exprResults;
     }
 }
