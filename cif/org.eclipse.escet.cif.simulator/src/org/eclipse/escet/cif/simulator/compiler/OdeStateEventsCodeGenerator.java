@@ -127,7 +127,8 @@ public class OdeStateEventsCodeGenerator {
             c.indent();
             c.add("try {");
             c.indent();
-            c.add("return %s;", gencodeExpr(pred, ctxt, "state"));
+            ExprCodeGeneratorResult exprResult = gencodeExpr(pred, ctxt, "state");
+            c.add("return %s;", exprResult);
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
@@ -148,6 +149,9 @@ public class OdeStateEventsCodeGenerator {
             c.add("}");
             c.dedent();
             c.add("}");
+
+            // Add potential extra expression evaluation methods.
+            exprResult.addExtraMethods(c);
 
             // Close inner class.
             c.dedent();
