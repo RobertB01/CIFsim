@@ -364,7 +364,9 @@ public class FuncCodeGenerator {
             c.indent();
 
             // If guards.
-            c.add("b = %s;", gencodePreds(istat.getGuards(), ctxt, null));
+            ExprCodeGeneratorResult istatResult = gencodePreds(istat.getGuards(), ctxt, null);
+            c.add("b = %s;", istatResult);
+            exprResults.add(istatResult);
 
             // End of 'try'.
             c.dedent();
@@ -391,7 +393,9 @@ public class FuncCodeGenerator {
                 c.indent();
 
                 // Elif guards.
-                c.add("b = %s;", gencodePreds(elif.getGuards(), ctxt, null));
+                ExprCodeGeneratorResult elifResult = gencodePreds(elif.getGuards(), ctxt, null);
+                c.add("b = %s;", elifResult);
+                exprResults.add(elifResult);
 
                 // End of 'try'.
                 c.dedent();
@@ -460,7 +464,9 @@ public class FuncCodeGenerator {
             c.indent();
 
             // While guards.
-            c.add("b = %s;", gencodePreds(wstat.getGuards(), ctxt, null));
+            ExprCodeGeneratorResult wstatResult = gencodePreds(wstat.getGuards(), ctxt, null);
+            c.add("b = %s;", wstatResult);
+            exprResults.add(wstatResult);
 
             // End of 'try'.
             c.dedent();

@@ -792,7 +792,9 @@ public class AutomatonNormalCodeGenerator {
      * @param updates The updates.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodeUpdates(CodeBox c, Automaton aut, CifCompilerContext ctxt, List<Update> updates) {
+    private static List<ExprCodeGeneratorResult> gencodeUpdates(CodeBox c, Automaton aut, CifCompilerContext ctxt,
+            List<Update> updates)
+    {
         List<ExprCodeGeneratorResult> exprResults = list();
         for (Update update: updates) {
             if (update instanceof Assignment) {
@@ -814,14 +816,18 @@ public class AutomatonNormalCodeGenerator {
      * @param update The 'if' update.
      * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static List<ExprCodeGeneratorResult> gencodeIfUpdate(CodeBox c, Automaton aut, CifCompilerContext ctxt, IfUpdate update) {
+    private static List<ExprCodeGeneratorResult> gencodeIfUpdate(CodeBox c, Automaton aut, CifCompilerContext ctxt,
+            IfUpdate update)
+    {
         List<ExprCodeGeneratorResult> exprResults = list();
         // Start of 'try'.
         c.add("try {");
         c.indent();
 
         // If guards.
-        c.add("b = %s;", gencodePreds(update.getGuards(), ctxt, "source"));
+        ExprCodeGeneratorResult updateResult = gencodePreds(update.getGuards(), ctxt, "source");
+        c.add("b = %s;", updateResult);
+        exprResults.add(updateResult);
 
         // End of 'try'.
         c.dedent();
@@ -848,7 +854,9 @@ public class AutomatonNormalCodeGenerator {
             c.indent();
 
             // Elif guards.
-            c.add("b = %s;", gencodePreds(elifUpd.getGuards(), ctxt, "source"));
+            ExprCodeGeneratorResult elifUpdResult = gencodePreds(elifUpd.getGuards(), ctxt, "source");
+            c.add("b = %s;", elifUpdResult);
+            exprResults.add(updateResult);
 
             // End of 'try'.
             c.dedent();

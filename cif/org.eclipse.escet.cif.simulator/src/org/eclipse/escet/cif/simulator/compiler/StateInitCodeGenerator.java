@@ -167,7 +167,7 @@ public class StateInitCodeGenerator {
                 // initial locations, the automaton is already initialized,
                 // and this can be report here, as unsupported.
                 Location loc = (Location)obj;
-                gencodeInitLoc(automata, loc, c, ctxt);
+                exprResults.add(gencodeInitLoc(automata, loc, c, ctxt));
             } else if (obj instanceof Automaton) {
                 // Generate code to check for initialization of the automaton.
                 // If not initialized, initialization has failed.
@@ -402,15 +402,17 @@ public class StateInitCodeGenerator {
      * @param loc The location.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+         * @return The {@code ExprCodeGeneratorResult} for the generated Java code.
      */
-    private static void gencodeInitLoc(List<Automaton> automata, Location loc, CodeBox c, CifCompilerContext ctxt) {
+    private static ExprCodeGeneratorResult gencodeInitLoc(List<Automaton> automata, Location loc, CodeBox c, CifCompilerContext ctxt) {
         // Evaluate initialization predicates. For the wrapped exception, we
         // don't provide the state, as during initialization the state may be
         // incomplete.
         List<Expression> initials = loc.getInitials();
         c.add("try {");
         c.indent();
-        c.add("b = %s;", gencodePreds(initials, ctxt, "state", "false"));
+        ExprCodeGeneratorResult exprResult = gencodePreds(initials, ctxt, "state", "false");
+        c.add("b = %s;", exprResult);
         c.dedent();
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
@@ -446,6 +448,8 @@ public class StateInitCodeGenerator {
         c.add("}");
         c.dedent();
         c.add("}");
+
+        return exprResult;
     }
 
     /**
