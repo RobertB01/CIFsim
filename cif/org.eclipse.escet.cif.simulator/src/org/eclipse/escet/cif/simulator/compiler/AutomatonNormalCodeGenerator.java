@@ -725,6 +725,7 @@ public class AutomatonNormalCodeGenerator {
 
         boolean selfLoop = CifEdgeUtils.isSelfLoop(edge);
         boolean noUpdates = selfLoop && edge.getUpdates().isEmpty();
+        List<ExprCodeGeneratorResult> updateResults = list();
 
         if (noUpdates) {
             c.add("// No updates.");
@@ -757,7 +758,7 @@ public class AutomatonNormalCodeGenerator {
             c.indent();
 
             // Apply actual updates.
-            gencodeUpdates(c, aut, ctxt, edge.getUpdates());
+            updateResults.addAll(gencodeUpdates(c, aut, ctxt, edge.getUpdates()));
 
             // End of 'try'.
             c.dedent();
@@ -772,6 +773,11 @@ public class AutomatonNormalCodeGenerator {
         c.dedent();
         c.add("}");
 
+        // Add potential extra update expression evaluation methods.
+        for (ExprCodeGeneratorResult updateResult: updateResults) {
+            updateResult.addExtraMethods(c);
+        }
+
         // Wrap up the class.
         c.dedent();
         c.add("}");
@@ -784,16 +790,19 @@ public class AutomatonNormalCodeGenerator {
      * @param aut The automaton.
      * @param ctxt The compiler context to use.
      * @param updates The updates.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeUpdates(CodeBox c, Automaton aut, CifCompilerContext ctxt, List<Update> updates) {
+    private static List<ExprCodeGeneratorResult> gencodeUpdates(CodeBox c, Automaton aut, CifCompilerContext ctxt, List<Update> updates) {
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (Update update: updates) {
             if (update instanceof Assignment) {
                 Assignment asgn = (Assignment)update;
-                gencodeAssignment(asgn.getAddressable(), asgn.getValue(), aut, c, ctxt, "source");
+                exprResults.addAll(gencodeAssignment(asgn.getAddressable(), asgn.getValue(), aut, c, ctxt, "source"));
             } else {
-                gencodeIfUpdate(c, aut, ctxt, (IfUpdate)update);
+                exprResults.addAll(gencodeIfUpdate(c, aut, ctxt, (IfUpdate)update));
             }
         }
+        return exprResults;
     }
 
     /**
@@ -803,8 +812,10 @@ public class AutomatonNormalCodeGenerator {
      * @param aut The automaton.
      * @param ctxt The compiler context to use.
      * @param update The 'if' update.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeIfUpdate(CodeBox c, Automaton aut, CifCompilerContext ctxt, IfUpdate update) {
+    private static List<ExprCodeGeneratorResult> gencodeIfUpdate(CodeBox c, Automaton aut, CifCompilerContext ctxt, IfUpdate update) {
+        List<ExprCodeGeneratorResult> exprResults = list();
         // Start of 'try'.
         c.add("try {");
         c.indent();
@@ -824,7 +835,7 @@ public class AutomatonNormalCodeGenerator {
         // If updates.
         c.add("if (b) {");
         c.indent();
-        gencodeUpdates(c, aut, ctxt, update.getThens());
+        exprResults.addAll(gencodeUpdates(c, aut, ctxt, update.getThens()));
         c.dedent();
 
         // Elifs.
@@ -871,5 +882,7 @@ public class AutomatonNormalCodeGenerator {
 
         // Close if.
         c.add("}");
+
+        return exprResults;
     }
 }
