@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -95,30 +96,24 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
     public static ExprCodeGeneratorResult merge(String mergeFormatString, CifType type, CifCompilerContext ctxt,
             List<ExprCodeGeneratorResult> results)
     {
-        // TODO I am using/abusing fmt to check the whether the number of placeholders match the number of arguments.
-        // Should we do this check ourselves or provide better exception catching here?
-
         // Optimization for no results to be merged (format string has the full code).
         if (results.isEmpty()) {
             return new ExprCodeGeneratorResult(fmt(mergeFormatString), type);
         }
 
-        // Prepare the merge.
+        // Introduce new extra methods as needed to stay under the limit.
         while (!areUnderTheLimit(results, mergeFormatString.length())) {
             // Identify the largest result.
             int indexLargest = getLargestResult(results);
             ExprCodeGeneratorResult largest = results.get(indexLargest);
             ExprCodeGeneratorResult newLargest = createMethod(largest, ctxt);
 
-            // Escape loop if largest result is no longer reduced in size.
-            if (newLargest.exprCode().length() >= largest.exprCode().length()) {
-                break;
-            }
-
-            results.set(indexLargest, newLargest);
+            // The largest result should be reduced in size, fail otherwise.
+            Assert.check(newLargest.exprCode().length() < largest.exprCode().length());
 
             // Replace all instances of the largest result (there may be duplicates) with the new extra method, keeping
             // the order of the results intact.
+            results.set(indexLargest, newLargest);
             for (int index = indexLargest + 1; index < results.size(); index++) {
                 if (results.get(index).equals(largest)) {
                     results.set(index, newLargest);
@@ -126,10 +121,10 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
             }
         }
 
+        // Perform the actual merge. Ensure we don't get any duplicate extra methods.
         String exprText = fmt(mergeFormatString,
                 (Object[])results.toArray(new ExprCodeGeneratorResult[results.size()]));
 
-        // Perform the actual merge. Ensure we don't get any duplicate extra methods.
         List<ExtraMethod> mergedExtraMethods = list();
         Set<ExprCodeGeneratorResult> seen = set();
         for (ExprCodeGeneratorResult result: results) {
@@ -138,6 +133,17 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
             }
         }
         return new ExprCodeGeneratorResult(mergedExtraMethods, exprText, type);
+    }
+
+    /**
+     * Add all extra methods code to the provided code box.
+     *
+     * @param c The code box to which to write the code.
+     */
+    public void addExtraMethods(CodeBox c) {
+        for (ExtraMethod extraMethod: extraMethods) {
+            extraMethod.addExtraMethod(c);
+        }
     }
 
     /**
@@ -210,5 +216,18 @@ public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exp
      * @param type The return type of the extra method.
      */
     public static record ExtraMethod(String bodyCode, String name, String type) {
+        /**
+         * Add extra method code to the provided code box.
+         *
+         * @param c The code box to which to write the code.
+         */
+        public void addExtraMethod(CodeBox c) {
+            c.add();
+            c.add("private static %s %s(State state) {", type, name);
+            c.indent();
+            c.add("return %s;", bodyCode);
+            c.dedent();
+            c.add("}");
+        }
     }
 }

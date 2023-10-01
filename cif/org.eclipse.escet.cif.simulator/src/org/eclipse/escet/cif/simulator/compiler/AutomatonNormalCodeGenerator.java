@@ -48,7 +48,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
-import org.eclipse.escet.cif.simulator.compiler.ExprCodeGeneratorResult.ExtraMethod;
 import org.eclipse.escet.common.box.CodeBox;
 
 /**
@@ -684,14 +683,7 @@ public class AutomatonNormalCodeGenerator {
 
         // Add potential extra guard expression evaluation methods.
         for (ExprCodeGeneratorResult guardResult: guardResults) {
-            for (ExtraMethod extraMethod: guardResult.extraMethods()) {
-                c.add();
-                c.add("private static %s %s(State state) {", extraMethod.type(), extraMethod.name());
-                c.indent();
-                c.add("return %s;", extraMethod.bodyCode());
-                c.dedent();
-                c.add("}");
-            }
+            guardResult.addExtraMethods(c);
         }
 
         // Add 'evalSendValue' method.

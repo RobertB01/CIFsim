@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.RCVD_VALUE_VAR_NAME;
@@ -646,9 +647,9 @@ public class ExprCodeGenerator {
             String state)
     {
         ExprCodeGeneratorResult crslt = gencodeExpr(expr.getChild(), ctxt, state);
-        ExprCodeGeneratorResult brslt = (expr.getBegin() == null) ? new ExprCodeGeneratorResult("null", expr.getType())
+        ExprCodeGeneratorResult brslt = (expr.getBegin() == null) ? new ExprCodeGeneratorResult("null", newIntType())
                 : gencodeExpr(expr.getBegin(), ctxt, state);
-        ExprCodeGeneratorResult erslt = (expr.getEnd() == null) ? new ExprCodeGeneratorResult("null", expr.getType())
+        ExprCodeGeneratorResult erslt = (expr.getEnd() == null) ? new ExprCodeGeneratorResult("null", newIntType())
                 : gencodeExpr(expr.getEnd(), ctxt, state);
         return merge("slice(%s, %s, %s)", expr.getType(), ctxt, crslt, brslt, erslt);
     }
