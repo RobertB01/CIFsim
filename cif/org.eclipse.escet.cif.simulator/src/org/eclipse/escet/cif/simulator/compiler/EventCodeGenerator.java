@@ -161,15 +161,21 @@ public class EventCodeGenerator {
             c.add("public boolean allowedByInvs(State state) {");
             c.indent();
 
-            genAllowedByInvsComp(spec, event, c, ctxt);
+            List<ExprCodeGeneratorResult> exprResults = list();
+            exprResults.addAll(genAllowedByInvsComp(spec, event, c, ctxt));
             for (Automaton aut: ctxt.getAutomata()) {
-                genAllowedByInvsAutLocs(aut, event, c, ctxt);
+                exprResults.addAll(genAllowedByInvsAutLocs(aut, event, c, ctxt));
             }
             c.add("// Event allowed by invariants.");
             c.add("return true;");
 
             c.dedent();
             c.add("}");
+
+            // Add potential extra expression evaluation methods.
+            for (ExprCodeGeneratorResult exprResult: exprResults) {
+                exprResult.addExtraMethods(c);
+            }
         }
     }
 
@@ -245,8 +251,11 @@ public class EventCodeGenerator {
      * @param event The event.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void genAllowedByInvsComp(ComplexComponent comp, Event event, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> genAllowedByInvsComp(ComplexComponent comp, Event event, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         // Generate for component.
         List<Invariant> stateEvtExclInvs = list();
         for (Invariant inv: comp.getInvariants()) {
@@ -267,6 +276,7 @@ public class EventCodeGenerator {
 
         String compTxt = CifTextUtils.getComponentText2(comp);
 
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (Invariant inv: stateEvtExclInvs) {
             Expression pred = inv.getPredicate();
 
@@ -275,16 +285,16 @@ public class EventCodeGenerator {
             c.indent();
 
             // Actual invariant predicate evaluation.
-            // TODO Process the output of gencodeExpr properly.
-            String predCode = gencodeExpr(pred, ctxt, "state").toString();
+            ExprCodeGeneratorResult predResult = gencodeExpr(pred, ctxt, "state");
+            exprResults.add(predResult);
             InvKind invKind = inv.getInvKind();
             switch (invKind) {
                 case EVENT_DISABLES:
-                    c.add("if (%s) return false;", predCode);
+                    c.add("if (%s) return false;", predResult);
                     break;
 
                 case EVENT_NEEDS:
-                    c.add("if (!(%s)) return false;", predCode);
+                    c.add("if (!(%s)) return false;", predResult);
                     break;
 
                 default:
@@ -312,9 +322,11 @@ public class EventCodeGenerator {
         // Generate recursively.
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                genAllowedByInvsComp((ComplexComponent)child, event, c, ctxt);
+                exprResults.addAll(genAllowedByInvsComp((ComplexComponent)child, event, c, ctxt));
             }
         }
+
+        return exprResults;
     }
 
     /**
@@ -324,12 +336,16 @@ public class EventCodeGenerator {
      * @param event The event.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void genAllowedByInvsAutLocs(Automaton aut, Event event, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> genAllowedByInvsAutLocs(Automaton aut, Event event, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         c.add("// Invariants for current location.");
         c.add("switch (state.%s.%s) {", ctxt.getAutSubStateFieldName(aut), ctxt.getLocationPointerFieldName(aut));
         c.indent();
         List<Location> locs = aut.getLocations();
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (int locIdx = 0; locIdx < locs.size(); locIdx++) {
             // Get location.
             Location loc = locs.get(locIdx);
@@ -364,16 +380,16 @@ public class EventCodeGenerator {
                 c.indent();
 
                 // Actual invariant predicate evaluation.
-                // TODO Process the output of gencodeExpr properly.
-                String predCode = gencodeExpr(pred, ctxt, "state").toString();
+                ExprCodeGeneratorResult predResult = gencodeExpr(pred, ctxt, "state");
+                exprResults.add(predResult);
                 InvKind invKind = inv.getInvKind();
                 switch (invKind) {
                     case EVENT_DISABLES:
-                        c.add("if (%s) return false;", predCode);
+                        c.add("if (%s) return false;", predResult);
                         break;
 
                     case EVENT_NEEDS:
-                        c.add("if (!(%s)) return false;", predCode);
+                        c.add("if (!(%s)) return false;", predResult);
                         break;
 
                     default:
@@ -402,6 +418,8 @@ public class EventCodeGenerator {
         c.dedent();
         c.add("}");
         c.add();
+
+        return exprResults;
     }
 
     /**
