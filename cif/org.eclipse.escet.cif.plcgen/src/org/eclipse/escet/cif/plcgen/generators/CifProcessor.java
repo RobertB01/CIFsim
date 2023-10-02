@@ -713,16 +713,16 @@ public class CifProcessor {
     }
 
     /**
-     * Try to match the given path to a CIF object in the specification.
+     * Try to match the given absolute name to a CIF object in the specification.
      *
      * @param absName The absolute name of the CIF object to find.
-     * @return The found CIF object indicated by the path.
+     * @return The found CIF object.
      * @throws IllegalArgumentException If no CIF object with the given name is available.
      */
     public PositionObject findCifObjectByPath(String absName) {
         Assert.notNull(spec); // Function should be called after loading the CIF file.
 
-        PositionObject obj = spec; // Object to refine by following the components of the given path.
+        PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
         for (String compName: absName.split("\\.")) {
             obj = CifScopeUtils.getObject(obj, compName);
         }

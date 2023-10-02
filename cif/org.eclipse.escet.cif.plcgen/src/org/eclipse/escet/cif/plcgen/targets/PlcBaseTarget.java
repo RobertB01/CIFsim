@@ -110,7 +110,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
                             + "may be truncated.");
         } else if (getMaxIntegerTypeSize() < CIF_INTEGER_SIZE) {
             warnOutput.warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. "
-                    + " Some values in the program may be truncated.");
+                    + "Some values in the program may be truncated.");
         }
 
         // Warn the user about getting a possibly too small real type size.
@@ -272,7 +272,7 @@ public abstract class PlcBaseTarget implements PlcTarget {
             // Accept everything, but give a warning if trouble may arise at runtime.
             warnOutput.warn(
                     "Size of I/O address \"%s\" (of %d bits) exceeds the size of the largest supported integer type "
-                            + "(of %d bits)",
+                            + "(of %d bits).",
                     parsedAddress.getAddress(), parsedAddress.size(), getMaxIntegerTypeSize());
         }
     }

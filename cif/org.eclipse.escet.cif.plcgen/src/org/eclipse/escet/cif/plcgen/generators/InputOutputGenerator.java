@@ -139,14 +139,14 @@ public class InputOutputGenerator {
                 String plcTableTypeText = line.get(1).trim();
                 PlcType plcTableType = checkIoType(plcTableTypeText, tableLinePositionText);
 
-                // Third field, the CIF object path to connect to the I/O address.
+                // Third field, the absolute name of the CIF object to connect to the I/O address.
                 String absCifName = line.get(2).trim();
                 PositionObject cifObj;
                 try {
                     cifObj = target.getCifProcessor().findCifObjectByPath(absCifName);
                 } catch (IllegalArgumentException ex) {
                     String message = fmt(
-                            "The 'CIF name' field containing \"%s\" could not be fully matched (third field %s).",
+                            "The 'CIF name' field containing \"%s\" does not refer to an object in the CIF specification (third field %s).",
                             absCifName, tableLinePositionText);
                     throw new InvalidInputException(message, ex);
                 }
@@ -209,7 +209,7 @@ public class InputOutputGenerator {
                     ioTablePath);
             return List.of();
         } catch (IOException ex) {
-            throw new InputOutputException("Failed to read the I/O table file \"" + ioTablePath + "\".", ex);
+            throw new InputOutputException("Failed to read I/O table file \"" + ioTablePath + "\".", ex);
         }
     }
 
@@ -338,7 +338,7 @@ public class InputOutputGenerator {
 
         CifDataProvider dataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
         for (IoEntry entry: entries) {
-            // Preliminaries (check I/O kind, construct links to the correct local data structures).
+            // Preliminaries (check I/O direction, construct links to the correct local data structures).
             Assert.check(EnumSet.of(IoDirection.IO_READ, IoDirection.IO_WRITE).contains(entry.ioDirection));
             boolean isInput = entry.ioDirection.equals(IoDirection.IO_READ);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;

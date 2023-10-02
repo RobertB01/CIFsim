@@ -87,8 +87,8 @@ public class PlcGenSettings {
      * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
      * @param absOutputPath Absolute base path to which to write the generated code.
-     * @param ioTablePath File path to the I?O table file, may not exist.
-     * @param absIoTablePath Absolute file path to the I?O table file, may not exist.
+     * @param ioTablePath File path to the I/O table file, may not exist.
+     * @param absIoTablePath Absolute file path to the I/O table file, may not exist.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.

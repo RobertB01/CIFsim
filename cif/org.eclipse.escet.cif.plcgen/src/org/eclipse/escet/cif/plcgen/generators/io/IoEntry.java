@@ -27,7 +27,7 @@ public class IoEntry {
     /** CIF object linked to the entry. */
     public final PositionObject cifObject;
 
-    /** Kind of I/O being performed. */
+    /** Direction of I/O being performed. */
     public final IoDirection ioDirection;
 
     /**
