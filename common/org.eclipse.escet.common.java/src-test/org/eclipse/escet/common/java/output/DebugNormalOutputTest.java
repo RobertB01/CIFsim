@@ -154,7 +154,7 @@ public class DebugNormalOutputTest {
         DebugNormalOutput dbg = outputProvider.getDebugOutput();
         dbg.line("debug");
         dbg.inc();
-        out.line("noral (with indent)");
+        out.line("normal (with indent)");
         assertThrows(AssertionError.class, () -> out.dec());
     }
 
