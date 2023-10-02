@@ -58,4 +58,28 @@ public class WarnOutputTest {
         String expected = "";
         assertEquals(expected, outputProvider.toString());
     }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testIndentedStoredOutput() {
+        StoredOutputProvider outputProvider = new StoredOutputProvider(true, true, true);
+        DebugNormalOutput out = outputProvider.getNormalOutput();
+        WarnOutput warn = outputProvider.getWarnOutput();
+
+        out.line("non-indented output");
+        out.inc();
+        out.line("indented output");
+        warn.line("indented warning");
+        out.dec();
+        out.line("non-indented output");
+        warn.line("non-indented warning");
+        String expected = """
+                non-indented output
+                    indented output
+                    WARNING: indented warning
+                non-indented output
+                WARNING: non-indented warning
+                """;
+        assertEquals(expected, outputProvider.toString());
+    }
 }

@@ -106,13 +106,13 @@ public class DebugNormalOutputTest {
     public void testMultiStreamStoredOutput() {
         StoredOutputProvider outputProvider = new StoredOutputProvider();
         DebugNormalOutput out = outputProvider.getNormalOutput();
-        DebugNormalOutput dbg = outputProvider.getDebugOutput();
+        DebugNormalOutput dbg = outputProvider.getDebugOutput("DBG::");
         WarnOutput warn = outputProvider.getWarnOutput();
         ErrorOutput err = outputProvider.getErrorOutput();
         out.line("normal");
         dbg.line("debug");
         out.inc();
-        warn.line("warning ignores indenting");
+        warn.line("warning follows indenting");
         err.line("error ignores indenting");
         out.line("out does indent");
         dbg.line("debug does indent");
@@ -123,13 +123,13 @@ public class DebugNormalOutputTest {
         dbg.line("debug done");
         String expected = """
                 normal
-                debug
-                WARNING: warning ignores indenting
+                DBG::debug
+                    WARNING: warning follows indenting
                 ERROR: error ignores indenting
                     out does indent
-                    debug does indent
-                        debug does more indent
-                debug done
+                    DBG::debug does indent
+                        DBG::debug does more indent
+                DBG::debug done
                 """;
         assertEquals(expected, outputProvider.toString());
     }

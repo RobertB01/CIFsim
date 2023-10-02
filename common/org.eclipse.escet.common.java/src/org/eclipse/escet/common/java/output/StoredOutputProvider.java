@@ -171,10 +171,10 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     return;
                 }
 
-                // And construct the output.
+                // Construct the output.
                 String curIndentText = getIndentText();
                 if (linePrefix != null && !linePrefix.isEmpty()) {
-                    message = linePrefix + curIndentText + message + "\n";
+                    message = curIndentText + linePrefix + message + "\n";
                 } else if (!message.isEmpty()) {
                     // Avoid creating an empty line with just indentation. Note than blank messages do get indented as
                     // technically it can be considered to be a message.
@@ -221,10 +221,15 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     }
 
                     // Construct the output.
+                    String curIndentText = getIndentText();
                     if (linePrefix != null && !linePrefix.isEmpty()) {
-                        message = linePrefix + message + "\n";
+                        message = curIndentText + linePrefix + message + "\n";
+                    } else if (!message.isEmpty()) {
+                        // Avoid creating an empty line with just indentation. Note than blank messages do get indented
+                        // as technically it can be considered to be a message.
+                        message = curIndentText + message + "\n";
                     } else {
-                        message = message + "\n";
+                        message = "\n";
                     }
                     stringStore.append(message);
                 }
