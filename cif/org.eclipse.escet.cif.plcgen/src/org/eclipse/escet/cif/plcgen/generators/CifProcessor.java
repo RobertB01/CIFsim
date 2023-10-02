@@ -719,12 +719,12 @@ public class CifProcessor {
      * @return The found CIF object.
      * @throws IllegalArgumentException If no CIF object with the given name is available.
      */
-    public PositionObject findCifObjectByPath(String absName) {
+    public PositionObject findCifObjectByAbsName(String absName) {
         Assert.notNull(spec); // Function should be called after loading the CIF file.
 
         PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
-        for (String compName: absName.split("\\.")) {
-            obj = CifScopeUtils.getObject(obj, compName);
+        for (String namePart: absName.split("\\.")) {
+            obj = CifScopeUtils.getObject(obj, namePart);
         }
         return obj;
     }

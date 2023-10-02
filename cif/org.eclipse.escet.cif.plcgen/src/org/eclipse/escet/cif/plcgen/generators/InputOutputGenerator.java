@@ -143,10 +143,11 @@ public class InputOutputGenerator {
                 String absCifName = line.get(2).trim();
                 PositionObject cifObj;
                 try {
-                    cifObj = target.getCifProcessor().findCifObjectByPath(absCifName);
+                    cifObj = target.getCifProcessor().findCifObjectByAbsName(absCifName);
                 } catch (IllegalArgumentException ex) {
                     String message = fmt(
-                            "The 'CIF name' field containing \"%s\" does not refer to an object in the CIF specification (third field %s).",
+                            "The 'CIF name' field containing \"%s\" does not refer to an object in the CIF "
+                                    + "specification (third field %s).",
                             absCifName, tableLinePositionText);
                     throw new InvalidInputException(message, ex);
                 }
