@@ -123,7 +123,7 @@ public class AppEclipseApplication implements IApplication {
         // Construct application.
         Application<?> app = appConstructor.newInstance();
 
-        // Suppress error message when app.run() returns value not equal to zero.
+        // Suppress non-zero exit code being reported by the Eclipse launcher.
         System.setProperty(IApplicationContext.EXIT_DATA_PROPERTY, "");
 
         // Run application.
