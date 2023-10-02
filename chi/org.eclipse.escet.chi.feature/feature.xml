@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.chi.feature"
       label="ESCET Chi"
-      version="1.0.0.qualifier"
+      version="2.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.releng.license.mit"
-      license-feature-version="1.0.0.qualifier">
+      license-feature-version="2.0.0.qualifier">
 
    <description>
       Eclipse ESCET tooling for the Chi language.
@@ -32,8 +32,8 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="1.0.0" match="compatible"/>
-      <import feature="org.eclipse.escet.setext.feature" version="1.0.0" match="compatible"/>
+      <import feature="org.eclipse.escet.common.feature" version="2.0.0" match="compatible"/>
+      <import feature="org.eclipse.escet.setext.feature" version="2.0.0" match="compatible"/>
       <import plugin="org.apache.commons.math3"/>
    </requires>
 
