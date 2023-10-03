@@ -176,7 +176,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                 if (linePrefix != null && !linePrefix.isEmpty()) {
                     message = curIndentText + linePrefix + message + "\n";
                 } else if (!message.isEmpty()) {
-                    // Avoid creating an empty line with just indentation. Note than blank messages do get indented as
+                    // Avoid creating an empty line with just indentation. Note that blank messages do get indented as
                     // technically it can be considered to be a message.
                     message = curIndentText + message + "\n";
                 } else {
@@ -225,7 +225,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     if (linePrefix != null && !linePrefix.isEmpty()) {
                         message = curIndentText + linePrefix + message + "\n";
                     } else if (!message.isEmpty()) {
-                        // Avoid creating an empty line with just indentation. Note than blank messages do get indented
+                        // Avoid creating an empty line with just indentation. Note that blank messages do get indented
                         // as technically it can be considered to be a message.
                         message = curIndentText + message + "\n";
                     } else {
