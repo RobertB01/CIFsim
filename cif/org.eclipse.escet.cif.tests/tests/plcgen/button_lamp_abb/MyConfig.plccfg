@@ -1,4 +1,10 @@
 CONFIGURATION MyConfig
+    VAR_GLOBAL // INPUTS
+        in_hw_button_bit AT %I15.5: BOOL;
+    END_VAR
+    VAR_GLOBAL // OUTPUTS
+        out_hw_lamp_bit AT %Q16.6: BOOL;
+    END_VAR
     VAR_GLOBAL // STATE
         timer: DINT;
         sup: DINT;

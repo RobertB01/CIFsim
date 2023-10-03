@@ -33,6 +33,10 @@ ORGANIZATION_BLOCK MAIN
     END_VAR
 
 BEGIN
+    (* --- Read input from sensors. -------------------------------------------- *)
+    hw_button_bit := in_hw_button_bit;
+
+    (* --- Initialize state. --------------------------------------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
 
@@ -44,6 +48,7 @@ BEGIN
         hw_lamp := someConstantvariable;
     END_IF;
 
+    (* --- Process all events. ------------------------------------------------- *)
     isProgress := TRUE;
     WHILE isProgress DO
         isProgress := FALSE;
@@ -253,4 +258,7 @@ BEGIN
             END_IF;
         END_IF;
     END_WHILE;
+
+    (* --- Write output to actuators. ------------------------------------------ *)
+    out_hw_lamp_bit := hw_lamp_bit;
 END_ORGANIZATION_BLOCK

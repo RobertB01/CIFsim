@@ -19,6 +19,7 @@ ORGANIZATION_BLOCK MAIN
     END_VAR
 
 BEGIN
+    (* --- Initialize state. --------------------------------------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
 
@@ -44,6 +45,7 @@ BEGIN
         p := someConstantvariable;
     END_IF;
 
+    (* --- Process all events. ------------------------------------------------- *)
     isProgress := TRUE;
     WHILE isProgress DO
         isProgress := FALSE;

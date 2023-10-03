@@ -63,6 +63,7 @@ import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -89,6 +90,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
@@ -109,6 +111,9 @@ public class CifProcessor {
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
+
+    /** CIF specification being processed, is {@code null} until the specification has been checked and normalized. */
+    private Specification spec = null;
 
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
@@ -132,6 +137,7 @@ public class CifProcessor {
         widenSpec(spec);
         preCheckSpec(spec, absInputPath);
         normalizeSpec(spec);
+        this.spec = spec; // Store the specification for querying.
 
         // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
@@ -704,5 +710,22 @@ public class CifProcessor {
                     + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
             throw new InvalidInputException(msg);
         }
+    }
+
+    /**
+     * Try to match the given absolute name to a CIF object in the specification.
+     *
+     * @param absName The absolute name of the CIF object to find.
+     * @return The found CIF object.
+     * @throws IllegalArgumentException If no CIF object with the given name is available.
+     */
+    public PositionObject findCifObjectByAbsName(String absName) {
+        Assert.notNull(spec); // Function should be called after loading the CIF file.
+
+        PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
+        for (String namePart: absName.split("\\.")) {
+            obj = CifScopeUtils.getObject(obj, namePart);
+        }
+        return obj;
     }
 }

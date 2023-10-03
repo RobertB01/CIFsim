@@ -178,7 +178,8 @@ public class ExprGeneratorTest {
             int taskCyceTime = 1;
             int priority = 1;
             String inputPath = "input/path";
-            String outputPath = "/output/path";
+            String outputPath = "output/path";
+            String ioTablePath = "io/path";
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
@@ -188,8 +189,9 @@ public class ExprGeneratorTest {
             WarnOutput warnOutput = message -> { /* Do nothing. */ };
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, inputPath, "/" + inputPath, outputPath, intSize, realSize, simplifyValues,
-                    enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                    taskCyceTime, priority, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
+                    "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    warnOutput);
             setup(settings);
         }
 
@@ -306,13 +308,18 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
-            String name = "new_" + variable.getName() + (getDerivative ? "_der" : "");
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
+            String name = "new_" + variable.getName() + (writeDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForInputVar(InputVariable variable) {
+            return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
             return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
@@ -953,5 +960,13 @@ public class ExprGeneratorTest {
         String realText = runValueTest(newInputVariableExpression(null, newIntType(), inputVar));
         String expectedText = "==> theInput";
         assertEquals(expectedText, realText);
+    }
+
+    @Test
+    public void testInputVariableAddressableConversion() {
+        // While the CIF data provider can provide a destination to write into, the CIF code should never contain such
+        // expressions.
+        assertThrows(RuntimeException.class,
+                () -> runAddressableTest(newInputVariableExpression(null, newIntType(), inputVar)));
     }
 }
