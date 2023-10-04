@@ -31,9 +31,9 @@ import java.util.List;
 
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.dsm.Group.GroupType;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /**
  * Functions for finding a bus and hierarchical clusters.
@@ -58,40 +58,27 @@ public class DsmClustering {
     /**
      * Compute flow-based hierarchical Markov clustering of nodes in a graph.
      *
-     * @param inputData Data for the computation.
+     * @param clusterInput Input and settings for the computation.
      * @return The computed clustered DSM.
      */
-    public static Dsm flowBasedMarkovClustering(ClusterInputData inputData) {
-        return flowBasedMarkovClustering(inputData.adjacencies, inputData.labels, inputData.evap, inputData.stepCount,
-                inputData.inflation, inputData.epsilon, inputData.busDetectionAlgorithm, inputData.busInclusion);
-    }
+    public static Dsm flowBasedMarkovClustering(ClusterInput clusterInput) {
+        RealMatrix adjacencies = clusterInput.adjacencies;
+        double busInclusion = clusterInput.busInclusion;
+        double evap = clusterInput.evap;
+        int stepCount = clusterInput.stepCount;
+        double inflation = clusterInput.inflation;
+        double epsilon = clusterInput.epsilon;
+        DebugNormalOutput dbg = clusterInput.debugOut;
 
-    /**
-     * Compute flow-based hierarchical Markov clustering of nodes in a graph.
-     *
-     * @param adjacencies Adjacency graph of the nodes, {@code (i, j)} is the non-negative weight of node {@code i} to
-     *     node {@code j}.
-     * @param labels Names of the nodes.
-     * @param evap Evaporation constant.
-     * @param stepCount Matrix exponentiation factor (number of steps taken each iteration).
-     * @param inflation Inflation coefficient.
-     * @param epsilon Convergence limit.
-     * @param busDetectionAlgorithm The bus detection algorithm to apply.
-     * @param busInclusion Tuning factor for the bus detection algorithm.
-     * @return The computed clustered DSM.
-     */
-    public static Dsm flowBasedMarkovClustering(RealMatrix adjacencies, Label[] labels, double evap, int stepCount,
-            double inflation, double epsilon, BusDetectionAlgorithm busDetectionAlgorithm, double busInclusion)
-    {
         final int size = adjacencies.getRowDimension();
-        OutputProvider.dbg("Flow-based Markov clustering for %d nodes.", size);
+        dbg.line("Flow-based Markov clustering for %d nodes.", size);
 
         List<Group> groups = list();
         RealMatrix adjacenciesOriginal = adjacencies.copy();
         clearDiagonal(adjacencies);
         BitSet potentionalBusNodes = ones(size);
         BitSet busNodes = new BitSet();
-        switch (busDetectionAlgorithm) {
+        switch (clusterInput.busDetectionAlgorithm) {
             case NO_BUS: {
                 // No bus nodes should be detected.
                 break;
@@ -106,29 +93,29 @@ public class DsmClustering {
             }
         }
         Group busGroup = hierarchicalClustering(adjacencies, busNodes, evap, stepCount, inflation, epsilon,
-                GroupType.BUS);
+                GroupType.BUS, dbg);
         if (busGroup != null) {
-            OutputProvider.dbg("Bus-group found:");
-            busGroup.dbgDump("  ");
+            dbg.line("Bus-group found:");
+            busGroup.dbgDump("  ", dbg);
 
             Assert.implies(busGroup.childGroups.size() == 1, busGroup.localNodes != null);
             groups.add(busGroup);
         } else {
-            OutputProvider.dbg("No bus found.");
+            dbg.line("No bus found.");
         }
 
         BitSet nonbusNodes = ones(size);
         nonbusNodes.andNot(busNodes);
         Group nonbusGroup = hierarchicalClustering(adjacencies, nonbusNodes, evap, stepCount, inflation, epsilon,
-                GroupType.CLUSTER);
+                GroupType.CLUSTER, dbg);
         if (nonbusGroup != null) {
-            OutputProvider.dbg("Clustering-group found:");
-            nonbusGroup.dbgDump("  ");
+            dbg.line("Clustering-group found:");
+            nonbusGroup.dbgDump("  ", dbg);
 
             Assert.implies(nonbusGroup.childGroups.size() == 1, nonbusGroup.localNodes != null);
             groups.add(nonbusGroup);
         } else {
-            OutputProvider.dbg("No clustering found.");
+            dbg.line("No clustering found.");
         }
 
         if (groups.isEmpty()) {
@@ -142,9 +129,9 @@ public class DsmClustering {
             rootGroup = new Group(GroupType.COLLECTION, null, groups);
         }
 
-        Dsm dsm = shuffleNodes(adjacenciesOriginal, labels, rootGroup);
-        OutputProvider.dbg("Shuffled nodes of groups near each other:");
-        dsm.rootGroup.dbgDump("  ");
+        Dsm dsm = shuffleNodes(adjacenciesOriginal, clusterInput.labels, rootGroup, dbg);
+        dbg.line("Shuffled nodes of groups near each other:");
+        dsm.rootGroup.dbgDump("  ", dbg);
         return dsm;
     }
 
@@ -154,17 +141,18 @@ public class DsmClustering {
      * @param adjacencies Original adjacency information of the graph.
      * @param labels Original labels of each node.
      * @param rootGroup Top-level group to order on.
+     * @param dbg Stream for sending debug output.
      * @return All computed information, wrapped in a single object.
      */
-    private static Dsm shuffleNodes(RealMatrix adjacencies, Label[] labels, Group rootGroup) {
+    private static Dsm shuffleNodes(RealMatrix adjacencies, Label[] labels, Group rootGroup, DebugNormalOutput dbg) {
         int[] nodeShuffle = computeShuffle(rootGroup);
-        if (OutputProvider.dodbg()) {
-            OutputProvider.dbg();
-            OutputProvider.dbg("Node mapping new <- original:");
+        if (dbg.isEnabled()) {
+            dbg.line();
+            dbg.line("Node mapping new <- original:");
             for (int i = 0; i < nodeShuffle.length; i++) {
-                OutputProvider.dbg("  %d <- %d", i, nodeShuffle[i]);
+                dbg.line("  %d <- %d", i, nodeShuffle[i]);
             }
-            OutputProvider.dbg();
+            dbg.line();
         }
 
         adjacencies = shuffleMatrix(nodeShuffle, adjacencies);

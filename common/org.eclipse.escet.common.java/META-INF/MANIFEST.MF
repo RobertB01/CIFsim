@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.escet.common.java;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.escet.common.java,
+ org.eclipse.escet.common.java.output,
  org.eclipse.escet.common.java.removablelist
 Require-Bundle: org.apache.commons.lang3;bundle-version="3.1.0",
  org.apache.commons.commons-text;bundle-version="1.10.0"

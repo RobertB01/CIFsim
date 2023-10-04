@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.RealMatrix;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.dsm.Group;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
@@ -93,7 +94,7 @@ public class ComputeMultiLevelTree {
 
         dbg("Make a multi-level tree node for a cluster group with multiple nodes:");
         idbg();
-        clusterGroup.dbgDump();
+        clusterGroup.dbgDump(OutputProvider.getDebugOutputStream());
         dbg();
 
         // Line 2: Compute what the tree node should contain.
