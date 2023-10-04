@@ -17,7 +17,7 @@ import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.DefaultValueCodeGenerator.getDefaultValueCode;
@@ -226,7 +226,9 @@ public class StateInitCodeGenerator {
             // Evaluate initial value.
             if (initValue == null) {
                 // Default initial value.
-                c.add("v = %s;", getDefaultValueCode(var.getType(), ctxt));
+                ExprCodeGeneratorResult result = getDefaultValueCode(var.getType(), ctxt);
+                c.add("v = %s;", result);
+                exprResults.add(result);
             } else {
                 // User-specified initial value. For the wrapped exception, we
                 // don't provide the state, as during initialization the state
@@ -373,7 +375,7 @@ public class StateInitCodeGenerator {
         if (valueExpr == null) {
             // Default initial value.
             c.add("state.%s.%s = 0.0;", subStateName, varName);
-            return new ExprCodeGeneratorResult("0.0", newStringType());
+            return new ExprCodeGeneratorResult("0.0", newRealType());
         } else {
             // User-specified initial value. For the wrapped exception, we
             // don't provide the state, as during initialization the state

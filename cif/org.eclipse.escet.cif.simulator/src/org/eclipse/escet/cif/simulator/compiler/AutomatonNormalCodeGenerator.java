@@ -663,13 +663,10 @@ public class AutomatonNormalCodeGenerator {
                 // TODO In case the expression is split (because it was long), it was still printed in full here. That
                 // is also a problem.
                 // Can we identify the edge in a different way?
-                if (result.extraMethods().isEmpty()) {
-                    c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
-                            + "e, state);", escapeJava(exprToStr(guard)), escapeJava(locTxt));
-                } else {
-                    c.add("throw new CifSimulatorException(\"Evaluation of a guard of an edge of %s failed.\", "
-                            + "e, state);", escapeJava(locTxt));
-                }
+                c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
+                        + "e, state);", result.extraMethods().isEmpty() ? escapeJava(exprToStr(guard)) : "<too long>",
+                        escapeJava(locTxt));
+
                 c.dedent();
                 c.add("}");
 
@@ -686,6 +683,7 @@ public class AutomatonNormalCodeGenerator {
             guardResult.addExtraMethods(c);
         }
 
+        List<ExprCodeGeneratorResult> sendResults = list();
         // Add 'evalSendValue' method.
         if (isSend) {
             c.add();
@@ -699,7 +697,9 @@ public class AutomatonNormalCodeGenerator {
             } else {
                 c.add("try {");
                 c.indent();
-                c.add("return %s;", gencodeExpr(sendValue, ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(sendValue, ctxt, "state");
+                c.add("return %s;", result);
+                sendResults.add(result);
                 c.dedent();
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
@@ -711,6 +711,11 @@ public class AutomatonNormalCodeGenerator {
 
             c.dedent();
             c.add("}");
+        }
+
+        // Add potential extra send expression evaluation methods.
+        for (ExprCodeGeneratorResult sendResult: sendResults) {
+            sendResult.addExtraMethods(c);
         }
 
         // Add 'update' method.
@@ -870,7 +875,7 @@ public class AutomatonNormalCodeGenerator {
             // Elif updates.
             c.add("if (b) {");
             c.indent();
-            gencodeUpdates(c, aut, ctxt, elifUpd.getThens());
+            exprResults.addAll(gencodeUpdates(c, aut, ctxt, elifUpd.getThens()));
             c.dedent();
         }
 
@@ -878,7 +883,7 @@ public class AutomatonNormalCodeGenerator {
         if (!update.getElses().isEmpty()) {
             c.add("} else {");
             c.indent();
-            gencodeUpdates(c, aut, ctxt, update.getElses());
+            exprResults.addAll(gencodeUpdates(c, aut, ctxt, update.getElses()));
             c.dedent();
         }
 

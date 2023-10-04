@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.simulator.compiler;
 
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -85,7 +84,9 @@ public class DefaultValueCodeGenerator {
                 int cnt = CifTypeUtils.getLowerBound(ltype);
                 c.add("%s rslt = listc(%d);", gencodeType(type, ctxt), cnt);
                 if (cnt > 0) {
-                    c.add("%s elem = %s;", gencodeType(etype, ctxt), getDefaultValueCode(etype, ctxt));
+                    ExprCodeGeneratorResult result = getDefaultValueCode(etype, ctxt);
+                    c.add("%s elem = %s;", gencodeType(etype, ctxt), result);
+                    exprResults.add(result);
                     c.add("for (int i = 0; i < %d; i++) {", cnt);
                     c.indent();
                     c.add("rslt.add(elem);");
@@ -136,6 +137,6 @@ public class DefaultValueCodeGenerator {
         // Handle container types.
         String name = ctxt.getDefaultValueMethodName(type);
         Assert.notNull(name);
-        return new ExprCodeGeneratorResult(fmt("DefaultValues.%s()", name), newStringType());
+        return new ExprCodeGeneratorResult(fmt("DefaultValues.%s()", name), type);
     }
 }

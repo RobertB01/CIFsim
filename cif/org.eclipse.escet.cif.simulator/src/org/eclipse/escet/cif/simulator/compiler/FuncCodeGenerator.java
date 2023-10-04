@@ -279,8 +279,9 @@ public class FuncCodeGenerator {
         for (DiscVariable var: localVars) {
             // Special case for default initial value.
             if (var.getValue() == null) {
-                c.add("%s %s = %s;", gencodeType(var.getType(), ctxt), ctxt.getFuncLocalVarName(var),
-                        getDefaultValueCode(var.getType(), ctxt));
+                ExprCodeGeneratorResult result = getDefaultValueCode(var.getType(), ctxt);
+                c.add("%s %s = %s;", gencodeType(var.getType(), ctxt), ctxt.getFuncLocalVarName(var), result);
+                exprResults.add(result);
                 continue;
             }
 
@@ -415,7 +416,7 @@ public class FuncCodeGenerator {
                 // Elif statements.
                 c.add("if (b) {");
                 c.indent();
-                gencodeStatements(elif.getThens(), c, ctxt);
+                exprResults.addAll(gencodeStatements(elif.getThens(), c, ctxt));
                 c.dedent();
             }
 
@@ -423,7 +424,7 @@ public class FuncCodeGenerator {
             if (!istat.getElses().isEmpty()) {
                 c.add("} else {");
                 c.indent();
-                gencodeStatements(istat.getElses(), c, ctxt);
+                exprResults.addAll(gencodeStatements(istat.getElses(), c, ctxt));
                 c.dedent();
             }
 
@@ -487,7 +488,7 @@ public class FuncCodeGenerator {
             c.add("if (!b) break;");
 
             // While statements.
-            gencodeStatements(wstat.getStatements(), c, ctxt);
+            exprResults.addAll(gencodeStatements(wstat.getStatements(), c, ctxt));
 
             // End of while.
             c.dedent();

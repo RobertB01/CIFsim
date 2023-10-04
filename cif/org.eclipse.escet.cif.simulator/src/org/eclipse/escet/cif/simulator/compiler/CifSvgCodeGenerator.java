@@ -370,6 +370,7 @@ public class CifSvgCodeGenerator {
             ExprCodeGeneratorResult result = gencodeSvgOut(svgOut, i, outIds.get(i), c, ctxt);
             c.dedent();
             c.add("}");
+
             // Add potential extra expression evaluation methods.
             result.addExtraMethods(c);
         }
