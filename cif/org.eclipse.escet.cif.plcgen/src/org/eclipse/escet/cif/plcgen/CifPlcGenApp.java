@@ -65,7 +65,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifPlcGenApp app = new CifPlcGenApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifPlcGenApp} class. */

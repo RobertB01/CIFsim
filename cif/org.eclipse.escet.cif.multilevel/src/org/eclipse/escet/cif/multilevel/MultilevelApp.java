@@ -78,7 +78,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         MultilevelApp app = new MultilevelApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor of the {@link MultilevelApp} class. */

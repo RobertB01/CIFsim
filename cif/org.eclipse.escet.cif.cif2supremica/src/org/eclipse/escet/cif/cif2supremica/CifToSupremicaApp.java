@@ -43,7 +43,7 @@ public class CifToSupremicaApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToSupremicaApp app = new CifToSupremicaApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToSupremicaApp} class. */

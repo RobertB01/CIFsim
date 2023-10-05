@@ -49,7 +49,7 @@ public class NfaToDfaApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         NfaToDfaApplication app = new NfaToDfaApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link NfaToDfaApplication} class. */

@@ -51,7 +51,7 @@ public class TrimCheckApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         TrimCheckApplication app = new TrimCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link TrimCheckApplication} class. */

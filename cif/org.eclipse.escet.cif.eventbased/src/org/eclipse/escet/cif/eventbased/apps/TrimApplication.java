@@ -48,7 +48,7 @@ public class TrimApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         TrimApplication app = new TrimApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link TrimApplication} class. */

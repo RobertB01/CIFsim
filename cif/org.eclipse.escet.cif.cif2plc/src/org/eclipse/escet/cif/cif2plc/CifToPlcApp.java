@@ -62,7 +62,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToPlcApp app = new CifToPlcApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToPlcApp} class. */

@@ -51,7 +51,7 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ObserverCheckApplication app = new ObserverCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ObserverCheckApplication} class. */

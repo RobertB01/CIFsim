@@ -67,7 +67,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ExplorerApplication app = new ExplorerApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ExplorerApplication} class. */

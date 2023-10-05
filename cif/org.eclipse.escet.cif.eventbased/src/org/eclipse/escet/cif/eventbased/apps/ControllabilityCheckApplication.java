@@ -47,7 +47,7 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
      */
     public static void main(String[] args) {
         ControllabilityCheckApplication app = new ControllabilityCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ControllabilityCheckApplication} class. */

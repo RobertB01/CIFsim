@@ -52,7 +52,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifMergerApp app = new CifMergerApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifMergerApp} class. */

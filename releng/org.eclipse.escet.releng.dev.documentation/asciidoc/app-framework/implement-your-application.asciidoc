@@ -37,7 +37,7 @@ For instance:
  */
 public static void main(String[] args) {
     MyApp app = new MyApp();
-    app.run(args);
+    app.run(args, true);
 }
 ----
 +

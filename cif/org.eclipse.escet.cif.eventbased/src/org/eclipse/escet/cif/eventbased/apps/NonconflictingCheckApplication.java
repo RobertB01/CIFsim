@@ -47,7 +47,7 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
      */
     public static void main(String[] args) {
         NonconflictingCheckApplication app = new NonconflictingCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link NonconflictingCheckApplication} class. */

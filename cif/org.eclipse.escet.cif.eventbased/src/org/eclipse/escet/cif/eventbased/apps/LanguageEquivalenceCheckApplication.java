@@ -55,7 +55,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
      */
     public static void main(String[] args) {
         LanguageEquivalenceCheckApplication app = new LanguageEquivalenceCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link LanguageEquivalenceCheckApplication} class. */

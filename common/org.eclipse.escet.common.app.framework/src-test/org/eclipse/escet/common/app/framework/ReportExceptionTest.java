@@ -319,7 +319,7 @@ public class ReportExceptionTest {
         AppManager.add(app, null);
 
         // Run application.
-        app.run(new String[] {"--gui=off"}, false);
+        app.runApplication(new String[] {"--gui=off"}, false);
 
         // Remove application from application manager.
         AppManager.remove(app);

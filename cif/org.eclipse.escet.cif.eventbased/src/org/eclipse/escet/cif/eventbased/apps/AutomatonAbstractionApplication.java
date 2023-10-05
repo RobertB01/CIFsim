@@ -52,7 +52,7 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
      */
     public static void main(String[] args) {
         AutomatonAbstractionApplication app = new AutomatonAbstractionApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link AutomatonAbstractionApplication} class. */

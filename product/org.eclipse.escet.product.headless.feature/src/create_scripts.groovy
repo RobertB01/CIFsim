@@ -25,6 +25,6 @@ data.configurations.each{
 
         File file = new File("${project.basedir}/target/bin/${configuration.name}/${script.script_name}${configuration.extension}")
         file.write "${configuration.header}${configuration.newline}${configuration.newline}"
-        file << "${configuration.eclipse} -application org.eclipse.escet.common.app.framework.application -nosplash ${script.plugin_name} ${script.class_name} ${configuration.arguments}${configuration.newline}"
+        file << "${configuration.eclipse} --launcher.suppressErrors -application org.eclipse.escet.common.app.framework.application -nosplash ${script.plugin_name} ${script.class_name} ${configuration.arguments}${configuration.newline}"
     }
 }

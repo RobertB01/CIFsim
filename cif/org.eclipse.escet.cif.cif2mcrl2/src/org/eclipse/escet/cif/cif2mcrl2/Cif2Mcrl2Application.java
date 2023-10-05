@@ -69,7 +69,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         Cif2Mcrl2Application cmApp = new Cif2Mcrl2Application();
-        cmApp.run(args);
+        cmApp.run(args, true);
     }
 
     /** Constructor for the {@link Cif2Mcrl2Application} class. */

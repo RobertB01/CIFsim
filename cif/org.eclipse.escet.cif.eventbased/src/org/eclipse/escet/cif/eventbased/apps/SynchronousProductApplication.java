@@ -48,7 +48,7 @@ public class SynchronousProductApplication extends Application<IOutputComponent>
      */
     public static void main(String[] args) {
         SynchronousProductApplication app = new SynchronousProductApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SynchronousProductApplication} class. */

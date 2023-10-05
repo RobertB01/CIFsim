@@ -43,7 +43,7 @@ public class DsmApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         DsmApplication app = new DsmApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link DsmApplication} class. */
