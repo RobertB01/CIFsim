@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math3.linear.RealMatrix;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /** Class implementing the Markov Clustering algorithm. */
 public class MarkovClustering {
@@ -48,19 +48,20 @@ public class MarkovClustering {
      * @param inflation Inflation coefficient.
      * @param pruningLimit Pruning values.
      * @param epsilon Convergence limit.
+     * @param dbg Stream for sending debug output.
      * @return Clusters of the provided matrix.
      */
     public static List<BitSet> markovClustering(RealMatrix m, int stepCount, double inflation, double[] pruningLimit,
-            double epsilon)
+            double epsilon, DebugNormalOutput dbg)
     {
         Assert.check(stepCount > 0);
         Assert.check(m.isSquare());
 
         final int size = m.getRowDimension();
 
-        OutputProvider.dbg();
-        OutputProvider.dbg("Input to Markov:");
-        OutputProvider.dbg(m.toString());
+        dbg.line();
+        dbg.line("Input to Markov:");
+        dbg.line(m.toString());
 
         // Iterate to stable probabilities.
         int k = 0; // Avoid infinite looping.
@@ -78,9 +79,9 @@ public class MarkovClustering {
             prune(m, pruningLimit);
         }
 
-        OutputProvider.dbg("Output from Markov:");
-        OutputProvider.dbg(m.toString());
-        OutputProvider.dbg();
+        dbg.line("Output from Markov:");
+        dbg.line(m.toString());
+        dbg.line();
 
         // Collect clusters.
         Map<Integer, BitSet> clusterMap = map(); // Set columns for each non-empty row.

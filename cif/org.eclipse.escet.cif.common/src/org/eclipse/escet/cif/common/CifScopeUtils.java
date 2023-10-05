@@ -476,8 +476,9 @@ public class CifScopeUtils {
      * Returns the object with the given name, from the given scope.
      *
      * @param scope The scope. Must not be a 'via' scope (a component instantiation scope or component parameter scope).
-     * @param name The name of the object to get. Must exist in the given scope.
+     * @param name The name of the object to get. Should exist in the given scope.
      * @return The object.
+     * @throws IllegalArgumentException If no object with the given name is available in the provided scope.
      * @see #getSymbolNamesForScope
      */
     public static PositionObject getObject(PositionObject scope, String name) {

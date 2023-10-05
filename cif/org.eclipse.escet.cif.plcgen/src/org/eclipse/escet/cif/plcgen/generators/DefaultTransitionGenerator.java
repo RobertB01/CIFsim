@@ -402,8 +402,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         }
 
         @Override
-        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
-            return rootProvider.getAddressableForContvar(variable, getDerivative);
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
+            return rootProvider.getAddressableForContvar(variable, writeDerivative);
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
+            return rootProvider.getAddressableForInputVar(variable);
         }
     }
 

@@ -19,8 +19,8 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /**
  * Class for storing nested groups (subsets) of nodes.
@@ -90,25 +90,30 @@ public class Group {
         }
     }
 
-    /** Dump the group onto the debug output stream. */
-    public void dbgDump() {
-        dbgDump("    ");
+    /**
+     * Dump the group onto the debug output stream.
+     *
+     * @param dbg Stream for sending debug output.
+     */
+    public void dbgDump(DebugNormalOutput dbg) {
+        dbgDump("    ", dbg);
     }
 
     /**
      * Dump the group onto the debug output stream.
      *
      * @param indent The amount of indentation to use as prefix.
+     * @param dbg Stream for sending debug output.
      */
-    public void dbgDump(String indent) {
-        if (!OutputProvider.dodbg()) {
+    public void dbgDump(String indent, DebugNormalOutput dbg) {
+        if (!dbg.isEnabled()) {
             return;
         }
 
-        OutputProvider.dbg("%s- Grouptype %s", indent, groupType.name());
-        OutputProvider.dbg("%s  Local nodes: %s", indent, (localNodes == null) ? "<none>" : localNodes.toString());
+        dbg.line("%s- Grouptype %s", indent, groupType.name());
+        dbg.line("%s  Local nodes: %s", indent, (localNodes == null) ? "<none>" : localNodes.toString());
         for (Group child: childGroups) {
-            child.dbgDump(indent + "    ");
+            child.dbgDump(indent + "    ", dbg);
         }
     }
 

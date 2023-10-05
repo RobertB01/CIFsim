@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
+import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
 import org.eclipse.escet.cif.plcgen.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.plcgen.options.PlcFormalFuncInvokeArgOption;
 import org.eclipse.escet.cif.plcgen.options.PlcFormalFuncInvokeFuncOption;
@@ -146,7 +147,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         int priority = PlcTaskPriorityOption.getTaskPrio();
 
         String inputPath = InputFileOption.getPath();
-        String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
+        String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
+        String ioTablePath = IoTablePathOption.getDerivedPath();
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
         PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
@@ -160,8 +162,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = message -> OutputProvider.warn(message);
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, intSize, realSize, simplifyValues, enumConversion,
-                shouldTerminate, warnOnRename, warnOutput);
+                inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath),
+                intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override
@@ -177,6 +179,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         List<Option> applicationOpts = list();
         applicationOpts.add(Options.getInstance(InputFileOption.class));
         applicationOpts.add(Options.getInstance(OutputFileOption.class));
+        applicationOpts.add(Options.getInstance(IoTablePathOption.class));
         applicationOpts.add(Options.getInstance(PlcTargetTypeOption.class));
         applicationOpts.add(Options.getInstance(PlcConfigurationNameOption.class));
         applicationOpts.add(Options.getInstance(PlcProjectNameOption.class));

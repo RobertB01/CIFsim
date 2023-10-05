@@ -32,10 +32,10 @@ import java.util.List;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.dsm.Group.GroupType;
 import org.eclipse.escet.common.dsm.submatrix.SubNode;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /** Functions for hierarchical clustering. */
 public class ClusterComputing {
@@ -54,10 +54,11 @@ public class ClusterComputing {
      * @param inflation Inflation coefficient.
      * @param epsilon Convergence limit.
      * @param topLevelGroupType Type of group for the top-level cluster.
+     * @param dbg Stream for sending debug output.
      * @return Hierarchical clustering, or {@code null} if there is nothing to cluster.
      */
     public static Group hierarchicalClustering(RealMatrix parentAdjacencies, BitSet parentAvailable, double evap,
-            int stepCount, double inflation, double epsilon, GroupType topLevelGroupType)
+            int stepCount, double inflation, double epsilon, GroupType topLevelGroupType, DebugNormalOutput dbg)
     {
         if (parentAvailable.isEmpty()) {
             return null; // No nodes for clustering available.
@@ -71,19 +72,19 @@ public class ClusterComputing {
             SubNode[] subNodes = makeSubNodes(groups, parentAvailable);
             RealMatrix subAdjacencies = fillSubMatrix(parentAdjacencies, subNodes);
 
-            OutputProvider.dbg();
-            OutputProvider.dbg("subjAdjacencies:");
-            OutputProvider.dbg(subAdjacencies.toString());
+            dbg.line();
+            dbg.line("subjAdjacencies:");
+            dbg.line(subAdjacencies.toString());
 
             // Perform clustering on the sub-matrix.
             ProbabilityData probData = convertAdjacencyToProbabilities(subAdjacencies, evap);
 
-            OutputProvider.dbg();
-            OutputProvider.dbg("probData:");
-            OutputProvider.dbg(probData.probabilities.toString());
+            dbg.line();
+            dbg.line("probData:");
+            dbg.line(probData.probabilities.toString());
 
             List<BitSet> clusters = markovClustering(probData.probabilities, stepCount, inflation,
-                    probData.pruningLimits, epsilon);
+                    probData.pruningLimits, epsilon, dbg);
 
             // Merge new clusters into the parent nodes.
             groups = convertSubGroups(subNodes, clusters, clusters.size() == 1 ? topLevelGroupType : GroupType.CLUSTER);

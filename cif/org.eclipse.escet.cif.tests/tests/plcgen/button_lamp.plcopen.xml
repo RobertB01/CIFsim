@@ -217,7 +217,11 @@
         </interface>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF firstRun THEN
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Read input from sensors. -------------------------------------------- *)
+hw_button_bit := in_hw_button_bit;
+
+(* --- Initialize state. --------------------------------------------------- *)
+IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
@@ -228,6 +232,7 @@
     hw_lamp := hw_lamp_Off;
 END_IF;
 
+(* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
@@ -436,7 +441,10 @@ WHILE isProgress DO
             hw_lamp := hw_lamp_Off;
         END_IF;
     END_IF;
-END_WHILE;</xhtml>
+END_WHILE;
+
+(* --- Write output to actuators. ------------------------------------------ *)
+out_hw_lamp_bit := hw_lamp_bit;</xhtml>
           </ST>
         </body>
       </pou>
@@ -453,6 +461,20 @@ END_WHILE;</xhtml>
               </documentation>
             </pouInstance>
           </task>
+          <globalVars constant="false" name="INPUTS">
+            <variable address="%I15.5" name="in_hw_button_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </globalVars>
+          <globalVars constant="false" name="OUTPUTS">
+            <variable address="%Q16.6" name="out_hw_lamp_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </globalVars>
           <globalVars constant="false" name="STATE">
             <variable name="timer">
               <type>

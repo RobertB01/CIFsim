@@ -340,6 +340,7 @@ public class ExprGenerator {
         } else if (expr instanceof ProjectionExpression pe) {
             return convertProjectionAddressable(pe);
         }
+        // Intentionally leaving out writing to an input variable, as such expressions should not exist in CIF.
         throw new RuntimeException("Unexpected expr: " + expr);
     }
 

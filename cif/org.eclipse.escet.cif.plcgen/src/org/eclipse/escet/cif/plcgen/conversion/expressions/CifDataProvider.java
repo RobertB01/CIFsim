@@ -32,21 +32,21 @@ public abstract class CifDataProvider {
     /**
      * Return the PLC expression to get the value of the provided constant.
      *
-     * @param constant Constant to access.
-     * @return The expression to get the value of the constant in the PLC.
+     * @param constant Constant to read.
+     * @return The expression to read the value of the constant in the PLC.
      */
     public abstract PlcExpression getValueForConstant(Constant constant);
 
     /**
-     * Return the PLC expression to read the provided discrete variable.
+     * Return the PLC expression to read the value of the provided discrete variable.
      *
      * @param variable Variable to read.
-     * @return The expression to read the provided discrete variable.
+     * @return The expression to read the value of the provided discrete variable.
      */
     public abstract PlcExpression getValueForDiscVar(DiscVariable variable);
 
     /**
-     * Return the PLC expression to write the provided discrete variable.
+     * Return the PLC expression to write to the provided discrete variable.
      *
      * @param variable Variable to write.
      * @return The expression to write the provided discrete variable.
@@ -59,26 +59,33 @@ public abstract class CifDataProvider {
      * @param variable Variable to read.
      * @param getDerivative Whether read to the derivative value is requested, otherwise read to the value of the
      *     variable itself is requested.
-     * @return The expression to read a value of the provided continuous variable.
+     * @return The expression to read the value or its derivative of the provided continuous variable.
      */
     public abstract PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative);
 
     /**
-     * Return the PLC expression to write the value or the derivative of the provided continuous variable.
+     * Return the PLC expression to write to the value of the provided continuous variable.
      *
-     * @param variable Variable to write.
-     * @param getDerivative Whether write to the derivative value is requested, otherwise write to the value of the
-     *     variable itself is requested.
-     * @return The expression to write a value of the provided continuous variable.
+     * @param variable The continuous variable to write to.
+     * @param writeDerivative Whether a write to the derivative of the variable is requested, otherwise write to the
+     *     value of the variable itself is requested.
+     * @return The expression to write a value or its derivative into the provided continuous variable.
      */
-    public abstract PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative);
+    public abstract PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative);
 
     /**
      * Return the PLC expression to access the provided input variable.
      *
-     * @param variable Variable to access.
-     * @return The expression to access the provided input variable.
-     * @note The returned expression may not allow writing to the variable.
+     * @param variable Variable to read.
+     * @return The expression to read the value of the provided input variable.
      */
     public abstract PlcExpression getValueForInputVar(InputVariable variable);
+
+    /**
+     * Return the PLC expression to write to the provided input variable.
+     *
+     * @param variable Variable to write.
+     * @return The expression to write a value into the provided input variable.
+     */
+    public abstract PlcVarExpression getAddressableForInputVar(InputVariable variable);
 }
