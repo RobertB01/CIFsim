@@ -641,6 +641,7 @@ public class AutomatonNormalCodeGenerator {
         c.add("@Override");
         c.add("public boolean evalGuards(State state) {");
         c.indent();
+        List<ExprCodeGeneratorResult> guardResults = list();
         if (edge.getGuards().isEmpty()) {
             c.add("return true;");
         } else {
@@ -651,14 +652,21 @@ public class AutomatonNormalCodeGenerator {
                 c.indent();
 
                 // Actual evaluation of guard.
-                c.add("b = %s;", gencodeExpr(guard, ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(guard, ctxt, "state");
+                c.add("b = %s;", result);
+                guardResults.add(result);
 
                 // End of 'try'.
                 c.dedent();
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
+                // TODO In case the expression is split (because it was long), it was still printed in full here. That
+                // is also a problem.
+                // Can we identify the edge in a different way?
                 c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
-                        + "e, state);", escapeJava(exprToStr(guard)), escapeJava(locTxt));
+                        + "e, state);", result.extraMethods().isEmpty() ? escapeJava(exprToStr(guard)) : "<too long>",
+                        escapeJava(locTxt));
+
                 c.dedent();
                 c.add("}");
 
@@ -670,6 +678,12 @@ public class AutomatonNormalCodeGenerator {
         c.dedent();
         c.add("}");
 
+        // Add potential extra guard expression evaluation methods.
+        for (ExprCodeGeneratorResult guardResult: guardResults) {
+            guardResult.addExtraMethods(c);
+        }
+
+        List<ExprCodeGeneratorResult> sendResults = list();
         // Add 'evalSendValue' method.
         if (isSend) {
             c.add();
@@ -683,7 +697,9 @@ public class AutomatonNormalCodeGenerator {
             } else {
                 c.add("try {");
                 c.indent();
-                c.add("return %s;", gencodeExpr(sendValue, ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(sendValue, ctxt, "state");
+                c.add("return %s;", result);
+                sendResults.add(result);
                 c.dedent();
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
@@ -695,6 +711,11 @@ public class AutomatonNormalCodeGenerator {
 
             c.dedent();
             c.add("}");
+        }
+
+        // Add potential extra send expression evaluation methods.
+        for (ExprCodeGeneratorResult sendResult: sendResults) {
+            sendResult.addExtraMethods(c);
         }
 
         // Add 'update' method.
@@ -709,6 +730,7 @@ public class AutomatonNormalCodeGenerator {
 
         boolean selfLoop = CifEdgeUtils.isSelfLoop(edge);
         boolean noUpdates = selfLoop && edge.getUpdates().isEmpty();
+        List<ExprCodeGeneratorResult> updateResults = list();
 
         if (noUpdates) {
             c.add("// No updates.");
@@ -741,7 +763,7 @@ public class AutomatonNormalCodeGenerator {
             c.indent();
 
             // Apply actual updates.
-            gencodeUpdates(c, aut, ctxt, edge.getUpdates());
+            updateResults.addAll(gencodeUpdates(c, aut, ctxt, edge.getUpdates()));
 
             // End of 'try'.
             c.dedent();
@@ -756,6 +778,11 @@ public class AutomatonNormalCodeGenerator {
         c.dedent();
         c.add("}");
 
+        // Add potential extra update expression evaluation methods.
+        for (ExprCodeGeneratorResult updateResult: updateResults) {
+            updateResult.addExtraMethods(c);
+        }
+
         // Wrap up the class.
         c.dedent();
         c.add("}");
@@ -768,16 +795,21 @@ public class AutomatonNormalCodeGenerator {
      * @param aut The automaton.
      * @param ctxt The compiler context to use.
      * @param updates The updates.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeUpdates(CodeBox c, Automaton aut, CifCompilerContext ctxt, List<Update> updates) {
+    private static List<ExprCodeGeneratorResult> gencodeUpdates(CodeBox c, Automaton aut, CifCompilerContext ctxt,
+            List<Update> updates)
+    {
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (Update update: updates) {
             if (update instanceof Assignment) {
                 Assignment asgn = (Assignment)update;
-                gencodeAssignment(asgn.getAddressable(), asgn.getValue(), aut, c, ctxt, "source");
+                exprResults.addAll(gencodeAssignment(asgn.getAddressable(), asgn.getValue(), aut, c, ctxt, "source"));
             } else {
-                gencodeIfUpdate(c, aut, ctxt, (IfUpdate)update);
+                exprResults.addAll(gencodeIfUpdate(c, aut, ctxt, (IfUpdate)update));
             }
         }
+        return exprResults;
     }
 
     /**
@@ -787,14 +819,20 @@ public class AutomatonNormalCodeGenerator {
      * @param aut The automaton.
      * @param ctxt The compiler context to use.
      * @param update The 'if' update.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeIfUpdate(CodeBox c, Automaton aut, CifCompilerContext ctxt, IfUpdate update) {
+    private static List<ExprCodeGeneratorResult> gencodeIfUpdate(CodeBox c, Automaton aut, CifCompilerContext ctxt,
+            IfUpdate update)
+    {
+        List<ExprCodeGeneratorResult> exprResults = list();
         // Start of 'try'.
         c.add("try {");
         c.indent();
 
         // If guards.
-        c.add("b = %s;", gencodePreds(update.getGuards(), ctxt, "source"));
+        ExprCodeGeneratorResult updateResult = gencodePreds(update.getGuards(), ctxt, "source");
+        c.add("b = %s;", updateResult);
+        exprResults.add(updateResult);
 
         // End of 'try'.
         c.dedent();
@@ -808,7 +846,7 @@ public class AutomatonNormalCodeGenerator {
         // If updates.
         c.add("if (b) {");
         c.indent();
-        gencodeUpdates(c, aut, ctxt, update.getThens());
+        exprResults.addAll(gencodeUpdates(c, aut, ctxt, update.getThens()));
         c.dedent();
 
         // Elifs.
@@ -821,7 +859,9 @@ public class AutomatonNormalCodeGenerator {
             c.indent();
 
             // Elif guards.
-            c.add("b = %s;", gencodePreds(elifUpd.getGuards(), ctxt, "source"));
+            ExprCodeGeneratorResult elifUpdResult = gencodePreds(elifUpd.getGuards(), ctxt, "source");
+            c.add("b = %s;", elifUpdResult);
+            exprResults.add(updateResult);
 
             // End of 'try'.
             c.dedent();
@@ -835,7 +875,7 @@ public class AutomatonNormalCodeGenerator {
             // Elif updates.
             c.add("if (b) {");
             c.indent();
-            gencodeUpdates(c, aut, ctxt, elifUpd.getThens());
+            exprResults.addAll(gencodeUpdates(c, aut, ctxt, elifUpd.getThens()));
             c.dedent();
         }
 
@@ -843,7 +883,7 @@ public class AutomatonNormalCodeGenerator {
         if (!update.getElses().isEmpty()) {
             c.add("} else {");
             c.indent();
-            gencodeUpdates(c, aut, ctxt, update.getElses());
+            exprResults.addAll(gencodeUpdates(c, aut, ctxt, update.getElses()));
             c.dedent();
         }
 
@@ -855,5 +895,7 @@ public class AutomatonNormalCodeGenerator {
 
         // Close if.
         c.add("}");
+
+        return exprResults;
     }
 }

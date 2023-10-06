@@ -28,6 +28,7 @@ import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencode
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
@@ -166,8 +167,9 @@ public class FuncCodeGenerator {
         c.indent();
 
         // Generate code for body.
+        List<ExprCodeGeneratorResult> bodyExprResults = list();
         if (func instanceof InternalFunction) {
-            gencodeBody((InternalFunction)func, c, ctxt);
+            bodyExprResults = gencodeBody((InternalFunction)func, c, ctxt);
         } else {
             gencodeBody((ExternalFunction)func, retType, c, ctxt);
         }
@@ -188,6 +190,11 @@ public class FuncCodeGenerator {
         // End of method.
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult bodyExprResult: bodyExprResults) {
+            bodyExprResult.addExtraMethods(c);
+        }
 
         // Generate additional methods for external functions.
         if (func instanceof ExternalFunction) {
@@ -253,8 +260,11 @@ public class FuncCodeGenerator {
      * @param func The internal function.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeBody(InternalFunction func, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodeBody(InternalFunction func, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         // Order local variables by their initialization interdependencies.
         List<DiscVariable> localVars = func.getVariables();
         localVars = new FuncLocalVarOrderer().computeOrder(localVars);
@@ -265,11 +275,13 @@ public class FuncCodeGenerator {
         c.add("boolean b; // temp var for pred eval rslts");
 
         // Generate code for the local variables of the function.
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (DiscVariable var: localVars) {
             // Special case for default initial value.
             if (var.getValue() == null) {
-                c.add("%s %s = %s;", gencodeType(var.getType(), ctxt), ctxt.getFuncLocalVarName(var),
-                        getDefaultValueCode(var.getType(), ctxt));
+                ExprCodeGeneratorResult result = getDefaultValueCode(var.getType(), ctxt);
+                c.add("%s %s = %s;", gencodeType(var.getType(), ctxt), ctxt.getFuncLocalVarName(var), result);
+                exprResults.add(result);
                 continue;
             }
 
@@ -284,7 +296,9 @@ public class FuncCodeGenerator {
             c.add("try {");
             c.indent();
 
-            c.add("%s = %s;", ctxt.getFuncLocalVarName(var), gencodeExpr(value, ctxt, null));
+            ExprCodeGeneratorResult result = gencodeExpr(value, ctxt, null);
+            c.add("%s = %s;", ctxt.getFuncLocalVarName(var), result);
+            exprResults.add(result);
 
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
@@ -299,12 +313,13 @@ public class FuncCodeGenerator {
         }
 
         // Generate statements.
-        gencodeStatements(func.getStatements(), c, ctxt);
+        exprResults.addAll(gencodeStatements(func.getStatements(), c, ctxt));
 
         // Generate 'throw' statement at the end of the body, to ensure we
         // don't get compilation errors, due to Java thinking that the method
         // may not return a value for all code paths.
         c.add("throw new RuntimeException(\"no return at end of func\");");
+        return exprResults;
     }
 
     /**
@@ -313,11 +328,16 @@ public class FuncCodeGenerator {
      * @param statements The statements.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeStatements(List<FunctionStatement> statements, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodeStatements(List<FunctionStatement> statements, CodeBox c,
+            CifCompilerContext ctxt)
+    {
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (FunctionStatement statement: statements) {
-            gencodeStatement(statement, c, ctxt);
+            exprResults.addAll(gencodeStatement(statement, c, ctxt));
         }
+        return exprResults;
     }
 
     /**
@@ -326,11 +346,15 @@ public class FuncCodeGenerator {
      * @param statement The statement.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeStatement(FunctionStatement statement, CodeBox c, CifCompilerContext ctxt) {
+    private static List<ExprCodeGeneratorResult> gencodeStatement(FunctionStatement statement, CodeBox c,
+            CifCompilerContext ctxt)
+    {
+        List<ExprCodeGeneratorResult> exprResults = list();
         if (statement instanceof AssignmentFuncStatement) {
             AssignmentFuncStatement asgn = (AssignmentFuncStatement)statement;
-            gencodeAssignment(asgn.getAddressable(), asgn.getValue(), null, c, ctxt, null);
+            exprResults.addAll(gencodeAssignment(asgn.getAddressable(), asgn.getValue(), null, c, ctxt, null));
         } else if (statement instanceof BreakFuncStatement) {
             // We generate 'if (true) ' to avoid unreachable statements in the
             // Java code, leading to compilation errors.
@@ -347,7 +371,9 @@ public class FuncCodeGenerator {
             c.indent();
 
             // If guards.
-            c.add("b = %s;", gencodePreds(istat.getGuards(), ctxt, null));
+            ExprCodeGeneratorResult istatResult = gencodePreds(istat.getGuards(), ctxt, null);
+            c.add("b = %s;", istatResult);
+            exprResults.add(istatResult);
 
             // End of 'try'.
             c.dedent();
@@ -361,7 +387,7 @@ public class FuncCodeGenerator {
             // If statements.
             c.add("if (b) {");
             c.indent();
-            gencodeStatements(istat.getThens(), c, ctxt);
+            exprResults.addAll(gencodeStatements(istat.getThens(), c, ctxt));
             c.dedent();
 
             // Elifs.
@@ -374,7 +400,9 @@ public class FuncCodeGenerator {
                 c.indent();
 
                 // Elif guards.
-                c.add("b = %s;", gencodePreds(elif.getGuards(), ctxt, null));
+                ExprCodeGeneratorResult elifResult = gencodePreds(elif.getGuards(), ctxt, null);
+                c.add("b = %s;", elifResult);
+                exprResults.add(elifResult);
 
                 // End of 'try'.
                 c.dedent();
@@ -388,7 +416,7 @@ public class FuncCodeGenerator {
                 // Elif statements.
                 c.add("if (b) {");
                 c.indent();
-                gencodeStatements(elif.getThens(), c, ctxt);
+                exprResults.addAll(gencodeStatements(elif.getThens(), c, ctxt));
                 c.dedent();
             }
 
@@ -396,7 +424,7 @@ public class FuncCodeGenerator {
             if (!istat.getElses().isEmpty()) {
                 c.add("} else {");
                 c.indent();
-                gencodeStatements(istat.getElses(), c, ctxt);
+                exprResults.addAll(gencodeStatements(istat.getElses(), c, ctxt));
                 c.dedent();
             }
 
@@ -419,7 +447,9 @@ public class FuncCodeGenerator {
             // Actual return statement code. We generate 'if (true) ' to avoid
             // unreachable statements in the Java code, leading to compilation
             // errors.
-            c.add("if (true) return %s;", gencodeExpr(retValue, ctxt, null));
+            ExprCodeGeneratorResult result = gencodeExpr(retValue, ctxt, null);
+            c.add("if (true) return %s;", result);
+            exprResults.add(result);
 
             // End of 'try'.
             c.dedent();
@@ -441,7 +471,9 @@ public class FuncCodeGenerator {
             c.indent();
 
             // While guards.
-            c.add("b = %s;", gencodePreds(wstat.getGuards(), ctxt, null));
+            ExprCodeGeneratorResult wstatResult = gencodePreds(wstat.getGuards(), ctxt, null);
+            c.add("b = %s;", wstatResult);
+            exprResults.add(wstatResult);
 
             // End of 'try'.
             c.dedent();
@@ -456,7 +488,7 @@ public class FuncCodeGenerator {
             c.add("if (!b) break;");
 
             // While statements.
-            gencodeStatements(wstat.getStatements(), c, ctxt);
+            exprResults.addAll(gencodeStatements(wstat.getStatements(), c, ctxt));
 
             // End of while.
             c.dedent();
@@ -464,6 +496,7 @@ public class FuncCodeGenerator {
         } else {
             throw new RuntimeException("Unknown func stat: " + statement);
         }
+        return exprResults;
     }
 
     /**

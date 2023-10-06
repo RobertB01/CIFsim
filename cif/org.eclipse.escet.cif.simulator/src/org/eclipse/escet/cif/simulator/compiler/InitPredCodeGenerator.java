@@ -17,6 +17,9 @@ import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
+import static org.eclipse.escet.common.java.Lists.list;
+
+import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -55,7 +58,7 @@ public class InitPredCodeGenerator {
         c.add("public static boolean evalInitPreds(State state) {");
         c.indent();
 
-        gencodeComponent(spec, ctxt, c);
+        List<ExprCodeGeneratorResult> exprResults = gencodeComponent(spec, ctxt, c);
 
         c.add();
         c.add("// All initialization predicates satisfied.");
@@ -63,6 +66,11 @@ public class InitPredCodeGenerator {
 
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult exprResult: exprResults) {
+            exprResult.addExtraMethods(c);
+        }
     }
 
     /**
@@ -72,14 +80,18 @@ public class InitPredCodeGenerator {
      * @param comp The component.
      * @param ctxt The compiler context to use.
      * @param c The code box to which to add the code.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeComponent(ComplexComponent comp, CifCompilerContext ctxt, CodeBox c) {
+    private static List<ExprCodeGeneratorResult> gencodeComponent(ComplexComponent comp, CifCompilerContext ctxt,
+            CodeBox c)
+    {
         // Generate locally.
         String absName = getAbsName(comp);
         if (!comp.getInitials().isEmpty()) {
             c.add("// Initialization predicates for \"%s\".", absName);
         }
 
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (Expression init: comp.getInitials()) {
             // Start of 'try'.
             c.add("try {");
@@ -88,7 +100,9 @@ public class InitPredCodeGenerator {
             // Actual initialization predicate evaluation.
             String initTxt = exprToStr(init);
             String compTxt = CifTextUtils.getComponentText2(comp);
-            c.add("if (!(%s)) {", gencodeExpr(init, ctxt, "state"));
+            ExprCodeGeneratorResult result = gencodeExpr(init, ctxt, "state");
+            c.add("if (!(%s)) {", result);
+            exprResults.add(result);
             c.indent();
             c.add("warn(\"Initialization predicate \\\"%s\\\" of %s is not satisfied.\");", escapeJava(initTxt),
                     escapeJava(compTxt));
@@ -109,8 +123,10 @@ public class InitPredCodeGenerator {
         // Generate recursively.
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                gencodeComponent((ComplexComponent)child, ctxt, c);
+                exprResults.addAll(gencodeComponent((ComplexComponent)child, ctxt, c));
             }
         }
+
+        return exprResults;
     }
 }

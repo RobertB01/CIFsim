@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -65,6 +66,7 @@ public class DefaultValueCodeGenerator {
         CodeBox c = file.body;
 
         // Add methods for the container types.
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (Entry<TypeEqHashWrap, String> entry: mapping.entrySet()) {
             if (!c.isEmpty()) {
                 c.add();
@@ -82,7 +84,9 @@ public class DefaultValueCodeGenerator {
                 int cnt = CifTypeUtils.getLowerBound(ltype);
                 c.add("%s rslt = listc(%d);", gencodeType(type, ctxt), cnt);
                 if (cnt > 0) {
-                    c.add("%s elem = %s;", gencodeType(etype, ctxt), getDefaultValueCode(etype, ctxt));
+                    ExprCodeGeneratorResult result = getDefaultValueCode(etype, ctxt);
+                    c.add("%s elem = %s;", gencodeType(etype, ctxt), result);
+                    exprResults.add(result);
                     c.add("for (int i = 0; i < %d; i++) {", cnt);
                     c.indent();
                     c.add("rslt.add(elem);");
@@ -96,7 +100,9 @@ public class DefaultValueCodeGenerator {
                 TupleType ttype = (TupleType)type;
                 List<String> argTxts = listc(ttype.getFields().size());
                 for (Field field: ttype.getFields()) {
-                    argTxts.add(getDefaultValueCode(field.getType(), ctxt));
+                    ExprCodeGeneratorResult result = getDefaultValueCode(field.getType(), ctxt);
+                    argTxts.add(result.toString());
+                    exprResults.add(result);
                 }
                 c.add("return new %s(%s);", ctxt.getTupleTypeClassName(ttype), String.join(", ", argTxts));
             } else {
@@ -105,6 +111,11 @@ public class DefaultValueCodeGenerator {
 
             c.dedent();
             c.add("}");
+        }
+
+        // Add potential extra value expression evaluation methods.
+        for (ExprCodeGeneratorResult exprResult: exprResults) {
+            exprResult.addExtraMethods(c);
         }
     }
 
@@ -115,7 +126,7 @@ public class DefaultValueCodeGenerator {
      * @param ctxt The compiler context to use.
      * @return The Java code to for the default value of the given CIF type.
      */
-    public static String getDefaultValueCode(CifType type, CifCompilerContext ctxt) {
+    public static ExprCodeGeneratorResult getDefaultValueCode(CifType type, CifCompilerContext ctxt) {
         // Handle non-container types.
         type = CifTypeUtils.normalizeType(type);
         if (!CifTypeUtils.isContainerType(type)) {
@@ -126,6 +137,6 @@ public class DefaultValueCodeGenerator {
         // Handle container types.
         String name = ctxt.getDefaultValueMethodName(type);
         Assert.notNull(name);
-        return fmt("DefaultValues.%s()", name);
+        return new ExprCodeGeneratorResult(fmt("DefaultValues.%s()", name), type);
     }
 }

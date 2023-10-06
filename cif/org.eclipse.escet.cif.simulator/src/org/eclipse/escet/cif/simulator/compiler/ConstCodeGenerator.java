@@ -69,8 +69,10 @@ public class ConstCodeGenerator {
         for (Constant constant: constants) {
             // There is no need to catch runtime errors here, as the type
             // checker already evaluated the constant without errors.
+            ExprCodeGeneratorResult result = gencodeExpr(constant.getValue(), ctxt, null);
             c.add("public static final %s %s = %s;", gencodeType(constant.getType(), ctxt),
-                    ctxt.getConstFieldName(constant), gencodeExpr(constant.getValue(), ctxt, null));
+                    ctxt.getConstFieldName(constant), result);
+            result.addExtraMethods(c);
         }
     }
 
