@@ -17,6 +17,8 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
@@ -67,6 +69,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Generates PLC code for performing CIF event transitions. */
     protected TransitionGenerator transitionGenerator;
+
+    /** Code generator for handling continuous behavior. */
+    private ContinuousVariablesGenerator continuousVariablesGenerator;
 
     /** Generator that creates input and output PLC code. */
     protected InputOutputGenerator ioGenerator;
@@ -138,9 +143,16 @@ public abstract class PlcBaseTarget implements PlcTarget {
         cifProcessor = new CifProcessor(this, settings);
         transitionGenerator = new DefaultTransitionGenerator(this);
         ioGenerator = new InputOutputGenerator(this, settings);
+        continuousVariablesGenerator = new DefaultContinuousVariablesGenerator(this);
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Add code and data to variable storage for the previously supplied continuous variables.
+        continuousVariablesGenerator.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
@@ -198,6 +210,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
     @Override
     public TransitionGenerator getTransitionGenerator() {
         return transitionGenerator;
+    }
+
+    @Override
+    public ContinuousVariablesGenerator getContinuousVariablesGenerator() {
+        return continuousVariablesGenerator;
     }
 
     @Override

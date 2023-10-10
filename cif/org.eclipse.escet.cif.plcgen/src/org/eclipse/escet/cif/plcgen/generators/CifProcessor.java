@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -73,6 +74,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -140,7 +142,7 @@ public class CifProcessor {
         normalizeSpec(spec);
         this.spec = spec; // Store the specification for querying.
 
-        // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
+        // Collect or convert the declarations of the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
                 target.getVarStorage().addStateVariable(decl, discVar.getType());
@@ -148,6 +150,9 @@ public class CifProcessor {
                 target.getVarStorage().addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
                 target.getTypeGenerator().convertEnumDecl(enumDecl);
+            } else if (decl instanceof ContVariable contVar) {
+                target.getVarStorage().addStateVariable(contVar, newRealType());
+                target.getContinuousVariablesGenerator().addVariable(contVar);
             }
 
             // TODO Constants.
