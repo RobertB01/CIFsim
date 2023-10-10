@@ -68,6 +68,9 @@ public class PlcCodeStorage {
     /** Global variable list for state variables, lazily created. */
     private PlcGlobalVarList globalStateVars = null;
 
+    /** Global variable list for timer variables, lazily created. */
+    private PlcGlobalVarList globalTimerVars = null;
+
     /** The expression generator to use for generating code in the main program. Initialized lazily. */
     private ExprGenerator exprGenerator = null;
 
@@ -76,6 +79,12 @@ public class PlcCodeStorage {
 
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
+
+    /**
+     * If not {@code null}, code to update the remaining time of the continuous variables just before the non-first time
+     * of the event transitions.
+     */
+    private List<PlcStatement> updateContVarsRemainingTime = null;
 
     /** If not {@code null}, code to perform one iteration of all events. */
     private List<PlcStatement> eventTransitionsIterationCode = null;
@@ -182,6 +191,20 @@ public class PlcCodeStorage {
     }
 
     /**
+     * Add a variable to the global timer variables table.
+     *
+     * @param variable Variable to add. Name is assumed to be unique.
+     */
+    public void addTimerVariable(PlcVariable variable) {
+        if (globalTimerVars == null) {
+            // Global variable list of timer-related data of the main program. Note that the Siemens target currently
+            // requires the "TIMERS" name.
+            globalTimerVars = new PlcGlobalVarList("TIMERS", false);
+        }
+        globalTimerVars.variables.add(variable);
+    }
+
+    /**
      * Add a type declaration to the global type declarations list.
      *
      * @param decl Declaration to add. Name is assumed to be unique.
@@ -200,6 +223,15 @@ public class PlcCodeStorage {
         if (PlcModelUtils.isNonEmptyCode(stateInitializationCode)) {
             this.stateInitializationCode = stateInitializationCode;
         }
+    }
+
+    /**
+     * Update the remaining time of the continuous variables before the event transitions in the PLC cycle.
+     *
+     * @param updateContVarsRemainingTime Statements to execute for updating remaining time of the continuous variables.
+     */
+    public void setContvarRemnainingUpdate(List<PlcStatement> updateContVarsRemainingTime) {
+        this.updateContVarsRemainingTime = updateContVarsRemainingTime;
     }
 
     /**
@@ -248,6 +280,7 @@ public class PlcCodeStorage {
         addGlobalVariableTable(globalInputs);
         addGlobalVariableTable(globalOutputs);
         addGlobalVariableTable(globalStateVars);
+        addGlobalVariableTable(globalTimerVars);
 
         // Create code file for program, with header etc.
         PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
