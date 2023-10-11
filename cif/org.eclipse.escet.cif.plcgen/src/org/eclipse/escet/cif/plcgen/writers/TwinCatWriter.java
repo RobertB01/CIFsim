@@ -589,7 +589,7 @@ public class TwinCatWriter extends Writer {
         // Store new file.
         String fileName = fmt("GVLs\\%s.TcGVL", varList.name);
         Document prevDoc = files.put(fileName, doc);
-        Assert.check(prevDoc == null);
+        Assert.check(prevDoc == null, fmt("Trying to generate another \"%s\" file.", fileName));
     }
 
     /** Removes old code files, and (over)writes the new code files. */
