@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,11 +31,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -274,7 +269,25 @@ public class PlcCodeStorage {
     }
 
     /** Perform any additional processing to make the generated PLC program ready. */
+    @SuppressWarnings("null")
     public void finishPlcProgram() {
+        // Continuous variables are state so they are also initialized. Therefore needing to update the
+        // remaining time of continuous variables means there is also state initialization code. That is, having
+        // continuous variables is a subset within having state.
+        Assert.implies(updateContVarsRemainingTime != null, stateInitializationCode != null);
+
+        ExprGenerator exprGen = getExprGenerator();
+        ModelTextGenerator textGenerator = target.getModelTextGenerator();
+
+        // The {@code firstRun} flag is needed in state initialization, but creation has been moved to here before
+        // pushing the variable tables to the output.
+        PlcVariable firstRun = null;
+        if (stateInitializationCode != null) {
+            firstRun = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+                    new PlcBoolLiteral(true));
+            addTimerVariable(firstRun);
+        }
+
         // Add all created variable tables.
         addGlobalVariableTable(globalConstants);
         addGlobalVariableTable(globalInputs);
@@ -295,9 +308,6 @@ public class PlcCodeStorage {
         boolean boxNeedsEmptyLine = false;
         int commentLength = 79; // Length of a comment header line.
 
-        ExprGenerator exprGen = getExprGenerator();
-        ModelTextGenerator textGenerator = target.getModelTextGenerator();
-
         // Add input code if it exists.
         if (inputFuncCode != null) {
             generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
@@ -308,20 +318,26 @@ public class PlcCodeStorage {
 
         // Add initialization code if it exists.
         if (stateInitializationCode != null) {
-            generateCommentHeader("Initialize state.", '-', commentLength, boxNeedsEmptyLine, box);
+            String headerText = (updateContVarsRemainingTime == null) ? "Initialize state."
+                    : "Initialize state or update continuous vars.";
+            generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
-            // Insert code to create the initial state.
-            PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
-                    new PlcBoolLiteral(true));
-            mainVariables.variables.add(firstFlag);
-
-            box.add("IF %s THEN", firstFlag.name);
+            // Insert code to create the initial state with the "firstRun" boolean to run it only once.
+            // The variable is added above, before the variable tables are pushed to the output.
+            //
+            box.add("IF %s THEN", firstRun.name);
             box.indent();
-            box.add("%s := FALSE;", firstFlag.name);
+            box.add("%s := FALSE;", firstRun.name);
             box.add();
             textGenerator.toText(stateInitializationCode, box, main.name, false);
             box.dedent();
+            if (updateContVarsRemainingTime != null) {
+                box.add("ELSE");
+                box.indent();
+                textGenerator.toText(updateContVarsRemainingTime, box, main.name, false);
+                box.dedent();
+            }
             box.add("END_IF;");
         }
 
@@ -350,12 +366,6 @@ public class PlcCodeStorage {
         }
 
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
-
-        // Add main program timer variables.
-        PlcType tonType = new PlcDerivedType("TON");
-        mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
 
         // Add temporary variables of the main program code.
         main.tempVars = exprGen.getCreatedTempVariables();
