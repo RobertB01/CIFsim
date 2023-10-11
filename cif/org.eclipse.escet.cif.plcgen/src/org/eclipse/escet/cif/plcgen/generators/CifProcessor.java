@@ -82,7 +82,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -90,6 +89,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
@@ -524,7 +524,7 @@ public class CifProcessor {
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
         if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warnOutput.warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+            warnOutput.line("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
     }
 

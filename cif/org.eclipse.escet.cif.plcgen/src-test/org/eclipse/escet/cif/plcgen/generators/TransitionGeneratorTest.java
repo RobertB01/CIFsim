@@ -42,7 +42,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
@@ -52,6 +51,8 @@ import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -77,7 +78,7 @@ public class TransitionGeneratorTest {
             ConvertEnums enumConversion = ConvertEnums.NO;
             Supplier<Boolean> shouldTerminate = () -> false;
             boolean warnOnRename = false;
-            WarnOutput warnOutput = message -> { /* Do nothing. */ };
+            WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,

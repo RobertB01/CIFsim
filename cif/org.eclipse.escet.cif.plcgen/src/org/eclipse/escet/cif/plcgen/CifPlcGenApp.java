@@ -55,6 +55,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** PLC code generator application. */
 public class CifPlcGenApp extends Application<IOutputComponent> {
@@ -159,7 +160,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
         boolean warnOnRename = RenameWarningsOption.isEnabled();
-        WarnOutput warnOutput = message -> OutputProvider.warn(message);
+        WarnOutput warnOutput =  OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath),

@@ -35,7 +35,6 @@ import java.util.Set;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
@@ -52,6 +51,7 @@ import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
@@ -205,7 +205,7 @@ public class InputOutputGenerator {
             return entries;
         } catch (FileNotFoundException ex) {
             // File does not exist, don't generate I/O handling.
-            warnOutput.warn(
+            warnOutput.line(
                     "I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
                     ioTablePath);
             return List.of();

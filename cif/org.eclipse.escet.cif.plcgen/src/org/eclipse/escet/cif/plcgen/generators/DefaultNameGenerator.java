@@ -24,8 +24,8 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
@@ -164,7 +164,7 @@ public class DefaultNameGenerator implements NameGenerator {
             cleanedName.append(maxUsedNumber);
             String newName = cleanedName.toString();
             if (initialIsCifName && warnOnRename) {
-                warnOutput.warn("Renaming \"%s\" to \"%s\".", initialName, newName);
+                warnOutput.line("Renaming \"%s\" to \"%s\".", initialName, newName);
             }
             return newName;
         }

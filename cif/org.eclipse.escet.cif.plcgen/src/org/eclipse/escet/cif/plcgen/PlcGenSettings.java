@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** PLC code generator configuration. */
 public class PlcGenSettings {
