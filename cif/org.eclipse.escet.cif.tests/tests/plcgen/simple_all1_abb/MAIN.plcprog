@@ -1,5 +1,6 @@
 PROGRAM MAIN
 VAR_TEMP
+    curValue: REAL;
     current_p: DINT;
     current_p_b: BOOL;
     current_p_j: DINT;
@@ -15,9 +16,10 @@ VAR_TEMP
     litStruct__2: TupleStruct__2;
     rightValue: TupleStruct__2;
     syncAutEdge: DINT;
+    timeOut: BOOL;
 END_VAR
 
-(* --- Initialize state. --------------------------------------------------- *)
+(* --- Initialize state or update continuous vars. ------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
@@ -41,6 +43,10 @@ IF firstRun THEN
     p_j := 0;
     p_r := 1000000.0;
     p := someConstantvariable;
+ELSE
+    (* Update remaining time of "p_t". *)
+    ton__p_t__1(PT := preset__p_t__1, IN := TRUE, Q => timeOut, ET => curValue);
+    p_t := SEL(G := timeOut, IN0 := preset__p_t__1 - curValue, IN1 := 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)

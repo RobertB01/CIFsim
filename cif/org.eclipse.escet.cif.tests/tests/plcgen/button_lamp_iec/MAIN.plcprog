@@ -1,5 +1,6 @@
 PROGRAM MAIN
 VAR_TEMP
+    curValue: LREAL;
     current_hw_button: hw_button_location;
     current_hw_button__1: hw_button_location;
     current_hw_lamp: hw_lamp_location;
@@ -29,12 +30,13 @@ VAR_TEMP
     syncAutEdge__7: DINT;
     syncAutEdge__8: DINT;
     syncAutEdge__9: DINT;
+    timeOut: BOOL;
 END_VAR
 
 (* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 
-(* --- Initialize state. --------------------------------------------------- *)
+(* --- Initialize state or update continuous vars. ------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
@@ -44,6 +46,10 @@ IF firstRun THEN
     hw_button := hw_button_Released;
     hw_lamp_bit := FALSE;
     hw_lamp := hw_lamp_Off;
+ELSE
+    (* Update remaining time of "timer_t". *)
+    ton__timer_t__1(PT := preset__timer_t__1, IN := TRUE, Q => timeOut, ET => curValue);
+    timer_t := SEL(G := timeOut, IN0 := preset__timer_t__1 - curValue, IN1 := 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
@@ -71,9 +77,13 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_sup := sup;
         current_timer := timer;
-        current_timer_t := someContvariable;
+        current_timer_t := timer_t;
         IF syncAutEdge = 1 THEN
-            someContvariable := 0.0;
+            timer_t := 3.0;
+            (* Reset timer of "timer_t". *)
+            preset__timer_t__1 := timer_t;
+            ton__timer_t__1(PT := preset__timer_t__1, IN := FALSE);
+            ton__timer_t__1(PT := preset__timer_t__1, IN := TRUE);
             timer := timer_Running;
         END_IF;
         IF syncAutEdge__1 = 1 THEN
@@ -84,7 +94,7 @@ WHILE isProgress DO
     END_IF;
     (* Try to perform event "timer.timeout". *)
     eventEnabled := TRUE;
-    IF timer = timer_Running AND someContvariable >= 3.0 THEN
+    IF timer = timer_Running AND timer_t <= 0.0 THEN
         syncAutEdge__2 := 1;
     ELSE
         eventEnabled := FALSE;

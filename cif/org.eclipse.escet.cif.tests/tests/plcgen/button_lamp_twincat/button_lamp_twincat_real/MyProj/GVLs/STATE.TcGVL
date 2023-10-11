@@ -2,6 +2,7 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <GVL Name="STATE">
     <Declaration><![CDATA[VAR_GLOBAL // STATE
+    timer_t: LREAL;
     timer: timer_location;
     sup: sup_location;
     hw_button_bit: BOOL;

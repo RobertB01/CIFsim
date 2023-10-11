@@ -11,13 +11,13 @@ CONFIGURATION Untitled1
         p_tv: TupleStruct__2;
         p_j: DINT;
         p_r: REAL;
+        p_t: REAL;
         p: DINT;
     END_VAR
     VAR_GLOBAL // TIMERS
+        ton__p_t__1: TON;
+        preset__p_t__1: TIME;
         firstRun: BOOL := TRUE;
-        timer0: TON;
-        timer1: TON;
-        curTimer: INT := 0;
     END_VAR
     TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
     PROGRAM MAIN WITH PlcTask: MAIN;
