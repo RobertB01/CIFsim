@@ -160,7 +160,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
         boolean warnOnRename = RenameWarningsOption.isEnabled();
-        WarnOutput warnOutput =  OutputProvider.getWarningOutputStream();
+        WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath),
