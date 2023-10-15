@@ -76,7 +76,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifPlcGenApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifPlcGenApp(AppStreams streams) {
         super(streams);

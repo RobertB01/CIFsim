@@ -63,7 +63,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifMergerApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifMergerApp(AppStreams streams) {
         super(streams);

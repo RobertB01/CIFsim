@@ -32,7 +32,7 @@ public class TestApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link TestApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public TestApp(AppStreams streams) {
         super(streams);

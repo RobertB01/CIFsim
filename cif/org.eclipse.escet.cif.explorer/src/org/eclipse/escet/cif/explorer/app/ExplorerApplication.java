@@ -78,7 +78,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link ExplorerApplication} class.
      *
-     * @param streams The streams to use for input, output, and errors.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public ExplorerApplication(AppStreams streams) {
         super(streams);

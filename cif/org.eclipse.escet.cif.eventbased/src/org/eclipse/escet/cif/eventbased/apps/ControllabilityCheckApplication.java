@@ -58,7 +58,7 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
     /**
      * Constructor of the {@link ControllabilityCheckApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public ControllabilityCheckApplication(AppStreams streams) {
         super(streams);
