@@ -1,0 +1,3 @@
+ERROR: File "tchecker/comp_inst_arg_alg_types.cif": Semantic error at line 19, column 8: Definition/instantiation parameter mismatch for the 1st parameter of "g.X": the algebraic parameter is of type "bool", while the argument is of type "int[1..1]".
+ERROR: File "tchecker/comp_inst_arg_alg_types.cif": Semantic error at line 19, column 11: Definition/instantiation parameter mismatch for the 2nd parameter of "g.X": the algebraic parameter is of type "int[1..1]", while the argument is of type "int[2..2]".
+ERROR: Failed to load CIF file "tchecker/comp_inst_arg_alg_types.cif": the file has errors.
