@@ -893,22 +893,22 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ComponentInst} class.
      *
+     * @param arguments The "arguments" of the new "ComponentInst". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments", or to set it later.
      * @param definition The "definition" of the new "ComponentInst". Multiplicity [1..1]. May be {@code null} to set the "definition" later.
      * @param name The "name" of the new "ComponentInst". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param parameters The "parameters" of the new "ComponentInst". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
      * @param position The "position" of the new "ComponentInst". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ComponentInst} class.
      */
-    public static ComponentInst newComponentInst(CifType definition, String name, List<Expression> parameters, Position position) {
+    public static ComponentInst newComponentInst(List<Expression> arguments, CifType definition, String name, Position position) {
         ComponentInst rslt_ = newComponentInst();
+        if (arguments != null) {
+            rslt_.getArguments().addAll(arguments);
+        }
         if (definition != null) {
             rslt_.setDefinition(definition);
         }
         if (name != null) {
             rslt_.setName(name);
-        }
-        if (parameters != null) {
-            rslt_.getParameters().addAll(parameters);
         }
         if (position != null) {
             rslt_.setPosition(position);
@@ -1964,19 +1964,19 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link FunctionCallExpression} class.
      *
+     * @param arguments The "arguments" of the new "FunctionCallExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments", or to set it later.
      * @param function The "function" of the new "FunctionCallExpression". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param params The "params" of the new "FunctionCallExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "params", or to set it later.
      * @param position The "position" of the new "FunctionCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "FunctionCallExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link FunctionCallExpression} class.
      */
-    public static FunctionCallExpression newFunctionCallExpression(Expression function, List<Expression> params, Position position, CifType type) {
+    public static FunctionCallExpression newFunctionCallExpression(List<Expression> arguments, Expression function, Position position, CifType type) {
         FunctionCallExpression rslt_ = newFunctionCallExpression();
+        if (arguments != null) {
+            rslt_.getArguments().addAll(arguments);
+        }
         if (function != null) {
             rslt_.setFunction(function);
-        }
-        if (params != null) {
-            rslt_.getParams().addAll(params);
         }
         if (position != null) {
             rslt_.setPosition(position);
