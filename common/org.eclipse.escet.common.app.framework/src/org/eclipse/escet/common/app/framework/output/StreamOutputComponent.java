@@ -19,7 +19,7 @@ import org.eclipse.escet.common.java.Strings;
 
 /** Output component that writes all information to streams ({@link System#out} and {@link System#err} by default). */
 public class StreamOutputComponent implements IOutputComponent {
-    /** The stream to write all normal (non-error) output to. */
+    /** The stream to write all normal (non-warning and non-error) output to. */
     protected final AppStream out;
 
     /** The stream to write all warning output to. */
@@ -29,15 +29,15 @@ public class StreamOutputComponent implements IOutputComponent {
     protected final AppStream err;
 
     /**
-     * Constructor for the {@link StreamOutputComponent} class. Sets the output stream to {@link StdAppStream#OUT}, the
-     * warning and error streams to {@link StdAppStream#ERR}.
+     * Constructor for the {@link StreamOutputComponent} class. Sets the output stream to {@link StdAppStream#OUT}, and
+     * the warning and error streams to {@link StdAppStream#ERR}.
      */
     public StreamOutputComponent() {
         this(StdAppStream.OUT, StdAppStream.ERR, StdAppStream.ERR);
     }
 
     /**
-     * Constructor for the {@link StreamOutputComponent} class, with custom output and error streams.
+     * Constructor for the {@link StreamOutputComponent} class, with custom output, warning, and error streams.
      *
      * @param out The stream to write all normal (non-warning and non-error) output to.
      * @param warn The stream to write all warning output to.

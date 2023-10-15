@@ -119,7 +119,7 @@ public abstract class Application<T extends IOutputComponent> {
      * Constructor for the {@link Application} class.
      *
      * @param streams The application stream to use for the application, or {@code null} to use {@link System#in},
-     *     {@link System#out}, and {@link System#err} as streams.
+     *     {@link System#out}, and {@link System#err} as streams (for warnings and errors).
      * @param provider The output provider to use for the application, or {@code null} to ask the application for the
      *     output provider.
      * @param options The options to use for the application, or {@code null} to create a fresh {@link Options}
