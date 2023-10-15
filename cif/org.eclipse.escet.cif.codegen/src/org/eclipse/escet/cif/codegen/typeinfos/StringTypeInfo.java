@@ -77,38 +77,38 @@ public abstract class StringTypeInfo extends TypeInfo {
     /**
      * Convert the 'format' standard library function call to the target language.
      *
-     * @param params Arguments of the function call.
+     * @param args Arguments of the function call.
      * @param dest Storage destination if available, else {@code null}.
      * @param ctxt Code context.
      * @return Result of the conversion.
      */
-    public ExprCode convertFormatStdLib(List<Expression> params, Destination dest, CodeContext ctxt) {
+    public ExprCode convertFormatStdLib(List<Expression> args, Destination dest, CodeContext ctxt) {
         // Get pattern.
-        StringExpression patternExpr = (StringExpression)params.get(0);
+        StringExpression patternExpr = (StringExpression)args.get(0);
         String pattern = patternExpr.getValue();
 
         // Generate code for the values (remaining arguments), and also
         // get their types.
-        List<CifType> valueTypes = listc(params.size() - 1);
-        for (int i = 1; i < params.size(); i++) {
-            valueTypes.add(normalizeType(params.get(i).getType()));
+        List<CifType> valueTypes = listc(args.size() - 1);
+        for (int i = 1; i < args.size(); i++) {
+            valueTypes.add(normalizeType(args.get(i).getType()));
         }
 
         // Generate code for the pattern.
-        return convertFormatFunction(pattern, params.subList(1, params.size()), valueTypes, dest, ctxt);
+        return convertFormatFunction(pattern, args.subList(1, args.size()), valueTypes, dest, ctxt);
     }
 
     /**
-     * Convert the 'format' pattern and its parameters to construction of a string in the target language.
+     * Convert the 'format' pattern and its arguments to construction of a string in the target language.
      *
-     * @param pattern Pattern parameter of the 'format' function call.
-     * @param params Parameters of the pattern.
-     * @param paramTypes Normalized types of the parameters of the pattern.
+     * @param pattern Pattern argument of the 'format' function call.
+     * @param args Arguments of the pattern.
+     * @param argTypes Normalized types of the arguments of the pattern.
      * @param dest Storage destination if available, else {@code null}.
      * @param ctxt Code context.
      * @return Result of the conversion.
      */
-    public abstract ExprCode convertFormatFunction(String pattern, List<Expression> params, List<CifType> paramTypes,
+    public abstract ExprCode convertFormatFunction(String pattern, List<Expression> args, List<CifType> argTypes,
             Destination dest, CodeContext ctxt);
 
     /**

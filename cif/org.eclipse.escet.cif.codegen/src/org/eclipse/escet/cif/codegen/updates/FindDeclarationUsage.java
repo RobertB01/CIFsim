@@ -164,7 +164,7 @@ public class FindDeclarationUsage {
         if (expr instanceof FunctionCallExpression) {
             FunctionCallExpression expr2 = (FunctionCallExpression)expr;
             collectUse(expr2.getFunction(), accessedDecls);
-            collectUse(expr2.getParams(), accessedDecls);
+            collectUse(expr2.getArguments(), accessedDecls);
             return;
         }
 
