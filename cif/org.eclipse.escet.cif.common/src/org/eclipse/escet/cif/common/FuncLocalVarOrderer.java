@@ -162,8 +162,8 @@ public class FuncLocalVarOrderer extends DependencyOrderer<DiscVariable> {
         }
         if (expr instanceof FunctionCallExpression) {
             FunctionCallExpression fexpr = (FunctionCallExpression)expr;
-            for (Expression param: fexpr.getParams()) {
-                collectVariables(param, variables);
+            for (Expression arg: fexpr.getArguments()) {
+                collectVariables(arg, variables);
             }
             collectVariables(fexpr.getFunction(), variables);
             return;

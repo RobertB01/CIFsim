@@ -231,8 +231,8 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
         }
         if (expr instanceof FunctionCallExpression) {
             FunctionCallExpression fexpr = (FunctionCallExpression)expr;
-            for (Expression param: fexpr.getParams()) {
-                collectDependencies(param, deps);
+            for (Expression arg: fexpr.getArguments()) {
+                collectDependencies(arg, deps);
             }
             collectDependencies(fexpr.getFunction(), deps);
             return;

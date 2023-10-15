@@ -591,7 +591,7 @@ public class CifTextUtils {
                 funcTxt = "(" + funcTxt + ")";
             }
 
-            return funcTxt + "(" + exprsToStr(fexpr.getParams()) + ")";
+            return funcTxt + "(" + exprsToStr(fexpr.getArguments()) + ")";
         }
 
         if (expr instanceof ListExpression) {
