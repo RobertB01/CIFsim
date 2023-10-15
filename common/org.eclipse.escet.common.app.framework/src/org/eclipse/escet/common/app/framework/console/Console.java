@@ -110,12 +110,12 @@ public class Console extends IOConsole {
         if (EclipseThemeUtils.isDarkThemeInUse()) {
             inputStream.setColor(new Color(0, 200, 125));
             outputStream.setColor(new Color(240, 240, 240));
-            warningStream.setColor(new Color(150, 125, 3));
+            warningStream.setColor(new Color(192, 160, 0));
             errorStream.setColor(new Color(255, 97, 97));
         } else {
             inputStream.setColor(new Color(0, 200, 125));
             outputStream.setColor(new Color(0, 0, 0));
-            warningStream.setColor(new Color(150, 125, 3));
+            warningStream.setColor(new Color(150, 125, 0));
             errorStream.setColor(new Color(255, 0, 0));
         }
     }
