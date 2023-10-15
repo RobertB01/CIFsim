@@ -45,7 +45,7 @@ public class EventParamDeclWrap extends DeclWrap<EventParameter> {
      * @param scope The parent scope of this declaration.
      * @param astDecl The CIF AST representation of the event parameter.
      * @param astPartDecl The CIF AST representation of the event parameter part.
-     * @param mmDecl The CIF metamodel representation of the formal event parameter.
+     * @param mmDecl The CIF metamodel representation of the event parameter.
      */
     public EventParamDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AEventParameter astDecl,
             AEventParameterPart astPartDecl, EventParameter mmDecl)

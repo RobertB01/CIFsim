@@ -3100,7 +3100,7 @@ public class CifExprsTypeChecker {
             resultType.getParamTypes().add(changePositions(deepclone(atypes[i]), resultType.getPosition()));
         }
 
-        // Type of the result depends on the function and the parameters.
+        // Type of the result depends on the function and the arguments.
         switch (func) {
             case ACOS:
             case ACOSH:

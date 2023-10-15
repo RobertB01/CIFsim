@@ -490,8 +490,8 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             SymbolScope<?> scope = (SymbolScope<?>)entry;
             Expression rslt = scope.resolveAsExpr(name, position, done, tchecker);
 
-            // Make sure we don't refer to a formal parameter via a component
-            // instantiation or via a component parameter.
+            // Make sure we don't refer to a parameter of a component definition
+            // via a component instantiation or via a component parameter.
             if (scope instanceof CompInstScope || scope instanceof CompParamScope) {
                 if (isParamRefExpr(rslt)) {
                     int nextIdx = name.indexOf('.');
