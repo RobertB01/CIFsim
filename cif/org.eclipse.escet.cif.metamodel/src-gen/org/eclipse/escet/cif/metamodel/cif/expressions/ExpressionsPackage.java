@@ -394,13 +394,13 @@ public interface ExpressionsPackage extends EPackage
     int FUNCTION_CALL_EXPRESSION__TYPE = EXPRESSION__TYPE;
 
     /**
-     * The feature id for the '<em><b>Params</b></em>' containment reference list.
+     * The feature id for the '<em><b>Arguments</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int FUNCTION_CALL_EXPRESSION__PARAMS = EXPRESSION_FEATURE_COUNT + 0;
+    int FUNCTION_CALL_EXPRESSION__ARGUMENTS = EXPRESSION_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Function</b></em>' containment reference.
@@ -2524,15 +2524,15 @@ public interface ExpressionsPackage extends EPackage
     EClass getFunctionCallExpression();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getParams <em>Params</em>}'.
+     * Returns the meta object for the containment reference list '{@link org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getArguments <em>Arguments</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Params</em>'.
-     * @see org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getParams()
+     * @return the meta object for the containment reference list '<em>Arguments</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getArguments()
      * @see #getFunctionCallExpression()
      * @generated
      */
-    EReference getFunctionCallExpression_Params();
+    EReference getFunctionCallExpression_Arguments();
 
     /**
      * Returns the meta object for the containment reference '{@link org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getFunction <em>Function</em>}'.
@@ -3526,12 +3526,12 @@ public interface ExpressionsPackage extends EPackage
         EClass FUNCTION_CALL_EXPRESSION = eINSTANCE.getFunctionCallExpression();
 
         /**
-         * The meta object literal for the '<em><b>Params</b></em>' containment reference list feature.
+         * The meta object literal for the '<em><b>Arguments</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference FUNCTION_CALL_EXPRESSION__PARAMS = eINSTANCE.getFunctionCallExpression_Params();
+        EReference FUNCTION_CALL_EXPRESSION__ARGUMENTS = eINSTANCE.getFunctionCallExpression_Arguments();
 
         /**
          * The meta object literal for the '<em><b>Function</b></em>' containment reference feature.

@@ -41,7 +41,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.FunctionCallExpressionImpl#getParams <em>Params</em>}</li>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.FunctionCallExpressionImpl#getArguments <em>Arguments</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.expressions.impl.FunctionCallExpressionImpl#getFunction <em>Function</em>}</li>
  * </ul>
  *
@@ -50,14 +50,14 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 public class FunctionCallExpressionImpl extends ExpressionImpl implements FunctionCallExpression
 {
     /**
-     * The cached value of the '{@link #getParams() <em>Params</em>}' containment reference list.
+     * The cached value of the '{@link #getArguments() <em>Arguments</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getParams()
+     * @see #getArguments()
      * @generated
      * @ordered
      */
-    protected EList<Expression> params;
+    protected EList<Expression> arguments;
 
     /**
      * The cached value of the '{@link #getFunction() <em>Function</em>}' containment reference.
@@ -96,13 +96,13 @@ public class FunctionCallExpressionImpl extends ExpressionImpl implements Functi
      * @generated
      */
     @Override
-    public EList<Expression> getParams()
+    public EList<Expression> getArguments()
     {
-        if (params == null)
+        if (arguments == null)
         {
-            params = new EObjectContainmentEList<Expression>(Expression.class, this, ExpressionsPackage.FUNCTION_CALL_EXPRESSION__PARAMS);
+            arguments = new EObjectContainmentEList<Expression>(Expression.class, this, ExpressionsPackage.FUNCTION_CALL_EXPRESSION__ARGUMENTS);
         }
-        return params;
+        return arguments;
     }
 
     /**
@@ -165,8 +165,8 @@ public class FunctionCallExpressionImpl extends ExpressionImpl implements Functi
     {
         switch (featureID)
         {
-            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__PARAMS:
-                return ((InternalEList<?>)getParams()).basicRemove(otherEnd, msgs);
+            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__ARGUMENTS:
+                return ((InternalEList<?>)getArguments()).basicRemove(otherEnd, msgs);
             case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__FUNCTION:
                 return basicSetFunction(null, msgs);
         }
@@ -183,8 +183,8 @@ public class FunctionCallExpressionImpl extends ExpressionImpl implements Functi
     {
         switch (featureID)
         {
-            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__PARAMS:
-                return getParams();
+            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__ARGUMENTS:
+                return getArguments();
             case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__FUNCTION:
                 return getFunction();
         }
@@ -202,9 +202,9 @@ public class FunctionCallExpressionImpl extends ExpressionImpl implements Functi
     {
         switch (featureID)
         {
-            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__PARAMS:
-                getParams().clear();
-                getParams().addAll((Collection<? extends Expression>)newValue);
+            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__ARGUMENTS:
+                getArguments().clear();
+                getArguments().addAll((Collection<? extends Expression>)newValue);
                 return;
             case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__FUNCTION:
                 setFunction((Expression)newValue);
@@ -223,8 +223,8 @@ public class FunctionCallExpressionImpl extends ExpressionImpl implements Functi
     {
         switch (featureID)
         {
-            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__PARAMS:
-                getParams().clear();
+            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__ARGUMENTS:
+                getArguments().clear();
                 return;
             case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__FUNCTION:
                 setFunction((Expression)null);
@@ -243,8 +243,8 @@ public class FunctionCallExpressionImpl extends ExpressionImpl implements Functi
     {
         switch (featureID)
         {
-            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__PARAMS:
-                return params != null && !params.isEmpty();
+            case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__ARGUMENTS:
+                return arguments != null && !arguments.isEmpty();
             case ExpressionsPackage.FUNCTION_CALL_EXPRESSION__FUNCTION:
                 return function != null;
         }
