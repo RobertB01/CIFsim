@@ -29,3 +29,7 @@ _Syntax_
 
 * <<lang-ref-syntax-lexical>>
 * <<lang-ref-syntax-grammar>>
+
+_Extensions_
+
+* <<lang-ref-extensions-annotations>>

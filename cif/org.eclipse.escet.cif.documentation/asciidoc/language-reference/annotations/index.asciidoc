@@ -1,0 +1,173 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[annotation]
+
+[[lang-ref-extensions-annotations]]
+== Annotations
+
+WARNING: Annotations are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner.
+
+<<lang-tut-extensions-chapter-annotations,Annotations>> can be added to elements of a CIF specification, to annotate them with extra structured information.
+Tools that take CIF specifications as input can process the annotations that are attached to elements of the specification, and use the supplied information.
+
+For basic information on annotations, see the <<lang-tut-extensions-chapter-annotations,language tutorial>>.
+
+=== Built-in annotations
+
+The following built-in annotations are bundled with CIF:
+
+[cols="2,1"]
+|===
+| Category | Annotation
+
+| <<lang-ref-extensions-annotations-documentation,Documentation>>
+| `doc`
+|===
+
+=== Syntax
+
+Annotations are optional.
+If specified, annotations are indicated by an <<lang-ref-syntax-lexical-annoname,annotation name>>.
+
+Optionally, the annotation may have arguments.
+If the annotation has arguments, these are put between parentheses, `(` and `)`.
+Parentheses may be used if there are no argument, but this is not recommended.
+Multiple arguments are separated by commas.
+An extra comma may optionally follow the last argument.
+
+Each argument consists of a name and a value, separated by an `=` sign.
+The name is either a CIF <<lang-ref-syntax-lexical-identifier,identifier>> or a CIF <<lang-ref-syntax-lexical-relname,relative name>>.
+If the name is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be escaped by prefixing it with a `$` sign.
+The value of the argument is a CIF expression.
+
+Here are some examples of annotations:
+
+[source,cif]
+----
+@anno
+@some:anno
+@anno()
+@anno(arg = 3)
+@anno($input = true)
+@anno(arg1 = 3, arg2 = 4)
+@anno(arg = 3, some.other.arg = 4,)
+----
+
+=== Placement
+
+Currently, annotations are only supported for the following elements in CIF specifications:
+
+* Input variables.
+
+This will be extended to other elements of specifications in the future.
+
+Annotations are placed before the elements that they annotate.
+Here is an example:
+
+[source,cif]
+----
+@anno
+input bool x;
+----
+
+=== Constraints
+
+The following constraints apply to annotations in general:
+
+* An element may have multiple annotations.
+If an element has multiple annotations, the annotations can be put in any order.
+* Each annotation of an element must have a different annotation name.
+* Each argument of an annotation must have a different name.
+
+Custom annotations can be registered.
+When registering an annotation, an annotation provider is registered with it.
+An annotation provider may impose additional constraints:
+
+* If an annotation is used in a specification, but is not registered, a warning will indicate the unregistered annotation.
+* If an annotation is registered, it must be properly registered and its annotation provider must be properly implemented.
+See below for <<lang-ref-extensions-annotations-providers,details on annotation providers>>.
+* Each annotation and its arguments must satisfy any additional constraints imposed by the corresponding annotation provider.
+
+Different CIF installations may have different registered annotations.
+A CIF specification may thus have a warning in one installation, and not in another installation.
+It may also have different annotation providers for the same annotation name in different installations.
+Hence, a specification may be valid in one installation, and invalid in another.
+
+=== Naming annotations
+
+There are some guidelines for naming of annotations:
+
+* Name an annotation based on the conceptual information it represents, not on how it is used.
+The annotation can then be reused for other uses.
+This avoids having multiple annotations with the same information for different uses.
+* Avoid naming an annotation after a specific tool that uses it.
+The annotation can then be reused by other tools.
+This avoids having multiple annotations with the same information or purpose for different tools.
+* Annotations are given a name that is as short as possible, to make it easier to write them.
+For instance, `doc` for a documentation annotation, rather than `documentation`.
+* By default, annotation names consist of only a single identifier.
+If the annotation is specific to a certain purpose, and chances are that similarly named annotations will be introduced in the future, leading to naming conflicts, the annotation name can be scoped.
+For instance, for annotations related to linking CIF specifications to Programmable Logic Controllers (PLCs), the annotation names may be prefixed with `plc`.
+For instance, `plc:input` could be the name of a PLC input annotation.
+This allows other `input` annotations for different purposes to be added as well.
+* More than two levels can be used in annotation names if needed to distinguish the annotations and ensure they are unique.
+* Annotation names are ideally lower case, consisting of multiple parts separated by colons, rather than having parts that consist of multiple words.
+For instance, use `plc:input` rather than `plcInput`.
+If really needed, camel case can be used for the parts, e.g., `myLongerAnno`.
+
+Everyone can add their own annotations.
+If you add a custom annotation, that is not delivered along with CIF itself, consider the following:
+
+* Start the annotation with your company name, to prevent conflicts with built-in annotations, and with annotations provided by other companies.
+For instance, use `<company_name>:some:anno`.
+
+[[lang-ref-extensions-annotations-providers]]
+=== Annotation providers
+
+Annotations can be registered using the `org.eclipse.escet.cif.annotations` extension point, provided by the `org.eclipse.escet.cif.typechecker` plugin.
+In your own plugin, to register an annotation:
+
+* Open the plugin's manifest (`META-INF/MANIFEST.MF` file).
+* Navigate to the _Extensions_ tab.
+* Click the _Add_ button.
+* Uncheck the _Show only extension points from the required plug-ins_ checkbox.
+* Select _org.eclipse.escet.cif.annotations_ from the list and click _Finish_.
+* If and when asked whether to add the `org.eclipse.escet.cif.typechecker` plugin as a dependency, click _Yes_.
+* On the _Extensions_ tab, a dummy _org.eclipse.escet.cif.annotations_ entry is automatically added, and it is selected.
+* Click _Show extension point description_ for more information on how to properly use the extension point.
+* You can edit the extension on the _Extensions_ tab using the UI, or navigate to the `plugin.xml` tab of the manifest editor and edit it there textually.
+
+A proper extension to register an annotation will look something like this:
+
+```xml
+<extension
+     point="org.eclipse.escet.cif.annotations">
+  <provider
+        annotationName="doc"
+        class="org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider"
+        plugin="org.eclipse.escet.cif.typechecker">
+  </provider>
+</extension>
+```
+
+Some additional constraints must be adhered to:
+
+* At most one annotation provider must be registered for each annotation name.
+* If an annotation is registered, it must specify an annotation provider, by indicating the plugin where the provider is located, and the Java class that implements it.
+* The registered annotation provider class must exist within that plugin, and the CIF type checker must be able to find and load it.
+* The registered annotation provider class must extend the `org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider` class.
+* See the JavaDoc of the `AnnotationProvider` class for additional information and constraints.

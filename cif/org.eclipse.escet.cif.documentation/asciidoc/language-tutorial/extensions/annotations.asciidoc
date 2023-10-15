@@ -38,7 +38,7 @@ Annotations have two main purposes:
 
 Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
 
-The following annotations are bundled with CIF:
+The following built-in annotations are bundled with CIF:
 
 [cols="2,1"]
 |===
@@ -47,6 +47,8 @@ The following annotations are bundled with CIF:
 | <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
 | `doc`
 |===
+
+For more detailed information on annotations, see the <<lang-ref-extensions-annotations,reference manual>>.
 
 indexterm:[annotation, doc]
 indexterm:[doc, annotation]
@@ -77,3 +79,5 @@ For the above example, it may generate the following Java code:
  */
 public boolean ElevatorDownSensor;
 ----
+
+For more detailed information on documentation annotations, see the <<lang-ref-extensions-annotations-documentation,reference manual>>.
