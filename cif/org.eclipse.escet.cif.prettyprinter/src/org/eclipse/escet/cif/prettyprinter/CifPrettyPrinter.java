@@ -231,7 +231,7 @@ public final class CifPrettyPrinter {
      *
      * @param spec The specification.
      * @param code The code box in which to generate CIF code. Is modified in-place.
-     * @return The pretty printed result in the code box given by the 'code' parameter.
+     * @return The pretty printed result in the given code box.
      */
     public static Box boxSpec(Specification spec, CodeBox code) {
         // Backup old indentation amount and set the default amount for CIF.
@@ -723,9 +723,9 @@ public final class CifPrettyPrinter {
     }
 
     /**
-     * Pretty print the given formal parameter.
+     * Pretty print the given parameter of a component definition.
      *
-     * @param param The formal parameter.
+     * @param param The parameter.
      * @return The pretty printed result.
      */
     public String pprint(Parameter param) {
@@ -738,7 +738,7 @@ public final class CifPrettyPrinter {
         } else if (param instanceof AlgParameter) {
             return pprint((AlgParameter)param);
         } else {
-            throw new RuntimeException("Unknown formal parameter: " + param);
+            throw new RuntimeException("Unknown parameter: " + param);
         }
     }
 
@@ -822,7 +822,7 @@ public final class CifPrettyPrinter {
      */
     public void add(ComponentInst inst) {
         code.add("%s: %s%s;", escapeIdentifier(inst.getName()), pprint(inst.getDefinition()),
-                pprint(inst.getParameters(), "(", ", ", ")"));
+                pprint(inst.getArguments(), "(", ", ", ")"));
     }
 
     /**
@@ -1698,7 +1698,7 @@ public final class CifPrettyPrinter {
                 funcTxt = "(" + funcTxt + ")";
             }
 
-            return funcTxt + pprint(fexpr.getParams(), "(", ", ", ")");
+            return funcTxt + pprint(fexpr.getArguments(), "(", ", ", ")");
         } else if (expr instanceof ListExpression) {
             ListExpression lexpr = (ListExpression)expr;
             String castTxt = null;
