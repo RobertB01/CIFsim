@@ -435,33 +435,33 @@ public enum ErrMsg {
     BINOP_OVERFLOW("Binary operator \"%s\" is applied to values of type \"%s\" and \"%s\", "
             + "and this could result in integer overflow.", 3, ERROR),
 
-    // ComponentInst.parameterCount
-    COMP_INST_PARAM_COUNT("The number of arguments (%s) of component instantiation \"%s\" does not match "
+    // ComponentInst.argumentCount
+    COMP_INST_ARG_COUNT("The number of arguments (%s) of component instantiation \"%s\" does not match "
             + "the number of parameters (%s) of component definition \"%s\".", 4, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_TYPE(
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_TYPE(
             "Definition/instantiation parameter mismatch for the %s parameter of \"%s\": %s argument required.", 3,
             ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_ALG_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_ALG_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
             + "the algebraic parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_COMP_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_COMP_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
             + "the component parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_CONTR_MISMATCH("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_CONTR_MISMATCH("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
             + "the event parameter is \"%s\", while the argument is \"%s\".", 4, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_EVENT_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_EVENT_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
             + "the event parameter %s, while the event used as argument %s.", 4, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_EVENT_FLAG("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_EVENT_FLAG("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
             + "the event parameter requires an event with %s usage, "
             + "while the event used as argument doesn't allow that usage.", 3, ERROR),
 
@@ -529,7 +529,7 @@ public enum ErrMsg {
     EDGE_NON_LOC_TARGET("\"%s\" is not a location.", 1, ERROR),
 
     // Edge.targetInScope
-    EDGE_TGT_FORMAL_PARAM(
+    EDGE_TGT_LOC_PARAM(
             "Target location \"%s\" is a location parameter, while a location of automaton \"%s\" is expected.", 2,
             ERROR),
 
