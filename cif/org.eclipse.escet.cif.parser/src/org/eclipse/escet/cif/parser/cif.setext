@@ -271,13 +271,13 @@ GroupDecl : Decl
           | @NAMESPACEKW @IDENTIFIERTK SEMICOLTK
           | @NAMESPACEKW @RELATIVENAMETK SEMICOLTK
           | @FUNCKW Types Identifier FuncParams COLONTK FuncBody
-          | Identifier COLONTK Name ActualParms @SEMICOLTK
-          | @GROUPKW                 DEFKW Identifier FormalParms COLONTK GroupBody     @ENDKW
-          | OptSupKind @AUTOMATONKW  DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW
-          |    SupKind               DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW
-          | @GROUPKW                       Identifier             COLONTK GroupBody     @ENDKW
-          | OptSupKind @AUTOMATONKW        Identifier             COLONTK AutomatonBody @ENDKW
-          |    SupKind                     Identifier             COLONTK AutomatonBody @ENDKW
+          | Identifier COLONTK Name CompInstArgs @SEMICOLTK
+          | @GROUPKW                 DEFKW Identifier CompDefParms COLONTK GroupBody     @ENDKW
+          | OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
+          |    SupKind               DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
+          | @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
+          | OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
+          |    SupKind                     Identifier              COLONTK AutomatonBody @ENDKW
           ;
 
 {List<cif.ADecl>}
@@ -464,36 +464,36 @@ LocationElement : @INITIALKW SEMICOLTK
                 ;
 
 {List<exprs.AExpression>}
-ActualParms : PAROPENTK PARCLOSETK
-            | PAROPENTK Expressions PARCLOSETK
-            ;
+CompInstArgs : PAROPENTK PARCLOSETK
+             | PAROPENTK Expressions PARCLOSETK
+             ;
 
-{List<cif.AFormalParameter>}
-FormalParms : PAROPENTK PARCLOSETK
-            | PAROPENTK FormalDecls PARCLOSETK
-            ;
+{List<cif.AParameter>}
+CompDefParms : PAROPENTK PARCLOSETK
+             | PAROPENTK CompDefDecls PARCLOSETK
+             ;
 
-{List<cif.AFormalParameter>}
-FormalDecls : FormalDeclaration
-            | FormalDecls SEMICOLTK FormalDeclaration
-            ;
+{List<cif.AParameter>}
+CompDefDecls : CompDefDeclaration
+             | CompDefDecls SEMICOLTK CompDefDeclaration
+             ;
 
-{cif.AFormalParameter}
-FormalDeclaration : OptControllability @EVENTKW           EventParamIds
-                  | OptControllability @EVENTKW EventType EventParamIds
-                  |    Controllability                    EventParamIds
-                  |    Controllability          EventType EventParamIds
-                  | Name Identifiers
-                  | @LOCATIONKW Identifiers
-                  | @ALGKW Type Identifiers
-                  ;
+{cif.AParameter}
+CompDefDeclaration : OptControllability @EVENTKW           EventParamIds
+                   | OptControllability @EVENTKW EventType EventParamIds
+                   |    Controllability                    EventParamIds
+                   |    Controllability          EventType EventParamIds
+                   | Name Identifiers
+                   | @LOCATIONKW Identifiers
+                   | @ALGKW Type Identifiers
+                   ;
 
-{List<cif.AFormalEventParameterPart>}
+{List<cif.AEventParameterPart>}
 EventParamIds : EventParamId
               | EventParamIds COMMATK EventParamId
               ;
 
-{cif.AFormalEventParameterPart}
+{cif.AEventParameterPart}
 EventParamId : Identifier OptEventParamFlags
              ;
 
