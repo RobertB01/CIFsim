@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.common.java.TextPosition;
 
 /** Component parameter. */
-public class AFormalComponentParameter extends AParameter {
+public class AComponentParameter extends AParameter {
     /** The component definition type of the parameter. */
     public final AName type;
 
@@ -34,7 +34,7 @@ public class AFormalComponentParameter extends AParameter {
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalComponentParameter(AName type, List<AIdentifier> names, TextPosition position) {
+    public AComponentParameter(AName type, List<AIdentifier> names, TextPosition position) {
         super(position);
         this.type = type;
         this.names = names;

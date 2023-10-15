@@ -25,7 +25,7 @@ public class AEventParameter extends AParameter {
     public final Token controllability;
 
     /** The parts of the parameters. */
-    public final List<AFormalEventParameterPart> parts;
+    public final List<AEventParameterPart> parts;
 
     /** The type of the event, or {@code null} if not applicable. */
     public final ACifType type;

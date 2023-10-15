@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.parser.ast.types.ACifType;
 import org.eclipse.escet.common.java.TextPosition;
 
 /** Algebraic parameter. */
-public class AFormalAlgParameter extends AParameter {
+public class AAlgParameter extends AParameter {
     /** The type of the parameter. */
     public final ACifType type;
 
@@ -34,7 +34,7 @@ public class AFormalAlgParameter extends AParameter {
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalAlgParameter(ACifType type, List<AIdentifier> names, TextPosition position) {
+    public AAlgParameter(ACifType type, List<AIdentifier> names, TextPosition position) {
         super(position);
         this.type = type;
         this.names = names;
