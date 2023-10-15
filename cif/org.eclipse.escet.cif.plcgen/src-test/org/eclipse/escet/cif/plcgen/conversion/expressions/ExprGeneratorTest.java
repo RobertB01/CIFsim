@@ -784,7 +784,7 @@ public class ExprGeneratorTest {
         // abs(21)
         Expression func = newStdLibFunctionExpression(StdLibFunction.ABS, null, null);
         List<Expression> args = List.of(newIntExpression(null, newIntType(), 21));
-        Expression call = newFunctionCallExpression(func, args, null, null);
+        Expression call = newFunctionCallExpression(args, func, null, null);
         String realText = runValueTest(call);
         String expectedText = "==> ABS(IN := 21)";
         assertEquals(expectedText, realText);
@@ -792,7 +792,7 @@ public class ExprGeneratorTest {
         // cbrt(17.28)
         func = newStdLibFunctionExpression(StdLibFunction.CBRT, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> 17.28 ** (1.0 / 3.0)";
         assertEquals(expectedText, realText);
@@ -801,7 +801,7 @@ public class ExprGeneratorTest {
         target.supportsLog = true;
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LOG(IN := 17.28)";
         assertEquals(expectedText, realText);
@@ -810,7 +810,7 @@ public class ExprGeneratorTest {
         target.supportsLog = false;
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LN(IN := 17.28) / LN(IN := 10.0)";
         assertEquals(expectedText, realText);
@@ -820,7 +820,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newIntType()));
         args = List.of(newIntExpression(null, newIntType(0, null, 2), 1),
                 newIntExpression(null, newIntType(0, null, 2), 2));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LREAL_TO_DINT(IN := DINT_TO_LREAL(IN := 1) ** 2)";
         assertEquals(expectedText, realText);
@@ -829,7 +829,7 @@ public class ExprGeneratorTest {
         paramTypes = List.of(newIntType(), newIntType());
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newRealType()));
         args = List.of(newIntExpression(null, newIntType(), 2), newIntExpression(null, newIntType(), 3));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> DINT_TO_LREAL(IN := 2) ** 3";
         assertEquals(expectedText, realText);
@@ -838,7 +838,7 @@ public class ExprGeneratorTest {
         paramTypes = List.of(newIntType(0, null, 2), newRealType());
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newRealType());
         args = List.of(newIntExpression(null, newIntType(), 3), newRealExpression(null, newRealType(), "2.0"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> DINT_TO_LREAL(IN := 3) ** 2.0";
         assertEquals(expectedText, realText);

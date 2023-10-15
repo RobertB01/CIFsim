@@ -961,10 +961,10 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprValueResult convertFuncCallExpr(FunctionCallExpression funcCallExpr) {
-        // Convert all parameters of the call.
-        List<ExprValueResult> argumentResults = listc(funcCallExpr.getParams().size());
-        for (Expression param: funcCallExpr.getParams()) {
-            argumentResults.add(convertValue(param));
+        // Convert all arguments of the call.
+        List<ExprValueResult> argumentResults = listc(funcCallExpr.getArguments().size());
+        for (Expression arg: funcCallExpr.getArguments()) {
+            argumentResults.add(convertValue(arg));
         }
 
         // Dispatch call construction based on the function being called.
@@ -986,7 +986,7 @@ public class ExprGenerator {
     private ExprValueResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr,
             List<ExprValueResult> argumentResults)
     {
-        List<Expression> arguments = stdlibCallExpr.getParams();
+        List<Expression> arguments = stdlibCallExpr.getArguments();
         StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibCallExpr.getFunction()).getFunction();
         switch (stdlib) {
             case ABS: {
@@ -1055,7 +1055,7 @@ public class ExprGenerator {
 
             case MAXIMUM:
             case MINIMUM: {
-                // TODO Both MIN and MAX are n-ary functions in the PLC (just like disjucntion, add, or conjunction).
+                // TODO Both MIN and MAX are n-ary functions in the PLC (just like disjunction, add, or conjunction).
                 Assert.check(argumentResults.size() == 2);
                 CifType ltype = normalizeType(arguments.get(0).getType());
                 CifType rtype = normalizeType(arguments.get(1).getType());
