@@ -87,10 +87,11 @@ public final class SimulatorStreamOutputComponent extends StreamOutputComponent 
      * Constructor for the {@link SimulatorStreamOutputComponent}.
      *
      * @param out The output stream to use.
+     * @param warn The warning stream to use.
      * @param err The error stream to use.
      */
-    public SimulatorStreamOutputComponent(AppStream out, AppStream err) {
-        super(out, err);
+    public SimulatorStreamOutputComponent(AppStream out, AppStream warn, AppStream err) {
+        super(out, warn, err);
     }
 
     /**

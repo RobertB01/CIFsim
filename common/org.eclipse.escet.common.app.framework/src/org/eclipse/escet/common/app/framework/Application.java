@@ -86,7 +86,7 @@ public abstract class Application<T extends IOutputComponent> {
      * Constructor for the {@link Application} class. Asks the application for the output provider, creates a fresh
      * {@link Options} instance, and a fresh {@link AppProperties} instance.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public Application(AppStreams streams) {
         this(streams, null, null, null);
@@ -96,7 +96,7 @@ public abstract class Application<T extends IOutputComponent> {
      * Constructor for the {@link Application} class. Asks the application for the output provider, and uses a fresh
      * {@link AppProperties} instance.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      * @param options The options to use for the application.
      */
     public Application(AppStreams streams, Options options) {
@@ -226,8 +226,9 @@ public abstract class Application<T extends IOutputComponent> {
             // component. If there are already output providers available,
             // we assume that a console output component was already added.
             AppStream out = AppEnv.getStreams().out;
+            AppStream warn = AppEnv.getStreams().warn;
             AppStream err = AppEnv.getStreams().err;
-            IOutputComponent output = getStreamOutputComponent(out, err);
+            IOutputComponent output = getStreamOutputComponent(out, warn, err);
             OutputProvider.register(output);
         }
 
@@ -813,11 +814,12 @@ public abstract class Application<T extends IOutputComponent> {
      * </p>
      *
      * @param out The output stream.
+     * @param warn The warn stream.
      * @param err The error stream.
      * @return The stream output component to use for the application.
      */
-    protected IOutputComponent getStreamOutputComponent(AppStream out, AppStream err) {
-        return new StreamOutputComponent(out, err);
+    protected IOutputComponent getStreamOutputComponent(AppStream out, AppStream warn, AppStream err) {
+        return new StreamOutputComponent(out, warn, err);
     }
 
     /**

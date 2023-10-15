@@ -207,7 +207,7 @@ public class ChildAppStarter {
         }
 
         final AppStreams childStreams;
-        childStreams = new AppStreams(inStream, outStream, errStream);
+        childStreams = new AppStreams(inStream, outStream, errStream, errStream);
 
         // Execute the child application, in a new thread.
         final AtomicReference<Application<?>> app = new AtomicReference<>();

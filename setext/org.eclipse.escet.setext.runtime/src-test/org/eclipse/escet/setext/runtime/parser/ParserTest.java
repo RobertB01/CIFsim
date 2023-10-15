@@ -162,14 +162,14 @@ public class ParserTest {
     public void testDebugOutputOk() {
         // Create in-memory stream to hold the debug output.
         MemAppStream stream = new MemAppStream();
-        AppStreams streams = new AppStreams(System.in, stream, stream);
+        AppStreams streams = new AppStreams(System.in, stream, stream, stream);
 
         // Create dummy application. Registers the application with the
         // application framework as well.
         new DummyApplication(streams);
 
         // Register output component.
-        IOutputComponent output = new StreamOutputComponent(stream, stream);
+        IOutputComponent output = new StreamOutputComponent(stream, stream, stream);
         OutputProvider.register(output);
 
         try {
@@ -207,14 +207,14 @@ public class ParserTest {
     public void testDebugOutputErr() {
         // Create in-memory stream to hold the debug output.
         MemAppStream stream = new MemAppStream();
-        AppStreams streams = new AppStreams(System.in, stream, stream);
+        AppStreams streams = new AppStreams(System.in, stream, stream, stream);
 
         // Create dummy application. Registers the application with the
         // application framework as well.
         new DummyApplication(streams);
 
         // Register output component.
-        IOutputComponent output = new StreamOutputComponent(stream, stream);
+        IOutputComponent output = new StreamOutputComponent(stream, stream, stream);
         OutputProvider.register(output);
 
         try {
