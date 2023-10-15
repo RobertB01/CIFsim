@@ -278,20 +278,6 @@ The formal parameters of the component definition.
 A component instantiation. Instantiates a \cifclass{ComponentDef}.
 }
 
-\newcommand{\featdocuComponentInstdefinition}{
-The component definition to instantiate.
-
-This feature contains \cifclass{CifType} instances, to allow for wrapping
-types to be used. See also Section~\ref{sec:scoping}.
-
-\begin{constraints}
-\citem{ComponentInst.compDefRef}
-  The type must reference a component definition.
-\citem{ComponentInst.compDefInScope}
-  The component definition reference must satisfy the scoping rules.
-\end{constraints}
-}
-
 \newcommand{\featdocuComponentInstparameters}{
 The actual parameters (or arguments), to match each of the formal parameters
 of the component definition.
@@ -346,6 +332,20 @@ of the component definition.
     the type of the actual parameter must be entirely contained in the range of
     the type of the formal parameter.
   \end{itemize}
+\end{constraints}
+}
+
+\newcommand{\featdocuComponentInstdefinition}{
+The component definition to instantiate.
+
+This feature contains \cifclass{CifType} instances, to allow for wrapping
+types to be used. See also Section~\ref{sec:scoping}.
+
+\begin{constraints}
+\citem{ComponentInst.compDefRef}
+  The type must reference a component definition.
+\citem{ComponentInst.compDefInScope}
+  The component definition reference must satisfy the scoping rules.
 \end{constraints}
 }
 
@@ -2937,12 +2937,12 @@ A function call expression.
 \end{constraints}
 }
 
-\newcommand{\featdocuFunctionCallExpressionfunction}{
-The function to call.
-}
-
 \newcommand{\featdocuFunctionCallExpressionparams}{
 The function parameters for the function call.
+}
+
+\newcommand{\featdocuFunctionCallExpressionfunction}{
+The function to call.
 }
 
 % FunctionExpression (class)
