@@ -37,7 +37,7 @@ public class CifAnnotationsTypeChecker {
     }
 
     /**
-     * Transforms an annotation and performs type checking on it.
+     * Transforms annotations and performs type checking on them.
      *
      * @param astAnnos The CIF AST annotations to transform.
      * @param annotatedObject The symbol table entry for the object that is annotated with the annotations.
@@ -48,7 +48,7 @@ public class CifAnnotationsTypeChecker {
     public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, SymbolTableEntry annotatedObject,
             SymbolScope<?> scope, CifTypeChecker tchecker)
     {
-        // First type check each of the annotation separately.
+        // First type check each of the annotations separately.
         List<Annotation> mmAnnos = listc(astAnnos.size());
         for (AAnnotation astAnno: astAnnos) {
             mmAnnos.add(transAnnotation(astAnno, annotatedObject, scope, tchecker));
