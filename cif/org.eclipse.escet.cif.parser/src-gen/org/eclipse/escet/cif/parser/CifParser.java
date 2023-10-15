@@ -23,12 +23,12 @@ import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.AEquation;
-import org.eclipse.escet.cif.parser.ast.AFormalEventParameterPart;
-import org.eclipse.escet.cif.parser.ast.AFormalParameter;
+import org.eclipse.escet.cif.parser.ast.AEventParameterPart;
 import org.eclipse.escet.cif.parser.ast.AGroupBody;
 import org.eclipse.escet.cif.parser.ast.AImport;
 import org.eclipse.escet.cif.parser.ast.AInvariant;
 import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
+import org.eclipse.escet.cif.parser.ast.AParameter;
 import org.eclipse.escet.cif.parser.ast.ASpecification;
 import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
 import org.eclipse.escet.cif.parser.ast.annotations.AAnnotationArgument;
@@ -126,10 +126,10 @@ public final class CifParser extends Parser<ASpecification> {
         "Location",
         "LocationElements",
         "LocationElement",
-        "ActualParms",
-        "FormalParms",
-        "FormalDecls",
-        "FormalDeclaration",
+        "CompInstArgs",
+        "CompDefParms",
+        "CompDefDecls",
+        "CompDefDeclaration",
         "EventParamIds",
         "EventParamId",
         "OptEventParamFlags",
@@ -675,16 +675,16 @@ public final class CifParser extends Parser<ASpecification> {
         "Expression",
         "Identifier",
         "PAROPENTK",
-        "FormalParms",
+        "CompDefParms",
         "COLONTK",
         "AutomatonBody",
         "ENDKW",
         "ALGKW",
         "LOCATIONKW",
         "PARCLOSETK",
+        "CompDefDeclaration",
+        "CompDefDecls",
         "Controllability",
-        "FormalDeclaration",
-        "FormalDecls",
         "Name",
         "OptControllability",
         "EVENTKW",
@@ -704,12 +704,12 @@ public final class CifParser extends Parser<ASpecification> {
         "COMMATK",
         "EventParamId",
         "Identifiers",
-        "SEMICOLTK",
-        "PARCLOSETK",
-        "FormalDeclaration",
         "EventParamIds",
         "EventType",
         "EventParamIds",
+        "SEMICOLTK",
+        "PARCLOSETK",
+        "CompDefDeclaration",
         "Identifiers",
         "Type",
         "Identifiers",
@@ -720,7 +720,7 @@ public final class CifParser extends Parser<ASpecification> {
         "AutomatonBody",
         "ENDKW",
         "Identifier",
-        "FormalParms",
+        "CompDefParms",
         "COLONTK",
         "AutomatonBody",
         "ENDKW",
@@ -754,7 +754,7 @@ public final class CifParser extends Parser<ASpecification> {
         "COLONTK",
         "Name",
         "PAROPENTK",
-        "ActualParms",
+        "CompInstArgs",
         "SEMICOLTK",
         "PARCLOSETK",
         "Expressions",
@@ -883,7 +883,7 @@ public final class CifParser extends Parser<ASpecification> {
         "GroupBody",
         "ENDKW",
         "Identifier",
-        "FormalParms",
+        "CompDefParms",
         "COLONTK",
         "GroupBody",
         "ENDKW",
@@ -53907,7 +53907,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 162:
             case 166:
             case 170: {
-                // Reduce GroupDecl : SupKind DEFKW Identifier FormalParms COLONTK AutomatonBody ENDKW;
+                // Reduce GroupDecl : SupKind DEFKW Identifier CompDefParms COLONTK AutomatonBody ENDKW;
                 doReduce1(token, 6);
                 Object o7 = doReduce2();
                 Object o6 = doReduce2();
@@ -53917,7 +53917,7 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce2();
                 Object o1 = doReduce2();
 
-                ADecl o = hooks.parseGroupDecl09((Token)o1, (AIdentifier)o3, (List<AFormalParameter>)o4, (AAutomatonBody)o6, (Token)o7);
+                ADecl o = hooks.parseGroupDecl09((Token)o1, (AIdentifier)o3, (List<AParameter>)o4, (AAutomatonBody)o6, (Token)o7);
 
                 reduce = true;
                 reduceNonTerminal = 6;
@@ -54052,12 +54052,12 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action467() throws IOException {
         switch (token.id) {
             case 135: {
-                // Reduce FormalParms : PAROPENTK PARCLOSETK;
+                // Reduce CompDefParms : PAROPENTK PARCLOSETK;
                 doReduce1(token, 37);
                 doReduce2();
                 doReduce2();
 
-                List<AFormalParameter> o = hooks.parseFormalParms1();
+                List<AParameter> o = hooks.parseCompDefParms1();
 
                 reduce = true;
                 reduceNonTerminal = 37;
@@ -54076,6 +54076,56 @@ public final class CifParser extends Parser<ASpecification> {
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action468() throws IOException {
+        switch (token.id) {
+            case 134:
+            case 156: {
+                // Reduce CompDefDecls : CompDefDeclaration;
+                doReduce1(token, 38);
+                Object o1 = doReduce2();
+
+                List<AParameter> o = hooks.parseCompDefDecls1((AParameter)o1);
+
+                reduce = true;
+                reduceNonTerminal = 38;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 469.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action469() throws IOException {
+        switch (token.id) {
+            case 134: {
+                // Shift 493.
+                token = doShift(token, 493);
+                return;
+            }
+
+            case 156: {
+                // Shift 494.
+                token = doShift(token, 494);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 470.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action470() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 28.
@@ -54177,56 +54227,6 @@ public final class CifParser extends Parser<ASpecification> {
                 reduce = true;
                 reduceNonTerminal = 66;
                 reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 469.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action469() throws IOException {
-        switch (token.id) {
-            case 134:
-            case 156: {
-                // Reduce FormalDecls : FormalDeclaration;
-                doReduce1(token, 38);
-                Object o1 = doReduce2();
-
-                List<AFormalParameter> o = hooks.parseFormalDecls1((AFormalParameter)o1);
-
-                reduce = true;
-                reduceNonTerminal = 38;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 470.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action470() throws IOException {
-        switch (token.id) {
-            case 134: {
-                // Shift 490.
-                token = doShift(token, 490);
-                return;
-            }
-
-            case 156: {
-                // Shift 491.
-                token = doShift(token, 491);
                 return;
             }
 
@@ -54412,7 +54412,7 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce1(token, 40);
                 Object o1 = doReduce2();
 
-                List<AFormalEventParameterPart> o = hooks.parseEventParamIds1((AFormalEventParameterPart)o1);
+                List<AEventParameterPart> o = hooks.parseEventParamIds1((AEventParameterPart)o1);
 
                 reduce = true;
                 reduceNonTerminal = 40;
@@ -54440,13 +54440,13 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 134:
             case 156: {
-                // Reduce FormalDeclaration : OptControllability EVENTKW EventParamIds;
+                // Reduce CompDefDeclaration : OptControllability EVENTKW EventParamIds;
                 doReduce1(token, 39);
                 Object o3 = doReduce2();
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalParameter o = hooks.parseFormalDeclaration1((Token)o1, (Token)o2, (List<AFormalEventParameterPart>)o3);
+                AParameter o = hooks.parseCompDefDeclaration1((Token)o1, (Token)o2, (List<AEventParameterPart>)o3);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -54576,7 +54576,7 @@ public final class CifParser extends Parser<ASpecification> {
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalEventParameterPart o = hooks.parseEventParamId1((AIdentifier)o1, (List<AEventParamFlag>)o2);
+                AEventParameterPart o = hooks.parseEventParamId1((AIdentifier)o1, (List<AEventParamFlag>)o2);
 
                 reduce = true;
                 reduceNonTerminal = 41;
@@ -54725,14 +54725,14 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 134:
             case 156: {
-                // Reduce FormalDeclaration : OptControllability EVENTKW EventType EventParamIds;
+                // Reduce CompDefDeclaration : OptControllability EVENTKW EventType EventParamIds;
                 doReduce1(token, 39);
                 Object o4 = doReduce2();
                 Object o3 = doReduce2();
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalParameter o = hooks.parseFormalDeclaration2((Token)o1, (Token)o2, (ACifType)o3, (List<AFormalEventParameterPart>)o4);
+                AParameter o = hooks.parseCompDefDeclaration2((Token)o1, (Token)o2, (ACifType)o3, (List<AEventParameterPart>)o4);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -54807,7 +54807,7 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce2();
                 Object o1 = doReduce2();
 
-                List<AFormalEventParameterPart> o = hooks.parseEventParamIds2((List<AFormalEventParameterPart>)o1, (AFormalEventParameterPart)o3);
+                List<AEventParameterPart> o = hooks.parseEventParamIds2((List<AEventParameterPart>)o1, (AEventParameterPart)o3);
 
                 reduce = true;
                 reduceNonTerminal = 40;
@@ -54835,12 +54835,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 134:
             case 156: {
-                // Reduce FormalDeclaration : Name Identifiers;
+                // Reduce CompDefDeclaration : Name Identifiers;
                 doReduce1(token, 39);
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalParameter o = hooks.parseFormalDeclaration5((AName)o1, (List<AIdentifier>)o2);
+                AParameter o = hooks.parseCompDefDeclaration5((AName)o1, (List<AIdentifier>)o2);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -54859,6 +54859,91 @@ public final class CifParser extends Parser<ASpecification> {
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action490() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 487.
+                token = doShift(token, 487);
+                return;
+            }
+
+            case 134:
+            case 156: {
+                // Reduce CompDefDeclaration : Controllability EventParamIds;
+                doReduce1(token, 39);
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AParameter o = hooks.parseCompDefDeclaration3((Token)o1, (List<AEventParameterPart>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 491.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action491() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 28.
+                token = doShift(token, 28);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 492.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action492() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 487.
+                token = doShift(token, 487);
+                return;
+            }
+
+            case 134:
+            case 156: {
+                // Reduce CompDefDeclaration : Controllability EventType EventParamIds;
+                doReduce1(token, 39);
+                Object o3 = doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AParameter o = hooks.parseCompDefDeclaration4((Token)o1, (ACifType)o2, (List<AEventParameterPart>)o3);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 493.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action493() throws IOException {
         switch (token.id) {
             case 11: {
                 // Shift 7.
@@ -54925,103 +55010,24 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 491.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action491() throws IOException {
-        switch (token.id) {
-            case 135: {
-                // Reduce FormalParms : PAROPENTK FormalDecls PARCLOSETK;
-                doReduce1(token, 37);
-                doReduce2();
-                Object o2 = doReduce2();
-                doReduce2();
-
-                List<AFormalParameter> o = hooks.parseFormalParms2((List<AFormalParameter>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 37;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 492.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action492() throws IOException {
-        switch (token.id) {
-            case 134:
-            case 156: {
-                // Reduce FormalDecls : FormalDecls SEMICOLTK FormalDeclaration;
-                doReduce1(token, 38);
-                Object o3 = doReduce2();
-                doReduce2();
-                Object o1 = doReduce2();
-
-                List<AFormalParameter> o = hooks.parseFormalDecls2((List<AFormalParameter>)o1, (AFormalParameter)o3);
-
-                reduce = true;
-                reduceNonTerminal = 38;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 493.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action493() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 487.
-                token = doShift(token, 487);
-                return;
-            }
-
-            case 134:
-            case 156: {
-                // Reduce FormalDeclaration : Controllability EventParamIds;
-                doReduce1(token, 39);
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                AFormalParameter o = hooks.parseFormalDeclaration3((Token)o1, (List<AFormalEventParameterPart>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
      * Parser action code for parser state 494.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action494() throws IOException {
         switch (token.id) {
-            case 162: {
-                // Shift 28.
-                token = doShift(token, 28);
+            case 135: {
+                // Reduce CompDefParms : PAROPENTK CompDefDecls PARCLOSETK;
+                doReduce1(token, 37);
+                doReduce2();
+                Object o2 = doReduce2();
+                doReduce2();
+
+                List<AParameter> o = hooks.parseCompDefParms2((List<AParameter>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 37;
+                reduceState = doReduce3(o);
                 return;
             }
 
@@ -55037,24 +55043,18 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action495() throws IOException {
         switch (token.id) {
-            case 133: {
-                // Shift 487.
-                token = doShift(token, 487);
-                return;
-            }
-
             case 134:
             case 156: {
-                // Reduce FormalDeclaration : Controllability EventType EventParamIds;
-                doReduce1(token, 39);
+                // Reduce CompDefDecls : CompDefDecls SEMICOLTK CompDefDeclaration;
+                doReduce1(token, 38);
                 Object o3 = doReduce2();
-                Object o2 = doReduce2();
+                doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalParameter o = hooks.parseFormalDeclaration4((Token)o1, (ACifType)o2, (List<AFormalEventParameterPart>)o3);
+                List<AParameter> o = hooks.parseCompDefDecls2((List<AParameter>)o1, (AParameter)o3);
 
                 reduce = true;
-                reduceNonTerminal = 39;
+                reduceNonTerminal = 38;
                 reduceState = doReduce3(o);
                 return;
             }
@@ -55079,12 +55079,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 134:
             case 156: {
-                // Reduce FormalDeclaration : LOCATIONKW Identifiers;
+                // Reduce CompDefDeclaration : LOCATIONKW Identifiers;
                 doReduce1(token, 39);
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalParameter o = hooks.parseFormalDeclaration6((Token)o1, (List<AIdentifier>)o2);
+                AParameter o = hooks.parseCompDefDeclaration6((Token)o1, (List<AIdentifier>)o2);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -55130,13 +55130,13 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 134:
             case 156: {
-                // Reduce FormalDeclaration : ALGKW Type Identifiers;
+                // Reduce CompDefDeclaration : ALGKW Type Identifiers;
                 doReduce1(token, 39);
                 Object o3 = doReduce2();
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                AFormalParameter o = hooks.parseFormalDeclaration7((Token)o1, (ACifType)o2, (List<AIdentifier>)o3);
+                AParameter o = hooks.parseCompDefDeclaration7((Token)o1, (ACifType)o2, (List<AIdentifier>)o3);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -55481,7 +55481,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 162:
             case 166:
             case 170: {
-                // Reduce GroupDecl : OptSupKind AUTOMATONKW DEFKW Identifier FormalParms COLONTK AutomatonBody ENDKW;
+                // Reduce GroupDecl : OptSupKind AUTOMATONKW DEFKW Identifier CompDefParms COLONTK AutomatonBody ENDKW;
                 doReduce1(token, 6);
                 Object o8 = doReduce2();
                 Object o7 = doReduce2();
@@ -55492,7 +55492,7 @@ public final class CifParser extends Parser<ASpecification> {
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                ADecl o = hooks.parseGroupDecl08((Token)o1, (Token)o2, (AIdentifier)o4, (List<AFormalParameter>)o5, (AAutomatonBody)o7, (Token)o8);
+                ADecl o = hooks.parseGroupDecl08((Token)o1, (Token)o2, (AIdentifier)o4, (List<AParameter>)o5, (AAutomatonBody)o7, (Token)o8);
 
                 reduce = true;
                 reduceNonTerminal = 6;
@@ -57795,7 +57795,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 162:
             case 166:
             case 170: {
-                // Reduce GroupDecl : Identifier COLONTK Name ActualParms SEMICOLTK;
+                // Reduce GroupDecl : Identifier COLONTK Name CompInstArgs SEMICOLTK;
                 doReduce1(token, 6);
                 Object o5 = doReduce2();
                 Object o4 = doReduce2();
@@ -57824,12 +57824,12 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action542() throws IOException {
         switch (token.id) {
             case 134: {
-                // Reduce ActualParms : PAROPENTK PARCLOSETK;
+                // Reduce CompInstArgs : PAROPENTK PARCLOSETK;
                 doReduce1(token, 36);
                 doReduce2();
                 doReduce2();
 
-                List<AExpression> o = hooks.parseActualParms1();
+                List<AExpression> o = hooks.parseCompInstArgs1();
 
                 reduce = true;
                 reduceNonTerminal = 36;
@@ -57874,13 +57874,13 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action544() throws IOException {
         switch (token.id) {
             case 134: {
-                // Reduce ActualParms : PAROPENTK Expressions PARCLOSETK;
+                // Reduce CompInstArgs : PAROPENTK Expressions PARCLOSETK;
                 doReduce1(token, 36);
                 doReduce2();
                 Object o2 = doReduce2();
                 doReduce2();
 
-                List<AExpression> o = hooks.parseActualParms2((List<AExpression>)o2);
+                List<AExpression> o = hooks.parseCompInstArgs2((List<AExpression>)o2);
 
                 reduce = true;
                 reduceNonTerminal = 36;
@@ -69501,7 +69501,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 162:
             case 166:
             case 170: {
-                // Reduce GroupDecl : GROUPKW DEFKW Identifier FormalParms COLONTK GroupBody ENDKW;
+                // Reduce GroupDecl : GROUPKW DEFKW Identifier CompDefParms COLONTK GroupBody ENDKW;
                 doReduce1(token, 6);
                 Object o7 = doReduce2();
                 Object o6 = doReduce2();
@@ -69511,7 +69511,7 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce2();
                 Object o1 = doReduce2();
 
-                ADecl o = hooks.parseGroupDecl07((Token)o1, (AIdentifier)o3, (List<AFormalParameter>)o4, (AGroupBody)o6, (Token)o7);
+                ADecl o = hooks.parseGroupDecl07((Token)o1, (AIdentifier)o3, (List<AParameter>)o4, (AGroupBody)o6, (Token)o7);
 
                 reduce = true;
                 reduceNonTerminal = 6;
@@ -89703,7 +89703,7 @@ public final class CifParser extends Parser<ASpecification> {
     private final void goto459() {
         switch (reduceNonTerminal) {
             case 37:
-                // FormalParms
+                // CompDefParms
                 doGoto(461);
                 return;
 
@@ -89725,13 +89725,13 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
 
             case 38:
-                // FormalDecls
-                doGoto(470);
+                // CompDefDecls
+                doGoto(469);
                 return;
 
             case 39:
-                // FormalDeclaration
-                doGoto(469);
+                // CompDefDeclaration
+                doGoto(468);
                 return;
 
             case 66:
@@ -89741,7 +89741,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 67:
                 // Controllability
-                doGoto(468);
+                doGoto(470);
                 return;
 
             case 111:
@@ -89880,36 +89880,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 468. */
     private final void goto468() {
         switch (reduceNonTerminal) {
-            case 10:
-                // Identifier
-                doGoto(478);
-                return;
-
-            case 40:
-                // EventParamIds
-                doGoto(493);
-                return;
-
-            case 41:
-                // EventParamId
-                doGoto(475);
-                return;
-
-            case 91:
-                // EventType
-                doGoto(494);
-                return;
-
-            case 92:
-                // Type
-                doGoto(479);
-                return;
-
-            case 111:
-                // Name
-                doGoto(324);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -89934,6 +89904,36 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 470. */
     private final void goto470() {
         switch (reduceNonTerminal) {
+            case 10:
+                // Identifier
+                doGoto(478);
+                return;
+
+            case 40:
+                // EventParamIds
+                doGoto(490);
+                return;
+
+            case 41:
+                // EventParamId
+                doGoto(475);
+                return;
+
+            case 91:
+                // EventType
+                doGoto(491);
+                return;
+
+            case 92:
+                // Type
+                doGoto(479);
+                return;
+
+            case 111:
+                // Name
+                doGoto(324);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -90254,31 +90254,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 490. */
     private final void goto490() {
         switch (reduceNonTerminal) {
-            case 10:
-                // Identifier
-                doGoto(134);
-                return;
-
-            case 39:
-                // FormalDeclaration
-                doGoto(492);
-                return;
-
-            case 66:
-                // OptControllability
-                doGoto(472);
-                return;
-
-            case 67:
-                // Controllability
-                doGoto(468);
-                return;
-
-            case 111:
-                // Name
-                doGoto(471);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -90291,6 +90266,21 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 491. */
     private final void goto491() {
         switch (reduceNonTerminal) {
+            case 10:
+                // Identifier
+                doGoto(486);
+                return;
+
+            case 40:
+                // EventParamIds
+                doGoto(492);
+                return;
+
+            case 41:
+                // EventParamId
+                doGoto(475);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -90315,6 +90305,31 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 493. */
     private final void goto493() {
         switch (reduceNonTerminal) {
+            case 10:
+                // Identifier
+                doGoto(134);
+                return;
+
+            case 39:
+                // CompDefDeclaration
+                doGoto(495);
+                return;
+
+            case 66:
+                // OptControllability
+                doGoto(472);
+                return;
+
+            case 67:
+                // Controllability
+                doGoto(470);
+                return;
+
+            case 111:
+                // Name
+                doGoto(471);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -90327,21 +90342,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 494. */
     private final void goto494() {
         switch (reduceNonTerminal) {
-            case 10:
-                // Identifier
-                doGoto(486);
-                return;
-
-            case 40:
-                // EventParamIds
-                doGoto(495);
-                return;
-
-            case 41:
-                // EventParamId
-                doGoto(475);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -90505,7 +90505,7 @@ public final class CifParser extends Parser<ASpecification> {
     private final void goto505() {
         switch (reduceNonTerminal) {
             case 37:
-                // FormalParms
+                // CompDefParms
                 doGoto(506);
                 return;
 
@@ -91146,7 +91146,7 @@ public final class CifParser extends Parser<ASpecification> {
     private final void goto538() {
         switch (reduceNonTerminal) {
             case 36:
-                // ActualParms
+                // CompInstArgs
                 doGoto(540);
                 return;
 
@@ -94346,7 +94346,7 @@ public final class CifParser extends Parser<ASpecification> {
     private final void goto668() {
         switch (reduceNonTerminal) {
             case 37:
-                // FormalParms
+                // CompDefParms
                 doGoto(669);
                 return;
 
@@ -97427,9 +97427,9 @@ public final class CifParser extends Parser<ASpecification> {
             {5, 14, 17, 30, 38, 40, 51, 54, 55, 67, 159, 160, 161, 162}, // state 465
             {162}, // state 466
             {}, // state 467
-            {5, 14, 17, 30, 38, 40, 51, 54, 55, 67, 72, 159, 160, 161, 162}, // state 468
-            {}, // state 469
-            {134, 156}, // state 470
+            {}, // state 468
+            {134, 156}, // state 469
+            {5, 14, 17, 30, 38, 40, 51, 54, 55, 67, 72, 159, 160, 161, 162}, // state 470
             {162}, // state 471
             {25}, // state 472
             {5, 14, 17, 30, 38, 40, 51, 54, 55, 67, 72, 159, 160, 161, 162}, // state 473
@@ -97449,12 +97449,12 @@ public final class CifParser extends Parser<ASpecification> {
             {162}, // state 487
             {}, // state 488
             {133}, // state 489
-            {0, 11, 25, 41, 69, 159, 160, 161, 162}, // state 490
-            {}, // state 491
-            {}, // state 492
-            {133}, // state 493
-            {162}, // state 494
-            {133}, // state 495
+            {133}, // state 490
+            {162}, // state 491
+            {133}, // state 492
+            {0, 11, 25, 41, 69, 159, 160, 161, 162}, // state 493
+            {}, // state 494
+            {}, // state 495
             {133}, // state 496
             {162}, // state 497
             {133}, // state 498
@@ -99031,13 +99031,13 @@ public final class CifParser extends Parser<ASpecification> {
                 {64, 133},
             },
             {}, // state 467
-            { // state 468
+            {}, // state 468
+            {}, // state 469
+            { // state 470
                 {10, 137, 138, 139},
                 {40, 133},
                 {91, 162},
             },
-            {}, // state 469
-            {}, // state 470
             { // state 471
                 {64, 133},
             },
@@ -99072,18 +99072,18 @@ public final class CifParser extends Parser<ASpecification> {
             },
             {}, // state 488
             {}, // state 489
-            { // state 490
+            {}, // state 490
+            { // state 491
+                {10, 137, 138, 139},
+                {40, 133},
+            },
+            {}, // state 492
+            { // state 493
                 {111, 162},
                 {66, 25},
                 {67, 5, 14, 17, 30, 38, 40, 51, 54, 55, 67, 72, 159, 160, 161, 162},
             },
-            {}, // state 491
-            {}, // state 492
-            {}, // state 493
-            { // state 494
-                {10, 137, 138, 139},
-                {40, 133},
-            },
+            {}, // state 494
             {}, // state 495
             {}, // state 496
             { // state 497
@@ -100885,12 +100885,12 @@ public final class CifParser extends Parser<ASpecification> {
                 {37, 2},
             },
             { // state 468
-                {66, 1},
-            },
-            { // state 469
                 {38, 1},
             },
-            {}, // state 470
+            {}, // state 469
+            { // state 470
+                {66, 1},
+            },
             {}, // state 471
             {}, // state 472
             {}, // state 473
@@ -100942,20 +100942,20 @@ public final class CifParser extends Parser<ASpecification> {
                 {39, 2},
             },
             { // state 490
-                {66, 0},
-            },
-            { // state 491
-                {37, 3},
-            },
-            { // state 492
-                {38, 3},
-            },
-            { // state 493
                 {39, 2},
             },
-            {}, // state 494
-            { // state 495
+            {}, // state 491
+            { // state 492
                 {39, 3},
+            },
+            { // state 493
+                {66, 0},
+            },
+            { // state 494
+                {37, 3},
+            },
+            { // state 495
+                {38, 3},
             },
             { // state 496
                 {39, 2},
@@ -103165,7 +103165,9 @@ public final class CifParser extends Parser<ASpecification> {
                 {64, 39, 1},
             },
             {}, // state 467
-            { // state 468
+            {}, // state 468
+            {}, // state 469
+            { // state 470
                 {10, 111, 0},
                 {10, 41, 0},
                 {111, 92, 0},
@@ -103173,8 +103175,6 @@ public final class CifParser extends Parser<ASpecification> {
                 {41, 40, 0},
                 {92, 91, 0},
             },
-            {}, // state 469
-            {}, // state 470
             { // state 471
                 {10, 64, 0},
                 {64, 39, 1},
@@ -103217,19 +103217,19 @@ public final class CifParser extends Parser<ASpecification> {
             },
             {}, // state 488
             {}, // state 489
-            { // state 490
-                {10, 111, 0},
-                {39, 38, 2},
-                {67, 66, 0},
-            },
-            {}, // state 491
-            {}, // state 492
-            {}, // state 493
-            { // state 494
+            {}, // state 490
+            { // state 491
                 {10, 41, 0},
                 {40, 39, 2},
                 {41, 40, 0},
             },
+            {}, // state 492
+            { // state 493
+                {10, 111, 0},
+                {39, 38, 2},
+                {67, 66, 0},
+            },
+            {}, // state 494
             {}, // state 495
             {}, // state 496
             { // state 497
@@ -104739,11 +104739,11 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code GroupDecl : Identifier COLONTK Name ActualParms @SEMICOLTK;}</p>
+         * <p>{@code GroupDecl : Identifier COLONTK Name CompInstArgs @SEMICOLTK;}</p>
          *
          * @param a1 {@code Identifier}.
          * @param a3 {@code Name}.
-         * @param l4 {@code ActualParms}.
+         * @param l4 {@code CompInstArgs}.
          * @param t5 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
@@ -104752,45 +104752,45 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code GroupDecl : @GROUPKW DEFKW Identifier FormalParms COLONTK GroupBody @ENDKW;}</p>
+         * <p>{@code GroupDecl : @GROUPKW DEFKW Identifier CompDefParms COLONTK GroupBody @ENDKW;}</p>
          *
          * @param t1 {@code GROUPKW}.
          * @param a3 {@code Identifier}.
-         * @param l4 {@code FormalParms}.
+         * @param l4 {@code CompDefParms}.
          * @param a6 {@code GroupBody}.
          * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
-        public ADecl parseGroupDecl07(Token t1, AIdentifier a3, List<AFormalParameter> l4, AGroupBody a6, Token t7);
+        public ADecl parseGroupDecl07(Token t1, AIdentifier a3, List<AParameter> l4, AGroupBody a6, Token t7);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code GroupDecl : OptSupKind @AUTOMATONKW DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW;}</p>
+         * <p>{@code GroupDecl : OptSupKind @AUTOMATONKW DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;}</p>
          *
          * @param t1 {@code OptSupKind}.
          * @param t2 {@code AUTOMATONKW}.
          * @param a4 {@code Identifier}.
-         * @param l5 {@code FormalParms}.
+         * @param l5 {@code CompDefParms}.
          * @param a7 {@code AutomatonBody}.
          * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
-        public ADecl parseGroupDecl08(Token t1, Token t2, AIdentifier a4, List<AFormalParameter> l5, AAutomatonBody a7, Token t8);
+        public ADecl parseGroupDecl08(Token t1, Token t2, AIdentifier a4, List<AParameter> l5, AAutomatonBody a7, Token t8);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code GroupDecl : SupKind DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW;}</p>
+         * <p>{@code GroupDecl : SupKind DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;}</p>
          *
          * @param t1 {@code SupKind}.
          * @param a3 {@code Identifier}.
-         * @param l4 {@code FormalParms}.
+         * @param l4 {@code CompDefParms}.
          * @param a6 {@code AutomatonBody}.
          * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
-        public ADecl parseGroupDecl09(Token t1, AIdentifier a3, List<AFormalParameter> l4, AAutomatonBody a6, Token t7);
+        public ADecl parseGroupDecl09(Token t1, AIdentifier a3, List<AParameter> l4, AAutomatonBody a6, Token t7);
 
         /**
          * Parser call back hook for rule/production:
@@ -105863,78 +105863,78 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code ActualParms : PAROPENTK PARCLOSETK;}</p>
+         * <p>{@code CompInstArgs : PAROPENTK PARCLOSETK;}</p>
          *
          * @return The parser call back hook result.
          */
-        public List<AExpression> parseActualParms1();
+        public List<AExpression> parseCompInstArgs1();
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code ActualParms : PAROPENTK Expressions PARCLOSETK;}</p>
+         * <p>{@code CompInstArgs : PAROPENTK Expressions PARCLOSETK;}</p>
          *
          * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
-        public List<AExpression> parseActualParms2(List<AExpression> l2);
+        public List<AExpression> parseCompInstArgs2(List<AExpression> l2);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalParms : PAROPENTK PARCLOSETK;}</p>
+         * <p>{@code CompDefParms : PAROPENTK PARCLOSETK;}</p>
          *
          * @return The parser call back hook result.
          */
-        public List<AFormalParameter> parseFormalParms1();
+        public List<AParameter> parseCompDefParms1();
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalParms : PAROPENTK FormalDecls PARCLOSETK;}</p>
+         * <p>{@code CompDefParms : PAROPENTK CompDefDecls PARCLOSETK;}</p>
          *
-         * @param l2 {@code FormalDecls}.
+         * @param l2 {@code CompDefDecls}.
          * @return The parser call back hook result.
          */
-        public List<AFormalParameter> parseFormalParms2(List<AFormalParameter> l2);
+        public List<AParameter> parseCompDefParms2(List<AParameter> l2);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDecls : FormalDeclaration;}</p>
+         * <p>{@code CompDefDecls : CompDefDeclaration;}</p>
          *
-         * @param a1 {@code FormalDeclaration}.
+         * @param a1 {@code CompDefDeclaration}.
          * @return The parser call back hook result.
          */
-        public List<AFormalParameter> parseFormalDecls1(AFormalParameter a1);
+        public List<AParameter> parseCompDefDecls1(AParameter a1);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDecls : FormalDecls SEMICOLTK FormalDeclaration;}</p>
+         * <p>{@code CompDefDecls : CompDefDecls SEMICOLTK CompDefDeclaration;}</p>
          *
-         * @param l1 {@code FormalDecls}.
-         * @param a3 {@code FormalDeclaration}.
+         * @param l1 {@code CompDefDecls}.
+         * @param a3 {@code CompDefDeclaration}.
          * @return The parser call back hook result.
          */
-        public List<AFormalParameter> parseFormalDecls2(List<AFormalParameter> l1, AFormalParameter a3);
+        public List<AParameter> parseCompDefDecls2(List<AParameter> l1, AParameter a3);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : OptControllability @EVENTKW EventParamIds;}</p>
+         * <p>{@code CompDefDeclaration : OptControllability @EVENTKW EventParamIds;}</p>
          *
          * @param t1 {@code OptControllability}.
          * @param t2 {@code EVENTKW}.
          * @param l3 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration1(Token t1, Token t2, List<AFormalEventParameterPart> l3);
+        public AParameter parseCompDefDeclaration1(Token t1, Token t2, List<AEventParameterPart> l3);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : OptControllability @EVENTKW EventType EventParamIds;}</p>
+         * <p>{@code CompDefDeclaration : OptControllability @EVENTKW EventType EventParamIds;}</p>
          *
          * @param t1 {@code OptControllability}.
          * @param t2 {@code EVENTKW}.
@@ -105942,64 +105942,64 @@ public final class CifParser extends Parser<ASpecification> {
          * @param l4 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration2(Token t1, Token t2, ACifType a3, List<AFormalEventParameterPart> l4);
+        public AParameter parseCompDefDeclaration2(Token t1, Token t2, ACifType a3, List<AEventParameterPart> l4);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : Controllability EventParamIds;}</p>
+         * <p>{@code CompDefDeclaration : Controllability EventParamIds;}</p>
          *
          * @param t1 {@code Controllability}.
          * @param l2 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration3(Token t1, List<AFormalEventParameterPart> l2);
+        public AParameter parseCompDefDeclaration3(Token t1, List<AEventParameterPart> l2);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : Controllability EventType EventParamIds;}</p>
+         * <p>{@code CompDefDeclaration : Controllability EventType EventParamIds;}</p>
          *
          * @param t1 {@code Controllability}.
          * @param a2 {@code EventType}.
          * @param l3 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration4(Token t1, ACifType a2, List<AFormalEventParameterPart> l3);
+        public AParameter parseCompDefDeclaration4(Token t1, ACifType a2, List<AEventParameterPart> l3);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : Name Identifiers;}</p>
+         * <p>{@code CompDefDeclaration : Name Identifiers;}</p>
          *
          * @param a1 {@code Name}.
          * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration5(AName a1, List<AIdentifier> l2);
+        public AParameter parseCompDefDeclaration5(AName a1, List<AIdentifier> l2);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : @LOCATIONKW Identifiers;}</p>
+         * <p>{@code CompDefDeclaration : @LOCATIONKW Identifiers;}</p>
          *
          * @param t1 {@code LOCATIONKW}.
          * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration6(Token t1, List<AIdentifier> l2);
+        public AParameter parseCompDefDeclaration6(Token t1, List<AIdentifier> l2);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code FormalDeclaration : @ALGKW Type Identifiers;}</p>
+         * <p>{@code CompDefDeclaration : @ALGKW Type Identifiers;}</p>
          *
          * @param t1 {@code ALGKW}.
          * @param a2 {@code Type}.
          * @param l3 {@code Identifiers}.
          * @return The parser call back hook result.
          */
-        public AFormalParameter parseFormalDeclaration7(Token t1, ACifType a2, List<AIdentifier> l3);
+        public AParameter parseCompDefDeclaration7(Token t1, ACifType a2, List<AIdentifier> l3);
 
         /**
          * Parser call back hook for rule/production:
@@ -106009,7 +106009,7 @@ public final class CifParser extends Parser<ASpecification> {
          * @param a1 {@code EventParamId}.
          * @return The parser call back hook result.
          */
-        public List<AFormalEventParameterPart> parseEventParamIds1(AFormalEventParameterPart a1);
+        public List<AEventParameterPart> parseEventParamIds1(AEventParameterPart a1);
 
         /**
          * Parser call back hook for rule/production:
@@ -106020,7 +106020,7 @@ public final class CifParser extends Parser<ASpecification> {
          * @param a3 {@code EventParamId}.
          * @return The parser call back hook result.
          */
-        public List<AFormalEventParameterPart> parseEventParamIds2(List<AFormalEventParameterPart> l1, AFormalEventParameterPart a3);
+        public List<AEventParameterPart> parseEventParamIds2(List<AEventParameterPart> l1, AEventParameterPart a3);
 
         /**
          * Parser call back hook for rule/production:
@@ -106031,7 +106031,7 @@ public final class CifParser extends Parser<ASpecification> {
          * @param l2 {@code OptEventParamFlags}.
          * @return The parser call back hook result.
          */
-        public AFormalEventParameterPart parseEventParamId1(AIdentifier a1, List<AEventParamFlag> l2);
+        public AEventParameterPart parseEventParamId1(AIdentifier a1, List<AEventParamFlag> l2);
 
         /**
          * Parser call back hook for rule/production:
