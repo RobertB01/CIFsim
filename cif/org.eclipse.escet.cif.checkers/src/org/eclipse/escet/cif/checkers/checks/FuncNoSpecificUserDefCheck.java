@@ -93,7 +93,7 @@ public class FuncNoSpecificUserDefCheck extends CifCheck {
         /** Disallow external user-defined functions. */
         EXTERNAL,
 
-        /** Disallow user-defined functions without a formal parameter. */
+        /** Disallow user-defined functions without a parameter. */
         NO_PARAMETER,
     }
 }
