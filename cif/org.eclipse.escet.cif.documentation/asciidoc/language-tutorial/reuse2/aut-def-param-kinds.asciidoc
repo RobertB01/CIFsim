@@ -60,7 +60,7 @@ buffer1: Buffer(5);
 Automaton definition `Buffer` has an algebraic parameter that indicates the `capacity` of the buffer.
 The buffer can `accept` something when it has not yet reached its capacity.
 It can `provide` something when the buffer is not empty.
-Automaton instantiation `buffer1` has value `5` as its parameter.
+Automaton instantiation `buffer1` has value `5` as its argument.
 Value `5` is an integer number, which matches the integer type (`int`) of the `capacity` parameter.
 
 Algebraic parameters can be used inside an automaton definition, wherever a value is expected, e.g. in guards, updates, initial values of discrete variables, and invariants.
@@ -165,7 +165,7 @@ By putting certain event usage restriction flags after the name of the channel p
 The available flags are `!` to allow sending, `?` to allow receiving, and `~` to allow synchronizing.
 Duplicate flags are not allowed, the `!` should be before the `?` flag, and the `!` and `?` flags should be before the `~` flag.
 
-By restricting the usages, you can immediately see how a channel parameter is used within the automaton definition, as only the usages indicates by the parameter are allowed.
+By restricting the usages, you can immediately see how a channel parameter is used within the automaton definition, as only the usages indicated by the parameter are allowed.
 It serves as sort of documentation of the intention of the channel parameter.
 This is much simpler than finding the actual usages of the parameter in the automaton.
 However, note that the parameter indicates the allowed usages, and doesn't guarantee that the event/parameter is actually used at all.

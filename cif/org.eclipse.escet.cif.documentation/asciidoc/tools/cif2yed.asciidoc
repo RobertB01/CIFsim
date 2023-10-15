@@ -323,9 +323,9 @@ If it explicitly allows both sending and receiving (has both a `!` and a `?` fla
 In all other cases, an undirected edge is used.
 
 Location parameters of component instantiations are coupled to the actual location (or location parameter) that is provided by the instantiation, using a directed edge from the actual location to the parameter, to indicate the flow of data.
-Similarly, algebraic parameters are related to the actual arguments.
+Similarly, algebraic parameters are related to the arguments.
 However, for algebraic parameters, an <<lang-tut-values-chapter-types-values-exprs,expression>> may be provided.
-For each variable, location, and parameter used in the actual argument, a directed edge is added.
+For each variable, location, and parameter used in the argument, a directed edge is added.
 Duplicate edges are avoided.
 
 From declarations (variables, locations, parameters), directed edges are included in the diagram for all relations to other declarations.

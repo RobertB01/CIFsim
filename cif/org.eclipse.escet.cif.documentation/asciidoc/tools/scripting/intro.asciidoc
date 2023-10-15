@@ -29,13 +29,13 @@ Once a script is made, these steps can be easily repeated whenever the models fo
 This is much easier than starting each of the tools manually, and saves valuable time.
 Furthermore, it is possible to share your script with others, who can then perform the same steps, and get the same results.
 
-A script can also be used to execute a single tool, specifying the parameters used when executing it.
+A script can also be used to execute a single tool, specifying the arguments used when executing it.
 For instance, a script could execute the simulator, specifying not only which model (file) to simulate, but also the simulation options.
 If various <<tools-cifsim-output-chapter-index,visualizations>> are enabled, variables are <<tools-cifsim-output-plotviz-filtering,filtered>>, etc, manually configuring the options for each simulation can become tiresome.
 By specifying them in a script, simulating again with the same options becomes as simple as executing the script again.
 By sharing such a script with others, they can simulate the same model with the same options.
 
-Another use of scripts is to repeatedly execute the same tool, but with different parameters.
+Another use of scripts is to repeatedly execute the same tool, but with different arguments.
 A good example is <<tools-cifsim-chapter-repeated-simulation,repeatedly simulating>> a model.
 Instead of manually simulating a model with <<lang-tut-stochastics-chapter-intro,stochastics>> hundreds or even thousands of times, which can be very time consuming, a script can be used to automate this task.
 The script can then also be used to automatically collect the results, and process them.
