@@ -15,14 +15,14 @@ package org.eclipse.escet.cif.parser.ast;
 
 import org.eclipse.escet.common.java.TextPosition;
 
-/** Formal parameter for a component definition. */
-public abstract class AFormalParameter extends ACifObject {
+/** Parameter for a component definition. */
+public abstract class AParameter extends ACifObject {
     /**
-     * Constructor for the {@link AFormalParameter} class.
+     * Constructor for the {@link AParameter} class.
      *
      * @param position Position information.
      */
-    public AFormalParameter(TextPosition position) {
+    public AParameter(TextPosition position) {
         super(position);
     }
 }

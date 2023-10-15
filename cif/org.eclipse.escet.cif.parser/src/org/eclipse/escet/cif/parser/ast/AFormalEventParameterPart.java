@@ -18,8 +18,8 @@ import java.util.List;
 import org.eclipse.escet.cif.parser.ast.tokens.AEventParamFlag;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 
-/** Formal event parameter part. */
-public class AFormalEventParameterPart extends ACifObject {
+/** Event parameter part. */
+public class AEventParameterPart extends ACifObject {
     /** The name of the parameter. */
     public final AIdentifier name;
 
@@ -27,12 +27,12 @@ public class AFormalEventParameterPart extends ACifObject {
     public final List<AEventParamFlag> flags;
 
     /**
-     * Constructor for the {@link AFormalEventParameterPart} class.
+     * Constructor for the {@link AEventParameterPart} class.
      *
      * @param name The name of the parameter.
      * @param flags The flags of the parameter.
      */
-    public AFormalEventParameterPart(AIdentifier name, List<AEventParamFlag> flags) {
+    public AEventParameterPart(AIdentifier name, List<AEventParamFlag> flags) {
         super(null);
         this.name = name;
         this.flags = flags;

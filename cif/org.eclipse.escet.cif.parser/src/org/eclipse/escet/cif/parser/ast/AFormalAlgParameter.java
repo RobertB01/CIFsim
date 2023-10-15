@@ -19,8 +19,8 @@ import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
 import org.eclipse.escet.common.java.TextPosition;
 
-/** Formal algebraic parameter. */
-public class AFormalAlgParameter extends AFormalParameter {
+/** Algebraic parameter. */
+public class AFormalAlgParameter extends AParameter {
     /** The type of the parameter. */
     public final ACifType type;
 
@@ -28,7 +28,7 @@ public class AFormalAlgParameter extends AFormalParameter {
     public final List<AIdentifier> names;
 
     /**
-     * Constructor for the {@link AFormalAlgParameter} class.
+     * Constructor for the {@link AAlgParameter} class.
      *
      * @param type The type of the parameter.
      * @param names The names of the parameters.

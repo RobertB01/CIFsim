@@ -18,18 +18,18 @@ import java.util.List;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.common.java.TextPosition;
 
-/** Formal location parameter. */
-public class AFormalLocationParameter extends AFormalParameter {
+/** Location parameter. */
+public class ALocationParameter extends AParameter {
     /** The names of the parameters. */
     public final List<AIdentifier> names;
 
     /**
-     * Constructor for the {@link AFormalLocationParameter} class.
+     * Constructor for the {@link ALocationParameter} class.
      *
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalLocationParameter(List<AIdentifier> names, TextPosition position) {
+    public ALocationParameter(List<AIdentifier> names, TextPosition position) {
         super(position);
         this.names = names;
     }
