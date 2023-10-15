@@ -19,7 +19,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.AlgParameter;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.parser.ast.AFormalAlgParameter;
+import org.eclipse.escet.cif.parser.ast.AAlgParameter;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
@@ -27,25 +27,23 @@ import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /**
- * Formal algebraic parameter declaration wrapper.
+ * Algebraic parameter declaration wrapper.
  *
  * @see FuncParamDeclWrap
  */
-public class FormalAlgDeclWrap extends DeclWrap<AlgParameter> {
-    /** The CIF AST representation of the formal algebraic parameter. */
-    private final AFormalAlgParameter astDecl;
+public class AlgParamDeclWrap extends DeclWrap<AlgParameter> {
+    /** The CIF AST representation of the algebraic parameter. */
+    private final AAlgParameter astDecl;
 
     /**
-     * Constructor for the {@link FormalAlgDeclWrap} class.
+     * Constructor for the {@link AlgParamDeclWrap} class.
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
-     * @param astDecl The CIF AST representation of the formal algebraic parameter.
-     * @param mmDecl The CIF metamodel representation of the formal algebraic parameter.
+     * @param astDecl The CIF AST representation of the algebraic parameter.
+     * @param mmDecl The CIF metamodel representation of the algebraic parameter.
      */
-    public FormalAlgDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AFormalAlgParameter astDecl,
-            AlgParameter mmDecl)
-    {
+    public AlgParamDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AAlgParameter astDecl, AlgParameter mmDecl) {
         super(tchecker, scope, mmDecl);
         this.astDecl = astDecl;
     }

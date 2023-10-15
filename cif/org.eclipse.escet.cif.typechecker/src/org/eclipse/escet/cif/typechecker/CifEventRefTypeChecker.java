@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.typechecker;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.scopes.SymbolScope;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -42,7 +42,7 @@ public class CifEventRefTypeChecker {
 
         if (entry instanceof EventDeclWrap) {
             // OK.
-        } else if (entry instanceof FormalEventDeclWrap) {
+        } else if (entry instanceof EventParamDeclWrap) {
             // OK.
         } else {
             tchecker.addProblem(ErrMsg.RESOLVE_NON_EVENT, eventRef.position, entry.getAbsName());

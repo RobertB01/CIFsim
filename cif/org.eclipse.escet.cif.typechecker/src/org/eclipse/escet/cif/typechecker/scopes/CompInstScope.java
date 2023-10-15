@@ -196,137 +196,135 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
         // Get component definition.
         ComponentDef compDef = (ComponentDef)compDefScope.obj;
 
-        // Parameter count.
-        int paramCountInst = compInstDecl.parameters.size();
+        // Parameter/argument count.
+        int argCountInst = compInstDecl.arguments.size();
         int paramCountDef = compDef.getParameters().size();
-        if (paramCountInst != paramCountDef) {
-            tchecker.addProblem(ErrMsg.COMP_INST_PARAM_COUNT, obj.getPosition(), String.valueOf(paramCountInst),
+        if (argCountInst != paramCountDef) {
+            tchecker.addProblem(ErrMsg.COMP_INST_ARG_COUNT, obj.getPosition(), String.valueOf(argCountInst),
                     getAbsName(), String.valueOf(paramCountDef), CifTextUtils.getAbsName(compDef));
             throw new SemanticException();
         }
 
-        // Parameters.
-        List<Expression> params = obj.getParameters();
-        for (int i = 0; i < paramCountInst; i++) {
+        // Arguments.
+        List<Expression> args = obj.getArguments();
+        for (int i = 0; i < argCountInst; i++) {
             // Textual representation of parameter index.
             String paramIdxTxt = Numbers.toOrdinal(i + 1);
 
-            // Get formal parameter.
-            Parameter formal = compDef.getParameters().get(i);
+            // Get parameter.
+            Parameter param = compDef.getParameters().get(i);
 
-            // Get type hint for parameter.
-            CifType paramHint;
-            if (formal instanceof AlgParameter) {
-                paramHint = ((AlgParameter)formal).getVariable().getType();
-            } else if (formal instanceof EventParameter) {
-                paramHint = BOOL_TYPE_HINT;
-            } else if (formal instanceof LocationParameter) {
-                paramHint = BOOL_TYPE_HINT;
-            } else if (formal instanceof ComponentParameter) {
-                paramHint = ((ComponentParameter)formal).getType();
+            // Get type hint for argument.
+            CifType argHint;
+            if (param instanceof AlgParameter) {
+                argHint = ((AlgParameter)param).getVariable().getType();
+            } else if (param instanceof EventParameter) {
+                argHint = BOOL_TYPE_HINT;
+            } else if (param instanceof LocationParameter) {
+                argHint = BOOL_TYPE_HINT;
+            } else if (param instanceof ComponentParameter) {
+                argHint = ((ComponentParameter)param).getType();
             } else {
-                throw new RuntimeException("Unknown formal param: " + formal);
+                throw new RuntimeException("Unknown param: " + param);
             }
 
-            // Transform actual parameter, and add it. Resolve any references
+            // Transform argument, and add it. Resolve any references
             // in the parent scope of the instantiation.
-            ExprContext context = (formal instanceof EventParameter) ? EVT_REF_CTXT : DEFAULT_CTXT;
-            AExpression param = compInstDecl.parameters.get(i);
-            Expression actual = transExpression(param, paramHint, parent, context, tchecker);
-            params.add(actual);
+            ExprContext context = (param instanceof EventParameter) ? EVT_REF_CTXT : DEFAULT_CTXT;
+            AExpression astArg = compInstDecl.arguments.get(i);
+            Expression arg = transExpression(astArg, argHint, parent, context, tchecker);
+            args.add(arg);
 
             // Check against formal parameter.
-            if (formal instanceof AlgParameter) {
-                CifType formalType = ((AlgParameter)formal).getVariable().getType();
-                CifType actualType = actual.getType();
+            if (param instanceof AlgParameter) {
+                CifType paramType = ((AlgParameter)param).getVariable().getType();
+                CifType argType = arg.getType();
 
-                if (!CifTypeUtils.checkTypeCompat(formalType, actualType, RangeCompat.CONTAINED)) {
-                    tchecker.addProblem(ErrMsg.COMP_INST_PARAM_ALG_TYPES, actual.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), CifTextUtils.typeToStr(formalType),
-                            CifTextUtils.typeToStr(actualType));
+                if (!CifTypeUtils.checkTypeCompat(paramType, argType, RangeCompat.CONTAINED)) {
+                    tchecker.addProblem(ErrMsg.COMP_INST_ARG_ALG_TYPES, arg.getPosition(), paramIdxTxt,
+                            CifTextUtils.getAbsName(compDef), CifTextUtils.typeToStr(paramType),
+                            CifTextUtils.typeToStr(argType));
                     // Non-fatal error.
                 }
-            } else if (formal instanceof EventParameter) {
+            } else if (param instanceof EventParameter) {
                 // Make sure the actual parameter is an event.
-                Expression unwrap = CifTypeUtils.unwrapExpression(actual);
+                Expression unwrap = CifTypeUtils.unwrapExpression(arg);
                 if (!(unwrap instanceof EventExpression)) {
-                    tchecker.addProblem(ErrMsg.COMP_INST_PARAM_TYPE, actual.getPosition(), paramIdxTxt,
+                    tchecker.addProblem(ErrMsg.COMP_INST_ARG_TYPE, arg.getPosition(), paramIdxTxt,
                             CifTextUtils.getAbsName(compDef), "event");
                     throw new SemanticException();
                 }
 
                 // Get events.
-                Event formalEvent = ((EventParameter)formal).getEvent();
-                Event actualEvent = ((EventExpression)unwrap).getEvent();
+                Event paramEvent = ((EventParameter)param).getEvent();
+                Event argEvent = ((EventExpression)unwrap).getEvent();
 
-                // Check controllability match for formal/actual.
-                Boolean formalContr = formalEvent.getControllable();
-                Boolean actualContr = actualEvent.getControllable();
-                if (formalContr != null && !formalContr.equals(actualContr)) {
-                    tchecker.addProblem(ErrMsg.COMP_INST_CONTR_MISMATCH, actual.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), controllableToStr(formalContr),
-                            controllableToStr(actualContr));
+                // Check controllability match for parameter/argument.
+                Boolean paramContr = paramEvent.getControllable();
+                Boolean argContr = argEvent.getControllable();
+                if (paramContr != null && !paramContr.equals(argContr)) {
+                    tchecker.addProblem(ErrMsg.COMP_INST_ARG_CONTR_MISMATCH, arg.getPosition(), paramIdxTxt,
+                            CifTextUtils.getAbsName(compDef), controllableToStr(paramContr),
+                            controllableToStr(argContr));
                     // Non-fatal error.
                 }
 
-                // Check type match for formal/actual.
-                CifType formalType = formalEvent.getType();
-                CifType actualType = actualEvent.getType();
+                // Check type match for parameter/argument.
+                CifType paramType = paramEvent.getType();
+                CifType argType = argEvent.getType();
 
-                if ((formalType != null) && (actualType == null)) {
-                    String formalTxt = fmt("is of type \"%s\"", CifTextUtils.typeToStr(formalType));
-                    String actualTxt = "has no type";
-                    tchecker.addProblem(ErrMsg.COMP_INST_PARAM_EVENT_TYPES, actual.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), formalTxt, actualTxt);
+                if ((paramType != null) && (argType == null)) {
+                    String paramTxt = fmt("is of type \"%s\"", CifTextUtils.typeToStr(paramType));
+                    String argTxt = "has no type";
+                    tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_TYPES, arg.getPosition(), paramIdxTxt,
+                            CifTextUtils.getAbsName(compDef), paramTxt, argTxt);
                     // Non-fatal error.
                 }
 
-                if (formalType != null && actualType != null) {
-                    if (!CifTypeUtils.checkTypeCompat(formalEvent.getType(), actualEvent.getType(),
-                            RangeCompat.EQUAL))
-                    {
-                        tchecker.addProblem(ErrMsg.COMP_INST_PARAM_EVENT_TYPES, actual.getPosition(), paramIdxTxt,
+                if (paramType != null && argType != null) {
+                    if (!CifTypeUtils.checkTypeCompat(paramEvent.getType(), argEvent.getType(), RangeCompat.EQUAL)) {
+                        tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_TYPES, arg.getPosition(), paramIdxTxt,
                                 CifTextUtils.getAbsName(compDef),
-                                fmt("is of type \"%s\"", CifTextUtils.typeToStr(formalType)),
-                                fmt("is of type \"%s\"", CifTextUtils.typeToStr(actualType)));
+                                fmt("is of type \"%s\"", CifTextUtils.typeToStr(paramType)),
+                                fmt("is of type \"%s\"", CifTextUtils.typeToStr(argType)));
                         // Non-fatal error.
                     }
                 }
 
-                // Get event parameters, or 'null' for actual argument if
+                // Get event parameters, or 'null' for arguments if
                 // reference to concrete event rather than event parameter.
-                EventParameter formalParam = (EventParameter)formal;
-                EventParameter actualParam = null;
-                if (actualEvent.eContainer() instanceof EventParameter) {
-                    actualParam = (EventParameter)actualEvent.eContainer();
+                EventParameter paramParam = (EventParameter)param;
+                EventParameter argParam = null;
+                if (argEvent.eContainer() instanceof EventParameter) {
+                    argParam = (EventParameter)argEvent.eContainer();
                 }
 
-                // Check usage restrictions match for formal/actual. If actual
-                // is concrete event, all is allowed. If formal has no flags,
-                // all is allowed. Otherwise, check that all formal flags also
-                // present for actual.
-                if (actualParam != null) {
-                    checkEventUsage(formalParam, actualParam, param.position, paramIdxTxt, compDef);
+                // Check usage restrictions match for parameter/argument. If argument
+                // is concrete event, all is allowed. If parameter has no flags,
+                // all is allowed. Otherwise, check that all parameter flags also
+                // present for argument.
+                if (argParam != null) {
+                    checkEventUsage(paramParam, argParam, astArg.position, paramIdxTxt, compDef);
                 }
-            } else if (formal instanceof LocationParameter) {
-                Expression unwrap = CifTypeUtils.unwrapExpression(actual);
+            } else if (param instanceof LocationParameter) {
+                Expression unwrap = CifTypeUtils.unwrapExpression(arg);
                 if (!(unwrap instanceof LocationExpression)) {
-                    tchecker.addProblem(ErrMsg.COMP_INST_PARAM_TYPE, actual.getPosition(), paramIdxTxt,
+                    tchecker.addProblem(ErrMsg.COMP_INST_ARG_TYPE, arg.getPosition(), paramIdxTxt,
                             CifTextUtils.getAbsName(compDef), "location");
                     // Non-fatal error.
                 }
-            } else if (formal instanceof ComponentParameter) {
-                CifType formalType = ((ComponentParameter)formal).getType();
-                CifType actualType = actual.getType();
+            } else if (param instanceof ComponentParameter) {
+                CifType paramType = ((ComponentParameter)param).getType();
+                CifType argType = arg.getType();
 
-                if (!CifTypeUtils.checkTypeCompat(formalType, actualType, null)) {
-                    tchecker.addProblem(ErrMsg.COMP_INST_PARAM_COMP_TYPES, actual.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), CifTextUtils.typeToStr(formalType),
-                            CifTextUtils.typeToStr(actualType));
+                if (!CifTypeUtils.checkTypeCompat(paramType, argType, null)) {
+                    tchecker.addProblem(ErrMsg.COMP_INST_ARG_COMP_TYPES, arg.getPosition(), paramIdxTxt,
+                            CifTextUtils.getAbsName(compDef), CifTextUtils.typeToStr(paramType),
+                            CifTextUtils.typeToStr(argType));
                     // Non-fatal error.
                 }
             } else {
-                throw new RuntimeException("Unknown formal param: " + formal);
+                throw new RuntimeException("Unknown param: " + param);
             }
         }
 
@@ -335,42 +333,41 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
     }
 
     /**
-     * Check usage of an actual event parameter being passed to an instantiation for a formal event parameter, based on
+     * Check usage of an event parameter being passed as argument to an instantiation for an event parameter, based on
      * event usage restriction flags.
      *
-     * @param formal The event parameter that is a formal parameter of the component definition being instantiated.
-     * @param actual The event parameter used as actual parameter for the instantiation.
+     * @param param The event parameter that is a parameter of the component definition being instantiated.
+     * @param arg The event parameter used as argument for the instantiation.
      * @param position The position on which to report problems.
-     * @param paramIdxTxt The text to use in error messages to identify the actual parameter by index.
+     * @param paramIdxTxt The text to use in error messages to identify the parameter and argument by index.
      * @param compDef The component definition that is being instantiated.
      */
-    private void checkEventUsage(EventParameter formal, EventParameter actual, TextPosition position,
-            String paramIdxTxt, ComponentDef compDef)
+    private void checkEventUsage(EventParameter param, EventParameter arg, TextPosition position, String paramIdxTxt,
+            ComponentDef compDef)
     {
         // Interpret flags of both event parameters.
-        boolean formalSend = CifEventUtils.eventParamSupportsSend(formal);
-        boolean formalRecv = CifEventUtils.eventParamSupportsRecv(formal);
-        boolean formalSync = CifEventUtils.eventParamSupportsSync(formal);
-        boolean actualSend = CifEventUtils.eventParamSupportsSend(actual);
-        boolean actualRecv = CifEventUtils.eventParamSupportsRecv(actual);
-        boolean actualSync = CifEventUtils.eventParamSupportsSync(actual);
+        boolean paramSend = CifEventUtils.eventParamSupportsSend(param);
+        boolean paramRecv = CifEventUtils.eventParamSupportsRecv(param);
+        boolean paramSync = CifEventUtils.eventParamSupportsSync(param);
+        boolean argSend = CifEventUtils.eventParamSupportsSend(arg);
+        boolean argRecv = CifEventUtils.eventParamSupportsRecv(arg);
+        boolean argSync = CifEventUtils.eventParamSupportsSync(arg);
 
-        // All formal parameter usages must be supported by the actual
-        // parameter.
-        if (formalSend && !actualSend) {
-            tchecker.addProblem(ErrMsg.COMP_INST_PARAM_EVENT_FLAG, position, paramIdxTxt,
+        // All parameter usages must be supported by the argument.
+        if (paramSend && !argSend) {
+            tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_FLAG, position, paramIdxTxt,
                     CifTextUtils.getAbsName(compDef), "send (!)");
             // Non-fatal problem.
         }
 
-        if (formalRecv && !actualRecv) {
-            tchecker.addProblem(ErrMsg.COMP_INST_PARAM_EVENT_FLAG, position, paramIdxTxt,
+        if (paramRecv && !argRecv) {
+            tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_FLAG, position, paramIdxTxt,
                     CifTextUtils.getAbsName(compDef), "receive (?)");
             // Non-fatal problem.
         }
 
-        if (formalSync && !actualSync) {
-            tchecker.addProblem(ErrMsg.COMP_INST_PARAM_EVENT_FLAG, position, paramIdxTxt,
+        if (paramSync && !argSync) {
+            tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_FLAG, position, paramIdxTxt,
                     CifTextUtils.getAbsName(compDef), "synchronization (~)");
             // Non-fatal problem.
         }

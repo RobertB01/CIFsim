@@ -643,8 +643,8 @@ public class CyclePostChecker {
             // Check recursively.
             FunctionCallExpression fcexpr = (FunctionCallExpression)expr;
             check(fcexpr.getFunction(), cycle);
-            for (Expression param: fcexpr.getParams()) {
-                check(param, cycle);
+            for (Expression arg: fcexpr.getArguments()) {
+                check(arg, cycle);
             }
         } else if (expr instanceof ListExpression) {
             // Check recursively.

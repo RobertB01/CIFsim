@@ -26,10 +26,10 @@ import org.eclipse.escet.cif.parser.ast.ACompDefDecl;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
+import org.eclipse.escet.cif.typechecker.declwrap.AlgParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.DeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalAlgDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.LocationParamDeclWrap;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -148,8 +148,8 @@ public class AutDefScope extends ParentScope<ComponentDef> {
         // Check all algebraic, event, and location parameters.
         boolean failed = false;
         for (DeclWrap<?> decl: compDefScope.declarations.values()) {
-            if (decl instanceof FormalAlgDeclWrap || decl instanceof FormalEventDeclWrap
-                    || decl instanceof FormalLocationDeclWrap)
+            if (decl instanceof AlgParamDeclWrap || decl instanceof EventParamDeclWrap
+                    || decl instanceof LocationParamDeclWrap)
             {
                 try {
                     decl.tcheckFull();

@@ -30,7 +30,7 @@ import org.eclipse.escet.common.typechecker.SemanticException;
  * Function parameter (parameter of an internal user-defined function) declaration wrapper.
  *
  * @see DiscVariableDeclWrap
- * @see FormalAlgDeclWrap
+ * @see AlgParamDeclWrap
  */
 public class FuncParamDeclWrap extends DeclWrap<FunctionParameter> {
     /** The CIF AST representation of the function parameter. */

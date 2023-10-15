@@ -192,7 +192,7 @@ import org.eclipse.escet.cif.parser.ast.expressions.ATupleExpression;
 import org.eclipse.escet.cif.parser.ast.expressions.AUnaryExpression;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.cif.typechecker.scopes.AutDefScope;
@@ -402,8 +402,8 @@ public class CifExprsTypeChecker {
                 throw new SemanticException();
             }
 
-            for (Expression param: fcexpr.getParams()) {
-                if (!checkStaticEvaluable(param, tchecker)) {
+            for (Expression arg: fcexpr.getArguments()) {
+                if (!checkStaticEvaluable(arg, tchecker)) {
                     return false;
                 }
             }
@@ -2478,7 +2478,7 @@ public class CifExprsTypeChecker {
             CifType argHint = funcType.getParamTypes().get(i);
             args.add(transExpression(astArg, argHint, scope, context, tchecker));
         }
-        rslt.getParams().addAll(args);
+        rslt.getArguments().addAll(args);
 
         // Check argument types.
         for (int i = 0; i < expectedCount; i++) {
@@ -3090,7 +3090,7 @@ public class CifExprsTypeChecker {
             atypes[i] = atype;
             natypes[i] = CifTypeUtils.normalizeType(atype);
         }
-        mmCall.getParams().addAll(args);
+        mmCall.getArguments().addAll(args);
 
         // Initialize standard library function reference result type.
         FuncType resultType = newFuncType();
@@ -5099,7 +5099,7 @@ public class CifExprsTypeChecker {
             throw new SemanticException();
         }
 
-        if ((entry instanceof EventDeclWrap || entry instanceof FormalEventDeclWrap)
+        if ((entry instanceof EventDeclWrap || entry instanceof EventParamDeclWrap)
                 && (context == null || !context.conditions.contains(ALLOW_EVENT)))
         {
             // Invalid use of event reference found. Can't use event as value.
