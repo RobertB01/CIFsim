@@ -1627,12 +1627,12 @@ public class CifToPlcTrans {
         } else if (expr instanceof FunctionCallExpression) {
             FunctionCallExpression fcexpr = (FunctionCallExpression)expr;
 
-            List<String> paramTxts = listc(fcexpr.getParams().size());
-            List<Expression> params = fcexpr.getParams();
-            for (Expression param: params) {
-                paramTxts.add(transExpr(param, state, init));
+            List<String> argTxts = listc(fcexpr.getArguments().size());
+            List<Expression> args = fcexpr.getArguments();
+            for (Expression arg: args) {
+                argTxts.add(transExpr(arg, state, init));
             }
-            String paramsTxt = String.join(", ", paramTxts);
+            String argsTxt = String.join(", ", argTxts);
 
             Expression fexpr = fcexpr.getFunction();
             if (fexpr instanceof FunctionExpression) {
@@ -1649,22 +1649,22 @@ public class CifToPlcTrans {
                 }
 
                 // Generate function call.
-                return genFuncCall(funcPou.name, false, paramNames, paramTxts);
+                return genFuncCall(funcPou.name, false, paramNames, argTxts);
             } else if (fexpr instanceof StdLibFunctionExpression) {
                 StdLibFunction stdlib = ((StdLibFunctionExpression)fexpr).getFunction();
                 switch (stdlib) {
                     case ABS:
-                        return genFuncCall("ABS", true, null, paramsTxt);
+                        return genFuncCall("ABS", true, null, argsTxt);
 
                     case CBRT:
                         if (PlcOutputTypeOption.isS7Output()) {
                             // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
-                            return fmt("(%s) ** (1.0/3.0)", paramsTxt);
+                            return fmt("(%s) ** (1.0/3.0)", argsTxt);
                         }
 
                         // The 'a ** b' syntax seemed not to work in TwinCAT
                         // 3.1. Using the named function instead.
-                        return genFuncCall("EXPT", true, list("IN1", "IN2"), list(paramsTxt, "1.0/3"));
+                        return genFuncCall("EXPT", true, list("IN1", "IN2"), list(argsTxt, "1.0/3"));
 
                     case CEIL:
                         // Unsupported. IEC 61131-3 has only TRUNC (round
@@ -1681,7 +1681,7 @@ public class CifToPlcTrans {
                         throw new RuntimeException("precond violation");
 
                     case EXP:
-                        return genFuncCall("EXP", true, null, paramsTxt);
+                        return genFuncCall("EXP", true, null, argsTxt);
 
                     case FLOOR:
                         // Unsupported. IEC 61131-3 has only TRUNC (round
@@ -1694,35 +1694,35 @@ public class CifToPlcTrans {
                         throw new RuntimeException("precond violation");
 
                     case LN:
-                        return genFuncCall("LN", true, null, paramsTxt);
+                        return genFuncCall("LN", true, null, argsTxt);
 
                     case LOG:
                         if (PlcOutputTypeOption.isS7Output()) {
                             // S7 doesn't have a function for log10. But log10(x) = ln(x) / ln(10).
-                            return fmt("%s / %s", genFuncCall("LN", true, null, paramsTxt),
+                            return fmt("%s / %s", genFuncCall("LN", true, null, argsTxt),
                                     genFuncCall("LN", true, null, "10"));
                         }
 
-                        return genFuncCall("LOG", true, null, paramsTxt);
+                        return genFuncCall("LOG", true, null, argsTxt);
 
                     case MAXIMUM:
                     case MINIMUM: {
-                        CifType type0 = normalizeType(params.get(0).getType());
-                        CifType type1 = normalizeType(params.get(1).getType());
+                        CifType type0 = normalizeType(args.get(0).getType());
+                        CifType type1 = normalizeType(args.get(1).getType());
                         if ((type0 instanceof IntType && type1 instanceof IntType)
                                 || (type0 instanceof RealType && type1 instanceof RealType))
                         {
-                            // paramTxts OK.
+                            // argTxts OK.
                         } else if (type0 instanceof IntType && type1 instanceof RealType) {
                             String toName = fmt("DINT_TO_%s", largeRealType.name);
-                            paramTxts.set(0, genFuncCall(toName, true, "IN", paramTxts.get(0)));
+                            argTxts.set(0, genFuncCall(toName, true, "IN", argTxts.get(0)));
                         } else {
                             Assert.check(type0 instanceof RealType && type1 instanceof IntType);
                             String toName = fmt("DINT_TO_%s", largeRealType.name);
-                            paramTxts.set(1, genFuncCall(toName, true, "IN", paramTxts.get(1)));
+                            argTxts.set(1, genFuncCall(toName, true, "IN", argTxts.get(1)));
                         }
                         return genFuncCall((stdlib == StdLibFunction.MAXIMUM) ? "MAX" : "MIN", true, list("IN1", "IN2"),
-                                paramTxts);
+                                argTxts);
                     }
 
                     case POP:
@@ -1730,24 +1730,24 @@ public class CifToPlcTrans {
                         throw new RuntimeException("precond violation");
 
                     case POWER: {
-                        CifType type0 = normalizeType(params.get(0).getType());
-                        CifType type1 = normalizeType(params.get(1).getType());
+                        CifType type0 = normalizeType(args.get(0).getType());
+                        CifType type1 = normalizeType(args.get(1).getType());
 
                         // S7-400 and S7-300 only support power on real types.
                         if (getPlcOutputType() == S7_400 || getPlcOutputType() == S7_300) {
-                            String paramTxt0 = paramTxts.get(0);
-                            String paramTxt1 = paramTxts.get(1);
+                            String argTxt0 = argTxts.get(0);
+                            String argTxt1 = argTxts.get(1);
                             if (type0 instanceof IntType) {
                                 String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
-                                paramTxt0 = genFuncCall(toName, true, "IN", paramTxt0);
+                                argTxt0 = genFuncCall(toName, true, "IN", argTxt0);
                             }
 
                             if (type1 instanceof IntType) {
                                 String toName = fmt("%s_TO_%s", largeIntType.name, largeRealType.name);
-                                paramTxt1 = genFuncCall(toName, true, "IN", paramTxt1);
+                                argTxt1 = genFuncCall(toName, true, "IN", argTxt1);
                             }
 
-                            String resultTxt = fmt("(%s) ** (%s)", paramTxt0, paramTxt1);
+                            String resultTxt = fmt("(%s) ** (%s)", argTxt0, argTxt1);
 
                             // If the resulting type is integer, we need to convert that explicitly.
                             FuncType functionType = (FuncType)normalizeType(fexpr.getType());
@@ -1762,7 +1762,7 @@ public class CifToPlcTrans {
 
                         // S7-1500 and S7-1200 use the 'a ** b' syntax for power.
                         if (getPlcOutputType() == S7_1500 || getPlcOutputType() == S7_1200) {
-                            return fmt("(%s) ** (%s)", paramTxts.get(0), paramTxts.get(1));
+                            return fmt("(%s) ** (%s)", argTxts.get(0), argTxts.get(1));
                         }
 
                         // The 'a ** b' syntax seemed not to work in TwinCAT
@@ -1770,19 +1770,19 @@ public class CifToPlcTrans {
                         if (type0 instanceof IntType && type1 instanceof IntType && !isRangeless((IntType)type0)
                                 && !isRangeless((IntType)type1))
                         {
-                            // First parameter must be of real type.
+                            // First argument must be of real type.
                             String f0 = fmt("DINT_TO_%s", largeRealType.name);
-                            String c1 = genFuncCall(f0, true, "IN", paramTxts.get(0));
-                            String c2 = genFuncCall("EXPT", true, list("IN1", "IN2"), list(c1, paramTxts.get(1)));
+                            String c1 = genFuncCall(f0, true, "IN", argTxts.get(0));
+                            String c2 = genFuncCall("EXPT", true, list("IN1", "IN2"), list(c1, argTxts.get(1)));
                             String f1 = fmt("%s_TO_DINT", largeRealType.name);
                             return genFuncCall(f1, true, "IN", c2);
                         } else if (type0 instanceof IntType && type1 instanceof RealType) {
-                            // First parameter must be of real type.
+                            // First argument must be of real type.
                             String cf = fmt("DINT_TO_%s", largeRealType.name);
-                            String f0 = genFuncCall(cf, true, "IN", paramTxts.get(0));
-                            return genFuncCall("EXPT", true, list("IN1", "IN2"), list(f0, paramTxts.get(1)));
+                            String f0 = genFuncCall(cf, true, "IN", argTxts.get(0));
+                            return genFuncCall("EXPT", true, list("IN1", "IN2"), list(f0, argTxts.get(1)));
                         } else {
-                            return genFuncCall("EXPT", true, list("IN1", "IN2"), paramTxts);
+                            return genFuncCall("EXPT", true, list("IN1", "IN2"), argTxts);
                         }
                     }
 
@@ -1808,25 +1808,25 @@ public class CifToPlcTrans {
                         throw new RuntimeException("precond violation");
 
                     case SQRT:
-                        return genFuncCall("SQRT", true, null, paramsTxt);
+                        return genFuncCall("SQRT", true, null, argsTxt);
 
                     case ACOS:
-                        return genFuncCall("ACOS", true, null, paramsTxt);
+                        return genFuncCall("ACOS", true, null, argsTxt);
 
                     case ASIN:
-                        return genFuncCall("ASIN", true, null, paramsTxt);
+                        return genFuncCall("ASIN", true, null, argsTxt);
 
                     case ATAN:
-                        return genFuncCall("ATAN", true, null, paramsTxt);
+                        return genFuncCall("ATAN", true, null, argsTxt);
 
                     case COS:
-                        return genFuncCall("COS", true, null, paramsTxt);
+                        return genFuncCall("COS", true, null, argsTxt);
 
                     case SIN:
-                        return genFuncCall("SIN", true, null, paramsTxt);
+                        return genFuncCall("SIN", true, null, argsTxt);
 
                     case TAN:
-                        return genFuncCall("TAN", true, null, paramsTxt);
+                        return genFuncCall("TAN", true, null, argsTxt);
 
                     case ACOSH:
                     case ASINH:
@@ -2428,7 +2428,7 @@ public class CifToPlcTrans {
      * @param stdFunc Is the function a standard library/conversion function?
      * @param argName The name of the argument of the function, i.e. the formal argument name. Must be {@code null} iff
      *     function is NOT, ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
-     * @param valueTxt The value to use as argument, i.e. the actual argument.
+     * @param valueTxt The value to use as argument.
      * @return The function call text.
      * @see #formalInvokeArg
      * @see #formalInvokeFunc
@@ -2445,7 +2445,7 @@ public class CifToPlcTrans {
      * @param stdFunc Is the function a standard library/conversion function?
      * @param argNames The names of the arguments of the function, i.e. the formal argument names. Must be {@code null}
      *     iff function is NOT, ABS, SQRT, LN, LOG, EXP, SIN, COS, TAN, ASIN, ACOS, or ATAN.
-     * @param valueTxts The values to use as arguments, i.e. the actual arguments.
+     * @param valueTxts The values to use as arguments.
      * @return The function call text.
      * @see #formalInvokeArg
      * @see #formalInvokeFunc
