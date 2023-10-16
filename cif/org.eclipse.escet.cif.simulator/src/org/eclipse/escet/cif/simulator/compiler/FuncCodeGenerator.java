@@ -381,7 +381,7 @@ public class FuncCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of \\\"if\\\" statement guard(s) \\\"%s\\\" failed.\", "
-                    + "e);", truncate(escapeJava(exprsToStr(istat.getGuards())), 1000));
+                    + "e);", escapeJava(truncate(exprsToStr(istat.getGuards()), 1000)));
             c.dedent();
             c.add("}");
 
@@ -410,7 +410,7 @@ public class FuncCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of \\\"elif\\\" statement guard(s) \\\"%s\\\" "
-                        + "failed.\", e);", truncate(escapeJava(exprsToStr(elif.getGuards())), 1000));
+                        + "failed.\", e);", escapeJava(truncate(exprsToStr(elif.getGuards()), 1000)));
                 c.dedent();
                 c.add("}");
 
@@ -457,7 +457,7 @@ public class FuncCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of return value \\\"%s\\\" failed.\", e);",
-                    truncate(escapeJava(exprToStr(retValue)), 1000));
+                    escapeJava(truncate(exprToStr(retValue), 1000)));
             c.dedent();
             c.add("}");
         } else if (statement instanceof WhileFuncStatement) {
@@ -481,7 +481,7 @@ public class FuncCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of \\\"while\\\" statement condition(s) \\\"%s\\\" "
-                    + "failed.\", e);", truncate(escapeJava(exprsToStr(wstat.getGuards())), 1000));
+                    + "failed.\", e);", escapeJava(truncate(exprsToStr(wstat.getGuards()), 1000)));
             c.dedent();
             c.add("}");
 

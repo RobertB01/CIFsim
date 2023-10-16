@@ -425,7 +425,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"when pre\\\" filter "
-                    + "\\\"%s\\\" failed.\", e, preState);", truncate(escapeJava(exprToStr(whenPre)), 1000));
+                    + "\\\"%s\\\" failed.\", e, preState);", escapeJava(truncate(exprToStr(whenPre), 1000)));
             c.dedent();
             c.add("}");
             c.add("if (!whenPre) return;");
@@ -445,7 +445,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"when post\\\" filter "
-                    + "\\\"%s\\\" failed.\", e, postState);", truncate(escapeJava(exprToStr(whenPost)), 1000));
+                    + "\\\"%s\\\" failed.\", e, postState);", escapeJava(truncate(exprToStr(whenPost), 1000)));
             c.dedent();
             c.add("}");
             c.add("if (!whenPost) return;");
@@ -475,7 +475,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"pre\\\" text \\\"%s\\\" "
-                    + "failed.\", e, preState);", truncate(escapeJava(exprToStr(txtPre)), 1000));
+                    + "failed.\", e, preState);", escapeJava(truncate(exprToStr(txtPre), 1000)));
             c.dedent();
             c.add("}");
 
@@ -511,7 +511,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"post\\\" text \\\"%s\\\" "
-                    + "failed.\", e, postState);", truncate(escapeJava(exprToStr(txtPost)), 1000));
+                    + "failed.\", e, postState);", escapeJava(truncate(exprToStr(txtPost), 1000)));
             c.dedent();
             c.add("}");
 

@@ -464,7 +464,7 @@ public class CifSvgCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of SVG output mapping value \\\"%s\\\" failed.\", e, "
-                + "state);", truncate(escapeJava(exprToStr(value)), 1000));
+                + "state);", escapeJava(truncate(exprToStr(value), 1000)));
         c.dedent();
         c.add("}");
 
@@ -619,7 +619,7 @@ public class CifSvgCodeGenerator {
                         c.add("} catch (CifSimulatorException e) {");
                         c.indent();
                         c.add("throw new CifSimulatorException(\"Evaluation of guard value \\\"%s\\\" failed.\", e, "
-                                + "state);", truncate(escapeJava(exprToStr(entry.getGuard())), 1000));
+                                + "state);", escapeJava(truncate(exprToStr(entry.getGuard()), 1000)));
                         c.dedent();
                         c.add("}");
 

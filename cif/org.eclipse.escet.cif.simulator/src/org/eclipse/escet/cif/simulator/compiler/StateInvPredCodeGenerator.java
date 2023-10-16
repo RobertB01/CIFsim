@@ -250,7 +250,7 @@ public class StateInvPredCodeGenerator {
         c.add("if (!(%s)) {", result);
         c.indent();
         c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");",
-                truncate(escapeJava(predTxt), 1000), escapeJava(parentText));
+                escapeJava(truncate(predTxt, 1000)), escapeJava(parentText));
         c.add("return false;");
         c.dedent();
         c.add("}");
@@ -260,7 +260,7 @@ public class StateInvPredCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
-                truncate(escapeJava(predTxt), 1000), escapeJava(parentText));
+                escapeJava(truncate(predTxt, 1000)), escapeJava(parentText));
         c.dedent();
         c.add("}");
 

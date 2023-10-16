@@ -662,7 +662,7 @@ public class AutomatonNormalCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
-                        + "e, state);", truncate(escapeJava(exprToStr(guard)), 1000), escapeJava(locTxt));
+                        + "e, state);", escapeJava(truncate(exprToStr(guard), 1000)), escapeJava(locTxt));
 
                 c.dedent();
                 c.add("}");
@@ -701,7 +701,7 @@ public class AutomatonNormalCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of value \\\"%s\\\" to send of an edge of %s "
-                        + "failed.\", e, state);", truncate(escapeJava(exprToStr(sendValue)), 1000),
+                        + "failed.\", e, state);", escapeJava(truncate(exprToStr(sendValue), 1000)),
                         escapeJava(locTxt));
                 c.dedent();
                 c.add("}");
@@ -837,7 +837,7 @@ public class AutomatonNormalCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of \\\"if\\\" update guard(s) \\\"%s\\\" failed.\", e, "
-                + "source);", truncate(escapeJava(exprsToStr(update.getGuards())), 1000));
+                + "source);", escapeJava(truncate(exprsToStr(update.getGuards()), 1000)));
         c.dedent();
         c.add("}");
 
@@ -866,7 +866,7 @@ public class AutomatonNormalCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of \\\"elif\\\" update guard(s) \\\"%s\\\" failed.\", "
-                    + "e, source);", truncate(escapeJava(exprsToStr(elifUpd.getGuards())), 1000));
+                    + "e, source);", escapeJava(truncate(exprsToStr(elifUpd.getGuards()), 1000)));
             c.dedent();
             c.add("}");
 

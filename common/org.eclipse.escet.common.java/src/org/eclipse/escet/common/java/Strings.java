@@ -657,8 +657,8 @@ public final class Strings {
      * nothing is changed. Otherwise, the trailing part of the input string that is too long is replaced by
      * {@code "..."} such that the returned string is precisely of the maximum length.
      *
-     * @param input The sting to truncate.
-     * @param maxLength The maximum length of the result.
+     * @param input The string to truncate.
+     * @param maxLength The maximum length of the result. Must be at least {@code 3}.
      * @return The truncated string.
      */
     public static String truncate(String input, int maxLength) {

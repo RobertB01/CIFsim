@@ -105,8 +105,8 @@ public class InitPredCodeGenerator {
             c.add("if (!(%s)) {", result);
             exprResults.add(result);
             c.indent();
-            c.add("warn(\"Initialization predicate \\\"%s\\\" of %s is not satisfied.\");", escapeJava(initTxt),
-                    escapeJava(compTxt));
+            c.add("warn(\"Initialization predicate \\\"%s\\\" of %s is not satisfied.\");",
+                    escapeJava(truncate(initTxt, 1000)), escapeJava(compTxt));
             c.add("return false;");
             c.dedent();
             c.add("}");
@@ -116,7 +116,7 @@ public class InitPredCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of initialization predicate \\\"%s\\\" of %s "
-                    + "failed.\", e, state);", truncate(escapeJava(initTxt), 1000), escapeJava(compTxt));
+                    + "failed.\", e, state);", escapeJava(truncate(initTxt, 1000)), escapeJava(compTxt));
             c.dedent();
             c.add("}");
         }

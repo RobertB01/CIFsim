@@ -132,7 +132,7 @@ public class UrgEdgesCodeGenerator {
                     c.add("} catch (CifSimulatorException e) {");
                     c.indent();
                     c.add("throw new CifSimulatorException(\"Evaluation of guard(s) \\\"%s\\\" of an urgent edge of "
-                            + "%s failed.\", e, state);", truncate(escapeJava(exprsToStr(edge.getGuards())), 1000),
+                            + "%s failed.\", e, state);", escapeJava(truncate(exprsToStr(edge.getGuards()), 1000)),
                             escapeJava(locTxt));
                     c.dedent();
                     c.add("}");

@@ -245,7 +245,7 @@ public class StateInitCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of initial value \\\"%s\\\" of discrete variable "
-                        + "\\\"%s\\\" failed.\", e);", truncate(escapeJava(exprToStr(initValue)), 1000),
+                        + "\\\"%s\\\" failed.\", e);", escapeJava(truncate(exprToStr(initValue), 1000)),
                         getAbsName(var));
                 c.dedent();
                 c.add("}");
@@ -392,7 +392,7 @@ public class StateInitCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of initial value \\\"%s\\\" of continuous variable "
-                    + "\\\"%s\\\" failed.\", e);", truncate(escapeJava(exprToStr(valueExpr)), 1000), getAbsName(var));
+                    + "\\\"%s\\\" failed.\", e);", escapeJava(truncate(exprToStr(valueExpr), 1000)), getAbsName(var));
             c.dedent();
             c.add("}");
             return result;
@@ -423,7 +423,7 @@ public class StateInitCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of initialization predicates \\\"%s\\\" of %s failed.\", "
-                + "e);", truncate(escapeJava(exprsToStr(initials)), 1000),
+                + "e);", escapeJava(truncate(exprsToStr(initials), 1000)),
                 escapeJava(CifTextUtils.getLocationText2(loc)));
         c.dedent();
         c.add("}");

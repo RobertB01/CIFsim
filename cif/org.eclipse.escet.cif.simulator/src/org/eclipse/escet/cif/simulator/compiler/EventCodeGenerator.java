@@ -309,7 +309,7 @@ public class EventCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
-                    truncate(escapeJava(invTxt), 1000), escapeJava(compTxt));
+                    escapeJava(truncate(invTxt, 1000)), escapeJava(compTxt));
             c.dedent();
             c.add("}");
             c.add();
@@ -404,7 +404,7 @@ public class EventCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, "
-                        + "state);", truncate(escapeJava(invTxt), 1000), escapeJava(locTxt));
+                        + "state);", escapeJava(truncate(invTxt, 1000)), escapeJava(locTxt));
                 c.dedent();
                 c.add("}");
 
