@@ -63,7 +63,7 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link DfaMinimizationApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public DfaMinimizationApplication(AppStreams streams) {
         super(streams);

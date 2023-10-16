@@ -51,7 +51,7 @@ public class SynthesisAnalysisApplication extends Application<IOutputComponent> 
     /**
      * Constructor of the {@link SynthesisAnalysisApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public SynthesisAnalysisApplication(AppStreams streams) {
         super(streams);

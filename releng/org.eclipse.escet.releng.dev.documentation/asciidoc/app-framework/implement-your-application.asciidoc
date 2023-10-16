@@ -62,7 +62,7 @@ In order to support the ToolDef `app` tool, which can be used to run application
 /**
  * Constructor for the {@link MyApp} class.
  *
- * @param streams The streams to use for input, output, and error streams.
+ * @param streams The streams to use for input, output, warning, and error streams.
  */
 public MyApp(AppStreams streams) {
     super(streams);

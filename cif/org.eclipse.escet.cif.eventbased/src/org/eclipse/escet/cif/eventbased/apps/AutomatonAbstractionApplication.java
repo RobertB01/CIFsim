@@ -63,7 +63,7 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
     /**
      * Constructor of the {@link AutomatonAbstractionApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public AutomatonAbstractionApplication(AppStreams streams) {
         super(streams);

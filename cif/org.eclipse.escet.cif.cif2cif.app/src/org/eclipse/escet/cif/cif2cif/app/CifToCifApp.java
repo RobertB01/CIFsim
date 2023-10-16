@@ -54,7 +54,7 @@ public class CifToCifApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifToCifApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifToCifApp(AppStreams streams) {
         super(streams);

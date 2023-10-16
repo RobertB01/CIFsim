@@ -42,7 +42,7 @@ import org.eclipse.escet.common.app.framework.io.AppStreams;
  */
 public final class InteractiveConsoleInputComponent<S extends RuntimeState> extends InteractiveInputComponent<S> {
     /**
-     * The streams to use to read input, to write output (usually requests for input), and to write errors (invalid
+     * The streams to use to read input, to write output (usually requests for input), warning, and errors (invalid
      * input supplied, etc).
      */
     private final AppStreams streams;
@@ -51,7 +51,7 @@ public final class InteractiveConsoleInputComponent<S extends RuntimeState> exte
      * Constructor for the {@link InteractiveConsoleInputComponent}.
      *
      * @param spec The specification. The specification has not yet been {@link RuntimeSpec#init initialized}.
-     * @param streams The streams to use to read input, to write output (usually requests for input), and to write
+     * @param streams The streams to use to read input, to write output (usually requests for input), warning, and
      *     errors (invalid input supplied, etc).
      */
     public InteractiveConsoleInputComponent(RuntimeSpec<S> spec, AppStreams streams) {

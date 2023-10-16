@@ -89,7 +89,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link MultilevelApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public MultilevelApp(AppStreams streams) {
         super(streams);

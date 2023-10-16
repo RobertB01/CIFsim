@@ -31,7 +31,7 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
 /**
  * Console for use within the Eclipse UI. Provides:
  * <ul>
- * <li>Standard input, output, and error streams, with colors.</li>
+ * <li>Standard input, output, warning, and error streams, with colors.</li>
  * <li>Line buffered output and error.</li>
  * <li>A convenient, thread-safe way to set the console name (title).</li>
  * </ul>
@@ -46,12 +46,15 @@ public class Console extends IOConsole {
     /** Console output stream. */
     private final IOConsoleOutputStream outputStream;
 
+    /** Console warning stream. */
+    private final IOConsoleOutputStream warningStream;
+
     /** Console error stream. */
     private final IOConsoleOutputStream errorStream;
 
     /**
      * The console streams. The input stream reader uses a default buffer size, and a default character encoding. The
-     * output and error streams also use default buffer sizes, and automatically flush on new lines.
+     * output, warning, and error streams also use default buffer sizes, and automatically flush on new lines.
      */
     protected final AppStreams streams;
 
@@ -80,9 +83,10 @@ public class Console extends IOConsole {
     public Console(String title) {
         super(title, null);
 
-        // Get input stream, and construct the output and error streams.
+        // Get input stream, and construct the output, warning and error streams.
         inputStream = getInputStream();
         outputStream = newOutputStream();
+        warningStream = newOutputStream();
         errorStream = newOutputStream();
 
         // Set stream colors.
@@ -91,8 +95,9 @@ public class Console extends IOConsole {
 
         // Save streams.
         AppStream appOut = new EclipseConsoleAppStream(outputStream);
+        AppStream appWarn = new EclipseConsoleAppStream(warningStream);
         AppStream appErr = new EclipseConsoleAppStream(errorStream);
-        streams = new AppStreams(inputStream, appOut, appErr);
+        streams = new AppStreams(inputStream, appOut, appWarn, appErr);
 
         // Register the console with the console manager, and show it.
         IConsoleManager manager = ConsolePlugin.getDefault().getConsoleManager();
@@ -105,10 +110,12 @@ public class Console extends IOConsole {
         if (EclipseThemeUtils.isDarkThemeInUse()) {
             inputStream.setColor(new Color(0, 200, 125));
             outputStream.setColor(new Color(240, 240, 240));
+            warningStream.setColor(new Color(192, 160, 0));
             errorStream.setColor(new Color(255, 97, 97));
         } else {
             inputStream.setColor(new Color(0, 200, 125));
             outputStream.setColor(new Color(0, 0, 0));
+            warningStream.setColor(new Color(150, 125, 0));
             errorStream.setColor(new Color(255, 0, 0));
         }
     }

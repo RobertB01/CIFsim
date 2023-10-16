@@ -59,7 +59,7 @@ public class TrimApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link TrimApplication} class.
      *
-     * @param streams The streams to use for input, output, and errors.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public TrimApplication(AppStreams streams) {
         super(streams);
