@@ -196,6 +196,9 @@ See link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit 
 
 If you are not an Eclipse ESCET project committer with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
 
+To push a commit to the official Eclipse ESCET Git repo, or to your private fork in the Eclipse Foundation GitLab, you'll be asked for your credentials.
+Assuming you have 2-factor authentication (2FA) enabled for your Eclipse Foundation GitLab account, use your GitLab username and a GitLab access token (not your password).
+
 indexterm:[merge request]
 
 [[development-development-process-merge-requests]]

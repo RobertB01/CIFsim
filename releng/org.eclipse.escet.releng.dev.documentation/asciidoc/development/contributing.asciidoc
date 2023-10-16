@@ -95,6 +95,9 @@ There click _New branch_ to create a new branch from `develop`.
 ** Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
 See our <<development-development-process-chapter-index,development process>> for more information.
 
+** To push a commit, you'll be asked for your credentials.
+Assuming you have 2-factor authentication (2FA) enabled for your Eclipse Foundation GitLab account, use your GitLab username and a GitLab access token (not your password).
+
 * Once you've finished work on your contribution, create a merge request for it:
 
 ** Navigate to `+https://gitlab.eclipse.org/<username>/escet/-/branches+`, with `<username>` replaced by your Eclipse Foundation account username.
