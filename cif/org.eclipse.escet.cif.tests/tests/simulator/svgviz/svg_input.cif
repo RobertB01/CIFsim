@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // NOTE: This test case tests code generation, but no svg input is actually
-// selected. Perform manual simulation using svg_input.tooldef to actual test
+// selected. Perform manual simulation using svg_input.tooldef to actually test
 // SVG input.
 
 svgfile "svg_input.svg";

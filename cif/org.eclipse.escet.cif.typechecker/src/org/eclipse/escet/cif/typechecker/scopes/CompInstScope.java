@@ -235,7 +235,7 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
             Expression arg = transExpression(astArg, argHint, parent, context, tchecker);
             args.add(arg);
 
-            // Check against formal parameter.
+            // Check against parameter.
             if (param instanceof AlgParameter) {
                 CifType paramType = ((AlgParameter)param).getVariable().getType();
                 CifType argType = arg.getType();
@@ -247,7 +247,7 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
                     // Non-fatal error.
                 }
             } else if (param instanceof EventParameter) {
-                // Make sure the actual parameter is an event.
+                // Make sure the argument is an event.
                 Expression unwrap = CifTypeUtils.unwrapExpression(arg);
                 if (!(unwrap instanceof EventExpression)) {
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_TYPE, arg.getPosition(), paramIdxTxt,

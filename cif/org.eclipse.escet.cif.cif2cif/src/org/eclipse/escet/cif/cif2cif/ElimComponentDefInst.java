@@ -782,7 +782,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // The argument leaf ('p1') is a component instantiation.
             ComponentInst argLeafInst = (ComponentInst)argLeafComp;
 
-            // Since we already processed the actual argument ('a.b.c.p1'), we know for sure that we are not
+            // Since we already processed the argument ('a.b.c.p1'), we know for sure that we are not
             // instantiating this component instantiation ('p1') yet.
             Assert.check(!instMap.containsKey(argLeafInst));
 
@@ -1122,7 +1122,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // The argument leaf ('p1') is a component instantiation.
             ComponentInst argLeafInst = (ComponentInst)argLeafComp;
 
-            // Since we already processed the actual argument ('a.b.c.p1'), we know for sure that we are not
+            // Since we already processed the argument ('a.b.c.p1'), we know for sure that we are not
             // instantiating this component instantiation ('p1') yet.
             Assert.check(!instMap.containsKey(argLeafInst));
 
@@ -1352,7 +1352,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
      * @return The argument, potentially update due to being processed, or {@code null}.
      */
     private Expression getArgument(ComponentParameter param) {
-        // Get actual argument, if any.
+        // Get argument, if any.
         Expression arg = compParamMap.get(param);
         if (arg == null) {
             return null;

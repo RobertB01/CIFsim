@@ -199,7 +199,7 @@ To debug the PLC code:
 
 ** The values of input and output variables can be seen by opening _Default tag table_ inside the _PLC tags_ folder.
 Click the _Monitor all_ icon.
-The actual values appears in the _Monitor value_ column.
+The actual values appear in the _Monitor value_ column.
 
 ** The values of state variables can be seen by opening _DB_ under _Program blocks_.
 Click the _Monitor all_ icon.
