@@ -651,4 +651,23 @@ public final class Strings {
     public static String replaceRegex(String input, String regex, String replacement) {
         return input.replaceAll(regex, replacement);
     }
+
+    /**
+     * Truncate the given string to the given maximum length. If the given string is smaller than the maximum length,
+     * nothing is changed. Otherwise, the trailing part of the input string that is too long is replaced by
+     * {@code "..."} such that the returned string is precisely of the maximum length.
+     *
+     * @param input The sting to truncate.
+     * @param maxLength The maximum length of the result.
+     * @return The truncated string.
+     */
+    public static String truncate(String input, int maxLength) {
+        Assert.check(maxLength >= 3);
+
+        if (input.length() <= maxLength) {
+            return input;
+        }
+        String head = slice(input, 0, maxLength - 3);
+        return head + "...";
+    }
 }
