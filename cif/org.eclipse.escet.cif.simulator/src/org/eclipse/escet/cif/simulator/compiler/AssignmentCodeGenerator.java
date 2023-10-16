@@ -27,6 +27,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Map;
@@ -300,7 +301,7 @@ public class AssignmentCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Execution of assignment \\\"%s := %s\\\" failed.\", e, %s);",
-                    escapeJava(exprToStr(addr)), escapeJava(exprToStr(value)), state);
+                    escapeJava(exprToStr(addr)), truncate(escapeJava(exprToStr(value)), 1000), state);
             c.dedent();
             c.add("}");
 

@@ -27,6 +27,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.str;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Map;
@@ -424,7 +425,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"when pre\\\" filter "
-                    + "\\\"%s\\\" failed.\", e, preState);", escapeJava(exprToStr(whenPre)));
+                    + "\\\"%s\\\" failed.\", e, preState);", truncate(escapeJava(exprToStr(whenPre)), 1000));
             c.dedent();
             c.add("}");
             c.add("if (!whenPre) return;");
@@ -444,7 +445,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"when post\\\" filter "
-                    + "\\\"%s\\\" failed.\", e, postState);", escapeJava(exprToStr(whenPost)));
+                    + "\\\"%s\\\" failed.\", e, postState);", truncate(escapeJava(exprToStr(whenPost)), 1000));
             c.dedent();
             c.add("}");
             c.add("if (!whenPost) return;");
@@ -474,7 +475,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"pre\\\" text \\\"%s\\\" "
-                    + "failed.\", e, preState);", escapeJava(exprToStr(txtPre)));
+                    + "failed.\", e, preState);", truncate(escapeJava(exprToStr(txtPre)), 1000));
             c.dedent();
             c.add("}");
 
@@ -510,7 +511,7 @@ public class PrintCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of print declaration \\\"post\\\" text \\\"%s\\\" "
-                    + "failed.\", e, postState);", escapeJava(exprToStr(txtPost)));
+                    + "failed.\", e, postState);", truncate(escapeJava(exprToStr(txtPost)), 1000));
             c.dedent();
             c.add("}");
 

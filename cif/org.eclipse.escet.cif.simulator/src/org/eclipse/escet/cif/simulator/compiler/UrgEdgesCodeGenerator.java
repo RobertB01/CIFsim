@@ -17,6 +17,7 @@ import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodePreds;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -131,7 +132,8 @@ public class UrgEdgesCodeGenerator {
                     c.add("} catch (CifSimulatorException e) {");
                     c.indent();
                     c.add("throw new CifSimulatorException(\"Evaluation of guard(s) \\\"%s\\\" of an urgent edge of "
-                            + "%s failed.\", e, state);", escapeJava(exprsToStr(edge.getGuards())), escapeJava(locTxt));
+                            + "%s failed.\", e, state);", truncate(escapeJava(exprsToStr(edge.getGuards())), 1000),
+                            escapeJava(locTxt));
                     c.dedent();
                     c.add("}");
 

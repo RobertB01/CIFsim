@@ -21,6 +21,7 @@ import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencode
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -308,7 +309,7 @@ public class EventCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
-                    escapeJava(invTxt), escapeJava(compTxt));
+                    truncate(escapeJava(invTxt), 1000), escapeJava(compTxt));
             c.dedent();
             c.add("}");
             c.add();
@@ -403,7 +404,7 @@ public class EventCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, "
-                        + "state);", escapeJava(invTxt), escapeJava(locTxt));
+                        + "state);", truncate(escapeJava(invTxt), 1000), escapeJava(locTxt));
                 c.dedent();
                 c.add("}");
 

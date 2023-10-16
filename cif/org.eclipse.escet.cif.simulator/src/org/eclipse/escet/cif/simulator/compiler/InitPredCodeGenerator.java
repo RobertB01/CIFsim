@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class InitPredCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of initialization predicate \\\"%s\\\" of %s "
-                    + "failed.\", e, state);", escapeJava(initTxt), escapeJava(compTxt));
+                    + "failed.\", e, state);", truncate(escapeJava(initTxt), 1000), escapeJava(compTxt));
             c.dedent();
             c.add("}");
         }

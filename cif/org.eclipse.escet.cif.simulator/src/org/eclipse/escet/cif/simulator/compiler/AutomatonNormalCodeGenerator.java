@@ -24,6 +24,7 @@ import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencode
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Locale;
@@ -660,12 +661,8 @@ public class AutomatonNormalCodeGenerator {
                 c.dedent();
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
-                // TODO In case the expression is split (because it was long), it was still printed in full here. That
-                // is also a problem.
-                // Can we identify the edge in a different way?
                 c.add("throw new CifSimulatorException(\"Evaluation of guard \\\"%s\\\" of an edge of %s failed.\", "
-                        + "e, state);", result.extraMethods().isEmpty() ? escapeJava(exprToStr(guard)) : "<too long>",
-                        escapeJava(locTxt));
+                        + "e, state);", truncate(escapeJava(exprToStr(guard)), 1000), escapeJava(locTxt));
 
                 c.dedent();
                 c.add("}");
@@ -704,7 +701,8 @@ public class AutomatonNormalCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of value \\\"%s\\\" to send of an edge of %s "
-                        + "failed.\", e, state);", escapeJava(exprToStr(sendValue)), escapeJava(locTxt));
+                        + "failed.\", e, state);", truncate(escapeJava(exprToStr(sendValue)), 1000),
+                        escapeJava(locTxt));
                 c.dedent();
                 c.add("}");
             }
@@ -839,7 +837,7 @@ public class AutomatonNormalCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of \\\"if\\\" update guard(s) \\\"%s\\\" failed.\", e, "
-                + "source);", escapeJava(exprsToStr(update.getGuards())));
+                + "source);", truncate(escapeJava(exprsToStr(update.getGuards())), 1000));
         c.dedent();
         c.add("}");
 
@@ -868,7 +866,7 @@ public class AutomatonNormalCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of \\\"elif\\\" update guard(s) \\\"%s\\\" failed.\", "
-                    + "e, source);", escapeJava(exprsToStr(elifUpd.getGuards())));
+                    + "e, source);", truncate(escapeJava(exprsToStr(elifUpd.getGuards())), 1000));
             c.dedent();
             c.add("}");
 

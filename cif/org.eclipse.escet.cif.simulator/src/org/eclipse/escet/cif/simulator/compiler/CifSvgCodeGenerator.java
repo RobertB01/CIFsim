@@ -26,6 +26,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Map;
@@ -463,7 +464,7 @@ public class CifSvgCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of SVG output mapping value \\\"%s\\\" failed.\", e, "
-                + "state);", escapeJava(exprToStr(value)));
+                + "state);", truncate(escapeJava(exprToStr(value)), 1000));
         c.dedent();
         c.add("}");
 
@@ -618,7 +619,7 @@ public class CifSvgCodeGenerator {
                         c.add("} catch (CifSimulatorException e) {");
                         c.indent();
                         c.add("throw new CifSimulatorException(\"Evaluation of guard value \\\"%s\\\" failed.\", e, "
-                                + "state);", escapeJava(exprToStr(entry.getGuard())));
+                                + "state);", truncate(escapeJava(exprToStr(entry.getGuard())), 1000));
                         c.dedent();
                         c.add("}");
 
