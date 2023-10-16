@@ -23,6 +23,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -248,8 +249,8 @@ public class StateInvPredCodeGenerator {
         ExprCodeGeneratorResult result = gencodeExpr(pred, ctxt, "state");
         c.add("if (!(%s)) {", result);
         c.indent();
-        c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");", escapeJava(predTxt),
-                escapeJava(parentText));
+        c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");",
+                escapeJava(truncate(predTxt, 1000)), escapeJava(parentText));
         c.add("return false;");
         c.dedent();
         c.add("}");
@@ -259,7 +260,7 @@ public class StateInvPredCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
-                escapeJava(predTxt), escapeJava(parentText));
+                escapeJava(truncate(predTxt, 1000)), escapeJava(parentText));
         c.dedent();
         c.add("}");
 

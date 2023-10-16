@@ -30,6 +30,7 @@ import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -380,7 +381,7 @@ public class FuncCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of \\\"if\\\" statement guard(s) \\\"%s\\\" failed.\", "
-                    + "e);", escapeJava(exprsToStr(istat.getGuards())));
+                    + "e);", escapeJava(truncate(exprsToStr(istat.getGuards()), 1000)));
             c.dedent();
             c.add("}");
 
@@ -409,7 +410,7 @@ public class FuncCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of \\\"elif\\\" statement guard(s) \\\"%s\\\" "
-                        + "failed.\", e);", escapeJava(exprsToStr(elif.getGuards())));
+                        + "failed.\", e);", escapeJava(truncate(exprsToStr(elif.getGuards()), 1000)));
                 c.dedent();
                 c.add("}");
 
@@ -456,7 +457,7 @@ public class FuncCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of return value \\\"%s\\\" failed.\", e);",
-                    escapeJava(exprToStr(retValue)));
+                    escapeJava(truncate(exprToStr(retValue), 1000)));
             c.dedent();
             c.add("}");
         } else if (statement instanceof WhileFuncStatement) {
@@ -480,7 +481,7 @@ public class FuncCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of \\\"while\\\" statement condition(s) \\\"%s\\\" "
-                    + "failed.\", e);", escapeJava(exprsToStr(wstat.getGuards())));
+                    + "failed.\", e);", escapeJava(truncate(exprsToStr(wstat.getGuards()), 1000)));
             c.dedent();
             c.add("}");
 

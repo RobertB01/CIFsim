@@ -27,6 +27,7 @@ import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencode
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -244,7 +245,8 @@ public class StateInitCodeGenerator {
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of initial value \\\"%s\\\" of discrete variable "
-                        + "\\\"%s\\\" failed.\", e);", escapeJava(exprToStr(initValue)), getAbsName(var));
+                        + "\\\"%s\\\" failed.\", e);", escapeJava(truncate(exprToStr(initValue), 1000)),
+                        getAbsName(var));
                 c.dedent();
                 c.add("}");
             }
@@ -390,7 +392,7 @@ public class StateInitCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of initial value \\\"%s\\\" of continuous variable "
-                    + "\\\"%s\\\" failed.\", e);", escapeJava(exprToStr(valueExpr)), getAbsName(var));
+                    + "\\\"%s\\\" failed.\", e);", escapeJava(truncate(exprToStr(valueExpr), 1000)), getAbsName(var));
             c.dedent();
             c.add("}");
             return result;
@@ -421,7 +423,8 @@ public class StateInitCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of initialization predicates \\\"%s\\\" of %s failed.\", "
-                + "e);", escapeJava(exprsToStr(initials)), escapeJava(CifTextUtils.getLocationText2(loc)));
+                + "e);", escapeJava(truncate(exprsToStr(initials), 1000)),
+                escapeJava(CifTextUtils.getLocationText2(loc)));
         c.dedent();
         c.add("}");
 
