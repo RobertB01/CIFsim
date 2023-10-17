@@ -28,6 +28,7 @@ Specific information is available for each of the target languages/platforms, on
 * <<tools-codegen-chapter-c89,C89>> (if there is no `C99` compiler)
 * <<tools-codegen-chapter-c99,C99>>
 * <<tools-codegen-chapter-java,Java>>
+* <<tools-codegen-chapter-javascript,JavaScript>>
 * <<tools-codegen-chapter-simulink,Simulink>>, with an example of <<tools-codegen-chapter-simulink-example,controlling a tank>>
 
 indexterm:[CIF code generator,start]
@@ -76,6 +77,9 @@ The following languages/platforms are supported:
 
 | <<tools-codegen-chapter-java,Java>>
 | `java`
+
+| <<tools-codegen-chapter-javascript,JavaScript>>
+| `javascript`
 
 | <<tools-codegen-chapter-simulink,Simulink>>
 | `simulink`
@@ -258,7 +262,7 @@ In other words, choosing an appropriate cycle time is essential for the correct 
 [[tools-codegen-accuracy-over-time]]
 ==== Accuracy over time
 
-The generated C89, C99 and Java code maintains the running time in seconds.
+The generated C89, C99, Java and JavaScript code maintains the running time in seconds.
 Due to the finite representation of numeric values, this results in numeric overflow after execution for a long time.
 Running the code continuously for longer than 100 years should be avoided.
 

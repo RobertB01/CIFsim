@@ -1,6 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <title>${prefix} | Eclipse ESCET</title>
-    <head></head>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>${prefix} | Eclipse ESCET</title>
+    </head>
     <body></body>
 </html>

@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.escet.cif.codegen.c89.C89CodeGen;
 import org.eclipse.escet.cif.codegen.c99.C99CodeGen;
 import org.eclipse.escet.cif.codegen.java.JavaCodeGen;
-import org.eclipse.escet.cif.codegen.javascript.JavascriptCodeGen;
+import org.eclipse.escet.cif.codegen.javascript.JavaScriptCodeGen;
 import org.eclipse.escet.cif.codegen.options.CodePrefixOption;
 import org.eclipse.escet.cif.codegen.options.JavaPackageOption;
 import org.eclipse.escet.cif.codegen.options.OutputDirOption;
@@ -96,6 +96,10 @@ public class CodeGenApp extends Application<IOutputComponent> {
                     new JavaCodeGen().generate(spec, path);
                     break;
 
+                case JAVASCRIPT:
+                    new JavaScriptCodeGen().generate(spec, path);
+                    break;
+
                 case C89:
                     new C89CodeGen().generate(spec, path);
                     break;
@@ -106,10 +110,6 @@ public class CodeGenApp extends Application<IOutputComponent> {
 
                 case SIMULINK:
                     new SimulinkCodeGen().generate(spec, path);
-                    break;
-
-                case JAVASCRIPT:
-                    new JavascriptCodeGen().generate(spec, path);
                     break;
 
                 default:
@@ -140,9 +140,10 @@ public class CodeGenApp extends Application<IOutputComponent> {
         List<OptionCategory> javaSubCats = list();
         OptionCategory javaCat = new OptionCategory("Java", "Java code generation options.", javaSubCats, javaOpts);
 
-        List<Option> javascriptOpts = list();
-        List<OptionCategory> javascriptSubCats = list();
-        OptionCategory javascriptCat = new OptionCategory("Javascript", "Javascript code generation options.", javascriptSubCats, javascriptOpts);
+        List<Option> javaScriptOpts = list();
+        List<OptionCategory> javaScriptSubCats = list();
+        OptionCategory javaScriptCat = new OptionCategory("JavaScript", "JavaScript code generation options.",
+                javaScriptSubCats, javaScriptOpts);
 
         List<Option> simulinkOpts = list();
         simulinkOpts.add(Options.getInstance(SimulinkOutputsOption.class));
@@ -157,7 +158,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
         genOpts.add(Options.getInstance(OutputDirOption.class));
         genOpts.add(Options.getInstance(TargetLanguageOption.class));
         genOpts.add(Options.getInstance(CodePrefixOption.class));
-        List<OptionCategory> genSubCats = list(simulinkCat, javaCat, javascriptCat);
+        List<OptionCategory> genSubCats = list(simulinkCat, javaCat, javaScriptCat);
         OptionCategory genCat = new OptionCategory("Generation", "Generation options.", genSubCats, genOpts);
 
         List<OptionCategory> cats = list(generalCat, genCat);

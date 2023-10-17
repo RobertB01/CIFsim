@@ -31,25 +31,27 @@ import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Sets;
 
-/** Javascript code generator. */
-public class JavascriptCodeGen extends CodeGen {
-    /** Javascript code indent amount, as number of spaces. */
+/** JavaScript code generator. */
+public class JavaScriptCodeGen extends CodeGen {
+    /** JavaScript code indent amount, as number of spaces. */
     private static final int INDENT = 4;
 
-    /** Constructor for the {@link JavascriptCodeGen} class. */
-    public JavascriptCodeGen() {
+    /** Constructor for the {@link JavaScriptCodeGen} class. */
+    public JavaScriptCodeGen() {
         super(TargetLanguage.JAVASCRIPT, INDENT);
     }
 
     @Override
     protected ExprCodeGen getExpressionCodeGenerator() {
+        // TODO To be implemented
         return null;
     }
 
     @Override
     protected TypeCodeGen getTypeCodeGenerator() {
-        return new JavascriptTypeCodeGen();
+        return new JavaScriptTypeCodeGen();
     }
 
     @Override
@@ -59,7 +61,8 @@ public class JavascriptCodeGen extends CodeGen {
 
     @Override
     protected Set<String> getReservedTargetNames() {
-        return new HashSet<>();
+        // TODO To be implemented
+        return Sets.set();
     }
 
     @Override
@@ -70,56 +73,88 @@ public class JavascriptCodeGen extends CodeGen {
     }
 
     @Override
-    protected void addConstants(CodeContext ctxt) { }
+    protected void addConstants(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addEvents(CodeContext ctxt) { }
+    protected void addEvents(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addStateVars(CodeContext ctxt) { }
+    protected void addStateVars(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addContVars(CodeContext ctxt) { }
+    protected void addContVars(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addAlgVars(CodeContext ctxt) { }
+    protected void addAlgVars(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addInputVars(CodeContext ctxt) { }
+    protected void addInputVars(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addFunctions(CodeContext ctxt) { }
+    protected void addFunctions(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addEnum(EnumDecl enumDecl, CodeContext ctxt) { }
+    protected void addEnum(EnumDecl enumDecl, CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addPrints(CodeContext ctxt) { }
+    protected void addPrints(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addEdges(CodeContext ctxt) { }
+    protected void addEdges(CodeContext ctxt) {
+        // TODO To be implemented
+    }
 
     @Override
     protected IfElseGenerator getIfElseUpdateGenerator() {
+        // TODO To be implemented
         return null;
     }
 
     @Override
     public void performSingleAssign(CodeBox code, SingleVariableAssignment asgn, Expression value, CodeContext readCtxt,
-            CodeContext writeCtxt) { }
+            CodeContext writeCtxt)
+    {
+        // TODO To be implemented
+    }
 
     @Override
     public void performAssign(CodeBox code, SingleVariableAssignment asgn, String rhsText, CodeContext readCtxt,
-            CodeContext writeCtxt) { }
+            CodeContext writeCtxt)
+    {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addUpdatesBeginScope(CodeBox code) { }
+    protected void addUpdatesBeginScope(CodeBox code) {
+        // TODO To be implemented
+    }
 
     @Override
-    protected void addUpdatesEndScope(CodeBox code) { }
+    protected void addUpdatesEndScope(CodeBox code) {
+        // TODO To be implemented
+    }
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
+        // TODO To be implemented
         return null;
     }
 }

@@ -18,26 +18,27 @@ import org.eclipse.escet.cif.codegen.TypeCodeGen;
 import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 
-/** Type code generator for the Javascript target language. */
-public class JavascriptTypeCodeGen extends TypeCodeGen {
+/** Type code generator for the JavaScript target language. */
+public class JavaScriptTypeCodeGen extends TypeCodeGen {
     @Override
     public TypeInfo typeToTarget(CifType type, CodeContext ctxt) {
         return buildTypeInfo(type, ctxt, false);
     }
 
     /**
-     * Build the Javascript target language type information object for a given CIF type.
+     * Build the JavaScript target language type information object for a given CIF type.
      *
      * <p>
      * This method is used internally, use {@link #typeToTarget} to convert a CIF type.
      * </p>
      *
-     * @param type CIF type to convert to the Java language.
+     * @param type CIF type to convert to the JavaScript language.
      * @param ctxt Code generation context.
      * @param generic Whether the context of the type requires a generic type rather than a primitive type.
      * @return The constructed type information object.
      */
     private TypeInfo buildTypeInfo(CifType type, CodeContext ctxt, boolean generic) {
+        // TODO To be implemented
         return null;
     }
 }

@@ -1,0 +1,313 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-codegen-chapter-javascript]]
+== JavaScript code generation
+
+indexterm:[CIF code generator,JavaScript]
+indexterm:[JavaScript,code generation]
+The <<tools-codegen-chapter-index>> can generate JavaScript code from a CIF specification.
+It is assumed the reader of this page is familiar with the general information of the CIF code generator tool.
+This page describes specific information applicable only to JavaScript code generation.
+
+=== Supported specifications
+
+The CIF code generator supports a subset of CIF specifications.
+Generation of JavaScript code does not impose additional restrictions.
+See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
+
+=== Options
+
+Besides the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>, the JavaScript code generation can be influenced by the following additional options:
+
+* There are currently no additional options for the JavaScript target.
+
+=== Compilation
+
+JavaScript does not require compilation, the generated code is complete, and can be used as is, without any CIF related library or runtime.
+No additional dependencies or libraries are required.
+Only the standard JavaScript functions, part of any browser, are needed.
+
+=== Generated files
+
+JavaScript code generation leads to a package of files being generated.
+
+- Complete: This package is currently under construction, and will contain separate html, css, js and svg files.
+- Simulator: This package is currently under construction, and will contain a single html file combining all resources, for purposes of demonstrations, sharing and feedback. 
+
+
+=== Executing the code
+
+The code can be executed in multiple ways:
+
+* `execOnce` method
++
+[source, javascript]
+----
+execOnce(newTime)
+----
++
+Invoke this method to execute the code once.
+Inputs are read, transitions are executed until none are possible, output is written, etc.
++
+The `newTime` is the time in seconds, since the start of the first execution of this method.
+For each invocation, the time that has elapsed so far should be provided.
+This becomes the new value of variable `time`.
++
+Using this method, you decide when you invoke this method, and with what values to use for variable `time`.
+This approach allows full control.
+
+* `exec` method
++
+[source, javascript]
+----
+exec(frequency)
+----
++
+Invoke this method to execute the code repeatedly, without ever stopping.
+This repeatedly invokes the `execOnce` method.
++
+The `frequency` can be used to configure how often, in number of times per second, the code should be executed.
+By given a frequency of `100`, the method attempts to execute the code every 10 milliseconds.
+If a single execution takes less than 10 milliseconds, the method will sleep for the remainder of what is left of the 10 milliseconds.
+However, if a single execution takes more than 10 milliseconds, the next execution is immediately started.
++
+It is also possible to execute the code repeatedly, as fast as possible, without any delays.
+As soon as a single execution has finished, another execution is started.
+This kind of behavior can be obtained by providing a negative or zero value for `frequency`.
+
+=== Environment interface
+
+The code generated for the CIF model does not do anything useful by itself.
+Only once it is coupled to the environment, can the CIF model become useful.
+The following methods are provided in the interface of the generated class as abstract methods, and need to be implemented in a derived class:
+
+* `updateInputs` method
++
+[source, javascript]
+----
+updateInputs()
+----
++
+In this method, you should update the values of the input variables of the CIF model.
+Note that you should obtain these from the environment.
+You should not access the state of the CIF model from this method, as it may not be initialized or up-to-date yet.
++
+If you want to update the variable, you should always assign completely new fresh values.
+Don't modify arrays and tuples in-place, as that may lead to other variables being changed as well.
+
+* `preExec` method
++
+[source, javascript]
+----
+preExec()
+----
++
+This method is invoked each time, just before the code for the CIF model is executed.
+This method is invoked before the `updateInputs` method is invoked.
++
+You should not access the state of the CIF model from this method, as it may not be initialized or up-to-date yet.
+
+* `postExec` method
++
+[source, javascript]
+----
+postExec()
+----
++
+This method is invoked each time, just after the code for the CIF model is executed.
+In this method, you should write the output variables of the CIF model to the environment.
+Since the code for the CIF model was just executed, these variables may have new values.
++
+All discrete and continuous variables of the CIF model are available, as are variable `time` and the current locations of all of the automata with at least two location.
++
+The code to write the output values to the environment is the dual to reading the inputs from the environment, as is done in the `updateInputs` method.
+
+* `infoExec` method
++
+[source, javascript]
+----
+infoExec(duration, cycleTime)
+----
++
+This method informs about the duration of a single execution of the code generated for the CIF model.
+The `duration` is the total number of nanoseconds spent executing the code.
+The `cycleTime` is the desired maximum duration of the execution, in nanoseconds, or `-1` if not available.
++
+You can use this method to detect when the code runs longer than the desired maximum duration, and thus the desired execution frequency can not be achieved.
+You can also use this method to figure out the variability of the duration of execution.
++
+The `doInfoExec` field of the class can be used to configure whether this method is invoked during execution by the `exec` method.
+This is enabled (`true`) by default.
+
+* `infoEvent` method
++
+[source, javascript]
+----
+infoEvent(idx, pre)
+----
++
+This method informs about events that are about to be executed or have just been executed.
+The `idx` is the 0-based index of the event.
+You can feed this index to the `getEventName` method to obtain the absolute name of the event.
+The `pre` is `true` if the event is about to be executed, and `false` if the event has just been executed.
++
+You can use this method to be informed about what the code does during execution.
+You could for instance log that for debugging.
++
+The `doInfoEvent` field of the class can be used to configure whether this method is invoked during execution.
+This is disabled (`false`) by default.
+
+* `infoPrintOutput` method
++
+[source, javascript]
+----
+infoPrintOutput(text, target)
+----
++
+This method informs that new print output has been generated during execution.
+The `text` is the text that is to be printed.
+The `target` indicates the file or special target to which text is to be printed.
+If printed to a file, an absolute or relative local file system path is given.
+Paths may contain both `/` and `\` as file separators.
+Supply the path to the `<prefix>Utils.normalizePrintTarget` method to normalize the path to use file separators for the current platform on which the JavaScript code is executed.
++
+There are two special targets: `:stdout` to print to the standard output stream, and `:stderr` to print to the standard error stream.
++
+The `doInfoPrintOutput` field of the class can be used to configure whether this method is invoked during execution.
+This is enabled (`true`) by default.
+
+=== Data access and manipulation
+
+For each CIF constant, a field is generated in the JavaScript class.
+Similar fields are generated for the state variables (discrete and continuous variables), and the input variables.
+A `time` field is always present and contains the current model time.
+
+For each internal user-defined function of the CIF model, a method is generated in the JavaScript class.
+Similarly, a method is generated for each algebraic variable of the CIF model, as well as for the derivative of each continuous variable (except variable `time`).
+
+The standard library functions and operators that are supported by the code generation, are also available, in the `<prefix>Utils` inner class.
+Not all operators and standard library functions are available.
+Only those that have no corresponding JavaScript operator or method, or behave differently with respect to runtime errors, are available in this inner class.
+
+For more information on the names of the generated field and methods, see the section on <<tools-codegen-javascript-naming,naming>> below.
+
+[[tools-codegen-javascript-datatypes]]
+=== Data types
+
+JavaScript is a weakly typed language, so CIF data types are not directly applicable. This part of the documentation is under construction and will be added to during development.
+
+Notes:
+
+* Due to <<tools-codegen-preprocessing,preprocessing>> all enumerations are merged together into a single enumeration.
+As such, always at most one JavaScript `enum` is generated for a CIF model.
+
+=== Runtime errors
+
+Some CIF models that are syntactically valid, may lead to runtime errors when simulated or executed.
+For instance, there may be a division by zero, an out of bounds projection, or an assignment may lead to the range of the assigned variable being violated.
+The generated JavaScript code detects all such problems and throws a `<prefix>Exception` in such cases.
+This exception class is an inner class of the `<prefix>` class.
+The exception indicates what caused the runtime error, using an informative end-user readable message.
+
+[[tools-codegen-javascript-naming]]
+=== Naming
+
+The generated code will contain names for variables, functions, etc.
+The names in the generated code are based on the absolute names of the objects in the original CIF model.
+The names are further influenced by the <<tools-cif2cif-chapter-linearize-merge,linearization>> algorithm.
+Essentially, the absolute names are used, where each `.` is replaced by a `+_+`.
+Furthermore, a `+_+` is added at the end, to avoid conflicts with other non-generated names, JavaScript keywords, etc.
+For instance, for an automaton `a` with a discrete variable `b` in it, the absolute name is `a.b`.
+In the JavaScript code, the variable will be named `+a_b_+`.
+
+The code generator ensures unique names in the generated JavaScript code.
+If the same JavaScript name results from two different CIF objects, one of them is renamed, by adding a `2`, or `3`, or `4`, etc to make it unique.
+For instance, if the CIF model has a constant named `a_b` in the top level scope, and a constant named `b` in the `a` automaton, both would be named `+a_b_+`.
+One of them is renamed to `a_b_2`.
+If such renaming takes place, a warning is printed to the console.
+
+[cols="2,1,1,1",options="header"]
+|===
+| CIF model
+| JavaScript code
+| Example CIF name
+| Example JavaScript name
+
+| Constant
+| Field
+| `a.b`
+| `+a_b_+`
+
+| Discrete variable
+| Field
+| `a.b`
+| `+a_b_+`
+
+| Continuous variable
+| Field
+| `a.b`
+| `+a_b_+`
+
+| Derivative of a continuous variable
+| Method
+| `a.b'`
+| `a_b_deriv()`
+
+| Algebraic variable
+| Method
+| `a.b`
+| `a_b_()`
+
+| Input variable
+| Field
+| `a.b`
+| `+a_b_+`
+
+| User-defined function
+| Method
+| `a.b`
+| `a_b_()`
+
+| Parameter of a user-defined function
+| Method parameter
+| `a.b`
+| `+a_b_+`
+
+| Local variable of an internal user-defined function
+| Local variable of a method
+| `a.b`
+| `+a_b_+`
+
+| Enumeration
+| Enumeration
+| `a.b`
+| `<prefix>Enum`
+
+| Enumeration literal
+| Enumeration constant
+| `a.b.c`
+| `<prefix>Enum._c`
+
+| Tuple type
+| Inner class
+| n/a
+| `+CifTuple_T...+`
+|===
+
+Notes:
+
+* As linearization is applied on the CIF model prior to generating JavaScript code, all enumerations are merged together to a single enumeration.
+As such, always exactly one JavaScript `enum` is generated for a CIF model.

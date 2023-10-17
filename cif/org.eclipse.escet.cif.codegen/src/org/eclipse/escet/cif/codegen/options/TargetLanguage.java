@@ -18,6 +18,9 @@ public enum TargetLanguage {
     /** Java. */
     JAVA("Java"),
 
+    /** JavaScript. */
+    JAVASCRIPT("JavaScript"),
+
     /** C89. */
     C89("C89"),
 
@@ -25,10 +28,7 @@ public enum TargetLanguage {
     C99("C99"),
 
     /** Simulink. */
-    SIMULINK("Simulink"),
-
-    /** Javascript. */
-    JAVASCRIPT("Javascript");
+    SIMULINK("Simulink");
 
     /** The name of the target language. End-user readable. */
     public final String readableName;
