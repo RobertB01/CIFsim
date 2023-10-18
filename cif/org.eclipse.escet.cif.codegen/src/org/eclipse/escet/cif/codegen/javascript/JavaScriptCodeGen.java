@@ -68,7 +68,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
-        templates.put("main.txt", ".html");
+        templates.put("index.txt", ".html");
         return templates;
     }
 
