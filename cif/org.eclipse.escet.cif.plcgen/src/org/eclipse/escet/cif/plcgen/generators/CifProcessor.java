@@ -87,7 +87,7 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
-import org.eclipse.escet.cif.plcgen.generators.prechecks.CheckContvarUses;
+import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
@@ -670,7 +670,7 @@ public class CifProcessor {
                             NoSpecificStdLib.STD_LIB_SIZE),
 
                     // Limit use of continuous variables.
-                    new CheckContvarUses()
+                    new VarContOnlyTimers()
             //
             );
         }
