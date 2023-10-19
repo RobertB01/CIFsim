@@ -89,7 +89,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** Continuous variables in the specification with an instance to generate code for each variable. */
+    /** Continuous variables in the specification with its code generator. */
     private final Map<ContVariable, PlcTimerCodeGenerator> timers = map();
 
     /**
@@ -122,9 +122,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
         // Generate the code.
         List<PlcStatement> updateContVarsRemainingTime = timers.values().stream()
-                .map(timer -> timer.generateRemaingUpdate())
-                // Flatten list of lists statements to a list of statements.
-                .collect(() -> list(), (lst, updStats) -> lst.addAll(updStats), (lst1, lst2) -> lst1.addAll(lst2));
+                .flatMap(timer -> timer.generateRemaingUpdate().stream()).toList();
 
         // Store the generated code in code storage.
         PlcCodeStorage codeStorage = target.getCodeStorage();
@@ -151,7 +149,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         /** Continuous variable being handled here. */
         public final ContVariable contVar;
 
-        /** Continuous variable in the state. */
+        /** The PLC state variable for the continuous variable. */
         public final PlcVarExpression plcContVar;
 
         /** Parameter description of the TON function block. */
@@ -176,7 +174,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             this.contVar = contVar;
             this.plcContVar = plcContVar;
 
-            // Construct the variables needed for the timer. Relate all variable to the continuous variable.
+            // Construct the variables needed for the timer. Relate all variables to the continuous variable.
             NameGenerator nameGen = target.getNameGenerator();
             String cvarName = getAbsName(contVar, false);
             String plcContvarName = nameGen.generateGlobalName(cvarName, false);

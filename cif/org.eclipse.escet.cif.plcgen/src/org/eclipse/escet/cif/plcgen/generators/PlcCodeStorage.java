@@ -279,7 +279,7 @@ public class PlcCodeStorage {
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
 
-        // The {@code firstRun} flag is needed in state initialization, but creation has been moved to here before
+        // The "firstRun" boolean is needed in state initialization, but creation has been moved to here before
         // pushing the variable tables to the output.
         PlcVariable firstRun = null;
         if (stateInitializationCode != null) {
@@ -319,7 +319,7 @@ public class PlcCodeStorage {
         // Add initialization code if it exists.
         if (stateInitializationCode != null) {
             String headerText = (updateContVarsRemainingTime == null) ? "Initialize state."
-                    : "Initialize state or update continuous vars.";
+                    : "Initialize state or update continuous variables.";
             generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 

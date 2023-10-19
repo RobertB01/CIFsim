@@ -669,7 +669,8 @@ public class CifProcessor {
                             NoSpecificStdLib.STD_LIB_SIGN, //
                             NoSpecificStdLib.STD_LIB_SIZE),
 
-                    new CheckContvarUses() // Limit use of continuous variables.
+                    // Limit use of continuous variables.
+                    new CheckContvarUses()
             //
             );
         }

@@ -75,10 +75,10 @@ public class CheckContvarUses extends CifCheck {
                     return;
                 }
                 // Continuous variable being read at the right side.
-                violations.add(cvExpr, "Reading continious variable outside an compare expression");
+                violations.add(cvExpr, "Reading continuous variable outside an compare expression");
             }
         }
-        violations.add(cvExpr, "Not comparing or assigning a single continuous variable");
+        violations.add(cvExpr, "Continuous variable is not compared or assigned in a single-variable assignment");
     }
 
     /**
@@ -106,7 +106,7 @@ public class CheckContvarUses extends CifCheck {
             goodValue = false;
         }
         if (!goodValue) {
-            violations.add(derivative, "Derivative value is not -1");
+            violations.add(derivative, "Continuous variable has a derivative that is not -1");
         }
     }
 
