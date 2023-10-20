@@ -879,8 +879,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             lhsResult.releaseValueVariables();
 
             // For continuous variable assignment, also update its timer block.
-            if (lhs instanceof ContVariable cv) {
-                statements.addAll(target.getContinuousVariablesGenerator().getPlcTimerCodeGen(cv)
+            if (lhs instanceof ContVariableExpression cve) {
+                statements.addAll(target.getContinuousVariablesGenerator().getPlcTimerCodeGen(cve.getVariable())
                         .generateAssignPreset());
             }
             return;

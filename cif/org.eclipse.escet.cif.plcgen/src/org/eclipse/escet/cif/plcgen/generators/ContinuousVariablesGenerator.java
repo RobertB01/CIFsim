@@ -52,7 +52,7 @@ public interface ContinuousVariablesGenerator {
          * @return The code to update the variable of the remaining time for the timer, and a set of temporary variables
          *     to return to the main program expression generator after the code has been (logically) executed.
          */
-        public List<PlcStatement> generateRemaingUpdate();
+        public List<PlcStatement> generateRemainingUpdate();
 
         /**
          * Copy the new value of the continuous variable in the state to the timer.

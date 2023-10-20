@@ -79,7 +79,7 @@ public class PlcCodeStorage {
      * If not {@code null}, code to update the remaining time of the continuous variables just before the non-first time
      * of the event transitions.
      */
-    private List<PlcStatement> updateContVarsRemainingTime = null;
+    private List<PlcStatement> updateContVarsRemainingTimeCode = null;
 
     /** If not {@code null}, code to perform one iteration of all events. */
     private List<PlcStatement> eventTransitionsIterationCode = null;
@@ -221,12 +221,14 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Update the remaining time of the continuous variables before the event transitions in the PLC cycle.
+     * Store code that updates the remaining time of the continuous variables before the event transitions in the PLC
+     * cycle.
      *
-     * @param updateContVarsRemainingTime Statements to execute for updating remaining time of the continuous variables.
+     * @param updateContVarsRemainingTimeCode Statements to execute for updating remaining time of the continuous
+     *     variables.
      */
-    public void setContvarRemnainingUpdate(List<PlcStatement> updateContVarsRemainingTime) {
-        this.updateContVarsRemainingTime = updateContVarsRemainingTime;
+    public void storeUpdateContvarsRemainingTimeCode(List<PlcStatement> updateContVarsRemainingTimeCode) {
+        this.updateContVarsRemainingTimeCode = updateContVarsRemainingTimeCode;
     }
 
     /**
@@ -274,7 +276,7 @@ public class PlcCodeStorage {
         // Continuous variables are state so they are also initialized. Therefore needing to update the
         // remaining time of continuous variables means there is also state initialization code. That is, having
         // continuous variables is a subset within having state.
-        Assert.implies(updateContVarsRemainingTime != null, stateInitializationCode != null);
+        Assert.implies(updateContVarsRemainingTimeCode != null, stateInitializationCode != null);
 
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
@@ -318,7 +320,7 @@ public class PlcCodeStorage {
 
         // Add initialization code if it exists.
         if (stateInitializationCode != null) {
-            String headerText = (updateContVarsRemainingTime == null) ? "Initialize state."
+            String headerText = (updateContVarsRemainingTimeCode == null) ? "Initialize state."
                     : "Initialize state or update continuous variables.";
             generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
@@ -332,10 +334,10 @@ public class PlcCodeStorage {
             box.add();
             textGenerator.toText(stateInitializationCode, box, main.name, false);
             box.dedent();
-            if (updateContVarsRemainingTime != null) {
+            if (updateContVarsRemainingTimeCode != null) {
                 box.add("ELSE");
                 box.indent();
-                textGenerator.toText(updateContVarsRemainingTime, box, main.name, false);
+                textGenerator.toText(updateContVarsRemainingTimeCode, box, main.name, false);
                 box.dedent();
             }
             box.add("END_IF;");

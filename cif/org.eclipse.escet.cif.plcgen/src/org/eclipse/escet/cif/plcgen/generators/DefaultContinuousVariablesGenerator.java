@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 
@@ -122,12 +121,12 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
         // Generate the code.
         List<PlcStatement> updateContVarsRemainingTime = timers.values().stream()
-                .flatMap(timer -> timer.generateRemaingUpdate().stream()).toList();
+                .flatMap(timer -> timer.generateRemainingUpdate().stream()).toList();
 
         // Store the generated code in code storage.
         PlcCodeStorage codeStorage = target.getCodeStorage();
         if (!updateContVarsRemainingTime.isEmpty()) {
-            codeStorage.setContvarRemnainingUpdate(updateContVarsRemainingTime);
+            codeStorage.storeUpdateContvarsRemainingTimeCode(updateContVarsRemainingTime);
         }
     }
 
@@ -162,7 +161,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         private final PlcVariable presetVar;
 
         /**
-         * Constructor of the {@link DefaultContinuousVariablesGenerator.PlcTimerGen} class.
+         * Constructor of the {@link PlcTimerGen} class.
          *
          * @param target PLC target to generate code for.
          * @param contVar Continuous variable being handled here.
@@ -177,13 +176,11 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Construct the variables needed for the timer. Relate all variables to the continuous variable.
             NameGenerator nameGen = target.getNameGenerator();
             String cvarName = getAbsName(contVar, false);
-            String plcContvarName = nameGen.generateGlobalName(cvarName, false);
-
-            String name = "ton__" + plcContvarName;
-            tonFuncBlock = PlcFunctionBlockDescription.makeTonBlock(name); // S7 has IEC_TIMER
+            String name = nameGen.generateGlobalName("ton_" + cvarName, false);
+            tonFuncBlock = PlcFunctionBlockDescription.makeTonBlock(name);
             timerVar = new PlcVariable(name, tonFuncBlock.funcBlockType);
 
-            name = "preset__" + plcContvarName;
+            name = nameGen.generateGlobalName("preset_" + cvarName, false);
             presetVar = new PlcVariable(name, PlcElementaryType.TIME_TYPE);
         }
 
@@ -195,7 +192,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         }
 
         @Override
-        public List<PlcStatement> generateRemaingUpdate() {
+        public List<PlcStatement> generateRemainingUpdate() {
             ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
             PlcVariable v = exprGen.getTempVariable("curValue", target.getRealType());
             PlcVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);

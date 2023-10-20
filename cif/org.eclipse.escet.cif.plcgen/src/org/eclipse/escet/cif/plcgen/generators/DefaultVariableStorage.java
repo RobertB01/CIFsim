@@ -78,12 +78,11 @@ public class DefaultVariableStorage implements VariableStorage {
         // Construct a converter for CIF expressions.
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
-        // Order the discrete variables on their dependencies for initialization.
-        // TODO Add continuous variables here as well.
+        // Order the discrete and continuous variables on their dependencies for initialization.
         // TODO Find out what to do with algebraic variables here (they are not state, this orderer will choke on them).
         StateInitVarOrderer varOrderer = new StateInitVarOrderer();
         for (Declaration decl: variables.keySet()) {
-            if (decl instanceof DiscVariable) {
+            if (decl instanceof DiscVariable || decl instanceof ContVariable) {
                 varOrderer.addObject(decl);
             }
         }
@@ -96,6 +95,8 @@ public class DefaultVariableStorage implements VariableStorage {
             ExprValueResult exprResult;
             if (decl instanceof DiscVariable discVar) {
                 exprResult = exprGen.convertValue(first(discVar.getValue().getValues()));
+            } else if (decl instanceof ContVariable contVar) {
+                exprResult = exprGen.convertValue(contVar.getValue());
             } else {
                 throw new AssertionError("Unexpected kind of variable " + decl);
             }
