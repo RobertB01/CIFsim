@@ -13,12 +13,9 @@
 
 package org.eclipse.escet.cif.plcgen.generators.prechecks;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
-import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -37,7 +34,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * <ul>
  * <li>The derivative of the continuous variable is defined with its declaration, not using equations.</li>
  * <li>The derivative of the continuous variable is {@code -1}, and this can be statically determined.</li>
- * <li>The derivative of the continuous variable may not be assigned a new value.</li>
  * <li>The initial value of the continuous variable (if specified) is non-negative, and this can be statically
  * determined.</li>
  * <li>The value of the continuous variable is only used by comparing it against a non-negative value, and this can be
@@ -65,24 +61,10 @@ public class VarContOnlyTimers extends CifCheck {
 
     @Override
     protected void preprocessContVariableExpression(ContVariableExpression cvExpr, CifCheckViolations violations) {
-        EObject exprParent = cvExpr.eContainer();
-
-        // Derivative can be read but not written.
-        if (cvExpr.isDerivative()) {
-            // Don't have a derivative as the addressable of an update.
-            while (exprParent instanceof Expression) {
-                exprParent = cvExpr.eContainer();
-            }
-            if (exprParent instanceof Assignment asg) {
-                List<Expression> assigneds = CifAddressableUtils.getRefExprs(asg.getAddressable());
-                if (assigneds.contains(cvExpr)) {
-                    violations.add(cvExpr, "Continuous variable derivative can only be read.");
-                }
-            }
-            return;
-        }
+        // Derivative can only be changed through equations, and those are not allowed.
 
         // Check use of the value of the continuous variable.
+        EObject exprParent = cvExpr.eContainer();
         if (exprParent instanceof Assignment asg) {
             // Handle simple assignment to the continuous variable.
             // TODO Allow multi-assignments like (cv1, cv2) := (1, 2);
@@ -98,15 +80,15 @@ public class VarContOnlyTimers extends CifCheck {
             Expression valueExpr;
             if (varAtLeft) {
                 // Allow only var >= N.
-                if (binExpr.getOperator() != BinaryOperator.GREATER_EQUAL) {
-                    violations.add(binExpr, "Continuous variable mmay only be compared with '>='");
+                if (binExpr.getOperator() != BinaryOperator.LESS_EQUAL) {
+                    violations.add(binExpr, "Continuous variable mmay only be compared with '<='");
                     return;
                 }
                 valueExpr = binExpr.getRight();
             } else {
                 // Allow only N <= var.
-                if (binExpr.getOperator() != BinaryOperator.LESS_EQUAL) {
-                    violations.add(binExpr, "Continuous variable may only be compared with '<='");
+                if (binExpr.getOperator() != BinaryOperator.GREATER_EQUAL) {
+                    violations.add(binExpr, "Continuous variable may only be compared with '>='");
                     return;
                 }
                 valueExpr = binExpr.getLeft();
@@ -115,7 +97,7 @@ public class VarContOnlyTimers extends CifCheck {
             return;
         }
         violations.add(cvExpr,
-                "Continuous variable value may only be compared or assigned in a single-variable " + "assignment");
+                "Continuous variable value can only be compared, or get assigned in a single-variable assignment");
     }
 
     /**
@@ -155,7 +137,7 @@ public class VarContOnlyTimers extends CifCheck {
         {
             return;
         }
-        violations.add(value, "Value must be at least 0");
+        violations.add(value, "Continuous variable value must be at least 0");
     }
 
     /**
