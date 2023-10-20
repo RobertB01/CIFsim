@@ -1,0 +1,60 @@
+ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------------
+  (1/5) Continuous variable mmay only be compared with '<='.
+  ----------------------------------------------------------
+   * In location "X.a":
+     - edge when c >= 0;
+                   ^
+     - edge when c > 0;
+                   ^
+     - edge when c < 0;
+                   ^
+     - edge when c != 0.0;
+                   ^
+     - edge when c = 0.0 do c := 3.0;
+                   ^
+     - edge when max(c + 5.0, 17.4) <= 28;
+                       ^
+
+  ---------------------------------------------------------------------------
+  (2/5) Continuous variable must have a derivative that is either -1 or -1.0.
+  ---------------------------------------------------------------------------
+   * In continuous variable "X.c":
+     - cont c = 3.0 der 0.0;
+                        ^
+
+  ------------------------------------------------------------------------------------------------------
+  (3/5) Continuous variable value can only be compared, or get assigned in a single-variable assignment.
+  ------------------------------------------------------------------------------------------------------
+   * In location "X.a":
+     - edge when abs(c) > 0;
+                     ^
+
+  ---------------------------------------------------
+  (4/5) Continuous variable value must be at least 0.
+  ---------------------------------------------------
+   * In continuous variable "X.e":
+     - cont e = -1.0 der -1.0;
+                ^
+
+  ---------------------------------------
+  (5/5) Edge has an implicit 'tau' event.
+  ---------------------------------------
+   * In location "X.a":
+     - edge when c >= 0;
+       ^
+     - edge when c > 0;
+       ^
+     - edge when c < 0;
+       ^
+     - edge when c <= 0;
+       ^
+     - edge when c != 0.0;
+       ^
+     - edge when c = 0.0 do c := 3.0;
+       ^
+     - edge when max(c + 5.0, 17.4) <= 28;
+       ^
+     - edge when abs(c) > 0;
+       ^

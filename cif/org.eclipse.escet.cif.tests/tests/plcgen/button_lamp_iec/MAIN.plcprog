@@ -36,11 +36,12 @@ END_VAR
 (* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 
-(* --- Initialize state or update continuous vars. ------------------------- *)
+(* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    timer_t := 0.0;
     timer := timer_Idle;
     sup := sup_s1;
     hw_button := hw_button_Released;
@@ -48,8 +49,8 @@ IF firstRun THEN
     hw_lamp := hw_lamp_Off;
 ELSE
     (* Update remaining time of "timer_t". *)
-    ton__timer_t__1(PT := preset__timer_t__1, IN := TRUE, Q => timeOut, ET => curValue);
-    timer_t := SEL(G := timeOut, IN0 := preset__timer_t__1 - curValue, IN1 := 0.0);
+    ton_timer_t(PT := preset_timer_t, IN := TRUE, Q => timeOut, ET => curValue);
+    timer_t := SEL(G := timeOut, IN0 := preset_timer_t - curValue, IN1 := 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
@@ -81,9 +82,9 @@ WHILE isProgress DO
         IF syncAutEdge = 1 THEN
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
-            preset__timer_t__1 := timer_t;
-            ton__timer_t__1(PT := preset__timer_t__1, IN := FALSE);
-            ton__timer_t__1(PT := preset__timer_t__1, IN := TRUE);
+            preset_timer_t := timer_t;
+            ton_timer_t(PT := preset_timer_t, IN := FALSE);
+            ton_timer_t(PT := preset_timer_t, IN := TRUE);
             timer := timer_Running;
         END_IF;
         IF syncAutEdge__1 = 1 THEN

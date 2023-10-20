@@ -187,7 +187,7 @@
         </interface>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state or update continuous vars. ------------------------- *)
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
@@ -210,11 +210,12 @@ IF firstRun THEN
     p_tv := litStruct__2;
     p_j := 0;
     p_r := 1000000.0;
+    p_t := 0.0;
     p := p_l1;
 ELSE
     (* Update remaining time of "p_t". *)
-    ton__p_t__1(PT := preset__p_t__1, IN := TRUE, Q =&gt; timeOut, ET =&gt; curValue);
-    p_t := SEL(G := timeOut, IN0 := preset__p_t__1 - curValue, IN1 := 0.0);
+    ton_p_t(PT := preset_p_t, IN := TRUE, Q =&gt; timeOut, ET =&gt; curValue);
+    p_t := SEL(G := timeOut, IN0 := preset_p_t - curValue, IN1 := 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
@@ -391,12 +392,12 @@ END_WHILE;</xhtml>
             </variable>
           </globalVars>
           <globalVars constant="false" name="TIMERS">
-            <variable name="ton__p_t__1">
+            <variable name="ton_p_t">
               <type>
                 <derived name="TON"/>
               </type>
             </variable>
-            <variable name="preset__p_t__1">
+            <variable name="preset_p_t">
               <type>
                 <TIME/>
               </type>

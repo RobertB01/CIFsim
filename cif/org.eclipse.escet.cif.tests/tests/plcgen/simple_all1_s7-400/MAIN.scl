@@ -21,7 +21,7 @@ ORGANIZATION_BLOCK MAIN
     END_VAR
 
 BEGIN
-    (* --- Initialize state or update continuous vars. ------------------------- *)
+    (* --- Initialize state or update continuous variables. -------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
 
@@ -44,11 +44,12 @@ BEGIN
         p_tv := litStruct__2;
         p_j := 0;
         p_r := 1000000.0;
+        p_t := 0.0;
         p := someConstantvariable;
     ELSE
         (* Update remaining time of "p_t". *)
-        ton__p_t__1(PT := preset__p_t__1, IN := TRUE, Q => timeOut, ET => curValue);
-        p_t := SEL(G := timeOut, IN0 := preset__p_t__1 - curValue, IN1 := 0.0);
+        ton_p_t(PT := preset_p_t, IN := TRUE, Q => timeOut, ET => curValue);
+        p_t := SEL(G := timeOut, IN0 := preset_p_t - curValue, IN1 := 0.0);
     END_IF;
 
     (* --- Process all events. ------------------------------------------------- *)

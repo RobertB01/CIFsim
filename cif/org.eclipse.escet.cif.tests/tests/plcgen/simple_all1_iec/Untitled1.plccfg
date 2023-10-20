@@ -15,8 +15,8 @@ CONFIGURATION Untitled1
         p: p_location;
     END_VAR
     VAR_GLOBAL // TIMERS
-        ton__p_t__1: TON;
-        preset__p_t__1: TIME;
+        ton_p_t: TON;
+        preset_p_t: TIME;
         firstRun: BOOL := TRUE;
     END_VAR
     TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);

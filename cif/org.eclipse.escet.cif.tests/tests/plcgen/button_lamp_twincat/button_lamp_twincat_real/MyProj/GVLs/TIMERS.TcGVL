@@ -2,8 +2,8 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <GVL Name="TIMERS">
     <Declaration><![CDATA[VAR_GLOBAL // TIMERS
-    ton__timer_t__1: TON;
-    preset__timer_t__1: TIME;
+    ton_timer_t: TON;
+    preset_timer_t: TIME;
     firstRun: BOOL := TRUE;
 END_VAR]]></Declaration>
     <ObjectProperties/>

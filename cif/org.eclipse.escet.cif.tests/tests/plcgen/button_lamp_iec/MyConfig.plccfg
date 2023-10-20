@@ -15,8 +15,8 @@ CONFIGURATION MyConfig
         hw_lamp: hw_lamp_location;
     END_VAR
     VAR_GLOBAL // TIMERS
-        ton__timer_t__1: TON;
-        preset__timer_t__1: TIME;
+        ton_timer_t: TON;
+        preset_timer_t: TIME;
         firstRun: BOOL := TRUE;
     END_VAR
     TASK MyTask(INTERVAL := t#7ms, PRIORITY := 123);

@@ -1,0 +1,16 @@
+automaton X:
+  cont c = 3 der 0;
+  cont d der -1;
+  cont e = -1 der -1.0;
+
+  location a:
+    initial;
+    edge when c >= 0;
+    edge when c > 0;
+    edge when c < 0;
+    edge when c <= 0;
+    edge when c != 0;
+    edge when c = 0 do c := 3;
+    edge when max(c + 5, 17.4) <= 28;
+    edge when abs(c) > 0;
+end
