@@ -105,6 +105,7 @@ int failures = 0;
 int skipped = 0;
 
 // Find tests.
+//list string tests = ["prechecker_test.cif"];
 list string tests = find(test_path, test_pattern);
 for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
 for i in reverse(range(tests)):
