@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -23,20 +23,11 @@ Their design may change in a backward incompatible manner.
 
 <<lang-tut-extensions-chapter-annotations,Annotations>> can be added to elements of a CIF specification, to annotate them with extra structured information.
 Tools that take CIF specifications as input can process the annotations that are attached to elements of the specification, and use the supplied information.
+Different tools may support different annotations.
+For the tools in the CIF toolset, the <<tools-chapter-index,tool documentation>> indicates for each tool which annotations it supports and how it uses them.
 
 For basic information on annotations, see the <<lang-tut-extensions-chapter-annotations,language tutorial>>.
-
-=== Built-in annotations
-
-The following built-in annotations are bundled with CIF:
-
-[cols="2,1"]
-|===
-| Category | Annotation
-
-| <<lang-ref-extensions-annotations-documentation,Documentation>>
-| `doc`
-|===
+For a complete list of the annotations that are bundled with CIF, see the <<lang-ref-extensions-annotations-builtin,built-in annotations>> overview.
 
 === Syntax
 

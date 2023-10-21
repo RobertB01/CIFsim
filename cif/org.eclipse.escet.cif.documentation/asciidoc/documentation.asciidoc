@@ -332,6 +332,8 @@ include::language-reference/syntax/grammar.asciidoc[]
 
 include::language-reference/annotations/index.asciidoc[]
 
+include::language-reference/annotations/builtin.asciidoc[]
+
 include::language-reference/annotations/documentation.asciidoc[]
 
 :leveloffset: -1
