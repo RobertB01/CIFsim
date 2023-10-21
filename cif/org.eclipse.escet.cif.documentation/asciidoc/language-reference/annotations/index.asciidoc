@@ -79,7 +79,7 @@ Currently, annotations are only supported for the following elements in CIF spec
 This will be extended to other elements of specifications in the future.
 
 Annotations are placed before the elements that they annotate.
-Here is an example, for an annotation without arguments:
+Here is an example, where an input variable is annotated with an annotation without arguments:
 
 [source,cif]
 ----
@@ -90,26 +90,38 @@ input bool x;
 [[lang-ref-extensions-annotations-constraints]]
 === Constraints
 
-The following constraints apply to annotations in general:
+The following general constraints apply to all annotations:
 
-* An element may have multiple annotations.
+* Annotations are optional.
+An element of the specification may have multiple annotations.
 If an element has multiple annotations, the annotations can be put in any order.
 * Each annotation of an element must have a different annotation name.
 * Each argument of an annotation must have a different name.
 
-Custom annotations can be registered.
-When registering an annotation, an annotation provider is registered with it.
-An annotation provider may impose additional constraints:
+Each annotation must be registered.
+When registering an annotation, an annotation provider is registered with it:
 
 * If an annotation is used in a specification, but is not registered, a warning will indicate the unregistered annotation.
+If a tool supports an annotation, it or one of its dependencies should register the annotation.
+Hence, if an annotation is not registered, it will likely be ignored by all available tools.
+* Annotations are an extension mechanism, and anyone can define and register their own annotations.
+Different CIF installations may therefore have different registered annotations.
+A CIF specification may thus have a warning in one installation, if the annotation is for instance not registered in that installation, while in another installation the annotation does not have a warning, as there it is registered.
 * If an annotation is registered, it must be properly registered and its annotation provider must be properly implemented.
 See below for <<lang-ref-extensions-annotations-providers,details on annotation providers>>.
-* Each annotation and its arguments must satisfy any additional constraints imposed by the corresponding annotation provider.
 
-Different CIF installations may have different registered annotations.
-A CIF specification may thus have a warning in one installation, and not in another installation.
-It may also have different annotation providers for the same annotation name in different installations.
-Hence, a specification may be valid in one installation, and invalid in another.
+Each annotation provider may impose additional constraints on the annotation it handles:
+
+* An annotation and its arguments must satisfy any additional constraints imposed by the corresponding annotation provider.
++
+An annotation provider could for instance limit the elements that may be annotated with the annotation, or require all elements of a certain type to be annotated if at least one of them is annotated.
+It could also constrain certain arguments, or combinations of arguments, to be mandatory or optional.
+Furthermore, it could require arguments to have values of a certain type, to be statically evaluable, and so on.
+Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.
+Hence, a specification with such annotations may be valid in one installation, and invalid in another.
+* Annotations are an extension mechanism, and anyone can define and register their own annotations.
+Different CIF installations may therefore have different annotation providers for the same annotation, which may interpret the annotation differently and may impose different constraints for it.
+Hence, a specification with such annotations may be valid in one installation, and invalid in another.
 
 === Naming annotations
 
@@ -134,7 +146,7 @@ For instance, use `plc:input` rather than `plcInput`.
 If really needed, camel case can be used for the parts, e.g., `myLongerAnno`.
 
 Everyone can add their own annotations.
-If you add a custom annotation, that is not delivered along with CIF itself, consider the following:
+If you add a custom annotation, that is not a built-in annotation delivered along with CIF itself, consider the following:
 
 * Start the annotation with your company name, to prevent conflicts with built-in annotations, and with annotations provided by other companies.
 For instance, use `<company_name>:some:anno`.
