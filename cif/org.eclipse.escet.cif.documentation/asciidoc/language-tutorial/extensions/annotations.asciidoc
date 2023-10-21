@@ -48,6 +48,12 @@ The following built-in annotations are bundled with CIF:
 | `doc`
 |===
 
+Annotations are an extension mechanism, and anyone can <<lang-ref-extensions-annotations-providers,define and register>> their own annotations.
+Different CIF installations may therefore have different registered annotations.
+A CIF specification may thus have a warning in one installation, if the annotation is for instance not registered in that installation, while in another installation the annotation does not have a warning, as there it is registered.
+Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.
+Hence, a specification with such annotations may be valid in one installation, and invalid in another.
+
 For more detailed information on annotations, see the <<lang-ref-extensions-annotations,reference manual>>.
 
 indexterm:[annotation, doc]
