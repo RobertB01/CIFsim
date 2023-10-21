@@ -184,7 +184,9 @@ A proper extension to register an annotation will look something like this:
 Some additional constraints must be adhered to:
 
 * At most one annotation provider must be registered for each annotation name.
-* If an annotation is registered, it must specify an annotation provider, by indicating the plugin where the provider is located, and the Java class that implements it.
-* The registered annotation provider class must exist within that plugin, and the CIF type checker must be able to find and load it.
-* The registered annotation provider class must extend the `org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider` class.
-* See the JavaDoc of the `AnnotationProvider` class for additional information and constraints.
+* If an annotation is registered, it must specify an annotation provider.
+It must indicate the plugin where the provider is located as well as the Java class that implements it.
+* If an annotation is registered, the registered annotation provider class must exist within that plugin, and the CIF type checker must be able to find and load it.
+* If an annotation is registered, the registered annotation provider class must extend the `org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider` class.
+The `AnnotationProvider` class has additional information and requirements.
+Consult its JavaDoc for the details.
