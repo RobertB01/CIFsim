@@ -125,7 +125,12 @@ Hence, a specification with such annotations may be valid in one installation, a
 
 === Naming annotations
 
-There are some guidelines for naming of annotations:
+Annotations are an extension mechanism, and anyone can define and register their own annotations.
+Without rules, different people may define the same annotation in different conflicting ways.
+Therefore, we list some guidelines for naming of annotations.
+These guidelines are not strict rules and likely will not prevent all issues, but adhering to them will likely at least reduce such issues.
+
+Consider the following guidelines:
 
 * Name an annotation based on the conceptual information it represents, not on how it is used.
 The annotation can then be reused for other uses.
@@ -142,13 +147,9 @@ For instance, `plc:input` could be the name of a PLC input annotation.
 This allows other `input` annotations for different purposes to be added as well.
 * More than two levels can be used in annotation names if needed to distinguish the annotations and ensure they are unique.
 * Annotation names are ideally lower case, consisting of multiple parts separated by colons, rather than having parts that consist of multiple words.
-For instance, use `plc:input` rather than `plcInput`.
-If really needed, camel case can be used for the parts, e.g., `myLongerAnno`.
-
-Everyone can add their own annotations.
-If you add a custom annotation, that is not a built-in annotation delivered along with CIF itself, consider the following:
-
-* Start the annotation with your company name, to prevent conflicts with built-in annotations, and with annotations provided by other companies.
+For instance, use `plc:input` rather than `plcInput` or `plc_input`.
+* If you add a custom annotation, that is not a built-in annotation delivered along with CIF itself, start the annotation with your company name.
+This prevents conflicts with built-in annotations, and with annotations provided by other companies.
 For instance, use `<company_name>:some:anno`.
 
 [[lang-ref-extensions-annotations-providers]]
