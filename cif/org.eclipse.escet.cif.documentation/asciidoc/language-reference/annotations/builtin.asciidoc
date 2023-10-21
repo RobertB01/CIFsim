@@ -16,6 +16,9 @@ include::../_part_attributes.asciidoc[]
 [[lang-ref-extensions-annotations-builtin]]
 == Built-in annotations
 
+WARNING: Annotations are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner.
+
 The following built-in <<lang-ref-extensions-annotations,annotations>> are bundled with CIF:
 
 [cols="2,1"]
