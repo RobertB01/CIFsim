@@ -27,10 +27,10 @@ Documentation annotations (`@doc`) can be added to the following elements in CIF
 
 * Input variables.
 
-The annotation has the following additional constraints:
+The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
 
 * The annotation must have exactly one argument, named `text`.
-* Since `text` is a keyword in the CIF language, it must be escaped to `$text`.
+Since `text` is a keyword in the CIF language, it must be escaped to `$text`.
 * The `text` argument must have a `string`-typed value.
 * It must be possible for the value to be statically evaluated.
 * Evaluation of the value must not result in an evaluation error.

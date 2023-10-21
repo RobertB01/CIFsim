@@ -84,6 +84,7 @@ Here is an example:
 input bool x;
 ----
 
+[[lang-ref-extensions-annotations-constraints]]
 === Constraints
 
 The following constraints apply to annotations in general:
