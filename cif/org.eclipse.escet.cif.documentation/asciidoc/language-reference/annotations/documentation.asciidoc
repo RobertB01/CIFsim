@@ -34,25 +34,3 @@ Since `text` is a keyword in the CIF language, it must be escaped to `$text`.
 * The `text` argument must have a `string`-typed value.
 * It must be possible for the value to be statically evaluated.
 * Evaluation of the value must not result in an evaluation error.
-
-The documentation may span multiple lines:
-
-[source,cif]
-----
-@doc($text =
-    "doc with multiple\n" +
-    "lines of\n" +
-    "text"
-)
-input bool i;
-----
-
-It is also possible to use for instance constants from the model in the documentation text:
-
-[source,cif]
-----
-const int MAX_NR_OF_PRODUCTS = 3;
-
-@doc($text = fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
-input bool s1;
-----

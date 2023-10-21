@@ -64,6 +64,28 @@ Documentation can be added to input variables:
 input bool ElevatorDownSensor;
 ----
 
+The documentation may span multiple lines:
+
+[source,cif]
+----
+@doc($text =
+    "doc with multiple\n" +
+    "lines of\n" +
+    "text"
+)
+input bool i;
+----
+
+It is also possible to use for instance constants from the model in the documentation text:
+
+[source,cif]
+----
+const int MAX_NR_OF_PRODUCTS = 3;
+
+@doc($text = fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
+input bool s1;
+----
+
 This documentation can then be used by CIF tools in various ways.
 For instance, the <<tools-codegen-chapter-index,CIF code generator>> includes this documentation in the generated code.
 For the above example, it may generate the following Java code:
