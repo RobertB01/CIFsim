@@ -41,7 +41,7 @@ This transformation operates in three phases:
 * Phase 2: Instantiate the component definitions found in phase 1, by putting the body of the definition in the place of the instantiation, in a component named after the component instantiation.
 Also removes the component definitions that were just instantiated, and introduces new local algebraic variables for the algebraic parameters.
 
-* Phase 3: Replace uses of component, event, and location parameters by the actual arguments provided for the instantiation.
+* Phase 3: Replace uses of component, event, and location parameters by the arguments provided for the instantiation.
 
 For instance, the following specification:
 

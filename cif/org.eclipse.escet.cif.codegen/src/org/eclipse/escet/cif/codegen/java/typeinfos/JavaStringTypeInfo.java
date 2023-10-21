@@ -127,7 +127,7 @@ public class JavaStringTypeInfo extends StringTypeInfo {
     }
 
     @Override
-    public ExprCode convertFormatFunction(String pattern, List<Expression> params, List<CifType> paramTypes,
+    public ExprCode convertFormatFunction(String pattern, List<Expression> args, List<CifType> argTypes,
             Destination dest, CodeContext ctxt)
     {
         // See also CifMath for similar code.
@@ -163,7 +163,7 @@ public class JavaStringTypeInfo extends StringTypeInfo {
             }
 
             // Get argument code.
-            ExprCode argCode = ctxt.exprToTarget(params.get(idx), null);
+            ExprCode argCode = ctxt.exprToTarget(args.get(idx), null);
             result.add(argCode);
             String argText = argCode.getData();
 
@@ -179,7 +179,7 @@ public class JavaStringTypeInfo extends StringTypeInfo {
 
                 case STRING: {
                     patternCode.append(part.toString(false));
-                    CifType nt = paramTypes.get(idx);
+                    CifType nt = argTypes.get(idx);
                     if (!(nt instanceof StringType)) {
                         argText = fmt("valueToStr(%s)", argText);
                     }

@@ -668,11 +668,11 @@ public class ExprCodeGenerator {
     {
         // User-defined functions.
         if (!(expr.getFunction() instanceof StdLibFunctionExpression)) {
-            List<ExprCodeGeneratorResult> funcAndArgResults = listc(expr.getParams().size() + 1);
+            List<ExprCodeGeneratorResult> funcAndArgResults = listc(expr.getArguments().size() + 1);
             funcAndArgResults.add(gencodeExpr(expr.getFunction(), ctxt, state));
-            funcAndArgResults.addAll(gencodeExprs(expr.getParams(), ctxt, state));
-            String paramsTxt = String.join(", ", Collections.nCopies(expr.getParams().size(), "%s"));
-            return merge(fmt("(%%s).evalFunc(%s)", paramsTxt), expr.getType(), ctxt, funcAndArgResults);
+            funcAndArgResults.addAll(gencodeExprs(expr.getArguments(), ctxt, state));
+            String argsTxt = String.join(", ", Collections.nCopies(expr.getArguments().size(), "%s"));
+            return merge(fmt("(%%s).evalFunc(%s)", argsTxt), expr.getType(), ctxt, funcAndArgResults);
         }
 
         // Get standard library function.
@@ -682,15 +682,15 @@ public class ExprCodeGenerator {
         // Special case for 'fmt'.
         if (stdlib == StdLibFunction.FORMAT) {
             // Get pattern.
-            Expression patternExpr = expr.getParams().get(0);
+            Expression patternExpr = expr.getArguments().get(0);
             String pattern = ((StringExpression)patternExpr).getValue();
 
             // Generate code for the values (remaining arguments), and also get
             // their types.
-            List<ExprCodeGeneratorResult> valueRslts = listc(expr.getParams().size() - 1);
-            List<CifType> valueTypes = listc(expr.getParams().size() - 1);
-            for (int i = 1; i < expr.getParams().size(); i++) {
-                Expression value = expr.getParams().get(i);
+            List<ExprCodeGeneratorResult> valueRslts = listc(expr.getArguments().size() - 1);
+            List<CifType> valueTypes = listc(expr.getArguments().size() - 1);
+            for (int i = 1; i < expr.getArguments().size(); i++) {
+                Expression value = expr.getArguments().get(i);
                 valueRslts.add(gencodeExpr(value, ctxt, state));
                 valueTypes.add(value.getType());
             }
@@ -700,103 +700,103 @@ public class ExprCodeGenerator {
         }
 
         // Generate standard library function call code.
-        List<ExprCodeGeneratorResult> paramRslts = gencodeExprs(expr.getParams(), ctxt, state);
-        String paramsTxt = String.join(", ", Collections.nCopies(expr.getParams().size(), "%s"));
+        List<ExprCodeGeneratorResult> argsRslts = gencodeExprs(expr.getArguments(), ctxt, state);
+        String argsTxt = String.join(", ", Collections.nCopies(expr.getArguments().size(), "%s"));
         String text;
         switch (stdlib) {
             case ACOSH:
-                text = fmt("acosh(%s)", paramsTxt);
+                text = fmt("acosh(%s)", argsTxt);
                 break;
 
             case ACOS:
-                text = fmt("acos(%s)", paramsTxt);
+                text = fmt("acos(%s)", argsTxt);
                 break;
 
             case ASINH:
-                text = fmt("asinh(%s)", paramsTxt);
+                text = fmt("asinh(%s)", argsTxt);
                 break;
 
             case ASIN:
-                text = fmt("asin(%s)", paramsTxt);
+                text = fmt("asin(%s)", argsTxt);
                 break;
 
             case ATANH:
-                text = fmt("atanh(%s)", paramsTxt);
+                text = fmt("atanh(%s)", argsTxt);
                 break;
 
             case ATAN:
-                text = fmt("atan(%s)", paramsTxt);
+                text = fmt("atan(%s)", argsTxt);
                 break;
 
             case COSH:
-                text = fmt("cosh(%s)", paramsTxt);
+                text = fmt("cosh(%s)", argsTxt);
                 break;
 
             case COS:
-                text = fmt("cos(%s)", paramsTxt);
+                text = fmt("cos(%s)", argsTxt);
                 break;
 
             case SINH:
-                text = fmt("sinh(%s)", paramsTxt);
+                text = fmt("sinh(%s)", argsTxt);
                 break;
 
             case SIN:
-                text = fmt("sin(%s)", paramsTxt);
+                text = fmt("sin(%s)", argsTxt);
                 break;
 
             case TANH:
-                text = fmt("tanh(%s)", paramsTxt);
+                text = fmt("tanh(%s)", argsTxt);
                 break;
 
             case TAN:
-                text = fmt("tan(%s)", paramsTxt);
+                text = fmt("tan(%s)", argsTxt);
                 break;
 
             case ABS:
-                text = fmt("abs(%s)", paramsTxt);
+                text = fmt("abs(%s)", argsTxt);
                 break;
 
             case CBRT:
-                text = fmt("cbrt(%s)", paramsTxt);
+                text = fmt("cbrt(%s)", argsTxt);
                 break;
 
             case CEIL:
-                text = fmt("ceil(%s)", paramsTxt);
+                text = fmt("ceil(%s)", argsTxt);
                 break;
 
             case DELETE:
-                text = fmt("delete(%s)", paramsTxt);
+                text = fmt("delete(%s)", argsTxt);
                 break;
 
             case EMPTY:
-                text = fmt("empty(%s)", paramsTxt);
+                text = fmt("empty(%s)", argsTxt);
                 break;
 
             case EXP:
-                text = fmt("exp(%s)", paramsTxt);
+                text = fmt("exp(%s)", argsTxt);
                 break;
 
             case FLOOR:
-                text = fmt("floor(%s)", paramsTxt);
+                text = fmt("floor(%s)", argsTxt);
                 break;
 
             case FORMAT:
                 throw new RuntimeException("Already handled above: " + stdlib);
 
             case LN:
-                text = fmt("ln(%s)", paramsTxt);
+                text = fmt("ln(%s)", argsTxt);
                 break;
 
             case LOG:
-                text = fmt("log(%s)", paramsTxt);
+                text = fmt("log(%s)", argsTxt);
                 break;
 
             case MAXIMUM:
-                text = fmt("max(%s)", paramsTxt);
+                text = fmt("max(%s)", argsTxt);
                 break;
 
             case MINIMUM:
-                text = fmt("min(%s)", paramsTxt);
+                text = fmt("min(%s)", argsTxt);
                 break;
 
             case POP: {
@@ -805,7 +805,7 @@ public class ExprCodeGenerator {
                 String className = ctxt.getTupleTypeClassName(rsltType);
 
                 // Generate code for the 'pop' function call.
-                text = fmt("%s.pop(%s)", className, paramsTxt);
+                text = fmt("%s.pop(%s)", className, argsTxt);
                 break;
             }
 
@@ -813,49 +813,49 @@ public class ExprCodeGenerator {
                 CifType rsltType = normalizeType(expr.getType());
 
                 if (rsltType instanceof IntType) {
-                    text = fmt("powInt(%s)", paramsTxt);
+                    text = fmt("powInt(%s)", argsTxt);
                 } else {
-                    text = fmt("powReal(%s)", paramsTxt);
+                    text = fmt("powReal(%s)", argsTxt);
                 }
                 break;
             }
 
             case ROUND:
-                text = fmt("round(%s)", paramsTxt);
+                text = fmt("round(%s)", argsTxt);
                 break;
 
             case SCALE:
-                text = fmt("scale(%s)", paramsTxt);
+                text = fmt("scale(%s)", argsTxt);
                 break;
 
             case SIGN:
-                text = fmt("sign(%s)", paramsTxt);
+                text = fmt("sign(%s)", argsTxt);
                 break;
 
             case SIZE:
-                text = fmt("size(%s)", paramsTxt);
+                text = fmt("size(%s)", argsTxt);
                 break;
 
             case SQRT:
-                text = fmt("sqrt(%s)", paramsTxt);
+                text = fmt("sqrt(%s)", argsTxt);
                 break;
 
             case BERNOULLI:
                 text = fmt("new BernoulliDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case BETA:
-                text = fmt("new BetaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, paramsTxt);
+                text = fmt("new BetaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state, argsTxt);
                 break;
 
             case BINOMIAL:
                 text = fmt("new BinomialDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case CONSTANT: {
-                Expression arg = first(expr.getParams());
+                Expression arg = first(expr.getArguments());
                 CifType argType = normalizeType(arg.getType());
 
                 String className;
@@ -870,43 +870,43 @@ public class ExprCodeGenerator {
                     throw new RuntimeException(msg);
                 }
 
-                text = fmt("new %s(%s)", className, paramsTxt);
+                text = fmt("new %s(%s)", className, argsTxt);
                 break;
             }
 
             case ERLANG:
                 text = fmt("new ErlangDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case EXPONENTIAL:
                 text = fmt("new ExponentialDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case GAMMA:
                 text = fmt("new GammaDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case GEOMETRIC:
                 text = fmt("new GeometricDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case LOG_NORMAL:
                 text = fmt("new LogNormalDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case NORMAL:
                 text = fmt("new NormalDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case POISSON:
                 text = fmt("new PoissonDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case RANDOM:
@@ -915,11 +915,11 @@ public class ExprCodeGenerator {
 
             case TRIANGLE:
                 text = fmt("new TriangleDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             case UNIFORM: {
-                Expression arg = first(expr.getParams());
+                Expression arg = first(expr.getArguments());
                 CifType argType = normalizeType(arg.getType());
 
                 String className;
@@ -932,20 +932,20 @@ public class ExprCodeGenerator {
                     throw new RuntimeException(msg);
                 }
 
-                text = fmt("new %s(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", className, state, paramsTxt);
+                text = fmt("new %s(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", className, state, argsTxt);
                 break;
             }
 
             case WEIBULL:
                 text = fmt("new WeibullDistribution(new CifMersenneTwister(%s.spec.getNextSeed()), %s)", state,
-                        paramsTxt);
+                        argsTxt);
                 break;
 
             default:
                 // Should never get here.
                 throw new RuntimeException("Unknown stdlib func: " + stdlib);
         }
-        return merge(text, expr.getType(), ctxt, paramRslts);
+        return merge(text, expr.getType(), ctxt, argsRslts);
     }
 
     /**

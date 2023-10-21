@@ -438,18 +438,18 @@ public class CodeGenPreChecker extends CifWalker {
 
                 // Conditionally supported.
                 case EMPTY: {
-                    CifType ptype = normalizeType(expr.getParams().get(0).getType());
-                    if (ptype instanceof ListType && isArrayType((ListType)ptype)) {
+                    CifType atype = normalizeType(expr.getArguments().get(0).getType());
+                    if (atype instanceof ListType && isArrayType((ListType)atype)) {
                         return;
                     }
                     break;
                 }
 
                 case SIZE: {
-                    CifType ptype = normalizeType(expr.getParams().get(0).getType());
-                    if (ptype instanceof StringType) {
+                    CifType atype = normalizeType(expr.getArguments().get(0).getType());
+                    if (atype instanceof StringType) {
                         return;
-                    } else if (ptype instanceof ListType && isArrayType((ListType)ptype)) {
+                    } else if (atype instanceof ListType && isArrayType((ListType)atype)) {
                         return;
                     }
                     break;

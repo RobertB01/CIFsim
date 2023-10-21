@@ -8,7 +8,7 @@
     <semanticResources>cif.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_OSL6AHcKEeWuLduNN8gYTg">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f7p6QIleEeqQaNL0VWGLjw" name="cif" repPath="#_Py10cHcKEeWuLduNN8gYTg" changeId="e99c3816-0bb6-4a64-aaac-c314dc37d2b5">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f7p6QIleEeqQaNL0VWGLjw" name="cif" repPath="#_Py10cHcKEeWuLduNN8gYTg" changeId="8958b6f3-8146-4c8f-a43b-200c38db8ba0">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -24,7 +24,7 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#//types"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f9lz8IleEeqQaNL0VWGLjw" name="expressions" repPath="#_WpUHkHcLEeWuLduNN8gYTg" changeId="561182ba-607f-4a63-a130-f2100c80cb9e">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f9lz8IleEeqQaNL0VWGLjw" name="expressions" repPath="#_WpUHkHcLEeWuLduNN8gYTg" changeId="b5b08136-3c2a-498b-bdda-81563e5c95ad">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#//expressions"/>
       </ownedRepresentationDescriptors>
@@ -1991,9 +1991,9 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_WVy6VmwMEe2zhP8KIy45qw" name="[0..*] parameters" sourceNode="_QdCA8HcKEeWuLduNN8gYTg" targetNode="_OH-twHcNEeWuLduNN8gYTg">
-      <target xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/parameters"/>
-      <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/parameters"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_WVy6VmwMEe2zhP8KIy45qw" name="[0..*] arguments" sourceNode="_QdCA8HcKEeWuLduNN8gYTg" targetNode="_OH-twHcNEeWuLduNN8gYTg">
+      <target xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/arguments"/>
+      <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/arguments"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_WVzhYGwMEe2zhP8KIy45qw" description="_QdUU0XcKEeWuLduNN8gYTg" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_WVzhYmwMEe2zhP8KIy45qw" showIcon="false">
           <customFeatures>labelSize</customFeatures>
@@ -7353,8 +7353,8 @@
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EReferenceNode']"/>
       </ownedElements>
       <ownedElements xmi:type="diagram:DNodeListElement" uid="_WYdz0GwMEe2zhP8KIy45qw" name=" parameters : Expression" visible="false" tooltipText="">
-        <target xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/parameters"/>
-        <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/parameters"/>
+        <target xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/arguments"/>
+        <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/arguments"/>
         <graphicalFilters xmi:type="diagram:HideFilter" uid="__B_UAUEfEe6ygOoICaYGDQ"/>
         <ownedStyle xmi:type="diagram:BundledImage" uid="_WYdz0WwMEe2zhP8KIy45qw" labelAlignment="LEFT" color="114,159,207">
           <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EReferenceNode']/@style"/>
@@ -9769,7 +9769,7 @@
         </edges>
         <edges xmi:type="notation:Edge" xmi:id="_XUfLjHcLEeWuLduNN8gYTg" type="4001" element="_WbBYkGwMEe2zhP8KIy45qw" source="_XUWBmncLEeWuLduNN8gYTg" target="_XUVanHcLEeWuLduNN8gYTg">
           <children xmi:type="notation:Node" xmi:id="_XUfLkHcLEeWuLduNN8gYTg" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XUfLkXcLEeWuLduNN8gYTg" x="169" y="35"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XUfLkXcLEeWuLduNN8gYTg" x="166" y="46"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_XUfLkncLEeWuLduNN8gYTg" type="6002">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XUfLk3cLEeWuLduNN8gYTg" y="10"/>
@@ -13017,9 +13017,9 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_WbBYkGwMEe2zhP8KIy45qw" name="[0..*] params" sourceNode="_XTd30XcLEeWuLduNN8gYTg" targetNode="_XTdQwXcLEeWuLduNN8gYTg">
-      <target xmi:type="ecore:EReference" href="cif.ecore#//expressions/FunctionCallExpression/params"/>
-      <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//expressions/FunctionCallExpression/params"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_WbBYkGwMEe2zhP8KIy45qw" name="[0..*] arguments" sourceNode="_XTd30XcLEeWuLduNN8gYTg" targetNode="_XTdQwXcLEeWuLduNN8gYTg">
+      <target xmi:type="ecore:EReference" href="cif.ecore#//expressions/FunctionCallExpression/arguments"/>
+      <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//expressions/FunctionCallExpression/arguments"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_WbBYkWwMEe2zhP8KIy45qw" description="_XT7K0HcLEeWuLduNN8gYTg" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_WbBYk2wMEe2zhP8KIy45qw" showIcon="false">
           <customFeatures>labelSize</customFeatures>
@@ -13538,8 +13538,8 @@
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" uid="_WbYk82wMEe2zhP8KIy45qw" name="[0..*] parameters" visible="false" sourceNode="_PkaToHysEeW1mMYaZaELpw" targetNode="_XTdQwXcLEeWuLduNN8gYTg">
-      <target xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/parameters"/>
-      <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/parameters"/>
+      <target xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/arguments"/>
+      <semanticElements xmi:type="ecore:EReference" href="cif.ecore#//ComponentInst/arguments"/>
       <graphicalFilters xmi:type="diagram:HideFilter" uid="_Wj3ykWwMEe2zhP8KIy45qw"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_WbZMAGwMEe2zhP8KIy45qw" description="_XT7K0HcLEeWuLduNN8gYTg" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_WbZMAmwMEe2zhP8KIy45qw" showIcon="false">

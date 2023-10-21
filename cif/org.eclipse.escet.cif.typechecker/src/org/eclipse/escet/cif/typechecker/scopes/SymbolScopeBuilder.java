@@ -76,26 +76,26 @@ import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.parser.CifParser;
+import org.eclipse.escet.cif.parser.ast.AAlgParameter;
 import org.eclipse.escet.cif.parser.ast.ACompDecl;
 import org.eclipse.escet.cif.parser.ast.ACompDefDecl;
 import org.eclipse.escet.cif.parser.ast.ACompInstDecl;
+import org.eclipse.escet.cif.parser.ast.AComponentParameter;
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.AEquation;
 import org.eclipse.escet.cif.parser.ast.AEquationDecl;
-import org.eclipse.escet.cif.parser.ast.AFormalAlgParameter;
-import org.eclipse.escet.cif.parser.ast.AFormalComponentParameter;
-import org.eclipse.escet.cif.parser.ast.AFormalEventParameter;
-import org.eclipse.escet.cif.parser.ast.AFormalEventParameterPart;
-import org.eclipse.escet.cif.parser.ast.AFormalLocationParameter;
-import org.eclipse.escet.cif.parser.ast.AFormalParameter;
+import org.eclipse.escet.cif.parser.ast.AEventParameter;
+import org.eclipse.escet.cif.parser.ast.AEventParameterPart;
 import org.eclipse.escet.cif.parser.ast.AFuncDecl;
 import org.eclipse.escet.cif.parser.ast.AImport;
 import org.eclipse.escet.cif.parser.ast.AImportDecl;
 import org.eclipse.escet.cif.parser.ast.AInitialDecl;
 import org.eclipse.escet.cif.parser.ast.AInvariant;
 import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
+import org.eclipse.escet.cif.parser.ast.ALocationParameter;
 import org.eclipse.escet.cif.parser.ast.AMarkedDecl;
 import org.eclipse.escet.cif.parser.ast.ANamespaceDecl;
+import org.eclipse.escet.cif.parser.ast.AParameter;
 import org.eclipse.escet.cif.parser.ast.ASpecification;
 import org.eclipse.escet.cif.parser.ast.automata.AAlphabetDecl;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
@@ -126,6 +126,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.SourceFile;
+import org.eclipse.escet.cif.typechecker.declwrap.AlgParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.AlgVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.ConstDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.ContVariableDeclWrap;
@@ -133,14 +134,13 @@ import org.eclipse.escet.cif.typechecker.declwrap.DiscVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumLiteralDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalAlgDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvariantInfo;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.LocationParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
@@ -406,8 +406,8 @@ public class SymbolScopeBuilder {
             // Add group definition to the parent object.
             parent.getGroup().getDefinitions().add(compdef2);
 
-            // Add formal parameters.
-            addFormalParameters(compdef1.parameters, scope);
+            // Add parameters.
+            addParameters(compdef1.parameters, scope);
         }
 
         // Fill scope.
@@ -465,8 +465,8 @@ public class SymbolScopeBuilder {
             // Add automaton definition to the parent object.
             parent.getGroup().getDefinitions().add(compdef2);
 
-            // Add formal parameters.
-            addFormalParameters(compdef1.parameters, scope);
+            // Add parameters.
+            addParameters(compdef1.parameters, scope);
         }
 
         // Fill scope.
@@ -889,34 +889,34 @@ public class SymbolScopeBuilder {
     }
 
     /**
-     * Adds formal parameters to the given parent symbol scope.
+     * Adds parameters of a component definition to the given parent symbol scope.
      *
-     * @param params The formal parameters to add.
-     * @param parent The parent symbol scope to which to add the formal parameters.
+     * @param params The parameters to add.
+     * @param parent The parent symbol scope to which to add the parameters.
      */
-    private void addFormalParameters(List<AFormalParameter> params, ParentScope<?> parent) {
-        for (AFormalParameter param: params) {
-            if (param instanceof AFormalAlgParameter) {
-                addFormalAlgParameters((AFormalAlgParameter)param, parent);
-            } else if (param instanceof AFormalComponentParameter) {
-                addFormalComponentParameters((AFormalComponentParameter)param, parent);
-            } else if (param instanceof AFormalEventParameter) {
-                addFormalEventParameters((AFormalEventParameter)param, parent);
-            } else if (param instanceof AFormalLocationParameter) {
-                addFormalLocationParameters((AFormalLocationParameter)param, parent);
+    private void addParameters(List<AParameter> params, ParentScope<?> parent) {
+        for (AParameter param: params) {
+            if (param instanceof AAlgParameter) {
+                addAlgParameters((AAlgParameter)param, parent);
+            } else if (param instanceof AComponentParameter) {
+                addComponentParameters((AComponentParameter)param, parent);
+            } else if (param instanceof AEventParameter) {
+                addEventParameters((AEventParameter)param, parent);
+            } else if (param instanceof ALocationParameter) {
+                addLocationParameters((ALocationParameter)param, parent);
             } else {
-                throw new RuntimeException("Unknown formal param: " + param);
+                throw new RuntimeException("Unknown param: " + param);
             }
         }
     }
 
     /**
-     * Adds formal algebraic parameters to the given parent symbol scope.
+     * Adds algebraic parameters to the given parent symbol scope.
      *
      * @param params The parameters to add.
      * @param parent The parent symbol scope to which to add the parameters.
      */
-    private void addFormalAlgParameters(AFormalAlgParameter params, ParentScope<?> parent) {
+    private void addAlgParameters(AAlgParameter params, ParentScope<?> parent) {
         for (AIdentifier id: params.names) {
             AlgVariable var = newAlgVariable();
             var.setName(id.id);
@@ -926,7 +926,7 @@ public class SymbolScopeBuilder {
             algParam.setVariable(var);
             algParam.setPosition(id.createPosition());
 
-            FormalAlgDeclWrap wrapper = new FormalAlgDeclWrap(tchecker, parent, params, algParam);
+            AlgParamDeclWrap wrapper = new AlgParamDeclWrap(tchecker, parent, params, algParam);
             parent.addDeclaration(wrapper);
 
             parent.getComponentDef().getParameters().add(algParam);
@@ -934,13 +934,13 @@ public class SymbolScopeBuilder {
     }
 
     /**
-     * Adds formal component parameters to the given parent symbol scope.
+     * Adds component parameters to the given parent symbol scope.
      *
      * @param params The parameters to add.
      * @param parent The parent symbol scope to which to add the parameters.
      */
     @SuppressWarnings("unused")
-    private void addFormalComponentParameters(AFormalComponentParameter params, ParentScope<?> parent) {
+    private void addComponentParameters(AComponentParameter params, ParentScope<?> parent) {
         for (AIdentifier id: params.names) {
             // Construct object.
             ComponentParameter compParam = newComponentParameter();
@@ -956,18 +956,18 @@ public class SymbolScopeBuilder {
     }
 
     /**
-     * Adds formal event parameters to the given parent symbol scope.
+     * Adds event parameters to the given parent symbol scope.
      *
      * @param params The parameters to add.
      * @param parent The parent symbol scope to which to add the parameters.
      */
-    private void addFormalEventParameters(AFormalEventParameter params, ParentScope<?> parent) {
+    private void addEventParameters(AEventParameter params, ParentScope<?> parent) {
         Boolean controllable = null;
         if (params.controllability != null) {
             controllable = params.controllability.text.equals("controllable");
         }
 
-        for (AFormalEventParameterPart part: params.parts) {
+        for (AEventParameterPart part: params.parts) {
             // Create event declaration.
             Event event = newEvent();
             event.setName(part.name.id);
@@ -980,7 +980,7 @@ public class SymbolScopeBuilder {
             eventParam.setPosition(part.name.createPosition());
 
             // Create symbol table entry.
-            FormalEventDeclWrap wrapper = new FormalEventDeclWrap(tchecker, parent, params, part, eventParam);
+            EventParamDeclWrap wrapper = new EventParamDeclWrap(tchecker, parent, params, part, eventParam);
 
             // Add to symbol table and metamodel.
             parent.addDeclaration(wrapper);
@@ -989,12 +989,12 @@ public class SymbolScopeBuilder {
     }
 
     /**
-     * Adds formal location parameters to the given parent symbol scope.
+     * Adds location parameters to the given parent symbol scope.
      *
      * @param params The parameters to add.
      * @param parent The parent symbol scope to which to add the parameters.
      */
-    private void addFormalLocationParameters(AFormalLocationParameter params, ParentScope<?> parent) {
+    private void addLocationParameters(ALocationParameter params, ParentScope<?> parent) {
         for (AIdentifier id: params.names) {
             Location loc = newLocation();
             loc.setName(id.id);
@@ -1004,7 +1004,7 @@ public class SymbolScopeBuilder {
             locParam.setLocation(loc);
             locParam.setPosition(id.createPosition());
 
-            FormalLocationDeclWrap wrapper = new FormalLocationDeclWrap(tchecker, parent, locParam);
+            LocationParamDeclWrap wrapper = new LocationParamDeclWrap(tchecker, parent, locParam);
             parent.addDeclaration(wrapper);
 
             parent.getComponentDef().getParameters().add(locParam);

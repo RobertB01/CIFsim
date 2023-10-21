@@ -34,7 +34,7 @@
     </genClasses>
     <genClasses ecoreClass="cif.ecore#//ComponentInst">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/definition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/arguments"/>
     </genClasses>
     <genClasses image="false" ecoreClass="cif.ecore#//ComplexComponent">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/declarations"/>
@@ -325,7 +325,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/IntExpression/value"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//expressions/FunctionCallExpression">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/params"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/arguments"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/function"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//expressions/IfExpression">

@@ -16,13 +16,13 @@ GroupDecl : Decl
           | "namespace" IDENTIFIERTK ";"
           | "namespace" RELATIVENAMETK ";"
           | "func" Types Identifier FuncParams ":" FuncBody
-          | Identifier ":" Name ActualParms ";"
-          | "group"                "def" Identifier FormalParms ":" GroupBody     "end"
-          | OptSupKind "automaton" "def" Identifier FormalParms ":" AutomatonBody "end"
-          |    SupKind             "def" Identifier FormalParms ":" AutomatonBody "end"
-          | "group"                      Identifier             ":" GroupBody     "end"
-          | OptSupKind "automaton"       Identifier             ":" AutomatonBody "end"
-          |    SupKind                   Identifier             ":" AutomatonBody "end"
+          | Identifier ":" Name CompInstArgs ";"
+          | "group"                "def" Identifier CompDefParms ":" GroupBody     "end"
+          | OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
+          |    SupKind             "def" Identifier CompDefParms ":" AutomatonBody "end"
+          | "group"                      Identifier              ":" GroupBody     "end"
+          | OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"
+          |    SupKind                   Identifier              ":" AutomatonBody "end"
           ;
 
 OptAutDecls : /* empty */
@@ -179,26 +179,26 @@ LocationElement : "initial" ";"
                 | "edge" CoreEdge "goto" Identifier ";"
                 ;
 
-ActualParms : "(" ")"
-            | "(" Expressions ")"
-            ;
+CompInstArgs : "(" ")"
+             | "(" Expressions ")"
+             ;
 
-FormalParms : "(" ")"
-            | "(" FormalDecls ")"
-            ;
+CompDefParms : "(" ")"
+             | "(" CompDefDecls ")"
+             ;
 
-FormalDecls : FormalDeclaration
-            | FormalDecls ";" FormalDeclaration
-            ;
+CompDefDecls : CompDefDeclaration
+             | CompDefDecls ";" CompDefDeclaration
+             ;
 
-FormalDeclaration : OptControllability "event"           EventParamIds
-                  | OptControllability "event" EventType EventParamIds
-                  |    Controllability                   EventParamIds
-                  |    Controllability         EventType EventParamIds
-                  | Name Identifiers
-                  | "location" Identifiers
-                  | "alg" Type Identifiers
-                  ;
+CompDefDeclaration : OptControllability "event"           EventParamIds
+                   | OptControllability "event" EventType EventParamIds
+                   |    Controllability                   EventParamIds
+                   |    Controllability         EventType EventParamIds
+                   | Name Identifiers
+                   | "location" Identifiers
+                   | "alg" Type Identifiers
+                   ;
 
 EventParamIds : EventParamId
               | EventParamIds "," EventParamId

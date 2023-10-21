@@ -588,7 +588,7 @@ public abstract class ExprCodeGen {
      * @return Code fragment representing the value.
      */
     protected ExprCode convertFunctionCallExpression(FunctionCallExpression expr, Destination dest, CodeContext ctxt) {
-        List<Expression> params = expr.getParams();
+        List<Expression> args = expr.getArguments();
 
         // User-defined functions. Only a direct reference to an internal
         // user-defined function is supported (precondition). Expressions
@@ -600,12 +600,12 @@ public abstract class ExprCodeGen {
             Assert.check(func instanceof InternalFunction);
 
             // Convert arguments to a target language code fragment.
-            List<ExprCode> paramTexts = listc(params.size());
-            for (Expression param: params) {
-                paramTexts.add(exprToTarget(param, null, ctxt));
+            List<ExprCode> argTexts = listc(args.size());
+            for (Expression arg: args) {
+                argTexts.add(exprToTarget(arg, null, ctxt));
             }
 
-            return convertInternalFunctionCall((InternalFunction)func, paramTexts, dest, ctxt);
+            return convertInternalFunctionCall((InternalFunction)func, argTexts, dest, ctxt);
         }
 
         // Get standard library function.
@@ -616,23 +616,23 @@ public abstract class ExprCodeGen {
         // generate code for the first argument.
         if (stdLib == StdLibFunction.FORMAT) {
             StringTypeInfo ti = (StringTypeInfo)ctxt.typeToTarget(expr.getType());
-            return ti.convertFormatStdLib(params, dest, ctxt);
+            return ti.convertFormatStdLib(args, dest, ctxt);
         }
 
         // 'Normal' standard library calls.
-        return convertStdLibFunctionCall(expr, stdLib, params, dest, ctxt);
+        return convertStdLibFunctionCall(expr, stdLib, args, dest, ctxt);
     }
 
     /**
      * Construct a call to an internal function in the target language.
      *
      * @param func Function to call.
-     * @param paramTexts Arguments of the function.
+     * @param argTexts Arguments of the call.
      * @param dest Storage destination of the result if available, else {@code null}.
      * @param ctxt Code generation context.
      * @return Textual representation of the function call in the target language.
      */
-    protected abstract ExprCode convertInternalFunctionCall(InternalFunction func, List<ExprCode> paramTexts,
+    protected abstract ExprCode convertInternalFunctionCall(InternalFunction func, List<ExprCode> argTexts,
             Destination dest, CodeContext ctxt);
 
     /**
@@ -644,97 +644,97 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to translate.
      * @param stdLib Standard library function being called.
-     * @param params Parameters of the call.
+     * @param args Arguments of the call.
      * @param dest Destination to write the value to if available, else {@code null}.
      * @param ctxt Code generation context.
      * @return Textual representation of the standard library call.
      */
-    protected ExprCode convertStdLibFunctionCall(Expression expr, StdLibFunction stdLib, List<Expression> params,
+    protected ExprCode convertStdLibFunctionCall(Expression expr, StdLibFunction stdLib, List<Expression> args,
             Destination dest, CodeContext ctxt)
     {
         TypeInfo ti = ctxt.typeToTarget(expr.getType());
 
         switch (stdLib) {
             case ABS:
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 if (ti instanceof IntTypeInfo) {
                     IntTypeInfo intTi = (IntTypeInfo)ti;
-                    return intTi.convertAbsStdLib(params.get(0), dest, ctxt);
+                    return intTi.convertAbsStdLib(args.get(0), dest, ctxt);
                 } else {
                     Assert.check(ti instanceof RealTypeInfo);
                     RealTypeInfo realTi = (RealTypeInfo)ti;
-                    return realTi.convertAbsStdLib(params.get(0), dest, ctxt);
+                    return realTi.convertAbsStdLib(args.get(0), dest, ctxt);
                 }
 
             case MAXIMUM:
                 if (ti instanceof IntTypeInfo) {
                     IntTypeInfo intTi = (IntTypeInfo)ti;
-                    return intTi.convertMaximumStdLib(params, dest, ctxt);
+                    return intTi.convertMaximumStdLib(args, dest, ctxt);
                 } else {
                     Assert.check(ti instanceof RealTypeInfo);
                     RealTypeInfo realTi = (RealTypeInfo)ti;
-                    return realTi.convertMaximumStdLib(params, dest, ctxt);
+                    return realTi.convertMaximumStdLib(args, dest, ctxt);
                 }
 
             case MINIMUM:
                 if (ti instanceof IntTypeInfo) {
                     IntTypeInfo intTi = (IntTypeInfo)ti;
-                    return intTi.convertMinimumStdLib(params, dest, ctxt);
+                    return intTi.convertMinimumStdLib(args, dest, ctxt);
                 } else {
                     Assert.check(ti instanceof RealTypeInfo);
                     RealTypeInfo realTi = (RealTypeInfo)ti;
-                    return realTi.convertMinimumStdLib(params, dest, ctxt);
+                    return realTi.convertMinimumStdLib(args, dest, ctxt);
                 }
 
             case SIGN:
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 if (ti instanceof IntTypeInfo) {
                     IntTypeInfo intTi = (IntTypeInfo)ti;
-                    return intTi.convertSignStdLib(params.get(0), dest, ctxt);
+                    return intTi.convertSignStdLib(args.get(0), dest, ctxt);
                 } else {
                     Assert.check(ti instanceof RealTypeInfo);
                     RealTypeInfo realTi = (RealTypeInfo)ti;
-                    return realTi.convertSignStdLib(params.get(0), dest, ctxt);
+                    return realTi.convertSignStdLib(args.get(0), dest, ctxt);
                 }
 
             case POWER:
                 if (ti instanceof IntTypeInfo) {
                     IntTypeInfo intTi = (IntTypeInfo)ti;
-                    return intTi.convertPowerStdLib(params, dest, ctxt);
+                    return intTi.convertPowerStdLib(args, dest, ctxt);
                 } else {
                     Assert.check(ti instanceof RealTypeInfo);
                     RealTypeInfo realTi = (RealTypeInfo)ti;
-                    return realTi.convertPowerStdLib(params, dest, ctxt);
+                    return realTi.convertPowerStdLib(args, dest, ctxt);
                 }
 
             case SQRT: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 RealTypeInfo realTi = (RealTypeInfo)ti;
-                return realTi.convertSqrtStdLib(params.get(0), dest, ctxt);
+                return realTi.convertSqrtStdLib(args.get(0), dest, ctxt);
             }
 
             case CBRT: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 RealTypeInfo realTi = (RealTypeInfo)ti;
-                return realTi.convertCbrtStdLib(params.get(0), dest, ctxt);
+                return realTi.convertCbrtStdLib(args.get(0), dest, ctxt);
             }
 
             case CEIL: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 IntTypeInfo intTi = (IntTypeInfo)ti;
-                return intTi.convertCeilStdLib(params.get(0), dest, ctxt);
+                return intTi.convertCeilStdLib(args.get(0), dest, ctxt);
             }
 
             case FLOOR: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 IntTypeInfo intTi = (IntTypeInfo)ti;
-                return intTi.convertFloorStdLib(params.get(0), dest, ctxt);
+                return intTi.convertFloorStdLib(args.get(0), dest, ctxt);
             }
 
             case ROUND: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 IntTypeInfo intTi = (IntTypeInfo)ti;
-                return intTi.convertRoundStdLib(params.get(0), dest, ctxt);
+                return intTi.convertRoundStdLib(args.get(0), dest, ctxt);
             }
 
             case ACOS:
@@ -743,45 +743,45 @@ public abstract class ExprCodeGen {
             case COS:
             case SIN:
             case TAN: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 RealTypeInfo realTi = (RealTypeInfo)ti;
-                return realTi.convertTrigonometryStdLib(stdLib, params.get(0), dest, ctxt);
+                return realTi.convertTrigonometryStdLib(stdLib, args.get(0), dest, ctxt);
             }
 
             case EXP:
             case LN:
             case LOG: {
-                Assert.check(params.size() == 1);
+                Assert.check(args.size() == 1);
                 RealTypeInfo realTi = (RealTypeInfo)ti;
-                return realTi.convertLogarithmicStdLib(stdLib, params.get(0), dest, ctxt);
+                return realTi.convertLogarithmicStdLib(stdLib, args.get(0), dest, ctxt);
             }
 
             case SCALE: {
                 RealTypeInfo realTi = (RealTypeInfo)ti;
-                return realTi.convertScaleStdLib(params, dest, ctxt);
+                return realTi.convertScaleStdLib(args, dest, ctxt);
             }
 
             case SIZE: {
-                Assert.check(params.size() == 1);
-                TypeInfo paramTi = ctxt.typeToTarget(params.get(0).getType());
-                if (paramTi instanceof ArrayTypeInfo) {
-                    ArrayTypeInfo listTi = (ArrayTypeInfo)paramTi;
-                    return listTi.convertSizeStdLib(params.get(0), dest, ctxt);
+                Assert.check(args.size() == 1);
+                TypeInfo argTi = ctxt.typeToTarget(args.get(0).getType());
+                if (argTi instanceof ArrayTypeInfo) {
+                    ArrayTypeInfo listTi = (ArrayTypeInfo)argTi;
+                    return listTi.convertSizeStdLib(args.get(0), dest, ctxt);
                 } else {
-                    StringTypeInfo listTi = (StringTypeInfo)paramTi;
-                    return listTi.convertSizeStdLib(params.get(0), dest, ctxt);
+                    StringTypeInfo listTi = (StringTypeInfo)argTi;
+                    return listTi.convertSizeStdLib(args.get(0), dest, ctxt);
                 }
             }
 
             case EMPTY: {
-                Assert.check(params.size() == 1);
-                ArrayTypeInfo arrayTi = (ArrayTypeInfo)ctxt.typeToTarget(params.get(0).getType());
-                return arrayTi.convertEmptyStdLib(params.get(0), dest, ctxt);
+                Assert.check(args.size() == 1);
+                ArrayTypeInfo arrayTi = (ArrayTypeInfo)ctxt.typeToTarget(args.get(0).getType());
+                return arrayTi.convertEmptyStdLib(args.get(0), dest, ctxt);
             }
 
             case FORMAT: {
                 StringTypeInfo stringTi = (StringTypeInfo)ti;
-                return stringTi.convertFormatStdLib(params, dest, ctxt);
+                return stringTi.convertFormatStdLib(args, dest, ctxt);
             }
 
             case ACOSH:

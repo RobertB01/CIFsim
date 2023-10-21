@@ -25,7 +25,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getParams <em>Params</em>}</li>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getArguments <em>Arguments</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression#getFunction <em>Function</em>}</li>
  * </ul>
  *
@@ -36,16 +36,16 @@ import org.eclipse.emf.common.util.EList;
 public interface FunctionCallExpression extends Expression
 {
     /**
-     * Returns the value of the '<em><b>Params</b></em>' containment reference list.
+     * Returns the value of the '<em><b>Arguments</b></em>' containment reference list.
      * The list contents are of type {@link org.eclipse.escet.cif.metamodel.cif.expressions.Expression}.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Params</em>' containment reference list.
-     * @see org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage#getFunctionCallExpression_Params()
+     * @return the value of the '<em>Arguments</em>' containment reference list.
+     * @see org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage#getFunctionCallExpression_Arguments()
      * @model containment="true"
      * @generated
      */
-    EList<Expression> getParams();
+    EList<Expression> getArguments();
 
     /**
      * Returns the value of the '<em><b>Function</b></em>' containment reference.

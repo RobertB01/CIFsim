@@ -19,8 +19,8 @@ import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.common.java.TextPosition;
 
-/** Formal component parameter. */
-public class AFormalComponentParameter extends AFormalParameter {
+/** Component parameter. */
+public class AComponentParameter extends AParameter {
     /** The component definition type of the parameter. */
     public final AName type;
 
@@ -28,13 +28,13 @@ public class AFormalComponentParameter extends AFormalParameter {
     public final List<AIdentifier> names;
 
     /**
-     * Constructor for the {@link AFormalComponentParameter} class.
+     * Constructor for the {@link AComponentParameter} class.
      *
      * @param type The component definition type of the parameter.
      * @param names The names of the parameters.
      * @param position Position information.
      */
-    public AFormalComponentParameter(AName type, List<AIdentifier> names, TextPosition position) {
+    public AComponentParameter(AName type, List<AIdentifier> names, TextPosition position) {
         super(position);
         this.type = type;
         this.names = names;

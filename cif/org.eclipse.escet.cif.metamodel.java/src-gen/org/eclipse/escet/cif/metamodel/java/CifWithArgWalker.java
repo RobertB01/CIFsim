@@ -1914,12 +1914,12 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkComponentInst(ComponentInst obj, T arg) {
         precrawlComponentInst(obj, arg);
-        CifType _definition = obj.getDefinition();
-        walkCifType(_definition, arg);
-        List<Expression> _parameters = obj.getParameters();
-        for (Expression x: _parameters) {
+        List<Expression> _arguments = obj.getArguments();
+        for (Expression x: _arguments) {
             walkExpression(x, arg);
         }
+        CifType _definition = obj.getDefinition();
+        walkCifType(_definition, arg);
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position, arg);
@@ -4293,12 +4293,12 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkFunctionCallExpression(FunctionCallExpression obj, T arg) {
         precrawlFunctionCallExpression(obj, arg);
-        Expression _function = obj.getFunction();
-        walkExpression(_function, arg);
-        List<Expression> _params = obj.getParams();
-        for (Expression x: _params) {
+        List<Expression> _arguments = obj.getArguments();
+        for (Expression x: _arguments) {
             walkExpression(x, arg);
         }
+        Expression _function = obj.getFunction();
+        walkExpression(_function, arg);
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position, arg);

@@ -109,9 +109,9 @@ import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.ExprContext;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.LocationParamDeclWrap;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.TextPosition;
@@ -256,8 +256,8 @@ public class AutScope extends ParentScope<Automaton> {
                     if (entry instanceof EventDeclWrap) {
                         event2 = ((EventDeclWrap)entry).getObject();
                         param = null;
-                    } else if (entry instanceof FormalEventDeclWrap) {
-                        param = ((FormalEventDeclWrap)entry).getObject();
+                    } else if (entry instanceof EventParamDeclWrap) {
+                        param = ((EventParamDeclWrap)entry).getObject();
                         event2 = param.getEvent();
                     } else {
                         tchecker.addProblem(ErrMsg.RESOLVE_NON_EVENT, event1.position, entry.getAbsName());
@@ -303,7 +303,7 @@ public class AutScope extends ParentScope<Automaton> {
                 for (AName event1: astMonitor.events) {
                     // Resolve to event.
                     SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker, autScope);
-                    if (!(entry instanceof EventDeclWrap || entry instanceof FormalEventDeclWrap)) {
+                    if (!(entry instanceof EventDeclWrap || entry instanceof EventParamDeclWrap)) {
                         tchecker.addProblem(ErrMsg.RESOLVE_NON_EVENT, event1.position, entry.getAbsName());
                         throw new SemanticException();
                     }
@@ -508,8 +508,8 @@ public class AutScope extends ParentScope<Automaton> {
             SymbolTableEntry entry = autScope.resolve(astEdge.target.position, astEdge.target.id, tchecker, null);
             if (entry instanceof LocationDeclWrap) {
                 targetLoc = ((LocationDeclWrap)entry).getObject();
-            } else if (entry instanceof FormalLocationDeclWrap) {
-                tchecker.addProblem(ErrMsg.EDGE_TGT_FORMAL_PARAM, astEdge.target.position, entry.getAbsName(),
+            } else if (entry instanceof LocationParamDeclWrap) {
+                tchecker.addProblem(ErrMsg.EDGE_TGT_LOC_PARAM, astEdge.target.position, entry.getAbsName(),
                         autScope.getAbsName());
                 // Non-fatal problem.
             } else {

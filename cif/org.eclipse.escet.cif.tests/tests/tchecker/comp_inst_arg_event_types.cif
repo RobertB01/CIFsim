@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 group g:
-  // Formal/actual mismatch: only one of them has a type.
+  // Parameter/argument mismatch: only one of them has a type.
 
   event e;
   event bool eb;
@@ -26,7 +26,7 @@ group g:
   p: P(eb);
   pb: Pb(e);
 
-  // Formal/actual mismatch: both have type, but not equal types.
+  // Parameter/argument mismatch: both have type, but not equal types.
 
   event int ei;
   event real er;
@@ -40,7 +40,7 @@ group g:
   pi: Pi(er);
   pr: Pr(ei);
 
-  // Formal/actual mismatch: both have type, but not equal types (int range).
+  // Parameter/argument mismatch: both have type, but not equal types (int range).
 
   event int[2..2] ei2;
 
@@ -49,7 +49,7 @@ group g:
 
   pi12: Pi12(ei2);
 
-  // Formal/actual mismatch: void.
+  // Parameter/argument mismatch: void.
   event e_;
   event string es;
   event void ev;

@@ -192,8 +192,8 @@ public class StateInitVarOrderer extends DependencyOrderer<Declaration> {
         }
         if (expr instanceof FunctionCallExpression) {
             FunctionCallExpression fexpr = (FunctionCallExpression)expr;
-            for (Expression param: fexpr.getParams()) {
-                collectStateVars(param, variables);
+            for (Expression arg: fexpr.getArguments()) {
+                collectStateVars(arg, variables);
             }
             collectStateVars(fexpr.getFunction(), variables);
             return;

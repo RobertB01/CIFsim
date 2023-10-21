@@ -1209,10 +1209,10 @@ public class CifEvalUtils {
      */
     @SuppressWarnings("unchecked")
     private static Object evalFuncCallExpr(FunctionCallExpression expr, boolean initial) throws CifEvalException {
-        // Evaluate parameters.
-        Object[] ps = new Object[expr.getParams().size()];
-        for (int i = 0; i < expr.getParams().size(); i++) {
-            ps[i] = eval(expr.getParams().get(i), initial);
+        // Evaluate arguments.
+        Object[] args = new Object[expr.getArguments().size()];
+        for (int i = 0; i < expr.getArguments().size(); i++) {
+            args[i] = eval(expr.getArguments().get(i), initial);
         }
 
         // Paranoia check: can't statically evaluate user-defined
@@ -1226,149 +1226,149 @@ public class CifEvalUtils {
         // Evaluate function.
         switch (func) {
             case ACOSH:
-                return CifMath.acosh((Double)ps[0], expr);
+                return CifMath.acosh((Double)args[0], expr);
 
             case ACOS:
-                return CifMath.acos((Double)ps[0], expr);
+                return CifMath.acos((Double)args[0], expr);
 
             case ASINH:
-                return CifMath.asinh((Double)ps[0], expr);
+                return CifMath.asinh((Double)args[0], expr);
 
             case ASIN:
-                return CifMath.asin((Double)ps[0], expr);
+                return CifMath.asin((Double)args[0], expr);
 
             case ATANH:
-                return CifMath.atanh((Double)ps[0], expr);
+                return CifMath.atanh((Double)args[0], expr);
 
             case ATAN:
-                return CifMath.atan((Double)ps[0], expr);
+                return CifMath.atan((Double)args[0], expr);
 
             case COSH:
-                return CifMath.cosh((Double)ps[0], expr);
+                return CifMath.cosh((Double)args[0], expr);
 
             case COS:
-                return CifMath.cos((Double)ps[0], expr);
+                return CifMath.cos((Double)args[0], expr);
 
             case SINH:
-                return CifMath.sinh((Double)ps[0], expr);
+                return CifMath.sinh((Double)args[0], expr);
 
             case SIN:
-                return CifMath.sin((Double)ps[0], expr);
+                return CifMath.sin((Double)args[0], expr);
 
             case TANH:
-                return CifMath.tanh((Double)ps[0], expr);
+                return CifMath.tanh((Double)args[0], expr);
 
             case TAN:
-                return CifMath.tan((Double)ps[0], expr);
+                return CifMath.tan((Double)args[0], expr);
 
             case ABS:
-                if (ps[0] instanceof Integer) {
-                    return CifMath.abs((Integer)ps[0], expr);
+                if (args[0] instanceof Integer) {
+                    return CifMath.abs((Integer)args[0], expr);
                 } else {
-                    return CifMath.abs((Double)ps[0]);
+                    return CifMath.abs((Double)args[0]);
                 }
 
             case CBRT:
-                return CifMath.cbrt((Double)ps[0]);
+                return CifMath.cbrt((Double)args[0]);
 
             case CEIL:
-                return CifMath.ceil((Double)ps[0], expr);
+                return CifMath.ceil((Double)args[0], expr);
 
             case DELETE:
-                return CifMath.delete((List<Object>)ps[0], (Integer)ps[1], expr);
+                return CifMath.delete((List<Object>)args[0], (Integer)args[1], expr);
 
             case EMPTY:
-                if (ps[0] instanceof List) {
-                    return ((List<Object>)ps[0]).isEmpty();
-                } else if (ps[0] instanceof Set) {
-                    return ((Set<Object>)ps[0]).isEmpty();
+                if (args[0] instanceof List) {
+                    return ((List<Object>)args[0]).isEmpty();
+                } else if (args[0] instanceof Set) {
+                    return ((Set<Object>)args[0]).isEmpty();
                 } else {
-                    return ((Map<Object, Object>)ps[0]).isEmpty();
+                    return ((Map<Object, Object>)args[0]).isEmpty();
                 }
 
             case EXP:
-                return CifMath.exp((Double)ps[0], expr);
+                return CifMath.exp((Double)args[0], expr);
 
             case FLOOR:
-                return CifMath.floor((Double)ps[0], expr);
+                return CifMath.floor((Double)args[0], expr);
 
             case FORMAT: {
-                Object[] args = new Object[ps.length - 1];
-                System.arraycopy(ps, 1, args, 0, args.length);
-                return CifMath.fmt((String)ps[0], args);
+                Object[] valueArgs = new Object[args.length - 1];
+                System.arraycopy(args, 1, valueArgs, 0, valueArgs.length);
+                return CifMath.fmt((String)args[0], valueArgs);
             }
 
             case LN:
-                return CifMath.ln((Double)ps[0], expr);
+                return CifMath.ln((Double)args[0], expr);
 
             case LOG:
-                return CifMath.log((Double)ps[0], expr);
+                return CifMath.log((Double)args[0], expr);
 
             case MAXIMUM:
-                if (ps[0] instanceof Integer && ps[1] instanceof Integer) {
-                    return CifMath.max((Integer)ps[0], (Integer)ps[1]);
+                if (args[0] instanceof Integer && args[1] instanceof Integer) {
+                    return CifMath.max((Integer)args[0], (Integer)args[1]);
                 } else {
-                    double p0 = (ps[0] instanceof Integer) ? (Integer)ps[0] : (Double)ps[0];
-                    double p1 = (ps[1] instanceof Integer) ? (Integer)ps[1] : (Double)ps[1];
+                    double p0 = (args[0] instanceof Integer) ? (Integer)args[0] : (Double)args[0];
+                    double p1 = (args[1] instanceof Integer) ? (Integer)args[1] : (Double)args[1];
                     return CifMath.max(p0, p1);
                 }
 
             case MINIMUM:
-                if (ps[0] instanceof Integer && ps[1] instanceof Integer) {
-                    return CifMath.min((Integer)ps[0], (Integer)ps[1]);
+                if (args[0] instanceof Integer && args[1] instanceof Integer) {
+                    return CifMath.min((Integer)args[0], (Integer)args[1]);
                 } else {
-                    double p0 = (ps[0] instanceof Integer) ? (Integer)ps[0] : (Double)ps[0];
-                    double p1 = (ps[1] instanceof Integer) ? (Integer)ps[1] : (Double)ps[1];
+                    double p0 = (args[0] instanceof Integer) ? (Integer)args[0] : (Double)args[0];
+                    double p1 = (args[1] instanceof Integer) ? (Integer)args[1] : (Double)args[1];
                     return CifMath.min(p0, p1);
                 }
 
             case POP:
-                return CifMath.pop((List<Object>)ps[0], expr);
+                return CifMath.pop((List<Object>)args[0], expr);
 
             case POWER: {
-                if (ps[0] instanceof Integer && ps[1] instanceof Integer) {
-                    int ps1 = (Integer)ps[1];
+                if (args[0] instanceof Integer && args[1] instanceof Integer) {
+                    int ps1 = (Integer)args[1];
                     if (ps1 >= 0) {
-                        return CifMath.pow((Integer)ps[0], ps1, expr);
+                        return CifMath.pow((Integer)args[0], ps1, expr);
                     }
                 }
 
-                double p0 = (ps[0] instanceof Integer) ? (Integer)ps[0] : (Double)ps[0];
-                double p1 = (ps[1] instanceof Integer) ? (Integer)ps[1] : (Double)ps[1];
+                double p0 = (args[0] instanceof Integer) ? (Integer)args[0] : (Double)args[0];
+                double p1 = (args[1] instanceof Integer) ? (Integer)args[1] : (Double)args[1];
                 return CifMath.pow(p0, p1, expr);
             }
 
             case ROUND:
-                return CifMath.round((Double)ps[0], expr);
+                return CifMath.round((Double)args[0], expr);
 
             case SCALE: {
-                double[] ds = new double[ps.length];
-                for (int i = 0; i < ps.length; i++) {
-                    ds[i] = (ps[i] instanceof Integer) ? (Integer)ps[i] : (Double)ps[i];
+                double[] ds = new double[args.length];
+                for (int i = 0; i < args.length; i++) {
+                    ds[i] = (args[i] instanceof Integer) ? (Integer)args[i] : (Double)args[i];
                 }
                 return CifMath.scale(ds[0], ds[1], ds[2], ds[3], ds[4], expr);
             }
 
             case SIGN:
-                if (ps[0] instanceof Integer) {
-                    return CifMath.sign((Integer)ps[0]);
+                if (args[0] instanceof Integer) {
+                    return CifMath.sign((Integer)args[0]);
                 } else {
-                    return CifMath.sign((Double)ps[0]);
+                    return CifMath.sign((Double)args[0]);
                 }
 
             case SIZE:
-                if (ps[0] instanceof String) {
-                    return ((String)ps[0]).length();
-                } else if (ps[0] instanceof List) {
-                    return ((List<Object>)ps[0]).size();
-                } else if (ps[0] instanceof Set) {
-                    return ((Set<Object>)ps[0]).size();
+                if (args[0] instanceof String) {
+                    return ((String)args[0]).length();
+                } else if (args[0] instanceof List) {
+                    return ((List<Object>)args[0]).size();
+                } else if (args[0] instanceof Set) {
+                    return ((Set<Object>)args[0]).size();
                 } else {
-                    return ((Map<Object, Object>)ps[0]).size();
+                    return ((Map<Object, Object>)args[0]).size();
                 }
 
             case SQRT:
-                return CifMath.sqrt((Double)ps[0], expr);
+                return CifMath.sqrt((Double)args[0], expr);
 
             case BERNOULLI:
             case BETA:

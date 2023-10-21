@@ -15,26 +15,22 @@ package org.eclipse.escet.cif.parser.ast;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.parser.ast.tokens.AEventParamFlag;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
+import org.eclipse.escet.common.java.TextPosition;
 
-/** Formal event parameter part. */
-public class AFormalEventParameterPart extends ACifObject {
-    /** The name of the parameter. */
-    public final AIdentifier name;
-
-    /** The flags of the parameter. */
-    public final List<AEventParamFlag> flags;
+/** Location parameter. */
+public class ALocationParameter extends AParameter {
+    /** The names of the parameters. */
+    public final List<AIdentifier> names;
 
     /**
-     * Constructor for the {@link AFormalEventParameterPart} class.
+     * Constructor for the {@link ALocationParameter} class.
      *
-     * @param name The name of the parameter.
-     * @param flags The flags of the parameter.
+     * @param names The names of the parameters.
+     * @param position Position information.
      */
-    public AFormalEventParameterPart(AIdentifier name, List<AEventParamFlag> flags) {
-        super(null);
-        this.name = name;
-        this.flags = flags;
+    public ALocationParameter(List<AIdentifier> names, TextPosition position) {
+        super(position);
+        this.names = names;
     }
 }

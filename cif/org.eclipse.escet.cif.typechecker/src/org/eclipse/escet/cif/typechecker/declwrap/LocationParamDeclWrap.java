@@ -19,16 +19,16 @@ import org.eclipse.escet.cif.typechecker.CheckStatus;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 
-/** Formal location parameter declaration wrapper. */
-public class FormalLocationDeclWrap extends DeclWrap<LocationParameter> {
+/** Location parameter declaration wrapper. */
+public class LocationParamDeclWrap extends DeclWrap<LocationParameter> {
     /**
-     * Constructor for the {@link FormalLocationDeclWrap} class.
+     * Constructor for the {@link LocationParamDeclWrap} class.
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
-     * @param mmDecl The CIF metamodel representation of the formal location parameter.
+     * @param mmDecl The CIF metamodel representation of the location parameter.
      */
-    public FormalLocationDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, LocationParameter mmDecl) {
+    public LocationParamDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, LocationParameter mmDecl) {
         super(tchecker, scope, mmDecl);
     }
 

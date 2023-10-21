@@ -34,7 +34,7 @@ The root object of every CIF model is an instance of the
 \cifclass{Specification} class, a special form of \cifclass{Group}.
 
 The bottom part of the \textit{cif} package diagram deals with component
-definitions (\cifclass{ComponentDef} class) and their formal parameters.
+definitions (\cifclass{ComponentDef} class) and their parameters.
 }
 
 % CifIdentifier (datatype)
@@ -111,20 +111,19 @@ behavior of the supervised system, or a part of it.
 
 % AlgParameter (class)
 \newcommand{\clsdocuAlgParameter}{
-A formal algebraic (variable) parameter of a \cifclass{ComponentDef}.
+An algebraic (variable) parameter of a \cifclass{ComponentDef}.
 
 Note that there are no constant parameters. However, constants may be provided
-as actual arguments for formal algebraic parameters.
+as arguments for algebraic parameters.
 }
 
 \newcommand{\featdocuAlgParametervariable}{
-The algebraic variable declaration that represents the formal algebraic
-parameter.
+The algebraic variable declaration that represents the algebraic parameter.
 
 \begin{constraints}
 \citem{AlgParameter.noValue}
-  The \emph{variable} declaration must not have a value, since the actual
-  parameter should provide it.
+  The \emph{variable} declaration must not have a value, since the argument
+  should provide it.
 \end{constraints}
 }
 
@@ -270,12 +269,66 @@ is a group.
 }
 
 \newcommand{\featdocuComponentDefparameters}{
-The formal parameters of the component definition.
+The parameters of the component definition.
 }
 
 % ComponentInst (class)
 \newcommand{\clsdocuComponentInst}{
 A component instantiation. Instantiates a \cifclass{ComponentDef}.
+}
+
+\newcommand{\featdocuComponentInstarguments}{
+The arguments to match each of the parameters of the component definition.
+
+\begin{constraints}
+\citem{ComponentInst.argumentCount}
+  The number of arguments of the component instantiation must be equal to the
+  number of parameters of the component definition being instantiated.
+\citem{ComponentInst.argumentTypes}
+  The type of each argument must match the type of the corresponding parameter.
+  That is:
+  \begin{itemize}
+  \item For each component parameter, the argument must be a reference to a
+    matching component. That is, for each parameter with its component
+    definition type, the argument must be a reference to a component that is
+    an instance of that component definition.
+  \item For each event parameter, the argument must be a reference to an event.
+
+    If the parameter specifies the controllability of the event, the
+    event used as argument must have the same controllability as the
+    parameter. If the parameter does not specify the
+    controllability, the controllability of the argument does not
+    matter (it may have controllability, but it may also not have
+    controllability).
+
+    If the parameter specifies the type of the event, the event used as
+    argument must have an equal type (including ranges). If the
+    parameter does not specify the type of the event, the type of the event
+    used as argument does not matter (it may have a type, but it may
+    also not have a type).
+
+    If the parameter specifies event usage restriction flags, the event
+    used as argument must support all those usages. If the
+    parameter specifies any flags, it requires that the event used as
+    argument supports at least those usages. If the parameter does not
+    specify any flags, it requires that the event used as argument
+    supports all usages. If the event used as argument is an event
+    declaration, it automatically supports all usages. If the event used as
+    argument is an event parameter, its usage restriction flags should
+    be checked. If the event used as argument does not have any flags, it
+    supports all usages. If the event used as parameter does have one or more
+    flags, it supports only those usages specified by the flags.
+
+    It is not possible to use the `tau' event as argument.
+  \item For each location parameter, the argument must be a reference to a
+    location.
+  \item For each algebraic parameter, the argument must be an
+    expression with a compatible type. If the parameter's type has a
+    range, the argument's type must have one as well, and the range of
+    the type of the argument must be entirely contained in the range of
+    the type of the parameter.
+  \end{itemize}
+\end{constraints}
 }
 
 \newcommand{\featdocuComponentInstdefinition}{
@@ -292,71 +345,14 @@ types to be used. See also Section~\ref{sec:scoping}.
 \end{constraints}
 }
 
-\newcommand{\featdocuComponentInstparameters}{
-The actual parameters (or arguments), to match each of the formal parameters
-of the component definition.
-
-\begin{constraints}
-\citem{ComponentInst.parameterCount}
-  The number of formal parameters must be equal to the number of actual
-  parameters.
-\citem{ComponentInst.parameterTypes}
-  The type of each actual parameter must match the type of the
-  corresponding formal parameter. That is:
-  \begin{itemize}
-  \item For each formal component parameter, the actual parameter must be a
-    reference to a matching component. That is, for
-    each formal parameter with its component definition type, the actual
-    parameter must be a reference to a component that is an instance of that
-    component definition.
-  \item For each formal event parameter, the actual parameter must be a
-    reference to an event.
-
-    If the formal parameter specifies the controllability of the event, the
-    event used as actual parameter must have the same controllability as the
-    formal parameter. If the formal parameter does not specify the
-    controllability, the controllability of the actual argument does not
-    matter (it may have controllability, but it may also not have
-    controllability).
-
-    If the formal parameter specifies the type of the event, the event used as
-    actual parameter must have an equal type (including ranges). If the formal
-    parameter does not specify the type of the event, the type of the event
-    used as actual parameter does not matter (it may have a type, but it may
-    also not have a type).
-
-    If the formal parameter specifies event usage restriction flags, the event
-    used as actual parameter must support all those usages. If the formal
-    parameter specifies any flags, it requires that the event used as actual
-    argument supports at least those usages. If the formal parameter does not
-    specify any flags, it requires that the event used as actual argument
-    supports all usages. If the event used as actual argument is an event
-    declaration, it automatically supports all usages. If the event used as
-    actual argument is an event parameter, its usage restriction flags should
-    be checked. If the actual event parameter does not have any flags, it
-    supports all usages. If the actual event parameter does have one or more
-    flags, it supports only those usages specified by the flags.
-
-    It is not possible to use the `tau' event as actual parameter.
-  \item For each formal location parameter, the actual parameter must be a
-    reference to a location.
-  \item For each formal algebraic parameter, the actual parameter must be an
-    expression with a compatible type. If the formal parameter type has a
-    range, the actual parameter type must have one as well, and the range of
-    the type of the actual parameter must be entirely contained in the range of
-    the type of the formal parameter.
-  \end{itemize}
-\end{constraints}
-}
-
 % ComponentParameter (class)
 \newcommand{\clsdocuComponentParameter}{
-A formal component parameter of a \cifclass{ComponentDef}.
+A component parameter of a \cifclass{ComponentDef}.
 }
 
 \newcommand{\featdocuComponentParametername}{
-The name of the formal component parameter. Note that other formal parameters
-get their name via the contained declaration. Since the formal component
+The name of the component parameter. Note that other parameters
+get their name via the contained declaration. Since the component
 parameter references a component definition, it does not contain
 such a declaration, and the name is instead included in this class.
 
@@ -368,7 +364,7 @@ such a declaration, and the name is instead included in this class.
 }
 
 \newcommand{\featdocuComponentParametertype}{
-The type of components that may be passed along as actual parameter.
+The type of components that may be passed along as argument.
 
 This feature contains \cifclass{CifType} instances, to allow for wrapping
 types to be used. See also Section~\ref{sec:scoping}.
@@ -431,7 +427,7 @@ The continuous or algebraic variable that is given a value.
 
 % EventParameter (class)
 \newcommand{\clsdocuEventParameter}{
-A formal event parameter of a \cifclass{ComponentDef}.
+An event parameter of a \cifclass{ComponentDef}.
 
 \begin{constraints}
 \citem{EventParameter.flagChannelOnly}
@@ -442,7 +438,7 @@ A formal event parameter of a \cifclass{ComponentDef}.
 }
 
 \newcommand{\featdocuEventParameterevent}{
-The event declaration that represents the formal event parameter.
+The event declaration that represents the event parameter.
 }
 
 \newcommand{\featdocuEventParameterrecvFlag}{
@@ -569,11 +565,11 @@ model.
 
 % LocationParameter (class)
 \newcommand{\clsdocuLocationParameter}{
-A formal location parameter of a \cifclass{ComponentDef}.
+A location parameter of a \cifclass{ComponentDef}.
 }
 
 \newcommand{\featdocuLocationParameterlocation}{
-The location declaration that represents the formal location parameter.
+The location declaration that represents the location parameter.
 
 \begin{constraints}
 \citem{LocationParameter.nameOnly}
@@ -585,7 +581,7 @@ The location declaration that represents the formal location parameter.
 
 % Parameter (abstract class)
 \newcommand{\clsdocuParameter}{
-A formal parameter of a \cifclass{ComponentDef}.
+A parameter of a \cifclass{ComponentDef}.
 }
 
 % Specification (class)
@@ -685,7 +681,7 @@ The value of the algebraic variable (the defining expression).
   location).
 
   For algebraic variables that are part of an algebraic parameter, the value
-  must not be set, since then the actual parameter should provide the value.
+  must not be set, since then the arguments should provide the value.
   See also the \cifclass{AlgParameter} class constraints.
 \end{constraints}
 }
@@ -1603,7 +1599,7 @@ instantiations. See also Section~\ref{sec:scoping}.
 }
 
 \newcommand{\featdocuCompParamWrapTypeparameter}{
-The formal component parameter via which the object is referenced.
+The component parameter via which the object is referenced.
 
 \begin{constraints}
 \citem{CompParamWrapType.parameterInScope}
@@ -1612,7 +1608,7 @@ The formal component parameter via which the object is referenced.
 }
 
 \newcommand{\featdocuCompParamWrapTypereference}{
-The object that is referenced via a formal component parameter.
+The object that is referenced via a component parameter.
 
 This feature contains \cifclass{CifType} instances, to allow for wrapping
 types to be used.
@@ -2665,7 +2661,7 @@ instantiations. See also Section~\ref{sec:scoping}.
 }
 
 \newcommand{\featdocuCompParamWrapExpressionparameter}{
-The formal component parameter via which the object is referenced.
+The component parameter via which the object is referenced.
 
 \begin{constraints}
 \citem{CompParamWrapExpression.parameterInScope}
@@ -2674,7 +2670,7 @@ The formal component parameter via which the object is referenced.
 }
 
 \newcommand{\featdocuCompParamWrapExpressionreference}{
-The object that is referenced via a formal component parameter.
+The object that is referenced via a component parameter.
 
 This feature contains \cifclass{Expression} instances, to allow for wrapping
 expressions to be used.
@@ -2928,21 +2924,21 @@ A function call expression.
 \begin{constraints}
 \citem{FunctionCallExpression.type}
   The type of the function call expression must match the types of the function
-  and the parameters. That is, the function must have a function type. The
+  and its parameters. That is, the function must have a function type. The
   type of the functional call expression must match the result type of the
   function type. For ranged types, the ranges (if specified) must be equal.
-  The count and types of the parameters must match the parameter types of the
-  function type. For ranged types, the ranges (if specified) of the parameters
+  The count and types of the arguments must match the parameter types of the
+  function type. For ranged types, the ranges (if specified) of the arguments
   must be contained in the ranges of the parameter types of the function type.
 \end{constraints}
 }
 
-\newcommand{\featdocuFunctionCallExpressionfunction}{
-The function to call.
+\newcommand{\featdocuFunctionCallExpressionarguments}{
+The function arguments for the function call.
 }
 
-\newcommand{\featdocuFunctionCallExpressionparams}{
-The function parameters for the function call.
+\newcommand{\featdocuFunctionCallExpressionfunction}{
+The function to call.
 }
 
 % FunctionExpression (class)
@@ -2953,8 +2949,8 @@ A user-defined function reference expression.
 \citem{FunctionExpression.type}
   The type of a function reference expression must be a function type, with
   a return type matching the return type of the referenced function, and
-  parameter types matches the parameter types of the referenced function.
-  For ranged types, the ranges must match exactly.
+  parameter types matching the types of the parameters of the referenced
+  function. For ranged types, the ranges must match exactly.
 \end{constraints}
 }
 
@@ -3342,11 +3338,11 @@ Standard library function reference expression.
   in automata.
 \citem{StdLibFunctionExpression.type}
   The type of the standard library expression depends on the
-  \cifclass{StdLibFunction}, and for some functions, also on the parameters.
+  \cifclass{StdLibFunction}, and for some functions, also on the arguments.
   Tables~\ref{tbl:stdlib-types}, \ref{tbl:stdlib-trig-types}, and
   \ref{tbl:stdlib-dist-types} list the allowed combinations.
 
-  For integer types, if one of the parameters has a rangeless integer type,
+  For integer types, if one of the arguments has a rangeless integer type,
   the result type is also rangeless, if the result type is an integer type as
   well. Similar relations hold for other ranged types.
 
@@ -3370,7 +3366,7 @@ Standard library function reference expression.
 \begin{table}
   \centering
   \begin{tabular}{l l l l}
-    \textbf{Function} & \textbf{Parameter types} & \textbf{Result type} \\
+    \textbf{Function} & \textbf{Argument types} & \textbf{Result type} \\
     \hline
     Abs   & int \range{l}{u}
           & int \rangeV
@@ -3422,7 +3418,7 @@ Standard library function reference expression.
                                \}} \\
           & int / real, int / real & real \\
     Round & real & int \\
-    Scale & int / real, int / real, \ldots (5 parameters) & real \\
+    Scale & int / real, int / real, \ldots (5 arguments) & real \\
     Sign  & int \range{l}{u}
           & int \rangeBig
                      {\left(
@@ -3456,7 +3452,7 @@ Standard library function reference expression.
 \begin{table}
   \centering
   \begin{tabular}{l l l l}
-    \textbf{Function} & \textbf{Parameter types} & \textbf{Result type} \\
+    \textbf{Function} & \textbf{Argument types} & \textbf{Result type} \\
     \hline
     Acosh & real & real \\
     Acos & real & real \\
@@ -3479,7 +3475,7 @@ Standard library function reference expression.
 \begin{table}
   \centering
   \begin{tabular}{l l l l}
-    \textbf{Function} & \textbf{Parameter types} & \textbf{Result type} \\
+    \textbf{Function} & \textbf{Argument types} & \textbf{Result type} \\
     \hline
     Bernoulli & real & dist bool \\
     Beta & real, real & dist real \\
@@ -3901,8 +3897,8 @@ as for discrete variables, also for function parameters.
   parameters, as components and component definitions are not meant to be used
   as values.
 \citem{FunctionParameter.noValue}
-  The \emph{parameter} declaration must not have a value, since the actual
-  parameter should provide it.
+  The \emph{parameter} declaration must not have a value, since the function
+  argument should provide it.
 \end{constraints}
 }
 

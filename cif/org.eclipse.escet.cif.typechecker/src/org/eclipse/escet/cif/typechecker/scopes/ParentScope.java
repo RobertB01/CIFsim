@@ -42,6 +42,7 @@ import org.eclipse.escet.cif.typechecker.CheckStatus;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
+import org.eclipse.escet.cif.typechecker.declwrap.AlgParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.AlgVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.ConstDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.ContVariableDeclWrap;
@@ -50,15 +51,14 @@ import org.eclipse.escet.cif.typechecker.declwrap.DiscVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumLiteralDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalAlgDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InvariantInfo;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.LocationParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.GridBox;
@@ -692,11 +692,11 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
                     continue;
                 } else if (decl instanceof EventDeclWrap) {
                     description = "Event";
-                } else if (decl instanceof FormalAlgDeclWrap) {
+                } else if (decl instanceof AlgParamDeclWrap) {
                     description = "Algebraic parameter";
-                } else if (decl instanceof FormalEventDeclWrap) {
+                } else if (decl instanceof EventParamDeclWrap) {
                     description = "Event parameter";
-                } else if (decl instanceof FormalLocationDeclWrap) {
+                } else if (decl instanceof LocationParamDeclWrap) {
                     description = "Location parameter";
                 } else if (decl instanceof FuncParamDeclWrap) {
                     description = "Function parameter";

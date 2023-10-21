@@ -20,8 +20,8 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.parser.ast.AFormalEventParameter;
-import org.eclipse.escet.cif.parser.ast.AFormalEventParameterPart;
+import org.eclipse.escet.cif.parser.ast.AEventParameter;
+import org.eclipse.escet.cif.parser.ast.AEventParameterPart;
 import org.eclipse.escet.cif.parser.ast.tokens.AEventParamFlag;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
@@ -30,25 +30,25 @@ import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
-/** Formal event parameter declaration wrapper. */
-public class FormalEventDeclWrap extends DeclWrap<EventParameter> {
+/** Event parameter declaration wrapper. */
+public class EventParamDeclWrap extends DeclWrap<EventParameter> {
     /** The CIF AST representation of the event parameter. */
-    private final AFormalEventParameter astDecl;
+    private final AEventParameter astDecl;
 
     /** The CIF AST representation of the event parameter part. */
-    private final AFormalEventParameterPart astPartDecl;
+    private final AEventParameterPart astPartDecl;
 
     /**
-     * Constructor for the {@link FormalEventDeclWrap} class.
+     * Constructor for the {@link EventParamDeclWrap} class.
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
      * @param astDecl The CIF AST representation of the event parameter.
      * @param astPartDecl The CIF AST representation of the event parameter part.
-     * @param mmDecl The CIF metamodel representation of the formal event parameter.
+     * @param mmDecl The CIF metamodel representation of the event parameter.
      */
-    public FormalEventDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AFormalEventParameter astDecl,
-            AFormalEventParameterPart astPartDecl, EventParameter mmDecl)
+    public EventParamDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AEventParameter astDecl,
+            AEventParameterPart astPartDecl, EventParameter mmDecl)
     {
         super(tchecker, scope, mmDecl);
         this.astDecl = astDecl;

@@ -30,7 +30,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.ComponentInst#getDefinition <em>Definition</em>}</li>
- *   <li>{@link org.eclipse.escet.cif.metamodel.cif.ComponentInst#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.ComponentInst#getArguments <em>Arguments</em>}</li>
  * </ul>
  *
  * @see org.eclipse.escet.cif.metamodel.cif.CifPackage#getComponentInst()
@@ -62,15 +62,15 @@ public interface ComponentInst extends Component
     void setDefinition(CifType value);
 
     /**
-     * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
+     * Returns the value of the '<em><b>Arguments</b></em>' containment reference list.
      * The list contents are of type {@link org.eclipse.escet.cif.metamodel.cif.expressions.Expression}.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Parameters</em>' containment reference list.
-     * @see org.eclipse.escet.cif.metamodel.cif.CifPackage#getComponentInst_Parameters()
+     * @return the value of the '<em>Arguments</em>' containment reference list.
+     * @see org.eclipse.escet.cif.metamodel.cif.CifPackage#getComponentInst_Arguments()
      * @model containment="true"
      * @generated
      */
-    EList<Expression> getParameters();
+    EList<Expression> getArguments();
 
 } // ComponentInst
