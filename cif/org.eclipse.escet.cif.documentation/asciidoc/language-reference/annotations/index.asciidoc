@@ -36,27 +36,39 @@ If specified, annotations are indicated by an <<lang-ref-syntax-lexical-annoname
 
 Optionally, the annotation may have arguments.
 If the annotation has arguments, these are put between parentheses, `(` and `)`.
-Parentheses may be used if there are no argument, but this is not recommended.
+Parentheses may be used if there are no arguments, but this is not recommended.
 Multiple arguments are separated by commas.
-An extra comma may optionally follow the last argument.
+An extra comma may optionally follow the last argument, which can make it easier to comment out arbitrary arguments, while still maintaining a valid model.
 
 Each argument consists of a name and a value, separated by an `=` sign.
 The name is either a CIF <<lang-ref-syntax-lexical-identifier,identifier>> or a CIF <<lang-ref-syntax-lexical-relname,relative name>>.
-If the name is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be escaped by prefixing it with a `$` sign.
+If the name is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be <<lang-ref-syntax-lexical-identifier,escaped>> by prefixing it with a `$` sign.
 The value of the argument is a CIF expression.
 
-Here are some examples of annotations:
+As an example of the syntax, consider the following input variable annotated with 7 annotations:
 
 [source,cif]
 ----
 @anno
 @some:anno
-@anno()
-@anno(arg = 3)
-@anno($input = true)
-@anno(arg1 = 3, arg2 = 4)
-@anno(arg = 3, some.other.arg = 4,)
+@anno1()
+@anno2(arg = 3)
+@anno3($input = true)
+@anno4(some_arg = 3, some.other.arg = [123, 467])
+@anno5(
+    arg1 = -sqrt(2),
+    arg2 = 3 * 9,
+    arg3 = "some text",
+)
+input bool x;
 ----
+
+The first three annotations do not have any arguments, the other four do.
+The arguments have values of various types.
+For `anno3`, the `input` argument name is escaped to `$input` as `input` is a keyword.
+For `anno4`, the second argument uses a relative name as argument name.
+For `anno5`, the first and second argument have a computation as value.
+And there is a comma after each argument, including the last argument.
 
 === Placement
 
@@ -67,7 +79,7 @@ Currently, annotations are only supported for the following elements in CIF spec
 This will be extended to other elements of specifications in the future.
 
 Annotations are placed before the elements that they annotate.
-Here is an example:
+Here is an example, for an annotation without arguments:
 
 [source,cif]
 ----
