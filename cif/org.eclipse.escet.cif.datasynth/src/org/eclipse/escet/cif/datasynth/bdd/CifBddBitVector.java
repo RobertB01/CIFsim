@@ -417,6 +417,8 @@ public class CifBddBitVector {
         for (int i = min; i < bits.length; i++) {
             bits[i].free();
         }
+
+        // Replace the bits.
         bits = newBits;
     }
 
