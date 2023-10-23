@@ -63,20 +63,17 @@ As an example of the syntax, consider the following input variable annotated wit
 input bool x;
 ----
 
-The first three annotations do not have any arguments, the other four do.
-The arguments have values of various types.
-For `anno3`, the `input` argument name is escaped to `$input` as `input` is a keyword.
-For `anno4`, the second argument uses a relative name as argument name.
-For `anno5`, the first and second argument have a computation as value.
-And there is a comma after each argument, including the last argument.
+Some observations:
+
+* The first three annotations do not have any arguments, the other four do.
+* The arguments have values of various types.
+* For `anno3`, the `input` argument name is escaped to `$input` as `input` is a keyword.
+* For `anno4`, the second argument uses a relative name as argument name.
+* For `anno5`, the first and second argument have a computation as value.
+* For `anno5`, there is a comma after each argument, including after the last argument.
+This makes it easy to later comment out any of the three arguments, or add an extra argument without having add an extra comma.
 
 === Placement
-
-Currently, annotations are only supported for the following elements in CIF specifications:
-
-* Input variables.
-
-This will be extended to other elements of specifications in the future.
 
 Annotations are placed before the elements that they annotate.
 Here is an example, where an input variable is annotated with an annotation without arguments:
@@ -86,6 +83,12 @@ Here is an example, where an input variable is annotated with an annotation with
 @anno
 input bool x;
 ----
+
+Currently, annotations are only supported for the following elements in CIF specifications:
+
+* Input variables.
+
+This will be extended to other elements of specifications in the future.
 
 [[lang-ref-extensions-annotations-constraints]]
 === Constraints
