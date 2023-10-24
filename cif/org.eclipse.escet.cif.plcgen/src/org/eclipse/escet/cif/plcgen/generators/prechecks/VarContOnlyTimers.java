@@ -53,7 +53,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
                     checkValue(contVar.getValue(), violations);
                 }
 
-                checkDerivativeInitialization(contVar, violations);
+                checkDerivative(contVar, violations);
             }
         }
     }
@@ -110,7 +110,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
      * @param contVar Continuous variable to check.
      * @param violations Already found violations, may be extended in-place.
      */
-    private void checkDerivativeInitialization(ContVariable contVar, CifCheckViolations violations) {
+    private void checkDerivative(ContVariable contVar, CifCheckViolations violations) {
         Expression derivative = contVar.getDerivative();
         if (derivative == null) {
             violations.add(contVar, "Continuous variable has its derivative declared through one or more equations, "
