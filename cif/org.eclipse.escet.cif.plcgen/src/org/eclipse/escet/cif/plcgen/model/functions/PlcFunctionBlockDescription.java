@@ -45,7 +45,7 @@ public class PlcFunctionBlockDescription extends PlcBasicFuncDescription {
     public static PlcFunctionBlockDescription makeTonBlock(String instanceName) {
         // TODO: Should be instantiated by the target like the normal functions to allow customization by the target,
         // but no need currently.
-        // TODO: Distinguish between type declaration name, instance name, and function  in its use.
+        // TODO: Distinguish between type declaration name, instance name, and function in its use.
         PlcParameterDescription[] params = { //
                 new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY), // Boolean, false resets the timer,
                                                                                  // true allows measuring time.

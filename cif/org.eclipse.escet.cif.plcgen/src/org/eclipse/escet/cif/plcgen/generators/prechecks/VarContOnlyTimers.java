@@ -41,7 +41,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * <li>The value of the continuous variable is only comparing using the "<", "<=", ">", or ">=" binary operators.</li>
  * <li>The value of the continuous variable may only be compared in value ranges where PLC semantics and CIF semantics
  * are not distinguishable.</li>
- * <li>The continuous variable is only assigned in a single-variable assignment, not in multi-assingments.</li>
+ * <li>The continuous variable is only assigned in single-variable assignments, not in multi-assignments.</li>
  * </ul>
  */
 public class VarContOnlyTimers extends CifCheck {
@@ -75,7 +75,7 @@ public class VarContOnlyTimers extends CifCheck {
                 return;
             }
         } else if (exprParent instanceof BinaryExpression binExpr) {
-            // Continuous variable comparison is the only way to read a continuous variable..
+            // Continuous variable comparison is the only way to read a continuous variable.
             boolean varAtLeft = (binExpr.getLeft() == cvExpr);
             Expression valueExpr;
             if (varAtLeft) {
@@ -97,20 +97,20 @@ public class VarContOnlyTimers extends CifCheck {
             return;
         }
         violations.add(cvExpr,
-                "Continuous variable value can only be compared, or get assigned in a single-variable assignment");
+                "Continuous variable value is not compared as \"variable <= ...\" or \"... >= variable\", nor assigned in a single-variable assignment");
     }
 
     /**
-     * Check that the derivative of the given continuous variable is initialized with the value @{code -1} or
+     * Check that the derivative of the given continuous variable is {@code -1} or
      * {@code -1.0}.
      *
      * @param contVar Continuous variable to check.
-     * @param violations Already found precheck violations, may be extended in-place.
+     * @param violations Already found violations, may be extended in-place.
      */
     private void checkDerivativeInitialization(ContVariable contVar, CifCheckViolations violations) {
         Expression derivative = contVar.getDerivative();
         if (derivative == null) {
-            violations.add(contVar, "Derivative must be initialized to -1 or -1.0");
+            violations.add(contVar, "Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration");
             return;
         }
 
@@ -128,7 +128,7 @@ public class VarContOnlyTimers extends CifCheck {
      * Check that the given continuous variable value is a non-negative number.
      *
      * @param value Value to check.
-     * @param violations Already found precheck violations, may be extended in-place.
+     * @param violations Already found violations, may be extended in-place.
      */
     private void checkValue(Expression value, CifCheckViolations violations) {
         Object evalValue = getStaticEvaluableValue(value, false, violations);
@@ -137,7 +137,7 @@ public class VarContOnlyTimers extends CifCheck {
         {
             return;
         }
-        violations.add(value, "Continuous variable value must be at least 0");
+        violations.add(value, "Continuous variable is initialized to, assigned, or compared to, a negative value");
     }
 
     /**
@@ -145,7 +145,7 @@ public class VarContOnlyTimers extends CifCheck {
      * evaluation fails and {@code null} is returned. Otherwise the evaluation value is returned.
      *
      * @param value Value to evaluate.
-     * @param isDerivative Whether the given expression is used to assign to the derivative of a continuous variable.
+     * @param isDerivative Whether the given expression is the derivative of a continuous variable.
      * @param violations Already found precheck violations, may be extended in-place.
      * @return {@code null} if the given expression could not be evaluated or does not represent a static single value,
      *     else the found value is returned as Java value. See {@link CifEvalUtils} class description for details.
