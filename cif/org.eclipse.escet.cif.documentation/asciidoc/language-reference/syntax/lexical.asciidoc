@@ -24,6 +24,7 @@ This page describes the CIF lexical syntax.
 indexterm:[keywords]
 indexterm:[syntax,keywords]
 
+[[lang-ref-syntax-lexical-keywords]]
 === Keywords
 
 _Language keywords_
@@ -99,6 +100,7 @@ indexterm:[$]
 indexterm:[syntax,keyword escaping]
 indexterm:[keyword,escaping]
 
+[[lang-ref-syntax-lexical-identifier]]
 `IDENTIFIERTK`::
 An identifier.
 Defined by the regular expression:
@@ -126,6 +128,7 @@ indexterm:[syntax,name]
 indexterm:[syntax,relative name]
 indexterm:[.]
 
+[[lang-ref-syntax-lexical-relname]]
 `RELATIVENAMETK`::
 A relative name.
 Defined by the regular expression:
@@ -181,6 +184,7 @@ Examples:
 indexterm:[syntax,annotation name]
 indexterm:[annotation,name]
 
+[[lang-ref-syntax-lexical-annoname]]
 `ANNOTATIONNAMETK`::
 An annotation name.
 Annotations names are used to refer to annotations.

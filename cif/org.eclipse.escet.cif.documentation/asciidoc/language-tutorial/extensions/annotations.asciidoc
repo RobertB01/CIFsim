@@ -38,7 +38,7 @@ Annotations have two main purposes:
 
 Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
 
-The following annotations are bundled with CIF:
+The following built-in annotations are bundled with CIF:
 
 [cols="2,1"]
 |===
@@ -47,6 +47,14 @@ The following annotations are bundled with CIF:
 | <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
 | `doc`
 |===
+
+Annotations are an extension mechanism, and anyone can <<lang-ref-extensions-annotations-providers,define and register>> their own annotations.
+Different CIF installations may therefore have different registered annotations.
+A CIF specification may thus have a warning in one installation, if the annotation is for instance not registered in that installation, while in another installation the annotation does not have a warning, as there it is registered.
+Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.
+Hence, a specification with such annotations may be valid in one installation, and invalid in another.
+
+For more detailed information on annotations, see the <<lang-ref-extensions-annotations,reference manual>>.
 
 indexterm:[annotation, doc]
 indexterm:[doc, annotation]
@@ -60,6 +68,28 @@ Documentation can be added to input variables:
 ----
 @doc($text = "The lower limit sensor of the elevator.")
 input bool ElevatorDownSensor;
+----
+
+The documentation may span multiple lines:
+
+[source,cif]
+----
+@doc($text =
+    "doc with multiple\n" +
+    "lines of\n" +
+    "text"
+)
+input bool i;
+----
+
+It is also possible to use for instance constants from the model in the documentation text:
+
+[source,cif]
+----
+const int MAX_NR_OF_PRODUCTS = 3;
+
+@doc($text = fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
+input bool s1;
 ----
 
 This documentation can then be used by CIF tools in various ways.
@@ -77,3 +107,5 @@ For the above example, it may generate the following Java code:
  */
 public boolean ElevatorDownSensor;
 ----
+
+For more detailed information on documentation annotations, see the <<lang-ref-extensions-annotations-documentation,reference manual>>.
