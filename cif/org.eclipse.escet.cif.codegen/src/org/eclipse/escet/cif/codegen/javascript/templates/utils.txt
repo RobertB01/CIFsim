@@ -3,23 +3,27 @@
  *
  * <p>Indices a runtime error while executing the generated code.</p>
  */
-function ${prefix}Exception(message) {
-    return new Error(message);
+function ${prefix}Exception(message = "") {
+    this.name = "${prefix}Exception";
+    this.message = message;
 }
-${prefix}Exception.prototype = Object.create(Error.prototype);
+${prefix}Exception.prototype = Error.prototype;
 
 /** ${prefix} utility code. */
 class ${prefix}Utils {
+
+    static MIN_INT = -2147483648; // Java int minimum value
+    static MAX_INT = 2147483647; // Java int maximum value
 
     /**
      * Returns the absolute value of an integer number.
      *
      * @param {number} x - The integer number.
-     * @return {number} abs(x).
+     * @return {number} `abs(x)`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static absInt(x) {
-        if (x == Number.MIN_SAFE_INTEGER) {
+        if (x == ${prefix}Utils.MIN_INT) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: abs(%d).", x));
         }
         return Math.abs(x);
@@ -29,7 +33,7 @@ class ${prefix}Utils {
      * Returns the absolute value of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} abs(x).
+     * @return {number} `abs(x)`.
      */
     static absDouble(x) {
         return Math.abs(x);
@@ -39,17 +43,17 @@ class ${prefix}Utils {
      * Returns the arc cosine of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} acos(x).
-     * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
+     * @return {number} `acos(x)`.
+     * @throws {${prefix}Exception} If the operation results in real overflow, or `NaN`.
      */
     static acos(x) {
         var rslt = Math.acos(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: acos(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: acos(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: acos(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: acos(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -59,17 +63,17 @@ class ${prefix}Utils {
      * Returns the arc sine of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} asin(x).
-     * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
+     * @return {number} `asin(x)`.
+     * @throws {${prefix}Exception} If the operation results in real overflow, or `NaN`.
      */
     static asin(x) {
         var rslt = Math.asin(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: asin(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: asin(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: asin(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: asin(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -79,17 +83,17 @@ class ${prefix}Utils {
      * Returns the arc tangent of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} atan(x).
-     * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
+     * @return {number} `atan(x)`.
+     * @throws {${prefix}Exception} If the operation results in real overflow, or `NaN`.
      */
     static atan(x) {
         var rslt = Math.atan(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: atan(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: atan(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: atan(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: atan(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -100,12 +104,12 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first integer number.
      * @param {number} y - The second integer number.
-     * @return {number} x + y.
+     * @return {number} `x + y`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static addInt(x, y) {
         var rslt = x + y;
-        if (Number.MIN_SAFE_INTEGER <= rslt && rslt <= Number.MAX_SAFE_INTEGER) {
+        if (${prefix}Utils.MIN_INT <= rslt && rslt <= ${prefix}Utils.MAX_INT) {
             return rslt;
         }
 
@@ -117,13 +121,13 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first real number.
      * @param {number} y - The second real number.
-     * @return {number} x + y.
+     * @return {number} `x + y`.
      * @throws {${prefix}Exception} If the operation results in real overflow.
      */
     static addReal(x, y) {
         var rslt = x + y;
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s + %s.", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s + %s.",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -134,16 +138,16 @@ class ${prefix}Utils {
      *
      * @param {string} x - The first string.
      * @param {string} y - The second string.
-     * @return {string} x + y.
+     * @return {string} `x + y`.
      */
     static addString(x, y) {
         return x + y;
     }
 
     /**
-     * Converts a Javascript Boolean to a CIF boolean value literal, in the CIF ASCII representation.
+     * Converts a JavaScript Boolean to a CIF boolean value literal, in the CIF ASCII representation.
      *
-     * @param {number} x - The Javascript Boolean value.
+     * @param {number} x - The JavaScript Boolean value.
      * @return {string} The CIF boolean value literal, in the CIF ASCII representation.
      */
     static boolToStr(x) {
@@ -154,7 +158,7 @@ class ${prefix}Utils {
      * Returns the cube root of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} cbrt(x).
+     * @return {number} `cbrt(x)`.
      */
     static cbrt(x) {
         var rslt = Math.cbrt(x);
@@ -165,13 +169,13 @@ class ${prefix}Utils {
      * Returns the ceil of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} ceil(x).
+     * @return {number} `ceil(x)`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static ceil(x) {
         var rslt = Math.ceil(x);
-        if (rslt < Number.MIN_SAFE_INTEGER || rslt > Number.MAX_SAFE_INTEGER) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: ceil(%s).", 
+        if (rslt < ${prefix}Utils.MIN_INT || rslt > ${prefix}Utils.MAX_INT) {
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: ceil(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return rslt;
@@ -205,7 +209,7 @@ class ${prefix}Utils {
      */
     static copy(lst) {
         var rslt = [];
-        for(var i = 0; i < lst.length; ++i) {
+        for (var i = 0; i < lst.length; i++) {
             rslt.push(lst[i]);
         };
         return rslt;
@@ -215,17 +219,17 @@ class ${prefix}Utils {
      * Returns the cosine of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} cos(x).
+     * @return {number} `cos(x)`.
      * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
      */
     static cos(x) {
         var rslt = Math.cos(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: cos(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: cos(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: cos(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: cos(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -236,17 +240,17 @@ class ${prefix}Utils {
      *
      * @param {number} x - The dividend.
      * @param {number} y - The divisor.
-     * @return {number} x div y.
+     * @return {number} `x div y`.
      * @throws {${prefix}Exception} If the operation results in integer overflow, or division by zero.
      */
     static div(x, y) {
         if (y == 0) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Division by zero: %d div %d.", x, y));
         }
-        if (x == Number.MIN_SAFE_INTEGER && y == -1) {
+        if (x == ${prefix}Utils.MIN_INT && y == -1) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: %d div %d.", x, y));
         }
-        return x / y;
+        return Math.trunc(Math.trunc(x) / Math.trunc(y));
     }
 
     /**
@@ -254,17 +258,17 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first real number.
      * @param {number} y - The second real number.
-     * @return {number} x / y.
+     * @return {number} `x / y`.
      * @throws {${prefix}Exception} If the operation results in real overflow, or division by zero.
      */
     static divide(x, y) {
         if (y == 0.0) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Division by zero: %s / %s.", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Division by zero: %s / %s.",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         var rslt = x / y;
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s * %s.", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s * %s.",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -274,19 +278,19 @@ class ${prefix}Utils {
      * Returns empty(x) for the given list.
      *
      * @param {number} x - The list.
-     * @return {boolean} empty(x).
+     * @return {boolean} `empty(x)`.
      */
     static empty(x) {
         return x.length <= 0;
     }
 
     /**
-     * Returns true if the arguments are equal to each other and false otherwise. 
-     * Can handle null values.
+     * Returns `true` if the arguments are equal to each other and `false` otherwise.
+     * Can handle `null` values.
      *
      * @param {object} obj1 - The first object.
      * @param {object} obj2 - The second object.
-     * @return {boolean} true if the arguments are equal to each other, false otherwise.
+     * @return {boolean} `true` if the arguments are equal to each other, `false` otherwise.
      */
     static equalObjs(obj1, obj2) {
         return obj1 === obj2;
@@ -295,33 +299,33 @@ class ${prefix}Utils {
     /**
      * Returns a backslash escaped version of the string. That is:
      * <ul>
-     * <li>backslash ("\\") becomes "\\\\"</li>
-     * <li>new line ("\n") becomes "\\n"</li>
-     * <li>tab ("\t") becomes "\\t"</li>
-     * <li>double quotes ("\"") becomes "\\\""</li>
+     * <li>backslash ('"\\"') becomes '"\\\\"'</li>
+     * <li>new line ('"\n"') becomes '"\\n"'</li>
+     * <li>tab ('"\t"') becomes '"\\t"'</li>
+     * <li>double quotes ('"\""') becomes '"\\\""'</li>
      * </ul>
      *
-     * @param {string} s -  The string value to escape.
+     * @param {string} s - The string value to escape.
      * @return {string} The backslash escaped string value.
      */
     static escape(s) {
-        return s.toString().replace("\\", "\\\\")
-            .replace("\n", "\\n")
-            .replace("\t", "\\t")
-            .replace("\"", "\\\"");
+        return s.toString().replaceAll("\\", "\\\\")
+            .replaceAll("\n", "\\n")
+            .replaceAll("\t", "\\t")
+            .replaceAll("\"", "\\\"");
     }
 
     /**
-     * Returns e<sup>x</sup> of a real number x.
+     * Returns `e`<sup>`x`</sup> of a real number `x`.
      *
      * @param {number} x - The real number.
-     * @return {number} exp(x).
+     * @return {number} `exp(x)`.
      * @throws {${prefix}Exception} If the operation results in real overflow.
      */
     static exp(x) {
         var rslt = Math.exp(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: exp(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: exp(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -331,13 +335,13 @@ class ${prefix}Utils {
      * Returns the floor of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} floor(x).
+     * @return {number} `floor(x)`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static floor(x) {
         var rslt = Math.floor(x);
-        if (rslt < Number.MIN_SAFE_INTEGER || rslt > Number.MAX_SAFE_INTEGER) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: floor(%s).", 
+        if (rslt < ${prefix}Utils.MIN_INT || rslt > ${prefix}Utils.MAX_INT) {
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: floor(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return rslt;
@@ -353,25 +357,17 @@ class ${prefix}Utils {
      * @return {string} A formatted string.
      */
     static fmt(str) {
+        // TODO: CIF supports more than %s %d, will need to implement additional features as they become required.
+        // See: https://eclipse.dev/escet/cif/tools/cifsim/output/print/ref-fmt.html
         var args = [].slice.call(arguments, 1);
         var i = 0;
         return str.replace(/%s|%d/g, () => args[i++]);
     }
 
     /**
-     * Converts a Javascript Integer (number) to a Javascript Double (number).
+     * Converts a JavaScript Integer (Number) to a CIF integer value literal, in the CIF ASCII representation.
      *
-     * @param {number} x - The Javascript Integer (number) value.
-     * @return {number} The Javascript Double (number) value.
-     */
-    static intToReal(x) {
-        return x;
-    }
-
-    /**
-     * Converts a Javascript Integer (number) to a CIF integer value literal, in the CIF ASCII representation.
-     *
-     * @param {number} x - The Javascript Integer (number) value.
+     * @param {number} x - The JavaScript Integer (Number) value.
      * @return {string} The CIF integer value literal, in the CIF ASCII representation.
      */
     static intToStr(x) {
@@ -382,12 +378,12 @@ class ${prefix}Utils {
      * Returns the natural logarithm of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} ln(x).
+     * @return {number} `ln(x)`.
      * @throws {${prefix}Exception} If the real number is non-positive.
      */
     static ln(x) {
         if (x <= 0.0) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: ln(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: ln(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return Math.log(x);
@@ -397,31 +393,15 @@ class ${prefix}Utils {
      * Returns the logarithm (base 10) of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} log(x).
+     * @return {number} `log(x)`.
      * @throws {${prefix}Exception} If the real number is non-positive.
      */
     static log(x) {
         if (x <= 0.0) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: log(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: log(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return Math.log10(x);
-    }
-
-    /**
-     * Fills the given empty list with the given elements, modifying the
-     * list in-place, and returning that same list. This method is only used
-     * for the construction of list literals.
-     *
-     * @param {array} lst - The list.
-     * @param {array} elems - The elements.
-     * @return {array} The input list.
-     */
-    static makelist(lst, elems) {
-        for(var i = 0; i < elems.length; ++i) {
-            lst.push(elems[i]);
-        }
-        return lst;
     }
 
     /**
@@ -429,7 +409,7 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first integer number.
      * @param {number} y - The second integer number.
-     * @return {number} max(x, y).
+     * @return {number} `max(x, y)`.
      */
     static maxInt(x, y) {
         return Math.max(x, y);
@@ -440,7 +420,7 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first real number.
      * @param {number} y - The second real number.
-     * @return {number} max(x, y).
+     * @return {number} `max(x, y)`.
      */
     static maxDouble(x, y) {
         return Math.max(x, y);
@@ -451,7 +431,7 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first integer number.
      * @param {number} y - The second integer number.
-     * @return {number} min(x, y).
+     * @return {number} `min(x, y)`.
      */
     static minInt(x, y) {
         return Math.min(x, y);
@@ -462,7 +442,7 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first real number.
      * @param {number} y - The second real number.
-     * @return {number} min(x, y).
+     * @return {number} `min(x, y)`.
      */
     static minDouble(x, y) {
         // Assumes that the arguments are never -0.0.
@@ -474,21 +454,22 @@ class ${prefix}Utils {
      *
      * @param {number} x - The dividend.
      * @param {number} y - The divisor.
-     * @return {number} x mod y.
+     * @return {number} `x mod y`.
      * @throws {${prefix}Exception} If the operation results in division by zero.
      */
     static mod(x, y) {
         if (y == 0) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Division by zero: %d mod %d.", x, y));
         }
-        return x % y;
+        var rslt = x % y;
+        return (rslt == -0.0) ? 0.0 : rslt;
     }
 
     /**
      * Creates a shallow copy of the given list, and replaces the element at the given index with a new value.
      *
      * @param {array} lst - The list.
-     * @param {number} origIdx - The 0-based index into the list of the element to replace. 
+     * @param {number} origIdx - The 0-based index into the list of the element to replace.
      * Negative indices are allowed, and count from the right.
      * @param {object} newValue - The new value.
      * @return {array} The modified list.
@@ -499,7 +480,7 @@ class ${prefix}Utils {
         var idx = origIdx;
         if (idx < 0) idx = lst.length + idx;
         if (idx < 0 || idx >= lst.length) {
-            throw new ${prefix}Exception(fmt("Index out of bounds: %s[%s].", 
+            throw new ${prefix}Exception(fmt("Index out of bounds: %s[%s].",
                 ${prefix}Utils.valueToStr(lst), origIdx));
         }
 
@@ -514,12 +495,12 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first integer number.
      * @param {number} y - The second integer number.
-     * @return {number} x * y.
+     * @return {number} `x * y`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static multiplyInt(x, y) {
         var rslt = x * y;
-        if (Number.MIN_SAFE_INTEGER <= rslt && rslt <= Number.MAX_SAFE_INTEGER) {
+        if (${prefix}Utils.MIN_INT <= rslt && rslt <= ${prefix}Utils.MAX_INT) {
             return rslt;
         }
 
@@ -531,13 +512,13 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first real number.
      * @param {number} y - The second real number.
-     * @return {number} x * y.
+     * @return {number} `x * y`.
      * @throws {${prefix}Exception} If the operation results in real overflow.
      */
     static multiplyDouble(x, y) {
         var rslt = x * y;
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s * %s.", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s * %s.",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -547,11 +528,11 @@ class ${prefix}Utils {
      * Returns the negation of an integer number.
      *
      * @param {number} x - The integer number.
-     * @return {number} -value.
+     * @return {number} `-value`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static negateInt(x) {
-        if (x == Number.MIN_SAFE_INTEGER) {
+        if (x == ${prefix}Utils.MIN_INT) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: -%d.", x));
         }
         return -x;
@@ -561,7 +542,7 @@ class ${prefix}Utils {
      * Returns the negation of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} -value.
+     * @return {number} `-value`.
      */
     static negateDouble(x) {
         return (x == 0.0) ? 0.0 : -x;
@@ -571,14 +552,14 @@ class ${prefix}Utils {
      * Returns the exponentiation (power) of two integer numbers.
      *
      * @param {number} x - The base integer number.
-     * @param {number} y - The exponent integer number, y >= 0.
-     * @return {number} pow(x, y).
+     * @param {number} y - The exponent integer number, `y >= 0`.
+     * @return {number} `pow(x, y)`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static powInt(x, y) {
         if (y < 0) throw "y < 0";
         var rslt = Math.pow(x, y);
-        if (Number.MIN_SAFE_INTEGER <= rslt && rslt <= Number.MAX_SAFE_INTEGER) {
+        if (${prefix}Utils.MIN_INT <= rslt && rslt <= ${prefix}Utils.MAX_INT) {
             return rslt;
         }
         throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: pow(%d, %d).", x, y));
@@ -589,36 +570,37 @@ class ${prefix}Utils {
      *
      * @param {number} x - The base real number.
      * @param {number} y - The exponent real number.
-     * @return {number} pow(x, y).
-     * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
+     * @return {number} `pow(x, y)`.
+     * @throws {${prefix}Exception} If the operation results in real overflow, or `NaN`.
      */
     static powReal(x, y) {
         // Assumes that the arguments are valid doubles (no inf/NaN/-0.0).
         var rslt = Math.pow(x, y);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: pow(%s, %s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: pow(%s, %s).",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: pow(%s, %s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: pow(%s, %s).",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
     }
 
     /**
-     * Converts a Javascript Double (number) to a CIF real value literal, in the CIF ASCII representation.
+     * Converts a JavaScript Double (Number) to a CIF real value literal, in the CIF ASCII representation.
      *
-     * <p>Note that the Double (number) values may be negative, and the
-     * resulting textual representation may thus have a "-" prefix,
+     * <p>Note that the Double (Number) values may be negative, and the
+     * resulting textual representation may thus have a `"-"` prefix,
      * unlike real value literals in the CIF ASCII representation, where the
-     * "-" character is a unary operator.</p>
+     * `"-"` character is a unary operator.</p>
      *
-     * @param {number} x - The Javascript Double (number) value.
+     * @param {number} x - The JavaScript Double (Number) value.
      * @return {string} The CIF real value literal, in the CIF ASCII representation.
      */
     static realToStr(x) {
         if (!Number.isFinite(x)) throw new Error(x.toString());
+        // TODO: Format this to CIF specifications: (0|[1-9][0-9]*)(.[0-9]+|(.[0-9]+)?[eE][-+]?[0-9]+)
         return (x.toString()).replace('E', 'e');
     }
 
@@ -628,20 +610,20 @@ class ${prefix}Utils {
      * @param {array} lst - The list.
      * @param {number} origIdx - The 0-based index into the list of the element to return.
      * Negative indices are allowed, and count from the right.
-     * @return {array} lst[origIdx].
+     * @return {array} `lst[origIdx]`.
      * @throws {${prefix}Exception} If the index is out of range for the list.
      */
-    static project(lst, origIdx) {
+    static projectList(lst, origIdx) {
         // Normalize index and check for out of bounds.
         var idx = origIdx;
-        if (idx < 0) idx = lst.size() + idx;
-        if (idx < 0 || idx >= lst.size()) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Index out of bounds: %s[%s].", 
+        if (idx < 0) idx = lst.length + idx;
+        if (idx < 0 || idx >= lst.length) {
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Index out of bounds: %s[%s].",
                 ${prefix}Utils.valueToStr(lst), origIdx));
         }
 
         // Return the element.
-        return lst.get(idx);
+        return lst[idx];
     }
 
     /**
@@ -650,14 +632,14 @@ class ${prefix}Utils {
      * @param {string} str - The string.
      * @param {number} origIdx - The 0-based index into the string of the character to return.
      * Negative indices are allowed, and count from the right.
-     * @return {string} str[origIdx].
+     * @return {string} `str[origIdx]`.
      * @throws {${prefix}Exception} If the index is out of range for the string.
      */
-    static project(str, origIdx) {
+    static projectString(str, origIdx) {
         var idx = origIdx;
         if (idx < 0) idx = str.length + idx;
         if (idx < 0 || idx >= str.length) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Index out of bounds: \"%s\"[%s].", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Index out of bounds: \"%s\"[%s].",
                 ${prefix}Utils.escape(str), origIdx));
         }
 
@@ -681,12 +663,12 @@ class ${prefix}Utils {
      * Returns the round of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} round(x).
+     * @return {number} `round(x)`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static round(x) {
-        if (x < Number.MIN_SAFE_INTEGER - 0.5 || x >= Number.MAX_SAFE_INTEGER + 0.5) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: round(%s).", 
+        if (x < ${prefix}Utils.MIN_INT - 0.5 || x >= ${prefix}Utils.MAX_INT + 0.5) {
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: round(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         var rslt = Math.round(x);
@@ -701,7 +683,7 @@ class ${prefix}Utils {
      * @param {number} inmax - The maximum of the input interval.
      * @param {number} outmin - The minimum of the output interval.
      * @param {number} outmax - The maximum of the output interval.
-     * @return {number} scale(v, inmin, inmax, outmin, outmax).
+     * @return {number} `scale(v, inmin, inmax, outmin, outmax)`.
      * @throws {${prefix}Exception} If the input interval is empty, or the operation results in real overflow.
      */
     static scale(v, inmin, inmax, outmin, outmax)
@@ -716,7 +698,7 @@ class ${prefix}Utils {
                 ${prefix}Utils.realToStr(outmin), ${prefix}Utils.realToStr(outmax)));
         }
         var fraction = ${prefix}Utils.divide(${prefix}Utils.subtractDouble(v, inmin), inrange);
-        return ${prefix}Utils.addReal(outmin, ${prefix}Utils.multiplyDouble(fraction, 
+        return ${prefix}Utils.addReal(outmin, ${prefix}Utils.multiplyDouble(fraction,
             ${prefix}Utils.subtractDouble(outmax, outmin)));
     }
 
@@ -724,7 +706,7 @@ class ${prefix}Utils {
      * Returns the sign of an integer number.
      *
      * @param {number} x - The integer number.
-     * @return {number} sign(x).
+     * @return {number} `sign(x)`.
      */
     static signInt(x) {
         return (x == 0) ? 0 : (x < 0) ? -1 : 1;
@@ -734,7 +716,7 @@ class ${prefix}Utils {
      * Returns the sign of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} sign(x).
+     * @return {number} `sign(x)`.
      */
     static signDouble(x) {
         return (x == 0.0) ? 0 : (x < 0.0) ? -1 : 1;
@@ -744,37 +726,37 @@ class ${prefix}Utils {
      * Returns the sine of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} sin(x).
-     * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
+     * @return {number} `sin(x)`.
+     * @throws {${prefix}Exception} If the operation results in real overflow, or `NaN`.
      */
     static sin(x) {
         var rslt = Math.sin(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: sin(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: sin(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: sin(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: sin(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
     }
 
     /**
-     * Returns size(x) for the given string.
+     * Returns `size(x)` for the given string.
      *
      * @param {string} x - The string.
-     * @return {number} size(x).
+     * @return {number} `size(x)`.
      */
     static sizeString(x) {
         return x.length;
     }
 
     /**
-     * Returns size(x) for the given list.
+     * Returns `size(x)` for the given list.
      *
      * @param {array} x - The list.
-     * @return {number} size(x).
+     * @return {number} `size(x)`.
      */
     static sizeList(x) {
         return x.length;
@@ -784,23 +766,23 @@ class ${prefix}Utils {
      * Returns the square root of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} sqrt(x).
+     * @return {number} `sqrt(x)`.
      * @throws {${prefix}Exception} If the real number is negative.
      */
     static sqrt(x) {
         // Assumes that the argument is never -0.0.
         if (x < 0.0) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: sqrt(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: sqrt(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return Math.sqrt(x);
     }
 
     /**
-     * Converts a CIF boolean value literal, in the CIF ASCII representation, to a Javascript Boolean.
+     * Converts a CIF boolean value literal, in the CIF ASCII representation, to a JavaScript Boolean.
      *
      * @param {string} x - The CIF boolean value literal, in the CIF ASCII representation.
-     * @return {boolean} The Javascript Boolean value.
+     * @return {boolean} The JavaScript Boolean value.
      * @throws {${prefix}Exception} If the string value does not represent a boolean value.
      */
     static strToBool(x) {
@@ -808,46 +790,43 @@ class ${prefix}Utils {
         if (x == "false") return false;
 
         throw new ${prefix}Exception(${prefix}Utils.fmt("Cast from type \"string\" to type \"bool\" " +
-            "failed: the string value does not represent a boolean value: \"%s\".", 
+            "failed: the string value does not represent a boolean value: \"%s\".",
             ${prefix}Utils.escape(x)));
     }
 
     /**
-     * Converts a CIF integer value literal, in the CIF ASCII representation, to a Javascript Integer (number).
+     * Converts a CIF integer value literal, in the CIF ASCII representation, to a JavaScript Integer (Number).
      *
-     * <p>See also the CifTypeChecker.transIntExpression method.</p>
+     * <p>See also the `CifTypeChecker.transIntExpression` method.</p>
      *
      * @param {string} x - The CIF integer value literal, in the CIF ASCII representation.
-     * @return {number} The Javascript Integer (number) value.
+     * @return {number} The JavaScript Integer (Number) value.
      * @throws {${prefix}Exception} If the string value does not represent an integer value.
      */
     static strToInt(x) {
-        try {
-            return Number.parseInt(x);
-        } catch (ex) {
+        var rslt = Number.parseInt(x);
+        if(Number.isNaN(rslt) || rslt < ${prefix}Utils.MIN_INT || rslt >= ${prefix}Utils.MAX_INT) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Cast from type \"string\" to type \"int\" " +
                 "failed: the string value does not represent an integer value, or the integer value " +
                 "resulted in integer overflow: \"%s\".", ${prefix}Utils.escape(x)));
         }
+        return rslt;
     }
 
     /**
-     * Converts a CIF real value literal, in the CIF ASCII representation, to a Javascript Double (number).
+     * Converts a CIF real value literal, in the CIF ASCII representation, to a JavaScript Double (Number).
      *
-     * <p>See also the CifTypeChecker.transRealExpression method.</p>
+     * <p>See also the `CifTypeChecker.transRealExpression` method.</p>
      *
      * @param {string} x - The CIF real value literal, in the CIF ASCII representation.
-     * @return {number} The Javascript Double (number) value.
+     * @return {number} The JavaScript Double (Number) value.
      * @throws {${prefix}Exception} If the string value does not represent an integer value.
      */
     static strToReal(x) {
-        var rslt;
-        try {
-            rslt = Number.parseFloat(x);
-            if (Number.isNaN(rslt)) throw new Error("NumberFormatException");
-        } catch (ex) {
+        var rslt = Number.parseFloat(x);
+        if (Number.isNaN(rslt)) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Cast from type \"string\" to type \"real\" " +
-                "failed: the string value does not represent a real value: \"%s\".", 
+                "failed: the string value does not represent a real value: \"%s\".",
                 ${prefix}Utils.escape(x)));
         }
 
@@ -864,12 +843,12 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first integer number.
      * @param {number} y - The second integer number.
-     * @return {number} x - y.
+     * @return {number} `x - y`.
      * @throws {${prefix}Exception} If the operation results in integer overflow.
      */
     static subtractInt(x, y) {
         var rslt = x - y;
-        if (Number.MIN_SAFE_INTEGER <= rslt && rslt <= Number.MAX_SAFE_INTEGER) {
+        if (${prefix}Utils.MIN_INT <= rslt && rslt <= ${prefix}Utils.MAX_INT) {
             return rslt;
         }
 
@@ -881,13 +860,13 @@ class ${prefix}Utils {
      *
      * @param {number} x - The first real number.
      * @param {number} y - The second real number.
-     * @return {number} x - y.
+     * @return {number} `x - y`.
      * @throws {${prefix}Exception} If the operation results in real overflow.
      */
     static subtractDouble(x, y) {
         var rslt = x - y;
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s - %s.", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: %s - %s.",
                 ${prefix}Utils.realToStr(x), ${prefix}Utils.realToStr(y)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
@@ -897,17 +876,17 @@ class ${prefix}Utils {
      * Returns the tangent of a real number.
      *
      * @param {number} x - The real number.
-     * @return {number} tan(x).
-     * @throws {${prefix}Exception} If the operation results in real overflow, or NaN.
+     * @return {number} `tan(x)`.
+     * @throws {${prefix}Exception} If the operation results in real overflow, or `NaN`.
      */
     static tan(x) {
         var rslt = Math.tan(x);
         if (!Number.isFinite(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: tan(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Real overflow: tan(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         if (Number.isNaN(rslt)) {
-            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: tan(%s).", 
+            throw new ${prefix}Exception(${prefix}Utils.fmt("Invalid operation: tan(%s).",
                 ${prefix}Utils.realToStr(x)));
         }
         return (rslt == -0.0) ? 0.0 : rslt;
