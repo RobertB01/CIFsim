@@ -105,8 +105,8 @@ int failures = 0;
 int skipped = 0;
 
 // Find tests.
-//list string tests = ["prechecker_test.cif"];
 list string tests = find(test_path, test_pattern);
+// tests = ["prechecker.cif"]; // Allow easily testing a specific test or subset of tests.
 for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
 for i in reverse(range(tests)):
     if contains(test_skip, tests[i]):
