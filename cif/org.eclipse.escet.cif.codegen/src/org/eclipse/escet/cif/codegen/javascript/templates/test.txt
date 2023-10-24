@@ -4,7 +4,6 @@
     <head>
         <link rel="stylesheet" href="${prefix}_escet_theme.css">
         <style>
-
             body {
                 text-align: center;
             }
@@ -17,7 +16,6 @@
 
             .flex-container .content {
                 flex: 1 1 auto;
-                resize: vertical;
                 overflow: auto;
             }
             .flex-container .content .btnsDiv {
@@ -25,17 +23,15 @@
             }
 
             .flex-container .logPane {
-                flex: 1 1 auto;
-                border-top: 2px solid #DDD;
+                border-top: 2px solid #ddd;
                 min-height: 20px;
-                height: 300px;
-                background: #FAFAFA;
+                background: #fafafa;
             }
             .flex-container .logPane .divShowHideBtn {
                 height: 25px;
                 padding-top: 5px;
                 text-align: right;
-                border-bottom: 1px solid #DDD;
+                border-bottom: 1px solid #ddd;
             }
             .flex-container .logPane .divShowHideBtn a {
                 display: block;
@@ -44,7 +40,7 @@
             }
             .flex-container .logPane .divTxtAreaBackground {
                 height: calc(100% - 80px);
-                background: #FFF;
+                background: #fff;
             }
             .flex-container .logPane .divTxtArea {
                 margin: 0px 20px;
@@ -52,37 +48,54 @@
             }
             .flex-container .logPane .divTxtArea textarea {
                 resize: none;
-                border: 0px;
+                border: 0;
                 height: 100%;
                 width: 100%;
-                margin: 0px;
-                padding: 0px;
+                margin: 0;
+                padding: 0;
             }
             .flex-container .logPane .divLogInputBackground {
-                background: #FFF;
-                margin: 0px auto;
-                border-top: 1px solid #DDD;
+                background: #fff;
+                margin: 0 auto;
+                border-top: 1px solid #ddd;
             }
             .flex-container .logPane .divLogInput {
                 margin: 0px 0px 0px 20px;
-                background: #FFF;
+                background: #fff;
             }
-            .flex-container .logPane .divLogInput span{
+            .flex-container .logPane .divLogInput span {
                 position: absolute;
                 left: 5px;
             }
             .flex-container .logPane .divLogInput .logInput {
-                border: 0px;
+                border: 0;
                 background: white;
-                margin: 0px;
-                padding: 0px;
+                margin: 0;
+                padding: 0;
                 width: 100%;
             }
             .flex-container .logPane .divLogPaneFooter {
-                background: #FAFAFA;
-                border-top: 1px solid #DDD;
+                background: #fafafa;
+                border-top: 1px solid #ddd;
             }
 
+            .flex-container .logPaneCollapsed {
+                height: 31px;
+                flex: none;
+            }
+            .flex-container .contentCollapsed {
+                resize: none;
+            }
+            .flex-container .footerCollapsed {
+                display: none;
+            }
+            .flex-container .logPaneExpanded {
+                height: 40%;
+                flex: 1 1 auto;
+            }
+            .flex-container .contentExpanded {
+                resize: vertical;
+            }
         </style>
         <script src="${prefix}_utils.js"></script>
         <script type="text/javascript">
@@ -223,37 +236,39 @@
 
             function showHide(btn) {
                 var elem = document.getElementById("logPane");
-                if(elem.style.height != "31px") {
+                if(elem.classList.contains("logPaneExpanded")) {
                     btn.textContent = "Show";
-                    elem.style.height = "31px";
-                    elem.style.flex = "none";
+                    elem.classList.remove('logPaneExpanded');
+                    elem.classList.add('logPaneCollapsed');
                     var elem = document.getElementById("content");
-                    elem.style.resize = "none";
+                    elem.classList.remove('contentExpanded');
+                    elem.classList.add('contentCollapsed');
                     var elem = document.getElementById("divTxtAreaBackground");
-                    elem.style.display = "none";
+                    elem.classList.toggle('footerCollapsed');
                     var elem = document.getElementById("divLogInputBackground");
-                    elem.style.display = "none";
+                    elem.classList.toggle('footerCollapsed');
                     var elem = document.getElementById("divLogPaneFooter");
-                    elem.style.display = "none";
+                    elem.classList.toggle('footerCollapsed');
                 } else {
                     btn.textContent = "Hide";
-                    elem.style.height = "";
-                    elem.style.flex = "1 1 auto";
+                    elem.classList.remove('logPaneCollapsed');
+                    elem.classList.add('logPaneExpanded');
                     var elem = document.getElementById("content");
-                    elem.style.resize = "vertical";
+                    elem.classList.remove('contentCollapsed');
+                    elem.classList.add('contentExpanded');
                     var elem = document.getElementById("divTxtAreaBackground");
-                    elem.style.display = "block";
+                    elem.classList.toggle('footerCollapsed');
                     var elem = document.getElementById("divLogInputBackground");
-                    elem.style.display = "block";
+                    elem.classList.toggle('footerCollapsed');
                     var elem = document.getElementById("divLogPaneFooter");
-                    elem.style.display = "block";
+                    elem.classList.toggle('footerCollapsed');
                 }
             }
 
             function inputCommand() {
-                if(event.keyCode == 13) {
+                if (event.keyCode == 13) {
                     var elem = document.getElementById("logInput");
-                    if(!elem.value.includes("=") && !elem.value.includes(")")) {
+                    if (!elem.value.includes("=") && !elem.value.includes(")")) {
                         eval(elem.value + "()");
                     } else {
                         eval(elem.value);
@@ -266,7 +281,7 @@
     </head>
     <body>
         <div class="flex-container">
-            <div class="content" id="content">
+            <div class="content contentExpanded" id="content">
                 <div>
                     <h1>${prefix}_tests</h1>
                     <!-- SVG element goes here -->
@@ -276,7 +291,7 @@
                     <input value="Reset" type="button" onClick="reset()" />
                 </div>
             </div>
-            <div class="logPane" id="logPane">
+            <div class="logPane logPaneExpanded" id="logPane">
                 <div class="divShowHideBtn">
                     <a href="#" onclick="showHide(this); return false;">Hide</a>
                 </div>
@@ -287,8 +302,8 @@
                 <div>
                 <div class="divLogInputBackground" id="divLogInputBackground">
                     <div class="divLogInput">
-                        <span>></span>
-                        <input type="text" class="logInput" id="logInput" onkeydown="inputCommand()"></input>               
+                        <span>&gt;</span>
+                        <input type="text" class="logInput" id="logInput" onkeydown="inputCommand()">
                     </div>
                 </div>
                 <div class="divLogPaneFooter" id="divLogPaneFooter"></div>

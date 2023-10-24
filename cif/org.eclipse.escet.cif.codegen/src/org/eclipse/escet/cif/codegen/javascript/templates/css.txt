@@ -7,11 +7,11 @@ html, body {
 }
 
 a {
-  color: #cc9a06;
+    color: #cc9a06;
 }
 
 a:hover {
-  color: black;
+    color: black;
 }
 
 input[type=button] {
@@ -24,5 +24,5 @@ input[type=button] {
 }
 
 input[type=button]:hover {
-    background-color: #FFDA6D;
+    background-color: #ffda6d;
 }
