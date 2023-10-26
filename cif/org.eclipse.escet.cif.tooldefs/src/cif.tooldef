@@ -102,7 +102,7 @@ tool int cifcodegen(list string args = [], string stdin = "-", string stdout = "
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
-// plc
+// cif2plc
 tool int cif2plc(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.cif.cif2plc", "org.eclipse.escet.cif.cif2plc.CifToPlcApp", args, stdin, stdout, stderr,
@@ -112,6 +112,19 @@ end
 tool int cif2plc(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.cif.cif2plc", "org.eclipse.escet.cif.cif2plc.CifToPlcApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// plcgen
+tool int plcgen(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.CifPlcGenApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int plcgen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.CifPlcGenApp", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
