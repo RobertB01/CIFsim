@@ -385,7 +385,8 @@ public class ExprGenerator {
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof ConstantExpression ce) {
-            return new ExprValueResult(this).setValue(currentCifProvider.getValueForConstant(ce.getConstant()));
+            // TODO: Replace by the name of a constant in the PLC.
+            return convertValue(ce.getConstant().getValue());
         } else if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
             return new ExprValueResult(this).setValue(currentCifProvider.getValueForDiscVar(de.getVariable()));
