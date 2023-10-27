@@ -117,7 +117,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
         {
             return;
         } else {
-            violations.add(derivative, "Continuous variable must have a derivative that is either -1 or -1.0");
+            violations.add(derivative, "Continuous variable has a derivative that is not a constant -1 or -1.0");
         }
     }
 

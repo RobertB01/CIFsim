@@ -1,31 +1,57 @@
 WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 
-  ----------------------------------------------------------------------------------------
-  (1/4) Continuous variable is initialized to, assigned, or compared to, a negative value.
-  ----------------------------------------------------------------------------------------
-   * In continuous variable "X.e":
-     - cont e = -1.0 der -1.0;
-                ^
+  --------------------------
+  (1/7) An equation is used.
+  --------------------------
+   * In location "X.a":
+     - equation q' = -1.0;
+                   ^
 
-  ---------------------------------------------------------------------------
-  (2/4) Continuous variable must have a derivative that is either -1 or -1.0.
-  ---------------------------------------------------------------------------
+  -----------------------------------------------------------------------------
+  (2/7) Continuous variable has a derivative that is not a constant -1 or -1.0.
+  -----------------------------------------------------------------------------
    * In continuous variable "X.c":
      - cont c = 3.0 der 0.0;
                         ^
 
+  --------------------------------------------------------------------------
+  (3/7) Continuous variable has a value that cannot be evaluated statically.
+  --------------------------------------------------------------------------
+   * In location "X.a":
+     - edge when c != 0.0 do c := 1.0 / v;
+                                      ^
+
+  -------------------------------------------------------------------------------------------------------------------------------
+  (4/7) Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration.
+  -------------------------------------------------------------------------------------------------------------------------------
+   * In automaton "X":
+     - cont q = 0.0;
+            ^
+
+  ----------------------------------------------------------------------------------------
+  (5/7) Continuous variable is initialized to, assigned, or compared to, a negative value.
+  ----------------------------------------------------------------------------------------
+   * In location "X.a":
+     - edge when c < 0 do c := -25.0;
+                               ^
+     - edge when c <= -17;
+                      ^
+   * In continuous variable "X.e":
+     - cont e = -1.0 der -1.0;
+                ^
+
   ----------------------------------------------------------------------------------------------------------------------------------------
-  (3/4) Continuous variable value is not compared as "variable <= ..." or "... >= variable", nor assigned in a single-variable assignment.
+  (6/7) Continuous variable value is not compared as "variable <= ..." or "... >= variable", nor assigned in a single-variable assignment.
   ----------------------------------------------------------------------------------------------------------------------------------------
    * In location "X.a":
-     - edge when c >= 0;
+     - edge when c >= 0 do v := 0.0;
                  ^
      - edge when c > 0;
                  ^
-     - edge when c < 0;
+     - edge when c < 0 do c := -25.0;
                  ^
-     - edge when c != 0.0;
+     - edge when c != 0.0 do c := 1.0 / v;
                  ^
      - edge when c = 0.0 do c := 3.0;
                  ^
@@ -35,18 +61,20 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
                      ^
 
   ---------------------------------------
-  (4/4) Edge has an implicit 'tau' event.
+  (7/7) Edge has an implicit 'tau' event.
   ---------------------------------------
    * In location "X.a":
-     - edge when c >= 0;
+     - edge when c >= 0 do v := 0.0;
        ^
      - edge when c > 0;
        ^
-     - edge when c < 0;
+     - edge when c < 0 do c := -25.0;
        ^
      - edge when c <= 0;
        ^
-     - edge when c != 0.0;
+     - edge when c <= -17;
+       ^
+     - edge when c != 0.0 do c := 1.0 / v;
        ^
      - edge when c = 0.0 do c := 3.0;
        ^
