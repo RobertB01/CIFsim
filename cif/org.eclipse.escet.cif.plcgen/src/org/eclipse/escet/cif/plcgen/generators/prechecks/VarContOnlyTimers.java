@@ -19,10 +19,8 @@ import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
@@ -38,24 +36,19 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * determined.</li>
  * <li>The value of the continuous variable is only used by comparing it against a non-negative value, and this can be
  * statically determined.</li>
- * <li>The value of the continuous variable is compared in value ranges where PLC semantics and CIF semantics
- * are not distinguishable. Hence, it is in the form of 'var <= ...' or '... >= var'.</li>
+ * <li>The value of the continuous variable is compared in value ranges where PLC semantics and CIF semantics are not
+ * distinguishable. Hence, it is in the form of 'var <= ...' or '... >= var'.</li>
  * <li>The continuous variable is only assigned in single-variable assignments, not in multi-assignments.</li>
  * </ul>
  */
 public class VarContOnlyTimers extends CifCheckNoCompDefInst {
     @Override
-    protected void preprocessComplexComponent(ComplexComponent complexComponent, CifCheckViolations violations) {
-        // Find and check continuous variable declarations.
-        for (Declaration decl: complexComponent.getDeclarations()) {
-            if (decl instanceof ContVariable contVar) {
-                if (contVar.getValue() != null) {
-                    checkValue(contVar.getValue(), violations);
-                }
-
-                checkDerivative(contVar, violations);
-            }
+    protected void preprocessContVariable(ContVariable contVar, CifCheckViolations violations) {
+        if (contVar.getValue() != null) {
+            checkValue(contVar.getValue(), violations);
         }
+
+        checkDerivative(contVar, violations);
     }
 
     @Override
@@ -159,12 +152,12 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
     private Object getStaticEvaluableValue(Expression value, boolean isValue, CifCheckViolations violations) {
         String valueText = isValue ? "value" : "derivative";
 
-        if (!CifValueUtils.hasSingleValue(value, isValue, true)) {
+        if (!CifValueUtils.hasSingleValue(value, CifValueUtils.isInitialExpr(value), true)) {
             violations.add(value, "Continuous variable has a " + valueText + " that cannot be evaluated statically");
             return null;
         } else {
             try {
-                return CifEvalUtils.eval(value, isValue);
+                return CifEvalUtils.eval(value, CifValueUtils.isInitialExpr(value));
             } catch (CifEvalException ex) {
                 Expression reportExpr = (ex.expr != null) ? ex.expr : value;
                 violations.add(reportExpr, "Continuous variable has a " + valueText + " that cannot be evaluated "
