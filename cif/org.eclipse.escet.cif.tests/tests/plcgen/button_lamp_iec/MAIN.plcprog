@@ -42,6 +42,10 @@ IF firstRun THEN
 
     (* Initialize the state variables. *)
     timer_t := 0.0;
+    (* Reset timer of "timer_t". *)
+    preset_timer_t := timer_t;
+    ton_timer_t(PT := preset_timer_t, IN := FALSE);
+    ton_timer_t(PT := preset_timer_t, IN := TRUE);
     timer := timer_Idle;
     sup := sup_s1;
     hw_button := hw_button_Released;

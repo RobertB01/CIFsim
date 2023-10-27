@@ -823,8 +823,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // For continuous variable assignment, also update its timer block.
             if (contvar != null) {
-                statements.addAll(target.getContinuousVariablesGenerator().getPlcTimerCodeGen(contvar)
-                        .generateAssignPreset());
+                statements.addAll(
+                        target.getContinuousVariablesGenerator().getPlcTimerCodeGen(contvar).generateAssignPreset());
             }
             return;
         }

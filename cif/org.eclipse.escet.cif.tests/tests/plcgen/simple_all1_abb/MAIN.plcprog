@@ -43,6 +43,10 @@ IF firstRun THEN
     p_j := 0;
     p_r := 1000000.0;
     p_t := 0.0;
+    (* Reset timer of "p_t". *)
+    preset_p_t := p_t;
+    ton_p_t(PT := preset_p_t, IN := FALSE);
+    ton_p_t(PT := preset_p_t, IN := TRUE);
     p := someConstantvariable;
 ELSE
     (* Update remaining time of "p_t". *)

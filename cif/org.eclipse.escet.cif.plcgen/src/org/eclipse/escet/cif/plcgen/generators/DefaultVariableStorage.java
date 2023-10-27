@@ -93,10 +93,13 @@ public class DefaultVariableStorage implements VariableStorage {
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
             ExprValueResult exprResult;
+            ContVariable assignedContVar;
             if (decl instanceof DiscVariable discVar) {
                 exprResult = exprGen.convertValue(first(discVar.getValue().getValues()));
+                assignedContVar = null;
             } else if (decl instanceof ContVariable contVar) {
                 exprResult = exprGen.convertValue(contVar.getValue());
+                assignedContVar = contVar;
             } else {
                 throw new AssertionError("Unexpected kind of variable " + decl);
             }
@@ -105,6 +108,12 @@ public class DefaultVariableStorage implements VariableStorage {
             PlcVarExpression lhs = new PlcVarExpression(variables.get(decl));
             statements.add(new PlcAssignmentStatement(lhs, exprResult.value));
             exprGen.releaseTempVariables(exprResult.valueVariables);
+
+            // For continuous variable assignment, also update its timer block.
+            if (assignedContVar != null) {
+                statements.addAll(target.getContinuousVariablesGenerator().getPlcTimerCodeGen(assignedContVar)
+                        .generateAssignPreset());
+            }
         }
         target.getCodeStorage().addStateInitialization(statements);
     }

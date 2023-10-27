@@ -44,6 +44,10 @@ BEGIN
 
         (* Initialize the state variables. *)
         timer_t := 0.0;
+        (* Reset timer of "timer_t". *)
+        preset_timer_t := timer_t;
+        ton_timer_t(PT := preset_timer_t, IN := FALSE);
+        ton_timer_t(PT := preset_timer_t, IN := TRUE);
         timer := someConstantvariable;
         sup := someConstantvariable;
         hw_button := someConstantvariable;
