@@ -44,6 +44,7 @@ The documentation consists of:
 * <<examples-chapter-index,CIF examples>>
 * <<release-notes-chapter-index, CIF release notes>>
 * <<dev-chapter-index, CIF developers manual>>
+* <<history-chapter-index,CIF history>> (and why it's called 'CIF')
 * <<legal-chapter-index, Legal information>>
 
 A screenshot showing a CIF model and simulation:
@@ -833,6 +834,10 @@ include::developers/index.asciidoc[]
 include::developers/lang-modify.asciidoc[]
 
 :leveloffset: -1
+
+// History
+
+include::history.asciidoc[]
 
 // Legal
 
