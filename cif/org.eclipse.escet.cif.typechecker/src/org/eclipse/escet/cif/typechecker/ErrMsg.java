@@ -440,30 +440,39 @@ public enum ErrMsg {
             + "the number of parameters (%s) of component definition \"%s\".", 4, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_TYPE(
-            "Definition/instantiation parameter mismatch for the %s parameter of \"%s\": %s argument required.", 3,
-            ERROR),
+    COMP_INST_ARG_TYPE("Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
+            + "%s argument required.", 5, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_ALG_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the algebraic parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
+    COMP_INST_ARG_ALG_TYPES(
+            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
+                    + "the algebraic parameter is of type \"%s\", while the argument is of type \"%s\".",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_COMP_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the component parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
+    COMP_INST_ARG_COMP_TYPES(
+            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
+                    + "the component parameter is of type \"%s\", while the argument is of type \"%s\".",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_CONTR_MISMATCH("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter is \"%s\", while the argument is \"%s\".", 4, ERROR),
+    COMP_INST_ARG_CONTR_MISMATCH(
+            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
+                    + "the event parameter is \"%s\", while the argument is \"%s\".",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_EVENT_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter %s, while the event used as argument %s.", 4, ERROR),
+    COMP_INST_ARG_EVENT_TYPES(
+            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
+                    + "the event parameter %s, while the event used as argument %s.",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_EVENT_FLAG("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter requires an event with %s usage, "
-            + "while the event used as argument doesn't allow that usage.", 3, ERROR),
+    COMP_INST_ARG_EVENT_FLAG(
+            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
+                    + "the event parameter requires an event with %s usage, "
+                    + "while the event used as argument doesn't allow that usage.",
+            5, ERROR),
 
     // Warn user about accidentally creating a dubious specification.
     AUT_NO_INIT_LOC("Automaton \"%s\" has no initial location.", 1, WARNING),

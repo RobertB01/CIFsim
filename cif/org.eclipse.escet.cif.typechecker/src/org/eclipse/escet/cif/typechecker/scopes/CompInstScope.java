@@ -242,8 +242,8 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
 
                 if (!CifTypeUtils.checkTypeCompat(paramType, argType, RangeCompat.CONTAINED)) {
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_ALG_TYPES, arg.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), CifTextUtils.typeToStr(paramType),
-                            CifTextUtils.typeToStr(argType));
+                            CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj),
+                            CifTextUtils.typeToStr(paramType), CifTextUtils.typeToStr(argType));
                     // Non-fatal error.
                 }
             } else if (param instanceof EventParameter) {
@@ -251,7 +251,7 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
                 Expression unwrap = CifTypeUtils.unwrapExpression(arg);
                 if (!(unwrap instanceof EventExpression)) {
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_TYPE, arg.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), "event");
+                            CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj), "event");
                     throw new SemanticException();
                 }
 
@@ -264,8 +264,8 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
                 Boolean argContr = argEvent.getControllable();
                 if (paramContr != null && !paramContr.equals(argContr)) {
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_CONTR_MISMATCH, arg.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), controllableToStr(paramContr),
-                            controllableToStr(argContr));
+                            CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj),
+                            controllableToStr(paramContr), controllableToStr(argContr));
                     // Non-fatal error.
                 }
 
@@ -277,14 +277,15 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
                     String paramTxt = fmt("is of type \"%s\"", CifTextUtils.typeToStr(paramType));
                     String argTxt = "has no type";
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_TYPES, arg.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), paramTxt, argTxt);
+                            CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj), paramTxt,
+                            argTxt);
                     // Non-fatal error.
                 }
 
                 if (paramType != null && argType != null) {
                     if (!CifTypeUtils.checkTypeCompat(paramEvent.getType(), argEvent.getType(), RangeCompat.EQUAL)) {
                         tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_TYPES, arg.getPosition(), paramIdxTxt,
-                                CifTextUtils.getAbsName(compDef),
+                                CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj),
                                 fmt("is of type \"%s\"", CifTextUtils.typeToStr(paramType)),
                                 fmt("is of type \"%s\"", CifTextUtils.typeToStr(argType)));
                         // Non-fatal error.
@@ -310,7 +311,7 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
                 Expression unwrap = CifTypeUtils.unwrapExpression(arg);
                 if (!(unwrap instanceof LocationExpression)) {
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_TYPE, arg.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), "location");
+                            CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj), "location");
                     // Non-fatal error.
                 }
             } else if (param instanceof ComponentParameter) {
@@ -319,8 +320,8 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
 
                 if (!CifTypeUtils.checkTypeCompat(paramType, argType, null)) {
                     tchecker.addProblem(ErrMsg.COMP_INST_ARG_COMP_TYPES, arg.getPosition(), paramIdxTxt,
-                            CifTextUtils.getAbsName(compDef), CifTextUtils.typeToStr(paramType),
-                            CifTextUtils.typeToStr(argType));
+                            CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj),
+                            CifTextUtils.typeToStr(paramType), CifTextUtils.typeToStr(argType));
                     // Non-fatal error.
                 }
             } else {
@@ -356,19 +357,19 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
         // All parameter usages must be supported by the argument.
         if (paramSend && !argSend) {
             tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_FLAG, position, paramIdxTxt,
-                    CifTextUtils.getAbsName(compDef), "send (!)");
+                    CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj), "send (!)");
             // Non-fatal problem.
         }
 
         if (paramRecv && !argRecv) {
             tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_FLAG, position, paramIdxTxt,
-                    CifTextUtils.getAbsName(compDef), "receive (?)");
+                    CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj), "receive (?)");
             // Non-fatal problem.
         }
 
         if (paramSync && !argSync) {
             tchecker.addProblem(ErrMsg.COMP_INST_ARG_EVENT_FLAG, position, paramIdxTxt,
-                    CifTextUtils.getAbsName(compDef), "synchronization (~)");
+                    CifTextUtils.getAbsName(compDef), paramIdxTxt, CifTextUtils.getAbsName(obj), "synchronization (~)");
             // Non-fatal problem.
         }
     }
