@@ -116,3 +116,7 @@ indexterm:[eliminate equations,optimality]
 This transformation introduces 'if' expressions for algebraic variables and derivatives of continuous variables that have an equation per location of an automaton, for automata with at least two locations.
 The guards of such 'if' expressions refer to the locations of the automata.
 To eliminate such location references, apply the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

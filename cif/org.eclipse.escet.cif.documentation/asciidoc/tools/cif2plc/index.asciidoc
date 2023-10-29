@@ -199,6 +199,8 @@ That is, functions may only be used in function calls, and may for instance not 
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 
+* Annotations are ignored.
+
 indexterm:[CIF PLC code generator,preprocessing]
 
 === Preprocessing

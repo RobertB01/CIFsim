@@ -97,3 +97,7 @@ indexterm:[add default initial values,optimality]
 
 The default values for all types are as primitive as they can be, and can usually not be simplified any further.
 It may however be possible that functions are introduced for the default values of function types, while such a function already existed in the original specification.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

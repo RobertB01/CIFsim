@@ -109,3 +109,7 @@ Since information is removed from the specification, the specification can only 
 === Optimality
 
 n/a
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

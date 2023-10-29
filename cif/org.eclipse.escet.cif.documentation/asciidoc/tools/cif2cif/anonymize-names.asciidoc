@@ -188,3 +188,7 @@ indexterm:[anonymize names,optimality]
 === Optimality
 
 n/a
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

@@ -80,6 +80,9 @@ To allow state/event exclusion invariants to be used in the input, manually elim
 
 For meaningful results, it is recommended to have an initial location and at least one marked location, in each automaton.
 
+I/O declarations and annotations are ignored.
+For tools that produce CIF models, those models will not contain any I/O declarations or annotations.
+
 indexterm:[event-based synthesis toolset,preprocessing]
 
 === Preprocessing

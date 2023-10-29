@@ -131,6 +131,7 @@ The latter may have a range.
 ** Marker predicates are ignored.
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
+* Annotations are ignored.
 
 indexterm:[CIF to mCRL2 transformer,preprocessing]
 

@@ -91,6 +91,9 @@ For <<tools-cif2yed-diagram-relations,relations diagrams>>:
 
 * CIF specifications with <<lang-tut-reuse2-aut-def-param-kinds-aut,component parameters>> are not supported.
 
+The transformation does not process any specific annotations.
+However, annotations may be included in some diagrams, such as model diagrams.
+
 indexterm:[CIF to yEd transformer,preprocessing]
 
 === Preprocessing
