@@ -109,7 +109,7 @@ public class DefaultVariableStorage implements VariableStorage {
             statements.add(new PlcAssignmentStatement(lhs, exprResult.value));
             exprGen.releaseTempVariables(exprResult.valueVariables);
 
-            // For continuous variable assignment, also update its timer block.
+            // For continuous variable initialization, also update its timer block.
             if (assignedContVar != null) {
                 statements.addAll(target.getContinuousVariablesGenerator().getPlcTimerCodeGen(assignedContVar)
                         .generateAssignPreset());
