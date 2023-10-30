@@ -14,7 +14,7 @@
 from "lib:cif" import plcgen;
 
 // Configuration.
-string test_path = "plcgen";
+string test_path = "cifplcgen";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1 --warn-rename=yes"];
 
@@ -166,7 +166,7 @@ for test in tests:
         end
 
         // Execute.
-        plcgen([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+        cifplcgen([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
         // Compare output.
         bool stderr_diff  = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);

@@ -115,14 +115,14 @@ tool int cif2plc(list string args = [], string stdin = "-", string stdout = "-",
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
-// plcgen
-tool int plcgen(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+// cifplcgen
+tool int cifplcgen(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.CifPlcGenApp", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
-tool int plcgen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+tool int cifplcgen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.CifPlcGenApp", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
