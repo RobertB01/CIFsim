@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
@@ -59,6 +60,13 @@ public interface PlcTarget {
      * @return The transition generator of the target.
      */
     public abstract TransitionGenerator getTransitionGenerator();
+
+    /**
+     * Retrieve the continuous variables generator.
+     *
+     * @return The continuous variables generator of the target.
+     */
+    public abstract ContinuousVariablesGenerator getContinuousVariablesGenerator();
 
     /**
      * Retrieve the variable storage.

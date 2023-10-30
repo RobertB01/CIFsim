@@ -22,13 +22,13 @@ end
 plant timer:
   controllable start;
   uncontrollable timeout;
-  cont t der 1.0;
+  cont t der -1.0;
   location Idle:
     initial;
     marked;
-    edge start do t := 0.0 goto Running;
+    edge start do t := 3.0 goto Running;
   location Running:
-    edge timeout when t >= 3.0 goto Idle;
+    edge timeout when t <= 0.0 goto Idle;
 end
 supervisor sup:
   alphabet button.push, button.release, lamp.on, lamp.off, timer.start, timer.timeout;

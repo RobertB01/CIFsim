@@ -1,6 +1,7 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'false' }
     VAR_TEMP
+        curValue: REAL;
         current_hw_button: DINT;
         current_hw_button__1: DINT;
         current_hw_lamp: DINT;
@@ -30,22 +31,32 @@ ORGANIZATION_BLOCK MAIN
         syncAutEdge__7: DINT;
         syncAutEdge__8: DINT;
         syncAutEdge__9: DINT;
+        timeOut: BOOL;
     END_VAR
 
 BEGIN
     (* --- Read input from sensors. -------------------------------------------- *)
     hw_button_bit := in_hw_button_bit;
 
-    (* --- Initialize state. --------------------------------------------------- *)
+    (* --- Initialize state or update continuous variables. -------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        timer_t := 0.0;
+        (* Reset timer of "timer_t". *)
+        preset_timer_t := timer_t;
+        ton_timer_t(PT := preset_timer_t, IN := FALSE);
+        ton_timer_t(PT := preset_timer_t, IN := TRUE);
         timer := someConstantvariable;
         sup := someConstantvariable;
         hw_button := someConstantvariable;
         hw_lamp_bit := FALSE;
         hw_lamp := someConstantvariable;
+    ELSE
+        (* Update remaining time of "timer_t". *)
+        ton_timer_t(PT := preset_timer_t, IN := TRUE, Q => timeOut, ET => curValue);
+        timer_t := SEL(G := timeOut, IN0 := preset_timer_t - curValue, IN1 := 0.0);
     END_IF;
 
     (* --- Process all events. ------------------------------------------------- *)
@@ -73,9 +84,13 @@ BEGIN
             isProgress := TRUE;
             current_sup := sup;
             current_timer := timer;
-            current_timer_t := someContvariable;
+            current_timer_t := timer_t;
             IF syncAutEdge = 1 THEN
-                someContvariable := 0.0;
+                timer_t := 3.0;
+                (* Reset timer of "timer_t". *)
+                preset_timer_t := timer_t;
+                ton_timer_t(PT := preset_timer_t, IN := FALSE);
+                ton_timer_t(PT := preset_timer_t, IN := TRUE);
                 timer := someConstantvariable;
             END_IF;
             IF syncAutEdge__1 = 1 THEN
@@ -86,7 +101,7 @@ BEGIN
         END_IF;
         (* Try to perform event "timer.timeout". *)
         eventEnabled := TRUE;
-        IF timer = someConstantvariable AND someContvariable >= 3.0 THEN
+        IF timer = someConstantvariable AND timer_t <= 0.0 THEN
             syncAutEdge__2 := 1;
         ELSE
             eventEnabled := FALSE;

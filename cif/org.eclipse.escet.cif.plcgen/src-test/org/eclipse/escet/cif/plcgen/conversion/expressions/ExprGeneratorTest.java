@@ -423,13 +423,24 @@ public class ExprGeneratorTest {
     }
 
     /**
-     * Run the expression generator at the given expression, and return a dump of the result.
+     * Run the expression generator for the given variable addressable expression, and return a dump of the result.
      *
      * @param expr The expression to convert.
      * @return Human-readable representation of the result.
      */
-    private String runAddressableTest(Expression expr) {
-        ExprAddressableResult result = exprGen.convertAddressable(expr);
+    private String runVariableAddressableTest(Expression expr) {
+        ExprAddressableResult result = exprGen.convertVariableAddressable(expr);
+        return resultToString(result);
+    }
+
+    /**
+     * Run the expression generator for the given projected addressable expression, and return a dump of the result.
+     *
+     * @param expr The expression to convert.
+     * @return Human-readable representation of the result.
+     */
+    private String runProjectedAddressableTest(Expression expr) {
+        ExprAddressableResult result = exprGen.convertProjectedAddressable(expr);
         return resultToString(result);
     }
 
@@ -770,7 +781,7 @@ public class ExprGeneratorTest {
         DiscVariableExpression tupVarExpr = newDiscVariableExpression(null, makeTupleType(3), tupVar);
         Expression tupProj = newProjectionExpression(tupVarExpr, newIntExpression(null, newIntType(), 0), null,
                 newRealType());
-        String realText = runAddressableTest(tupProj);
+        String realText = runProjectedAddressableTest(tupProj);
         String expectedText = "==> newState.tupVar.field1";
         assertEquals(expectedText, realText);
     }
@@ -907,7 +918,7 @@ public class ExprGeneratorTest {
     @Test
     public void testDiscVariableAddressableConversion() {
         // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}).
-        String realText = runAddressableTest(newDiscVariableExpression(null, newRealType(), discVar));
+        String realText = runVariableAddressableTest(newDiscVariableExpression(null, newRealType(), discVar));
         String expectedText = "==> newState.flatDisc";
         assertEquals(expectedText, realText);
     }
@@ -928,12 +939,12 @@ public class ExprGeneratorTest {
     @Test
     public void testContVariableAddressableConversion() {
         // timer'
-        String realText = runAddressableTest(newContVariableExpression(true, null, null, contVar));
+        String realText = runVariableAddressableTest(newContVariableExpression(true, null, null, contVar));
         String expectedText = "==> new_timer_der";
         assertEquals(expectedText, realText);
 
         // timer
-        realText = runAddressableTest(newContVariableExpression(false, null, null, contVar));
+        realText = runVariableAddressableTest(newContVariableExpression(false, null, null, contVar));
         expectedText = "==> new_timer";
         assertEquals(expectedText, realText);
     }
@@ -968,6 +979,6 @@ public class ExprGeneratorTest {
         // While the CIF data provider can provide a destination to write into, the CIF code should never contain such
         // expressions.
         assertThrows(RuntimeException.class,
-                () -> runAddressableTest(newInputVariableExpression(null, newIntType(), inputVar)));
+                () -> runVariableAddressableTest(newInputVariableExpression(null, newIntType(), inputVar)));
     }
 }
