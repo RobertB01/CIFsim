@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
 import org.eclipse.escet.common.app.framework.Application;
@@ -160,6 +161,8 @@ public class CifMergerApp extends Application<IOutputComponent> {
             // Same checks as CIF type checker, in same order.
             CyclePostChecker.check(mergedSpec, env);
             new CifSvgPostChecker(env).check(mergedSpec);
+            new CifAnnotationsPostChecker(env).check(mergedSpec);
+            // EventsPostChecker skipped (no new problems).
             // CifPrintPostChecker skipped (warnings only, no new problems).
             // SingleEventUsePerAutPostChecker skipped (no new problems).
         } catch (SemanticException ex) {
