@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;

@@ -45,8 +45,7 @@ Only the standard JavaScript functions, part of any browser, are needed.
 JavaScript code generation leads to a package of files being generated.
 
 - Complete: This package is currently under construction, and will contain separate html, css, js and svg files.
-- Simulator: This package is currently under construction, and will contain a single html file combining all resources, for purposes of demonstrations, sharing and feedback. 
-
+- Simulator: This package is currently under construction, and will contain a single html file combining all resources, for purposes of demonstrations, sharing and feedback.
 
 === Executing the code
 
