@@ -206,7 +206,8 @@ For more information on the names of the generated field and methods, see the se
 [[tools-codegen-javascript-datatypes]]
 === Data types
 
-JavaScript is a weakly typed language, so CIF data types are not directly applicable. This part of the documentation is under construction and will be added to during development.
+JavaScript is a weakly typed language, so CIF data types are not directly applicable.
+This part of the documentation is under construction and will be added to during development.
 
 Notes:
 
