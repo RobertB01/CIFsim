@@ -113,3 +113,7 @@ The size of the specification does not increase.
 === Optimality
 
 n/a
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

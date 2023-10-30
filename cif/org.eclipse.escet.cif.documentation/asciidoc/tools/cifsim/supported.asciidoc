@@ -43,3 +43,5 @@ It is highly recommended to first apply <<tools-eventbased-chapter-supervisorsyn
 Alternatively, apply verification to the specification, <<tools-cif2cif-chapter-remove-reqs,remove>> the verified requirements, and simulate the resulting specification using the simulator.
 
 Similar to requirement automata, the simulator warns about simulation of requirement invariants.
+
+Annotations are ignored.

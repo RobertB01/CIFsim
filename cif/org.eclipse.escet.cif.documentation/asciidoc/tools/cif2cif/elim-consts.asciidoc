@@ -81,3 +81,7 @@ indexterm:[eliminate constants,optimality]
 For an assignment `x := 1 + y`, where `y` is a constant that is eliminated, and where `y` has value `5`, the resulting assignment is `x := 1 + 5`.
 The result is not simplified any further.
 To further simplify the result, apply additional CIF to CIF transformations, such as <<tools-cif2cif-chapter-simplify-values>>.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

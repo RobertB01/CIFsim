@@ -122,3 +122,7 @@ The number of print file declarations after the transformation is at most the nu
 === Optimality
 
 n/a
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

@@ -68,6 +68,7 @@ Statistics include the number of states and the number of edges of the resulting
 It is recommended to enable the edge minimization option when printing statistics.
 Enabled by default.
 
+[[tools-cif-explorer-enable-cif-output]]
 * _Enable CIF output_: Enable output of states and edges as a CIF automaton.
 Enabled by default.
 
@@ -89,7 +90,7 @@ May be `off` to disable progress information.
 The default is to print progress information after processing 1000 states.
 
 The CIF output file is written if the _Enable CIF output_ option is set, or if a path is supplied with the _Output file path_ option.
-If the latter is given, its value is used as the path for writing the report file.
+If the latter is given, its value is used as the path for writing the CIF file.
 If only the _Enable CIF output_ option is set, the value of the _Input file path_ option is used, where the `.cif` extension is removed (if present), and a `+_statespace.cif+` suffix is added.
 
 The report file is written if the _Enable report_ option is set, or if a path is supplied with the _Report file path_ option.
@@ -125,8 +126,11 @@ A warning is printed if a requirement automaton or requirement invariant is enco
 
 * Controllability of events.
 
-* I/O declarations.
+* I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
+
+* Annotations are ignored.
+If outputting a CIF model is <<tools-cif-explorer-enable-cif-output,enabled>>, the produced model has no annotations.
 
 indexterm:[CIF explorer,preprocessing]
 
