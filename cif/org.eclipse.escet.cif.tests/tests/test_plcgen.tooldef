@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-from "lib:cif" import plcgen;
+from "lib:cif" import cifplcgen;
 
 // Configuration.
-string test_path = "cifplcgen";
+string test_path = "plcgen";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1 --warn-rename=yes"];
 
