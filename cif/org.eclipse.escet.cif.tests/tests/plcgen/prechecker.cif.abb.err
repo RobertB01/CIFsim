@@ -8,9 +8,9 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
      - equation q' = -1.0;
                    ^
 
-  -----------------------------------------------------------------------------
-  (2/7) Continuous variable has a derivative that is not a constant -1 or -1.0.
-  -----------------------------------------------------------------------------
+  ------------------------------------------------------------------
+  (2/7) Continuous variable has a derivative that is not -1 or -1.0.
+  ------------------------------------------------------------------
    * In continuous variable "X.c":
      - cont c = 3.0 der 0.0;
                         ^
