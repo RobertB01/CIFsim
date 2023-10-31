@@ -580,7 +580,7 @@ public class ExprGeneratorTest {
         Expression expr = newBinaryExpression(mid, BinaryOperator.DISJUNCTION, null, right, newBoolType());
         expr = newBinaryExpression(left, BinaryOperator.DISJUNCTION, null, expr, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> TRUE OR fixed OR FALSE";
+        String expectedText = "==> TRUE OR FALSE OR FALSE";
         assertEquals(expectedText, realText);
     }
 
@@ -903,7 +903,7 @@ public class ExprGeneratorTest {
     public void testContConstantExpressionConversion() {
         // fixed
         String realText = runValueTest(newConstantExpression(constantVar, null, newBoolType()));
-        String expectedText = "==> fixed";
+        String expectedText = "==> FALSE";
         assertEquals(expectedText, realText);
     }
 

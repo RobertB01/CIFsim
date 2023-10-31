@@ -27,7 +27,7 @@ IF firstRun THEN
     p_b := TRUE;
     p_x := 0;
     p_y := 1.23;
-    p_ve := someConstantvariable;
+    p_ve := 0;
     p_v1 := 0;
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
@@ -47,7 +47,7 @@ IF firstRun THEN
     preset_p_t := p_t;
     ton_p_t(PT := preset_p_t, IN := FALSE);
     ton_p_t(PT := preset_p_t, IN := TRUE);
-    p := someConstantvariable;
+    p := 0;
 ELSE
     (* Update remaining time of "p_t". *)
     ton_p_t(PT := preset_p_t, IN := TRUE, Q => timeOut, ET => curValue);
@@ -61,27 +61,27 @@ WHILE isProgress DO
 
     (* Try to perform event "p.evt". *)
     eventEnabled := TRUE;
-    IF p = someConstantvariable THEN
+    IF p = 0 THEN
         syncAutEdge := 1;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 1 THEN
         syncAutEdge := 2;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 2 THEN
         syncAutEdge := 3;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 3 THEN
         syncAutEdge := 4;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 4 THEN
         syncAutEdge := 5;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 5 THEN
         syncAutEdge := 6;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 6 THEN
         syncAutEdge := 7;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 7 THEN
         syncAutEdge := 8;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 8 THEN
         syncAutEdge := 9;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 9 THEN
         syncAutEdge := 10;
-    ELSIF p = someConstantvariable THEN
+    ELSIF p = 10 THEN
         syncAutEdge := 11;
     ELSE
         eventEnabled := FALSE;
@@ -100,47 +100,47 @@ WHILE isProgress DO
             litStruct__2.field1 := 1;
             litStruct__2.field2 := 2;
             p_tv := litStruct__2;
-            p := someConstantvariable;
+            p := 1;
         ELSIF syncAutEdge = 2 THEN
             p_x := 3;
             p_j := 4;
-            p := someConstantvariable;
+            p := 2;
         ELSIF syncAutEdge = 3 THEN
             rightValue := current_p_tv;
             p_x := rightValue.field1;
             p_j := rightValue.field2;
-            p := someConstantvariable;
+            p := 3;
         ELSIF syncAutEdge = 4 THEN
             p_tv.field1 := 5;
-            p := someConstantvariable;
+            p := 4;
         ELSIF syncAutEdge = 5 THEN
             p_tv.field2 := 6;
             p_j := 7;
-            p := someConstantvariable;
+            p := 5;
         ELSIF syncAutEdge = 6 THEN
             p_v3.field1.field2 := 7.8;
-            p := someConstantvariable;
+            p := 6;
         ELSIF syncAutEdge = 7 THEN
             litStruct.field1 := 1.2;
             litStruct.field2 := 3.4;
             litStruct__1.field1 := litStruct;
             litStruct__1.field2 := 5.6;
             p_v3 := litStruct__1;
-            p := someConstantvariable;
+            p := 7;
         ELSIF syncAutEdge = 8 THEN
             p_j := current_p_j + 1;
-            p := someConstantvariable;
+            p := 8;
         ELSIF syncAutEdge = 9 THEN
             p_b := FALSE;
-            p := someConstantvariable;
+            p := 9;
         ELSIF syncAutEdge = 10 THEN
             IF NOT(IN := current_p_b) THEN
-                p_ve := someConstantvariable;
+                p_ve := 1;
             END_IF;
-            p := someConstantvariable;
+            p := 10;
         ELSIF syncAutEdge = 11 THEN
             p_r := DINT_TO_REAL(IN := g_inp) + 10.0;
-            p := someConstantvariable;
+            p := 11;
         END_IF;
     END_IF;
 END_WHILE;
