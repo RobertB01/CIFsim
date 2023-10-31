@@ -1,3 +1,3 @@
-ERROR: File "tchecker/comp_inst_arg_type_loc.cif": Semantic error at line 21, column 9: Definition/instantiation mismatch for the 1st parameter of "g.X" and 1st argument of "g.x1": location argument required.
-ERROR: File "tchecker/comp_inst_arg_type_loc.cif": Semantic error at line 22, column 9: Definition/instantiation mismatch for the 1st parameter of "g.X" and 1st argument of "g.x2": location argument required.
+ERROR: File "tchecker/comp_inst_arg_type_loc.cif": Semantic error at line 21, column 9: Definition/instantiation mismatch: the 1st parameter (named "l") of definition "g.X" requires a location, but the supplied argument of instantiation "g.x1" is not a location.
+ERROR: File "tchecker/comp_inst_arg_type_loc.cif": Semantic error at line 22, column 9: Definition/instantiation mismatch: the 1st parameter (named "l") of definition "g.X" requires a location, but the supplied argument of instantiation "g.x2" is not a location.
 ERROR: Failed to load CIF file "tchecker/comp_inst_arg_type_loc.cif": the file has errors.
