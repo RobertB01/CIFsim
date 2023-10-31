@@ -440,38 +440,41 @@ public enum ErrMsg {
             + "the number of parameters (%s) of component definition \"%s\".", 4, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_TYPE("Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
-            + "%s argument required.", 5, ERROR),
+    COMP_INST_ARG_TYPE(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires %s, "
+                    + "but the supplied argument of instantiation \"%s\" is not %s.",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
     COMP_INST_ARG_ALG_TYPES(
-            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
-                    + "the algebraic parameter is of type \"%s\", while the argument is of type \"%s\".",
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" is an algebraic "
+                    + "parameter of type \"%s\", while the supplied argument of instantiation \"%s\" is of type "
+                    + "\"%s\".",
             6, ERROR),
 
     // ComponentInst.argumentTypes
     COMP_INST_ARG_COMP_TYPES(
-            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
-                    + "the component parameter is of type \"%s\", while the argument is of type \"%s\".",
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" is of type "
+                    + "\"%s\", while the supplied argument of instantiation \"%s\" is of type \"%s\".",
             6, ERROR),
 
     // ComponentInst.argumentTypes
     COMP_INST_ARG_CONTR_MISMATCH(
-            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
-                    + "the event parameter is \"%s\", while the argument is \"%s\".",
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires %s "
+                    + "event, while the event supplied as argument of instantiation \"%s\" is \"%s\".",
             6, ERROR),
 
     // ComponentInst.argumentTypes
     COMP_INST_ARG_EVENT_TYPES(
-            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
-                    + "the event parameter %s, while the event used as argument %s.",
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires an "
+                    + "event %s, while the event supplied as argument of instantiation \"%s\" %s.",
             6, ERROR),
 
     // ComponentInst.argumentTypes
     COMP_INST_ARG_EVENT_FLAG(
-            "Definition/instantiation mismatch for the %s parameter of \"%s\" and %s argument of \"%s\": "
-                    + "the event parameter requires an event with %s usage, "
-                    + "while the event used as argument doesn't allow that usage.",
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires an "
+                    + "event that allows %s usage, while the event supplied as argument of instantiation \"%s\" "
+                    + "doesn't allow that usage.",
             5, ERROR),
 
     // Warn user about accidentally creating a dubious specification.
