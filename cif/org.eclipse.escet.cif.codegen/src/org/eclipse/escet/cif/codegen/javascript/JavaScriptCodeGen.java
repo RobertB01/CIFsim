@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.codegen.javascript;
 
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +31,6 @@ import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.java.Sets;
 
 /** JavaScript code generator. */
 public class JavaScriptCodeGen extends CodeGen {
@@ -44,7 +44,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected ExprCodeGen getExpressionCodeGenerator() {
-        // TODO To be implemented
+        // TODO To be implemented.
         return null;
     }
 
@@ -60,8 +60,8 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected Set<String> getReservedTargetNames() {
-        // TODO To be implemented
-        return Sets.set();
+        // TODO To be implemented.
+        return set();
     }
 
     @Override
@@ -73,57 +73,57 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addConstants(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addEvents(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addStateVars(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addContVars(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addAlgVars(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addInputVars(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addFunctions(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addEnum(EnumDecl enumDecl, CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addPrints(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addEdges(CodeContext ctxt) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected IfElseGenerator getIfElseUpdateGenerator() {
-        // TODO To be implemented
+        // TODO To be implemented.
         return null;
     }
 
@@ -131,29 +131,29 @@ public class JavaScriptCodeGen extends CodeGen {
     public void performSingleAssign(CodeBox code, SingleVariableAssignment asgn, Expression value, CodeContext readCtxt,
             CodeContext writeCtxt)
     {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     public void performAssign(CodeBox code, SingleVariableAssignment asgn, String rhsText, CodeContext readCtxt,
             CodeContext writeCtxt)
     {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addUpdatesBeginScope(CodeBox code) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     protected void addUpdatesEndScope(CodeBox code) {
-        // TODO To be implemented
+        // TODO To be implemented.
     }
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
-        // TODO To be implemented
+        // TODO To be implemented.
         return null;
     }
 }

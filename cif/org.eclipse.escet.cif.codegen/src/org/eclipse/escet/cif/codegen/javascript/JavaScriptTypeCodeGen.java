@@ -38,7 +38,7 @@ public class JavaScriptTypeCodeGen extends TypeCodeGen {
      * @return The constructed type information object.
      */
     private TypeInfo buildTypeInfo(CifType type, CodeContext ctxt, boolean generic) {
-        // TODO To be implemented
+        // TODO To be implemented.
         return null;
     }
 }
