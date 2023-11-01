@@ -35,7 +35,7 @@ See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index
 
 Besides the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>, the JavaScript code generation can be influenced by the following additional options:
 
-* There are currently no additional options for the JavaScript target.
+* There are currently no additional options for JavaScript code generation.
 
 === Compilation
 
