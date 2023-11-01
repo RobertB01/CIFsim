@@ -49,7 +49,8 @@ Only the standard JavaScript functions, part of any browser, are needed.
 JavaScript code generation leads to a set of files being generated in the output folder.
 Eventually, we'll have two export options for the JavaScript target, "Complete" and "Simulator".
 
-* Complete: Default, currently the only option available. This option exports separate HTML, CSS, JavaScript and SVG files.
+* Complete: Default, currently the only option available.
+This option exports separate HTML, CSS, JavaScript and SVG files.
 * Simulator: Currently under construction, this option will export a single HTML file combining all resources, for purposes of demonstrations, sharing and feedback.
 
 === Executing the code
