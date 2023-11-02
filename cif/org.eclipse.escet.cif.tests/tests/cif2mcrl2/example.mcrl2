@@ -12,7 +12,8 @@ act value_zero : Int;
 proc BehProc_Q(Locvar_Q : LocSort_Q, zero : Int) =
   value_zero(zero) . BehProc_Q(Locvar_Q, zero) +
   sum y : Int . ((y >= 0) && (y <= 1) && (Locvar_Q == loc_Q_q1) && (y == 1)) -> a | aread_y(y) . BehProc_Q(loc_Q_q2, zero) +
-  sum y : Int . sum x : Int . ((y >= 0) && (y <= 1) && (x >= 0) && (x <= 10) && (Locvar_Q == loc_Q_q2) && (((y == 1) && (x < 8)) && (zero == 0))) -> b | aread_y(y) | aread_x(x) . BehProc_Q(loc_Q_q1, zero);
+  sum y : Int . sum x : Int . ((y >= 0) && (y <= 1) && (x >= 0) && (x <= 10) && (Locvar_Q == loc_Q_q2) && (((y == 1) && (x < 8)) && (zero == 0))) -> b | aread_y(y) | aread_x(x) . BehProc_Q(loc_Q_q1, zero) +
+  sum y : Int . sum x : Int . ((y >= 0) && (y <= 1) && (x >= 0) && (x <= 10) && (Locvar_Q == loc_Q_q2) && ((y == 0) => (x >= 8))) -> b | aread_y(y) | aread_x(x) . BehProc_Q(loc_Q_q1, zero);
 
 act value_x, vread_x, vwrite_x, sync_x, aread_x, awrite_x : Int;
 
