@@ -61,7 +61,7 @@ If the directory does not yet exist, it is automatically created.
 By default, the current directory is used.
 
 * _Target language_: Specifies the target language/platform for which to generate code.
-By default, C99 code is generated.
+By default, Simulink code is generated.
 The following languages/platforms are supported:
 +
 [cols=2*,options="header"]
