@@ -109,7 +109,7 @@ The latter may have a range.
 *** Boolean-typed constants are supported.
 *** Boolean-typed discrete variables are supported.
 *** Boolean-typed algebraic variables are supported.
-*** Binary operators `and`, `or`, `==` and `!=` on boolean-typed arguments are supported.
+*** Binary operators `and`, `or`, `==`, `!=` and `=>` on boolean-typed arguments are supported.
 *** Unary operator `not` on boolean-typed arguments are supported.
 *** Location references are not supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
