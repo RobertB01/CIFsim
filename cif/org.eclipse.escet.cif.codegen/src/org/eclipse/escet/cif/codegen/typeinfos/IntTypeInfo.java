@@ -56,23 +56,23 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
 
     @Override
     public ExprCode convertLessThan(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_THAN), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_THAN, ctxt), dest, ctxt);
     }
 
     @Override
     public ExprCode convertLessEqual(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_EQUAL), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_EQUAL, ctxt), dest, ctxt);
     }
 
     @Override
     public ExprCode convertGreaterEqual(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_EQUAL), dest,
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_EQUAL, ctxt), dest,
                 ctxt);
     }
 
     @Override
     public ExprCode convertGreaterThan(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_THAN), dest,
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_THAN, ctxt), dest,
                 ctxt);
     }
 

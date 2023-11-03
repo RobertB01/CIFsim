@@ -13,6 +13,13 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
+import static org.eclipse.escet.cif.codegen.typeinfos.TypeInfoHelper.convertBinaryExpressionPattern;
+import static org.eclipse.escet.cif.codegen.typeinfos.TypeInfoHelper.convertFunctionCallPattern;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
@@ -25,7 +32,12 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.FormatDecoder;
+import org.eclipse.escet.common.java.FormatDescription;
+import org.eclipse.escet.common.java.FormatDescription.Conversion;
+import org.eclipse.escet.common.java.Strings;
 
 /** JavaScript type information about the string type. */
 public class JavaScriptStringTypeInfo extends StringTypeInfo {
@@ -50,14 +62,14 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("var %s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
@@ -69,15 +81,21 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
+        // Use 'equalObjs' instead of '==' to avoid object equality for two String objects.
+        if (binOp.equals(BinaryOperator.EQUAL)) {
+            return fmt("%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
+            return fmt("!%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        }
+
+        throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
 
     @Override
     public ExprCode convertConcatenation(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertBinaryExpressionPattern(expr,
+                fmt("%sUtils.addString(${left-value}, ${right-value})", ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
@@ -95,21 +113,98 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
 
     @Override
     public ExprCode convertSizeStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.sizeString(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override
     public ExprCode getProjectedValue(ExprCode childCode, ExprCode indexCode, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+        result.add(indexCode);
+        String resultText = fmt("%sUtils.project(%s, %s)", ctxt.getPrefix(), childCode.getData(), indexCode.getData());
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(resultText));
+        return result;
     }
 
     @Override
     public ExprCode convertFormatFunction(String pattern, List<Expression> args, List<CifType> argTypes,
             Destination dest, CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        // See also CifMath for similar code.
+        ExprCode result = new ExprCode();
+        result.setDestination(dest);
+
+        // Decode pattern.
+        FormatDecoder decoder = new FormatDecoder();
+        List<FormatDescription> parts = decoder.decode(pattern);
+
+        // Process all parts.
+        StringBuilder patternCode = new StringBuilder();
+        List<String> argCodes = listc(parts.size());
+        int implicitIndex = 0;
+        for (FormatDescription part: parts) {
+            // Literal.
+            if (part.conversion == Conversion.LITERAL) {
+                if (part.text.equals("%")) {
+                    patternCode.append("%%");
+                } else {
+                    patternCode.append(part.text);
+                }
+                continue;
+            }
+
+            // Get 0-based index of specifier.
+            int idx;
+            if (!part.index.isEmpty()) {
+                idx = part.getExplicitIndex() - 1;
+            } else {
+                idx = implicitIndex;
+                implicitIndex++;
+            }
+
+            // Get argument code.
+            ExprCode argCode = ctxt.exprToTarget(args.get(idx), null);
+            result.add(argCode);
+            String argText = argCode.getData();
+
+            // Add to formatted result.
+            switch (part.conversion) {
+                case BOOLEAN:
+                case INTEGER:
+                case REAL: {
+                    patternCode.append(part.toString(false));
+                    argCodes.add(argText);
+                    break;
+                }
+
+                case STRING: {
+                    patternCode.append(part.toString(false));
+                    CifType nt = argTypes.get(idx);
+                    if (!(nt instanceof StringType)) {
+                        argText = fmt("%sUtils.valueToStr(%s)", ctxt.getPrefix(), argText);
+                    }
+                    argCodes.add(argText);
+                    break;
+                }
+
+                default:
+                    String msg = "Unexpected: " + part.conversion;
+                    throw new RuntimeException(msg);
+            }
+        }
+
+        // Return actual code for the entire 'fmt' function call.
+        StringBuilder rslt = new StringBuilder();
+        rslt.append(fmt("%sUtils.fmt(", ctxt.getPrefix()));
+        rslt.append(Strings.stringToJava(patternCode.toString()));
+        if (!argCodes.isEmpty()) {
+            rslt.append(", ");
+        }
+        rslt.append(String.join(", ", argCodes));
+        rslt.append(")");
+
+        result.setDataValue(new JavaScriptDataValue(rslt.toString()));
+        return result;
     }
 }

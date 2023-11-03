@@ -13,6 +13,10 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
+import static org.eclipse.escet.cif.common.CifTypeUtils.checkTypeCompat;
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
@@ -20,14 +24,18 @@ import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
+import org.eclipse.escet.cif.codegen.javascript.JavaScriptDataValue;
 import org.eclipse.escet.cif.codegen.typeinfos.ArrayTypeInfo;
 import org.eclipse.escet.cif.codegen.typeinfos.RangeCheckErrorLevelText;
 import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
+import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ListExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Assert;
 
 /** JavaScript type information about an array type. */
 public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
@@ -59,26 +67,46 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("var %s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
+        // Use 'equalObjs' instead of '==' to avoid object equality for two array objects.
+        if (binOp.equals(BinaryOperator.EQUAL)) {
+            return fmt("%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
+            return fmt("!%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        }
+
+        throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
 
     @Override
     public ExprCode convertLiteral(ListExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        // For non-empty lists, add the elements.
+        ExprCode result = new ExprCode();
+
+        StringBuilder listMaker = new StringBuilder();
+        listMaker.append('[');
+        for (Expression elm: expr.getElements()) {
+            listMaker.append(", ");
+            ExprCode elmCode = ctxt.exprToTarget(elm, null);
+            result.add(elmCode);
+            listMaker.append(elmCode.getData());
+        }
+        listMaker.append(']');
+
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(listMaker.toString()));
+        return result;
     }
 
     @Override
@@ -102,35 +130,80 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
     @Override
     public ExprCode convertSizeStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode childCode = ctxt.exprToTarget(expr, null);
+
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+
+        String value = fmt("%sUtils.sizeList(" + childCode.getData() + ")", ctxt.getPrefix());
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(value));
+        return result;
     }
 
     @Override
     public ExprCode convertEmptyStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode childCode = ctxt.exprToTarget(expr, null);
+
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+
+        String value = fmt("%sUtils.empty(" + childCode.getData() + ")", ctxt.getPrefix());
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(value));
+        return result;
     }
 
     @Override
     public ExprCode getProjectedValue(ExprCode childCode, ExprCode indexCode, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+        result.add(indexCode);
+        String resultText = fmt("%sUtils.projectList(%s, %s)", ctxt.getPrefix(), childCode.getData(),
+                indexCode.getData());
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(resultText));
+        return result;
     }
 
     @Override
     public CodeBox modifyContainer(VariableInformation containerVar, ExprCode partCode, ExprCode indexCode,
             CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        result.add(indexCode);
+        result.add(partCode);
+        String resultText = fmt("%sUtils.modify(%s, %s, %s)", ctxt.getPrefix(), containerVar.targetName,
+                indexCode.getData(), partCode.getData());
+        result.setDestination(ctxt.makeDestination(containerVar));
+        result.setDataValue(new JavaScriptDataValue(resultText));
+        return result.getCode();
     }
 
     @Override
     public void checkRange(CifType lhsType, CifType rhsType, DataValue rhsValue, CifType varType, String varName,
             List<RangeCheckErrorLevelText> errorTexts, int level, CodeBox code, CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ListType lhsList = (ListType)lhsType;
+        ListType rhsList = (ListType)rhsType;
+        if (checkTypeCompat(lhsList.getElementType(), rhsList.getElementType(), RangeCompat.CONTAINED)) {
+            return;
+        }
+
+        String indexName = fmt("rng_index%d", level);
+        String elemName = fmt("rng_elem%d", level);
+        code.add("for(var %s = 0; %s < %s.length; %s++) {", indexName, indexName, rhsValue.getData(), indexName);
+        code.indent();
+        code.add("var %s = %s[%s];", elemName, rhsValue.getData(), indexName);
+
+        int last = errorTexts.size();
+        errorTexts.add(new RangeCheckErrorLevelText(true, indexName));
+        childInfos[0].checkRange(lhsList.getElementType(), rhsList.getElementType(), new JavaScriptDataValue(elemName),
+                varType, varName, errorTexts, level + 1, code, ctxt);
+        errorTexts.remove(last);
+        Assert.check(last == errorTexts.size());
+
+        code.dedent();
+        code.add("}");
     }
 }

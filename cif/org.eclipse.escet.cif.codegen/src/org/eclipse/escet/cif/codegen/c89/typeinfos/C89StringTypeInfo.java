@@ -497,7 +497,7 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "StringTypeEquals(${left-ref}, ${right-ref})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

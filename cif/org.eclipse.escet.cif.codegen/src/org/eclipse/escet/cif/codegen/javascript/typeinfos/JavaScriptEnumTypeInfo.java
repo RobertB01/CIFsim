@@ -13,11 +13,16 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
+
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
+import org.eclipse.escet.cif.codegen.javascript.JavaScriptDataValue;
 import org.eclipse.escet.cif.codegen.typeinfos.EnumTypeInfo;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.common.box.CodeBox;
@@ -49,26 +54,37 @@ public class JavaScriptEnumTypeInfo extends EnumTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("var %s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
+        // Uses '==' instead of 'equalsObj' like for the other types, as object equality works for enumerations and may
+        // also give slightly better performance.
+        if (binOp.equals(BinaryOperator.EQUAL)) {
+            return "(${left-value}) == (${right-value})";
+        } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
+            return "(${left-value}) != (${right-value})";
+        }
+        throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
 
     @Override
     public ExprCode convertEnumLiteral(EnumLiteralExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        EnumLiteral lit = expr.getLiteral();
+        String resultText = fmt("this.%s._%s", getTargetType(), lit.getName());
+
+        ExprCode result = new ExprCode();
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(resultText));
+        return result;
     }
 
     @Override

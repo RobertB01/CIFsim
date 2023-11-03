@@ -13,16 +13,23 @@
 
 package org.eclipse.escet.cif.codegen.javascript;
 
+import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.ExprCodeGen;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
+import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
+import org.eclipse.escet.cif.codegen.updates.VariableWrapper;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
@@ -32,6 +39,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.common.java.Assert;
 
 /** Expression code generator for the JavaScript target language. */
 public class JavaScriptExprCodeGen extends ExprCodeGen {
@@ -42,7 +50,6 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
      * @param type Type to convert.
      * @return Text denoting the type in the cast functions.
      */
-    @SuppressWarnings("unused")
     private String typeToCastString(CifType type) {
         if (type instanceof BoolType) {
             return "bool";
@@ -62,61 +69,178 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
     protected ExprCode convertCastExpression(CifType exprType, CifType childType, Expression child, Destination dest,
             CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode childCode = ctxt.exprToTarget(child, null);
+
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+        String childValue = childCode.getData();
+
+        String childPart = typeToCastString(childType);
+        String resultPart = makeInitialUppercase(typeToCastString(exprType));
+        String resultText = fmt("%sUtils.%sTo%s(%s)", ctxt.getPrefix(), childPart, resultPart, childValue);
+
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(resultText));
+        return result;
     }
 
     @Override
     protected ExprCode convertIfExpression(IfExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        // The chain of ?: expressions will break when code needs to be
+        // executed beforehand. Since the JavaScript code generator is not doing
+        // that, lack of code is simply checked, and further ignored.
+        ExprCode result = new ExprCode();
+
+        // Start with 'else'.
+        ExprCode elseCode = exprToTarget(expr.getElse(), null, ctxt);
+        Assert.check(!elseCode.hasCode());
+        result.add(elseCode);
+        String resultText = elseCode.getData();
+
+        // Wrap 'elifs' around else.
+        for (int i = expr.getElifs().size() - 1; i >= 0; i--) {
+            ElifExpression elif = expr.getElifs().get(i);
+            ExprCode guardCode = predsToTarget(elif.getGuards(), ctxt);
+            ExprCode thenCode = exprToTarget(elif.getThen(), null, ctxt);
+            Assert.check(!guardCode.hasCode());
+            Assert.check(!thenCode.hasCode());
+            resultText = fmt("(%s) ? %s : (%s)", guardCode.getData(), thenCode.getData(), resultText);
+        }
+
+        // Wrap 'if' around 'elifs/else'.
+        ExprCode guardCode = predsToTarget(expr.getGuards(), ctxt);
+        ExprCode thenCode = exprToTarget(expr.getThen(), null, ctxt);
+        Assert.check(!guardCode.hasCode());
+        Assert.check(!thenCode.hasCode());
+        resultText = fmt("(%s) ? %s : (%s)", guardCode.getData(), thenCode.getData(), resultText);
+
+        // Return final result.
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(resultText));
+        return result;
     }
 
     @Override
     protected ExprCode convertInternalFunctionCall(InternalFunction func, List<ExprCode> argsCode, Destination dest,
             CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        for (ExprCode argCode: argsCode) {
+            result.add(argCode);
+        }
+
+        StringBuilder callText = new StringBuilder();
+        callText.append(ctxt.getFunctionName(func));
+        callText.append('(');
+        boolean first = true;
+        for (ExprCode argCode: argsCode) {
+            if (!first) {
+                callText.append(", ");
+            }
+            first = false;
+            callText.append(argCode.getData());
+        }
+        callText.append(')');
+
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue("this." + callText.toString()));
+        return result;
     }
 
     @Override
     protected ExprCode convertConstantExpression(ConstantExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        VariableWrapper var = new VariableWrapper(expr.getConstant(), false);
+        VariableInformation varInfo = ctxt.getReadVarInfo(var);
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue("this." + varInfo.targetName));
+        return result;
     }
 
     @Override
     public ExprCode convertDiscVariableExpression(DiscVariable discVar, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        VariableWrapper var = new VariableWrapper(discVar, false);
+        VariableInformation varInfo = ctxt.getReadVarInfo(var);
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue("this." + varInfo.targetName));
+        return result;
     }
 
     @Override
     protected ExprCode convertAlgVariableExpression(AlgVariable algVar, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        VariableWrapper var = new VariableWrapper(algVar, false);
+        VariableInformation varInfo = ctxt.getReadVarInfo(var);
+        String resultText;
+        if (varInfo.isTempVar) {
+            resultText = varInfo.targetName;
+        } else {
+            resultText = fmt("%s()", varInfo.targetName);
+        }
+        result.setDataValue(new JavaScriptDataValue("this." + resultText));
+        result.setDestination(dest);
+        return result;
     }
 
     @Override
     protected ExprCode convertContVariableExpression(ContVariable contVar, boolean isDerivative, Destination dest,
             CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        VariableWrapper var = new VariableWrapper(contVar, isDerivative);
+        VariableInformation varInfo = ctxt.getReadVarInfo(var);
+        String varName = varInfo.targetName;
+
+        ExprCode result = new ExprCode();
+        result.setDestination(dest);
+        if (!varInfo.isTempVar && isDerivative) {
+            String resultText = fmt("%sderiv()", varName);
+            result.setDataValue(new JavaScriptDataValue("this." + resultText));
+        } else {
+            result.setDataValue(new JavaScriptDataValue("this." + varName));
+        }
+        return result;
     }
 
     @Override
     protected ExprCode convertInputVariableExpression(InputVariableExpression expr, Destination dest,
             CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        VariableWrapper var = new VariableWrapper(expr.getVariable(), false);
+        VariableInformation varInfo = ctxt.getReadVarInfo(var);
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue("this." + varInfo.targetName));
+        return result;
     }
 
     @Override
     protected ExprCode predTextsToTarget(List<ExprCode> predCodes, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        if (predCodes.isEmpty()) {
+            ExprCode result = new ExprCode();
+            result.setDataValue(new JavaScriptDataValue("true"));
+            return result;
+        }
+        if (predCodes.size() == 1) {
+            return first(predCodes);
+        }
+
+        // Add parentheses around each expression.
+        ExprCode result = new ExprCode();
+        String[] preds = new String[predCodes.size()];
+        for (int i = 0; i < predCodes.size(); i++) {
+            // Due to short-circuit evaluation, only code for the first
+            // condition may be evaluated. Since the JavaScript code generator
+            // shouldn't generate pre-execute code for conditions, an
+            // assertion check suffices.
+            if (i == 0) {
+                result.add(predCodes.get(i));
+            } else {
+                Assert.check(!predCodes.get(i).hasCode());
+            }
+            preds[i] = fmt("(%s)", predCodes.get(i).getData());
+        }
+        result.setDataValue(new JavaScriptDataValue(String.join(" && ", preds)));
+        return result;
     }
 }

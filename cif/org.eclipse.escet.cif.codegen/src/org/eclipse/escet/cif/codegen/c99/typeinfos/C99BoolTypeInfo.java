@@ -129,7 +129,7 @@ public class C99BoolTypeInfo extends BoolTypeInfo implements C99TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "(${left-value}) == (${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

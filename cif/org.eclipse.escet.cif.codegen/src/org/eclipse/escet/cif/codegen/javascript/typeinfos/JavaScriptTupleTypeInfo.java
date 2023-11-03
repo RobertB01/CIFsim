@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
+
 import java.util.List;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
@@ -25,9 +28,12 @@ import org.eclipse.escet.cif.codegen.typeinfos.RangeCheckErrorLevelText;
 import org.eclipse.escet.cif.codegen.typeinfos.TupleTypeInfo;
 import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Assert;
 
 /** JavaScript type information about the tuple type. */
 public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
@@ -59,20 +65,26 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("var %s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
+        // Use 'equalObjs' instead of '==' to avoid object equality for two tuple objects.
+        if (binOp.equals(BinaryOperator.EQUAL)) {
+            return fmt("%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
+            return fmt("!%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        }
+
+        throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
 
     @Override
@@ -87,28 +99,58 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
 
     @Override
     public String appendProjection(String value, boolean safe, int index) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return safe ? fmt("%s[%d]", value, index) : fmt("(%s)[%d]", value, index);
     }
 
     @Override
     public CodeBox modifyContainer(VariableInformation containerInfo, ExprCode partCode, int index, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        // Modify the field of the destination.
+        CodeBox code = ctxt.makeCodeBox();
+        code.add(partCode.getCode());
+        code.add("%s = %s;", appendProjection(containerInfo.targetName, true, index), partCode.getData());
+        return code;
     }
 
     @Override
     public void checkRange(CifType lhsType, CifType rhsType, DataValue rhsValue, CifType varType, String varName,
             List<RangeCheckErrorLevelText> errorTexts, int level, CodeBox code, CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        // 'is type contained' check also recurses down to the elements, might
+        // as well do that immediately.
+        TupleType lhsTuple = (TupleType)lhsType;
+        TupleType rhsTuple = (TupleType)rhsType;
+        int last = errorTexts.size();
+        errorTexts.add(null);
+        for (int i = 0; i < childInfos.length; i++) {
+            errorTexts.set(last, new RangeCheckErrorLevelText(false, lhsTuple.getFields().get(i).getName()));
+            childInfos[i].checkRange(lhsTuple.getFields().get(i).getType(), rhsTuple.getFields().get(i).getType(),
+                    new JavaScriptDataValue(appendProjection(rhsValue.getData(), false, i)), varType, varName,
+                    errorTexts, level, code, ctxt);
+        }
+        errorTexts.remove(last);
+        Assert.check(last == errorTexts.size());
     }
 
     @Override
     public ExprCode convertLiteral(TupleExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        StringBuilder constructorCall = new StringBuilder();
+        constructorCall.append('[');
+        boolean first = true;
+        for (Expression arg: expr.getFields()) {
+            if (!first) {
+                constructorCall.append(", ");
+            }
+            first = false;
+            ExprCode fieldValue = ctxt.exprToTarget(arg, null);
+            result.add(fieldValue);
+            constructorCall.append(fieldValue.getData());
+        }
+        constructorCall.append(']');
+
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(constructorCall.toString()));
+        return result;
     }
 
     @Override
