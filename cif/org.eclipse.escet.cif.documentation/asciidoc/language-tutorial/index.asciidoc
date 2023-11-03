@@ -41,7 +41,7 @@ However, just as the CIF language, the CIF tooling can be applied much more gene
 The tooling allows among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.
 
 CIF <<history-chapter-index,originally stood for>> **C**ompositional **I**nterchange **F**ormat for hybrid systems.
-Since the language has since evolved beyond its original purpose, the name 'CIF' is nowadays only used in its abbreviated form.
+As the language has since evolved beyond its original purpose, the name 'CIF' is nowadays only used in its abbreviated form.
 
 === Lessons
 

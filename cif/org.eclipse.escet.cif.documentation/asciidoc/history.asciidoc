@@ -22,18 +22,18 @@ It also explains what 'CIF' originally stood for.
 === Conception
 
 The CIF language and toolkit were originally created to establish interoperability between a wide range of tools and their associated modeling languages.
-Languages and tools considered to be in scope at the time, were those from computer science and from dynamics and control, for modeling, simulation, analysis, controller synthesis, and verification in the area of discrete event, timed, and hybrid systems.
+Languages and tools considered to be in scope at the time were those from computer science and from dynamics and control, and focussing on modeling, simulation, analysis, controller synthesis, and verification in the area of discrete event, timed, and hybrid systems.
 The various tools, such as UPPAAL and Modelica, had different capabilities.
 Since each tool had its own associated language, unlocking these capabilities for other languages required model transformations between the various languages.
 
 However, this was considerable work, as for each language a transformation to each other language had to be created.
-The idea of an interchange format was born, to reduce the number of transformations that are needed.
+The idea of an interchange format was born to reduce the number of transformations that are needed.
 Instead of transforming _n_ languages each to _n - 1_ others, each language would only need to be transformed to and from an interchange format.
 For instance, a UPPAAL model could be transformed to the interchange format, and then to a Modelica model.
 That way, only _2 * n_ transformations would be needed, reducing the effort to implement the transformations.
 
 The interchange format also needed to be rich enough to represent the concepts from the various languages.
-Only then could a large enough subset of the language features of the various languages be transformed.
+Only then could a large enough subset of language features of the various languages be transformed.
 Hence, it needed concepts from discrete event, timed, and hybrid systems.
 
 In order for the transformations to be useful, they had to be semantically preserving.
@@ -41,12 +41,12 @@ The model in one language, when transformed to another, should still behave in t
 That way, the analysis results would also be valid for the original model, allowing different tools be combined in a consistent and meaningful way.
 To enable this, it was deemed necessary for the interchange format to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
 
-As different languages may have different concepts, part of the transformation could be to transform the unsupported concepts to other equivalent concepts, that are supported.
+As different languages may have different concepts, part of the transformation could be to transform the unsupported concepts to other equivalent concepts that are supported.
 By doing such transformations on the interchange format itself, they can be reused, rather than having to implement them again for each transformation.
 To support this, the semantics of the interchange format should be compositional.
-With a compositional semantics, parts of the model can be replaced, without changing the meaning of the model.
+With a compositional semantics, parts of the model can be replaced without changing the meaning of the model.
 
-There was thus a need for an interchange format with formal compositional semantics, that supports concepts from discrete event, timed, and hybrid systems.
+There was thus a need for an interchange format with formal compositional semantics that supports concepts from discrete event, timed, and hybrid systems.
 For this, the **C**ompositional **I**nterchange **F**ormat for hybrid systems, abbreviated as 'CIF', was created.
 
 === CIF 1
@@ -55,8 +55,8 @@ The first version of the CIF language, CIF 1, was defined in 2006.
 The first CIF tools were created in 2007, in Python.
 CIF was at that time essentially a front-end language.
 The first tool, the CIF simulator, represented CIF models internally as link:https://eclipse.dev/escet/{escet-website-version}/chi[Chi] models.
-The CIF 1 toolset was later extended with other tools, including various transformations to other languages, and support for supervisory controller synthesis.
-Along with CIF 1, the Supervisory Control IDE (SCIDE), a graphical editor for supervisory control models was created.
+The CIF 1 toolset was later extended with other tools, including various transformations to other languages and support for supervisory controller synthesis.
+Along with CIF 1, the Supervisory Control IDE (SCIDE), a graphical editor for supervisory control models, was created.
 
 After a few years, several issues were identified with CIF 1.
 Its language concepts were difficult to use, the textual syntax was cumbersome, and the semantics was hard to get right.
@@ -76,23 +76,23 @@ Here are some publications about CIF 1:
 
 === CIF 2
 
-To solve the difficulties with CIF 1, it was decided to start from scratch, with CIF 2.
-The focus of CIF 2 was on selecting the right concepts, and getting their semantics right.
+To solve the difficulties with CIF 1, it was decided to start from scratch, resulting in CIF 2.
+The focus of CIF 2 was on selecting the right concepts and getting their semantics right.
 
 The first release of the CIF 2 tooling was on September 8, 2010.
-With CIF 2, CIF remained an interchange format, with various transformations to other languages.
-Transformations were supported by a model transformation framework, based on the Eclipse Modeling Framework (EMF).
+With CIF 2, CIF remained an interchange format with various transformations to other languages.
+Transformations were supported by a model transformation framework based on the Eclipse Modeling Framework (EMF).
 It allowed for transformations to and from the CIF 2 metamodel, using model transformation languages, such as ATL and QVTo.
 
 However, the role of CIF 2 as an interchange format was never fully realized.
-In the end, the concepts of the different languages were often quite different, or appeared similar, but had different semantics.
+In the end, the concepts of the different languages were often quite different, or appeared similar but had different semantics.
 This led to encoding concepts in terms of other concepts in the transformation to CIF.
 This made it difficult to subsequently transform them to other languages.
 After a while, interest in CIF as an interchange format declined.
 
 Besides that, the CIF 2 syntax was not very user friendly.
-And the implementation technology around metamodels and model transformation languages was not very mature at the time.
-The CIF 2 tooling was difficult to use, and difficult to maintain.
+Furthermore, the implementation technology around metamodels and model transformation languages was not very mature at the time.
+The CIF 2 tooling was difficult to use and difficult to maintain.
 
 The work around CIF 2 was primarily carried out in several academic research projects, including the Darwin project, the EU FP7 project C4C, the EU FP7 project Multiform, and the EU NoE project HYCON 2.
 The CIF 2 tooling was in development from 2010 to around 2014.
@@ -108,9 +108,9 @@ Here are some publications about CIF 2:
 
 To address the need for a language for supervisory control, with a user-friendly syntax, the Systems Engineering Automaton Language (SEAL) was developed.
 SEAL was an untimed, automata-based language for the specification of controllers.
-It was particularly suited for the specification of supervisory controller synthesis problems, and verification problems.
+It was particularly suited for the specification of supervisory controller synthesis problems and verification problems.
 The first version of SEAL was released on April 12, 2012.
-The SEAL language was considered a nice modeling language, but was limited to supervisory controllers, and lacked concepts to express timed and hybrid systems.
+The SEAL language was considered a nice modeling language, but it was limited to supervisory controllers and lacked concepts to express timed and hybrid systems.
 Introducing another language, besides CIF 2, also created confusion in collaborations with other parties.
 
 === CIF 3
@@ -133,8 +133,8 @@ Later, the work shifted towards tooling to support the entire development proces
 
 CIF 3 has been developed from the start with the aim to have industrial use.
 Hence, considerable effort was put into a good user experience, including good performance, robustness, intuitive and user-friendly error messages, and extensive documentation.
-CIF 3 has been applied in many academic research projects, together with industry.
-However, even with these considerable efforts, CIF 3 remained an academic tool, preventing wide-spread adoption of CIF in industry.
+CIF 3 has been applied in many academic research projects together with industry.
+However, even with these considerable efforts, CIF 3 remained an academic tool lacking wide-spread adoption in industry.
 
 Here are some publications about CIF 3:
 
@@ -143,7 +143,7 @@ Here are some publications about CIF 3:
 
 === Eclipse ESCET
 
-Versions 1 through 3 of CIF were developed by the Eindhoven University of Technology (TU/e) in The Netherlands.
+Versions 1 through 3 of CIF were developed by the Eindhoven University of Technology (TU/e) in the Netherlands.
 In 2018, the idea came to move CIF to the Eclipse Foundation.
 The goal was, together with other interested parties, to create a larger community around CIF.
 The aim was to make it easier for all parties in the ecosystem to contribute together to the development of CIF in an open setting.
@@ -157,7 +157,7 @@ The version number for CIF was dropped at that time.
 The first release of the Eclipse ESCET project, including CIF, was on April 2, 2021.
 Following a formal graduation review, the project became a mature Eclipse Foundation open source project, on September 11, 2023.
 
-With the move to the Eclipse Foundation, and supported by the Eclipse Foundation's principles of transparency, openness, meritocracy and vendor-neutrality, the ESCET project is now an open ecosystem, with a growing community.
+With the move to the Eclipse Foundation, and supported by the Eclipse Foundation's principles of transparency, openness, meritocracy and vendor-neutrality, the ESCET project is now an open ecosystem with a growing community.
 Interested parties, such as academic and applied research institutes, industrial partners, and tool vendors, collaborate on and profit from further tool development for the model-based construction of supervisors.
 Together they are developing the ESCET toolkit as an industrial-strength toolkit.
 
