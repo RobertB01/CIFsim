@@ -80,6 +80,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.impl.EnumDeclImpl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
@@ -792,6 +793,8 @@ public abstract class CodeGen {
         addFunctions(ctxt);
         if (enumDecls.size() == 1) {
             addEnum(first(enumDecls), ctxt);
+        } else {
+            addEnum(EnumDeclImpl.empty(), ctxt);
         }
 
         // Get code for the print declarations.
