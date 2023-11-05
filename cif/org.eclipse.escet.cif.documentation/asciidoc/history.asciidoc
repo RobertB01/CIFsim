@@ -22,32 +22,34 @@ It also explains what 'CIF' originally stood for.
 === Conception
 
 The CIF language and toolkit were originally created to establish interoperability between a wide range of tools and their associated modeling languages.
-Languages and tools considered to be in scope at the time were those from computer science and from dynamics and control, and focussing on modeling, simulation, analysis, controller synthesis, and verification in the area of discrete event, timed, and hybrid systems.
+Languages and tools considered to be in scope at the time were those from computer science and from dynamics and control, and focusing on modeling, simulation, analysis, controller synthesis, and verification in the area of discrete event, timed, and hybrid systems.
 The various tools, such as UPPAAL and Modelica, had different capabilities.
 Since each tool had its own associated language, unlocking these capabilities for other languages required model transformations between the various languages.
 
 However, this was considerable work, as for each language a transformation to each other language had to be created.
-The idea of an interchange format was born to reduce the number of transformations that are needed.
-Instead of transforming _n_ languages each to _n - 1_ others, each language would only need to be transformed to and from an interchange format.
-For instance, a UPPAAL model could be transformed to the interchange format, and then to a Modelica model.
-That way, only _2 * n_ transformations would be needed, reducing the effort to implement the transformations.
+The idea of an interchange format (CIF) was born to reduce the number of transformations that are needed.
+Instead of transforming _n_ languages each to _n - 1_ others (a quadratic number of transformations), each language would only need to be transformed to and from CIF.
+For instance, a UPPAAL model could be transformed to CIF, and then to a Modelica model.
+That way, only _2 * n_ transformations would be needed (a linear number of transformations), reducing the effort to implement the transformations.
 
 The interchange format also needed to be rich enough to represent the concepts from the various languages.
 Only then could a large enough subset of language features of the various languages be transformed.
-Hence, it needed concepts from discrete event, timed, and hybrid systems.
+Hence, CIF needed concepts from discrete event, timed, and hybrid systems.
 
 In order for the transformations to be useful, they had to be semantically preserving.
 The model in one language, when transformed to another, should still behave in the same way.
 That way, the analysis results would also be valid for the original model, allowing different tools be combined in a consistent and meaningful way.
-To enable this, it was deemed necessary for the interchange format to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
+To enable this, it was deemed necessary for CIF to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
 
 As different languages may have different concepts, part of the transformation could be to transform the unsupported concepts to other equivalent concepts that are supported.
-By doing such transformations on the interchange format itself, they can be reused, rather than having to implement them again for each transformation.
-To support this, the semantics of the interchange format should be compositional.
-With a compositional semantics, parts of the model can be replaced without changing the meaning of the model.
+By doing such transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused, rather than having to implement them again for each transformation.
+To support this, the semantics of CIF needed to be compositional.
+With a compositional semantics, parts of the model could be replaced without changing the meaning of the model.
 
 There was thus a need for an interchange format with formal compositional semantics that supports concepts from discrete event, timed, and hybrid systems.
-For this, the **C**ompositional **I**nterchange **F**ormat for hybrid systems, abbreviated as 'CIF', was created.
+For this, the '**C**ompositional **I**nterchange **F**ormat for hybrid systems', abbreviated as 'CIF', was created.
+In CIF, hybrid systems conceptually included timed systems, and timed systems conceptually included discrete event systems.
+Hence, only hybrid systems were mentioned in the full name.
 
 === CIF 1
 
