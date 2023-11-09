@@ -25,7 +25,7 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *
      * @param operation The semantic operation performed by the function application.
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Prefix notation properties of the function parameters.
+     * @param parameters Parameters of the function.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist. For
      *     single parameter functions the infix name is assumed to be a prefix directly attached to the parameter,
      *     otherwise the infix name is assumed to be between arguments surrounded by spaces.
@@ -33,9 +33,9 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] prefixParameters, String infixFuncName, ExprBinding infixBinding)
+            PlcParameterDescription[] parameters, String infixFuncName, ExprBinding infixBinding)
     {
-        super(prefixFuncName, prefixParameters, infixFuncName, infixBinding);
+        super(prefixFuncName, parameters, infixFuncName, infixBinding);
         this.operation = operation;
     }
 
@@ -44,11 +44,11 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *
      * @param operation The semantic operation performed by the function application.
      * @param prefixFuncName Prefix notation properties of the function parameters.
-     * @param prefixParameters Names of the function parameters (input, output, in-out) in prefix notation.
+     * @param parameters Parameters of the function.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] prefixParameters)
+            PlcParameterDescription[] parameters)
     {
-        this(operation, prefixFuncName, prefixParameters, null, ExprBinding.NO_PRIORITY);
+        this(operation, prefixFuncName, parameters, null, ExprBinding.NO_PRIORITY);
     }
 }

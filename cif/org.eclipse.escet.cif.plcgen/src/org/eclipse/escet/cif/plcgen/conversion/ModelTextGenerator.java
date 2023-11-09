@@ -261,7 +261,7 @@ public class ModelTextGenerator {
                     textBuilder.append(", ");
                 }
                 first = false;
-                PlcParameterDescription paramDesc = function.prefixParameters.get(namedValue.name);
+                PlcParameterDescription paramDesc = function.parameters.get(namedValue.name);
                 Assert.notNull(paramDesc, "Parameter name \"" + String.valueOf(namedValue.name)
                         + "\" is not defined for function \"" + function.prefixFuncName + "\"'");
                 textBuilder.append(namedValue.name);

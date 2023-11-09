@@ -545,7 +545,7 @@ public class PlcFunctionAppls {
         // Do some sanity checks.
         Set<String> argumentNames = arguments.stream().map(a -> a.name).collect(Sets.toSet());
         Assert.check(argumentNames.size() == arguments.size()); // No duplicate named values.
-        Assert.check(funcBlkDesc.prefixParameters.keySet().containsAll(argumentNames)); // All arguments are parameters.
+        Assert.check(funcBlkDesc.parameters.keySet().containsAll(argumentNames)); // All arguments are parameters.
 
         return new PlcFuncAppl(funcBlkDesc, arguments);
     }

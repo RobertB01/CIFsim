@@ -13,14 +13,12 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import java.util.List;
-
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 
 /** Cast function with the semantic type conversion performed in a function application. */
 public class PlcCastFunction extends PlcBasicFuncDescription {
     /** Parameters of the function. */
-    private static final List<PlcParameterDescription> FUNCTION_PARAMETERS = List.of(
+    private static final PlcParameterDescription[] FUNCTION_PARAMETERS = {
             new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
 
     /** Type of the function application child expression. */

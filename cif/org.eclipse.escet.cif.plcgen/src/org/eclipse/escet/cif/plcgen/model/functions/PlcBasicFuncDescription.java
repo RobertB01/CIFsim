@@ -13,11 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import static org.eclipse.escet.common.java.Maps.mapc;
-
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import org.eclipse.escet.common.java.Assert;
 
@@ -29,8 +25,8 @@ public abstract class PlcBasicFuncDescription {
     /** Name of the function in prefix notation, or {@code null} if the prefix form does not exist. */
     public final String prefixFuncName;
 
-    /** Mapping of names of the function parameters to their prefix notation properties. */
-    public final Map<String, PlcParameterDescription> prefixParameters;
+    /** Parameters of the function. */
+    public final PlcParameterDescription[] parameters;
 
     /** Name of the function in infix notation, {@code null} if infix form does not exist. */
     public final String infixFuncName;
@@ -45,38 +41,22 @@ public abstract class PlcBasicFuncDescription {
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Prefix notation properties of the function parameters.
+     * @param parameters Parameters of the function.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
      *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      */
-    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] prefixParameters,
+    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
             String infixFuncName, ExprBinding infixBinding)
     {
-        this(prefixFuncName, Arrays.asList(prefixParameters), infixFuncName, infixBinding);
-    }
+        // Verify that parameter names are unique.
+        long numUnique = Arrays.stream(parameters).map(param -> param.name).distinct().count();
+        Assert.check(numUnique == parameters.length); // long and int are never "Assert.areEqual".
 
-    /**
-     * Constructor of the {@link PlcBasicFuncDescription} class.
-     *
-     * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Prefix notation properties of the function parameters.
-     * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
-     * @param infixBinding Binding of the function application for laying out the infix notation. Use
-     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
-     */
-    public PlcBasicFuncDescription(String prefixFuncName, List<PlcParameterDescription> prefixParameters,
-            String infixFuncName, ExprBinding infixBinding)
-    {
         this.prefixFuncName = prefixFuncName;
+        this.parameters = parameters;
         this.infixFuncName = infixFuncName;
         this.infixBinding = infixBinding;
-
-        this.prefixParameters = mapc(prefixParameters.size());
-        for (PlcParameterDescription prefixParam: prefixParameters) {
-            this.prefixParameters.put(prefixParam.name, prefixParam);
-        }
-        Assert.areEqual(this.prefixParameters.size(), prefixParameters.size());
     }
 
     /** Operator priority and associativity of an expression node. */
