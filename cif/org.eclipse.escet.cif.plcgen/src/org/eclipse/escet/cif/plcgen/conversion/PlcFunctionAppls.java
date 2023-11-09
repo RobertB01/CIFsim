@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.plcgen.conversion;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,7 +32,6 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Sets;
 
 /** Elementary function application construction methods for a target. */
 public class PlcFunctionAppls {
@@ -542,11 +540,6 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl funcBlockAppl(PlcFunctionBlockDescription funcBlkDesc, List<PlcNamedValue> arguments) {
-        // Do some sanity checks.
-        Set<String> argumentNames = arguments.stream().map(a -> a.name).collect(Sets.toSet());
-        Assert.check(argumentNames.size() == arguments.size()); // No duplicate named values.
-        Assert.check(funcBlkDesc.parameters.keySet().containsAll(argumentNames)); // All arguments are parameters.
-
         return new PlcFuncAppl(funcBlkDesc, arguments);
     }
 }
