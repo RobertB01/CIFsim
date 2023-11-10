@@ -39,6 +39,9 @@ public class PlcGenSettings {
     /** Priority of the PLC task. Must be in the range [0..65535]. */
     public final int taskPriority;
 
+    /** Maximum number of iterations for performing events in a single cycle, or {@code null} if unrestricted. */
+    public final Integer maxIter;
+
     /** User-specified path to the CIF specification for which to generate PLC code. */
     public final String inputPath;
 
@@ -85,6 +88,8 @@ public class PlcGenSettings {
      * @param taskCycleTime Cycle time of the PLC task, in milliseconds. Set to {@code 0} to disable periodic task
      *     scheduling.
      * @param taskPriority Priority of the PLC task. Must be in the range [0..65535].
+     * @param maxIter Maximum number of iterations for performing events in a single cycle, or {@code null} if
+     *     unrestricted.
      * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
      * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
      * @param absOutputPath Absolute base path to which to write the generated code.
@@ -99,10 +104,10 @@ public class PlcGenSettings {
      * @param warnOutput Callback to send warnings to the user.
      */
     public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
-            int taskCycleTime, int taskPriority, String inputPath, String absInputPath, String absOutputPath,
-            String ioTablePath, String absIoTablePath, PlcNumberBits intTypeSize, PlcNumberBits realTypeSize,
-            boolean simplifyValues, ConvertEnums enumConversion, Supplier<Boolean> shouldTerminate,
-            boolean warnOnRename, WarnOutput warnOutput)
+            int taskCycleTime, int taskPriority, Integer maxIter, String inputPath, String absInputPath,
+            String absOutputPath, String ioTablePath, String absIoTablePath, PlcNumberBits intTypeSize,
+            PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
+            Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;
@@ -110,6 +115,7 @@ public class PlcGenSettings {
         this.taskName = taskName;
         this.taskCycleTime = taskCycleTime;
         this.taskPriority = taskPriority;
+        this.maxIter = maxIter;
         this.inputPath = inputPath;
         this.absInputPath = absInputPath;
         this.absOutputPath = absOutputPath;
