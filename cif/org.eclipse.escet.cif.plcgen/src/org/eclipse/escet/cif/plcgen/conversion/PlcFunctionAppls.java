@@ -403,14 +403,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl minFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_MIN));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_MIN, "MIN",
-                makeParamList(inN.length));
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
+        return funcAppl(PlcFuncOperation.STDLIB_MIN, "MIN", inN);
     }
 
     /**
@@ -420,14 +413,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl maxFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_MAX));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_MAX, "MAX",
-                makeParamList(inN.length));
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
+        return funcAppl(PlcFuncOperation.STDLIB_MAX, "MAX", inN);
     }
 
     /**
@@ -526,6 +512,25 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_TAN, "TAN",
                 ONE_INPUT_PARAMETER);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+    }
+
+    /**
+     * Construct a function application for a function with a varying number of parameters.
+     *
+     * @param operation The performed function.
+     * @param prefixText Text of the function in prefix notation.
+     * @param inN Arguments of the function.
+     * @return The constructed function application.
+     */
+    public PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression... inN) {
+        Assert.check(target.supportsOperation(operation));
+        Assert.check(inN.length > 1);
+
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
+                makeParamList(inN.length));
+        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
+        return new PlcFuncAppl(func, arguments);
     }
 
     /**
