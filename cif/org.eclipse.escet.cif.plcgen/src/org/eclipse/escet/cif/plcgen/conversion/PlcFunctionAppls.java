@@ -65,11 +65,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl negateFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.NEGATE_OP));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.NEGATE_OP, null,
-                ONE_INPUT_PARAMETER, "-", ExprBinding.UNARY_EXPR);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.NEGATE_OP, null, "-", ExprBinding.UNARY_EXPR, in);
     }
 
     /**
@@ -215,11 +211,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl complementFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.COMPLEMENT_OP));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.COMPLEMENT_OP, "NOT",
-                ONE_INPUT_PARAMETER, null, ExprBinding.UNARY_EXPR);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.COMPLEMENT_OP, "NOT", null, ExprBinding.UNARY_EXPR, in);
     }
 
     /**
@@ -471,6 +463,26 @@ public class PlcFunctionAppls {
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_TAN, "TAN",
                 ONE_INPUT_PARAMETER);
+        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+    }
+
+    /**
+     * Construct a function application for a function with a single parameter.
+     *
+     * @param operation The performed function.
+     * @param prefixText Text of the function in prefix notation or {@code null} if not available.
+     * @param infixText Text of the function in infix notation or {@code null} if not available.
+     * @param exprBinding Binding strength of the function in the expression.
+     * @param in Argument of the function.
+     * @return The constructed function application.
+     */
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
+            ExprBinding exprBinding, PlcExpression in)
+    {
+        Assert.check(target.supportsOperation(operation));
+
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
+                infixText, exprBinding);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
