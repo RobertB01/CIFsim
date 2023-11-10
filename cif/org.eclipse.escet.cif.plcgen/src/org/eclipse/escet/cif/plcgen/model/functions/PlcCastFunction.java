@@ -21,8 +21,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 public class PlcCastFunction extends PlcBasicFuncDescription {
     /** Parameters of the function. */
     private static final List<PlcParameterDescription> FUNCTION_PARAMETERS = List.of(
-            new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY),
-            new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY));
+            new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
 
     /** Type of the function application child expression. */
     public final PlcElementaryType childType;

@@ -42,14 +42,12 @@ public class PlcFunctionAppls {
 
     /** Parameters for functions that take one input parameters. */
     private static final PlcParameterDescription[] ONE_INPUT_PARAMETER = new PlcParameterDescription[] {
-            new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY),
-            new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY)};
+            new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
 
     /** Parameters for functions that take two input parameters. */
     private static final PlcParameterDescription[] TWO_INPUT_PARAMATERS = new PlcParameterDescription[] {
             new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY),
-            new PlcParameterDescription("IN2", PlcParamDirection.INPUT_ONLY),
-            new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY)};
+            new PlcParameterDescription("IN2", PlcParamDirection.INPUT_ONLY)};
 
     /**
      * Constructor of the {@link PlcFunctionAppls} class.
@@ -336,11 +334,10 @@ public class PlcFunctionAppls {
      * @return The constructed parameter list.
      */
     private static PlcParameterDescription[] makeParamList(int length) {
-        PlcParameterDescription[] params = new PlcParameterDescription[length + 1];
+        PlcParameterDescription[] params = new PlcParameterDescription[length];
         for (int i = 0; i < length; i++) {
             params[i] = new PlcParameterDescription("IN" + String.valueOf(i + 1), PlcParamDirection.INPUT_ONLY);
         }
-        params[length] = new PlcParameterDescription("OUT", PlcParamDirection.OUTPUT_ONLY);
         return params;
     }
 
