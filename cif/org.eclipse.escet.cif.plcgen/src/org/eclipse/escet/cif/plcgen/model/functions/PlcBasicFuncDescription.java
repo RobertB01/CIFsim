@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.model.functions;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 
 import org.eclipse.escet.common.java.Assert;
 
@@ -37,6 +38,9 @@ public abstract class PlcBasicFuncDescription {
      */
     public final ExprBinding infixBinding;
 
+    /** Supported notations of the function by the target. */
+    public final EnumSet<PlcFuncNotation> notations;
+
     /**
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
@@ -45,10 +49,22 @@ public abstract class PlcBasicFuncDescription {
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
      *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
+     * @param notations Supported notations of the function by the target. May get restricted based on available infix
+     *     and prefix function names.
      */
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
-            String infixFuncName, ExprBinding infixBinding)
+            String infixFuncName, ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
     {
+        // Restrict notation forms based on available function names.
+        notations = EnumSet.copyOf(notations); // Make a private copy to avoid changing caller data.
+        if (infixFuncName == null) {
+            notations.retainAll(PlcFuncNotation.NOT_INFIX);
+        }
+        if (prefixFuncName == null) {
+            notations.retainAll(PlcFuncNotation.INFIX_ONLY);
+        }
+        Assert.check(!notations.isEmpty());
+
         // Verify that parameter names are unique.
         long numUnique = Arrays.stream(parameters).map(param -> param.name).distinct().count();
         Assert.check(numUnique == parameters.length); // long and int are never "Assert.areEqual".
@@ -57,6 +73,7 @@ public abstract class PlcBasicFuncDescription {
         this.parameters = parameters;
         this.infixFuncName = infixFuncName;
         this.infixBinding = infixBinding;
+        this.notations = notations;
     }
 
     /** Operator priority and associativity of an expression node. */
@@ -194,5 +211,41 @@ public abstract class PlcBasicFuncDescription {
 
         /** Parameter is read only for the callee. */
         INPUT_ONLY;
+    }
+
+    /** Available notations of a function application. */
+    public static enum PlcFuncNotation {
+        /** Infix notation. */
+        INFIX,
+
+        /** Informal prefix notation. */
+        INFORMAL,
+
+        /** Formal prefix notation. */
+        FORMAL;
+
+        /** Unsupported function. */
+        public static final EnumSet<PlcFuncNotation> UNSUPPORTED = EnumSet.noneOf(PlcFuncNotation.class);
+
+        /** All infix notation forms. */
+        public static final EnumSet<PlcFuncNotation> INFIX_ONLY = EnumSet.of(INFIX);
+
+        /** All informal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> INFORMAL_ONLY = EnumSet.of(INFORMAL);
+
+        /** All formal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> FORMAL_ONLY = EnumSet.of(FORMAL);
+
+        /** All except infix notation forms. */
+        public static final EnumSet<PlcFuncNotation> NOT_INFIX = EnumSet.of(INFORMAL, FORMAL);
+
+        /** All except informal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> NOT_INFORMAL = EnumSet.of(INFIX, FORMAL);
+
+        /** All except formal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> NOT_FORMAL = EnumSet.of(INFIX, INFORMAL);
+
+        /** All notation forms. */
+        public static final EnumSet<PlcFuncNotation> ALL = EnumSet.allOf(PlcFuncNotation.class);
     }
 }

@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
@@ -74,8 +75,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
-        String infixText = target.supportsInfixNotation(PlcFuncOperation.POWER_OP) ? "**" : null;
-        return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", infixText, ExprBinding.POWER_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", "**", ExprBinding.POWER_EXPR, in1, in2);
     }
 
     /**
@@ -251,7 +251,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType inType, PlcElementaryType outType) {
-        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType);
+        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType, PlcFuncNotation.NOT_INFIX);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -270,7 +270,8 @@ public class PlcFunctionAppls {
                 new PlcParameterDescription("G", PlcParamDirection.INPUT_ONLY),
                 new PlcParameterDescription("IN0", PlcParamDirection.INPUT_ONLY),
                 new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY)};
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.SEL_OP, "SEL", params);
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.SEL_OP, "SEL", params,
+                PlcFuncNotation.NOT_INFIX);
         return new PlcFuncAppl(func,
                 List.of(new PlcNamedValue("G", g), new PlcNamedValue("IN0", in0), new PlcNamedValue("IN1", in1)));
     }
@@ -431,7 +432,8 @@ public class PlcFunctionAppls {
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression in) {
         Assert.check(target.supportsOperation(operation));
 
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER);
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
+                target.getsupportedFuncNotations(operation));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -451,7 +453,7 @@ public class PlcFunctionAppls {
         Assert.check(target.supportsOperation(operation));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                infixText, exprBinding);
+                infixText, exprBinding, target.getsupportedFuncNotations(operation));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -472,7 +474,7 @@ public class PlcFunctionAppls {
         Assert.check(target.supportsOperation(operation));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, TWO_INPUT_PARAMATERS,
-                infixText, exprBinding);
+                infixText, exprBinding, target.getsupportedFuncNotations(operation));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
     }
 
@@ -489,7 +491,7 @@ public class PlcFunctionAppls {
         Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length));
+                makeParamList(inN.length), target.getsupportedFuncNotations(operation));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
                 .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
@@ -512,7 +514,7 @@ public class PlcFunctionAppls {
         Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length), infixText, exprBinding);
+                makeParamList(inN.length), infixText, exprBinding, target.getsupportedFuncNotations(operation));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
                 .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
         return new PlcFuncAppl(func, arguments);
