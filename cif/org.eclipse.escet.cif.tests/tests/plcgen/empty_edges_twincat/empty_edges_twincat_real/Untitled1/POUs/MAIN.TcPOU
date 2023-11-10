@@ -45,7 +45,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_Good_x := Good_x;
         IF syncAutEdge = 1 THEN
-            Good_x := MOD(IN1 := current_Good_x + 1, IN2 := 6);
+            Good_x := MOD(current_Good_x + 1, 6);
         END_IF;
     END_IF;
     (* Try to perform event "noMonitor". *)
@@ -59,7 +59,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_Good_x__1 := Good_x;
         IF syncAutEdge__2 = 1 THEN
-            Good_x := MOD(IN1 := current_Good_x__1 + 5, IN2 := 6);
+            Good_x := MOD(current_Good_x__1 + 5, 6);
         END_IF;
     END_IF;
     (* Try to perform event "channel". *)

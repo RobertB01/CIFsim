@@ -1,0 +1,226 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        curValue: REAL;
+        current_aut: DINT;
+        current_aut_b: BOOL;
+        current_aut_i: DINT;
+        current_aut_r: REAL;
+        current_aut_tii: TupleStruct;
+        eventEnabled: BOOL;
+        ifResult: BOOL;
+        isProgress: BOOL;
+        litStruct: TupleStruct;
+        syncAutEdge: DINT;
+        syncAutEdge__1: DINT;
+        timeOut: BOOL;
+    END_VAR
+
+BEGIN
+    (* --- Initialize state or update continuous variables. -------------------- *)
+    IF firstRun THEN
+        firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        c := 0.0;
+        (* Reset timer of "c". *)
+        preset_c := c;
+        ton_c(IN := FALSE, PT := preset_c);
+        ton_c(IN := TRUE, PT := preset_c);
+        aut_r := 0.0;
+        aut_b := FALSE;
+        aut_i := 0;
+        litStruct.field1 := 0;
+        litStruct.field2 := 0;
+        aut_tii := litStruct;
+        aut_i2 := 1;
+        aut_i3 := 1;
+        aut := 0;
+    ELSE
+        (* Update remaining time of "c". *)
+        ton_c(IN := TRUE, PT := preset_c, Q => timeOut, ET => curValue);
+        c := SEL(timeOut, preset_c - curValue, 0.0);
+    END_IF;
+
+    (* --- Process all events. ------------------------------------------------- *)
+    isProgress := TRUE;
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (* Try to perform event "aut.e". *)
+        eventEnabled := TRUE;
+        IF aut = 0 THEN
+            syncAutEdge := 1;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 2;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 3;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 4;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 5;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 6;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 7;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 8;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 9;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 10;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 11;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 12;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 13;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 14;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 15;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 16;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 17;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 18;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 19;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 20;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 21;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 22;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 23;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 24;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 25;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 26;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 27;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 28;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 29;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 30;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 31;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 32;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 33;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 34;
+        ELSIF aut = 0 THEN
+            syncAutEdge := 35;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            current_aut := aut;
+            current_aut_b := aut_b;
+            current_aut_i := aut_i;
+            current_aut_r := aut_r;
+            current_aut_tii := aut_tii;
+            IF syncAutEdge = 1 THEN
+                aut_r := inp;
+            ELSIF syncAutEdge = 2 THEN
+                aut_r := inp + -1.0;
+                aut := 1;
+            ELSIF syncAutEdge = 3 THEN
+                aut_r := DINT_TO_REAL(current_aut_i);
+            ELSIF syncAutEdge = 4 THEN
+                aut_b := NOT(current_aut_b);
+            ELSIF syncAutEdge = 5 THEN
+                aut_b := current_aut_b OR NOT(current_aut_b);
+            ELSIF syncAutEdge = 6 THEN
+                aut_r := DINT_TO_REAL(current_aut_i) / DINT_TO_REAL(current_aut_i);
+            ELSIF syncAutEdge = 7 THEN
+                IF current_aut_b THEN
+                    ifResult := current_aut_b;
+                ELSE
+                    ifResult := current_aut_b;
+                END_IF;
+                aut_b := ifResult;
+            ELSIF syncAutEdge = 8 THEN
+                aut_i := current_aut_tii.field1;
+            ELSIF syncAutEdge = 9 THEN
+                aut_r := ABS(current_aut_r);
+            ELSIF syncAutEdge = 10 THEN
+                aut_r := EXPT(current_aut_r, 1.0 / 3.0);
+            ELSIF syncAutEdge = 11 THEN
+                aut_r := EXP(current_aut_r);
+            ELSIF syncAutEdge = 12 THEN
+                aut_r := LN(current_aut_r);
+            ELSIF syncAutEdge = 13 THEN
+                aut_r := LN(current_aut_r) / LN(10.0);
+            ELSIF syncAutEdge = 14 THEN
+                aut_i := MIN(IN1 := current_aut_i, IN2 := current_aut_i);
+            ELSIF syncAutEdge = 15 THEN
+                aut_r := MIN(IN1 := DINT_TO_REAL(current_aut_i), IN2 := current_aut_r);
+            ELSIF syncAutEdge = 16 THEN
+                aut_r := MIN(IN1 := current_aut_r, IN2 := DINT_TO_REAL(current_aut_i));
+            ELSIF syncAutEdge = 17 THEN
+                aut_r := MIN(IN1 := current_aut_r, IN2 := current_aut_r);
+            ELSIF syncAutEdge = 18 THEN
+                aut_i := MAX(IN1 := current_aut_i, IN2 := current_aut_i);
+            ELSIF syncAutEdge = 19 THEN
+                aut_r := MAX(IN1 := DINT_TO_REAL(current_aut_i), IN2 := current_aut_r);
+            ELSIF syncAutEdge = 20 THEN
+                aut_r := MAX(IN1 := current_aut_r, IN2 := DINT_TO_REAL(current_aut_i));
+            ELSIF syncAutEdge = 21 THEN
+                aut_r := MAX(IN1 := current_aut_r, IN2 := current_aut_r);
+            ELSIF syncAutEdge = 22 THEN
+                aut_i := REAL_TO_DINT(EXPT(DINT_TO_REAL(aut_i2), DINT_TO_REAL(aut_i3)));
+            ELSIF syncAutEdge = 23 THEN
+                aut_r := EXPT(DINT_TO_REAL(current_aut_i), DINT_TO_REAL(current_aut_i));
+            ELSIF syncAutEdge = 24 THEN
+                aut_r := EXPT(DINT_TO_REAL(current_aut_i), current_aut_r);
+            ELSIF syncAutEdge = 25 THEN
+                aut_r := EXPT(current_aut_r, DINT_TO_REAL(current_aut_i));
+            ELSIF syncAutEdge = 26 THEN
+                aut_r := EXPT(current_aut_r, current_aut_r);
+            ELSIF syncAutEdge = 27 THEN
+                aut_r := SQRT(current_aut_r);
+            ELSIF syncAutEdge = 28 THEN
+                aut_r := ASIN(current_aut_r);
+            ELSIF syncAutEdge = 29 THEN
+                aut_r := ACOS(current_aut_r);
+            ELSIF syncAutEdge = 30 THEN
+                aut_r := ATAN(current_aut_r);
+            ELSIF syncAutEdge = 31 THEN
+                aut_r := SIN(current_aut_r);
+            ELSIF syncAutEdge = 32 THEN
+                aut_r := COS(current_aut_r);
+            ELSIF syncAutEdge = 33 THEN
+                aut_r := TAN(current_aut_r);
+            ELSIF syncAutEdge = 34 THEN
+                litStruct.field1 := current_aut_i;
+                litStruct.field2 := current_aut_i + 1;
+                aut_tii := litStruct;
+            ELSIF syncAutEdge = 35 THEN
+                aut_r := current_aut_r * 2.0;
+                aut_i := current_aut_i + 1;
+            END_IF;
+        END_IF;
+        (* Try to perform event "aut.f". *)
+        eventEnabled := TRUE;
+        IF aut = 0 AND (aut_b OR aut_b) THEN
+            syncAutEdge__1 := 1;
+        ELSIF aut = 0 AND aut_b THEN
+            syncAutEdge__1 := 2;
+        ELSE
+            eventEnabled := FALSE;
+        END_IF;
+        IF eventEnabled THEN
+            isProgress := TRUE;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

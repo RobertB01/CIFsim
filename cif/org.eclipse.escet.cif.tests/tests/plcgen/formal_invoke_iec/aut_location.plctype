@@ -1,0 +1,3 @@
+TYPE aut_location:
+    (aut_l1, aut_l2);
+END_TYPE

@@ -44,8 +44,8 @@ IF firstRun THEN
     timer_t := 0.0;
     (* Reset timer of "timer_t". *)
     preset_timer_t := timer_t;
-    ton_timer_t(PT := preset_timer_t, IN := FALSE);
-    ton_timer_t(PT := preset_timer_t, IN := TRUE);
+    ton_timer_t(IN := FALSE, PT := preset_timer_t);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t);
     timer := timer_Idle;
     sup := sup_s1;
     hw_button := hw_button_Released;
@@ -53,8 +53,8 @@ IF firstRun THEN
     hw_lamp := hw_lamp_Off;
 ELSE
     (* Update remaining time of "timer_t". *)
-    ton_timer_t(PT := preset_timer_t, IN := TRUE, Q => timeOut, ET => curValue);
-    timer_t := SEL(G := timeOut, IN0 := preset_timer_t - curValue, IN1 := 0.0);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);
+    timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
@@ -87,8 +87,8 @@ WHILE isProgress DO
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
             preset_timer_t := timer_t;
-            ton_timer_t(PT := preset_timer_t, IN := FALSE);
-            ton_timer_t(PT := preset_timer_t, IN := TRUE);
+            ton_timer_t(IN := FALSE, PT := preset_timer_t);
+            ton_timer_t(IN := TRUE, PT := preset_timer_t);
             timer := timer_Running;
         END_IF;
         IF syncAutEdge__1 = 1 THEN
@@ -183,7 +183,7 @@ WHILE isProgress DO
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
-        IF hw_button = hw_button_Pushed AND NOT(IN := hw_button_bit) THEN
+        IF hw_button = hw_button_Pushed AND NOT(hw_button_bit) THEN
             syncAutEdge__7 := 1;
         ELSE
             eventEnabled := FALSE;

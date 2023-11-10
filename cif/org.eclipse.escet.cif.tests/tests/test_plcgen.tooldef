@@ -35,8 +35,8 @@ map(string:list string) test_options = {
     "plcgen/formal_finvoke_none_all.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=all"],
     "plcgen/formal_finvoke_none_std.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=std"],
     "plcgen/formal_finvoke_none_others.cif":  ["--formal-finvoke-arg=none --formal-finvoke-func=others"],
-    "plcgen/option_max_iter_inf.cif":         ["-x inf"],
-    "plcgen/options.cif":                     ["-i off -b 32 -x 101"],
+    "plcgen/option_max_iter_inf.cif":         ["-x inf"], // Infinite event looping.
+    "plcgen/options.cif":                     ["-i off --int-size=32 --real-size=32 -x 101"],
 };
 set string test_skip = {};
 
