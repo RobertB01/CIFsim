@@ -669,6 +669,12 @@ public class CifProcessor {
                             NoSpecificStdLib.STD_LIB_SIGN, //
                             NoSpecificStdLib.STD_LIB_SIZE),
 
+                    // TODO Implement internal user-defined functions with at least one parameter.
+                    new FuncNoSpecificUserDefCheck(
+                            NoSpecificUserDefFunc.EXTERNAL, //
+                            NoSpecificUserDefFunc.INTERNAL, //
+                            NoSpecificUserDefFunc.NO_PARAMETER),
+
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()
             //
