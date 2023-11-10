@@ -299,11 +299,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl absFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_ABS));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_ABS, "ABS",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_ABS, "ABS", in);
     }
 
     /**
@@ -313,11 +309,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl expFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_EXP));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_EXP, "EXP",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_EXP, "EXP", in);
     }
 
     /**
@@ -327,11 +319,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl lnFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_LN));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_LN, "LN",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_LN, "LN", in);
     }
 
     /**
@@ -341,11 +329,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl logFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_LOG));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_LOG, "LOG",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_LOG, "LOG", in);
     }
 
     /**
@@ -375,11 +359,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl sqrtFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_SQRT));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_SQRT, "SQRT",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_SQRT, "SQRT", in);
     }
 
     /**
@@ -389,11 +369,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl acosFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_ACOS));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_ACOS, "ACOS",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_ACOS, "ACOS", in);
     }
 
     /**
@@ -403,11 +379,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl asinFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_ASIN));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_ASIN, "ASIN",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_ASIN, "ASIN", in);
     }
 
     /**
@@ -417,11 +389,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl atanFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_ATAN));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_ATAN, "ATAN",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_ATAN, "ATAN", in);
     }
 
     /**
@@ -431,11 +399,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl cosFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_COS));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_COS, "COS",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_COS, "COS", in);
     }
 
     /**
@@ -445,11 +409,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl sinFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_SIN));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_SIN, "SIN",
-                ONE_INPUT_PARAMETER);
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+        return funcAppl(PlcFuncOperation.STDLIB_SIN, "SIN", in);
     }
 
     /**
@@ -459,10 +419,21 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl tanFuncAppl(PlcExpression in) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.STDLIB_TAN));
+        return funcAppl(PlcFuncOperation.STDLIB_TAN, "TAN", in);
+    }
 
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_TAN, "TAN",
-                ONE_INPUT_PARAMETER);
+    /**
+     * Construct a function application for a function with a single parameter.
+     *
+     * @param operation The performed function.
+     * @param prefixText Text of the function in prefix notation.
+     * @param in Argument of the function.
+     * @return The constructed function application.
+     */
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression in) {
+        Assert.check(target.supportsOperation(operation));
+
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
