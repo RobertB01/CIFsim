@@ -71,15 +71,31 @@ public class PlcElementaryType extends PlcType {
      * @return The PLC integer type with exactly the requested number of bits.
      */
     public static PlcElementaryType getIntTypeBySize(int numBits) {
-        switch (numBits) {
-            case 16:
-                return INT_TYPE;
-            case 32:
-                return DINT_TYPE;
-            case 64:
-                return LINT_TYPE;
-            default:
-                throw new AssertionError("Unexpected integer size " + String.valueOf(numBits) + " found.");
+        return switch (numBits) {
+            case 16 -> INT_TYPE;
+            case 32 -> DINT_TYPE;
+            case 64 -> LINT_TYPE;
+            default -> throw new AssertionError("Unexpected integer size " + String.valueOf(numBits) + " found.");
+        };
+    }
+
+    /**
+     * Retrieve the number of bits of an integer type.
+     *
+     * @param intType Type to analyze to analyze.
+     * @return Number of bits of the type.
+     */
+    public static int getSizeOfIntType(PlcElementaryType intType) {
+        if (intType == PlcElementaryType.LINT_TYPE) {
+            return 64;
+        } else if (intType == PlcElementaryType.DINT_TYPE) {
+            return 32;
+        } else if (intType == PlcElementaryType.INT_TYPE) {
+            return 16;
+        } else if (intType == PlcElementaryType.BOOL_TYPE) {
+            return 1;
+        } else {
+            throw new AssertionError("Unexpected elementary type " + intType + " found.");
         }
     }
 
@@ -90,13 +106,10 @@ public class PlcElementaryType extends PlcType {
      * @return The PLC real type with exactly the requested number of bits.
      */
     public static PlcElementaryType getRealTypeBySize(int numBits) {
-        switch (numBits) {
-            case 32:
-                return REAL_TYPE;
-            case 64:
-                return LREAL_TYPE;
-            default:
-                throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
-        }
+        return switch (numBits) {
+            case 32 -> REAL_TYPE;
+            case 64 -> LREAL_TYPE;
+            default -> throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
+        };
     }
 }

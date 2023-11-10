@@ -81,7 +81,7 @@ public class TransitionGeneratorTest {
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
+                    taskCyceTime, priority, null, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
                     "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
                     warnOutput);
             setup(settings);
