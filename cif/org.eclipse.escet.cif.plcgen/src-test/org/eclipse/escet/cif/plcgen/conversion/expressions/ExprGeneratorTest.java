@@ -55,6 +55,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -94,6 +95,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
@@ -197,12 +199,12 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public boolean supportsOperation(PlcFuncOperation funcOper) {
+        public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper) {
             // LOG support follows the 'supportsLog' variable.
-            if (funcOper.equals(PlcFuncOperation.STDLIB_LOG)) {
-                return supportsLog;
+            if (funcOper.equals(PlcFuncOperation.STDLIB_LOG) && !supportsLog) {
+                return PlcFuncNotation.UNSUPPORTED;
             }
-            return super.supportsOperation(funcOper);
+            return super.getsupportedFuncNotations(funcOper);
         }
 
         @Override
@@ -533,7 +535,7 @@ public class ExprGeneratorTest {
         Expression child = newIntExpression(null, newIntType(), 17);
         Expression expr = newCastExpression(child, null, newRealType());
         String realText = runValueTest(expr);
-        String expectedText = "==> DINT_TO_LREAL(IN := 17)";
+        String expectedText = "==> DINT_TO_LREAL(17)";
         assertEquals(expectedText, realText);
 
         // Equal types, do nothing.
@@ -549,7 +551,7 @@ public class ExprGeneratorTest {
         Expression child = newBoolExpression(null, newBoolType(), true);
         Expression expr = newUnaryExpression(child, UnaryOperator.INVERSE, null, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> NOT(IN := TRUE)";
+        String expectedText = "==> NOT(TRUE)";
         assertEquals(expectedText, realText);
 
         // -(1.58)
@@ -567,7 +569,7 @@ public class ExprGeneratorTest {
         Expression right = newBoolExpression(null, newBoolType(), false);
         Expression expr = newBinaryExpression(left, BinaryOperator.IMPLICATION, null, right, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> FALSE OR NOT(IN := TRUE)";
+        String expectedText = "==> FALSE OR NOT(TRUE)";
         assertEquals(expectedText, realText);
     }
 
@@ -591,7 +593,7 @@ public class ExprGeneratorTest {
         Expression right = newRealExpression(null, newRealType(), "200.0");
         Expression expr = newBinaryExpression(left, BinaryOperator.LESS_EQUAL, null, right, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> DINT_TO_LREAL(IN := 100) <= 200.0";
+        String expectedText = "==> DINT_TO_LREAL(100) <= 200.0";
         assertEquals(expectedText, realText);
     }
 
@@ -615,7 +617,7 @@ public class ExprGeneratorTest {
         Expression expr = newBinaryExpression(mid, BinaryOperator.ADDITION, null, right, newRealType());
         expr = newBinaryExpression(left, BinaryOperator.ADDITION, null, expr, newRealType());
         String realText = runValueTest(expr);
-        String expectedText = "==> DINT_TO_LREAL(IN := 100) + 200.0 + 300.0";
+        String expectedText = "==> DINT_TO_LREAL(100) + 200.0 + 300.0";
         assertEquals(expectedText, realText);
     }
 
@@ -637,7 +639,7 @@ public class ExprGeneratorTest {
         Expression right = newIntExpression(null, newIntType(), 200);
         Expression expr = newBinaryExpression(left, BinaryOperator.DIVISION, null, right, newIntType());
         String realText = runValueTest(expr);
-        String expectedText = "==> DINT_TO_LREAL(IN := 100) / DINT_TO_LREAL(IN := 200)";
+        String expectedText = "==> DINT_TO_LREAL(100) / DINT_TO_LREAL(200)";
         assertEquals(expectedText, realText);
     }
 
@@ -648,7 +650,7 @@ public class ExprGeneratorTest {
         Expression right = newIntExpression(null, newIntType(), 200);
         Expression expr = newBinaryExpression(left, BinaryOperator.DIVISION, null, right, newIntType());
         String realText = runValueTest(expr);
-        String expectedText = "==> 100.0 / DINT_TO_LREAL(IN := 200)";
+        String expectedText = "==> 100.0 / DINT_TO_LREAL(200)";
         assertEquals(expectedText, realText);
     }
 
@@ -720,7 +722,7 @@ public class ExprGeneratorTest {
                 Value variables:
                  - BOOL[0..1] litArray101;
 
-                ==> litArray101[SEL(G := 1 >= 0, IN0 := 1 + 2, IN1 := 1)]""";
+                ==> litArray101[SEL(1 >= 0, 1 + 2, 1)]""";
         assertEquals(expectedText, realText);
     }
 
@@ -798,7 +800,7 @@ public class ExprGeneratorTest {
         List<Expression> args = List.of(newIntExpression(null, newIntType(), 21));
         Expression call = newFunctionCallExpression(args, func, null, null);
         String realText = runValueTest(call);
-        String expectedText = "==> ABS(IN := 21)";
+        String expectedText = "==> ABS(21)";
         assertEquals(expectedText, realText);
 
         // cbrt(17.28)
@@ -815,7 +817,7 @@ public class ExprGeneratorTest {
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
         call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
-        expectedText = "==> LOG(IN := 17.28)";
+        expectedText = "==> LOG(17.28)";
         assertEquals(expectedText, realText);
 
         // log(17.28) without target support.
@@ -824,7 +826,7 @@ public class ExprGeneratorTest {
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
         call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
-        expectedText = "==> LN(IN := 17.28) / LN(IN := 10.0)";
+        expectedText = "==> LN(17.28) / LN(10.0)";
         assertEquals(expectedText, realText);
 
         // power(1, 2), both ranged to allow an int result.
@@ -834,7 +836,7 @@ public class ExprGeneratorTest {
                 newIntExpression(null, newIntType(0, null, 2), 2));
         call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
-        expectedText = "==> LREAL_TO_DINT(IN := DINT_TO_LREAL(IN := 1) ** 2)";
+        expectedText = "==> LREAL_TO_DINT(DINT_TO_LREAL(1) ** 2)";
         assertEquals(expectedText, realText);
 
         // power(2, 3), both rangeless
@@ -843,7 +845,7 @@ public class ExprGeneratorTest {
         args = List.of(newIntExpression(null, newIntType(), 2), newIntExpression(null, newIntType(), 3));
         call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
-        expectedText = "==> DINT_TO_LREAL(IN := 2) ** 3";
+        expectedText = "==> DINT_TO_LREAL(2) ** 3";
         assertEquals(expectedText, realText);
 
         // power(3, 2.0)
@@ -852,7 +854,7 @@ public class ExprGeneratorTest {
         args = List.of(newIntExpression(null, newIntType(), 3), newRealExpression(null, newRealType(), "2.0"));
         call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
-        expectedText = "==> DINT_TO_LREAL(IN := 3) ** 2.0";
+        expectedText = "==> DINT_TO_LREAL(3) ** 2.0";
         assertEquals(expectedText, realText);
     }
 

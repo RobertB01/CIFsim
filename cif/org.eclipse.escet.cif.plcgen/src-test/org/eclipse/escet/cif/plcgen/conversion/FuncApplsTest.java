@@ -72,7 +72,7 @@ public class FuncApplsTest {
 
     @Test
     public void complementFuncApplTest() {
-        assertEquals("NOT(IN := FALSE)", toStr(funcAppls.complementFuncAppl(bool0)));
+        assertEquals("NOT(FALSE)", toStr(funcAppls.complementFuncAppl(bool0)));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class FuncApplsTest {
 
     @Test
     public void moduloFuncApplTest() {
-        assertEquals("MOD(IN1 := 1, IN2 := 2)", toStr(funcAppls.moduloFuncAppl(num1, num2)));
+        assertEquals("MOD(1, 2)", toStr(funcAppls.moduloFuncAppl(num1, num2)));
     }
 
     @Test
@@ -200,13 +200,13 @@ public class FuncApplsTest {
 
     @Test
     public void castFuncApplTest() {
-        assertEquals("DINT_TO_LREAL(IN := 1)",
+        assertEquals("DINT_TO_LREAL(1)",
                 toStr(funcAppls.castFunctionAppl(num1, PlcElementaryType.DINT_TYPE, PlcElementaryType.LREAL_TYPE)));
     }
 
     @Test
     public void selFuncApplTest() {
-        assertEquals("SEL(G := TRUE, IN0 := 1, IN1 := 2)", toStr(funcAppls.selFuncAppl(bool1, num1, num2)));
+        assertEquals("SEL(TRUE, 1, 2)", toStr(funcAppls.selFuncAppl(bool1, num1, num2)));
     }
 
     @Test
