@@ -95,14 +95,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl multiplyFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.MULTIPLY_OP));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.MULTIPLY_OP, "MUL",
-                makeParamList(inN.length), "*", ExprBinding.MUL_EXPR);
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
+        return funcAppl(PlcFuncOperation.MULTIPLY_OP, "MUL", "*", ExprBinding.MUL_EXPR, inN);
     }
 
     /**
@@ -142,14 +135,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl addFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.ADD_OP));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.ADD_OP, "ADD",
-                makeParamList(inN.length), "+", ExprBinding.ADD_EXPR);
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
+        return funcAppl(PlcFuncOperation.ADD_OP, "ADD", "+", ExprBinding.ADD_EXPR, inN);
     }
 
     /**
@@ -283,14 +269,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl andFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.AND_OP));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.AND_OP, "AND",
-                makeParamList(inN.length), "AND", ExprBinding.CONJUNCT_EXPR);
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
+        return funcAppl(PlcFuncOperation.AND_OP, "AND", "AND", ExprBinding.CONJUNCT_EXPR, inN);
     }
 
     /**
@@ -300,14 +279,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl xorFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.XOR_OP));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.XOR_OP, "XOR",
-                makeParamList(inN.length), "XOR", ExprBinding.EXCL_DISJUNCT_EXPR);
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
+        return funcAppl(PlcFuncOperation.XOR_OP, "XOR", "XOR", ExprBinding.EXCL_DISJUNCT_EXPR, inN);
     }
 
     /**
@@ -317,28 +289,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl orFuncAppl(PlcExpression... inN) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.OR_OP));
-        Assert.check(inN.length > 1);
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.OR_OP, "OR",
-                makeParamList(inN.length), "OR", ExprBinding.DISJUNCT_EXPR);
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
-        return new PlcFuncAppl(func, arguments);
-    }
-
-    /**
-     * Construct a parameter list for {@code length} input parameters.
-     *
-     * @param length Number of parameters to create.
-     * @return The constructed parameter list.
-     */
-    private static PlcParameterDescription[] makeParamList(int length) {
-        PlcParameterDescription[] params = new PlcParameterDescription[length];
-        for (int i = 0; i < length; i++) {
-            params[i] = new PlcParameterDescription("IN" + String.valueOf(i + 1), PlcParamDirection.INPUT_ONLY);
-        }
-        return params;
+        return funcAppl(PlcFuncOperation.OR_OP, "OR", "OR", ExprBinding.DISJUNCT_EXPR, inN);
     }
 
     /**
@@ -575,6 +526,43 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.STDLIB_TAN, "TAN",
                 ONE_INPUT_PARAMETER);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
+    }
+
+    /**
+     * Construct a function application for a function with a varying number of parameters.
+     *
+     * @param operation The performed function.
+     * @param prefixText Text of the function in prefix notation or {@code null} if not available.
+     * @param infixText Text of the function in infix notation or {@code null} if not available.
+     * @param exprBinding Binding strength of the function in the expression.
+     * @param inN Arguments of the function.
+     * @return The constructed function application.
+     */
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
+            ExprBinding exprBinding, PlcExpression... inN)
+    {
+        Assert.check(target.supportsOperation(operation));
+        Assert.check(inN.length > 1);
+
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
+                makeParamList(inN.length), infixText, exprBinding);
+        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
+        return new PlcFuncAppl(func, arguments);
+    }
+
+    /**
+     * Construct a parameter list for {@code length} input parameters.
+     *
+     * @param length Number of parameters to create.
+     * @return The constructed parameter list.
+     */
+    private static PlcParameterDescription[] makeParamList(int length) {
+        PlcParameterDescription[] params = new PlcParameterDescription[length];
+        for (int i = 0; i < length; i++) {
+            params[i] = new PlcParameterDescription("IN" + String.valueOf(i + 1), PlcParamDirection.INPUT_ONLY);
+        }
+        return params;
     }
 
     /**
