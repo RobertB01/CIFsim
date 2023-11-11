@@ -190,6 +190,12 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     private final Map<DiscVariable, String> lpVarToAbsAutNameMap = map();
 
     /**
+     * Whether to allow optimization of initialization of newly introduced location pointers, by analyzing declarations
+     * (used for instance in initialization predicates) to see whether they have constant values.
+     */
+    private boolean optInits = false;
+
+    /**
      * Transformation used to introduce location pointer variables, and later to create proper expressions to refer to
      * locations.
      */
@@ -200,6 +206,16 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * (without escaping). See also {@link CifSortUtils#sortCifObjects}.
      */
     protected List<Alphabets> alphabets;
+
+    /**
+     * Sets whether to allow optimization of initialization of newly introduced location pointers, by analyzing
+     * declarations (used for instance in initialization predicates) to see whether they have constant values.
+     *
+     * @param optInits {@code true} to allow the optimization, {@code false} otherwise.
+     */
+    public void setOptInits(boolean optInits) {
+        this.optInits = optInits;
+    }
 
     @Override
     public void transform(Specification spec) {
@@ -261,13 +277,14 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // variables. We do that as part of the linearization instead, to avoid duplication.
         // - We don't optimize. This ensures location pointer variables will be present for all automata with at least
         // two locations.
-        // - We don't allow the optimization of initialization of location pointers, by analyzing declarations (used for
-        // instance in initialization predicates) to see whether they have constant values. Allowing it would mean we
-        // can't easily modify the linearization result, e.g. similar to when constants are inlined.
+        // - By default, we don't allow the optimization of initialization of location pointers, by analyzing
+        // declarations (used for instance in initialization predicates) to see whether they have constant values.
+        // Allowing it would mean we can't easily modify the linearization result, e.g. similar to when constants are
+        // inlined. The default can be overridden using 'optInits'.
         // - We don't add additional location pointer guards on the edges. We do that as part of the linearization
         // instead.
         lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__", a -> "LPE",
-                l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
+                l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, optInits, false);
         lpIntroducer.transform(spec);
 
         // Require at least one automaton.
