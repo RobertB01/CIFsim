@@ -32,7 +32,7 @@ Instead of transforming _n_ languages each to _n - 1_ others (a quadratic number
 For instance, a UPPAAL model could be transformed to CIF, and then to a Modelica model.
 That way, only _2 * n_ transformations would be needed (a linear number of transformations), reducing the effort to implement the transformations.
 
-The interchange format also needed to be rich enough to represent the concepts from the various languages.
+The interchange format needed to be rich enough to represent the concepts from the various languages.
 Only then could a large enough subset of language features of the various languages be transformed.
 Hence, CIF needed concepts from discrete event, timed, and hybrid systems.
 
@@ -41,10 +41,14 @@ The model in one language, when transformed to another, should still behave in t
 That way, the analysis results would also be valid for the original model, allowing different tools be combined in a consistent and meaningful way.
 To enable this, it was deemed necessary for CIF to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
 
-As different languages may have different concepts, part of the transformation could be to transform the unsupported concepts to other equivalent concepts that are supported.
-By doing such transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused, rather than having to implement them again for each transformation.
-To support this, the semantics of CIF needed to be compositional.
-With a compositional semantics, parts of the model could be replaced without changing the meaning of the model.
+Different languages may have different concepts.
+A directly transformation from a source language to a destination language would therefore have to deal with all this complexity.
+Instead, as a pre-transformation step, the source model could be adapted such that concepts that only exist in the source language are transformed to equivalent concepts in the source language that also exist in the destination language.
+This idea was considered useful for many of the language to language transformations.
+By doing such pre-transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused rather than having to implement them again for each language to language transformation.
+For such pre-transformations to be valid, it is essential that parts of a model that are not touched keep their meaning.
+This property for a (interchange) language is known as the link:https://en.wikipedia.org/wiki/Principle_of_compositionality[principle of compositionality].
+The semantics of the CIF language thus needed to be compositional.
 
 There was thus a need for an interchange format with formal compositional semantics that supports concepts from discrete event, timed, and hybrid systems.
 For this, the '**C**ompositional **I**nterchange **F**ormat for hybrid systems', abbreviated as 'CIF', was created.
