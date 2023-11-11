@@ -88,15 +88,17 @@ The focus of CIF 2 was on selecting the right concepts and getting their semanti
 The first release of the CIF 2 tooling was on September 8, 2010.
 With CIF 2, CIF remained an interchange format with various transformations to other languages.
 Transformations were supported by a model transformation framework based on the Eclipse Modeling Framework (EMF).
-It allowed for transformations to and from the CIF 2 metamodel, using model transformation languages, such as ATL and QVTo.
+It allowed for transformations to and from the CIF 2 link:https://en.wikipedia.org/wiki/Metamodel[metamodel], a standard representation of CIF models.
+Transformations could be implemented using link:https://en.wikipedia.org/wiki/Model_transformation_language[model transformation languages], such as ATL and QVTo, rather than general purpose languages, such as Java.
 
 The work around CIF 2 was primarily carried out in several academic research projects, including the Darwin project, the EU FP7 project C4C, the EU FP7 project Multiform, and the EU NoE project HYCON 2.
 The CIF 2 tooling was in development from 2010 to around 2014.
 
-However, the role of CIF 2 as an interchange format was never fully realized.
-In the end, the concepts of the different languages were often quite different, or appeared similar but had different semantics.
-This led to encoding concepts in terms of other concepts in the transformation to CIF.
-This made it difficult to subsequently transform them to other languages.
+Unfortunately, the role of CIF 2 as an interchange format was never fully realized.
+The concepts of the different languages often turned out to be quite different, or appeared similar but had different semantics.
+To compensate for these differences, transformations 'encoded' concepts in terms of other concepts.
+Like in a dictionary that explains an unknown word in terms of many known words, transformations used elaborate combinations of CIF concepts to express the foreign concept in CIF.
+This made it difficult to subsequently transform such CIF models to other languages.
 After a while, interest in CIF as an interchange format declined.
 
 Besides that, the CIF 2 syntax was not very user friendly.
@@ -113,7 +115,7 @@ Here are some publications about CIF 2:
 === SEAL
 
 To address the need for a language for supervisory control, with a user-friendly syntax, the Systems Engineering Automaton Language (SEAL) was developed.
-SEAL was an untimed, automata-based language for the specification of controllers.
+SEAL was an untimed, discrete-event only, automata-based language for the specification of controllers.
 It was particularly suited for the specification of supervisory controller synthesis problems and verification problems.
 The first version of SEAL was released on April 12, 2012.
 The SEAL language was considered a nice modeling language, but it was limited to supervisory controllers and lacked concepts to express timed and hybrid systems.
@@ -122,9 +124,10 @@ Introducing another language alongside CIF 2 also created confusion in collabora
 === CIF 3
 
 Not being satisfied with CIF 2, the idea came to develop CIF 3.
-With the SEAL language being considered a have a good modeling syntax, it was taken as the starting point for CIF 3.
+With the SEAL language being considered to have a good modeling syntax, it was taken as the starting point for CIF 3.
 However, having two languages, CIF 3 and SEAL, with considerable overlap but with different goals, required quite a significant additional development and maintenance effort.
-Therefore, the extension of SEAL, which became CIF 3, replaced SEAL altogether.
+Therefore, rather than having two subtle different languages, the goals of CIF 3 were extended to also cover the goals of SEAL.
+CIF 3 replaced SEAL and the development of SEAL stopped.
 Work on CIF 3 started in the academic research project HYCON 2, in 2012.
 The first version of CIF 3 was released on January 31, 2013.
 
