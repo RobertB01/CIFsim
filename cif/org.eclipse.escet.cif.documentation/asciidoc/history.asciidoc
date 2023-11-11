@@ -27,7 +27,7 @@ The various tools, such as UPPAAL and Modelica, had different capabilities.
 Since each tool had its own associated language, unlocking these capabilities for other languages required model transformations between the various languages.
 
 However, this was considerable work, as for each language a transformation to each other language had to be created.
-The idea of an interchange format (CIF) was born to reduce the number of transformations that are needed.
+The idea of an link:https://en.wikipedia.org/wiki/Pivot_language[interchange format] (CIF) was born to reduce the number of transformations that are needed.
 Instead of transforming _n_ languages each to _n - 1_ others (a quadratic number of transformations), each language would only need to be transformed to and from CIF.
 For instance, a UPPAAL model could be transformed to CIF, and then to a Modelica model.
 That way, only _2 * n_ transformations would be needed (a linear number of transformations), reducing the effort to implement the transformations.
