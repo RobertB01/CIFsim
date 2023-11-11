@@ -113,13 +113,13 @@ SEAL was an untimed, automata-based language for the specification of controller
 It was particularly suited for the specification of supervisory controller synthesis problems and verification problems.
 The first version of SEAL was released on April 12, 2012.
 The SEAL language was considered a nice modeling language, but it was limited to supervisory controllers and lacked concepts to express timed and hybrid systems.
-Introducing another language, besides CIF 2, also created confusion in collaborations with other parties.
+Introducing another language alongside CIF 2 also created confusion in collaborations with other parties.
 
 === CIF 3
 
 Not being satisfied with CIF 2, the idea came to develop CIF 3.
-With the SEAL language being considered a have a good modeling syntax, it was taken as the basis for CIF 3.
-However, having two languages, CIF 3 and SEAL, with considerable overlap, required quite a significant development and maintenance effort.
+With the SEAL language being considered a have a good modeling syntax, it was taken as the starting point for CIF 3.
+However, having two languages, CIF 3 and SEAL, with considerable overlap but with different goals, required quite a significant additional development and maintenance effort.
 Therefore, the extension of SEAL, which became CIF 3, replaced SEAL altogether.
 Work on CIF 3 started in the academic research project HYCON 2, in 2012.
 The first version of CIF 3 was released on January 31, 2013.
