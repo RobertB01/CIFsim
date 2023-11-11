@@ -220,8 +220,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * </ul>
      * </p>
      */
-    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__",
-            a -> "LPE", l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
+    protected ElimLocRefExprs lpIntroducer;
 
     /**
      * Per automaton, all the alphabets. The automata are sorted in ascending order based on their absolute names
@@ -272,6 +271,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
         // Introduce location pointer variables for all automata with at least
         // two locations, and eliminate location references from expressions.
+        lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__", a -> "LPE",
+                l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
         lpIntroducer.transform(spec);
 
         // Require at least one automaton.
