@@ -64,13 +64,13 @@ The first tool, the CIF simulator, represented CIF models internally as link:htt
 The CIF 1 toolset was later extended with other tools, including various transformations to other languages and support for supervisory controller synthesis.
 Along with CIF 1, the Supervisory Control IDE (SCIDE), a graphical editor for supervisory control models, was created.
 
-After a few years, several issues were identified with CIF 1.
+The work around CIF 1 was primarily carried out in several academic research projects, including the EU NoE project HYCON, the EU ITEA2 project Twins, and the Darwin project.
+The CIF 1 tooling was in development from 2007 to around 2012.
+
+A few years after its inception, several issues were identified with CIF 1.
 Its language concepts were difficult to use, the textual syntax was cumbersome, and the semantics was hard to get right.
 The tooling was slow and ran only on Linux.
 The ad-hoc architecture, built on top of Chi, was hard to maintain, and had a considerable number of bugs that were non-trivial to solve.
-
-The work around CIF 1 was primarily carried out in several academic research projects, including the EU NoE project HYCON, the EU ITEA2 project Twins, and the Darwin project.
-The CIF 1 tooling was in development from 2007 to around 2012.
 
 Here are some publications about CIF 1:
 
@@ -90,6 +90,9 @@ With CIF 2, CIF remained an interchange format with various transformations to o
 Transformations were supported by a model transformation framework based on the Eclipse Modeling Framework (EMF).
 It allowed for transformations to and from the CIF 2 metamodel, using model transformation languages, such as ATL and QVTo.
 
+The work around CIF 2 was primarily carried out in several academic research projects, including the Darwin project, the EU FP7 project C4C, the EU FP7 project Multiform, and the EU NoE project HYCON 2.
+The CIF 2 tooling was in development from 2010 to around 2014.
+
 However, the role of CIF 2 as an interchange format was never fully realized.
 In the end, the concepts of the different languages were often quite different, or appeared similar but had different semantics.
 This led to encoding concepts in terms of other concepts in the transformation to CIF.
@@ -99,9 +102,6 @@ After a while, interest in CIF as an interchange format declined.
 Besides that, the CIF 2 syntax was not very user friendly.
 Furthermore, the implementation technology around metamodels and model transformation languages was not very mature at the time.
 The CIF 2 tooling was difficult to use and difficult to maintain.
-
-The work around CIF 2 was primarily carried out in several academic research projects, including the Darwin project, the EU FP7 project C4C, the EU FP7 project Multiform, and the EU NoE project HYCON 2.
-The CIF 2 tooling was in development from 2010 to around 2014.
 
 Here are some publications about CIF 2:
 
