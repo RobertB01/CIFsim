@@ -193,7 +193,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * Whether to allow optimization of initialization of newly introduced location pointers, by analyzing declarations
      * (used for instance in initialization predicates) to see whether they have constant values.
      */
-    private boolean optInits = false;
+    private final boolean optInits;
 
     /**
      * Transformation used to introduce location pointer variables, and later to create proper expressions to refer to
@@ -208,12 +208,13 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     protected List<Alphabets> alphabets;
 
     /**
-     * Sets whether to allow optimization of initialization of newly introduced location pointers, by analyzing
-     * declarations (used for instance in initialization predicates) to see whether they have constant values.
+     * Constructor for the {@link LinearizeBase} class.
      *
-     * @param optInits {@code true} to allow the optimization, {@code false} otherwise.
+     * @param optInits Whether to allow optimization of initialization of newly introduced location pointers, by
+     *     analyzing declarations (used for instance in initialization predicates) to see whether they have constant
+     *     values.
      */
-    public void setOptInits(boolean optInits) {
+    public LinearizeBase(boolean optInits) {
         this.optInits = optInits;
     }
 

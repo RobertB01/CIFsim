@@ -682,8 +682,7 @@ public abstract class CodeGen {
         // To be consistent with the precondition check that automata must have exactly one initial location, we allow
         // linearization to optimize initialization of newly introduced location pointers, by considering the values of
         // variables and so on when determining whether the location pointer has a single initial value.
-        LinearizeMerge linearize = new LinearizeMerge();
-        linearize.setOptInits(true);
+        LinearizeMerge linearize = new LinearizeMerge(true);
         linearize.transform(spec);
         lpVariables = linearize.getLPVariables();
 
