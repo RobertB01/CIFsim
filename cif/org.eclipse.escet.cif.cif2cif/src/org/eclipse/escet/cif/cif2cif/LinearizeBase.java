@@ -278,10 +278,15 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // variables. We do that as part of the linearization instead, to avoid duplication.
         // - We don't optimize. This ensures location pointer variables will be present for all automata with at least
         // two locations.
-        // - By default, we don't allow the optimization of initialization of location pointers, by analyzing
-        // declarations (used for instance in initialization predicates) to see whether they have constant values.
-        // Allowing it would mean we can't easily modify the linearization result, e.g. similar to when constants are
-        // inlined. The default can be overridden using 'optInits'.
+        // - It is configurable (through 'optInits') whether to allow the optimization of initialization of location
+        // pointers, by analyzing declarations (used for instance in initialization predicates) to see whether they
+        // have constant values. By allowing the optimization, one may not be able to easily modify the linearization
+        // result. For instance, initialization could be depend on the value of a variable, and that variable could
+        // essentially be inlined for the initialization of the location pointer variable. Hence, changing the
+        // initialization in a consistent way could then involve multiple changes for multiple location pointers.
+        // By disallowing the optimization, adapting the initialization in a consistent way in the linearized model may
+        // be more difficult. On the other hand, the optimization could lead to simpler initialization of location
+        // pointer variables. What configuration is best depends on how the linearized models will be used.
         // - We don't add additional location pointer guards on the edges. We do that as part of the linearization
         // instead.
         lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__", a -> "LPE",
