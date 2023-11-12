@@ -26,6 +26,26 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version
 
 TBD
 
+New features:
+
+* A new CIF PLC code generator has been added to the CIF toolset.
+The new PLC code generator is currently being developed, and is not yet functional.
+In due time, it will replace the current CIF PLC code generator (issues {escet-issue}397[#397], {escet-issue}676[#676] and {escet-issue}679[#679]).
+* The CIF code generator can now generate JavaScript code.
+The JavaScript code is part of an HTML page, which allows simulating the model in a browser.
+The JavaScript code generation is currently being developed, and is not yet functional (issue {escet-issue}272[#272]).
+
+Improvements and fixes:
+
+* The CIF simulator no longer crashes when simulating models with large expressions (issue {escet-issue}611[#611]).
+* The CIF simulator now truncates messages for runtime errors that include large expressions (issue {escet-issue}661[#661]).
+* The CIF merger now produces correct models when merging models with annotations (issue {escet-issue}680[#680]).
+* The CIF to mCRL2 transformer now supports CIF models with logical implication binary operators (issue {escet-issue}667[#667]).
+* The CIF language tutorial has various improvements and extensions for the documentation about annotations (issue {escet-issue}593[#593]).
+* The CIF language reference manual now includes additional detailed information about annotations (issue {escet-issue}593[#593]).
+* The CIF tool manual now indicates for each tool which annotations it supports, and how it handles them (issue {escet-issue}593[#593]).
+* The CIF documentation has various small improvements and fixes (issues {escet-issue}593[#593], {escet-issue}648[#648] and {escet-issue}682[#682]).
+
 === Version 1.0 (2023-09-30)
 
 Language changes:
