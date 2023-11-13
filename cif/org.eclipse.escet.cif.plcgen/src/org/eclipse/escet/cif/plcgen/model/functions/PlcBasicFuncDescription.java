@@ -38,7 +38,7 @@ public abstract class PlcBasicFuncDescription {
      */
     public final ExprBinding infixBinding;
 
-    /** Supported notations of the function by the target. */
+    /** Notations of the function that are supported by the target. */
     public final EnumSet<PlcFuncNotation> notations;
 
     /**

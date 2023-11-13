@@ -486,7 +486,7 @@ public class PlcFunctionAppls {
      * @param inN Arguments of the function.
      * @return The constructed function application.
      */
-    public PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression... inN) {
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression... inN) {
         Assert.check(target.supportsOperation(operation));
         Assert.check(inN.length > 1);
 

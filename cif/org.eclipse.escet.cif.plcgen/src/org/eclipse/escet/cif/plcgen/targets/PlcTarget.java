@@ -133,7 +133,7 @@ public abstract class PlcTarget {
     }
 
     /**
-     * Get the set supported function-call notations for the given semantic operation.
+     * Get the set of supported function-call notations for the given semantic operation.
      *
      * <p>
      * Notes:

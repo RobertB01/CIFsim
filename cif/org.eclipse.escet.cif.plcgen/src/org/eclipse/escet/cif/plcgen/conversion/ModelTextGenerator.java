@@ -234,9 +234,9 @@ public class ModelTextGenerator {
         Map<String, PlcNamedValue> arguments = funcAppl.arguments;
         boolean allArgumentsSupplied = parameters.length == arguments.size();
 
-        // Decide what notation forms are allowed, check there is at least one form available.
+        // Decide what notation forms are allowed. Check there is at least one form available.
         boolean infixNotationAllowed = function.notations.contains(PlcFuncNotation.INFIX)
-                && !funcApplPreference.equals(FuncApplPreference.OUTER_PREFIX) && allArgumentsSupplied;
+                && (funcApplPreference != FuncApplPreference.OUTER_PREFIX) && allArgumentsSupplied;
         boolean informalNotationAllowed = function.notations.contains(PlcFuncNotation.INFORMAL) && allArgumentsSupplied;
         boolean formalNotationAllowed = function.notations.contains(PlcFuncNotation.FORMAL);
         Assert.check(infixNotationAllowed || informalNotationAllowed || formalNotationAllowed);

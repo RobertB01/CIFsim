@@ -46,7 +46,7 @@ public class PlcFuncAppl extends PlcExpression {
         }
 
         // Verify there is at least one argument and no duplicates.
-        Assert.check(!argumentList.isEmpty()); // PLC systems don't calls without arguments.
+        Assert.check(!argumentList.isEmpty()); // PLCs don't support calls without arguments.
         Assert.areEqual(arguments.size(), argumentList.size());
 
         // All supplied arguments should have a matching parameter.
