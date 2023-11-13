@@ -62,8 +62,8 @@ public class TwinCatTarget extends PlcBaseTarget {
     }
 
     @Override
-    public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper) {
-        EnumSet<PlcFuncNotation> funcSupport = super.getsupportedFuncNotations(funcOper);
+    public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
+        EnumSet<PlcFuncNotation> funcSupport = super.getsupportedFuncNotations(funcOper, numArgs);
 
         // TwinCAT 3.1 does not support "**" for pow(a, b).
         if (funcOper.equals(POWER_OP)) {
@@ -72,10 +72,11 @@ public class TwinCatTarget extends PlcBaseTarget {
             return funcSupport;
         }
 
-        // TwinCAT does not allow formal function call syntax for the following functions.
+        // TwinCAT does not allow formal function call syntax for the following functions and not for functions with two
+        // or more parameters.
         EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
                 STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
-        if (notFormalFuncs.contains(funcOper)) {
+        if (notFormalFuncs.contains(funcOper) || numArgs > 2) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.remove(PlcFuncNotation.FORMAL);
             return funcSupport;

@@ -125,11 +125,12 @@ public abstract class PlcTarget {
      * Does the target support the given semantic operation?
      *
      * @param funcOper Semantics operation being queried.
+     * @param numArgs Number of supplied arguments to the applied function.
      * @return Whether the target supports the given operation.
      * @see #getsupportedFuncNotations
      */
-    public final boolean supportsOperation(PlcFuncOperation funcOper) {
-        return !getsupportedFuncNotations(funcOper).isEmpty();
+    public final boolean supportsOperation(PlcFuncOperation funcOper, int numArgs) {
+        return !getsupportedFuncNotations(funcOper, numArgs).isEmpty();
     }
 
     /**
@@ -145,10 +146,11 @@ public abstract class PlcTarget {
      * </p>
      *
      * @param funcOper Semantics operation being queried.
+     * @param numArgs Number of supplied arguments to the applied function.
      * @return The set of supported function-call notations for the operation.
      * @see #supportsArrays
      */
-    public abstract EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper);
+    public abstract EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper, int numArgs);
 
     /**
      * Query whether the power function {@code base ** exponent} exists for a given combination of parameter types.

@@ -259,7 +259,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl selFuncAppl(PlcExpression g, PlcExpression in0, PlcExpression in1) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.SEL_OP));
+        Assert.check(target.supportsOperation(PlcFuncOperation.SEL_OP, 3));
 
         PlcParameterDescription[] params = new PlcParameterDescription[] {
                 new PlcParameterDescription("G", PlcParamDirection.INPUT_ONLY),
@@ -425,10 +425,10 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression in) {
-        Assert.check(target.supportsOperation(operation));
+        Assert.check(target.supportsOperation(operation, 1));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                target.getsupportedFuncNotations(operation));
+                target.getsupportedFuncNotations(operation, 1));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -445,10 +445,10 @@ public class PlcFunctionAppls {
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
             ExprBinding exprBinding, PlcExpression in)
     {
-        Assert.check(target.supportsOperation(operation));
+        Assert.check(target.supportsOperation(operation, 1));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                infixText, exprBinding, target.getsupportedFuncNotations(operation));
+                infixText, exprBinding, target.getsupportedFuncNotations(operation, 1));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -461,11 +461,11 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression... inN) {
-        Assert.check(target.supportsOperation(operation));
+        Assert.check(target.supportsOperation(operation, inN.length));
         Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length), target.getsupportedFuncNotations(operation));
+                makeParamList(inN.length), target.getsupportedFuncNotations(operation, inN.length));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
                 .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
         return new PlcFuncAppl(func, arguments);
@@ -484,11 +484,12 @@ public class PlcFunctionAppls {
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
             ExprBinding exprBinding, PlcExpression... inN)
     {
-        Assert.check(target.supportsOperation(operation));
+        Assert.check(target.supportsOperation(operation, inN.length));
         Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length), infixText, exprBinding, target.getsupportedFuncNotations(operation));
+                makeParamList(inN.length), infixText, exprBinding,
+                target.getsupportedFuncNotations(operation, inN.length));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
                 .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
         return new PlcFuncAppl(func, arguments);

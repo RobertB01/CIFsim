@@ -52,8 +52,8 @@ public abstract class PlcBasicFuncDescription {
      * @param notations Supported notations of the function by the target. May get restricted based on available infix
      *     and prefix function names.
      */
-    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
-            String infixFuncName, ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
+    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
+            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
     {
         Assert.implies(infixFuncName == null, infixBinding.equals(ExprBinding.NO_PRIORITY));
 

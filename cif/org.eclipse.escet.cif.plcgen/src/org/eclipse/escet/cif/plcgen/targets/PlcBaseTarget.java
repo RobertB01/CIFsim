@@ -241,7 +241,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper) {
+    public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
         // Notations get removed from the set when there is no infix or prefix name available.
         return PlcFuncNotation.ALL;
     }
