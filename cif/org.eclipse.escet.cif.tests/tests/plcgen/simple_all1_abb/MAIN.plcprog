@@ -134,7 +134,7 @@ WHILE isProgress DO
             p_b := FALSE;
             p := 9;
         ELSIF syncAutEdge = 10 THEN
-            IF NOT(current_p_b) THEN
+            IF NOT current_p_b THEN
                 p_ve := 1;
             END_IF;
             p := 10;

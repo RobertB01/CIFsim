@@ -135,9 +135,9 @@ WHILE isProgress DO
         ELSIF syncAutEdge = 3 THEN
             aut_r := DINT_TO_REAL(current_aut_i);
         ELSIF syncAutEdge = 4 THEN
-            aut_b := NOT(current_aut_b);
+            aut_b := NOT current_aut_b;
         ELSIF syncAutEdge = 5 THEN
-            aut_b := current_aut_b OR NOT(current_aut_b);
+            aut_b := current_aut_b OR NOT current_aut_b;
         ELSIF syncAutEdge = 6 THEN
             aut_r := DINT_TO_REAL(current_aut_i) / DINT_TO_REAL(current_aut_i);
         ELSIF syncAutEdge = 7 THEN
