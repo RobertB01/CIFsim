@@ -62,8 +62,8 @@ public class TwinCatTarget extends PlcBaseTarget {
     }
 
     @Override
-    public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
-        EnumSet<PlcFuncNotation> funcSupport = super.getsupportedFuncNotations(funcOper, numArgs);
+    public EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
+        EnumSet<PlcFuncNotation> funcSupport = super.getSupportedFuncNotations(funcOper, numArgs);
 
         // TwinCAT 3.1 does not support "**" for pow(a, b).
         if (funcOper.equals(POWER_OP)) {

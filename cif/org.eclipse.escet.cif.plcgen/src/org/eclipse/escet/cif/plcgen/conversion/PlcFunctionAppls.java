@@ -428,7 +428,7 @@ public class PlcFunctionAppls {
         Assert.check(target.supportsOperation(operation, 1));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                target.getsupportedFuncNotations(operation, 1));
+                target.getSupportedFuncNotations(operation, 1));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -448,7 +448,7 @@ public class PlcFunctionAppls {
         Assert.check(target.supportsOperation(operation, 1));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                infixText, exprBinding, target.getsupportedFuncNotations(operation, 1));
+                infixText, exprBinding, target.getSupportedFuncNotations(operation, 1));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -465,7 +465,7 @@ public class PlcFunctionAppls {
         Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length), target.getsupportedFuncNotations(operation, inN.length));
+                makeParamList(inN.length), target.getSupportedFuncNotations(operation, inN.length));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
                 .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
         return new PlcFuncAppl(func, arguments);
@@ -489,7 +489,7 @@ public class PlcFunctionAppls {
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
                 makeParamList(inN.length), infixText, exprBinding,
-                target.getsupportedFuncNotations(operation, inN.length));
+                target.getSupportedFuncNotations(operation, inN.length));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
                 .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
         return new PlcFuncAppl(func, arguments);

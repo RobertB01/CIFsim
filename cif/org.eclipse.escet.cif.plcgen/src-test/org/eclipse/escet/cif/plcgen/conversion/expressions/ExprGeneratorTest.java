@@ -199,12 +199,12 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public EnumSet<PlcFuncNotation> getsupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
+        public EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
             // LOG support follows the 'supportsLog' variable.
             if (funcOper.equals(PlcFuncOperation.STDLIB_LOG) && !supportsLog) {
                 return PlcFuncNotation.UNSUPPORTED;
             }
-            return super.getsupportedFuncNotations(funcOper, numArgs);
+            return super.getSupportedFuncNotations(funcOper, numArgs);
         }
 
         @Override
