@@ -190,44 +190,33 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     private final Map<DiscVariable, String> lpVarToAbsAutNameMap = map();
 
     /**
+     * Whether to allow optimization of initialization of newly introduced location pointers, by analyzing declarations
+     * (used for instance in initialization predicates) to see whether they have constant values.
+     */
+    private final boolean optInits;
+
+    /**
      * Transformation used to introduce location pointer variables, and later to create proper expressions to refer to
      * locations.
-     *
-     * <p>
-     * Notes:
-     * <ul>
-     * <li>For now, when introducing the location pointer variables, and thus before they are moved to the single new
-     * automaton, we use a dummy name for them that is very unlikely to clash with existing names and lead to
-     * renaming.</li>
-     * <li>We later use the absolute names of automata as candidate names for the location pointer variables in the
-     * single new automaton. This ensures they are named after the original automaton. They may then have the same name
-     * as automata in the root of the specification, which can cause scope absolute textual references to be used to
-     * refer to anything in these automata from the automaton that contains the identically-named location pointer
-     * variables (e.g. {@code ".autname.varname"}, note the dot at the start).</li>
-     * <li>We use {@code "LPE"} as candidate name for all location pointer enumerations to make it clear what the
-     * enumeration represents.</li>
-     * <li>We name location pointer enumeration literals after their original locations, and thus there are no
-     * conflicts, and we can keep their original names intact.</li>
-     * <li>We don't add initialization predicates to the location, for initialization of the location pointer variables.
-     * We do that as part of the linearization instead, to avoid duplication.</li>
-     * <li>We don't optimize. This ensures location pointer variables will be present for all automata with at least two
-     * locations.</li>
-     * <li>We don't allow the optimization of initialization of location pointers, by analyzing declarations (used for
-     * instance in initialization predicates) to see whether they have constant values. Allowing it would mean we can't
-     * easily modify the linearization result, e.g. similar to when constants are inlined.</li>
-     * <li>We don't add additional location pointer guards on the edges. We do that as part of the linearization
-     * instead.</li>
-     * </ul>
-     * </p>
      */
-    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__",
-            a -> "LPE", l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
+    protected ElimLocRefExprs lpIntroducer;
 
     /**
      * Per automaton, all the alphabets. The automata are sorted in ascending order based on their absolute names
      * (without escaping). See also {@link CifSortUtils#sortCifObjects}.
      */
     protected List<Alphabets> alphabets;
+
+    /**
+     * Constructor for the {@link LinearizeBase} class.
+     *
+     * @param optInits Whether to allow optimization of initialization of newly introduced location pointers, by
+     *     analyzing declarations (used for instance in initialization predicates) to see whether they have constant
+     *     values.
+     */
+    public LinearizeBase(boolean optInits) {
+        this.optInits = optInits;
+    }
 
     @Override
     public void transform(Specification spec) {
@@ -271,7 +260,37 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         new ElimAutCasts().transform(spec);
 
         // Introduce location pointer variables for all automata with at least
-        // two locations, and eliminate location references from expressions.
+        // two locations, and eliminate location references from expressions:
+        //
+        // - For now, when introducing the location pointer variables, and thus before they are moved to the single new
+        // automaton, we use a dummy name for them that is very unlikely to clash with existing names and lead to
+        // renaming.
+        // - We later use the absolute names of automata as candidate names for the location pointer variables in the
+        // single new automaton. This ensures they are named after the original automaton. They may then have the same
+        // name as automata in the root of the specification, which can cause scope absolute textual references to be
+        // used to refer to anything in these automata from the automaton that contains the identically-named location
+        // pointer variables (e.g. ".autname.varname", note the dot at the start).
+        // - We use "LPE" as candidate name for all location pointer enumerations to make it clear what the enumeration
+        // represents.
+        // - We name location pointer enumeration literals after their original locations, and thus there are no
+        // conflicts, and we can keep their original names intact.
+        // - We don't add initialization predicates to the location, for initialization of the location pointer
+        // variables. We do that as part of the linearization instead, to avoid duplication.
+        // - We don't optimize. This ensures location pointer variables will be present for all automata with at least
+        // two locations.
+        // - It is configurable (through 'optInits') whether to allow the optimization of initialization of location
+        // pointers, by analyzing declarations (used for instance in initialization predicates) to see whether they
+        // have constant values. By allowing the optimization, one may not be able to easily modify the linearization
+        // result. For instance, initialization could be depend on the value of a variable, and that variable could
+        // essentially be inlined for the initialization of the location pointer variable. Hence, changing the
+        // initialization in a consistent way could then involve multiple changes for multiple location pointers.
+        // By disallowing the optimization, adapting the initialization in a consistent way in the linearized model may
+        // be more difficult. On the other hand, the optimization could lead to simpler initialization of location
+        // pointer variables. What configuration is best depends on how the linearized models will be used.
+        // - We don't add additional location pointer guards on the edges. We do that as part of the linearization
+        // instead.
+        lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__", a -> "LPE",
+                l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, optInits, false);
         lpIntroducer.transform(spec);
 
         // Require at least one automaton.

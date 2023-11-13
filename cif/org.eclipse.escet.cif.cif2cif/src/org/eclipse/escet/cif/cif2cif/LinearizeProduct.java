@@ -60,6 +60,29 @@ import org.eclipse.escet.common.java.ListProductIterator;
  * .
  */
 public class LinearizeProduct extends LinearizeBase {
+    /**
+     * Constructor for the {@link LinearizeProduct} class.
+     *
+     * <p>
+     * Does not allow optimization of initialization of newly introduced location pointers, by analyzing declarations
+     * (used for instance in initialization predicates) to see whether they have constant values.
+     * </p>
+     */
+    public LinearizeProduct() {
+        this(false);
+    }
+
+    /**
+     * Constructor for the {@link LinearizeProduct} class.
+     *
+     * @param optInits Whether to allow optimization of initialization of newly introduced location pointers, by
+     *     analyzing declarations (used for instance in initialization predicates) to see whether they have constant
+     *     values.
+     */
+    public LinearizeProduct(boolean optInits) {
+        super(optInits);
+    }
+
     @Override
     protected void createEdges(List<Automaton> auts, Automaton mergedAut, Location mergedLoc) {
         // Get all events to process (the merged alphabet).
