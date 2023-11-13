@@ -101,7 +101,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl moduloFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.MODULO_OP, "MOD", null, ExprBinding.MUL_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.MODULO_OP, "MOD", "MOD", ExprBinding.MUL_EXPR, in1, in2);
     }
 
     /**
@@ -203,7 +203,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl complementFuncAppl(PlcExpression in) {
-        return funcAppl(PlcFuncOperation.COMPLEMENT_OP, "NOT", null, ExprBinding.UNARY_EXPR, in);
+        // Infix literal needs the trailing space due to the "single parameter infix notation" behavior in
+        // ModelTextGenerator.
+        return funcAppl(PlcFuncOperation.COMPLEMENT_OP, "NOT", "NOT ", ExprBinding.UNARY_EXPR, in);
     }
 
     /**
