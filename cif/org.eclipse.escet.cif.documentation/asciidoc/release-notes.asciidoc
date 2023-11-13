@@ -37,10 +37,13 @@ The JavaScript code generation is currently being developed, and is not yet func
 
 Improvements and fixes:
 
+* The CIF type checker now produces improved error messages in case of a mismatch between an argument of a component instantiation and the corresponding parameter of the instantiated component definition (issue {escet-issue}672[#672]).
 * The CIF simulator no longer crashes when simulating models with large expressions (issue {escet-issue}611[#611]).
 * The CIF simulator now truncates messages for runtime errors that include large expressions (issue {escet-issue}661[#661]).
 * The CIF merger now produces correct models when merging models with annotations (issue {escet-issue}680[#680]).
 * The CIF to mCRL2 transformer now supports CIF models with logical implication binary operators (issue {escet-issue}667[#667]).
+* The CIF code generator no longer crashes for certain models with more complex initialization.
+Previously, if an automaton had multiple locations with initialization predicates that contained variables, but only one of those locations was an initial location, the code generator could crash (issue {escet-issue}683[#683]).
 * The CIF language tutorial has various improvements and extensions for the documentation about annotations (issue {escet-issue}593[#593]).
 * The CIF language reference manual now includes additional detailed information about annotations (issue {escet-issue}593[#593]).
 * The CIF tool manual now indicates for each tool which annotations it supports, and how it handles them (issue {escet-issue}593[#593]).
