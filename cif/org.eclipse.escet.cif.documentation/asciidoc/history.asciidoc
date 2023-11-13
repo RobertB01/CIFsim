@@ -42,7 +42,7 @@ That way, the analysis results would also be valid for the original model, allow
 To enable this, it was deemed necessary for CIF to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
 
 Different languages may have different concepts.
-A directly transformation from a source language to a destination language would therefore have to deal with all this complexity.
+A direct transformation from a source language to a destination language would therefore have to deal with all this complexity.
 Instead, as a pre-transformation step, the source model could be adapted such that concepts that only exist in the source language are transformed to equivalent concepts in the source language that also exist in the destination language.
 This idea was considered useful for many of the language to language transformations.
 By doing such pre-transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused rather than having to implement them again for each language to language transformation.
@@ -89,7 +89,7 @@ The first release of the CIF 2 tooling was on September 8, 2010.
 With CIF 2, CIF remained an interchange format with various transformations to other languages.
 Transformations were supported by a model transformation framework based on the Eclipse Modeling Framework (EMF).
 It allowed for transformations to and from the CIF 2 link:https://en.wikipedia.org/wiki/Metamodel[metamodel], a standard representation of CIF models.
-Transformations could be implemented using link:https://en.wikipedia.org/wiki/Model_transformation_language[model transformation languages], such as ATL and QVTo, rather than general purpose languages, such as Java.
+Transformations could be implemented using link:https://en.wikipedia.org/wiki/Model_transformation_language[model transformation languages] such as ATL and QVTo, rather than general purpose languages such as Java.
 
 The work around CIF 2 was primarily carried out in several academic research projects, including the Darwin project, the EU FP7 project C4C, the EU FP7 project Multiform, and the EU NoE project HYCON 2.
 The CIF 2 tooling was in development from 2010 to around 2014.
@@ -97,7 +97,7 @@ The CIF 2 tooling was in development from 2010 to around 2014.
 Unfortunately, the role of CIF 2 as an interchange format was never fully realized.
 The concepts of the different languages often turned out to be quite different, or appeared similar but had different semantics.
 To compensate for these differences, transformations 'encoded' concepts in terms of other concepts.
-Like in a dictionary that explains an unknown word in terms of many known words, transformations used elaborate combinations of CIF concepts to express the foreign concept in CIF.
+Similar to a dictionary that explains an unknown word in terms of many known words, transformations used elaborate combinations of CIF concepts to express the foreign concept in CIF.
 This made it difficult to subsequently transform such CIF models to other languages.
 After a while, interest in CIF as an interchange format declined.
 
