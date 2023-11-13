@@ -148,7 +148,7 @@ public abstract class PlcTarget {
      * @param funcOper Semantics operation being queried.
      * @param numArgs Number of supplied arguments to the applied function.
      * @return The set of supported function-call notations for the operation.
-     * @see #supportsArrays
+     * @see #supportsOperation
      */
     public abstract EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs);
 
