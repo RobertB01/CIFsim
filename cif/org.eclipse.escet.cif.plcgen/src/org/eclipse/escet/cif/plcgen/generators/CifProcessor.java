@@ -586,7 +586,11 @@ public class CifProcessor {
 
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
-                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
+                    // TODO Implement internal user-defined functions with at least one parameter.
+                    new FuncNoSpecificUserDefCheck(
+                            NoSpecificUserDefFunc.EXTERNAL, //
+                            NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
+                            NoSpecificUserDefFunc.NO_PARAMETER),
 
                     // Limit internal user-defined function assignments and disallow the 'continue' statement.
                     //
@@ -668,12 +672,6 @@ public class CifProcessor {
                             NoSpecificStdLib.STD_LIB_SCALE, //
                             NoSpecificStdLib.STD_LIB_SIGN, //
                             NoSpecificStdLib.STD_LIB_SIZE),
-
-                    // TODO Implement internal user-defined functions with at least one parameter.
-                    new FuncNoSpecificUserDefCheck(
-                            NoSpecificUserDefFunc.EXTERNAL, //
-                            NoSpecificUserDefFunc.INTERNAL, //
-                            NoSpecificUserDefFunc.NO_PARAMETER),
 
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()
