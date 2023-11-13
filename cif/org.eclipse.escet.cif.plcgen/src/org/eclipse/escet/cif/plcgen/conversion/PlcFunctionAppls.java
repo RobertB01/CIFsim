@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.plcgen.conversion;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
@@ -33,6 +32,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Lists;
 
 /** Elementary function application construction methods for a target. */
 public class PlcFunctionAppls {
@@ -42,11 +42,6 @@ public class PlcFunctionAppls {
     /** Parameters for functions that take one input parameters. */
     private static final PlcParameterDescription[] ONE_INPUT_PARAMETER = new PlcParameterDescription[] {
             new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
-
-    /** Parameters for functions that take two input parameters. */
-    private static final PlcParameterDescription[] TWO_INPUT_PARAMATERS = new PlcParameterDescription[] {
-            new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY),
-            new PlcParameterDescription("IN2", PlcParamDirection.INPUT_ONLY)};
 
     /**
      * Constructor of the {@link PlcFunctionAppls} class.
@@ -458,27 +453,6 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Construct a function application for a function with a two parameters.
-     *
-     * @param operation The performed function.
-     * @param prefixText Text of the function in prefix notation or {@code null} if not available.
-     * @param infixText Text of the function in infix notation or {@code null} if not available.
-     * @param exprBinding Binding strength of the function in the expression.
-     * @param in1 First argument of the function.
-     * @param in2 Second argument of the function.
-     * @return The constructed function application.
-     */
-    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
-            ExprBinding exprBinding, PlcExpression in1, PlcExpression in2)
-    {
-        Assert.check(target.supportsOperation(operation));
-
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, TWO_INPUT_PARAMATERS,
-                infixText, exprBinding, target.getsupportedFuncNotations(operation));
-        return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN1", in1), new PlcNamedValue("IN2", in2)));
-    }
-
-    /**
      * Construct a function application for a function with a varying number of parameters.
      *
      * @param operation The performed function.
@@ -493,7 +467,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
                 makeParamList(inN.length), target.getsupportedFuncNotations(operation));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
@@ -516,7 +490,7 @@ public class PlcFunctionAppls {
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
                 makeParamList(inN.length), infixText, exprBinding, target.getsupportedFuncNotations(operation));
         List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Collectors.toList());
+                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
         return new PlcFuncAppl(func, arguments);
     }
 
