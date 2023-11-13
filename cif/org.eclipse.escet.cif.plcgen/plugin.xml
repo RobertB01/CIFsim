@@ -50,10 +50,10 @@
                <visibleWhen>
                   <or>
                      <with variable="activeMenuSelection">
-                        <reference definitionId="org.eclipse.escet.cif.cif2plc.singleFile"/>
+                        <reference definitionId="org.eclipse.escet.cif.plcgen.singleFile"/>
                      </with>
                      <with variable="activeMenuEditorInput">
-                        <reference definitionId="org.eclipse.escet.cif.cif2plc.singleFile"/>
+                        <reference definitionId="org.eclipse.escet.cif.plcgen.singleFile"/>
                      </with>
                   </or>
                </visibleWhen>
