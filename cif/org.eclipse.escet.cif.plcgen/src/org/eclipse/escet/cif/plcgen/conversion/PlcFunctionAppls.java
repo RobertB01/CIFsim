@@ -22,7 +22,6 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
@@ -246,7 +245,11 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType inType, PlcElementaryType outType) {
-        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType, PlcFuncNotation.NOT_INFIX);
+        PlcFuncOperation operation = PlcFuncOperation.CAST_OP;
+        Assert.check(target.supportsOperation(operation, 1));
+
+        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType,
+                target.getSupportedFuncNotations(operation, 1));
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -259,14 +262,15 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl selFuncAppl(PlcExpression g, PlcExpression in0, PlcExpression in1) {
-        Assert.check(target.supportsOperation(PlcFuncOperation.SEL_OP, 3));
+        PlcFuncOperation operation = PlcFuncOperation.SEL_OP;
+        Assert.check(target.supportsOperation(operation, 3));
 
         PlcParameterDescription[] params = new PlcParameterDescription[] {
                 new PlcParameterDescription("G", PlcParamDirection.INPUT_ONLY),
                 new PlcParameterDescription("IN0", PlcParamDirection.INPUT_ONLY),
                 new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY)};
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(PlcFuncOperation.SEL_OP, "SEL", params,
-                PlcFuncNotation.NOT_INFIX);
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, "SEL", params,
+                target.getSupportedFuncNotations(operation, 3));
         return new PlcFuncAppl(func,
                 List.of(new PlcNamedValue("G", g), new PlcNamedValue("IN0", in0), new PlcNamedValue("IN1", in1)));
     }
