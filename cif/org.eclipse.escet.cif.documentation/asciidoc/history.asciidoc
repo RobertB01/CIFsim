@@ -38,14 +38,14 @@ Hence, CIF needed concepts from discrete event, timed, and hybrid systems.
 
 In order for the transformations to be useful, they had to be semantically preserving.
 The model in one language, when transformed to another, should still behave in the same way.
-That way, the analysis results would also be valid for the original model, allowing different tools be combined in a consistent and meaningful way.
+That way, the analysis results would also be valid for the original model, allowing different tools to be combined in a consistent and meaningful way.
 To enable this, it was deemed necessary for CIF to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
 
 Different languages may have different concepts.
 A direct transformation from a source language to a destination language would therefore have to deal with all this complexity.
 Instead, as a pre-transformation step, the source model could be adapted such that concepts that only exist in the source language are transformed to equivalent concepts in the source language that also exist in the destination language.
-This idea was considered useful for many of the language to language transformations.
-By doing such pre-transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused rather than having to implement them again for each language to language transformation.
+This idea was considered useful for many of the language-to-language transformations.
+By doing such pre-transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused rather than having to implement them again for each language-to-language transformation.
 For such pre-transformations to be valid, it is essential that parts of a model that are not touched keep their meaning.
 This property for a (interchange) language is known as the link:https://en.wikipedia.org/wiki/Principle_of_compositionality[principle of compositionality].
 The semantics of the CIF language thus needed to be compositional.
@@ -125,8 +125,9 @@ Introducing another language alongside CIF 2 also created confusion in collabora
 
 Not being satisfied with CIF 2, the idea came to develop CIF 3.
 With the SEAL language being considered to have a good modeling syntax, it was taken as the starting point for CIF 3.
-However, having two languages, CIF 3 and SEAL, with considerable overlap but with different goals, required quite a significant additional development and maintenance effort.
-Therefore, rather than having two subtle different languages, the goals of CIF 3 were extended to also cover the goals of SEAL.
+As a consequence of that, CIF 3 and SEAL had considerable overlap.
+Developing these two closely related languages required quite a significant additional development and maintenance effort.
+Therefore, rather than having two subtly different languages, the goals of CIF 3 were extended to also cover the goals of SEAL.
 CIF 3 replaced SEAL and the development of SEAL stopped.
 Work on CIF 3 started in the academic research project HYCON 2, in 2012.
 The first version of CIF 3 was released on January 31, 2013.
@@ -164,7 +165,7 @@ After a successful creation review, the project was formally created on January 
 The initial contribution to the project, which included CIF 3, was formally approved on October 16, 2020.
 The version number for CIF was dropped at that time.
 The first release of the Eclipse ESCET project, including CIF, was on April 2, 2021.
-Following a formal graduation review, the project became a mature Eclipse Foundation open source project, on September 11, 2023.
+Following a formal graduation review, the project became a mature Eclipse Foundation open-source project, on September 11, 2023.
 
 With the move to the Eclipse Foundation, and supported by the Eclipse Foundation's principles of transparency, openness, meritocracy and vendor-neutrality, the ESCET project is now an open ecosystem with a growing community.
 Interested parties, such as academic and applied research institutes, industrial partners, and tool vendors, collaborate on and profit from further tool development for the model-based construction of supervisors.
