@@ -586,7 +586,11 @@ public class CifProcessor {
 
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
-                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
+                    // TODO Implement internal user-defined functions with at least one parameter.
+                    new FuncNoSpecificUserDefCheck(
+                            NoSpecificUserDefFunc.EXTERNAL, //
+                            NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
+                            NoSpecificUserDefFunc.NO_PARAMETER),
 
                     // Limit internal user-defined function assignments and disallow the 'continue' statement.
                     //
