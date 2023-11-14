@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.simulator.compiler;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Pair.pair;
 
 import java.util.List;
@@ -82,8 +83,11 @@ public class AlgVarCodeGenerator {
 
             // Try to find value in declaration.
             boolean found = false;
+            List<ExprCodeGeneratorResult> varResults = list();
             if (var.getValue() != null) {
-                c.add("return %s;", gencodeExpr(var.getValue(), ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(var.getValue(), ctxt, "state");
+                c.add("return %s;", result);
+                varResults.add(result);
                 found = true;
             }
 
@@ -92,7 +96,9 @@ public class AlgVarCodeGenerator {
                 ComplexComponent comp = (ComplexComponent)var.eContainer();
                 for (Equation eq: comp.getEquations()) {
                     if (eq.getVariable() == var) {
-                        c.add("return %s;", gencodeExpr(eq.getValue(), ctxt, "state"));
+                        ExprCodeGeneratorResult result = gencodeExpr(eq.getValue(), ctxt, "state");
+                        c.add("return %s;", result);
+                        varResults.add(result);
                         found = true;
                         break;
                     }
@@ -101,7 +107,7 @@ public class AlgVarCodeGenerator {
 
             // Find equations per location.
             if (!found) {
-                gencodeAlgVarsPerLoc(var, ctxt, c);
+                varResults.addAll(gencodeAlgVarsPerLoc(var, ctxt, c));
             }
 
             // End of 'try'.
@@ -116,6 +122,11 @@ public class AlgVarCodeGenerator {
             // End of the method.
             c.dedent();
             c.add("}");
+
+            // Add potential extra guard expression evaluation methods.
+            for (ExprCodeGeneratorResult varResult: varResults) {
+                varResult.addExtraMethods(c);
+            }
         }
     }
 
@@ -126,8 +137,11 @@ public class AlgVarCodeGenerator {
      * @param var The algebraic variable.
      * @param ctxt The compiler context to use.
      * @param c The code box in which to generate the code.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeAlgVarsPerLoc(AlgVariable var, CifCompilerContext ctxt, CodeBox c) {
+    private static List<ExprCodeGeneratorResult> gencodeAlgVarsPerLoc(AlgVariable var, CifCompilerContext ctxt,
+            CodeBox c)
+    {
         // Get automaton.
         Automaton aut = (Automaton)var.eContainer();
 
@@ -137,14 +151,16 @@ public class AlgVarCodeGenerator {
 
         // Generate a 'case' per location.
         List<Location> locs = aut.getLocations();
+        List<ExprCodeGeneratorResult> varResults = list();
         for (int locIdx = 0; locIdx < locs.size(); locIdx++) {
             Location loc = locs.get(locIdx);
 
             boolean found = false;
             for (Equation eq: loc.getEquations()) {
                 if (eq.getVariable() == var) {
-                    c.add("case %s: return %s;", ctxt.getLocationValueText(loc, locIdx),
-                            gencodeExpr(eq.getValue(), ctxt, "state"));
+                    ExprCodeGeneratorResult result = gencodeExpr(eq.getValue(), ctxt, "state");
+                    c.add("case %s: return %s;", ctxt.getLocationValueText(loc, locIdx), result);
+                    varResults.add(result);
                     found = true;
                     break;
                 }
@@ -159,6 +175,8 @@ public class AlgVarCodeGenerator {
         // Close 'switch'.
         c.dedent();
         c.add("}");
+
+        return varResults;
     }
 
     /**

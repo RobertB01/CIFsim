@@ -34,7 +34,7 @@
     </genClasses>
     <genClasses ecoreClass="cif.ecore#//ComponentInst">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/definition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/arguments"/>
     </genClasses>
     <genClasses image="false" ecoreClass="cif.ecore#//ComplexComponent">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/declarations"/>
@@ -325,7 +325,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/IntExpression/value"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//expressions/FunctionCallExpression">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/params"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/arguments"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/function"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//expressions/IfExpression">
@@ -550,6 +550,19 @@
       <genClasses ecoreClass="cif.ecore#//print/PrintFor">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//print/PrintFor/kind"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/PrintFor/event"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Annotations" disposableProviderFactory="true" ecorePackage="cif.ecore#//annotations">
+      <genClasses ecoreClass="cif.ecore#//annotations/Annotation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//annotations/Annotation/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//annotations/Annotation/arguments"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//annotations/AnnotationArgument">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//annotations/AnnotationArgument/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//annotations/AnnotationArgument/value"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="cif.ecore#//annotations/AnnotatedObject">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//annotations/AnnotatedObject/annotations"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

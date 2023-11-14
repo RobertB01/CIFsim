@@ -279,6 +279,7 @@ public class Cif2Mcrl2PreChecker {
                     case LESS_EQUAL:
                     case LESS_THAN:
                     case UNEQUAL:
+                    case IMPLICATION:
                         break;
                     default: {
                         String msg = fmt("has unsupported boolean binary operator \"%s\".",

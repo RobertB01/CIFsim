@@ -119,6 +119,8 @@ However, it is allowed to use multiple assignments on an edge (such as `do x := 
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 
+* Annotations are ignored.
+
 indexterm:[CIF to Supremica transformer,preprocessing]
 
 [[tools-cif2supremica-preprocessing]]

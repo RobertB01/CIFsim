@@ -23,6 +23,10 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataFactory;
@@ -177,7 +181,6 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
     {
         super(eNS_URI, AutomataFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -225,6 +228,8 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
         CifsvgPackageImpl theCifsvgPackage = (CifsvgPackageImpl)(registeredPackage instanceof CifsvgPackageImpl ? registeredPackage : CifsvgPackage.eINSTANCE);
         registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrintPackage.eNS_URI);
         PrintPackageImpl thePrintPackage = (PrintPackageImpl)(registeredPackage instanceof PrintPackageImpl ? registeredPackage : PrintPackage.eINSTANCE);
+        registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
+        AnnotationsPackageImpl theAnnotationsPackage = (AnnotationsPackageImpl)(registeredPackage instanceof AnnotationsPackageImpl ? registeredPackage : AnnotationsPackage.eINSTANCE);
 
         // Create package meta-data objects
         theAutomataPackage.createPackageContents();
@@ -235,6 +240,7 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
         theFunctionsPackage.createPackageContents();
         theCifsvgPackage.createPackageContents();
         thePrintPackage.createPackageContents();
+        theAnnotationsPackage.createPackageContents();
 
         // Initialize created meta-data
         theAutomataPackage.initializePackageContents();
@@ -245,6 +251,7 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
         theFunctionsPackage.initializePackageContents();
         theCifsvgPackage.initializePackageContents();
         thePrintPackage.initializePackageContents();
+        theAnnotationsPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theAutomataPackage.freeze();

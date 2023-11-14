@@ -27,13 +27,13 @@ import org.eclipse.escet.common.dsm.Dmm;
  * </p>
  */
 public class CifRelations {
-    /** Relations from plant-group columns to plant element rows. */
+    /** Relations from plant-element rows to plant-group columns. */
     public final Dmm plantGroups;
 
-    /** Relations from requirement-group columns to requirement element rows. */
+    /** Relations from requirement-element rows to requirement-group columns. */
     public final Dmm requirementGroups;
 
-    /** Relations from plant-group columns to requirement-group rows. */
+    /** Relations from requirement-group rows to plant-group columns. */
     public final Dmm relations;
 
     /**

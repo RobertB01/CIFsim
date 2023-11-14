@@ -26,7 +26,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ComponentInst" eSuperTypes="#//Component">
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
         eType="#//types/CifType" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
         eType="#//expressions/Expression" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComplexComponent" abstract="true" eSuperTypes="#//Component">
@@ -101,7 +101,7 @@
   </eClassifiers>
   <eSubpackages name="declarations" nsURI="http://eclipse.org/escet/cif/declarations"
       nsPrefix="declarations">
-    <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//annotations/AnnotatedObject">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
           eType="#//CifIdentifier"/>
     </eClassifiers>
@@ -336,7 +336,7 @@
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FunctionCallExpression" eSuperTypes="#//expressions/Expression">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
           eType="#//expressions/Expression" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="function" lowerBound="1"
           eType="#//expressions/Expression" containment="true"/>
@@ -714,6 +714,25 @@
           eType="#//print/PrintForKind"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//expressions/Expression"
           containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="annotations" nsURI="http://eclipse.org/escet/cif/annotations"
+      nsPrefix="annotations">
+    <eClassifiers xsi:type="ecore:EClass" name="Annotation" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
+          eType="#//annotations/AnnotationArgument" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AnnotationArgument" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AnnotatedObject" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="#//annotations/Annotation" containment="true"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

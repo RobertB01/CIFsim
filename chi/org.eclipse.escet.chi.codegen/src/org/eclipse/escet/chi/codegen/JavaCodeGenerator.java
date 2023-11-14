@@ -256,7 +256,7 @@ public abstract class JavaCodeGenerator {
         method.lines.add("String[] args = new String[cmdArgs.length + 1];");
         method.lines.add("System.arraycopy(cmdArgs, 0, args, 1, cmdArgs.length);");
         method.lines.add("args[0] = \"--run-specification-class=" + chiName + "\";");
-        method.lines.add("int ret = app.run(args);");
+        method.lines.add("int ret = app.run(args, true);");
         method.lines.add("System.exit(ret);");
         javaSpec.addImport(Constants.SIMULATOR_APPLICATION_FQC, false);
         javaSpec.addMethod(method);

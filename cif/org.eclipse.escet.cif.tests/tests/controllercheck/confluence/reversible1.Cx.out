@@ -1,0 +1,13 @@
+Loading CIF specification "controllercheck/confluence/reversible1.cif"...
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (a, c), (b, c)
+
+Reversible event pairs:
+    (a, b)
+
+CONCLUSION:
+    Finite response checking was disabled, finite response property is unknown.
+    [OK] The specification has confluence.

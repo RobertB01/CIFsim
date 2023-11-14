@@ -67,7 +67,7 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
 
         int paramCount = function.getParameters().size();
 
-        // Get variable information about the formal parameters, while counting
+        // Get variable information about the parameters, while counting
         // number of reference parameters.
         int refParamCount = 0;
         VariableInformation[] paramVars = new VariableInformation[paramCount];
@@ -93,11 +93,11 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
         for (int i = 0; i < paramCount; i++) {
             if (!typeUsesValues(paramVars[i].typeInfo)) {
                 VariableInformation paramVar = paramVars[i];
-                // Move formal parameter to the local variables.
+                // Move parameter to the local variables.
                 localVarInfos[localIndex] = paramVar;
                 localIndex++;
 
-                // Construct a new temporary variable for the moved parameter
+                // Construct a new temporary variable for the moved parameter.
                 paramVars[i] = ctxt.makeTempVariable(paramVar);
 
                 paramVar.isReference = false;

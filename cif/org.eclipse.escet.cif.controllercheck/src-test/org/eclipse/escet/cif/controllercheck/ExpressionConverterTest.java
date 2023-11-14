@@ -103,10 +103,10 @@ public class ExpressionConverterTest {
     @SuppressWarnings("javadoc")
     public void beforeTest() {
         // Create CIF variables.
-        b1 = newDiscVariable("b1", null, newBoolType(), null);
-        b2 = newDiscVariable("b1", null, newBoolType(), null);
-        i1 = newDiscVariable("i1", null, newIntType(INT_LOWER, null, INT_UPPER), null);
-        i2 = newDiscVariable("i2", null, newIntType(INT_LOWER, null, INT_UPPER), null);
+        b1 = newDiscVariable(null, "b1", null, newBoolType(), null);
+        b2 = newDiscVariable(null, "b1", null, newBoolType(), null);
+        i1 = newDiscVariable(null, "i1", null, newIntType(INT_LOWER, null, INT_UPPER), null);
+        i2 = newDiscVariable(null, "i2", null, newIntType(INT_LOWER, null, INT_UPPER), null);
 
         List<Declaration> variables = listc(4);
         variables.add(b1);

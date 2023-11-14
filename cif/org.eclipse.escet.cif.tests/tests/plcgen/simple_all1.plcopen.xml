@@ -98,6 +98,11 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <tempVars>
+            <variable name="curValue">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
             <variable name="current_p">
               <type>
                 <derived name="p_location"/>
@@ -173,11 +178,17 @@
                 <DINT/>
               </type>
             </variable>
+            <variable name="timeOut">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
           </tempVars>
         </interface>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF firstRun THEN
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state or update continuous variables. -------------------- *)
+IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
@@ -199,9 +210,19 @@
     p_tv := litStruct__2;
     p_j := 0;
     p_r := 1000000.0;
+    p_t := 0.0;
+    (* Reset timer of "p_t". *)
+    preset_p_t := p_t;
+    ton_p_t(PT := preset_p_t, IN := FALSE);
+    ton_p_t(PT := preset_p_t, IN := TRUE);
     p := p_l1;
+ELSE
+    (* Update remaining time of "p_t". *)
+    ton_p_t(PT := preset_p_t, IN := TRUE, Q =&gt; timeOut, ET =&gt; curValue);
+    p_t := SEL(G := timeOut, IN0 := preset_p_t - curValue, IN1 := 0.0);
 END_IF;
 
+(* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
@@ -363,6 +384,11 @@ END_WHILE;</xhtml>
                 <LREAL/>
               </type>
             </variable>
+            <variable name="p_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
             <variable name="p">
               <type>
                 <derived name="p_location"/>
@@ -370,30 +396,22 @@ END_WHILE;</xhtml>
             </variable>
           </globalVars>
           <globalVars constant="false" name="TIMERS">
+            <variable name="ton_p_t">
+              <type>
+                <derived name="TON"/>
+              </type>
+            </variable>
+            <variable name="preset_p_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
             <variable name="firstRun">
               <type>
                 <BOOL/>
               </type>
               <initialValue>
                 <simpleValue value="TRUE"/>
-              </initialValue>
-            </variable>
-            <variable name="timer0">
-              <type>
-                <derived name="TON"/>
-              </type>
-            </variable>
-            <variable name="timer1">
-              <type>
-                <derived name="TON"/>
-              </type>
-            </variable>
-            <variable name="curTimer">
-              <type>
-                <INT/>
-              </type>
-              <initialValue>
-                <simpleValue value="0"/>
               </initialValue>
             </variable>
           </globalVars>

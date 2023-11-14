@@ -26,9 +26,11 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
@@ -55,6 +57,8 @@ import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -227,7 +231,7 @@ public final class CifPrettyPrinter {
      *
      * @param spec The specification.
      * @param code The code box in which to generate CIF code. Is modified in-place.
-     * @return The pretty printed result in the code box given by the 'code' parameter.
+     * @return The pretty printed result in the given code box.
      */
     public static Box boxSpec(Specification spec, CodeBox code) {
         // Backup old indentation amount and set the default amount for CIF.
@@ -437,6 +441,7 @@ public final class CifPrettyPrinter {
      * @param var The variable.
      */
     public void add(InputVariable var) {
+        add(var.getAnnotations());
         code.add("input %s %s;", pprint(var.getType()), escapeIdentifier(var.getName()));
     }
 
@@ -718,9 +723,9 @@ public final class CifPrettyPrinter {
     }
 
     /**
-     * Pretty print the given formal parameter.
+     * Pretty print the given parameter of a component definition.
      *
-     * @param param The formal parameter.
+     * @param param The parameter.
      * @return The pretty printed result.
      */
     public String pprint(Parameter param) {
@@ -733,7 +738,7 @@ public final class CifPrettyPrinter {
         } else if (param instanceof AlgParameter) {
             return pprint((AlgParameter)param);
         } else {
-            throw new RuntimeException("Unknown formal parameter: " + param);
+            throw new RuntimeException("Unknown parameter: " + param);
         }
     }
 
@@ -817,7 +822,7 @@ public final class CifPrettyPrinter {
      */
     public void add(ComponentInst inst) {
         code.add("%s: %s%s;", escapeIdentifier(inst.getName()), pprint(inst.getDefinition()),
-                pprint(inst.getParameters(), "(", ", ", ")"));
+                pprint(inst.getArguments(), "(", ", ", ")"));
     }
 
     /**
@@ -1693,7 +1698,7 @@ public final class CifPrettyPrinter {
                 funcTxt = "(" + funcTxt + ")";
             }
 
-            return funcTxt + pprint(fexpr.getParams(), "(", ", ", ")");
+            return funcTxt + pprint(fexpr.getArguments(), "(", ", ", ")");
         } else if (expr instanceof ListExpression) {
             ListExpression lexpr = (ListExpression)expr;
             String castTxt = null;
@@ -1881,5 +1886,44 @@ public final class CifPrettyPrinter {
         } else {
             throw new RuntimeException("Unknown expr: " + expr);
         }
+    }
+
+    /**
+     * Add the given annotations to the pretty printed code.
+     *
+     * @param annos The annotations.
+     */
+    public void add(List<Annotation> annos) {
+        for (Annotation anno: annos) {
+            add(anno);
+        }
+    }
+
+    /**
+     * Add the given annotation to the pretty printed code.
+     *
+     * @param anno The annotation.
+     */
+    public void add(Annotation anno) {
+        StringBuilder line = new StringBuilder();
+        line.append(fmt("@%s", anno.getName()));
+        if (!anno.getArguments().isEmpty()) {
+            line.append("(");
+            line.append(anno.getArguments().stream().map(a -> pprint(a)).collect(Collectors.joining(", ")));
+            line.append(")");
+        }
+        code.add(line.toString());
+    }
+
+    /**
+     * Pretty print the given annotation argument.
+     *
+     * @param arg The annotation argument.
+     * @return The pretty printed result.
+     */
+    public String pprint(AnnotationArgument arg) {
+        String escapedArgName = Arrays.stream(arg.getName().split("\\.")).map(id -> escapeIdentifier(id))
+                .collect(Collectors.joining("."));
+        return fmt("%s = %s", escapedArgName, pprint(arg.getValue()));
     }
 }

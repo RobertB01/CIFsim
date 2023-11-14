@@ -1,0 +1,111 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-extensions-chapter-annotations]]
+== Annotations
+
+WARNING: Annotations are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner.
+
+indexterm:[annotation]
+Annotations can be added to elements of a CIF specification, to annotate them with extra information.
+Annotations are a form of structured data, and the CIF type checker checks their validity.
+Tools that take CIF specifications as input can process the annotations that are attached to elements of the specification, and use the supplied information.
+
+Annotations differ from comments.
+Comments can also be used to add additional information to a specification.
+However, comments are completely free form, as you can write anything in them.
+They can even be used to (temporarily) comment out some parts of the specification.
+Furthermore, comments are purely for the benefit of the modeler.
+They are never interpreted by a tool.
+
+Annotations have two main purposes:
+
+* Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
+* Annotations allow to test out language extensions before fully integrating them into the language.
+
+Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
+
+The following built-in annotations are bundled with CIF:
+
+[cols="2,1"]
+|===
+| Category | Annotation
+
+| <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
+| `doc`
+|===
+
+Annotations are an extension mechanism, and anyone can <<lang-ref-extensions-annotations-providers,define and register>> their own annotations.
+Different CIF installations may therefore have different registered annotations.
+A CIF specification may thus have a warning in one installation, if the annotation is for instance not registered in that installation, while in another installation the annotation does not have a warning, as there it is registered.
+Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.
+Hence, a specification with such annotations may be valid in one installation, and invalid in another.
+
+For more detailed information on annotations, see the <<lang-ref-extensions-annotations,reference manual>>.
+
+indexterm:[annotation, doc]
+indexterm:[doc, annotation]
+
+[[lang-tut-extensions-chapter-annotations-documentation]]
+=== Documentation annotations
+
+Documentation can be added to input variables:
+
+[source, cif]
+----
+@doc($text = "The lower limit sensor of the elevator.")
+input bool ElevatorDownSensor;
+----
+
+The documentation may span multiple lines:
+
+[source,cif]
+----
+@doc($text =
+    "doc with multiple\n" +
+    "lines of\n" +
+    "text"
+)
+input bool i;
+----
+
+It is also possible to use for instance constants from the model in the documentation text:
+
+[source,cif]
+----
+const int MAX_NR_OF_PRODUCTS = 3;
+
+@doc($text = fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
+input bool s1;
+----
+
+This documentation can then be used by CIF tools in various ways.
+For instance, the <<tools-codegen-chapter-index,CIF code generator>> includes this documentation in the generated code.
+For the above example, it may generate the following Java code:
+
+[source, java]
+----
+/**
+ * Input variable "ElevatorDownSensor".
+ *
+ * <p>
+ * The lower limit sensor of the elevator.
+ * </p>
+ */
+public boolean ElevatorDownSensor;
+----
+
+For more detailed information on documentation annotations, see the <<lang-ref-extensions-annotations-documentation,reference manual>>.

@@ -83,7 +83,7 @@ public class CifSimulatorApp extends Application<SimulatorOutputComponent> {
      */
     public static void main(String[] args) {
         CifSimulatorApp app = new CifSimulatorApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifSimulatorApp} class. */
@@ -94,7 +94,7 @@ public class CifSimulatorApp extends Application<SimulatorOutputComponent> {
     /**
      * Constructor for the {@link CifSimulatorApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifSimulatorApp(AppStreams streams) {
         super(streams);
@@ -122,8 +122,8 @@ public class CifSimulatorApp extends Application<SimulatorOutputComponent> {
     }
 
     @Override
-    protected IOutputComponent getStreamOutputComponent(AppStream out, AppStream err) {
-        return new SimulatorStreamOutputComponent(out, err);
+    protected IOutputComponent getStreamOutputComponent(AppStream out, AppStream warn, AppStream err) {
+        return new SimulatorStreamOutputComponent(out, warn, err);
     }
 
     @Override

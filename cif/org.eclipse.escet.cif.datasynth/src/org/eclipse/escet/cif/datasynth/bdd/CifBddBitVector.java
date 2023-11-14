@@ -407,9 +407,18 @@ public class CifBddBitVector {
         BDD[] newBits = new BDD[length];
         int min = Math.min(bits.length, length);
         System.arraycopy(bits, 0, newBits, 0, min);
+
+        // If new length is larger, set additional bits to 'false'.
         for (int i = min; i < length; i++) {
             newBits[i] = factory.zero();
         }
+
+        // If new length is smaller, free dropped bits.
+        for (int i = min; i < bits.length; i++) {
+            bits[i].free();
+        }
+
+        // Replace the bits.
         bits = newBits;
     }
 

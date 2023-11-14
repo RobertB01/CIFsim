@@ -454,8 +454,8 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
             return false;
         } else if (expr instanceof FunctionCallExpression) {
             // Check the parameters.
-            for (Expression param: ((FunctionCallExpression)expr).getParams()) {
-                if (referencesReq(param)) {
+            for (Expression arg: ((FunctionCallExpression)expr).getArguments()) {
+                if (referencesReq(arg)) {
                     return true;
                 }
             }

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -63,6 +64,7 @@ import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -72,6 +74,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -81,14 +84,16 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
+import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.output.WarnOutput;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Extracts information from the CIF input file, to be used during PLC code generation. */
 public class CifProcessor {
@@ -109,6 +114,9 @@ public class CifProcessor {
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
+
+    /** CIF specification being processed, is {@code null} until the specification has been checked and normalized. */
+    private Specification spec = null;
 
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
@@ -132,8 +140,9 @@ public class CifProcessor {
         widenSpec(spec);
         preCheckSpec(spec, absInputPath);
         normalizeSpec(spec);
+        this.spec = spec; // Store the specification for querying.
 
-        // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
+        // Collect or convert the declarations of the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
                 target.getVarStorage().addStateVariable(decl, discVar.getType());
@@ -141,6 +150,9 @@ public class CifProcessor {
                 target.getVarStorage().addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
                 target.getTypeGenerator().convertEnumDecl(enumDecl);
+            } else if (decl instanceof ContVariable contVar) {
+                target.getVarStorage().addStateVariable(contVar, newRealType());
+                target.getContinuousVariablesGenerator().addVariable(contVar);
             }
 
             // TODO Constants.
@@ -518,7 +530,7 @@ public class CifProcessor {
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
         if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warnOutput.warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+            warnOutput.line("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
     }
 
@@ -574,7 +586,11 @@ public class CifProcessor {
 
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
-                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
+                    // TODO Implement internal user-defined functions with at least one parameter.
+                    new FuncNoSpecificUserDefCheck(
+                            NoSpecificUserDefFunc.EXTERNAL, //
+                            NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
+                            NoSpecificUserDefFunc.NO_PARAMETER),
 
                     // Limit internal user-defined function assignments and disallow the 'continue' statement.
                     //
@@ -655,7 +671,10 @@ public class CifProcessor {
                             NoSpecificStdLib.STD_LIB_ROUND, //
                             NoSpecificStdLib.STD_LIB_SCALE, //
                             NoSpecificStdLib.STD_LIB_SIGN, //
-                            NoSpecificStdLib.STD_LIB_SIZE)
+                            NoSpecificStdLib.STD_LIB_SIZE),
+
+                    // Limit use of continuous variables.
+                    new VarContOnlyTimers()
             //
             );
         }
@@ -704,5 +723,22 @@ public class CifProcessor {
                     + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
             throw new InvalidInputException(msg);
         }
+    }
+
+    /**
+     * Try to match the given absolute name to a CIF object in the specification.
+     *
+     * @param absName The absolute name of the CIF object to find.
+     * @return The found CIF object.
+     * @throws IllegalArgumentException If no CIF object with the given name is available.
+     */
+    public PositionObject findCifObjectByAbsName(String absName) {
+        Assert.notNull(spec); // Function should be called after loading the CIF file.
+
+        PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
+        for (String namePart: absName.split("\\.")) {
+            obj = CifScopeUtils.getObject(obj, namePart);
+        }
+        return obj;
     }
 }

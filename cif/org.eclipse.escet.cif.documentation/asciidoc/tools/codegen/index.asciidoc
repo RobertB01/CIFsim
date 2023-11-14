@@ -61,7 +61,7 @@ If the directory does not yet exist, it is automatically created.
 By default, the current directory is used.
 
 * _Target language_: Specifies the target language/platform for which to generate code.
-By default, C99 code is generated.
+By default, Simulink code is generated.
 The following languages/platforms are supported:
 +
 [cols=2*,options="header"]
@@ -283,3 +283,8 @@ Instead they should be reset, rendering the past loss of accuracy irrelevant for
 One of the preprocessing transformations <<tools-cif2cif-chapter-merge-enums,merges all enumerations>> into a single enumeration.
 This is done in such a way that the behavior of the original CIF model is left intact.
 However, it is up to the implementer that connects the inputs from the environment to the generated code, to ensure that only valid enumeration literals are assigned to the input variables of the generated code.
+
+==== Annotations
+
+All annotations in the specification are ignored, except for <<lang-ref-extensions-annotations-documentation,documentation annotations>>.
+The documentation of input variables is included in the generated code.

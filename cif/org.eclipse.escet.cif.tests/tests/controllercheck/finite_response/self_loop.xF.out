@@ -1,0 +1,8 @@
+Loading CIF specification "controllercheck/finite_response/self_loop.cif"...
+Checking for finite response...
+
+Iteration 1.
+
+CONCLUSION:
+    [OK] The specification has finite response.
+    Confluence checking was disabled, confluence property is unknown.

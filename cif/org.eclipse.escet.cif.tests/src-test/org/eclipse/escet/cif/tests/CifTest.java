@@ -192,6 +192,12 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
         test("tests/test_merger.tooldef");
     }
 
+    /** Multi-level synthesis tests. */
+    @Test
+    public void testMultiLevel() {
+        test("tests/test_multilevel.tooldef");
+    }
+
     /** Simulator tests. */
     @Test
     public void testSimulator() {

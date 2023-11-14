@@ -86,7 +86,7 @@ public abstract class Application<T extends IOutputComponent> {
      * Constructor for the {@link Application} class. Asks the application for the output provider, creates a fresh
      * {@link Options} instance, and a fresh {@link AppProperties} instance.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public Application(AppStreams streams) {
         this(streams, null, null, null);
@@ -96,7 +96,7 @@ public abstract class Application<T extends IOutputComponent> {
      * Constructor for the {@link Application} class. Asks the application for the output provider, and uses a fresh
      * {@link AppProperties} instance.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      * @param options The options to use for the application.
      */
     public Application(AppStreams streams, Options options) {
@@ -119,7 +119,7 @@ public abstract class Application<T extends IOutputComponent> {
      * Constructor for the {@link Application} class.
      *
      * @param streams The application stream to use for the application, or {@code null} to use {@link System#in},
-     *     {@link System#out}, and {@link System#err} as streams.
+     *     {@link System#out}, and {@link System#err} as streams (for warnings and errors).
      * @param provider The output provider to use for the application, or {@code null} to ask the application for the
      *     output provider.
      * @param options The options to use for the application, or {@code null} to create a fresh {@link Options}
@@ -163,49 +163,21 @@ public abstract class Application<T extends IOutputComponent> {
      * Runs the actual application, in the application framework. Should in general be called from the application's
      * 'main' method.
      *
-     * <p>
-     * If run in within Eclipse (OSGi platform), this method returns the exit code of the application. If this method is
-     * called from a stand-alone application, this method never returns. Instead, the {@link System#exit} method is used
-     * to return the exit code, and terminate the application.
-     * </p>
-     *
      * @param args The command line arguments supplied to the application.
-     * @return The application exit code, but only if called from an Eclipse (OSGi platform) environment. See the
-     *     application framework documentation for a description of the exit codes.
+     * @param exit If {@code true}, this method never returns, as it terminates the application and JVM after
+     *     completion, using the {@link System#exit} method. If {@code false}, this method returns the exit code of the
+     *     application.
+     * @return The application exit code, but only if {@code exit} is {@code false}. See the application framework
+     *     documentation for a description of the exit codes.
      */
-    public final int run(String[] args) {
+    public final int run(String[] args, boolean exit) {
         // Add application to application manager.
         AppManager.add(this, null);
 
         // Run the application.
         int exitCode;
         try {
-            exitCode = run(args, true);
-        } finally {
-            // Remove application from application manager.
-            AppManager.remove(this);
-        }
-
-        // Return exit code.
-        return exitCode;
-    }
-
-    /**
-     * Runs the actual application, in the application framework. Should in general be called from Eclipse plug-in unit
-     * tests.
-     *
-     * @param args The command line arguments supplied to the application.
-     * @return The application exit code. See the application framework documentation for a description of the exit
-     *     codes.
-     */
-    public final int runTest(String[] args) {
-        // Add application to application manager.
-        AppManager.add(this, null);
-
-        // Run the application.
-        int exitCode;
-        try {
-            exitCode = run(args, false);
+            exitCode = runApplication(args, exit);
         } finally {
             // Remove application from application manager.
             AppManager.remove(this);
@@ -226,14 +198,13 @@ public abstract class Application<T extends IOutputComponent> {
      * </p>
      *
      * @param args The command line arguments supplied to the application.
-     * @param exit If enabled and run within Eclipse (OSGi platform), this method returns the exit code of the
-     *     application. If enabled and this method is called from a stand-alone application, this method never returns.
-     *     Instead, the {@link System#exit} method is used to return the exit code, and terminate the application. If
-     *     disabled, always returns the exit code.
-     * @return The application exit code, but only if called from an Eclipse (OSGi platform) environment. See the
-     *     application framework documentation for a description of the exit codes.
+     * @param exit If {@code true}, this method never returns, as it terminates the application and JVM after
+     *     completion, using the {@link System#exit} method. If {@code false}, this method returns the exit code of the
+     *     application.
+     * @return The application exit code, but only if {@code exit} is {@code false}. See the application framework
+     *     documentation for a description of the exit codes.
      */
-    public final int run(String[] args, boolean exit) {
+    public final int runApplication(String[] args, boolean exit) {
         // Make sure application is added to application manager.
         if (!AppManager.checkExists(this)) {
             throw new RuntimeException("Application is not known by the application manager.");
@@ -255,8 +226,9 @@ public abstract class Application<T extends IOutputComponent> {
             // component. If there are already output providers available,
             // we assume that a console output component was already added.
             AppStream out = AppEnv.getStreams().out;
+            AppStream warn = AppEnv.getStreams().warn;
             AppStream err = AppEnv.getStreams().err;
-            IOutputComponent output = getStreamOutputComponent(out, err);
+            IOutputComponent output = getStreamOutputComponent(out, warn, err);
             OutputProvider.register(output);
         }
 
@@ -430,18 +402,15 @@ public abstract class Application<T extends IOutputComponent> {
             AppEnv.unregisterApplication();
         }
 
-        // Process exit code.
-        if (!exit || (Platform.isRunning() && PlatformUI.isWorkbenchRunning())) {
-            // We can't use {@link System#exit} in Eclipse, as it would shut
-            // down the JVM, and thus Eclipse. So, we simply return the exit
-            // code. The application main methods should decide what to do with
-            // non-zero exit codes. It could for instance throw an exception.
+        // Terminate with the proper exit code. We allow the option to not exit
+        // the JVM, as when we for instance run in Eclipse, we don't want to
+        // terminate the IDE.
+        if (exit) {
+            System.exit(exitCode);
+            return 0; // Never reached.
+        } else {
             return exitCode;
         }
-
-        // Stand-alone.
-        System.exit(exitCode);
-        return 0; // Never reached.
     }
 
     /**
@@ -845,11 +814,12 @@ public abstract class Application<T extends IOutputComponent> {
      * </p>
      *
      * @param out The output stream.
+     * @param warn The warn stream.
      * @param err The error stream.
      * @return The stream output component to use for the application.
      */
-    protected IOutputComponent getStreamOutputComponent(AppStream out, AppStream err) {
-        return new StreamOutputComponent(out, err);
+    protected IOutputComponent getStreamOutputComponent(AppStream out, AppStream warn, AppStream err) {
+        return new StreamOutputComponent(out, warn, err);
     }
 
     /**

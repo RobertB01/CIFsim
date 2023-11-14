@@ -1,0 +1,10 @@
+Loading CIF specification "controllercheck/confluence/independence1.cif"...
+
+Checking for confluence...
+
+Independent event pairs:
+    (AutDifferenLocs.a, AutDifferenLocs.b)
+
+CONCLUSION:
+    Finite response checking was disabled, finite response property is unknown.
+    [OK] The specification has confluence.

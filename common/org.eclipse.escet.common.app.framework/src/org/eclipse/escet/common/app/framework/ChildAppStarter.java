@@ -168,6 +168,7 @@ public class ChildAppStarter {
         AppStreams parentStreams = parentAppEnvData.getStreams();
         InputStream inStream;
         AppStream outStream;
+        AppStream warnStream;
         AppStream errStream;
 
         if (stdinPath.isEmpty()) {
@@ -198,16 +199,20 @@ public class ChildAppStarter {
 
         if (errToOut) {
             errStream = outStream;
+            warnStream = outStream;
         } else if (stderrPath.isEmpty()) {
             errStream = new NullAppStream();
+            warnStream = new NullAppStream();
         } else if (stderrPath.equals("-")) {
             errStream = parentStreams.err;
+            warnStream = parentStreams.warn;
         } else {
             errStream = new FileAppStream(stderrPath, appendErr);
+            warnStream = errStream;
         }
 
         final AppStreams childStreams;
-        childStreams = new AppStreams(inStream, outStream, errStream);
+        childStreams = new AppStreams(inStream, outStream, warnStream, errStream);
 
         // Execute the child application, in a new thread.
         final AtomicReference<Application<?>> app = new AtomicReference<>();
@@ -278,7 +283,7 @@ public class ChildAppStarter {
                 // to ensure the application properly cleans up after itself.
                 // In such cases, only application framework code will run, no
                 // user code.
-                int appExitCode = app.get().run(args, false);
+                int appExitCode = app.get().runApplication(args, false);
 
                 // Remove application from the application manager.
                 AppManager.remove(app.get());

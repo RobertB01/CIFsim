@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Eclipse ESCET (Incubation)" uid="org.eclipse.escet.product" id="org.eclipse.escet.product.branding.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="Eclipse ESCET" uid="org.eclipse.escet.product" id="org.eclipse.escet.product.branding.product" application="org.eclipse.ui.ide.workbench" version="2.0.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.escet.product.branding/images/escet_about.png"/>
       <text>
-         Eclipse ESCET (Incubation)
+         Eclipse ESCET
       </text>
    </aboutInfo>
 
@@ -66,7 +66,7 @@ IN THE SOFTWARE.
    </plugins>
 
    <features>
-      <feature id="org.eclipse.escet.product.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.escet.product.feature" version="2.0.0.qualifier"/>
    </features>
 
    <configurations>

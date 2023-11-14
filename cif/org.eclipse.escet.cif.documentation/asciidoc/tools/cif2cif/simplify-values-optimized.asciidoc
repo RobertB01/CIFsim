@@ -88,3 +88,8 @@ indexterm:[simplify values (optimized),optimality]
 Not all simplifications that could potentially be performed are implemented in this transformation.
 
 The optimizations for literals that are performed influence the optimality of the simplification, as described above.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.
+The values of annotation arguments may be simplified.

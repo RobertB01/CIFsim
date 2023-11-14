@@ -41,7 +41,7 @@ public class CifToUppaalApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToUppaalApp app = new CifToUppaalApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToUppaalApp} class. */
@@ -52,7 +52,7 @@ public class CifToUppaalApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifToUppaalApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifToUppaalApp(AppStreams streams) {
         super(streams);

@@ -1,0 +1,36 @@
+Loading CIF specification "controllercheck/finite_response/strongly_connected_component1.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.e A.g), which is not controllable unconnectable.
+        (A.h A.m), which is not controllable unconnectable.
+        (A.l A.k), which is not controllable unconnectable.
+        (A.o), which is not controllable unconnectable.
+        (A.a A.c A.i), which is not controllable unconnectable.
+
+Iteration 2.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.a A.c A.i), which is not controllable unconnectable.
+        (A.e A.g), which is not controllable unconnectable.
+        (A.h A.m), which is not controllable unconnectable.
+        (A.o), which is not controllable unconnectable.
+        (A.k A.l), which is not controllable unconnectable.
+
+CONCLUSION:
+    [ERROR] The specification may NOT have finite response.
+    
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - A.a
+            - A.c
+            - A.e
+            - A.g
+            - A.h
+            - A.i
+            - A.k
+            - A.l
+            - A.m
+            - A.o
+
+    Confluence checking was disabled, confluence property is unknown.

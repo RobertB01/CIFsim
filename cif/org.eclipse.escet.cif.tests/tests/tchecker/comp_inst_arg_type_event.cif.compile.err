@@ -1,0 +1,2 @@
+ERROR: File "tchecker/comp_inst_arg_type_event.cif": Semantic error at line 21, column 9: Definition/instantiation mismatch: the 1st parameter (named "l") of definition "g.X" requires an event, but the supplied argument of instantiation "g.x1" is not an event.
+ERROR: Failed to load CIF file "tchecker/comp_inst_arg_type_event.cif": the file has errors.

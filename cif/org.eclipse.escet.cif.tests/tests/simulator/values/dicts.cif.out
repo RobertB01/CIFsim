@@ -16,12 +16,12 @@ Transition: event tau
 State: time=0.0, a=l6, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={}, a.x={}, a.y={}
 
 Transition: event tau
-State: time=0.0, a=l7, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={{1: 3}: {5: 8}}, a.x={}, a.y={}
+State: time=0.0, a=l7, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={{1: 3, 2: 4}: {5: 8, 6: 9}}, a.x={}, a.y={}
 
 Transition: event tau
-State: time=0.0, a=l8, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={{1: 3}: {5: 8}}, a.x={[1, 2]: [5, 6]}, a.y={}
+State: time=0.0, a=l8, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={{1: 3, 2: 4}: {5: 8, 6: 9}}, a.x={[1, 2]: [5, 6]}, a.y={}
 
 Transition: event tau
-State: time=0.0, a=l9, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={{1: 3}: {5: 8}}, a.x={[1, 2]: [5, 6]}, a.y={(5, 3.0): (6, 1.0)}
+State: time=0.0, a=l9, a.q={"a": "b"}, a.r={4: 6}, a.s={true: false}, a.t={4.4: 2.6}, a.v={{1, 3}: {4, 8}}, a.w={{1: 3, 2: 4}: {5: 8, 6: 9}}, a.x={[1, 2]: [5, 6]}, a.y={(5, 3.0): (6, 1.0)}
 
 Simulation resulted in deadlock.

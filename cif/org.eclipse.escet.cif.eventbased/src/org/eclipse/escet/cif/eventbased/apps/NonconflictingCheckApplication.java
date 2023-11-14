@@ -47,7 +47,7 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
      */
     public static void main(String[] args) {
         NonconflictingCheckApplication app = new NonconflictingCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link NonconflictingCheckApplication} class. */
@@ -58,7 +58,7 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
     /**
      * Constructor of the {@link NonconflictingCheckApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public NonconflictingCheckApplication(AppStreams streams) {
         super(streams);

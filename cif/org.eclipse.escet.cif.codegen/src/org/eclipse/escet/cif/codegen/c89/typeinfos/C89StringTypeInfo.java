@@ -151,7 +151,7 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
     }
 
     @Override
-    public ExprCode convertFormatFunction(String pattern, List<Expression> params, List<CifType> paramTypes,
+    public ExprCode convertFormatFunction(String pattern, List<Expression> args, List<CifType> argTypes,
             Destination dest, CodeContext ctxt)
     {
         ExprCode result = new ExprCode();
@@ -163,14 +163,14 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
         // Convert arguments, avoiding double computation and unwanted side-effects of double evaluation.
         FormatDecoder decoder = new FormatDecoder();
         List<FormatDescription> parts = decoder.decode(pattern);
-        String[] argText = convertFmtArguments(parts, params, paramTypes, code, ctxt);
+        String[] argText = convertFmtArguments(parts, args, argTypes, code, ctxt);
 
         // Construct destination for the output if needed.
         String destValue; // Final destination string.
         String destScratch; // Reference to intermediate destination string (may point to destValue).
         boolean needsDestScratch;
         if (dest == null) {
-            // Temporary variable required, is definitely not a parameter we could overwrite.
+            // Temporary variable required, is definitely not a variable we could overwrite.
             VariableInformation tempVar = ctxt.makeTempVariable(this, "str_tmp");
             destValue = tempVar.targetName;
             destScratch = "&" + destValue; // Use the temp var directly.
@@ -183,12 +183,12 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
             // may also be used as argument.
             destValue = dest.getData();
 
-            // If no string used as parameter, we certainly cannot overwrite a parameter while filling the destination.
+            // If no string used as argument, we certainly cannot overwrite a variable while filling the destination.
             needsDestScratch = false;
             destScratch = "&" + destValue; // Use the destination directly.
-            for (CifType type: paramTypes) {
+            for (CifType type: argTypes) {
                 if (type instanceof StringType) {
-                    // String parameter found, fall-back to temporary destScratch space.
+                    // String argument found, fall-back to temporary destScratch space.
                     destScratch = "&dest_scratch";
                     needsDestScratch = true;
                     break;
@@ -196,10 +196,10 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
             }
         }
 
-        // Construct scratch space for creating parameter values if required.
+        // Construct scratch space for creating argument values if required.
         boolean needsScratch = false;
-        for (CifType paramType: paramTypes) {
-            needsScratch = argumentNeedsScratchSpace(paramType);
+        for (CifType argType: argTypes) {
+            needsScratch = argumentNeedsScratchSpace(argType);
             if (needsScratch) {
                 break;
             }
@@ -256,7 +256,7 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
                 width = "0";
             }
 
-            String text = convertArgument(part, paramTypes.get(idx), argText[idx], code, ctxt);
+            String text = convertArgument(part, argTypes.get(idx), argText[idx], code, ctxt);
             code.add("index = StringTypeAppendText(%s, index, %s, %s, %s);", destScratch, flags, width, text);
         }
 
@@ -275,56 +275,56 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
      * Convert arguments, avoiding double computation and unwanted side-effects due to double evaluation.
      *
      * @param parts Decoded parts of the format string.
-     * @param params Parameters of the format call.
-     * @param paramTypes Type of the parameters of the format call.
+     * @param args Arguments of the format call.
+     * @param argTypes Type of the arguments of the format call.
      * @param code Destination of generated code.
      * @param ctxt Code generation context.
      * @return Text for accessing each argument, parameters that are used more than once are stored in a temporary
      *     variable.
      */
-    private String[] convertFmtArguments(List<FormatDescription> parts, List<Expression> params,
-            List<CifType> paramTypes, CodeBox code, CodeContext ctxt)
+    private String[] convertFmtArguments(List<FormatDescription> parts, List<Expression> args, List<CifType> argTypes,
+            CodeBox code, CodeContext ctxt)
     {
-        int[] usageCount = countFmtParamUsages(params.size(), parts);
+        int[] usageCount = countFmtParamUsages(args.size(), parts);
 
-        String[] argText = new String[params.size()];
+        String[] argText = new String[args.size()];
         for (int i = 0; i < argText.length; i++) {
-            CifType paramType = paramTypes.get(i);
-            TypeInfo paramTi = ctxt.typeToTarget(paramType);
+            CifType argType = argTypes.get(i);
+            TypeInfo argTi = ctxt.typeToTarget(argType);
 
             if (usageCount[i] == 0) {
                 argText[i] = null;
             } else if (usageCount[i] == 1) {
-                ExprCode argCode = ctxt.exprToTarget(params.get(i), null);
+                ExprCode argCode = ctxt.exprToTarget(args.get(i), null);
                 code.add(argCode.getCode());
 
-                if (typeUsesValues(paramTi)) {
+                if (typeUsesValues(argTi)) {
                     argText[i] = argCode.getData();
                 } else {
                     DataValue dataValue = argCode.getRawDataValue();
                     if (dataValue.canBeReferenced()) {
                         argText[i] = dataValue.getReference();
                     } else {
-                        VariableInformation tempVar = ctxt.makeTempVariable(paramTi, "fmt_temp");
-                        code.add("%s %s = %s;", paramTi.getTargetType(), tempVar.targetName, dataValue.getData());
+                        VariableInformation tempVar = ctxt.makeTempVariable(argTi, "fmt_temp");
+                        code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetName, dataValue.getData());
                         argText[i] = "&" + tempVar.targetName;
                     }
                 }
             } else {
-                VariableInformation tempVar = ctxt.makeTempVariable(paramTi, "fmt_temp");
-                ExprCode argCode = ctxt.exprToTarget(params.get(i), null);
+                VariableInformation tempVar = ctxt.makeTempVariable(argTi, "fmt_temp");
+                ExprCode argCode = ctxt.exprToTarget(args.get(i), null);
                 code.add(argCode.getCode());
 
-                if (typeUsesValues(paramTi)) {
-                    code.add("%s %s = %s;", paramTi.getTargetType(), tempVar.targetName, argCode.getData());
+                if (typeUsesValues(argTi)) {
+                    code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetName, argCode.getData());
                     argText[i] = tempVar.targetName;
                 } else {
                     DataValue dataValue = argCode.getRawDataValue();
                     if (dataValue.canBeReferenced()) {
-                        code.add("%s *%s = %s;", paramTi.getTargetType(), tempVar.targetName, dataValue.getReference());
+                        code.add("%s *%s = %s;", argTi.getTargetType(), tempVar.targetName, dataValue.getReference());
                         argText[i] = tempVar.targetName;
                     } else {
-                        code.add("%s %s = %s;", paramTi.getTargetType(), tempVar.targetName, dataValue.getData());
+                        code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetName, dataValue.getData());
                         argText[i] = "&" + tempVar.targetName;
                     }
                 }
@@ -334,14 +334,14 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
     }
 
     /**
-     * Count number of uses of each value parameter.
+     * Count number of uses of each value argument.
      *
-     * @param numParams Number of value parameters.
+     * @param numArgs Number of value arguments.
      * @param parts Decoded format string parts.
      * @return Array with usage count for each part.
      */
-    private int[] countFmtParamUsages(int numParams, List<FormatDescription> parts) {
-        int[] usageCount = new int[numParams];
+    private int[] countFmtParamUsages(int numArgs, List<FormatDescription> parts) {
+        int[] usageCount = new int[numArgs];
         for (int i = 0; i < usageCount.length; i++) {
             usageCount[i] = 0;
         }
@@ -371,30 +371,30 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
      * Convert a part of a format string to a code fragment, and a result expression value in the target language.
      *
      * @param part Part to convert.
-     * @param paramType Type of the parameter used by the part.
-     * @param argText Text in the target language to access the parameter value.
+     * @param argType Type of the argument used by the part.
+     * @param argText Text in the target language to access the argument value.
      * @param code Generated code so far (extended in-place).
      * @param ctxt Code generation context.
      * @return Result expression value in the target language.
      */
-    private String convertArgument(FormatDescription part, CifType paramType, String argText, CodeBox code,
+    private String convertArgument(FormatDescription part, CifType argType, String argText, CodeBox code,
             CodeContext ctxt)
     {
         if (part.conversion.equals(Conversion.LITERAL)) {
             return "\"" + escape(part.text) + "\"";
-        } else if (paramType instanceof BoolType) {
+        } else if (argType instanceof BoolType) {
             if (part.text.contains("B")) {
                 return fmt("(%s) ? \"TRUE\" : \"FALSE\"", argText);
             } else {
                 return fmt("(%s) ? \"true\" : \"false\"", argText);
             }
-        } else if (paramType instanceof IntType) {
+        } else if (argType instanceof IntType) {
             String fmtPat = part.text.contains("X") ? "X" : (part.text.contains("x") ? "x" : "d");
 
             // Safe, as scratch space is at least 128 chars, which is more than output of a number.
             code.add("sprintf(scratch, \"%%%s\", %s);", fmtPat, argText);
             return "scratch";
-        } else if (paramType instanceof RealType) {
+        } else if (argType instanceof RealType) {
             String fmtPat;
             // Deal with specified precision.
             if (part.precision == null || part.precision.isEmpty()) {
@@ -427,27 +427,27 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
             // precision.
             code.add("sprintf(scratch, \"%s\", %s);", fmtPat, argText);
             return "scratch";
-        } else if (paramType instanceof StringType) {
+        } else if (argType instanceof StringType) {
             return fmt("(%s)->data", argText);
-        } else if (paramType instanceof EnumType) {
+        } else if (argType instanceof EnumType) {
             return fmt("%s[%s]", ENUM_NAMES_LIST, argText);
         } else {
-            Assert.check(paramType instanceof ListType || paramType instanceof TupleType);
-            TypeInfo paramTi = ctxt.typeToTarget(paramType);
+            Assert.check(argType instanceof ListType || argType instanceof TupleType);
+            TypeInfo paramTi = ctxt.typeToTarget(argType);
             code.add("%s(%s, scratch, 0, MAX_STRING_SIZE);", typeGetTypePrintName(paramTi, false), argText);
             return "scratch";
         }
     }
 
     /**
-     * Does the provided parameter type require temporary "scratch" space?
+     * Does the provided argument type require temporary "scratch" space?
      *
-     * @param paramType To to inspect.
-     * @return Whether the parameter type needs the temporary "scratch" space.
+     * @param argType Type to inspect.
+     * @return Whether the argument type needs the temporary "scratch" space.
      */
-    private boolean argumentNeedsScratchSpace(CifType paramType) {
-        return (paramType instanceof IntType) || (paramType instanceof RealType) || (paramType instanceof ListType)
-                || (paramType instanceof TupleType);
+    private boolean argumentNeedsScratchSpace(CifType argType) {
+        return (argType instanceof IntType) || (argType instanceof RealType) || (argType instanceof ListType)
+                || (argType instanceof TupleType);
     }
 
     @Override

@@ -1,0 +1,23 @@
+Input/output report of the annos_doc.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+No variables are available here.
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+i1 1
+i2 2
+i3 3
+i4 4
+
+Outputs
+-------
+No variables are available here.

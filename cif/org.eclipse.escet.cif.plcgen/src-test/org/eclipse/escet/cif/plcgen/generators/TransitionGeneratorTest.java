@@ -42,7 +42,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
@@ -52,6 +51,8 @@ import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,18 +70,20 @@ public class TransitionGeneratorTest {
             int taskCyceTime = 1;
             int priority = 1;
             String inputPath = "input/path";
-            String outputPath = "/output/path";
+            String outputPath = "output/path";
+            String ioTablePath = "io/path";
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
             ConvertEnums enumConversion = ConvertEnums.NO;
             Supplier<Boolean> shouldTerminate = () -> false;
             boolean warnOnRename = false;
-            WarnOutput warnOutput = message -> { /* Do nothing. */ };
+            WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, inputPath, "/" + inputPath, outputPath, intSize, realSize, simplifyValues,
-                    enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                    taskCyceTime, priority, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
+                    "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    warnOutput);
             setup(settings);
 
             // Setup the generators, part of PlcBaseTarget.generate() normally.
@@ -135,9 +138,9 @@ public class TransitionGeneratorTest {
     private DefaultTransitionGenerator transitionGenerator;
 
     /** Variable for receivers to receive channel values. */
-    private DiscVariable recVar = newDiscVariable("recVar", null, newIntType(), null);
+    private DiscVariable recVar = newDiscVariable(null, "recVar", null, newIntType(), null);
 
-    private DiscVariable otherVar = newDiscVariable("otherVar", null, newIntType(), null);
+    private DiscVariable otherVar = newDiscVariable(null, "otherVar", null, newIntType(), null);
 
     private Specification spec = newSpecification(null, List.of(recVar, otherVar), null, null, null, null, null, null,
             "specification", null);
@@ -159,7 +162,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testSingleUnconditionalSender() {
-        Event event = newEvent(true, "sendEvent", null, newIntType());
+        Event event = newEvent(null, true, "sendEvent", null, newIntType());
         spec.getDeclarations().add(event);
 
         // Create sender edge.
@@ -210,7 +213,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testChannelOneSenderTwoReceivers() {
-        Event event = newEvent(true, "channelEvent", null, newIntType());
+        Event event = newEvent(null, true, "channelEvent", null, newIntType());
         spec.getDeclarations().add(event);
 
         // automaton sender1: edge channelEvent!1;
@@ -296,7 +299,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testTwoSyncers() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // automaton syncer1: edge event when otherVar = 1 do otherVar := 2;
@@ -370,7 +373,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testOneMonitor() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // automaton monitor: edge event when otherVar = 1 do otherVar := 2;
@@ -406,7 +409,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testMultiAssignUnfold() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // Pairwise assignment.
@@ -458,7 +461,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testMultiAssignProject() {
-        Event event = newEvent(null, "event", null, null);
+        Event event = newEvent(null, null, "event", null, null);
         spec.getDeclarations().add(event);
 
         // Unpack "true" tuple.

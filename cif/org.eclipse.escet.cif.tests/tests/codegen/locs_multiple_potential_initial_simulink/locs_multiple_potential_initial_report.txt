@@ -1,0 +1,21 @@
+Input/output report of the locs_multiple_potential_initial.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+a 1
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+No variables are available here.
+
+Outputs
+-------
+a   1
+a.x 2

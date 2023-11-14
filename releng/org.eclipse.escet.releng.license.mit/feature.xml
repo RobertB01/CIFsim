@@ -12,8 +12,8 @@
 -->
 <feature
       id="org.eclipse.escet.releng.license.mit"
-      label="ESCET License (Incubation)"
-      version="1.0.0.qualifier"
+      label="ESCET License"
+      version="2.0.0.qualifier"
       provider-name="Eclipse ESCET">
 
    <copyright>

@@ -20,6 +20,7 @@ import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_S
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,7 @@ public class OdeStateEventsCodeGenerator {
             c.add("@Override");
             c.add("public String getPredText() {");
             c.indent();
-            c.add("return \"%s\";", escapeJava(exprToStr(pred)));
+            c.add("return \"%s\";", escapeJava(truncate(exprToStr(pred), 1000)));
             c.dedent();
             c.add("}");
 
@@ -127,7 +128,8 @@ public class OdeStateEventsCodeGenerator {
             c.indent();
             c.add("try {");
             c.indent();
-            c.add("return %s;", gencodeExpr(pred, ctxt, "state"));
+            ExprCodeGeneratorResult exprResult = gencodeExpr(pred, ctxt, "state");
+            c.add("return %s;", exprResult);
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
@@ -148,6 +150,9 @@ public class OdeStateEventsCodeGenerator {
             c.add("}");
             c.dedent();
             c.add("}");
+
+            // Add potential extra expression evaluation methods.
+            exprResult.addExtraMethods(c);
 
             // Close inner class.
             c.dedent();

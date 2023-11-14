@@ -11,11 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-tool int plcgen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
-                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
-    return app("org.eclipse.escet.cif.plcgen", "org.eclipse.escet.cif.plcgen.CifPlcGenApp", args, stdin, stdout, stderr,
-               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
-end
+from "lib:cif" import cifplcgen;
 
 // Configuration.
 string test_path = "plcgen";
@@ -106,6 +102,7 @@ int skipped = 0;
 
 // Find tests.
 list string tests = find(test_path, test_pattern);
+// tests = ["prechecker.cif"]; // Allow easily testing a specific test or subset of tests.
 for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
 for i in reverse(range(tests)):
     if contains(test_skip, tests[i]):
@@ -170,7 +167,7 @@ for test in tests:
         end
 
         // Execute.
-        plcgen([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+        cifplcgen([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
         // Compare output.
         bool stderr_diff  = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);

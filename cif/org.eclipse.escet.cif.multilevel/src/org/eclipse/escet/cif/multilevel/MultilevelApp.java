@@ -13,8 +13,19 @@
 
 package org.eclipse.escet.cif.multilevel;
 
-import java.util.List;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
@@ -23,6 +34,8 @@ import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
+import org.eclipse.escet.cif.multilevel.clustering.ComputeMultiLevelTree;
+import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -33,9 +46,31 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.dsm.ClusterInput;
+import org.eclipse.escet.common.dsm.Dmm;
+import org.eclipse.escet.common.dsm.Dsm;
+import org.eclipse.escet.common.dsm.DsmClustering;
 
-/** CIF multi-level synthesis application. */
+/**
+ * CIF multi-level synthesis application.
+ *
+ * <p>
+ * This implementation is based on the paper Goorden 2020:
+ *
+ * M. Goorden, J. v. d. Mortel-Fronczak, M. Reniers, W. Fokkink and J. Rooda, "Structuring Multilevel Discrete-Event
+ * Systems With Dependence Structure Matrices", IEEE Transactions on Automatic Control, volume 65, issue 4, pages
+ * 1625-1639, 2020, doi:<a href="https://doi.org/10.1109/TAC.2019.2928119">10.1109/TAC.2019.2928119</a>.
+ * </p>
+ */
 public class MultilevelApp extends Application<IOutputComponent> {
+    /** Matrix debug output format. */
+    private static final RealMatrixFormat MAT_DEBUG_FORMAT;
+
+    static {
+        NumberFormat valueFmt = NumberFormat.getIntegerInstance(Locale.US);
+        MAT_DEBUG_FORMAT = new RealMatrixFormat("", "", "  ", "", "\n", " ", valueFmt);
+    }
+
     /**
      * Application main method.
      *
@@ -43,7 +78,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         MultilevelApp app = new MultilevelApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor of the {@link MultilevelApp} class. */
@@ -54,7 +89,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link MultilevelApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public MultilevelApp(AppStreams streams) {
         super(streams);
@@ -99,6 +134,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Figure 1 of Goorden 2020: Record relations.
+        //
         // CIF to DMM transformation.
         CifRelations cifRelations = CifToDmm.transformToDmms(spec);
         if (isTerminationRequested()) {
@@ -109,8 +146,69 @@ public class MultilevelApp extends Application<IOutputComponent> {
             String outPath = OutputFileOption.getDerivedPath(".cif", ".dmms.txt");
             cifRelations.writeDmms(InputFileOption.getPath(), outPath);
         }
+        Dmm reqsPlantsDmm = cifRelations.relations; // Requirement-group rows against plant-groups columns.
+        if (dodbg()) {
+            dbg("Plant groups:");
+            dbg(cifRelations.plantGroups.toString());
+            dbg();
+            dbg("Requirement groups:");
+            dbg(cifRelations.requirementGroups.toString());
+            dbg();
+            dbg("Requirement / Plant relations:");
+            dbg(cifRelations.relations.toString());
+            dbg();
+        }
         if (isTerminationRequested()) {
             return 0;
+        }
+
+        // Figure 1 of Goorden 2020: Transform the relations.
+        //
+        // Convert to a plant groups DSM on requirement groups relations.
+        // Do the standard T . T^-1 conversion, except here T is already transposed.
+        RealMatrix unclusteredMatrix = reqsPlantsDmm.adjacencies.transpose().multiply(reqsPlantsDmm.adjacencies);
+        dbg("Unclustered reqsPlants:");
+        dbg(MAT_DEBUG_FORMAT.format(unclusteredMatrix));
+        dbg();
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Figure 1 of Goorden 2020: And cluster the DSM.
+        dbg("--- Start of clustering --");
+        idbg();
+        ClusterInput clusteringInput = new ClusterInput(unclusteredMatrix, reqsPlantsDmm.columnLabels,
+                OutputProvider.getDebugOutputStream());
+        Dsm clusteredDsm = DsmClustering.flowBasedMarkovClustering(clusteringInput);
+        ddbg();
+        dbg("--- End of clustering --");
+        dbg();
+
+        // The cluster result contains the found cluster groups with original indices. For debugging however, it seems
+        // useful to also dump the clustered DSM, to understand group information.
+        dbg("Clustered DSM for reqsPlantsDmm (for information only, this data is not actually used):");
+        dbg(MAT_DEBUG_FORMAT.format(clusteredDsm.adjacencies));
+        dbg();
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Figure 1 of Goorden 2020: Create the node tree.
+        TreeNode rootNode = ComputeMultiLevelTree.transformCluster(clusteredDsm.rootGroup, unclusteredMatrix,
+                reqsPlantsDmm.adjacencies);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Dump the multi-level tree.
+        for (TreeNode node: rootNode.linearizeTree()) {
+            out("Index: %d", node.index);
+            out("Plant groups: %s", node.plantGroups.isEmpty() ? "<none>" : node.plantGroups.toString());
+            out("Req groups:   %s", node.requirementGroups.isEmpty() ? "<none>" : node.requirementGroups.toString());
+            String childNodeNumbers = node.childNodes.stream().map(n -> String.valueOf(n.index))
+                    .collect(Collectors.joining(", "));
+            out("Child nodes: %s", childNodeNumbers.isEmpty() ? "<none>" : childNodeNumbers);
+            out();
         }
 
         OutputProvider.warn("Multi-level synthesis not yet implemented.");

@@ -430,13 +430,13 @@ public interface CifPackage extends EPackage
     int COMPONENT_INST__DEFINITION = COMPONENT_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+     * The feature id for the '<em><b>Arguments</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int COMPONENT_INST__PARAMETERS = COMPONENT_FEATURE_COUNT + 1;
+    int COMPONENT_INST__ARGUMENTS = COMPONENT_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Component Inst</em>' class.
@@ -1152,15 +1152,15 @@ public interface CifPackage extends EPackage
     EReference getComponentInst_Definition();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.eclipse.escet.cif.metamodel.cif.ComponentInst#getParameters <em>Parameters</em>}'.
+     * Returns the meta object for the containment reference list '{@link org.eclipse.escet.cif.metamodel.cif.ComponentInst#getArguments <em>Arguments</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Parameters</em>'.
-     * @see org.eclipse.escet.cif.metamodel.cif.ComponentInst#getParameters()
+     * @return the meta object for the containment reference list '<em>Arguments</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.ComponentInst#getArguments()
      * @see #getComponentInst()
      * @generated
      */
-    EReference getComponentInst_Parameters();
+    EReference getComponentInst_Arguments();
 
     /**
      * Returns the meta object for class '{@link org.eclipse.escet.cif.metamodel.cif.ComplexComponent <em>Complex Component</em>}'.
@@ -1649,12 +1649,12 @@ public interface CifPackage extends EPackage
         EReference COMPONENT_INST__DEFINITION = eINSTANCE.getComponentInst_Definition();
 
         /**
-         * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+         * The meta object literal for the '<em><b>Arguments</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference COMPONENT_INST__PARAMETERS = eINSTANCE.getComponentInst_Parameters();
+        EReference COMPONENT_INST__ARGUMENTS = eINSTANCE.getComponentInst_Arguments();
 
         /**
          * The meta object literal for the '{@link org.eclipse.escet.cif.metamodel.cif.impl.ComplexComponentImpl <em>Complex Component</em>}' class.

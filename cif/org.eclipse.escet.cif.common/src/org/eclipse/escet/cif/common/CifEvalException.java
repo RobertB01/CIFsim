@@ -44,4 +44,9 @@ public class CifEvalException extends Exception implements EndUserException {
         super(message);
         this.expr = expr;
     }
+
+    @Override
+    public String toString() {
+        return getLocalizedMessage();
+    }
 }

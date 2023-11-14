@@ -57,7 +57,7 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
      */
     public static void main(String[] args) {
         SupervisorSynthesisApplication app = new SupervisorSynthesisApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SupervisorSynthesisApplication} class. */
@@ -68,7 +68,7 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
     /**
      * Constructor for the {@link SupervisorSynthesisApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public SupervisorSynthesisApplication(AppStreams streams) {
         super(streams);

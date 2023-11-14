@@ -120,3 +120,8 @@ Since information is removed from the specification, the specification can only 
 === Optimality
 
 n/a
+
+=== Annotations
+
+This transformation does not process or add any annotations.
+If objects in requirement automata have annotations, removing these objects removes their annotations as well.

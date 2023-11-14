@@ -62,7 +62,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToPlcApp app = new CifToPlcApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToPlcApp} class. */
@@ -73,7 +73,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifToPlcApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifToPlcApp(AppStreams streams) {
         super(streams);

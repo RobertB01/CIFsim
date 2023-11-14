@@ -67,7 +67,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ExplorerApplication app = new ExplorerApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ExplorerApplication} class. */
@@ -78,7 +78,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link ExplorerApplication} class.
      *
-     * @param streams The streams to use for input, output, and errors.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public ExplorerApplication(AppStreams streams) {
         super(streams);

@@ -36,7 +36,9 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
@@ -402,8 +404,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         }
 
         @Override
-        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
-            return rootProvider.getAddressableForContvar(variable, getDerivative);
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
+            return rootProvider.getAddressableForContvar(variable, writeDerivative);
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
+            return rootProvider.getAddressableForInputVar(variable);
         }
     }
 
@@ -796,12 +803,29 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Test for the simple case of a single left side variable.
         if (!(lhs instanceof TupleExpression lhsTuple)) {
-            // Left side is a single destination, assign the right side to it.
-            ExprAddressableResult lhsResult = mainExprGen.convertAddressable(lhs);
+            // Left side is a single destination, (possibly partially) assign the right side to it.
+            ContVariable contvar;
+            ExprAddressableResult lhsResult;
+            if (lhs instanceof ProjectionExpression pe) {
+                lhsResult = mainExprGen.convertProjectedAddressable(pe);
+                contvar = null;
+            } else if (lhs instanceof ContVariableExpression ce) {
+                lhsResult = mainExprGen.convertVariableAddressable(lhs);
+                contvar = ce.getVariable();
+            } else {
+                lhsResult = mainExprGen.convertVariableAddressable(lhs);
+                contvar = null;
+            }
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
             genAssignExpr(lhsResult.value, rhs, statements);
             lhsResult.releaseValueVariables();
+
+            // For continuous variable assignment, also update its timer block.
+            if (contvar != null) {
+                statements.addAll(
+                        target.getContinuousVariablesGenerator().getPlcTimerCodeGen(contvar).generateAssignPreset());
+            }
             return;
         }
 
@@ -845,7 +869,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Test for the simple case of a single left side.
         if (!(lhs instanceof TupleExpression lhsTuple)) {
             // Left side is a single destination, the entire right side must be assigned to it.
-            ExprAddressableResult lhsResult = mainExprGen.convertAddressable(lhs);
+            ExprAddressableResult lhsResult = mainExprGen.convertVariableAddressable(lhs);
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
 
@@ -853,6 +877,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcVarExpression rhsValue = new PlcVarExpression(rhsVariable, cast(rhsProjections));
             statements.add(new PlcAssignmentStatement(lhsResult.value, rhsValue));
             lhsResult.releaseValueVariables();
+
+            // For continuous variable assignment, also update its timer block.
+            if (lhs instanceof ContVariableExpression cve) {
+                statements.addAll(target.getContinuousVariablesGenerator().getPlcTimerCodeGen(cve.getVariable())
+                        .generateAssignPreset());
+            }
             return;
         }
 

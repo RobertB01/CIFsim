@@ -51,7 +51,7 @@ public class TrimCheckApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         TrimCheckApplication app = new TrimCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link TrimCheckApplication} class. */
@@ -62,7 +62,7 @@ public class TrimCheckApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link TrimCheckApplication} class.
      *
-     * @param streams The streams to use for input, output, and errors.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public TrimCheckApplication(AppStreams streams) {
         super(streams);

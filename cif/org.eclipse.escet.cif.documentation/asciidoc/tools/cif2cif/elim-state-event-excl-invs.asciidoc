@@ -156,3 +156,7 @@ To eliminate such location references, apply the <<tools-cif2cif-chapter-elim-lo
 This transformation generate boolean implication and inversion predicates.
 These are not simplified.
 To simply them, apply the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF transformation.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

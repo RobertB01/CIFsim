@@ -258,7 +258,7 @@ public class CifValueUtilsTest {
     @SuppressWarnings("javadoc")
     public void testGetPossibleValuesEnum() {
         Specification spec = newSpecification();
-        EnumDecl enumDecl = newEnumDecl(null, "E", null);
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
         enumDecl.getLiterals().add(newEnumLiteral("a", null));
         enumDecl.getLiterals().add(newEnumLiteral("b", null));
         enumDecl.getLiterals().add(newEnumLiteral("c", null));
@@ -273,7 +273,7 @@ public class CifValueUtilsTest {
     @SuppressWarnings("javadoc")
     public void testGetPossibleValuesArray() {
         Specification spec = newSpecification();
-        EnumDecl enumDecl = newEnumDecl(null, "E", null);
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
         enumDecl.getLiterals().add(newEnumLiteral("a", null));
         enumDecl.getLiterals().add(newEnumLiteral("b", null));
         enumDecl.getLiterals().add(newEnumLiteral("c", null));
@@ -308,7 +308,7 @@ public class CifValueUtilsTest {
         List<EnumDecl> enumDecls = list();
         for (int i = 0; i < 2; i++) {
             String enumName = "E" + str(i + 1);
-            EnumDecl enumDecl = newEnumDecl(null, enumName, null);
+            EnumDecl enumDecl = newEnumDecl(null, null, enumName, null);
             for (int j = 0; j <= i; j++) {
                 char c = (char)(97 + j);
                 String litName = String.valueOf(c);
@@ -361,7 +361,7 @@ public class CifValueUtilsTest {
     @SuppressWarnings("javadoc")
     public void testGetPossibleValuesTuple() {
         Specification spec = newSpecification();
-        EnumDecl enumDecl = newEnumDecl(null, "E", null);
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
         enumDecl.getLiterals().add(newEnumLiteral("a", null));
         enumDecl.getLiterals().add(newEnumLiteral("b", null));
         enumDecl.getLiterals().add(newEnumLiteral("c", null));
@@ -384,7 +384,7 @@ public class CifValueUtilsTest {
     @SuppressWarnings("javadoc")
     public void testGetPossibleValuesSet() {
         Specification spec = newSpecification();
-        EnumDecl enumDecl = newEnumDecl(null, "E", null);
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
         enumDecl.getLiterals().add(newEnumLiteral("a", null));
         enumDecl.getLiterals().add(newEnumLiteral("b", null));
         enumDecl.getLiterals().add(newEnumLiteral("c", null));
@@ -407,7 +407,7 @@ public class CifValueUtilsTest {
     @SuppressWarnings("javadoc")
     public void testGetPossibleValuesDict() {
         Specification spec = newSpecification();
-        EnumDecl enumDecl = newEnumDecl(null, "E", null);
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
         enumDecl.getLiterals().add(newEnumLiteral("a", null));
         enumDecl.getLiterals().add(newEnumLiteral("b", null));
         enumDecl.getLiterals().add(newEnumLiteral("c", null));

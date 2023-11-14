@@ -128,14 +128,14 @@ public class AlgDerInvalidationsTest {
     @Test
     public void constAlg() {
         // alg A31 = 31;
-        AlgVariable algA31 = newAlgVariable("A31", null, null, newIntExpression(null, null, 31));
+        AlgVariable algA31 = newAlgVariable(null, "A31", null, null, newIntExpression(null, null, 31));
 
         // const notusedB = 28;
         // const usedC = 28;
         // alg AuseC = usedC;
-        Constant constB = newConstant("notusedB", null, null, newIntExpression(null, null, 28));
-        Constant constC = newConstant("usedC", null, null, newIntExpression(null, null, 28));
-        AlgVariable algAusedC = newAlgVariable("AuseC", null, null, makeVariables(constC));
+        Constant constB = newConstant(null, "notusedB", null, null, newIntExpression(null, null, 28));
+        Constant constC = newConstant(null, "usedC", null, null, newIntExpression(null, null, 28));
+        AlgVariable algAusedC = newAlgVariable(null, "AuseC", null, null, makeVariables(constC));
 
         List<AlgVariable> algVars = list(algA31, algAusedC);
         List<ContVariable> derivVars = list();
@@ -151,14 +151,14 @@ public class AlgDerInvalidationsTest {
     @Test
     public void discAlg() {
         // alg A31 = 31;
-        AlgVariable algA31 = newAlgVariable("A31", null, null, newIntExpression(null, null, 31));
+        AlgVariable algA31 = newAlgVariable(null, "A31", null, null, newIntExpression(null, null, 31));
 
         // disc notusedD;
         // disc usedE;
         // alg AusedE = usedE;
-        DiscVariable notusedD = newDiscVariable("notusedD", null, null, null);
-        DiscVariable usedE = newDiscVariable("usedE", null, null, null);
-        AlgVariable algAusedE = newAlgVariable("AusedE", null, null, makeVariables(usedE));
+        DiscVariable notusedD = newDiscVariable(null, "notusedD", null, null, null);
+        DiscVariable usedE = newDiscVariable(null, "usedE", null, null, null);
+        AlgVariable algAusedE = newAlgVariable(null, "AusedE", null, null, makeVariables(usedE));
 
         List<AlgVariable> algVars = list(algA31, algAusedE);
         List<ContVariable> derivVars = list();
@@ -174,14 +174,14 @@ public class AlgDerInvalidationsTest {
     @Test
     public void inputAlg() {
         // alg A31 = 31;
-        AlgVariable algA31 = newAlgVariable("A31", null, null, newIntExpression(null, null, 31));
+        AlgVariable algA31 = newAlgVariable(null, "A31", null, null, newIntExpression(null, null, 31));
 
         // input notusedI;
         // input usedJ;
         // alg AusedJ = usedJ;
-        InputVariable notusedI = newInputVariable("notusedI", null, null);
-        InputVariable usedJ = newInputVariable("usedJ", null, null);
-        AlgVariable algAusedJ = newAlgVariable("AusedJ", null, null, makeVariables(usedJ));
+        InputVariable notusedI = newInputVariable(null, "notusedI", null, null);
+        InputVariable usedJ = newInputVariable(null, "usedJ", null, null);
+        AlgVariable algAusedJ = newAlgVariable(null, "AusedJ", null, null, makeVariables(usedJ));
 
         List<AlgVariable> algVars = list(algA31, algAusedJ);
         List<ContVariable> derivVars = list();
@@ -197,14 +197,14 @@ public class AlgDerInvalidationsTest {
     @Test
     public void contAlg() {
         // alg A31 = 31;
-        AlgVariable algA31 = newAlgVariable("A31", null, null, newIntExpression(null, null, 31));
+        AlgVariable algA31 = newAlgVariable(null, "A31", null, null, newIntExpression(null, null, 31));
 
         // cont notusedP;
         // cont usedQ;
         // alg AcontQ = usedQ;
-        ContVariable notusedP = newContVariable(newRealExpression(null, null, "1.0"), "notusedP", null, null);
-        ContVariable usedQ = newContVariable(newRealExpression(null, null, "1.0"), "usedQ", null, null);
-        AlgVariable algAcontQ = newAlgVariable("AcontQ", null, null, makeContinuous(usedQ));
+        ContVariable notusedP = newContVariable(null, newRealExpression(null, null, "1.0"), "notusedP", null, null);
+        ContVariable usedQ = newContVariable(null, newRealExpression(null, null, "1.0"), "usedQ", null, null);
+        AlgVariable algAcontQ = newAlgVariable(null, "AcontQ", null, null, makeContinuous(usedQ));
 
         List<AlgVariable> algVars = list(algA31, algAcontQ);
         List<ContVariable> derivVars = list();
@@ -219,9 +219,9 @@ public class AlgDerInvalidationsTest {
     /** Invalidation test for time in algebraic variables. */
     @Test
     public void timeAlg() {
-        ContVariable usedQ = newContVariable(newRealExpression(null, null, "1.0"), "usedQ", null, null);
-        AlgVariable algAcontQ = newAlgVariable("AcontQ", null, null, makeContinuous(usedQ));
-        AlgVariable algTime = newAlgVariable("algTime", null, null, newTimeExpression());
+        ContVariable usedQ = newContVariable(null, newRealExpression(null, null, "1.0"), "usedQ", null, null);
+        AlgVariable algAcontQ = newAlgVariable(null, "AcontQ", null, null, makeContinuous(usedQ));
+        AlgVariable algTime = newAlgVariable(null, "algTime", null, null, newTimeExpression());
 
         List<AlgVariable> algVars = list(algAcontQ, algTime);
         List<ContVariable> derivVars = list();
@@ -239,9 +239,9 @@ public class AlgDerInvalidationsTest {
         // const notusedB = 28;
         // const usedC = 28;
         // alg AuseC = usedC;
-        Constant constB = newConstant("notusedB", null, null, newIntExpression(null, null, 28));
-        Constant constC = newConstant("usedC", null, null, newIntExpression(null, null, 28));
-        ContVariable contUseC = newContVariable(makeVariables(constC), "usedC", null, null);
+        Constant constB = newConstant(null, "notusedB", null, null, newIntExpression(null, null, 28));
+        Constant constC = newConstant(null, "usedC", null, null, newIntExpression(null, null, 28));
+        ContVariable contUseC = newContVariable(null, makeVariables(constC), "usedC", null, null);
 
         List<AlgVariable> algVars = list();
         List<ContVariable> derivVars = list(contUseC);
@@ -259,9 +259,9 @@ public class AlgDerInvalidationsTest {
         // disc notusedD;
         // disc usedE;
         // alg AusedE = usedE;
-        DiscVariable notusedD = newDiscVariable("notusedD", null, null, null);
-        DiscVariable usedE = newDiscVariable("usedE", null, null, null);
-        ContVariable contUsedE = newContVariable(makeVariables(usedE), "contUsedE", null, null);
+        DiscVariable notusedD = newDiscVariable(null, "notusedD", null, null, null);
+        DiscVariable usedE = newDiscVariable(null, "usedE", null, null, null);
+        ContVariable contUsedE = newContVariable(null, makeVariables(usedE), "contUsedE", null, null);
 
         List<AlgVariable> algVars = list();
         List<ContVariable> derivVars = list(contUsedE);
@@ -279,9 +279,9 @@ public class AlgDerInvalidationsTest {
         // input notusedI;
         // input usedJ;
         // alg AusedJ = usedJ;
-        InputVariable notusedI = newInputVariable("notusedI", null, null);
-        InputVariable usedJ = newInputVariable("usedJ", null, null);
-        ContVariable contUseJ = newContVariable(makeVariables(usedJ), "contUsedJ", null, null);
+        InputVariable notusedI = newInputVariable(null, "notusedI", null, null);
+        InputVariable usedJ = newInputVariable(null, "usedJ", null, null);
+        ContVariable contUseJ = newContVariable(null, makeVariables(usedJ), "contUsedJ", null, null);
 
         List<AlgVariable> algVars = list();
         List<ContVariable> derivVars = list(contUseJ);
@@ -299,9 +299,9 @@ public class AlgDerInvalidationsTest {
         // cont notusedP;
         // cont usedQ;
         // alg AcontQ = usedQ;
-        ContVariable notusedP = newContVariable(newRealExpression(null, null, "1.0"), "notusedP", null, null);
-        ContVariable usedQ = newContVariable(newRealExpression(null, null, "1.0"), "usedQ", null, null);
-        ContVariable contUsedQ = newContVariable(makeContinuous(usedQ), "contUsedQ", null, null);
+        ContVariable notusedP = newContVariable(null, newRealExpression(null, null, "1.0"), "notusedP", null, null);
+        ContVariable usedQ = newContVariable(null, newRealExpression(null, null, "1.0"), "usedQ", null, null);
+        ContVariable contUsedQ = newContVariable(null, makeContinuous(usedQ), "contUsedQ", null, null);
 
         List<AlgVariable> algVars = list();
         List<ContVariable> derivVars = list(contUsedQ);
@@ -316,10 +316,10 @@ public class AlgDerInvalidationsTest {
     /** Invalidation test for algebraic vars in algebraic variables. */
     @Test
     public void algAlg() {
-        DiscVariable discD = newDiscVariable("discD", null, null, null);
-        DiscVariable discE = newDiscVariable("discE", null, null, null);
-        AlgVariable algD = newAlgVariable("algD", null, null, makeVariables(discD));
-        AlgVariable algE = newAlgVariable("algE", null, null, makeVariables(algD, discE));
+        DiscVariable discD = newDiscVariable(null, "discD", null, null, null);
+        DiscVariable discE = newDiscVariable(null, "discE", null, null, null);
+        AlgVariable algD = newAlgVariable(null, "algD", null, null, makeVariables(discD));
+        AlgVariable algE = newAlgVariable(null, "algE", null, null, makeVariables(algD, discE));
 
         List<AlgVariable> algVars = list(algD, algE);
         List<ContVariable> derivVars = list();

@@ -26,6 +26,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Map;
@@ -367,9 +368,12 @@ public class CifSvgCodeGenerator {
             c.add();
             c.add("private void applyOutput%d(State state) {", i);
             c.indent();
-            gencodeSvgOut(svgOut, i, outIds.get(i), c, ctxt);
+            ExprCodeGeneratorResult result = gencodeSvgOut(svgOut, i, outIds.get(i), c, ctxt);
             c.dedent();
             c.add("}");
+
+            // Add potential extra expression evaluation methods.
+            result.addExtraMethods(c);
         }
         c.add();
 
@@ -418,9 +422,14 @@ public class CifSvgCodeGenerator {
         c.add("@Override");
         c.add("public int applyInput(String id, RuntimeState _state) {");
         c.indent();
-        gencodeSvgIns(cifSvgDecls.svgIns, inIds, eventMap, c, ctxt);
+        List<ExprCodeGeneratorResult> svgInsExprResults = gencodeSvgIns(cifSvgDecls.svgIns, inIds, eventMap, c, ctxt);
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult svgInsExprResult: svgInsExprResults) {
+            svgInsExprResult.addExtraMethods(c);
+        }
     }
 
     /**
@@ -431,8 +440,11 @@ public class CifSvgCodeGenerator {
      * @param id The SVG element id of the mapping.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult} for the generated Java code.
      */
-    private static void gencodeSvgOut(SvgOut svgOut, int idx, String id, CodeBox c, CifCompilerContext ctxt) {
+    private static ExprCodeGeneratorResult gencodeSvgOut(SvgOut svgOut, int idx, String id, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         // Start of 'try'.
         c.add("try {");
         c.indent();
@@ -446,12 +458,13 @@ public class CifSvgCodeGenerator {
         c.add("%s value;", gencodeType(ntype, ctxt));
         c.add("try {");
         c.indent();
-        c.add("value = %s;", gencodeExpr(value, ctxt, "state"));
+        ExprCodeGeneratorResult result = gencodeExpr(value, ctxt, "state");
+        c.add("value = %s;", result);
         c.dedent();
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of SVG output mapping value \\\"%s\\\" failed.\", e, "
-                + "state);", escapeJava(exprToStr(value)));
+                + "state);", escapeJava(truncate(exprToStr(value), 1000)));
         c.dedent();
         c.add("}");
 
@@ -501,6 +514,8 @@ public class CifSvgCodeGenerator {
                 + "SVG element with id \\\"%s\\\" failed.\", getSvgRelPath()), e, state);", attrText, escapeJava(id));
         c.dedent();
         c.add("}");
+
+        return result;
     }
 
     /**
@@ -551,15 +566,18 @@ public class CifSvgCodeGenerator {
      * @param eventMap Mapping from events to their 0-based index.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeSvgIns(List<SvgIn> svgIns, List<String> inIds, Map<Event, Integer> eventMap, CodeBox c,
-            CifCompilerContext ctxt)
+    private static List<ExprCodeGeneratorResult> gencodeSvgIns(List<SvgIn> svgIns, List<String> inIds,
+            Map<Event, Integer> eventMap, CodeBox c, CifCompilerContext ctxt)
     {
         c.add("State state = (State)_state;");
         c.add("int idx = ID_TO_INPUT_IDX.get(id);");
         c.add("boolean g;");
         c.add("switch (idx) {");
         c.indent();
+
+        List<ExprCodeGeneratorResult> guardResults = list();
         for (int i = 0; i < svgIns.size(); i++) {
             SvgIn svgIn = svgIns.get(i);
             String id = inIds.get(i);
@@ -594,12 +612,14 @@ public class CifSvgCodeGenerator {
                         // Evaluate guard.
                         c.add("try {");
                         c.indent();
-                        c.add("g = %s;", gencodeExpr(entry.getGuard(), ctxt, "state"));
+                        ExprCodeGeneratorResult result = gencodeExpr(entry.getGuard(), ctxt, "state");
+                        c.add("g = %s;", result);
+                        guardResults.add(result);
                         c.dedent();
                         c.add("} catch (CifSimulatorException e) {");
                         c.indent();
                         c.add("throw new CifSimulatorException(\"Evaluation of guard value \\\"%s\\\" failed.\", e, "
-                                + "state);", escapeJava(exprToStr(entry.getGuard())));
+                                + "state);", escapeJava(truncate(exprToStr(entry.getGuard()), 1000)));
                         c.dedent();
                         c.add("}");
 
@@ -638,6 +658,8 @@ public class CifSvgCodeGenerator {
 
         c.dedent();
         c.add("}");
+
+        return guardResults;
     }
 
     /**

@@ -113,3 +113,8 @@ indexterm:[simplify values (no references),optimality]
 === Optimality
 
 Not all simplifications that could potentially be performed are implemented in this transformation.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.
+The values of annotation arguments may be simplified.

@@ -13,11 +13,11 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
-
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
@@ -31,11 +31,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -66,6 +63,9 @@ public class PlcCodeStorage {
     /** Global variable list for state variables, lazily created. */
     private PlcGlobalVarList globalStateVars = null;
 
+    /** Global variable list for timer variables, lazily created. */
+    private PlcGlobalVarList globalTimerVars = null;
+
     /** The expression generator to use for generating code in the main program. Initialized lazily. */
     private ExprGenerator exprGenerator = null;
 
@@ -75,8 +75,20 @@ public class PlcCodeStorage {
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
 
+    /**
+     * If not {@code null}, code to update the remaining time of the continuous variables just before the non-first time
+     * of the event transitions.
+     */
+    private List<PlcStatement> updateContVarsRemainingTimeCode = null;
+
     /** If not {@code null}, code to perform one iteration of all events. */
     private List<PlcStatement> eventTransitionsIterationCode = null;
+
+    /** If not {@code null}, code for copying I/O input to CIF state. */
+    private List<PlcStatement> inputFuncCode = null;
+
+    /** If not {@code null}, code for copying CIF state to I/O output. */
+    private List<PlcStatement> outputFuncCode = null;
 
     /**
      * Constructor of the {@link PlcCodeStorage} class.
@@ -126,51 +138,65 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the global constants table.
      *
-     * @param var Variable to add. Name is assumed to be unique.
+     * @param plcVar Variable to add. Name is assumed to be unique.
      */
-    public void addConstant(PlcVariable var) {
+    public void addConstant(PlcVariable plcVar) {
         Assert.check(target.supportsConstants());
 
         if (globalConstants == null) {
             globalConstants = new PlcGlobalVarList("CONSTANTS", true);
         }
-        globalConstants.variables.add(var);
+        globalConstants.variables.add(plcVar);
     }
 
     /**
      * Add a variable to the global input variable table.
      *
-     * @param var Variable to add. Name is assumed to be unique.
+     * @param variable Variable to add. Name is assumed to be unique.
      */
-    public void addInputVariable(PlcVariable var) {
+    public void addInputVariable(PlcVariable variable) {
         if (globalInputs == null) {
             globalInputs = new PlcGlobalVarList("INPUTS", false);
         }
-        globalInputs.variables.add(var);
+        globalInputs.variables.add(variable);
     }
 
     /**
      * Add a variable to the global output variable table.
      *
-     * @param var Variable to add. Name is assumed to be unique.
+     * @param variable Variable to add. Name is assumed to be unique.
      */
-    public void addOutputVariable(PlcVariable var) {
+    public void addOutputVariable(PlcVariable variable) {
         if (globalOutputs == null) {
             globalOutputs = new PlcGlobalVarList("OUTPUTS", false);
         }
-        globalOutputs.variables.add(var);
+        globalOutputs.variables.add(variable);
     }
 
     /**
      * Add a variable to the global state variable table.
      *
-     * @param var Variable to add. Name is assumed to be unique.
+     * @param variable Variable to add. Name is assumed to be unique.
      */
-    public void addStateVariable(PlcVariable var) {
+    public void addStateVariable(PlcVariable variable) {
         if (globalStateVars == null) {
             globalStateVars = new PlcGlobalVarList("STATE", false);
         }
-        globalStateVars.variables.add(var);
+        globalStateVars.variables.add(variable);
+    }
+
+    /**
+     * Add a variable to the global timer variables table.
+     *
+     * @param variable Variable to add. Name is assumed to be unique.
+     */
+    public void addTimerVariable(PlcVariable variable) {
+        if (globalTimerVars == null) {
+            // Global variable list of timer-related data of the main program. Note that the Siemens target currently
+            // requires the "TIMERS" name.
+            globalTimerVars = new PlcGlobalVarList("TIMERS", false);
+        }
+        globalTimerVars.variables.add(variable);
     }
 
     /**
@@ -195,6 +221,17 @@ public class PlcCodeStorage {
     }
 
     /**
+     * Store code that updates the remaining time of the continuous variables before the event transitions in the PLC
+     * cycle.
+     *
+     * @param updateContVarsRemainingTimeCode Statements to execute for updating remaining time of the continuous
+     *     variables.
+     */
+    public void storeUpdateContvarsRemainingTimeCode(List<PlcStatement> updateContVarsRemainingTimeCode) {
+        this.updateContVarsRemainingTimeCode = updateContVarsRemainingTimeCode;
+    }
+
+    /**
      * Add code to (try to) perform one iteration of all event transitions. Code should update the
      * {@link #isProgressVariable} if an event is performed.
      *
@@ -209,13 +246,56 @@ public class PlcCodeStorage {
         }
     }
 
+    /**
+     * Add code for copying input I/O to CIF state.
+     *
+     * @param inputFuncCode Code of the input function.
+     */
+    public void addInputFuncCode(List<PlcStatement> inputFuncCode) {
+        Assert.check(this.inputFuncCode == null);
+        if (PlcModelUtils.isNonEmptyCode(inputFuncCode)) {
+            this.inputFuncCode = inputFuncCode;
+        }
+    }
+
+    /**
+     * Add code for copying CIF state to output I/O.
+     *
+     * @param outputFuncCode Code of the output function.
+     */
+    public void addOutputFuncCode(List<PlcStatement> outputFuncCode) {
+        Assert.check(this.outputFuncCode == null);
+        if (PlcModelUtils.isNonEmptyCode(outputFuncCode)) {
+            this.outputFuncCode = outputFuncCode;
+        }
+    }
+
     /** Perform any additional processing to make the generated PLC program ready. */
+    @SuppressWarnings("null")
     public void finishPlcProgram() {
+        // Continuous variables are state so they are also initialized. Therefore needing to update the
+        // remaining time of continuous variables means there is also state initialization code. That is, having
+        // continuous variables is a subset within having state.
+        Assert.implies(updateContVarsRemainingTimeCode != null, stateInitializationCode != null);
+
+        ExprGenerator exprGen = getExprGenerator();
+        ModelTextGenerator textGenerator = target.getModelTextGenerator();
+
+        // The "firstRun" boolean is needed in state initialization, but creation has been moved to here before
+        // pushing the variable tables to the output.
+        PlcVariable firstRun = null;
+        if (stateInitializationCode != null) {
+            firstRun = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+                    new PlcBoolLiteral(true));
+            addTimerVariable(firstRun);
+        }
+
         // Add all created variable tables.
         addGlobalVariableTable(globalConstants);
         addGlobalVariableTable(globalInputs);
         addGlobalVariableTable(globalOutputs);
         addGlobalVariableTable(globalStateVars);
+        addGlobalVariableTable(globalTimerVars);
 
         // Create code file for program, with header etc.
         PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
@@ -225,51 +305,106 @@ public class PlcCodeStorage {
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
-        ExprGenerator exprGen = getExprGenerator();
+        // Prepare adding code to the program.
+        CodeBox box = main.body;
+        boolean boxNeedsEmptyLine = false;
+        int commentLength = 79; // Length of a comment header line.
 
+        // Add input code if it exists.
+        if (inputFuncCode != null) {
+            generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
+            boxNeedsEmptyLine = true;
+
+            textGenerator.toText(inputFuncCode, box, main.name, false);
+        }
+
+        // Add initialization code if it exists.
         if (stateInitializationCode != null) {
-            // Insert code to create the initial state.
-            PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
-                    new PlcBoolLiteral(true));
-            mainVariables.variables.add(firstFlag);
+            String headerText = (updateContVarsRemainingTimeCode == null) ? "Initialize state."
+                    : "Initialize state or update continuous variables.";
+            generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
+            boxNeedsEmptyLine = true;
 
-            CodeBox box = main.body;
-            box.add("IF %s THEN", firstFlag.name);
+            // Insert code to create the initial state with the "firstRun" boolean to run it only once.
+            // The variable is added above, before the variable tables are pushed to the output.
+            //
+            box.add("IF %s THEN", firstRun.name);
             box.indent();
-            box.add("%s := FALSE;", firstFlag.name);
+            box.add("%s := FALSE;", firstRun.name);
             box.add();
-            target.getModelTextGenerator().toText(stateInitializationCode, box, main.name, false);
+            textGenerator.toText(stateInitializationCode, box, main.name, false);
             box.dedent();
-            box.add("END_IF;");
-
-            // Add event transitions code.
-            if (eventTransitionsIterationCode != null) {
-                String progressVarName = getIsProgressVariable().name;
-                box.add();
-                box.add("%s := TRUE;", progressVarName);
-                box.add("WHILE %s DO", progressVarName);
+            if (updateContVarsRemainingTimeCode != null) {
+                box.add("ELSE");
                 box.indent();
-                box.add("%s := FALSE;", progressVarName);
-                box.add();
-                target.getModelTextGenerator().toText(eventTransitionsIterationCode, box, main.name, false);
+                textGenerator.toText(updateContVarsRemainingTimeCode, box, main.name, false);
                 box.dedent();
-                box.add("END_WHILE;");
             }
+            box.add("END_IF;");
+        }
+
+        // Add event transitions code.
+        if (eventTransitionsIterationCode != null) {
+            generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
+
+            String progressVarName = getIsProgressVariable().name;
+            box.add("%s := TRUE;", progressVarName);
+            box.add("WHILE %s DO", progressVarName);
+            box.indent();
+            box.add("%s := FALSE;", progressVarName);
+            box.add();
+            target.getModelTextGenerator().toText(eventTransitionsIterationCode, box, main.name, false);
+            box.dedent();
+            box.add("END_WHILE;");
+        }
+        boxNeedsEmptyLine = true;
+
+        // Generate output code if it exists. */
+        if (outputFuncCode != null) {
+            generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
+            boxNeedsEmptyLine = true;
+
+            textGenerator.toText(outputFuncCode, box, main.name, false);
         }
 
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
-
-        // Add main program timer variables.
-        PlcType tonType = new PlcDerivedType("TON");
-        mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
 
         // Add temporary variables of the main program code.
         main.tempVars = exprGen.getCreatedTempVariables();
 
         // Add program to task.
         task.pouInstances.add(new PlcPouInstance("MAIN", main));
+    }
+
+    /**
+     * Generate a comment header line possibly after an empty line.
+     *
+     * @param text Text describing what code lines will come next.
+     * @param dashChar The character to use as filler, {@code '-'} or {@code '='} are likely useful.
+     * @param length Expected length of comment line, may get longer if the text is long.
+     * @param addEmptyLine Whether to generate an empty line first.
+     * @param box Storage for the generated lines.
+     */
+    private void generateCommentHeader(String text, char dashChar, int length, boolean addEmptyLine, CodeBox box) {
+        // Construct header line. As it is mostly constant data, code will be much more efficient than it seems.
+        char[] pre = {'(', '*', ' ', dashChar, dashChar, dashChar, ' '};
+        char[] post = {dashChar, dashChar, dashChar, ' ', '*', ')'};
+        char[] afterText = {' '};
+
+        int layoutLength = pre.length + afterText.length + post.length;
+        length = Math.max(length, layoutLength + text.length());
+
+        char[] line = new char[length];
+        Arrays.fill(line, dashChar);
+        System.arraycopy(pre, 0, line, 0, pre.length);
+        System.arraycopy(text.toCharArray(), 0, line, pre.length, text.length());
+        System.arraycopy(afterText, 0, line, pre.length + text.length(), afterText.length);
+        System.arraycopy(post, 0, line, line.length - post.length, post.length);
+
+        if (addEmptyLine) {
+            box.add();
+        }
+        box.add(new String(line));
     }
 
     /**

@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Warning: argument is not named 'arg'.
+@cif:typechecker:tests:anno1(x = true)
+input bool i1;
+
+// Warning: argument does not have a boolean value.
+@cif:typechecker:tests:anno1(arg = 5)
+input bool i2;
+
+// Warning: argument is not named 'arg', and does not have a boolean value.
+@cif:typechecker:tests:anno1(x = 5)
+input bool i3;
+
+// Global warning: more than 3 of these annotations in the model.
+@cif:typechecker:tests:anno1(arg = true)
+input bool i4;

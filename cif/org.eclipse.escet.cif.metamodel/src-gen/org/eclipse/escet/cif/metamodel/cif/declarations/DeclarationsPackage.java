@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
 import org.eclipse.escet.common.position.metamodel.position.PositionPackage;
 
 /**
@@ -88,7 +90,16 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int DECLARATION__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+    int DECLARATION__POSITION = AnnotationsPackage.ANNOTATED_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECLARATION__ANNOTATIONS = AnnotationsPackage.ANNOTATED_OBJECT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -97,7 +108,7 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int DECLARATION__NAME = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int DECLARATION__NAME = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Declaration</em>' class.
@@ -106,7 +117,7 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int DECLARATION_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int DECLARATION_FEATURE_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The number of operations of the '<em>Declaration</em>' class.
@@ -115,7 +126,7 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int DECLARATION_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+    int DECLARATION_OPERATION_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.declarations.impl.AlgVariableImpl <em>Alg Variable</em>}' class.
@@ -135,6 +146,15 @@ public interface DeclarationsPackage extends EPackage
      * @ordered
      */
     int ALG_VARIABLE__POSITION = DECLARATION__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ALG_VARIABLE__ANNOTATIONS = DECLARATION__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -201,6 +221,15 @@ public interface DeclarationsPackage extends EPackage
     int EVENT__POSITION = DECLARATION__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVENT__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -265,6 +294,15 @@ public interface DeclarationsPackage extends EPackage
     int ENUM_DECL__POSITION = DECLARATION__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECL__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -318,6 +356,15 @@ public interface DeclarationsPackage extends EPackage
      * @ordered
      */
     int TYPE_DECL__POSITION = DECLARATION__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TYPE_DECL__ANNOTATIONS = DECLARATION__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -419,6 +466,15 @@ public interface DeclarationsPackage extends EPackage
      * @ordered
      */
     int DISC_VARIABLE__POSITION = DECLARATION__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DISC_VARIABLE__ANNOTATIONS = DECLARATION__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -531,6 +587,15 @@ public interface DeclarationsPackage extends EPackage
     int CONSTANT__POSITION = DECLARATION__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTANT__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -595,6 +660,15 @@ public interface DeclarationsPackage extends EPackage
     int CONT_VARIABLE__POSITION = DECLARATION__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONT_VARIABLE__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -657,6 +731,15 @@ public interface DeclarationsPackage extends EPackage
      * @ordered
      */
     int INPUT_VARIABLE__POSITION = DECLARATION__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INPUT_VARIABLE__ANNOTATIONS = DECLARATION__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.

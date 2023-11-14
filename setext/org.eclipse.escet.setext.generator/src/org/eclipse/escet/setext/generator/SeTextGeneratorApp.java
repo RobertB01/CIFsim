@@ -37,7 +37,7 @@ public class SeTextGeneratorApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         SeTextGeneratorApp app = new SeTextGeneratorApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SeTextGeneratorApp} class. */
@@ -48,7 +48,7 @@ public class SeTextGeneratorApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link SeTextGeneratorApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public SeTextGeneratorApp(AppStreams streams) {
         super(streams);

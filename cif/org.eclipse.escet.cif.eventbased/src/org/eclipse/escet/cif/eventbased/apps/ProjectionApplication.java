@@ -53,7 +53,7 @@ public class ProjectionApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         ProjectionApplication app = new ProjectionApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link ProjectionApplication} class. */
@@ -64,7 +64,7 @@ public class ProjectionApplication extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link ProjectionApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public ProjectionApplication(AppStreams streams) {
         super(streams);

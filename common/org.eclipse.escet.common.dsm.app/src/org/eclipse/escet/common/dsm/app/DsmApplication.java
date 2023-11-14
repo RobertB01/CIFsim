@@ -30,7 +30,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.dsm.ClusterInputData;
+import org.eclipse.escet.common.dsm.ClusterInput;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.Label;
 
@@ -43,7 +43,7 @@ public class DsmApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         DsmApplication app = new DsmApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link DsmApplication} class. */
@@ -54,7 +54,7 @@ public class DsmApplication extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link DsmApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public DsmApplication(AppStreams streams) {
         super(streams);
@@ -73,7 +73,7 @@ public class DsmApplication extends Application<IOutputComponent> {
     @Override
     protected int runInternal() {
         String inPath = Paths.resolve(InputFileOption.getPath());
-        ClusterInputData inputData = readMatrixFile(inPath);
+        ClusterInput inputData = readMatrixFile(inPath, OutputProvider.getDebugOutputStream());
         inputData.evap = DsmEvaporationOption.getEvaporationFactor();
         inputData.inflation = DsmInflationOption.getInflationFactor();
         inputData.busDetectionAlgorithm = DsmBusDetectionAlgorithmOption.getBusAlgorithm();

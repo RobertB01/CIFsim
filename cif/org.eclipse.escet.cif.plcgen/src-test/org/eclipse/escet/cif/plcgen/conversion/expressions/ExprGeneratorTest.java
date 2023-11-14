@@ -82,7 +82,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.WarnOutput;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
@@ -107,6 +106,8 @@ import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -128,17 +129,17 @@ public class ExprGeneratorTest {
     // - automaton *: location here; end [[only the location is created]]
     // - disc tuple(real field1, field2, field3) tupVar;
 
-    private static Constant constantVar = newConstant("fixed", null, newBoolType(),
+    private static Constant constantVar = newConstant(null, "fixed", null, newBoolType(),
             newBoolExpression(null, newBoolType(), false));
 
-    private static InputVariable inputVar = newInputVariable("theInput", null, newIntType());
+    private static InputVariable inputVar = newInputVariable(null, "theInput", null, newIntType());
 
-    private static DiscVariable discVar = newDiscVariable("flatDisc", null, newRealType(), null);
+    private static DiscVariable discVar = newDiscVariable(null, "flatDisc", null, newRealType(), null);
 
-    private static ContVariable contVar = newContVariable(newRealExpression(null, newRealType(), "1.0"), "timer", null,
-            null);
+    private static ContVariable contVar = newContVariable(null, newRealExpression(null, newRealType(), "1.0"), "timer",
+            null, null);
 
-    private static DiscVariable tupVar = newDiscVariable("tupVar", null, makeTupleType(3), null);
+    private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
 
     private static TupleType makeTupleType(int length) {
         List<Field> fields = listc(length);
@@ -178,18 +179,20 @@ public class ExprGeneratorTest {
             int taskCyceTime = 1;
             int priority = 1;
             String inputPath = "input/path";
-            String outputPath = "/output/path";
+            String outputPath = "output/path";
+            String ioTablePath = "io/path";
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
             ConvertEnums enumConversion = ConvertEnums.NO;
             Supplier<Boolean> shouldTerminate = () -> false;
             boolean warnOnRename = false;
-            WarnOutput warnOutput = message -> { /* Do nothing. */ };
+            WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, inputPath, "/" + inputPath, outputPath, intSize, realSize, simplifyValues,
-                    enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                    taskCyceTime, priority, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
+                    "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    warnOutput);
             setup(settings);
         }
 
@@ -306,13 +309,18 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean getDerivative) {
-            String name = "new_" + variable.getName() + (getDerivative ? "_der" : "");
+        public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
+            String name = "new_" + variable.getName() + (writeDerivative ? "_der" : "");
             return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForInputVar(InputVariable variable) {
+            return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+        }
+
+        @Override
+        public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
             return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
@@ -415,13 +423,24 @@ public class ExprGeneratorTest {
     }
 
     /**
-     * Run the expression generator at the given expression, and return a dump of the result.
+     * Run the expression generator for the given variable addressable expression, and return a dump of the result.
      *
      * @param expr The expression to convert.
      * @return Human-readable representation of the result.
      */
-    private String runAddressableTest(Expression expr) {
-        ExprAddressableResult result = exprGen.convertAddressable(expr);
+    private String runVariableAddressableTest(Expression expr) {
+        ExprAddressableResult result = exprGen.convertVariableAddressable(expr);
+        return resultToString(result);
+    }
+
+    /**
+     * Run the expression generator for the given projected addressable expression, and return a dump of the result.
+     *
+     * @param expr The expression to convert.
+     * @return Human-readable representation of the result.
+     */
+    private String runProjectedAddressableTest(Expression expr) {
+        ExprAddressableResult result = exprGen.convertProjectedAddressable(expr);
         return resultToString(result);
     }
 
@@ -561,7 +580,7 @@ public class ExprGeneratorTest {
         Expression expr = newBinaryExpression(mid, BinaryOperator.DISJUNCTION, null, right, newBoolType());
         expr = newBinaryExpression(left, BinaryOperator.DISJUNCTION, null, expr, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> TRUE OR fixed OR FALSE";
+        String expectedText = "==> TRUE OR FALSE OR FALSE";
         assertEquals(expectedText, realText);
     }
 
@@ -762,7 +781,7 @@ public class ExprGeneratorTest {
         DiscVariableExpression tupVarExpr = newDiscVariableExpression(null, makeTupleType(3), tupVar);
         Expression tupProj = newProjectionExpression(tupVarExpr, newIntExpression(null, newIntType(), 0), null,
                 newRealType());
-        String realText = runAddressableTest(tupProj);
+        String realText = runProjectedAddressableTest(tupProj);
         String expectedText = "==> newState.tupVar.field1";
         assertEquals(expectedText, realText);
     }
@@ -777,7 +796,7 @@ public class ExprGeneratorTest {
         // abs(21)
         Expression func = newStdLibFunctionExpression(StdLibFunction.ABS, null, null);
         List<Expression> args = List.of(newIntExpression(null, newIntType(), 21));
-        Expression call = newFunctionCallExpression(func, args, null, null);
+        Expression call = newFunctionCallExpression(args, func, null, null);
         String realText = runValueTest(call);
         String expectedText = "==> ABS(IN := 21)";
         assertEquals(expectedText, realText);
@@ -785,7 +804,7 @@ public class ExprGeneratorTest {
         // cbrt(17.28)
         func = newStdLibFunctionExpression(StdLibFunction.CBRT, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> 17.28 ** (1.0 / 3.0)";
         assertEquals(expectedText, realText);
@@ -794,7 +813,7 @@ public class ExprGeneratorTest {
         target.supportsLog = true;
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LOG(IN := 17.28)";
         assertEquals(expectedText, realText);
@@ -803,7 +822,7 @@ public class ExprGeneratorTest {
         target.supportsLog = false;
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
         args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LN(IN := 17.28) / LN(IN := 10.0)";
         assertEquals(expectedText, realText);
@@ -813,7 +832,7 @@ public class ExprGeneratorTest {
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newIntType()));
         args = List.of(newIntExpression(null, newIntType(0, null, 2), 1),
                 newIntExpression(null, newIntType(0, null, 2), 2));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LREAL_TO_DINT(IN := DINT_TO_LREAL(IN := 1) ** 2)";
         assertEquals(expectedText, realText);
@@ -822,7 +841,7 @@ public class ExprGeneratorTest {
         paramTypes = List.of(newIntType(), newIntType());
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newRealType()));
         args = List.of(newIntExpression(null, newIntType(), 2), newIntExpression(null, newIntType(), 3));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> DINT_TO_LREAL(IN := 2) ** 3";
         assertEquals(expectedText, realText);
@@ -831,7 +850,7 @@ public class ExprGeneratorTest {
         paramTypes = List.of(newIntType(0, null, 2), newRealType());
         func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newRealType());
         args = List.of(newIntExpression(null, newIntType(), 3), newRealExpression(null, newRealType(), "2.0"));
-        call = newFunctionCallExpression(func, args, null, null);
+        call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> DINT_TO_LREAL(IN := 3) ** 2.0";
         assertEquals(expectedText, realText);
@@ -884,7 +903,7 @@ public class ExprGeneratorTest {
     public void testContConstantExpressionConversion() {
         // fixed
         String realText = runValueTest(newConstantExpression(constantVar, null, newBoolType()));
-        String expectedText = "==> fixed";
+        String expectedText = "==> FALSE";
         assertEquals(expectedText, realText);
     }
 
@@ -899,7 +918,7 @@ public class ExprGeneratorTest {
     @Test
     public void testDiscVariableAddressableConversion() {
         // flatDisc (which is stored in state.flatDisc by the {@code CifDataProvider}).
-        String realText = runAddressableTest(newDiscVariableExpression(null, newRealType(), discVar));
+        String realText = runVariableAddressableTest(newDiscVariableExpression(null, newRealType(), discVar));
         String expectedText = "==> newState.flatDisc";
         assertEquals(expectedText, realText);
     }
@@ -920,12 +939,12 @@ public class ExprGeneratorTest {
     @Test
     public void testContVariableAddressableConversion() {
         // timer'
-        String realText = runAddressableTest(newContVariableExpression(true, null, null, contVar));
+        String realText = runVariableAddressableTest(newContVariableExpression(true, null, null, contVar));
         String expectedText = "==> new_timer_der";
         assertEquals(expectedText, realText);
 
         // timer
-        realText = runAddressableTest(newContVariableExpression(false, null, null, contVar));
+        realText = runVariableAddressableTest(newContVariableExpression(false, null, null, contVar));
         expectedText = "==> new_timer";
         assertEquals(expectedText, realText);
     }
@@ -953,5 +972,13 @@ public class ExprGeneratorTest {
         String realText = runValueTest(newInputVariableExpression(null, newIntType(), inputVar));
         String expectedText = "==> theInput";
         assertEquals(expectedText, realText);
+    }
+
+    @Test
+    public void testInputVariableAddressableConversion() {
+        // While the CIF data provider can provide a destination to write into, the CIF code should never contain such
+        // expressions.
+        assertThrows(RuntimeException.class,
+                () -> runVariableAddressableTest(newInputVariableExpression(null, newIntType(), inputVar)));
     }
 }

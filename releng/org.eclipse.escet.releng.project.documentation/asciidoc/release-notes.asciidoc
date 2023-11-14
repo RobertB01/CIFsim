@@ -26,12 +26,25 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.dev/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.dev/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
 
-=== Version 1.0
+=== Version 2.0
 
 TBD
 
 Improvements and fixes:
 
+* The Linux command line scripts for all ESCET tools no longer show a popup dialog upon exiting with a non-zero exit code (issue {escet-issue}89[#89]).
+* The warning and error output on the Eclipse console for all ESCET tools now use different colors.
+Warning output is now printed in yellow, error output still in red (issue {escet-issue}524[#524]).
+
+=== Version 1.0 (2023-09-30)
+
+Improvements and fixes:
+
+* The Eclipse ESCET project has graduated.
+The project has left the 'incubation' phase, and has entered the 'mature' phase.
+In honor of this occasion, we leave the '0.x' version numbering behind.
+All indications of the incubation phase have been removed.
+This also leads to changes in download filenames (issues {escet-issue}614[#614] and {escet-issue}647[#647]).
 * The DSM clustering tool's DSM input file format has been changed from a CSV-like file to an RFC-4180 compliant CSV file.
 Tab characters are no longer supported in the input files (issue {escet-issue}629[#629]).
 

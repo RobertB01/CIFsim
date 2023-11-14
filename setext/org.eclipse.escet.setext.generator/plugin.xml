@@ -21,7 +21,13 @@
          categoryId="org.eclipse.escet.setext.commands.category"
          defaultHandler="org.eclipse.escet.setext.generator.SeTextGeneratorCommandHandler"
          id="org.eclipse.escet.setext.generator.SeTextGeneratorCommandHandler"
-         name="Generate Parser(s)">
+         name="Generate scanner/parser(s)">
+      </command>
+      <command
+         categoryId="org.eclipse.escet.setext.commands.category"
+         defaultHandler="org.eclipse.escet.setext.generator.SeTextGeneratorWithOptionsCommandHandler"
+         id="org.eclipse.escet.setext.generator.SeTextGeneratorWithOptionsCommandHandler"
+         name="Generate scanner/parser(s)...">
       </command>
    </extension>
    <extension point="org.eclipse.core.expressions.definitions">
@@ -42,7 +48,22 @@
          <command
                commandId="org.eclipse.escet.setext.generator.SeTextGeneratorCommandHandler"
                icon="icons/setext_generator.png"
-               label="&amp;Generate Parser(s)">
+               label="&amp;Generate scanner/parser(s)">
+            <visibleWhen>
+               <or>
+                  <with variable="activeMenuSelection">
+                     <reference definitionId="org.eclipse.escet.setext.generator.singleFile"/>
+                  </with>
+                  <with variable="activeMenuEditorInput">
+                     <reference definitionId="org.eclipse.escet.setext.generator.singleFile"/>
+                  </with>
+               </or>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.escet.setext.generator.SeTextGeneratorWithOptionsCommandHandler"
+               icon="icons/setext_generator.png"
+               label="Generate scanner/&amp;parser(s)...">
             <visibleWhen>
                <or>
                   <with variable="activeMenuSelection">

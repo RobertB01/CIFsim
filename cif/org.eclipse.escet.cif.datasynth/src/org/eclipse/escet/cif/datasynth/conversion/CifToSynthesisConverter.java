@@ -1150,9 +1150,8 @@ public class CifToSynthesisConverter {
                             CifBddBitVector varVec = CifBddBitVector.createDomain(var.domain);
 
                             // Construct 'var = value' relation.
-                            int len = Math.max(varVec.length(), varVec.length());
-                            varVec.resize(len);
-                            valueVec.resize(len);
+                            Assert.check(varVec.length() >= valueVec.length());
+                            valueVec.resize(varVec.length());
                             BDD relation = varVec.equalTo(valueVec);
                             varVec.free();
                             valueVec.free();

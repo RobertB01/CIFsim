@@ -16,6 +16,8 @@ package org.eclipse.escet.cif.simulator.compiler;
 import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodePreds;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -62,13 +64,18 @@ public class UrgEdgesCodeGenerator {
         c.add("boolean b; // temp var for pred eval rslts");
 
         // Generate code for the actual urgent edges.
-        gencodeUrgEdgesComponent(spec, ctxt, c);
+        List<ExprCodeGeneratorResult> exprResults = gencodeUrgEdgesComponent(spec, ctxt, c);
 
         // Finish the method.
         c.add();
         c.add("return false;");
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult exprResult: exprResults) {
+            exprResult.addExtraMethods(c);
+        }
     }
 
     /**
@@ -77,9 +84,13 @@ public class UrgEdgesCodeGenerator {
      * @param comp The component.
      * @param ctxt The compiler context to use.
      * @param c The code box to which to add the code.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeUrgEdgesComponent(ComplexComponent comp, CifCompilerContext ctxt, CodeBox c) {
+    private static List<ExprCodeGeneratorResult> gencodeUrgEdgesComponent(ComplexComponent comp,
+            CifCompilerContext ctxt, CodeBox c)
+    {
         // Generate locally (for automata).
+        List<ExprCodeGeneratorResult> exprResults = list();
         if (comp instanceof Automaton) {
             // Switch on location pointer value.
             Automaton aut = (Automaton)comp;
@@ -112,14 +123,17 @@ public class UrgEdgesCodeGenerator {
                     c.indent();
 
                     // Actual evaluation of guard.
-                    c.add("b = %s;", gencodePreds(edge.getGuards(), ctxt, "state"));
+                    ExprCodeGeneratorResult result = gencodePreds(edge.getGuards(), ctxt, "state");
+                    c.add("b = %s;", result);
+                    exprResults.add(result);
 
                     // End of 'try'.
                     c.dedent();
                     c.add("} catch (CifSimulatorException e) {");
                     c.indent();
                     c.add("throw new CifSimulatorException(\"Evaluation of guard(s) \\\"%s\\\" of an urgent edge of "
-                            + "%s failed.\", e, state);", escapeJava(exprsToStr(edge.getGuards())), escapeJava(locTxt));
+                            + "%s failed.\", e, state);", escapeJava(truncate(exprsToStr(edge.getGuards()), 1000)),
+                            escapeJava(locTxt));
                     c.dedent();
                     c.add("}");
 
@@ -140,8 +154,10 @@ public class UrgEdgesCodeGenerator {
         // Generate recursively.
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                gencodeUrgEdgesComponent((ComplexComponent)child, ctxt, c);
+                exprResults.addAll(gencodeUrgEdgesComponent((ComplexComponent)child, ctxt, c));
             }
         }
+
+        return exprResults;
     }
 }

@@ -31,15 +31,18 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationEx
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.RefReplace;
@@ -53,6 +56,7 @@ import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
@@ -82,6 +86,8 @@ import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF merger. */
@@ -264,6 +270,9 @@ public class CifMerger {
         varRef.setVariable(var1);
         varRef.setType(deepclone(type1));
         refExprReplacements.put(var2, varRef);
+
+        // Move annotations.
+        var1.getAnnotations().addAll(var2.getAnnotations());
 
         // Return merged input variable.
         return var1;
@@ -873,8 +882,10 @@ public class CifMerger {
                     "Merging objects with name \"%s\" failed: merging two algebraic variables is not supported.",
                     getAbsName(obj1));
             throw new UnsupportedException(msg);
-        } else if (obj1 instanceof InputVariable && obj2 instanceof InputVariable) {
-            // OK.
+        } else if (obj1 instanceof InputVariable ivar1 && obj2 instanceof InputVariable ivar2) {
+            // Merging input variables with the same annotations is not
+            // supported, to prevent duplicate annotations.
+            checkDuplicateAnnotations(ivar1.getAnnotations(), ivar2.getAnnotations(), ivar1);
         } else if ((obj1 instanceof DiscVariable || obj1 instanceof ContVariable || obj1 instanceof AlgVariable
                 || obj1 instanceof Constant || obj1 instanceof Location) && obj2 instanceof InputVariable)
         {
@@ -935,5 +946,35 @@ public class CifMerger {
                     getAbsName(obj1));
             throw new UnsupportedException(msg);
         }
+    }
+
+    /**
+     * Check for duplicate annotations that prevent merging two objects.
+     *
+     * @param annos1 The annotations of the first object to merge.
+     * @param annos2 The annotations of the second object to merge.
+     * @param obj One of the objects to merge. Must be a component, declaration, enumeration literal, or location.
+     */
+    private void checkDuplicateAnnotations(List<Annotation> annos1, List<Annotation> annos2, PositionObject obj) {
+        // Find duplicate annotations.
+        Set<String> annoNames1 = annos1.stream().map(a -> a.getName()).collect(Sets.toSet());
+        List<String> duplAnnoNames = listc(0); // No duplicates yet. Size optimized for no duplicates.
+        for (Annotation anno2: annos2) {
+            if (annoNames1.contains(anno2.getName())) {
+                duplAnnoNames.add(anno2.getName());
+            }
+        }
+
+        // If there are no duplicates, the check succeeds.
+        if (duplAnnoNames.isEmpty()) {
+            return;
+        }
+
+        // Report duplicates.
+        Collections.sort(duplAnnoNames, Strings.SORTER);
+        String msg = fmt(
+                "Merging objects with name \"%s\" failed: the objects have annotations with the same name(s): %s.",
+                getAbsName(obj), duplAnnoNames.stream().map(n -> "\"" + n + "\"").collect(Collectors.joining(", ")));
+        throw new UnsupportedException(msg);
     }
 }

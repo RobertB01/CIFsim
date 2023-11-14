@@ -16,6 +16,15 @@ requirement automaton p3:
   location:
     initial inp3;
 end
+group annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  input bool i;
+  invariant i;
+  invariant i;
+end
 invariant inp0 or true;
 invariant inp1 or true;
 invariant inp0 or false;

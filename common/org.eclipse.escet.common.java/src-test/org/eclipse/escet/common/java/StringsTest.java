@@ -241,4 +241,15 @@ public class StringsTest {
     public void testMakeElementsChoiceTextQuadrupleWithSorting() {
         assertEquals("abc, def, ghi or jkl", makeElementsChoiceText(List.of("abc", "jkl", "ghi", "def"), null));
     }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTruncate() {
+        assertEquals("", Strings.truncate("", 10));
+        assertEquals("0123456789", Strings.truncate("0123456789", 10));
+        assertEquals("0123456...", Strings.truncate("012345678910", 10));
+
+        assertThrows(AssertionError.class, () -> assertEquals("", Strings.truncate("", 1)));
+        assertThrows(AssertionError.class, () -> assertEquals("", Strings.truncate("", -10)));
+    }
 }

@@ -592,8 +592,8 @@ public class SynthesisToCifConverter {
 
                 FunctionCallExpression callExpr = newFunctionCallExpression();
                 callExpr.setFunction(funcRef);
-                callExpr.getParams().add(arg0);
-                callExpr.getParams().add(arg1);
+                callExpr.getArguments().add(arg0);
+                callExpr.getArguments().add(arg1);
                 callExpr.setType(newBoolType());
 
                 return callExpr;

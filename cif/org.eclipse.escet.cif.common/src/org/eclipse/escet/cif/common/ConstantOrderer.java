@@ -141,8 +141,8 @@ public class ConstantOrderer extends DependencyOrderer<Constant> {
         }
         if (expr instanceof FunctionCallExpression) {
             FunctionCallExpression fexpr = (FunctionCallExpression)expr;
-            for (Expression param: fexpr.getParams()) {
-                collectConstants(param, constants);
+            for (Expression arg: fexpr.getArguments()) {
+                collectConstants(arg, constants);
             }
             collectConstants(fexpr.getFunction(), constants);
             return;

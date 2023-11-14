@@ -17,8 +17,8 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.ui.ide.workbench"
-            description="Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) (Incubation)"
-            name="Eclipse ESCET (Incubation)">
+            description="Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET)"
+            name="Eclipse ESCET">
          <property
                name="appName"
                value="ESCET">

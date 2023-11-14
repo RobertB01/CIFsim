@@ -48,7 +48,7 @@ public class TrimApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         TrimApplication app = new TrimApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link TrimApplication} class. */
@@ -59,7 +59,7 @@ public class TrimApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link TrimApplication} class.
      *
-     * @param streams The streams to use for input, output, and errors.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public TrimApplication(AppStreams streams) {
         super(streams);

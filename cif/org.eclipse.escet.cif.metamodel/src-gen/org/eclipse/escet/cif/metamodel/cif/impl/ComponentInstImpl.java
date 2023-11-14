@@ -45,7 +45,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.ComponentInstImpl#getDefinition <em>Definition</em>}</li>
- *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.ComponentInstImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.impl.ComponentInstImpl#getArguments <em>Arguments</em>}</li>
  * </ul>
  *
  * @generated
@@ -63,14 +63,14 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
     protected CifType definition;
 
     /**
-     * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
+     * The cached value of the '{@link #getArguments() <em>Arguments</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getParameters()
+     * @see #getArguments()
      * @generated
      * @ordered
      */
-    protected EList<Expression> parameters;
+    protected EList<Expression> arguments;
 
     /**
      * <!-- begin-user-doc -->
@@ -149,13 +149,13 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
      * @generated
      */
     @Override
-    public EList<Expression> getParameters()
+    public EList<Expression> getArguments()
     {
-        if (parameters == null)
+        if (arguments == null)
         {
-            parameters = new EObjectContainmentEList<Expression>(Expression.class, this, CifPackage.COMPONENT_INST__PARAMETERS);
+            arguments = new EObjectContainmentEList<Expression>(Expression.class, this, CifPackage.COMPONENT_INST__ARGUMENTS);
         }
-        return parameters;
+        return arguments;
     }
 
     /**
@@ -170,8 +170,8 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
         {
             case CifPackage.COMPONENT_INST__DEFINITION:
                 return basicSetDefinition(null, msgs);
-            case CifPackage.COMPONENT_INST__PARAMETERS:
-                return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
+            case CifPackage.COMPONENT_INST__ARGUMENTS:
+                return ((InternalEList<?>)getArguments()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -188,8 +188,8 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
         {
             case CifPackage.COMPONENT_INST__DEFINITION:
                 return getDefinition();
-            case CifPackage.COMPONENT_INST__PARAMETERS:
-                return getParameters();
+            case CifPackage.COMPONENT_INST__ARGUMENTS:
+                return getArguments();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -208,9 +208,9 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
             case CifPackage.COMPONENT_INST__DEFINITION:
                 setDefinition((CifType)newValue);
                 return;
-            case CifPackage.COMPONENT_INST__PARAMETERS:
-                getParameters().clear();
-                getParameters().addAll((Collection<? extends Expression>)newValue);
+            case CifPackage.COMPONENT_INST__ARGUMENTS:
+                getArguments().clear();
+                getArguments().addAll((Collection<? extends Expression>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -229,8 +229,8 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
             case CifPackage.COMPONENT_INST__DEFINITION:
                 setDefinition((CifType)null);
                 return;
-            case CifPackage.COMPONENT_INST__PARAMETERS:
-                getParameters().clear();
+            case CifPackage.COMPONENT_INST__ARGUMENTS:
+                getArguments().clear();
                 return;
         }
         super.eUnset(featureID);
@@ -248,8 +248,8 @@ public class ComponentInstImpl extends ComponentImpl implements ComponentInst
         {
             case CifPackage.COMPONENT_INST__DEFINITION:
                 return definition != null;
-            case CifPackage.COMPONENT_INST__PARAMETERS:
-                return parameters != null && !parameters.isEmpty();
+            case CifPackage.COMPONENT_INST__ARGUMENTS:
+                return arguments != null && !arguments.isEmpty();
         }
         return super.eIsSet(featureID);
     }

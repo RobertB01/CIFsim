@@ -98,7 +98,7 @@ public class CifIntFuncUtils {
 
     /**
      * Analyze the LHS of an assignment statement for updates to function parameters. Add such updates to the
-     * 'parameters' set.
+     * {@code parameters} set.
      *
      * @param asg Assignment function statement to analyze.
      * @param parameters Function parameters already found to be assigned (updated in-place).

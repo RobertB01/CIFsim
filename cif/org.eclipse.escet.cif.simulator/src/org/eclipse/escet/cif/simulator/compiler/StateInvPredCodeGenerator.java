@@ -23,6 +23,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -123,6 +124,7 @@ public class StateInvPredCodeGenerator {
         String absName = getAbsName(comp);
         c.add("// Invariants for \"%s\".", absName);
 
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (int i = 0; i < invsComps.size(); i++) {
             // New sub method.
             if ((i > 0) && (i % 100 == 0)) {
@@ -149,13 +151,18 @@ public class StateInvPredCodeGenerator {
             }
 
             Invariant inv = invsComps.get(i).left;
-            gencodeEvalInvariant(inv, CifTextUtils.getComponentText2(comp), ctxt, c);
+            exprResults.add(gencodeEvalInvariant(inv, CifTextUtils.getComponentText2(comp), ctxt, c));
         }
 
         c.add("// All invariants satisfied.");
         c.add("return true;");
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult exprResult: exprResults) {
+            exprResult.addExtraMethods(c);
+        }
     }
 
     /**
@@ -174,6 +181,7 @@ public class StateInvPredCodeGenerator {
         c.add("switch (state.%s.%s) {", ctxt.getAutSubStateFieldName(aut), ctxt.getLocationPointerFieldName(aut));
         c.indent();
         List<Location> locs = aut.getLocations();
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (int locIdx = 0; locIdx < locs.size(); locIdx++) {
             // Get location.
             Location loc = locs.get(locIdx);
@@ -195,7 +203,7 @@ public class StateInvPredCodeGenerator {
             c.indent();
 
             for (Invariant inv: locInvs) {
-                gencodeEvalInvariant(inv, CifTextUtils.getLocationText2(loc), ctxt, c);
+                exprResults.add(gencodeEvalInvariant(inv, CifTextUtils.getLocationText2(loc), ctxt, c));
             }
 
             c.add("break;");
@@ -210,6 +218,11 @@ public class StateInvPredCodeGenerator {
 
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult exprResult: exprResults) {
+            exprResult.addExtraMethods(c);
+        }
     }
 
     /**
@@ -220,8 +233,11 @@ public class StateInvPredCodeGenerator {
      *     used in error messages.
      * @param ctxt The compiler context to use.
      * @param c The code box to which to add the code.
+     * @return The {@code ExprCodeGeneratorResult} for the generated Java code.
      */
-    private static void gencodeEvalInvariant(Invariant inv, String parentText, CifCompilerContext ctxt, CodeBox c) {
+    private static ExprCodeGeneratorResult gencodeEvalInvariant(Invariant inv, String parentText,
+            CifCompilerContext ctxt, CodeBox c)
+    {
         Expression pred = inv.getPredicate();
 
         // Start of 'try'.
@@ -230,10 +246,11 @@ public class StateInvPredCodeGenerator {
 
         // Actual invariant predicate evaluation.
         String predTxt = exprToStr(pred);
-        c.add("if (!(%s)) {", gencodeExpr(pred, ctxt, "state"));
+        ExprCodeGeneratorResult result = gencodeExpr(pred, ctxt, "state");
+        c.add("if (!(%s)) {", result);
         c.indent();
-        c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");", escapeJava(predTxt),
-                escapeJava(parentText));
+        c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");",
+                escapeJava(truncate(predTxt, 1000)), escapeJava(parentText));
         c.add("return false;");
         c.dedent();
         c.add("}");
@@ -243,7 +260,7 @@ public class StateInvPredCodeGenerator {
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
-                escapeJava(predTxt), escapeJava(parentText));
+                escapeJava(truncate(predTxt, 1000)), escapeJava(parentText));
         c.dedent();
         c.add("}");
 
@@ -254,6 +271,8 @@ public class StateInvPredCodeGenerator {
         if (inv.getSupKind() == SupKind.REQUIREMENT) {
             warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", predTxt, parentText);
         }
+
+        return result;
     }
 
     /**

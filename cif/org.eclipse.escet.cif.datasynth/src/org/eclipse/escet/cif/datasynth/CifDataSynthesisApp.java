@@ -95,7 +95,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifDataSynthesisApp app = new CifDataSynthesisApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifDataSynthesisApp} class. */
@@ -106,7 +106,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifDataSynthesisApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifDataSynthesisApp(AppStreams streams) {
         super(streams);

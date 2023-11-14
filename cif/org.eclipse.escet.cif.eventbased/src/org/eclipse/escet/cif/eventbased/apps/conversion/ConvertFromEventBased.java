@@ -175,15 +175,15 @@ public class ConvertFromEventBased {
             Event event;
             switch (evt.contr) {
                 case CONTR_EVENT:
-                    event = newEvent(true, name.substring(i), null, null);
+                    event = newEvent(null, true, name.substring(i), null, null);
                     break;
 
                 case PLAIN_EVENT:
-                    event = newEvent(null, name.substring(i), null, null);
+                    event = newEvent(null, null, name.substring(i), null, null);
                     break;
 
                 case UNCONTR_EVENT:
-                    event = newEvent(false, name.substring(i), null, null);
+                    event = newEvent(null, false, name.substring(i), null, null);
                     break;
 
                 default:

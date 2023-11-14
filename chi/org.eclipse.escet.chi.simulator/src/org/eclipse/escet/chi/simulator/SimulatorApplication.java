@@ -80,7 +80,7 @@ public class SimulatorApplication extends Application<OutputComponentBase> {
      */
     public static void main(String[] args) {
         SimulatorApplication app = new SimulatorApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link SimulatorApplication} class. */
@@ -91,7 +91,7 @@ public class SimulatorApplication extends Application<OutputComponentBase> {
     /**
      * Chi simulation application constructor.
      *
-     * @param streams Output streams of the application.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public SimulatorApplication(AppStreams streams) {
         super(streams);

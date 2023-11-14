@@ -2,83 +2,83 @@ DMMs of the "multilevel/simple_lock_state_req.cif" CIF specification.
 
 Plant groups:
 "","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
-"S1_LampEntering",1,0,0,0,0,0,0,0,0,0
-"S1_LampLeaving",0,1,0,0,0,0,0,0,0,0
-"S1_Door_Acc",0,0,1,0,0,0,0,0,0,0
-"S1_Door_Sensor",0,0,1,0,0,0,0,0,0,0
-"S1_Sewer_Acc",0,0,0,1,0,0,0,0,0,0
-"S1_Sewer_Sensor",0,0,0,1,0,0,0,0,0,0
-"S1_EqualWater",0,0,0,0,1,0,0,0,0,0
-"S2_LampEntering",0,0,0,0,0,1,0,0,0,0
-"S2_LampLeaving",0,0,0,0,0,0,1,0,0,0
-"S2_Door_Acc",0,0,0,0,0,0,0,1,0,0
-"S2_Door_Sensor",0,0,0,0,0,0,0,1,0,0
-"S2_Sewer_Acc",0,0,0,0,0,0,0,0,1,0
-"S2_Sewer_Sensor",0,0,0,0,0,0,0,0,1,0
-"S2_EqualWater",0,0,0,0,0,0,0,0,0,1
+"S1_LampEntering","1","0","0","0","0","0","0","0","0","0"
+"S1_LampLeaving","0","1","0","0","0","0","0","0","0","0"
+"S1_Door_Acc","0","0","1","0","0","0","0","0","0","0"
+"S1_Door_Sensor","0","0","1","0","0","0","0","0","0","0"
+"S1_Sewer_Acc","0","0","0","1","0","0","0","0","0","0"
+"S1_Sewer_Sensor","0","0","0","1","0","0","0","0","0","0"
+"S1_EqualWater","0","0","0","0","1","0","0","0","0","0"
+"S2_LampEntering","0","0","0","0","0","1","0","0","0","0"
+"S2_LampLeaving","0","0","0","0","0","0","1","0","0","0"
+"S2_Door_Acc","0","0","0","0","0","0","0","1","0","0"
+"S2_Door_Sensor","0","0","0","0","0","0","0","1","0","0"
+"S2_Sewer_Acc","0","0","0","0","0","0","0","0","1","0"
+"S2_Sewer_Sensor","0","0","0","0","0","0","0","0","1","0"
+"S2_EqualWater","0","0","0","0","0","0","0","0","0","1"
 
 Requirement groups:
 "","RG1","RG2","RG3","RG4","RG5","RG6","RG7","RG8","RG9","RG10","RG11","RG12","RG13","RG14","RG15","RG16","RG17","RG18","RG19","RG20","RG21","RG22","RG23","RG24","RG25","RG26","RG27","RG28","RG29","RG30"
-"requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Sewer_Acc.c_open",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Sewer_Acc.c_open",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S1_EqualWater.Off disables S1_Door_Acc.c_on_open",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Door_Acc.c_on_open",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Door_Acc.c_on_open",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S1_LampLeaving.Green disables S1_LampEntering.c_green",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_Door_Sensor.Open disables S1_LampEntering.c_green",0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_Door_Acc.Rest disables S1_LampEntering.c_green",0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_LampEntering.Red disables S1_Door_Acc.c_on_close",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_LampEntering.Red disables S1_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_LampLeaving.Red disables S1_Door_Acc.c_on_close",0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_LampLeaving.Red disables S1_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S1_LampEntering.Green disables S1_LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_Door_Sensor.Open disables S1_LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S1_Door_Acc.Rest disables S1_LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S2_Sewer_Sensor.On or S2_Sewer_Acc.Open disables S1_Sewer_Acc.c_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S2_Door_Sensor.Closed or S2_Door_Acc.Opening disables S1_Sewer_Acc.c_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S2_EqualWater.Off disables S2_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S2_Sewer_Sensor.On or S2_Sewer_Acc.Open disables S1_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
-"requirement invariant not S2_Door_Sensor.Closed or S2_Door_Acc.Opening disables S1_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
-"requirement invariant S2_LampLeaving.Green disables S2_LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-"requirement invariant not S2_Door_Sensor.Open disables S2_LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
-"requirement invariant not S2_Door_Acc.Rest disables S2_LampEntering.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
-"requirement invariant not S2_LampEntering.Red disables S2_Door_Acc.c_on_close",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-"requirement invariant not S2_LampEntering.Red disables S2_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
-"requirement invariant not S2_LampLeaving.Red disables S2_Door_Acc.c_on_close",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
-"requirement invariant not S2_LampLeaving.Red disables S2_Door_Acc.c_on_open",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-"requirement invariant S2_LampEntering.Green disables S2_LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-"requirement invariant not S2_Door_Sensor.Open disables S2_LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
-"requirement invariant not S2_Door_Acc.Rest disables S2_LampLeaving.c_green",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Sewer_Acc.c_open","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Sewer_Acc.c_open","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S1_EqualWater.Off disables S1_Door_Acc.c_on_open","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Door_Acc.c_on_open","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Door_Acc.c_on_open","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S1_LampLeaving.Green disables S1_LampEntering.c_green","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_Door_Sensor.Open disables S1_LampEntering.c_green","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_Door_Acc.Rest disables S1_LampEntering.c_green","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_LampEntering.Red disables S1_Door_Acc.c_on_close","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_LampEntering.Red disables S1_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_LampLeaving.Red disables S1_Door_Acc.c_on_close","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_LampLeaving.Red disables S1_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S1_LampEntering.Green disables S1_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_Door_Sensor.Open disables S1_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S1_Door_Acc.Rest disables S1_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S2_Sewer_Sensor.On or S2_Sewer_Acc.Open disables S1_Sewer_Acc.c_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S2_Door_Sensor.Closed or S2_Door_Acc.Opening disables S1_Sewer_Acc.c_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S2_EqualWater.Off disables S2_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S2_Sewer_Sensor.On or S2_Sewer_Acc.Open disables S1_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S2_Door_Sensor.Closed or S2_Door_Acc.Opening disables S1_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0"
+"requirement invariant S2_LampLeaving.Green disables S2_LampEntering.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0"
+"requirement invariant not S2_Door_Sensor.Open disables S2_LampEntering.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0"
+"requirement invariant not S2_Door_Acc.Rest disables S2_LampEntering.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0"
+"requirement invariant not S2_LampEntering.Red disables S2_Door_Acc.c_on_close","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0"
+"requirement invariant not S2_LampEntering.Red disables S2_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0"
+"requirement invariant not S2_LampLeaving.Red disables S2_Door_Acc.c_on_close","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0"
+"requirement invariant not S2_LampLeaving.Red disables S2_Door_Acc.c_on_open","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0"
+"requirement invariant S2_LampEntering.Green disables S2_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0"
+"requirement invariant not S2_Door_Sensor.Open disables S2_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0"
+"requirement invariant not S2_Door_Acc.Rest disables S2_LampLeaving.c_green","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
 
 Plant-groups/requirement-groups relations:
 "","PG1","PG2","PG3","PG4","PG5","PG6","PG7","PG8","PG9","PG10"
-"RG1",0,0,0,1,0,0,0,0,1,0
-"RG2",0,0,1,0,0,0,0,0,1,0
-"RG3",0,0,1,0,1,0,0,0,0,0
-"RG4",0,0,0,1,0,0,0,1,0,0
-"RG5",0,0,1,0,0,0,0,1,0,0
-"RG6",1,1,0,0,0,0,0,0,0,0
-"RG7",1,0,1,0,0,0,0,0,0,0
-"RG8",1,0,1,0,0,0,0,0,0,0
-"RG9",1,0,1,0,0,0,0,0,0,0
-"RG10",1,0,1,0,0,0,0,0,0,0
-"RG11",0,1,1,0,0,0,0,0,0,0
-"RG12",0,1,1,0,0,0,0,0,0,0
-"RG13",1,1,0,0,0,0,0,0,0,0
-"RG14",0,1,1,0,0,0,0,0,0,0
-"RG15",0,1,1,0,0,0,0,0,0,0
-"RG16",0,0,0,1,0,0,0,0,1,0
-"RG17",0,0,0,1,0,0,0,1,0,0
-"RG18",0,0,0,0,0,0,0,1,0,1
-"RG19",0,0,1,0,0,0,0,0,1,0
-"RG20",0,0,1,0,0,0,0,1,0,0
-"RG21",0,0,0,0,0,1,1,0,0,0
-"RG22",0,0,0,0,0,1,0,1,0,0
-"RG23",0,0,0,0,0,1,0,1,0,0
-"RG24",0,0,0,0,0,1,0,1,0,0
-"RG25",0,0,0,0,0,1,0,1,0,0
-"RG26",0,0,0,0,0,0,1,1,0,0
-"RG27",0,0,0,0,0,0,1,1,0,0
-"RG28",0,0,0,0,0,1,1,0,0,0
-"RG29",0,0,0,0,0,0,1,1,0,0
-"RG30",0,0,0,0,0,0,1,1,0,0
+"RG1","0","0","0","1","0","0","0","0","1","0"
+"RG2","0","0","1","0","0","0","0","0","1","0"
+"RG3","0","0","1","0","1","0","0","0","0","0"
+"RG4","0","0","0","1","0","0","0","1","0","0"
+"RG5","0","0","1","0","0","0","0","1","0","0"
+"RG6","1","1","0","0","0","0","0","0","0","0"
+"RG7","1","0","1","0","0","0","0","0","0","0"
+"RG8","1","0","1","0","0","0","0","0","0","0"
+"RG9","1","0","1","0","0","0","0","0","0","0"
+"RG10","1","0","1","0","0","0","0","0","0","0"
+"RG11","0","1","1","0","0","0","0","0","0","0"
+"RG12","0","1","1","0","0","0","0","0","0","0"
+"RG13","1","1","0","0","0","0","0","0","0","0"
+"RG14","0","1","1","0","0","0","0","0","0","0"
+"RG15","0","1","1","0","0","0","0","0","0","0"
+"RG16","0","0","0","1","0","0","0","0","1","0"
+"RG17","0","0","0","1","0","0","0","1","0","0"
+"RG18","0","0","0","0","0","0","0","1","0","1"
+"RG19","0","0","1","0","0","0","0","0","1","0"
+"RG20","0","0","1","0","0","0","0","1","0","0"
+"RG21","0","0","0","0","0","1","1","0","0","0"
+"RG22","0","0","0","0","0","1","0","1","0","0"
+"RG23","0","0","0","0","0","1","0","1","0","0"
+"RG24","0","0","0","0","0","1","0","1","0","0"
+"RG25","0","0","0","0","0","1","0","1","0","0"
+"RG26","0","0","0","0","0","0","1","1","0","0"
+"RG27","0","0","0","0","0","0","1","1","0","0"
+"RG28","0","0","0","0","0","1","1","0","0","0"
+"RG29","0","0","0","0","0","0","1","1","0","0"
+"RG30","0","0","0","0","0","0","1","1","0","0"

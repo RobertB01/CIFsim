@@ -534,8 +534,8 @@ public class CifValueUtils {
                 return false;
             }
 
-            for (Expression param: fcexpr.getParams()) {
-                if (!hasSingleValue(param, initial, checkRefs)) {
+            for (Expression arg: fcexpr.getArguments()) {
+                if (!hasSingleValue(arg, initial, checkRefs)) {
                     return false;
                 }
             }
@@ -1036,7 +1036,7 @@ public class CifValueUtils {
      * <p>
      * For function types, a function of the correct type is needed, which returns the default value for the return type
      * of the function. To avoid duplicates, and to allow for the newly created functions to be contained somewhere, the
-     * 'funcs' parameter is used (exposed to the caller). The newly created functions have no name.
+     * {@code funcs} parameter is used (exposed to the caller). The newly created functions have no name.
      * </p>
      *
      * <p>
@@ -1198,15 +1198,15 @@ public class CifValueUtils {
             func.setFunction(StdLibFunction.CONSTANT);
             func.setType(ftype);
 
-            // Get parameter value.
-            Expression param = getDefaultValue(dtype.getSampleType(), funcs);
+            // Get argument.
+            Expression arg = getDefaultValue(dtype.getSampleType(), funcs);
 
             // Create function call expression.
             FunctionCallExpression rslt = newFunctionCallExpression();
             rslt.setType(deepclone(type));
 
             rslt.setFunction(func);
-            rslt.getParams().add(param);
+            rslt.getArguments().add(arg);
 
             return rslt;
         } else {
@@ -1420,8 +1420,8 @@ public class CifValueUtils {
                 }
             }
 
-            for (Expression param: fcexpr.getParams()) {
-                if (!isTimeConstant(param, isInputVarTimeConstant)) {
+            for (Expression arg: fcexpr.getArguments()) {
+                if (!isTimeConstant(arg, isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1776,8 +1776,8 @@ public class CifValueUtils {
 
             // Since only valid expressions are checked, and these are the same functions, they must have the same
             // number of arguments.
-            for (int i = 0; i < fcexpr1.getParams().size(); i++) {
-                if (!areStructurallySameExpression(fcexpr1.getParams().get(i), fcexpr2.getParams().get(i))) {
+            for (int i = 0; i < fcexpr1.getArguments().size(); i++) {
+                if (!areStructurallySameExpression(fcexpr1.getArguments().get(i), fcexpr2.getArguments().get(i))) {
                     return false;
                 }
             }

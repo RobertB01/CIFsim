@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Common Type Checker Functionality (Incubation)
+Bundle-Name: ESCET Common Type Checker Functionality
 Bundle-SymbolicName: org.eclipse.escet.common.typechecker;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.common.typechecker
-Require-Bundle: org.eclipse.escet.common.position.metamodel;bundle-version="1.0.0",
- org.eclipse.escet.common.java;bundle-version="1.0.0",
- org.eclipse.escet.common.emf;bundle-version="1.0.0",
- org.eclipse.escet.common.app.framework;bundle-version="1.0.0"
+Require-Bundle: org.eclipse.escet.common.position.metamodel;bundle-version="2.0.0",
+ org.eclipse.escet.common.java;bundle-version="2.0.0",
+ org.eclipse.escet.common.emf;bundle-version="2.0.0",
+ org.eclipse.escet.common.app.framework;bundle-version="2.0.0"
 Automatic-Module-Name: org.eclipse.escet.common.typechecker

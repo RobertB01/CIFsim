@@ -279,9 +279,10 @@ public class ReportExceptionTest {
     private void test(final Runnable runnable, String expected) {
         // Create streams.
         AppStream outStream = new MemAppStream();
+        AppStream warnStream = new MemAppStream();
         AppStream errStream = new MemAppStream();
         errStream.setUnixNewLineBytes();
-        AppStreams streams = new AppStreams(System.in, outStream, errStream);
+        AppStreams streams = new AppStreams(System.in, outStream, warnStream, errStream);
 
         // Create application.
         Application<?> app = new Application<>(streams) {
@@ -319,7 +320,7 @@ public class ReportExceptionTest {
         AppManager.add(app, null);
 
         // Run application.
-        app.run(new String[] {"--gui=off"}, false);
+        app.runApplication(new String[] {"--gui=off"}, false);
 
         // Remove application from application manager.
         AppManager.remove(app);

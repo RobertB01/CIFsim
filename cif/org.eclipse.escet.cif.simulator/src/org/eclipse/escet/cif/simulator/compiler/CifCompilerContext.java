@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.eclipse.core.resources.IFolder;
@@ -207,7 +208,7 @@ public class CifCompilerContext {
     public static final String FILE_EXT_EDGE_DATA = "edgedata";
 
     /** The 'tau' event. */
-    public final Event tauEvent = newEvent(null, "tau", null, null);
+    public final Event tauEvent = newEvent(null, null, "tau", null, null);
 
     /** The application compiling the CIF specification. Is {@code null} if not yet or no longer available. */
     public Application<?> app;
@@ -424,6 +425,12 @@ public class CifCompilerContext {
 
     /** The Java compiler to use to compile the generated code. */
     private RuntimeJavaCompiler compiler;
+
+    /**
+     * Generator used to create successive unique numbers to use as postfixes for the names of extra methods in
+     * {@link ExprCodeGeneratorResult}.
+     */
+    public final AtomicInteger exprCodeGenExtraMethodCounter = new AtomicInteger();
 
     /**
      * Sets the specification being compiled.

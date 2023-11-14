@@ -476,8 +476,9 @@ public class CifScopeUtils {
      * Returns the object with the given name, from the given scope.
      *
      * @param scope The scope. Must not be a 'via' scope (a component instantiation scope or component parameter scope).
-     * @param name The name of the object to get. Must exist in the given scope.
+     * @param name The name of the object to get. Should exist in the given scope.
      * @return The object.
+     * @throws IllegalArgumentException If no object with the given name is available in the provided scope.
      * @see #getSymbolNamesForScope
      */
     public static PositionObject getObject(PositionObject scope, String name) {
@@ -1200,10 +1201,10 @@ public class CifScopeUtils {
     }
 
     /**
-     * Is the given reference expression a reference via/to a formal parameter of a component definition?
+     * Is the given reference expression a reference via/to a parameter of a component definition?
      *
      * @param refExpr The reference expression.
-     * @return {@code true} if the reference expression refers via/to a formal parameter of a component definition,
+     * @return {@code true} if the reference expression refers via/to a parameter of a component definition,
      *     {@code false} otherwise.
      */
     public static boolean isParamRefExpr(Expression refExpr) {
@@ -1235,7 +1236,7 @@ public class CifScopeUtils {
             return a.eContainer() instanceof Parameter;
         }
 
-        // Not a reference via/to a formal parameter of a component definition.
+        // Not a reference via/to a parameter of a component definition.
         return false;
     }
 
@@ -1321,8 +1322,8 @@ public class CifScopeUtils {
             // Recursive.
             FunctionCallExpression fcexpr = (FunctionCallExpression)expr;
             collectRefExprs(fcexpr.getFunction(), rslt);
-            for (Expression param: fcexpr.getParams()) {
-                collectRefExprs(param, rslt);
+            for (Expression arg: fcexpr.getArguments()) {
+                collectRefExprs(arg, rslt);
             }
         } else if (expr instanceof ListExpression) {
             // Recursive.

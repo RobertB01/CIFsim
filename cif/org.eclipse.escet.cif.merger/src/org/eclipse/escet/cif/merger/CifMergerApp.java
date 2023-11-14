@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
 import org.eclipse.escet.common.app.framework.Application;
@@ -52,7 +53,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifMergerApp app = new CifMergerApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifMergerApp} class. */
@@ -63,7 +64,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifMergerApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifMergerApp(AppStreams streams) {
         super(streams);
@@ -160,6 +161,8 @@ public class CifMergerApp extends Application<IOutputComponent> {
             // Same checks as CIF type checker, in same order.
             CyclePostChecker.check(mergedSpec, env);
             new CifSvgPostChecker(env).check(mergedSpec);
+            new CifAnnotationsPostChecker(env).check(mergedSpec);
+            // EventsPostChecker skipped (no new problems).
             // CifPrintPostChecker skipped (warnings only, no new problems).
             // SingleEventUsePerAutPostChecker skipped (no new problems).
         } catch (SemanticException ex) {

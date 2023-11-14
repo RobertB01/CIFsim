@@ -88,6 +88,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
+import org.eclipse.escet.cif.typechecker.declwrap.AlgParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.AlgVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.ConstDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.ContVariableDeclWrap;
@@ -96,13 +97,12 @@ import org.eclipse.escet.cif.typechecker.declwrap.DiscVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EnumLiteralDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.EventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalAlgDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalEventDeclWrap;
-import org.eclipse.escet.cif.typechecker.declwrap.FormalLocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.FuncVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.InputVariableDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
+import org.eclipse.escet.cif.typechecker.declwrap.LocationParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.TypeDeclWrap;
 import org.eclipse.escet.common.box.Boxable;
 import org.eclipse.escet.common.emf.EMFHelper;
@@ -490,8 +490,8 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             SymbolScope<?> scope = (SymbolScope<?>)entry;
             Expression rslt = scope.resolveAsExpr(name, position, done, tchecker);
 
-            // Make sure we don't refer to a formal parameter via a component
-            // instantiation or via a component parameter.
+            // Make sure we don't refer to a parameter of a component definition
+            // via a component instantiation or via a component parameter.
             if (scope instanceof CompInstScope || scope instanceof CompParamScope) {
                 if (isParamRefExpr(rslt)) {
                     int nextIdx = name.indexOf('.');
@@ -662,8 +662,8 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             rslt.setType(t);
 
             return rslt;
-        } else if (entry instanceof FormalAlgDeclWrap) {
-            AlgVariable a = ((FormalAlgDeclWrap)entry).getObject().getVariable();
+        } else if (entry instanceof AlgParamDeclWrap) {
+            AlgVariable a = ((AlgParamDeclWrap)entry).getObject().getVariable();
 
             AlgVariableExpression rslt = newAlgVariableExpression();
             rslt.setPosition(toPosition(position));
@@ -671,8 +671,8 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             rslt.setType(changePositions(EMFHelper.deepclone(a.getType()), rslt.getPosition()));
 
             return rslt;
-        } else if (entry instanceof FormalEventDeclWrap) {
-            Event e = ((FormalEventDeclWrap)entry).getObject().getEvent();
+        } else if (entry instanceof EventParamDeclWrap) {
+            Event e = ((EventParamDeclWrap)entry).getObject().getEvent();
 
             BoolType t = newBoolType();
             t.setPosition(toPosition(position));
@@ -683,8 +683,8 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             rslt.setType(t);
 
             return rslt;
-        } else if (entry instanceof FormalLocationDeclWrap) {
-            Location l = ((FormalLocationDeclWrap)entry).getObject().getLocation();
+        } else if (entry instanceof LocationParamDeclWrap) {
+            Location l = ((LocationParamDeclWrap)entry).getObject().getLocation();
 
             BoolType t = newBoolType();
             t.setPosition(toPosition(position));
@@ -881,8 +881,8 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             SymbolScope<?> scope = (SymbolScope<?>)entry;
             CifType rslt = scope.resolveAsType(name, position, done, tchecker);
 
-            // Make sure we don't refer to a formal parameter via a component
-            // instantiation or via a component parameter.
+            // Make sure we don't refer to a parameter of a component definition
+            // via a component instantiation or via a component parameter.
             if (scope instanceof CompInstScope || scope instanceof CompParamScope) {
                 if (rslt instanceof CompParamWrapType) {
                     int nextIdx = name.indexOf('.');
@@ -941,12 +941,12 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             throw new RuntimeException("Can't ref enum literal in type.");
         } else if (entry instanceof EventDeclWrap) {
             throw new RuntimeException("Can't ref event in type.");
-        } else if (entry instanceof FormalAlgDeclWrap) {
-            throw new RuntimeException("Can't ref formal alg in type.");
-        } else if (entry instanceof FormalEventDeclWrap) {
-            throw new RuntimeException("Can't ref formal event in type.");
-        } else if (entry instanceof FormalLocationDeclWrap) {
-            throw new RuntimeException("Can't ref formal location in type.");
+        } else if (entry instanceof AlgParamDeclWrap) {
+            throw new RuntimeException("Can't ref alg param in type.");
+        } else if (entry instanceof EventParamDeclWrap) {
+            throw new RuntimeException("Can't ref event param in type.");
+        } else if (entry instanceof LocationParamDeclWrap) {
+            throw new RuntimeException("Can't ref location param in type.");
         } else if (entry instanceof FuncParamDeclWrap) {
             throw new RuntimeException("Can't ref func param in type.");
         } else if (entry instanceof FuncVariableDeclWrap) {

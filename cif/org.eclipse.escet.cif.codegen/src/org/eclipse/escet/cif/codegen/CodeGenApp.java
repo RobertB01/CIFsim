@@ -52,7 +52,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CodeGenApp app = new CodeGenApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CodeGenApp} class. */
@@ -63,7 +63,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CodeGenApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CodeGenApp(AppStreams streams) {
         super(streams);

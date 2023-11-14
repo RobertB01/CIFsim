@@ -435,35 +435,47 @@ public enum ErrMsg {
     BINOP_OVERFLOW("Binary operator \"%s\" is applied to values of type \"%s\" and \"%s\", "
             + "and this could result in integer overflow.", 3, ERROR),
 
-    // ComponentInst.parameterCount
-    COMP_INST_PARAM_COUNT("The number of arguments (%s) of component instantiation \"%s\" does not match "
+    // ComponentInst.argumentCount
+    COMP_INST_ARG_COUNT("The number of arguments (%s) of component instantiation \"%s\" does not match "
             + "the number of parameters (%s) of component definition \"%s\".", 4, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_TYPE(
-            "Definition/instantiation parameter mismatch for the %s parameter of \"%s\": %s argument required.", 3,
-            ERROR),
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_TYPE(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires %s, "
+                    + "but the supplied argument of instantiation \"%s\" is not %s.",
+            6, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_ALG_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the algebraic parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_ALG_TYPES(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" is an algebraic "
+                    + "parameter of type \"%s\", while the supplied argument of instantiation \"%s\" is of type "
+                    + "\"%s\".",
+            6, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_COMP_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the component parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_COMP_TYPES(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" is of type "
+                    + "\"%s\", while the supplied argument of instantiation \"%s\" is of type \"%s\".",
+            6, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_CONTR_MISMATCH("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter is \"%s\", while the argument is \"%s\".", 4, ERROR),
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_CONTR_MISMATCH(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires %s "
+                    + "event, while the event supplied as argument of instantiation \"%s\" is \"%s\".",
+            6, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_EVENT_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter %s, while the event used as argument %s.", 4, ERROR),
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_EVENT_TYPES(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires an "
+                    + "event %s, while the event supplied as argument of instantiation \"%s\" %s.",
+            6, ERROR),
 
-    // ComponentInst.parameterTypes
-    COMP_INST_PARAM_EVENT_FLAG("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter requires an event with %s usage, "
-            + "while the event used as argument doesn't allow that usage.", 3, ERROR),
+    // ComponentInst.argumentTypes
+    COMP_INST_ARG_EVENT_FLAG(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires an "
+                    + "event that allows %s usage, while the event supplied as argument of instantiation \"%s\" "
+                    + "doesn't allow that usage.",
+            5, ERROR),
 
     // Warn user about accidentally creating a dubious specification.
     AUT_NO_INIT_LOC("Automaton \"%s\" has no initial location.", 1, WARNING),
@@ -529,7 +541,7 @@ public enum ErrMsg {
     EDGE_NON_LOC_TARGET("\"%s\" is not a location.", 1, ERROR),
 
     // Edge.targetInScope
-    EDGE_TGT_FORMAL_PARAM(
+    EDGE_TGT_LOC_PARAM(
             "Target location \"%s\" is a location parameter, while a location of automaton \"%s\" is expected.", 2,
             ERROR),
 
@@ -773,11 +785,33 @@ public enum ErrMsg {
     PRINT_DUPL_FILE("Duplicate print file declared in %s.", 1, ERROR),
 
     // Print.duplFor
-    PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING);
+    PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING),
 
-    // The following metamodel constraints are satisfied by construction:
+    // AnnotatedObject.uniqueAnnotations
+    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for \"%s\".", 2, ERROR),
+
+    // Annotation.annotationSpecificErrors
+    ANNO_SPECIFIC_ERR("Annotation \"%s\": %s", 2, ERROR),
+
+    // Annotation.annotationSpecificWarnings
+    ANNO_SPECIFIC_WARN("Annotation \"%s\": %s", 2, WARNING),
+
+    // Annotation.registeredName
+    ANNO_UNREGISTERED_NAME("Unknown annotation name \"%s\": "
+            + "no annotation provider is registered for it in the current environment.", 1, WARNING),
+
+    // Annotation.uniqueArguments
+    ANNO_DUPL_ARG("Duplicate argument \"%s\" for annotation \"%s\".", 2, ERROR),
+
+    // Type checker related constraints.
+    ANNO_PROVIDER_ERROR("Annotation \"%s\": %s", 2, ERROR);
+
+    // The following metamodel constraints are satisfied by parsing or metamodel construction:
     // - AlgVariableExpression.type
     // - AlgParameter.noValue
+    // - AnnotatedObject.onlyForInputVariables
+    // - Annotation.validName
+    // - AnnotationArgument.validName
     // - Automaton.noFuncDecl
     // - BoolExpression.type
     // - CompInstWrapExpression.noCompDefBody

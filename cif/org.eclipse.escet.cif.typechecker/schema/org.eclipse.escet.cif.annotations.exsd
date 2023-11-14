@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.escet.cif.typechecker" xmlns="http://www.w3.org/2001/XMLSchema">
+   <annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.escet.cif.typechecker" id="org.eclipse.escet.cif.annotations" name="CIF Annotations"/>
+      </appinfo>
+      <documentation>
+         CIF features annotations. This extension point allows contributing annotation providers.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="provider"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The id of the extension point.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  The id of the extension. Not used.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  The name of the extension. Not used.
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="provider">
+      <annotation>
+         <documentation>
+            A CIF annotation provider.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="annotationName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the annotation for which this provider is the annotation provider. For instance: &apos;myanno&apos; or &apos;some:anno&apos;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class that implements the annotation provider.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="plugin" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The full name of the OSGi plugin that provides the provider class.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         &lt;extension point=&quot;org.eclipse.escet.cif.annotations&quot;&gt;
+   &lt;provider annotationName=&quot;my:anno&quot; plugin=&quot;my.company.cif.annotations&quot; class=&quot;my.company.cif.annotations.MyAnnotationProvider&quot;/&gt;
+&lt;/extension&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2023 Contributors to the Eclipse Foundation
+      </documentation>
+   </annotation>
+
+</schema>

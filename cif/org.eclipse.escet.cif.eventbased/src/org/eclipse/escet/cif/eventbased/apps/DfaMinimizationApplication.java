@@ -52,7 +52,7 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         DfaMinimizationApplication app = new DfaMinimizationApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link DfaMinimizationApplication} class. */
@@ -63,7 +63,7 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link DfaMinimizationApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public DfaMinimizationApplication(AppStreams streams) {
         super(streams);

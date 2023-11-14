@@ -43,7 +43,7 @@ public class CifToCifApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifToCifApp app = new CifToCifApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifToCifApp} class. */
@@ -54,7 +54,7 @@ public class CifToCifApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifToCifApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifToCifApp(AppStreams streams) {
         super(streams);

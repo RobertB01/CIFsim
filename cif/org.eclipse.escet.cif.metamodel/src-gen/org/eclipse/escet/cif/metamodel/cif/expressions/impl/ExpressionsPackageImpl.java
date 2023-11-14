@@ -24,6 +24,10 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.AutomataPackageImpl;
@@ -426,7 +430,6 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
     {
         super(eNS_URI, ExpressionsFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -474,6 +477,8 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         CifsvgPackageImpl theCifsvgPackage = (CifsvgPackageImpl)(registeredPackage instanceof CifsvgPackageImpl ? registeredPackage : CifsvgPackage.eINSTANCE);
         registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrintPackage.eNS_URI);
         PrintPackageImpl thePrintPackage = (PrintPackageImpl)(registeredPackage instanceof PrintPackageImpl ? registeredPackage : PrintPackage.eINSTANCE);
+        registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
+        AnnotationsPackageImpl theAnnotationsPackage = (AnnotationsPackageImpl)(registeredPackage instanceof AnnotationsPackageImpl ? registeredPackage : AnnotationsPackage.eINSTANCE);
 
         // Create package meta-data objects
         theExpressionsPackage.createPackageContents();
@@ -484,6 +489,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         theFunctionsPackage.createPackageContents();
         theCifsvgPackage.createPackageContents();
         thePrintPackage.createPackageContents();
+        theAnnotationsPackage.createPackageContents();
 
         // Initialize created meta-data
         theExpressionsPackage.initializePackageContents();
@@ -494,6 +500,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         theFunctionsPackage.initializePackageContents();
         theCifsvgPackage.initializePackageContents();
         thePrintPackage.initializePackageContents();
+        theAnnotationsPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theExpressionsPackage.freeze();
@@ -663,7 +670,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
      * @generated
      */
     @Override
-    public EReference getFunctionCallExpression_Params()
+    public EReference getFunctionCallExpression_Arguments()
     {
         return (EReference)functionCallExpressionEClass.getEStructuralFeatures().get(0);
     }
@@ -1598,7 +1605,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         createEAttribute(intExpressionEClass, INT_EXPRESSION__VALUE);
 
         functionCallExpressionEClass = createEClass(FUNCTION_CALL_EXPRESSION);
-        createEReference(functionCallExpressionEClass, FUNCTION_CALL_EXPRESSION__PARAMS);
+        createEReference(functionCallExpressionEClass, FUNCTION_CALL_EXPRESSION__ARGUMENTS);
         createEReference(functionCallExpressionEClass, FUNCTION_CALL_EXPRESSION__FUNCTION);
 
         ifExpressionEClass = createEClass(IF_EXPRESSION);
@@ -1815,7 +1822,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         initEAttribute(getIntExpression_Value(), ecorePackage.getEInt(), "value", null, 1, 1, IntExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(functionCallExpressionEClass, FunctionCallExpression.class, "FunctionCallExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getFunctionCallExpression_Params(), this.getExpression(), null, "params", null, 0, -1, FunctionCallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getFunctionCallExpression_Arguments(), this.getExpression(), null, "arguments", null, 0, -1, FunctionCallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getFunctionCallExpression_Function(), this.getExpression(), null, "function", null, 1, 1, FunctionCallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(ifExpressionEClass, IfExpression.class, "IfExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -20,7 +20,6 @@ import "station6.cif";
 
 // Elevator is only allowed to ascend when it is safe.
 requirement {A_elevator_up.c_on, A_elevator_down.c_off} needs S_transfer_athalfway.On;
-requirement {A_elevator_up.c_on, A_elevator_down.c_off} needs S_reflective.Off;
 
 // Transfer is allowed to move towards droppos when:
 //  - Currently at drop.

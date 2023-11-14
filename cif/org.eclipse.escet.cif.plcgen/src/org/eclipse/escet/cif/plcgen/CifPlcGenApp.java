@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
+import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
 import org.eclipse.escet.cif.plcgen.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.plcgen.options.PlcFormalFuncInvokeArgOption;
 import org.eclipse.escet.cif.plcgen.options.PlcFormalFuncInvokeFuncOption;
@@ -54,6 +55,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** PLC code generator application. */
 public class CifPlcGenApp extends Application<IOutputComponent> {
@@ -64,7 +66,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         CifPlcGenApp app = new CifPlcGenApp();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link CifPlcGenApp} class. */
@@ -75,7 +77,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifPlcGenApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifPlcGenApp(AppStreams streams) {
         super(streams);
@@ -146,7 +148,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         int priority = PlcTaskPriorityOption.getTaskPrio();
 
         String inputPath = InputFileOption.getPath();
-        String outputPath = Paths.resolve(OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement()));
+        String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
+        String ioTablePath = IoTablePathOption.getDerivedPath();
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
         PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
@@ -157,11 +160,11 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
 
         boolean warnOnRename = RenameWarningsOption.isEnabled();
-        WarnOutput warnOutput = message -> OutputProvider.warn(message);
+        WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), outputPath, intSize, realSize, simplifyValues, enumConversion,
-                shouldTerminate, warnOnRename, warnOutput);
+                inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath),
+                intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override
@@ -177,6 +180,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         List<Option> applicationOpts = list();
         applicationOpts.add(Options.getInstance(InputFileOption.class));
         applicationOpts.add(Options.getInstance(OutputFileOption.class));
+        applicationOpts.add(Options.getInstance(IoTablePathOption.class));
         applicationOpts.add(Options.getInstance(PlcTargetTypeOption.class));
         applicationOpts.add(Options.getInstance(PlcConfigurationNameOption.class));
         applicationOpts.add(Options.getInstance(PlcProjectNameOption.class));

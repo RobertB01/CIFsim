@@ -69,7 +69,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         Cif2Mcrl2Application cmApp = new Cif2Mcrl2Application();
-        cmApp.run(args);
+        cmApp.run(args, true);
     }
 
     /** Constructor for the {@link Cif2Mcrl2Application} class. */
@@ -80,7 +80,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
     /**
      * Constructor of the {@link Cif2Mcrl2Application} class.
      *
-     * @param streams The streams to use for input, output, and errors.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public Cif2Mcrl2Application(AppStreams streams) {
         super(streams);

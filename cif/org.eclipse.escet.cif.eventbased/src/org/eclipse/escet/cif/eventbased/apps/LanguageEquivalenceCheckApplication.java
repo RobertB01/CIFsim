@@ -55,7 +55,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
      */
     public static void main(String[] args) {
         LanguageEquivalenceCheckApplication app = new LanguageEquivalenceCheckApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link LanguageEquivalenceCheckApplication} class. */
@@ -66,7 +66,7 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
     /**
      * Constructor of the {@link LanguageEquivalenceCheckApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public LanguageEquivalenceCheckApplication(AppStreams streams) {
         super(streams);

@@ -1,0 +1,10 @@
+Loading CIF specification "controllercheck/confluence/mutual_exclusive1.cif"...
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (DifferentLocs.a, DifferentLocs.b)
+
+CONCLUSION:
+    Finite response checking was disabled, finite response property is unknown.
+    [OK] The specification has confluence.

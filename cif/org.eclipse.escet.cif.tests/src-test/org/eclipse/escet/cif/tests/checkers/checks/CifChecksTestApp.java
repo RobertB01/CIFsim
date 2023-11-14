@@ -41,7 +41,7 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link CifChecksTestApp} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public CifChecksTestApp(AppStreams streams) {
         super(streams);

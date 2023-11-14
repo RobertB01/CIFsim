@@ -258,7 +258,7 @@ public abstract class BaseFileCommandHandler extends AbstractHandler {
 
         // Run application.
         String[] args = getCommandLineArgs(files, parentDir);
-        int exitCode = app.run(args);
+        int exitCode = app.run(args, false);
 
         // Refresh projects, asynchronously.
         Thread refreshThread = new Thread(() -> refreshFileProjects(files));

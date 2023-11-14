@@ -17,7 +17,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-/** A tuple of input, output, and error streams. */
+/** A tuple of input, output, warning, and error streams. */
 public class AppStreams {
     /** The buffered input stream reader. */
     public final BufferedReader in;
@@ -28,14 +28,18 @@ public class AppStreams {
     /** The output stream. */
     public final AppStream out;
 
+    /** The warning stream. */
+    public final AppStream warn;
+
     /** The error stream. */
     public final AppStream err;
 
     /**
-     * Constructor for the {@link AppStreams} class. Uses {@link System#in}, {@link System#out}, and {@link System#err}.
+     * Constructor for the {@link AppStreams} class. Uses {@link System#in}, {@link System#out}, and {@link System#err}
+     * (for warnings and errors).
      */
     public AppStreams() {
-        this(System.in, StdAppStream.OUT, StdAppStream.ERR);
+        this(System.in, StdAppStream.OUT, StdAppStream.ERR, StdAppStream.ERR);
     }
 
     /**
@@ -43,12 +47,14 @@ public class AppStreams {
      *
      * @param in The input stream.
      * @param out The output stream.
+     * @param warn The warning stream.
      * @param err The error stream.
      */
-    public AppStreams(InputStream in, AppStream out, AppStream err) {
+    public AppStreams(InputStream in, AppStream out, AppStream warn, AppStream err) {
         this.in = new BufferedReader(new InputStreamReader(in));
         this.inStream = in;
         this.out = out;
+        this.warn = warn;
         this.err = err;
     }
 }

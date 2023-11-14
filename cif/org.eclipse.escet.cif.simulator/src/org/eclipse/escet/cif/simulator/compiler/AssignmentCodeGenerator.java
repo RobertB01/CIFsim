@@ -27,6 +27,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 import java.util.Map;
@@ -76,9 +77,10 @@ public class AssignmentCodeGenerator {
      * @param ctxt The compiler context to use.
      * @param state The name of the state variable in the context where the generated code is used. Must be {@code null}
      *     for functions, and the source state variable name for edges of automata.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    public static void gencodeAssignment(Expression addr, Expression value, Automaton aut, CodeBox c,
-            CifCompilerContext ctxt, String state)
+    public static List<ExprCodeGeneratorResult> gencodeAssignment(Expression addr, Expression value, Automaton aut,
+            CodeBox c, CifCompilerContext ctxt, String state)
     {
         // Paranoia check.
         Assert.check((aut == null) == (state == null));
@@ -105,8 +107,9 @@ public class AssignmentCodeGenerator {
         }
 
         // Generate code for each core assignment.
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (CoreAssignment core: cores) {
-            core.genCode();
+            exprResults.addAll(core.genCode());
         }
 
         // Generate code for the assignment of the actual addressable
@@ -120,6 +123,8 @@ public class AssignmentCodeGenerator {
             c.dedent();
             c.add("}");
         }
+
+        return exprResults;
     }
 
     /**
@@ -253,17 +258,24 @@ public class AssignmentCodeGenerator {
             }
         }
 
-        /** Generate actual assignment code for the core assignment. */
-        public void genCode() {
+        /**
+         * Generate actual assignment code for the core assignment.
+         *
+         * @return The {@code ExprCodeGeneratorResult} for the generated Java code.
+         */
+        public List<ExprCodeGeneratorResult> genCode() {
             // Start of 'try'.
             c.add("try {");
             c.indent();
 
             // Special case, and general case.
+            List<ExprCodeGeneratorResult> exprResults = list();
             if (addr instanceof DiscVariableExpression || addr instanceof ContVariableExpression) {
                 // Special case for very simple addressables (no tuples, no
                 // projections).
-                String rhsCode = gencodeExpr(value, ctxt, "source");
+                ExprCodeGeneratorResult result = gencodeExpr(value, ctxt, "source");
+                String rhsCode = result.toString();
+                exprResults.add(result);
                 gencodeAddrVarAsgn(addr, rhsCode);
 
                 // Generate type range bound check if needed, on entire value
@@ -274,10 +286,12 @@ public class AssignmentCodeGenerator {
 
                 // Tuples and/or projections. Create a local scope, and
                 // evaluate the rhs.
+                ExprCodeGeneratorResult result = gencodeExpr(value, ctxt, state);
+                exprResults.add(result);
                 c.add("{");
                 c.indent();
-                c.add("%s rhs = %s;", gencodeType(value.getType(), ctxt), gencodeExpr(value, ctxt, state));
-                gencodeComplex(addr, "rhs", value.getType());
+                c.add("%s rhs = %s;", gencodeType(value.getType(), ctxt), result);
+                exprResults.addAll(gencodeComplex(addr, "rhs", value.getType()));
                 c.dedent();
                 c.add("}");
             }
@@ -287,9 +301,11 @@ public class AssignmentCodeGenerator {
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Execution of assignment \\\"%s := %s\\\" failed.\", e, %s);",
-                    escapeJava(exprToStr(addr)), escapeJava(exprToStr(value)), state);
+                    escapeJava(truncate(exprToStr(addr), 1000)), escapeJava(truncate(exprToStr(value), 1000)), state);
             c.dedent();
             c.add("}");
+
+            return exprResults;
         }
 
         /**
@@ -298,19 +314,21 @@ public class AssignmentCodeGenerator {
          * @param addr The (part of the) addressable for which to generate the code.
          * @param rhsRefCode The Java code fragment to refer to the rhs value for the (part of the) addressable.
          * @param rhsType The type of the rhs value for the (part of the) addressable.
+         * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
          */
-        private void gencodeComplex(Expression addr, String rhsRefCode, CifType rhsType) {
+        private List<ExprCodeGeneratorResult> gencodeComplex(Expression addr, String rhsRefCode, CifType rhsType) {
             // Unfold tuples.
             if (addr instanceof TupleExpression) {
                 TupleExpression taddr = (TupleExpression)addr;
                 TupleType type = (TupleType)normalizeType(taddr.getType());
+                List<ExprCodeGeneratorResult> exprResults = list();
                 for (int i = 0; i < taddr.getFields().size(); i++) {
                     Expression subAddr = taddr.getFields().get(i);
                     CifType subType = type.getFields().get(i).getType();
                     String newRhs = rhsRefCode + "." + ctxt.getTupleTypeFieldFieldName(type, i);
-                    gencodeComplex(subAddr, newRhs, subType);
+                    exprResults.addAll(gencodeComplex(subAddr, newRhs, subType));
                 }
-                return;
+                return exprResults;
             }
 
             // Special case for very simple addressables (no projections).
@@ -323,7 +341,7 @@ public class AssignmentCodeGenerator {
                 gencodeTypeRangeBoundCheck(addr, gencodeAddrVarRef(addr), rhsType, addr.getType(), 0);
 
                 // Done with special case.
-                return;
+                return list();
             }
 
             // Projected addressable. Create a local scope to unsure that we
@@ -347,6 +365,7 @@ public class AssignmentCodeGenerator {
             // Generate code for the (calculation of) projection indices.
             List<String> idxCodes = listc(projs.size());
             boolean anyIdxVars = false;
+            List<ExprCodeGeneratorResult> exprResults = list();
             for (int i = 0; i < projs.size(); i++) {
                 ProjectionExpression proj = projs.get(i);
                 CifType nctype = childTypes.get(i);
@@ -354,14 +373,18 @@ public class AssignmentCodeGenerator {
                 if (nctype instanceof ListType) {
                     // Generate code to compute index value, and use the local
                     // variable whenever we need it.
-                    c.add("int idx%d = %s;", i, gencodeExpr(proj.getIndex(), ctxt, state));
+                    ExprCodeGeneratorResult result = gencodeExpr(proj.getIndex(), ctxt, state);
+                    c.add("int idx%d = %s;", i, result);
+                    exprResults.add(result);
                     anyIdxVars = true;
                     idxCodes.add("idx" + i);
                 } else if (nctype instanceof DictType) {
                     // Generate code to compute key value, and use the local
                     // variable whenever we need it.
                     CifType keyType = ((DictType)nctype).getKeyType();
-                    c.add("%s key%d = %s;", gencodeType(keyType, ctxt), i, gencodeExpr(proj.getIndex(), ctxt, state));
+                    ExprCodeGeneratorResult result = gencodeExpr(proj.getIndex(), ctxt, state);
+                    c.add("%s key%d = %s;", gencodeType(keyType, ctxt), i, result);
+                    exprResults.add(result);
                     anyIdxVars = true;
                     idxCodes.add("key" + i);
                 } else if (nctype instanceof TupleType) {
@@ -461,6 +484,8 @@ public class AssignmentCodeGenerator {
             // Close the local scope.
             c.dedent();
             c.add("}");
+
+            return exprResults;
         }
 
         /**

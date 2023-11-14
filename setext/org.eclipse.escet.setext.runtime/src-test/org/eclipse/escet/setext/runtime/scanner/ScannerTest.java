@@ -223,14 +223,14 @@ public class ScannerTest {
         for (boolean optimize: new boolean[] {false, true}) {
             // Create in-memory stream to hold the debug output.
             MemAppStream stream = new MemAppStream();
-            AppStreams streams = new AppStreams(System.in, stream, stream);
+            AppStreams streams = new AppStreams(System.in, stream, stream, stream);
 
             // Create dummy application. Registers the application with the
             // application framework as well.
             new DummyApplication(streams);
 
             // Register output component.
-            IOutputComponent output = new StreamOutputComponent(stream, stream);
+            IOutputComponent output = new StreamOutputComponent(stream, stream, stream);
             OutputProvider.register(output);
 
             try {

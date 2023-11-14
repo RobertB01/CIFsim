@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.texteditor;
 
+import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.ANNOTATION;
 import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.C_EVENT;
 import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.DEFAULT;
 import static org.eclipse.escet.cif.texteditor.CifTextEditorStylable.E_EVENT;
@@ -54,7 +55,8 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
         String[] operators = CifScanner.getKeywords("Operator");
 
         // Regular expression patterns for identifiers and names.
-        String idPat = "[$]?[A-Za-z_][A-Za-z0-9_]*";
+        String uIdPat = "[A-Za-z_][A-Za-z0-9_]*";
+        String idPat = fmt("[$]?%s", uIdPat);
         String namePat = fmt("[.^]?%s([.]%s)*", idPat, idPat);
 
         String cEvtPat = "[$]?c_[A-Za-z0-9_]+";
@@ -64,6 +66,9 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
         String cNamePat = fmt("[.^]?(%s[.])*%s", idPat, cEvtPat);
         String uNamePat = fmt("[.^]?(%s[.])*%s", idPat, uEvtPat);
         String eNamePat = fmt("[.^]?(%s[.])*%s", idPat, eEvtPat);
+
+        // Regular expression pattern for annotation names.
+        String annoNamePat = fmt("@%s(:%s)*", uIdPat, uIdPat);
 
         // Regular expression pattern for reals. Note that for the second line,
         // if we switch the alternatives, we get into trouble, as anything
@@ -88,6 +93,7 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
                 new RegExRule(cNamePat, theme.getStyle(C_EVENT).createToken(manager)),
                 new RegExRule(eNamePat, theme.getStyle(E_EVENT).createToken(manager)),
                 new RegExRule(namePat, theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RegExRule(annoNamePat, theme.getStyle(ANNOTATION).createToken(manager)),
                 new RegExRule(realPat, theme.getStyle(NUMBER).createToken(manager)),
                 new IntNumberRule(theme.getStyle(NUMBER).createToken(manager)),
                 new WhitespaceRule(new GenericWhitespaceDetector()),

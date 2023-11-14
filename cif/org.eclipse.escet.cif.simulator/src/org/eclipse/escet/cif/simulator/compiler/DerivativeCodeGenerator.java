@@ -62,6 +62,7 @@ public class DerivativeCodeGenerator {
 
         // Add methods for the derivatives.
         for (ContVariable var: variables) {
+            List<ExprCodeGeneratorResult> exprResults = list();
             if (!c.isEmpty()) {
                 c.add();
             }
@@ -75,7 +76,9 @@ public class DerivativeCodeGenerator {
             // Try to find derivative in declaration.
             boolean found = false;
             if (var.getDerivative() != null) {
-                c.add("return %s;", gencodeExpr(var.getDerivative(), ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(var.getDerivative(), ctxt, "state");
+                c.add("return %s;", result);
+                exprResults.add(result);
                 found = true;
             }
 
@@ -84,7 +87,9 @@ public class DerivativeCodeGenerator {
                 ComplexComponent comp = (ComplexComponent)var.eContainer();
                 for (Equation eq: comp.getEquations()) {
                     if (eq.getVariable() == var) {
-                        c.add("return %s;", gencodeExpr(eq.getValue(), ctxt, "state"));
+                        ExprCodeGeneratorResult result = gencodeExpr(eq.getValue(), ctxt, "state");
+                        c.add("return %s;", result);
+                        exprResults.add(result);
                         found = true;
                         break;
                     }
@@ -93,7 +98,7 @@ public class DerivativeCodeGenerator {
 
             // Find equations per location.
             if (!found) {
-                gencodeDerivativesPerLoc(var, ctxt, c);
+                exprResults.addAll(gencodeDerivativesPerLoc(var, ctxt, c));
             }
 
             // End of 'try'.
@@ -108,6 +113,11 @@ public class DerivativeCodeGenerator {
             // End of the method.
             c.dedent();
             c.add("}");
+
+            // Add potential extra expression evaluation methods.
+            for (ExprCodeGeneratorResult exprResult: exprResults) {
+                exprResult.addExtraMethods(c);
+            }
         }
     }
 
@@ -118,8 +128,11 @@ public class DerivativeCodeGenerator {
      * @param var The continuous variable.
      * @param ctxt The compiler context to use.
      * @param c The code box in which to generate the code.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeDerivativesPerLoc(ContVariable var, CifCompilerContext ctxt, CodeBox c) {
+    private static List<ExprCodeGeneratorResult> gencodeDerivativesPerLoc(ContVariable var, CifCompilerContext ctxt,
+            CodeBox c)
+    {
         // Get automaton.
         Automaton aut = (Automaton)var.eContainer();
 
@@ -129,14 +142,16 @@ public class DerivativeCodeGenerator {
 
         // Generate a 'case' per location.
         List<Location> locs = aut.getLocations();
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (int locIdx = 0; locIdx < locs.size(); locIdx++) {
             Location loc = locs.get(locIdx);
 
             boolean found = false;
             for (Equation eq: loc.getEquations()) {
                 if (eq.getVariable() == var) {
-                    c.add("case %s: return %s;", ctxt.getLocationValueText(loc, locIdx),
-                            gencodeExpr(eq.getValue(), ctxt, "state"));
+                    ExprCodeGeneratorResult result = gencodeExpr(eq.getValue(), ctxt, "state");
+                    c.add("case %s: return %s;", ctxt.getLocationValueText(loc, locIdx), result);
+                    exprResults.add(result);
                     found = true;
                     break;
                 }
@@ -151,6 +166,8 @@ public class DerivativeCodeGenerator {
         // Close 'switch'.
         c.dedent();
         c.add("}");
+
+        return exprResults;
     }
 
     /**

@@ -52,7 +52,7 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
      */
     public static void main(String[] args) {
         AutomatonAbstractionApplication app = new AutomatonAbstractionApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link AutomatonAbstractionApplication} class. */
@@ -63,7 +63,7 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
     /**
      * Constructor of the {@link AutomatonAbstractionApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public AutomatonAbstractionApplication(AppStreams streams) {
         super(streams);

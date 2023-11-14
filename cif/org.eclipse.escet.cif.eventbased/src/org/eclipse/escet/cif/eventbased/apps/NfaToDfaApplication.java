@@ -49,7 +49,7 @@ public class NfaToDfaApplication extends Application<IOutputComponent> {
      */
     public static void main(String[] args) {
         NfaToDfaApplication app = new NfaToDfaApplication();
-        app.run(args);
+        app.run(args, true);
     }
 
     /** Constructor for the {@link NfaToDfaApplication} class. */
@@ -60,7 +60,7 @@ public class NfaToDfaApplication extends Application<IOutputComponent> {
     /**
      * Constructor for the {@link NfaToDfaApplication} class.
      *
-     * @param streams The streams to use for input, output, and error streams.
+     * @param streams The streams to use for input, output, warning, and error streams.
      */
     public NfaToDfaApplication(AppStreams streams) {
         super(streams);

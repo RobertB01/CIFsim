@@ -43,6 +43,10 @@ import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotationsPackageImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.AutomataPackageImpl;
@@ -221,7 +225,6 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
     {
         super(eNS_URI, CifFactory.eINSTANCE);
     }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -269,6 +272,8 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         CifsvgPackageImpl theCifsvgPackage = (CifsvgPackageImpl)(registeredPackage instanceof CifsvgPackageImpl ? registeredPackage : CifsvgPackage.eINSTANCE);
         registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrintPackage.eNS_URI);
         PrintPackageImpl thePrintPackage = (PrintPackageImpl)(registeredPackage instanceof PrintPackageImpl ? registeredPackage : PrintPackage.eINSTANCE);
+        registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
+        AnnotationsPackageImpl theAnnotationsPackage = (AnnotationsPackageImpl)(registeredPackage instanceof AnnotationsPackageImpl ? registeredPackage : AnnotationsPackage.eINSTANCE);
 
         // Create package meta-data objects
         theCifPackage.createPackageContents();
@@ -279,6 +284,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         theFunctionsPackage.createPackageContents();
         theCifsvgPackage.createPackageContents();
         thePrintPackage.createPackageContents();
+        theAnnotationsPackage.createPackageContents();
 
         // Initialize created meta-data
         theCifPackage.initializePackageContents();
@@ -289,6 +295,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         theFunctionsPackage.initializePackageContents();
         theCifsvgPackage.initializePackageContents();
         thePrintPackage.initializePackageContents();
+        theAnnotationsPackage.initializePackageContents();
 
         // Register package validator
         EValidator.Registry.INSTANCE.put
@@ -426,7 +433,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
      * @generated
      */
     @Override
-    public EReference getComponentInst_Parameters()
+    public EReference getComponentInst_Arguments()
     {
         return (EReference)componentInstEClass.getEStructuralFeatures().get(1);
     }
@@ -860,7 +867,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
 
         componentInstEClass = createEClass(COMPONENT_INST);
         createEReference(componentInstEClass, COMPONENT_INST__DEFINITION);
-        createEReference(componentInstEClass, COMPONENT_INST__PARAMETERS);
+        createEReference(componentInstEClass, COMPONENT_INST__ARGUMENTS);
 
         complexComponentEClass = createEClass(COMPLEX_COMPONENT);
         createEReference(complexComponentEClass, COMPLEX_COMPONENT__DECLARATIONS);
@@ -944,6 +951,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         FunctionsPackage theFunctionsPackage = (FunctionsPackage)EPackage.Registry.INSTANCE.getEPackage(FunctionsPackage.eNS_URI);
         CifsvgPackage theCifsvgPackage = (CifsvgPackage)EPackage.Registry.INSTANCE.getEPackage(CifsvgPackage.eNS_URI);
         PrintPackage thePrintPackage = (PrintPackage)EPackage.Registry.INSTANCE.getEPackage(PrintPackage.eNS_URI);
+        AnnotationsPackage theAnnotationsPackage = (AnnotationsPackage)EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
         PositionPackage thePositionPackage = (PositionPackage)EPackage.Registry.INSTANCE.getEPackage(PositionPackage.eNS_URI);
 
         // Add subpackages
@@ -954,6 +962,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         getESubpackages().add(theFunctionsPackage);
         getESubpackages().add(theCifsvgPackage);
         getESubpackages().add(thePrintPackage);
+        getESubpackages().add(theAnnotationsPackage);
 
         // Create type parameters
 
@@ -989,7 +998,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
 
         initEClass(componentInstEClass, ComponentInst.class, "ComponentInst", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getComponentInst_Definition(), theTypesPackage.getCifType(), null, "definition", null, 1, 1, ComponentInst.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getComponentInst_Parameters(), theExpressionsPackage.getExpression(), null, "parameters", null, 0, -1, ComponentInst.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getComponentInst_Arguments(), theExpressionsPackage.getExpression(), null, "arguments", null, 0, -1, ComponentInst.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(complexComponentEClass, ComplexComponent.class, "ComplexComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getComplexComponent_Declarations(), theDeclarationsPackage.getDeclaration(), null, "declarations", null, 0, -1, ComplexComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

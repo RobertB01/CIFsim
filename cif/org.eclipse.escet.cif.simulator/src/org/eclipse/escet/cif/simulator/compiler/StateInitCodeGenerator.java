@@ -17,6 +17,7 @@ import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.DefaultValueCodeGenerator.getDefaultValueCode;
@@ -26,6 +27,7 @@ import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencode
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
 
@@ -132,6 +134,7 @@ public class StateInitCodeGenerator {
         c.add("private static void initState0(State state, Object[] optValues, Integer[] optLocIndices) {");
         c.indent();
         c.add("boolean b;");
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (int i = 0; i < objs.size(); i++) {
             // New sub method.
             if ((i > 0) && (i % maxObjCount == 0)) {
@@ -150,13 +153,13 @@ public class StateInitCodeGenerator {
             PositionObject obj = objs.get(i);
             if (obj instanceof DiscVariable) {
                 // Generate code to initialize the variable.
-                gencodeInitDiscVar(variables, (DiscVariable)obj, c, ctxt);
+                exprResults.addAll(gencodeInitDiscVar(variables, (DiscVariable)obj, c, ctxt));
             } else if (obj instanceof InputVariable) {
                 // Generate code to initialize the variable.
                 gencodeInitInputVar(variables, (InputVariable)obj, c, ctxt);
             } else if (obj instanceof ContVariable) {
                 // Generate code to initialize the variable.
-                gencodeInitContVar((ContVariable)obj, c, ctxt);
+                exprResults.add(gencodeInitContVar((ContVariable)obj, c, ctxt));
             } else if (obj instanceof Location) {
                 // Generate code to initialize the automaton. If this location
                 // is an initial location, the initial location of the
@@ -165,7 +168,7 @@ public class StateInitCodeGenerator {
                 // initial locations, the automaton is already initialized,
                 // and this can be report here, as unsupported.
                 Location loc = (Location)obj;
-                gencodeInitLoc(automata, loc, c, ctxt);
+                exprResults.add(gencodeInitLoc(automata, loc, c, ctxt));
             } else if (obj instanceof Automaton) {
                 // Generate code to check for initialization of the automaton.
                 // If not initialized, initialization has failed.
@@ -176,6 +179,11 @@ public class StateInitCodeGenerator {
         }
         c.dedent();
         c.add("}");
+
+        // Add potential extra expression evaluation methods.
+        for (ExprCodeGeneratorResult exprResult: exprResults) {
+            exprResult.addExtraMethods(c);
+        }
     }
 
     /**
@@ -185,8 +193,9 @@ public class StateInitCodeGenerator {
      * @param var The discrete variable.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult}s for the generated Java code.
      */
-    private static void gencodeInitDiscVar(List<Declaration> vars, DiscVariable var, CodeBox c,
+    private static List<ExprCodeGeneratorResult> gencodeInitDiscVar(List<Declaration> vars, DiscVariable var, CodeBox c,
             CifCompilerContext ctxt)
     {
         // Get potential initial values ('null' for default initial value).
@@ -213,11 +222,14 @@ public class StateInitCodeGenerator {
         String subStateName = ctxt.getAutSubStateFieldName((Automaton)var.eContainer());
         String varName = ctxt.getDiscVarFieldName(var);
         String fieldTxt = fmt("state.%s.%s", subStateName, varName);
+        List<ExprCodeGeneratorResult> exprResults = list();
         for (Expression initValue: initValues) {
             // Evaluate initial value.
             if (initValue == null) {
                 // Default initial value.
-                c.add("v = %s;", getDefaultValueCode(var.getType(), ctxt));
+                ExprCodeGeneratorResult result = getDefaultValueCode(var.getType(), ctxt);
+                c.add("v = %s;", result);
+                exprResults.add(result);
             } else {
                 // User-specified initial value. For the wrapped exception, we
                 // don't provide the state, as during initialization the state
@@ -225,13 +237,16 @@ public class StateInitCodeGenerator {
                 c.add("try {");
                 c.indent();
 
-                c.add("v = %s;", gencodeExpr(initValue, ctxt, "state"));
+                ExprCodeGeneratorResult result = gencodeExpr(initValue, ctxt, "state");
+                c.add("v = %s;", result);
+                exprResults.add(result);
 
                 c.dedent();
                 c.add("} catch (CifSimulatorException e) {");
                 c.indent();
                 c.add("throw new CifSimulatorException(\"Evaluation of initial value \\\"%s\\\" of discrete variable "
-                        + "\\\"%s\\\" failed.\", e);", escapeJava(exprToStr(initValue)), getAbsName(var));
+                        + "\\\"%s\\\" failed.\", e);", escapeJava(truncate(exprToStr(initValue), 1000)),
+                        getAbsName(var));
                 c.dedent();
                 c.add("}");
             }
@@ -290,6 +305,8 @@ public class StateInitCodeGenerator {
         // Close local scope.
         c.dedent();
         c.add("}");
+
+        return exprResults;
     }
 
     /**
@@ -343,8 +360,9 @@ public class StateInitCodeGenerator {
      * @param var The continuous variable.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult} for the generated Java code.
      */
-    private static void gencodeInitContVar(ContVariable var, CodeBox c, CifCompilerContext ctxt) {
+    private static ExprCodeGeneratorResult gencodeInitContVar(ContVariable var, CodeBox c, CifCompilerContext ctxt) {
         // Get sub-state name.
         String subStateName;
         if (var.eContainer() instanceof Automaton) {
@@ -359,6 +377,7 @@ public class StateInitCodeGenerator {
         if (valueExpr == null) {
             // Default initial value.
             c.add("state.%s.%s = 0.0;", subStateName, varName);
+            return new ExprCodeGeneratorResult("0.0", newRealType());
         } else {
             // User-specified initial value. For the wrapped exception, we
             // don't provide the state, as during initialization the state
@@ -366,15 +385,17 @@ public class StateInitCodeGenerator {
             c.add("try {");
             c.indent();
 
-            c.add("state.%s.%s = %s;", subStateName, varName, gencodeExpr(valueExpr, ctxt, "state"));
+            ExprCodeGeneratorResult result = gencodeExpr(valueExpr, ctxt, "state");
+            c.add("state.%s.%s = %s;", subStateName, varName, result);
 
             c.dedent();
             c.add("} catch (CifSimulatorException e) {");
             c.indent();
             c.add("throw new CifSimulatorException(\"Evaluation of initial value \\\"%s\\\" of continuous variable "
-                    + "\\\"%s\\\" failed.\", e);", escapeJava(exprToStr(valueExpr)), getAbsName(var));
+                    + "\\\"%s\\\" failed.\", e);", escapeJava(truncate(exprToStr(valueExpr), 1000)), getAbsName(var));
             c.dedent();
             c.add("}");
+            return result;
         }
     }
 
@@ -385,20 +406,25 @@ public class StateInitCodeGenerator {
      * @param loc The location.
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
+     * @return The {@code ExprCodeGeneratorResult} for the generated Java code.
      */
-    private static void gencodeInitLoc(List<Automaton> automata, Location loc, CodeBox c, CifCompilerContext ctxt) {
+    private static ExprCodeGeneratorResult gencodeInitLoc(List<Automaton> automata, Location loc, CodeBox c,
+            CifCompilerContext ctxt)
+    {
         // Evaluate initialization predicates. For the wrapped exception, we
         // don't provide the state, as during initialization the state may be
         // incomplete.
         List<Expression> initials = loc.getInitials();
         c.add("try {");
         c.indent();
-        c.add("b = %s;", gencodePreds(initials, ctxt, "state", "false"));
+        ExprCodeGeneratorResult exprResult = gencodePreds(initials, ctxt, "state", "false");
+        c.add("b = %s;", exprResult);
         c.dedent();
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
         c.add("throw new CifSimulatorException(\"Evaluation of initialization predicates \\\"%s\\\" of %s failed.\", "
-                + "e);", escapeJava(exprsToStr(initials)), escapeJava(CifTextUtils.getLocationText2(loc)));
+                + "e);", escapeJava(truncate(exprsToStr(initials), 1000)),
+                escapeJava(CifTextUtils.getLocationText2(loc)));
         c.dedent();
         c.add("}");
 
@@ -429,6 +455,8 @@ public class StateInitCodeGenerator {
         c.add("}");
         c.dedent();
         c.add("}");
+
+        return exprResult;
     }
 
     /**

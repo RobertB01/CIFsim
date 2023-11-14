@@ -127,7 +127,7 @@ public class CifAutomatonBuilder {
             if (decl instanceof Event) {
                 Event oldEvent = (Event)decl;
                 Boolean ctl = oldEvent.getControllable();
-                Event newEvent = newEvent(ctl, oldEvent.getName(), null, null);
+                Event newEvent = newEvent(null, ctl, oldEvent.getName(), null, null);
                 grp.getDeclarations().add(newEvent);
                 evtMap.put(oldEvent, newEvent);
                 nonEmpty = true;

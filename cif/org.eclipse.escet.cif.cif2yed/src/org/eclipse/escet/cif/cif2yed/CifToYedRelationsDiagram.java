@@ -614,11 +614,11 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
 
             // Add event parameters.
             for (int i = 0; i < cdef.getParameters().size(); i++) {
-                // Get formal parameter and actual argument.
+                // Get parameter and arguments.
                 Parameter param = cdef.getParameters().get(i);
                 Expression arg = null;
                 if (inst != null) {
-                    arg = inst.getParameters().get(i);
+                    arg = inst.getArguments().get(i);
                 }
 
                 // Get parameter node id. Determine whether to collect
@@ -888,7 +888,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
     }
 
     /**
-     * Add a relation between a parameter and an actual argument.
+     * Add a relation between a parameter and an argument.
      *
      * @param param The parameter. May be an {@link EventParameter}, {@link LocationParameter}, or an
      *     {@link AlgParameter}.
@@ -1625,7 +1625,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
      * <p>
      * Since the result is a list of reference expressions, it may contain duplicates. It may contain structurally
      * identical reference expressions. It may also contain structurally different reference expressions that via
-     * different parameters refer to the same actual objects, given the available actual arguments.
+     * different parameters refer to the same actual objects, given the available arguments.
      * </p>
      *
      * @param aut The automaton.
@@ -1660,7 +1660,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
      * <p>
      * Since the result is a list of reference expressions, it may contain duplicates. It may contain structurally
      * identical reference expressions. It may also contain structurally different reference expressions that via
-     * different parameters refer to the same actual objects, given the available actual arguments.
+     * different parameters refer to the same actual objects, given the available arguments.
      * </p>
      *
      * @param aut The automaton.
@@ -1686,7 +1686,7 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
      * <p>
      * Since the result is a list of reference expressions, it may contain duplicates. It may contain structurally
      * identical reference expressions. It may also contain structurally different reference expressions that via
-     * different parameters refer to the same actual objects, given the available actual arguments.
+     * different parameters refer to the same actual objects, given the available arguments.
      * </p>
      *
      * @param aut The automaton.

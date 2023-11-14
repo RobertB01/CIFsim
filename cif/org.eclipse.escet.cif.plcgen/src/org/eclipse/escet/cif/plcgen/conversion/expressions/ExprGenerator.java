@@ -123,7 +123,8 @@ public class ExprGenerator {
 
     /**
      * Access to PLC equivalents of CIF data, used in expression conversions. Used when resolving CIF data references in
-     * the {@link #convertAddressable} and {@link #convertValue} functions.
+     * the {@link #convertVariableAddressable}, {@link #convertProjectedAddressable} and {@link #convertValue}
+     * functions.
      *
      * <p>
      * May be the same as {@link #scopeCifProvider}, or access may have been altered using
@@ -293,8 +294,8 @@ public class ExprGenerator {
      *
      * <p>
      * Use this scope CIF data provider only to create new data providers on top of the scope CIF data provider. Such
-     * new data providers can be with {@link #setCurrentCifDataProvider}. To convert values and addressables, use
-     * {@link #convertValue} and {@link #convertAddressable}, respectively.
+     * new data providers can be set with {@link #setCurrentCifDataProvider}. To convert values and addressables, use
+     * {@link #convertValue}, {@link #convertVariableAddressable} and {@link #convertProjectedAddressable}.
      * </p>
      *
      * @return The CIF data provider from the scope in which this expression generator is used.
@@ -324,12 +325,14 @@ public class ExprGenerator {
     }
 
     /**
-     * Convert a CIF expression to a combination of a PLC write-only expression, used variables, and statements.
+     * Convert a CIF variable expression to a combination of a PLC write-only expression, used variables, and
+     * statements.
      *
-     * @param expr CIF expression to convert.
+     * @param expr CIF expression to convert. Must be a {@link DiscVariableExpression} or a
+     *     {@link ContVariableExpression}.
      * @return The converted expression.
      */
-    public ExprAddressableResult convertAddressable(Expression expr) {
+    public ExprAddressableResult convertVariableAddressable(Expression expr) {
         if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
             return new ExprAddressableResult(this)
@@ -337,9 +340,8 @@ public class ExprGenerator {
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprAddressableResult(this)
                     .setValue(currentCifProvider.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
-        } else if (expr instanceof ProjectionExpression pe) {
-            return convertProjectionAddressable(pe);
         }
+        // Intentionally leaving out writing to an input variable, as such expressions should not exist in CIF.
         throw new RuntimeException("Unexpected expr: " + expr);
     }
 
@@ -383,7 +385,8 @@ public class ExprGenerator {
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof ConstantExpression ce) {
-            return new ExprValueResult(this).setValue(currentCifProvider.getValueForConstant(ce.getConstant()));
+            // TODO: Replace by the name of a constant in the PLC.
+            return convertValue(ce.getConstant().getValue());
         } else if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
             return new ExprValueResult(this).setValue(currentCifProvider.getValueForDiscVar(de.getVariable()));
@@ -849,7 +852,7 @@ public class ExprGenerator {
      * @param expr Projection expression to convert.
      * @return The converted expression.
      */
-    private ExprAddressableResult convertProjectionAddressable(Expression expr) {
+    public ExprAddressableResult convertProjectedAddressable(Expression expr) {
         // Unwrap and store the nested projections, last projection at index 0.
         List<ProjectionExpression> projections = list();
         while (expr instanceof ProjectionExpression proj) {
@@ -859,7 +862,7 @@ public class ExprGenerator {
         Assert.check(!projections.isEmpty());
 
         // Convert the projection root value and make it usable for the PLC.
-        ExprAddressableResult exprResult = convertAddressable(expr);
+        ExprAddressableResult exprResult = convertVariableAddressable(expr);
 
         // Build new PLC projections expressions with the parent variable and the collected projections.
         PlcVarExpression varExpr = new PlcVarExpression(exprResult.value.variable,
@@ -960,10 +963,10 @@ public class ExprGenerator {
      * @return The converted expression.
      */
     private ExprValueResult convertFuncCallExpr(FunctionCallExpression funcCallExpr) {
-        // Convert all parameters of the call.
-        List<ExprValueResult> argumentResults = listc(funcCallExpr.getParams().size());
-        for (Expression param: funcCallExpr.getParams()) {
-            argumentResults.add(convertValue(param));
+        // Convert all arguments of the call.
+        List<ExprValueResult> argumentResults = listc(funcCallExpr.getArguments().size());
+        for (Expression arg: funcCallExpr.getArguments()) {
+            argumentResults.add(convertValue(arg));
         }
 
         // Dispatch call construction based on the function being called.
@@ -985,7 +988,7 @@ public class ExprGenerator {
     private ExprValueResult convertStdlibExpr(FunctionCallExpression stdlibCallExpr,
             List<ExprValueResult> argumentResults)
     {
-        List<Expression> arguments = stdlibCallExpr.getParams();
+        List<Expression> arguments = stdlibCallExpr.getArguments();
         StdLibFunction stdlib = ((StdLibFunctionExpression)stdlibCallExpr.getFunction()).getFunction();
         switch (stdlib) {
             case ABS: {
@@ -1054,7 +1057,7 @@ public class ExprGenerator {
 
             case MAXIMUM:
             case MINIMUM: {
-                // TODO Both MIN and MAX are n-ary functions in the PLC (just like disjucntion, add, or conjunction).
+                // TODO Both MIN and MAX are n-ary functions in the PLC (just like disjunction, add, or conjunction).
                 Assert.check(argumentResults.size() == 2);
                 CifType ltype = normalizeType(arguments.get(0).getType());
                 CifType rtype = normalizeType(arguments.get(1).getType());

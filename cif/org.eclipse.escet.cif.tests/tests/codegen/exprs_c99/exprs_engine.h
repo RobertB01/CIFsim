@@ -78,7 +78,9 @@ extern const char *exprs_event_names[];
 extern IntType x1_; /**< Constant "x1". */
 
 /* Input variables. */
-extern IntType x8_; /**< Input variable "int x8". */
+
+/** Input variable "int x8". */
+extern IntType x8_;
 
 extern void exprs_AssignInputVariables();
 

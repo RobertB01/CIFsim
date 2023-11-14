@@ -16,20 +16,27 @@ package org.eclipse.escet.cif.plcgen.targets;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.InputOutputGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
+import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Base class for generating a {@link PlcProject}. */
 public abstract class PlcBaseTarget implements PlcTarget {
@@ -49,7 +56,10 @@ public abstract class PlcBaseTarget implements PlcTarget {
     private PlcNumberBits realTypeSize;
 
     /** Absolute base path to which to write the generated code. */
-    private String outputPath;
+    private String absOutputPath;
+
+    /** Callback to send warnings to the user. */
+    private WarnOutput warnOutput;
 
     /** Conversion of PLC models to text for the target. */
     private final ModelTextGenerator modelTextGenerator = new ModelTextGenerator();
@@ -59,6 +69,12 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Generates PLC code for performing CIF event transitions. */
     protected TransitionGenerator transitionGenerator;
+
+    /** Code generator for handling continuous behavior. */
+    private ContinuousVariablesGenerator continuousVariablesGenerator;
+
+    /** Generator that creates input and output PLC code. */
+    protected InputOutputGenerator ioGenerator;
 
     /** Handles storage and retrieval of globally used variables in the PLC program. */
     protected VariableStorage varStorage;
@@ -89,28 +105,26 @@ public abstract class PlcBaseTarget implements PlcTarget {
     public void setup(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
-        outputPath = settings.outputPath;
+        absOutputPath = settings.absOutputPath;
+        warnOutput = settings.warnOutput;
 
         // Warn the user about getting a possibly too small integer type size.
         if (settings.intTypeSize.getTypeSize(CIF_INTEGER_SIZE) < CIF_INTEGER_SIZE) {
-            settings.warnOutput.warn(
+            warnOutput.line(
                     "Configured integer type size is less than the CIF integer type size. Some values in the program "
                             + "may be truncated.");
         } else if (getMaxIntegerTypeSize() < CIF_INTEGER_SIZE) {
-            settings.warnOutput
-                    .warn("Maximum integer type size supported by the PLC is less than the CIF integer type size. Some "
-                            + "values in the program may be truncated.");
+            warnOutput.line("Maximum integer type size supported by the PLC is less than the CIF integer type size. "
+                    + "Some values in the program may be truncated.");
         }
 
         // Warn the user about getting a possibly too small real type size.
         if (settings.realTypeSize.getTypeSize(CIF_REAL_SIZE) < CIF_REAL_SIZE) {
-            settings.warnOutput
-                    .warn("Configured real type size is less than the CIF real type size. Some values in the program "
-                            + "may be truncated.");
+            warnOutput.line("Configured real type size is less than the CIF real type size. Some values in the program "
+                    + "may be truncated.");
         } else if (getMaxRealTypeSize() < CIF_REAL_SIZE) {
-            settings.warnOutput
-                    .warn("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
-                            + "values in the program may be truncated.");
+            warnOutput.line("Maximum real type size supported by the PLC is less than the CIF real type size. Some "
+                    + "values in the program may be truncated.");
         }
     }
 
@@ -128,9 +142,23 @@ public abstract class PlcBaseTarget implements PlcTarget {
         varStorage = new DefaultVariableStorage(this);
         cifProcessor = new CifProcessor(this, settings);
         transitionGenerator = new DefaultTransitionGenerator(this);
+        ioGenerator = new InputOutputGenerator(this, settings);
+        continuousVariablesGenerator = new DefaultContinuousVariablesGenerator(this);
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Add code and data to variable storage for the previously supplied continuous variables.
+        continuousVariablesGenerator.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Generate input and output code.
+        ioGenerator.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
@@ -143,6 +171,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
         // Generate the event transition functions.
         transitionGenerator.generate();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
 
         // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
@@ -179,6 +210,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
     @Override
     public TransitionGenerator getTransitionGenerator() {
         return transitionGenerator;
+    }
+
+    @Override
+    public ContinuousVariablesGenerator getContinuousVariablesGenerator() {
+        return continuousVariablesGenerator;
     }
 
     @Override
@@ -246,8 +282,21 @@ public abstract class PlcBaseTarget implements PlcTarget {
     }
 
     @Override
+    public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
+            String tableLinePositionText)
+    {
+        if (parsedAddress.size() > getMaxIntegerTypeSize()) {
+            // Accept everything, but give a warning if trouble may arise at runtime.
+            warnOutput.line(
+                    "Size of I/O address \"%s\" (of %d bits) exceeds the size of the largest supported integer type "
+                            + "(of %d bits).",
+                    parsedAddress.getAddress(), parsedAddress.size(), getMaxIntegerTypeSize());
+        }
+    }
+
+    @Override
     public void writeOutput(PlcProject project) {
         Writer writer = getPlcCodeWriter();
-        writer.write(project, outputPath);
+        writer.write(project, absOutputPath);
     }
 }
