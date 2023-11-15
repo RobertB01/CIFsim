@@ -30,7 +30,7 @@ public class PlcFuncApplStatement extends PlcStatement {
      *
      * @param funcApplExpr Function application to use as statement. The outer performed function must have a prefix
      *     notation.
-     * @see PlcTarget#getsupportedFuncNotations
+     * @see PlcTarget#getSupportedFuncNotations
      */
     public PlcFuncApplStatement(PlcFuncAppl funcApplExpr) {
         Assert.check(!isEmptyIntersection(PlcFuncNotation.NOT_INFIX, funcApplExpr.function.notations),
