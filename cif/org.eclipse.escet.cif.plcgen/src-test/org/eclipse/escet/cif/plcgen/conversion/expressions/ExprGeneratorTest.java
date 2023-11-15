@@ -551,7 +551,7 @@ public class ExprGeneratorTest {
         Expression child = newBoolExpression(null, newBoolType(), true);
         Expression expr = newUnaryExpression(child, UnaryOperator.INVERSE, null, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> NOT(TRUE)";
+        String expectedText = "==> NOT TRUE";
         assertEquals(expectedText, realText);
 
         // -(1.58)
@@ -569,7 +569,7 @@ public class ExprGeneratorTest {
         Expression right = newBoolExpression(null, newBoolType(), false);
         Expression expr = newBinaryExpression(left, BinaryOperator.IMPLICATION, null, right, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> FALSE OR NOT(TRUE)";
+        String expectedText = "==> FALSE OR NOT TRUE";
         assertEquals(expectedText, realText);
     }
 
