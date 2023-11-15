@@ -162,21 +162,21 @@ BEGIN
             ELSIF syncAutEdge = 13 THEN
                 aut_r := LN(current_aut_r) / LN(10.0);
             ELSIF syncAutEdge = 14 THEN
-                aut_i := MIN(IN1 := current_aut_i, IN2 := current_aut_i);
+                aut_i := MIN(current_aut_i, current_aut_i);
             ELSIF syncAutEdge = 15 THEN
-                aut_r := MIN(IN1 := DINT_TO_REAL(current_aut_i), IN2 := current_aut_r);
+                aut_r := MIN(DINT_TO_REAL(current_aut_i), current_aut_r);
             ELSIF syncAutEdge = 16 THEN
-                aut_r := MIN(IN1 := current_aut_r, IN2 := DINT_TO_REAL(current_aut_i));
+                aut_r := MIN(current_aut_r, DINT_TO_REAL(current_aut_i));
             ELSIF syncAutEdge = 17 THEN
-                aut_r := MIN(IN1 := current_aut_r, IN2 := current_aut_r);
+                aut_r := MIN(current_aut_r, current_aut_r);
             ELSIF syncAutEdge = 18 THEN
-                aut_i := MAX(IN1 := current_aut_i, IN2 := current_aut_i);
+                aut_i := MAX(current_aut_i, current_aut_i);
             ELSIF syncAutEdge = 19 THEN
-                aut_r := MAX(IN1 := DINT_TO_REAL(current_aut_i), IN2 := current_aut_r);
+                aut_r := MAX(DINT_TO_REAL(current_aut_i), current_aut_r);
             ELSIF syncAutEdge = 20 THEN
-                aut_r := MAX(IN1 := current_aut_r, IN2 := DINT_TO_REAL(current_aut_i));
+                aut_r := MAX(current_aut_r, DINT_TO_REAL(current_aut_i));
             ELSIF syncAutEdge = 21 THEN
-                aut_r := MAX(IN1 := current_aut_r, IN2 := current_aut_r);
+                aut_r := MAX(current_aut_r, current_aut_r);
             ELSIF syncAutEdge = 22 THEN
                 aut_i := REAL_TO_DINT(EXPT(DINT_TO_REAL(aut_i2), DINT_TO_REAL(aut_i3)));
             ELSIF syncAutEdge = 23 THEN
