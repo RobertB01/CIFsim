@@ -130,13 +130,13 @@ public class SiemensS7Target extends PlcBaseTarget {
         // more parameters.
         EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
                 STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
-        if (notFormalFuncs.contains(funcOper) || numArgs > 2) {
+        if (notFormalFuncs.contains(funcOper) || numArgs >= 2) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.remove(PlcFuncNotation.FORMAL);
             return funcSupport;
         }
 
-        // Functions that should always be formal (derived from cif2plc test).
+        // Functions that should always be formal.
         EnumSet<PlcFuncOperation> formalFuncs = EnumSet.of(STDLIB_MIN, STDLIB_MAX);
         if (formalFuncs.contains(funcOper)) {
             funcSupport = EnumSet.copyOf(funcSupport);

@@ -76,7 +76,7 @@ public class TwinCatTarget extends PlcBaseTarget {
         // or more parameters.
         EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
                 STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
-        if (notFormalFuncs.contains(funcOper) || numArgs > 2) {
+        if (notFormalFuncs.contains(funcOper) || numArgs >= 2) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.remove(PlcFuncNotation.FORMAL);
             return funcSupport;
