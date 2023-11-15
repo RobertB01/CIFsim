@@ -46,7 +46,7 @@
             <command
                   commandId="org.eclipse.escet.cif.plcgen.CifPlcGenCommand"
                   icon="icons/cif_app.png"
-                  label="Generate &amp;PLCgen code for CIF specification...">
+                  label="Generate &amp;PLC code for CIF specification... (experimental)">
                <visibleWhen>
                   <or>
                      <with variable="activeMenuSelection">
