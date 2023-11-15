@@ -34,7 +34,7 @@ public class PlcCastFunction extends PlcBasicFuncDescription {
      *
      * @param childType Type of the function application child expression.
      * @param resultType Type of the function application result.
-     * @param notations Supported notations of the function by the target.
+     * @param notations Notations of the function that are supported by the target.
      */
     public PlcCastFunction(PlcElementaryType childType, PlcElementaryType resultType,
             EnumSet<PlcFuncNotation> notations)
