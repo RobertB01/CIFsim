@@ -468,13 +468,10 @@ public class PlcFunctionAppls {
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression... inN) {
         Assert.check(target.supportsOperation(operation, inN.length));
-        Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
                 makeParamList(inN.length), target.getSupportedFuncNotations(operation, inN.length));
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
-        return new PlcFuncAppl(func, arguments);
+        return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 
     /**
@@ -491,14 +488,11 @@ public class PlcFunctionAppls {
             ExprBinding exprBinding, PlcExpression... inN)
     {
         Assert.check(target.supportsOperation(operation, inN.length));
-        Assert.check(inN.length > 1);
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
                 makeParamList(inN.length), infixText, exprBinding,
                 target.getSupportedFuncNotations(operation, inN.length));
-        List<PlcNamedValue> arguments = IntStream.range(0, inN.length)
-                .mapToObj(i -> new PlcNamedValue("IN" + String.valueOf(i + 1), inN[i])).collect(Lists.toList());
-        return new PlcFuncAppl(func, arguments);
+        return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 
     /**
@@ -508,11 +502,20 @@ public class PlcFunctionAppls {
      * @return The constructed parameter list.
      */
     private static PlcParameterDescription[] makeParamList(int length) {
-        PlcParameterDescription[] params = new PlcParameterDescription[length];
-        for (int i = 0; i < length; i++) {
-            params[i] = new PlcParameterDescription("IN" + String.valueOf(i + 1), PlcParamDirection.INPUT_ONLY);
-        }
-        return params;
+        return IntStream.range(0, length)
+                .mapToObj(i -> new PlcParameterDescription("IN" + (i + 1), PlcParamDirection.INPUT_ONLY))
+                .toArray(PlcParameterDescription[]::new);
+    }
+
+    /**
+     * Construct an argument list for the input parameters.
+     *
+     * @param inN Values of the arguments.
+     * @return The constructed arguments list.
+     */
+    private static List<PlcNamedValue> makeArgumentList(PlcExpression... inN) {
+        return IntStream.range(0, inN.length).mapToObj(i -> new PlcNamedValue("IN" + (i + 1), inN[i]))
+                .collect(Lists.toList());
     }
 
     /**
