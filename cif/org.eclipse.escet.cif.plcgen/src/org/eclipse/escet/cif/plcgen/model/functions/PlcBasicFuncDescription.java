@@ -69,7 +69,7 @@ public abstract class PlcBasicFuncDescription {
 
         // Verify that parameter names are unique.
         long numUnique = Arrays.stream(parameters).map(param -> param.name).distinct().count();
-        Assert.check(numUnique == parameters.length); // long and int are never "Assert.areEqual".
+        Assert.areEqual(Math.toIntExact(numUnique), parameters.length);
 
         this.prefixFuncName = prefixFuncName;
         this.parameters = parameters;

@@ -51,6 +51,6 @@ public class PlcFuncAppl extends PlcExpression {
 
         // All supplied arguments should have a matching parameter.
         long paramMatches = Arrays.stream(function.parameters).filter(arg -> arguments.containsKey(arg.name)).count();
-        Assert.check(paramMatches == argumentList.size()); // long and int are never "Assert.areEqual".
+        Assert.areEqual(Math.toIntExact(paramMatches), argumentList.size());
     }
 }
