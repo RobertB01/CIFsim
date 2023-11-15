@@ -72,17 +72,12 @@ public class FuncApplsTest {
 
     @Test
     public void complementFuncApplTest() {
-        assertEquals("NOT(FALSE)", toStr(funcAppls.complementFuncAppl(bool0)));
+        assertEquals("NOT FALSE", toStr(funcAppls.complementFuncAppl(bool0)));
     }
 
     @Test
     public void powerFuncApplTest() {
         assertEquals("1 ** 1.0", toStr(funcAppls.powerFuncAppl(num1, real1)));
-    }
-
-    @Test
-    public void crashMultiplyFuncApplTest() {
-        assertThrows(AssertionError.class, () -> funcAppls.multiplyFuncAppl(num1));
     }
 
     @Test
@@ -102,7 +97,7 @@ public class FuncApplsTest {
 
     @Test
     public void moduloFuncApplTest() {
-        assertEquals("MOD(1, 2)", toStr(funcAppls.moduloFuncAppl(num1, num2)));
+        assertEquals("1 MOD 2", toStr(funcAppls.moduloFuncAppl(num1, num2)));
     }
 
     @Test
@@ -169,28 +164,13 @@ public class FuncApplsTest {
     }
 
     @Test
-    public void crashAndFuncApplTest() {
-        assertThrows(AssertionError.class, () -> funcAppls.andFuncAppl(bool0));
-    }
-
-    @Test
     public void andFuncApplTest() {
         assertEquals("FALSE AND TRUE AND FALSE", toStr(funcAppls.andFuncAppl(bool0, bool1, bool0)));
     }
 
     @Test
-    public void crashXorFuncApplTest() {
-        assertThrows(AssertionError.class, () -> funcAppls.xorFuncAppl(bool0));
-    }
-
-    @Test
     public void xorFuncApplTest() {
         assertEquals("FALSE XOR TRUE XOR FALSE", toStr(funcAppls.xorFuncAppl(bool0, bool1, bool0)));
-    }
-
-    @Test
-    public void crashOrFuncApplTest() {
-        assertThrows(AssertionError.class, () -> funcAppls.orFuncAppl(bool0));
     }
 
     @Test
