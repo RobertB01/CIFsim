@@ -35,7 +35,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 
-/** Code generator interface for a {@link PlcBaseTarget}. */
+/** Code generator 'interface' for a {@link PlcBaseTarget}. */
 public abstract class PlcTarget {
     /**
      * Obtain the target type of the target.
