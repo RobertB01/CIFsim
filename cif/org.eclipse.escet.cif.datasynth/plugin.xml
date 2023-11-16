@@ -40,12 +40,12 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_data_synth.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.synthesis"
                label="CIF s&amp;ynthesis tools">
             <command
                   commandId="org.eclipse.escet.cif.datasynth.CifDataSynthesisCommand"
-                  icon="icons/cif_data_synth.png"
+                  icon="icons/cif_app.png"
                   label="Apply &amp;data-based synthesis...">
                <visibleWhen>
                   <or>
