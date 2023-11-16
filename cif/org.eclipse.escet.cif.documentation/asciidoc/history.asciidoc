@@ -23,7 +23,7 @@ It also explains what 'CIF' originally stood for.
 
 The CIF language and toolkit were originally created to establish interoperability between a wide range of tools and their associated modeling languages.
 Languages and tools considered to be in scope at the time were those from computer science and from dynamics and control, and focusing on modeling, simulation, analysis, controller synthesis, and verification in the area of discrete event, timed, and hybrid systems.
-The various tools, such as UPPAAL and Modelica, had different capabilities.
+The various tools, such as link:https://uppaal.org/[UPPAAL] and link:https://modelica.org/[Modelica], had different capabilities.
 Since each tool had its own associated language, unlocking these capabilities for other languages required model transformations between the various languages.
 
 However, this was considerable work, as for each language a transformation to each other language had to be created.
@@ -64,7 +64,7 @@ The first tool, the CIF simulator, represented CIF models internally as link:htt
 The CIF 1 toolset was later extended with other tools, including various transformations to other languages and support for supervisory controller synthesis.
 Along with CIF 1, the Supervisory Control IDE (SCIDE), a graphical editor for supervisory control models, was created.
 
-The work around CIF 1 was primarily carried out in several academic research projects, including the EU NoE project HYCON, the EU ITEA2 project Twins, and the Darwin project.
+The work around CIF 1 was primarily carried out in several academic research projects, including the EU NoE project link:https://www.ist-hycon.org/[HYCON], the EU ITEA2 project link:https://itea4.org/project/twins.html[Twins], and the link:https://esi.nl/darwin[Darwin] project.
 The CIF 1 tooling was in development from 2007 to around 2012.
 
 A few years after its inception, several issues were identified with CIF 1.
@@ -87,11 +87,11 @@ The focus of CIF 2 was on selecting the right concepts and getting their semanti
 
 The first release of the CIF 2 tooling was on September 8, 2010.
 With CIF 2, CIF remained an interchange format with various transformations to other languages.
-Transformations were supported by a model transformation framework based on the Eclipse Modeling Framework (EMF).
+Transformations were supported by a model transformation framework based on the link:https://eclipse.dev/modeling/emf/[Eclipse Modeling Framework] (EMF).
 It allowed for transformations to and from the CIF 2 link:https://en.wikipedia.org/wiki/Metamodel[metamodel], a standard representation of CIF models.
-Transformations could be implemented using link:https://en.wikipedia.org/wiki/Model_transformation_language[model transformation languages] such as ATL and QVTo, rather than general purpose languages such as Java.
+Transformations could be implemented using link:https://en.wikipedia.org/wiki/Model_transformation_language[model transformation languages] such as link:https://eclipse.dev/atl/[ATL] and link:https://projects.eclipse.org/projects/modeling.mmt.qvt-oml[QVTo], rather than general purpose languages such as Java.
 
-The work around CIF 2 was primarily carried out in several academic research projects, including the Darwin project, the EU FP7 project C4C, the EU FP7 project Multiform, and the EU NoE project HYCON 2.
+The work around CIF 2 was primarily carried out in several academic research projects, including the link:https://esi.nl/darwin[Darwin] project, the EU FP7 project link:https://web.archive.org/web/20141124221419/http://www.c4c-project.eu/[C4C], the EU FP7 project link:https://cordis.europa.eu/project/id/224249[Multiform], and the EU NoE project link:https://cordis.europa.eu/project/id/257462[HYCON 2].
 The CIF 2 tooling was in development from 2010 to around 2014.
 
 Unfortunately, the role of CIF 2 as an interchange format was never fully realized.
@@ -129,7 +129,7 @@ As a consequence of that, CIF 3 and SEAL had considerable overlap.
 Developing these two closely related languages required quite a significant additional development and maintenance effort.
 Therefore, rather than having two subtly different languages, the goals of CIF 3 were extended to also cover the goals of SEAL.
 CIF 3 replaced SEAL and the development of SEAL stopped.
-Work on CIF 3 started in the academic research project HYCON 2, in 2012.
+Work on CIF 3 started in the academic research project link:https://cordis.europa.eu/project/id/257462[HYCON 2], in 2012.
 The first version of CIF 3 was released on January 31, 2013.
 
 With CIF 3, the use of CIF as an interchange format was completely dropped, although CIF 3 featured several transformations to other languages.
@@ -153,8 +153,8 @@ Here are some publications about CIF 3:
 
 === Eclipse ESCET
 
-Versions 1 through 3 of CIF were developed by the Eindhoven University of Technology (TU/e) in the Netherlands.
-In 2018, the idea came to move CIF to the Eclipse Foundation.
+Versions 1 through 3 of CIF were developed by the link:https://www.tue.nl/en/[Eindhoven University of Technology] (TU/e) in the Netherlands.
+In 2018, the idea came to move CIF to the link:https://www.eclipse.org/[Eclipse Foundation].
 The goal was, together with other interested parties, to create a larger community around CIF.
 The aim was to make it easier for all parties in the ecosystem to contribute together to the development of CIF in an open setting.
 
