@@ -40,12 +40,12 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_to_yed.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.misc"
                label="CIF miscellaneo&amp;us tools">
             <command
                   commandId="org.eclipse.escet.cif.cif2yed.CifToYedCommand"
-                  icon="icons/cif_to_yed.png"
+                  icon="icons/cif_app.png"
                   label="&amp;Convert CIF to yEd diagram...">
                <visibleWhen>
                   <or>
