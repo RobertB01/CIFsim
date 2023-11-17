@@ -49,7 +49,7 @@ public abstract class PlcBasicFuncDescription {
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
      *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
-     * @param notations Supported notations of the function by the target. May get restricted based on available infix
+     * @param notations Notations of the function that are supported by the target. May get restricted based on available infix
      *     and prefix function names.
      */
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
