@@ -112,34 +112,19 @@ Here are some publications about CIF 2:
 * C. Sonntag and M. Hüfner, "On the Connection of Equation- and Automata-based Languages: Transforming the Compositional Interchange Format to Modelica", IFAC Proceedings Volumes, volume 44, issue 1, pages 12515-12520, 2011, doi:link:https://doi.org/10.3182/20110828-6-IT-1002.03565[10.3182/20110828-6-IT-1002.03565].
 * D. E. Nadales Agut, D. A. van Beek, and J. E. Rooda, "Syntax and semantics of the compositional interchange format for hybrid systems", The Journal of Logic and Algebraic Programming (JLAP), volume 82, issue 1, pages 1-52, 2013, doi:link:https://doi.org/10.1016/j.jlap.2012.07.001[10.1016/j.jlap.2012.07.001].
 
-=== SEAL
-
-To address the need for a language for supervisory control, with a user-friendly syntax, the Systems Engineering Automaton Language (SEAL) was developed.
-SEAL was an untimed, discrete-event only, automata-based language for the specification of controllers.
-It was particularly suited for the specification of supervisory controller synthesis problems and verification problems.
-The first version of SEAL was released on April 12, 2012.
-The SEAL language was considered a nice modeling language, but it was limited to supervisory controllers and lacked concepts to express timed and hybrid systems.
-Introducing another language alongside CIF 2 also created confusion in collaborations with other parties.
-
 === CIF 3
 
 Not being satisfied with CIF 2, the idea came to develop CIF 3.
-With the SEAL language being considered to have a good modeling syntax, it was taken as the starting point for CIF 3.
-As a consequence of that, CIF 3 and SEAL had considerable overlap.
-Developing these two closely related languages required quite a significant additional development and maintenance effort.
-Therefore, rather than having two subtly different languages, the goals of CIF 3 were extended to also cover the goals of SEAL.
-CIF 3 replaced SEAL and the development of SEAL stopped.
 Work on CIF 3 started in the academic research project link:https://cordis.europa.eu/project/id/257462[HYCON 2], in 2012.
+CIF 3 reused most of the semantics of CIF 2.
+The CIF 3 tooling was implemented using proven technology, with Java as the main implementation language.
+Work on CIF 3 initially focused on a convenient modeling syntax.
 The first version of CIF 3 was released on January 31, 2013.
+Later, the work shifted towards tooling to support the entire development process of supervisory controllers.
 
 With CIF 3, the use of CIF as an interchange format was completely dropped, although CIF 3 featured several transformations to other languages.
 Over time, CIF 3 started to develop as a language of its own.
 While the name 'CIF' stuck, it no longer stood for 'Compositional Interchange Format'.
-
-CIF 3 reused most of the semantics of CIF 2.
-The CIF 3 tooling was implemented using proven technology, with Java as the main implementation language.
-Work on CIF 3 initially focused on a convenient modeling syntax.
-Later, the work shifted towards tooling to support the entire development process of supervisory controllers.
 
 CIF 3 has been developed from the start with the aim to have industrial use.
 Hence, considerable effort was put into a good user experience, including good performance, robustness, intuitive and user-friendly error messages, and extensive documentation.
