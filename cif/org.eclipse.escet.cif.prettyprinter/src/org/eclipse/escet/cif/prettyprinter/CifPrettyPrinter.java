@@ -925,6 +925,8 @@ public final class CifPrettyPrinter {
      * @param loc The location.
      */
     public void add(Location loc) {
+        add(loc.getAnnotations());
+
         boolean isEmpty = loc.getEdges().isEmpty() && loc.getInitials().isEmpty() && loc.getInvariants().isEmpty()
                 && loc.getEquations().isEmpty() && loc.getMarkeds().isEmpty() && !loc.isUrgent();
 
