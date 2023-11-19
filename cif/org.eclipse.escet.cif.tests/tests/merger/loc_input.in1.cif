@@ -13,6 +13,9 @@
 
 automaton a:
   const int x = 5;
+
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
   location b:
     initial;
 end

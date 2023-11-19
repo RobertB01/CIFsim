@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_input_loc_dupl_annos.in1.cif" with CIF specification "merger/err_input_loc_dupl_annos.in2.cif" failed.
+CAUSE: Merging objects with name "g.i" failed: the objects have annotations with the same name(s): "cif:typechecker:tests:anno1", "cif:typechecker:tests:anno3".
