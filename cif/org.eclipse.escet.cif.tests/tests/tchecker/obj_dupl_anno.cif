@@ -11,6 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Test extensively for input variables.
+
 @a
 @a
 @b
@@ -31,4 +33,25 @@ group g:
     @d
     input bool i;
   end
+end
+
+// Test a bit for other types of annotated objects.
+
+automaton a1:
+  @a
+  @a
+  location:
+    initial;
+end
+
+automaton a2:
+  @a
+  @a
+  location loc1:
+    initial;
+
+  @a
+  @a
+  location loc2:
+    initial;
 end
