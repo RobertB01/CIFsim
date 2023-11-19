@@ -26,6 +26,7 @@ Here we discuss further details.
 Documentation annotations (`@doc`) can be added to the following elements in CIF specifications:
 
 * Input variables.
+* Locations of automata.
 
 The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
 
