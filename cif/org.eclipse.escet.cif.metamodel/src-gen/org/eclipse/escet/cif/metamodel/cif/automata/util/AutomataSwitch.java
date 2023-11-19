@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.*;
 
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -103,6 +105,7 @@ public class AutomataSwitch<T> extends Switch<T>
             {
                 Location location = (Location)theEObject;
                 T result = caseLocation(location);
+                if (result == null) result = caseAnnotatedObject(location);
                 if (result == null) result = casePositionObject(location);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -431,6 +434,22 @@ public class AutomataSwitch<T> extends Switch<T>
      * @generated
      */
     public T caseComplexComponent(ComplexComponent object)
+    {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAnnotatedObject(AnnotatedObject object)
     {
         return null;
     }
