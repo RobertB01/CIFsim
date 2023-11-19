@@ -603,8 +603,12 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
         String locId = parentId + ":loc" + str(idx);
         nodeElem.setAttribute("id", locId);
 
-        // Get name code.
+        // Get annotations and name code.
         MemoryCodeBox code1 = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        if (!loc.getAnnotations().isEmpty()) {
+            CifPrettyPrinter pprinter1 = new CifPrettyPrinter(code1);
+            pprinter1.add(loc.getAnnotations());
+        }
         if (loc.getName() != null) {
             code1.add(loc.getName());
         }
