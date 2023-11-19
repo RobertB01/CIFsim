@@ -94,7 +94,7 @@ public class CifToDmmTest {
      * @return The created location.
      */
     private Location addLocation(Automaton aut, String name) {
-        Location loc = newLocation(null, null, null, null, null, name, null, null);
+        Location loc = newLocation(null, null, null, null, null, null, name, null, null);
         aut.getLocations().add(loc);
         return loc;
     }
