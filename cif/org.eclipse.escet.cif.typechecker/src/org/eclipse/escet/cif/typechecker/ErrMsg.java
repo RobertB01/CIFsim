@@ -809,7 +809,7 @@ public enum ErrMsg {
     // The following metamodel constraints are satisfied by parsing or metamodel construction:
     // - AlgVariableExpression.type
     // - AlgParameter.noValue
-    // - AnnotatedObject.onlyForInputVariables
+    // - AnnotatedObject.onlyForSupportedObjects
     // - Annotation.validName
     // - AnnotationArgument.validName
     // - Automaton.noFuncDecl
