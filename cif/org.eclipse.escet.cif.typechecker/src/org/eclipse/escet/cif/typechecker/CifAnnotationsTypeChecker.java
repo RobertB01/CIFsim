@@ -18,9 +18,11 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotation
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
@@ -48,10 +50,27 @@ public class CifAnnotationsTypeChecker {
     public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, SymbolTableEntry annotatedObject,
             SymbolScope<?> scope, CifTypeChecker tchecker)
     {
+        Supplier<String> descriptionSupplier = () -> fmt("\"%s\"", annotatedObject.getAbsName());
+        return transAnnotations(astAnnos, descriptionSupplier, scope, tchecker);
+    }
+
+    /**
+     * Transforms annotations and performs type checking on them.
+     *
+     * @param astAnnos The CIF AST annotations to transform.
+     * @param descriptionSupplier Function to obtain a textual description of the annotated object for reporting type
+     *     check problems.
+     * @param scope The scope in which to resolve references within the annotations, such as in the values of arguments.
+     * @param tchecker The CIF type checker to use.
+     * @return The CIF metamodel annotations.
+     */
+    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, Supplier<String> descriptionSupplier,
+            SymbolScope<?> scope, CifTypeChecker tchecker)
+    {
         // First type check each of the annotations separately.
         List<Annotation> mmAnnos = listc(astAnnos.size());
         for (AAnnotation astAnno: astAnnos) {
-            mmAnnos.add(transAnnotation(astAnno, annotatedObject, scope, tchecker));
+            mmAnnos.add(transAnnotation(astAnno, scope, tchecker));
         }
 
         // Ensure all the annotations for the annotated object are unique, based on their names.
@@ -59,10 +78,9 @@ public class CifAnnotationsTypeChecker {
         for (Annotation mmAnno: mmAnnos) {
             Annotation prev = nameToAnno.put(mmAnno.getName(), mmAnno);
             if (prev != null) {
-                tchecker.addProblem(ErrMsg.OBJ_DUPL_ANNO, prev.getPosition(), mmAnno.getName(),
-                        annotatedObject.getAbsName());
-                tchecker.addProblem(ErrMsg.OBJ_DUPL_ANNO, mmAnno.getPosition(), mmAnno.getName(),
-                        annotatedObject.getAbsName());
+                String description = descriptionSupplier.get();
+                tchecker.addProblem(ErrMsg.OBJ_DUPL_ANNO, prev.getPosition(), mmAnno.getName(), description);
+                tchecker.addProblem(ErrMsg.OBJ_DUPL_ANNO, mmAnno.getPosition(), mmAnno.getName(), description);
                 // Non-fatal error.
             }
         }
@@ -75,14 +93,11 @@ public class CifAnnotationsTypeChecker {
      * Transforms an annotation and performs type checking on it.
      *
      * @param astAnno The CIF AST annotation to transform.
-     * @param annotatedObject The symbol table entry for the object that is annotated with the annotation.
      * @param scope The scope in which to resolve references within the annotation, such as in the values of arguments.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel annotation.
      */
-    private static Annotation transAnnotation(AAnnotation astAnno, SymbolTableEntry annotatedObject,
-            SymbolScope<?> scope, CifTypeChecker tchecker)
-    {
+    private static Annotation transAnnotation(AAnnotation astAnno, SymbolScope<?> scope, CifTypeChecker tchecker) {
         // Create annotation metamodel object.
         Annotation mmAnno = newAnnotation();
         mmAnno.setName(astAnno.name.text.substring(1)); // Set name, excluding the leading '@'.
