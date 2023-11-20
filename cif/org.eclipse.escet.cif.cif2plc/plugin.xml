@@ -40,7 +40,7 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_to_plc.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.implementation"
                label="CIF implemen&amp;tation tools">
             <command

@@ -1,0 +1,20 @@
+CONFIGURATION Untitled1
+    VAR_GLOBAL // STATE
+        inp: REAL;
+        c: REAL;
+        aut_r: REAL;
+        aut_b: BOOL;
+        aut_i: DINT;
+        aut_tii: TupleStruct;
+        aut_i2: DINT;
+        aut_i3: DINT;
+        aut: DINT;
+    END_VAR
+    VAR_GLOBAL // TIMERS
+        ton_c: TON;
+        preset_c: TIME;
+        firstRun: BOOL := TRUE;
+    END_VAR
+    TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
+    PROGRAM MAIN WITH PlcTask: MAIN;
+END_CONFIGURATION

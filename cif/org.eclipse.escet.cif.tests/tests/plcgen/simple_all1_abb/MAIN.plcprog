@@ -45,13 +45,13 @@ IF firstRun THEN
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := p_t;
-    ton_p_t(PT := preset_p_t, IN := FALSE);
-    ton_p_t(PT := preset_p_t, IN := TRUE);
+    ton_p_t(IN := FALSE, PT := preset_p_t);
+    ton_p_t(IN := TRUE, PT := preset_p_t);
     p := 0;
 ELSE
     (* Update remaining time of "p_t". *)
-    ton_p_t(PT := preset_p_t, IN := TRUE, Q => timeOut, ET => curValue);
-    p_t := SEL(G := timeOut, IN0 := preset_p_t - curValue, IN1 := 0.0);
+    ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
+    p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
@@ -134,12 +134,12 @@ WHILE isProgress DO
             p_b := FALSE;
             p := 9;
         ELSIF syncAutEdge = 10 THEN
-            IF NOT(IN := current_p_b) THEN
+            IF NOT current_p_b THEN
                 p_ve := 1;
             END_IF;
             p := 10;
         ELSIF syncAutEdge = 11 THEN
-            p_r := DINT_TO_REAL(IN := g_inp) + 10.0;
+            p_r := DINT_TO_REAL(g_inp) + 10.0;
             p := 11;
         END_IF;
     END_IF;

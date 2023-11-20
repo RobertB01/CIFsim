@@ -25,7 +25,6 @@ It is recommended reading for all CIF users.
 
 === Introduction
 
-CIF stands for **C**ompositional **I**nterchange **F**ormat for hybrid systems.
 CIF is primarily used to create models of physical systems and their controllers, describing their behavior.
 However, CIF is a general-purpose modeling language, and can be used to model practically anything, ranging from physical real-world systems to abstract mathematical entities.
 
@@ -40,6 +39,9 @@ This makes CIF suitable for modeling of all kinds of systems.
 The CIF tooling puts a particular focus on supporting the entire development process of controllers.
 However, just as the CIF language, the CIF tooling can be applied much more generally.
 The tooling allows among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.
+
+CIF <<history-chapter-index,originally stood for>> **C**ompositional **I**nterchange **F**ormat for hybrid systems.
+As the language has since evolved beyond its original purpose, the name 'CIF' is nowadays only used in its abbreviated form.
 
 === Lessons
 

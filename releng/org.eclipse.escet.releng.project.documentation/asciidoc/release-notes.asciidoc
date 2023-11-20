@@ -30,6 +30,12 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+Improvements and fixes:
+
+* The Linux command line scripts for all ESCET tools no longer show a popup dialog upon exiting with a non-zero exit code (issue {escet-issue}89[#89]).
+* The warning and error output on the Eclipse console for all ESCET tools now use different colors.
+Warning output is now printed in yellow, error output still in red (issue {escet-issue}524[#524]).
+
 === Version 1.0 (2023-09-30)
 
 Improvements and fixes:

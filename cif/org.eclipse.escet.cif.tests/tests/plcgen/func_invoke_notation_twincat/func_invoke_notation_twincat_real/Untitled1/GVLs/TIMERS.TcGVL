@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <GVL Name="TIMERS">
+    <Declaration><![CDATA[VAR_GLOBAL // TIMERS
+    ton_c: TON;
+    preset_c: TIME;
+    firstRun: BOOL := TRUE;
+END_VAR]]></Declaration>
+    <ObjectProperties/>
+  </GVL>
+</TcPlcObject>
