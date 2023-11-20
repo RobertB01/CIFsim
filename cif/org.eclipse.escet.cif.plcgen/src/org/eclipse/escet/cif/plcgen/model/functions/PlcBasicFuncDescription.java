@@ -13,11 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import static org.eclipse.escet.common.java.Maps.mapc;
-
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.EnumSet;
 
 import org.eclipse.escet.common.java.Assert;
 
@@ -29,8 +26,8 @@ public abstract class PlcBasicFuncDescription {
     /** Name of the function in prefix notation, or {@code null} if the prefix form does not exist. */
     public final String prefixFuncName;
 
-    /** Mapping of names of the function parameters to their prefix notation properties. */
-    public final Map<String, PlcParameterDescription> prefixParameters;
+    /** Parameters of the function. */
+    public final PlcParameterDescription[] parameters;
 
     /** Name of the function in infix notation, {@code null} if infix form does not exist. */
     public final String infixFuncName;
@@ -41,42 +38,44 @@ public abstract class PlcBasicFuncDescription {
      */
     public final ExprBinding infixBinding;
 
-    /**
-     * Constructor of the {@link PlcBasicFuncDescription} class.
-     *
-     * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Prefix notation properties of the function parameters.
-     * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
-     * @param infixBinding Binding of the function application for laying out the infix notation. Use
-     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
-     */
-    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] prefixParameters,
-            String infixFuncName, ExprBinding infixBinding)
-    {
-        this(prefixFuncName, Arrays.asList(prefixParameters), infixFuncName, infixBinding);
-    }
+    /** Notations of the function that are supported by the target. */
+    public final EnumSet<PlcFuncNotation> notations;
 
     /**
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Prefix notation properties of the function parameters.
+     * @param parameters Parameters of the function.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
      *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
+     * @param notations Notations of the function that are supported by the target. May get restricted based on available infix
+     *     and prefix function names.
      */
-    public PlcBasicFuncDescription(String prefixFuncName, List<PlcParameterDescription> prefixParameters,
-            String infixFuncName, ExprBinding infixBinding)
+    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
+            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
     {
+        Assert.implies(infixFuncName == null, infixBinding.equals(ExprBinding.NO_PRIORITY));
+
+        // Restrict notation forms based on available function names.
+        notations = EnumSet.copyOf(notations); // Make a private copy to avoid changing caller data.
+        if (infixFuncName == null) {
+            notations.retainAll(PlcFuncNotation.NOT_INFIX);
+        }
+        if (prefixFuncName == null) {
+            notations.retainAll(PlcFuncNotation.INFIX_ONLY);
+        }
+        Assert.check(!notations.isEmpty());
+
+        // Verify that parameter names are unique.
+        long numUnique = Arrays.stream(parameters).map(param -> param.name).distinct().count();
+        Assert.areEqual(Math.toIntExact(numUnique), parameters.length);
+
         this.prefixFuncName = prefixFuncName;
+        this.parameters = parameters;
         this.infixFuncName = infixFuncName;
         this.infixBinding = infixBinding;
-
-        this.prefixParameters = mapc(prefixParameters.size());
-        for (PlcParameterDescription prefixParam: prefixParameters) {
-            this.prefixParameters.put(prefixParam.name, prefixParam);
-        }
-        Assert.areEqual(this.prefixParameters.size(), prefixParameters.size());
+        this.notations = notations;
     }
 
     /** Operator priority and associativity of an expression node. */
@@ -214,5 +213,41 @@ public abstract class PlcBasicFuncDescription {
 
         /** Parameter is read only for the callee. */
         INPUT_ONLY;
+    }
+
+    /** Available notations of a function application. */
+    public static enum PlcFuncNotation {
+        /** Infix notation. */
+        INFIX,
+
+        /** Informal prefix notation. */
+        INFORMAL,
+
+        /** Formal prefix notation. */
+        FORMAL;
+
+        /** Unsupported function. */
+        public static final EnumSet<PlcFuncNotation> UNSUPPORTED = EnumSet.noneOf(PlcFuncNotation.class);
+
+        /** All infix notation forms. */
+        public static final EnumSet<PlcFuncNotation> INFIX_ONLY = EnumSet.of(INFIX);
+
+        /** All informal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> INFORMAL_ONLY = EnumSet.of(INFORMAL);
+
+        /** All formal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> FORMAL_ONLY = EnumSet.of(FORMAL);
+
+        /** All except infix notation forms. */
+        public static final EnumSet<PlcFuncNotation> NOT_INFIX = EnumSet.of(INFORMAL, FORMAL);
+
+        /** All except informal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> NOT_INFORMAL = EnumSet.of(INFIX, FORMAL);
+
+        /** All except formal prefix notation forms. */
+        public static final EnumSet<PlcFuncNotation> NOT_FORMAL = EnumSet.of(INFIX, INFORMAL);
+
+        /** All notation forms. */
+        public static final EnumSet<PlcFuncNotation> ALL = EnumSet.allOf(PlcFuncNotation.class);
     }
 }
