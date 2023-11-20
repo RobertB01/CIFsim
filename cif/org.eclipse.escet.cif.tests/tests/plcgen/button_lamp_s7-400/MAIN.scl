@@ -41,6 +41,7 @@ BEGIN
     (* --- Initialize state or update continuous variables. -------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
+        loopsKilled := 0;
 
         (* Initialize the state variables. *)
         timer_t := 0.0;
@@ -61,7 +62,11 @@ BEGIN
 
     (* --- Process all events. ------------------------------------------------- *)
     isProgress := TRUE;
-    WHILE isProgress DO
+    (* Perform events until none can be done anymore. *)
+    (* Track the number of iterations and abort if there are too many. *)
+    loopCount := 0;
+    WHILE isProgress AND loopCount < 100 DO
+        loopCount := loopCount + 1;
         isProgress := FALSE;
 
         (* Try to perform event "timer.start". *)
@@ -99,6 +104,7 @@ BEGIN
                 sup := 6;
             END_IF;
         END_IF;
+
         (* Try to perform event "timer.timeout". *)
         eventEnabled := TRUE;
         IF timer = 1 AND timer_t <= 0.0 THEN
@@ -128,6 +134,7 @@ BEGIN
                 sup := 8;
             END_IF;
         END_IF;
+
         (* Try to perform event "button.push". *)
         eventEnabled := TRUE;
         IF sup = 0 THEN
@@ -169,6 +176,7 @@ BEGIN
                 hw_button := 1;
             END_IF;
         END_IF;
+
         (* Try to perform event "button.release". *)
         eventEnabled := TRUE;
         IF sup = 1 THEN
@@ -210,6 +218,7 @@ BEGIN
                 hw_button := 0;
             END_IF;
         END_IF;
+
         (* Try to perform event "lamp.on". *)
         eventEnabled := TRUE;
         IF sup = 1 THEN
@@ -241,6 +250,7 @@ BEGIN
                 hw_lamp := 1;
             END_IF;
         END_IF;
+
         (* Try to perform event "lamp.off". *)
         eventEnabled := TRUE;
         IF sup = 7 THEN
@@ -273,6 +283,10 @@ BEGIN
             END_IF;
         END_IF;
     END_WHILE;
+    (* Register the first 9999 aborted loops. *)
+    IF loopCount >= 100 THEN
+        loopsKilled := MIN(loopsKilled + 1, 9999);
+    END_IF;
 
     (* --- Write output to actuators. ------------------------------------------ *)
     out_hw_lamp_bit := hw_lamp_bit;

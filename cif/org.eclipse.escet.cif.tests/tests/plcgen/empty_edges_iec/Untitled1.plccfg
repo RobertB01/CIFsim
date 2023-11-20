@@ -4,6 +4,8 @@ CONFIGURATION Untitled1
     END_VAR
     VAR_GLOBAL // TIMERS
         firstRun: BOOL := TRUE;
+        loopCount: DINT;
+        loopsKilled: INT;
     END_VAR
     TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
     PROGRAM MAIN WITH PlcTask: MAIN;
