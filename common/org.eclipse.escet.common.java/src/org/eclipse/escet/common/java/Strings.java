@@ -670,4 +670,39 @@ public final class Strings {
         String head = slice(input, 0, maxLength - 3);
         return head + "...";
     }
+
+    /**
+     * Construct a string that expresses value {@code val} with sufficient decimal digits to represent all non-negative
+     * numbers up to and including {@code maxVal}.
+     *
+     * <p>
+     * For example, {@code makeFixedLengthNumberText(15, 2345)} returns {@code "0015"} since 4 digits are needed for
+     * value {@code 2345}.
+     * </p>
+     *
+     * @param val Non-negative value to convert.
+     * @param maxVal Maximum value to convert.
+     * @return String with the value long enough to contain any non-negative value upto and including the maximum value.
+     */
+    public static String makeFixedLengthNumberText(int val, int maxVal) {
+        Assert.check(val >= 0);
+        Assert.check(maxVal >= val);
+
+        int length =1;
+        long longMax = maxVal;
+        long upperBound = 10; // Exclusive bound.
+        while (longMax >= upperBound) {
+            length++;
+            upperBound *= 10;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String valueText = String.valueOf(val);
+        while (length > valueText.length()) {
+            length--;
+            sb.append('0');
+        }
+        sb.append(valueText);
+        return sb.toString();
+    }
 }
