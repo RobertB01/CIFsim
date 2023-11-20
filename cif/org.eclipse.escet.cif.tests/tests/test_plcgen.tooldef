@@ -27,7 +27,7 @@ map(string:list string) test_options = {
     "plcgen/convert_enums_ints.cif":          ["--convert-enums=ints"],
     "plcgen/enums_keep.cif":                  ["--convert-enums=no"],
     "plcgen/option_max_iter_inf.cif":         ["-x inf"],
-    "plcgen/options.cif":                     ["-i off -b 32 -x 101"],
+    "plcgen/options.cif":                     ["-i off --int-size=32 --real-size=32 -x 101"],
 };
 set string test_skip = {};
 
