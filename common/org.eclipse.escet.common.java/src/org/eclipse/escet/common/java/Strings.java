@@ -688,7 +688,7 @@ public final class Strings {
         Assert.check(val >= 0);
         Assert.check(maxVal >= val);
 
-        int length =1;
+        int length = 1;
         long longMax = maxVal;
         long upperBound = 10; // Exclusive bound.
         while (longMax >= upperBound) {
