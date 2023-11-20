@@ -1,0 +1,72 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+input real inp;
+
+cont c der -1;
+alg real a = inp;
+
+automaton aut:
+  event e, f;
+
+  disc real r;
+  disc bool b;
+  disc int i;
+  disc tuple(int a,b) tii;
+  disc int[1..5] i2, i3;
+
+  location l1:
+    initial;
+    edge e do r := inp;                 // input var ref
+    edge e do r := a + c' goto l2;      // alg + deriv refs
+    edge e do r := <real>i;             // cast int to real
+    edge e do b := not b;               // not
+    edge e do b := b => b;              // =>
+    edge e do r := i / i;               // division on integers
+    edge e do b := if b: b else b end;  // 'if' expr -> func over state
+    edge e do i := tii[0];              // tuple proj
+
+    edge e do r := abs(r);              // abs
+    edge e do r := cbrt(r);             // cbrt
+    edge e do r := exp(r);              // exp
+    edge e do r := ln(r);               // ln
+    edge e do r := log(r);              // log
+    edge e do i := min(i, i);           // min
+    edge e do r := min(i, r);           // min
+    edge e do r := min(r, i);           // min
+    edge e do r := min(r, r);           // min
+    edge e do i := max(i, i);           // max
+    edge e do r := max(i, r);           // max
+    edge e do r := max(r, i);           // max
+    edge e do r := max(r, r);           // max
+    edge e do i := pow(i2, i3);         // pow
+    edge e do r := pow(i, i);           // pow
+    edge e do r := pow(i, r);           // pow
+    edge e do r := pow(r, i);           // pow
+    edge e do r := pow(r, r);           // pow
+    edge e do r := sqrt(r);             // sqrt
+    edge e do r := asin(r);             // asin
+    edge e do r := acos(r);             // acos
+    edge e do r := atan(r);             // atan
+    edge e do r := sin(r);              // sin
+    edge e do r := cos(r);              // cos
+    edge e do r := tan(r);              // tan
+
+    edge e do tii := (i, i + 1);        // tuple literal
+    edge e do (r, i) := (r * 2, i + 1); // tuple addressable
+
+    edge f when b or b;                 // disjunction in guard
+    edge f when b;                      // disjunction between guards of 'f'
+
+  location l2;
+end

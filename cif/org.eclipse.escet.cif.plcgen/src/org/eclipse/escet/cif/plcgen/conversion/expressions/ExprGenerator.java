@@ -1046,7 +1046,7 @@ public class ExprGenerator {
                 Assert.check(argumentResults.size() == 1);
                 ExprValueResult arg1 = argumentResults.get(0);
 
-                if (!target.supportsOperation(PlcFuncOperation.STDLIB_LOG)) {
+                if (!target.supportsOperation(PlcFuncOperation.STDLIB_LOG, argumentResults.size())) {
                     // Fallback to log10(x) = ln(x) / ln(10).
                     PlcExpression lnX = funcAppls.lnFuncAppl(arg1.value);
                     PlcExpression ln10 = funcAppls.lnFuncAppl(new PlcRealLiteral("10.0"));

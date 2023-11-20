@@ -1,0 +1,2 @@
+WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
+WARNING: I/O table file "plcgen/func_invoke_notation.csv" not found. The PLC code will not perform any I/O with the environment.
