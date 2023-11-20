@@ -1,0 +1,12 @@
+group A:
+  enum Labels = ON, OFF;
+end
+plant automaton B:
+  event c;
+  event d;
+  disc A.Labels x = A.OFF;
+  location:
+    initial;
+    edge c do x := A.ON;
+    edge d do x := A.OFF;
+end

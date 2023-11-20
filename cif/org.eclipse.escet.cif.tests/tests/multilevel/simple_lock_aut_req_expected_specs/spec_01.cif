@@ -1,0 +1,74 @@
+plant automaton S1_Sewer_Acc:
+  controllable c_open;
+  controllable c_close;
+  location Close:
+    initial;
+    marked;
+    edge c_open goto Open;
+    edge S1_Sewer_Sensor.u_off;
+  location Open:
+    edge c_close goto Close;
+    edge S1_Sewer_Sensor.u_on;
+end
+plant automaton S1_Sewer_Sensor:
+  uncontrollable u_on;
+  uncontrollable u_off;
+  location Off:
+    initial;
+    marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+plant automaton S2_Sewer_Acc:
+  controllable c_open;
+  controllable c_close;
+  location Close:
+    initial;
+    marked;
+    edge c_open goto Open;
+    edge S2_Sewer_Sensor.u_off;
+  location Open:
+    edge c_close goto Close;
+    edge S2_Sewer_Sensor.u_on;
+end
+plant automaton S2_Sewer_Sensor:
+  uncontrollable u_on;
+  uncontrollable u_off;
+  location Off:
+    initial;
+    marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+requirement automaton R1:
+  location s1:
+    initial;
+    marked;
+    edge S1_Sewer_Acc.c_open goto s2;
+    edge S2_Sewer_Acc.c_open;
+  location s2:
+    edge S1_Sewer_Acc.c_close goto s1;
+    edge S1_Sewer_Sensor.u_on goto s3;
+  location s3:
+    edge S1_Sewer_Acc.c_close goto s4;
+  location s4:
+    edge S1_Sewer_Acc.c_open goto s3;
+    edge S1_Sewer_Sensor.u_off goto s1;
+end
+requirement automaton R14:
+  location s1:
+    initial;
+    marked;
+    edge S2_Sewer_Acc.c_open goto s2;
+    edge S1_Sewer_Acc.c_open;
+  location s2:
+    edge S2_Sewer_Acc.c_close goto s1;
+    edge S2_Sewer_Sensor.u_on goto s3;
+  location s3:
+    edge S2_Sewer_Acc.c_close goto s4;
+  location s4:
+    edge S2_Sewer_Acc.c_open goto s3;
+    edge S2_Sewer_Sensor.u_off goto s1;
+end

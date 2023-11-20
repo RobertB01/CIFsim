@@ -1,0 +1,79 @@
+group Lock:
+  group Side1:
+    plant automaton LampEntering:
+      controllable c_green;
+      controllable c_red;
+      location Red:
+        initial;
+        marked;
+        edge c_green goto Green;
+      location Green:
+        edge c_red goto Red;
+    end
+    plant automaton LampLeaving:
+      controllable c_green;
+      controllable c_red;
+      location Red:
+        initial;
+        marked;
+        edge c_green goto Green;
+      location Green:
+        edge c_red goto Red;
+    end
+    group Door:
+      plant automaton Actuator:
+        controllable c_on_open;
+        controllable c_off_open;
+        controllable c_on_close;
+        controllable c_off_close;
+        location Rest:
+          initial;
+          marked;
+          edge c_on_open goto Opening;
+          edge c_on_close goto Closing;
+        location Opening:
+          edge c_off_open goto Rest;
+          edge Sensor.u_off_closed, Sensor.u_on_open;
+        location Closing:
+          edge c_off_close goto Rest;
+          edge Sensor.u_off_open, Sensor.u_on_closed;
+      end
+      plant automaton Sensor:
+        uncontrollable u_on_open;
+        uncontrollable u_off_open;
+        uncontrollable u_on_closed;
+        uncontrollable u_off_closed;
+        location Closed:
+          initial;
+          marked;
+          edge u_off_closed goto Midle;
+        location Midle:
+          edge u_on_closed goto Closed;
+          edge u_on_open goto Open;
+        location Open:
+          edge u_off_open goto Midle;
+      end
+    end
+    plant automaton EqualWater:
+      uncontrollable u_on;
+      uncontrollable u_off;
+      location Off:
+        initial;
+        marked;
+        edge u_on goto On;
+      location On:
+        edge u_off goto Off;
+    end
+    requirement invariant EqualWater.Off disables Door.Actuator.c_on_open;
+    requirement invariant LampLeaving.Green disables LampEntering.c_green;
+    requirement invariant not Door.Sensor.Open disables LampEntering.c_green;
+    requirement invariant not Door.Actuator.Rest disables LampEntering.c_green;
+    requirement invariant not LampEntering.Red disables Door.Actuator.c_on_close;
+    requirement invariant not LampEntering.Red disables Door.Actuator.c_on_open;
+    requirement invariant not LampLeaving.Red disables Door.Actuator.c_on_close;
+    requirement invariant not LampLeaving.Red disables Door.Actuator.c_on_open;
+    requirement invariant LampEntering.Green disables LampLeaving.c_green;
+    requirement invariant not Door.Sensor.Open disables LampLeaving.c_green;
+    requirement invariant not Door.Actuator.Rest disables LampLeaving.c_green;
+  end
+end

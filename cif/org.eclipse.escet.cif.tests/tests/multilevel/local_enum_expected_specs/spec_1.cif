@@ -1,0 +1,9 @@
+plant automaton A:
+  event a;
+  event b;
+  location l1:
+    initial;
+    edge a goto l2;
+  location l2:
+    edge b goto l1;
+end

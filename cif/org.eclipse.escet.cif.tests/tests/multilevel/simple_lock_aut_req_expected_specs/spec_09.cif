@@ -1,0 +1,253 @@
+plant automaton S2_LampEntering:
+  controllable c_green;
+  controllable c_red;
+  location Red:
+    initial;
+    marked;
+    edge c_green goto Green;
+  location Green:
+    edge c_red goto Red;
+end
+plant automaton S2_LampLeaving:
+  controllable c_green;
+  controllable c_red;
+  location Red:
+    initial;
+    marked;
+    edge c_green goto Green;
+  location Green:
+    edge c_red goto Red;
+end
+plant automaton S2_Door_Acc:
+  controllable c_on_open;
+  controllable c_off_open;
+  controllable c_on_close;
+  controllable c_off_close;
+  location Rest:
+    initial;
+    marked;
+    edge c_on_open goto Opening;
+    edge c_on_close goto Closing;
+  location Opening:
+    edge c_off_open goto Rest;
+    edge S2_Door_Sensor.u_off_closed, S2_Door_Sensor.u_on_open;
+  location Closing:
+    edge c_off_close goto Rest;
+    edge S2_Door_Sensor.u_off_open, S2_Door_Sensor.u_on_closed;
+end
+plant automaton S2_Door_Sensor:
+  uncontrollable u_on_open;
+  uncontrollable u_off_open;
+  uncontrollable u_on_closed;
+  uncontrollable u_off_closed;
+  location Closed:
+    initial;
+    marked;
+    edge u_off_closed goto Midle;
+  location Midle:
+    edge u_on_closed goto Closed;
+    edge u_on_open goto Open;
+  location Open:
+    edge u_off_open goto Midle;
+end
+plant automaton S2_EqualWater:
+  uncontrollable u_on;
+  uncontrollable u_off;
+  location Off:
+    initial;
+    marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+requirement automaton R16:
+  location s1:
+    initial;
+    marked;
+    edge S2_EqualWater.u_on goto s2;
+  location s2:
+    edge S2_EqualWater.u_off goto s1;
+    edge S2_Door_Acc.c_on_open;
+end
+requirement automaton R19:
+  location s1:
+    initial;
+    marked;
+    edge S2_LampLeaving.c_green goto s2;
+    edge S2_LampEntering.c_green;
+  location s2:
+    edge S2_LampLeaving.c_red goto s1;
+end
+requirement automaton R20:
+  location s1:
+    initial;
+    marked;
+    edge S2_Door_Acc.c_on_close goto s2;
+    edge S2_Door_Acc.c_on_open goto s3;
+  location s2:
+    edge S2_Door_Acc.c_off_close goto s1;
+  location s3:
+    edge S2_Door_Sensor.u_off_closed goto s4;
+    edge S2_Door_Acc.c_off_open goto s1;
+  location s4:
+    edge S2_Door_Sensor.u_on_open goto s5;
+    edge S2_Door_Acc.c_off_open goto s6;
+  location s5:
+    edge S2_Door_Acc.c_off_open goto s8;
+    edge S2_LampEntering.c_green;
+  location s6:
+    edge S2_Door_Acc.c_on_close goto s7;
+    edge S2_Door_Acc.c_on_open goto s4;
+  location s7:
+    edge S2_Door_Sensor.u_on_closed goto s2;
+    edge S2_Door_Acc.c_off_close goto s6;
+  location s8:
+    edge S2_Door_Acc.c_on_close goto s9;
+    edge S2_Door_Acc.c_on_open goto s5;
+    edge S2_LampEntering.c_green;
+  location s9:
+    edge S2_Door_Sensor.u_off_open goto s7;
+    edge S2_Door_Acc.c_off_close goto s8;
+    edge S2_LampEntering.c_green;
+end
+requirement automaton R21:
+  location s1:
+    initial;
+    marked;
+    edge S2_Door_Acc.c_on_close goto s2;
+    edge S2_Door_Acc.c_on_open goto s3;
+    edge S2_LampEntering.c_green;
+  location s2:
+    edge S2_Door_Acc.c_off_close goto s1;
+  location s3:
+    edge S2_Door_Sensor.u_off_closed goto s4;
+    edge S2_Door_Acc.c_off_open goto s1;
+  location s4:
+    edge S2_Door_Sensor.u_on_open goto s5;
+    edge S2_Door_Acc.c_off_open goto s6;
+  location s5:
+    edge S2_Door_Acc.c_off_open goto s8;
+  location s6:
+    edge S2_Door_Acc.c_on_close goto s7;
+    edge S2_Door_Acc.c_on_open goto s4;
+    edge S2_LampEntering.c_green;
+  location s7:
+    edge S2_Door_Sensor.u_on_closed goto s2;
+    edge S2_Door_Acc.c_off_close goto s6;
+  location s8:
+    edge S2_Door_Acc.c_on_close goto s9;
+    edge S2_Door_Acc.c_on_open goto s5;
+    edge S2_LampEntering.c_green;
+  location s9:
+    edge S2_Door_Sensor.u_off_open goto s7;
+    edge S2_Door_Acc.c_off_close goto s8;
+end
+requirement automaton R22_:
+  location s1:
+    initial;
+    marked;
+    edge S2_LampEntering.c_green goto s2;
+    edge S2_Door_Acc.c_on_close;
+  location s2:
+    edge S2_LampEntering.c_red goto s1;
+end
+requirement automaton R22_2:
+  location s1:
+    initial;
+    marked;
+    edge S2_LampEntering.c_green goto s2;
+    edge S2_Door_Acc.c_on_open;
+  location s2:
+    edge S2_LampEntering.c_red goto s1;
+end
+requirement automaton R23_1:
+  location s1:
+    initial;
+    marked;
+    edge S2_LampLeaving.c_green goto s2;
+    edge S2_Door_Acc.c_on_close;
+  location s2:
+    edge S2_LampLeaving.c_red goto s1;
+end
+requirement automaton R23_2:
+  location s1:
+    initial;
+    marked;
+    edge S2_LampLeaving.c_green goto s2;
+    edge S2_Door_Acc.c_on_open;
+  location s2:
+    edge S2_LampLeaving.c_red goto s1;
+end
+requirement automaton R24:
+  location s1:
+    initial;
+    marked;
+    edge S2_LampEntering.c_green goto s2;
+    edge S2_LampLeaving.c_green;
+  location s2:
+    edge S2_LampEntering.c_red goto s1;
+end
+requirement automaton R25:
+  location s1:
+    initial;
+    marked;
+    edge S2_Door_Acc.c_on_close goto s2;
+    edge S2_Door_Acc.c_on_open goto s3;
+  location s2:
+    edge S2_Door_Acc.c_off_close goto s1;
+  location s3:
+    edge S2_Door_Sensor.u_off_closed goto s4;
+    edge S2_Door_Acc.c_off_open goto s1;
+  location s4:
+    edge S2_Door_Sensor.u_on_open goto s5;
+    edge S2_Door_Acc.c_off_open goto s6;
+  location s5:
+    edge S2_Door_Acc.c_off_open goto s8;
+    edge S2_LampLeaving.c_green;
+  location s6:
+    edge S2_Door_Acc.c_on_close goto s7;
+    edge S2_Door_Acc.c_on_open goto s4;
+  location s7:
+    edge S2_Door_Sensor.u_on_closed goto s2;
+    edge S2_Door_Acc.c_off_close goto s6;
+  location s8:
+    edge S2_Door_Acc.c_on_close goto s9;
+    edge S2_Door_Acc.c_on_open goto s5;
+    edge S2_LampLeaving.c_green;
+  location s9:
+    edge S2_Door_Sensor.u_off_open goto s7;
+    edge S2_Door_Acc.c_off_close goto s8;
+    edge S2_LampLeaving.c_green;
+end
+requirement automaton R26:
+  location s1:
+    initial;
+    marked;
+    edge S2_Door_Acc.c_on_close goto s2;
+    edge S2_Door_Acc.c_on_open goto s3;
+    edge S2_LampLeaving.c_green;
+  location s2:
+    edge S2_Door_Acc.c_off_close goto s1;
+  location s3:
+    edge S2_Door_Sensor.u_off_closed goto s4;
+    edge S2_Door_Acc.c_off_open goto s1;
+  location s4:
+    edge S2_Door_Sensor.u_on_open goto s5;
+    edge S2_Door_Acc.c_off_open goto s6;
+  location s5:
+    edge S2_Door_Acc.c_off_open goto s8;
+  location s6:
+    edge S2_Door_Acc.c_on_close goto s7;
+    edge S2_Door_Acc.c_on_open goto s4;
+    edge S2_LampLeaving.c_green;
+  location s7:
+    edge S2_Door_Sensor.u_on_closed goto s2;
+    edge S2_Door_Acc.c_off_close goto s6;
+  location s8:
+    edge S2_Door_Acc.c_on_close goto s9;
+    edge S2_Door_Acc.c_on_open goto s5;
+    edge S2_LampLeaving.c_green;
+  location s9:
+    edge S2_Door_Sensor.u_off_open goto s7;
+    edge S2_Door_Acc.c_off_close goto s8;
+end

@@ -34,7 +34,11 @@ int failures = 0;
 int skipped = 0;
 
 // Find tests.
-list string tests = find(test_path, test_pattern);
+list string tests = [];
+for i in find(test_path, test_pattern):
+    // Ignore *_partial_specs and *_expected_specs directories.
+    if not contains(i, "_specs"):: tests = tests + [i];
+end
 for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
 for i in reverse(range(tests)):
     if contains(test_skip, tests[i]):
@@ -62,6 +66,13 @@ for test in tests:
     string test_dmm_real = chfileext(test, oldext="cif", newext="dmms.txt");
     string test_out_real = chfileext(test, oldext="cif", newext="out.real");
     string test_err_real = chfileext(test, oldext="cif", newext="err.real");
+    string dir_specs_exp = replace(test, oldtext=".cif", newtext="_expected_specs");
+    string dir_specs_real = replace(test, oldtext=".cif", newtext="_partial_specs");
+
+    // Clean out the partial specs directory if it exists.
+    if isdir(dir_specs_real):
+        for partial_cif in find(dir_specs_real, "*.cif"):: rmfile(pathjoin(dir_specs_real, partial_cif));
+    end
 
     // Execute.
     multilevel([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
@@ -74,8 +85,26 @@ for test in tests:
     if not stdout_diff:: rmfile(test_out_real);
     if not stderr_diff:: rmfile(test_err_real);
 
+    // Collect all CIF files in the partial and expected specs directories.
+    set string spec_files = {};
+    for cif_file in find(dir_specs_exp, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
+    for cif_file in find(dir_specs_real, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
+
+    // Assuming both directories contain the same files, compare all. Count errors, and delete good real specifications.
+    int specs_diff_count = 0;
+    for cif_file in spec_files:
+      string real_spec = replace(pathjoin(dir_specs_real, cif_file), "\\", "/");
+      string exp_spec = replace(pathjoin(dir_specs_exp, cif_file), "\\", "/");
+      bool spec_diff = diff(exp_spec, real_spec, missingAsEmpty=true, warnOnDiff=true);
+      if spec_diff:
+          specs_diff_count = specs_diff_count + 1;
+      else
+          rmfile(real_spec);
+      end
+    end
+
     // Update counts.
-    int diff_count = 0;
+    int diff_count = specs_diff_count;
     if dmm_diff:: diff_count = diff_count + 1;
     if stdout_diff:: diff_count = diff_count + 1;
     if stderr_diff:: diff_count = diff_count + 1;
