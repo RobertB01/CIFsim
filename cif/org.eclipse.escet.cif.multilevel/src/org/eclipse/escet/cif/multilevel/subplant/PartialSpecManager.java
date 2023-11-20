@@ -94,6 +94,28 @@ public class PartialSpecManager {
     }
 
     /**
+     * Retrieve the partial object that represents the given original object if it exists. Returns {@code null} if no
+     * such object exists.
+     *
+     * @param origObject Original object to use for finding its partial equivalent part.
+     * @return The partial object that represents the original object, or {@code  null} if no such object exists.
+     */
+    public EObject getCopiedPartialObject(EObject origObject) {
+        return copiedObjects.get(origObject);
+    }
+
+    /**
+     * Get a collection of dangling objects to resolve.
+     *
+     * @return A collection of dangling objects. The returned information may be outdated because Returned dangling
+     *     object has been resolved for a different copied sub-tree in the mean time. Returns {@code null} when the
+     *     queue is empty.
+     */
+    public Map<EObject, Collection<Setting>> getSomeDanglingObjects() {
+        return danglingQueue.poll();
+    }
+
+    /**
      * Create a skeleton copy of the provided original automaton by copying its name, alphabet, monitors, initial and
      * marked expressions, and its locations. The partial automaton is also hooked up in the partial specification.
      *
