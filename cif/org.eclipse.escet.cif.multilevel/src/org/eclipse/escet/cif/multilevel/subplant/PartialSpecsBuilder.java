@@ -15,7 +15,10 @@ package org.eclipse.escet.cif.multilevel.subplant;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Construct one or more partial specifications by copying parts from an original specification. */
@@ -43,6 +46,29 @@ public class PartialSpecsBuilder {
     public Specification createPartialSpecification(List<PositionObject> neededObjects) {
         PartialSpecManager partialMgr = new PartialSpecManager(origSpec);
 
+        // First stage copies the core needed objects. First add the automata, then the other objects. Almost certainly
+        // the result will still link to objects from the original specification. Such objects are known as dangling
+        // objects and get resolved after he first stage.
+
+        // Copy the automata to avoid getting them added as Group by the manager.
+        for (PositionObject element: neededObjects) {
+            if (element instanceof Automaton aut) {
+                partialMgr.copyAutomatonSkeleton(aut);
+            }
+        }
+
+        // Copy the other objects that must be in the partial specification.
+        for (PositionObject object: neededObjects) {
+            if (object instanceof Automaton aut) {
+                continue;
+            } else if (object instanceof Invariant inv) {
+                partialMgr.attachAddedToComponent(inv, partialMgr.deepcloneAndAdd(inv));
+            } else if (object instanceof InputVariable inp) {
+                partialMgr.attachAddedToComponent(inp, partialMgr.deepcloneAndAdd(inp));
+            } else {
+                throw new AssertionError("Encountered unexpected needed object to copy: \"" + object + "\".");
+            }
+        }
         return partialMgr.getPartialSpec();
     }
 }
