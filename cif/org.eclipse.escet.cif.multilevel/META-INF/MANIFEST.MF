@@ -19,7 +19,9 @@ Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="2.0.0",
  org.eclipse.escet.common.dsm;bundle-version="2.0.0",
  org.eclipse.escet.cif.common;bundle-version="2.0.0",
  org.apache.commons.math3;bundle-version="3.6.1",
- org.eclipse.escet.cif.checkers;bundle-version="2.0.0"
+ org.eclipse.escet.cif.checkers;bundle-version="2.0.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.escet.common.position.metamodel
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Automatic-Module-Name: org.eclipse.escet.cif.multilevel
 Export-Package: org.eclipse.escet.cif.multilevel,
