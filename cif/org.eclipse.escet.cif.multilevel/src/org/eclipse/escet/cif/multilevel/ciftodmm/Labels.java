@@ -84,6 +84,34 @@ public class Labels {
         throw new AssertionError("Unexpected position object class encountered: " + element);
     }
 
+    /**
+     * Unwrap the label and return the contained element.
+     *
+     * @param label Label to unwrap.
+     * @return The contained element.
+     */
+    public static PositionObject unwrapLabel(Label label) {
+        if (label instanceof AutomatonLabel autLabel) {
+            return autLabel.automaton;
+        }
+        if (label instanceof InvariantLabel invLabel) {
+            return invLabel.invariant;
+        }
+        if (label instanceof InputVarLabel inpVarLabel) {
+            return inpVarLabel.inputVar;
+        }
+        if (label instanceof DiscVarLabel discVarLabel) {
+            return discVarLabel.discVar;
+        }
+        if (label instanceof EventLabel eventLabel) {
+            return eventLabel.event;
+        }
+        if (label instanceof LocationLabel locLabel) {
+            return locLabel.location;
+        }
+        throw new AssertionError("Unexpected Label class encountered: " + label);
+    }
+
     /** DMM label holding a CIF automaton. */
     public static class AutomatonLabel extends Label {
         /** Automaton stored in the label. */
