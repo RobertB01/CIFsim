@@ -1,0 +1,2 @@
+WARNING: Configured real type size is less than the CIF real type size. Some values in the program may be truncated.
+WARNING: I/O table file "plcgen/options.csv" not found. The PLC code will not perform any I/O with the environment.
