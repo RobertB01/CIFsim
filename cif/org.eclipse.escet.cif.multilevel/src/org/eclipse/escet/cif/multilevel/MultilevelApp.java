@@ -16,9 +16,16 @@ package org.eclipse.escet.cif.multilevel;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.err;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.makeFixedLengthNumberText;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -31,13 +38,16 @@ import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesOptimized;
 import org.eclipse.escet.cif.io.CifReader;
+import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
 import org.eclipse.escet.cif.multilevel.clustering.ComputeMultiLevelTree;
 import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
+import org.eclipse.escet.cif.multilevel.subplant.PartialSpecsBuilder;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -50,6 +60,8 @@ import org.eclipse.escet.common.dsm.ClusterInput;
 import org.eclipse.escet.common.dsm.Dmm;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.DsmClustering;
+import org.eclipse.escet.common.java.BitSetIterator;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
  * CIF multi-level synthesis application.
@@ -201,7 +213,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Dump the multi-level tree.
-        for (TreeNode node: rootNode.linearizeTree()) {
+        List<TreeNode> linearizedTree = rootNode.linearizeTree();
+        for (TreeNode node: linearizedTree) {
             out("Index: %d", node.index);
             out("Plant groups: %s", node.plantGroups.isEmpty() ? "<none>" : node.plantGroups.toString());
             out("Req groups:   %s", node.requirementGroups.isEmpty() ? "<none>" : node.requirementGroups.toString());
@@ -211,6 +224,48 @@ public class MultilevelApp extends Application<IOutputComponent> {
             out();
         }
 
+        if (linearizedTree.isEmpty()) {
+            err("No partial specifications were created.");
+            return 0;
+        }
+
+        // Create a directory for storing the partial specifications, if it does not yet exist.
+        String partialSpecsDir = Paths.resolve(OutputFileOption.getDerivedPath(".cif", "_partial_specs"));
+        Path dirPath = java.nio.file.Paths.get(partialSpecsDir);
+        if (!Files.isDirectory(dirPath)) {
+            try {
+                Files.createDirectory(dirPath);
+            } catch (IOException ex) {
+                String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.", dirPath);
+                throw new InputOutputException(msg, ex);
+            }
+        }
+
+        // Construct the partial specifications. The partial builder is re-used for each partial specification.
+        PartialSpecsBuilder partialBuilder = new PartialSpecsBuilder(spec);
+
+        // And construct and write the partial specifications.
+        for (TreeNode node: linearizedTree) {
+            // Find the objects that should be in the partial specification of this node.
+            List<PositionObject> neededObjects = list();
+            for (int plantGrp: new BitSetIterator(node.plantGroups)) {
+                neededObjects.addAll(cifRelations.getPlantsOfGroup(plantGrp));
+            }
+            for (int reqGrp: new BitSetIterator(node.requirementGroups)) {
+                neededObjects.addAll(cifRelations.getRequirementsOfGroup(reqGrp));
+            }
+
+            // Construct the specification.
+            Specification partialSpec = partialBuilder.createPartialSpecification(neededObjects);
+
+            // And write the output file.
+            String outPath = Paths.join(partialSpecsDir,
+                    "spec_" + makeFixedLengthNumberText(node.index, linearizedTree.size()) + ".cif");
+            CifWriter.writeCifSpec(partialSpec, outPath, cifReader.getAbsDirPath());
+        }
+        out("Wrote %d partial specifications to directory %s", linearizedTree.size(), dirPath);
+
+        // TODO Implement.
         OutputProvider.warn("Multi-level synthesis not yet implemented.");
         return 0;
     }
