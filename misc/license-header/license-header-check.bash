@@ -141,6 +141,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/t
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/event_disabler/.*.disabled.cif:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/explorer/.*.aut.cif:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/explorer/.*.report.txt:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/multilevel/*_expected_specs/*.cif:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/plcgen/.*_abb/.*.plccfg:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/plcgen/.*_abb/.*.plcprog:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/plcgen/.*_abb/.*.plctype:0$"
