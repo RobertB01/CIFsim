@@ -21,7 +21,7 @@
          point="org.eclipse.escet.cif.annotations">
       <provider
             annotationName="doc"
-            class="org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider"
+            class="org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider"
             plugin="org.eclipse.escet.cif.typechecker">
       </provider>
    </extension>
