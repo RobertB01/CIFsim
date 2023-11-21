@@ -50,7 +50,9 @@ public class DocAnnotationProvider extends AnnotationProvider {
     }
 
     @Override
-    public final void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
+    public final void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
+            AnnotationProblemReporter reporter)
+    {
         // Check for existence of mandatory argument.
         if (annotation.getArguments().isEmpty()) {
             reporter.reportProblem(annotation, "missing mandatory \"text\" argument.", annotation.getPosition(),
