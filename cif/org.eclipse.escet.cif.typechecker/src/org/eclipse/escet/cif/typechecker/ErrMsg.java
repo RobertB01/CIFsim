@@ -788,7 +788,7 @@ public enum ErrMsg {
     PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING),
 
     // AnnotatedObject.uniqueAnnotations
-    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for \"%s\".", 2, ERROR),
+    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for %s.", 2, ERROR),
 
     // Annotation.annotationSpecificErrors
     ANNO_SPECIFIC_ERR("Annotation \"%s\": %s", 2, ERROR),
@@ -809,7 +809,7 @@ public enum ErrMsg {
     // The following metamodel constraints are satisfied by parsing or metamodel construction:
     // - AlgVariableExpression.type
     // - AlgParameter.noValue
-    // - AnnotatedObject.onlyForInputVariables
+    // - AnnotatedObject.onlyForSupportedObjects
     // - Annotation.validName
     // - AnnotationArgument.validName
     // - Automaton.noFuncDecl

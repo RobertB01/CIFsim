@@ -811,8 +811,9 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
 
         // Obtain other dependent packages
         CifPackage theCifPackage = (CifPackage)EPackage.Registry.INSTANCE.getEPackage(CifPackage.eNS_URI);
-        PositionPackage thePositionPackage = (PositionPackage)EPackage.Registry.INSTANCE.getEPackage(PositionPackage.eNS_URI);
+        AnnotationsPackage theAnnotationsPackage = (AnnotationsPackage)EPackage.Registry.INSTANCE.getEPackage(AnnotationsPackage.eNS_URI);
         ExpressionsPackage theExpressionsPackage = (ExpressionsPackage)EPackage.Registry.INSTANCE.getEPackage(ExpressionsPackage.eNS_URI);
+        PositionPackage thePositionPackage = (PositionPackage)EPackage.Registry.INSTANCE.getEPackage(PositionPackage.eNS_URI);
 
         // Create type parameters
 
@@ -820,7 +821,7 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
 
         // Add supertypes to classes
         automatonEClass.getESuperTypes().add(theCifPackage.getComplexComponent());
-        locationEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        locationEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
         edgeEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         updateEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         assignmentEClass.getESuperTypes().add(this.getUpdate());

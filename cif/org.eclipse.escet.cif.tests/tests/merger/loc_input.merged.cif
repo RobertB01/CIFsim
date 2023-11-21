@@ -1,6 +1,10 @@
 automaton a:
   const int[5..5] x = 5;
   const int[6..6] y = 6;
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
   location b:
     initial;
 end

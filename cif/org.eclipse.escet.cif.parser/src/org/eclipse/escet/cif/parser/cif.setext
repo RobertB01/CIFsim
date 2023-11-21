@@ -440,10 +440,10 @@ Locations : Location
           ;
 
 {automata.ALocation}
-Location : @LOCATIONKW SEMICOLTK
-         | @LOCATIONKW Identifier SEMICOLTK
-         | @LOCATIONKW COLONTK LocationElements
-         | @LOCATIONKW Identifier COLONTK LocationElements
+Location : OptAnnos @LOCATIONKW SEMICOLTK
+         | OptAnnos @LOCATIONKW Identifier SEMICOLTK
+         | OptAnnos @LOCATIONKW COLONTK LocationElements
+         | OptAnnos @LOCATIONKW Identifier COLONTK LocationElements
          ;
 
 {List<automata.ALocationElement>}

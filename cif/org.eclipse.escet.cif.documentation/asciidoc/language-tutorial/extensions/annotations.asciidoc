@@ -36,7 +36,7 @@ Annotations have two main purposes:
 * Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
 * Annotations allow to test out language extensions before fully integrating them into the language.
 
-Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
+Currently, annotations are only supported for input variables and locations of automata, but this will be extended to other elements of specifications in the future.
 
 The following built-in annotations are bundled with CIF:
 
@@ -62,7 +62,7 @@ indexterm:[doc, annotation]
 [[lang-tut-extensions-chapter-annotations-documentation]]
 === Documentation annotations
 
-Documentation can be added to input variables:
+Documentation can be added to input variables and locations of automata:
 
 [source, cif]
 ----
@@ -93,8 +93,7 @@ input bool s1;
 ----
 
 This documentation can then be used by CIF tools in various ways.
-For instance, the <<tools-codegen-chapter-index,CIF code generator>> includes this documentation in the generated code.
-For the above example, it may generate the following Java code:
+For instance, if the the <<tools-codegen-chapter-index,CIF code generator>> is used to generate Java code for the above example, then the documentation is included in the generated code:
 
 [source, java]
 ----

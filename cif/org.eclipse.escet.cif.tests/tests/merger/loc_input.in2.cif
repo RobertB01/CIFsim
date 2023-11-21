@@ -13,5 +13,8 @@
 
 group a:
   const int y = 6;
+
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
   input bool b;
 end

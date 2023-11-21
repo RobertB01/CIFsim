@@ -44,7 +44,7 @@ For instance:
 x := x + 1;
 ----
 
-Besides local variables, it also allowed to assign new values to the parameters.
+Besides local variables, it is also allowed to assign new values to the parameters.
 Changes to parameters only have effect inside the function itself.
 
 For <<lang-tut-data-asgn-old-vs-new-multi,multi-assignments>>, the outer parentheses are not needed:

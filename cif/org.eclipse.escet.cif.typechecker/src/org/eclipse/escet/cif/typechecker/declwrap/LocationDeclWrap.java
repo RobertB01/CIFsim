@@ -13,9 +13,14 @@
 
 package org.eclipse.escet.cif.typechecker.declwrap;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.common.java.Assert;
@@ -25,16 +30,21 @@ import org.eclipse.escet.common.java.Assert;
  * {@link LocationDeclWrap} is created for them.
  */
 public class LocationDeclWrap extends DeclWrap<Location> {
+    /** The CIF AST representation of the location. */
+    private final ALocation astDecl;
+
     /**
      * Constructor for the {@link LocationDeclWrap} class.
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
+     * @param astDecl The CIF AST representation of the location.
      * @param mmDecl The CIF metamodel representation of the location.
      */
-    public LocationDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, Location mmDecl) {
+    public LocationDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, ALocation astDecl, Location mmDecl) {
         super(tchecker, scope, mmDecl);
         Assert.notNull(mmDecl.getName());
+        this.astDecl = astDecl;
     }
 
     @Override
@@ -53,13 +63,23 @@ public class LocationDeclWrap extends DeclWrap<Location> {
         // Check for reserved names.
         checkName();
 
-        // Locations have no additional type, so nothing else to do here.
-        status = CheckStatus.FULL;
+        // This declaration is now checked for use.
+        status = CheckStatus.USE;
     }
 
     @Override
     public void tcheckFull() {
-        // The 'for use' check already fully checks the location.
+        // First, check 'for use', and make sure we haven't checked it before.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, this, scope, tchecker);
+        mmDecl.getAnnotations().addAll(annos);
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 }

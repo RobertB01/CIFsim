@@ -40,6 +40,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifAddressableUtils;
@@ -54,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -104,6 +106,7 @@ import org.eclipse.escet.cif.parser.ast.automata.AUrgentLocationElement;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.AssignmentUniquenessChecker;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.ExprContext;
@@ -367,6 +370,16 @@ public class AutScope extends ParentScope<Automaton> {
     private static void typeCheckLocation(ALocation astLoc, Location mmLoc, ParentScope<?> autScope,
             CifTypeChecker tchecker)
     {
+        // For nameless locations, type check and add the annotations. For named locations, this is done in their symbol
+        // table entries.
+        if (astLoc.name == null) {
+            Supplier<String> descriptionSupplier = () -> fmt("the location of \"%s\"", autScope.getAbsName());
+            List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astLoc.annotations, descriptionSupplier,
+                    autScope, tchecker);
+            mmLoc.getAnnotations().addAll(annos);
+        }
+
+        // If the location has no elements, we are done.
         if (astLoc.elements == null) {
             return;
         }

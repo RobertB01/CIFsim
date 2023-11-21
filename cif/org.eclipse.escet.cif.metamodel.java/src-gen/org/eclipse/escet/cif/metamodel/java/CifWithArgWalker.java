@@ -446,6 +446,10 @@ public abstract class CifWithArgWalker<T> {
             walkDeclaration((Declaration)obj, arg);
             return;
         }
+        if (obj instanceof Location) {
+            walkLocation((Location)obj, arg);
+            return;
+        }
         String msg = "No redirect; unexpected object type: " + obj;
         throw new IllegalArgumentException(msg);
     }
@@ -5445,6 +5449,10 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkLocation(Location obj, T arg) {
         precrawlLocation(obj, arg);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
+        }
         List<Edge> _edges = obj.getEdges();
         for (Edge x: _edges) {
             walkEdge(x, arg);
@@ -5479,7 +5487,7 @@ public abstract class CifWithArgWalker<T> {
      * @param arg The extra argument provided to the pre-crawling method.
      */
     protected void precrawlLocation(Location obj, T arg) {
-        precrawlPositionObject(obj, arg);
+        precrawlAnnotatedObject(obj, arg);
         preprocessLocation(obj, arg);
     }
 
@@ -5491,7 +5499,7 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void postcrawlLocation(Location obj, T arg) {
         postprocessLocation(obj, arg);
-        postcrawlPositionObject(obj, arg);
+        postcrawlAnnotatedObject(obj, arg);
     }
 
     /**
@@ -5902,10 +5910,6 @@ public abstract class CifWithArgWalker<T> {
         }
         if (obj instanceof IoDecl) {
             walkIoDecl((IoDecl)obj, arg);
-            return;
-        }
-        if (obj instanceof Location) {
-            walkLocation((Location)obj, arg);
             return;
         }
         if (obj instanceof Monitors) {
