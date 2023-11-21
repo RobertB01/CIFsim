@@ -230,8 +230,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Create a directory for storing the partial specifications, if it does not yet exist.
-        String partialSpecsDir = Paths.resolve(OutputFileOption.getDerivedPath(".cif", "_partial_specs"));
-        Path dirPath = java.nio.file.Paths.get(partialSpecsDir);
+        String partialSpecsDir = OutputFileOption.getDerivedPath(".cif", "_partial_specs");
+        Path dirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
         if (!Files.isDirectory(dirPath)) {
             try {
                 Files.createDirectory(dirPath);
@@ -259,11 +259,11 @@ public class MultilevelApp extends Application<IOutputComponent> {
             Specification partialSpec = partialBuilder.createPartialSpecification(neededObjects);
 
             // And write the output file.
-            String outPath = Paths.join(partialSpecsDir,
+            String outPath = Paths.join(Paths.resolve(partialSpecsDir),
                     "spec_" + makeFixedLengthNumberText(node.index, linearizedTree.size()) + ".cif");
             CifWriter.writeCifSpec(partialSpec, outPath, cifReader.getAbsDirPath());
         }
-        out("Wrote %d partial specifications to directory %s", linearizedTree.size(), dirPath);
+        out("Wrote %d partial specifications to directory %s", linearizedTree.size(), partialSpecsDir);
 
         // TODO Implement.
         OutputProvider.warn("Multi-level synthesis not yet implemented.");
