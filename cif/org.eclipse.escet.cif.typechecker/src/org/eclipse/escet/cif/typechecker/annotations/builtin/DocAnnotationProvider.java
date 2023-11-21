@@ -51,18 +51,22 @@ public class DocAnnotationProvider extends AnnotationProvider {
 
     @Override
     public final void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
+        // Check for existence of mandatory argument.
         if (annotation.getArguments().isEmpty()) {
             reporter.reportProblem(annotation, "missing mandatory \"text\" argument.", annotation.getPosition(),
                     SemanticProblemSeverity.ERROR);
             // Non-fatal problem.
         }
 
+        // Check provided arguments.
         for (AnnotationArgument arg: annotation.getArguments()) {
+            // Check for (un)supported argument name.
             if (!arg.getName().equals("text")) {
                 reporter.reportProblem(annotation, fmt("unsupported argument \"%s\".", arg.getName()),
                         arg.getPosition(), SemanticProblemSeverity.ERROR);
                 // Non-fatal problem.
             } else {
+                // 'text' argument.
                 boolean doEvaluationCheck = true;
 
                 // Check for argument having a boolean value. Tests reporting a second warning.
