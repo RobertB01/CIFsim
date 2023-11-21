@@ -185,7 +185,7 @@ class ${prefix}Utils {
      * Checks a real value to ensure it is not `NaN` or infinite.
      *
      * @param {number} value - The real value to check.
-     * @param {string} name -  The name of the CIF variable that contains the value.
+     * @param {string} name - The name of the CIF variable that contains the value.
      */
     static checkReal(value, name) {
         if (Number.isFinite(value)) return;
