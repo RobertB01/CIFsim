@@ -45,7 +45,7 @@
                label="CIF implemen&amp;tation tools">
             <command
                   commandId="org.eclipse.escet.cif.cif2plc.CifToPlcCommand"
-                  icon="icons/cif_to_plc.png"
+                  icon="icons/cif_app.png"
                   label="Generate &amp;PLC code for CIF specification... (stable)">
                <visibleWhen>
                   <or>
