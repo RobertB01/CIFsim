@@ -175,11 +175,11 @@ A proper extension to register an annotation will look something like this:
 
 ```xml
 <extension
-     point="org.eclipse.escet.cif.annotations">
+     point="org.company.cif.annotations">
   <provider
-        annotationName="doc"
-        class="org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider"
-        plugin="org.eclipse.escet.cif.typechecker">
+        annotationName="some:thing"
+        class="org.company.cif.annotations.SomeThingAnnotationProvider"
+        plugin="org.company.cif.annotations">
   </provider>
 </extension>
 ```
