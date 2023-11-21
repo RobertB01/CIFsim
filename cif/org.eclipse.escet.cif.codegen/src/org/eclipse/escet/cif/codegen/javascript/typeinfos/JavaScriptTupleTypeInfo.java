@@ -66,7 +66,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("%s = %s;", dest.getData(), sourceValue.getData());
+        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override

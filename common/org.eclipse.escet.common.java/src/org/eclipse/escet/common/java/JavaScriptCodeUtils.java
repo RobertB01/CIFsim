@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.javascript;
+package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Sets.set;
 

@@ -104,7 +104,7 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
             ExprCode thenCode = exprToTarget(elif.getThen(), null, ctxt);
             Assert.check(!guardCode.hasCode());
             Assert.check(!thenCode.hasCode());
-            resultText = fmt("(%s) ? %s : (%s)", guardCode.getData(), thenCode.getData(), resultText);
+            resultText = fmt("(%s) ? %s : %s", guardCode.getData(), thenCode.getData(), resultText);
         }
 
         // Wrap 'if' around 'elifs/else'.
@@ -112,7 +112,7 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         ExprCode thenCode = exprToTarget(expr.getThen(), null, ctxt);
         Assert.check(!guardCode.hasCode());
         Assert.check(!thenCode.hasCode());
-        resultText = fmt("(%s) ? %s : (%s)", guardCode.getData(), thenCode.getData(), resultText);
+        resultText = fmt("(%s) ? %s : %s", guardCode.getData(), thenCode.getData(), resultText);
 
         // Return final result.
         result.setDestination(dest);

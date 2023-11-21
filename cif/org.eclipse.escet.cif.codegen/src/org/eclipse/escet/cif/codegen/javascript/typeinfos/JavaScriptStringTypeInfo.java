@@ -121,7 +121,7 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
         ExprCode result = new ExprCode();
         result.add(childCode);
         result.add(indexCode);
-        String resultText = fmt("%sUtils.project(%s, %s)", ctxt.getPrefix(), childCode.getData(), indexCode.getData());
+        String resultText = fmt("%sUtils.projectString(%s, %s)", ctxt.getPrefix(), childCode.getData(), indexCode.getData());
         result.setDestination(dest);
         result.setDataValue(new JavaScriptDataValue(resultText));
         return result;

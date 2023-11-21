@@ -116,8 +116,8 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
         if (properties.isEmpty()) {
             result.setDataValue(new JavaScriptDataValue(fmt("-(%s)", childCode.getData())));
         } else {
-            result.setDataValue(
-                    new JavaScriptDataValue(fmt("%sUtils.negateInt(%s)", ctxt.getPrefix(), childCode.getData())));
+            result.setDataValue(new JavaScriptDataValue(fmt("%sUtils.negateInt(%s)", ctxt.getPrefix(),
+                    childCode.getData())));
         }
         return result;
     }
@@ -211,7 +211,8 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
 
     @Override
     public ExprCode convertCeilStdLib(Expression expression, Destination dest, CodeContext ctxt) {
-        return convertFunctionCallPattern(fmt("%sUtils.ceil(${args})", ctxt.getPrefix()), list(expression), dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.ceil(${args})", ctxt.getPrefix()), list(expression), dest,
+                ctxt);
     }
 
     @Override

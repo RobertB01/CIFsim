@@ -131,8 +131,8 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
         ExprCode result = new ExprCode();
         result.add(childCode);
         result.setDestination(dest);
-        result.setDataValue(
-                new JavaScriptDataValue(fmt("%sUtils.negateDouble(%s)", ctxt.getPrefix(), childCode.getData())));
+        result.setDataValue(new JavaScriptDataValue(fmt("%sUtils.negateReal(%s)", ctxt.getPrefix(),
+                childCode.getData())));
         return result;
     }
 
@@ -144,14 +144,14 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
 
     @Override
     public ExprCode convertSubtraction(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr,
-                fmt("%sUtils.subtractDouble(${left-value}, ${right-value})", ctxt.getPrefix()), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, fmt("%sUtils.subtractReal(${left-value}, ${right-value})",
+                ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
     public ExprCode convertMultiplication(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr,
-                fmt("%sUtils.multiplyDouble(${left-value}, ${right-value})", ctxt.getPrefix()), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, fmt("%sUtils.multiplyReal(${left-value}, ${right-value})",
+                ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
@@ -191,22 +191,22 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
 
     @Override
     public ExprCode convertAbsStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        return convertFunctionCallPattern(fmt("%sUtils.absDouble(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.absReal(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override
     public ExprCode convertMaximumStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        return convertFunctionCallPattern(fmt("%sUtils.maxDouble(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.maxReal(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
     }
 
     @Override
     public ExprCode convertMinimumStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        return convertFunctionCallPattern(fmt("%sUtils.minDouble(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.minReal(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
     }
 
     @Override
     public ExprCode convertSignStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        return convertFunctionCallPattern(fmt("%sUtils.signDouble(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.signReal(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override

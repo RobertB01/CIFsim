@@ -249,7 +249,7 @@ public class JavaScriptCodeGen extends CodeGen {
             String name = getTargetName(var);
             code.add("this.%s = this.%s + delta * deriv%d;", name, name, i);
             String origName = origDeclNames.get(var);
-            code.add("%sUtils.checkDouble(this.%s, %s);", ctxt.getPrefix(), name, Strings.stringToJava(origName));
+            code.add("%sUtils.checkReal(this.%s, %s);", ctxt.getPrefix(), name, Strings.stringToJava(origName));
             code.add("if (this.%s == -0.0) this.%s = 0.0;", name, name);
         }
 
