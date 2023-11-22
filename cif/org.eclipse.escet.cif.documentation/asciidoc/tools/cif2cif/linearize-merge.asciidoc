@@ -485,4 +485,5 @@ Currently, no effort is made by this transformation to reduce for instance the n
 
 === Annotations
 
-This transformation does not process, add, or remove any annotations.
+This transformation does not process or add any annotations.
+The annotations of all locations of automata are lost, and the single new location does not have any annotations.

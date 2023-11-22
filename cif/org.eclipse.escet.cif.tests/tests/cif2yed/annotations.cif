@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,11 +11,29 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton a:
-  const int x = 5;
+@doc($text="a")
+input bool x;
 
-  @cif:typechecker:tests:anno2
-  @cif:typechecker:tests:anno4
-  location b:
+automaton a1:
+  @doc($text="a")
+  location:
     initial;
+end
+
+automaton a2:
+  @doc($text="a")
+  location:
+    initial;
+    marked x;
+end
+
+automaton a3:
+  @doc($text="a")
+  location loc1:
+    initial;
+
+  @doc($text="a")
+  location loc2:
+    initial;
+    marked x;
 end

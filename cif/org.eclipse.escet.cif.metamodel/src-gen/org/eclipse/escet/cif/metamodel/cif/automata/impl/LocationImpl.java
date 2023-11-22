@@ -32,13 +32,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-
-import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -59,7 +59,7 @@ import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectI
  *
  * @generated
  */
-public class LocationImpl extends PositionObjectImpl implements Location
+public class LocationImpl extends AnnotatedObjectImpl implements Location
 {
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.

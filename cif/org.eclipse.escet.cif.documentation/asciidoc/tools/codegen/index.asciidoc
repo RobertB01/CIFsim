@@ -288,3 +288,4 @@ However, it is up to the implementer that connects the inputs from the environme
 
 All annotations in the specification are ignored, except for <<lang-ref-extensions-annotations-documentation,documentation annotations>>.
 The documentation of input variables is included in the generated code.
+The documentation of the locations of automata is ignored.

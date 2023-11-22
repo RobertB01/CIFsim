@@ -176,6 +176,8 @@ import org.eclipse.escet.common.java.Assert;
  * for the location pointer variables, are added to their original scope and thus keep their original names.
  * </p>
  *
+ * <p>All annotations of the original locations are lost.</p>
+ *
  * <p>
  * This transformation generates non-optimized expressions (mostly predicates). Apply the {@link SimplifyValues}
  * transformation after this transformation, to obtain simpler, more readable results.

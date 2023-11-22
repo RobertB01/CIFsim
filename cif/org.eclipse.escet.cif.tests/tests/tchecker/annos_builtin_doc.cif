@@ -34,3 +34,21 @@ input bool i5;
 // Valid.
 @doc($text = "some text")
 input bool i6;
+
+// Also check other types of annotated objects.
+
+automaton a1:
+  @doc
+  location:
+    initial;
+end
+
+automaton a2:
+  @doc
+  location loc1:
+    initial;
+
+  @doc
+  location loc2:
+    initial;
+end

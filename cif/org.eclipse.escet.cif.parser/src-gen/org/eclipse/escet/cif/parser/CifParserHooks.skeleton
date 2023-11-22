@@ -816,23 +816,23 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Location : @LOCATIONKW SEMICOLTK;
-    public ALocation parseLocation1(Token t1) {
+    @Override // Location : OptAnnos @LOCATIONKW SEMICOLTK;
+    public ALocation parseLocation1(List<AAnnotation> l1, Token t2) {
         // return null;
     }
 
-    @Override // Location : @LOCATIONKW Identifier SEMICOLTK;
-    public ALocation parseLocation2(Token t1, AIdentifier a2) {
+    @Override // Location : OptAnnos @LOCATIONKW Identifier SEMICOLTK;
+    public ALocation parseLocation2(List<AAnnotation> l1, Token t2, AIdentifier a3) {
         // return null;
     }
 
-    @Override // Location : @LOCATIONKW COLONTK LocationElements;
-    public ALocation parseLocation3(Token t1, List<ALocationElement> l3) {
+    @Override // Location : OptAnnos @LOCATIONKW COLONTK LocationElements;
+    public ALocation parseLocation3(List<AAnnotation> l1, Token t2, List<ALocationElement> l4) {
         // return null;
     }
 
-    @Override // Location : @LOCATIONKW Identifier COLONTK LocationElements;
-    public ALocation parseLocation4(Token t1, AIdentifier a2, List<ALocationElement> l4) {
+    @Override // Location : OptAnnos @LOCATIONKW Identifier COLONTK LocationElements;
+    public ALocation parseLocation4(List<AAnnotation> l1, Token t2, AIdentifier a3, List<ALocationElement> l5) {
         // return null;
     }
 
