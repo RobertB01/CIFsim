@@ -419,7 +419,7 @@ public class PlcCodeStorage {
 
             // Update "loopsKilled" afterwards if appropriate.
             if (loopsKilled != null) {
-                // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED);
+                // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
                 PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
                         new PlcIntLiteral(maxIter));
                 PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled),
