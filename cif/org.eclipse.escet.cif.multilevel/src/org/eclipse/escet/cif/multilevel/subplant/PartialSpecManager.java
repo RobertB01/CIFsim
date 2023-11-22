@@ -137,7 +137,7 @@ public class PartialSpecManager {
             List<Edge> edges = deepcloneAndAdd(origLoc.getEdges());
             initials = deepcloneAndAdd(origLoc.getInitials());
             markeds = deepcloneAndAdd(origLoc.getMarkeds());
-            Location partialLoc = newLocation(edges, null, initials, null, markeds, origLoc.getName(), null,
+            Location partialLoc = newLocation(null, edges, null, initials, null, markeds, origLoc.getName(), null,
                     origLoc.isUrgent());
             addCopiedObject(origLoc, partialLoc);
             attachAddedToComponent(origLoc, partialLoc);
