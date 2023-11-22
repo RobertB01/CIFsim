@@ -19,7 +19,7 @@ import org.eclipse.escet.common.java.Assert;
  * An empty line or a comment line in PLC code.
  *
  * <p>
- * Either an empty line nor a pure comment line are statements. A code block with just empty and/or comment lines is
+ * Neither an empty line nor a pure comment line are statements. A code block with just empty and/or comment lines is
  * thus not correct PLC code, since a block should generally have at least one statement. If adding a statement is
  * complicated, the {@link PlcCommentLine} class can be configured to also generate an empty statement. (It will
  * generate an additional semi-colon {@code ';'} after the comment in that case.)

@@ -82,7 +82,7 @@ public class PlcElementaryType extends PlcType {
     /**
      * Retrieve the number of bits of an integer type.
      *
-     * @param intType Type to analyze to analyze.
+     * @param intType Type to analyze.
      * @return Number of bits of the type.
      */
     public static int getSizeOfIntType(PlcElementaryType intType) {

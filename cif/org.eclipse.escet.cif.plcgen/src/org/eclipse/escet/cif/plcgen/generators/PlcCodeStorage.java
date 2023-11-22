@@ -306,13 +306,14 @@ public class PlcCodeStorage {
         PlcVariable loopCount = null;
         PlcVariable loopsKilled = null;
         if (maxIter != null) {
-            // Construct a 'loopsKilled' variable, ensure the maximum value fits in the type.
+            // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
             loopsKilled = exprGen.makeLocalVariable("loopsKilled", PlcElementaryType.INT_TYPE);
-            Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)"
+            Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)".
 
-            // Construct a 'loopCount' variable, limit the maximum number of iterations to the type.
-            loopCount = exprGen.makeLocalVariable("loopCount", target.getIntegerType());
-            int bitSize = PlcElementaryType.getSizeOfIntType((PlcElementaryType)loopCount.type);
+            // Construct a "loopCount" variable, limit the maximum number of iterations to the type.
+            PlcElementaryType loopCountType = target.getIntegerType();
+            loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
+            int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
             maxIter = switch (bitSize) {
                 case 64, 32 -> maxIter; // Java int size is 32 bit, all values of maxIter fit.
                 case 16 -> Math.min(maxIter, 0x7FFF);
@@ -394,12 +395,13 @@ public class PlcCodeStorage {
                 box.add("WHILE %s DO", progressVar.name);
                 box.indent();
             } else {
-                // "progress AND loopCount < max"
+                // Generate condition "progress AND loopCount < max".
                 PlcExpression progressCond = new PlcVarExpression(progressVar);
                 PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
                         new PlcIntLiteral(maxIter));
                 PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
 
+                // Restricted looping code.
                 box.add("(* Perform events until none can be done anymore. *)");
                 box.add("(* Track the number of iterations and abort if there are too many. *)");
                 box.add("%s := 0;", loopCount.name);
@@ -415,7 +417,7 @@ public class PlcCodeStorage {
             box.dedent();
             box.add("END_WHILE;");
 
-            // Update 'loopsKilled' afterwards if appropriate,
+            // Update "loopsKilled" afterwards if appropriate.
             if (loopsKilled != null) {
                 // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED);
                 PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
