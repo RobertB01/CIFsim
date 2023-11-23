@@ -24,12 +24,16 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeFixedLengthNumberText;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealMatrixFormat;
@@ -75,6 +79,9 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  */
 public class MultilevelApp extends Application<IOutputComponent> {
+    /** Regular expression pattern of a generated subplant specification file. */
+    private static final Pattern SPEC_FILE_PATTERN = Pattern.compile("spec_[0-9]+\\.cif");
+
     /** Matrix debug output format. */
     private static final RealMatrixFormat MAT_DEBUG_FORMAT;
 
@@ -231,12 +238,38 @@ public class MultilevelApp extends Application<IOutputComponent> {
 
         // Create a directory for storing the partial specifications, if it does not yet exist.
         String partialSpecsDir = OutputFileOption.getDerivedPath(".cif", "_partial_specs");
-        Path dirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
-        if (!Files.isDirectory(dirPath)) {
-            try {
-                Files.createDirectory(dirPath);
+        Path absDirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
+        boolean dirExists = false;
+        try {
+            Files.createDirectory(absDirPath);
+        } catch (FileAlreadyExistsException ex) {
+            if (Files.isDirectory(absDirPath)) {
+                dirExists = true;
+            } else {
+                String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
+                        absDirPath);
+                throw new InputOutputException(msg, ex);
+            }
+        } catch (IOException ex) {
+            String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.", absDirPath);
+            throw new InputOutputException(msg, ex);
+        }
+
+        // In case the directory already exists, delete existing "spec_NNN.cif" entries.
+        if (dirExists) {
+            try (Stream<Path> dirContent = Files.list(absDirPath)) {
+                Predicate<String> matcher = SPEC_FILE_PATTERN.asMatchPredicate();
+                dirContent.filter(p -> matcher.test(p.getFileName().toString())).forEach(p -> {
+                    try {
+                        Files.delete(p);
+                    } catch (IOException ex) {
+                        String msg = fmt("Failed to clean output directory \"%s\" for the partial specifications.",
+                                absDirPath);
+                        throw new InputOutputException(msg, ex);
+                    }
+                });
             } catch (IOException ex) {
-                String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.", dirPath);
+                String msg = fmt("Failed to clean output directory \"%s\" for the partial specifications.", absDirPath);
                 throw new InputOutputException(msg, ex);
             }
         }
