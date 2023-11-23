@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.explorer.ExplorerPreChecker;
 import org.eclipse.escet.cif.explorer.ExplorerPreChecker.CheckParameters;
 import org.eclipse.escet.cif.explorer.ExplorerStateFactory;
 import org.eclipse.escet.cif.explorer.RequirementAsPlantChecker;
+import org.eclipse.escet.cif.explorer.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.explorer.options.AutomatonNameOption;
 import org.eclipse.escet.cif.explorer.options.EnableCifOutputOption;
 import org.eclipse.escet.cif.explorer.options.EnableEdgeMinimizationOption;
@@ -364,6 +365,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         options.add(Options.getInstance(EnableEdgeMinimizationOption.class));
         options.add(Options.getInstance(EnableStatisticsOption.class));
         options.add(Options.getInstance(EnableCifOutputOption.class));
+        options.add(Options.getInstance(AddStateAnnosOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(AutomatonNameOption.class));
         options.add(Options.getInstance(EnableReportOption.class));
