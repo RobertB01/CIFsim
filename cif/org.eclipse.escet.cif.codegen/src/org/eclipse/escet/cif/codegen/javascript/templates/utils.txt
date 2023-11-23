@@ -539,7 +539,7 @@ class ${prefix}Utils {
         if (x == ${prefix}Utils.MIN_INT) {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: -%d.", x));
         }
-        return (x == -0.0) ? 0.0 : -x;
+        return (x == 0.0) ? 0.0 : -x;
     }
 
     /**
@@ -549,7 +549,7 @@ class ${prefix}Utils {
      * @return {number} `-value`.
      */
     static negateReal(x) {
-        return (x == -0.0) ? 0.0 : -x;
+        return (x == 0.0) ? 0.0 : -x;
     }
 
     /**
@@ -701,9 +701,8 @@ class ${prefix}Utils {
                 ${prefix}Utils.realToStr(outmin), ${prefix}Utils.realToStr(outmax)));
         }
         var fraction = ${prefix}Utils.divide(${prefix}Utils.subtractReal(v, inmin), inrange);
-        var rslt = ${prefix}Utils.addReal(outmin, ${prefix}Utils.multiplyReal(fraction,
+        return ${prefix}Utils.addReal(outmin, ${prefix}Utils.multiplyReal(fraction,
             ${prefix}Utils.subtractReal(outmax, outmin)));
-        return (rslt == -0.0) ? 0.0 : rslt;
     }
 
     /**
@@ -713,8 +712,7 @@ class ${prefix}Utils {
      * @return {number} `sign(x)`.
      */
     static signInt(x) {
-        var rslt = (x == 0) ? 0 : (x < 0) ? -1 : 1;
-        return (rslt == -0.0) ? 0.0 : rslt;
+        return (x == 0) ? 0 : (x < 0) ? -1 : 1;
     }
 
     /**
@@ -724,8 +722,7 @@ class ${prefix}Utils {
      * @return {number} `sign(x)`.
      */
     static signReal(x) {
-        var rslt = (x == 0.0) ? 0 : (x < 0.0) ? -1 : 1;
-        return (rslt == -0.0) ? 0.0 : rslt;
+        return (x == 0.0) ? 0 : (x < 0.0) ? -1 : 1;
     }
 
     /**
@@ -752,7 +749,7 @@ class ${prefix}Utils {
      * Returns `size(x)` for the given string.
      *
      * @param {string} x - The string.
-     * @return {number} `sizeString(x)`.
+     * @return {number} `size(x)`.
      */
     static sizeString(x) {
         return x.length;
@@ -762,7 +759,7 @@ class ${prefix}Utils {
      * Returns `size(x)` for the given list.
      *
      * @param {array} x - The list.
-     * @return {number} `sizeList(x)`.
+     * @return {number} `size(x)`.
      */
     static sizeList(x) {
         return x.length;
@@ -857,7 +854,7 @@ class ${prefix}Utils {
     static subtractInt(x, y) {
         var rslt = x - y;
         if (${prefix}Utils.MIN_INT <= rslt && rslt <= ${prefix}Utils.MAX_INT) {
-            return rslt;
+            return (rslt == -0.0) ? 0.0 : rslt;
         }
 
         throw new ${prefix}Exception(${prefix}Utils.fmt("Integer overflow: %d - %d.", x, y));
