@@ -293,7 +293,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
 
             // And write the output file.
             String outPath = Paths.join(Paths.resolve(partialSpecsDir),
-                    "spec_" + makeFixedLengthNumberText(node.index, linearizedTree.size()) + ".cif");
+                    "spec_" + makeFixedLengthNumberText(node.index + 1, linearizedTree.size() + 1) + ".cif");
             CifWriter.writeCifSpec(partialSpec, outPath, cifReader.getAbsDirPath());
         }
         out("Wrote %d partial specifications to directory %s", linearizedTree.size(), partialSpecsDir);
