@@ -11,19 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen.options;
+event e;
 
-/**
- * When should formal function invocation syntax be used in the PLC code, based on the number of arguments of the
- * function?
- */
-public enum PlcFormalFuncInvokeArg {
-    /** For all functions. */
-    ALL,
+plant p:
+  disc int x = 5;
+  cont t der -1.0;
 
-    /** For functions with more than one argument. */
-    MULTI,
-
-    /** For none of the functions. */
-    NONE;
-}
+  location:
+    initial;
+    edge e when t <= 1.0, x = 5 do t := 7;
+end

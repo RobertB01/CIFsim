@@ -18,6 +18,8 @@ CONFIGURATION Untitled1
         ton_p_t: TON;
         preset_p_t: TIME;
         firstRun: BOOL := TRUE;
+        loopCount: DINT;
+        loopsKilled: INT;
     END_VAR
     TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
     PROGRAM MAIN WITH PlcTask: MAIN;

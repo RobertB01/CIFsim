@@ -18,6 +18,7 @@ END_VAR
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
+    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     c := 0.0;
@@ -42,7 +43,11 @@ END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
-WHILE isProgress DO
+(* Perform events until none can be done anymore. *)
+(* Track the number of iterations and abort if there are too many. *)
+loopCount := 0;
+WHILE isProgress AND loopCount < 100 DO
+    loopCount := loopCount + 1;
     isProgress := FALSE;
 
     (* Try to perform event "aut.e". *)
@@ -208,6 +213,7 @@ WHILE isProgress DO
             aut_i := current_aut_i + 1;
         END_IF;
     END_IF;
+
     (* Try to perform event "aut.f". *)
     eventEnabled := TRUE;
     IF aut = 0 AND (aut_b OR aut_b) THEN
@@ -221,4 +227,8 @@ WHILE isProgress DO
         isProgress := TRUE;
     END_IF;
 END_WHILE;
+(* Register the first 9999 aborted loops. *)
+IF loopCount >= 100 THEN
+    loopsKilled := MIN(loopsKilled + 1, 9999);
+END_IF;
 END_PROGRAM

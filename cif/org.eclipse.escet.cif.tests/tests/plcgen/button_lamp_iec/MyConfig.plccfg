@@ -18,6 +18,8 @@ CONFIGURATION MyConfig
         ton_timer_t: TON;
         preset_timer_t: TIME;
         firstRun: BOOL := TRUE;
+        loopCount: DINT;
+        loopsKilled: INT;
     END_VAR
     TASK MyTask(INTERVAL := t#7ms, PRIORITY := 123);
     PROGRAM MAIN WITH MyTask: MAIN;

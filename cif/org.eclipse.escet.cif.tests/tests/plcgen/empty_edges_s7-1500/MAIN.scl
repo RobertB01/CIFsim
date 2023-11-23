@@ -20,6 +20,7 @@ BEGIN
     (* --- Initialize state. --------------------------------------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
+        loopsKilled := 0;
 
         (* Initialize the state variables. *)
         Good_x := 0;
@@ -27,7 +28,11 @@ BEGIN
 
     (* --- Process all events. ------------------------------------------------- *)
     isProgress := TRUE;
-    WHILE isProgress DO
+    (* Perform events until none can be done anymore. *)
+    (* Track the number of iterations and abort if there are too many. *)
+    loopCount := 0;
+    WHILE isProgress AND loopCount < 100 DO
+        loopCount := loopCount + 1;
         isProgress := FALSE;
 
         (* Try to perform event "noSync". *)
@@ -47,6 +52,7 @@ BEGIN
                 Good_x := (current_Good_x + 1) MOD 6;
             END_IF;
         END_IF;
+
         (* Try to perform event "noMonitor". *)
         eventEnabled := TRUE;
         IF TRUE THEN
@@ -61,6 +67,7 @@ BEGIN
                 Good_x := (current_Good_x__1 + 5) MOD 6;
             END_IF;
         END_IF;
+
         (* Try to perform event "channel". *)
         eventEnabled := TRUE;
         senderAut := 0;
@@ -80,4 +87,8 @@ BEGIN
             isProgress := TRUE;
         END_IF;
     END_WHILE;
+    (* Register the first 9999 aborted loops. *)
+    IF loopCount >= 100 THEN
+        loopsKilled := MIN(loopsKilled + 1, 9999);
+    END_IF;
 END_ORGANIZATION_BLOCK
