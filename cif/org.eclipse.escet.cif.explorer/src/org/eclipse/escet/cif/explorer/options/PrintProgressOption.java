@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.explorer.app;
+package org.eclipse.escet.cif.explorer.options;
 
 import org.eclipse.escet.common.app.framework.options.IntegerOption;
 import org.eclipse.escet.common.app.framework.options.Options;

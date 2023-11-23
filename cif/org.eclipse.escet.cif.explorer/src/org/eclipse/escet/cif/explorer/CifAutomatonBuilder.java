@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
-import org.eclipse.escet.cif.explorer.app.AutomatonNameOption;
+import org.eclipse.escet.cif.explorer.options.AutomatonNameOption;
 import org.eclipse.escet.cif.explorer.runtime.BaseState;
 import org.eclipse.escet.cif.explorer.runtime.EventUsage;
 import org.eclipse.escet.cif.explorer.runtime.Explorer;
