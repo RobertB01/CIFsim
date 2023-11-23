@@ -1,6 +1,6 @@
 group Lock:
   group Side2:
-    plant automaton LampLeaving:
+    plant automaton LampEntering:
       controllable c_green;
       controllable c_red;
       location Red:

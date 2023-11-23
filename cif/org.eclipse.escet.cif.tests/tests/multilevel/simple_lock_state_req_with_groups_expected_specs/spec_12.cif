@@ -1,14 +1,14 @@
 group Lock:
   group Side2:
-    plant automaton EqualWater:
-      uncontrollable u_on;
-      uncontrollable u_off;
-      location Off:
+    plant automaton LampLeaving:
+      controllable c_green;
+      controllable c_red;
+      location Red:
         initial;
         marked;
-        edge u_on goto On;
-      location On:
-        edge u_off goto Off;
+        edge c_green goto Green;
+      location Green:
+        edge c_red goto Red;
     end
   end
 end

@@ -1,19 +1,9 @@
-group A:
-  enum Labels = ON, OFF;
-end
-plant automaton B:
-  event c;
-  event d;
-  disc A.Labels x = A.OFF;
-  location:
+plant automaton A:
+  event a;
+  event b;
+  location l1:
     initial;
-    edge c do x := A.ON;
-    edge d do x := A.OFF;
+    edge a goto l2;
+  location l2:
+    edge b goto l1;
 end
-plant automaton C:
-  event e;
-  location:
-    initial;
-    edge e;
-end
-requirement invariant C.e needs B.x = A.ON;

@@ -1,1 +1,9 @@
 input bool var;
+plant automaton A:
+  controllable a;
+  location:
+    initial;
+    marked;
+    edge a;
+end
+requirement invariant A.a needs var;

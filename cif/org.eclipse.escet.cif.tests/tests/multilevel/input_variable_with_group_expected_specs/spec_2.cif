@@ -1,7 +1,3 @@
-plant automaton A:
-  controllable a;
-  location:
-    initial;
-    marked;
-    edge a;
+group B:
+  input bool var;
 end

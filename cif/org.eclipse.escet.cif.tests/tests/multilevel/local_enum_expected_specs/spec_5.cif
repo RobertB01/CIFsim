@@ -1,0 +1,6 @@
+plant automaton C:
+  event e;
+  location:
+    initial;
+    edge e;
+end

@@ -6,3 +6,14 @@ plant automaton A:
     marked;
     edge u do dv := true;
 end
+group B:
+  alg bool var1 = A.dv;
+end
+plant automaton C:
+  controllable c;
+  location:
+    initial;
+    marked;
+    edge c;
+end
+requirement invariant C.c needs B.var1;

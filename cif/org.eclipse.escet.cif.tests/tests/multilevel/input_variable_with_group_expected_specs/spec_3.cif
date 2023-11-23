@@ -5,7 +5,3 @@ plant automaton A:
     marked;
     edge a;
 end
-group B:
-  input bool var;
-end
-requirement invariant A.a needs B.var;

@@ -1,4 +1,1 @@
-plant automaton P:
-  location P1:
-    initial;
-end
+input bool I;

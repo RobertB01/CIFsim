@@ -1,4 +1,4 @@
-plant automaton S1_EqualWater:
+plant automaton S2_EqualWater:
   uncontrollable u_on;
   uncontrollable u_off;
   location Off:

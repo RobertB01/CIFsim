@@ -1,3 +1,20 @@
+plant automaton S1_Door_Acc:
+  controllable c_on_open;
+  controllable c_off_open;
+  controllable c_on_close;
+  controllable c_off_close;
+  location Rest:
+    initial;
+    marked;
+    edge c_on_open goto Opening;
+    edge c_on_close goto Closing;
+  location Opening:
+    edge c_off_open goto Rest;
+    edge S1_Door_Sensor.u_off_closed, S1_Door_Sensor.u_on_open;
+  location Closing:
+    edge c_off_close goto Rest;
+    edge S1_Door_Sensor.u_off_open, S1_Door_Sensor.u_on_closed;
+end
 plant automaton S1_Sewer_Acc:
   controllable c_open;
   controllable c_close;
@@ -10,6 +27,21 @@ plant automaton S1_Sewer_Acc:
     edge c_close goto Close;
     edge S1_Sewer_Sensor.u_on;
 end
+plant automaton S1_Door_Sensor:
+  uncontrollable u_on_open;
+  uncontrollable u_off_open;
+  uncontrollable u_on_closed;
+  uncontrollable u_off_closed;
+  location Closed:
+    initial;
+    marked;
+    edge u_off_closed goto Midle;
+  location Midle:
+    edge u_on_closed goto Closed;
+    edge u_on_open goto Open;
+  location Open:
+    edge u_off_open goto Midle;
+end
 plant automaton S1_Sewer_Sensor:
   uncontrollable u_on;
   uncontrollable u_off;
@@ -19,6 +51,23 @@ plant automaton S1_Sewer_Sensor:
     edge u_on goto On;
   location On:
     edge u_off goto Off;
+end
+plant automaton S2_Door_Acc:
+  controllable c_on_open;
+  controllable c_off_open;
+  controllable c_on_close;
+  controllable c_off_close;
+  location Rest:
+    initial;
+    marked;
+    edge c_on_open goto Opening;
+    edge c_on_close goto Closing;
+  location Opening:
+    edge c_off_open goto Rest;
+    edge S2_Door_Sensor.u_off_closed, S2_Door_Sensor.u_on_open;
+  location Closing:
+    edge c_off_close goto Rest;
+    edge S2_Door_Sensor.u_off_open, S2_Door_Sensor.u_on_closed;
 end
 plant automaton S2_Sewer_Acc:
   controllable c_open;
@@ -32,6 +81,21 @@ plant automaton S2_Sewer_Acc:
     edge c_close goto Close;
     edge S2_Sewer_Sensor.u_on;
 end
+plant automaton S2_Door_Sensor:
+  uncontrollable u_on_open;
+  uncontrollable u_off_open;
+  uncontrollable u_on_closed;
+  uncontrollable u_off_closed;
+  location Closed:
+    initial;
+    marked;
+    edge u_off_closed goto Midle;
+  location Midle:
+    edge u_on_closed goto Closed;
+    edge u_on_open goto Open;
+  location Open:
+    edge u_off_open goto Midle;
+end
 plant automaton S2_Sewer_Sensor:
   uncontrollable u_on;
   uncontrollable u_off;
@@ -42,5 +106,9 @@ plant automaton S2_Sewer_Sensor:
   location On:
     edge u_off goto Off;
 end
-requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Sewer_Acc.c_open;
-requirement invariant S2_Sewer_Sensor.On or S2_Sewer_Acc.Open disables S1_Sewer_Acc.c_open;
+requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Sewer_Acc.c_open;
+requirement invariant S1_Sewer_Sensor.On or S1_Sewer_Acc.Open disables S2_Door_Acc.c_on_open;
+requirement invariant not S1_Door_Sensor.Closed or S1_Door_Acc.Opening disables S2_Door_Acc.c_on_open;
+requirement invariant not S2_Door_Sensor.Closed or S2_Door_Acc.Opening disables S1_Sewer_Acc.c_open;
+requirement invariant S2_Sewer_Sensor.On or S2_Sewer_Acc.Open disables S1_Door_Acc.c_on_open;
+requirement invariant not S2_Door_Sensor.Closed or S2_Door_Acc.Opening disables S1_Door_Acc.c_on_open;

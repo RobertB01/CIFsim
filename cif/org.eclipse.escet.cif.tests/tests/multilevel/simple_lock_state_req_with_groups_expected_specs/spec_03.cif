@@ -1,5 +1,5 @@
 group Lock:
-  group Side2:
+  group Side1:
     group Sewer:
       plant automaton Actuator:
         controllable c_open;

@@ -1,4 +1,4 @@
-plant automaton S1_LampLeaving:
+plant automaton S1_LampEntering:
   controllable c_green;
   controllable c_red;
   location Red:

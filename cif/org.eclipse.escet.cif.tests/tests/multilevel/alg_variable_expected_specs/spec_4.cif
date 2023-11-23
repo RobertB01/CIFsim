@@ -1,7 +1,8 @@
-plant automaton C:
-  controllable c;
-  location:
+plant automaton A:
+  uncontrollable u;
+  disc bool dv = false;
+  location l1:
     initial;
     marked;
-    edge c;
+    edge u do dv := true;
 end

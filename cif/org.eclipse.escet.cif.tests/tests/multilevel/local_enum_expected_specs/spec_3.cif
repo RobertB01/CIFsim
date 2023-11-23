@@ -10,3 +10,10 @@ plant automaton B:
     edge c do x := A.ON;
     edge d do x := A.OFF;
 end
+plant automaton C:
+  event e;
+  location:
+    initial;
+    edge e;
+end
+requirement invariant C.e needs B.x = A.ON;
