@@ -1,0 +1,197 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-plcgen-chapter-s7]]
+== S7 PLC output
+
+indexterm:[S7]
+indexterm:[see: CIF PLC code generator,S7]
+The S7 output (1500, 1200, 400 and 300) generates code for SIMATIC controllers.
+Totally Integrated Automation Portal (TIA Portal) is an IDE for the development and testing of SIMATIC controllers.
+Using the S7 output, the generated PLC code can be imported in TIA Portal.
+This allows for tight integration and smooth development cycles when implementing controllers on SIMATIC controllers.
+
+indexterm:[S7,generated output]
+
+[[tools-plcgen-s7-generated-output]]
+=== Generated output
+
+The CIF PLC code generator can generate code files that can be imported in TIA Portal (see <<tools-plcgen-s7-usage>>).
+
+The type of integer and real data types to use depends on the _PLC integer type size_ and _PLC real type size_ options.
+If _Automatic_ is selected, the following data types are used:
+
+[cols="10,20,20",options="header"]
+|===
+
+| S7 type
+| Integer type
+| Real type
+
+| S7-1500
+| `LINT` (64 bit)
+| `LREAL` (64 bit)
+
+| S7-1200
+| `DINT` (32 bit)
+| `LREAL` (64 bit)
+
+| S7-400
+| `DINT` (32 bit)
+| `REAL` (32 bit)
+
+| S7-300
+| `DINT` (32 bit)
+| `REAL` (32 bit)
+
+|===
+
+The _PLC task name_, _PLC task cycle time_, _PLC task priority_, _PLC project name_, _PLC configuration name_, and _PLC resource name_ options have no effect for this output type.
+
+indexterm:[S7,usage]
+
+[[tools-plcgen-s7-usage]]
+=== S7 usage
+
+Follow these steps to create a project in TIA Portal, import PLC code in it, and use the PLC code to control the hardware:
+
+* Start TIA Portal.
+
+* Create a new S7 project:
+
+** In the _Portal view_, click menu:Create new project[].
+
+** In the _Create new project_ window, choose a project name and enter it in the _Project name_ box.
+
+** For _Path_, select the directory in which the directory for the project should be created.
+
+** Click btn:[Create] to create the project.
+
+** Switch to the _Project view_.
+
+* Add the PLC device:
+
+** Unfold the project and select _Add new device_.
+
+** Select the device type (that is, S7-1500, S7-1200, S7-400 or S7-300).
+
+** Select the device with the correct article number.
+
+** Click btn:[OK].
+
+* Import the generated PLC code (PLC tags):
+
+** Open _Default tag table_ inside the _PLC tags_ folder.
+
+** Click the _Import_ button.
+
+** Select the _INPUTS.xml_ file.
+Make sure _Tags_ is selected and click btn:[OK].
+
+** Click the _Import_ button, again.
+
+** Select the _CONSTS.xml_ file.
+Make sure _Constants_ is selected and click btn:[OK].
+
+* Import the generated PLC code (Program blocks):
+
+** Unfold the _External source files_ folder inside the device folder.
+
+** Click menu:Add new external files[].
+
+** Select all generated `.scl`, `.udt` and  `.db` files (hold kbd:[Shift]) and click btn:[Open].
+
+** Select all imported files, right-click and select menu:Generate blocks from source[].
+Ignore any warnings or errors.
+
+* Compile the project:
+
+** Right-click _Program blocks_ and select menu:Compile[Software (rebuild all)].
+
+** If there are warnings, compile again.
+
+* Import timers (optional):
+
+** Sometimes, timers are not imported correctly.
+In that case, compilation fails.
+To add the timers manually, do the following.
+
+** Open _MAIN_ inside the _Program blocks_ folder.
+
+** Type `TON` and click kbd:[Enter].
+The _Call options_ window pops up.
+
+** In the _Call options_ window, for each timer, enter its name in the _Name_ box and click btn[OK].
+
+*** Delete the generated lines of code.
+
+** Compile the project again.
+
+* Configure the inputs and outputs:
+
+** Open _MAIN_ inside the _Program blocks_ folder.
+
+* Download PLC code to device:
+
+** Click the _Download to device_ icon in the task bar.
+The _Extended download to device_ window pops up.
+
+** Click btn:[Start search].
+
+** When a device has been found, click btn:[Load].
+The _Load preview_ window pops up.
+
+** Click btn:[Load].
+
+** Change the _Start modules_ action from _No action_ to _Start module_.
+
+** Click btn:[Finish].
+
+To debug the PLC code:
+
+* Click _Go online_ in the task bar.
+
+* The values of various variables can now be inspected.
+
+** The values of input and output variables can be seen by opening _Default tag table_ inside the _PLC tags_ folder.
+Click the _Monitor all_ icon.
+The actual values appear in the _Monitor value_ column.
+
+** The values of state variables can be seen by opening _DB_ under _Program blocks_.
+Click the _Monitor all_ icon.
+Unfold the _state0_ variable.
+The actual values appear in the _Monitor value_ column.
+
+To stop the PLC:
+
+* While online, click btn:[STOP] in the _CPU operation panel_ in the _Testing_ tab.
+
+* Click _Go offline_ in the task bar.
+
+To reset the PLC and start from the initial state, with the same code and the same configuration:
+
+* While online, click btn:[MRES] in the _CPU operation panel_ in the _Testing_ tab.
+The _Online & diagnostics_ window appears.
+
+* Click btn:[Yes].
+
+* If the PLC was in run mode, a new _Online & diagnostics_ window appears.
+Click btn:[Yes].
+
+* Click _Go online_ in the task bar.
+
+* Start the PLC by clicking btn:[RUN] in the _CPU operation panel_ in the _Testing_ tab.
+
+* The PLC is now running, and you can use the system.

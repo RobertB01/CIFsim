@@ -14,7 +14,7 @@
 include::../_part_attributes.asciidoc[]
 
 [[tools-cif2plc-chapter-index]]
-== CIF PLC code generator
+== CIF PLC code generator (stable)
 
 indexterm:[CIF PLC code generator]
 indexterm:[tools,CIF PLC code generator]
