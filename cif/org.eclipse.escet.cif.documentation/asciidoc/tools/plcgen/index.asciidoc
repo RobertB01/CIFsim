@@ -76,7 +76,7 @@ Other important settings are the _Input file_ path for the CIF specification, th
 For more information, consult the <<tools-plcgen-io-table-file, io table>> Section.
 
 * _Output file_: The absolute or relative local file system path to the output file or directory.
-The result also depends on the chosen <<tools-plcgen-targettype, target type>>.
+The result also depends on the chosen <<tools-plcgen-target-type, target type>>.
 
 === Tailoring the output of the code generator
 
