@@ -2,24 +2,30 @@ controllable c_a;
 controllable c_b;
 automaton statespace:
   alphabet c_a, c_b;
+  @state(p = "*", p.x = 0, r1 = "*", sup = "*")
   location loc1:
     initial;
     marked;
+  @state(p = "*", p.x = 1, r1 = "*", sup = "*")
   location loc2:
     initial;
     marked;
+  @state(p = "*", p.x = 2, r1 = "*", sup = "*")
   location loc3:
     initial;
     marked;
+  @state(p = "*", p.x = 3, r1 = "*", sup = "*")
   location loc4:
     initial;
     marked;
     edge c_a;
+  @state(p = "*", p.x = 4, r1 = "*", sup = "*")
   location loc5:
     initial;
     marked;
     edge c_a;
     edge c_b;
+  @state(p = "*", p.x = 5, r1 = "*", sup = "*")
   location loc6:
     initial;
     marked;

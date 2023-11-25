@@ -7,94 +7,118 @@ group p:
 end
 automaton statespace:
   alphabet io.u_i, p.e1, p.e2;
+  @state(io = "*", io.i = 0, p = "L1", p.b = true, p.v = "P", p.x = 2, p.y = 2, sup = "*")
   location loc1:
     initial;
     edge io.u_i goto loc7;
     edge p.e1 goto loc13;
+  @state(io = "*", io.i = 0, p = "L1", p.b = true, p.v = "R", p.x = 2, p.y = 2, sup = "*")
   location loc2:
     initial;
     edge io.u_i goto loc8;
     edge p.e1 goto loc14;
+  @state(io = "*", io.i = 0, p = "L1", p.b = true, p.v = "P", p.x = 2, p.y = 3, sup = "*")
   location loc3:
     initial;
     edge io.u_i goto loc9;
     edge p.e1 goto loc15;
+  @state(io = "*", io.i = 0, p = "L1", p.b = true, p.v = "R", p.x = 2, p.y = 3, sup = "*")
   location loc4:
     initial;
     edge io.u_i goto loc10;
     edge p.e1 goto loc16;
+  @state(io = "*", io.i = 0, p = "L1", p.b = true, p.v = "P", p.x = 2, p.y = 4, sup = "*")
   location loc5:
     initial;
     edge io.u_i goto loc11;
     edge p.e1 goto loc17;
+  @state(io = "*", io.i = 0, p = "L1", p.b = true, p.v = "R", p.x = 2, p.y = 4, sup = "*")
   location loc6:
     initial;
     edge io.u_i goto loc12;
     edge p.e1 goto loc18;
+  @state(io = "*", io.i = 1, p = "L1", p.b = true, p.v = "P", p.x = 2, p.y = 2, sup = "*")
   location loc7:
     initial;
     edge io.u_i goto loc1;
     edge p.e1 goto loc19;
+  @state(io = "*", io.i = 1, p = "L1", p.b = true, p.v = "R", p.x = 2, p.y = 2, sup = "*")
   location loc8:
     initial;
     edge io.u_i goto loc2;
     edge p.e1 goto loc20;
+  @state(io = "*", io.i = 1, p = "L1", p.b = true, p.v = "P", p.x = 2, p.y = 3, sup = "*")
   location loc9:
     initial;
     edge io.u_i goto loc3;
     edge p.e1 goto loc21;
+  @state(io = "*", io.i = 1, p = "L1", p.b = true, p.v = "R", p.x = 2, p.y = 3, sup = "*")
   location loc10:
     initial;
     edge io.u_i goto loc4;
     edge p.e1 goto loc22;
+  @state(io = "*", io.i = 1, p = "L1", p.b = true, p.v = "P", p.x = 2, p.y = 4, sup = "*")
   location loc11:
     initial;
     edge io.u_i goto loc5;
     edge p.e1 goto loc23;
+  @state(io = "*", io.i = 1, p = "L1", p.b = true, p.v = "R", p.x = 2, p.y = 4, sup = "*")
   location loc12:
     initial;
     edge io.u_i goto loc6;
     edge p.e1 goto loc24;
+  @state(io = "*", io.i = 0, p = "L2", p.b = true, p.v = "P", p.x = 2, p.y = 2, sup = "*")
   location loc13:
     marked;
     edge io.u_i goto loc19;
     edge p.e2 goto loc1;
+  @state(io = "*", io.i = 0, p = "L2", p.b = true, p.v = "R", p.x = 2, p.y = 2, sup = "*")
   location loc14:
     marked;
     edge io.u_i goto loc20;
     edge p.e2 goto loc2;
+  @state(io = "*", io.i = 0, p = "L2", p.b = true, p.v = "P", p.x = 2, p.y = 3, sup = "*")
   location loc15:
     marked;
     edge io.u_i goto loc21;
+  @state(io = "*", io.i = 0, p = "L2", p.b = true, p.v = "R", p.x = 2, p.y = 3, sup = "*")
   location loc16:
     marked;
     edge io.u_i goto loc22;
+  @state(io = "*", io.i = 0, p = "L2", p.b = true, p.v = "P", p.x = 2, p.y = 4, sup = "*")
   location loc17:
     marked;
     edge io.u_i goto loc23;
+  @state(io = "*", io.i = 0, p = "L2", p.b = true, p.v = "R", p.x = 2, p.y = 4, sup = "*")
   location loc18:
     marked;
     edge io.u_i goto loc24;
+  @state(io = "*", io.i = 1, p = "L2", p.b = true, p.v = "P", p.x = 2, p.y = 2, sup = "*")
   location loc19:
     marked;
     edge io.u_i goto loc13;
     edge p.e2 goto loc7;
+  @state(io = "*", io.i = 1, p = "L2", p.b = true, p.v = "R", p.x = 2, p.y = 2, sup = "*")
   location loc20:
     marked;
     edge io.u_i goto loc14;
     edge p.e2 goto loc8;
+  @state(io = "*", io.i = 1, p = "L2", p.b = true, p.v = "P", p.x = 2, p.y = 3, sup = "*")
   location loc21:
     marked;
     edge io.u_i goto loc15;
     edge p.e2 goto loc9;
+  @state(io = "*", io.i = 1, p = "L2", p.b = true, p.v = "R", p.x = 2, p.y = 3, sup = "*")
   location loc22:
     marked;
     edge io.u_i goto loc16;
     edge p.e2 goto loc10;
+  @state(io = "*", io.i = 1, p = "L2", p.b = true, p.v = "P", p.x = 2, p.y = 4, sup = "*")
   location loc23:
     marked;
     edge io.u_i goto loc17;
     edge p.e2 goto loc11;
+  @state(io = "*", io.i = 1, p = "L2", p.b = true, p.v = "R", p.x = 2, p.y = 4, sup = "*")
   location loc24:
     marked;
     edge io.u_i goto loc18;

@@ -4,79 +4,104 @@ uncontrollable u1;
 uncontrollable u2;
 automaton statespace:
   alphabet c1, u1, c2, u2;
+  @state(p1 = "a", p1.x = 0, p2 = "a", p2.x = 0, sup = "*")
   location loc1:
     initial;
     marked;
     edge c1 goto loc2;
     edge c2 goto loc3;
+  @state(p1 = "b", p1.x = 0, p2 = "a", p2.x = 0, sup = "*")
   location loc2:
     edge u1 goto loc4;
     edge c2 goto loc5;
+  @state(p1 = "a", p1.x = 0, p2 = "b", p2.x = 0, sup = "*")
   location loc3:
     edge c1 goto loc5;
     edge u2 goto loc6;
+  @state(p1 = "a", p1.x = 1, p2 = "a", p2.x = 0, sup = "*")
   location loc4:
     marked;
     edge c1 goto loc7;
     edge c2 goto loc8;
+  @state(p1 = "b", p1.x = 0, p2 = "b", p2.x = 0, sup = "*")
   location loc5:
     edge u1 goto loc8;
     edge u2 goto loc9;
+  @state(p1 = "a", p1.x = 0, p2 = "a", p2.x = 1, sup = "*")
   location loc6:
     marked;
     edge c1 goto loc9;
     edge c2 goto loc10;
+  @state(p1 = "b", p1.x = 1, p2 = "a", p2.x = 0, sup = "*")
   location loc7:
     edge u1 goto loc11;
     edge c2 goto loc12;
+  @state(p1 = "a", p1.x = 1, p2 = "b", p2.x = 0, sup = "*")
   location loc8:
     edge c1 goto loc12;
     edge u2 goto loc13;
+  @state(p1 = "b", p1.x = 0, p2 = "a", p2.x = 1, sup = "*")
   location loc9:
     edge u1 goto loc13;
     edge c2 goto loc14;
+  @state(p1 = "a", p1.x = 0, p2 = "b", p2.x = 1, sup = "*")
   location loc10:
     edge c1 goto loc14;
     edge u2 goto loc15;
+  @state(p1 = "a", p1.x = 2, p2 = "a", p2.x = 0, sup = "*")
   location loc11:
     marked;
     edge c2 goto loc16;
+  @state(p1 = "b", p1.x = 1, p2 = "b", p2.x = 0, sup = "*")
   location loc12:
     edge u1 goto loc16;
     edge u2 goto loc17;
+  @state(p1 = "a", p1.x = 1, p2 = "a", p2.x = 1, sup = "*")
   location loc13:
     marked;
     edge c1 goto loc17;
     edge c2 goto loc18;
+  @state(p1 = "b", p1.x = 0, p2 = "b", p2.x = 1, sup = "*")
   location loc14:
     edge u1 goto loc18;
     edge u2 goto loc19;
+  @state(p1 = "a", p1.x = 0, p2 = "a", p2.x = 2, sup = "*")
   location loc15:
     marked;
     edge c1 goto loc19;
+  @state(p1 = "a", p1.x = 2, p2 = "b", p2.x = 0, sup = "*")
   location loc16:
     edge u2 goto loc20;
+  @state(p1 = "b", p1.x = 1, p2 = "a", p2.x = 1, sup = "*")
   location loc17:
     edge u1 goto loc20;
     edge c2 goto loc21;
+  @state(p1 = "a", p1.x = 1, p2 = "b", p2.x = 1, sup = "*")
   location loc18:
     edge c1 goto loc21;
     edge u2 goto loc22;
+  @state(p1 = "b", p1.x = 0, p2 = "a", p2.x = 2, sup = "*")
   location loc19:
     edge u1 goto loc22;
+  @state(p1 = "a", p1.x = 2, p2 = "a", p2.x = 1, sup = "*")
   location loc20:
     marked;
     edge c2 goto loc23;
+  @state(p1 = "b", p1.x = 1, p2 = "b", p2.x = 1, sup = "*")
   location loc21:
     edge u1 goto loc23;
     edge u2 goto loc24;
+  @state(p1 = "a", p1.x = 1, p2 = "a", p2.x = 2, sup = "*")
   location loc22:
     marked;
     edge c1 goto loc24;
+  @state(p1 = "a", p1.x = 2, p2 = "b", p2.x = 1, sup = "*")
   location loc23:
     edge u2 goto loc25;
+  @state(p1 = "b", p1.x = 1, p2 = "a", p2.x = 2, sup = "*")
   location loc24:
     edge u1 goto loc25;
+  @state(p1 = "a", p1.x = 2, p2 = "a", p2.x = 2, sup = "*")
   location loc25:
     marked;
 end

@@ -20,6 +20,7 @@ group p4:
 end
 automaton statespace:
   alphabet p1.take_left, p4.take_right, p1.release_both, p4.release_both, p2.take_left, p1.take_right, p2.release_both, p3.take_left, p2.take_right, p3.release_both, p4.take_left, p3.take_right;
+  @state(f1 = "available", f2 = "available", f3 = "available", f4 = "available", p1 = "neither", p2 = "neither", p3 = "neither", p4 = "neither", sup = "*")
   location loc1:
     initial;
     marked;
@@ -31,6 +32,7 @@ automaton statespace:
     edge p2.take_right goto loc7;
     edge p4.take_left goto loc8;
     edge p3.take_right goto loc9;
+  @state(f1 = "taken", f2 = "available", f3 = "available", f4 = "available", p1 = "left", p2 = "neither", p3 = "neither", p4 = "neither", sup = "*")
   location loc2:
     edge p2.take_left goto loc10;
     edge p1.take_right goto loc11;
@@ -38,6 +40,7 @@ automaton statespace:
     edge p2.take_right goto loc13;
     edge p4.take_left goto loc14;
     edge p3.take_right goto loc15;
+  @state(f1 = "taken", f2 = "available", f3 = "available", f4 = "available", p1 = "neither", p2 = "neither", p3 = "neither", p4 = "right", sup = "*")
   location loc3:
     edge p2.take_left goto loc16;
     edge p1.take_right goto loc17;
@@ -45,6 +48,7 @@ automaton statespace:
     edge p2.take_right goto loc19;
     edge p4.take_left goto loc20;
     edge p3.take_right goto loc21;
+  @state(f1 = "available", f2 = "taken", f3 = "available", f4 = "available", p1 = "neither", p2 = "left", p3 = "neither", p4 = "neither", sup = "*")
   location loc4:
     edge p1.take_left goto loc10;
     edge p4.take_right goto loc16;
@@ -52,6 +56,7 @@ automaton statespace:
     edge p2.take_right goto loc23;
     edge p4.take_left goto loc24;
     edge p3.take_right goto loc25;
+  @state(f1 = "available", f2 = "taken", f3 = "available", f4 = "available", p1 = "right", p2 = "neither", p3 = "neither", p4 = "neither", sup = "*")
   location loc5:
     edge p1.take_left goto loc11;
     edge p4.take_right goto loc17;
@@ -59,6 +64,7 @@ automaton statespace:
     edge p2.take_right goto loc27;
     edge p4.take_left goto loc28;
     edge p3.take_right goto loc29;
+  @state(f1 = "available", f2 = "available", f3 = "taken", f4 = "available", p1 = "neither", p2 = "neither", p3 = "left", p4 = "neither", sup = "*")
   location loc6:
     edge p1.take_left goto loc12;
     edge p4.take_right goto loc18;
@@ -66,6 +72,7 @@ automaton statespace:
     edge p1.take_right goto loc26;
     edge p4.take_left goto loc30;
     edge p3.take_right goto loc31;
+  @state(f1 = "available", f2 = "available", f3 = "taken", f4 = "available", p1 = "neither", p2 = "right", p3 = "neither", p4 = "neither", sup = "*")
   location loc7:
     edge p1.take_left goto loc13;
     edge p4.take_right goto loc19;
@@ -73,6 +80,7 @@ automaton statespace:
     edge p1.take_right goto loc27;
     edge p4.take_left goto loc32;
     edge p3.take_right goto loc33;
+  @state(f1 = "available", f2 = "available", f3 = "available", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "neither", p4 = "left", sup = "*")
   location loc8:
     edge p1.take_left goto loc14;
     edge p4.take_right goto loc20;
@@ -80,6 +88,7 @@ automaton statespace:
     edge p1.take_right goto loc28;
     edge p3.take_left goto loc30;
     edge p2.take_right goto loc32;
+  @state(f1 = "available", f2 = "available", f3 = "available", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "right", p4 = "neither", sup = "*")
   location loc9:
     edge p1.take_left goto loc15;
     edge p4.take_right goto loc21;
@@ -87,262 +96,332 @@ automaton statespace:
     edge p1.take_right goto loc29;
     edge p3.take_left goto loc31;
     edge p2.take_right goto loc33;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "available", p1 = "left", p2 = "left", p3 = "neither", p4 = "neither", sup = "*")
   location loc10:
     edge p3.take_left goto loc34;
     edge p2.take_right goto loc35;
     edge p4.take_left goto loc36;
     edge p3.take_right goto loc37;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "available", p1 = "both", p2 = "neither", p3 = "neither", p4 = "neither", sup = "*")
   location loc11:
     edge p1.release_both goto loc1;
     edge p3.take_left goto loc38;
     edge p2.take_right goto loc39;
     edge p4.take_left goto loc40;
     edge p3.take_right goto loc41;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "available", p1 = "left", p2 = "neither", p3 = "left", p4 = "neither", sup = "*")
   location loc12:
     edge p2.take_left goto loc34;
     edge p1.take_right goto loc38;
     edge p4.take_left goto loc42;
     edge p3.take_right goto loc43;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "available", p1 = "left", p2 = "right", p3 = "neither", p4 = "neither", sup = "*")
   location loc13:
     edge p2.take_left goto loc35;
     edge p1.take_right goto loc39;
     edge p4.take_left goto loc44;
     edge p3.take_right goto loc45;
+  @state(f1 = "taken", f2 = "available", f3 = "available", f4 = "taken", p1 = "left", p2 = "neither", p3 = "neither", p4 = "left", sup = "*")
   location loc14:
     edge p2.take_left goto loc36;
     edge p1.take_right goto loc40;
     edge p3.take_left goto loc42;
     edge p2.take_right goto loc44;
+  @state(f1 = "taken", f2 = "available", f3 = "available", f4 = "taken", p1 = "left", p2 = "neither", p3 = "right", p4 = "neither", sup = "*")
   location loc15:
     edge p2.take_left goto loc37;
     edge p1.take_right goto loc41;
     edge p3.take_left goto loc43;
     edge p2.take_right goto loc45;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "available", p1 = "neither", p2 = "left", p3 = "neither", p4 = "right", sup = "*")
   location loc16:
     edge p3.take_left goto loc46;
     edge p2.take_right goto loc47;
     edge p4.take_left goto loc48;
     edge p3.take_right goto loc49;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "available", p1 = "right", p2 = "neither", p3 = "neither", p4 = "right", sup = "*")
   location loc17:
     edge p3.take_left goto loc50;
     edge p2.take_right goto loc51;
     edge p4.take_left goto loc52;
     edge p3.take_right goto loc53;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "available", p1 = "neither", p2 = "neither", p3 = "left", p4 = "right", sup = "*")
   location loc18:
     edge p2.take_left goto loc46;
     edge p1.take_right goto loc50;
     edge p4.take_left goto loc54;
     edge p3.take_right goto loc55;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "available", p1 = "neither", p2 = "right", p3 = "neither", p4 = "right", sup = "*")
   location loc19:
     edge p2.take_left goto loc47;
     edge p1.take_right goto loc51;
     edge p4.take_left goto loc56;
     edge p3.take_right goto loc57;
+  @state(f1 = "taken", f2 = "available", f3 = "available", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "neither", p4 = "both", sup = "*")
   location loc20:
     edge p4.release_both goto loc1;
     edge p2.take_left goto loc48;
     edge p1.take_right goto loc52;
     edge p3.take_left goto loc54;
     edge p2.take_right goto loc56;
+  @state(f1 = "taken", f2 = "available", f3 = "available", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "right", p4 = "right", sup = "*")
   location loc21:
     edge p2.take_left goto loc49;
     edge p1.take_right goto loc53;
     edge p3.take_left goto loc55;
     edge p2.take_right goto loc57;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "available", p1 = "neither", p2 = "left", p3 = "left", p4 = "neither", sup = "*")
   location loc22:
     edge p1.take_left goto loc34;
     edge p4.take_right goto loc46;
     edge p4.take_left goto loc58;
     edge p3.take_right goto loc59;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "available", p1 = "neither", p2 = "both", p3 = "neither", p4 = "neither", sup = "*")
   location loc23:
     edge p1.take_left goto loc35;
     edge p4.take_right goto loc47;
     edge p2.release_both goto loc1;
     edge p4.take_left goto loc60;
     edge p3.take_right goto loc61;
+  @state(f1 = "available", f2 = "taken", f3 = "available", f4 = "taken", p1 = "neither", p2 = "left", p3 = "neither", p4 = "left", sup = "*")
   location loc24:
     edge p1.take_left goto loc36;
     edge p4.take_right goto loc48;
     edge p3.take_left goto loc58;
     edge p2.take_right goto loc60;
+  @state(f1 = "available", f2 = "taken", f3 = "available", f4 = "taken", p1 = "neither", p2 = "left", p3 = "right", p4 = "neither", sup = "*")
   location loc25:
     edge p1.take_left goto loc37;
     edge p4.take_right goto loc49;
     edge p3.take_left goto loc59;
     edge p2.take_right goto loc61;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "available", p1 = "right", p2 = "neither", p3 = "left", p4 = "neither", sup = "*")
   location loc26:
     edge p1.take_left goto loc38;
     edge p4.take_right goto loc50;
     edge p4.take_left goto loc62;
     edge p3.take_right goto loc63;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "available", p1 = "right", p2 = "right", p3 = "neither", p4 = "neither", sup = "*")
   location loc27:
     edge p1.take_left goto loc39;
     edge p4.take_right goto loc51;
     edge p4.take_left goto loc64;
     edge p3.take_right goto loc65;
+  @state(f1 = "available", f2 = "taken", f3 = "available", f4 = "taken", p1 = "right", p2 = "neither", p3 = "neither", p4 = "left", sup = "*")
   location loc28:
     edge p1.take_left goto loc40;
     edge p4.take_right goto loc52;
     edge p3.take_left goto loc62;
     edge p2.take_right goto loc64;
+  @state(f1 = "available", f2 = "taken", f3 = "available", f4 = "taken", p1 = "right", p2 = "neither", p3 = "right", p4 = "neither", sup = "*")
   location loc29:
     edge p1.take_left goto loc41;
     edge p4.take_right goto loc53;
     edge p3.take_left goto loc63;
     edge p2.take_right goto loc65;
+  @state(f1 = "available", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "left", p4 = "left", sup = "*")
   location loc30:
     edge p1.take_left goto loc42;
     edge p4.take_right goto loc54;
     edge p2.take_left goto loc58;
     edge p1.take_right goto loc62;
+  @state(f1 = "available", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "both", p4 = "neither", sup = "*")
   location loc31:
     edge p1.take_left goto loc43;
     edge p4.take_right goto loc55;
     edge p2.take_left goto loc59;
     edge p1.take_right goto loc63;
     edge p3.release_both goto loc1;
+  @state(f1 = "available", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "right", p3 = "neither", p4 = "left", sup = "*")
   location loc32:
     edge p1.take_left goto loc44;
     edge p4.take_right goto loc56;
     edge p2.take_left goto loc60;
     edge p1.take_right goto loc64;
+  @state(f1 = "available", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "right", p3 = "right", p4 = "neither", sup = "*")
   location loc33:
     edge p1.take_left goto loc45;
     edge p4.take_right goto loc57;
     edge p2.take_left goto loc61;
     edge p1.take_right goto loc65;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "left", p2 = "left", p3 = "left", p4 = "neither", sup = "*")
   location loc34:
     edge p3.take_right goto loc66;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "left", p2 = "both", p3 = "neither", p4 = "neither", sup = "*")
   location loc35:
     edge p2.release_both goto loc2;
     edge p4.take_left goto loc67;
     edge p3.take_right goto loc68;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "left", p2 = "left", p3 = "neither", p4 = "left", sup = "*")
   location loc36:
     edge p2.take_right goto loc67;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "left", p2 = "left", p3 = "right", p4 = "neither", sup = "*")
   location loc37:
     edge p3.take_left goto loc66;
     edge p2.take_right goto loc68;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "both", p2 = "neither", p3 = "left", p4 = "neither", sup = "*")
   location loc38:
     edge p1.release_both goto loc6;
     edge p4.take_left goto loc69;
     edge p3.take_right goto loc70;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "both", p2 = "right", p3 = "neither", p4 = "neither", sup = "*")
   location loc39:
     edge p1.release_both goto loc7;
     edge p4.take_left goto loc71;
     edge p3.take_right goto loc72;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "both", p2 = "neither", p3 = "neither", p4 = "left", sup = "*")
   location loc40:
     edge p1.release_both goto loc8;
     edge p3.take_left goto loc69;
     edge p2.take_right goto loc71;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "both", p2 = "neither", p3 = "right", p4 = "neither", sup = "*")
   location loc41:
     edge p1.release_both goto loc9;
     edge p3.take_left goto loc70;
     edge p2.take_right goto loc72;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "left", p2 = "neither", p3 = "left", p4 = "left", sup = "*")
   location loc42:
     edge p1.take_right goto loc69;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "left", p2 = "neither", p3 = "both", p4 = "neither", sup = "*")
   location loc43:
     edge p2.take_left goto loc66;
     edge p1.take_right goto loc70;
     edge p3.release_both goto loc2;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "left", p2 = "right", p3 = "neither", p4 = "left", sup = "*")
   location loc44:
     edge p2.take_left goto loc67;
     edge p1.take_right goto loc71;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "left", p2 = "right", p3 = "right", p4 = "neither", sup = "*")
   location loc45:
     edge p2.take_left goto loc68;
     edge p1.take_right goto loc72;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "neither", p2 = "left", p3 = "left", p4 = "right", sup = "*")
   location loc46:
     edge p4.take_left goto loc73;
     edge p3.take_right goto loc74;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "neither", p2 = "both", p3 = "neither", p4 = "right", sup = "*")
   location loc47:
     edge p2.release_both goto loc3;
     edge p4.take_left goto loc75;
     edge p3.take_right goto loc76;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "neither", p2 = "left", p3 = "neither", p4 = "both", sup = "*")
   location loc48:
     edge p4.release_both goto loc4;
     edge p3.take_left goto loc73;
     edge p2.take_right goto loc75;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "neither", p2 = "left", p3 = "right", p4 = "right", sup = "*")
   location loc49:
     edge p3.take_left goto loc74;
     edge p2.take_right goto loc76;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "right", p2 = "neither", p3 = "left", p4 = "right", sup = "*")
   location loc50:
     edge p4.take_left goto loc77;
     edge p3.take_right goto loc78;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "available", p1 = "right", p2 = "right", p3 = "neither", p4 = "right", sup = "*")
   location loc51:
     edge p4.take_left goto loc79;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "right", p2 = "neither", p3 = "neither", p4 = "both", sup = "*")
   location loc52:
     edge p4.release_both goto loc5;
     edge p3.take_left goto loc77;
     edge p2.take_right goto loc79;
+  @state(f1 = "taken", f2 = "taken", f3 = "available", f4 = "taken", p1 = "right", p2 = "neither", p3 = "right", p4 = "right", sup = "*")
   location loc53:
     edge p3.take_left goto loc78;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "left", p4 = "both", sup = "*")
   location loc54:
     edge p4.release_both goto loc6;
     edge p2.take_left goto loc73;
     edge p1.take_right goto loc77;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "neither", p3 = "both", p4 = "right", sup = "*")
   location loc55:
     edge p2.take_left goto loc74;
     edge p1.take_right goto loc78;
     edge p3.release_both goto loc3;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "right", p3 = "neither", p4 = "both", sup = "*")
   location loc56:
     edge p4.release_both goto loc7;
     edge p2.take_left goto loc75;
     edge p1.take_right goto loc79;
+  @state(f1 = "taken", f2 = "available", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "right", p3 = "right", p4 = "right", sup = "*")
   location loc57:
     edge p2.take_left goto loc76;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "left", p3 = "left", p4 = "left", sup = "*")
   location loc58:
     edge p4.take_right goto loc73;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "left", p3 = "both", p4 = "neither", sup = "*")
   location loc59:
     edge p1.take_left goto loc66;
     edge p4.take_right goto loc74;
     edge p3.release_both goto loc4;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "both", p3 = "neither", p4 = "left", sup = "*")
   location loc60:
     edge p1.take_left goto loc67;
     edge p4.take_right goto loc75;
     edge p2.release_both goto loc8;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "both", p3 = "right", p4 = "neither", sup = "*")
   location loc61:
     edge p1.take_left goto loc68;
     edge p4.take_right goto loc76;
     edge p2.release_both goto loc9;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "neither", p3 = "left", p4 = "left", sup = "*")
   location loc62:
     edge p1.take_left goto loc69;
     edge p4.take_right goto loc77;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "neither", p3 = "both", p4 = "neither", sup = "*")
   location loc63:
     edge p1.take_left goto loc70;
     edge p4.take_right goto loc78;
     edge p3.release_both goto loc5;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "right", p3 = "neither", p4 = "left", sup = "*")
   location loc64:
     edge p1.take_left goto loc71;
     edge p4.take_right goto loc79;
+  @state(f1 = "available", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "right", p3 = "right", p4 = "neither", sup = "*")
   location loc65:
     edge p1.take_left goto loc72;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "left", p2 = "left", p3 = "both", p4 = "neither", sup = "*")
   location loc66:
     edge p3.release_both goto loc10;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "left", p2 = "both", p3 = "neither", p4 = "left", sup = "*")
   location loc67:
     edge p2.release_both goto loc14;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "left", p2 = "both", p3 = "right", p4 = "neither", sup = "*")
   location loc68:
     edge p2.release_both goto loc15;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "both", p2 = "neither", p3 = "left", p4 = "left", sup = "*")
   location loc69:
     edge p1.release_both goto loc30;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "both", p2 = "neither", p3 = "both", p4 = "neither", sup = "*")
   location loc70:
     edge p1.release_both goto loc31;
     edge p3.release_both goto loc11;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "both", p2 = "right", p3 = "neither", p4 = "left", sup = "*")
   location loc71:
     edge p1.release_both goto loc32;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "both", p2 = "right", p3 = "right", p4 = "neither", sup = "*")
   location loc72:
     edge p1.release_both goto loc33;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "left", p3 = "left", p4 = "both", sup = "*")
   location loc73:
     edge p4.release_both goto loc22;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "left", p3 = "both", p4 = "right", sup = "*")
   location loc74:
     edge p3.release_both goto loc16;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "both", p3 = "neither", p4 = "both", sup = "*")
   location loc75:
     edge p4.release_both goto loc23;
     edge p2.release_both goto loc20;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "neither", p2 = "both", p3 = "right", p4 = "right", sup = "*")
   location loc76:
     edge p2.release_both goto loc21;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "neither", p3 = "left", p4 = "both", sup = "*")
   location loc77:
     edge p4.release_both goto loc26;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "neither", p3 = "both", p4 = "right", sup = "*")
   location loc78:
     edge p3.release_both goto loc17;
+  @state(f1 = "taken", f2 = "taken", f3 = "taken", f4 = "taken", p1 = "right", p2 = "right", p3 = "neither", p4 = "both", sup = "*")
   location loc79:
     edge p4.release_both goto loc27;
 end

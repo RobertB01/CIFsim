@@ -3,98 +3,120 @@ controllable f;
 controllable g;
 automaton statespace:
   alphabet e, f, g;
+  @state(p = "*", p.v = 3, p.w = 0, sup = "*")
   location loc1:
     initial;
     marked;
     edge e;
     edge f goto loc7;
+  @state(p = "*", p.v = 3, p.w = 1, sup = "*")
   location loc2:
     initial;
     marked;
     edge e;
     edge f goto loc8;
+  @state(p = "*", p.v = 3, p.w = 2, sup = "*")
   location loc3:
     initial;
     marked;
     edge e;
     edge f goto loc9;
+  @state(p = "*", p.v = 3, p.w = 3, sup = "*")
   location loc4:
     initial;
     marked;
     edge e;
     edge f goto loc10;
+  @state(p = "*", p.v = 3, p.w = 4, sup = "*")
   location loc5:
     initial;
     marked;
     edge e;
     edge f goto loc11;
+  @state(p = "*", p.v = 3, p.w = 5, sup = "*")
   location loc6:
     initial;
     marked;
     edge e;
     edge f goto loc12;
+  @state(p = "*", p.v = 2, p.w = 0, sup = "*")
   location loc7:
     marked;
     edge e;
     edge f goto loc13;
     edge g goto loc14;
+  @state(p = "*", p.v = 2, p.w = 1, sup = "*")
   location loc8:
     marked;
     edge e;
     edge f goto loc15;
     edge g goto loc15;
+  @state(p = "*", p.v = 2, p.w = 2, sup = "*")
   location loc9:
     marked;
     edge e;
     edge f goto loc16;
     edge g;
+  @state(p = "*", p.v = 2, p.w = 3, sup = "*")
   location loc10:
     marked;
     edge e;
     edge f goto loc17;
     edge g goto loc4;
+  @state(p = "*", p.v = 2, p.w = 4, sup = "*")
   location loc11:
     marked;
     edge e;
     edge f goto loc18;
     edge g goto loc19;
+  @state(p = "*", p.v = 2, p.w = 5, sup = "*")
   location loc12:
     marked;
     edge e;
     edge f goto loc20;
     edge g goto loc21;
+  @state(p = "*", p.v = 1, p.w = 0, sup = "*")
   location loc13:
     marked;
     edge e;
     edge f goto loc7;
+  @state(p = "*", p.v = 0, p.w = 0, sup = "*")
   location loc14:
     marked;
+  @state(p = "*", p.v = 1, p.w = 1, sup = "*")
   location loc15:
     marked;
     edge e;
     edge f goto loc8;
+  @state(p = "*", p.v = 1, p.w = 2, sup = "*")
   location loc16:
     marked;
     edge e;
     edge f goto loc9;
+  @state(p = "*", p.v = 1, p.w = 3, sup = "*")
   location loc17:
     marked;
     edge e;
     edge f goto loc10;
+  @state(p = "*", p.v = 1, p.w = 4, sup = "*")
   location loc18:
     marked;
     edge e;
     edge f goto loc11;
+  @state(p = "*", p.v = 4, p.w = 4, sup = "*")
   location loc19:
     marked;
     edge e;
     edge f goto loc22;
+  @state(p = "*", p.v = 1, p.w = 5, sup = "*")
   location loc20:
     marked;
     edge e;
     edge f goto loc12;
+  @state(p = "*", p.v = 5, p.w = 5, sup = "*")
   location loc21:
     marked;
+  @state(p = "*", p.v = 5, p.w = 4, sup = "*")
   location loc22:
     marked;
 end

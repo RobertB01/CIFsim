@@ -1,24 +1,32 @@
 uncontrollable e;
 automaton statespace:
   alphabet e;
+  @state(p = "l1", p.x = 0, sup = "*")
   location loc1:
     initial;
     edge e goto loc5;
+  @state(p = "l1", p.x = 1, sup = "*")
   location loc2:
     initial;
     edge e goto loc6;
+  @state(p = "l1", p.x = 6, sup = "*")
   location loc3:
     initial;
     edge e goto loc7;
+  @state(p = "l1", p.x = 7, sup = "*")
   location loc4:
     initial;
     edge e goto loc8;
+  @state(p = "l2", p.x = 6, sup = "*")
   location loc5:
     marked;
+  @state(p = "l2", p.x = 7, sup = "*")
   location loc6:
     marked;
+  @state(p = "l2", p.x = 0, sup = "*")
   location loc7:
     marked;
+  @state(p = "l2", p.x = 1, sup = "*")
   location loc8:
     marked;
 end

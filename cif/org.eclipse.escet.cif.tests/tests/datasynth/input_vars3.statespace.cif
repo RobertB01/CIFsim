@@ -7,34 +7,42 @@ group io:
 end
 automaton statespace:
   alphabet io.u_sensor, u_on, u_off, c_on, c_off;
+  @state(io = "*", io.sensor = false, p_act = "off", p_sensor = "off", sup = "*")
   location loc1:
     initial;
     marked;
     edge io.u_sensor goto loc3;
     edge c_on goto loc4;
+  @state(io = "*", io.sensor = true, p_act = "off", p_sensor = "on", sup = "*")
   location loc2:
     initial;
     edge io.u_sensor goto loc5;
     edge c_on goto loc6;
+  @state(io = "*", io.sensor = true, p_act = "off", p_sensor = "off", sup = "*")
   location loc3:
     marked;
     edge io.u_sensor goto loc1;
     edge u_on goto loc2;
     edge c_on goto loc7;
+  @state(io = "*", io.sensor = false, p_act = "on", p_sensor = "off", sup = "*")
   location loc4:
     edge io.u_sensor goto loc7;
     edge c_off goto loc1;
+  @state(io = "*", io.sensor = false, p_act = "off", p_sensor = "on", sup = "*")
   location loc5:
     edge io.u_sensor goto loc2;
     edge u_off goto loc1;
     edge c_on goto loc8;
+  @state(io = "*", io.sensor = true, p_act = "on", p_sensor = "on", sup = "*")
   location loc6:
     edge io.u_sensor goto loc8;
     edge c_off goto loc2;
+  @state(io = "*", io.sensor = true, p_act = "on", p_sensor = "off", sup = "*")
   location loc7:
     edge io.u_sensor goto loc4;
     edge u_on goto loc6;
     edge c_off goto loc3;
+  @state(io = "*", io.sensor = false, p_act = "on", p_sensor = "on", sup = "*")
   location loc8:
     edge io.u_sensor goto loc6;
     edge u_off goto loc4;

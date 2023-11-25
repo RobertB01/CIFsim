@@ -3,10 +3,12 @@ group io:
 end
 automaton statespace:
   alphabet io.u_sensor;
+  @state(io = "*", io.sensor = false, p = "*", sup = "*")
   location loc1:
     initial;
     marked;
     edge io.u_sensor goto loc2;
+  @state(io = "*", io.sensor = true, p = "*", sup = "*")
   location loc2:
     initial;
     marked;
