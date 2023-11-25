@@ -6,4 +6,5 @@ State 1:
         location of automaton "a"
 
     Valuation:
-        a.i = -2147483648
+        a.i1 = -2147483648
+        a.i2 = -2147483648

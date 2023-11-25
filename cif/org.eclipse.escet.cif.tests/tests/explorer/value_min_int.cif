@@ -12,9 +12,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 automaton a:
-  disc int i = -2147483647 - 1; // Minimum integer value.
+  disc int i1 = -2147483647 - 1;                   // Explicit minimum integer value.
+  disc int[-2147483647 - 1 .. -2147483647 - 1] i2; // Implicit minimum integer value.
+
   location:
     initial;
 end
 
-invariant a.i < 0;
+invariant a.i1 < 0;
+invariant a.i2 < 0;
