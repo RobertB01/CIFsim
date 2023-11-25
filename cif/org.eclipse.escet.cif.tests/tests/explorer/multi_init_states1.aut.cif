@@ -1,50 +1,66 @@
 automaton statespace:
   alphabet;
+  @state(aut = "l1", aut.v1 = false, aut.v2 = 0, aut.v3 = "A")
   location loc1:
     initial;
     edge tau goto loc9;
+  @state(aut = "l1", aut.v1 = false, aut.v2 = 0, aut.v3 = "B")
   location loc2:
     initial;
     edge tau goto loc10;
+  @state(aut = "l1", aut.v1 = false, aut.v2 = 1, aut.v3 = "A")
   location loc3:
     initial;
     edge tau goto loc11;
+  @state(aut = "l1", aut.v1 = false, aut.v2 = 1, aut.v3 = "B")
   location loc4:
     initial;
     edge tau goto loc12;
+  @state(aut = "l1", aut.v1 = true, aut.v2 = 0, aut.v3 = "A")
   location loc5:
     initial;
     edge tau goto loc13;
+  @state(aut = "l1", aut.v1 = true, aut.v2 = 0, aut.v3 = "B")
   location loc6:
     initial;
     edge tau goto loc14;
+  @state(aut = "l1", aut.v1 = true, aut.v2 = 1, aut.v3 = "A")
   location loc7:
     initial;
     edge tau goto loc15;
+  @state(aut = "l1", aut.v1 = true, aut.v2 = 1, aut.v3 = "B")
   location loc8:
     initial;
     edge tau goto loc16;
+  @state(aut = "l2", aut.v1 = false, aut.v2 = 0, aut.v3 = "A")
   location loc9:
     initial;
     edge tau goto loc1;
+  @state(aut = "l2", aut.v1 = false, aut.v2 = 0, aut.v3 = "B")
   location loc10:
     initial;
     edge tau goto loc2;
+  @state(aut = "l2", aut.v1 = false, aut.v2 = 1, aut.v3 = "A")
   location loc11:
     initial;
     edge tau goto loc3;
+  @state(aut = "l2", aut.v1 = false, aut.v2 = 1, aut.v3 = "B")
   location loc12:
     initial;
     edge tau goto loc4;
+  @state(aut = "l2", aut.v1 = true, aut.v2 = 0, aut.v3 = "A")
   location loc13:
     initial;
     edge tau goto loc5;
+  @state(aut = "l2", aut.v1 = true, aut.v2 = 0, aut.v3 = "B")
   location loc14:
     initial;
     edge tau goto loc6;
+  @state(aut = "l2", aut.v1 = true, aut.v2 = 1, aut.v3 = "A")
   location loc15:
     initial;
     edge tau goto loc7;
+  @state(aut = "l2", aut.v1 = true, aut.v2 = 1, aut.v3 = "B")
   location loc16:
     initial;
     edge tau goto loc8;

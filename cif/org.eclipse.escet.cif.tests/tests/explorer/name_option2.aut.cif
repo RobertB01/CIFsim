@@ -3,6 +3,7 @@ group a:
 end
 automaton a2:
   alphabet a.e;
+  @state(a = "*")
   location loc1:
     initial;
     edge a.e;

@@ -3,14 +3,18 @@ event bm;
 event mb;
 automaton statespace:
   alphabet bm, mb, mm;
+  @state(B = "*", B.c = 0, m1 = "Full", m2 = "Full")
   location loc1:
     initial;
     edge mb goto loc2;
+  @state(B = "*", B.c = 1, m1 = "Full", m2 = "Empty")
   location loc2:
     edge mm goto loc3;
+  @state(B = "*", B.c = 1, m1 = "Empty", m2 = "Full")
   location loc3:
     edge bm goto loc1;
     edge mb goto loc4;
+  @state(B = "*", B.c = 2, m1 = "Empty", m2 = "Empty")
   location loc4:
     edge bm goto loc2;
 end

@@ -1,9 +1,12 @@
 automaton statespace:
   alphabet;
+  @state(A = "X", A.xs = (true, false), A.ys = ((false, false), (true, true)))
   location loc1:
     initial;
     edge tau goto loc2;
+  @state(A = "Y", A.xs = (true, true), A.ys = ((false, false), (true, true)))
   location loc2:
     edge tau goto loc3;
+  @state(A = "Z", A.xs = (true, true), A.ys = ((false, false), (false, true)))
   location loc3;
 end
