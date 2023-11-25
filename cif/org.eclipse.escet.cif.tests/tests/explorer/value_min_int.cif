@@ -1,0 +1,7 @@
+automaton a:
+  disc int i = -2147483647 - 1; // Minimum integer value.
+  location:
+    initial;
+end
+
+invariant a.i < 0;
