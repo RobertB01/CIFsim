@@ -1403,11 +1403,13 @@ public final class CifPrettyPrinter {
                 return "int";
             }
 
-            // Handle a lower bound of -2147483648 special, as 2147483648 is
+            // Handle a lower/upper bound of -2147483648 special, as 2147483648 is
             // not allowed as integer literal (due to overflow).
             int lower = itype.getLower();
+            int upper = itype.getUpper();
             String lowerTxt = (lower == Integer.MIN_VALUE) ? "-2147483647-1" : Integer.toString(lower);
-            return fmt("int[%s..%d]", lowerTxt, itype.getUpper());
+            String upperTxt = (upper == Integer.MIN_VALUE) ? "-2147483647-1" : Integer.toString(upper);
+            return fmt("int[%s..%s]", lowerTxt, upperTxt);
         } else if (type instanceof RealType) {
             return "real";
         } else if (type instanceof StringType) {
