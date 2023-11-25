@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.explorer.runtime;
 
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -23,6 +24,7 @@ import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
@@ -42,8 +44,11 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  */
 public class InitialState extends BaseState {
+    /** The temporary specification to hold the {@link #funcs}. */
+    private final Specification funcsSpec = newSpecification();
+
     /** Default function values for variables with function types. */
-    private List<InternalFunction> funcs = list();
+    private final List<InternalFunction> funcs = list();
 
     /**
      * Mapping from automata to their initial locations. May be an incomplete mapping, to let this class determine the
@@ -267,6 +272,12 @@ public class InitialState extends BaseState {
         // Evaluate all variables.
         for (PositionObject po: explorer.variables) {
             getVarValue(po);
+        }
+
+        // Ensure the default value functions are contained in a specification and have a name.
+        for (InternalFunction func: funcs) {
+            funcsSpec.getDeclarations().add(func);
+            func.setName("*");
         }
 
         // Get initial locations of all the automata.
