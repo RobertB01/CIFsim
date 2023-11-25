@@ -1054,24 +1054,24 @@ public class CifValueUtils {
         if (type instanceof BoolType) {
             return makeFalse();
         } else if (type instanceof IntType) {
-            IntExpression rslt = newIntExpression();
-            rslt.setType(deepclone(type));
-
+            // Get default value.
             IntType itype = (IntType)type;
+            int defaultValue;
             if (CifTypeUtils.isRangeless(itype)) {
-                rslt.setValue(0);
+                defaultValue = 0;
             } else {
-                // Set to value closest to zero.
+                // Use the value closest to zero.
                 if (itype.getLower() <= 0 && itype.getUpper() >= 0) {
-                    rslt.setValue(0);
+                    defaultValue = 0;
                 } else {
                     int lDistanceToZero = Math.abs(itype.getLower());
                     int uDistanceToZero = Math.abs(itype.getUpper());
-                    rslt.setValue((lDistanceToZero < uDistanceToZero) ? itype.getLower() : itype.getUpper());
+                    defaultValue = (lDistanceToZero < uDistanceToZero) ? itype.getLower() : itype.getUpper();
                 }
             }
 
-            return rslt;
+            // Return a proper expression for the default value.
+            return makeInt(defaultValue);
         } else if (type instanceof TypeRef) {
             return getDefaultValue(((TypeRef)type).getType().getType(), funcs);
         } else if (type instanceof EnumType) {
