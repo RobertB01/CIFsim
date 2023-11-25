@@ -25,6 +25,8 @@ map(string:list string) test_options = {
     "explorer/no_initial_state.cif":            ["-s1"],
     "explorer/name_option1.cif":                ["-n newName"],
     "explorer/name_option2.cif":                ["-n a"],
+    "explorer/state_annos_option_off.cif":      ["--state-annos=off"],
+    "explorer/state_annos_option_on.cif":       ["--state-annos=on"],
 };
 set string test_skip = {};
 
