@@ -87,6 +87,7 @@ input bool x;
 Currently, annotations are only supported for the following elements in CIF specifications:
 
 * Input variables.
+* Locations of automata.
 
 This will be extended to other elements of specifications in the future.
 

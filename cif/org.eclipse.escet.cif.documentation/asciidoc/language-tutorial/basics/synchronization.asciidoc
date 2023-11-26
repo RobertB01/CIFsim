@@ -22,6 +22,7 @@ To illustrate this, consider the following CIF specification:
 
 // Copied to: basics/alphabet
 // Copied to: basics/event-placement
+// State space in lesson: extensions/annotations
 [source, cif]
 ----
 automaton producer:

@@ -46,6 +46,8 @@ The following built-in annotations are bundled with CIF:
 
 | <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
 | `doc`
+| <<lang-tut-extensions-chapter-annotations-state,State>>
+| `state`
 |===
 
 Annotations are an extension mechanism, and anyone can <<lang-ref-extensions-annotations-providers,define and register>> their own annotations.
@@ -108,3 +110,49 @@ public boolean ElevatorDownSensor;
 ----
 
 For more detailed information on documentation annotations, see the <<lang-ref-extensions-annotations-documentation,reference manual>>.
+
+[[lang-tut-extensions-chapter-annotations-state]]
+=== State annotations
+
+Information about <<lang-tut-basics-chapter-synchronizing-events-statespace,states>> can be added to locations of automata.
+States consist of the current locations of automata and the current values of variables.
+For instance, the <<tools-chapter-cif-explorer,CIF explorer>> may generate the following for the example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>.
+
+[source, cif]
+----
+group producer:
+  event produce;
+  event provide;
+end
+
+group consumer:
+  event consume;
+end
+
+automaton statespace:
+  alphabet producer.produce, producer.provide, consumer.consume;
+
+  @state(consumer = "idle", producer = "producing")
+  location loc1:
+    initial;
+    edge producer.produce goto loc2;
+
+  @state(consumer = "idle", producer = "idle")
+  location loc2:
+    edge producer.provide goto loc3;
+
+  @state(consumer = "consuming", producer = "producing")
+  location loc3:
+    edge producer.produce goto loc4;
+    edge consumer.consume goto loc1;
+
+  @state(consumer = "consuming", producer = "idle")
+  location loc4:
+    edge consumer.consume goto loc2;
+end
+----
+
+This state space consists of four states, each represented by a location of the `statespace` automaton.
+For intsance, the first state is represented by location `loc1`, which corresponds to the state where the `consumer` is `idle` and the `producer` is `producing`.
+
+For more detailed information on state annotations, see the <<lang-ref-extensions-annotations-state,reference manual>>.

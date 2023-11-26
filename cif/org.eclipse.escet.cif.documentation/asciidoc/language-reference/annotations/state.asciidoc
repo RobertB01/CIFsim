@@ -13,20 +13,18 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[lang-ref-extensions-annotations-builtin]]
-== Built-in annotations
+[[lang-ref-extensions-annotations-state]]
+== State annotations
 
 WARNING: Annotations are currently an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner.
 
-The following built-in <<lang-ref-extensions-annotations,annotations>> are bundled with CIF:
+State <<lang-ref-extensions-annotations,annotations>> can be used to add state information to CIF elements.
+For basic information on state annotations, see the <<lang-tut-extensions-chapter-annotations-state,language tutorial>>.
+Here we discuss further details.
 
-[cols="2,1"]
-|===
-| Category | Annotation
+State annotations (`@state`) can be added to the following elements in CIF specifications:
 
-| <<lang-ref-extensions-annotations-documentation,Documentation>>
-| `doc`
-| <<lang-ref-extensions-annotations-state,State>>
-| `state`
-|===
+* Locations of automata.
+
+The <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations, also apply to state annotations.
