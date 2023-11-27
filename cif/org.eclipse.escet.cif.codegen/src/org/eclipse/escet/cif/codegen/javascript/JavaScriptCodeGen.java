@@ -68,6 +68,7 @@ public class JavaScriptCodeGen extends CodeGen {
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
         templates.put("index.txt", ".html");
+        templates.put("utils.txt", "_utils.js");
         return templates;
     }
 

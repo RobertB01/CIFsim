@@ -20,16 +20,11 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDictExpres
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDictPair;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteralExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFunctionExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSetExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newUnaryExpression;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -97,7 +92,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
@@ -256,18 +250,7 @@ public class CifEvalUtils {
             bexpr.setType(newBoolType());
             return bexpr;
         } else if (ntype instanceof IntType) {
-            // No problem to represent negative numbers by an 'IntExpression'.
-            int i = (Integer)value;
-
-            IntType itype = newIntType();
-            itype.setLower(i);
-            itype.setUpper(i);
-
-            IntExpression iexpr = newIntExpression();
-            iexpr.setValue(i);
-            iexpr.setType(itype);
-
-            return iexpr;
+            return CifValueUtils.makeInt((Integer)value);
         } else if (ntype instanceof EnumType) {
             CifEnumLiteral lit = (CifEnumLiteral)value;
             EnumLiteralExpression rexpr = newEnumLiteralExpression();
@@ -294,31 +277,7 @@ public class CifEvalUtils {
             sexpr.setType(newStringType());
             return sexpr;
         } else if (ntype instanceof RealType) {
-            // Special handling of negative values, which need to become
-            // unary negations with real numbers.
-            double dvalue = (Double)value;
-            boolean negate = false;
-            if (dvalue < 0) {
-                dvalue = -dvalue;
-                negate = true;
-            }
-            if (dvalue == -0.0) {
-                dvalue = 0.0;
-            }
-
-            RealExpression rexpr = newRealExpression();
-            rexpr.setValue(CifMath.realToStr(dvalue));
-            rexpr.setType(newRealType());
-
-            if (negate) {
-                UnaryExpression uexpr = newUnaryExpression();
-                uexpr.setOperator(UnaryOperator.NEGATE);
-                uexpr.setChild(rexpr);
-                uexpr.setType(newRealType());
-                return uexpr;
-            } else {
-                return rexpr;
-            }
+            return CifValueUtils.makeReal((Double)value);
         } else if (ntype instanceof SetType) {
             SetType stype = (SetType)ntype;
             Set<Object> set = (Set<Object>)value;

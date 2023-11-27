@@ -42,6 +42,7 @@ automaton p:
   disc int[3..3] i7 = 3;
   disc int[-5..-5] i8 = -5;
   disc int[5..5] i9 = 5;
+  disc int[-2147483647-1..-2147483647-1] i10 = -2147483647 - 1;
   disc t vt = false;
   disc e1 ve1 = A;
   disc e2 ve2 = D;
@@ -67,7 +68,7 @@ automaton p:
   disc dist bool db = constant(false);
   disc dist int di = constant(0);
   disc dist real dr = constant(0.0);
-  invariant x > 0 or b or i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 > 0;
+  invariant x > 0 or b or i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 + i10 > 0;
   invariant vt or ve1 in {A, B} or ve2 in {D, C} or r > 0 or size(g) > 0;
   invariant size(l) + size(l0) + size(l1) + size(l2) > 0;
   invariant size(l02) + size(l13) + size(l24) > 0;

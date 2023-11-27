@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,19 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen.options;
+automaton a:
+  disc int i1 = -2147483647 - 1;                   // Explicit minimum integer value.
+  disc int[-2147483647 - 1 .. -2147483647 - 1] i2; // Implicit minimum integer value.
 
-/**
- * When should formal function invocation syntax be used in the PLC code, based on the number of arguments of the
- * function?
- */
-public enum PlcFormalFuncInvokeArg {
-    /** For all functions. */
-    ALL,
+  location:
+    initial;
+end
 
-    /** For functions with more than one argument. */
-    MULTI,
-
-    /** For none of the functions. */
-    NONE;
-}
+invariant a.i1 < 0;
+invariant a.i2 < 0;

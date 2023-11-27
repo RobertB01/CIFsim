@@ -141,9 +141,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // As all transition code is generated in main program context, only one generated statements list exists and
         // various variables that store decisions in the process can be re-used between different events.
+        boolean addEmptyLineBefore = false;
         List<PlcStatement> statements = list();
         for (CifEventTransition eventTransition: eventTransitions) {
-            statements.addAll(generateEventTransitionCode(eventTransition, isProgressVar));
+            statements.addAll(generateEventTransitionCode(eventTransition, addEmptyLineBefore, isProgressVar));
+            addEmptyLineBefore = true;
         }
         mainExprGen.releaseTempVariable(isProgressVar);
         return statements;
@@ -232,10 +234,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * </p>
      *
      * @param eventTransition Event transition to generate code for.
+     * @param prependEmptyLine Whether to insert an empty line before the event transition.
      * @param isProgressVar PLC variable to set if the event transition is performed.
      * @return The generated code for testing and performing the event in the PLC.
      */
-    private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition,
+    private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition, boolean prependEmptyLine,
             PlcVariable isProgressVar)
     {
         // Both code parts visit the same automata and the check or perform the same edges. For this reason it makes
@@ -253,6 +256,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         boolean eventEnabledAlwaysHolds = true;
 
         // Generate the header of the transition code for the event. Initialize the 'event is enabled' variable.
+        if (prependEmptyLine) {
+            testCode.add(new PlcCommentLine(null));
+        }
         String absEventName = getAbsName(eventTransition.event, false);
         testCode.add(new PlcCommentLine("Try to perform event \"" + absEventName + "\"."));
         testCode.add(new PlcAssignmentStatement(eventEnabledVar, new PlcBoolLiteral(true)));

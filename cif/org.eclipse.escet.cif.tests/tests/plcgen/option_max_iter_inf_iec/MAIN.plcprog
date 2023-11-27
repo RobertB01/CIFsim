@@ -1,0 +1,53 @@
+PROGRAM MAIN
+VAR_TEMP
+    curValue: LREAL;
+    current_p_t: LREAL;
+    eventEnabled: BOOL;
+    isProgress: BOOL;
+    syncAutEdge: DINT;
+    timeOut: BOOL;
+END_VAR
+
+(* --- Initialize state or update continuous variables. -------------------- *)
+IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    p_x := 5;
+    p_t := 0.0;
+    (* Reset timer of "p_t". *)
+    preset_p_t := p_t;
+    ton_p_t(IN := FALSE, PT := preset_p_t);
+    ton_p_t(IN := TRUE, PT := preset_p_t);
+ELSE
+    (* Update remaining time of "p_t". *)
+    ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
+    p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
+END_IF;
+
+(* --- Process all events. ------------------------------------------------- *)
+isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (* Try to perform event "e". *)
+    eventEnabled := TRUE;
+    IF p_t <= 1.0 AND p_x = 5 THEN
+        syncAutEdge := 1;
+    ELSE
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        current_p_t := p_t;
+        IF syncAutEdge = 1 THEN
+            p_t := 7.0;
+            (* Reset timer of "p_t". *)
+            preset_p_t := p_t;
+            ton_p_t(IN := FALSE, PT := preset_p_t);
+            ton_p_t(IN := TRUE, PT := preset_p_t);
+        END_IF;
+    END_IF;
+END_WHILE;
+END_PROGRAM

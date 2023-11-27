@@ -39,6 +39,7 @@ hw_button_bit := in_hw_button_bit;
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
+    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     timer_t := 0.0;
@@ -59,7 +60,11 @@ END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
-WHILE isProgress DO
+(* Perform events until none can be done anymore. *)
+(* Track the number of iterations and abort if there are too many. *)
+loopCount := 0;
+WHILE isProgress AND loopCount < 100 DO
+    loopCount := loopCount + 1;
     isProgress := FALSE;
 
     (* Try to perform event "timer.start". *)
@@ -97,6 +102,7 @@ WHILE isProgress DO
             sup := 6;
         END_IF;
     END_IF;
+
     (* Try to perform event "timer.timeout". *)
     eventEnabled := TRUE;
     IF timer = 1 AND timer_t <= 0.0 THEN
@@ -126,6 +132,7 @@ WHILE isProgress DO
             sup := 8;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.push". *)
     eventEnabled := TRUE;
     IF sup = 0 THEN
@@ -167,6 +174,7 @@ WHILE isProgress DO
             hw_button := 1;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.release". *)
     eventEnabled := TRUE;
     IF sup = 1 THEN
@@ -208,6 +216,7 @@ WHILE isProgress DO
             hw_button := 0;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.on". *)
     eventEnabled := TRUE;
     IF sup = 1 THEN
@@ -239,6 +248,7 @@ WHILE isProgress DO
             hw_lamp := 1;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.off". *)
     eventEnabled := TRUE;
     IF sup = 7 THEN
@@ -271,6 +281,10 @@ WHILE isProgress DO
         END_IF;
     END_IF;
 END_WHILE;
+(* Register the first 9999 aborted loops. *)
+IF loopCount >= 100 THEN
+    loopsKilled := MIN(loopsKilled + 1, 9999);
+END_IF;
 
 (* --- Write output to actuators. ------------------------------------------ *)
 out_hw_lamp_bit := hw_lamp_bit;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <GVL Name="STATE">
+    <Declaration><![CDATA[VAR_GLOBAL // STATE
+    p_x: DINT;
+    p_t: LREAL;
+END_VAR]]></Declaration>
+    <ObjectProperties/>
+  </GVL>
+</TcPlcObject>

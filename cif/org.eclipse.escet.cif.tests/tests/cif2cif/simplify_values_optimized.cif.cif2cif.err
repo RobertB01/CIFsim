@@ -1,8 +1,8 @@
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 236, column 18: The switch expression has only one case, which is deprecated.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 240, column 18: The switch expression has only one case, which is deprecated.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 251, column 20: Switch "else" is superfluous, as all values already have a "case".
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 256, column 20: Switch "else" is superfluous, as all values already have a "case".
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 269, column 18: The switch expression has only one case, which is deprecated.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 273, column 18: The switch expression has only one case, which is deprecated.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1234, column 17: The switch expression has only one case, which is deprecated.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1237, column 17: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 238, column 18: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 242, column 18: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 253, column 20: Switch "else" is superfluous, as all values already have a "case".
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 258, column 20: Switch "else" is superfluous, as all values already have a "case".
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 271, column 18: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 275, column 18: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1236, column 17: The switch expression has only one case, which is deprecated.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1239, column 17: The switch expression has only one case, which is deprecated.
