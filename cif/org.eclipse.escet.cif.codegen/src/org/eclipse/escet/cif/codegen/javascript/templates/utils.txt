@@ -809,7 +809,7 @@ class ${prefix}Utils {
     static strToInt(x) {
         var rslt = Number.parseInt(x, 10);
         if (Number.isNaN(rslt) || rslt < ${prefix}Utils.MIN_INT || rslt > ${prefix}Utils.MAX_INT
-            || x.trim().length != x.length) 
+            || x.trim().length != x.length)
         {
             throw new ${prefix}Exception(${prefix}Utils.fmt("Cast from type \"string\" to type \"int\" " +
                 "failed: the string value does not represent an integer value, or the integer value " +
