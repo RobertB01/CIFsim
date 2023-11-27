@@ -1,0 +1,5 @@
+automaton statespace:
+  alphabet;
+  location loc1:
+    initial;
+end
