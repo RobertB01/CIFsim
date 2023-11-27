@@ -1,5 +1,6 @@
 automaton statespace:
   alphabet;
+  @state(a = "*", a.f1 = "*", a.f2 = ["*"])
   location loc1:
     initial;
 end
