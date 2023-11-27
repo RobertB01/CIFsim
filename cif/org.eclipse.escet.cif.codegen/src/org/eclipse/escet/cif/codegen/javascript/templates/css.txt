@@ -1,0 +1,28 @@
+html, body {
+    margin: 0;
+    background-color: #fff7df; // ESCET website yellow.
+    font-family: "Segoe UI";
+    line-height: 1.5;
+    height: 100%;
+}
+
+a {
+    color: #cc9a06;
+}
+
+a:hover {
+    color: black;
+}
+
+input[type=button] {
+    background-color: #ffc107;
+    border: 0;
+    box-shadow: none;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+input[type=button]:hover {
+    background-color: #ffda6d;
+}
