@@ -13,16 +13,11 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.java.Strings.str;
-
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
-import org.eclipse.escet.cif.codegen.javascript.JavaScriptDataValue;
 import org.eclipse.escet.cif.codegen.typeinfos.EnumTypeInfo;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.common.box.CodeBox;

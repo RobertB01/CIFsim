@@ -13,15 +13,10 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
-import static org.eclipse.escet.cif.codegen.typeinfos.TypeInfoHelper.convertBinaryExpressionPattern;
-import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.java.Strings.str;
-
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
-import org.eclipse.escet.cif.codegen.javascript.JavaScriptDataValue;
 import org.eclipse.escet.cif.codegen.typeinfos.BoolTypeInfo;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
