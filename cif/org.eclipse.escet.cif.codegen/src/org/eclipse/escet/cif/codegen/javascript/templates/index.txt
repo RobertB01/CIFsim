@@ -40,7 +40,7 @@
                 margin: -4px 7px 0px 0px;
             }
             #log-pane #div-txt-area-background {
-                height: calc(100% - 80px);
+                height: calc(100% - 60px);
                 background: #fff;
             }
             #log-pane .div-txt-area {
@@ -54,26 +54,6 @@
                 width: 100%;
                 margin: 0;
                 padding: 0;
-            }
-            #log-pane #div-log-input-background {
-                background: #fff;
-                margin: 0 auto;
-                border-top: 1px solid #ddd;
-            }
-            #log-pane .div-log-input {
-                margin: 0px 0px 0px 20px;
-                background: #fff;
-            }
-            #log-pane .div-log-input span {
-                position: absolute;
-                left: 5px;
-            }
-            #log-pane .div-log-input #log-input {
-                border: 0;
-                background: white;
-                margin: 0;
-                padding: 0;
-                width: 100%;
             }
             #log-pane #div-log-pane-footer {
                 background: #fafafa;
@@ -96,12 +76,10 @@
             }
 
             .collapsed #div-txt-area-background,
-            .collapsed #div-log-input-background,
             .collapsed #div-log-pane-footer {
                 display: none;
             }
             .expanded #div-txt-area-background,
-            .expanded #div-log-input-background,
             .expanded #div-log-pane-footer {
                 display: visible;
             }
@@ -135,18 +113,6 @@
                     elem.classList.add('expanded');
                 }
             }
-
-            function inputCommand() {
-                if (event.keyCode == 13) {
-                    var elem = document.getElementById("log-input");
-                    if (!elem.value.includes("=") && !elem.value.includes(")")) {
-                        eval(elem.value + "()");
-                    } else {
-                        eval(elem.value);
-                    }
-                    elem.value = "";
-                }
-            }
         </script>
     </head>
     <body>
@@ -169,12 +135,6 @@
                         <textarea disabled id="log-output"></textarea>
                     </div>
                 <div>
-                <div id="div-log-input-background">
-                    <div class="div-log-input">
-                        <span>&gt;</span>
-                        <input type="text" id="log-input" onkeydown="inputCommand()">
-                    </div>
-                </div>
                 <div id="div-log-pane-footer"></div>
             </div>
         </div>
