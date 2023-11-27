@@ -2,51 +2,52 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>${prefix} | Eclipse ESCET</title>
         <link rel="stylesheet" href="${prefix}_escet_theme.css">
         <style>
             body {
                 text-align: center;
             }
 
-            .flex-container {
+            #flex-container {
                 display: flex;
                 flex-flow: column;
                 height: 100%;
             }
 
-            .flex-container .content {
+            #content {
                 flex: 1 1 auto;
                 overflow: auto;
             }
-            .flex-container .content .btnsDiv {
+            #content .btns-div {
                 margin-bottom: 15px;
             }
 
-            .flex-container .logPane {
+            #log-pane {
                 border-top: 2px solid #ddd;
                 min-height: 20px;
                 background: #fafafa;
             }
-            .flex-container .logPane .divShowHideBtn {
+            #log-pane .div-show-hide-btn {
                 height: 25px;
                 padding-top: 5px;
                 text-align: right;
                 border-bottom: 1px solid #ddd;
             }
-            .flex-container .logPane .divShowHideBtn a {
+            #log-pane .div-show-hide-btn a {
                 display: block;
                 float: right;
                 margin: -4px 7px 0px 0px;
             }
-            .flex-container .logPane .divTxtAreaBackground {
+            #log-pane #div-txt-area-background {
                 height: calc(100% - 80px);
                 background: #fff;
             }
-            .flex-container .logPane .divTxtArea {
+            #log-pane .div-txt-area {
                 margin: 0px 20px;
                 height: 100%;
             }
-            .flex-container .logPane .divTxtArea textarea {
+            #log-pane .div-txt-area textarea {
                 resize: none;
                 border: 0;
                 height: 100%;
@@ -54,55 +55,62 @@
                 margin: 0;
                 padding: 0;
             }
-            .flex-container .logPane .divLogInputBackground {
+            #log-pane #div-log-input-background {
                 background: #fff;
                 margin: 0 auto;
                 border-top: 1px solid #ddd;
             }
-            .flex-container .logPane .divLogInput {
+            #log-pane .div-log-input {
                 margin: 0px 0px 0px 20px;
                 background: #fff;
             }
-            .flex-container .logPane .divLogInput span {
+            #log-pane .div-log-input span {
                 position: absolute;
                 left: 5px;
             }
-            .flex-container .logPane .divLogInput .logInput {
+            #log-pane .div-log-input #log-input {
                 border: 0;
                 background: white;
                 margin: 0;
                 padding: 0;
                 width: 100%;
             }
-            .flex-container .logPane .divLogPaneFooter {
+            #log-pane #div-log-pane-footer {
                 background: #fafafa;
                 border-top: 1px solid #ddd;
             }
 
-            .flex-container .logPaneCollapsed {
+            .collapsed #log-pane {
                 height: 31px;
                 flex: none;
             }
-            .flex-container .contentCollapsed {
-                resize: none;
-            }
-            .flex-container .footerCollapsed {
-                display: none;
-            }
-            .flex-container .logPaneExpanded {
+            .expanded #log-pane {
                 height: 40%;
                 flex: 1 1 auto;
             }
-            .flex-container .contentExpanded {
+            .collapsed #content {
+                resize: none;
+            }
+            .expanded #content {
                 resize: vertical;
+            }
+
+            .collapsed #div-txt-area-background,
+            .collapsed #div-log-input-background,
+            .collapsed #div-log-pane-footer {
+                display: none;
+            }
+            .expanded #div-txt-area-background,
+            .expanded #div-log-input-background,
+            .expanded #div-log-pane-footer {
+                display: visible;
             }
         </style>
         <script src="${prefix}_utils.js"></script>
         <script type="text/javascript">
-
             function log(message) {
                 console.log(message);
-                var elem = document.getElementById("logOutput");
+                var elem = document.getElementById("log-output");
                 elem.value += message + '\r\n';
                 elem.scrollTop = elem.scrollHeight;
             }
@@ -112,43 +120,25 @@
             }
 
             function clearLog() {
-                document.getElementById("logOutput").value = "";
+                document.getElementById("log-output").value = "";
             }
 
             function showHide(btn) {
-                var elem = document.getElementById("logPane");
-                if(elem.classList.contains("logPaneExpanded")) {
+                var elem = document.getElementById("flex-container");
+                if (elem.classList.contains("expanded")) {
                     btn.textContent = "Show";
-                    elem.classList.remove('logPaneExpanded');
-                    elem.classList.add('logPaneCollapsed');
-                    var elem = document.getElementById("content");
-                    elem.classList.remove('contentExpanded');
-                    elem.classList.add('contentCollapsed');
-                    var elem = document.getElementById("divTxtAreaBackground");
-                    elem.classList.toggle('footerCollapsed');
-                    var elem = document.getElementById("divLogInputBackground");
-                    elem.classList.toggle('footerCollapsed');
-                    var elem = document.getElementById("divLogPaneFooter");
-                    elem.classList.toggle('footerCollapsed');
+                    elem.classList.remove('expanded');
+                    elem.classList.add('collapsed');
                 } else {
                     btn.textContent = "Hide";
-                    elem.classList.remove('logPaneCollapsed');
-                    elem.classList.add('logPaneExpanded');
-                    var elem = document.getElementById("content");
-                    elem.classList.remove('contentCollapsed');
-                    elem.classList.add('contentExpanded');
-                    var elem = document.getElementById("divTxtAreaBackground");
-                    elem.classList.toggle('footerCollapsed');
-                    var elem = document.getElementById("divLogInputBackground");
-                    elem.classList.toggle('footerCollapsed');
-                    var elem = document.getElementById("divLogPaneFooter");
-                    elem.classList.toggle('footerCollapsed');
+                    elem.classList.remove('collapsed');
+                    elem.classList.add('expanded');
                 }
             }
 
             function inputCommand() {
                 if (event.keyCode == 13) {
-                    var elem = document.getElementById("logInput");
+                    var elem = document.getElementById("log-input");
                     if (!elem.value.includes("=") && !elem.value.includes(")")) {
                         eval(elem.value + "()");
                     } else {
@@ -157,37 +147,35 @@
                     elem.value = "";
                 }
             }
-
         </script>
-        <title>${prefix} | Eclipse ESCET</title>
     </head>
     <body>
-        <div class="flex-container">
-            <div class="content contentExpanded" id="content">
+        <div class="expanded" id="flex-container">
+            <div id="content">
                 <div>
                     <h1>${prefix}</h1>
-                    <!-- SVG element goes here -->
+                    <!-- SVG element goes here. -->
                 </div>
-                <div class="btnsDiv">
-                    <input value="Reset" type="button" onClick="reset()" />
+                <div class="btns-div">
+                    <input value="Reset" type="button" onClick="reset()">
                 </div>
             </div>
-            <div class="logPane logPaneExpanded" id="logPane">
-                <div class="divShowHideBtn">
+            <div id="log-pane">
+                <div class="div-show-hide-btn">
                     <a href="#" onclick="showHide(this); return false;">Hide</a>
                 </div>
-                <div class="divTxtAreaBackground" id="divTxtAreaBackground">
-                    <div class="divTxtArea">
-                        <textarea disabled id="logOutput"></textarea>
+                <div id="div-txt-area-background">
+                    <div class="div-txt-area">
+                        <textarea disabled id="log-output"></textarea>
                     </div>
                 <div>
-                <div class="divLogInputBackground" id="divLogInputBackground">
-                    <div class="divLogInput">
+                <div id="div-log-input-background">
+                    <div class="div-log-input">
                         <span>&gt;</span>
-                        <input type="text" class="logInput" id="logInput" onkeydown="inputCommand()">
+                        <input type="text" id="log-input" onkeydown="inputCommand()">
                     </div>
                 </div>
-                <div class="divLogPaneFooter" id="divLogPaneFooter"></div>
+                <div id="div-log-pane-footer"></div>
             </div>
         </div>
     </body>
