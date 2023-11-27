@@ -1,0 +1,10 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.i1 = -2147483648
+        a.i2 = -2147483648
