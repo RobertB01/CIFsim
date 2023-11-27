@@ -48,7 +48,7 @@ public class InitialState extends BaseState {
     private final Specification funcsSpec = newSpecification();
 
     /** Default function values for variables with function types. */
-    private final List<InternalFunction> funcs = list();
+    private List<InternalFunction> funcs = list();
 
     /**
      * Mapping from automata to their initial locations. May be an incomplete mapping, to let this class determine the
