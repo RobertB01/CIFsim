@@ -183,6 +183,12 @@ public class PrepareChecks {
                 }
                 updatedVariablesByEvent.put(evt, set());
             }
+
+            // Abort computation if the user requests it.
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return false;
+            }
         }
 
         // Process the locations and edges.
@@ -229,6 +235,12 @@ public class PrepareChecks {
                 Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
                 globalGuardedUpdatesByEvent.put(autEvent,
                         tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
+            }
+
+            // Abort computation if the user requests it.
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return false;
             }
         }
 
@@ -286,6 +298,11 @@ public class PrepareChecks {
                 if (!assignedVariables.contains(otherVariable)) {
                     VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
                     updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
+                }
+
+                // Abort computation if the user requests it.
+                if (env.isTerminationRequested()) {
+                    return updateNode;
                 }
             }
         }
