@@ -18,6 +18,9 @@ import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEv
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
+import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
+import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -43,6 +46,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.AppEnvData;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -134,6 +138,7 @@ public class PrepareChecks {
                 return false;
             }
 
+            OutputProvider.dbg("Analyzing %s...", getComponentText1(aut));
             Set<Event> controllableAutEvents = intersection(getAlphabet(aut), allControllableEvents);
             if (!controllableAutEvents.isEmpty()) {
                 if (!processAutomaton(aut, controllableAutEvents)) {
@@ -161,8 +166,10 @@ public class PrepareChecks {
         Map<Event, Node> autGuardedUpdates = (globalGuardedUpdatesByEvent == null) ? null
                 : mapc(controllableAutEvents.size());
 
+        OutputProvider.idbg();
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
+            OutputProvider.dbg("Initialize the automaton data for event \"%s\"...", getAbsName(evt));
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
                 autGuardedUpdates.put(evt, Tree.ZERO);
@@ -180,6 +187,7 @@ public class PrepareChecks {
 
         // Process the locations and edges.
         for (Location loc: aut.getLocations()) {
+            OutputProvider.dbg("Process edges from location \"%s\"...", getLocationText2(loc));
             for (Edge edge: loc.getEdges()) {
                 // Filter on relevant events.
                 Set<Event> controllableEdgeEvents = intersection(getEvents(edge), controllableAutEvents);
@@ -205,6 +213,7 @@ public class PrepareChecks {
 
                 // Abort computation if the user requests it.
                 if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
                     return false;
                 }
             }
@@ -212,6 +221,7 @@ public class PrepareChecks {
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
+            OutputProvider.dbg("Update global guards and updates for event \"%s\"...", getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
 
@@ -222,6 +232,7 @@ public class PrepareChecks {
             }
         }
 
+        OutputProvider.ddbg();
         return true;
     }
 

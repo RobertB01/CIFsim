@@ -170,6 +170,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
 
         // Perform computations for both checkers.
+        OutputProvider.dbg("Prepare for the checks...");
         boolean computeGlobalGuardedUpdates = checkConfluence;
         PrepareChecks prepareChecks = new PrepareChecks(computeGlobalGuardedUpdates);
         if (!prepareChecks.compute(spec)) {
