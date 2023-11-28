@@ -56,7 +56,7 @@ public abstract class EnumTypeInfo extends TypeInfo {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt Code context of the expression.
      * @return Code fragment representing the value.
      */
     public abstract ExprCode convertEnumLiteral(EnumLiteralExpression expr, Destination dest, CodeContext ctxt);

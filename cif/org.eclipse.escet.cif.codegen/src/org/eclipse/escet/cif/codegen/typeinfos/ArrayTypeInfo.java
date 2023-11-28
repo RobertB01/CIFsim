@@ -71,7 +71,7 @@ public abstract class ArrayTypeInfo extends ContainerTypeInfo {
      * @param containerCode Code to obtain the array.
      * @param indexCode Code to obtain the index value.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Code expressing accessing the element in the array at the requested index.
      */
     public abstract ExprCode getProjectedValue(ExprCode containerCode, ExprCode indexCode, Destination dest,
@@ -83,7 +83,7 @@ public abstract class ArrayTypeInfo extends ContainerTypeInfo {
      * @param container Container being modified
      * @param partCode Code to obtain the new value of the part.
      * @param indexCode Code to obtain the index value.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Code expressing modifying a container from the old container and the new part at the given index.
      */
     public abstract CodeBox modifyContainer(VariableInformation container, ExprCode partCode, ExprCode indexCode,
@@ -104,7 +104,7 @@ public abstract class ArrayTypeInfo extends ContainerTypeInfo {
      *
      * @param expr Argument of the function call.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertSizeStdLib(Expression expr, Destination dest, CodeContext ctxt);
@@ -114,7 +114,7 @@ public abstract class ArrayTypeInfo extends ContainerTypeInfo {
      *
      * @param expr Argument of the function call.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertEmptyStdLib(Expression expr, Destination dest, CodeContext ctxt);
