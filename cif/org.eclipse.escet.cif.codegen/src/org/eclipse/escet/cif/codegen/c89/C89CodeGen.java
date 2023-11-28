@@ -355,6 +355,11 @@ public class C89CodeGen extends CodeGen {
     }
 
     @Override
+    public DataValue makeDataValue(String value) {
+        return makeValue(value);
+    }
+
+    @Override
     protected void addConstants(CodeContext ctxt) {
         CodeBox defCode = makeCodeBox();
         CodeBox declCode = makeCodeBox();

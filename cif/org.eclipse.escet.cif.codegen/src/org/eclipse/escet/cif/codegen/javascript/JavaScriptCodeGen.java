@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
+import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCodeGen;
 import org.eclipse.escet.cif.codegen.IfElseGenerator;
 import org.eclipse.escet.cif.codegen.TypeCodeGen;
@@ -155,6 +156,12 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
+        // TODO To be implemented.
+        return null;
+    }
+
+    @Override
+    public DataValue makeDataValue(String value) {
         // TODO To be implemented.
         return null;
     }

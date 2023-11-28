@@ -742,6 +742,11 @@ public class JavaCodeGen extends CodeGen {
         return new Destination(null, varInfo.typeInfo, dataValue);
     }
 
+    @Override
+    public DataValue makeDataValue(String value) {
+        return new JavaDataValue(value);
+    }
+
     /**
      * Get the Java type for the given CIF type.
      *

@@ -544,6 +544,11 @@ public class SimulinkCodeGen extends CodeGen {
         return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetName));
     }
 
+    @Override
+    public DataValue makeDataValue(String value) {
+        return makeValue(value);
+    }
+
     /**
      * Generate the pre-amble code to make Simulink storage structures available.
      *
