@@ -19,11 +19,10 @@ import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
-import org.eclipse.escet.cif.codegen.java.JavaDataValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
-/** Helper class containing support code for the Java target language code generation. */
+/** Helper class containing support code for code generation. */
 public class TypeInfoHelper {
     /** Constructor of the {@link TypeInfoHelper} class. */
     private TypeInfoHelper() {
@@ -68,7 +67,7 @@ public class TypeInfoHelper {
 
         target = convertBinaryExpressionValues(leftCode.getRawDataValue(), rightCode.getRawDataValue(), target);
         result.setDestination(dest);
-        result.setDataValue(new JavaDataValue(target));
+        result.setDataValue(ctxt.makeDataValue(target));
         return result;
     }
 
@@ -147,7 +146,7 @@ public class TypeInfoHelper {
 
         pattern = pattern.replace("${args}", argsList.toString());
         result.setDestination(dest);
-        result.setDataValue(new JavaDataValue(pattern));
+        result.setDataValue(ctxt.makeDataValue(pattern));
         return result;
     }
 }
