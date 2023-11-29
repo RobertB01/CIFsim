@@ -170,7 +170,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
 
         // Perform computations for both checkers.
-        OutputProvider.dbg("Prepare for the checks...");
+        OutputProvider.dbg("Preparing for the checks...");
         boolean computeGlobalGuardedUpdates = checkConfluence;
         PrepareChecks prepareChecks = new PrepareChecks(computeGlobalGuardedUpdates);
         if (!prepareChecks.compute(spec)) {
@@ -189,6 +189,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         boolean finiteResponseHolds;
         if (checkFiniteResponse) {
             // Check the finite response property.
+            OutputProvider.out();
             OutputProvider.out("Checking for finite response...");
             finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
             if (finiteResponseConclusion == null || isTerminationRequested()) {
