@@ -1,0 +1,7 @@
+FUNCTION alg_a_x: BOOL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+alg_a_x := TRUE;
+END_FUNCTION
