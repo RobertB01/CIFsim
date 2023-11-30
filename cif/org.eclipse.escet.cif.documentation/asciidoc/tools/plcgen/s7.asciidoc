@@ -135,7 +135,7 @@ The _Call options_ window pops up.
 
 ** In the _Call options_ window, for each timer, enter its name in the _Name_ box and click btn[OK].
 
-*** Delete the generated lines of code.
+** Delete the generated lines of code.
 
 ** Compile the project again.
 
