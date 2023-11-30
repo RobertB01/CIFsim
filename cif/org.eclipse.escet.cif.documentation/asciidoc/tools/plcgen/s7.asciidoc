@@ -30,6 +30,11 @@ indexterm:[S7,generated output]
 
 The CIF PLC code generator can generate code files that can be imported in TIA Portal (see <<tools-plcgen-s7-usage>>).
 
+The following option restrictions apply:
+
+* The _Convert enumerations_ option must be set to _Convert enumerations to integers_ or _Convert enumerations to constants_.
+
+
 The type of integer and real data types to use depends on the _PLC integer type size_ and _PLC real type size_ options.
 If _Automatic_ is selected, the following data types are used:
 
@@ -140,6 +145,13 @@ The _Call options_ window pops up.
 ** Compile the project again.
 
 * Configure the inputs and outputs:
+
+** Open _Default tag table_ inside the _PLC tags_ folder.
+
+** On the _Tags_ tab, enter the addresses for all the inputs.
+The syntax of the addresses is outside the scope of this manual.
+
+** On the _Tags_ tab, create new entries for the output variables.
 
 ** Open _MAIN_ inside the _Program blocks_ folder.
 
