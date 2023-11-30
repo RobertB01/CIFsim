@@ -3,8 +3,6 @@
   <GVL Name="TIMERS">
     <Declaration><![CDATA[VAR_GLOBAL // TIMERS
     firstRun: BOOL := TRUE;
-    loopCount: DINT;
-    loopsKilled: INT;
 END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>
