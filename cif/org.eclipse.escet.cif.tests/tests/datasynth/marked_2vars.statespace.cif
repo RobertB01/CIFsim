@@ -1,8 +1,10 @@
 automaton statespace:
   alphabet;
+  @state(p = "*", p.x = 1, p.y = 1, sup = "*")
   location loc1:
     initial;
     marked;
+  @state(p = "*", p.x = 2, p.y = 2, sup = "*")
   location loc2:
     initial;
     marked;

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.explorer.app.common;
+package org.eclipse.escet.cif.explorer.options;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 

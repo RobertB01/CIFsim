@@ -1,19 +1,24 @@
 controllable e;
 automaton statespace:
   alphabet e;
+  @state(p = "loc1", p.x = 3, sup = "*")
   location loc1:
     initial;
     marked;
+  @state(p = "loc1", p.x = 4, sup = "*")
   location loc2:
     initial;
     marked;
     edge e goto loc4;
+  @state(p = "loc1", p.x = 5, sup = "*")
   location loc3:
     initial;
     marked;
     edge e goto loc5;
+  @state(p = "loc2", p.x = 4, sup = "*")
   location loc4:
     edge e goto loc2;
+  @state(p = "loc2", p.x = 5, sup = "*")
   location loc5:
     edge e goto loc3;
 end

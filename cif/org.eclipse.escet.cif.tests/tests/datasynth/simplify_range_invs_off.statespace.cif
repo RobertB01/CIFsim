@@ -10,6 +10,7 @@ controllable v23_inc;
 controllable v23_dec;
 automaton statespace:
   alphabet v01_inc, v02_inc, v03_inc, v13_inc, v23_inc, v01_dec, v02_dec, v03_dec, v13_dec, v23_dec;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 0, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc1:
     initial;
     marked;
@@ -18,6 +19,7 @@ automaton statespace:
     edge v03_inc goto loc4;
     edge v13_inc goto loc5;
     edge v23_inc goto loc6;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 0, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc2:
     marked;
     edge v02_inc goto loc7;
@@ -25,6 +27,7 @@ automaton statespace:
     edge v13_inc goto loc9;
     edge v23_inc goto loc10;
     edge v01_dec goto loc1;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 0, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc3:
     marked;
     edge v01_inc goto loc7;
@@ -33,6 +36,7 @@ automaton statespace:
     edge v13_inc goto loc13;
     edge v23_inc goto loc14;
     edge v02_dec goto loc1;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 1, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc4:
     marked;
     edge v01_inc goto loc8;
@@ -41,6 +45,7 @@ automaton statespace:
     edge v13_inc goto loc16;
     edge v23_inc goto loc17;
     edge v03_dec goto loc1;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 0, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc5:
     marked;
     edge v01_inc goto loc9;
@@ -49,6 +54,7 @@ automaton statespace:
     edge v13_inc goto loc18;
     edge v23_inc goto loc19;
     edge v13_dec goto loc1;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 0, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc6:
     marked;
     edge v01_inc goto loc10;
@@ -56,6 +62,7 @@ automaton statespace:
     edge v03_inc goto loc17;
     edge v13_inc goto loc19;
     edge v23_dec goto loc1;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 0, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc7:
     marked;
     edge v02_inc goto loc20;
@@ -64,6 +71,7 @@ automaton statespace:
     edge v23_inc goto loc23;
     edge v01_dec goto loc3;
     edge v02_dec goto loc2;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 1, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc8:
     marked;
     edge v02_inc goto loc21;
@@ -72,6 +80,7 @@ automaton statespace:
     edge v23_inc goto loc26;
     edge v01_dec goto loc4;
     edge v03_dec goto loc2;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 0, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc9:
     marked;
     edge v02_inc goto loc22;
@@ -80,6 +89,7 @@ automaton statespace:
     edge v23_inc goto loc28;
     edge v01_dec goto loc5;
     edge v13_dec goto loc2;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 0, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc10:
     marked;
     edge v02_inc goto loc23;
@@ -87,6 +97,7 @@ automaton statespace:
     edge v13_inc goto loc28;
     edge v01_dec goto loc6;
     edge v23_dec goto loc2;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 0, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc11:
     marked;
     edge v01_inc goto loc20;
@@ -94,6 +105,7 @@ automaton statespace:
     edge v13_inc goto loc30;
     edge v23_inc goto loc31;
     edge v02_dec goto loc3;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 1, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc12:
     marked;
     edge v01_inc goto loc21;
@@ -103,6 +115,7 @@ automaton statespace:
     edge v23_inc goto loc34;
     edge v02_dec goto loc4;
     edge v03_dec goto loc3;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 0, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc13:
     marked;
     edge v01_inc goto loc22;
@@ -112,6 +125,7 @@ automaton statespace:
     edge v23_inc goto loc36;
     edge v02_dec goto loc5;
     edge v13_dec goto loc3;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 0, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc14:
     marked;
     edge v01_inc goto loc23;
@@ -120,6 +134,7 @@ automaton statespace:
     edge v13_inc goto loc36;
     edge v02_dec goto loc6;
     edge v23_dec goto loc3;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 2, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc15:
     marked;
     edge v01_inc goto loc24;
@@ -128,6 +143,7 @@ automaton statespace:
     edge v13_inc goto loc38;
     edge v23_inc goto loc39;
     edge v03_dec goto loc4;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 1, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc16:
     marked;
     edge v01_inc goto loc25;
@@ -137,6 +153,7 @@ automaton statespace:
     edge v23_inc goto loc41;
     edge v03_dec goto loc5;
     edge v13_dec goto loc4;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 1, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc17:
     marked;
     edge v01_inc goto loc26;
@@ -145,6 +162,7 @@ automaton statespace:
     edge v13_inc goto loc41;
     edge v03_dec goto loc6;
     edge v23_dec goto loc4;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 0, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc18:
     marked;
     edge v01_inc goto loc27;
@@ -152,6 +170,7 @@ automaton statespace:
     edge v03_inc goto loc40;
     edge v23_inc goto loc42;
     edge v13_dec goto loc5;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 0, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc19:
     marked;
     edge v01_inc goto loc28;
@@ -160,6 +179,7 @@ automaton statespace:
     edge v13_inc goto loc42;
     edge v13_dec goto loc6;
     edge v23_dec goto loc5;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 0, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc20:
     marked;
     edge v03_inc goto loc43;
@@ -167,6 +187,7 @@ automaton statespace:
     edge v23_inc goto loc45;
     edge v01_dec goto loc11;
     edge v02_dec goto loc7;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 1, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc21:
     marked;
     edge v02_inc goto loc43;
@@ -176,6 +197,7 @@ automaton statespace:
     edge v01_dec goto loc12;
     edge v02_dec goto loc8;
     edge v03_dec goto loc7;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 0, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc22:
     marked;
     edge v02_inc goto loc44;
@@ -185,6 +207,7 @@ automaton statespace:
     edge v01_dec goto loc13;
     edge v02_dec goto loc9;
     edge v13_dec goto loc7;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 0, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc23:
     marked;
     edge v02_inc goto loc45;
@@ -193,6 +216,7 @@ automaton statespace:
     edge v01_dec goto loc14;
     edge v02_dec goto loc10;
     edge v23_dec goto loc7;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 2, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc24:
     marked;
     edge v02_inc goto loc46;
@@ -201,6 +225,7 @@ automaton statespace:
     edge v23_inc goto loc53;
     edge v01_dec goto loc15;
     edge v03_dec goto loc8;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 1, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc25:
     marked;
     edge v02_inc goto loc47;
@@ -210,6 +235,7 @@ automaton statespace:
     edge v01_dec goto loc16;
     edge v03_dec goto loc9;
     edge v13_dec goto loc8;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 1, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc26:
     marked;
     edge v02_inc goto loc48;
@@ -218,6 +244,7 @@ automaton statespace:
     edge v01_dec goto loc17;
     edge v03_dec goto loc10;
     edge v23_dec goto loc8;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 0, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc27:
     marked;
     edge v02_inc goto loc49;
@@ -225,6 +252,7 @@ automaton statespace:
     edge v23_inc goto loc56;
     edge v01_dec goto loc18;
     edge v13_dec goto loc9;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 0, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc28:
     marked;
     edge v02_inc goto loc50;
@@ -233,6 +261,7 @@ automaton statespace:
     edge v01_dec goto loc19;
     edge v13_dec goto loc10;
     edge v23_dec goto loc9;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 1, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc29:
     marked;
     edge v01_inc goto loc43;
@@ -241,6 +270,7 @@ automaton statespace:
     edge v23_inc goto loc59;
     edge v02_dec goto loc12;
     edge v03_dec goto loc11;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 0, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc30:
     marked;
     edge v01_inc goto loc44;
@@ -249,6 +279,7 @@ automaton statespace:
     edge v23_inc goto loc61;
     edge v02_dec goto loc13;
     edge v13_dec goto loc11;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 0, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc31:
     marked;
     edge v01_inc goto loc45;
@@ -256,6 +287,7 @@ automaton statespace:
     edge v13_inc goto loc61;
     edge v02_dec goto loc14;
     edge v23_dec goto loc11;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 2, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc32:
     marked;
     edge v01_inc goto loc46;
@@ -265,6 +297,7 @@ automaton statespace:
     edge v23_inc goto loc64;
     edge v02_dec goto loc15;
     edge v03_dec goto loc12;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 1, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc33:
     marked;
     edge v01_inc goto loc47;
@@ -275,6 +308,7 @@ automaton statespace:
     edge v02_dec goto loc16;
     edge v03_dec goto loc13;
     edge v13_dec goto loc12;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 1, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc34:
     marked;
     edge v01_inc goto loc48;
@@ -284,6 +318,7 @@ automaton statespace:
     edge v02_dec goto loc17;
     edge v03_dec goto loc14;
     edge v23_dec goto loc12;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 0, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc35:
     marked;
     edge v01_inc goto loc49;
@@ -292,6 +327,7 @@ automaton statespace:
     edge v23_inc goto loc67;
     edge v02_dec goto loc18;
     edge v13_dec goto loc13;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 0, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc36:
     marked;
     edge v01_inc goto loc50;
@@ -301,6 +337,7 @@ automaton statespace:
     edge v02_dec goto loc19;
     edge v13_dec goto loc14;
     edge v23_dec goto loc13;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 3, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc37:
     marked;
     edge v01_inc goto loc51;
@@ -308,6 +345,7 @@ automaton statespace:
     edge v13_inc goto loc68;
     edge v23_inc goto loc69;
     edge v03_dec goto loc15;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 2, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc38:
     marked;
     edge v01_inc goto loc52;
@@ -317,6 +355,7 @@ automaton statespace:
     edge v23_inc goto loc71;
     edge v03_dec goto loc16;
     edge v13_dec goto loc15;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 2, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc39:
     marked;
     edge v01_inc goto loc53;
@@ -325,6 +364,7 @@ automaton statespace:
     edge v13_inc goto loc71;
     edge v03_dec goto loc17;
     edge v23_dec goto loc15;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 1, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc40:
     marked;
     edge v01_inc goto loc54;
@@ -333,6 +373,7 @@ automaton statespace:
     edge v23_inc goto loc72;
     edge v03_dec goto loc18;
     edge v13_dec goto loc16;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 1, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc41:
     marked;
     edge v01_inc goto loc55;
@@ -342,6 +383,7 @@ automaton statespace:
     edge v03_dec goto loc19;
     edge v13_dec goto loc17;
     edge v23_dec goto loc16;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 0, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc42:
     marked;
     edge v01_inc goto loc56;
@@ -349,6 +391,7 @@ automaton statespace:
     edge v03_inc goto loc72;
     edge v13_dec goto loc19;
     edge v23_dec goto loc18;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 1, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc43:
     marked;
     edge v03_inc goto loc73;
@@ -357,6 +400,7 @@ automaton statespace:
     edge v01_dec goto loc29;
     edge v02_dec goto loc21;
     edge v03_dec goto loc20;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 0, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc44:
     marked;
     edge v03_inc goto loc74;
@@ -365,6 +409,7 @@ automaton statespace:
     edge v01_dec goto loc30;
     edge v02_dec goto loc22;
     edge v13_dec goto loc20;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 0, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc45:
     marked;
     edge v03_inc goto loc75;
@@ -372,6 +417,7 @@ automaton statespace:
     edge v01_dec goto loc31;
     edge v02_dec goto loc23;
     edge v23_dec goto loc20;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 2, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc46:
     marked;
     edge v02_inc goto loc73;
@@ -381,6 +427,7 @@ automaton statespace:
     edge v01_dec goto loc32;
     edge v02_dec goto loc24;
     edge v03_dec goto loc21;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 1, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc47:
     marked;
     edge v02_inc goto loc74;
@@ -391,6 +438,7 @@ automaton statespace:
     edge v02_dec goto loc25;
     edge v03_dec goto loc22;
     edge v13_dec goto loc21;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 1, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc48:
     marked;
     edge v02_inc goto loc75;
@@ -400,6 +448,7 @@ automaton statespace:
     edge v02_dec goto loc26;
     edge v03_dec goto loc23;
     edge v23_dec goto loc21;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 0, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc49:
     marked;
     edge v02_inc goto loc76;
@@ -408,6 +457,7 @@ automaton statespace:
     edge v01_dec goto loc35;
     edge v02_dec goto loc27;
     edge v13_dec goto loc22;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 0, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc50:
     marked;
     edge v02_inc goto loc77;
@@ -417,6 +467,7 @@ automaton statespace:
     edge v02_dec goto loc28;
     edge v13_dec goto loc23;
     edge v23_dec goto loc22;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 3, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc51:
     marked;
     edge v02_inc goto loc78;
@@ -424,6 +475,7 @@ automaton statespace:
     edge v23_inc goto loc85;
     edge v01_dec goto loc37;
     edge v03_dec goto loc24;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 2, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc52:
     marked;
     edge v02_inc goto loc79;
@@ -433,6 +485,7 @@ automaton statespace:
     edge v01_dec goto loc38;
     edge v03_dec goto loc25;
     edge v13_dec goto loc24;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 2, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc53:
     marked;
     edge v02_inc goto loc80;
@@ -441,6 +494,7 @@ automaton statespace:
     edge v01_dec goto loc39;
     edge v03_dec goto loc26;
     edge v23_dec goto loc24;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 1, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc54:
     marked;
     edge v02_inc goto loc81;
@@ -449,6 +503,7 @@ automaton statespace:
     edge v01_dec goto loc40;
     edge v03_dec goto loc27;
     edge v13_dec goto loc25;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 1, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc55:
     marked;
     edge v02_inc goto loc82;
@@ -458,6 +513,7 @@ automaton statespace:
     edge v03_dec goto loc28;
     edge v13_dec goto loc26;
     edge v23_dec goto loc25;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 0, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc56:
     marked;
     edge v02_inc goto loc83;
@@ -465,6 +521,7 @@ automaton statespace:
     edge v01_dec goto loc42;
     edge v13_dec goto loc28;
     edge v23_dec goto loc27;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 2, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc57:
     marked;
     edge v01_inc goto loc73;
@@ -473,6 +530,7 @@ automaton statespace:
     edge v23_inc goto loc91;
     edge v02_dec goto loc32;
     edge v03_dec goto loc29;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 1, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc58:
     marked;
     edge v01_inc goto loc74;
@@ -482,6 +540,7 @@ automaton statespace:
     edge v02_dec goto loc33;
     edge v03_dec goto loc30;
     edge v13_dec goto loc29;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 1, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc59:
     marked;
     edge v01_inc goto loc75;
@@ -490,6 +549,7 @@ automaton statespace:
     edge v02_dec goto loc34;
     edge v03_dec goto loc31;
     edge v23_dec goto loc29;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 0, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc60:
     marked;
     edge v01_inc goto loc76;
@@ -497,6 +557,7 @@ automaton statespace:
     edge v23_inc goto loc94;
     edge v02_dec goto loc35;
     edge v13_dec goto loc30;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 0, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc61:
     marked;
     edge v01_inc goto loc77;
@@ -505,6 +566,7 @@ automaton statespace:
     edge v02_dec goto loc36;
     edge v13_dec goto loc31;
     edge v23_dec goto loc30;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 3, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc62:
     marked;
     edge v01_inc goto loc78;
@@ -513,6 +575,7 @@ automaton statespace:
     edge v23_inc goto loc96;
     edge v02_dec goto loc37;
     edge v03_dec goto loc32;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 2, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc63:
     marked;
     edge v01_inc goto loc79;
@@ -523,6 +586,7 @@ automaton statespace:
     edge v02_dec goto loc38;
     edge v03_dec goto loc33;
     edge v13_dec goto loc32;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 2, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc64:
     marked;
     edge v01_inc goto loc80;
@@ -532,6 +596,7 @@ automaton statespace:
     edge v02_dec goto loc39;
     edge v03_dec goto loc34;
     edge v23_dec goto loc32;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 1, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc65:
     marked;
     edge v01_inc goto loc81;
@@ -541,6 +606,7 @@ automaton statespace:
     edge v02_dec goto loc40;
     edge v03_dec goto loc35;
     edge v13_dec goto loc33;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 1, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc66:
     marked;
     edge v01_inc goto loc82;
@@ -551,6 +617,7 @@ automaton statespace:
     edge v03_dec goto loc36;
     edge v13_dec goto loc34;
     edge v23_dec goto loc33;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 0, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc67:
     marked;
     edge v01_inc goto loc83;
@@ -559,6 +626,7 @@ automaton statespace:
     edge v02_dec goto loc42;
     edge v13_dec goto loc36;
     edge v23_dec goto loc35;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 3, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc68:
     marked;
     edge v01_inc goto loc84;
@@ -567,6 +635,7 @@ automaton statespace:
     edge v23_inc goto loc101;
     edge v03_dec goto loc38;
     edge v13_dec goto loc37;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 3, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc69:
     marked;
     edge v01_inc goto loc85;
@@ -574,6 +643,7 @@ automaton statespace:
     edge v13_inc goto loc101;
     edge v03_dec goto loc39;
     edge v23_dec goto loc37;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 2, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc70:
     marked;
     edge v01_inc goto loc86;
@@ -582,6 +652,7 @@ automaton statespace:
     edge v23_inc goto loc102;
     edge v03_dec goto loc40;
     edge v13_dec goto loc38;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 2, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc71:
     marked;
     edge v01_inc goto loc87;
@@ -591,6 +662,7 @@ automaton statespace:
     edge v03_dec goto loc41;
     edge v13_dec goto loc39;
     edge v23_dec goto loc38;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 1, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc72:
     marked;
     edge v01_inc goto loc88;
@@ -599,6 +671,7 @@ automaton statespace:
     edge v03_dec goto loc42;
     edge v13_dec goto loc41;
     edge v23_dec goto loc40;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 2, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc73:
     marked;
     edge v03_inc goto loc103;
@@ -607,6 +680,7 @@ automaton statespace:
     edge v01_dec goto loc57;
     edge v02_dec goto loc46;
     edge v03_dec goto loc43;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 1, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc74:
     marked;
     edge v03_inc goto loc104;
@@ -616,6 +690,7 @@ automaton statespace:
     edge v02_dec goto loc47;
     edge v03_dec goto loc44;
     edge v13_dec goto loc43;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 1, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc75:
     marked;
     edge v03_inc goto loc105;
@@ -624,6 +699,7 @@ automaton statespace:
     edge v02_dec goto loc48;
     edge v03_dec goto loc45;
     edge v23_dec goto loc43;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 0, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc76:
     marked;
     edge v03_inc goto loc106;
@@ -631,6 +707,7 @@ automaton statespace:
     edge v01_dec goto loc60;
     edge v02_dec goto loc49;
     edge v13_dec goto loc44;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 0, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc77:
     marked;
     edge v03_inc goto loc107;
@@ -639,6 +716,7 @@ automaton statespace:
     edge v02_dec goto loc50;
     edge v13_dec goto loc45;
     edge v23_dec goto loc44;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 3, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc78:
     marked;
     edge v02_inc goto loc103;
@@ -647,6 +725,7 @@ automaton statespace:
     edge v01_dec goto loc62;
     edge v02_dec goto loc51;
     edge v03_dec goto loc46;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 2, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc79:
     marked;
     edge v02_inc goto loc104;
@@ -657,6 +736,7 @@ automaton statespace:
     edge v02_dec goto loc52;
     edge v03_dec goto loc47;
     edge v13_dec goto loc46;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 2, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc80:
     marked;
     edge v02_inc goto loc105;
@@ -666,6 +746,7 @@ automaton statespace:
     edge v02_dec goto loc53;
     edge v03_dec goto loc48;
     edge v23_dec goto loc46;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 1, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc81:
     marked;
     edge v02_inc goto loc106;
@@ -675,6 +756,7 @@ automaton statespace:
     edge v02_dec goto loc54;
     edge v03_dec goto loc49;
     edge v13_dec goto loc47;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 1, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc82:
     marked;
     edge v02_inc goto loc107;
@@ -685,6 +767,7 @@ automaton statespace:
     edge v03_dec goto loc50;
     edge v13_dec goto loc48;
     edge v23_dec goto loc47;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 0, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc83:
     marked;
     edge v02_inc goto loc108;
@@ -693,6 +776,7 @@ automaton statespace:
     edge v02_dec goto loc56;
     edge v13_dec goto loc50;
     edge v23_dec goto loc49;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 3, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc84:
     marked;
     edge v02_inc goto loc109;
@@ -701,6 +785,7 @@ automaton statespace:
     edge v01_dec goto loc68;
     edge v03_dec goto loc52;
     edge v13_dec goto loc51;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 3, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc85:
     marked;
     edge v02_inc goto loc110;
@@ -708,6 +793,7 @@ automaton statespace:
     edge v01_dec goto loc69;
     edge v03_dec goto loc53;
     edge v23_dec goto loc51;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 2, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc86:
     marked;
     edge v02_inc goto loc111;
@@ -716,6 +802,7 @@ automaton statespace:
     edge v01_dec goto loc70;
     edge v03_dec goto loc54;
     edge v13_dec goto loc52;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 2, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc87:
     marked;
     edge v02_inc goto loc112;
@@ -725,6 +812,7 @@ automaton statespace:
     edge v03_dec goto loc55;
     edge v13_dec goto loc53;
     edge v23_dec goto loc52;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 1, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc88:
     marked;
     edge v02_inc goto loc113;
@@ -733,6 +821,7 @@ automaton statespace:
     edge v03_dec goto loc56;
     edge v13_dec goto loc55;
     edge v23_dec goto loc54;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 3, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc89:
     marked;
     edge v01_inc goto loc103;
@@ -740,6 +829,7 @@ automaton statespace:
     edge v23_inc goto loc118;
     edge v02_dec goto loc62;
     edge v03_dec goto loc57;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 2, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc90:
     marked;
     edge v01_inc goto loc104;
@@ -749,6 +839,7 @@ automaton statespace:
     edge v02_dec goto loc63;
     edge v03_dec goto loc58;
     edge v13_dec goto loc57;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 2, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc91:
     marked;
     edge v01_inc goto loc105;
@@ -757,6 +848,7 @@ automaton statespace:
     edge v02_dec goto loc64;
     edge v03_dec goto loc59;
     edge v23_dec goto loc57;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 1, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc92:
     marked;
     edge v01_inc goto loc106;
@@ -765,6 +857,7 @@ automaton statespace:
     edge v02_dec goto loc65;
     edge v03_dec goto loc60;
     edge v13_dec goto loc58;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 1, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc93:
     marked;
     edge v01_inc goto loc107;
@@ -774,6 +867,7 @@ automaton statespace:
     edge v03_dec goto loc61;
     edge v13_dec goto loc59;
     edge v23_dec goto loc58;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 0, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc94:
     marked;
     edge v01_inc goto loc108;
@@ -781,6 +875,7 @@ automaton statespace:
     edge v02_dec goto loc67;
     edge v13_dec goto loc61;
     edge v23_dec goto loc60;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 3, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc95:
     marked;
     edge v01_inc goto loc109;
@@ -790,6 +885,7 @@ automaton statespace:
     edge v02_dec goto loc68;
     edge v03_dec goto loc63;
     edge v13_dec goto loc62;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 3, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc96:
     marked;
     edge v01_inc goto loc110;
@@ -798,6 +894,7 @@ automaton statespace:
     edge v02_dec goto loc69;
     edge v03_dec goto loc64;
     edge v23_dec goto loc62;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 2, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc97:
     marked;
     edge v01_inc goto loc111;
@@ -807,6 +904,7 @@ automaton statespace:
     edge v02_dec goto loc70;
     edge v03_dec goto loc65;
     edge v13_dec goto loc63;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 2, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc98:
     marked;
     edge v01_inc goto loc112;
@@ -817,6 +915,7 @@ automaton statespace:
     edge v03_dec goto loc66;
     edge v13_dec goto loc64;
     edge v23_dec goto loc63;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 1, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc99:
     marked;
     edge v01_inc goto loc113;
@@ -826,6 +925,7 @@ automaton statespace:
     edge v03_dec goto loc67;
     edge v13_dec goto loc66;
     edge v23_dec goto loc65;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 3, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc100:
     marked;
     edge v01_inc goto loc114;
@@ -833,6 +933,7 @@ automaton statespace:
     edge v23_inc goto loc125;
     edge v03_dec goto loc70;
     edge v13_dec goto loc68;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 3, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc101:
     marked;
     edge v01_inc goto loc115;
@@ -841,6 +942,7 @@ automaton statespace:
     edge v03_dec goto loc71;
     edge v13_dec goto loc69;
     edge v23_dec goto loc68;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 2, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc102:
     marked;
     edge v01_inc goto loc116;
@@ -849,6 +951,7 @@ automaton statespace:
     edge v03_dec goto loc72;
     edge v13_dec goto loc71;
     edge v23_dec goto loc70;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 3, aut.v13 = 1, aut.v23 = 2, sup = "*")
   location loc103:
     marked;
     edge v13_inc goto loc126;
@@ -856,6 +959,7 @@ automaton statespace:
     edge v01_dec goto loc89;
     edge v02_dec goto loc78;
     edge v03_dec goto loc73;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 2, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc104:
     marked;
     edge v03_inc goto loc126;
@@ -865,6 +969,7 @@ automaton statespace:
     edge v02_dec goto loc79;
     edge v03_dec goto loc74;
     edge v13_dec goto loc73;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 2, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc105:
     marked;
     edge v03_inc goto loc127;
@@ -873,6 +978,7 @@ automaton statespace:
     edge v02_dec goto loc80;
     edge v03_dec goto loc75;
     edge v23_dec goto loc73;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 1, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc106:
     marked;
     edge v03_inc goto loc128;
@@ -881,6 +987,7 @@ automaton statespace:
     edge v02_dec goto loc81;
     edge v03_dec goto loc76;
     edge v13_dec goto loc74;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 1, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc107:
     marked;
     edge v03_inc goto loc129;
@@ -890,6 +997,7 @@ automaton statespace:
     edge v03_dec goto loc77;
     edge v13_dec goto loc75;
     edge v23_dec goto loc74;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 0, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc108:
     marked;
     edge v03_inc goto loc130;
@@ -897,6 +1005,7 @@ automaton statespace:
     edge v02_dec goto loc83;
     edge v13_dec goto loc77;
     edge v23_dec goto loc76;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 3, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc109:
     marked;
     edge v02_inc goto loc126;
@@ -906,6 +1015,7 @@ automaton statespace:
     edge v02_dec goto loc84;
     edge v03_dec goto loc79;
     edge v13_dec goto loc78;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 3, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc110:
     marked;
     edge v02_inc goto loc127;
@@ -914,6 +1024,7 @@ automaton statespace:
     edge v02_dec goto loc85;
     edge v03_dec goto loc80;
     edge v23_dec goto loc78;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 2, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc111:
     marked;
     edge v02_inc goto loc128;
@@ -923,6 +1034,7 @@ automaton statespace:
     edge v02_dec goto loc86;
     edge v03_dec goto loc81;
     edge v13_dec goto loc79;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 2, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc112:
     marked;
     edge v02_inc goto loc129;
@@ -933,6 +1045,7 @@ automaton statespace:
     edge v03_dec goto loc82;
     edge v13_dec goto loc80;
     edge v23_dec goto loc79;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 1, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc113:
     marked;
     edge v02_inc goto loc130;
@@ -942,6 +1055,7 @@ automaton statespace:
     edge v03_dec goto loc83;
     edge v13_dec goto loc82;
     edge v23_dec goto loc81;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 3, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc114:
     marked;
     edge v02_inc goto loc131;
@@ -949,6 +1063,7 @@ automaton statespace:
     edge v01_dec goto loc100;
     edge v03_dec goto loc86;
     edge v13_dec goto loc84;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 3, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc115:
     marked;
     edge v02_inc goto loc132;
@@ -957,6 +1072,7 @@ automaton statespace:
     edge v03_dec goto loc87;
     edge v13_dec goto loc85;
     edge v23_dec goto loc84;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 2, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc116:
     marked;
     edge v02_inc goto loc133;
@@ -965,6 +1081,7 @@ automaton statespace:
     edge v03_dec goto loc88;
     edge v13_dec goto loc87;
     edge v23_dec goto loc86;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 3, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc117:
     marked;
     edge v01_inc goto loc126;
@@ -973,6 +1090,7 @@ automaton statespace:
     edge v02_dec goto loc95;
     edge v03_dec goto loc90;
     edge v13_dec goto loc89;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 3, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc118:
     marked;
     edge v01_inc goto loc127;
@@ -980,6 +1098,7 @@ automaton statespace:
     edge v02_dec goto loc96;
     edge v03_dec goto loc91;
     edge v23_dec goto loc89;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 2, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc119:
     marked;
     edge v01_inc goto loc128;
@@ -988,6 +1107,7 @@ automaton statespace:
     edge v02_dec goto loc97;
     edge v03_dec goto loc92;
     edge v13_dec goto loc90;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 2, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc120:
     marked;
     edge v01_inc goto loc129;
@@ -997,6 +1117,7 @@ automaton statespace:
     edge v03_dec goto loc93;
     edge v13_dec goto loc91;
     edge v23_dec goto loc90;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 1, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc121:
     marked;
     edge v01_inc goto loc130;
@@ -1005,6 +1126,7 @@ automaton statespace:
     edge v03_dec goto loc94;
     edge v13_dec goto loc93;
     edge v23_dec goto loc92;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 3, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc122:
     marked;
     edge v01_inc goto loc131;
@@ -1013,6 +1135,7 @@ automaton statespace:
     edge v02_dec goto loc100;
     edge v03_dec goto loc97;
     edge v13_dec goto loc95;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 3, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc123:
     marked;
     edge v01_inc goto loc132;
@@ -1022,6 +1145,7 @@ automaton statespace:
     edge v03_dec goto loc98;
     edge v13_dec goto loc96;
     edge v23_dec goto loc95;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 2, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc124:
     marked;
     edge v01_inc goto loc133;
@@ -1031,6 +1155,7 @@ automaton statespace:
     edge v03_dec goto loc99;
     edge v13_dec goto loc98;
     edge v23_dec goto loc97;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 0, aut.v03 = 3, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc125:
     marked;
     edge v01_inc goto loc134;
@@ -1038,6 +1163,7 @@ automaton statespace:
     edge v03_dec goto loc102;
     edge v13_dec goto loc101;
     edge v23_dec goto loc100;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 3, aut.v13 = 2, aut.v23 = 2, sup = "*")
   location loc126:
     marked;
     edge v13_inc goto loc139;
@@ -1046,6 +1172,7 @@ automaton statespace:
     edge v02_dec goto loc109;
     edge v03_dec goto loc104;
     edge v13_dec goto loc103;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 3, aut.v13 = 1, aut.v23 = 3, sup = "*")
   location loc127:
     marked;
     edge v13_inc goto loc140;
@@ -1053,6 +1180,7 @@ automaton statespace:
     edge v02_dec goto loc110;
     edge v03_dec goto loc105;
     edge v23_dec goto loc103;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 2, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc128:
     marked;
     edge v03_inc goto loc139;
@@ -1061,6 +1189,7 @@ automaton statespace:
     edge v02_dec goto loc111;
     edge v03_dec goto loc106;
     edge v13_dec goto loc104;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 2, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc129:
     marked;
     edge v03_inc goto loc140;
@@ -1070,6 +1199,7 @@ automaton statespace:
     edge v03_dec goto loc107;
     edge v13_dec goto loc105;
     edge v23_dec goto loc104;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 1, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc130:
     marked;
     edge v03_inc goto loc141;
@@ -1078,6 +1208,7 @@ automaton statespace:
     edge v03_dec goto loc108;
     edge v13_dec goto loc107;
     edge v23_dec goto loc106;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 3, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc131:
     marked;
     edge v02_inc goto loc139;
@@ -1086,6 +1217,7 @@ automaton statespace:
     edge v02_dec goto loc114;
     edge v03_dec goto loc111;
     edge v13_dec goto loc109;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 3, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc132:
     marked;
     edge v02_inc goto loc140;
@@ -1095,6 +1227,7 @@ automaton statespace:
     edge v03_dec goto loc112;
     edge v13_dec goto loc110;
     edge v23_dec goto loc109;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 2, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc133:
     marked;
     edge v02_inc goto loc141;
@@ -1104,6 +1237,7 @@ automaton statespace:
     edge v03_dec goto loc113;
     edge v13_dec goto loc112;
     edge v23_dec goto loc111;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 0, aut.v03 = 3, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc134:
     marked;
     edge v02_inc goto loc142;
@@ -1111,6 +1245,7 @@ automaton statespace:
     edge v03_dec goto loc116;
     edge v13_dec goto loc115;
     edge v23_dec goto loc114;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 3, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc135:
     marked;
     edge v01_inc goto loc139;
@@ -1118,6 +1253,7 @@ automaton statespace:
     edge v02_dec goto loc122;
     edge v03_dec goto loc119;
     edge v13_dec goto loc117;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 3, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc136:
     marked;
     edge v01_inc goto loc140;
@@ -1126,6 +1262,7 @@ automaton statespace:
     edge v03_dec goto loc120;
     edge v13_dec goto loc118;
     edge v23_dec goto loc117;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 2, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc137:
     marked;
     edge v01_inc goto loc141;
@@ -1134,6 +1271,7 @@ automaton statespace:
     edge v03_dec goto loc121;
     edge v13_dec goto loc120;
     edge v23_dec goto loc119;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 1, aut.v03 = 3, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc138:
     marked;
     edge v01_inc goto loc142;
@@ -1142,6 +1280,7 @@ automaton statespace:
     edge v03_dec goto loc124;
     edge v13_dec goto loc123;
     edge v23_dec goto loc122;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 3, aut.v13 = 3, aut.v23 = 2, sup = "*")
   location loc139:
     marked;
     edge v23_inc goto loc144;
@@ -1149,6 +1288,7 @@ automaton statespace:
     edge v02_dec goto loc131;
     edge v03_dec goto loc128;
     edge v13_dec goto loc126;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 3, aut.v13 = 2, aut.v23 = 3, sup = "*")
   location loc140:
     marked;
     edge v13_inc goto loc144;
@@ -1157,6 +1297,7 @@ automaton statespace:
     edge v03_dec goto loc129;
     edge v13_dec goto loc127;
     edge v23_dec goto loc126;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 2, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc141:
     marked;
     edge v03_inc goto loc144;
@@ -1165,6 +1306,7 @@ automaton statespace:
     edge v03_dec goto loc130;
     edge v13_dec goto loc129;
     edge v23_dec goto loc128;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 1, aut.v03 = 3, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc142:
     marked;
     edge v02_inc goto loc144;
@@ -1173,6 +1315,7 @@ automaton statespace:
     edge v03_dec goto loc133;
     edge v13_dec goto loc132;
     edge v23_dec goto loc131;
+  @state(aut = "*", aut.v01 = 0, aut.v02 = 2, aut.v03 = 3, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc143:
     marked;
     edge v01_inc goto loc144;
@@ -1180,6 +1323,7 @@ automaton statespace:
     edge v03_dec goto loc137;
     edge v13_dec goto loc136;
     edge v23_dec goto loc135;
+  @state(aut = "*", aut.v01 = 1, aut.v02 = 2, aut.v03 = 3, aut.v13 = 3, aut.v23 = 3, sup = "*")
   location loc144:
     marked;
     edge v01_dec goto loc143;

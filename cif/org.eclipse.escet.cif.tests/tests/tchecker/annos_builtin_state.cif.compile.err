@@ -1,0 +1,2 @@
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 16, column 1: Annotation "state": state annotation on a non-location object.
+ERROR: Failed to load CIF file "tchecker/annos_builtin_state.cif": the file has errors.

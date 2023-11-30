@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.typechecker.annotations;
+package org.eclipse.escet.cif.typechecker.annotations.builtin;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -26,6 +26,8 @@ import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.typechecker.annotations.AnnotationProblemReporter;
+import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 
@@ -48,19 +50,25 @@ public class DocAnnotationProvider extends AnnotationProvider {
     }
 
     @Override
-    public final void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
+    public final void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
+            AnnotationProblemReporter reporter)
+    {
+        // Check for existence of mandatory argument.
         if (annotation.getArguments().isEmpty()) {
             reporter.reportProblem(annotation, "missing mandatory \"text\" argument.", annotation.getPosition(),
                     SemanticProblemSeverity.ERROR);
             // Non-fatal problem.
         }
 
+        // Check provided arguments.
         for (AnnotationArgument arg: annotation.getArguments()) {
+            // Check for (un)supported argument name.
             if (!arg.getName().equals("text")) {
                 reporter.reportProblem(annotation, fmt("unsupported argument \"%s\".", arg.getName()),
                         arg.getPosition(), SemanticProblemSeverity.ERROR);
                 // Non-fatal problem.
             } else {
+                // 'text' argument.
                 boolean doEvaluationCheck = true;
 
                 // Check for argument having a boolean value. Tests reporting a second warning.

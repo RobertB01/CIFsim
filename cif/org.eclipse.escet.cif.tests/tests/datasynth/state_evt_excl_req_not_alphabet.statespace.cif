@@ -6,16 +6,20 @@ group q:
 end
 automaton statespace:
   alphabet p.inc;
+  @state(p = "*", p.x = 0, q = "*", sup = "*")
   location loc1:
     initial;
     marked;
     edge p.inc goto loc2;
+  @state(p = "*", p.x = 1, q = "*", sup = "*")
   location loc2:
     marked;
     edge p.inc goto loc3;
+  @state(p = "*", p.x = 2, q = "*", sup = "*")
   location loc3:
     marked;
     edge p.inc goto loc4;
+  @state(p = "*", p.x = 3, q = "*", sup = "*")
   location loc4:
     marked;
 end

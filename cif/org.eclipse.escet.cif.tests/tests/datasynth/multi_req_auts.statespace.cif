@@ -2,35 +2,48 @@ controllable a;
 controllable b;
 automaton statespace:
   alphabet a, b;
+  @state(p = "*", p.x = 0, r2 = "l1", r3 = "l1", sup = "*")
   location loc1:
     initial;
     marked;
     edge a goto loc2;
+  @state(p = "*", p.x = 1, r2 = "l2", r3 = "l2", sup = "*")
   location loc2:
     edge a goto loc3;
+  @state(p = "*", p.x = 2, r2 = "l1", r3 = "l3", sup = "*")
   location loc3:
     edge a goto loc4;
+  @state(p = "*", p.x = 3, r2 = "l2", r3 = "l1", sup = "*")
   location loc4:
     edge a goto loc5;
+  @state(p = "*", p.x = 4, r2 = "l1", r3 = "l2", sup = "*")
   location loc5:
     edge a goto loc6;
+  @state(p = "*", p.x = 5, r2 = "l2", r3 = "l3", sup = "*")
   location loc6:
     edge a goto loc7;
     edge b;
+  @state(p = "*", p.x = 6, r2 = "l1", r3 = "l1", sup = "*")
   location loc7:
     marked;
     edge a goto loc8;
+  @state(p = "*", p.x = 7, r2 = "l2", r3 = "l2", sup = "*")
   location loc8:
     edge a goto loc9;
+  @state(p = "*", p.x = 8, r2 = "l1", r3 = "l3", sup = "*")
   location loc9:
     edge a goto loc10;
+  @state(p = "*", p.x = 9, r2 = "l2", r3 = "l1", sup = "*")
   location loc10:
     edge a goto loc11;
+  @state(p = "*", p.x = 10, r2 = "l1", r3 = "l2", sup = "*")
   location loc11:
     edge a goto loc12;
+  @state(p = "*", p.x = 11, r2 = "l2", r3 = "l3", sup = "*")
   location loc12:
     edge a goto loc13;
     edge b;
+  @state(p = "*", p.x = 12, r2 = "l1", r3 = "l1", sup = "*")
   location loc13:
     marked;
 end

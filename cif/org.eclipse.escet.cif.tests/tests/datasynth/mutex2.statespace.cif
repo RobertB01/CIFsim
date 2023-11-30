@@ -10,27 +10,35 @@ group machine2:
 end
 automaton statespace:
   alphabet machine1.c_start, machine1.u_waiting, machine1.u_finished, machine2.c_start, machine2.u_waiting, machine2.u_finished;
+  @state(machine1 = "Idle", machine2 = "Idle", sup = "*")
   location loc1:
     initial;
     marked;
     edge machine1.c_start goto loc2;
     edge machine2.c_start goto loc3;
+  @state(machine1 = "Producing", machine2 = "Idle", sup = "*")
   location loc2:
     edge machine1.u_waiting goto loc4;
+  @state(machine1 = "Idle", machine2 = "Producing", sup = "*")
   location loc3:
     edge machine2.u_waiting goto loc5;
+  @state(machine1 = "CoolDown", machine2 = "Idle", sup = "*")
   location loc4:
     edge machine1.u_finished goto loc1;
     edge machine2.c_start goto loc6;
+  @state(machine1 = "Idle", machine2 = "CoolDown", sup = "*")
   location loc5:
     edge machine1.c_start goto loc7;
     edge machine2.u_finished goto loc1;
+  @state(machine1 = "CoolDown", machine2 = "Producing", sup = "*")
   location loc6:
     edge machine1.u_finished goto loc3;
     edge machine2.u_waiting goto loc8;
+  @state(machine1 = "Producing", machine2 = "CoolDown", sup = "*")
   location loc7:
     edge machine1.u_waiting goto loc8;
     edge machine2.u_finished goto loc2;
+  @state(machine1 = "CoolDown", machine2 = "CoolDown", sup = "*")
   location loc8:
     edge machine1.u_finished goto loc5;
     edge machine2.u_finished goto loc4;

@@ -11,32 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.explorer.app;
+package org.eclipse.escet.cif.explorer.options;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Enable edge minimization option. */
-public class EnableEdgeMinimizationOption extends BooleanOption {
+/** Option to configure whether to add state annotations to the locations of the CIF output file. */
+public class AddStateAnnosOption extends BooleanOption {
     /** Name of the option. */
-    private static final String NAME = "Enable edge minimization";
-
-    /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Enable edge minimization to remove duplicate edges.";
+    private static final String NAME = "Add state annotations";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
 
     /** Description of the option. */
-    private static final String DESCRIPTION = fmt("%s [DEFAULT=%s]", OPT_DIALOG_DESCR, DEFAULT_VALUE ? "yes" : "no");
+    private static final String DESCRIPTION = fmt(
+            "Whether to add state annotations to the locations of the CIF output file. [DEFAULT=%s]",
+            DEFAULT_VALUE ? "yes" : "no");
 
     /** Short option name. */
-    private static final Character CMD_SHORT = 'z';
+    private static final Character CMD_SHORT = null;
 
     /** Long option name. */
-    private static final String CMD_LONG = "edge-minimization";
+    private static final String CMD_LONG = "add-state-annos";
 
     /** Name of the option value. */
     private static final String CMD_VALUE = "BOOL";
@@ -44,21 +43,24 @@ public class EnableEdgeMinimizationOption extends BooleanOption {
     /** Whether to display the option in the option dialog. */
     private static final boolean SHOW_IN_DIALOG = true;
 
-    /** Text next to the check box in the option dialog. */
-    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Enable edge minimization";
+    /** Description in the option dialog. */
+    private static final String OPT_DIALOG_DESCR = "Add state annotations to the locations of the CIF output file.";
 
-    /** Constructor of the {@link EnableEdgeMinimizationOption} class. */
-    public EnableEdgeMinimizationOption() {
+    /** Text next to the check box in the option dialog. */
+    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Add state annotations";
+
+    /** Constructor of the {@link AddStateAnnosOption} class. */
+    public AddStateAnnosOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR,
                 OPT_DIALOG_CHECKBOX_TEXT);
     }
 
     /**
-     * Is edge minimization enabled?
+     * Get whether state annotations are enabled.
      *
-     * @return {@code true} if edge minimization is enabled, {@code false} otherwise.
+     * @return {@code true} if state annotations are enabled, {@code false} otherwise.
      */
-    public static boolean isEnabled() {
-        return Options.get(EnableEdgeMinimizationOption.class);
+    public static boolean getStateAnnotationsEnabled() {
+        return Options.get(AddStateAnnosOption.class);
     }
 }

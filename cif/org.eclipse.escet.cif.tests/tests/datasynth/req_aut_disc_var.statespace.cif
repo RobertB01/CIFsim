@@ -1,6 +1,7 @@
 controllable c;
 automaton statespace:
   alphabet c;
+  @state(p = "*", r = "*", r.x = 5, sup = "*")
   location loc1:
     initial;
     marked;

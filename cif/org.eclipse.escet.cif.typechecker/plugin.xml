@@ -21,7 +21,12 @@
          point="org.eclipse.escet.cif.annotations">
       <provider
             annotationName="doc"
-            class="org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider"
+            class="org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider"
+            plugin="org.eclipse.escet.cif.typechecker">
+      </provider>
+      <provider
+            annotationName="state"
+            class="org.eclipse.escet.cif.typechecker.annotations.builtin.StateAnnotationProvider"
             plugin="org.eclipse.escet.cif.typechecker">
       </provider>
    </extension>

@@ -4,13 +4,16 @@ controllable green_B;
 controllable red_B;
 automaton statespace:
   alphabet green_A, red_A, green_B, red_B;
+  @state(LightA = "Red", LightB = "Red", R = "RR", sup = "*")
   location loc1:
     initial;
     marked;
     edge green_A goto loc2;
     edge green_B goto loc3;
+  @state(LightA = "Green", LightB = "Red", R = "GR", sup = "*")
   location loc2:
     edge red_A goto loc1;
+  @state(LightA = "Red", LightB = "Green", R = "RG", sup = "*")
   location loc3:
     edge red_B goto loc1;
 end

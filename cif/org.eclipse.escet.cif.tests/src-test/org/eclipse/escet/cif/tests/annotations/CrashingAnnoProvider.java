@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.tests.annotations;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProblemReporter;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
@@ -34,7 +35,9 @@ public class CrashingAnnoProvider extends AnnotationProvider {
     }
 
     @Override
-    public void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
+    public void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
+            AnnotationProblemReporter reporter)
+    {
         // Not used.
     }
 

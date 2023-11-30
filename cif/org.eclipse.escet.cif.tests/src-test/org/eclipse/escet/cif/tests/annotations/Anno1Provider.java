@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
@@ -41,7 +42,9 @@ public class Anno1Provider extends AnnotationProvider {
     }
 
     @Override
-    public void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
+    public void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
+            AnnotationProblemReporter reporter)
+    {
         // Count the number of annotations.
         count++;
 

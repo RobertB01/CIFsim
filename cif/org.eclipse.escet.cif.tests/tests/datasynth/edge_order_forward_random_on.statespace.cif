@@ -8,39 +8,51 @@ group Actuator:
 end
 automaton statespace:
   alphabet Counter.inc, Counter.dec, Actuator.on, Actuator.off;
+  @state(Actuator = "Off", Counter = "zero", sup = "*")
   location loc1:
     initial;
     marked;
     edge Counter.inc goto loc2;
     edge Actuator.on goto loc3;
+  @state(Actuator = "Off", Counter = "one", sup = "*")
   location loc2:
     edge Counter.inc goto loc4;
     edge Counter.dec goto loc1;
+  @state(Actuator = "On", Counter = "zero", sup = "*")
   location loc3:
     edge Counter.inc goto loc5;
+  @state(Actuator = "Off", Counter = "two", sup = "*")
   location loc4:
     edge Counter.inc goto loc6;
     edge Counter.dec goto loc2;
+  @state(Actuator = "On", Counter = "one", sup = "*")
   location loc5:
     edge Counter.inc goto loc7;
     edge Counter.dec goto loc3;
+  @state(Actuator = "Off", Counter = "three", sup = "*")
   location loc6:
     edge Counter.inc goto loc8;
     edge Counter.dec goto loc4;
+  @state(Actuator = "On", Counter = "two", sup = "*")
   location loc7:
     edge Counter.inc goto loc9;
     edge Counter.dec goto loc5;
+  @state(Actuator = "Off", Counter = "four", sup = "*")
   location loc8:
     edge Counter.inc goto loc10;
     edge Counter.dec goto loc6;
+  @state(Actuator = "On", Counter = "three", sup = "*")
   location loc9:
     edge Counter.inc goto loc11;
     edge Counter.dec goto loc7;
+  @state(Actuator = "Off", Counter = "five", sup = "*")
   location loc10:
     edge Counter.dec goto loc8;
+  @state(Actuator = "On", Counter = "four", sup = "*")
   location loc11:
     edge Counter.inc goto loc12;
     edge Counter.dec goto loc9;
+  @state(Actuator = "On", Counter = "five", sup = "*")
   location loc12:
     edge Counter.dec goto loc11;
     edge Actuator.off goto loc10;

@@ -5,73 +5,89 @@ group p:
 end
 automaton statespace:
   alphabet c, p.u, p.c2;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 0, a.b.c.g.r.y = 0, a.b.c.p = "*", a.b.c.sup = "*")
   location loc1:
     initial;
     marked;
     edge p.u goto loc5;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 0, a.b.c.g.r.y = 1, a.b.c.p = "*", a.b.c.sup = "*")
   location loc2:
     initial;
     marked;
     edge p.u goto loc6;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 0, a.b.c.g.r.y = 2, a.b.c.p = "*", a.b.c.sup = "*")
   location loc3:
     initial;
     marked;
     edge p.u goto loc7;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 0, a.b.c.g.r.y = 3, a.b.c.p = "*", a.b.c.sup = "*")
   location loc4:
     initial;
     marked;
     edge p.u goto loc8;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 1, a.b.c.g.r.y = 0, a.b.c.p = "*", a.b.c.sup = "*")
   location loc5:
     initial;
     marked;
     edge c;
     edge p.u goto loc9;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 1, a.b.c.g.r.y = 1, a.b.c.p = "*", a.b.c.sup = "*")
   location loc6:
     initial;
     marked;
     edge c;
     edge p.u goto loc10;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 1, a.b.c.g.r.y = 2, a.b.c.p = "*", a.b.c.sup = "*")
   location loc7:
     initial;
     marked;
     edge c;
     edge p.u goto loc11;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 1, a.b.c.g.r.y = 3, a.b.c.p = "*", a.b.c.sup = "*")
   location loc8:
     initial;
     marked;
     edge c;
     edge p.u goto loc12;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 2, a.b.c.g.r.y = 0, a.b.c.p = "*", a.b.c.sup = "*")
   location loc9:
     initial;
     marked;
     edge p.u goto loc13;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 2, a.b.c.g.r.y = 1, a.b.c.p = "*", a.b.c.sup = "*")
   location loc10:
     initial;
     marked;
     edge p.u goto loc14;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 2, a.b.c.g.r.y = 2, a.b.c.p = "*", a.b.c.sup = "*")
   location loc11:
     initial;
     marked;
     edge p.u goto loc15;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 2, a.b.c.g.r.y = 3, a.b.c.p = "*", a.b.c.sup = "*")
   location loc12:
     initial;
     marked;
     edge p.u goto loc16;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 3, a.b.c.g.r.y = 0, a.b.c.p = "*", a.b.c.sup = "*")
   location loc13:
     initial;
     marked;
     edge c;
     edge p.u goto loc1;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 3, a.b.c.g.r.y = 1, a.b.c.p = "*", a.b.c.sup = "*")
   location loc14:
     initial;
     marked;
     edge c;
     edge p.u goto loc2;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 3, a.b.c.g.r.y = 2, a.b.c.p = "*", a.b.c.sup = "*")
   location loc15:
     initial;
     marked;
     edge c;
     edge p.u goto loc3;
+  @state(a.b.c.g.r = "loc1", a.b.c.g.r.x = 3, a.b.c.g.r.y = 3, a.b.c.p = "*", a.b.c.sup = "*")
   location loc16:
     initial;
     marked;

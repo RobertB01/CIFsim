@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.typechecker.annotations;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 
 /** Annotation provider that performs no checking. */
@@ -28,7 +29,9 @@ public final class DoNothingAnnotationProvider extends AnnotationProvider {
     }
 
     @Override
-    public final void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter) {
+    public final void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
+            AnnotationProblemReporter reporter)
+    {
         // Do nothing.
     }
 

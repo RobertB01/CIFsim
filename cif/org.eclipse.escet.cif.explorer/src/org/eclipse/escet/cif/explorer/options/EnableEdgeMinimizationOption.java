@@ -11,21 +11,20 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.explorer.app;
+package org.eclipse.escet.cif.explorer.options;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Enable statistics option. */
-public class EnableStatisticsOption extends BooleanOption {
+/** Enable edge minimization option. */
+public class EnableEdgeMinimizationOption extends BooleanOption {
     /** Name of the option. */
-    private static final String NAME = "Enable statistics";
+    private static final String NAME = "Enable edge minimization";
 
     /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Enable printing of statistics of the resulting state space to "
-            + "the console.";
+    private static final String OPT_DIALOG_DESCR = "Enable edge minimization to remove duplicate edges.";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
@@ -34,10 +33,10 @@ public class EnableStatisticsOption extends BooleanOption {
     private static final String DESCRIPTION = fmt("%s [DEFAULT=%s]", OPT_DIALOG_DESCR, DEFAULT_VALUE ? "yes" : "no");
 
     /** Short option name. */
-    private static final Character CMD_SHORT = 's';
+    private static final Character CMD_SHORT = 'z';
 
     /** Long option name. */
-    private static final String CMD_LONG = "enable-stats";
+    private static final String CMD_LONG = "edge-minimization";
 
     /** Name of the option value. */
     private static final String CMD_VALUE = "BOOL";
@@ -46,20 +45,20 @@ public class EnableStatisticsOption extends BooleanOption {
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Text next to the check box in the option dialog. */
-    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Enable statistics";
+    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Enable edge minimization";
 
-    /** Constructor of the {@link EnableStatisticsOption} class. */
-    public EnableStatisticsOption() {
+    /** Constructor of the {@link EnableEdgeMinimizationOption} class. */
+    public EnableEdgeMinimizationOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR,
                 OPT_DIALOG_CHECKBOX_TEXT);
     }
 
     /**
-     * Retrieve the value of the enable statistics option.
+     * Is edge minimization enabled?
      *
-     * @return The value of the enable statistics option.
+     * @return {@code true} if edge minimization is enabled, {@code false} otherwise.
      */
-    public static boolean getStatistics() {
-        return Options.get(EnableStatisticsOption.class);
+    public static boolean isEnabled() {
+        return Options.get(EnableEdgeMinimizationOption.class);
     }
 }

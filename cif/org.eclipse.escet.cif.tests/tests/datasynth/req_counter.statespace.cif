@@ -4,21 +4,28 @@ group adder:
 end
 automaton statespace:
   alphabet adder.c_add, adder.u_remove;
+  @state(adder = "l1", count_max3 = "*", count_max3.cnt = 0, sup = "*")
   location loc1:
     initial;
     marked;
     edge adder.c_add goto loc2;
+  @state(adder = "l2", count_max3 = "*", count_max3.cnt = 1, sup = "*")
   location loc2:
     edge adder.c_add goto loc3;
+  @state(adder = "l3", count_max3 = "*", count_max3.cnt = 2, sup = "*")
   location loc3:
     edge adder.u_remove goto loc4;
+  @state(adder = "l1", count_max3 = "*", count_max3.cnt = 1, sup = "*")
   location loc4:
     marked;
     edge adder.c_add goto loc5;
+  @state(adder = "l2", count_max3 = "*", count_max3.cnt = 2, sup = "*")
   location loc5:
     edge adder.c_add goto loc6;
+  @state(adder = "l3", count_max3 = "*", count_max3.cnt = 3, sup = "*")
   location loc6:
     edge adder.u_remove goto loc7;
+  @state(adder = "l1", count_max3 = "*", count_max3.cnt = 2, sup = "*")
   location loc7:
     marked;
 end

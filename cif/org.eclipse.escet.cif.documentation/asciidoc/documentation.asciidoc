@@ -337,6 +337,8 @@ include::language-reference/annotations/builtin.asciidoc[]
 
 include::language-reference/annotations/documentation.asciidoc[]
 
+include::language-reference/annotations/state.asciidoc[]
+
 :leveloffset: -1
 
 // Tool manual
