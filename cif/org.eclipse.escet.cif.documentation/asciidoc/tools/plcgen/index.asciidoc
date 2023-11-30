@@ -54,9 +54,6 @@ Besides the general application options, this application has the following opti
 
 ==== Basic settings of the CIF PLC code generator
 
-The code generator needs a CIF specification and an I/O table file as input.
-It also needs a destination where to write the result.
-
 As different PLC systems have different expectations and limitations in what they accept as input, behavior of the PLC code generator heavily depends on the chosen PLC target.
 This is configured with the _PLC target type_ option:
 
