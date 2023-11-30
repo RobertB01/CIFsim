@@ -115,8 +115,10 @@ For more detailed information on documentation annotations, see the <<lang-ref-e
 === State annotations
 
 Information about <<lang-tut-basics-chapter-synchronizing-events-statespace,states>> can be added to locations of automata.
-States consist of the current locations of automata and the current values of variables.
-For instance, the <<tools-chapter-cif-explorer,CIF explorer>> may generate the following for the example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>.
+States consist of the <<lang-tut-basics-chapter-synchronizing-events-statespace,current locations of automata>> and the <<lang-tut-data-chapter-discrete-variables-state-space,current values of variables>>.
+The typical use of state annotations is for generated models that contain an automaton representing a state space, where each location of that automaton represents a state of the state space.
+For instance, the <<tools-chapter-cif-explorer,CIF explorer>> may <<tools-chapter-cif-explorer-output-cif,generate CIF models>> with state spaces represented as automata.
+For the example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>, it may generate the following model:
 
 [source, cif]
 ----
@@ -153,6 +155,6 @@ end
 ----
 
 This state space consists of four states, each represented by a location of the `statespace` automaton.
-For intsance, the first state is represented by location `loc1`, which corresponds to the state where the `consumer` is `idle` and the `producer` is `producing`.
+For instance, the first state is represented by location `loc1`, which corresponds to the state where the `consumer` is `idle` and the `producer` is `producing`.
 
 For more detailed information on state annotations, see the <<lang-ref-extensions-annotations-state,reference manual>>.

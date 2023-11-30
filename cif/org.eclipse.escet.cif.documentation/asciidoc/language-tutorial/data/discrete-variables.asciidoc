@@ -69,6 +69,7 @@ That is the value of the `count` variable is decremented or incremented by one.
 
 This specification represents a counter that can be repeatedly incremented and decremented by one, and ensures that the value of variable `count` is always at least zero and at most five.
 
+[[lang-tut-data-chapter-discrete-variables-state-space]]
 The state space of the `counter` automaton is as follows:
 
 image::{lang-tut-imgsdir}/data/counter_state_space.png[]
