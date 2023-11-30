@@ -59,7 +59,7 @@ public abstract class TupleTypeInfo extends ContainerTypeInfo {
      *
      * @param expr Literal tuple expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertLiteral(TupleExpression expr, Destination dest, CodeContext ctxt);
@@ -67,10 +67,10 @@ public abstract class TupleTypeInfo extends ContainerTypeInfo {
     /**
      * Modify a container in-place.
      *
-     * @param container Container being modified
+     * @param container Container being modified.
      * @param partCode Code to obtain the new value of the part.
      * @param index Field number that is changed.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Code expressing modifying a container from the old container and the new part at the given index.
      */
     public abstract CodeBox modifyContainer(VariableInformation container, ExprCode partCode, int index,
@@ -82,7 +82,7 @@ public abstract class TupleTypeInfo extends ContainerTypeInfo {
      * @param childCode Code to obtain the tuple.
      * @param index Index number of the field (not normalized).
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Code expressing accessing the requested field.
      */
     public abstract ExprCode getProjectedValue(ExprCode childCode, int index, Destination dest, CodeContext ctxt);

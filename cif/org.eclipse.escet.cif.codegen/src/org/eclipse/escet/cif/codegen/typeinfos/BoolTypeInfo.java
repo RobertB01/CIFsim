@@ -45,7 +45,7 @@ public abstract class BoolTypeInfo extends TypeInfo {
      *
      * @param value Literal value.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertLiteral(boolean value, Destination dest, CodeContext ctxt);
@@ -55,7 +55,7 @@ public abstract class BoolTypeInfo extends TypeInfo {
      *
      * @param child Child expression.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertInvert(Expression child, Destination dest, CodeContext ctxt);
@@ -65,7 +65,7 @@ public abstract class BoolTypeInfo extends TypeInfo {
      *
      * @param expr Expression to convert.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertShortCircuit(BinaryExpression expr, Destination dest, CodeContext ctxt);
