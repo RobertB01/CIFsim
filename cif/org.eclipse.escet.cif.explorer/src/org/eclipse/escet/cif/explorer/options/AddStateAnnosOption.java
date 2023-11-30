@@ -35,7 +35,7 @@ public class AddStateAnnosOption extends BooleanOption {
     private static final Character CMD_SHORT = null;
 
     /** Long option name. */
-    private static final String CMD_LONG = "state-annos";
+    private static final String CMD_LONG = "add-state-annos";
 
     /** Name of the option value. */
     private static final String CMD_VALUE = "BOOL";
