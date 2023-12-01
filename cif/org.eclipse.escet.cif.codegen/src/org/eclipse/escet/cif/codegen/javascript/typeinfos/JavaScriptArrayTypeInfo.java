@@ -59,25 +59,25 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertLiteral(ListExpression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -102,19 +102,19 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
     @Override
     public ExprCode convertSizeStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertEmptyStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode getProjectedValue(ExprCode childCode, ExprCode indexCode, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -122,7 +122,7 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
     public CodeBox modifyContainer(VariableInformation containerVar, ExprCode partCode, ExprCode indexCode,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -130,7 +130,7 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
     public void checkRange(CifType lhsType, CifType rhsType, DataValue rhsValue, CifType varType, String varName,
             List<RangeCheckErrorLevelText> errorTexts, int level, CodeBox code, CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 }

@@ -31,18 +31,13 @@ import org.eclipse.escet.common.box.CodeBox;
 
 /** JavaScript type information about the integer type. */
 public class JavaScriptIntTypeInfo extends IntTypeInfo {
-    /** Whether this integer is contained in a generic class. */
-    public final boolean contained;
-
     /**
      * Constructor of the {@link JavaScriptIntTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
-     * @param contained Whether this integer is contained in a generic class.
      */
-    public JavaScriptIntTypeInfo(CifType cifType, boolean contained) {
+    public JavaScriptIntTypeInfo(CifType cifType) {
         super(cifType);
-        this.contained = contained;
     }
 
     @Override
@@ -57,25 +52,25 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertLiteral(String value, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -83,7 +78,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertIntNegate(Expression child, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -91,7 +86,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertAddition(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -99,7 +94,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertSubtraction(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -107,7 +102,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertDiv(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -115,7 +110,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertMod(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -123,7 +118,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertMultiplication(BinaryExpression expr, EnumSet<ExprProperties> properties,
             Destination dest, CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -132,65 +127,61 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof JavaScriptIntTypeInfo)) {
-            return false;
-        }
-        JavaScriptIntTypeInfo otherInt = (JavaScriptIntTypeInfo)other;
-        return contained == otherInt.contained;
+        return other instanceof JavaScriptIntTypeInfo;
     }
 
     @Override
     public int hashCode() {
-        return JavaScriptIntTypeInfo.class.hashCode() + (contained ? 1 : 0);
+        return JavaScriptIntTypeInfo.class.hashCode();
     }
 
     @Override
     protected ExprCode convertAbsStdLib(Expression expression, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertMaximumStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertMinimumStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertSignStdLib(Expression expression, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertPowerStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertCeilStdLib(Expression expression, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertFloorStdLib(Expression expression, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertRoundStdLib(Expression expression, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -198,7 +189,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     public void checkRange(CifType lhsType, CifType rhsType, DataValue rhsValue, CifType varType, String varName,
             List<RangeCheckErrorLevelText> errorTexts, int level, CodeBox code, CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 }

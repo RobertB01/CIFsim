@@ -49,25 +49,25 @@ public class JavaScriptEnumTypeInfo extends EnumTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertEnumLiteral(EnumLiteralExpression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 

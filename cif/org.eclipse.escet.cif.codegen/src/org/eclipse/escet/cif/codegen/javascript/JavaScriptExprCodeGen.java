@@ -42,6 +42,7 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
      * @param type Type to convert.
      * @return Text denoting the type in the cast functions.
      */
+    @SuppressWarnings("unused")
     private String typeToCastString(CifType type) {
         if (type instanceof BoolType) {
             return "bool";
@@ -61,37 +62,39 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
     protected ExprCode convertCastExpression(CifType exprType, CifType childType, Expression child, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected ExprCode convertIfExpression(IfExpression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
-    protected ExprCode convertInternalFunctionCall(InternalFunction func, List<ExprCode> argsCode, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+    protected ExprCode convertInternalFunctionCall(InternalFunction func, List<ExprCode> argsCode, Destination dest,
+            CodeContext ctxt)
+    {
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected ExprCode convertConstantExpression(ConstantExpression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertDiscVariableExpression(DiscVariable discVar, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected ExprCode convertAlgVariableExpression(AlgVariable algVar, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -99,7 +102,7 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
     protected ExprCode convertContVariableExpression(ContVariable contVar, boolean isDerivative, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -107,13 +110,13 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
     protected ExprCode convertInputVariableExpression(InputVariableExpression expr, Destination dest,
             CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected ExprCode predTextsToTarget(List<ExprCode> predCodes, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 }

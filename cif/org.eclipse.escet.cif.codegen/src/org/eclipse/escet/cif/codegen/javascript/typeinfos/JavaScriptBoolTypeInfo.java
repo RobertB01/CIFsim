@@ -26,18 +26,13 @@ import org.eclipse.escet.common.box.CodeBox;
 
 /** JavaScript type information about the boolean type. */
 public class JavaScriptBoolTypeInfo extends BoolTypeInfo {
-    /** Whether this boolean is contained in a generic class. */
-    public final boolean contained;
-
     /**
      * Constructor of the {@link JavaScriptBoolTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
-     * @param contained Whether this boolean is contained in a generic class.
      */
-    public JavaScriptBoolTypeInfo(CifType cifType, boolean contained) {
+    public JavaScriptBoolTypeInfo(CifType cifType) {
         super(cifType);
-        this.contained = contained;
     }
 
     @Override
@@ -52,37 +47,37 @@ public class JavaScriptBoolTypeInfo extends BoolTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertLiteral(boolean value, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertInvert(Expression child, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertShortCircuit(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -91,15 +86,11 @@ public class JavaScriptBoolTypeInfo extends BoolTypeInfo {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof JavaScriptBoolTypeInfo)) {
-            return false;
-        }
-        JavaScriptBoolTypeInfo otherBool = (JavaScriptBoolTypeInfo)other;
-        return contained == otherBool.contained;
+        return other instanceof JavaScriptBoolTypeInfo;
     }
 
     @Override
     public int hashCode() {
-        return JavaScriptBoolTypeInfo.class.hashCode() + (contained ? 1 : 0);
+        return JavaScriptBoolTypeInfo.class.hashCode();
     }
 }

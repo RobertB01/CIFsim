@@ -40,7 +40,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
      * @param ctxt Code context of the function.
      */
     public void generate(CodeBox code, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -51,8 +51,9 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
      * @param code The code. Is extended in-place.
      * @param ctxt Code generation context.
      */
+    @SuppressWarnings("unused")
     private void addFunctionBody(InternalFunction func, CodeBox code, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -63,31 +64,31 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
 
     @Override
     protected void generateBreakFuncStatement(CodeBox code) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected void generateContinueFuncStatement(CodeBox code) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected void generateReturnFuncStatement(Expression retValue, CodeBox code, boolean safeScope, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected boolean generateWhileFuncStatement(ExprCode guardCode, CodeBox code, boolean safeScope) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     protected void generateEndWhileFuncStatement(CodeBox code) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 }

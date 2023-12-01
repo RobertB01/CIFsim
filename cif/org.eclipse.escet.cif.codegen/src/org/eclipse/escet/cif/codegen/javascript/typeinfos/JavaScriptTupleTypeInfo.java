@@ -53,24 +53,25 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
 
     @Override
     public void generateCode(CodeContext ctxt) {
-        // Nothing to generate.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -86,13 +87,13 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
 
     @Override
     public String appendProjection(String value, boolean safe, int index) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public CodeBox modifyContainer(VariableInformation containerInfo, ExprCode partCode, int index, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
@@ -100,13 +101,13 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
     public void checkRange(CifType lhsType, CifType rhsType, DataValue rhsValue, CifType varType, String varName,
             List<RangeCheckErrorLevelText> errorTexts, int level, CodeBox code, CodeContext ctxt)
     {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
     @Override
     public ExprCode convertLiteral(TupleExpression expr, Destination dest, CodeContext ctxt) {
-        // Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
+        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
         throw new UnsupportedOperationException("To be implemented");
     }
 
