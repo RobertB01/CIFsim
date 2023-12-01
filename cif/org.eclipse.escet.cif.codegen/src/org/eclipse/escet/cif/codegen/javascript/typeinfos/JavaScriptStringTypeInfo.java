@@ -106,7 +106,7 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
     }
 
     @Override
-    public ExprCode convertFormatFunction(String pattern, List<Expression> params, List<CifType> paramTypes,
+    public ExprCode convertFormatFunction(String pattern, List<Expression> args, List<CifType> argTypes,
             Destination dest, CodeContext ctxt)
     {
         // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
