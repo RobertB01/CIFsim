@@ -119,18 +119,18 @@ public class PrepareChecks {
         }
 
         // Collect variables.
-        variables = collectDiscAndInputVariables(spec, list());
         if (env.isTerminationRequested()) {
             return false;
         }
+        variables = collectDiscAndInputVariables(spec, list());
 
         // Construct the MDD tree instance.
+        if (env.isTerminationRequested()) {
+            return false;
+        }
         CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(NUM_INDICES);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         builder = new MvSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
-        if (env.isTerminationRequested()) {
-            return false;
-        }
 
         // Compute global guards, global guarded updates, and updated variables for each event.
         for (Automaton aut: automata) {
@@ -169,6 +169,10 @@ public class PrepareChecks {
         OutputProvider.idbg();
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return false;
+            }
             OutputProvider.dbg("Initializing the automaton data for event \"%s\"...", getAbsName(evt));
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
@@ -183,12 +187,6 @@ public class PrepareChecks {
                 }
                 updatedVariablesByEvent.put(evt, set());
             }
-
-            // Abort computation if the user requests it.
-            if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
-                return false;
-            }
         }
 
         // Process the locations and edges.
@@ -201,46 +199,66 @@ public class PrepareChecks {
                     continue;
                 }
 
-                // Compute guard and update of the edge.
+                // Compute guard of the edge.
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
                 Node guard = computeGuard(edge);
+
+                // Compute update of the edge.
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
                 Node update = computeUpdate(edge, controllableEdgeEvents);
+
+                // Compute combined guard and update of the edge.
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
                 Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
 
                 // Add the guard and guarded update as alternative to the relevant events of the edge.
                 for (Event evt: controllableEdgeEvents) {
+                    if (env.isTerminationRequested()) {
+                        OutputProvider.ddbg();
+                        return false;
+                    }
                     Node autGuard = autGuards.get(evt);
                     autGuards.put(evt, tree.disjunct(autGuard, guard));
 
                     if (autGuardedUpdates != null) {
+                        if (env.isTerminationRequested()) {
+                            OutputProvider.ddbg();
+                            return false;
+                        }
                         Node autGuardedUpdate = autGuardedUpdates.get(evt);
                         autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
                     }
-                }
-
-                // Abort computation if the user requests it.
-                if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
-                    return false;
                 }
             }
         }
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return false;
+            }
             OutputProvider.dbg("Updating global guards and updates for event \"%s\"...", getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
 
             if (autGuardedUpdates != null && globalGuardedUpdatesByEvent != null) {
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
                 Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
                 globalGuardedUpdatesByEvent.put(autEvent,
                         tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
-            }
-
-            // Abort computation if the user requests it.
-            if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
-                return false;
             }
         }
 
@@ -257,6 +275,10 @@ public class PrepareChecks {
     private Node computeGuard(Edge edge) {
         Node guard = Tree.ONE;
         for (Expression grd: edge.getGuards()) {
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return guard;
+            }
             Node node = builder.getExpressionConvertor().convert(grd).get(1);
             guard = builder.tree.conjunct(guard, node);
         }
@@ -287,6 +309,10 @@ public class PrepareChecks {
             assignedVariables.add(lhs);
 
             if (updateNode != null) {
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return updateNode;
+                }
                 Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
                 updateNode = tree.conjunct(updateNode, asgNode);
             }
@@ -296,18 +322,21 @@ public class PrepareChecks {
         if (updateNode != null) {
             for (Declaration otherVariable: variables) {
                 if (!assignedVariables.contains(otherVariable)) {
+                    if (env.isTerminationRequested()) {
+                        OutputProvider.ddbg();
+                        return updateNode;
+                    }
                     VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
                     updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
-                }
-
-                // Abort computation if the user requests it.
-                if (env.isTerminationRequested()) {
-                    return updateNode;
                 }
             }
         }
 
         // Mark the assigned variables as being updated by the event.
+        if (env.isTerminationRequested()) {
+            OutputProvider.ddbg();
+            return updateNode;
+        }
         for (Event evt: controllableEdgeEvents) {
             updatedVariablesByEvent.get(evt).addAll(assignedVariables);
         }
@@ -345,6 +374,10 @@ public class PrepareChecks {
     public Node computeOriginalToReadIdentity() {
         Node result = Tree.ONE;
         for (int idx = variables.size() - 1; idx >= 0; idx--) {
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return result;
+            }
             VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(variables.get(idx));
             result = builder.tree.identity(vinfos[ORIGINAL_INDEX], vinfos[READ_INDEX], result);
         }
