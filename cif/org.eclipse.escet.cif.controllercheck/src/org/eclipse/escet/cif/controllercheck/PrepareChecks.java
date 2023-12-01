@@ -170,7 +170,6 @@ public class PrepareChecks {
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
             if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
                 return false;
             }
             OutputProvider.dbg("Initializing the automaton data for event \"%s\"...", getAbsName(evt));
@@ -201,21 +200,18 @@ public class PrepareChecks {
 
                 // Compute guard of the edge.
                 if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
                     return false;
                 }
                 Node guard = computeGuard(edge);
 
                 // Compute update of the edge.
                 if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
                     return false;
                 }
                 Node update = computeUpdate(edge, controllableEdgeEvents);
 
                 // Compute combined guard and update of the edge.
                 if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
                     return false;
                 }
                 Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
@@ -223,7 +219,6 @@ public class PrepareChecks {
                 // Add the guard and guarded update as alternative to the relevant events of the edge.
                 for (Event evt: controllableEdgeEvents) {
                     if (env.isTerminationRequested()) {
-                        OutputProvider.ddbg();
                         return false;
                     }
                     Node autGuard = autGuards.get(evt);
@@ -231,7 +226,6 @@ public class PrepareChecks {
 
                     if (autGuardedUpdates != null) {
                         if (env.isTerminationRequested()) {
-                            OutputProvider.ddbg();
                             return false;
                         }
                         Node autGuardedUpdate = autGuardedUpdates.get(evt);
@@ -244,7 +238,6 @@ public class PrepareChecks {
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
             if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
                 return false;
             }
             OutputProvider.dbg("Updating global guards and updates for event \"%s\"...", getAbsName(autEvent));
@@ -253,7 +246,6 @@ public class PrepareChecks {
 
             if (autGuardedUpdates != null && globalGuardedUpdatesByEvent != null) {
                 if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
                     return false;
                 }
                 Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
@@ -276,7 +268,6 @@ public class PrepareChecks {
         Node guard = Tree.ONE;
         for (Expression grd: edge.getGuards()) {
             if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
                 return guard;
             }
             Node node = builder.getExpressionConvertor().convert(grd).get(1);
@@ -310,7 +301,6 @@ public class PrepareChecks {
 
             if (updateNode != null) {
                 if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
                     return updateNode;
                 }
                 Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
@@ -323,7 +313,6 @@ public class PrepareChecks {
             for (Declaration otherVariable: variables) {
                 if (!assignedVariables.contains(otherVariable)) {
                     if (env.isTerminationRequested()) {
-                        OutputProvider.ddbg();
                         return updateNode;
                     }
                     VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
@@ -334,7 +323,6 @@ public class PrepareChecks {
 
         // Mark the assigned variables as being updated by the event.
         if (env.isTerminationRequested()) {
-            OutputProvider.ddbg();
             return updateNode;
         }
         for (Event evt: controllableEdgeEvents) {
@@ -375,7 +363,6 @@ public class PrepareChecks {
         Node result = Tree.ONE;
         for (int idx = variables.size() - 1; idx >= 0; idx--) {
             if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
                 return result;
             }
             VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(variables.get(idx));
