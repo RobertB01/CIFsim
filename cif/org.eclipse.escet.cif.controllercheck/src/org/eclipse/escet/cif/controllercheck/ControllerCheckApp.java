@@ -53,6 +53,8 @@ import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
+import org.eclipse.escet.common.app.framework.output.OutputMode;
+import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 
 /** Application class for the controller properties check application. */
@@ -189,7 +191,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         boolean finiteResponseHolds;
         if (checkFiniteResponse) {
             // Check the finite response property.
-            OutputProvider.out();
+            OutputProvider.dbg();
             OutputProvider.out("Checking for finite response...");
             finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
             if (finiteResponseConclusion == null || isTerminationRequested()) {
@@ -203,9 +205,12 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         // Check confluence.
         CheckConclusion confluenceConclusion = null;
         boolean confluenceHolds;
+        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
         if (checkConfluence) {
             // Check the confluence property.
-            OutputProvider.out();
+            if (dbgEnabled || checkFiniteResponse) {
+                OutputProvider.out();
+            }
             OutputProvider.out("Checking for confluence...");
             confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
             if (confluenceConclusion == null || isTerminationRequested()) {
