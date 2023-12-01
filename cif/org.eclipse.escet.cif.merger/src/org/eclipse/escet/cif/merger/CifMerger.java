@@ -338,6 +338,9 @@ public class CifMerger {
         locRef.setType(newBoolType());
         refExprReplacements.put(inputVar, locRef);
 
+        // Move annotations.
+        loc.getAnnotations().addAll(inputVar.getAnnotations());
+
         // Return (merged) location.
         return loc;
     }
@@ -883,15 +886,20 @@ public class CifMerger {
                     getAbsName(obj1));
             throw new UnsupportedException(msg);
         } else if (obj1 instanceof InputVariable ivar1 && obj2 instanceof InputVariable ivar2) {
-            // Merging input variables with the same annotations is not
-            // supported, to prevent duplicate annotations.
+            // Merging objects with the same annotations is not supported, to prevent duplicate annotations.
             checkDuplicateAnnotations(ivar1.getAnnotations(), ivar2.getAnnotations(), ivar1);
+        } else if (obj1 instanceof InputVariable ivar && obj2 instanceof Location loc) {
+            // Merging objects with the same annotations is not supported, to prevent duplicate annotations.
+            checkDuplicateAnnotations(ivar.getAnnotations(), loc.getAnnotations(), ivar);
+        } else if (obj1 instanceof Location loc && obj2 instanceof InputVariable ivar) {
+            // Merging objects with the same annotations is not supported, to prevent duplicate annotations.
+            checkDuplicateAnnotations(loc.getAnnotations(), ivar.getAnnotations(), loc);
         } else if ((obj1 instanceof DiscVariable || obj1 instanceof ContVariable || obj1 instanceof AlgVariable
-                || obj1 instanceof Constant || obj1 instanceof Location) && obj2 instanceof InputVariable)
+                || obj1 instanceof Constant) && obj2 instanceof InputVariable)
         {
             // OK.
         } else if (obj1 instanceof InputVariable && (obj2 instanceof DiscVariable || obj2 instanceof ContVariable
-                || obj2 instanceof AlgVariable || obj2 instanceof Constant || obj2 instanceof Location))
+                || obj2 instanceof AlgVariable || obj2 instanceof Constant))
         {
             // OK.
         } else if (obj1 instanceof Constant && obj2 instanceof Constant) {

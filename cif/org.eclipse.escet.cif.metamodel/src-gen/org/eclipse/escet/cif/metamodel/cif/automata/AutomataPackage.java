@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.escet.cif.metamodel.cif.CifPackage;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
 import org.eclipse.escet.common.position.metamodel.position.PositionPackage;
 
 /**
@@ -226,7 +228,16 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+    int LOCATION__POSITION = AnnotationsPackage.ANNOTATED_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION__ANNOTATIONS = AnnotationsPackage.ANNOTATED_OBJECT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -235,7 +246,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__NAME = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int LOCATION__NAME = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Initials</b></em>' containment reference list.
@@ -244,7 +255,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__INITIALS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int LOCATION__INITIALS = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Invariants</b></em>' containment reference list.
@@ -253,7 +264,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__INVARIANTS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 2;
+    int LOCATION__INVARIANTS = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Edges</b></em>' containment reference list.
@@ -262,7 +273,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__EDGES = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 3;
+    int LOCATION__EDGES = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Markeds</b></em>' containment reference list.
@@ -271,7 +282,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__MARKEDS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 4;
+    int LOCATION__MARKEDS = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Urgent</b></em>' attribute.
@@ -280,7 +291,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__URGENT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 5;
+    int LOCATION__URGENT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Equations</b></em>' containment reference list.
@@ -289,7 +300,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION__EQUATIONS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 6;
+    int LOCATION__EQUATIONS = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 6;
 
     /**
      * The number of structural features of the '<em>Location</em>' class.
@@ -298,7 +309,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 7;
+    int LOCATION_FEATURE_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 7;
 
     /**
      * The number of operations of the '<em>Location</em>' class.
@@ -307,7 +318,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int LOCATION_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+    int LOCATION_OPERATION_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeImpl <em>Edge</em>}' class.

@@ -1,13 +1,17 @@
 event a;
 automaton statespace:
   alphabet a;
+  @state(M = "X", N = "X", N.c = 0, P = "X", Q = "X", Q.y = 38)
   location loc1:
     initial;
     edge a goto loc2;
+  @state(M = "Y", N = "X", N.c = 1, P = "X", Q = "X", Q.y = 43)
   location loc2:
     marked;
     edge a goto loc3;
+  @state(M = "Z", N = "X", N.c = 2, P = "X", Q = "X", Q.y = 48)
   location loc3:
     edge a goto loc4;
+  @state(M = "Z", N = "X", N.c = 3, P = "X", Q = "X", Q.y = 53)
   location loc4;
 end

@@ -7,17 +7,20 @@ group g:
 end
 automaton statespace:
   alphabet c1, g.c2, g.p.c3;
+  @state(g.p = "*", g.p.x = 2, p = "*", p.x = 1, sup = "*")
   location loc1:
     initial;
     marked;
     edge c1 goto loc2;
     edge g.c2 goto loc2;
     edge g.p.c3 goto loc2;
+  @state(g.p = "*", g.p.x = 3, p = "*", p.x = 1, sup = "*")
   location loc2:
     marked;
     edge c1 goto loc3;
     edge g.c2 goto loc3;
     edge g.p.c3 goto loc3;
+  @state(g.p = "*", g.p.x = 4, p = "*", p.x = 1, sup = "*")
   location loc3:
     marked;
 end

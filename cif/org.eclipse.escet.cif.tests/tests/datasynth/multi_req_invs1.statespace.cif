@@ -3,222 +3,271 @@ controllable b;
 controllable c;
 automaton statespace:
   alphabet a, b, c;
+  @state(p = "*", p.x = 5, p.y = 6, r = "*", sup = "*")
   location loc1:
     initial;
     marked;
     edge a goto loc2;
     edge c goto loc3;
+  @state(p = "*", p.x = 6, p.y = 6, r = "*", sup = "*")
   location loc2:
     marked;
     edge a goto loc4;
     edge c goto loc5;
+  @state(p = "*", p.x = 5, p.y = 5, r = "*", sup = "*")
   location loc3:
     marked;
     edge a goto loc5;
     edge b goto loc6;
     edge c goto loc7;
+  @state(p = "*", p.x = 7, p.y = 6, r = "*", sup = "*")
   location loc4:
     marked;
     edge a goto loc8;
     edge c goto loc9;
+  @state(p = "*", p.x = 6, p.y = 5, r = "*", sup = "*")
   location loc5:
     marked;
     edge a goto loc9;
     edge b goto loc1;
     edge c goto loc10;
+  @state(p = "*", p.x = 4, p.y = 6, r = "*", sup = "*")
   location loc6:
     marked;
     edge a goto loc1;
     edge c goto loc11;
+  @state(p = "*", p.x = 5, p.y = 4, r = "*", sup = "*")
   location loc7:
     marked;
     edge a goto loc10;
     edge b goto loc11;
     edge c goto loc12;
+  @state(p = "*", p.x = 8, p.y = 6, r = "*", sup = "*")
   location loc8:
     marked;
     edge c goto loc13;
+  @state(p = "*", p.x = 7, p.y = 5, r = "*", sup = "*")
   location loc9:
     marked;
     edge a goto loc13;
     edge b goto loc2;
     edge c goto loc14;
+  @state(p = "*", p.x = 6, p.y = 4, r = "*", sup = "*")
   location loc10:
     marked;
     edge a goto loc14;
     edge b goto loc3;
     edge c goto loc15;
+  @state(p = "*", p.x = 4, p.y = 5, r = "*", sup = "*")
   location loc11:
     marked;
     edge a goto loc3;
     edge b goto loc16;
     edge c goto loc17;
+  @state(p = "*", p.x = 5, p.y = 3, r = "*", sup = "*")
   location loc12:
     marked;
     edge a goto loc15;
     edge b goto loc17;
     edge c goto loc18;
+  @state(p = "*", p.x = 8, p.y = 5, r = "*", sup = "*")
   location loc13:
     marked;
     edge b goto loc4;
     edge c goto loc19;
+  @state(p = "*", p.x = 7, p.y = 4, r = "*", sup = "*")
   location loc14:
     marked;
     edge a goto loc19;
     edge b goto loc5;
     edge c goto loc20;
+  @state(p = "*", p.x = 6, p.y = 3, r = "*", sup = "*")
   location loc15:
     marked;
     edge a goto loc20;
     edge b goto loc7;
     edge c goto loc21;
+  @state(p = "*", p.x = 3, p.y = 6, r = "*", sup = "*")
   location loc16:
     marked;
     edge a goto loc6;
     edge c goto loc22;
+  @state(p = "*", p.x = 4, p.y = 4, r = "*", sup = "*")
   location loc17:
     marked;
     edge a goto loc7;
     edge b goto loc22;
     edge c goto loc23;
+  @state(p = "*", p.x = 5, p.y = 2, r = "*", sup = "*")
   location loc18:
     marked;
     edge a goto loc21;
     edge b goto loc23;
     edge c goto loc24;
+  @state(p = "*", p.x = 8, p.y = 4, r = "*", sup = "*")
   location loc19:
     marked;
     edge b goto loc9;
     edge c goto loc25;
+  @state(p = "*", p.x = 7, p.y = 3, r = "*", sup = "*")
   location loc20:
     marked;
     edge a goto loc25;
     edge b goto loc10;
     edge c goto loc26;
+  @state(p = "*", p.x = 6, p.y = 2, r = "*", sup = "*")
   location loc21:
     marked;
     edge a goto loc26;
     edge b goto loc12;
     edge c goto loc27;
+  @state(p = "*", p.x = 3, p.y = 5, r = "*", sup = "*")
   location loc22:
     marked;
     edge a goto loc11;
     edge b goto loc28;
     edge c goto loc29;
+  @state(p = "*", p.x = 4, p.y = 3, r = "*", sup = "*")
   location loc23:
     marked;
     edge a goto loc12;
     edge b goto loc29;
     edge c goto loc30;
+  @state(p = "*", p.x = 5, p.y = 1, r = "*", sup = "*")
   location loc24:
     marked;
     edge a goto loc27;
     edge b goto loc30;
     edge c goto loc31;
+  @state(p = "*", p.x = 8, p.y = 3, r = "*", sup = "*")
   location loc25:
     marked;
     edge b goto loc14;
     edge c goto loc32;
+  @state(p = "*", p.x = 7, p.y = 2, r = "*", sup = "*")
   location loc26:
     marked;
     edge a goto loc32;
     edge b goto loc15;
     edge c goto loc33;
+  @state(p = "*", p.x = 6, p.y = 1, r = "*", sup = "*")
   location loc27:
     marked;
     edge a goto loc33;
     edge b goto loc18;
     edge c goto loc34;
+  @state(p = "*", p.x = 2, p.y = 6, r = "*", sup = "*")
   location loc28:
     marked;
     edge a goto loc16;
     edge c goto loc35;
+  @state(p = "*", p.x = 3, p.y = 4, r = "*", sup = "*")
   location loc29:
     marked;
     edge a goto loc17;
     edge b goto loc35;
     edge c goto loc36;
+  @state(p = "*", p.x = 4, p.y = 2, r = "*", sup = "*")
   location loc30:
     marked;
     edge a goto loc18;
     edge b goto loc36;
     edge c goto loc37;
+  @state(p = "*", p.x = 5, p.y = 0, r = "*", sup = "*")
   location loc31:
     marked;
     edge a goto loc34;
     edge b goto loc37;
+  @state(p = "*", p.x = 8, p.y = 2, r = "*", sup = "*")
   location loc32:
     marked;
     edge b goto loc20;
     edge c goto loc38;
+  @state(p = "*", p.x = 7, p.y = 1, r = "*", sup = "*")
   location loc33:
     marked;
     edge a goto loc38;
     edge b goto loc21;
     edge c goto loc39;
+  @state(p = "*", p.x = 6, p.y = 0, r = "*", sup = "*")
   location loc34:
     marked;
     edge a goto loc39;
     edge b goto loc24;
+  @state(p = "*", p.x = 2, p.y = 5, r = "*", sup = "*")
   location loc35:
     marked;
     edge a goto loc22;
     edge c goto loc40;
+  @state(p = "*", p.x = 3, p.y = 3, r = "*", sup = "*")
   location loc36:
     marked;
     edge a goto loc23;
     edge b goto loc40;
     edge c goto loc41;
+  @state(p = "*", p.x = 4, p.y = 1, r = "*", sup = "*")
   location loc37:
     marked;
     edge a goto loc24;
     edge b goto loc41;
     edge c goto loc42;
+  @state(p = "*", p.x = 8, p.y = 1, r = "*", sup = "*")
   location loc38:
     marked;
     edge b goto loc26;
     edge c goto loc43;
+  @state(p = "*", p.x = 7, p.y = 0, r = "*", sup = "*")
   location loc39:
     marked;
     edge a goto loc43;
     edge b goto loc27;
+  @state(p = "*", p.x = 2, p.y = 4, r = "*", sup = "*")
   location loc40:
     marked;
     edge a goto loc29;
     edge c goto loc44;
+  @state(p = "*", p.x = 3, p.y = 2, r = "*", sup = "*")
   location loc41:
     marked;
     edge a goto loc30;
     edge b goto loc44;
     edge c goto loc45;
+  @state(p = "*", p.x = 4, p.y = 0, r = "*", sup = "*")
   location loc42:
     marked;
     edge a goto loc31;
     edge b goto loc45;
+  @state(p = "*", p.x = 8, p.y = 0, r = "*", sup = "*")
   location loc43:
     marked;
     edge b goto loc33;
+  @state(p = "*", p.x = 2, p.y = 3, r = "*", sup = "*")
   location loc44:
     marked;
     edge a goto loc36;
     edge c goto loc46;
+  @state(p = "*", p.x = 3, p.y = 1, r = "*", sup = "*")
   location loc45:
     marked;
     edge a goto loc37;
     edge b goto loc46;
     edge c goto loc47;
+  @state(p = "*", p.x = 2, p.y = 2, r = "*", sup = "*")
   location loc46:
     marked;
     edge a goto loc41;
     edge c goto loc48;
+  @state(p = "*", p.x = 3, p.y = 0, r = "*", sup = "*")
   location loc47:
     marked;
     edge a goto loc42;
     edge b goto loc48;
+  @state(p = "*", p.x = 2, p.y = 1, r = "*", sup = "*")
   location loc48:
     marked;
     edge a goto loc45;
     edge c goto loc49;
+  @state(p = "*", p.x = 2, p.y = 0, r = "*", sup = "*")
   location loc49:
     marked;
     edge a goto loc47;

@@ -13,8 +13,11 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
-import java.util.Collections;
+import static org.eclipse.escet.common.java.Maps.mapc;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.common.java.Assert;
@@ -24,19 +27,30 @@ public class PlcFuncAppl extends PlcExpression {
     /** Function being applied. */
     public final PlcBasicFuncDescription function;
 
-    /** Arguments of the function application. */
-    public final List<PlcNamedValue> arguments;
+    /** Arguments of the function application findable by their name. */
+    public final Map<String, PlcNamedValue> arguments;
 
     /**
      * Constructor of the {@link PlcFuncAppl} class.
      *
      * @param function Function being applied.
-     * @param arguments Arguments of the function application.
+     * @param argumentList Arguments of the function application.
      */
-    public PlcFuncAppl(PlcBasicFuncDescription function, List<PlcNamedValue> arguments) {
+    public PlcFuncAppl(PlcBasicFuncDescription function, List<PlcNamedValue> argumentList) {
         this.function = function;
-        this.arguments = Collections.unmodifiableList(arguments);
 
-        Assert.check(!arguments.isEmpty());
+        // Store the supplied arguments.
+        arguments = mapc(argumentList.size());
+        for (PlcNamedValue arg: argumentList) {
+            arguments.put(arg.name, arg);
+        }
+
+        // Verify there is at least one argument and no duplicates.
+        Assert.check(!argumentList.isEmpty()); // PLCs don't support calls without arguments.
+        Assert.areEqual(arguments.size(), argumentList.size());
+
+        // All supplied arguments should have a matching parameter.
+        long paramMatches = Arrays.stream(function.parameters).filter(arg -> arguments.containsKey(arg.name)).count();
+        Assert.areEqual(Math.toIntExact(paramMatches), argumentList.size());
     }
 }

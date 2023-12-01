@@ -519,6 +519,14 @@ public abstract class CodeGen {
     public abstract Destination makeDestination(VariableInformation varInfo);
 
     /**
+     * Make a target-specific data value for the given value.
+     *
+     * @param value The value.
+     * @return The target-specific data value.
+     */
+    public abstract DataValue makeDataValue(String value);
+
+    /**
      * Perform an assignment to a variable, where the right hand side is required only one time, the left hand side is
      * exactly one variable, and there is no underflow or overflow to worry about.
      *

@@ -2,25 +2,32 @@ controllable c;
 uncontrollable u;
 automaton statespace:
   alphabet c, u;
+  @state(g.p = "l0", g.p.x = 3, sup = "*")
   location loc1:
     initial;
     marked;
     edge c goto loc6;
+  @state(g.p = "l0", g.p.x = 4, sup = "*")
   location loc2:
     initial;
     marked;
     edge c goto loc7;
+  @state(g.p = "l0", g.p.x = 5, sup = "*")
   location loc3:
     initial;
     marked;
+  @state(g.p = "l0", g.p.x = 6, sup = "*")
   location loc4:
     initial;
     marked;
+  @state(g.p = "l0", g.p.x = 7, sup = "*")
   location loc5:
     initial;
     marked;
+  @state(g.p = "l1", g.p.x = 4, sup = "*")
   location loc6:
     edge u goto loc1;
+  @state(g.p = "l1", g.p.x = 5, sup = "*")
   location loc7:
     edge u goto loc2;
 end

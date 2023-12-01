@@ -1,0 +1,30 @@
+DATA_BLOCK "timer0"
+{InstructionName := 'IEC_TIMER';
+LibVersion := '1.0';
+S7_Optimized_Access := 'true' }
+AUTHOR : Simatic
+FAMILY : IEC
+NAME : IEC_TMR
+VERSION : 1.0
+NON_RETAIN
+IEC_TIMER
+
+BEGIN
+
+END_DATA_BLOCK
+
+DATA_BLOCK "timer1"
+{InstructionName := 'IEC_TIMER';
+LibVersion := '1.0';
+S7_Optimized_Access := 'true' }
+AUTHOR : Simatic
+FAMILY : IEC
+NAME : IEC_TMR
+VERSION : 1.0
+NON_RETAIN
+IEC_TIMER
+
+BEGIN
+
+END_DATA_BLOCK
+

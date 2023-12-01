@@ -25,6 +25,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[(* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
+    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     p_b := TRUE;
@@ -48,18 +49,22 @@ IF firstRun THEN
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := p_t;
-    ton_p_t(PT := preset_p_t, IN := FALSE);
-    ton_p_t(PT := preset_p_t, IN := TRUE);
+    ton_p_t(IN := FALSE, PT := preset_p_t);
+    ton_p_t(IN := TRUE, PT := preset_p_t);
     p := p_l1;
 ELSE
     (* Update remaining time of "p_t". *)
-    ton_p_t(PT := preset_p_t, IN := TRUE, Q => timeOut, ET => curValue);
-    p_t := SEL(G := timeOut, IN0 := preset_p_t - curValue, IN1 := 0.0);
+    ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
+    p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
-WHILE isProgress DO
+(* Perform events until none can be done anymore. *)
+(* Track the number of iterations and abort if there are too many. *)
+loopCount := 0;
+WHILE isProgress AND loopCount < 100 DO
+    loopCount := loopCount + 1;
     isProgress := FALSE;
 
     (* Try to perform event "p.evt". *)
@@ -137,16 +142,20 @@ WHILE isProgress DO
             p_b := FALSE;
             p := p_l14;
         ELSIF syncAutEdge = 10 THEN
-            IF NOT(IN := current_p_b) THEN
+            IF NOT current_p_b THEN
                 p_ve := g_LIT2;
             END_IF;
             p := p_l15;
         ELSIF syncAutEdge = 11 THEN
-            p_r := DINT_TO_LREAL(IN := g_inp) + 10.0;
+            p_r := DINT_TO_LREAL(g_inp) + 10.0;
             p := p_l16;
         END_IF;
     END_IF;
-END_WHILE;]]></ST>
+END_WHILE;
+(* Register the first 9999 aborted loops. *)
+IF loopCount >= 100 THEN
+    loopsKilled := MIN(loopsKilled + 1, 9999);
+END_IF;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

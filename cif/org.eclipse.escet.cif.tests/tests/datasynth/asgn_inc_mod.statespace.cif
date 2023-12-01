@@ -1,6 +1,7 @@
 controllable next;
 automaton statespace:
   alphabet next;
+  @state(p = "*", p.x = 2, sup = "*")
   location loc1:
     initial;
     marked;

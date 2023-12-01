@@ -4,131 +4,171 @@ group g:
 end
 automaton statespace:
   alphabet g.e1, g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc1:
     initial;
     edge g.e1 goto loc9;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc2:
     initial;
     edge g.e1 goto loc10;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc3:
     initial;
     edge g.e1 goto loc11;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc4:
     initial;
     edge g.e1 goto loc12;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc5:
     initial;
     edge g.e1 goto loc13;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc6:
     initial;
     edge g.e1 goto loc14;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc7:
     initial;
     edge g.e1 goto loc15;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "A", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc8:
     initial;
     edge g.e1 goto loc16;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc9:
     edge g.e1 goto loc17;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc10:
     edge g.e1 goto loc18;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc11:
     edge g.e1 goto loc19;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc12:
     edge g.e1 goto loc20;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc13:
     edge g.e1 goto loc21;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc14:
     edge g.e1 goto loc22;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc15:
     edge g.e1 goto loc23;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "B", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc16:
     edge g.e1 goto loc24;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc17:
     edge g.e1 goto loc25;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc18:
     edge g.e1 goto loc26;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc19:
     edge g.e1 goto loc27;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc20:
     edge g.e1 goto loc28;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc21:
     edge g.e1 goto loc29;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc22:
     edge g.e1 goto loc30;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc23:
     edge g.e1 goto loc31;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "C", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc24:
     edge g.e1 goto loc32;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc25:
     edge g.e1 goto loc33;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc26:
     edge g.e1 goto loc34;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc27:
     edge g.e1 goto loc35;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc28:
     edge g.e1 goto loc36;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc29:
     edge g.e1 goto loc37;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc30:
     edge g.e1 goto loc38;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc31:
     edge g.e1 goto loc39;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "D", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc32:
     edge g.e1 goto loc40;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc33:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc34:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc35:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "A", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc36:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "A", g.p.x6 = "G", sup = "*")
   location loc37:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "B", g.p.x6 = "G", sup = "*")
   location loc38:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "D", g.p.x6 = "G", sup = "*")
   location loc39:
     marked;
     edge g.e2;
+  @state(g.p = "*", g.p.x0 = "E", g.p.x1 = "A", g.p.x2 = "B", g.p.x3 = "D", g.p.x4 = "B", g.p.x5 = "E", g.p.x6 = "G", sup = "*")
   location loc40:
     marked;
     edge g.e2;

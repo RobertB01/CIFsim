@@ -113,7 +113,7 @@ public class StatementTextTest {
     public void funcApplTest() {
         PlcFuncApplStatement funcApplStat = new PlcFuncApplStatement(
                 funcAppls.powerFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0")));
-        assertEquals("EXPT(IN1 := 1.0, IN2 := 3.0);", toStr(funcApplStat));
+        assertEquals("EXPT(1.0, 3.0);", toStr(funcApplStat));
     }
 
     @Test

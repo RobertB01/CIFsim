@@ -2521,6 +2521,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Location} class.
      *
+     * @param annotations The "annotations" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param edges The "edges" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "edges", or to set it later.
      * @param equations The "equations" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "equations", or to set it later.
      * @param initials The "initials" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "initials", or to set it later.
@@ -2531,8 +2532,11 @@ public class CifConstructors {
      * @param urgent The "urgent" of the new "Location". Multiplicity [1..1]. May be {@code null} to set the "urgent" later.
      * @return A new instance of the {@link Location} class.
      */
-    public static Location newLocation(List<Edge> edges, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<Expression> markeds, String name, Position position, Boolean urgent) {
+    public static Location newLocation(List<Annotation> annotations, List<Edge> edges, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<Expression> markeds, String name, Position position, Boolean urgent) {
         Location rslt_ = newLocation();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (edges != null) {
             rslt_.getEdges().addAll(edges);
         }

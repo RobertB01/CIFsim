@@ -4608,9 +4608,12 @@ The annotations of the annotated object.
 \citem{AnnotatedObject.uniqueAnnotations}
   The names of each of the annotations must be unique within the annotated
   object.
-\citem{AnnotatedObject.onlyForInputVariables}
-  For now, only input variables may have annotations. This restriction may be
-  removed or relaxed in the future.
+\citem{AnnotatedObject.onlyForSupportedObjects}
+  Currently only the following objects support annotations:
+  \begin{itemize}
+    \item Input variables.
+    \item Locations of automata.
+  \end{itemize}
 \end{constraints}
 }
 

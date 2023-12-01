@@ -39,13 +39,14 @@ hw_button_bit := in_hw_button_bit;
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
+    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     timer_t := 0.0;
     (* Reset timer of "timer_t". *)
     preset_timer_t := timer_t;
-    ton_timer_t(PT := preset_timer_t, IN := FALSE);
-    ton_timer_t(PT := preset_timer_t, IN := TRUE);
+    ton_timer_t(IN := FALSE, PT := preset_timer_t);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t);
     timer := 0;
     sup := 0;
     hw_button := 0;
@@ -53,13 +54,17 @@ IF firstRun THEN
     hw_lamp := 0;
 ELSE
     (* Update remaining time of "timer_t". *)
-    ton_timer_t(PT := preset_timer_t, IN := TRUE, Q => timeOut, ET => curValue);
-    timer_t := SEL(G := timeOut, IN0 := preset_timer_t - curValue, IN1 := 0.0);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);
+    timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
-WHILE isProgress DO
+(* Perform events until none can be done anymore. *)
+(* Track the number of iterations and abort if there are too many. *)
+loopCount := 0;
+WHILE isProgress AND loopCount < 100 DO
+    loopCount := loopCount + 1;
     isProgress := FALSE;
 
     (* Try to perform event "timer.start". *)
@@ -87,8 +92,8 @@ WHILE isProgress DO
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
             preset_timer_t := timer_t;
-            ton_timer_t(PT := preset_timer_t, IN := FALSE);
-            ton_timer_t(PT := preset_timer_t, IN := TRUE);
+            ton_timer_t(IN := FALSE, PT := preset_timer_t);
+            ton_timer_t(IN := TRUE, PT := preset_timer_t);
             timer := 1;
         END_IF;
         IF syncAutEdge__1 = 1 THEN
@@ -97,6 +102,7 @@ WHILE isProgress DO
             sup := 6;
         END_IF;
     END_IF;
+
     (* Try to perform event "timer.timeout". *)
     eventEnabled := TRUE;
     IF timer = 1 AND timer_t <= 0.0 THEN
@@ -126,6 +132,7 @@ WHILE isProgress DO
             sup := 8;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.push". *)
     eventEnabled := TRUE;
     IF sup = 0 THEN
@@ -167,6 +174,7 @@ WHILE isProgress DO
             hw_button := 1;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.release". *)
     eventEnabled := TRUE;
     IF sup = 1 THEN
@@ -183,7 +191,7 @@ WHILE isProgress DO
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
-        IF hw_button = 1 AND NOT(IN := hw_button_bit) THEN
+        IF hw_button = 1 AND NOT hw_button_bit THEN
             syncAutEdge__7 := 1;
         ELSE
             eventEnabled := FALSE;
@@ -208,6 +216,7 @@ WHILE isProgress DO
             hw_button := 0;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.on". *)
     eventEnabled := TRUE;
     IF sup = 1 THEN
@@ -239,6 +248,7 @@ WHILE isProgress DO
             hw_lamp := 1;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.off". *)
     eventEnabled := TRUE;
     IF sup = 7 THEN
@@ -271,6 +281,10 @@ WHILE isProgress DO
         END_IF;
     END_IF;
 END_WHILE;
+(* Register the first 9999 aborted loops. *)
+IF loopCount >= 100 THEN
+    loopsKilled := MIN(loopsKilled + 1, 9999);
+END_IF;
 
 (* --- Write output to actuators. ------------------------------------------ *)
 out_hw_lamp_bit := hw_lamp_bit;

@@ -1,0 +1,6 @@
+automaton statespace:
+  alphabet;
+  @state(a = "*", a.i1 = -2147483647 - 1, a.i2 = -2147483647 - 1)
+  location loc1:
+    initial;
+end

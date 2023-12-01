@@ -51,12 +51,12 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_merger.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.misc"
                label="CIF miscellaneo&amp;us tools">
             <command
                   commandId="org.eclipse.escet.cif.merger.CifMergerCommand"
-                  icon="icons/cif_merger.png"
+                  icon="icons/cif_app.png"
                   label="&amp;Merge CIF specifications...">
                <visibleWhen>
                   <or>
@@ -74,7 +74,7 @@
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <command
                commandId="org.eclipse.escet.cif.merger.CifMergerCommand"
-               icon="icons/cif_merger.png"
+               icon="icons/cif_app.png"
                label="&amp;Merge CIF specifications...">
             <visibleWhen>
                <with variable="activeMenuSelection">

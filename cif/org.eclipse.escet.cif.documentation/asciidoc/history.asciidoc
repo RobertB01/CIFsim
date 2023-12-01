@@ -1,0 +1,161 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::_root_attributes.asciidoc[]
+
+[[history-chapter-index]]
+== CIF history
+
+This page explains some of the history of CIF, and how its purpose and use have changed over time.
+It also explains what 'CIF' originally stood for.
+
+=== Conception
+
+The CIF language and toolkit were originally created to establish interoperability between a wide range of tools and their associated modeling languages.
+Languages and tools considered to be in scope at the time were those from computer science and from dynamics and control, and focusing on modeling, simulation, analysis, controller synthesis, and verification in the area of discrete event, timed, and hybrid systems.
+The various tools, such as link:https://uppaal.org/[UPPAAL] and link:https://modelica.org/[Modelica], had different capabilities.
+Since each tool had its own associated language, unlocking these capabilities for other languages required model transformations between the various languages.
+
+However, this was considerable work, as for each language a transformation to each other language had to be created.
+The idea of an link:https://en.wikipedia.org/wiki/Pivot_language[interchange format] (CIF) was born to reduce the number of transformations that are needed.
+Instead of transforming _n_ languages each to _n - 1_ others (a quadratic number of transformations), each language would only need to be transformed to and from CIF.
+For instance, a UPPAAL model could be transformed to CIF, and then to a Modelica model.
+That way, only _2 * n_ transformations would be needed (a linear number of transformations), reducing the effort to implement the transformations.
+
+The interchange format needed to be rich enough to represent the concepts from the various languages.
+Only then could a large enough subset of language features of the various languages be transformed.
+Hence, CIF needed concepts from discrete event, timed, and hybrid systems.
+
+In order for the transformations to be useful, they had to be semantically preserving.
+The model in one language, when transformed to another, should still behave in the same way.
+That way, the analysis results would also be valid for the original model, allowing different tools to be combined in a consistent and meaningful way.
+To enable this, it was deemed necessary for CIF to have a formal semantics, grounded in mathematics, and independent of any implementation aspects.
+
+Different languages may have different concepts.
+A direct transformation from a source language to a destination language would therefore have to deal with all this complexity.
+Instead, as a pre-transformation step, the source model could be adapted such that concepts that only exist in the source language are transformed to equivalent concepts in the source language that also exist in the destination language.
+This idea was considered useful for many of the language-to-language transformations.
+By doing such pre-transformations on the interchange format itself, by using CIF to CIF transformations to rewrite CIF models, they could be reused rather than having to implement them again for each language-to-language transformation.
+For such pre-transformations to be valid, it is essential that parts of a model that are not touched keep their meaning.
+This property for a (interchange) language is known as the link:https://en.wikipedia.org/wiki/Principle_of_compositionality[principle of compositionality].
+The semantics of the CIF language thus needed to be compositional.
+
+There was thus a need for an interchange format with formal compositional semantics that supports concepts from discrete event, timed, and hybrid systems.
+For this, the '**C**ompositional **I**nterchange **F**ormat for hybrid systems', abbreviated as 'CIF', was created.
+In CIF, hybrid systems conceptually included timed systems, and timed systems conceptually included discrete event systems.
+Hence, only hybrid systems were mentioned in the full name.
+
+=== CIF 1
+
+The first version of the CIF language, CIF 1, was defined in 2006.
+The first CIF tools were created in 2007, in Python.
+CIF was at that time essentially a front-end language.
+The first tool, the CIF simulator, represented CIF models internally as link:https://eclipse.dev/escet/{escet-website-version}/chi[Chi] models.
+The CIF 1 toolset was later extended with other tools, including various transformations to other languages and support for supervisory controller synthesis.
+Along with CIF 1, the Supervisory Control IDE (SCIDE), a graphical editor for supervisory control models, was created.
+
+The work around CIF 1 was primarily carried out in several academic research projects, including the EU NoE project link:https://www.ist-hycon.org/[HYCON], the EU ITEA2 project link:https://itea4.org/project/twins.html[Twins], and the link:https://esi.nl/darwin[Darwin] project.
+The CIF 1 tooling was in development from 2007 to around 2012.
+
+A few years after its inception, several issues were identified with CIF 1.
+Its language concepts were difficult to use, the textual syntax was cumbersome, and the semantics was hard to get right.
+The tooling was slow and ran only on Linux.
+The ad-hoc architecture, built on top of Chi, was hard to maintain, and had a considerable number of bugs that were non-trivial to solve.
+
+Here are some publications about CIF 1:
+
+* D. A. van Beek, M. A. Reniers, R. R. H. Schiffelers, and J. E. Rooda, "Foundations of a compositional interchange format for hybrid systems", Computer science reports, volume 633, Eindhoven University of Technology.
+* D. A. van Beek, M. A. Reniers, R. R. H. Schiffelers, and J. E. Rooda, "Foundations of a Compositional Interchange Format for Hybrid Systems", Hybrid Systems: Computation and Control (HSCC), pages 587-600, 2007, doi:link:https://doi.org/10.1007/978-3-540-71493-4_45[10.1007/978-3-540-71493-4_45].
+* D. A. van Beek, M. A. Reniers, J. E. Rooda, and R. R. H. Schiffelers, "Concrete syntax and semantics of the compositional interchange format for hybrid systems", IFAC Proceedings Volumes, volume 41, issue 2, pages 7979-7986, 2008, doi:link:https://doi.org/10.3182/20080706-5-KR-1001.01348[10.3182/20080706-5-KR-1001.01348].
+* C. Sonntag, R. R. H. Schiffelers, D. A. van Beek, J. E. Rooda, and S. Engell, "Modeling and Simulation using the Compositional Interchange Format for Hybrid Systems", International Conference on Mathematical Modelling (MATHMOD), pages 640-650, 2009.
+* D. A. van Beek, P. Collins, D. E. Nadales, J. E. Rooda, and R. R. H. Schiffelers, "New Concepts in the Abstract Format of the Compositional Interchange Format", IFAC Proceedings Volumes, volume 42, issue 17, pages 250-255, 2009, doi:link:https://doi.org/10.3182/20090916-3-ES-3003.00044[10.3182/20090916-3-ES-3003.00044].
+
+=== CIF 2
+
+To solve the difficulties with CIF 1, it was decided to start from scratch, resulting in CIF 2.
+The focus of CIF 2 was on selecting the right concepts and getting their semantics right.
+
+The first release of the CIF 2 tooling was on September 8, 2010.
+With CIF 2, CIF remained an interchange format with various transformations to other languages.
+Transformations were supported by a model transformation framework based on the link:https://eclipse.dev/modeling/emf/[Eclipse Modeling Framework] (EMF).
+It allowed for transformations to and from the CIF 2 link:https://en.wikipedia.org/wiki/Metamodel[metamodel], a standard representation of CIF models.
+Transformations could be implemented using link:https://en.wikipedia.org/wiki/Model_transformation_language[model transformation languages] such as link:https://eclipse.dev/atl/[ATL] and link:https://projects.eclipse.org/projects/modeling.mmt.qvt-oml[QVTo], rather than general purpose languages such as Java.
+
+The work around CIF 2 was primarily carried out in several academic research projects, including the link:https://esi.nl/darwin[Darwin] project, the EU FP7 project link:https://web.archive.org/web/20141124221419/http://www.c4c-project.eu/[C4C], the EU FP7 project link:https://cordis.europa.eu/project/id/224249[Multiform], and the EU NoE project link:https://cordis.europa.eu/project/id/257462[HYCON 2].
+The CIF 2 tooling was in development from 2010 to around 2014.
+
+Unfortunately, the role of CIF 2 as an interchange format was never fully realized.
+The concepts of the different languages often turned out to be quite different, or appeared similar but had different semantics.
+To compensate for these differences, transformations 'encoded' concepts in terms of other concepts.
+Similar to a dictionary that explains an unknown word in terms of many known words, transformations used elaborate combinations of CIF concepts to express the foreign concept in CIF.
+This made it difficult to subsequently transform such CIF models to other languages.
+After a while, interest in CIF as an interchange format declined.
+
+Besides that, the CIF 2 syntax was not very user friendly.
+Furthermore, the implementation technology around metamodels and model transformation languages was not very mature at the time.
+The CIF 2 tooling was difficult to use and difficult to maintain.
+
+Here are some publications about CIF 2:
+
+* D. E. Nadales Agut, M. A. Reniers, R. R. H. Schiffelers, K. Y. Jørgensen, and D. A. van Beek, "A Semantic-Preserving Transformation from the Compositional Interchange Format to UPPAAL", IFAC Proceedings Volumes, volume 44, issue 1, pages 12496-12502, 2011, doi:link:https://doi.org/10.3182/20110828-6-IT-1002.03030[10.3182/20110828-6-IT-1002.03030].
+* D. Hendriks, R. R. H. Schiffelers, M. Hüfner, C. Sonntag, "A Transformation Framework for the Compositional Interchange Format for Hybrid Systems", IFAC Proceedings Volumes, volume 44, issue 1, pages 12509-12514, 2011, doi:link:https://doi.org/10.3182/20110828-6-IT-1002.03561[10.3182/20110828-6-IT-1002.03561].
+* C. Sonntag and M. Hüfner, "On the Connection of Equation- and Automata-based Languages: Transforming the Compositional Interchange Format to Modelica", IFAC Proceedings Volumes, volume 44, issue 1, pages 12515-12520, 2011, doi:link:https://doi.org/10.3182/20110828-6-IT-1002.03565[10.3182/20110828-6-IT-1002.03565].
+* D. E. Nadales Agut, D. A. van Beek, and J. E. Rooda, "Syntax and semantics of the compositional interchange format for hybrid systems", The Journal of Logic and Algebraic Programming (JLAP), volume 82, issue 1, pages 1-52, 2013, doi:link:https://doi.org/10.1016/j.jlap.2012.07.001[10.1016/j.jlap.2012.07.001].
+
+=== CIF 3
+
+Not being satisfied with CIF 2, the idea came to develop CIF 3.
+Work on CIF 3 started in the academic research project link:https://cordis.europa.eu/project/id/257462[HYCON 2], in 2012.
+CIF 3 reused most of the semantics of CIF 2.
+The CIF 3 tooling was implemented using proven technology, with Java as the main implementation language.
+Work on CIF 3 initially focused on a convenient modeling syntax.
+The first version of CIF 3 was released on January 31, 2013.
+Later, the work shifted towards tooling to support the entire development process of supervisory controllers.
+
+With CIF 3, the use of CIF as an interchange format was completely dropped, although CIF 3 featured several transformations to other languages.
+Over time, CIF 3 started to develop as a language of its own.
+While the name 'CIF' stuck, it no longer stood for 'Compositional Interchange Format'.
+
+CIF 3 has been developed from the start with the aim to have industrial use.
+Hence, considerable effort was put into a good user experience, including good performance, robustness, intuitive and user-friendly error messages, and extensive documentation.
+CIF 3 has been applied in many academic research projects together with industry.
+However, even with these considerable efforts, CIF 3 remained an academic tool lacking wide-spread adoption in industry.
+
+Here are some publications about CIF 3:
+
+* D. A. van Beek, W. J. Fokkink, D. Hendriks, A. Hofkamp, J. Markovski, J. M. van de Mortel-Fronczak, and M. A. Reniers, "CIF 3: Model-Based Engineering of Supervisory Controllers", Tools and Algorithms for the Construction and Analysis of Systems (TACAS), pages 575-580, 2014, doi:link:https://doi.org/10.1007/978-3-642-54862-8_48[10.1007/978-3-642-54862-8_48].
+* W. J. Fokkink, M. A. Goorden, J. M. van de Mortel-Fronczak, F. F. H. Reijnen, and J. E. Rooda, "Supervisor Synthesis: Bridging Theory and Practice", Computer, volume 55, number 10, pages 48-54, 2022, doi:link:https://doi.org/10.1109/MC.2021.3134934[10.1109/MC.2021.3134934].
+
+=== Eclipse ESCET
+
+Versions 1 through 3 of CIF were developed by the link:https://www.tue.nl/en/[Eindhoven University of Technology] (TU/e) in the Netherlands.
+In 2018, the idea came to move CIF to the link:https://www.eclipse.org/[Eclipse Foundation].
+The goal was, together with other interested parties, to create a larger community around CIF.
+The aim was to make it easier for all parties in the ecosystem to contribute together to the development of CIF in an open setting.
+
+In 2019, the proposal for the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET™) project, which includes CIF, was submitted to the Eclipse Foundation.
+The proposal was supported by TU/e, TNO, Rijkswaterstaat, and ASML.
+The Eclipse Foundation's board of directors approved the creation of the project under the MIT license, on November 13, 2019.
+After a successful creation review, the project was formally created on January 15, 2020.
+The initial contribution to the project, which included CIF 3, was formally approved on October 16, 2020.
+The version number for CIF was dropped at that time.
+The first release of the Eclipse ESCET project, including CIF, was on April 2, 2021.
+Following a formal graduation review, the project became a mature Eclipse Foundation open-source project, on September 11, 2023.
+
+With the move to the Eclipse Foundation, and supported by the Eclipse Foundation's principles of transparency, openness, meritocracy and vendor-neutrality, the ESCET project is now an open ecosystem with a growing community.
+Interested parties, such as academic and applied research institutes, industrial partners, and tool vendors, collaborate on and profit from further tool development for the model-based construction of supervisors.
+Together they are developing the ESCET toolkit as an industrial-strength toolkit.
+
+Here are some publications about Eclipse ESCET:
+
+* W. J. Fokkink, M. A. Goorden, D. Hendriks, D. A. van Beek, A. T. Hofkamp, F. F. H. Reijnen, L. F. P. Etman, L. Moormann, J. M. van de Mortel-Fronczak, M. A. Reniers, J. E. Rooda, L. J. van der Sanden, R. R. H. Schiffelers, S. B. Thuijsman, J. J. Verbakel, and J. A. Vogel, "Eclipse ESCET™: The Eclipse Supervisory Control Engineering Toolkit", Tools and Algorithms for the Construction and Analysis of Systems (TACAS), pages 44-52, 2023, doi:link:https://doi.org/10.1007/978-3-031-30820-8_6[10.1007/978-3-031-30820-8_6].

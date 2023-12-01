@@ -34,6 +34,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInternalFunction;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newReturnFuncStatement;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSetExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStdLibFunctionExpression;
@@ -1053,24 +1054,24 @@ public class CifValueUtils {
         if (type instanceof BoolType) {
             return makeFalse();
         } else if (type instanceof IntType) {
-            IntExpression rslt = newIntExpression();
-            rslt.setType(deepclone(type));
-
+            // Get default value.
             IntType itype = (IntType)type;
+            int defaultValue;
             if (CifTypeUtils.isRangeless(itype)) {
-                rslt.setValue(0);
+                defaultValue = 0;
             } else {
-                // Set to value closest to zero.
+                // Use the value closest to zero.
                 if (itype.getLower() <= 0 && itype.getUpper() >= 0) {
-                    rslt.setValue(0);
+                    defaultValue = 0;
                 } else {
                     int lDistanceToZero = Math.abs(itype.getLower());
                     int uDistanceToZero = Math.abs(itype.getUpper());
-                    rslt.setValue((lDistanceToZero < uDistanceToZero) ? itype.getLower() : itype.getUpper());
+                    defaultValue = (lDistanceToZero < uDistanceToZero) ? itype.getLower() : itype.getUpper();
                 }
             }
 
-            return rslt;
+            // Return a proper expression for the default value.
+            return makeInt(defaultValue);
         } else if (type instanceof TypeRef) {
             return getDefaultValue(((TypeRef)type).getType().getType(), funcs);
         } else if (type instanceof EnumType) {
@@ -2239,7 +2240,7 @@ public class CifValueUtils {
      * properly handles negative values, as well as {@link Integer#MIN_VALUE}.
      *
      * @param value The integer value.
-     * @return The 'false' literal.
+     * @return The expression.
      */
     public static Expression makeInt(int value) {
         // Special case for -2,147,483,648, which we can't represent using
@@ -2288,6 +2289,36 @@ public class CifValueUtils {
         un.setChild(absExpr);
         un.setType(unType);
 
+        return un;
+    }
+
+    /**
+     * Returns a newly created expression, without position information, for the given real value. This method properly
+     * handles negative values.
+     *
+     * @param value The finite Java double value.
+     * @return The expression.
+     */
+    public static Expression makeReal(double value) {
+        // Check preconditions.
+        Assert.check(Double.isFinite(value));
+
+        // General work.
+        double absValue = Math.abs(value);
+        RealExpression absExpr = newRealExpression();
+        absExpr.setValue(CifMath.realToStr(absValue));
+        absExpr.setType(newRealType());
+
+        // If value is non-negative, we are done.
+        if (value >= 0) {
+            return absExpr;
+        }
+
+        // Additional work for negative values.
+        UnaryExpression un = newUnaryExpression();
+        un.setOperator(UnaryOperator.NEGATE);
+        un.setChild(absExpr);
+        un.setType(newRealType());
         return un;
     }
 

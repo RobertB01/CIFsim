@@ -11,6 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// All syntax variations (for annotated input variables).
+
 input bool i0; // No annotations.
 
 @a
@@ -48,3 +50,29 @@ input bool i9;
 
 @a($disc = 5, $const.$apple.$alg = 123)
 input bool i10;
+
+@a(b = 1)
+@abc:def
+input bool i11;
+
+@abc:def
+@a(b = 1)
+input bool i12;
+
+// Also check other types of annotated objects.
+
+automaton a1:
+  @a(b = 1)
+  location:
+    initial;
+end
+
+automaton a2:
+  @a(b = 1)
+  location loc1:
+    initial;
+
+  @a(b = 1)
+  location loc2:
+    initial;
+end

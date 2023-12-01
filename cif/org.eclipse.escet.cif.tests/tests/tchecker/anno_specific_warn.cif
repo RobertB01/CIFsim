@@ -26,3 +26,21 @@ input bool i3;
 // Global warning: more than 3 of these annotations in the model.
 @cif:typechecker:tests:anno1(arg = true)
 input bool i4;
+
+// Also check other types of annotated objects.
+
+automaton a1:
+  @cif:typechecker:tests:anno1(x = true)
+  location:
+    initial;
+end
+
+automaton a2:
+  @cif:typechecker:tests:anno1(x = true)
+  location loc1:
+    initial;
+
+  @cif:typechecker:tests:anno1(x = true)
+  location loc2:
+    initial;
+end

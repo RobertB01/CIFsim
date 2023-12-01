@@ -2,6 +2,7 @@ controllable e1;
 uncontrollable e2;
 automaton statespace:
   alphabet e1, e2;
+  @state(p = "L0", p.x = 2, sup = "*")
   location loc1:
     initial;
     marked;

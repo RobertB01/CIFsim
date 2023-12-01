@@ -35,12 +35,14 @@ group q:
 end
 automaton statespace:
   alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, p.c13, p.c14, p.c15, p.c16, q.u0, q.u2, q.u4, q.u7, q.u8, q.u9, q.u11, q.u13, q.u14, q.u15, q.u16, c_off, c_synch, u_synch;
+  @state(a = "l1", b = "l1", p = "l1", p.v10 = 0, p.v11 = 0, p.v13 = 0, p.v3 = 0, p.v4 = 0, p.v5 = 0, p.v6 = 0, p.v7 = 0, p.v8 = 0, p.v9 = 0, q = "l1", q.v11 = 0, q.v13 = 0, q.v4 = 0, q.v7 = 0, q.v8 = 0, q.v9 = 0, sup = "*")
   location loc1:
     initial;
     marked;
     edge p.c15;
     edge q.u15;
     edge c_off goto loc2;
+  @state(a = "l2", b = "l2", p = "l1", p.v10 = 0, p.v11 = 0, p.v13 = 0, p.v3 = 0, p.v4 = 0, p.v5 = 0, p.v6 = 0, p.v7 = 0, p.v8 = 0, p.v9 = 0, q = "l1", q.v11 = 0, q.v13 = 0, q.v4 = 0, q.v7 = 0, q.v8 = 0, q.v9 = 0, sup = "*")
   location loc2:
     marked;
     edge p.c15;

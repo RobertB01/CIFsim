@@ -99,7 +99,7 @@ public class CifAnnotationsPostChecker extends CifWalker {
             }
 
             // Let the provider check the annotation.
-            provider.checkAnnotation(annotation, reporter);
+            provider.checkAnnotation(annotatedObj, annotation, reporter);
         }
     }
 

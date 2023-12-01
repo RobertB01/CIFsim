@@ -44,12 +44,12 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_simulator.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.validation"
                label="CIF simul&amp;ation, validation and verification tools">
             <command
                   commandId="org.eclipse.escet.cif.simulator.CifSimulatorCommand"
-                  icon="icons/cif_simulator.png"
+                  icon="icons/cif_app.png"
                   label="&amp;Simulate CIF specification...">
                <visibleWhen>
                   <or>
