@@ -180,6 +180,7 @@ public class PrepareChecks {
                 updatedVariablesByEvent.put(evt, set());
             }
             if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
                 return false;
             }
         }
@@ -197,18 +198,21 @@ public class PrepareChecks {
                 // Compute guard of the edge.
                 Node guard = computeGuard(edge);
                 if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
                     return false;
                 }
 
                 // Compute update of the edge.
                 Node update = computeUpdate(edge, controllableEdgeEvents);
                 if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
                     return false;
                 }
 
                 // Compute combined guard and update of the edge.
                 Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
                 if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
                     return false;
                 }
 
@@ -217,6 +221,7 @@ public class PrepareChecks {
                     Node autGuard = autGuards.get(evt);
                     autGuards.put(evt, tree.disjunct(autGuard, guard));
                     if (env.isTerminationRequested()) {
+                        OutputProvider.ddbg();
                         return false;
                     }
 
@@ -224,6 +229,7 @@ public class PrepareChecks {
                         Node autGuardedUpdate = autGuardedUpdates.get(evt);
                         autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
                         if (env.isTerminationRequested()) {
+                            OutputProvider.ddbg();
                             return false;
                         }
                     }
@@ -237,6 +243,7 @@ public class PrepareChecks {
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
             if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
                 return false;
             }
 
@@ -245,6 +252,7 @@ public class PrepareChecks {
                 globalGuardedUpdatesByEvent.put(autEvent,
                         tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
                 if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
                     return false;
                 }
             }
