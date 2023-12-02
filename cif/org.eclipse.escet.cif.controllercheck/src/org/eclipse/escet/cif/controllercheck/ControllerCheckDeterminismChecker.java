@@ -39,6 +39,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.app.framework.AppEnv;
+import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -49,6 +51,9 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
 public class ControllerCheckDeterminismChecker {
     /** Found problems in the specification. */
     public List<String> problems = list();
+
+    /** The application context to use. */
+    private final AppEnvData env = AppEnv.getData();
 
     /**
      * Check that a specification is supported.
@@ -95,6 +100,9 @@ public class ControllerCheckDeterminismChecker {
      */
     private void verifyDeterminism(Group group, MvSpecBuilder builder) {
         for (Component comp: group.getComponents()) {
+            if (env.isTerminationRequested()) {
+                return;
+            }
             if (comp instanceof Automaton) {
                 verifyDeterminism((Automaton)comp, builder);
                 continue;
@@ -121,6 +129,9 @@ public class ControllerCheckDeterminismChecker {
     private void verifyDeterminism(Automaton aut, MvSpecBuilder builder) {
         for (Location loc: aut.getLocations()) {
             verifyDeterminism(loc, builder);
+            if (env.isTerminationRequested()) {
+                return;
+            }
         }
     }
 
@@ -154,6 +165,10 @@ public class ControllerCheckDeterminismChecker {
                 }
                 edgesPreds.add(edge.getGuards());
             }
+
+            if (env.isTerminationRequested()) {
+                return;
+            }
         }
 
         // Verify that the collected edges have non-overlapping guards.
@@ -168,12 +183,19 @@ public class ControllerCheckDeterminismChecker {
             for (List<Expression> edgeGuard: edgeGuards) {
                 Node edgeGuardNode = builder.getExpressionConvertor().convert(edgeGuard).get(1);
                 edgeGuardNodes.add(edgeGuardNode);
+                if (env.isTerminationRequested()) {
+                    return;
+                }
             }
 
             // Check mutually exclusiveness for every pair.
             for (int i = 0; i < edgeGuardNodes.size() - 1; i++) {
                 for (int j = i + 1; j < edgeGuardNodes.size(); j++) {
                     Node n = builder.tree.conjunct(edgeGuardNodes.get(i), edgeGuardNodes.get(j));
+                    if (env.isTerminationRequested()) {
+                        return;
+                    }
+
                     if (n != Tree.ZERO) {
                         // Not mutually exclusive, which implies overlapping guards.
                         String msg = fmt(
