@@ -787,9 +787,6 @@ public enum ErrMsg {
     // Print.duplFor
     PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING),
 
-    // AnnotatedObject.uniqueAnnotations
-    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for %s.", 2, ERROR),
-
     // Annotation.annotationSpecificErrors
     ANNO_SPECIFIC_ERR("Annotation \"%s\": %s", 2, ERROR),
 
