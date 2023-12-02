@@ -189,11 +189,16 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         // Check finite response.
         CheckConclusion finiteResponseConclusion = null;
         boolean finiteResponseHolds;
+        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
+        int checksPerformed = 0;
         if (checkFiniteResponse) {
             // Check the finite response property.
-            OutputProvider.dbg();
+            if (dbgEnabled || checksPerformed > 0) {
+                OutputProvider.out();
+            }
             OutputProvider.out("Checking for finite response...");
             finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
+            checksPerformed++;
             if (finiteResponseConclusion == null || isTerminationRequested()) {
                 return 0;
             }
@@ -205,14 +210,14 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         // Check confluence.
         CheckConclusion confluenceConclusion = null;
         boolean confluenceHolds;
-        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
         if (checkConfluence) {
             // Check the confluence property.
-            if (dbgEnabled || checkFiniteResponse) {
+            if (dbgEnabled || checksPerformed > 0) {
                 OutputProvider.out();
             }
             OutputProvider.out("Checking for confluence...");
             confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
+            checksPerformed++;
             if (confluenceConclusion == null || isTerminationRequested()) {
                 return 0;
             }

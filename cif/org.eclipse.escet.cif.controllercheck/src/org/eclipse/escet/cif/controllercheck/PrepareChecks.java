@@ -305,6 +305,9 @@ public class PrepareChecks {
 
             if (updateNode != null) {
                 Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
+                if (env.isTerminationRequested()) {
+                    return updateNode;
+                }
                 updateNode = tree.conjunct(updateNode, asgNode);
                 if (env.isTerminationRequested()) {
                     return updateNode;
