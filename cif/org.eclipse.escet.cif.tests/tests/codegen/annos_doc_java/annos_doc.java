@@ -64,6 +64,19 @@ public abstract class annos_doc {
      */
     public boolean i4_;
 
+    /**
+     * Input variable "i5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc.
+     * </p>
+     */
+    public boolean i5_;
+
     /** Constructor for the {@link annos_doc} class. */
     public annos_doc() {
         firstExec = true;

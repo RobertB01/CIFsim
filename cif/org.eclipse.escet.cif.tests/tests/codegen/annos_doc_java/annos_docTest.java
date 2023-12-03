@@ -26,6 +26,7 @@ public class annos_docTest extends annos_doc {
         i2_ = false;
         i3_ = false;
         i4_ = false;
+        i5_ = false;
     }
 
     @Override

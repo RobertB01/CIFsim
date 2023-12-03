@@ -65,6 +65,15 @@ BoolType i3_;
  */
 BoolType i4_;
 
+/**
+ * Input variable "bool i5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+BoolType i5_;
+
 /* State variables. */
 
 
