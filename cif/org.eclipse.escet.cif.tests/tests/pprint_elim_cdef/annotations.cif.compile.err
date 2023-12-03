@@ -11,4 +11,4 @@ WARNING: File "pprint_elim_cdef/annotations.cif": Semantic warning at line 35, c
 WARNING: File "pprint_elim_cdef/annotations.cif": Semantic warning at line 36, column 1: Unknown annotation name "j": no annotation provider is registered for it in the current environment.
 WARNING: File "pprint_elim_cdef/annotations.cif": Semantic warning at line 37, column 1: Unknown annotation name "k": no annotation provider is registered for it in the current environment.
 WARNING: File "pprint_elim_cdef/annotations.cif": Semantic warning at line 40, column 1: Unknown annotation name "abc:def": no annotation provider is registered for it in the current environment.
-WARNING: File "pprint_elim_cdef/annotations.cif": Semantic warning at line 65, column 3: Unknown annotation name "a": no annotation provider is registered for it in the current environment.
+WARNING: File "pprint_elim_cdef/annotations.cif": Semantic warning at line 73, column 3: Unknown annotation name "a": no annotation provider is registered for it in the current environment.
