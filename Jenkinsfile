@@ -54,7 +54,10 @@ pipeline {
                 withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
                     sh '''
                         # Only sign certain branches. See similar condition below for details.
-                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        if [[ "$GIT_BRANCH" == "master" ||
+                              "$GIT_BRANCH" == "develop" ||
+                              "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]
+                        then
                             gpg --batch --import "${KEYRING}"
                             for fpr in $(gpg --list-keys --with-colons | awk -F: \'/fpr:/ {print $10}\' | sort -u); do
                               echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust;
@@ -89,28 +92,39 @@ pipeline {
 
                         # Configure 'sign' profile for build.
                         # Sign 'master' branch, to allow checking release signing before deployment.
+                        # Sign 'develop' branch, to deploy signed nightly releases.
                         # Sign releases. Determined based on release version tag name.
                         # This condition must match a similar condition above.
-                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        if [[ "$GIT_BRANCH" == "master" ||
+                              "$GIT_BRANCH" == "develop" ||
+                              "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]
+                        then
                             BUILD_ARGS="$BUILD_ARGS -Psign"
                             BUILD_ARGS="$BUILD_ARGS -Dgpg.passphrase=${KEYRING_PASSPHRASE}"
                         fi
 
                         # Override the 'escet.version.enduser' property for releases. Remains 'dev' otherwise.
-                        if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        if [[ "$GIT_BRANCH" == "develop" ]]; then
+                            BUILD_ARGS="$BUILD_ARGS -Descet.version.enduser=nightly-$GIT_DATE"
+                        elif [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             BUILD_ARGS="$BUILD_ARGS -Descet.version.enduser=$TAG_NAME"
                         fi
 
-                        # Override the 'escet.website.version' property for releases. Remains '' otherwise.
-                        if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
-                            BUILD_ARGS="$BUILD_ARGS -Descet.website.version=$TAG_NAME"
+                        # Override the 'escet.deploy.folder.name' property for releases. Remains '' otherwise.
+                        if [[ "$GIT_BRANCH" == "develop" ]]; then
+                            BUILD_ARGS="$BUILD_ARGS -Descet.deploy.folder.name=nightly"
+                        elif [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                            BUILD_ARGS="$BUILD_ARGS -Descet.deploy.folder.name=$TAG_NAME"
                         fi
 
                         # Override the 'escet.version.qualifier' property for Jenkins builds.
                         # It starts with 'v' and the Git date, followed by a qualifier postfix.
-                        # For releases, the qualifier postfix is the postfix of the version tag (if any).
-                        # For non-releases, the qualifier postfix is 'dev'.
-                        if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        # For most releases, the qualifier postfix is the postfix of the version tag (if any).
+                        # For nightly releases, the qualifier postfix is '-nightly'.
+                        # For non-releases, the qualifier postfix is '-dev'.
+                        if [[ "$GIT_BRANCH" == "develop" ]]; then
+                            QUALIFIER_POSTFIX=-nightly
+                        elif [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             QUALIFIER_POSTFIX=$(echo "$TAG_NAME" | sed -e 's/^[^-]*//g')
                         else
                             QUALIFIER_POSTFIX=-dev
@@ -144,13 +158,16 @@ pipeline {
 
         stage('Deploy') {
             when {
-                tag pattern: "v\\d+\\.\\d+.*", comparator: "REGEXP"
+                anyOf {
+                    branch 'develop';
+                    tag pattern: "v\\d+\\.\\d+.*", comparator: "REGEXP"
+                }
             }
             environment {
                 DOWNLOADS_PATH = "/home/data/httpd/download.eclipse.org/escet"
                 DOWNLOADS_URL = "genie.escet@projects-storage.eclipse.org:${DOWNLOADS_PATH}"
                 WEBSITE_GIT_URL = "git@gitlab.eclipse.org:eclipse/escet/escet-website.git"
-                RELEASE_VERSION = "${TAG_NAME}"
+                RELEASE_VERSION = "${env.BRANCH_NAME == 'develop' ? 'nightly' : env.TAG_NAME}"
             }
             steps {
                 // Deploy downloads.
@@ -197,7 +214,7 @@ pipeline {
                             git config user.name "genie.escet"
                             git config push.default simple # Required to silence Git push warning.
                             git add -A
-                            git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}"
+                            git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}."
                             git push
                         '''
                     }
