@@ -78,6 +78,9 @@ public class ControllerCheckDeterminismChecker {
 
         // Verify determinism for each location.
         verifyDeterminism(spec, builder);
+        if (env.isTerminationRequested()) {
+            return;
+        }
 
         // If we have any problems, the specification is unsupported.
         Collections.sort(problems, Strings.SORTER);

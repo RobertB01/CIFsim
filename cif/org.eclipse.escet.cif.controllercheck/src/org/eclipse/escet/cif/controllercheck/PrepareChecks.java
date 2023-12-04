@@ -272,6 +272,10 @@ public class PrepareChecks {
         Node guard = Tree.ONE;
         for (Expression grd: edge.getGuards()) {
             Node node = builder.getExpressionConvertor().convert(grd).get(1);
+            if (env.isTerminationRequested()) {
+                return guard;
+            }
+
             guard = builder.tree.conjunct(guard, node);
             if (env.isTerminationRequested()) {
                 return guard;

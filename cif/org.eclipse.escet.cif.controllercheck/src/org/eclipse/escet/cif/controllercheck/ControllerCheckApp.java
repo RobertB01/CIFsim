@@ -186,11 +186,13 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             warn("The specification contains no used controllable events.");
         }
 
+        // Common initialization for the checks.
+        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
+        int checksPerformed = 0;
+
         // Check finite response.
         CheckConclusion finiteResponseConclusion = null;
         boolean finiteResponseHolds;
-        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
-        int checksPerformed = 0;
         if (checkFiniteResponse) {
             // Check the finite response property.
             if (dbgEnabled || checksPerformed > 0) {
