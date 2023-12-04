@@ -34,7 +34,6 @@ import org.eclipse.escet.cif.codegen.IfElseGenerator;
 import org.eclipse.escet.cif.codegen.TypeCodeGen;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
-import org.eclipse.escet.cif.codegen.java.JavaDataValue;
 import org.eclipse.escet.cif.codegen.options.TargetLanguage;
 import org.eclipse.escet.cif.codegen.typeinfos.ArrayTypeInfo;
 import org.eclipse.escet.cif.codegen.typeinfos.RangeCheckErrorLevelText;
