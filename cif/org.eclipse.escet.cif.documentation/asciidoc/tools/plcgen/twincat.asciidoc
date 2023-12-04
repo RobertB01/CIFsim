@@ -136,6 +136,7 @@ This task can be given any name, and this name can be configured using the _PLC 
 By default, TwinCAT Default PLC projects have a task named `PlcTask`.
 This name is the default for the _PLC task name_ option as well.
 The cycle time and priority of the task are automatically updated by the PLC code generator, depending on the values provided for the options of the generator.
+TwinCAT code generation does not support disabling periodic task scheduling.
 The code generator also ensures that the `MAIN` program is instantiated/scheduled on the task.
 
 All `POU` (functions, programs, etc), `DUT` (data types), and `GVL` (global variable lists) code files that are present in the TwinCAT Default PLC project are removed, from both the project and from disk, by the PLC code generator.

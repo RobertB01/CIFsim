@@ -34,7 +34,6 @@ The following option restrictions apply:
 
 * The _Convert enumerations_ option must be set to _Convert enumerations to integers_ or _Convert enumerations to constants_.
 
-
 The type of integer and real data types to use depends on the _PLC integer type size_ and _PLC real type size_ options.
 If _Automatic_ is selected, the following data types are used:
 
