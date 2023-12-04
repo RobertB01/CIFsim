@@ -97,9 +97,9 @@ This will be extended to other elements of specifications in the future.
 The following general constraints apply to all annotations:
 
 * Annotations are optional.
-An element of the specification may have multiple annotations.
-If an element has multiple annotations, the annotations can be put in any order.
-* Each annotation of an element must have a different annotation name.
+* An element of the specification may have multiple annotations.
+* If an element has multiple annotations, different annotations can be put in any order.
+* In case a single element is annotated with the same annotation multiple times, then the order of these annotations may be relevant, although this could differ per annotation.
 * Each argument of an annotation must have a different name.
 
 Each annotation must be registered.
@@ -118,7 +118,7 @@ Each annotation provider may impose additional constraints on the annotation it 
 
 * An annotation and its arguments must satisfy any additional constraints imposed by the corresponding annotation provider.
 +
-An annotation provider could for instance limit the elements that may be annotated with the annotation, or require all elements of a certain type to be annotated if at least one of them is annotated.
+An annotation provider could for instance limit the elements that may be annotated with the annotation, require all elements of a certain type to be annotated if at least one of them is annotated, or only allow a single such annotation on each annotated element.
 It could also constrain certain arguments, or combinations of arguments, to be mandatory or optional.
 Furthermore, it could require arguments to have values of a certain type, to be statically evaluable, and so on.
 Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.

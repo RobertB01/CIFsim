@@ -804,21 +804,23 @@ public class SimulinkCodeGen extends CodeGen {
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetVariableName);
-            String doc = DocAnnotationProvider.getDoc(var);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
 
             if (!first) {
                 varDefCode.add();
             }
             first = false;
 
-            if (doc == null) {
+            if (docs.isEmpty()) {
                 varDefCode.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
             } else {
                 varDefCode.add("/**");
                 varDefCode.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
-                varDefCode.add(" *");
-                for (String line: doc.split("\\r?\\n")) {
-                    varDefCode.add(" * %s", line);
+                for (String doc: docs) {
+                    varDefCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        varDefCode.add(" * %s", line);
+                    }
                 }
                 varDefCode.add(" */");
             }

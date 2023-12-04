@@ -67,22 +67,10 @@ public class CifAnnotationsTypeChecker {
     public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, Supplier<String> descriptionSupplier,
             SymbolScope<?> scope, CifTypeChecker tchecker)
     {
-        // First type check each of the annotations separately.
+        // Type check each of the annotations separately.
         List<Annotation> mmAnnos = listc(astAnnos.size());
         for (AAnnotation astAnno: astAnnos) {
             mmAnnos.add(transAnnotation(astAnno, scope, tchecker));
-        }
-
-        // Ensure all the annotations for the annotated object are unique, based on their names.
-        Map<String, Annotation> nameToAnno = mapc(mmAnnos.size());
-        for (Annotation mmAnno: mmAnnos) {
-            Annotation prev = nameToAnno.put(mmAnno.getName(), mmAnno);
-            if (prev != null) {
-                String description = descriptionSupplier.get();
-                tchecker.addProblem(ErrMsg.OBJ_DUPL_ANNO, prev.getPosition(), mmAnno.getName(), description);
-                tchecker.addProblem(ErrMsg.OBJ_DUPL_ANNO, mmAnno.getPosition(), mmAnno.getName(), description);
-                // Non-fatal error.
-            }
         }
 
         // Return the annotation metamodel objects.

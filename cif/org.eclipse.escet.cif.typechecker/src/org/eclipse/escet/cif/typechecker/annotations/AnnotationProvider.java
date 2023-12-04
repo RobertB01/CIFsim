@@ -30,8 +30,8 @@ import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
  * </p>
  *
  * <p>
- * The type checker will ensure that each annotated object is free of duplicate annotations. The type checker also
- * ensures that each annotation has unique arguments. Providers may thus assume these constraints to hold.
+ * The type checker will ensure that each annotation has unique arguments. Providers may thus assume this constraint
+ * holds.
  * </p>
  *
  * <p>

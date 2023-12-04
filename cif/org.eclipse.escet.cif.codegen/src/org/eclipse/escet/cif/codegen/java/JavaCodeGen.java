@@ -296,22 +296,24 @@ public class JavaCodeGen extends CodeGen {
         for (InputVariable var: inputVars) {
             String name = getTargetName(var);
             String typeCode = typeToJava(var.getType(), ctxt);
-            String doc = DocAnnotationProvider.getDoc(var);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
 
             code.add();
-            if (doc == null) {
+            if (docs.isEmpty()) {
                 code.add("/** Input variable \"%s\". */", origName);
             } else {
                 code.add("/**");
                 code.add(" * Input variable \"%s\".", origName);
-                code.add(" *");
-                code.add(" * <p>");
-                for (String line: doc.split("\\r?\\n")) {
-                    code.add(" * %s", line);
+                for (String doc: docs) {
+                    code.add(" *");
+                    code.add(" * <p>");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" * </p>");
                 }
-                code.add(" * </p>");
                 code.add(" */");
             }
             code.add("public %s %s;", typeCode, name);

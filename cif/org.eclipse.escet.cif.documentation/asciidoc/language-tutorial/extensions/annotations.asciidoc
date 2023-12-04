@@ -69,6 +69,7 @@ Documentation can be added to input variables and locations of automata:
 [source, cif]
 ----
 @doc($text = "The lower limit sensor of the elevator.")
+@doc($text = "Safety sensor.")
 input bool ElevatorDownSensor;
 ----
 
@@ -104,6 +105,10 @@ For instance, if the the <<tools-codegen-chapter-index,CIF code generator>> is u
  *
  * <p>
  * The lower limit sensor of the elevator.
+ * </p>
+ *
+ * <p>
+ * Safety sensor.
  * </p>
  */
 public boolean ElevatorDownSensor;
