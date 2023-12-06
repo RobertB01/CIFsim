@@ -327,11 +327,11 @@ public class PartialSpecManager {
     }
 
     /**
-     * Perform a deepclone on the collection original objects and return a list with the copied objects.
+     * Perform a deepclone on the collection of original objects and return a list with the copied objects.
      *
      * @param <T> Type of the original and the copied objects.
      * @param origObjects Collection of objects to copy.
-     * @return The created list copied objects.
+     * @return The created list of copied objects.
      */
     public <T extends EObject> List<T> deepcloneAndAdd(Collection<T> origObjects) {
         if (origObjects.isEmpty()) {

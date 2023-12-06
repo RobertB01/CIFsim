@@ -74,7 +74,7 @@ public class PartialSpecsBuilder {
 
         // First stage copies the core needed objects. First add the automata, then the other objects. Almost certainly
         // the result will still link to objects from the original specification. Such objects are known as dangling
-        // objects and get resolved after he first stage.
+        // objects and get resolved after the first stage.
 
         // Copy the automata to avoid getting them added as Group by the manager.
         for (PositionObject element: neededObjects) {
