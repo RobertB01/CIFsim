@@ -288,7 +288,7 @@ public class PartialSpecManager {
     }
 
     /**
-     * State that an original object has been copied to a partial object.
+     * Store that the given original object has been copied to the given partial object.
      *
      * @param originalObj The original object.
      * @param partialObj The (copied) partial object.
