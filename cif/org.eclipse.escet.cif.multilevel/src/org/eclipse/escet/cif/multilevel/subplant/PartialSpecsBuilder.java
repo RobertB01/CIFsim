@@ -88,9 +88,9 @@ public class PartialSpecsBuilder {
             if (object instanceof Automaton aut) {
                 continue;
             } else if (object instanceof Invariant inv) {
-                partialMgr.attachAddedToComponent(inv, partialMgr.deepcloneAndAdd(inv));
+                partialMgr.directlyAttachAddedToComponent(inv, partialMgr.deepcloneAndAdd(inv));
             } else if (object instanceof InputVariable inp) {
-                partialMgr.attachAddedToComponent(inp, partialMgr.deepcloneAndAdd(inp));
+                partialMgr.directlyAttachAddedToComponent(inp, partialMgr.deepcloneAndAdd(inp));
             } else {
                 throw new AssertionError("Encountered unexpected needed object to copy: \"" + object + "\".");
             }
@@ -187,7 +187,7 @@ public class PartialSpecsBuilder {
                 || dangling instanceof TypeDecl)
         {
             EObject clonedObj = partialMgr.deepcloneAndAdd(dangling);
-            partialMgr.attachAddedToComponent(dangling, clonedObj);
+            partialMgr.directlyAttachAddedToComponent(dangling, clonedObj);
             return clonedObj;
         }
 
@@ -199,7 +199,7 @@ public class PartialSpecsBuilder {
         if (dangling instanceof EnumLiteral) {
             EObject enumDecl = dangling.eContainer();
             EObject copiedDeclObj = partialMgr.deepcloneAndAdd(enumDecl);
-            partialMgr.attachAddedToComponent(enumDecl, copiedDeclObj);
+            partialMgr.directlyAttachAddedToComponent(enumDecl, copiedDeclObj);
 
             copiedDeclObj = partialMgr.getCopiedPartialObject(dangling);
             Assert.notNull(copiedDeclObj);
@@ -212,7 +212,7 @@ public class PartialSpecsBuilder {
             // 'newBoolType' object above is not registered in the copy administration but it has nothing that can be
             // referenced.
             partialMgr.addCopiedObject(loc, inputVar);
-            partialMgr.attachAddedToComponent(dangling, inputVar);
+            partialMgr.directlyAttachAddedToComponent(dangling, inputVar);
             return inputVar;
         }
 
@@ -221,13 +221,13 @@ public class PartialSpecsBuilder {
         if (dangling instanceof DiscVariable dv) {
             if (dv.eContainer() instanceof Automaton) {
                 EObject clonedObj = partialMgr.deepcloneAndAdd(dv);
-                partialMgr.attachAddedToComponent(dangling, clonedObj);
+                partialMgr.directlyAttachAddedToComponent(dangling, clonedObj);
                 return clonedObj;
             } else {
                 CifType clonedType = partialMgr.deepcloneAndAdd(dv.getType());
                 EObject inputVar = newInputVariable(null, dv.getName(), null, clonedType);
                 partialMgr.addCopiedObject(dangling, inputVar);
-                partialMgr.attachAddedToComponent(dangling, inputVar);
+                partialMgr.directlyAttachAddedToComponent(dangling, inputVar);
                 return inputVar;
             }
         }

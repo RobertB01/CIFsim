@@ -130,7 +130,7 @@ public class PartialSpecManager {
         Automaton partialAut = newAutomaton(alphabet, null, null, initials, null, null, origAut.getKind(), null,
                 markeds, monitors, origAut.getName(), null);
         addCopiedObject(origAut, partialAut);
-        attachAddedToComponent(origAut, partialAut);
+        directlyAttachAddedToComponent(origAut, partialAut);
 
         // Create partial locations.
         for (Location origLoc: origAut.getLocations()) {
@@ -140,7 +140,7 @@ public class PartialSpecManager {
             Location partialLoc = newLocation(null, edges, null, initials, null, markeds, origLoc.getName(), null,
                     origLoc.isUrgent());
             addCopiedObject(origLoc, partialLoc);
-            attachAddedToComponent(origLoc, partialLoc);
+            directlyAttachAddedToComponent(origLoc, partialLoc);
         }
     }
 
@@ -153,11 +153,11 @@ public class PartialSpecManager {
      * The given object pair must already have been added to {@link #copiedObjects}.
      * </p>
      *
-     * @param origObj Original object.
+     * @param origObj Original object, must have a containing {@link ComplexComponent} parent object.
      * @param partialObj Created partial object to add to the parent partial complex component. The partial object may
      *     have a different type than the original object.
      */
-    public void attachAddedToComponent(EObject origObj, EObject partialObj) {
+    public void directlyAttachAddedToComponent(EObject origObj, EObject partialObj) {
         // Original object should exist in the copy map, and point at the partial object as its relation.
         Assert.check(copiedObjects.containsKey(origObj));
         Assert.check(copiedObjects.get(origObj) == partialObj);
