@@ -60,15 +60,17 @@ As different PLC systems have different expectations and limitations in what the
 This is configured with the _PLC target type_ option:
 
 * _PLC target type_: The PLC code <<tools-plcgen-target-type,target type>> specifies the form of the desired output for the PLC model that eventually will run the generated code.
-Default value is `PLCopen XML`.
+Default value is _PLCopen XML_.
 
 Other important settings are the _Input file_ path for the CIF specification, the _I/O table file_ path to the file that contains the connections to the external sensors and actuators, and the _Output file_ for writing the generated PLC code:
 
 * _Input file_: The absolute or relative local file system path to the input CIF specification.
 
 * _I/O table path_: The absolute or relative file system path to the I/O table path file that contains the I/O connections.
-For more information, consult the <<tools-plcgen-io-table-file, I/O table>> Section.
-Default path is derived from the CIF _Input file_ option value by replacing the `.cif` extension of the path if it exists, and adding the `.csv` extension.
+For more information, consult the <<tools-plcgen-io-table-file, I/O table>> section.
+Default path is derived from the CIF _Input file_ option value.
+The `.cif` file extension is removed if it exists.
+Then, a `.csv` file extension is appended.
 +
 If the file path does not exist, code generation will continue with a warning that the generated code will not perform I/O with its environment.
 
@@ -180,6 +182,8 @@ To enlarge the accepted set of CIF files, the following transformations are firs
 
 After pre-processing, a check is performed whether the CIF file meets all the requirements of the CIF PLC code generator.
 
+For components, the following conditions must be met:
+
 * No initialization predicates in components.
 
 For automata and invariants, the following conditions must be met:
@@ -188,10 +192,9 @@ For automata and invariants, the following conditions must be met:
 * All automata must have a single initial location that can be statically decided.
 * Discrete variables must have a single initial value.
 * No state invariants that restrict behavior.
-* No `tau` events, this includes edges without an event.
+* No `tau` events. This includes edges without an event.
 * No equations.
 * No urgent locations and edges.
-* No multiple assignments to (parts of) the same variable, for example no `x[0], x[1] = 2, 3;`.
 
 For user-defined functions, the following conditions must be met:
 
@@ -199,31 +202,28 @@ For user-defined functions, the following conditions must be met:
 //* No `continue` statement in internal user-defined functions.
 * No external user-defined functions.
 //* No parameter-less functions.
-* No multiple assignments to (parts of) the same variable, for example no `x[0], x[1] = 2, 3;`.
 
 For continuous variables the following conditions must be met:
 
-* Restricted continuous variables, see the <<tools-plcgen-continuous-behavior,continuous behavior>> Section for details.
+* Restricted continuous variables, see the <<tools-plcgen-continuous-behavior,continuous behavior>> section for details.
 
 For expressions and data types, the following conditions must be met:
 
-* No sets, dictionaries, strings, stochastic distributions, or function types.
-* No operations that produce values of the forbidden types: casting from or to a string, dictionary literal values, projection operators on dictionaries, non-array lists or strings, set literals, string literals, and list or array slicing.
-* No addition, addition, subtraction, or comparisons between lists or arrays.
-* No comparisons between tuples.
+* No sets, dictionaries, strings, and stochastic distributions.
+* Only arrays, so no non-array lists.
+* No arrays for the S7 targets.
+* For arrays: no `+`, `-`, `=`, `!=`, `empty`, `delete`, `in`, `pop`, `size`, and slicing.
+* For tuples: no `=` and `!=`.
+* Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
 * No use of variable `time`.
-* No non-array lists.
-* Array lists only when the target supports them.
 
 ==== Normalize
 
 Finally, to simplify the task of the CIF PLC code generator, some parts of the specification are transformed to a simpler form:
 
-* A new discrete variable is introduced to track the current location of an automaton.
+* For each automaton with two or more locations, a new discrete variable is introduced to track its current location.
 Its name is derived from the name of the automaton.
-Location names are converted to enumeration values, allowing for useful named values to be assigned to the new location variable.
-* If the PLC does not support enumerations, they are converted to constants.
-* If the PLC does not support constants, they are converted to numeric values.
+Location names are converted to enumeration literals, allowing for useful named values to be assigned to the new variable.
 
 [[tools-plcgen-target-type]]
 === Target types
@@ -234,9 +234,9 @@ Code can be generated for the following targets:
 * _PLCopen XML_.
 * _IEC 61131-3_.
 * _Simatic_, S7-300, S7-400, S7-1200, or S7-1500.
-See the <<tools-plcgen-chapter-s7,S7 PLC output>> Section for details how to transfer generated code to the PLC system.
+See the <<tools-plcgen-chapter-s7,S7 PLC output>> section for details how to transfer generated code to the PLC system.
 * _TwinCAT_.
-See the <<tools-plcgen-chapter-twincat,TwinCAT PLC outut>> Section for details how to transfer generated code to the PLC system.
+See the <<tools-plcgen-chapter-twincat,TwinCAT PLC outut>> section for details how to transfer generated code to the PLC system.
 
 indexterm:[PLC code generator,I/O table]
 indexterm:[PLC code generator,inputs]
@@ -339,8 +339,20 @@ indexterm:[PLC code generator,generated code]
 [[tools-plcgen-resulting-plc-code]]
 === Resulting PLC code
 
-The PLC code generator generates a project with one main program.
-In the body of that program, the entire PLC cycle is performed.
+In general, the program attempts to preserve as much of the original CIF specification as possible.
+For example, names of elements in CIF are also used to the converted equivalents in the generated PLC program.
+
+Some parts are not supported by any PLC system.
+For example, multiple automata and synchronizing on events or channels is unknown in a PLC system.
+For these cases the generator produces significantly different code, compared with the CIF specification.
+For taking an event transition, all edges are grouped by event instead of grouping by automaton.
+
+Other parts are supported only by some of the supported PLC systems.
+For example, enumerations and constants are not always supported.
+For these cases, the generator tries to generate the form that fits best within the abilities of the PLC system.
+Enumerations may be preserved, or get converted to constants or plain numbers, depending on what the targeted PLC system supports.
+
+From a bird's-eye view, the program generates one main program that performs the entire PLC cycle.
 It consists of the following steps:
 
 * Read values from the external sensors.
@@ -350,5 +362,6 @@ For every next cycle, update the continuous variables for the passed time.
 ** Each event is tried in turn.
 ** If an event is found to be enabled, perform the event transition, and update the state of the controller.
 ** After checking all events, if at least one transition was thus performed, all events must be tested again.
-The performed transition(s) may have change the state, enabling other events.
+The performed transition(s) may have changed the state, enabling other events.
+Such events must be performed as well in the same cycle, since in CIF, time cannot progress if an edge is enabled.
 * If no enabled events exist any more, write values to the external actuators.
