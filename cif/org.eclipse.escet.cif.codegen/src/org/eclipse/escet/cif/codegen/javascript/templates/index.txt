@@ -116,6 +116,10 @@
 
             /** ${prefix} code generated from a CIF specification. */
             class ${prefix}_class {
+                ${prefix}Enum = Object.freeze({
+${javascript-enum-lits-code}
+                })
+
                 /** Should execution timing information be provided? */
                 doInfoExec = true;
 
@@ -134,14 +138,15 @@ ${javascript-event-name-code}
                 ];
 ${javascript-const-decls}
 
-                /** Variable 'time'. */
+                /** Variables used for time/frequency. */
                 time;
+                frequency = 20;
+                first;
+                cycleMilli;
+                startMilli;
+                targetMilli;
 ${javascript-state-decls}
 ${javascript-state-input}
-
-                ${prefix}Enum = Object.freeze({
-${javascript-enum-lits-code}
-                })
 
                 /** Constructor for the {@link ${prefix}} class. */
                 constructor() {
@@ -218,42 +223,53 @@ ${javascript-event-calls-code}
                 /**
                  * Repeatedly {@link #execOnce executes the code}.
                  *
-                 * @param frequency The frequency in times per second, that the code should
-                 *      be executed (if positive), or execute as fast as possible, that is
-                 *      as many times per second as possible (if negative or zero).
                  * @throws ${prefix}Exception In case of a runtime error caused by code
                  *      generated from the CIF model.
                  */
-                exec(frequency) {
-                    // Initialize.
-                    var first = true;
-                    var cycleMilli = (frequency <= 0) ? -1 : 1000 * 1000 * 1000 / frequency;
-                    var startMilli = Date.now();
-                    var targetMilli = startMilli;
-
+                exec() {
                     // Execute repeatedly.
-                    while (true) {
-                        // Pre execution timing.
-                        var preMilli = first ? startMilli : Date.now();
-                        first = false;
-                        var timeMilli = preMilli - startMilli;
-                        var time = timeMilli / 1e9;
+                    this.execWhile(1);
+                }
 
-                        // Execute once.
-                        this.execOnce(this.time);
+                execWhile(delay) {
+                    setTimeout(
+                        function () {
+                            var now = Date.now();
+                            var frequency = SupervisorSimulatie.frequency;
 
-                        // Post execution timing.
-                        var postMilli = Date.now();
-                        var duration = postMilli - preMilli;
-                        if (this.doInfoExec) {
-                            this.infoExec(duration, cycleMilli);
-                        }
-                    }
+                            // Pre execution timing.
+                            var cycleMilli = (frequency <= 0) ? -1 : 1000 / frequency;
+                            var preMilli = ${prefix}.first ? ${prefix}.startMilli : now;
+                            ${prefix}.first = false;
+                            var timeMilli = preMilli - ${prefix}.startMilli;
+
+                            // Execute once.
+                            ${prefix}.execOnce(timeMilli / 1e3);
+
+                            // Post execution timing.
+                            var postMilli = now;
+                            var duration = postMilli - preMilli;
+                            if (${prefix}.doInfoExec) {
+                                ${prefix}.infoExec(duration, cycleMilli);
+                            }
+
+                            // Ensure frequency.
+                            if (frequency > 0) {
+                                ${prefix}.targetMilli += cycleMilli;
+                                var remainderMilli = ${prefix}.targetMilli - postMilli;
+                                ${prefix}.execWhile(remainderMilli > 0 ? remainderMilli : 0);
+                            }
+                        },
+                    delay);
                 }
 ${javascript-event-methods-code}
 
                 /** Initializes the state. */
                 initState() {
+                    // Initialize.
+                    this.first = true;
+                    this.startMilli = Date.now();
+                    this.targetMilli = this.startMilli;
 ${javascript-state-init}
                 }
 

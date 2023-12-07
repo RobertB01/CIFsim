@@ -66,7 +66,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.JavaScriptCodeUtils;
 import org.eclipse.escet.common.java.Strings;
 
 /** JavaScript code generator. */
@@ -110,11 +109,6 @@ public class JavaScriptCodeGen extends CodeGen {
     }
 
     @Override
-    protected void postGenerate() {
-        // Empty method stub.
-    }
-
-    @Override
     protected void addConstants(CodeContext ctxt) {
         CodeBox code = makeCodeBox(4);
 
@@ -144,7 +138,7 @@ public class JavaScriptCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
             String name = origDeclNames.get(event);
-            String line = i == events.size() - 1 ? "%s" : "%s,";
+            String line = (i == events.size() - 1) ? "%s" : "%s,";
             code.add(line, Strings.stringToJava(name));
         }
 
@@ -225,9 +219,7 @@ public class JavaScriptCodeGen extends CodeGen {
             Assert.notNull(deriv);
             ExprCode derivCode = ctxt.exprToTarget(deriv, null);
             code.add(derivCode.getCode());
-            // Class/outer vars and enums need a this., function/local vars and values don't.
-            String value = derivCode.getData();
-            code.add("return %s;", value);
+            code.add("return %s;", derivCode.getData());
             code.dedent();
             code.add("}");
         }
@@ -319,13 +311,12 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEnum(EnumDecl enumDecl, CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(5);
 
         List<EnumLiteral> lits = enumDecl.getLiterals();
-        code.indent();
         for (int i = 0; i < lits.size(); i++) {
             String name = lits.get(i).getName();
-            String line = fmt("_%s: Symbol(\"_%s\")", name, name);
+            String line = fmt("_%s: Symbol(\"%s\")", name, name);
             line += (i == lits.size() - 1) ? "" : ",";
             code.add(line);
         }
@@ -482,7 +473,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
             codeMethods.add(" *");
-            codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
+            codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
             codeMethods.add(" */");
             codeMethods.add("execEvent%d() {", i);
             codeMethods.indent();
@@ -499,8 +490,7 @@ public class JavaScriptCodeGen extends CodeGen {
             if (guard != null) {
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());
-                String data = guardCode.getData();
-                codeMethods.add("var guard = %s;", data);
+                codeMethods.add("var guard = %s;", guardCode.getData());
                 codeMethods.add("if (!guard) return false;");
                 codeMethods.add();
             }
@@ -677,6 +667,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 LhsTupleProjection tupleLhs = (LhsTupleProjection)lhsProj;
 
                 modify = readCtxt.makeCodeBox();
+                modify.add("%s = %s.copy();", containerInfo.targetName, containerInfo.targetName);
                 modify.add(tupleTi.modifyContainer(containerInfo, partCode, tupleLhs.fieldNumber, readCtxt));
             } else {
                 Assert.check(containerInfo.typeInfo instanceof ArrayTypeInfo);

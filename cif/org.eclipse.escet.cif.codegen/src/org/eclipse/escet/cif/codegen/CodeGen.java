@@ -80,10 +80,10 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
-import org.eclipse.escet.cif.metamodel.cif.declarations.impl.EnumDeclImpl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
+import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
@@ -778,7 +778,16 @@ public abstract class CodeGen {
         // enumeration. If we only have automata with exactly one location
         // it might be that there is no enum declaration. Otherwise, there
         // should be at most one enum declaration.
-        Assert.check(enumDecls.size() <= 1);
+
+        // Make sure we always have an enumeration.
+        EnumDecl enumDecl;
+        if (enumDecls.isEmpty()) {
+            enumDecl = CifConstructors.newEnumDecl(null,
+                    list(CifConstructors.newEnumLiteral("__some_dummy_enum_literal", null)),
+                    "__some_dummy_enum_name", null);
+        } else {
+            enumDecl = first(enumDecls);
+        }
 
         // Create code context.
         CodeContext ctxt = new CodeContext(this);
@@ -791,11 +800,7 @@ public abstract class CodeGen {
         addAlgVars(ctxt);
         addInputVars(ctxt);
         addFunctions(ctxt);
-        if (enumDecls.size() == 1) {
-            addEnum(first(enumDecls), ctxt);
-        } else {
-            addEnum(EnumDeclImpl.empty(), ctxt);
-        }
+        addEnum(enumDecl, ctxt);
 
         // Get code for the print declarations.
         List<IoDecl> ioDecls = list();

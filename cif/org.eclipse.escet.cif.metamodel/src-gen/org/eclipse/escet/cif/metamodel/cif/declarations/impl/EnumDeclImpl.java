@@ -65,11 +65,6 @@ public class EnumDeclImpl extends DeclarationImpl implements EnumDecl
         super();
     }
 
-    public static EnumDeclImpl empty()
-    {
-        return new EnumDeclImpl();
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

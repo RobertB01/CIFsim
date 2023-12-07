@@ -126,9 +126,9 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
         // Generate statements.
         addFuncStatements(func.getStatements(), code, ctxt);
 
-        // Generate 'throw' statement at the end of the body, to ensure we
-        // don't get compilation errors, due to JavaScript thinking that the method
-        // may not return a value for all code paths.
+        // Generate 'throw' statement at the end of the body, to ensure JavaScript
+        // doesn't return 'undefined'. While this should not happen for valid CIF
+        // specifications, this adds extra robustness.
         code.add("throw new Error(\"no return at end of func\");");
     }
 

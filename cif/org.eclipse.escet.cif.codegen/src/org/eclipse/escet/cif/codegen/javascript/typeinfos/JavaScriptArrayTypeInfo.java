@@ -91,13 +91,14 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
     @Override
     public ExprCode convertLiteral(ListExpression expr, Destination dest, CodeContext ctxt) {
-        // For non-empty lists, add the elements.
         ExprCode result = new ExprCode();
 
         StringBuilder listMaker = new StringBuilder();
         listMaker.append('[');
         for (Expression elm: expr.getElements()) {
-            listMaker.append(", ");
+            if (elm != expr.getElements().get(0)) {
+                listMaker.append(", ");
+            }
             ExprCode elmCode = ctxt.exprToTarget(elm, null);
             result.add(elmCode);
             listMaker.append(elmCode.getData());
@@ -192,7 +193,7 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
         String indexName = fmt("rng_index%d", level);
         String elemName = fmt("rng_elem%d", level);
-        code.add("for(var %s = 0; %s < %s.length; %s++) {", indexName, indexName, rhsValue.getData(), indexName);
+        code.add("for (var %s = 0; %s < %s.length; %s++) {", indexName, indexName, rhsValue.getData(), indexName);
         code.indent();
         code.add("var %s = %s[%s];", elemName, rhsValue.getData(), indexName);
 
