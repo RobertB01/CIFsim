@@ -244,6 +244,9 @@ public class FiniteResponseChecker {
             if (n == Tree.ZERO) {
                 return true;
             }
+            if (env.isTerminationRequested()) {
+                return false;
+            }
         }
         return false;
     }

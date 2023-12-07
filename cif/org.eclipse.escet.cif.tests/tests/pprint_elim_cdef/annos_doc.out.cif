@@ -1,5 +1,6 @@
 input bool i1;
-@doc($text = "single line doc")
+@doc($text = "single line doc1")
+@doc($text = "single line doc2")
 input bool i2;
 @doc($text = "doc with multiple\nlines " + "of\n text")
 input bool i3;

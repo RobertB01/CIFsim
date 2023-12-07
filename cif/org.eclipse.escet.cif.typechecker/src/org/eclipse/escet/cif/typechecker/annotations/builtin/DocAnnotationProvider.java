@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.typechecker.annotations.builtin;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -117,19 +119,14 @@ public class DocAnnotationProvider extends AnnotationProvider {
     }
 
     /**
-     * Returns the documentation text of an annotated object, if any.
+     * Returns the documentation texts of an annotated object.
      *
      * @param obj The annotated object. Must be a named object.
-     * @return The documentation text, or {@code null} if the object is not annotated with a documentation annotation.
-     * @throws InvalidModelException If the documentation text can not be evaluated.
+     * @return The documentation texts.
+     * @throws InvalidModelException If a documentation text can not be evaluated.
      */
-    public static String getDoc(AnnotatedObject obj) {
-        for (Annotation anno: obj.getAnnotations()) {
-            if (anno.getName().equals("doc")) {
-                return getDoc(anno);
-            }
-        }
-        return null;
+    public static List<String> getDocs(AnnotatedObject obj) {
+        return obj.getAnnotations().stream().filter(a -> a.getName().equals("doc")).map(a -> getDoc(a)).toList();
     }
 
     /**

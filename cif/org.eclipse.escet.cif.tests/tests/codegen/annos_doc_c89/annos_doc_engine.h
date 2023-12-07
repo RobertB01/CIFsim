@@ -54,6 +54,15 @@ extern BoolType i3_;
  */
 extern BoolType i4_;
 
+/**
+ * Input variable "bool i5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern BoolType i5_;
+
 extern void annos_doc_AssignInputVariables();
 
 /* Declaration of internal functions. */

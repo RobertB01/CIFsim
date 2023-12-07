@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-group g:
-  @cif:typechecker:tests:anno1(arg = true)
-  @cif:typechecker:tests:anno3
-  @cif:typechecker:tests:anno4
-  input bool i;
-  invariant i;
+automaton a:
+  alg bool x = true;
+  location loc1:
+    initial x;
+  location loc2:
+    initial not x;
 end

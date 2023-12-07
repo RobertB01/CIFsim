@@ -1,5 +1,6 @@
 automaton a1:
   @state(a = 1, b = 2)
+  @state(a = 2, b = 3)
   location:
     initial;
 end

@@ -53,6 +53,8 @@ import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
+import org.eclipse.escet.common.app.framework.output.OutputMode;
+import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 
 /** Application class for the controller properties check application. */
@@ -170,6 +172,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
 
         // Perform computations for both checkers.
+        OutputProvider.dbg("Preparing for the checks...");
         boolean computeGlobalGuardedUpdates = checkConfluence;
         PrepareChecks prepareChecks = new PrepareChecks(computeGlobalGuardedUpdates);
         if (!prepareChecks.compute(spec)) {
@@ -183,13 +186,21 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             warn("The specification contains no used controllable events.");
         }
 
+        // Common initialization for the checks.
+        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
+        int checksPerformed = 0;
+
         // Check finite response.
         CheckConclusion finiteResponseConclusion = null;
         boolean finiteResponseHolds;
         if (checkFiniteResponse) {
             // Check the finite response property.
+            if (dbgEnabled || checksPerformed > 0) {
+                OutputProvider.out();
+            }
             OutputProvider.out("Checking for finite response...");
             finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
+            checksPerformed++;
             if (finiteResponseConclusion == null || isTerminationRequested()) {
                 return 0;
             }
@@ -203,9 +214,12 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         boolean confluenceHolds;
         if (checkConfluence) {
             // Check the confluence property.
-            OutputProvider.out();
+            if (dbgEnabled || checksPerformed > 0) {
+                OutputProvider.out();
+            }
             OutputProvider.out("Checking for confluence...");
             confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
+            checksPerformed++;
             if (confluenceConclusion == null || isTerminationRequested()) {
                 return 0;
             }

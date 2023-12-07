@@ -22,6 +22,10 @@ input bool i3;
 @doc($text = fmt("%s", "some doc"))
 input bool i4;
 
+@doc($text = "First doc.")
+@doc($text = "Second doc.")
+input bool i5;
+
 automaton a:
   location:
     initial;

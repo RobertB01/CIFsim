@@ -223,6 +223,9 @@ public class ConfluenceChecker {
                     event1Enabled2.dumpGraphLines("independence-event1enabled2");
                     event12Done.dumpGraphLines("independence-event12done");
                 }
+                if (env.isTerminationRequested()) {
+                    return null;
+                }
 
                 // First event2 then event1.
                 Node event2Enabled1 = tree.conjunct(event2Done, globalGuard1);
@@ -257,6 +260,9 @@ public class ConfluenceChecker {
                         dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
                     }
                     continue;
+                }
+                if (env.isTerminationRequested()) {
+                    return null;
                 }
 
                 // Check skippable event1 (events 1, 2 versus event 2).
