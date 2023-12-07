@@ -184,7 +184,8 @@ After pre-processing, a check is performed whether the CIF file meets all the re
 
 For components, the following conditions must be met:
 
-* No initialization predicates in components.
+* No initialization predicates.
+* No equations.
 
 For automata and invariants, the following conditions must be met:
 
@@ -193,7 +194,6 @@ For automata and invariants, the following conditions must be met:
 * Discrete variables must have a single initial value.
 * No state invariants that restrict behavior.
 * No `tau` events. This includes edges without an event.
-* No equations.
 * No urgent locations and edges.
 
 For user-defined functions, the following conditions must be met:
@@ -217,6 +217,9 @@ For expressions and data types, the following conditions must be met:
 * Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
 * No use of variable `time`.
 
+Depending on the PLC target type, additional restrictions may apply.
+Please consult the next section for details.
+
 [[tools-plcgen-target-type]]
 === Target types
 
@@ -226,6 +229,9 @@ Code can be generated for the following targets:
 * _PLCopen XML_.
 * _IEC 61131-3_.
 * _Simatic_, S7-300, S7-400, S7-1200, or S7-1500.
+Currently, the program cannot generate code for arrays for these systems.
+Therefore, all forms of CIF lists are forbidden for these target type.
++
 See the <<tools-plcgen-chapter-s7,S7 PLC output>> section for details how to transfer generated code to the PLC system.
 * _TwinCAT_.
 See the <<tools-plcgen-chapter-twincat,TwinCAT PLC outut>> section for details how to transfer generated code to the PLC system.
