@@ -217,14 +217,6 @@ For expressions and data types, the following conditions must be met:
 * Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
 * No use of variable `time`.
 
-==== Normalize
-
-Finally, to simplify the task of the CIF PLC code generator, some parts of the specification are transformed to a simpler form:
-
-* For each automaton with two or more locations, a new discrete variable is introduced to track its current location.
-Its name is derived from the name of the automaton.
-Location names are converted to enumeration literals, allowing for useful named values to be assigned to the new variable.
-
 [[tools-plcgen-target-type]]
 === Target types
 
