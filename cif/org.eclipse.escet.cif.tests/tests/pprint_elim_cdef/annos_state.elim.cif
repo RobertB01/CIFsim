@@ -12,3 +12,8 @@ automaton a2:
   location loc2:
     initial;
 end
+automaton types:
+  @state(bool1 = true, int1 = 123, int2 = -123, int3 = -2147483647 - 1, int4 = 2147483647, real1 = 1.23, real2 = -1.23, str1 = "a\nb\tc\"d", tup1 = (true, 135), list1 = [1, 2, 3], list2 = <list[0] bool>[], list3 = <list[0] list[0] real>[], set1 = {1, 2}, set2 = <set bool>{}, set3 = <set set real>{}, dict1 = {1: 2, 3: 4}, dict2 = <dict(bool:int)>{}, dict3 = <dict(dict(int:real):dict(bool:real))>{}, combi = [(1, true), (2, false)])
+  location:
+    initial;
+end
