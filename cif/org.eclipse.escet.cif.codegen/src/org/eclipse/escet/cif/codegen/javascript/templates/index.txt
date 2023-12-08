@@ -86,6 +86,12 @@
         </style>
         <script src="${prefix}_utils.js"></script>
         <script type="text/javascript">
+            var ${prefix};
+
+            function onLoad() {
+                ${prefix} = new ${prefix}_class();
+            }
+
             function log(message) {
                 console.log(message);
                 var elem = document.getElementById("log-output");
@@ -376,7 +382,7 @@ ${javascript-print-code}
             }
         </script>
     </head>
-    <body>
+    <body onLoad="onLoad()">
         <div class="expanded" id="flex-container">
             <div id="content">
                 <div>
