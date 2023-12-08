@@ -64,6 +64,7 @@ import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -287,11 +288,26 @@ public class JavaScriptCodeGen extends CodeGen {
 
         for (InputVariable var: inputVars) {
             String name = getTargetName(var);
-
+            List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
+
             code.add();
-            code.add("/** Input variable \"%s\". */", origName);
+            if (docs.isEmpty()) {
+                code.add("/** Input variable \"%s\". */", origName);
+            } else {
+                code.add("/**");
+                code.add(" * Input variable \"%s\".", origName);
+                for (String doc: docs) {
+                    code.add(" *");
+                    code.add(" * <p>");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" * </p>");
+                }
+                code.add(" */");
+            }
             code.add("%s;", name);
         }
 

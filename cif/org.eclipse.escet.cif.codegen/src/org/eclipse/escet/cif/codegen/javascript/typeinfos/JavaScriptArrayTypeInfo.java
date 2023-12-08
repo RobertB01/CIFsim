@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
+import org.eclipse.escet.cif.codegen.java.JavaDataValue;
 import org.eclipse.escet.cif.codegen.javascript.JavaScriptDataValue;
 import org.eclipse.escet.cif.codegen.typeinfos.ArrayTypeInfo;
 import org.eclipse.escet.cif.codegen.typeinfos.RangeCheckErrorLevelText;
@@ -91,14 +92,28 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
 
     @Override
     public ExprCode convertLiteral(ListExpression expr, Destination dest, CodeContext ctxt) {
+        // Generate list construction code.
+        String emptyList = "[]";
+
+        // Special case for empty lists.
+        if (expr.getElements().size() == 0) {
+            ExprCode result = new ExprCode();
+            result.setDestination(dest);
+            result.setDataValue(new JavaDataValue(emptyList));
+            return result;
+        }
+
+        // For non-empty lists, add the elements.
         ExprCode result = new ExprCode();
 
         StringBuilder listMaker = new StringBuilder();
         listMaker.append('[');
+        boolean first = true;
         for (Expression elm: expr.getElements()) {
-            if (elm != expr.getElements().get(0)) {
+            if (!first) {
                 listMaker.append(", ");
             }
+            first = false;
             ExprCode elmCode = ctxt.exprToTarget(elm, null);
             result.add(elmCode);
             listMaker.append(elmCode.getData());

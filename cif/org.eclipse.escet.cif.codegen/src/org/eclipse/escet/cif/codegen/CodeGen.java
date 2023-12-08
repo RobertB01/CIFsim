@@ -778,6 +778,7 @@ public abstract class CodeGen {
         // enumeration. If we only have automata with exactly one location
         // it might be that there is no enum declaration. Otherwise, there
         // should be at most one enum declaration.
+        Assert.check(enumDecls.size() <= 1);
 
         // Make sure we always have an enumeration.
         EnumDecl enumDecl;

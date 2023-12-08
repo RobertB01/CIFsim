@@ -68,7 +68,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         CodeBox code = ctxt.makeCodeBox(3);
         code.add();
         code.add("/** Tuple class for CIF tuple type representative \"%s\". */", cifTypeText);
-        code.add("class %s {", className, className);
+        code.add("class %s {", className);
         code.indent();
 
         // Determine field names.
@@ -104,7 +104,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
 
         // Add 'copy' method, for use in tuple addressables of assignments.
         code.add();
-        code.add("copy() {", className);
+        code.add("copy() {");
         code.indent();
         code.add("return new %s(%s);", className, String.join(", ", names));
         code.dedent();
@@ -115,7 +115,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.add("equals(obj) {");
         code.indent();
         code.add("if (this == obj) return true;");
-        code.add("var other = obj;", className);
+        code.add("var other = obj;");
         for (int i = 0; i < names.length; i++) {
             code.add("%s %sUtils.equalObjs(this.%s, other.%s)%s", (i == 0) ? "return" : "      ", ctxt.getPrefix(),
                     names[i], names[i], (i == names.length - 1) ? ";" : " &&");
