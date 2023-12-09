@@ -16,8 +16,61 @@
 @state(a = 1)
 input bool i;
 
-automaton a:
+automaton state_anno_on_loc:
   @state(b = 1)
+  location:
+    initial;
+end
+
+// Argument values, or parts of argument values (in case of containers), must be of supported types.
+
+enum E = lit1, lit2;
+
+func int f():
+  return 5;
+end
+
+automaton unsupported_types:
+  // Enumerations.
+  @state(a = lit1, b = [lit1, lit2], c = {lit1}, d = {lit1: lit2}, e = (lit1, true, lit2))
+  location loc1:
+    initial;
+
+  // Functions.
+  @state(a = f, b = [f, f], d = {true: f}, e = (f, true, f))
+  location loc2:
+    initial;
+
+  // Components.
+  @state(a = unsupported_types)
+  location loc3:
+    initial;
+
+  // Distributions can't be used in annotation arguments, as they can only be used to initialize discrete variables.
+end
+
+// Argument values must be literals.
+
+type t = list tuple(int a; bool b);
+const t c = [(1, true), (2, false)];
+
+automaton arg_values_non_literals:
+  @state(
+    a = true or true,    // Non-literal booleans.
+    b = 1 + 2,           // Non-literal integers.
+    c = 1.0 + 2.0,       // Non-literal reals.
+    d = "1" + "2",       // Non-literal strings.
+    e = [(1, 2)][0],     // Non-literal tuple.
+    f = [1] + [2],       // Non-literal lists.
+    g = {1} or {2},      // Non-literal sets.
+    h = {1: 2} + {3: 4}, // Non-literal dictionaries.
+
+    i = i,               // Non-literal boolean (input variable reference).
+    j = sqrt(-1) > 0,    // Non-literal boolean (expression with an evaluation error).
+    k = --5,             // Non-literal integer (unary expressions).
+    l = fmt("%s", 123),  // Non-literal string ('fmt' function).
+    m = c,               // Non-literal list (constant with a type definition as its type).
+  )
   location:
     initial;
 end
