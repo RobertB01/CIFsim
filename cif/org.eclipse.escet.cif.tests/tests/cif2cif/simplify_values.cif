@@ -1081,10 +1081,10 @@ automaton init2:
   disc E               e1,  e2  = e1;                   // L1;
   disc real            r1,  r2  = r1;                   // 0.0
   disc string          g1,  g2  = g1;                   // ""
-  disc list int        l1,  l2  = l1;                   // <int>[]
-  disc set int         s1,  s2  = s1;                   // <int>{}
+  disc list int        l1,  l2  = l1;                   // <list int>[]
+  disc set int         s1,  s2  = s1;                   // <set int>{}
   disc func int ()     f1,  f2  = f1;                   // f1
-  disc dict(int:bool)  d1,  d2  = d1;                   // <int:bool>{}
+  disc dict(int:bool)  d1,  d2  = d1;                   // <dict(int:bool)>{}
   disc tuple(int a, b) t1,  t2  = t1;                   // (0, 0)
   disc dist bool       z1b, z2b = z1b;
   disc dist int        z1i, z2i = z1i;
