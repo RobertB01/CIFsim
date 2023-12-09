@@ -19,7 +19,7 @@ include::../_part_attributes.asciidoc[]
 WARNING: Annotations are currently an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner.
 
-State <<lang-ref-extensions-annotations,annotations>> can be used to add state information to CIF elements.
+A state <<lang-ref-extensions-annotations,annotation>> adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton that represents a state space of another model.
 For basic information on state annotations, see the <<lang-tut-extensions-chapter-annotations-state,language tutorial>>.
 Here we discuss further details.
 
@@ -27,4 +27,32 @@ State annotations (`@state`) can be added to the following elements in CIF speci
 
 * Locations of automata.
 
-The <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations, also apply to state annotations.
+The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
+
+* Each argument represents an automaton with its current location, or a variable with its current value.
+* There can be any number of arguments (including no arguments), as models may have any number of automata and variables.
+* The name of the argument should be the absolute name of the corresponding automaton or variable.
+* Argument values, or parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
+This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.
+
+Most values can thus be represented as literals.
+For instance, boolean values are represented by boolean literals `true` or `false`, and a list of integers is represented by a list literal, such as `[1, 2, 3]`.
+There are some exceptions:
+
+[cols="1,4"]
+|===
+| Location / value | Represented as
+
+| Location of an automaton
+| String literal with the name of the location, or `"*"` for a nameless location.
+If the name is a keyword, it should not escaped.
+
+| Enumeration literal
+| String literal with the non-escaped name of the literal.
+If the name is a keyword, it should not escaped.
+
+| Function
+| String literal with the non-escaped absolute name of the function.
+For functions that represent a default initial value of a variable with a function type, `"*"` should used as function name.
+Keywords in the absolute names should not be escaped.
+|===

@@ -119,7 +119,7 @@ For more detailed information on documentation annotations, see the <<lang-ref-e
 [[lang-tut-extensions-chapter-annotations-state]]
 === State annotations
 
-Information about <<lang-tut-basics-chapter-synchronizing-events-statespace,states>> can be added to locations of automata.
+A state annotation adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton that represents a state space of another model.
 States consist of the <<lang-tut-basics-chapter-synchronizing-events-statespace,current locations of automata>> and the <<lang-tut-data-chapter-discrete-variables-state-space,current values of variables>>.
 The typical use of state annotations is for generated models that contain an automaton representing a state space, where each location of that automaton represents a state of the state space.
 For instance, the <<tools-chapter-cif-explorer,CIF explorer>> may <<tools-chapter-cif-explorer-output-cif,generate CIF models>> with state spaces represented as automata.
