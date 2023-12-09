@@ -27,7 +27,9 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdge;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdgeEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEventExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newGroup;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
@@ -38,6 +40,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecificat
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -80,10 +83,17 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DictPair;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
+import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.DictType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.Field;
+import org.eclipse.escet.cif.metamodel.cif.types.FuncType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
+import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.SetType;
+import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -380,39 +390,114 @@ public class CifAutomatonBuilder {
         } else if (value instanceof CifEnumLiteral lvalue) {
             return newStringExpression(null, newStringType(), lvalue.literal.getName());
         } else if (value instanceof CifTuple tvalue) { // Note that 'CifTuple' extends 'List'.
+            // Get information from tuple type.
             type = CifTypeUtils.normalizeType(type);
             Assert.check(type instanceof TupleType);
+            List<String> fieldNames = ((TupleType)type).getFields().stream().map(f -> f.getName()).toList();
             List<CifType> fieldTypes = ((TupleType)type).getFields().stream().map(f -> f.getType()).toList();
+
+            // Perform the conversion. Note that we build a new tuple type, with the field types of the converted
+            // fields, as they may be different from the input field types.
             List<Expression> fields = listc(tvalue.size());
+            TupleType newTupleType = newTupleType();
             for (int i = 0; i < tvalue.size(); i++) {
-                fields.add(valueToExpr(tvalue.get(i), fieldTypes.get(i)));
+                Expression field = valueToExpr(tvalue.get(i), fieldTypes.get(i));
+                fields.add(field);
+                newTupleType.getFields().add(newField(fieldNames.get(i), null, deepclone(field.getType())));
             }
-            return newTupleExpression(fields, null, deepclone(type));
+            return newTupleExpression(fields, null, newTupleType);
         } else if (value instanceof List<?> lvalue) {
+            // Get information from list type.
             type = CifTypeUtils.normalizeType(type);
             Assert.check(type instanceof ListType);
             CifType elemType = ((ListType)type).getElementType();
+
+            // Perform the conversion. Note that we build a new array type, by merging the types of the converted
+            // elements, as they may be different from the input element type. But, if the array is empty, we take the
+            // original element type, as we have no other type available, and we convert it to a valid annotation
+            // argument type.
             List<Expression> elems = valuesToExpr(lvalue, elemType);
-            return newListExpression(elems, null, newListType(deepclone(elemType), elems.size(), null, elems.size()));
+            CifType newElemType = elems.stream().map(Expression::getType)
+                    .reduce((t1, t2) -> CifTypeUtils.mergeTypes(t1, t2, null)).orElse(elemType);
+            ListType newListType = newListType(makeAnnoArgType(newElemType), lvalue.size(), null, lvalue.size());
+            return newListExpression(elems, null, newListType);
         } else if (value instanceof Set<?> svalue) {
+            // Get information from set type.
             type = CifTypeUtils.normalizeType(type);
             Assert.check(type instanceof SetType);
             CifType elemType = ((SetType)type).getElementType();
+
+            // Perform the conversion. Note that we build a new set type, by merging the types of the converted
+            // elements, as they may be different from the input element type. But, if the set is empty, we take the
+            // original element type, as we have no other type available, and we convert it to a valid annotation
+            // argument type.
             List<Expression> elems = valuesToExpr(svalue, elemType);
-            return newSetExpression(elems, null, newSetType(deepclone(elemType), null));
+            CifType newElemType = elems.stream().map(Expression::getType)
+                    .reduce((t1, t2) -> CifTypeUtils.mergeTypes(t1, t2, null)).orElse(elemType);
+            SetType newSetType = newSetType(makeAnnoArgType(newElemType), null);
+            return newSetExpression(elems, null, newSetType);
         } else if (value instanceof Map<?, ?> mvalue) {
+            // Get information from dictionary type.
             type = CifTypeUtils.normalizeType(type);
             Assert.check(type instanceof DictType);
             CifType keyType = ((DictType)type).getKeyType();
             CifType valueType = ((DictType)type).getValueType();
+
+            // Perform the conversion. Note that we build a new dictionary type, by merging the types of the converted
+            // keys and values, as they may be different from the input key and value type. But, if the dictionary is
+            // empty, we take the original key and value types, as we have no other types available, and we convert them
+            // to valid annotation argument types.
             List<DictPair> pairs = mvalue.entrySet().stream()
                     .map(e -> newDictPair(valueToExpr(e.getKey(), keyType), null, valueToExpr(e.getValue(), valueType)))
                     .toList();
-            return newDictExpression(pairs, null, newDictType(deepclone(keyType), null, deepclone(valueType)));
+            CifType newKeyType = pairs.stream().map(p -> p.getKey().getType())
+                    .reduce((t1, t2) -> CifTypeUtils.mergeTypes(t1, t2, null)).orElse(keyType);
+            CifType newValueType = pairs.stream().map(p -> p.getValue().getType())
+                    .reduce((t1, t2) -> CifTypeUtils.mergeTypes(t1, t2, null)).orElse(valueType);
+            DictType newDictType = newDictType(makeAnnoArgType(newKeyType), null, makeAnnoArgType(newValueType));
+            return newDictExpression(pairs, null, newDictType);
         } else if (value instanceof Function fvalue) {
             return newStringExpression(null, newStringType(), CifTextUtils.getAbsName(fvalue, false));
         } else {
             throw new AssertionError("Unexpected value: " + value);
+        }
+    }
+
+    /**
+     * Make a type for an annotation argument value from an original CIF type.
+     *
+     * @param type The CIF type.
+     * @return The new annotation argument value type.
+     */
+    private static CifType makeAnnoArgType(CifType type) {
+        // Normalize the type.
+        type = CifTypeUtils.normalizeType(type);
+
+        // Make a new type.
+        if (type instanceof BoolType) {
+            return newBoolType();
+        } else if (type instanceof IntType itype) {
+            return newIntType(itype.getLower(), null, itype.getUpper());
+        } else if (type instanceof RealType) {
+            return newRealType();
+        } else if (type instanceof StringType) {
+            return newStringType();
+        } else if (type instanceof EnumType) {
+            return newStringType(); // String type instead of enum type.
+        } else if (type instanceof TupleType ttype) {
+            List<Field> fields = ttype.getFields().stream()
+                    .map(f -> newField(f.getName(), null, makeAnnoArgType(f.getType()))).toList();
+            return newTupleType(fields, null);
+        } else if (type instanceof ListType ltype) {
+            return newListType(makeAnnoArgType(ltype.getElementType()), ltype.getLower(), null, ltype.getUpper());
+        } else if (type instanceof SetType stype) {
+            return newSetType(makeAnnoArgType(stype.getElementType()), null);
+        } else if (type instanceof DictType dtype) {
+            return newDictType(makeAnnoArgType(dtype.getKeyType()), null, makeAnnoArgType(dtype.getValueType()));
+        } else if (type instanceof FuncType) {
+            return newStringType(); // String type instead of enum type.
+        } else {
+            throw new AssertionError("Unexpected type: " + type);
         }
     }
 }
