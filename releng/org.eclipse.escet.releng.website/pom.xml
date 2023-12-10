@@ -127,8 +127,12 @@
                                     </paths>
                                     <replaces>
                                         <replace>
-                                            <from>@@ESCET-VERSION@@</from>
+                                            <from>@@ESCET-VERSION-ENDUSER@@</from>
                                             <to>${escet.version.enduser}</to>
+                                        </replace>
+                                        <replace>
+                                            <from>@@ESCET-DEPLOY-FOLDER-NAME@@</from>
+                                            <to>${escet.deploy.folder.name}</to>
                                         </replace>
                                     </replaces>
                                 </resource>
