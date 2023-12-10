@@ -59,3 +59,7 @@ The `abstracted` part of the default extension depends on the _Result name_ opti
 * _Result name_: The name to use for the abstracted automaton.
 If not specified, defaults to `abstracted`.
 Also affects the _Output file_ option.
+
+* _Add state annotations_: Add <<lang-tut-extensions-chapter-annotations-state,state annotations>> to the locations of the automaton in the output CIF file.
+This option is enabled by default.
+// No empty automaton can be produced as output file.
