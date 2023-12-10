@@ -1,0 +1,6 @@
+automaton minimal:
+  alphabet;
+  location s1:
+    initial;
+    marked;
+end

@@ -1,0 +1,7 @@
+plant automaton dfa:
+  alphabet;
+  @state(p = "*")
+  location s1:
+    initial;
+    marked;
+end
