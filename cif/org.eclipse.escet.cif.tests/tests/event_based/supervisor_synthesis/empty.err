@@ -1,4 +1,0 @@
-WARNING: File "event_based/supervisor_synthesis/empty.cif": Semantic warning at line 24, column 12: The alphabet of automaton "s" globally disables event "x", as the event is not used on any of the edges of the automaton.
-WARNING: Location "s.s1" is a marked deadlock location.
-ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/empty.cif".
-CAUSE: Supervisor is empty.
