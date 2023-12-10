@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.escet.cif.eventbased.DfaMinimize;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.io.CifReader;
@@ -86,6 +87,7 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
         options.add(Options.getInstance(InputFileOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(ResultNameOption.class));
+        options.add(Options.getInstance(AddStateAnnosOption.class));
         return new OptionCategory(makeInitialUppercase(app), "CIF event-based " + app + "options.", subPages, options);
     }
 

@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.eventbased.analysis.SynthesisDump;
 import org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpInterface;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.DumpFileEnableOption;
 import org.eclipse.escet.cif.eventbased.apps.options.DumpFileOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
@@ -86,6 +87,7 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
         options.add(Options.getInstance(InputFileOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(ResultNameOption.class));
+        options.add(Options.getInstance(AddStateAnnosOption.class));
         options.add(Options.getInstance(DumpFileEnableOption.class));
         options.add(Options.getInstance(DumpFileOption.class));
         options.add(Options.getInstance(WarnDisjunctGroups.class));

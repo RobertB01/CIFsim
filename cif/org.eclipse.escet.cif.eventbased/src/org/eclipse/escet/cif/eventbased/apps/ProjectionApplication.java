@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.eventbased.NfaToDfa;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ApplicationHelper;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.PreservedEventsOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -83,6 +84,7 @@ public class ProjectionApplication extends Application<IOutputComponent> {
         options.add(Options.getInstance(PreservedEventsOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(ResultNameOption.class));
+        options.add(Options.getInstance(AddStateAnnosOption.class));
         return new OptionCategory("Automaton projection", "CIF event-based automaton projection options.", subPages,
                 options);
     }
