@@ -19,6 +19,9 @@ import static org.eclipse.escet.common.java.Lists.list;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Location;
+import org.eclipse.escet.cif.eventbased.automata.origin.LocationSetOrigin;
+import org.eclipse.escet.cif.eventbased.automata.origin.Origin;
+import org.eclipse.escet.common.java.Sets;
 
 /** Algorithm to minimize the number of locations in the automaton. */
 public class AutomatonMinimizer extends BlockPartitioner {
@@ -43,15 +46,17 @@ public class AutomatonMinimizer extends BlockPartitioner {
         Automaton orig = automs.get(0);
         int initialBlk = blockLocs.get(orig.initial).blockNumber;
 
-        // Create a result location for each block, with initial and marked properties.
+        // Create a result location for each block, with initial and marked properties, and origin information.
         Automaton result = new Automaton(orig.alphabet);
         Location[] resultLocs = new Location[blocks.size()];
         for (int blkNum = 0; blkNum < blocks.size(); blkNum++) {
-            Location loc = new Location(result, null);
+            Block block = blocks.get(blkNum);
+            Origin origin = new LocationSetOrigin(block.locs.stream().map(b -> b.loc).collect(Sets.toSet()));
+            Location loc = new Location(result, origin);
             if (blkNum == initialBlk) {
                 result.setInitial(loc);
             }
-            loc.marked = blocks.get(blkNum).locs.get(0).loc.marked;
+            loc.marked = block.locs.get(0).loc.marked;
 
             resultLocs[blkNum] = loc;
         }
