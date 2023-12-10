@@ -150,8 +150,9 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
             OutputProvider.dbg("Converting from internal representation...");
             String resultName = "abstracted";
             resultName = ResultNameOption.getRsltName(resultName);
+            boolean doAddStateAnnos = AddStateAnnosOption.getStateAnnotationsEnabled();
             ConvertFromEventBased cfe = new ConvertFromEventBased();
-            spec = cfe.convertAutomaton(aut, resultName);
+            spec = cfe.convertAutomaton(aut, resultName, doAddStateAnnos);
             if (isTerminationRequested()) {
                 return 0;
             }

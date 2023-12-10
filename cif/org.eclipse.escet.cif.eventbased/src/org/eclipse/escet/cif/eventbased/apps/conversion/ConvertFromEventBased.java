@@ -59,9 +59,13 @@ public class ConvertFromEventBased {
      *
      * @param aut Automaton to convert.
      * @param resultName Name of the resulting automaton.
+     * @param doAddStateAnnos Whether to add state annotations to the locations of the automaton ({@code true}) or not
+     *     add any state annotations ({@code false}).
      * @return CIF specification containing the converted automaton and its events.
      */
-    public Specification convertAutomaton(org.eclipse.escet.cif.eventbased.automata.Automaton aut, String resultName) {
+    public Specification convertAutomaton(org.eclipse.escet.cif.eventbased.automata.Automaton aut, String resultName,
+            boolean doAddStateAnnos)
+    {
         Specification spec = newSpecification();
         // Convert and add events.
         Map<org.eclipse.escet.cif.eventbased.automata.Event, Event> eventMap;

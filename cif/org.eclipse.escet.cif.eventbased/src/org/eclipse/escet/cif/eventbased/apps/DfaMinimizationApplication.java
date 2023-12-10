@@ -143,8 +143,9 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
             OutputProvider.dbg("Converting from internal representation...");
             String resultName = "minimal";
             resultName = ResultNameOption.getRsltName(resultName);
+            boolean doAddStateAnnos = AddStateAnnosOption.getStateAnnotationsEnabled();
             ConvertFromEventBased cfe = new ConvertFromEventBased();
-            spec = cfe.convertAutomaton(result, resultName);
+            spec = cfe.convertAutomaton(result, resultName, doAddStateAnnos);
             if (isTerminationRequested()) {
                 return 0;
             }
