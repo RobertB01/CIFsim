@@ -131,8 +131,13 @@
                                             <to>${escet.version.enduser}</to>
                                         </replace>
                                         <replace>
-                                            <from>@@ESCET-DEPLOY-FOLDER-NAME@@</from>
-                                            <to>${escet.deploy.folder.name}</to>
+                                            <!-- Replacement by an empty text doesn't work, see: -->
+                                            <!-- https://github.com/Antibrumm/copy-maven-plugin/issues/13. -->
+                                            <!-- Therefore, we replace the preceding '/' as well. As a consequence -->
+                                            <!-- of this, the replacement pattern must always be preceded by '/', -->
+                                            <!-- or it won't get replaced. -->
+                                            <from>/@@ESCET-DEPLOY-FOLDER-NAME@@</from>
+                                            <to>/${escet.deploy.folder.name}</to>
                                         </replace>
                                     </replaces>
                                 </resource>
