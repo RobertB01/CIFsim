@@ -1,5 +1,6 @@
 automaton minimal:
   alphabet;
+  @state(p = "*")
   location s1:
     initial;
     marked;
