@@ -1,10 +1,12 @@
 controllable a;
 plant automaton trim:
   alphabet a;
+  @state(x = "x")
   location s1:
     initial;
     marked;
     edge a goto s2;
+  @state(x = "y")
   location s2:
     edge a goto s1;
 end

@@ -1,6 +1,7 @@
 controllable a;
 plant automaton trim:
   alphabet a;
+  @state(p = "x")
   location s1:
     initial;
     marked;

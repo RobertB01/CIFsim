@@ -3,9 +3,11 @@ controllable d;
 uncontrollable u;
 supervisor automaton sup:
   alphabet c, d, u;
+  @state(p = "p1", r = "r1")
   location s1:
     initial;
     edge c goto s2;
+  @state(p = "p3", r = "r2")
   location s2:
     marked;
 end

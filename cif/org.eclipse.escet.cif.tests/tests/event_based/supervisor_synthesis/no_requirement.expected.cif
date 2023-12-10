@@ -1,6 +1,7 @@
 controllable e;
 supervisor automaton sup:
   alphabet e;
+  @state(p = "l1")
   location s1:
     initial;
     marked;

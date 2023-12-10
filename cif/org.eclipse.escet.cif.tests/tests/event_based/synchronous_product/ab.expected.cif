@@ -5,22 +5,30 @@ controllable c;
 controllable q;
 automaton product:
   alphabet a, b, p, c, q;
+  @state(aa = "x0", bb = "y0")
   location s1:
     initial;
     edge a goto s2;
+  @state(aa = "x1", bb = "y0")
   location s2:
     edge p goto s3;
+  @state(aa = "x1", bb = "y1")
   location s3:
     edge q goto s4;
+  @state(aa = "x1", bb = "y3")
   location s4:
     edge b goto s5;
+  @state(aa = "x2", bb = "y1")
   location s5:
     edge q goto s6;
     edge c goto s7;
+  @state(aa = "x2", bb = "y3")
   location s6:
     edge c goto s8;
+  @state(aa = "x3", bb = "y1")
   location s7:
     edge q goto s8;
+  @state(aa = "x3", bb = "y3")
   location s8:
     marked;
 end

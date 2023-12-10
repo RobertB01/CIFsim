@@ -1,15 +1,20 @@
 controllable a;
 plant automaton product:
   alphabet a;
+  @state(x = "s1", y = "s1")
   location s1:
     initial;
     edge a goto s2;
     edge a goto s3;
     edge a goto s4;
     edge a goto s5;
+  @state(x = "s2", y = "s2")
   location s2;
+  @state(x = "s2", y = "s3")
   location s3:
     edge a goto s1;
+  @state(x = "s3", y = "s2")
   location s4;
+  @state(x = "s3", y = "s3")
   location s5;
 end
