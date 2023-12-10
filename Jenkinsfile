@@ -172,6 +172,7 @@ pipeline {
             steps {
                 // Deploy downloads.
                 sh '''
+                    # Prepare update site (extracted).
                     mkdir -p deploy/update-site/
                     unzip -q product/org.eclipse.escet.product/target/*-updatesite.zip -d deploy/update-site/
                 '''
@@ -182,17 +183,17 @@ pipeline {
                     // Create directory for this release.
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/'
 
-                    // Website.
+                    // Upload website (archive).
                     sh 'scp -r releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
-                    // Update site (archive).
+                    // Upload update site (archive).
                     sh 'scp -r product/org.eclipse.escet.product/target/*-updatesite.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
-                    // Update site (extracted).
+                    // Upload update site (extracted).
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/update-site/'
                     sh 'scp -r deploy/update-site/* ${DOWNLOADS_URL}/${RELEASE_VERSION}/update-site/'
 
-                    // Product.
+                    // Upload product (archives).
                     sh 'scp -r product/org.eclipse.escet.product/target/products/*-linux*.tar.gz ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
                     sh 'scp -r product/org.eclipse.escet.product/target/products/*-mac*.dmg ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
                     sh 'scp -r product/org.eclipse.escet.product/target/products/*-win*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
@@ -201,23 +202,26 @@ pipeline {
                 // Deploy website.
                 sshagent(['gitlab-bot-ssh']) {
                     sh '''
+                        # Checkout website Git repo.
                         mkdir -p deploy/www
                         git clone ${WEBSITE_GIT_URL} deploy/www
 
+                        # Add website to Git repo checkout.
+                        # Replace existing release with same name if present, e.g. an existing 'nightly'.
                         rm -rf deploy/www/${RELEASE_VERSION}
                         mkdir -p deploy/www/${RELEASE_VERSION}
                         unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/
+
+                        # Commit and push changes to website Git repo.
+                        cd deploy/www
+                        git config user.email "escet-bot@eclipse.org"
+                        git config user.name "genie.escet"
+                        git config push.default simple # Required to silence Git push warning.
+                        git add -A
+                        git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}."
+                        git push
+                        cd ../..
                     '''
-                    dir('deploy/www') {
-                        sh '''
-                            git config user.email "escet-bot@eclipse.org"
-                            git config user.name "genie.escet"
-                            git config push.default simple # Required to silence Git push warning.
-                            git add -A
-                            git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}."
-                            git push
-                        '''
-                    }
                 }
             }
         }
