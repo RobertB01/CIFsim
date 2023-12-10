@@ -60,7 +60,7 @@ Hence, only hybrid systems were mentioned in the full name.
 The first version of the CIF language, CIF 1, was defined in 2006.
 The first CIF tools were created in 2007, in Python.
 CIF was at that time essentially a front-end language.
-The first tool, the CIF simulator, represented CIF models internally as link:https://eclipse.dev/escet/{escet-website-version}/chi[Chi] models.
+The first tool, the CIF simulator, represented CIF models internally as link:https://eclipse.dev/escet/{escet-deploy-folder-name}/chi[Chi] models.
 The CIF 1 toolset was later extended with other tools, including various transformations to other languages and support for supervisory controller synthesis.
 Along with CIF 1, the Supervisory Control IDE (SCIDE), a graphical editor for supervisory control models, was created.
 

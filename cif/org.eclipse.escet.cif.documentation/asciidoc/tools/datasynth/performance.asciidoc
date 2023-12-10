@@ -33,7 +33,7 @@ A list of such option is given below.
 If you run out of memory, here are some potential solutions:
 
 * Increase the memory available to the synthesis tool.
-For more information, see the page of the Eclipse ESCET general toolkit documentation on link:https://eclipse.dev/escet/{escet-website-version}/performance/index.html[resolving performance and memory problems].
+For more information, see the page of the Eclipse ESCET general toolkit documentation on link:https://eclipse.dev/escet/{escet-deploy-folder-name}/performance/index.html[resolving performance and memory problems].
 
 * Decrease the <<tools-datasynth-op-cache,size of the BDD operation caches>>, to make sure more memory remains available for the actual data used during synthesis.
 While decreasing the size of caches may increase the synthesis time, it is better to be able to synthesize a supervisor in a longer time than to not be able to synthesize it at all.
