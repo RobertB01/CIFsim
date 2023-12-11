@@ -1,0 +1,3 @@
+State 1:
+    Initial: true
+    Marked: true
