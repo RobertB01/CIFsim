@@ -31,7 +31,7 @@ The annotation has the following additional constraints, in addition to the <<la
 
 * Each argument represents an automaton with its current location, or a variable with its current value.
 * There can be any number of arguments (including no arguments), as models may have any number of automata and variables.
-* The name of the argument should be the absolute name of the corresponding automaton or variable.
+* The name of the argument must be the absolute name of the corresponding automaton or variable.
 * Argument values, or parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
 This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.
 
@@ -44,15 +44,11 @@ There are some exceptions:
 | Location / value | Represented as
 
 | Location of an automaton
-| String literal with the name of the location, or `"*"` for a nameless location.
-If the name is a keyword, it should not escaped.
+| String literal with the <<lang-ref-syntax-lexical-identifier,non-escaped>> name of the location, or `"*"` for a nameless location.
 
 | Enumeration literal
-| String literal with the non-escaped name of the literal.
-If the name is a keyword, it should not escaped.
+| String literal with the <<lang-ref-syntax-lexical-identifier,non-escaped>> name of the enumeration literal.
 
 | Function
-| String literal with the non-escaped absolute name of the function.
-For functions that represent a default initial value of a variable with a function type, `"*"` should used as function name.
-Keywords in the absolute names should not be escaped.
+| String literal with the <<lang-ref-syntax-lexical-identifier,non-escaped>> absolute name of the function, or `"*"` for functions that represent a default initial value of a variable with a function type.
 |===
