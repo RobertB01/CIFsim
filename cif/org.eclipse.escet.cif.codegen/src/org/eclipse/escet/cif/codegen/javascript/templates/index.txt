@@ -150,28 +150,31 @@ ${javascript-const-decls}
                 time;
 
                 /**
-                * The frequency in times per second, that the code should
-                * be executed (if positive), or execute as fast as possible, that is
-                * as many times per second as possible (if negative or zero).
-                */
+                 * The frequency in times per second, that the code should
+                 * be executed (if positive), or execute as fast as possible, that is
+                 * as many times per second as possible (if negative or zero).
+                 */
                 frequency = 20;
 
                 /**
-                * Variable 'first', used to initialise time-related variables
-                * for starting, pausing, resuming or resetting a session.
-                */
+                 * Used to initialise time-related variables for starting, pausing,
+                 * resuming or resetting each session.
+                 */
                 first;
 
-                /** Variable 'startMilli', the starting time of the current session. */
+                /** Used to track the starting time of the current session. */
                 startMilli;
 
-                /** Variable 'targetMilli', used to ensure that the timing of each cycle matches the given frequency. */
+                /**
+                 * Used to ensure that the timing of each cycle in a session
+                 * matches the given frequency.
+                 */
                 targetMilli;
 
 ${javascript-state-decls}
 ${javascript-state-input}
 
-                /** Constructor for the {@link ${prefix}} class. */
+                /** Constructor for the {@link ${prefix}_class} class. */
                 constructor() {
                     this.reset();
                 }
@@ -264,16 +267,16 @@ ${javascript-event-calls-code}
                 execWhile(delay) {
                     setTimeout(
                         function () {
+                            // Pre execution timing.
                             var now = Date.now();
                             var preMilli = now;
+                            // On first execution, initialise variables for timing.
                             if (${prefix}.first) {
                                 ${prefix}.first = false;
                                 ${prefix}.startMilli = now;
                                 ${prefix}.targetMilli = ${prefix}.startMilli;
                                 preMilli = ${prefix}.startMilli;
                             }
-
-                            // Pre execution timing.
                             var frequency = ${prefix}.frequency;
                             var cycleMilli = (frequency <= 0) ? -1 : 1e3 / frequency;
                             var timeMilli = preMilli - ${prefix}.startMilli;
@@ -294,7 +297,7 @@ ${javascript-event-calls-code}
                                 ${prefix}.targetMilli += cycleMilli;
                                 remainderMilli = ${prefix}.targetMilli - postMilli;
                             }
-                            // Execute repeatedly.
+                            // Execute again.
                             ${prefix}.execWhile(remainderMilli > 0 ? remainderMilli : 0);
                         },
                     delay);
@@ -377,12 +380,12 @@ ${javascript-print-code}
                  * @param text The text being printed.
                  */
                 infoPrintOutput(text) {
-                    log("infoPrintOutput text: " + text);
+                    log(text);
                 }
             }
         </script>
     </head>
-    <body onLoad="onLoad()">
+    <body onload="onLoad()">
         <div class="expanded" id="flex-container">
             <div id="content">
                 <div>
