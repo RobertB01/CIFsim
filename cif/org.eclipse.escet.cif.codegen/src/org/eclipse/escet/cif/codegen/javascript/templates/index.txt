@@ -157,17 +157,19 @@ ${javascript-const-decls}
                 frequency = 20;
 
                 /**
-                 * Used to initialise time-related variables for starting, pausing,
+                 * Whether the next execution is the first execution of the session.
+                 * Used to initialize time-related variables for starting, pausing,
                  * resuming or resetting each session.
                  */
                 first;
 
-                /** Used to track the starting time of the current session. */
+                /** The start time of the current session. */
                 startMilli;
 
                 /**
-                 * Used to ensure that the timing of each cycle in a session
-                 * matches the given frequency.
+                 * The targeted end time of the current/next cycle, to ensure
+                 * that the duration of the cycle matches with the configured
+                 * frequency.
                  */
                 targetMilli;
 
@@ -270,13 +272,16 @@ ${javascript-event-calls-code}
                             // Pre execution timing.
                             var now = Date.now();
                             var preMilli = now;
-                            // On first execution, initialise variables for timing.
+
+                            // On first execution, initialize variables for timing.
                             if (${prefix}.first) {
                                 ${prefix}.first = false;
                                 ${prefix}.startMilli = now;
                                 ${prefix}.targetMilli = ${prefix}.startMilli;
                                 preMilli = ${prefix}.startMilli;
                             }
+
+                            // Get cycle time and current 'time'.
                             var frequency = ${prefix}.frequency;
                             var cycleMilli = (frequency <= 0) ? -1 : 1e3 / frequency;
                             var timeMilli = preMilli - ${prefix}.startMilli;
