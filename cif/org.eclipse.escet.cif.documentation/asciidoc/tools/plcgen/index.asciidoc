@@ -78,6 +78,7 @@ If the file path does not exist, code generation will continue with a warning th
 If not specified, the output path will depend on the _Input file_ option value.
 The result also depends on the chosen <<tools-plcgen-target-type, target type>>.
 
+[[tools-plcgen-tailoring-output-of-the-code-generator]]
 ==== Tailoring the output of the code generator
 
 Additional options exist to tailor the output of the code generator:
@@ -239,7 +240,7 @@ Code can be generated for the following targets:
 * _IEC 61131-3_.
 * _PLCopen XML_.
 * _Simatic_: S7-300, S7-400, S7-1200, or S7-1500.
-Currently, the program cannot generate code for arrays for these systems.
+Currently, the PLC code generator cannot generate code for arrays for these systems.
 Therefore, all forms of CIF lists are forbidden for these target type.
 +
 See the <<tools-plcgen-chapter-s7,S7 PLC output>> section for details on how to transfer generated code to the PLC system.
@@ -380,3 +381,23 @@ For every next cycle, update the continuous variables for the passed time.
 The performed transition(s) may have changed the state, enabling other events.
 Such events must be performed as well in the same cycle, since in CIF time cannot progress if an edge is enabled.
 * If no enabled events exist any more, write values to the external outputs.
+
+indexterm:[PLC code generator,names in the PLC code]
+indexterm:[PLC code generator,PLC code names]
+
+[[tools-plcgen-names]]
+==== Names
+
+Generated PLC code contains names for PLC elements like functions, variables, enumeration literals, and so on.
+If such an element represents a CIF element in the PLC code, the absolute name of the CIF element is used as name in the PLC code.
+In this way it is easier to link parts of a CIF specification with parts of the generated PLC code.
+
+However, name requirements in CIF are different from name requirements in a PLC system.
+As as result, names of CIF elements cannot always be used as-is in the PLC code, and must be changed before they can be used in the PLC code.
+
+In general, names are preserved as much as possible.
+However, in case of confusion where a PLC name originates from, the PLC code generator has a _Rename warnings_ option in <<tools-plcgen-tailoring-output-of-the-code-generator,its options>>.
+By enabling the option, the code generator will print warnings whenever a CIF name is not used as-is.
+
+Note that the PLC code generator also generates output that is closely related to CIF elements, but not directly representing the CIF element itself.
+In such cases the variable may get a slightly different name to keep the name of the CIF element available for other uses, but at the same time still show the connection with the CIF element.

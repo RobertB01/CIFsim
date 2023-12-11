@@ -64,6 +64,16 @@ If _Automatic_ is selected, the following data types are used:
 
 The _PLC task name_, _PLC task cycle time_, _PLC task priority_, _PLC project name_, _PLC configuration name_, and _PLC resource name_ options have no effect for this output type.
 
+indexterm:[CIF PLC code generator,Siemens S7 standard compliance]
+
+=== Standard compliance
+
+In general, the CIF PLC code generator follows the IEC 61131-3 PLC standard and does not use vendor-specific extensions.
+For the Siemens S7 targets however, the persistent variables are stored in a separate database file, named `DB`.
+All references to persistent variables are prefixed with `"DB".`.
+Global variables and constants are stored in a tag table, instead of a global variable list.
+In those cases the output is not compliant with the IEC 61131-3 standard.
+
 indexterm:[S7,usage]
 
 [[tools-plcgen-s7-usage]]

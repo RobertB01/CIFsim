@@ -144,6 +144,15 @@ The newly generated code files are (over)written, and the project is updated to 
 
 The _PLC configuration name_ and _PLC resource name_ options have no effect on the TwinCAT output.
 
+indexterm:[CIF PLC code generator,TwinCAT standard compliance]
+
+[[tools-plcgen-twincat-standard-compliance]]
+=== Standard compliance
+
+In general, the CIF PLC code generator follows the IEC 61131-3 PLC standard and does not use vendor-specific extensions.
+For the TwinCAT target however, the `STRUCT` data type declarations have no `;` character after the `STRUCT` data types, to work around a bug in the TwinCAT parser.
+In that case the output is not compliant with the IEC 61131-3 standard.
+
 indexterm:[TwinCAT,usage]
 
 [[tools-plcgen-twincat-usage]]
