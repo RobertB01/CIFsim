@@ -65,3 +65,11 @@ automaton types:
   location:
     initial;
 end
+
+// State annotation without arguments.
+
+automaton no_arg:
+  @state
+  location:
+    initial;
+end

@@ -17,3 +17,8 @@ automaton types:
   location:
     initial;
 end
+automaton no_arg:
+  @state
+  location:
+    initial;
+end
