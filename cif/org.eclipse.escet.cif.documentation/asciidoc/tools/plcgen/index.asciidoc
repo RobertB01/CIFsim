@@ -30,8 +30,8 @@ indexterm:[PLC code generator]
 indexterm:[tools,PLC code generator]
 indexterm:[see: PLC,PLC code generator]
 
-A code generator for creating IEC 61131-3 compliant **P**rogrammable **L**ogic **C**ontroller (PLC) code.
-It takes a CIF specification and creates real-time PLC code that can read values from external sensors, evaluate the state and perform event transitions, and finally write values to external actuators.
+The CIF PLC code generator for creating IEC 61131-3 compliant **P**rogrammable **L**ogic **C**ontroller (PLC) code.
+It takes a CIF specification and creates real-time PLC code that can read values from external inputs, evaluate the state and perform event transitions, and finally write values to external outputs.
 
 indexterm:[PLC code generator,start]
 
@@ -62,7 +62,7 @@ This is configured with the _PLC target type_ option:
 * _PLC target type_: The PLC code <<tools-plcgen-target-type,target type>> specifies the form of the desired output for the PLC model that eventually will run the generated code.
 Default value is _PLCopen XML_.
 
-Other important settings are the _Input file_ path for the CIF specification, the _I/O table file_ path to the file that contains the connections to the external sensors and actuators, and the _Output file_ for writing the generated PLC code:
+Other important settings are the _Input file_ path for the CIF specification, the _I/O table file_ path to the file that contains the connections to the external inputs and outputs, and the _Output file_ for writing the generated PLC code:
 
 * _Input file_: The absolute or relative local file system path to the input CIF specification.
 
@@ -88,9 +88,10 @@ This may make reviewing more difficult.
 This option is by default enabled.
 
 * _Rename warnings_: Names in the CIF specification are re-used to improve linking generated PLC code back to the CIF file.
-However, as the PLC code has different needs for names, names in the CIF specification may get changed.
+However, as the PLC code has different needs for names, the names from the CIF specification are not always used as-is.
 This option is by default disabled.
-By enabling this option, the generator prints a warning whenever a CIF name used in the PLC code is modified, thus allowing to obtain the original CIF element source for a name in the generated PLC code.
+By enabling this option, the generator prints a warning whenever a CIF name is not used as-is in the PLC code.
+This allows to obtain the original CIF element source for a name in the generated PLC code.
 
 ==== Overriding target type choices
 
@@ -112,7 +113,7 @@ It is also the preferred value because using enumeration names improves readabil
 ** Use _Convert enumerations to constants_ (`--convert-enums=consts`) if the target PLC does not support enumerations but does support constants.
 This option value also causes generation of names in the PLC code, but information about which names belong together is lost.
 
-** Use _Convert enumerations to integers_ (`--convert-enums=ints`) if the target PLC neither support enumerations nor supports constants.
+** Use _Convert enumerations to integers_ (`--convert-enums=ints`) if the target PLC neither supports enumerations nor supports constants.
 This option value causes numeric values to be generated for values of the enumerations.
 That may cause difficulties in reviewing the generated PLC code.
 
@@ -184,8 +185,8 @@ After pre-processing, a check is performed whether the CIF file meets all the re
 
 For components, the following conditions must be met:
 
-* No initialization predicates.
-* No equations.
+* No initialization predicates outside locations that restrict initialization.
+* No equations outside locations.
 
 For automata and invariants, the following conditions must be met:
 
@@ -193,8 +194,10 @@ For automata and invariants, the following conditions must be met:
 * All automata must have a single initial location that can be statically decided.
 * Discrete variables must have a single initial value.
 * No state invariants that restrict behavior.
-* No `tau` events. This includes edges without an event.
+* No `tau` events.
+This includes edges without an event.
 * No urgent locations and edges.
+* No equations.
 
 For user-defined functions, the following conditions must be met:
 
@@ -215,26 +218,33 @@ For expressions and data types, the following conditions must be met:
 * For arrays: no `+`, `-`, `=`, `!=`, `empty`, `delete`, `in`, `pop`, `size`, and slicing.
 * For tuples: no `=` and `!=`.
 * Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
+* No functions used as data values or stored in variables.
+Functions must thus only be used to call the function.
 * No use of variable `time`.
 
 Depending on the PLC target type, additional restrictions may apply.
 Please consult the next section for details.
+
+Furthermore:
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+* Annotations are ignored.
 
 [[tools-plcgen-target-type]]
 === Target types
 
 Code can be generated for the following targets:
 
-* _ABB_
-* _PLCopen XML_.
+* _ABB_.
 * _IEC 61131-3_.
-* _Simatic_, S7-300, S7-400, S7-1200, or S7-1500.
+* _PLCopen XML_.
+* _Simatic_: S7-300, S7-400, S7-1200, or S7-1500.
 Currently, the program cannot generate code for arrays for these systems.
 Therefore, all forms of CIF lists are forbidden for these target type.
 +
-See the <<tools-plcgen-chapter-s7,S7 PLC output>> section for details how to transfer generated code to the PLC system.
+See the <<tools-plcgen-chapter-s7,S7 PLC output>> section for details on how to transfer generated code to the PLC system.
 * _TwinCAT_.
-See the <<tools-plcgen-chapter-twincat,TwinCAT PLC outut>> section for details how to transfer generated code to the PLC system.
+See the <<tools-plcgen-chapter-twincat,TwinCAT PLC outut>> section for details on how to transfer generated code to the PLC system.
 
 indexterm:[PLC code generator,I/O table]
 indexterm:[PLC code generator,inputs]
@@ -243,16 +253,16 @@ indexterm:[PLC code generator,outputs]
 [[tools-plcgen-io-table-file]]
 === I/O table file
 
-The PLC code generator generates PLC code that reads input values from external sensors and writes output values to external actuators.
-Inside the PLC these values are transferred using variables with an I/O addresses.
-To make such connections in CIF, some of the input variables should be connected to sensor input addresses, and some of the discrete variables should be connected to actuator output addresses.
+The PLC code generator generates PLC code that reads input values from external inputs and writes output values to external outputs.
+Inside the PLC these values are transferred using variables with an I/O address.
+To make such connections in CIF, some of the input variables should be connected to input addresses, and some of the discrete variables should be connected to output addresses.
 
-The generated PLC code will automatically read all sensor input at the start of a PLC cycle and store it in the connected input variables.
+The generated PLC code will automatically read all input at the start of a PLC cycle and store it in the connected input variables.
 In CIF, connected input variables appear to spontaneously change value.
-They can be tested in a guard, be used in a computation, or copied to other variables.
+The values of the variables can be used in a guard or a computation, or get copied to other variables.
 
-At the end of a cycle, actuator output is written in a similar way by using the value of the connected discrete variables.
-In CIF, by changing the value of connected discrete variables, external actuators will receive those new values.
+At the end of a cycle, outputs are written in a similar way by using the value of the connected discrete variables.
+In CIF, by changing the value of connected discrete variables, external outputs will receive those new values.
 
 The I/O table file is a **C**omma **S**eperated **V**alues (CSV) file.
 The CIF PLC code generator assumes the https://www.rfc-editor.org/rfc/rfc4180[RFC-4180] format for this file, which is compatible with many spreadsheet programs.
@@ -265,23 +275,22 @@ It always starts with a `%`.
 The other parts are:
 
 ** The `I` is the kind of connection.
-The `I` means input, it reads from an external sensor.
-Other possible letters are `Q` for writing to an external actuator, and `M` for reading or writing memory inside the PLC.
+The `I` means it reads from an external input, a `Q` at that position means writing to an external output, and an `M` means reading or writing memory inside the PLC.
 ** The `X` describes the amount of data being transferred.
 The `X` or not specifying a letter means 1 bit is transferred (in CIF, a `bool` type).
-A `B` means transfer of a byte (8 bits), a `W` means transfer of a word (16 bits), a `D` means transfer of a double word (32 bits), and a `L` means transfer of a long word (64 bits).
+A `B` at that position means transfer of a byte (8 bits), a `W` means transfer of a word (16 bits), a `D` means transfer of a double word (32 bits), and an `L` means transfer of a long word (64 bits).
 ** The last part of an address is a sequence of numbers separated by dots.
 In the example it is `35.2.15`.
-The length of the sequence can vary between different PLC systems, also the meaning of these values may be different.
+The length and meaning of the sequence can vary between different PLC systems.
 Consult the manual of the target PLC system for details.
 In general the sequence indicates which of several available I/O ports is being used.
 
 * The second column optionally contains the PLC type of the input or output.
 If left empty, the type of the CIF variable is used instead.
 
-* The third column contains the absolute name of the CIF variable connected the I/O address.
-For example, the variable of the automaton below is named `G.A.v`.
-
+* The third column contains the absolute name of the CIF variable connected to the I/O address.
+For example, the variable of the automaton below is named `G.A.v`:
++
 [source, cif]
 ----
 group G:
@@ -292,6 +301,9 @@ group G:
 end
 ----
 
+Depending on the PLC target type, additional restrictions may apply.
+Consult the manual of the target PLC system for details.
+
 indexterm:[PLC code generator,continuous behavior]
 indexterm:[PLC code generator,timers]
 
@@ -299,32 +311,37 @@ indexterm:[PLC code generator,timers]
 === Continuous behavior
 
 Within PLC systems, a major use for continuous behavior is timers to detect (sufficient) passage of time.
-A reaction is expected to happen within some period of time, but if it does not happen something else must be done.
 
-The PLC code generator assumes that continuous variables are always used for this purpose.
+For instance, a reaction could be expected to happen within some period of time, but if it does not happen something else must be done.
+Another use case is to wait for a certain amount of time before a next action may be started.
+The PLC code generator assumes that continuous variables are always used for such purposes.
 
-Also, for verification of behavior in simulation, the CIF model should show the same behavior.
-For this to happen, the basic idea is that all continuous variables in CIF are decreasing timers running to zero.
-This means that:
+Furthermore, the behavior of the generated PLC code must match the behavior of the CIF model.
+Hence, all continuous variables in the CIF model must be decreasing timers running to zero.
+The following conditions therefore apply to continuous variables to be supported by the PLC code generator:
 
-* Values assigned to a continuous variable must be zero or larger.
-The unit of the value is one second.
-* The derivative of a continuous variable must always be `-1` or `-1.0`.
-Assigning a new value to a derivative is not allowed (it is pointless).
-* Comparing of the value of a continuous variable must always be against an inclusive lower-bound that is zero or larger.
-For example, for a continuous variable `c`, the comparisons `c <= 0` or `5 >= c` can be used.
-The former checks for timeout, the latter checks if there are five seconds or less remaining.
-* The value compared against must be statically decidable.
+* The derivative of a continuous variable must always be `-1` or `-1.0`, and this value must be statically decidable.
+* Values used in comparing, initializing, or assigning continuous variables have a unit of one second.
+* Continuous variables must only be compared to an inclusive upper-bound that is zero or larger.
+The upper-bound value must be statically decidable.
++
+For example, for a continuous variable `c`, the comparisons `c <= 0` or `5 >= c` could be used.
+The former example checks for timeout (zero seconds left), the latter example checks whether there are five seconds or less remaining.
 
-As a more elaborate example, the following automaton will enable the `timeout` event 10 seconds after the last `reset` event:
+There are no restrictions on values used to initialize or assign to a continuous variable.
+However, positive values are generally more useful in practice.
+
+As a more elaborate example, the following automaton will enable the `timeout` edge 10 seconds after the last `reset` event:
 
 [source, cif]
 ----
 automaton Timer:
   cont t der -1;
+
   location timed_out:
     initial;
     edge reset do t := 10; goto running;
+
   location running:
     edge reset do t := 10;
     edge timeout when t <= 0 goto timed_out;
@@ -337,29 +354,29 @@ indexterm:[PLC code generator,generated code]
 [[tools-plcgen-resulting-plc-code]]
 === Resulting PLC code
 
-In general, the program attempts to preserve as much of the original CIF specification as possible.
-For example, names of elements in CIF are also used to the converted equivalents in the generated PLC program.
+In general, the PLC code generator attempts to preserve as much (of the structure) of the original CIF specification as possible.
+For example, names of elements in CIF are also used for their converted equivalents in the generated PLC program.
 
-Some parts are not supported by any PLC system.
+However, some parts are not supported by any PLC system.
 For example, multiple automata and synchronizing on events or channels is unknown in a PLC system.
-For these cases the generator produces significantly different code, compared with the CIF specification.
-For taking an event transition, all edges are grouped by event instead of grouping by automaton.
+For these cases the generator produces significantly different code, compared to the CIF specification.
+For example, for taking an event transition, all edges are grouped by event instead of grouping by automaton.
 
 Other parts are supported only by some of the supported PLC systems.
+For these cases, the generator tries to generate the form that fits best within the abilities of the targeted PLC system and the configured options.
 For example, enumerations and constants are not always supported.
-For these cases, the generator tries to generate the form that fits best within the abilities of the PLC system.
-Enumerations may be preserved, or get converted to constants or plain numbers, depending on what the targeted PLC system supports.
+The PLC code generator may change enumerations or plain numbers in such a case.
 
-From a bird's-eye view, the program generates one main program that performs the entire PLC cycle.
+From a bird's-eye view, the PLC code generator generates one main program that performs the entire PLC cycle.
 It consists of the following steps:
 
-* Read values from the external sensors.
+* Read values from the external inputs.
 * For the first cycle, initialize the CIF variables and automata locations.
 For every next cycle, update the continuous variables for the passed time.
 * Repeatedly check whether any of the events is enabled:
 ** Each event is tried in turn.
 ** If an event is found to be enabled, perform the event transition, and update the state of the controller.
-** After checking all events, if at least one transition was thus performed, all events must be tested again.
+** After checking all events, if at least one transition was thus performed, all events are tried again.
 The performed transition(s) may have changed the state, enabling other events.
-Such events must be performed as well in the same cycle, since in CIF, time cannot progress if an edge is enabled.
-* If no enabled events exist any more, write values to the external actuators.
+Such events must be performed as well in the same cycle, since in CIF time cannot progress if an edge is enabled.
+* If no enabled events exist any more, write values to the external outputs.
