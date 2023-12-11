@@ -51,15 +51,17 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * Annotation provider for "state" annotations.
  *
  * <p>
- * A "state" annotation adds state information to a location in an automaton that represents a state space of another
- * model:
+ * A "state" annotation adds state information to a location in an automaton:
  * <ul>
- * <li>Each argument represents an automaton with its current location, or a variable with its current value.</li>
+ * <li>A single location may have multiple state annotations, if that location represents multiple states of a state
+ * space.</li>
+ * <li>Each argument of a state annotation represents either an automaton with its current location, or a variable with
+ * its current value.</li>
  * <li>There can be any number of arguments (including no arguments), as models may have any number of automata and
  * variables.</li>
  * <li>The name of the argument should be the absolute name of the corresponding automaton or variable. This constraint
  * is not checked, as such variables and automata typically do not exist in the current specification.</li>
- * <li>Argument values, or parts of argument values (in case of containers), must be literals of type {@code bool},
+ * <li>Argument values, and parts of argument values (in case of containers), must be literals of type {@code bool},
  * {@code int}, {@code real}, {@code string}, {@code tuple}, {@code list}, {@code set}, or {@code dict}. Hence, their
  * values must be represented exactly as the corresponding literal values are represented by the type checker. This
  * implies that the values must be statically evaluable, and that evaluating an argument value must not result in an

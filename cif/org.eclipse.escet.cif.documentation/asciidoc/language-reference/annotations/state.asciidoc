@@ -19,7 +19,7 @@ include::../_part_attributes.asciidoc[]
 WARNING: Annotations are currently an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner.
 
-A state <<lang-ref-extensions-annotations,annotation>> adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton that represents a state space of another model.
+A state <<lang-ref-extensions-annotations,annotation>> adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton.
 For basic information on state annotations, see the <<lang-tut-extensions-chapter-annotations-state,language tutorial>>.
 Here we discuss further details.
 
@@ -29,10 +29,11 @@ State annotations (`@state`) can be added to the following elements in CIF speci
 
 The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
 
-* Each argument represents an automaton with its current location, or a variable with its current value.
+* A single location may have multiple state annotations, if that location represents multiple states of a state space.
+* Each argument of a state annotation represents either an automaton with its current location, or a variable with its current value.
 * There can be any number of arguments (including no arguments), as models may have any number of automata and variables.
 * The name of the argument must be the absolute name of the corresponding automaton or variable.
-* Argument values, or parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
+* Argument values, and parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
 This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.
 
 Most values can thus be represented as literals.
