@@ -16,11 +16,14 @@ package org.eclipse.escet.cif.eventbased.automata;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.automata.origin.Origin;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.common.java.Assert;
 
 /** Location of an automaton. */
@@ -298,6 +301,15 @@ public class Location {
      */
     public IncomingEdgeIterator getIncoming(Event evt) {
         return new IncomingEdgeIterator(this, evt);
+    }
+
+    /**
+     * Create state annotations for this origin.
+     *
+     * @return The state annotations.
+     */
+    public List<Annotation> createStateAnnos() {
+        return (origin == null) ? Collections.emptyList() : origin.createStateAnnos();
     }
 
     @Override

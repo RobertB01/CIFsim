@@ -13,9 +13,11 @@
 
 package org.eclipse.escet.cif.eventbased.automata.origin;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.common.java.Assert;
 
 /** Origin is a collection of locations. */
@@ -30,6 +32,11 @@ public class LocationSetOrigin extends Origin {
      */
     public LocationSetOrigin(Set<Location> locSet) {
         this.locSet = locSet;
+    }
+
+    @Override
+    public List<Annotation> createStateAnnos() {
+        return locSet.stream().flatMap(loc -> loc.createStateAnnos().stream()).toList();
     }
 
     @Override

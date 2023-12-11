@@ -1,0 +1,10 @@
+controllable e;
+plant automaton product:
+  alphabet e;
+  @state(a = "l1", b = "l1")
+  location s1:
+    initial;
+    edge e goto s2;
+  @state(a = "l2", b = "l2")
+  location s2;
+end

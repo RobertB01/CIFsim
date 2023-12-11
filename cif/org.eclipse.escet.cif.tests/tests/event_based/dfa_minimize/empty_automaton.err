@@ -1,0 +1,3 @@
+WARNING: File "event_based/dfa_minimize/empty_automaton.cif": Semantic warning at line 14, column 7: Automaton "p" has no initial location.
+ERROR: Failed to apply DFA minimization for CIF file "event_based/dfa_minimize/empty_automaton.cif".
+CAUSE: Automaton "p" has no initial location.

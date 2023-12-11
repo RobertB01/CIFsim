@@ -1,7 +1,12 @@
 plant automaton abstracted:
   alphabet;
+  @state(G = "s3")
+  @state(G = "s2")
+  @state(G = "s1")
+  @state(G = "s0")
   location s1:
     initial;
+  @state(G = "s4")
   location s2:
     marked;
 end

@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.escet.cif.eventbased.SynchronousProduct;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonHelper;
@@ -77,6 +78,7 @@ public class SynchronousProductApplication extends Application<IOutputComponent>
         options.add(Options.getInstance(InputFileOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(ResultNameOption.class));
+        options.add(Options.getInstance(AddStateAnnosOption.class));
         return new OptionCategory("Synchronous product", "CIF event-based synchronous product options.", subPages,
                 options);
     }
@@ -137,8 +139,9 @@ public class SynchronousProductApplication extends Application<IOutputComponent>
             OutputProvider.dbg("Converting from internal representation...");
             String resultName = "product";
             resultName = ResultNameOption.getRsltName(resultName);
+            boolean doAddStateAnnos = AddStateAnnosOption.getStateAnnotationsEnabled();
             ConvertFromEventBased cfe = new ConvertFromEventBased();
-            spec = cfe.convertAutomaton(aut, resultName);
+            spec = cfe.convertAutomaton(aut, resultName, doAddStateAnnos);
             if (isTerminationRequested()) {
                 return 0;
             }

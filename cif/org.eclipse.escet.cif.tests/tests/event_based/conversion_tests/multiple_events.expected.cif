@@ -12,6 +12,7 @@ group p:
 end
 plant automaton product:
   alphabet p.e1, p.e2, p.q.e3, p.q.e4, p.r.e5, p.r.e6;
+  @state(z = "zz")
   location s1:
     initial;
     edge p.r.e6;
