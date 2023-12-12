@@ -13,17 +13,27 @@
 
 package org.eclipse.escet.cif.typechecker.annotations.builtin;
 
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
@@ -45,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProblemReporter;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 
 /**
@@ -76,6 +87,9 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * For functions that represent a default initial value of a variable with a function type, {@code "*"} should be used
  * as function name. Keywords in the absolute names should not be escaped. This constraint is not checked, as such
  * string literals can not be distinguished from 'regular' string literals.</li>
+ * <li>Different state annotations on the same or different locations of a single automaton must have the same
+ * arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
+ * represent states from the same state space.</li>
  * </ul>
  * </p>
  */
@@ -263,6 +277,72 @@ public class StateAnnotationProvider extends AnnotationProvider {
 
     @Override
     public final void checkGlobal(Specification spec, AnnotationProblemReporter reporter) {
-        // Do nothing.
+        // Different state annotations on the same or different locations of a single automaton must have the same
+        // arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
+        // represent states from the same state space. Check this per automaton.
+        for (Automaton aut: CifCollectUtils.collectAutomata(spec, list())) {
+            // Get a mapping with per argument name the first-encountered argument with that name.
+            Map<String, AnnotationArgument> argNameToAnnoArg = map();
+            for (Location loc: aut.getLocations()) {
+                for (Annotation anno: loc.getAnnotations()) {
+                    if (anno.getName().equals("state")) {
+                        for (AnnotationArgument arg: anno.getArguments()) {
+                            if (!argNameToAnnoArg.containsKey(arg.getName())) {
+                                argNameToAnnoArg.put(arg.getName(), arg);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Check all state annotations of the locations.
+            for (Location loc: aut.getLocations()) {
+                for (Annotation anno: loc.getAnnotations()) {
+                    // Skip non-state annotations.
+                    if (!(anno.getName().equals("state"))) {
+                        continue;
+                    }
+
+                    // Check missing arguments.
+                    List<String> annoArgNames = anno.getArguments().stream().map(a -> a.getName()).toList();
+                    Set<String> missingArgNames = Sets.difference(argNameToAnnoArg.keySet(), annoArgNames);
+                    if (!missingArgNames.isEmpty()) {
+                        String text = missingArgNames.stream().map(n -> fmt("\"%s\"", n))
+                                .collect(Collectors.joining(", "));
+                        reporter.reportProblem(anno,
+                                fmt("compared to other state annotations in the same automaton, "
+                                        + "one or more arguments are missing: %s.", text),
+                                anno.getPosition(), SemanticProblemSeverity.ERROR);
+                        // Non-fatal problem.
+                    }
+
+                    // Check against the mapping for incompatible types.
+                    for (AnnotationArgument arg: anno.getArguments()) {
+                        AnnotationArgument otherArg = argNameToAnnoArg.get(arg.getName());
+                        if (arg == otherArg) {
+                            continue;
+                        }
+                        CifType argType = arg.getValue().getType();
+                        CifType otherType = otherArg.getValue().getType();
+                        if (!CifTypeUtils.checkTypeCompat(argType, otherType, RangeCompat.IGNORE)) {
+                            // Incompatible types.
+                            reporter.reportProblem(anno, fmt(
+                                    "the \"%s\" type of the value of argument \"%s\" is incompatible with "
+                                            + "the \"%s\" type of the value of the same argument "
+                                            + "of another state annotation in the same automaton.",
+                                    CifTextUtils.typeToStr(argType), arg.getName(), CifTextUtils.typeToStr(otherType)),
+                                    arg.getPosition(), SemanticProblemSeverity.ERROR);
+                            reporter.reportProblem(anno, fmt(
+                                    "the \"%s\" type of the value of argument \"%s\" is incompatible with "
+                                            + "the \"%s\" type of the value of the same argument "
+                                            + "of another state annotation in the same automaton.",
+                                    CifTextUtils.typeToStr(otherType), arg.getName(), CifTextUtils.typeToStr(argType)),
+                                    otherArg.getPosition(), SemanticProblemSeverity.ERROR);
+                            // Non-fatal problem.
+                        }
+                    }
+                }
+            }
+        }
     }
 }

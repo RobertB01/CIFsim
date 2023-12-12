@@ -35,6 +35,7 @@ The annotation has the following additional constraints, in addition to the <<la
 * The name of the argument must be the absolute name of the corresponding automaton or variable.
 * Argument values, and parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
 This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.
+* Different state annotations on the same or different locations of a single automaton must have the same arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should represent states from the same state space.
 
 Most values can thus be represented as literals, but there are some exceptions.
 The following overview indicates how to represent locations and different types of values:
