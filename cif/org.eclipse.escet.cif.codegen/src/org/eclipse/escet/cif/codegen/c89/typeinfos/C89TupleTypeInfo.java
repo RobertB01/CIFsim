@@ -196,7 +196,7 @@ public class C89TupleTypeInfo extends TupleTypeInfo implements C89TypeInfo {
                 defCode.add("if (memcmp(&%s, &%s, sizeof(%s)) != 0) return FALSE;", leftField, rightField,
                         childTi.getTargetType());
             } else {
-                String elmEqualsTemplate = childTi.getBinaryExpressionTemplate(BinaryOperator.EQUAL);
+                String elmEqualsTemplate = childTi.getBinaryExpressionTemplate(BinaryOperator.EQUAL, ctxt);
 
                 DataValue leftValue = makeValue(leftField);
                 DataValue rightValue = makeValue(rightField);
@@ -265,7 +265,7 @@ public class C89TupleTypeInfo extends TupleTypeInfo implements C89TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return fmt("%sTypeEquals(${left-ref}, ${right-ref})", getTypeName());
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

@@ -31,6 +31,14 @@ extern T2IIType *A3T2IITypeProject(A3T2IIType *array, IntType index);
 extern void A3T2IITypeModify(A3T2IIType *array, IntType index, T2IIType *value);
 extern int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
+enum Enumranges_ {
+    _ranges___some_dummy_enum_literal,
+};
+typedef enum Enumranges_ rangesEnum;
+
+extern const char *enum_names[];
+extern int EnumTypePrint(rangesEnum value, char *dest, int start, int end);
+
 
 /* Event declarations. */
 enum rangesEventEnum_ {

@@ -19,6 +19,16 @@ static void RangeErrorDetected(void) { exit(1); }
 #endif
 
 /* Type support code. */
+int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
+}
 
 
 /** Event names. */
@@ -29,7 +39,9 @@ const char *annos_doc_event_names[] = {
 };
 
 /** Enumeration names. */
-
+const char *enum_names[] = {
+    "__some_dummy_enum_literal",
+};
 
 /* Constants. */
 

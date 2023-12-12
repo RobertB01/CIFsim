@@ -10,6 +10,13 @@
 /* Types of the specification.
  * Note that integer ranges are ignored in C.
  */
+enum Enumstate_event_exclusion_invariants_ {
+    _state_event_exclusion_invariants___some_dummy_enum_literal,
+};
+typedef enum Enumstate_event_exclusion_invariants_ state_event_exclusion_invariantsEnum;
+
+extern const char *enum_names[];
+extern int EnumTypePrint(state_event_exclusion_invariantsEnum value, char *dest, int start, int end);
 
 
 /* Event declarations. */

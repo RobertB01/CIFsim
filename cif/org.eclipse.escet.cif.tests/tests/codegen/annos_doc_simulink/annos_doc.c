@@ -1056,6 +1056,13 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 /* }}} */
 
 /* {{{ CIF types. */
+enum Enumannos_doc_ {
+    _annos_doc___some_dummy_enum_literal,
+};
+typedef enum Enumannos_doc_ annos_docEnum;
+
+static const char *enum_names[];
+static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end);
 
 /* }}} */
 
@@ -1132,6 +1139,16 @@ static real_T SimulinkToReal(real_T sr) {
 /* }}} */
 
 /* {{{ Type functions. */
+static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
+}
 
 /* }}} */
 /* {{{ work data structure. */
@@ -1219,7 +1236,9 @@ const char *evt_names[] = { /** < Event names. */
 };
 
 /** Enum names. */
-${enum-names-list}
+static const char *enum_names[] = {
+    "__some_dummy_enum_literal",
+};
 
 /**
  * Reset 'loaded' status of all input variables.

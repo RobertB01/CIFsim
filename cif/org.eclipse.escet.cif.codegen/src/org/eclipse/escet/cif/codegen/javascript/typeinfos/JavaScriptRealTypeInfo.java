@@ -13,9 +13,15 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
+import static org.eclipse.escet.cif.codegen.ExprProperties.INT_INT_DIVIDE;
+import static org.eclipse.escet.cif.codegen.ExprProperties.RANGE_FAILURE;
+import static org.eclipse.escet.cif.codegen.ExprProperties.ZERO_DIVIDE_FAILURE;
+import static org.eclipse.escet.cif.codegen.typeinfos.TypeInfoHelper.convertBinaryExpressionPattern;
 import static org.eclipse.escet.cif.codegen.typeinfos.TypeInfoHelper.convertFunctionCallPattern;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -84,8 +90,8 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("var %s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
@@ -97,41 +103,69 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
+        // Use 'equalObjs' instead of '==' to avoid object equality for two Double objects.
+        if (binOp.equals(BinaryOperator.EQUAL)) {
+            return fmt("%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
+            return fmt("!%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        }
+
+        if (binOp.equals(BinaryOperator.LESS_THAN)) {
+            return "(${left-value}) < (${right-value})";
+        } else if (binOp.equals(BinaryOperator.LESS_EQUAL)) {
+            return "(${left-value}) <= (${right-value})";
+        } else if (binOp.equals(BinaryOperator.GREATER_THAN)) {
+            return "(${left-value}) > (${right-value})";
+        } else if (binOp.equals(BinaryOperator.GREATER_EQUAL)) {
+            return "(${left-value}) >= (${right-value})";
+        }
+
+        throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
 
     @Override
     public ExprCode convertNegate(UnaryExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode childCode = ctxt.exprToTarget(expr.getChild(), null);
+
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(fmt("%sUtils.negateReal(%s)", ctxt.getPrefix(),
+                childCode.getData())));
+        return result;
     }
 
     @Override
     public ExprCode convertAddition(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertBinaryExpressionPattern(expr,
+                fmt("%sUtils.addReal(${left-value}, ${right-value})", ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
     public ExprCode convertSubtraction(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertBinaryExpressionPattern(expr, fmt("%sUtils.subtractReal(${left-value}, ${right-value})",
+                ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
     public ExprCode convertMultiplication(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertBinaryExpressionPattern(expr, fmt("%sUtils.multiplyReal(${left-value}, ${right-value})",
+                ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
     protected ExprCode convertDivision(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        String pattern;
+        if (properties.contains(RANGE_FAILURE) || properties.contains(ZERO_DIVIDE_FAILURE)) {
+            pattern = fmt("%sUtils.divide(${left-value}, ${right-value})", ctxt.getPrefix());
+        } else {
+            Assert.check(properties.size() == 1 && properties.contains(INT_INT_DIVIDE));
+            pattern = "((double)(${left-value})) / (${right-value})";
+        }
+        return convertBinaryExpressionPattern(expr, pattern, dest, ctxt);
     }
 
     @Override
@@ -157,50 +191,42 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
 
     @Override
     public ExprCode convertAbsStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.absReal(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override
     public ExprCode convertMaximumStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.maxReal(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
     }
 
     @Override
     public ExprCode convertMinimumStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.minReal(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
     }
 
     @Override
     public ExprCode convertSignStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.signReal(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override
     public ExprCode convertPowerStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.powReal(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
     }
 
     @Override
     public ExprCode convertSqrtStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.sqrt(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override
     public ExprCode convertCbrtStdLib(Expression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.cbrt(${args})", ctxt.getPrefix()), list(expr), dest, ctxt);
     }
 
     @Override
     public ExprCode convertScaleStdLib(List<Expression> exprs, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        return convertFunctionCallPattern(fmt("%sUtils.scale(${args})", ctxt.getPrefix()), exprs, dest, ctxt);
     }
 
     @Override

@@ -78,13 +78,13 @@ This approach allows full control.
 +
 [source, javascript]
 ----
-exec(frequency)
+exec()
 ----
 +
 Invoke this method to execute the code repeatedly, without ever stopping.
 This repeatedly invokes the `execOnce` method.
 +
-The `frequency` can be used to configure how often, in number of times per second, the code should be executed.
+The `frequency` field (in the generated class) can be used to configure how often, in number of times per second, the code should be executed.
 By given a frequency of `100`, the method attempts to execute the code every 10 milliseconds.
 If a single execution takes less than 10 milliseconds, the method will sleep for the remainder of what is left of the 10 milliseconds.
 However, if a single execution takes more than 10 milliseconds, the next execution is immediately started.

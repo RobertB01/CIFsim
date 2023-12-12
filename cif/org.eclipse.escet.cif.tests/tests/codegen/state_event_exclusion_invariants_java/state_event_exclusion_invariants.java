@@ -277,7 +277,7 @@ public abstract class state_event_exclusion_invariants {
 
     /** state_event_exclusion_invariants enumeration. */
     public static enum state_event_exclusion_invariantsEnum {
-${java-enum-lits-code}
+        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

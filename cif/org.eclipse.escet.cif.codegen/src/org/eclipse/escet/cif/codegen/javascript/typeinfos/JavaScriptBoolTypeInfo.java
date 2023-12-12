@@ -13,10 +13,15 @@
 
 package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 
+import static org.eclipse.escet.cif.codegen.typeinfos.TypeInfoHelper.convertBinaryExpressionPattern;
+import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
+
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
+import org.eclipse.escet.cif.codegen.javascript.JavaScriptDataValue;
 import org.eclipse.escet.cif.codegen.typeinfos.BoolTypeInfo;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
@@ -47,38 +52,66 @@ public class JavaScriptBoolTypeInfo extends BoolTypeInfo {
 
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
     public void declareInit(CodeBox code, DataValue sourceValue, Destination dest) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        code.add(dest.getCode());
+        code.add("var %s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
     public ExprCode convertLiteral(boolean value, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode result = new ExprCode();
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(value ? "true" : "false"));
+        return result;
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
+        // Use 'equalObjs' instead of '==' to avoid object equality for two Boolean objects.
+        if (binOp.equals(BinaryOperator.EQUAL)) {
+            return fmt("%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
+            return fmt("!%sUtils.equalObjs(${left-value}, ${right-value})", ctxt.getPrefix());
+        }
+        throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
 
     @Override
     public ExprCode convertInvert(Expression child, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        ExprCode childCode = ctxt.exprToTarget(child, null);
+        ExprCode result = new ExprCode();
+        result.add(childCode);
+        result.setDestination(dest);
+        result.setDataValue(new JavaScriptDataValue(fmt("!(%s)", childCode.getData())));
+        return result;
     }
 
     @Override
     public ExprCode convertShortCircuit(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        // TODO: Unimplemented method stub, to be implemented when generating JavaScript vars and functions.
-        throw new UnsupportedOperationException("To be implemented");
+        switch (expr.getOperator()) {
+            case IMPLICATION: {
+                String pattern = "!(${left-value}) || (${right-value})";
+                return convertBinaryExpressionPattern(expr, pattern, dest, ctxt);
+            }
+
+            case DISJUNCTION: {
+                String pattern = "(${left-value}) || (${right-value})";
+                return convertBinaryExpressionPattern(expr, pattern, dest, ctxt);
+            }
+
+            case CONJUNCTION: {
+                String pattern = "(${left-value}) && (${right-value})";
+                return convertBinaryExpressionPattern(expr, pattern, dest, ctxt);
+            }
+
+            default:
+                throw new RuntimeException("Unsupported short circuit operator: " + expr.getOperator());
+        }
     }
 
     @Override

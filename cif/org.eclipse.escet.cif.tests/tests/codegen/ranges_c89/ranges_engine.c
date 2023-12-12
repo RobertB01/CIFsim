@@ -119,6 +119,17 @@ int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end) {
     return start;
 }
 
+int EnumTypePrint(rangesEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
+}
+
 
 /** Event names. */
 const char *ranges_event_names[] = {
@@ -153,7 +164,9 @@ const char *ranges_event_names[] = {
 };
 
 /** Enumeration names. */
-
+const char *enum_names[] = {
+    "__some_dummy_enum_literal",
+};
 
 /* Constants. */
 

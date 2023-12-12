@@ -26,3 +26,7 @@ input[type=button] {
 input[type=button]:hover {
     background-color: #ffda6d;
 }
+
+textarea {
+    background: white;
+}
