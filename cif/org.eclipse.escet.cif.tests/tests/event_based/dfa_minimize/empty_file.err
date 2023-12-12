@@ -1,0 +1,2 @@
+ERROR: Failed to apply DFA minimization for CIF file "event_based/dfa_minimize/empty_file.cif".
+CAUSE: DFA minimization can be applied to only one automaton, found 0 automata.

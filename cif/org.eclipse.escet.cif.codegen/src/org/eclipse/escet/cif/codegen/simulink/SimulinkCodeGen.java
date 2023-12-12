@@ -96,7 +96,7 @@ import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.options.processing.PatternMatchingOptionProcessing.OptionMatcher;
 import org.eclipse.escet.common.box.CodeBox;
@@ -544,6 +544,11 @@ public class SimulinkCodeGen extends CodeGen {
         return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetName));
     }
 
+    @Override
+    public DataValue makeDataValue(String value) {
+        return makeValue(value);
+    }
+
     /**
      * Generate the pre-amble code to make Simulink storage structures available.
      *
@@ -799,21 +804,23 @@ public class SimulinkCodeGen extends CodeGen {
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetVariableName);
-            String doc = DocAnnotationProvider.getDoc(var);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
 
             if (!first) {
                 varDefCode.add();
             }
             first = false;
 
-            if (doc == null) {
+            if (docs.isEmpty()) {
                 varDefCode.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
             } else {
                 varDefCode.add("/**");
                 varDefCode.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
-                varDefCode.add(" *");
-                for (String line: doc.split("\\r?\\n")) {
-                    varDefCode.add(" * %s", line);
+                for (String doc: docs) {
+                    varDefCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        varDefCode.add(" * %s", line);
+                    }
                 }
                 varDefCode.add(" */");
             }

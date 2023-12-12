@@ -124,3 +124,7 @@ indexterm:[eliminate the use of locations in expressions,optimality]
 
 This transformation introduces enumerations for the possible values of the location pointer variables.
 To eliminate the enumerations, apply the <<tools-cif2cif-chapter-enums-to-ints>> or <<tools-cif2cif-chapter-enums-to-consts>> CIF to CIF transformation.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

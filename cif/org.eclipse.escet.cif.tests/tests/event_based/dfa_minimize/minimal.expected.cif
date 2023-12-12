@@ -2,13 +2,16 @@ controllable a;
 controllable b;
 automaton minimal:
   alphabet a, b;
+  @state(A = "p")
   location s1:
     initial;
     edge b goto s2;
     edge a goto s3;
+  @state(A = "v")
   location s2:
     edge b goto s1;
     edge a goto s1;
+  @state(A = "m")
   location s3:
     marked;
     edge b goto s1;

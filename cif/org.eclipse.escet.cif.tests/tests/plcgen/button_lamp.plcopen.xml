@@ -68,6 +68,11 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <tempVars>
+            <variable name="curValue">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
             <variable name="current_hw_button">
               <type>
                 <derived name="hw_button_location"/>
@@ -213,6 +218,11 @@
                 <DINT/>
               </type>
             </variable>
+            <variable name="timeOut">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
           </tempVars>
         </interface>
         <body>
@@ -220,21 +230,35 @@
             <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 
-(* --- Initialize state. --------------------------------------------------- *)
+(* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
+    loopsKilled := 0;
 
     (* Initialize the state variables. *)
+    timer_t := 0.0;
+    (* Reset timer of "timer_t". *)
+    preset_timer_t := timer_t;
+    ton_timer_t(IN := FALSE, PT := preset_timer_t);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t);
     timer := timer_Idle;
     sup := sup_s1;
     hw_button := hw_button_Released;
     hw_lamp_bit := FALSE;
     hw_lamp := hw_lamp_Off;
+ELSE
+    (* Update remaining time of "timer_t". *)
+    ton_timer_t(IN := TRUE, PT := preset_timer_t, Q =&gt; timeOut, ET =&gt; curValue);
+    timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
 END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
-WHILE isProgress DO
+(* Perform events until none can be done anymore. *)
+(* Track the number of iterations and abort if there are too many. *)
+loopCount := 0;
+WHILE isProgress AND loopCount &lt; 100 DO
+    loopCount := loopCount + 1;
     isProgress := FALSE;
 
     (* Try to perform event "timer.start". *)
@@ -257,9 +281,13 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_sup := sup;
         current_timer := timer;
-        current_timer_t := someContvariable;
+        current_timer_t := timer_t;
         IF syncAutEdge = 1 THEN
-            someContvariable := 0.0;
+            timer_t := 3.0;
+            (* Reset timer of "timer_t". *)
+            preset_timer_t := timer_t;
+            ton_timer_t(IN := FALSE, PT := preset_timer_t);
+            ton_timer_t(IN := TRUE, PT := preset_timer_t);
             timer := timer_Running;
         END_IF;
         IF syncAutEdge__1 = 1 THEN
@@ -268,9 +296,10 @@ WHILE isProgress DO
             sup := sup_s7;
         END_IF;
     END_IF;
+
     (* Try to perform event "timer.timeout". *)
     eventEnabled := TRUE;
-    IF timer = timer_Running AND someContvariable &gt;= 3.0 THEN
+    IF timer = timer_Running AND timer_t &lt;= 0.0 THEN
         syncAutEdge__2 := 1;
     ELSE
         eventEnabled := FALSE;
@@ -297,6 +326,7 @@ WHILE isProgress DO
             sup := sup_s9;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.push". *)
     eventEnabled := TRUE;
     IF sup = sup_s1 THEN
@@ -338,6 +368,7 @@ WHILE isProgress DO
             hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.release". *)
     eventEnabled := TRUE;
     IF sup = sup_s2 THEN
@@ -354,7 +385,7 @@ WHILE isProgress DO
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
-        IF hw_button = hw_button_Pushed AND NOT(IN := hw_button_bit) THEN
+        IF hw_button = hw_button_Pushed AND NOT hw_button_bit THEN
             syncAutEdge__7 := 1;
         ELSE
             eventEnabled := FALSE;
@@ -379,6 +410,7 @@ WHILE isProgress DO
             hw_button := hw_button_Released;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.on". *)
     eventEnabled := TRUE;
     IF sup = sup_s2 THEN
@@ -410,6 +442,7 @@ WHILE isProgress DO
             hw_lamp := hw_lamp_On;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.off". *)
     eventEnabled := TRUE;
     IF sup = sup_s8 THEN
@@ -442,6 +475,10 @@ WHILE isProgress DO
         END_IF;
     END_IF;
 END_WHILE;
+(* Register the first 9999 aborted loops. *)
+IF loopCount &gt;= 100 THEN
+    loopsKilled := MIN(loopsKilled + 1, 9999);
+END_IF;
 
 (* --- Write output to actuators. ------------------------------------------ *)
 out_hw_lamp_bit := hw_lamp_bit;</xhtml>
@@ -476,6 +513,11 @@ out_hw_lamp_bit := hw_lamp_bit;</xhtml>
             </variable>
           </globalVars>
           <globalVars constant="false" name="STATE">
+            <variable name="timer_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
             <variable name="timer">
               <type>
                 <derived name="timer_location"/>
@@ -508,6 +550,16 @@ out_hw_lamp_bit := hw_lamp_bit;</xhtml>
             </variable>
           </globalVars>
           <globalVars constant="false" name="TIMERS">
+            <variable name="ton_timer_t">
+              <type>
+                <derived name="TON"/>
+              </type>
+            </variable>
+            <variable name="preset_timer_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
             <variable name="firstRun">
               <type>
                 <BOOL/>
@@ -516,23 +568,15 @@ out_hw_lamp_bit := hw_lamp_bit;</xhtml>
                 <simpleValue value="TRUE"/>
               </initialValue>
             </variable>
-            <variable name="timer0">
+            <variable name="loopCount">
               <type>
-                <derived name="TON"/>
+                <DINT/>
               </type>
             </variable>
-            <variable name="timer1">
-              <type>
-                <derived name="TON"/>
-              </type>
-            </variable>
-            <variable name="curTimer">
+            <variable name="loopsKilled">
               <type>
                 <INT/>
               </type>
-              <initialValue>
-                <simpleValue value="0"/>
-              </initialValue>
             </variable>
           </globalVars>
         </resource>

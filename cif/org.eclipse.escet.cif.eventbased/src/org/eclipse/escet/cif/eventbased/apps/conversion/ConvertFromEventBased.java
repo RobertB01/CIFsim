@@ -59,9 +59,13 @@ public class ConvertFromEventBased {
      *
      * @param aut Automaton to convert.
      * @param resultName Name of the resulting automaton.
+     * @param doAddStateAnnos Whether to add state annotations to the locations of the automaton ({@code true}) or not
+     *     add any state annotations ({@code false}).
      * @return CIF specification containing the converted automaton and its events.
      */
-    public Specification convertAutomaton(org.eclipse.escet.cif.eventbased.automata.Automaton aut, String resultName) {
+    public Specification convertAutomaton(org.eclipse.escet.cif.eventbased.automata.Automaton aut, String resultName,
+            boolean doAddStateAnnos)
+    {
         Specification spec = newSpecification();
         // Convert and add events.
         Map<org.eclipse.escet.cif.eventbased.automata.Event, Event> eventMap;
@@ -116,13 +120,13 @@ public class ConvertFromEventBased {
         locMap = mapc(aut.size());
         for (org.eclipse.escet.cif.eventbased.automata.Location loc: aut) {
             // Find or create the location.
-            Location cifSrc = getLocation(loc, aut.initial, cifAut);
+            Location cifSrc = getLocation(loc, aut.initial, cifAut, doAddStateAnnos);
 
             OutgoingEdgeIterator edgeIter = loc.getOutgoing();
             for (org.eclipse.escet.cif.eventbased.automata.Edge edge: edgeIter) {
                 Location cifDest = null;
                 if (loc != edge.dstLoc) {
-                    cifDest = getLocation(edge.dstLoc, aut.initial, cifAut);
+                    cifDest = getLocation(edge.dstLoc, aut.initial, cifAut, doAddStateAnnos);
                 }
 
                 Event event = eventMap.get(edge.event);
@@ -202,16 +206,20 @@ public class ConvertFromEventBased {
      * @param loc Location in the event-based synthesis tools.
      * @param initLoc Initial location in the event-based automaton.
      * @param cifAut CIF automaton containing the CIF locations.
+     * @param doAddStateAnnos Whether to add state annotations to the locations of the automaton ({@code true}) or not
+     *     add any state annotations ({@code false}).
      * @return The retrieved or created CIF location representing 'loc'.
      */
     private Location getLocation(org.eclipse.escet.cif.eventbased.automata.Location loc,
-            org.eclipse.escet.cif.eventbased.automata.Location initLoc, Automaton cifAut)
+            org.eclipse.escet.cif.eventbased.automata.Location initLoc, Automaton cifAut, boolean doAddStateAnnos)
     {
+        // Use earlier created CIF location, if already created.
         Location cifLoc = locMap.get(loc);
         if (cifLoc != null) {
             return cifLoc;
         }
 
+        // Make a new CIF location
         String name = "s" + Integer.toString(number);
         number++;
 
@@ -223,8 +231,17 @@ public class ConvertFromEventBased {
         if (loc.marked) {
             cifLoc.getMarkeds().add(CifValueUtils.makeTrue());
         }
+
+        // Add the new location to the CIF automaton and the location mapping.
         cifAut.getLocations().add(cifLoc);
         locMap.put(loc, cifLoc);
+
+        // Add state annotations, if requested.
+        if (doAddStateAnnos) {
+            cifLoc.getAnnotations().addAll(loc.createStateAnnos());
+        }
+
+        // Return the CIF location.
         return cifLoc;
     }
 }

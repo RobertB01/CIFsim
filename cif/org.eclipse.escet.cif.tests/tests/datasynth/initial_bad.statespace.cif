@@ -2,11 +2,14 @@ uncontrollable u1;
 uncontrollable u2;
 automaton statespace:
   alphabet u1, u2;
+  @state(p = "l0", p.x = 16, sup = "*")
   location loc1:
     initial;
     edge u1 goto loc2;
+  @state(p = "l1", p.x = 16, sup = "*")
   location loc2:
     edge u2 goto loc3;
+  @state(p = "l2", p.x = 16, sup = "*")
   location loc3:
     marked;
 end

@@ -195,7 +195,7 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "(${left-value}) == (${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

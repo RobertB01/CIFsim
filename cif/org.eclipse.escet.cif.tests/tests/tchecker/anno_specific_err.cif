@@ -17,3 +17,21 @@ input bool i1;
 
 @cif:typechecker:tests:anno1(arg1 = true, arg2 = false)
 input bool i2;
+
+// Also check other types of annotated objects.
+
+automaton a1:
+  @cif:typechecker:tests:anno1
+  location:
+    initial;
+end
+
+automaton a2:
+  @cif:typechecker:tests:anno1
+  location loc1:
+    initial;
+
+  @cif:typechecker:tests:anno1
+  location loc2:
+    initial;
+end

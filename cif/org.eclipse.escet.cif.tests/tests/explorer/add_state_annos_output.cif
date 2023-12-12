@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+// Named and nameless locations in the state.
+
+automaton nameless:
+  location:
+    initial;
+end
+
+automaton named:
+  location loc1:
+    initial;
+    edge e goto loc2;
+
+  location loc2;
+end
+
+// Continuous and discrete variables in the state.
+
+cont cvar der 1;
+
+automaton vars:
+  cont cvar der 1;
+  disc bool dvar;
+  location loc1:
+    initial;
+    edge e do cvar := 2, dvar := true goto loc2;
+
+  location loc2;
+end
+
+// Absolute names.
+
+group abs1:
+  group abs2:
+    cont abs3 = 1.23 der 1;
+  end
+end
+
+// Keyword names.
+
+cont $cont der 1;
+
+// Different variable types.
+
+group functions:
+  func bool invert(bool b):
+    return not b;
+  end
+end
+
+automaton types:
+  enum E = lit1, lit2;
+
+  disc bool b = true;
+  disc int i1 = 123;             // Positive.
+  disc int i2 = -123;            // Negative.
+  disc int i3 = -2147483647 - 1; // Minimum integer value.
+  disc int i4 = 2147483647;      // Maximum integer value.
+  disc real r1 = 1.23;           // Positive.
+  disc real r2 = -1.23;          // Negative.
+  disc string str = "a\nb\tc\"d";
+  disc E e = lit2;
+  disc tuple(bool a; int b) t = (true, 135);
+  disc list list int l = [[1, 2, 3], [4, 5, 6]];
+  disc set real s = {1.2, 3.7, 8.9};
+  disc dict(bool: int) d = {true: 1, false: 5};
+  disc func bool(bool) f1 = functions.invert;
+  disc func bool(bool) f2;       // A dummy function is created for the default initial value.
+
+  location:
+    initial;
+end

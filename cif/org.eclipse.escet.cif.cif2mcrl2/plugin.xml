@@ -40,12 +40,12 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_to_mcrl2.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.validation"
                label="CIF simul&amp;ation, validation and verification tools">
             <command
                   commandId="org.eclipse.escet.cif.cif2mcrl2.CifToMcrl2Command"
-                  icon="icons/cif_to_mcrl2.png"
+                  icon="icons/cif_app.png"
                   label="Convert CIF to &amp;mCRL2...">
                <visibleWhen>
                   <or>

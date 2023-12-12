@@ -7,24 +7,31 @@ group p:
 end
 automaton statespace:
   alphabet p.ed1, p.ed2, p.ed3, p.ed4, p.ed5;
+  @state(p = "loc1", p.d1 = 1, p.d2 = 1, p.d3 = 1, p.d4 = 1, p.d5 = 1, sup = "*")
   location loc1:
     initial;
     edge p.ed1 goto loc7;
+  @state(p = "loc1", p.d1 = 1, p.d2 = 1, p.d3 = 1, p.d4 = 4, p.d5 = 1, sup = "*")
   location loc2:
     initial;
     edge p.ed4 goto loc7;
+  @state(p = "loc1", p.d1 = 1, p.d2 = 1, p.d3 = 3, p.d4 = 1, p.d5 = 1, sup = "*")
   location loc3:
     initial;
     edge p.ed3 goto loc7;
+  @state(p = "loc1", p.d1 = 1, p.d2 = 1, p.d3 = 4, p.d4 = 1, p.d5 = 1, sup = "*")
   location loc4:
     initial;
     edge p.ed3 goto loc7;
+  @state(p = "loc1", p.d1 = 1, p.d2 = 2, p.d3 = 1, p.d4 = 1, p.d5 = 1, sup = "*")
   location loc5:
     initial;
     edge p.ed2 goto loc7;
+  @state(p = "loc1", p.d1 = 1, p.d2 = 3, p.d3 = 1, p.d4 = 1, p.d5 = 1, sup = "*")
   location loc6:
     initial;
     edge p.ed2 goto loc7;
+  @state(p = "loc2", p.d1 = 1, p.d2 = 1, p.d3 = 1, p.d4 = 1, p.d5 = 1, sup = "*")
   location loc7:
     marked;
 end

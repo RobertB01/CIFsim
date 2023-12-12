@@ -55,23 +55,23 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
 
     @Override
     public ExprCode convertLessThan(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_THAN), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_THAN, ctxt), dest, ctxt);
     }
 
     @Override
     public ExprCode convertLessEqual(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_EQUAL), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_EQUAL, ctxt), dest, ctxt);
     }
 
     @Override
     public ExprCode convertGreaterEqual(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_EQUAL), dest,
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_EQUAL, ctxt), dest,
                 ctxt);
     }
 
     @Override
     public ExprCode convertGreaterThan(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_THAN), dest,
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_THAN, ctxt), dest,
                 ctxt);
     }
 
@@ -80,7 +80,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      *
      * @param value Literal value.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertLiteral(String value, Destination dest, CodeContext ctxt);
@@ -89,7 +89,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      * Convert the 'time' expression to the target language.
      *
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertTimeExpression(Destination dest, CodeContext ctxt);
@@ -99,7 +99,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertAddition(BinaryExpression expr, Destination dest, CodeContext ctxt);
@@ -109,7 +109,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertSubtraction(BinaryExpression expr, Destination dest, CodeContext ctxt);
@@ -119,7 +119,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertMultiplication(BinaryExpression expr, Destination dest, CodeContext ctxt);
@@ -129,7 +129,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertDivision(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -155,7 +155,7 @@ public abstract class RealTypeInfo extends TypeInfo implements NegateOperation, 
      * @param expr Expression to convert to the target language.
      * @param properties Properties of the operation.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     protected abstract ExprCode convertDivision(BinaryExpression expr, EnumSet<ExprProperties> properties,

@@ -955,21 +955,21 @@ public final class CifParserHooks implements CifParser.Hooks {
         return l1;
     }
 
-    @Override // Location : @LOCATIONKW SEMICOLTK;
-    public ALocation parseLocation1(Token t1) {
-        return new ALocation(null, null, t1.position);
+    @Override // Location : OptAnnos @LOCATIONKW SEMICOLTK;
+    public ALocation parseLocation1(List<AAnnotation> l1, Token t2) {
+        return new ALocation(l1, null, null, t2.position);
     }
 
-    @Override // Location : @LOCATIONKW Identifier SEMICOLTK;
-    public ALocation parseLocation2(Token t1, AIdentifier a2) {
-        return new ALocation(a2, null, t1.position);
+    @Override // Location : OptAnnos @LOCATIONKW Identifier SEMICOLTK;
+    public ALocation parseLocation2(List<AAnnotation> l1, Token t2, AIdentifier a3) {
+        return new ALocation(l1, a3, null, t2.position);
     }
 
-    @Override // Location : @LOCATIONKW COLONTK LocationElements;
-    public ALocation parseLocation3(Token t1, List<ALocationElement> l3) {
-        ALocation loc = new ALocation(null, l3, t1.position);
+    @Override // Location : OptAnnos @LOCATIONKW COLONTK LocationElements;
+    public ALocation parseLocation3(List<AAnnotation> l1, Token t2, List<ALocationElement> l4) {
+        ALocation loc = new ALocation(l1, null, l4, t2.position);
 
-        for (ALocationElement lelem: l3) {
+        for (ALocationElement lelem: l4) {
             if (!(lelem instanceof AEquationLocationElement)) {
                 continue;
             }
@@ -982,11 +982,11 @@ public final class CifParserHooks implements CifParser.Hooks {
         return loc;
     }
 
-    @Override // Location : @LOCATIONKW Identifier COLONTK LocationElements;
-    public ALocation parseLocation4(Token t1, AIdentifier a2, List<ALocationElement> l4) {
-        ALocation loc = new ALocation(a2, l4, t1.position);
+    @Override // Location : OptAnnos @LOCATIONKW Identifier COLONTK LocationElements;
+    public ALocation parseLocation4(List<AAnnotation> l1, Token t2, AIdentifier a3, List<ALocationElement> l5) {
+        ALocation loc = new ALocation(l1, a3, l5, t2.position);
 
-        for (ALocationElement lelem: l4) {
+        for (ALocationElement lelem: l5) {
             if (!(lelem instanceof AEquationLocationElement)) {
                 continue;
             }

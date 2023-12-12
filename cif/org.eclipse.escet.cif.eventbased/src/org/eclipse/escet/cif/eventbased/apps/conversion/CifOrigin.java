@@ -13,11 +13,22 @@
 
 package org.eclipse.escet.cif.eventbased.apps.conversion;
 
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotation;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotationArgument;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
+import static org.eclipse.escet.common.java.Lists.list;
+
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.eventbased.automata.origin.Origin;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
 
 /** Origin is a location in a CIF automaton. */
@@ -32,6 +43,18 @@ public class CifOrigin extends Origin {
      */
     public CifOrigin(Location cifLoc) {
         this.cifLoc = cifLoc;
+    }
+
+    @Override
+    public List<Annotation> createStateAnnos() {
+        Automaton cifAut = (Automaton)cifLoc.eContainer();
+        Assert.notNull(cifAut);
+        String autName = CifTextUtils.getAbsName(cifAut, false);
+        String locName = (cifLoc.getName() == null) ? "*" : cifLoc.getName();
+        Expression value = newStringExpression(null, newStringType(), locName);
+        AnnotationArgument arg = newAnnotationArgument(autName, null, value);
+        Annotation anno = newAnnotation(list(arg), "state", null);
+        return list(anno);
     }
 
     @Override

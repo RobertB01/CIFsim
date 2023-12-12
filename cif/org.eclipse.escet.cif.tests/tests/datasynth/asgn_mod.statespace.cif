@@ -7,18 +7,22 @@ group p:
 end
 automaton statespace:
   alphabet p.em1, p.em2, p.em3, p.em4, p.em5;
+  @state(p = "loc1", p.m1 = 1, p.m2 = 1, p.m3 = 1, p.m4 = 1, p.m5 = 1, sup = "*")
   location loc1:
     initial;
     edge p.em2 goto loc4;
     edge p.em3 goto loc4;
     edge p.em4 goto loc4;
     edge p.em5 goto loc4;
+  @state(p = "loc1", p.m1 = 1, p.m2 = 1, p.m3 = 4, p.m4 = 1, p.m5 = 1, sup = "*")
   location loc2:
     initial;
     edge p.em3 goto loc4;
+  @state(p = "loc1", p.m1 = 1, p.m2 = 3, p.m3 = 1, p.m4 = 1, p.m5 = 1, sup = "*")
   location loc3:
     initial;
     edge p.em2 goto loc4;
+  @state(p = "loc2", p.m1 = 1, p.m2 = 1, p.m3 = 1, p.m4 = 1, p.m5 = 1, sup = "*")
   location loc4:
     marked;
 end

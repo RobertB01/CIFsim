@@ -13,9 +13,13 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import java.util.EnumSet;
+
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
+import org.eclipse.escet.cif.plcgen.generators.DefaultContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultTypeGenerator;
@@ -29,6 +33,7 @@ import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -37,7 +42,7 @@ import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Base class for generating a {@link PlcProject}. */
-public abstract class PlcBaseTarget implements PlcTarget {
+public abstract class PlcBaseTarget extends PlcTarget {
     /** Size of an integer value in a CIF specification. */
     public static final int CIF_INTEGER_SIZE = 32;
 
@@ -67,6 +72,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
 
     /** Generates PLC code for performing CIF event transitions. */
     protected TransitionGenerator transitionGenerator;
+
+    /** Code generator for handling continuous behavior. */
+    private ContinuousVariablesGenerator continuousVariablesGenerator;
 
     /** Generator that creates input and output PLC code. */
     protected InputOutputGenerator ioGenerator;
@@ -138,9 +146,16 @@ public abstract class PlcBaseTarget implements PlcTarget {
         cifProcessor = new CifProcessor(this, settings);
         transitionGenerator = new DefaultTransitionGenerator(this);
         ioGenerator = new InputOutputGenerator(this, settings);
+        continuousVariablesGenerator = new DefaultContinuousVariablesGenerator(this);
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
+        if (settings.shouldTerminate.get()) {
+            return;
+        }
+
+        // Add code and data to variable storage for the previously supplied continuous variables.
+        continuousVariablesGenerator.process();
         if (settings.shouldTerminate.get()) {
             return;
         }
@@ -201,6 +216,11 @@ public abstract class PlcBaseTarget implements PlcTarget {
     }
 
     @Override
+    public ContinuousVariablesGenerator getContinuousVariablesGenerator() {
+        return continuousVariablesGenerator;
+    }
+
+    @Override
     public VariableStorage getVarStorage() {
         return varStorage;
     }
@@ -221,14 +241,9 @@ public abstract class PlcBaseTarget implements PlcTarget {
     }
 
     @Override
-    public boolean supportsOperation(PlcFuncOperation funcOper) {
-        // By default the operation is supported.
-        return true;
-    }
-
-    @Override
-    public boolean supportsInfixNotation(PlcFuncOperation funcOper) {
-        return true;
+    public EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
+        // Notations get removed from the set when there is no infix or prefix name available.
+        return PlcFuncNotation.ALL;
     }
 
     @Override

@@ -49,7 +49,7 @@ public abstract class StringTypeInfo extends TypeInfo {
      *
      * @param value Literal value, escaped string, with double quotes added around it.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertLiteral(String value, Destination dest, CodeContext ctxt);
@@ -59,7 +59,7 @@ public abstract class StringTypeInfo extends TypeInfo {
      *
      * @param expr Concatenation expression to convert.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertConcatenation(BinaryExpression expr, Destination dest, CodeContext ctxt);
@@ -69,7 +69,7 @@ public abstract class StringTypeInfo extends TypeInfo {
      *
      * @param expression Argument of the function call.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertSizeStdLib(Expression expression, Destination dest, CodeContext ctxt);
@@ -79,7 +79,7 @@ public abstract class StringTypeInfo extends TypeInfo {
      *
      * @param args Arguments of the function call.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertFormatStdLib(List<Expression> args, Destination dest, CodeContext ctxt) {
@@ -105,7 +105,7 @@ public abstract class StringTypeInfo extends TypeInfo {
      * @param args Arguments of the pattern.
      * @param argTypes Normalized types of the arguments of the pattern.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertFormatFunction(String pattern, List<Expression> args, List<CifType> argTypes,
@@ -117,7 +117,7 @@ public abstract class StringTypeInfo extends TypeInfo {
      * @param childCode Code to obtain the string.
      * @param indexCode Code to obtain the index value.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context.
+     * @param ctxt Code context of the expression.
      * @return Code expressing accessing the character in the string at the requested index.
      */
     public abstract ExprCode getProjectedValue(ExprCode childCode, ExprCode indexCode, Destination dest,

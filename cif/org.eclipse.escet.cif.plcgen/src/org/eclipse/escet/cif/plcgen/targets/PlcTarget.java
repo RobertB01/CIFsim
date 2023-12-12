@@ -13,8 +13,11 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import java.util.EnumSet;
+
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
@@ -24,14 +27,16 @@ import org.eclipse.escet.cif.plcgen.generators.io.DefaultIoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 
-/** Code generator interface for a {@link PlcBaseTarget}. */
-public interface PlcTarget {
+/** Code generator 'interface' for a {@link PlcBaseTarget}. */
+public abstract class PlcTarget {
     /**
      * Obtain the target type of the target.
      *
@@ -59,6 +64,13 @@ public interface PlcTarget {
      * @return The transition generator of the target.
      */
     public abstract TransitionGenerator getTransitionGenerator();
+
+    /**
+     * Retrieve the continuous variables generator.
+     *
+     * @return The continuous variables generator of the target.
+     */
+    public abstract ContinuousVariablesGenerator getContinuousVariablesGenerator();
 
     /**
      * Retrieve the variable storage.
@@ -113,19 +125,32 @@ public interface PlcTarget {
      * Does the target support the given semantic operation?
      *
      * @param funcOper Semantics operation being queried.
+     * @param numArgs Number of supplied arguments to the applied function.
      * @return Whether the target supports the given operation.
+     * @see #getSupportedFuncNotations
      */
-    public abstract boolean supportsOperation(PlcFuncOperation funcOper);
+    public final boolean supportsOperation(PlcFuncOperation funcOper, int numArgs) {
+        return !getSupportedFuncNotations(funcOper, numArgs).isEmpty();
+    }
 
     /**
-     * Does the target support infix notation for the given semantic operation?
+     * Get the set of supported function-call notations for the given semantic operation.
+     *
+     * <p>
+     * Notes:
+     * <ul>
+     * <li>Remove operations by not having a notation for them. This only works if the code generator can fallback to
+     * another way to express the needed functionality. Currently that is only implemented for LOG.</li>
+     * <li>The {@link PlcFuncApplStatement} class needs a function in prefix notation.</li>
+     * </ul>
+     * </p>
      *
      * @param funcOper Semantics operation being queried.
-     * @return Whether the target support infix notation for the given operation.
-     * @note The result is undefined for operations that are not supported by the target and for operations that do not
-     *     have an infix notation.
+     * @param numArgs Number of supplied arguments to the applied function.
+     * @return The set of supported function-call notations for the operation.
+     * @see #supportsOperation
      */
-    public abstract boolean supportsInfixNotation(PlcFuncOperation funcOper);
+    public abstract EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs);
 
     /**
      * Query whether the power function {@code base ** exponent} exists for a given combination of parameter types.
@@ -159,7 +184,7 @@ public interface PlcTarget {
      * @param plcAddressText Text to parse.
      * @return The parsed address information and its properties or {@code null} if the text cannot be parsed.
      */
-    public default IoAddress parseIoAddress(String plcAddressText) {
+    public IoAddress parseIoAddress(String plcAddressText) {
         return DefaultIoAddress.parseAddress(plcAddressText);
     }
 
@@ -193,5 +218,5 @@ public interface PlcTarget {
      * @param project Project to write.
      * @note Depending on the actual write implementation a single file or a directory may be written.
      */
-    void writeOutput(PlcProject project);
+    public abstract void writeOutput(PlcProject project);
 }

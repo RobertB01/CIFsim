@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
+import java.util.EnumSet;
+
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
 
 /** Function description extended with the semantic operation being performed in a function application. */
@@ -25,17 +27,20 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *
      * @param operation The semantic operation performed by the function application.
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
-     * @param prefixParameters Prefix notation properties of the function parameters.
+     * @param parameters Parameters of the function.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist. For
      *     single parameter functions the infix name is assumed to be a prefix directly attached to the parameter,
      *     otherwise the infix name is assumed to be between arguments surrounded by spaces.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
      *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
+     * @param notations Notations of the function that are supported by the target. May get restricted based on
+     *     available infix and prefix function names.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] prefixParameters, String infixFuncName, ExprBinding infixBinding)
+            PlcParameterDescription[] parameters, String infixFuncName, ExprBinding infixBinding,
+            EnumSet<PlcFuncNotation> notations)
     {
-        super(prefixFuncName, prefixParameters, infixFuncName, infixBinding);
+        super(prefixFuncName, parameters, infixFuncName, infixBinding, notations);
         this.operation = operation;
     }
 
@@ -44,11 +49,13 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *
      * @param operation The semantic operation performed by the function application.
      * @param prefixFuncName Prefix notation properties of the function parameters.
-     * @param prefixParameters Names of the function parameters (input, output, in-out) in prefix notation.
+     * @param parameters Parameters of the function.
+     * @param notations Notations of the function that are supported by the target. May get restricted based on
+     *     available infix and prefix function names.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] prefixParameters)
+            PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations)
     {
-        this(operation, prefixFuncName, prefixParameters, null, ExprBinding.NO_PRIORITY);
+        this(operation, prefixFuncName, parameters, null, ExprBinding.NO_PRIORITY, notations);
     }
 }

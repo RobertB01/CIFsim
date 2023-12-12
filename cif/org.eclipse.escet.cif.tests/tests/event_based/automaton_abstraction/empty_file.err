@@ -1,0 +1,2 @@
+ERROR: Failed to compute automaton abstraction for CIF file "event_based/automaton_abstraction/empty_file.cif".
+CAUSE: CIF input file contains 0 automata, while automaton abstraction requires a file with exactly one automaton.

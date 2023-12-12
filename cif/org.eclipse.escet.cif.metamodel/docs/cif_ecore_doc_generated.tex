@@ -880,7 +880,8 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\emph{Location}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\emph{Location}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -888,6 +889,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Location.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:Location.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{cont}{edges}{{[0..*]}}{Edge}{}{\label{cifattr:Location.edges}}
 {\featdocuLocationedges}
 \cifclassDetail{cont}{equations}{{[0..*]}}{Equation}{}{\label{cifattr:Location.equations}}
@@ -2844,7 +2847,7 @@ none
 \hookindent\hook~\emph{AnnotatedObject}
 
 ~\\ \noindent Direct derived classes:
-\cifclass{Declaration}
+\cifclass{Declaration}, \cifclass{Location}
 
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AnnotatedObject.position}}

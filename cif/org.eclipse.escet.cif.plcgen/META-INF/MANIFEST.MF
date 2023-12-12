@@ -18,7 +18,9 @@ Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="2.0.0",
  org.eclipse.escet.cif.common;bundle-version="2.0.0",
  org.eclipse.escet.common.box;bundle-version="2.0.0",
  org.eclipse.escet.cif.metamodel.java;bundle-version="2.0.0",
- org.eclipse.escet.cif.checkers;bundle-version="2.0.0"
+ org.eclipse.escet.cif.checkers;bundle-version="2.0.0",
+ org.eclipse.core.resources;bundle-version="3.18.200",
+ org.eclipse.escet.common.eclipse.ui;bundle-version="2.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Automatic-Module-Name: org.eclipse.escet.cif.plcgen
 Export-Package: org.eclipse.escet.cif.plcgen,
@@ -26,6 +28,7 @@ Export-Package: org.eclipse.escet.cif.plcgen,
  org.eclipse.escet.cif.plcgen.conversion.expressions,
  org.eclipse.escet.cif.plcgen.generators,
  org.eclipse.escet.cif.plcgen.generators.io,
+ org.eclipse.escet.cif.plcgen.generators.prechecks,
  org.eclipse.escet.cif.plcgen.model,
  org.eclipse.escet.cif.plcgen.model.declarations,
  org.eclipse.escet.cif.plcgen.model.expressions,

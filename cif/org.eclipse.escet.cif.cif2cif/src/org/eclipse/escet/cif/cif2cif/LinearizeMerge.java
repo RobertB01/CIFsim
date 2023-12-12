@@ -85,6 +85,29 @@ import org.eclipse.escet.common.java.Triple;
  * </p>
  */
 public class LinearizeMerge extends LinearizeBase {
+    /**
+     * Constructor for the {@link LinearizeMerge} class.
+     *
+     * <p>
+     * Does not allow optimization of initialization of newly introduced location pointers, by analyzing declarations
+     * (used for instance in initialization predicates) to see whether they have constant values.
+     * </p>
+     */
+    public LinearizeMerge() {
+        this(false);
+    }
+
+    /**
+     * Constructor for the {@link LinearizeMerge} class.
+     *
+     * @param optInits Whether to allow optimization of initialization of newly introduced location pointers, by
+     *     analyzing declarations (used for instance in initialization predicates) to see whether they have constant
+     *     values.
+     */
+    public LinearizeMerge(boolean optInits) {
+        super(optInits);
+    }
+
     @Override
     protected void createEdges(List<Automaton> auts, Automaton mergedAut, Location mergedLoc) {
         // Get all events to process (the merged alphabet).

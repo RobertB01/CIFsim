@@ -174,7 +174,7 @@ public class JavaTupleTypeInfo extends TupleTypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         // Use 'equalObjs' instead of '==' to avoid object equality for two tuple objects.
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "equalObjs(${left-value}, ${right-value})";

@@ -3,57 +3,77 @@ controllable inc_y;
 controllable done;
 automaton statespace:
   alphabet inc_x, inc_y, done;
+  @state(p = "a", p.x = 0, p.y = 0, sup = "*")
   location loc1:
     initial;
     edge inc_x goto loc2;
     edge inc_y goto loc3;
+  @state(p = "a", p.x = 1, p.y = 0, sup = "*")
   location loc2:
     edge inc_x goto loc4;
     edge inc_y goto loc5;
+  @state(p = "a", p.x = 0, p.y = 1, sup = "*")
   location loc3:
     edge inc_x goto loc5;
     edge inc_y goto loc6;
     edge done goto loc7;
+  @state(p = "a", p.x = 2, p.y = 0, sup = "*")
   location loc4:
     edge inc_x goto loc8;
     edge inc_y goto loc9;
+  @state(p = "a", p.x = 1, p.y = 1, sup = "*")
   location loc5:
     edge inc_x goto loc9;
     edge inc_y goto loc10;
+  @state(p = "a", p.x = 0, p.y = 2, sup = "*")
   location loc6:
     edge inc_x goto loc10;
     edge inc_y goto loc11;
+  @state(p = "b", p.x = 0, p.y = 1, sup = "*")
   location loc7:
     marked;
+  @state(p = "a", p.x = 3, p.y = 0, sup = "*")
   location loc8:
     edge inc_y goto loc12;
+  @state(p = "a", p.x = 2, p.y = 1, sup = "*")
   location loc9:
     edge inc_x goto loc12;
     edge inc_y goto loc13;
+  @state(p = "a", p.x = 1, p.y = 2, sup = "*")
   location loc10:
     edge inc_x goto loc13;
     edge inc_y goto loc14;
     edge done goto loc15;
+  @state(p = "a", p.x = 0, p.y = 3, sup = "*")
   location loc11:
     edge inc_x goto loc14;
+  @state(p = "a", p.x = 3, p.y = 1, sup = "*")
   location loc12:
     edge inc_y goto loc16;
+  @state(p = "a", p.x = 2, p.y = 2, sup = "*")
   location loc13:
     edge inc_x goto loc16;
     edge inc_y goto loc17;
     edge done goto loc18;
+  @state(p = "a", p.x = 1, p.y = 3, sup = "*")
   location loc14:
     edge inc_x goto loc17;
+  @state(p = "b", p.x = 1, p.y = 2, sup = "*")
   location loc15:
     marked;
+  @state(p = "a", p.x = 3, p.y = 2, sup = "*")
   location loc16:
     edge inc_y goto loc19;
+  @state(p = "a", p.x = 2, p.y = 3, sup = "*")
   location loc17:
     edge inc_x goto loc19;
+  @state(p = "b", p.x = 2, p.y = 2, sup = "*")
   location loc18:
     marked;
+  @state(p = "a", p.x = 3, p.y = 3, sup = "*")
   location loc19:
     edge done goto loc20;
+  @state(p = "b", p.x = 3, p.y = 3, sup = "*")
   location loc20:
     marked;
 end

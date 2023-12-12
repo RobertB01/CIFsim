@@ -36,9 +36,9 @@ Annotations have two main purposes:
 * Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
 * Annotations allow to test out language extensions before fully integrating them into the language.
 
-Currently, annotations are only supported for input variables, but this will be extended to other elements of specifications in the future.
+Currently, annotations are only supported for input variables and locations of automata, but this will be extended to other elements of specifications in the future.
 
-The following annotations are bundled with CIF:
+The following built-in annotations are bundled with CIF:
 
 [cols="2,1"]
 |===
@@ -46,7 +46,17 @@ The following annotations are bundled with CIF:
 
 | <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
 | `doc`
+| <<lang-tut-extensions-chapter-annotations-state,State>>
+| `state`
 |===
+
+Annotations are an extension mechanism, and anyone can <<lang-ref-extensions-annotations-providers,define and register>> their own annotations.
+Different CIF installations may therefore have different registered annotations.
+A CIF specification may thus have a warning in one installation, if the annotation is for instance not registered in that installation, while in another installation the annotation does not have a warning, as there it is registered.
+Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.
+Hence, a specification with such annotations may be valid in one installation, and invalid in another.
+
+For more detailed information on annotations, see the <<lang-ref-extensions-annotations,reference manual>>.
 
 indexterm:[annotation, doc]
 indexterm:[doc, annotation]
@@ -54,17 +64,39 @@ indexterm:[doc, annotation]
 [[lang-tut-extensions-chapter-annotations-documentation]]
 === Documentation annotations
 
-Documentation can be added to input variables:
+Documentation can be added to input variables and locations of automata:
 
 [source, cif]
 ----
 @doc($text = "The lower limit sensor of the elevator.")
+@doc($text = "Safety sensor.")
 input bool ElevatorDownSensor;
 ----
 
+The documentation may span multiple lines:
+
+[source,cif]
+----
+@doc($text =
+    "doc with multiple\n" +
+    "lines of\n" +
+    "text"
+)
+input bool i;
+----
+
+It is also possible to use for instance constants from the model in the documentation text:
+
+[source,cif]
+----
+const int MAX_NR_OF_PRODUCTS = 3;
+
+@doc($text = fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
+input bool s1;
+----
+
 This documentation can then be used by CIF tools in various ways.
-For instance, the <<tools-codegen-chapter-index,CIF code generator>> includes this documentation in the generated code.
-For the above example, it may generate the following Java code:
+For instance, if the the <<tools-codegen-chapter-index,CIF code generator>> is used to generate Java code for the above example, then the documentation is included in the generated code:
 
 [source, java]
 ----
@@ -74,6 +106,60 @@ For the above example, it may generate the following Java code:
  * <p>
  * The lower limit sensor of the elevator.
  * </p>
+ *
+ * <p>
+ * Safety sensor.
+ * </p>
  */
 public boolean ElevatorDownSensor;
 ----
+
+For more detailed information on documentation annotations, see the <<lang-ref-extensions-annotations-documentation,reference manual>>.
+
+[[lang-tut-extensions-chapter-annotations-state]]
+=== State annotations
+
+Information about <<lang-tut-basics-chapter-synchronizing-events-statespace,states>> can be added to locations of automata.
+States consist of the <<lang-tut-basics-chapter-synchronizing-events-statespace,current locations of automata>> and the <<lang-tut-data-chapter-discrete-variables-state-space,current values of variables>>.
+The typical use of state annotations is for generated models that contain an automaton representing a state space, where each location of that automaton represents a state of the state space.
+For instance, the <<tools-chapter-cif-explorer,CIF explorer>> may <<tools-chapter-cif-explorer-output-cif,generate CIF models>> with state spaces represented as automata.
+For the example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>, it may generate the following model:
+
+[source, cif]
+----
+group producer:
+  event produce;
+  event provide;
+end
+
+group consumer:
+  event consume;
+end
+
+automaton statespace:
+  alphabet producer.produce, producer.provide, consumer.consume;
+
+  @state(consumer = "idle", producer = "producing")
+  location loc1:
+    initial;
+    edge producer.produce goto loc2;
+
+  @state(consumer = "idle", producer = "idle")
+  location loc2:
+    edge producer.provide goto loc3;
+
+  @state(consumer = "consuming", producer = "producing")
+  location loc3:
+    edge producer.produce goto loc4;
+    edge consumer.consume goto loc1;
+
+  @state(consumer = "consuming", producer = "idle")
+  location loc4:
+    edge consumer.consume goto loc2;
+end
+----
+
+This state space consists of four states, each represented by a location of the `statespace` automaton.
+For instance, the first state is represented by location `loc1`, which corresponds to the state where the `consumer` is `idle` and the `producer` is `producing`.
+
+For more detailed information on state annotations, see the <<lang-ref-extensions-annotations-state,reference manual>>.

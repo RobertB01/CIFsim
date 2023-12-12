@@ -90,6 +90,8 @@ Note that the size is not the file size, but rather the number of objects used t
 * _Optimality_: describes why the transformation result may not be optimal, if applicable.
 May also explain how to eliminate certain concepts that may be introduced as the result of the transformation.
 
+* _Annotations_: describes which specific annotations the transformation processes, as well as whether the transformation adds or removes any annotations.
+
 indexterm:[CIF to CIF transformer,available transformations]
 
 [[tools-cif2cif-available]]

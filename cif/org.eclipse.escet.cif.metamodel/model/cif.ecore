@@ -166,7 +166,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
           eType="#//SupKind"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//annotations/AnnotatedObject">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//CifIdentifier"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="initials" upperBound="-1"
           eType="#//expressions/Expression" containment="true"/>

@@ -19,9 +19,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 
-import org.eclipse.escet.common.position.metamodel.position.PositionObject;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,7 +45,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * @model
  * @generated
  */
-public interface Location extends PositionObject
+public interface Location extends AnnotatedObject
 {
     /**
      * Returns the value of the '<em><b>Name</b></em>' attribute.

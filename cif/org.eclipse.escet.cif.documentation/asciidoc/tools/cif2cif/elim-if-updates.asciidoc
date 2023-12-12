@@ -106,3 +106,7 @@ indexterm:[eliminate if updates,optimality]
 
 The superfluous assignments (see the <<tools-cif2cif-elim-if-updates-impl>> section above), are obviously not optimal.
 The language however requires them.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

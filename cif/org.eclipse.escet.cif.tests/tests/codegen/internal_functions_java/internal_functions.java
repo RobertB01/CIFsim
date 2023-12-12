@@ -642,7 +642,7 @@ public abstract class internal_functions {
 
         {
             List<Integer> rhs1 = fr_y_;
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 Integer rng_elem0 = rhs1.get(rng_index0);
                 if ((rng_elem0) > 3) {
                     rangeErrInt("fr.x" + "[" + Integer.toString(rng_index0) + "]", valueToStr(rng_elem0), "list[3] int[0..3]");
@@ -653,7 +653,7 @@ public abstract class internal_functions {
 
         {
             List<Integer> rhs1 = makelist(new ArrayList<Integer>(3), -(1), 3, 5);
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 Integer rng_elem0 = rhs1.get(rng_index0);
                 if ((rng_elem0) < 0 || (rng_elem0) > 3) {
                     rangeErrInt("fr.x" + "[" + Integer.toString(rng_index0) + "]", valueToStr(rng_elem0), "list[3] int[0..3]");
@@ -826,7 +826,7 @@ public abstract class internal_functions {
 
     /** internal_functions enumeration. */
     public static enum internal_functionsEnum {
-${java-enum-lits-code}
+        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

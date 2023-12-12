@@ -22,8 +22,6 @@ import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
 import org.eclipse.escet.cif.plcgen.options.PlcConfigurationNameOption;
-import org.eclipse.escet.cif.plcgen.options.PlcFormalFuncInvokeArgOption;
-import org.eclipse.escet.cif.plcgen.options.PlcFormalFuncInvokeFuncOption;
 import org.eclipse.escet.cif.plcgen.options.PlcIntTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.options.PlcMaxIterOption;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
@@ -125,11 +123,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Generate PLC code and write it to the file system.
         target.generate(settings);
 
-        // TODO Use these options, see also getAllOptions()
-        //
-        // PlcMaxIterOption
-        // PlcFormalFuncInvokeArgOption
-        // PlcFormalFuncInvokeFuncOption
         return 0;
     }
 
@@ -146,6 +139,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String plcTaskName = PlcTaskNameOption.getTaskName();
         int taskCyceTime = PlcTaskCycleTimeOption.getTaskCycleTime();
         int priority = PlcTaskPriorityOption.getTaskPrio();
+        Integer maxIter = PlcMaxIterOption.getMaxIter();
 
         String inputPath = InputFileOption.getPath();
         String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
@@ -163,8 +157,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath),
-                intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                maxIter, inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath,
+                Paths.resolve(ioTablePath), intSize, realSize, simplifyValues, enumConversion, shouldTerminate,
+                warnOnRename, warnOutput);
     }
 
     @Override
@@ -193,10 +188,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(SimplifyValuesOption.class));
         applicationOpts.add(Options.getInstance(ConvertEnumsOption.class));
         applicationOpts.add(Options.getInstance(RenameWarningsOption.class));
-
-        applicationOpts.add(Options.getInstance(PlcMaxIterOption.class)); // TODO Use its value.
-        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class)); // TODO Use its value.
-        applicationOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class)); // TODO Use its value.
+        applicationOpts.add(Options.getInstance(PlcMaxIterOption.class));
 
         List<OptionCategory> generatorSubCats = list();
         OptionCategory generatorCat = new OptionCategory("Generator", "Generator options.", generatorSubCats,

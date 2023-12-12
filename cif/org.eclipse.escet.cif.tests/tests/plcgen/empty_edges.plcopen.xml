@@ -91,6 +91,7 @@
             <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
+    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     Good_x := 0;
@@ -98,7 +99,11 @@ END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
-WHILE isProgress DO
+(* Perform events until none can be done anymore. *)
+(* Track the number of iterations and abort if there are too many. *)
+loopCount := 0;
+WHILE isProgress AND loopCount &lt; 100 DO
+    loopCount := loopCount + 1;
     isProgress := FALSE;
 
     (* Try to perform event "noSync". *)
@@ -115,9 +120,10 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_Good_x := Good_x;
         IF syncAutEdge = 1 THEN
-            Good_x := MOD(IN1 := current_Good_x + 1, IN2 := 6);
+            Good_x := (current_Good_x + 1) MOD 6;
         END_IF;
     END_IF;
+
     (* Try to perform event "noMonitor". *)
     eventEnabled := TRUE;
     IF TRUE THEN
@@ -129,9 +135,10 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_Good_x__1 := Good_x;
         IF syncAutEdge__2 = 1 THEN
-            Good_x := MOD(IN1 := current_Good_x__1 + 5, IN2 := 6);
+            Good_x := (current_Good_x__1 + 5) MOD 6;
         END_IF;
     END_IF;
+
     (* Try to perform event "channel". *)
     eventEnabled := TRUE;
     senderAut := 0;
@@ -150,7 +157,11 @@ WHILE isProgress DO
     IF eventEnabled THEN
         isProgress := TRUE;
     END_IF;
-END_WHILE;</xhtml>
+END_WHILE;
+(* Register the first 9999 aborted loops. *)
+IF loopCount &gt;= 100 THEN
+    loopsKilled := MIN(loopsKilled + 1, 9999);
+END_IF;</xhtml>
           </ST>
         </body>
       </pou>
@@ -183,23 +194,15 @@ END_WHILE;</xhtml>
                 <simpleValue value="TRUE"/>
               </initialValue>
             </variable>
-            <variable name="timer0">
+            <variable name="loopCount">
               <type>
-                <derived name="TON"/>
+                <DINT/>
               </type>
             </variable>
-            <variable name="timer1">
-              <type>
-                <derived name="TON"/>
-              </type>
-            </variable>
-            <variable name="curTimer">
+            <variable name="loopsKilled">
               <type>
                 <INT/>
               </type>
-              <initialValue>
-                <simpleValue value="0"/>
-              </initialValue>
             </variable>
           </globalVars>
         </resource>

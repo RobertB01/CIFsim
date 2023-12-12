@@ -5,6 +5,7 @@ group g:
 end
 automaton statespace:
   alphabet g.h.c;
+  @state(g2 = "*", p = "*")
   location loc1:
     initial;
     marked;

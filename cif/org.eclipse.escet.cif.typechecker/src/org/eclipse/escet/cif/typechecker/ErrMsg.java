@@ -444,29 +444,41 @@ public enum ErrMsg {
 
     // ComponentInst.argumentTypes
     COMP_INST_ARG_TYPE(
-            "Definition/instantiation parameter mismatch for the %s parameter of \"%s\": %s argument required.", 3,
-            ERROR),
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires %s, "
+                    + "but the supplied argument of instantiation \"%s\" is not %s.",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_ALG_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the algebraic parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
+    COMP_INST_ARG_ALG_TYPES(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" is an algebraic "
+                    + "parameter of type \"%s\", while the supplied argument of instantiation \"%s\" is of type "
+                    + "\"%s\".",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_COMP_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the component parameter is of type \"%s\", while the argument is of type \"%s\".", 4, ERROR),
+    COMP_INST_ARG_COMP_TYPES(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" is of type "
+                    + "\"%s\", while the supplied argument of instantiation \"%s\" is of type \"%s\".",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_CONTR_MISMATCH("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter is \"%s\", while the argument is \"%s\".", 4, ERROR),
+    COMP_INST_ARG_CONTR_MISMATCH(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires %s "
+                    + "event, while the event supplied as argument of instantiation \"%s\" is \"%s\".",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_EVENT_TYPES("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter %s, while the event used as argument %s.", 4, ERROR),
+    COMP_INST_ARG_EVENT_TYPES(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires an "
+                    + "event %s, while the event supplied as argument of instantiation \"%s\" %s.",
+            6, ERROR),
 
     // ComponentInst.argumentTypes
-    COMP_INST_ARG_EVENT_FLAG("Definition/instantiation parameter mismatch for the %s parameter of \"%s\": "
-            + "the event parameter requires an event with %s usage, "
-            + "while the event used as argument doesn't allow that usage.", 3, ERROR),
+    COMP_INST_ARG_EVENT_FLAG(
+            "Definition/instantiation mismatch: the %s parameter (named \"%s\") of definition \"%s\" requires an "
+                    + "event that allows %s usage, while the event supplied as argument of instantiation \"%s\" "
+                    + "doesn't allow that usage.",
+            5, ERROR),
 
     // Warn user about accidentally creating a dubious specification.
     AUT_NO_INIT_LOC("Automaton \"%s\" has no initial location.", 1, WARNING),
@@ -778,9 +790,6 @@ public enum ErrMsg {
     // Print.duplFor
     PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING),
 
-    // AnnotatedObject.uniqueAnnotations
-    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for \"%s\".", 2, ERROR),
-
     // Annotation.annotationSpecificErrors
     ANNO_SPECIFIC_ERR("Annotation \"%s\": %s", 2, ERROR),
 
@@ -800,7 +809,7 @@ public enum ErrMsg {
     // The following metamodel constraints are satisfied by parsing or metamodel construction:
     // - AlgVariableExpression.type
     // - AlgParameter.noValue
-    // - AnnotatedObject.onlyForInputVariables
+    // - AnnotatedObject.onlyForSupportedObjects
     // - Annotation.validName
     // - AnnotationArgument.validName
     // - Automaton.noFuncDecl

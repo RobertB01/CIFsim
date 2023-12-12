@@ -1,35 +1,51 @@
 automaton statespace:
   alphabet;
+  @state(aut = "*", aut.v4 = [false, false], aut.v5 = (false, 0))
   location loc1:
     initial;
+  @state(aut = "*", aut.v4 = [false, false], aut.v5 = (false, 1))
   location loc2:
     initial;
+  @state(aut = "*", aut.v4 = [false, false], aut.v5 = (true, 0))
   location loc3:
     initial;
+  @state(aut = "*", aut.v4 = [false, false], aut.v5 = (true, 1))
   location loc4:
     initial;
+  @state(aut = "*", aut.v4 = [false, true], aut.v5 = (false, 0))
   location loc5:
     initial;
+  @state(aut = "*", aut.v4 = [false, true], aut.v5 = (false, 1))
   location loc6:
     initial;
+  @state(aut = "*", aut.v4 = [false, true], aut.v5 = (true, 0))
   location loc7:
     initial;
+  @state(aut = "*", aut.v4 = [false, true], aut.v5 = (true, 1))
   location loc8:
     initial;
+  @state(aut = "*", aut.v4 = [true, false], aut.v5 = (false, 0))
   location loc9:
     initial;
+  @state(aut = "*", aut.v4 = [true, false], aut.v5 = (false, 1))
   location loc10:
     initial;
+  @state(aut = "*", aut.v4 = [true, false], aut.v5 = (true, 0))
   location loc11:
     initial;
+  @state(aut = "*", aut.v4 = [true, false], aut.v5 = (true, 1))
   location loc12:
     initial;
+  @state(aut = "*", aut.v4 = [true, true], aut.v5 = (false, 0))
   location loc13:
     initial;
+  @state(aut = "*", aut.v4 = [true, true], aut.v5 = (false, 1))
   location loc14:
     initial;
+  @state(aut = "*", aut.v4 = [true, true], aut.v5 = (true, 0))
   location loc15:
     initial;
+  @state(aut = "*", aut.v4 = [true, true], aut.v5 = (true, 1))
   location loc16:
     initial;
 end

@@ -76,7 +76,7 @@ import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
@@ -355,6 +355,11 @@ public class C89CodeGen extends CodeGen {
     }
 
     @Override
+    public DataValue makeDataValue(String value) {
+        return makeValue(value);
+    }
+
+    @Override
     protected void addConstants(CodeContext ctxt) {
         CodeBox defCode = makeCodeBox();
         CodeBox declCode = makeCodeBox();
@@ -596,20 +601,22 @@ public class C89CodeGen extends CodeGen {
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetName);
-            String doc = DocAnnotationProvider.getDoc(var);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
 
             for (boolean isDecl: new boolean[] {false, true}) {
                 CodeBox code = isDecl ? varDeclCode : varDefCode;
                 String fullDeclaration = isDecl ? "extern " + declaration : declaration;
                 code.add();
-                if (doc == null) {
+                if (docs.isEmpty()) {
                     code.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
                 } else {
                     code.add("/**");
                     code.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
-                    code.add(" *");
-                    for (String line: doc.split("\\r?\\n")) {
-                        code.add(" * %s", line);
+                    for (String doc: docs) {
+                        code.add(" *");
+                        for (String line: doc.split("\\r?\\n")) {
+                            code.add(" * %s", line);
+                        }
                     }
                     code.add(" */");
                 }

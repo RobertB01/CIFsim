@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="alg_a_x">
+    <Declaration><![CDATA[FUNCTION alg_a_x: BOOL
+VAR_INPUT
+    state: STATE;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[alg_a_x := TRUE;]]></ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

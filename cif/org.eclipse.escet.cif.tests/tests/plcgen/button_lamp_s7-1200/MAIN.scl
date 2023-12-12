@@ -1,6 +1,7 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
+        curValue: LREAL;
         current_hw_button: DINT;
         current_hw_button__1: DINT;
         current_hw_lamp: DINT;
@@ -30,40 +31,55 @@ ORGANIZATION_BLOCK MAIN
         syncAutEdge__7: DINT;
         syncAutEdge__8: DINT;
         syncAutEdge__9: DINT;
+        timeOut: BOOL;
     END_VAR
 
 BEGIN
     (* --- Read input from sensors. -------------------------------------------- *)
     hw_button_bit := in_hw_button_bit;
 
-    (* --- Initialize state. --------------------------------------------------- *)
+    (* --- Initialize state or update continuous variables. -------------------- *)
     IF firstRun THEN
         firstRun := FALSE;
+        loopsKilled := 0;
 
         (* Initialize the state variables. *)
-        timer := someConstantvariable;
-        sup := someConstantvariable;
-        hw_button := someConstantvariable;
+        timer_t := 0.0;
+        (* Reset timer of "timer_t". *)
+        preset_timer_t := timer_t;
+        ton_timer_t(IN := FALSE, PT := preset_timer_t);
+        ton_timer_t(IN := TRUE, PT := preset_timer_t);
+        timer := 0;
+        sup := 0;
+        hw_button := 0;
         hw_lamp_bit := FALSE;
-        hw_lamp := someConstantvariable;
+        hw_lamp := 0;
+    ELSE
+        (* Update remaining time of "timer_t". *)
+        ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);
+        timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
     END_IF;
 
     (* --- Process all events. ------------------------------------------------- *)
     isProgress := TRUE;
-    WHILE isProgress DO
+    (* Perform events until none can be done anymore. *)
+    (* Track the number of iterations and abort if there are too many. *)
+    loopCount := 0;
+    WHILE isProgress AND loopCount < 100 DO
+        loopCount := loopCount + 1;
         isProgress := FALSE;
 
         (* Try to perform event "timer.start". *)
         eventEnabled := TRUE;
-        IF timer = someConstantvariable THEN
+        IF timer = 0 THEN
             syncAutEdge := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
-            IF sup = someConstantvariable THEN
+            IF sup = 2 THEN
                 syncAutEdge__1 := 1;
-            ELSIF sup = someConstantvariable THEN
+            ELSIF sup = 4 THEN
                 syncAutEdge__1 := 2;
             ELSE
                 eventEnabled := FALSE;
@@ -73,28 +89,33 @@ BEGIN
             isProgress := TRUE;
             current_sup := sup;
             current_timer := timer;
-            current_timer_t := someContvariable;
+            current_timer_t := timer_t;
             IF syncAutEdge = 1 THEN
-                someContvariable := 0.0;
-                timer := someConstantvariable;
+                timer_t := 3.0;
+                (* Reset timer of "timer_t". *)
+                preset_timer_t := timer_t;
+                ton_timer_t(IN := FALSE, PT := preset_timer_t);
+                ton_timer_t(IN := TRUE, PT := preset_timer_t);
+                timer := 1;
             END_IF;
             IF syncAutEdge__1 = 1 THEN
-                sup := someConstantvariable;
+                sup := 5;
             ELSIF syncAutEdge__1 = 2 THEN
-                sup := someConstantvariable;
+                sup := 6;
             END_IF;
         END_IF;
+
         (* Try to perform event "timer.timeout". *)
         eventEnabled := TRUE;
-        IF timer = someConstantvariable AND someContvariable >= 3.0 THEN
+        IF timer = 1 AND timer_t <= 0.0 THEN
             syncAutEdge__2 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
-            IF sup = someConstantvariable THEN
+            IF sup = 5 THEN
                 syncAutEdge__3 := 1;
-            ELSIF sup = someConstantvariable THEN
+            ELSIF sup = 6 THEN
                 syncAutEdge__3 := 2;
             ELSE
                 eventEnabled := FALSE;
@@ -105,31 +126,32 @@ BEGIN
             current_sup__1 := sup;
             current_timer__1 := timer;
             IF syncAutEdge__2 = 1 THEN
-                timer := someConstantvariable;
+                timer := 0;
             END_IF;
             IF syncAutEdge__3 = 1 THEN
-                sup := someConstantvariable;
+                sup := 7;
             ELSIF syncAutEdge__3 = 2 THEN
-                sup := someConstantvariable;
+                sup := 8;
             END_IF;
         END_IF;
+
         (* Try to perform event "button.push". *)
         eventEnabled := TRUE;
-        IF sup = someConstantvariable THEN
+        IF sup = 0 THEN
             syncAutEdge__4 := 1;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 3 THEN
             syncAutEdge__4 := 2;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 4 THEN
             syncAutEdge__4 := 3;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 6 THEN
             syncAutEdge__4 := 4;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 8 THEN
             syncAutEdge__4 := 5;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
-            IF hw_button = someConstantvariable AND hw_button_bit THEN
+            IF hw_button = 0 AND hw_button_bit THEN
                 syncAutEdge__5 := 1;
             ELSE
                 eventEnabled := FALSE;
@@ -140,37 +162,38 @@ BEGIN
             current_hw_button := hw_button;
             current_sup__2 := sup;
             IF syncAutEdge__4 = 1 THEN
-                sup := someConstantvariable;
+                sup := 1;
             ELSIF syncAutEdge__4 = 2 THEN
-                sup := someConstantvariable;
+                sup := 1;
             ELSIF syncAutEdge__4 = 3 THEN
-                sup := someConstantvariable;
+                sup := 2;
             ELSIF syncAutEdge__4 = 4 THEN
-                sup := someConstantvariable;
+                sup := 5;
             ELSIF syncAutEdge__4 = 5 THEN
-                sup := someConstantvariable;
+                sup := 7;
             END_IF;
             IF syncAutEdge__5 = 1 THEN
-                hw_button := someConstantvariable;
+                hw_button := 1;
             END_IF;
         END_IF;
+
         (* Try to perform event "button.release". *)
         eventEnabled := TRUE;
-        IF sup = someConstantvariable THEN
+        IF sup = 1 THEN
             syncAutEdge__6 := 1;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 2 THEN
             syncAutEdge__6 := 2;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 5 THEN
             syncAutEdge__6 := 3;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 7 THEN
             syncAutEdge__6 := 4;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 9 THEN
             syncAutEdge__6 := 5;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
-            IF hw_button = someConstantvariable AND NOT(IN := hw_button_bit) THEN
+            IF hw_button = 1 AND NOT hw_button_bit THEN
                 syncAutEdge__7 := 1;
             ELSE
                 eventEnabled := FALSE;
@@ -181,31 +204,32 @@ BEGIN
             current_hw_button__1 := hw_button;
             current_sup__3 := sup;
             IF syncAutEdge__6 = 1 THEN
-                sup := someConstantvariable;
+                sup := 3;
             ELSIF syncAutEdge__6 = 2 THEN
-                sup := someConstantvariable;
+                sup := 4;
             ELSIF syncAutEdge__6 = 3 THEN
-                sup := someConstantvariable;
+                sup := 6;
             ELSIF syncAutEdge__6 = 4 THEN
-                sup := someConstantvariable;
+                sup := 8;
             ELSIF syncAutEdge__6 = 5 THEN
-                sup := someConstantvariable;
+                sup := 0;
             END_IF;
             IF syncAutEdge__7 = 1 THEN
-                hw_button := someConstantvariable;
+                hw_button := 0;
             END_IF;
         END_IF;
+
         (* Try to perform event "lamp.on". *)
         eventEnabled := TRUE;
-        IF sup = someConstantvariable THEN
+        IF sup = 1 THEN
             syncAutEdge__8 := 1;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 3 THEN
             syncAutEdge__8 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
-            IF hw_lamp = someConstantvariable THEN
+            IF hw_lamp = 0 THEN
                 syncAutEdge__9 := 1;
             ELSE
                 eventEnabled := FALSE;
@@ -217,26 +241,27 @@ BEGIN
             current_hw_lamp_bit := hw_lamp_bit;
             current_sup__4 := sup;
             IF syncAutEdge__8 = 1 THEN
-                sup := someConstantvariable;
+                sup := 2;
             ELSIF syncAutEdge__8 = 2 THEN
-                sup := someConstantvariable;
+                sup := 4;
             END_IF;
             IF syncAutEdge__9 = 1 THEN
                 hw_lamp_bit := TRUE;
-                hw_lamp := someConstantvariable;
+                hw_lamp := 1;
             END_IF;
         END_IF;
+
         (* Try to perform event "lamp.off". *)
         eventEnabled := TRUE;
-        IF sup = someConstantvariable THEN
+        IF sup = 7 THEN
             syncAutEdge__10 := 1;
-        ELSIF sup = someConstantvariable THEN
+        ELSIF sup = 8 THEN
             syncAutEdge__10 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
-            IF hw_lamp = someConstantvariable THEN
+            IF hw_lamp = 1 THEN
                 syncAutEdge__11 := 1;
             ELSE
                 eventEnabled := FALSE;
@@ -248,16 +273,20 @@ BEGIN
             current_hw_lamp_bit__1 := hw_lamp_bit;
             current_sup__5 := sup;
             IF syncAutEdge__10 = 1 THEN
-                sup := someConstantvariable;
+                sup := 9;
             ELSIF syncAutEdge__10 = 2 THEN
-                sup := someConstantvariable;
+                sup := 0;
             END_IF;
             IF syncAutEdge__11 = 1 THEN
                 hw_lamp_bit := FALSE;
-                hw_lamp := someConstantvariable;
+                hw_lamp := 0;
             END_IF;
         END_IF;
     END_WHILE;
+    (* Register the first 9999 aborted loops. *)
+    IF loopCount >= 100 THEN
+        loopsKilled := MIN(loopsKilled + 1, 9999);
+    END_IF;
 
     (* --- Write output to actuators. ------------------------------------------ *)
     out_hw_lamp_bit := hw_lamp_bit;

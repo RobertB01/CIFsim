@@ -2,11 +2,16 @@ controllable powerup;
 controllable shutdown;
 automaton dfa:
   alphabet powerup, shutdown;
+  @state(statespace = "loc1")
   location s1:
     initial;
     edge powerup goto s2;
+  @state(statespace = "loc3")
+  @state(statespace = "loc2")
   location s2:
     edge shutdown goto s3;
+  @state(statespace = "loc1")
+  @state(statespace = "loc4")
   location s3:
     edge powerup goto s2;
 end

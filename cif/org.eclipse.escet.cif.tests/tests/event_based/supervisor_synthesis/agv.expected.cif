@@ -5,19 +5,25 @@ uncontrollable Unload_AGV_At_B;
 controllable Unload_AGV_At_M2;
 supervisor automaton sup:
   alphabet Load_AGV_At_M1, Load_AGV_At_M2, Load_M1, Unload_AGV_At_B, Unload_AGV_At_M2;
+  @state(p = "s0", r = "s0")
   location s1:
     initial;
     marked;
     edge Load_M1 goto s2;
+  @state(p = "s1", r = "s1")
   location s2:
     edge Load_AGV_At_M1 goto s3;
+  @state(p = "s2", r = "s1")
   location s3:
     edge Unload_AGV_At_M2 goto s4;
+  @state(p = "s4", r = "s1")
   location s4:
     edge Load_AGV_At_M2 goto s5;
+  @state(p = "s6", r = "s0")
   location s5:
     edge Unload_AGV_At_B goto s1;
     edge Load_M1 goto s6;
+  @state(p = "s7", r = "s1")
   location s6:
     edge Unload_AGV_At_B goto s2;
 end

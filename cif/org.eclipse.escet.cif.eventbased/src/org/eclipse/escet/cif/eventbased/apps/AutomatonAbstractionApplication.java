@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.eventbased.AutomatonAbstraction;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ApplicationHelper;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ObservedEventsOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -82,6 +83,7 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
         options.add(Options.getInstance(ObservedEventsOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(ResultNameOption.class));
+        options.add(Options.getInstance(AddStateAnnosOption.class));
         return new OptionCategory("Automaton abstraction", "CIF event-based automaton abstraction options.", subPages,
                 options);
     }
@@ -148,8 +150,9 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
             OutputProvider.dbg("Converting from internal representation...");
             String resultName = "abstracted";
             resultName = ResultNameOption.getRsltName(resultName);
+            boolean doAddStateAnnos = AddStateAnnosOption.getStateAnnotationsEnabled();
             ConvertFromEventBased cfe = new ConvertFromEventBased();
-            spec = cfe.convertAutomaton(aut, resultName);
+            spec = cfe.convertAutomaton(aut, resultName, doAddStateAnnos);
             if (isTerminationRequested()) {
                 return 0;
             }

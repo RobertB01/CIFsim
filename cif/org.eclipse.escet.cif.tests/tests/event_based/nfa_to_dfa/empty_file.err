@@ -1,0 +1,2 @@
+ERROR: Failed to convert from NFA to DFA for CIF file "event_based/nfa_to_dfa/empty_file.cif".
+CAUSE: CIF input file contains 0 automata, while NFA to DFA conversion requires exactly one automaton.

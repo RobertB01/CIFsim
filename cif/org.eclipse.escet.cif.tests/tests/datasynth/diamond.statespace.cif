@@ -8,14 +8,18 @@ group motor2:
 end
 automaton statespace:
   alphabet motor1.c_on, motor1.c_off, motor2.c_on, motor2.c_off;
+  @state(motor1 = "Off", motor2 = "On", order = "l1", sup = "*")
   location loc1:
     initial;
     marked;
     edge motor1.c_on goto loc2;
+  @state(motor1 = "On", motor2 = "On", order = "l2", sup = "*")
   location loc2:
     edge motor2.c_off goto loc3;
+  @state(motor1 = "On", motor2 = "Off", order = "l3", sup = "*")
   location loc3:
     edge motor2.c_on goto loc4;
+  @state(motor1 = "On", motor2 = "On", order = "l4", sup = "*")
   location loc4:
     edge motor1.c_off goto loc1;
 end

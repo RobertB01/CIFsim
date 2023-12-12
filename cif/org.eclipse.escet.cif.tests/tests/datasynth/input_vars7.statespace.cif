@@ -6,16 +6,20 @@ group p:
 end
 automaton statespace:
   alphabet io.u_sensor, p.u_ok;
+  @state(io = "*", io.sensor = true, p = "test", p.b = true, sup = "*")
   location loc1:
     initial;
     edge io.u_sensor goto loc2;
     edge p.u_ok goto loc3;
+  @state(io = "*", io.sensor = false, p = "test", p.b = true, sup = "*")
   location loc2:
     edge io.u_sensor goto loc1;
     edge p.u_ok goto loc4;
+  @state(io = "*", io.sensor = true, p = "done", p.b = true, sup = "*")
   location loc3:
     marked;
     edge io.u_sensor goto loc4;
+  @state(io = "*", io.sensor = false, p = "done", p.b = true, sup = "*")
   location loc4:
     marked;
     edge io.u_sensor goto loc3;

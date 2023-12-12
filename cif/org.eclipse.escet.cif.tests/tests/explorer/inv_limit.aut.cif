@@ -2,17 +2,21 @@ event up;
 event down;
 automaton statespace:
   alphabet up, down;
+  @state(A = "*", A.c = 0)
   location loc1:
     initial;
     marked;
     edge up goto loc2;
     edge down goto loc3;
+  @state(A = "*", A.c = 1)
   location loc2:
     edge up goto loc4;
     edge down goto loc1;
+  @state(A = "*", A.c = -1)
   location loc3:
     marked;
     edge up goto loc1;
+  @state(A = "*", A.c = 2)
   location loc4:
     edge down goto loc2;
 end

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.typechecker.annotations;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 
 /**
@@ -29,8 +30,8 @@ import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
  * </p>
  *
  * <p>
- * The type checker will ensure that each annotated object is free of duplicate annotations. The type checker also
- * ensures that each annotation has unique arguments. Providers may thus assume these constraints to hold.
+ * The type checker will ensure that each annotation has unique arguments. Providers may thus assume this constraint
+ * holds.
  * </p>
  *
  * <p>
@@ -60,10 +61,12 @@ public abstract class AnnotationProvider {
     /**
      * Perform additional type checking on an annotation.
      *
+     * @param annotatedObject The annotated object.
      * @param annotation The annotation to check.
      * @param reporter The reporter to use to report problems in the annotation.
      */
-    public abstract void checkAnnotation(Annotation annotation, AnnotationProblemReporter reporter);
+    public abstract void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
+            AnnotationProblemReporter reporter);
 
     /**
      * Perform additional global type checking (for the entire specification), for the type of annotation provided by

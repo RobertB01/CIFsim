@@ -1,0 +1,9 @@
+automaton statespace:
+  alphabet;
+  @state(a = "l1")
+  location loc1:
+    initial;
+    edge tau goto loc2;
+  @state(a = "l2")
+  location loc2;
+end

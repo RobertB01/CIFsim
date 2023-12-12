@@ -1,0 +1,3 @@
+WARNING: The specification has no requirement automata.
+WARNING: The alphabet of automaton "p" is empty.
+WARNING: Location "p.*" is a marked deadlock location.

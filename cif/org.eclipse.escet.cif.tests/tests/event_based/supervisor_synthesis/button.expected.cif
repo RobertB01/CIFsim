@@ -4,25 +4,33 @@ uncontrollable ButtonRelease;
 controllable LedOff;
 supervisor automaton sup:
   alphabet ButtonPush, LedOn, ButtonRelease, LedOff;
+  @state(p = "s0", r = "s0")
   location s1:
     initial;
     marked;
     edge ButtonPush goto s2;
+  @state(p = "s1", r = "s1")
   location s2:
     edge ButtonRelease goto s3;
     edge LedOn goto s4;
+  @state(p = "s0", r = "s3")
   location s3:
     marked;
     edge ButtonPush goto s2;
+  @state(p = "s3", r = "s2")
   location s4:
     edge ButtonRelease goto s5;
+  @state(p = "s2", r = "s0")
   location s5:
     edge ButtonPush goto s6;
+  @state(p = "s3", r = "s1")
   location s6:
     edge LedOff goto s7;
     edge ButtonRelease goto s8;
+  @state(p = "s1", r = "s2")
   location s7:
     edge ButtonRelease goto s1;
+  @state(p = "s2", r = "s3")
   location s8:
     edge ButtonPush goto s6;
 end

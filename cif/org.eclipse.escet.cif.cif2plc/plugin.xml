@@ -21,7 +21,7 @@
          categoryId="org.eclipse.escet.cif.commands.category"
          defaultHandler="org.eclipse.escet.cif.cif2plc.CifToPlcCommandHandler"
          id="org.eclipse.escet.cif.cif2plc.CifToPlcCommand"
-         name="Generate PLC code for CIF specification">
+         name="Generate PLC code for CIF specification (stable)">
       </command>
    </extension>
    <extension point="org.eclipse.core.expressions.definitions">
@@ -40,13 +40,13 @@
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               icon="icons/cif_to_plc.png"
+               icon="icons/cif_app.png"
                id="org.eclipse.escet.cif.menu.implementation"
                label="CIF implemen&amp;tation tools">
             <command
                   commandId="org.eclipse.escet.cif.cif2plc.CifToPlcCommand"
-                  icon="icons/cif_to_plc.png"
-                  label="Generate &amp;PLC code for CIF specification...">
+                  icon="icons/cif_app.png"
+                  label="Generate &amp;PLC code for CIF specification... (stable)">
                <visibleWhen>
                   <or>
                      <with variable="activeMenuSelection">

@@ -1,5 +1,6 @@
 automaton statespace:
   alphabet;
+  @state(p = "*", p.x = 5, sup = "*")
   location loc1:
     initial;
     marked;

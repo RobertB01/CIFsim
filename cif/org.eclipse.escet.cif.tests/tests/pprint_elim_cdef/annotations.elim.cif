@@ -29,3 +29,29 @@ input bool i8;
 input bool i9;
 @a($disc = 5, $const.apple.$alg = 123)
 input bool i10;
+@a(b = 1)
+@abc:def
+input bool i11;
+@abc:def
+@a(b = 1)
+input bool i12;
+@a(b = 1)
+@a(b = 3)
+@b(x = 1)
+@a(b = 2)
+@b(x = 3)
+@b(x = 2)
+input bool i13;
+automaton a1:
+  @a(b = 1)
+  location:
+    initial;
+end
+automaton a2:
+  @a(b = 1)
+  location loc1:
+    initial;
+  @a(b = 1)
+  location loc2:
+    initial;
+end

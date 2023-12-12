@@ -383,11 +383,13 @@ public class CifToPlcTrans {
         CifToPlcPreChecker checker = new CifToPlcPreChecker();
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF PLC code generator");
 
-        // Linearize the specification, to get rid of parallel composition,
-        // event synchronization, and channels. We choose the variant that
-        // eliminates choice, as choice is useless in PLC code, and this
-        // results in the least amount of PLC code.
-        new LinearizeMerge().transform(spec);
+        // Linearize the specification, to get rid of parallel composition, event synchronization, and channels. We
+        // choose the 'merge' variant that eliminates choice, as choice is useless in PLC code, and this results in the
+        // least amount of PLC code. To be consistent with the precondition check that automata must have exactly one
+        // initial location, we allow linearization to optimize initialization of newly introduced location pointers, by
+        // considering the values of variables and so on when determining whether the location pointer has a single
+        // initial value.
+        new LinearizeMerge(true).transform(spec);
 
         // Merge enumerations into a single enumeration for easier code generation.
         new MergeEnums().transform(spec);

@@ -1077,6 +1077,14 @@ static T2IIType *A3T2IITypeProject(A3T2IIType *array, IntType index);
 static void A3T2IITypeModify(A3T2IIType *array, IntType index, T2IIType *value);
 static int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
+enum Enumranges_ {
+    _ranges___some_dummy_enum_literal,
+};
+typedef enum Enumranges_ rangesEnum;
+
+static const char *enum_names[];
+static int EnumTypePrint(rangesEnum value, char *dest, int start, int end);
+
 /* }}} */
 
 /* {{{ Elementary CIF element type <-> Simulink conversions. */
@@ -1252,6 +1260,17 @@ static int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end) {
     return start;
 }
 
+static int EnumTypePrint(rangesEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
+}
+
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
@@ -1355,7 +1374,9 @@ const char *evt_names[] = { /** < Event names. */
 };
 
 /** Enum names. */
-${enum-names-list}
+static const char *enum_names[] = {
+    "__some_dummy_enum_literal",
+};
 
 /**
  * Reset 'loaded' status of all input variables.

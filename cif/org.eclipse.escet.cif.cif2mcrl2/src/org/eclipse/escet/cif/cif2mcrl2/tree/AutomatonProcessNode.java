@@ -382,6 +382,8 @@ public class AutomatonProcessNode extends ProcessNode {
                     return "(" + left + " * " + right + ")";
                 case SUBTRACTION:
                     return "(" + left + " - " + right + ")";
+                case IMPLICATION:
+                    return "(" + left + " => " + right + ")";
                 default:
                     Assert.fail(fmt("Unexpected binary operator %s found.", be.getOperator()));
             }

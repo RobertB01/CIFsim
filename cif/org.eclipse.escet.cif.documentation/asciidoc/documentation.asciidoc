@@ -44,6 +44,7 @@ The documentation consists of:
 * <<examples-chapter-index,CIF examples>>
 * <<release-notes-chapter-index, CIF release notes>>
 * <<dev-chapter-index, CIF developers manual>>
+* <<history-chapter-index,CIF history>> (and why it's called 'CIF')
 * <<legal-chapter-index, Legal information>>
 
 A screenshot showing a CIF model and simulation:
@@ -329,6 +330,14 @@ include::language-reference/index.asciidoc[]
 include::language-reference/syntax/lexical.asciidoc[]
 
 include::language-reference/syntax/grammar.asciidoc[]
+
+include::language-reference/annotations/index.asciidoc[]
+
+include::language-reference/annotations/builtin.asciidoc[]
+
+include::language-reference/annotations/documentation.asciidoc[]
+
+include::language-reference/annotations/state.asciidoc[]
 
 :leveloffset: -1
 
@@ -684,6 +693,8 @@ include::tools/codegen/c99.asciidoc[]
 
 include::tools/codegen/java.asciidoc[]
 
+include::tools/codegen/javascript.asciidoc[]
+
 include::tools/codegen/simulink.asciidoc[]
 
 include::tools/codegen/simulink-example.asciidoc[]
@@ -827,6 +838,10 @@ include::developers/index.asciidoc[]
 include::developers/lang-modify.asciidoc[]
 
 :leveloffset: -1
+
+// History
+
+include::history.asciidoc[]
 
 // Legal
 

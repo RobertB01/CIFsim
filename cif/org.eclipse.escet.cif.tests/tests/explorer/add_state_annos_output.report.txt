@@ -1,0 +1,66 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "nameless"
+        location "loc1" of automaton "named"
+        location "loc1" of automaton "vars"
+        location of automaton "types"
+
+    Valuation:
+        cvar = 0.0
+        $cont = 0.0
+        vars.cvar = 0.0
+        vars.dvar = false
+        abs1.abs2.abs3 = 1.23
+        types.b = true
+        types.i1 = 123
+        types.i2 = -123
+        types.i3 = -2147483648
+        types.i4 = 2147483647
+        types.r1 = 1.23
+        types.r2 = -1.23
+        types.str = "a\nb\tc\"d"
+        types.e = lit2
+        types.t = (true, 135)
+        types.l = [[1, 2, 3], [4, 5, 6]]
+        types.s = {1.2, 3.7, 8.9}
+        types.d = {true: 1, false: 5}
+        types.f1 = functions.invert
+        types.f2 = *
+
+    Edges:
+        edge e goto state 2
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "nameless"
+        location "loc2" of automaton "named"
+        location "loc2" of automaton "vars"
+        location of automaton "types"
+
+    Valuation:
+        cvar = 0.0
+        $cont = 0.0
+        vars.cvar = 2.0
+        vars.dvar = true
+        abs1.abs2.abs3 = 1.23
+        types.b = true
+        types.i1 = 123
+        types.i2 = -123
+        types.i3 = -2147483648
+        types.i4 = 2147483647
+        types.r1 = 1.23
+        types.r2 = -1.23
+        types.str = "a\nb\tc\"d"
+        types.e = lit2
+        types.t = (true, 135)
+        types.l = [[1, 2, 3], [4, 5, 6]]
+        types.s = {1.2, 3.7, 8.9}
+        types.d = {true: 1, false: 5}
+        types.f1 = functions.invert
+        types.f2 = *

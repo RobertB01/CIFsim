@@ -11,6 +11,7 @@ group Vars:
 end
 automaton statespace:
   alphabet p.c, p.a, p.z, Vars.u_C, Vars.u_D, Vars.u_X, Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = false, Vars.X = false, Vars.Y = false)
   location loc1:
     initial;
     marked;
@@ -21,6 +22,7 @@ automaton statespace:
     edge Vars.u_D goto loc4;
     edge Vars.u_X goto loc5;
     edge Vars.u_Y goto loc3;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = false, Vars.X = false, Vars.Y = true)
   location loc2:
     initial;
     marked;
@@ -31,6 +33,7 @@ automaton statespace:
     edge Vars.u_D goto loc7;
     edge Vars.u_X goto loc8;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = false, Vars.X = false, Vars.Y = false)
   location loc3:
     marked;
     edge p.c;
@@ -40,6 +43,7 @@ automaton statespace:
     edge Vars.u_D goto loc9;
     edge Vars.u_X goto loc10;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = true, Vars.X = false, Vars.Y = false)
   location loc4:
     marked;
     edge p.c;
@@ -49,6 +53,7 @@ automaton statespace:
     edge Vars.u_D goto loc1;
     edge Vars.u_X goto loc11;
     edge Vars.u_Y goto loc9;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = false, Vars.X = true, Vars.Y = false)
   location loc5:
     marked;
     edge p.c;
@@ -58,6 +63,7 @@ automaton statespace:
     edge Vars.u_D goto loc11;
     edge Vars.u_X goto loc1;
     edge Vars.u_Y goto loc10;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = false, Vars.X = false, Vars.Y = true)
   location loc6:
     marked;
     edge p.c;
@@ -67,6 +73,7 @@ automaton statespace:
     edge Vars.u_D goto loc12;
     edge Vars.u_X goto loc13;
     edge Vars.u_Y goto loc2;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = true, Vars.X = false, Vars.Y = true)
   location loc7:
     marked;
     edge p.c;
@@ -76,6 +83,7 @@ automaton statespace:
     edge Vars.u_D goto loc2;
     edge Vars.u_X goto loc14;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = false, Vars.X = true, Vars.Y = true)
   location loc8:
     marked;
     edge p.c;
@@ -85,6 +93,7 @@ automaton statespace:
     edge Vars.u_D goto loc14;
     edge Vars.u_X goto loc2;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = true, Vars.X = false, Vars.Y = false)
   location loc9:
     marked;
     edge p.c;
@@ -94,6 +103,7 @@ automaton statespace:
     edge Vars.u_D goto loc3;
     edge Vars.u_X goto loc15;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = false, Vars.X = true, Vars.Y = false)
   location loc10:
     marked;
     edge p.c;
@@ -103,6 +113,7 @@ automaton statespace:
     edge Vars.u_D goto loc15;
     edge Vars.u_X goto loc3;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = true, Vars.X = true, Vars.Y = false)
   location loc11:
     marked;
     edge p.c;
@@ -112,6 +123,7 @@ automaton statespace:
     edge Vars.u_D goto loc5;
     edge Vars.u_X goto loc4;
     edge Vars.u_Y goto loc15;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = true, Vars.X = false, Vars.Y = true)
   location loc12:
     marked;
     edge p.c;
@@ -121,6 +133,7 @@ automaton statespace:
     edge Vars.u_D goto loc6;
     edge Vars.u_X goto loc16;
     edge Vars.u_Y goto loc7;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = false, Vars.X = true, Vars.Y = true)
   location loc13:
     marked;
     edge p.c;
@@ -130,6 +143,7 @@ automaton statespace:
     edge Vars.u_D goto loc16;
     edge Vars.u_X goto loc6;
     edge Vars.u_Y goto loc8;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = false, Vars.D = true, Vars.X = true, Vars.Y = true)
   location loc14:
     marked;
     edge p.c;
@@ -139,6 +153,7 @@ automaton statespace:
     edge Vars.u_D goto loc8;
     edge Vars.u_X goto loc7;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = true, Vars.X = true, Vars.Y = false)
   location loc15:
     marked;
     edge p.c;
@@ -148,6 +163,7 @@ automaton statespace:
     edge Vars.u_D goto loc10;
     edge Vars.u_X goto loc9;
     edge Vars.u_Y;
+  @state(p = "l1", sup = "*", Vars = "*", Vars.C = true, Vars.D = true, Vars.X = true, Vars.Y = true)
   location loc16:
     marked;
     edge p.c;

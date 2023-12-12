@@ -99,6 +99,8 @@ Note that this check may lead to false positives, as checks are an over-approxim
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 
+* Annotations are ignored.
+
 indexterm:[controller property checker,preprocessing]
 
 === Preprocessing

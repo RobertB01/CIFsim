@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -73,6 +74,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -84,6 +86,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
+import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
@@ -139,7 +142,7 @@ public class CifProcessor {
         normalizeSpec(spec);
         this.spec = spec; // Store the specification for querying.
 
-        // Convert the discrete and input variables as well as enumeration declarations throughout the specification.
+        // Collect or convert the declarations of the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             if (decl instanceof DiscVariable discVar) {
                 target.getVarStorage().addStateVariable(decl, discVar.getType());
@@ -147,6 +150,9 @@ public class CifProcessor {
                 target.getVarStorage().addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
                 target.getTypeGenerator().convertEnumDecl(enumDecl);
+            } else if (decl instanceof ContVariable contVar) {
+                target.getVarStorage().addStateVariable(contVar, newRealType());
+                target.getContinuousVariablesGenerator().addVariable(contVar);
             }
 
             // TODO Constants.
@@ -580,7 +586,11 @@ public class CifProcessor {
 
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
-                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.NO_PARAMETER),
+                    // TODO Implement internal user-defined functions with at least one parameter.
+                    new FuncNoSpecificUserDefCheck(
+                            NoSpecificUserDefFunc.EXTERNAL, //
+                            NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
+                            NoSpecificUserDefFunc.NO_PARAMETER),
 
                     // Limit internal user-defined function assignments and disallow the 'continue' statement.
                     //
@@ -661,7 +671,10 @@ public class CifProcessor {
                             NoSpecificStdLib.STD_LIB_ROUND, //
                             NoSpecificStdLib.STD_LIB_SCALE, //
                             NoSpecificStdLib.STD_LIB_SIGN, //
-                            NoSpecificStdLib.STD_LIB_SIZE)
+                            NoSpecificStdLib.STD_LIB_SIZE),
+
+                    // Limit use of continuous variables.
+                    new VarContOnlyTimers()
             //
             );
         }

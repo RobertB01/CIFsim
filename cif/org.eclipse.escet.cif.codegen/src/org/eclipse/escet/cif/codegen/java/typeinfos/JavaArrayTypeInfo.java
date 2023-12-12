@@ -78,7 +78,7 @@ public class JavaArrayTypeInfo extends ArrayTypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         // Use 'equalObjs' instead of '==' to avoid object equality for two array objects.
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "equalObjs(${left-value}, ${right-value})";
@@ -203,7 +203,7 @@ public class JavaArrayTypeInfo extends ArrayTypeInfo {
 
         String indexName = fmt("rng_index%d", level);
         String elemName = fmt("rng_elem%d", level);
-        code.add("for(int %s = 0; %s < %s.size(); %s++) {", indexName, indexName, rhsValue.getData(), indexName);
+        code.add("for (int %s = 0; %s < %s.size(); %s++) {", indexName, indexName, rhsValue.getData(), indexName);
         code.indent();
         code.add("%s %s = %s.get(%s);", childInfos[0].getTargetType(), elemName, rhsValue.getData(), indexName);
 

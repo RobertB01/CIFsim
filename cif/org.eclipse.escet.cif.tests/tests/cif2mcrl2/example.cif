@@ -35,4 +35,5 @@ automaton Q:
 
   location q2:
     edge b when y = 1 and P.x < 8 and P.zero = 0 goto q1;
+    edge b when y = 0 => P.x >= 8 goto q1;
 end

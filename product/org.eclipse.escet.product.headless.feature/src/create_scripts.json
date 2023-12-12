@@ -57,6 +57,11 @@
             "class_name": "org.eclipse.escet.cif.codegen.CodeGenApp"
         },
         {
+            "script_name": "cifplcgen",
+            "plugin_name": "org.eclipse.escet.cif.plcgen",
+            "class_name": "org.eclipse.escet.cif.plcgen.CifPlcGenApp"
+        },
+        {
             "script_name": "cif2plc",
             "plugin_name": "org.eclipse.escet.cif.cif2plc",
             "class_name": "org.eclipse.escet.cif.cif2plc.CifToPlcApp"

@@ -1,0 +1,10 @@
+event e;
+automaton statespace:
+  alphabet e;
+  @state(abs1.abs2.abs3 = 1.23, $cont = 0.0, cvar = 0.0, named = "loc1", nameless = "*", types = "*", types.b = true, types.d = {true: 1, false: 5}, types.e = "lit2", types.f1 = "functions.invert", types.f2 = "*", types.i1 = 123, types.i2 = -123, types.i3 = -2147483647 - 1, types.i4 = 2147483647, types.l = [[1, 2, 3], [4, 5, 6]], types.r1 = 1.23, types.r2 = -1.23, types.s = {1.2, 3.7, 8.9}, types.str = "a\nb\tc\"d", types.t = (true, 135), vars = "loc1", vars.cvar = 0.0, vars.dvar = false)
+  location loc1:
+    initial;
+    edge e goto loc2;
+  @state(abs1.abs2.abs3 = 1.23, $cont = 0.0, cvar = 0.0, named = "loc2", nameless = "*", types = "*", types.b = true, types.d = {true: 1, false: 5}, types.e = "lit2", types.f1 = "functions.invert", types.f2 = "*", types.i1 = 123, types.i2 = -123, types.i3 = -2147483647 - 1, types.i4 = 2147483647, types.l = [[1, 2, 3], [4, 5, 6]], types.r1 = 1.23, types.r2 = -1.23, types.s = {1.2, 3.7, 8.9}, types.str = "a\nb\tc\"d", types.t = (true, 135), vars = "loc2", vars.cvar = 2.0, vars.dvar = true)
+  location loc2;
+end

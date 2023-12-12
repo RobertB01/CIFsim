@@ -112,3 +112,7 @@ indexterm:[convert switch expressions to if expressions,optimality]
 
 This transformation transforms `switch` expressions to `if` expressions, leading to `if` expressions with `if` and `elif` guards that may not be optimal.
 To simplify the result, apply additional CIF to CIF transformations, such as <<tools-cif2cif-chapter-simplify-values>>.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

@@ -4,6 +4,7 @@ group p:
 end
 supervisor automaton sup:
   alphabet p.u1, p.u2;
+  @state(p = "l1", r = "l1")
   location s1:
     initial;
     marked;

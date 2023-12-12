@@ -1,6 +1,7 @@
 controllable sup2;
 automaton statespace:
   alphabet sup2;
+  @state(sup = "l0", sup3 = "*")
   location loc1:
     initial;
     marked;

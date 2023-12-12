@@ -52,6 +52,14 @@ typedef struct T2II_struct T2IIType;
 extern BoolType T2IITypeEquals(T2IIType *left, T2IIType *right);
 extern int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end);
 
+enum Enuminternal_functions_ {
+    _internal_functions___some_dummy_enum_literal,
+};
+typedef enum Enuminternal_functions_ internal_functionsEnum;
+
+extern const char *enum_names[];
+extern int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end);
+
 
 /* Event declarations. */
 enum internal_functionsEventEnum_ {

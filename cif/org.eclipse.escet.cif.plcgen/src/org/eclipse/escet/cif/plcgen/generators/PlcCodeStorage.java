@@ -13,13 +13,12 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
-
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
@@ -33,17 +32,20 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class that stores and writes generated PLC code. */
 public class PlcCodeStorage {
+    /** Maximum number of registered premature event loop cycle aborts. */
+    private static final int MAX_LOOPS_KILLED = 9999;
+
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
@@ -68,6 +70,9 @@ public class PlcCodeStorage {
     /** Global variable list for state variables, lazily created. */
     private PlcGlobalVarList globalStateVars = null;
 
+    /** Global variable list for timer variables, lazily created. */
+    private PlcGlobalVarList globalTimerVars = null;
+
     /** The expression generator to use for generating code in the main program. Initialized lazily. */
     private ExprGenerator exprGenerator = null;
 
@@ -77,8 +82,17 @@ public class PlcCodeStorage {
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
 
+    /**
+     * If not {@code null}, code to update the remaining time of the continuous variables just before the non-first time
+     * of the event transitions.
+     */
+    private List<PlcStatement> updateContVarsRemainingTimeCode = null;
+
     /** If not {@code null}, code to perform one iteration of all events. */
     private List<PlcStatement> eventTransitionsIterationCode = null;
+
+    /** Maximum number of iterations for performing events in a single cycle, or {@code null} if unrestricted. */
+    private Integer maxIter;
 
     /** If not {@code null}, code for copying I/O input to CIF state. */
     private List<PlcStatement> inputFuncCode = null;
@@ -94,6 +108,7 @@ public class PlcCodeStorage {
      */
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
+        this.maxIter = settings.maxIter;
 
         // Create project, configuration, resource, and task.
         project = new PlcProject(settings.projectName);
@@ -182,6 +197,20 @@ public class PlcCodeStorage {
     }
 
     /**
+     * Add a variable to the global timer variables table.
+     *
+     * @param variable Variable to add. Name is assumed to be unique.
+     */
+    public void addTimerVariable(PlcVariable variable) {
+        if (globalTimerVars == null) {
+            // Global variable list of timer-related data of the main program. Note that the Siemens target currently
+            // requires the "TIMERS" name.
+            globalTimerVars = new PlcGlobalVarList("TIMERS", false);
+        }
+        globalTimerVars.variables.add(variable);
+    }
+
+    /**
      * Add a type declaration to the global type declarations list.
      *
      * @param decl Declaration to add. Name is assumed to be unique.
@@ -200,6 +229,17 @@ public class PlcCodeStorage {
         if (PlcModelUtils.isNonEmptyCode(stateInitializationCode)) {
             this.stateInitializationCode = stateInitializationCode;
         }
+    }
+
+    /**
+     * Store code that updates the remaining time of the continuous variables before the event transitions in the PLC
+     * cycle.
+     *
+     * @param updateContVarsRemainingTimeCode Statements to execute for updating remaining time of the continuous
+     *     variables.
+     */
+    public void storeUpdateContvarsRemainingTimeCode(List<PlcStatement> updateContVarsRemainingTimeCode) {
+        this.updateContVarsRemainingTimeCode = updateContVarsRemainingTimeCode;
     }
 
     /**
@@ -242,12 +282,55 @@ public class PlcCodeStorage {
     }
 
     /** Perform any additional processing to make the generated PLC program ready. */
+    @SuppressWarnings("null")
     public void finishPlcProgram() {
+        // Continuous variables are state so they are also initialized. Therefore needing to update the
+        // remaining time of continuous variables means there is also state initialization code. That is, having
+        // continuous variables is a subset within having state.
+        Assert.implies(updateContVarsRemainingTimeCode != null, stateInitializationCode != null);
+
+        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
+        ExprGenerator exprGen = getExprGenerator();
+        ModelTextGenerator textGenerator = target.getModelTextGenerator();
+
+        // The "firstRun" boolean is needed in state initialization, but creation has been moved to here before
+        // pushing the variable tables to the output.
+        PlcVariable firstRun = null;
+        if (stateInitializationCode != null) {
+            firstRun = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
+                    new PlcBoolLiteral(true));
+            addTimerVariable(firstRun);
+        }
+
+        // Construct loop and killed counters.
+        PlcVariable loopCount = null;
+        PlcVariable loopsKilled = null;
+        if (maxIter != null) {
+            // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
+            loopsKilled = exprGen.makeLocalVariable("loopsKilled", PlcElementaryType.INT_TYPE);
+            Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)".
+
+            // Construct a "loopCount" variable, limit the maximum number of iterations to the type.
+            PlcElementaryType loopCountType = target.getIntegerType();
+            loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
+            int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
+            maxIter = switch (bitSize) {
+                case 64, 32 -> maxIter; // Java int size is 32 bit, all values of maxIter fit.
+                case 16 -> Math.min(maxIter, 0x7FFF);
+                case 8 -> Math.min(maxIter, 0x7F);
+                default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
+            };
+
+            addTimerVariable(loopCount);
+            addTimerVariable(loopsKilled);
+        }
+
         // Add all created variable tables.
         addGlobalVariableTable(globalConstants);
         addGlobalVariableTable(globalInputs);
         addGlobalVariableTable(globalOutputs);
         addGlobalVariableTable(globalStateVars);
+        addGlobalVariableTable(globalTimerVars);
 
         // Create code file for program, with header etc.
         PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
@@ -262,9 +345,6 @@ public class PlcCodeStorage {
         boolean boxNeedsEmptyLine = false;
         int commentLength = 79; // Length of a comment header line.
 
-        ExprGenerator exprGen = getExprGenerator();
-        ModelTextGenerator textGenerator = target.getModelTextGenerator();
-
         // Add input code if it exists.
         if (inputFuncCode != null) {
             generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
@@ -275,20 +355,29 @@ public class PlcCodeStorage {
 
         // Add initialization code if it exists.
         if (stateInitializationCode != null) {
-            generateCommentHeader("Initialize state.", '-', commentLength, boxNeedsEmptyLine, box);
+            String headerText = (updateContVarsRemainingTimeCode == null) ? "Initialize state."
+                    : "Initialize state or update continuous variables.";
+            generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
-            // Insert code to create the initial state.
-            PlcVariable firstFlag = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
-                    new PlcBoolLiteral(true));
-            mainVariables.variables.add(firstFlag);
-
-            box.add("IF %s THEN", firstFlag.name);
+            // Insert code to create the initial state with the "firstRun" boolean to run it only once.
+            // The variable is added above, before the variable tables are pushed to the output.
+            //
+            box.add("IF %s THEN", firstRun.name);
             box.indent();
-            box.add("%s := FALSE;", firstFlag.name);
+            box.add("%s := FALSE;", firstRun.name);
+            if (loopsKilled != null) {
+                box.add("%s := 0;", loopsKilled.name);
+            }
             box.add();
             textGenerator.toText(stateInitializationCode, box, main.name, false);
             box.dedent();
+            if (updateContVarsRemainingTimeCode != null) {
+                box.add("ELSE");
+                box.indent();
+                textGenerator.toText(updateContVarsRemainingTimeCode, box, main.name, false);
+                box.dedent();
+            }
             box.add("END_IF;");
         }
 
@@ -296,15 +385,55 @@ public class PlcCodeStorage {
         if (eventTransitionsIterationCode != null) {
             generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
 
-            String progressVarName = getIsProgressVariable().name;
-            box.add("%s := TRUE;", progressVarName);
-            box.add("WHILE %s DO", progressVarName);
-            box.indent();
-            box.add("%s := FALSE;", progressVarName);
+            PlcVariable progressVar = getIsProgressVariable();
+            box.add("%s := TRUE;", progressVar.name);
+
+            // Start the event processing loop.
+            if (loopCount == null) {
+                // Unrestricted looping, no need to count loops.
+                box.add("(* Perform events until none can be done anymore. *)");
+                box.add("WHILE %s DO", progressVar.name);
+                box.indent();
+            } else {
+                // Generate condition "progress AND loopCount < max".
+                PlcExpression progressCond = new PlcVarExpression(progressVar);
+                PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
+                        new PlcIntLiteral(maxIter));
+                PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
+
+                // Restricted looping code.
+                box.add("(* Perform events until none can be done anymore. *)");
+                box.add("(* Track the number of iterations and abort if there are too many. *)");
+                box.add("%s := 0;", loopCount.name);
+                box.add("WHILE %s DO", textGenerator.toString(whileCond));
+                box.indent();
+                box.add("%s := %s + 1;", loopCount.name, loopCount.name);
+            }
+
+            // Construct the while body with event processing.
+            box.add("%s := FALSE;", progressVar.name);
             box.add();
-            target.getModelTextGenerator().toText(eventTransitionsIterationCode, box, main.name, false);
+            textGenerator.toText(eventTransitionsIterationCode, box, main.name, false);
             box.dedent();
             box.add("END_WHILE;");
+
+            // Update "loopsKilled" afterwards if appropriate.
+            if (loopsKilled != null) {
+                // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
+                PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
+                        new PlcIntLiteral(maxIter));
+                PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled),
+                        new PlcIntLiteral(1));
+                PlcExpression limitedIncrementKilled = funcAppls.minFuncAppl(incKilled,
+                        new PlcIntLiteral(MAX_LOOPS_KILLED));
+
+                box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
+                box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
+                box.indent();
+                box.add("%s := %s;", loopsKilled.name, textGenerator.toString(limitedIncrementKilled));
+                box.dedent();
+                box.add("END_IF;");
+            }
         }
         boxNeedsEmptyLine = true;
 
@@ -317,12 +446,6 @@ public class PlcCodeStorage {
         }
 
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
-
-        // Add main program timer variables.
-        PlcType tonType = new PlcDerivedType("TON");
-        mainVariables.variables.add(exprGen.makeLocalVariable("timer0", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("timer1", tonType));
-        mainVariables.variables.add(exprGen.makeLocalVariable("curTimer", INT_TYPE, null, new PlcIntLiteral(0)));
 
         // Add temporary variables of the main program code.
         main.tempVars = exprGen.getCreatedTempVariables();

@@ -158,10 +158,10 @@ Locations : Location
           | Locations Location
           ;
 
-Location : "location" ";"
-         | "location" Identifier ";"
-         | "location" ":" LocationElements
-         | "location" Identifier ":" LocationElements
+Location : OptAnnos "location" ";"
+         | OptAnnos "location" Identifier ";"
+         | OptAnnos "location" ":" LocationElements
+         | OptAnnos "location" Identifier ":" LocationElements
          ;
 
 LocationElements : LocationElement

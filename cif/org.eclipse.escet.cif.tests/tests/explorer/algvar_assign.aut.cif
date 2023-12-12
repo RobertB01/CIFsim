@@ -1,10 +1,13 @@
 automaton statespace:
   alphabet;
+  @state(A = "X", A.x = 0)
   location loc1:
     initial;
     edge tau goto loc2;
+  @state(A = "Y", A.x = 3)
   location loc2:
     edge tau goto loc3;
+  @state(A = "Y", A.x = 2)
   location loc3:
     edge tau;
 end

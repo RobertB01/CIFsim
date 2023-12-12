@@ -1,0 +1,4 @@
+plant automaton dfa:
+  alphabet;
+  location;
+end

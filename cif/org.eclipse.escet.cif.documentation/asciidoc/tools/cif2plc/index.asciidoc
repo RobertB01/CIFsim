@@ -28,9 +28,9 @@ indexterm:[CIF PLC code generator,start]
 
 The generator can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF implementation tools[Generate PLC code for CIF specification... (stable)].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Generate PLC code for CIF specification... (stable)].
 
 * Use the `cif2plc` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
@@ -198,6 +198,8 @@ That is, functions may only be used in function calls, and may for instance not 
 
 * I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
+
+* Annotations are ignored.
 
 indexterm:[CIF PLC code generator,preprocessing]
 

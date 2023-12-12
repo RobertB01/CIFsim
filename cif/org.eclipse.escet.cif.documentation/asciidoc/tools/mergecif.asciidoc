@@ -352,6 +352,7 @@ Due to this restriction, constants that have a type of which the values can not 
 
 As mentioned in the <<tools-mergecif-shared>> section, an input variable can be merged with another input variable, discrete variable, continuous variable, algebraic variable, constant, or location.
 Input variables can only be merged with other objects that have the exact same type.
+When an input variable is merged with anything but a location or another input variable, the annotations of the input variable are discarded.
 
 A location can be merged with an input variable that has a boolean type.
 The input variable is then a placeholder for the location, indicating whether the location is the current location of its automaton.
@@ -408,3 +409,5 @@ But this merged specification is invalid, as `x` is defined in terms of `y`, whi
 
 Another example of merge problems is two CIF specifications that have SVG output mappings for the same SVG element id and attribute, for the same SVG image file.
 In the individual CIF specifications there are no duplicate output mappings, but in the merged specification there are.
+
+The merged specification is also checked for any problems with <<lang-tut-extensions-chapter-annotations,annotations>>, as annotations may be on different objects after merging, and not all annotations are supported for all objects.

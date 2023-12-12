@@ -83,6 +83,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
+import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
@@ -519,6 +520,14 @@ public abstract class CodeGen {
     public abstract Destination makeDestination(VariableInformation varInfo);
 
     /**
+     * Make a target-specific data value for the given value.
+     *
+     * @param value The value.
+     * @return The target-specific data value.
+     */
+    public abstract DataValue makeDataValue(String value);
+
+    /**
      * Perform an assignment to a variable, where the right hand side is required only one time, the left hand side is
      * exactly one variable, and there is no underflow or overflow to worry about.
      *
@@ -663,6 +672,7 @@ public abstract class CodeGen {
         // specifications.
         switch (language) {
             case JAVA:
+            case JAVASCRIPT:
             case C89:
             case C99:
                 new CodeGenPreChecker().check(spec);
@@ -677,7 +687,11 @@ public abstract class CodeGen {
         }
 
         // Linearize, to get rid of parallelism.
-        LinearizeMerge linearize = new LinearizeMerge();
+        //
+        // To be consistent with the precondition check that automata must have exactly one initial location, we allow
+        // linearization to optimize initialization of newly introduced location pointers, by considering the values of
+        // variables and so on when determining whether the location pointer has a single initial value.
+        LinearizeMerge linearize = new LinearizeMerge(true);
         linearize.transform(spec);
         lpVariables = linearize.getLPVariables();
 
@@ -766,6 +780,16 @@ public abstract class CodeGen {
         // should be at most one enum declaration.
         Assert.check(enumDecls.size() <= 1);
 
+        // Make sure we always have an enumeration.
+        EnumDecl enumDecl;
+        if (enumDecls.isEmpty()) {
+            enumDecl = CifConstructors.newEnumDecl(null,
+                    list(CifConstructors.newEnumLiteral("__some_dummy_enum_literal", null)),
+                    "__some_dummy_enum_name", null);
+        } else {
+            enumDecl = first(enumDecls);
+        }
+
         // Create code context.
         CodeContext ctxt = new CodeContext(this);
 
@@ -777,9 +801,7 @@ public abstract class CodeGen {
         addAlgVars(ctxt);
         addInputVars(ctxt);
         addFunctions(ctxt);
-        if (enumDecls.size() == 1) {
-            addEnum(first(enumDecls), ctxt);
-        }
+        addEnum(enumDecl, ctxt);
 
         // Get code for the print declarations.
         List<IoDecl> ioDecls = list();

@@ -32,7 +32,7 @@ plant p:
   disc int j;
   disc real r = 1e+6;                           // 1e6 -> 1.0e+6
 
-  cont t der 1.0;                               // clock
+  cont t der -1.0;                              // clock
 
   initial t + v1 + y + v2[a] + v2[b] >= 0;      // Get rid of unused warnings.
 

@@ -482,3 +482,8 @@ In fact, often almost all generated expressions can easily be simplified.
 To further simplify the result, apply additional CIF to CIF transformations, such as <<tools-cif2cif-chapter-simplify-values>>.
 
 Currently, no effort is made by this transformation to reduce for instance the number of dummy assignments, or the number of replacements of tuple field projections by tuple index projections.
+
+=== Annotations
+
+This transformation does not process or add any annotations.
+The annotations of all locations of automata are lost, and the single new location does not have any annotations.

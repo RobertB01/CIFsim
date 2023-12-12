@@ -651,7 +651,7 @@ public class SymbolScopeBuilder {
 
         // Add named locations to the symbol table.
         if (loc.name != null) {
-            LocationDeclWrap wrapper = new LocationDeclWrap(tchecker, parent, loc2);
+            LocationDeclWrap wrapper = new LocationDeclWrap(tchecker, parent, loc, loc2);
             parent.addDeclaration(wrapper);
         }
     }

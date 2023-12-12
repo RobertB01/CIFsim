@@ -60,3 +60,7 @@ The `projected` part of the default extension depends on the _Result name_ optio
 * _Result name_: The name to use for the projected automaton.
 If not specified, defaults to `projected`.
 Also affects the _Output file_ option.
+
+* _Add state annotations_: Add <<lang-tut-extensions-chapter-annotations-state,state annotations>> to the locations of the automaton in the output CIF file.
+This option is enabled by default.
+If the output CIF file has an automaton with only a single non-initial location, then the location does not get a state annotation, regardless of whether the option is enabled or not.

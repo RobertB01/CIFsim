@@ -10,6 +10,13 @@
 /* Types of the specification.
  * Note that integer ranges are ignored in C.
  */
+enum Enumannos_doc_ {
+    _annos_doc___some_dummy_enum_literal,
+};
+typedef enum Enumannos_doc_ annos_docEnum;
+
+extern const char *enum_names[];
+extern int EnumTypePrint(annos_docEnum value, char *dest, int start, int end);
 
 
 /* Event declarations. */
@@ -53,6 +60,15 @@ extern BoolType i3_;
  * some doc
  */
 extern BoolType i4_;
+
+/**
+ * Input variable "bool i5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern BoolType i5_;
 
 extern void annos_doc_AssignInputVariables();
 

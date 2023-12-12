@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.conversion;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcArrayLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
@@ -30,6 +31,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjec
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -228,10 +230,19 @@ public class ModelTextGenerator {
             boolean atParentLeft, boolean atParentRight, FuncApplPreference funcApplPreference)
     {
         PlcBasicFuncDescription function = funcAppl.function;
-        List<PlcNamedValue> arguments = funcAppl.arguments;
+        PlcParameterDescription[] parameters = function.parameters;
+        Map<String, PlcNamedValue> arguments = funcAppl.arguments;
+        boolean allArgumentsSupplied = parameters.length == arguments.size();
 
-        // Prefer infix notation.
-        if (funcApplPreference.equals(FuncApplPreference.PREFER_INFIX) && function.infixFuncName != null) {
+        // Decide what notation forms are allowed. Check there is at least one form available.
+        boolean infixNotationAllowed = function.notations.contains(PlcFuncNotation.INFIX)
+                && (funcApplPreference != FuncApplPreference.OUTER_PREFIX) && allArgumentsSupplied;
+        boolean informalNotationAllowed = function.notations.contains(PlcFuncNotation.INFORMAL) && allArgumentsSupplied;
+        boolean formalNotationAllowed = function.notations.contains(PlcFuncNotation.FORMAL);
+        Assert.check(infixNotationAllowed || informalNotationAllowed || formalNotationAllowed);
+
+        // Prefer infix.
+        if (infixNotationAllowed) {
             boolean needsParentheses = function.infixBinding.needsParentheses(parentBinding, atParentLeft,
                     atParentRight);
             textBuilder.append(needsParentheses ? "(" : "");
@@ -244,31 +255,40 @@ public class ModelTextGenerator {
 
             // Write the expressions.
             String infixString = " " + function.infixFuncName + " ";
-            for (int i = 0; i <= lastArgumentIndex; i++) {
-                textBuilder.append(i > 0 ? infixString : "");
-                toText(arguments.get(i).value, textBuilder, function.infixBinding, i == 0, i == lastArgumentIndex,
-                        FuncApplPreference.PREFER_INFIX);
+            int argNumber = 0;
+            for (PlcParameterDescription param: function.parameters) {
+                PlcNamedValue argNamedValue = arguments.get(param.name);
+                Assert.notNull(argNamedValue);
+
+                textBuilder.append(argNumber > 0 ? infixString : "");
+                toText(argNamedValue.value, textBuilder, function.infixBinding, argNumber == 0,
+                        argNumber == lastArgumentIndex, FuncApplPreference.PREFER_INFIX);
+                argNumber++;
             }
             textBuilder.append(needsParentheses ? ")" : "");
-        } else {
-            // No infix available, use formal prefix notation instead.
-            Assert.notNull(function.prefixFuncName);
+        } else if (informalNotationAllowed || formalNotationAllowed) {
             textBuilder.append(function.prefixFuncName);
             textBuilder.append("(");
-            boolean first = true;
-            for (PlcNamedValue namedValue: arguments) {
-                if (!first) {
-                    textBuilder.append(", ");
+
+            int argNumber = 0;
+            boolean useFormalSyntax = !informalNotationAllowed; // Prefer informal syntax above formal syntax.
+            for (PlcParameterDescription param: function.parameters) {
+                PlcNamedValue argNamedValue = arguments.get(param.name);
+                if (argNamedValue == null) {
+                    continue;
                 }
-                first = false;
-                PlcParameterDescription paramDesc = function.prefixParameters.get(namedValue.name);
-                Assert.notNull(paramDesc, "Parameter name \"" + String.valueOf(namedValue.name)
-                        + "\" is not defined for function \"" + function.prefixFuncName + "\"'");
-                textBuilder.append(namedValue.name);
-                textBuilder.append(paramDesc.direction == PlcParamDirection.OUTPUT_ONLY ? " => " : " := ");
-                toText(namedValue.value, textBuilder, FuncApplPreference.PREFER_INFIX);
+
+                textBuilder.append(argNumber > 0 ? ", " : "");
+                if (useFormalSyntax) {
+                    textBuilder.append(param.name);
+                    textBuilder.append(param.direction == PlcParamDirection.OUTPUT_ONLY ? " => " : " := ");
+                }
+                toText(argNamedValue.value, textBuilder, FuncApplPreference.PREFER_INFIX);
+                argNumber++;
             }
             textBuilder.append(")");
+        } else {
+            throw new AssertionError("Failed to convert the function application to text.");
         }
     }
 
@@ -309,7 +329,7 @@ public class ModelTextGenerator {
             }
             textBuilder.append(']');
         } else {
-            throw new AssertionError("Unexpected PLC prjection \"" + proj + "\" found.");
+            throw new AssertionError("Unexpected PLC projection \"" + proj + "\" found.");
         }
     }
 
@@ -412,8 +432,11 @@ public class ModelTextGenerator {
      * @param pouName Name of the surrounding POU.
      */
     private void toText(PlcCommentLine cmtLine, CodeBox boxBuilder, String pouName) {
-        String emptyStat = cmtLine.isEmptyStatement ? " ;" : "";
-        boxBuilder.add("(* %s *)%s", cmtLine.commentText, emptyStat);
+        if (cmtLine.commentText == null) {
+            boxBuilder.add("%s", cmtLine.isEmptyStatement ? ";" : "");
+        } else {
+            boxBuilder.add("(* %s *)%s", cmtLine.commentText, cmtLine.isEmptyStatement ? " ;" : "");
+        }
     }
 
     /**

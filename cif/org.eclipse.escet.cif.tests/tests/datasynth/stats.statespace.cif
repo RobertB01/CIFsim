@@ -2,70 +2,90 @@ controllable e;
 controllable f;
 automaton statespace:
   alphabet e, f;
+  @state(a = "*", a.x = 1, sup = "*")
   location loc1:
     initial;
     marked;
     edge e goto loc2;
+  @state(a = "*", a.x = 2, sup = "*")
   location loc2:
     marked;
     edge e goto loc3;
+  @state(a = "*", a.x = 3, sup = "*")
   location loc3:
     marked;
     edge e goto loc4;
+  @state(a = "*", a.x = 4, sup = "*")
   location loc4:
     marked;
     edge e goto loc5;
+  @state(a = "*", a.x = 5, sup = "*")
   location loc5:
     marked;
     edge e goto loc6;
+  @state(a = "*", a.x = 6, sup = "*")
   location loc6:
     marked;
     edge e goto loc7;
+  @state(a = "*", a.x = 7, sup = "*")
   location loc7:
     marked;
     edge e goto loc8;
+  @state(a = "*", a.x = 8, sup = "*")
   location loc8:
     marked;
     edge e goto loc9;
+  @state(a = "*", a.x = 9, sup = "*")
   location loc9:
     marked;
     edge e goto loc10;
+  @state(a = "*", a.x = 10, sup = "*")
   location loc10:
     marked;
     edge e goto loc11;
     edge f;
+  @state(a = "*", a.x = 11, sup = "*")
   location loc11:
     marked;
     edge e goto loc12;
     edge f;
+  @state(a = "*", a.x = 12, sup = "*")
   location loc12:
     marked;
     edge e goto loc13;
     edge f;
+  @state(a = "*", a.x = 13, sup = "*")
   location loc13:
     marked;
     edge e goto loc14;
     edge f;
+  @state(a = "*", a.x = 14, sup = "*")
   location loc14:
     marked;
     edge e goto loc15;
     edge f;
+  @state(a = "*", a.x = 15, sup = "*")
   location loc15:
     marked;
     edge e goto loc16;
     edge f;
+  @state(a = "*", a.x = 16, sup = "*")
   location loc16:
     marked;
     edge e goto loc17;
+  @state(a = "*", a.x = 17, sup = "*")
   location loc17:
     marked;
     edge e goto loc18;
+  @state(a = "*", a.x = 18, sup = "*")
   location loc18:
     marked;
     edge e goto loc19;
+  @state(a = "*", a.x = 19, sup = "*")
   location loc19:
     marked;
     edge e goto loc20;
+  @state(a = "*", a.x = 20, sup = "*")
   location loc20:
     marked;
 end

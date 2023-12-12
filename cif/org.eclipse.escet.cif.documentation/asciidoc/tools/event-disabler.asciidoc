@@ -77,6 +77,8 @@ The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
+The event disabler does not process any annotations.
+
 indexterm:[CIF event disabler,preprocessing]
 
 === Preprocessing

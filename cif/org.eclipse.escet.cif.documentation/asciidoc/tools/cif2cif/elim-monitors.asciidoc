@@ -106,3 +106,7 @@ For an edge with guard `x = 1`, a self loop with guard `not (x = 1)` may be gene
 The guard could be simplified to `x != 1`.
 However, this transformation does not simplify guards.
 To further simplify the result, apply additional CIF to CIF transformations, such as <<tools-cif2cif-chapter-simplify-values>>.
+
+=== Annotations
+
+This transformation does not process, add, or remove any annotations.

@@ -2,6 +2,9 @@ controllable a;
 controllable b;
 automaton minimal:
   alphabet a, b;
+  @state(A = "p")
+  @state(A = "v")
+  @state(A = "m")
   location s1:
     initial;
     edge b;
