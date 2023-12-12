@@ -13,13 +13,11 @@
 
 package org.eclipse.escet.cif.typechecker.postchk;
 
-import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.ExprStructuralEqHashWrap;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -31,8 +29,11 @@ import org.eclipse.escet.cif.typechecker.ErrMsg;
 
 /** 'Invariants.unique' constraint checker for state invariant, for the 'post' type checking phase. */
 public class UniqueStateInvariantsPostChecker {
-    /** The collection of state invariants, grouped based on the hash of the predicate. Is filled during checking. */
-    private final Map<ExprStructuralEqHashWrap, List<Invariant>> stateInvariants = map();
+    /**
+     * Per state predicate of state invariants, the first-encountered state invariant with that state predicate. Is
+     * filled during checking.
+     */
+    private final Map<ExprStructuralEqHashWrap, Invariant> stateInvariants = map();
 
     /**
      * Checks the specification for violations of the 'Invariants.unique' constraint.
@@ -58,7 +59,9 @@ public class UniqueStateInvariantsPostChecker {
         } else if (comp instanceof Automaton aut) {
             // Check invariants in each location for local (in that location) duplication.
             for (Location loc: aut.getLocations()) {
-                check(loc.getInvariants(), false, env);
+                if (!loc.getInvariants().isEmpty()) {
+                    check(loc.getInvariants(), false, env);
+                }
             }
         }
     }
@@ -72,10 +75,11 @@ public class UniqueStateInvariantsPostChecker {
      * @param env The post check environment to use.
      */
     private void check(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
-        Map<ExprStructuralEqHashWrap, List<Invariant>> previousEncounteredInvariants = checkGlobalDuplication
+        Map<ExprStructuralEqHashWrap, Invariant> previousEncounteredInvariants = checkGlobalDuplication
                 ? stateInvariants : map();
 
         for (Invariant invariant: invariants) {
+            // Check only state invariants.
             switch (invariant.getInvKind()) {
                 case EVENT_DISABLES:
                     continue;
@@ -87,34 +91,17 @@ public class UniqueStateInvariantsPostChecker {
                     throw new RuntimeException("Unknown invariant kind: " + invariant.getInvKind());
             }
 
-            // Wrap the predicate of the invariant, for efficient comparing based on hash equality.
-            ExprStructuralEqHashWrap wrappedPred = new ExprStructuralEqHashWrap(invariant.getPredicate());
-            List<Invariant> hashEqualInvariants = previousEncounteredInvariants.getOrDefault(wrappedPred, list());
+            // Wrap the predicate of the invariant, for proper value equality and efficient comparison.
+            ExprStructuralEqHashWrap wrappedExpr = new ExprStructuralEqHashWrap(invariant.getPredicate());
+            Invariant duplicate = previousEncounteredInvariants.get(wrappedExpr);
 
-            // Loop over previously encountered invariants with equal predicate hash and warn for duplicates.
-            boolean duplicateInvariant = false;
-            for (Invariant previousInvariant: hashEqualInvariants) {
-                if (CifValueUtils.areStructurallySameExpression(invariant.getPredicate(),
-                        previousInvariant.getPredicate()))
-                {
-                    // Duplicate invariant encountered.
-                    duplicateInvariant = true;
-
-                    // Add warning to this invariant.
-                    env.addProblem(ErrMsg.INV_DUPL_STATE, invariant.getPosition());
-
-                    // Add warning to previously encountered invariant.
-                    env.addProblem(ErrMsg.INV_DUPL_STATE, previousInvariant.getPosition());
-
-                    // Skip checking as one duplicate is enough.
-                    break;
-                }
-            }
-
-            // Since areStructurallySameExpression is transitive, only save non-duplicate invariants.
-            if (!duplicateInvariant) {
-                hashEqualInvariants.add(invariant);
-                previousEncounteredInvariants.put(wrappedPred, hashEqualInvariants);
+            // Check for duplicate.
+            if (duplicate != null) {
+                env.addProblem(ErrMsg.INV_DUPL_STATE, invariant.getPosition());
+                env.addProblem(ErrMsg.INV_DUPL_STATE, duplicate.getPosition());
+            } else {
+                // No duplicate yet. Store it to find duplicates later.
+                previousEncounteredInvariants.put(wrappedExpr, invariant);
             }
         }
     }

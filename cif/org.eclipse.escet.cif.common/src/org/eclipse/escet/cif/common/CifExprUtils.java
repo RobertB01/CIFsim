@@ -74,24 +74,23 @@ public class CifExprUtils {
      */
     public static int hashExpr(Expression expr) {
         if (expr instanceof BoolExpression bExpr) {
-            return (bExpr.isValue() ? 1231 : 1237); // TODO: Same has as for Boolean objects, is it a good hash?
+            return bExpr.isValue() ? 1231 : 1237; // Same as 'java.lang.Boolean.hashCode'.
         } else if (expr instanceof IntExpression iExpr) {
-            return iExpr.getValue(); // TODO: Is the integer value a good hash?
+            return iExpr.getValue(); // Same as 'java.lang.Integer.hashCode'.
         } else if (expr instanceof RealExpression rExpr) {
-            return rExpr.getValue().hashCode(); // TODO: Default hash for strings, is it a good hash?
+            return rExpr.getValue().hashCode();
         } else if (expr instanceof StringExpression sExpr) {
             return sExpr.getValue().hashCode();
         } else if (expr instanceof TimeExpression tExpr) {
-            return 1 << 0; // TODO: Does this constant make sense?
+            return 1 << 0;
         } else if (expr instanceof CastExpression cExpr) {
             return hashType(cExpr.getType()) + hashExpr(cExpr.getChild());
         } else if (expr instanceof UnaryExpression uExpr) {
-            return uExpr.getOperator().hashCode() + hashExpr(uExpr.getChild()); // TODO: Uses default hash for enums, is
-                                                                                // it a good hash?
+            return uExpr.getOperator().hashCode() + hashExpr(uExpr.getChild());
         } else if (expr instanceof BinaryExpression bExpr) {
             return hashExpr(bExpr.getLeft()) + bExpr.getOperator().hashCode() + hashExpr(bExpr.getRight());
         } else if (expr instanceof IfExpression iExpr) {
-            int rslt = 1 << 3; // TODO: Does this constant make sense?
+            int rslt = 1 << 3;
             for (Expression guard: iExpr.getGuards()) {
                 rslt += hashExpr(guard);
             }
@@ -103,10 +102,9 @@ public class CifExprUtils {
                 rslt += hashExpr(elifExpr.getThen());
             }
             rslt += hashExpr(iExpr.getElse());
-
             return rslt;
         } else if (expr instanceof SwitchExpression sExpr) {
-            int rslt = 1 << 6; // TODO: Does this constant make sense?
+            int rslt = 1 << 6;
             rslt += hashExpr(sExpr.getValue());
             for (SwitchCase sCase: sExpr.getCases()) {
                 if (sCase.getKey() != null) {
@@ -127,50 +125,48 @@ public class CifExprUtils {
             }
             return rslt;
         } else if (expr instanceof FunctionCallExpression fcExpr) {
-            int rslt = 1 << 9; // TODO: Does this constant make sense?
+            int rslt = 1 << 9;
             rslt += hashExpr(fcExpr.getFunction());
             for (Expression argument: fcExpr.getArguments()) {
                 rslt += hashExpr(argument);
             }
             return rslt;
         } else if (expr instanceof ListExpression lExpr) {
-            int rslt = 1 << 12; // TODO: Does this constant make sense?
+            int rslt = 1 << 12;
             for (Expression element: lExpr.getElements()) {
                 rslt += hashExpr(element);
             }
             return rslt;
         } else if (expr instanceof SetExpression sExpr) {
-            int rslt = 1 << 15; // TODO: Does this constant make sense?
+            int rslt = 1 << 15;
             for (Expression element: sExpr.getElements()) {
                 rslt += hashExpr(element);
             }
             return rslt;
         } else if (expr instanceof TupleExpression tExpr) {
-            int rslt = 1 << 18; // TODO: Does this constant make sense?
+            int rslt = 1 << 18;
             for (Expression field: tExpr.getFields()) {
                 rslt += hashExpr(field);
             }
             return rslt;
         } else if (expr instanceof DictExpression dExpr) {
-            int rslt = 1 << 21; // TODO: Does this constant make sense?
+            int rslt = 1 << 21;
             for (DictPair pair: dExpr.getPairs()) {
                 rslt += hashExpr(pair.getKey()) + hashExpr(pair.getValue());
             }
             return rslt;
         } else if (expr instanceof ConstantExpression cExpr) {
-            return cExpr.getConstant().hashCode(); // Uses default hash for objects, is it a good hash?
+            return cExpr.getConstant().hashCode();
         } else if (expr instanceof DiscVariableExpression dvExpr) {
             return dvExpr.getVariable().hashCode();
         } else if (expr instanceof AlgVariableExpression aExpr) {
             return aExpr.getVariable().hashCode();
         } else if (expr instanceof ContVariableExpression cExpr) {
             return cExpr.getVariable().hashCode();
-        } else if (expr instanceof InputVariableExpression iExpr) {
-            return iExpr.getVariable().hashCode();
+        } else if (expr instanceof TauExpression) {
+            return 1 << 24;
         } else if (expr instanceof LocationExpression lExpr) {
             return lExpr.getLocation().hashCode();
-        } else if (expr instanceof TauExpression) {
-            return 1 << 24; // TODO: Does this constant make sense?
         } else if (expr instanceof EnumLiteralExpression elExpr) {
             return elExpr.getLiteral().hashCode();
         } else if (expr instanceof EventExpression eExpr) {
@@ -181,6 +177,8 @@ public class CifExprUtils {
             return slfExpr.getFunction().hashCode();
         } else if (expr instanceof FunctionExpression fExpr) {
             return fExpr.getFunction().hashCode();
+        } else if (expr instanceof InputVariableExpression iExpr) {
+            return iExpr.getVariable().hashCode();
         } else if (expr instanceof ComponentExpression cExpr) {
             return cExpr.getComponent().hashCode();
         } else if (expr instanceof CompParamExpression cpExpr) {
@@ -190,9 +188,9 @@ public class CifExprUtils {
         } else if (expr instanceof CompParamWrapExpression cpwExpr) {
             return cpwExpr.getParameter().hashCode() + hashExpr(cpwExpr.getReference());
         } else if (expr instanceof ReceivedExpression) {
-            return 1 << 27; // TODO: Does this constant make sense?
+            return 1 << 27;
         } else if (expr instanceof SelfExpression) {
-            return 1 << 30; // TODO: Does this constant make sense?
+            return 1 << 30;
         }
 
         throw new RuntimeException("Unexpected expression: " + expr.toString());
