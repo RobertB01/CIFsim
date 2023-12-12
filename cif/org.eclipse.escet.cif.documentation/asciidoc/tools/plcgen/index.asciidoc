@@ -373,9 +373,12 @@ The number of transferred bits must match with the CIF type of the variable as f
 |===
 | Transfer size | PLC type | CIF type
 
-| 1 | - | `bool`
+| 1 | `BOOL` | `bool`
 | 16 | `INT` | `int` (for PLC systems that do not support 32 bit integers)
-| 32 | `DINT` | `int` (for PLC systems that do support 32 bit integers)
+| 32 | `DINT` | `int` (for PLC systems that support 32 bit integers)
+| 32 | `REAL` | `real` (for PLC systems that do not support 64 floating point)
+| 64 | `LINT` | `int` (for PLC systems that support 64 bit integers)
+| 64 | `LREAL` | `real` (for PLC systems that support 64 floating point)
 |===
 
 indexterm:[PLC code generator,continuous behavior]
