@@ -302,6 +302,7 @@ ${javascript-event-calls-code}
                                 ${prefix}.targetMilli += cycleMilli;
                                 remainderMilli = ${prefix}.targetMilli - postMilli;
                             }
+
                             // Execute again.
                             ${prefix}.execWhile(remainderMilli > 0 ? remainderMilli : 0);
                         },
