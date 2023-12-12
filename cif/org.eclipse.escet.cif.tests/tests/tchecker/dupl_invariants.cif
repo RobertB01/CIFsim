@@ -439,7 +439,7 @@ invariant e37 needs a4.l1;
 invariant e37 needs a4.l2; // Different location.
 invariant a4.l1;
 invariant a4.l1;
-invariant a4.l2; // Different location.A
+invariant a4.l2; // Different location.
 
 // Enum literal expression.
 event e38;
