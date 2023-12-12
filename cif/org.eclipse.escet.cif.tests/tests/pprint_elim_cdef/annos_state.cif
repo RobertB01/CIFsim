@@ -16,16 +16,17 @@
 automaton a1:
   @state(a = 1, b = 2)
   @state(a = 2, b = 3)
+  @state(a = -3, b = -4)
   location:
     initial;
 end
 
 automaton a2:
-  @state(a = 1, b = 2)
+  @state(a.b.c = "a", d.e.f = [1, 2])
   location loc1:
     initial;
 
-  @state(a.b.c = "a", d.e.f = [1, 2])
+  @state(a.b.c = "b", d.e.f = <list[0] int>[])
   location loc2:
     initial;
 end
