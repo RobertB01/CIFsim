@@ -176,7 +176,7 @@ public class CifExprUtils {
         } else if (expr instanceof EventExpression eExpr) {
             return eExpr.getEvent().hashCode();
         } else if (expr instanceof FieldExpression fExpr) {
-            return fExpr.getField().hashCode();
+            return fExpr.getField().getName().hashCode();
         } else if (expr instanceof StdLibFunctionExpression slfExpr) {
             return slfExpr.getFunction().hashCode();
         } else if (expr instanceof FunctionExpression fExpr) {
