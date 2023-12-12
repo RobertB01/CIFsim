@@ -30,8 +30,13 @@ indexterm:[PLC code generator]
 indexterm:[tools,PLC code generator]
 indexterm:[see: PLC,PLC code generator]
 
-The CIF PLC code generator for creating IEC 61131-3 compliant **P**rogrammable **L**ogic **C**ontroller (PLC) code.
-It takes a CIF specification and creates real-time PLC code that can read values from external inputs, evaluate the state and perform event transitions, and finally write values to external outputs.
+The CIF PLC code generator takes a CIF specification and creates real-time **P**rogrammable **L**ogic **C**ontroller (PLC) code that can read values from external inputs, evaluate the state and perform event transitions, and finally write values to external outputs.
+The resulting code is written in the Structured Text programming language, one of the programming languages that is part of the IEC 61131-1 standard.
+
+The generated code is not intended to be modified directly.
+Instead, the original CIF models should be modified, and from them new PLC code should be generated.
+
+To successfully deploy the generated code at a real system, the CIF model should behave correctly under all circumstances and the used PLC should have a sufficiently short cycle-time to catch all input changes.
 
 indexterm:[PLC code generator,start]
 

@@ -66,6 +66,7 @@ The _PLC task name_, _PLC task cycle time_, _PLC task priority_, _PLC project na
 
 indexterm:[CIF PLC code generator,Siemens S7 standard compliance]
 
+[[tools-plcgen-s7-standard-compliance]]
 === Standard compliance
 
 In general, the CIF PLC code generator follows the IEC 61131-3 PLC standard and does not use vendor-specific extensions.
