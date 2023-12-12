@@ -7,13 +7,13 @@ ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 35, colum
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 35, column 61: Annotation "state": unsupported value of type "E" in argument "d".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 35, column 73: Annotation "state": unsupported value of type "E" in argument "e".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 35, column 85: Annotation "state": unsupported value of type "E" in argument "e".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 40, column 14: Annotation "state": unsupported value of type "func int()" in argument "a".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 40, column 22: Annotation "state": unsupported value of type "func int()" in argument "b".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 40, column 25: Annotation "state": unsupported value of type "func int()" in argument "b".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 40, column 40: Annotation "state": unsupported value of type "func int()" in argument "d".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 40, column 49: Annotation "state": unsupported value of type "func int()" in argument "e".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 40, column 58: Annotation "state": unsupported value of type "func int()" in argument "e".
-ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 45, column 14: Annotation "state": unsupported value of type "unsupported_types" in argument "a".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 41, column 14: Annotation "state": unsupported value of type "func int()" in argument "a".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 41, column 22: Annotation "state": unsupported value of type "func int()" in argument "b".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 41, column 25: Annotation "state": unsupported value of type "func int()" in argument "b".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 41, column 40: Annotation "state": unsupported value of type "func int()" in argument "d".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 41, column 49: Annotation "state": unsupported value of type "func int()" in argument "e".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 41, column 58: Annotation "state": unsupported value of type "func int()" in argument "e".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 47, column 14: Annotation "state": unsupported value of type "unsupported_components" in argument "a".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 59, column 14: Annotation "state": non-literal value in argument "a".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 60, column 11: Annotation "state": non-literal value in argument "b".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 61, column 13: Annotation "state": non-literal value in argument "c".
@@ -27,4 +27,16 @@ ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 69, colum
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 70, column 9: Annotation "state": non-literal value in argument "k".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 71, column 12: Annotation "state": non-literal value in argument "l".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 72, column 9: Annotation "state": non-literal value in argument "m".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 81, column 3: Annotation "state": compared to other state annotations in the same automaton, one or more arguments are missing: "d", "e".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 85, column 3: Annotation "state": compared to other state annotations in the same automaton, one or more arguments are missing: "c", "e".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 89, column 3: Annotation "state": compared to other state annotations in the same automaton, one or more arguments are missing: "a", "d".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 97, column 10: Annotation "state": the "bool" type of the value of argument "a" is incompatible with the "int[1..1]" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 97, column 20: Annotation "state": the "int[3..3]" type of the value of argument "b" is incompatible with the "bool" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 97, column 27: Annotation "state": the "tuple(int[1..1]; list[2] int[1..2])" type of the value of argument "c" is incompatible with the "bool" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 97, column 27: Annotation "state": the "tuple(int[1..1]; list[2] int[1..2])" type of the value of argument "c" is incompatible with the "set int[1..2]" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 105, column 10: Annotation "state": the "int[1..1]" type of the value of argument "a" is incompatible with the "bool" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 105, column 24: Annotation "state": the "bool" type of the value of argument "c" is incompatible with the "tuple(int[1..1]; list[2] int[1..2])" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 109, column 20: Annotation "state": the "bool" type of the value of argument "b" is incompatible with the "int[3..3]" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 109, column 31: Annotation "state": the "bool" type of the value of argument "c" is incompatible with the "tuple(int[1..1]; list[2] int[1..2])" type of the value of the same argument of another state annotation in the same automaton.
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 113, column 27: Annotation "state": the "set int[1..2]" type of the value of argument "c" is incompatible with the "tuple(int[1..1]; list[2] int[1..2])" type of the value of the same argument of another state annotation in the same automaton.
 ERROR: Failed to load CIF file "tchecker/annos_builtin_state.cif": the file has errors.
