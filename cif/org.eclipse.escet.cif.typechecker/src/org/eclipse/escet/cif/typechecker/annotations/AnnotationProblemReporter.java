@@ -24,7 +24,7 @@ public interface AnnotationProblemReporter {
      *
      * @param annotation The annotation for which to report the problem.
      * @param message The violation message. Should be a full sentence, with a period at the end. Should <em>not</em>
-     *     start with a capitalized first first.
+     *     start with a capitalized first letter.
      * @param position The position on which to report the problem.
      * @param severity The severity of the problem.
      */
@@ -39,7 +39,7 @@ public interface AnnotationProblemReporter {
      *
      * @param annotationName The name of the annotation for which to report the problem.
      * @param message The violation message. Should be a full sentence, with a period at the end. Should <em>not</em>
-     *     start with a capitalized first first.
+     *     start with a capitalized first letter.
      * @param position The position on which to report the problem.
      * @param severity The severity of the problem.
      */
