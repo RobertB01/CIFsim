@@ -29,7 +29,7 @@ import org.eclipse.escet.cif.typechecker.ErrMsg;
 /** 'Invariants.unique' constraint checker for state invariant, for the 'post' type checking phase. */
 public class UniqueStateInvariantsPostChecker {
     /** The set of state invariants. Is filled during checking. */
-    List<Invariant> stateInvariants = list();
+    private final List<Invariant> stateInvariants = list();
 
     /**
      * Checks the specification for violations of the 'Invariants.unique' constraint.
@@ -47,14 +47,14 @@ public class UniqueStateInvariantsPostChecker {
         // Check invariants for global duplication.
         check(comp.getInvariants(), true, env);
 
-        if (comp instanceof Group) {
+        if (comp instanceof Group group) {
             // Check child components.
-            for (Component child: ((Group)comp).getComponents()) {
+            for (Component child: group.getComponents()) {
                 check((ComplexComponent)child, env);
             }
-        } else if (comp instanceof Automaton) {
+        } else if (comp instanceof Automaton aut) {
             // Check invariants in each location for local (in that location) duplication.
-            for (Location loc: ((Automaton)comp).getLocations()) {
+            for (Location loc: aut.getLocations()) {
                 check(loc.getInvariants(), false, env);
             }
         }
