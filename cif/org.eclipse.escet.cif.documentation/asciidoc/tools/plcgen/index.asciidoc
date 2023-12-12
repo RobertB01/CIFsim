@@ -234,7 +234,16 @@ A warning is printed if a CIF/SVG input declaration is encountered.
 [[tools-plcgen-target-type]]
 === Target types
 
-Code can be generated for the following targets:
+Th PLC code generator output contains a single program called `MAIN`.
+This program is instantiated in a task, which is part of a resource, which in turn is part of a configuration.
+The configuration is put in a project, but that is outside the range of the IEC 61131-3 standard.
+Most implementations however, work with projects.
+
+The effect of the project, configuration, resource, and task is dependent on the configured target.
+Unless overridden with options, the target also affects the shape of lower level details such as the form of the function calls, selected size of integers, and other configuration that tends to be different fro different PLC systems.
+Last but not least, the target affects how the generated output gets written to files.
+
+The PLC code generator knows the following targets:
 
 * _ABB_:
 +
@@ -299,7 +308,6 @@ This is done by writing an I/O table file (details follow below), and giving it 
 
 The generated PLC code will automatically read all input at the start of a PLC cycle and store it in the connected input variables.
 The values of the variables can be used in a guard or a computation, or get copied to other variables.
-
 At the end of a cycle, outputs are written in a similar way by using the value of the connected discrete variables.
 
 The I/O table file is a **C**omma **S**eperated **V**alues (CSV) file.
