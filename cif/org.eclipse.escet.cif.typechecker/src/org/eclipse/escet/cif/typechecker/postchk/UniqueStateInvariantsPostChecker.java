@@ -84,20 +84,29 @@ public class UniqueStateInvariantsPostChecker {
             }
 
             // Loop over previously encountered invariants and warn for duplicates.
+            boolean duplicateInvariant = false;
             for (Invariant previousInvariant: previousEncounteredInvariants) {
                 if (CifValueUtils.areStructurallySameExpression(invariant.getPredicate(),
                         previousInvariant.getPredicate()))
                 {
+                    // Duplicate invariant encountered.
+                    duplicateInvariant = true;
+
                     // Add warning to this invariant.
                     env.addProblem(ErrMsg.INV_DUPL_STATE, invariant.getPosition());
 
                     // Add warning to previously encountered invariant.
                     env.addProblem(ErrMsg.INV_DUPL_STATE, previousInvariant.getPosition());
+
+                    // Skip checking as one duplicate is enough.
+                    break;
                 }
             }
 
-            // Save invariant.
-            previousEncounteredInvariants.add(invariant);
+            // Since areStructurallySameExpression is transitive, only save non-duplicate invariants.
+            if (!duplicateInvariant) {
+                previousEncounteredInvariants.add(invariant);
+            }
         }
     }
 }
