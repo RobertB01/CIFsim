@@ -189,68 +189,101 @@ To enlarge the accepted set of CIF files, the following transformations are firs
 
 After pre-processing, a check is performed whether the CIF file meets all the requirements of the CIF PLC code generator.
 
-For components, the following conditions must be met:
+* For components, the following conditions must be met:
+** No initialization predicates outside locations that restrict initialization.
+** No equations outside locations.
 
-* No initialization predicates outside locations that restrict initialization.
-* No equations outside locations.
-
-For automata and invariants, the following conditions must be met:
-
-* At least one automaton.
-* All automata must have a single initial location that can be statically decided.
-* Discrete variables must have a single initial value.
-* No state invariants that restrict behavior.
-* No `tau` events.
+* For automata and invariants, the following conditions must be met:
+** At least one automaton.
+** All automata must have a single initial location that can be statically decided.
+** Discrete variables must have a single initial value.
+** No state invariants that restrict behavior.
+** No `tau` events.
 This includes edges without an event.
-* No urgent locations and edges.
-* No equations.
+** No urgent locations and edges.
+** No equations.
 
-For user-defined functions, the following conditions must be met:
-
-* No internal user-defined functions.
+* For user-defined functions, the following conditions must be met:
+** No internal user-defined functions.
 //* No `continue` statement in internal user-defined functions.
-* No external user-defined functions.
+** No external user-defined functions.
 //* No parameter-less functions.
 
-For continuous variables the following conditions must be met:
-
-* Restricted continuous variables, see the <<tools-plcgen-continuous-behavior,continuous behavior>> section for details.
-
-For expressions and data types, the following conditions must be met:
-
-* No sets, dictionaries, strings, and stochastic distributions.
-* Only arrays, so no non-array lists.
-* No arrays for the S7 targets.
-* For arrays: no `+`, `-`, `=`, `!=`, `empty`, `delete`, `in`, `pop`, `size`, and slicing.
-* For tuples: no `=` and `!=`.
-* Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
-* No functions used as data values or stored in variables.
+* For continuous variables the following conditions must be met:
+** Restricted continuous variables, see the <<tools-plcgen-continuous-behavior,continuous behavior>> section for details.
+**For expressions and data types, the following conditions must be met:
+** No sets, dictionaries, strings, and stochastic distributions.
+** Only arrays, so no non-array lists.
+** No arrays for the S7 targets.
+** For arrays: no `+`, `-`, `=`, `!=`, `empty`, `delete`, `in`, `pop`, `size`, and slicing.
+** For tuples: no `=` and `!=`.
+** Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
+** No functions used as data values or stored in variables.
 Functions must thus only be used to call the function.
-* No use of variable `time`.
+** No use of variable `time`.
 
++
 Depending on the PLC target type, additional restrictions may apply.
 Please consult the next section for details.
 
-Furthermore:
-* I/O declarations are ignored.
+* Furthermore:
+** I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
-* Annotations are ignored.
+** Annotations are ignored.
 
 [[tools-plcgen-target-type]]
 === Target types
 
 Code can be generated for the following targets:
 
-* _ABB_.
-* _IEC 61131-3_.
-* _PLCopen XML_.
-* _Simatic_: S7-300, S7-400, S7-1200, or S7-1500.
+* _ABB_:
++
+Output for the ABB target generates multiple files in a directory.
+By default, if no output directory is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_abb+` directory extension is added.
+The `MAIN` program gets a `.plcprog` file extension, functions get a `.plcfunc` file extension, type declarations get a `.plctype` file extension, and the configuration gets a `.plccfg` file extension.
++
+The _PLC project name_ and _PLC resource name_ options have no effect for this target type.
+
+* _IEC 61131-3_:
++
+Output for the IEC 61131-3 target generates multiple files in a directory.
+By default, if no output directory is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_plc+` directory extension is added.
+The `MAIN` program gets a `.plcprog` file extension, functions get a `.plcfunc` file extension, type declarations get a `.plctype` file extension, and the configuration gets a `.plccfg` file extension.
++
+The _PLC project name_ and _PLC resource name_ options have no effect for this target type.
+
+* _PLCopen XML_:
++
+PLCopen XML is an link:https://en.wikipedia.org/wiki/XML[XML]-based file format standardized by the PLCopen organization, intended for the exchange of complete projects of PLC code, even across different tools and vendors.
+The generated PLCopen XML file is compliant with version 2.01 of the PLCopen XML standard.
++
+Output for the PLCOpen target generates a single file.
+By default, if no output file is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `.plcopen.xml` file extension is added.
+
+* _Simatic_: S7-300, S7-400, S7-1200, or S7-1500:
++
+Totally Integrated Automation Portal (TIA Portal) is an link:https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] for the development and testing of SIMATIC controllers.
+Using the S7 target, the generated PLC code can be imported in TIA Portal.
++
+Output for the Simatic target generates multiple files in a directory.
+By default, if no output directory is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_s7_<ver>+` (`<ver`> being either 1500, 1200, 400 or 300) directory extension is added.
+The `MAIN` programs and functions get a `.scl` file extension, type declarations get a `.udt` file extension, the persistent variables databases get a `.db` file extension, and the global variable lists get a `.xml` extension.
++
+The _PLC task name_, _PLC task cycle time_, _PLC task priority_, _PLC project name_, _PLC configuration name_, and _PLC resource name_ options have no effect for this target type.
 Currently, the PLC code generator cannot generate code for arrays for these systems.
-Therefore, all forms of CIF lists are forbidden for these target type.
+Therefore, all forms of CIF lists are forbidden for these target types.
 +
 See the <<tools-plcgen-chapter-s7,S7 PLC output>> section for details on how to transfer generated code to the PLC system.
-* _TwinCAT_.
-See the <<tools-plcgen-chapter-twincat,TwinCAT PLC outut>> section for details on how to transfer generated code to the PLC system.
+
+* _TwinCAT_:
++
+TwinCAT is a complete link:https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] for the development and testing of PLC controllers.
+Using the TwinCAT PLC target type, the generated PLC code is written to the native file formats of the TwinCAT IDE.
++
+Output for the TwinCAT target generates multiple files in a directory tree.
+By default, if no output directory is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_twincat+` directory extension is added.
++
+See the <<tools-plcgen-chapter-twincat,TwinCAT PLC output>> section for details on how to transfer generated code to the PLC system.
 
 indexterm:[PLC code generator,I/O table]
 indexterm:[PLC code generator,inputs]
@@ -262,13 +295,12 @@ indexterm:[PLC code generator,outputs]
 The PLC code generator generates PLC code that reads input values from external inputs and writes output values to external outputs.
 Inside the PLC these values are transferred using variables with an I/O address.
 To make such connections in CIF, some of the input variables should be connected to input addresses, and some of the discrete variables should be connected to output addresses.
+This is done by writing an I/O table file (details follow below), and giving it to the PLC code generator.
 
 The generated PLC code will automatically read all input at the start of a PLC cycle and store it in the connected input variables.
-In CIF, connected input variables appear to spontaneously change value.
 The values of the variables can be used in a guard or a computation, or get copied to other variables.
 
 At the end of a cycle, outputs are written in a similar way by using the value of the connected discrete variables.
-In CIF, by changing the value of connected discrete variables, external outputs will receive those new values.
 
 The I/O table file is a **C**omma **S**eperated **V**alues (CSV) file.
 The CIF PLC code generator assumes the https://www.rfc-editor.org/rfc/rfc4180[RFC-4180] format for this file, which is compatible with many spreadsheet programs.
@@ -276,7 +308,7 @@ Each line has three columns and describes one connection with a variable.
 
 * The first column contains the PLC input or output address.
 +
-An example address that follows the IEC 61131-3 standard is `%IX35.2.15`.
+An example address is `%IX35.2.15`.
 It always starts with a `%`.
 The other parts are:
 
