@@ -98,6 +98,7 @@ However, as PLC code has different requirements for names, the names from the CI
 This option is by default disabled.
 By enabling this option, the generator prints a warning whenever a CIF name is not used as-is in the PLC code.
 This allows to obtain the original CIF name for the adapted name that is used in the generated PLC code.
+For more information, see the section about <<tools-plcgen-names,names>>.
 
 ==== Overriding target type choices
 
@@ -316,7 +317,7 @@ At the end of a cycle, outputs are written in a similar way by using the values 
 
 The I/O table file is a **C**omma **S**eperated **V**alues (CSV) file.
 The CIF PLC code generator assumes the https://www.rfc-editor.org/rfc/rfc4180[RFC-4180] format for this file, which is compatible with many spreadsheet programs.
-Each line has three columns and describes one connection with a variable.
+Each line has three columns and describes one connection with a variable:
 
 * The first column contains the PLC input or output address.
 +
@@ -391,10 +392,10 @@ The PLC code generator assumes that continuous variables are always used for suc
 To reduce possible confusion with timer values, the common case of checking for timeout should be done against `0`.
 In that way, the check is always the same no matter what the initial timer value is.
 It is simpler to reason about positive values, so initial timer values should be positive.
-Finally, time is measured in seconds, since that  is an SI unit, and a common amount of time for PLC controlled systems.
-This leads to a derivative of `-1` for  the continuous variables.
+Finally, time is measured in seconds, since that is an SI unit, and a common amount of time for PLC controlled systems.
+This leads to a derivative of `-1` for the continuous variables.
 Unlike continuous variables in CIF, timers in the PLC stop measuring when they reach timeout.
-To preserve CIF behavior in the CIF PLC generator translation, values used in comparisons against timers are restricted to non-negative values.
+To preserve CIF behavior when generating PLC code, values used in comparisons against timers are restricted to non-negative values.
 
 The following conditions therefore apply to continuous variables in the input CIF specification:
 
