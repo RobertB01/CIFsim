@@ -109,13 +109,23 @@ public class CifExprUtils {
             int rslt = 1 << 6; // TODO: Does this constant make sense?
             rslt += hashExpr(sExpr.getValue());
             for (SwitchCase sCase: sExpr.getCases()) {
-                rslt += hashExpr(sCase.getKey()) + hashExpr(sCase.getValue());
+                if (sCase.getKey() != null) {
+                    rslt += hashExpr(sCase.getKey());
+                }
+                rslt += hashExpr(sCase.getValue());
             }
             return rslt;
         } else if (expr instanceof ProjectionExpression pExpr) {
             return hashExpr(pExpr.getChild()) + hashExpr(pExpr.getIndex());
         } else if (expr instanceof SliceExpression sExpr) {
-            return hashExpr(sExpr.getBegin()) + hashExpr(sExpr.getEnd()) + hashExpr(sExpr.getChild());
+            int rslt = hashExpr(sExpr.getChild());
+            if (sExpr.getBegin() != null) {
+                rslt += hashExpr(sExpr.getBegin());
+            }
+            if (sExpr.getEnd() != null) {
+                rslt += hashExpr(sExpr.getEnd());
+            }
+            return rslt;
         } else if (expr instanceof FunctionCallExpression fcExpr) {
             int rslt = 1 << 9; // TODO: Does this constant make sense?
             rslt += hashExpr(fcExpr.getFunction());
