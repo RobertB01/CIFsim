@@ -1,1 +1,8 @@
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 33, column 3: Unknown annotation name "cif:typechecker:tests:anno1": no annotation provider is registered for it in the current environment.
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 1, column 1: Annotation "cif:typechecker:tests:anno1": the specification contains more than 3 such annotations, namely 7.
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 15, column 30: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 19, column 36: Annotation "cif:typechecker:tests:anno1": argument "arg" must have a value of type "bool", but has a value of type "int[5..5]".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 23, column 30: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 23, column 34: Annotation "cif:typechecker:tests:anno1": argument "arg" must have a value of type "bool", but has a value of type "int[5..5]".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 33, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 39, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 43, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
