@@ -1,0 +1,4 @@
+WARNING: File "merger/input_loc.in1.cif": Semantic warning at line 17, column 3: Unknown annotation name "cif:typechecker:tests:anno1": no annotation provider is registered for it in the current environment.
+WARNING: File "merger/input_loc.in1.cif": Semantic warning at line 18, column 3: Unknown annotation name "cif:typechecker:tests:anno3": no annotation provider is registered for it in the current environment.
+WARNING: File "merger/input_loc.in2.cif": Semantic warning at line 17, column 3: Unknown annotation name "cif:typechecker:tests:anno2": no annotation provider is registered for it in the current environment.
+WARNING: File "merger/input_loc.in2.cif": Semantic warning at line 18, column 3: Unknown annotation name "cif:typechecker:tests:anno4": no annotation provider is registered for it in the current environment.

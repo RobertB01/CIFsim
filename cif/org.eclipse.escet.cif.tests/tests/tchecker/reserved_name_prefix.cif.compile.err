@@ -6,13 +6,16 @@ WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 20, 
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 22, column 6: Name of "c_type" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 24, column 11: Name of "c_inv" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 26, column 7: Name of "c_aut" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
+WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 27, column 19: Duplicate state invariant.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 27, column 19: Name of "c_aut.c_inv1" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 28, column 15: Name of "c_aut.c_var1" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 29, column 15: Name of "c_aut.c_var2" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 32, column 15: Name of "c_aut.c_inv2" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 35, column 11: Name of "c_aut_def" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 41, column 7: Name of "c_group" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
+WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 42, column 9: Duplicate state invariant.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 45, column 11: Name of "c_group_def" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
+WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 50, column 9: Duplicate state invariant.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 55, column 1: Name of "c_compinst" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 57, column 15: Name of "D.c_comp_param" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 57, column 38: Name of "D.c_alg_param" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.

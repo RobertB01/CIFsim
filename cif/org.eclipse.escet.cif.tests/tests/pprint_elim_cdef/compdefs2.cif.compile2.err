@@ -1,0 +1,5 @@
+WARNING: File "pprint_elim_cdef/compdefs2.out.cif": Semantic warning at line 2, column 3: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/compdefs2.out.cif": Semantic warning at line 3, column 3: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/compdefs2.out.cif": Semantic warning at line 4, column 3: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/compdefs2.out.cif": Semantic warning at line 10, column 1: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/compdefs2.out.cif": Semantic warning at line 11, column 1: Duplicate state invariant.

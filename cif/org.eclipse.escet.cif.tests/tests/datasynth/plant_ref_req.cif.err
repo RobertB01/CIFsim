@@ -1,3 +1,6 @@
+WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 162, column 1: Duplicate state invariant.
+WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 192, column 3: Duplicate state invariant.
+WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 199, column 3: Duplicate state invariant.
 WARNING: Plant invariant "<bool>R.l" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "not R.l" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "R.l or true" in the top level scope of the specification references requirement state.

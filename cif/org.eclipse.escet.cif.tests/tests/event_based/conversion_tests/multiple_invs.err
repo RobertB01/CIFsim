@@ -1,2 +1,3 @@
+WARNING: File "event_based/conversion_tests/multiple_invs.cif": Semantic warning at line 17, column 11: Duplicate state invariant.
 ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/multiple_invs.cif".
 CAUSE: Unsupported location "a" of automaton "a": multiple invariant predicates are currently not supported.
