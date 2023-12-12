@@ -14,10 +14,13 @@
 package org.eclipse.escet.cif.typechecker.postchk;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.common.ExprStructuralEqHashWrap;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -28,8 +31,8 @@ import org.eclipse.escet.cif.typechecker.ErrMsg;
 
 /** 'Invariants.unique' constraint checker for state invariant, for the 'post' type checking phase. */
 public class UniqueStateInvariantsPostChecker {
-    /** The set of state invariants. Is filled during checking. */
-    private final List<Invariant> stateInvariants = list();
+    /** The collection of state invariants, grouped based on the hash of the predicate. Is filled during checking. */
+    private final Map<ExprStructuralEqHashWrap, List<Invariant>> stateInvariants = map();
 
     /**
      * Checks the specification for violations of the 'Invariants.unique' constraint.
@@ -65,11 +68,12 @@ public class UniqueStateInvariantsPostChecker {
      *
      * @param invariants The invariants to check.
      * @param checkGlobalDuplication Whether to check for duplication in other collected invariants {@code true}, or
-     *     only in the provided list {@code false}.
+     *     only among the provided invariants {@code false}.
      * @param env The post check environment to use.
      */
     private void check(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
-        List<Invariant> previousEncounteredInvariants = checkGlobalDuplication ? stateInvariants : list();
+        Map<ExprStructuralEqHashWrap, List<Invariant>> previousEncounteredInvariants = checkGlobalDuplication
+                ? stateInvariants : map();
 
         for (Invariant invariant: invariants) {
             switch (invariant.getInvKind()) {
@@ -83,9 +87,13 @@ public class UniqueStateInvariantsPostChecker {
                     throw new RuntimeException("Unknown invariant kind: " + invariant.getInvKind());
             }
 
-            // Loop over previously encountered invariants and warn for duplicates.
+            // Wrap the predicate of the invariant, for efficient comparing based on hash equality.
+            ExprStructuralEqHashWrap wrappedPred = new ExprStructuralEqHashWrap(invariant.getPredicate());
+            List<Invariant> hashEqualInvariants = previousEncounteredInvariants.getOrDefault(wrappedPred, list());
+
+            // Loop over previously encountered invariants with equal predicate hash and warn for duplicates.
             boolean duplicateInvariant = false;
-            for (Invariant previousInvariant: previousEncounteredInvariants) {
+            for (Invariant previousInvariant: hashEqualInvariants) {
                 if (CifValueUtils.areStructurallySameExpression(invariant.getPredicate(),
                         previousInvariant.getPredicate()))
                 {
@@ -105,7 +113,8 @@ public class UniqueStateInvariantsPostChecker {
 
             // Since areStructurallySameExpression is transitive, only save non-duplicate invariants.
             if (!duplicateInvariant) {
-                previousEncounteredInvariants.add(invariant);
+                hashEqualInvariants.add(invariant);
+                previousEncounteredInvariants.put(wrappedPred, hashEqualInvariants);
             }
         }
     }
