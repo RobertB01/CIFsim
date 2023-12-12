@@ -347,8 +347,31 @@ group G:
 end
 ----
 
-Depending on the PLC target type, additional restrictions may apply.
+Depending on the PLC target type, additional restrictions may apply on addresses.
 Consult the manual of the target PLC system for details.
+
+The kind of connection, the direction of the connection, and the allowed kind of variable are related in the following way:
+
+[cols="1, 1, 1"]
+|===
+| Connection kind | Direction | Variable Kind
+
+| `I` | from input | input variable
+| `Q` | to output | discrete variable
+| `M` | from memory | input variable
+| `M` | to memory | discrete variable
+|===
+
+The number of transferred bits must match with the CIF type of the variable as follows:
+
+[cols="1, 1, 4"]
+|===
+| Transfer size | PLC type | CIF type
+
+| 1 | - | `bool`
+| 16 | `INT` | `int` (for PLC systems that do not support 32 bit integers)
+| 32 | `DINT` | `int` (for PLC systems that do support 32 bit integers)
+|===
 
 indexterm:[PLC code generator,continuous behavior]
 indexterm:[PLC code generator,timers]
@@ -411,7 +434,7 @@ For example, for taking an event transition, all edges are grouped by event inst
 Other parts are supported only by some of the supported PLC systems.
 For these cases, the generator tries to generate the form that fits best within the abilities of the targeted PLC system and the configured options.
 For example, enumerations and constants are not always supported.
-The PLC code generator may change enumerations or plain numbers in such a case.
+The PLC code generator may change enumerations to constants or plain numbers in such a case.
 
 From a bird's-eye view, the PLC code generator generates one main program that performs the entire PLC cycle.
 It consists of the following steps:
