@@ -385,12 +385,17 @@ For instance, a reaction could be expected to happen within some period of time,
 Another use case is to wait for a certain amount of time before a next action may be started.
 The PLC code generator assumes that continuous variables are always used for such purposes.
 
-Furthermore, the behavior of the generated PLC code must match the behavior of the CIF model.
-Hence, all continuous variables in the CIF model must be decreasing timers running to zero.
-The following conditions therefore apply to continuous variables to be supported by the PLC code generator:
+To reduce possible confusion with timer values, the common case of checking for timeout should be done against `0`.
+In that way, the check is always the same no matter what the initial timer value is.
+It is simpler to reason about positive values, so initial timer values should be positive.
+Finally, time is measured in seconds, since that  is an SI unit, and a common amount of time for PLC controlled systems.
+This leads to a derivative of `-1` for  the continuous variables.
+Unlike continuous variables in CIF, timers in the PLC stop measuring when they reach timeout.
+To preserve CIF behavior in the CIF PLC generator translation, values used in comparisons against timers are restricted to non-negative values.
+
+The following conditions therefore apply to continuous variables in the input CIF specification:
 
 * The derivative of a continuous variable must always be `-1` or `-1.0`, and this value must be statically decidable.
-* Values used in comparing, initializing, or assigning continuous variables have a unit of one second.
 * Continuous variables must only be compared to an inclusive upper-bound that is zero or larger.
 The upper-bound value must be statically decidable.
 +
