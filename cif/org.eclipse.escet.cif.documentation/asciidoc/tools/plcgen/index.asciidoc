@@ -409,6 +409,8 @@ The upper-bound value must be statically decidable.
 For example, for a continuous variable `c`, the comparisons `c <= 0` or `5 >= c` could be used.
 The former example checks for timeout (zero seconds left), the latter example checks whether there are five seconds or less remaining.
 
+* Each assignment of a new vale to a continuous variable should be separate. That is, use `do c:= 1.0, d := 2.0` on edges.
+Other forms like `do (c, d) := (1.0, 2.0)` are not allowed.
 * Values used to initialize a continuous variable, or to assign to a continuous variable must be larger or equal to zero.
 
 As a more elaborate example, the following automaton will enable the `timeout` event 10 seconds after the last `reset` event:
