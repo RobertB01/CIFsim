@@ -12,8 +12,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Contains 4096 unique invariants.
-alg bool d = true;
 automaton def A():
+    alg bool d = true;
     invariant d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d;
     location:
         initial;
