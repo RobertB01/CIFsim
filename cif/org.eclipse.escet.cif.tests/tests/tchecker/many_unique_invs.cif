@@ -1,0 +1,83 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Contains 4096 unique invariants.
+alg bool d = true;
+automaton def A():
+    invariant d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d or d;
+    location:
+        initial;
+        urgent;
+end
+
+group def G1():
+    a1: A();
+    a2: A();
+end
+
+group def G2():
+    g1: G1();
+    g2: G1();
+end
+
+group def G3():
+    g1: G2();
+    g2: G2();
+end
+
+group def G4():
+    g1: G3();
+    g2: G3();
+end
+
+group def G5():
+    g1: G4();
+    g2: G4();
+end
+
+group def G6():
+    g1: G5();
+    g2: G5();
+end
+
+group def G7():
+    g1: G6();
+    g2: G6();
+end
+
+group def G8():
+    g1: G7();
+    g2: G7();
+end
+
+group def G9():
+    g1: G8();
+    g2: G8();
+end
+
+group def G10():
+    g1: G9();
+    g2: G9();
+end
+
+group def G11():
+    g1: G10();
+    g2: G10();
+end
+
+group def G12():
+    g1: G11();
+    g2: G11();
+end
+
+g: G12();
