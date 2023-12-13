@@ -71,6 +71,8 @@ public class CifExprUtils {
      *
      * @param expr The expression.
      * @return The hash of the expression.
+     * @see CifValueUtils#areStructurallySameExpression
+     * @see CifTypeUtils#hashType
      */
     public static int hashExpr(Expression expr) {
         if (expr instanceof BoolExpression bExpr) {
@@ -162,7 +164,7 @@ public class CifExprUtils {
         } else if (expr instanceof AlgVariableExpression aExpr) {
             return aExpr.getVariable().hashCode();
         } else if (expr instanceof ContVariableExpression cExpr) {
-            return cExpr.getVariable().hashCode();
+            return cExpr.getVariable().hashCode() + (cExpr.isDerivative() ? 1231 : 1237);
         } else if (expr instanceof TauExpression) {
             return 1 << 24;
         } else if (expr instanceof LocationExpression lExpr) {

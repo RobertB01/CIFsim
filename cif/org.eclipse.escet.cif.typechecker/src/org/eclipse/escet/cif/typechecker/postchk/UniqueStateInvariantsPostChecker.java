@@ -49,7 +49,7 @@ public class UniqueStateInvariantsPostChecker {
      */
     public void check(ComplexComponent comp, CifPostCheckEnv env) {
         // Check invariants for global duplication.
-        check(comp.getInvariants(), true, env);
+        check(comp.getInvariants(), stateInvariants, env);
 
         if (comp instanceof Group group) {
             // Check child components.
@@ -60,7 +60,7 @@ public class UniqueStateInvariantsPostChecker {
             // Check invariants in each location for local (in that location) duplication.
             for (Location loc: aut.getLocations()) {
                 if (!loc.getInvariants().isEmpty()) {
-                    check(loc.getInvariants(), false, env);
+                    check(loc.getInvariants(), map(), env);
                 }
             }
         }
@@ -70,14 +70,13 @@ public class UniqueStateInvariantsPostChecker {
      * Checks the invariants for duplicates.
      *
      * @param invariants The invariants to check.
-     * @param checkGlobalDuplication Whether to check for duplication in other collected invariants {@code true}, or
-     *     only among the provided invariants {@code false}.
+     * @param previousEncounteredInvariants The previously encountered invariants, in which to check for duplicates. The
+     *     checked invariants are added to these.
      * @param env The post check environment to use.
      */
-    private void check(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
-        Map<ExprStructuralEqHashWrap, Invariant> previousEncounteredInvariants = checkGlobalDuplication
-                ? stateInvariants : map();
-
+    private void check(List<Invariant> invariants,
+            Map<ExprStructuralEqHashWrap, Invariant> previousEncounteredInvariants, CifPostCheckEnv env)
+    {
         for (Invariant invariant: invariants) {
             // Check only state invariants.
             switch (invariant.getInvKind()) {

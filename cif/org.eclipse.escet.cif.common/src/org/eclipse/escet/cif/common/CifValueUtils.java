@@ -1615,6 +1615,7 @@ public class CifValueUtils {
      * @param expr1 The first expression to check.
      * @param expr2 The second expression to check.
      * @return {@code true} if the two expressions are structurally the same, {@code false} otherwise.
+     * @see CifExprUtils#hashExpr
      */
     public static Boolean areStructurallySameExpression(Expression expr1, Expression expr2) {
         if (!expr1.getClass().equals(expr2.getClass())) {

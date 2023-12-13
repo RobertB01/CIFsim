@@ -459,6 +459,7 @@ public class CifTypeUtils {
      * @param ignoreRangesInt Whether to ignore integer type ranges.
      * @param ignoreRangesList Whether to ignore list type ranges.
      * @return The hash of the type.
+     * @see CifExprUtils#hashExpr
      */
     public static int hashType(CifType type, boolean ignoreRangesInt, boolean ignoreRangesList) {
         if (type instanceof BoolType) {
