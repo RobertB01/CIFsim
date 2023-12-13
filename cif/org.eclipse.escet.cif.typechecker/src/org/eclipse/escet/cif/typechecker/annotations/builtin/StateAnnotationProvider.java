@@ -87,6 +87,9 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * For functions that represent a default initial value of a variable with a function type, {@code "*"} should be used
  * as function name. Keywords in the absolute names should not be escaped. This constraint is not checked, as such
  * string literals can not be distinguished from 'regular' string literals.</li>
+ * <li>If at least one location in an automaton has at least one state annotation, all other locations in that same
+ * automaton must also have at least one state annotation, as all these locations should then represent a least one
+ * state from the state space.</li>
  * <li>Different state annotations on the same or different locations of a single automaton must have the same
  * arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
  * represent states from the same state space.</li>
@@ -282,10 +285,12 @@ public class StateAnnotationProvider extends AnnotationProvider {
         // represent states from the same state space. Check this per automaton.
         for (Automaton aut: CifCollectUtils.collectAutomata(spec, list())) {
             // Get a mapping with per argument name the first-encountered argument with that name.
+            boolean stateAnnoPresent = false;
             Map<String, AnnotationArgument> argNameToAnnoArg = map();
             for (Location loc: aut.getLocations()) {
                 for (Annotation anno: loc.getAnnotations()) {
                     if (anno.getName().equals("state")) {
+                        stateAnnoPresent = true;
                         for (AnnotationArgument arg: anno.getArguments()) {
                             if (!argNameToAnnoArg.containsKey(arg.getName())) {
                                 argNameToAnnoArg.put(arg.getName(), arg);
@@ -296,17 +301,23 @@ public class StateAnnotationProvider extends AnnotationProvider {
             }
 
             // If there are no state annotations in this automaton, there is nothing further to check.
-            if (argNameToAnnoArg.isEmpty()) {
+            // We use a boolean variable, rather than the mapping, as there could be state annotations without
+            // arguments.
+            if (!stateAnnoPresent) {
                 continue;
             }
 
             // Check all state annotations of the locations.
             for (Location loc: aut.getLocations()) {
+                boolean locHasStateAnno = false;
                 for (Annotation anno: loc.getAnnotations()) {
                     // Skip non-state annotations.
                     if (!(anno.getName().equals("state"))) {
                         continue;
                     }
+
+                    // Location has a state annotation.
+                    locHasStateAnno = true;
 
                     // Check missing arguments.
                     List<String> annoArgNames = anno.getArguments().stream().map(a -> a.getName()).toList();
@@ -346,6 +357,15 @@ public class StateAnnotationProvider extends AnnotationProvider {
                             // Non-fatal problem.
                         }
                     }
+                }
+
+                // Ensure that location has a state annotation (as at least one location of the automaton has one).
+                if (!locHasStateAnno) {
+                    reporter.reportProblem("state",
+                            fmt("%s must have a state annotation, as at least one other location in the same "
+                                    + "automaton has a state annotation.", CifTextUtils.getLocationText2(loc)),
+                            loc.getPosition(), SemanticProblemSeverity.ERROR);
+                    // Non-fatal problem.
                 }
             }
         }
