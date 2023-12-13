@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.cif.common;
 
-import static org.eclipse.escet.cif.common.CifExprUtils.hashExpr;
 import static org.eclipse.escet.cif.common.CifValueUtils.areStructurallySameExpression;
+import static org.eclipse.escet.cif.common.CifValueUtils.hashExpr;
 
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
