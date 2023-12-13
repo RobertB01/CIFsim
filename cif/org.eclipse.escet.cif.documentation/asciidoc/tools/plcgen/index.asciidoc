@@ -409,8 +409,7 @@ The upper-bound value must be statically decidable.
 For example, for a continuous variable `c`, the comparisons `c <= 0` or `5 >= c` could be used.
 The former example checks for timeout (zero seconds left), the latter example checks whether there are five seconds or less remaining.
 
-There are no restrictions on values used to initialize or assign to a continuous variable.
-However, positive values are generally more useful in practice.
+* Values used to initialize a continuous variable, or to assign to a continuous variable must be larger or equal to zero.
 
 As a more elaborate example, the following automaton will enable the `timeout` event 10 seconds after the last `reset` event:
 
