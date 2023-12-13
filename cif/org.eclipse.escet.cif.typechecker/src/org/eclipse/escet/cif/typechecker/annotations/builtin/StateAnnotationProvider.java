@@ -295,6 +295,11 @@ public class StateAnnotationProvider extends AnnotationProvider {
                 }
             }
 
+            // If there are no state annotations in this automaton, there is nothing further to check.
+            if (argNameToAnnoArg.isEmpty()) {
+                continue;
+            }
+
             // Check all state annotations of the locations.
             for (Location loc: aut.getLocations()) {
                 for (Annotation anno: loc.getAnnotations()) {
