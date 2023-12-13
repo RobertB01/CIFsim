@@ -92,9 +92,9 @@ public class UniqueStateInvariantsPostChecker {
 
             // Wrap the predicate of the invariant, for proper value equality and efficient comparison.
             ExprStructuralEqHashWrap wrappedExpr = new ExprStructuralEqHashWrap(invariant.getPredicate());
-            Invariant duplicate = previousEncounteredInvariants.get(wrappedExpr);
 
             // Check for duplicate.
+            Invariant duplicate = previousEncounteredInvariants.get(wrappedExpr);
             if (duplicate != null) {
                 env.addProblem(ErrMsg.INV_DUPL_STATE, invariant.getPosition());
                 env.addProblem(ErrMsg.INV_DUPL_STATE, duplicate.getPosition());
