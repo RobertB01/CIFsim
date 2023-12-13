@@ -148,3 +148,55 @@ automaton different_automata2:
   location loc2:
     initial;
 end
+
+// If one location in an automaton has a state annotation, they must all have one.
+
+automaton missing_state_annos1:
+  @state(a = 1)
+  location loc1:
+    initial;
+
+  location loc2:
+    initial;
+
+  @state(a = 1)
+  location loc3:
+    initial;
+
+  location loc4:
+    initial;
+end
+
+automaton missing_state_annos2:
+  location loc1:
+    initial;
+
+  @state(a = 1)
+  location loc2:
+    initial;
+
+  location loc3:
+    initial;
+
+  @state(a = 1)
+  @state(a = 2)
+  location loc4:
+    initial;
+end
+
+automaton missing_state_annos3:
+  location loc1:
+    initial;
+
+  @state
+  location loc2:
+    initial;
+
+  location loc3:
+    initial;
+
+  @state
+  @state
+  location loc4:
+    initial;
+end
