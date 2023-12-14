@@ -28,6 +28,12 @@ VERSION_TO_MAKE_DEFAULT=${1%/}
 ECLIPSE_ACCOUNT_FULLNAME=$2
 ECLIPSE_ACCOUNT_EMAIL=$3
 
+# Make sure 'nightly' is not made the standard visible website.
+if [ "${VERSION_TO_MAKE_DEFAULT}" == "nightly" ]; then
+    >&2 echo "Making 'nightly' the standard visible website is not supported."
+    exit 1
+fi
+
 # Make sure the website version to make default exists.
 if [ ! -d ${VERSION_TO_MAKE_DEFAULT} ]; then
     >&2 echo "Website directory \"${VERSION_TO_MAKE_DEFAULT}\" does not exist. Failed to make it the default website."

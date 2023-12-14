@@ -34,7 +34,7 @@
                     <sourceDocumentName>documentation.asciidoc</sourceDocumentName>
                     <attributes>
                         <imagesdir />
-                        <escet-website-version>${escet.website.version}</escet-website-version>
+                        <escet-deploy-folder-name>${escet.deploy.folder.name}</escet-deploy-folder-name>
                     </attributes>
                 </configuration>
                 <executions>
