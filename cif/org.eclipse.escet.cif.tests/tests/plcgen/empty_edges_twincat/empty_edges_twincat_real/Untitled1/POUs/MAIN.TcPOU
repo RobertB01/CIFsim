@@ -21,7 +21,6 @@ END_VAR]]></Declaration>
       <ST><![CDATA[(* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
-    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     Good_x := 0;
@@ -30,10 +29,7 @@ END_IF;
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
 (* Perform events until none can be done anymore. *)
-(* Track the number of iterations and abort if there are too many. *)
-loopCount := 0;
-WHILE isProgress AND loopCount < 100 DO
-    loopCount := loopCount + 1;
+WHILE isProgress DO
     isProgress := FALSE;
 
     (* Try to perform event "noSync". *)
@@ -87,11 +83,7 @@ WHILE isProgress AND loopCount < 100 DO
     IF eventEnabled THEN
         isProgress := TRUE;
     END_IF;
-END_WHILE;
-(* Register the first 9999 aborted loops. *)
-IF loopCount >= 100 THEN
-    loopsKilled := MIN(loopsKilled + 1, 9999);
-END_IF;]]></ST>
+END_WHILE;]]></ST>
     </Implementation>
     <ObjectProperties/>
   </POU>

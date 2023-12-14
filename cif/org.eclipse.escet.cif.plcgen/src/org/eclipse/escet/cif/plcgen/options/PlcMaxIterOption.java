@@ -27,7 +27,7 @@ public class PlcMaxIterOption extends IntegerOption {
                 // description
                 "The maximum number of iterations of the main loop of the main program body, per execution of the "
                         + "main program body. The number must be positive. Use \"inf\" to allow an infinite number of "
-                        + "iterations (no restriction). [DEFAULT=100]",
+                        + "iterations (no restriction). [DEFAULT=inf]",
 
                 // cmdShort
                 'x',
@@ -39,7 +39,7 @@ public class PlcMaxIterOption extends IntegerOption {
                 "ITERS",
 
                 // defaultValue
-                100,
+                null, // Special value 'inf'.
 
                 // minimumValue
                 1,

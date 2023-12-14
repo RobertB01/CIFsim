@@ -711,6 +711,16 @@ include::tools/cif2plc/s7.asciidoc[]
 
 :leveloffset: -1
 
+include::tools/plcgen/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/plcgen/twincat.asciidoc[]
+
+include::tools/plcgen/s7.asciidoc[]
+
+:leveloffset: -1
+
 :leveloffset: -2
 
 === Miscellaneous tools

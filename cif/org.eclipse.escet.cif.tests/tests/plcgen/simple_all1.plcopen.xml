@@ -190,7 +190,6 @@
             <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
-    loopsKilled := 0;
 
     (* Initialize the state variables. *)
     p_b := TRUE;
@@ -226,10 +225,7 @@ END_IF;
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
 (* Perform events until none can be done anymore. *)
-(* Track the number of iterations and abort if there are too many. *)
-loopCount := 0;
-WHILE isProgress AND loopCount &lt; 100 DO
-    loopCount := loopCount + 1;
+WHILE isProgress DO
     isProgress := FALSE;
 
     (* Try to perform event "p.evt". *)
@@ -316,11 +312,7 @@ WHILE isProgress AND loopCount &lt; 100 DO
             p := p_l16;
         END_IF;
     END_IF;
-END_WHILE;
-(* Register the first 9999 aborted loops. *)
-IF loopCount &gt;= 100 THEN
-    loopsKilled := MIN(loopsKilled + 1, 9999);
-END_IF;</xhtml>
+END_WHILE;</xhtml>
           </ST>
         </body>
       </pou>
@@ -422,16 +414,6 @@ END_IF;</xhtml>
               <initialValue>
                 <simpleValue value="TRUE"/>
               </initialValue>
-            </variable>
-            <variable name="loopCount">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="loopsKilled">
-              <type>
-                <INT/>
-              </type>
             </variable>
           </globalVars>
         </resource>

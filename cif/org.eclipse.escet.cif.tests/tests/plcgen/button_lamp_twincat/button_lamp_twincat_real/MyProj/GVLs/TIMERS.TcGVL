@@ -5,8 +5,6 @@
     ton_timer_t: TON;
     preset_timer_t: TIME;
     firstRun: BOOL := TRUE;
-    loopCount: DINT;
-    loopsKilled: INT;
 END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>
