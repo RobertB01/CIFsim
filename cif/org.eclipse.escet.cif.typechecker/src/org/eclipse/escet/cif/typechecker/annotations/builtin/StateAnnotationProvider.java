@@ -283,18 +283,17 @@ public class StateAnnotationProvider extends AnnotationProvider {
         // Different state annotations on the same or different locations of a single automaton must have the same
         // arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
         // represent states from the same state space. Check this per automaton.
+        Map<String, AnnotationArgument> argNameToAnnoArg = map();
         for (Automaton aut: CifCollectUtils.collectAutomata(spec, list())) {
             // Get a mapping with per argument name the first-encountered argument with that name.
             boolean stateAnnoPresent = false;
-            Map<String, AnnotationArgument> argNameToAnnoArg = map();
+            argNameToAnnoArg.clear();
             for (Location loc: aut.getLocations()) {
                 for (Annotation anno: loc.getAnnotations()) {
                     if (anno.getName().equals("state")) {
                         stateAnnoPresent = true;
                         for (AnnotationArgument arg: anno.getArguments()) {
-                            if (!argNameToAnnoArg.containsKey(arg.getName())) {
-                                argNameToAnnoArg.put(arg.getName(), arg);
-                            }
+                            argNameToAnnoArg.putIfAbsent(arg.getName(), arg);
                         }
                     }
                 }
