@@ -119,9 +119,9 @@ For more detailed information on documentation annotations, see the <<lang-ref-e
 [[lang-tut-extensions-chapter-annotations-state]]
 === State annotations
 
-Information about <<lang-tut-basics-chapter-synchronizing-events-statespace,states>> can be added to locations of automata.
+A state annotation adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton.
 States consist of the <<lang-tut-basics-chapter-synchronizing-events-statespace,current locations of automata>> and the <<lang-tut-data-chapter-discrete-variables-state-space,current values of variables>>.
-The typical use of state annotations is for generated models that contain an automaton representing a state space, where each location of that automaton represents a state of the state space.
+The typical use of state annotations is for generated models that contain an automaton representing a state space of another model, where each location of that automaton represents a state of the state space.
 For instance, the <<tools-chapter-cif-explorer,CIF explorer>> may <<tools-chapter-cif-explorer-output-cif,generate CIF models>> with state spaces represented as automata.
 For the example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>, it may generate the following model:
 
@@ -161,5 +161,8 @@ end
 
 This state space consists of four states, each represented by a location of the `statespace` automaton.
 For instance, the first state is represented by location `loc1`, which corresponds to the state where the `consumer` is `idle` and the `producer` is `producing`.
+
+A location may have multiple state annotations in case it represents multiple states.
+For instance, the <<tools-eventbased-chapter-dfa-minimization,event-based DFA minimization>> tool may merge locations representing different states to a single location representing multiple states.
 
 For more detailed information on state annotations, see the <<lang-ref-extensions-annotations-state,reference manual>>.

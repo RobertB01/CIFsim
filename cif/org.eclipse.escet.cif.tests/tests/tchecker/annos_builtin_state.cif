@@ -16,8 +16,187 @@
 @state(a = 1)
 input bool i;
 
-automaton a:
+automaton state_anno_on_loc:
   @state(b = 1)
   location:
+    initial;
+end
+
+// Argument values, or parts of argument values (in case of containers), must be of supported types.
+// Distributions can't be used in annotation arguments, as they can only be used to initialize discrete variables.
+
+enum E = lit1, lit2;
+
+func int f():
+  return 5;
+end
+
+automaton unsupported_enums:
+  @state(a = lit1, b = [lit1, lit2], c = {lit1}, d = {lit1: lit2}, e = (lit1, true, lit2))
+  location loc1:
+    initial;
+end
+
+automaton unsupported_functions:
+  @state(a = f, b = [f, f], d = {true: f}, e = (f, true, f))
+  location loc1:
+    initial;
+end
+
+automaton unsupported_components:
+  @state(a = unsupported_components)
+  location loc1:
+    initial;
+end
+
+// Argument values must be literals.
+
+type t = list tuple(int a; bool b);
+const t c = [(1, true), (2, false)];
+
+automaton arg_values_non_literals:
+  @state(
+    a = true or true,    // Non-literal booleans.
+    b = 1 + 2,           // Non-literal integers.
+    c = 1.0 + 2.0,       // Non-literal reals.
+    d = "1" + "2",       // Non-literal strings.
+    e = [(1, 2)][0],     // Non-literal tuple.
+    f = [1] + [2],       // Non-literal lists.
+    g = {1} or {2},      // Non-literal sets.
+    h = {1: 2} + {3: 4}, // Non-literal dictionaries.
+
+    i = i,               // Non-literal boolean (input variable reference).
+    j = sqrt(-1) > 0,    // Non-literal boolean (expression with an evaluation error).
+    k = --5,             // Non-literal integer (unary expressions).
+    l = fmt("%s", 123),  // Non-literal string ('fmt' function).
+    m = c,               // Non-literal list (constant with a type definition as its type).
+  )
+  location:
+    initial;
+end
+
+// Within an automaton, all state annotations must have the same arguments.
+
+automaton different_args:
+  @state(a = true, b = true, c = true)
+  location loc1:
+    initial;
+
+  @state(a = true, b = true, d = true)
+  location loc2:
+    initial;
+
+  @state(b = true, c = true, e = true)
+  location loc3:
+    initial;
+end
+
+// Within an automaton, all same-name state annotation arguments must have compatible types.
+
+automaton incompatible_arg_types:
+  @state(a = true, b = 3, c = (1, [1, 2])) // Arguments 'a', 'b', and 'c'.
+  location loc1:
+    initial;
+
+  @state(a = true, b = 3, c = (1, [1, 2]))
+  location loc2:
+    initial;
+
+  @state(a = 1, b = 3, c = true) // Arguments 'a' and 'c'.
+  location loc3:
+    initial;
+
+  @state(a = true, b = false, c = false) // Arguments 'b' and 'c'.
+  location loc4:
+    initial;
+
+  @state(a = true, b = 3, c = {1, 2}) // Argument 'c'.
+  location loc5:
+    initial;
+end
+
+automaton compatible_arg_types:
+  @state(b = true, i = 1, r = 1.0, str = "abc", t = (1, 2), l = [1, 2], s = {1, 2}, d = {1: 2})
+  location loc1:
+    initial;
+
+  @state(b = false, i = 2, r = 2.0, str = "def", t = (3, 4), l = [3, 4], s = {3, 4}, d = {3: 4})
+  location loc2:
+    initial;
+
+  @state(b = false, i = 3, r = 3.0, str = "ghi", t = (5, 6), l = <list[0] int>[], s = <set int>{}, d = <dict(int:int)>{})
+  location loc3:
+    initial;
+end
+
+automaton different_automata1:
+  @state(a = true, b = 1)
+  location loc1:
+    initial;
+
+  @state(a = false, b = 2)
+  location loc2:
+    initial;
+end
+
+automaton different_automata2:
+  @state(a = 1, b = true)
+  location loc1:
+    initial;
+
+  @state(a = 2, b = false)
+  location loc2:
+    initial;
+end
+
+// If one location in an automaton has a state annotation, they must all have one.
+
+automaton missing_state_annos1:
+  @state(a = 1)
+  location loc1:
+    initial;
+
+  location loc2:
+    initial;
+
+  @state(a = 1)
+  location loc3:
+    initial;
+
+  location loc4:
+    initial;
+end
+
+automaton missing_state_annos2:
+  location loc1:
+    initial;
+
+  @state(a = 1)
+  location loc2:
+    initial;
+
+  location loc3:
+    initial;
+
+  @state(a = 1)
+  @state(a = 2)
+  location loc4:
+    initial;
+end
+
+automaton missing_state_annos3:
+  location loc1:
+    initial;
+
+  @state
+  location loc2:
+    initial;
+
+  location loc3:
+    initial;
+
+  @state
+  @state
+  location loc4:
     initial;
 end

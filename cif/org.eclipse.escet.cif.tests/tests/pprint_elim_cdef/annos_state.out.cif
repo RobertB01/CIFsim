@@ -1,14 +1,25 @@
 automaton a1:
   @state(a = 1, b = 2)
   @state(a = 2, b = 3)
+  @state(a = -3, b = -4)
   location:
     initial;
 end
 automaton a2:
-  @state(a = 1, b = 2)
+  @state(a.b.c = "a", d.e.f = [1, 2])
   location loc1:
     initial;
-  @state(a.b.c = "a", d.e.f = [1, 2])
+  @state(a.b.c = "b", d.e.f = <list[0] int>[])
   location loc2:
+    initial;
+end
+automaton types:
+  @state(bool1 = true, int1 = 123, int2 = -123, int3 = -2147483647 - 1, int4 = 2147483647, real1 = 1.23, real2 = -1.23, str1 = "a\nb\tc\"d", tup1 = (true, 135), list1 = [1, 2, 3], list2 = <list[0] bool>[], list3 = <list[0] list[0] real>[], set1 = {1, 2}, set2 = <set bool>{}, set3 = <set set real>{}, dict1 = {1: 2, 3: 4}, dict2 = <dict(bool:int)>{}, dict3 = <dict(dict(int:real):dict(bool:real))>{}, combi = [(1, true), (2, false)])
+  location:
+    initial;
+end
+automaton no_arg:
+  @state
+  location:
     initial;
 end
