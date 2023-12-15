@@ -3,8 +3,6 @@ WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warnin
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 25, column 5: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 44, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 45, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 174, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 176, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 203, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 204, column 13: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:

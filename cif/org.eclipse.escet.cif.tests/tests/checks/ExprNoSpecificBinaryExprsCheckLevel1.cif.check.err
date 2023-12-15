@@ -3,8 +3,6 @@ WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warnin
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 25, column 5: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 44, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 45, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 174, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 176, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 203, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel1.cif": Semantic warning at line 204, column 13: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
@@ -384,7 +382,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant GI: 1 mod i = 0;
                              ^
    * In invariant "MODULUS.IG":
-     - invariant IG: 1 mod 1 = 0;
+     - invariant IG: i mod 1 = 0;
                              ^
    * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
@@ -522,7 +520,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant GI: 1 mod i = 0;
                        ^
    * In invariant "MODULUS.IG":
-     - invariant IG: 1 mod 1 = 0;
+     - invariant IG: i mod 1 = 0;
                        ^
    * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
