@@ -2038,8 +2038,9 @@ public class CifValueUtils {
             return eExpr.getEvent().hashCode();
         } else if (expr instanceof FieldExpression fExpr) {
             int rslt = 1 << 27;
-            if (fExpr.getField().getName() != null) {
-                rslt += fExpr.getField().getName().hashCode();
+            String fieldName = fExpr.getField().getName();
+            if (fieldName != null) {
+                rslt += fieldName.hashCode();
             }
             return rslt;
         } else if (expr instanceof StdLibFunctionExpression slfExpr) {
