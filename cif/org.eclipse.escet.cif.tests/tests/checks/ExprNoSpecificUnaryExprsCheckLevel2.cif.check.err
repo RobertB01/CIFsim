@@ -1,3 +1,7 @@
+WARNING: File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": Semantic warning at line 15, column 1: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": Semantic warning at line 19, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": Semantic warning at line 25, column 5: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificUnaryExprsCheckLevel2.cif": Semantic warning at line 38, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -------------------------------------------------------------------

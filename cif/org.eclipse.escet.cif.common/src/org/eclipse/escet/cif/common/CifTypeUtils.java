@@ -428,6 +428,7 @@ public class CifTypeUtils {
      *
      * @param type The type.
      * @return The hash of the type.
+     * @see CifValueUtils#hashExpr
      */
     public static int hashType(CifType type) {
         return hashType(type, true, true);
@@ -443,6 +444,7 @@ public class CifTypeUtils {
      * @param type The type.
      * @param ignoreRanges Whether to ignore integer and list type ranges.
      * @return The hash of the type.
+     * @see CifValueUtils#hashExpr
      */
     public static int hashType(CifType type, boolean ignoreRanges) {
         return hashType(type, ignoreRanges, ignoreRanges);
@@ -459,6 +461,7 @@ public class CifTypeUtils {
      * @param ignoreRangesInt Whether to ignore integer type ranges.
      * @param ignoreRangesList Whether to ignore list type ranges.
      * @return The hash of the type.
+     * @see CifValueUtils#hashExpr
      */
     public static int hashType(CifType type, boolean ignoreRangesInt, boolean ignoreRangesList) {
         if (type instanceof BoolType) {

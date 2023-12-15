@@ -1,3 +1,6 @@
+WARNING: File "datasynth/invalid1.cif": Semantic warning at line 69, column 3: Duplicate state invariant.
+WARNING: File "datasynth/invalid1.cif": Semantic warning at line 83, column 9: Duplicate state invariant.
+WARNING: File "datasynth/invalid1.cif": Semantic warning at line 97, column 14: Duplicate state invariant.
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
  - Unsupported automaton "aut": only plant and requirement automata are supported.
  - Unsupported automaton "p1": unsupported part "p1.v1 > 0" of initialization predicate "p1.v1 > 0": binary operator ">" on values of types "real" and "int[0..0]" is not supported.

@@ -291,6 +291,9 @@ public enum ErrMsg {
     // Invariant.unique
     INV_DUPL_EVENT("Duplicate invariant for event \"%s\".", 1, WARNING),
 
+    // Invariant.unique
+    INV_DUPL_STATE("Duplicate state invariant.", 0, WARNING),
+
     // UnaryExpression.type
     UNOP_INVALID_CHILD_TYPE("Unary operator \"%s\" can not be applied to a value of type \"%s\".", 2, ERROR),
 

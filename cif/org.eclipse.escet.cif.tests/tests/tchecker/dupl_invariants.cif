@@ -15,12 +15,14 @@
 event e1, e2;
 invariant {e1, e2, e1, e1} needs true;
 invariant true disables {e2, e1, e2, e2};
+invariant 1 = 1, 1 = 1;
 
 // Duplicated invariants in group.
 event e3, e4;
 group g1:
   invariant {e3, e3} needs true;
   invariant true disables {e4, e4};
+  invariant 2 = 2, 2 = 2;
 end
 
 // Duplicated invariants in automaton and location.
@@ -28,10 +30,12 @@ event e5, e6, e7, e8;
 automaton a1:
   invariant {e5, e5} needs true;
   invariant true disables {e6, e6};
+  invariant 3 = 3, 3 = 3;
   location l1:
     initial;
     invariant {e7, e7} needs true;
     invariant true disables {e8, e8};
+    invariant 4 = 4, 4 = 4;
 end
 
 // No duplication when one is 'e needs pred' and the other is 'pred disables e'.
@@ -52,21 +56,26 @@ end
 event e10, e11;
 invariant e10 needs true;
 invariant true disables e11;
+invariant 5 = 5;
 group g:
   invariant e10 needs true;
   invariant true disables e11;
+  invariant 5 = 5;
 end
 
 event e12, e13;
 invariant e12 needs true;
 invariant true disables e13;
+invariant 6 = 6;
 automaton a:
   invariant e12 needs true;
   invariant true disables e13;
+  invariant 6 = 6;
   location:
     initial;
     invariant e12 needs true;
     invariant true disables e13;
+    invariant 6 = 6;
 end
 
 // Duplicated invariant in group definitions after instantiation.
@@ -74,43 +83,60 @@ event e14, e15;
 group def D1(event e1, e2):
   invariant {e1, e1} needs true;
   invariant true disables {e2, e2};
+  invariant 7 = 7;
 end
 
-group def D2(event e1, e2):
+group def D2(event e1, e2; location a, b):
   invariant {e1, e2} needs true;
+  invariant 7 = 7;
+  invariant a = a, b = b;
 end
 
 d1: D1(e14, e15);
-d2: D2(e14, e14);
+d2: D2(e14, e14, a1.l1, a1.l1);
 
 // Boolean expression.
 event e16;
 invariant e16 needs true;
 invariant e16 needs true;
 invariant e16 needs false;
+invariant true;
+invariant true;
+invariant false;
 
 // Int expression.
 event e17;
 invariant e17 needs 3 = 3;
 invariant e17 needs 3 = 3;
 invariant e17 needs 4 = 4;
+invariant 8 = 8;
+invariant 8 = 8;
+invariant 9 = 9;
 
 // Real expression.
 event e18;
 invariant e18 needs 3.0 = 3.0;
 invariant e18 needs 3.0 = 3.0;
 invariant e18 needs 4.0 = 4.0;
+invariant 3.0 = 3.0;
+invariant 3.0 = 3.0;
+invariant 4.0 = 4.0;
 
 // String expression.
 event e19;
 invariant e19 needs "a" = "a";
 invariant e19 needs "a" = "a";
 invariant e19 needs "b" = "b";
+invariant "a" = "a";
+invariant "a" = "a";
+invariant "b" = "b";
 
 // Time expression.
 event e20;
 invariant e20 needs time > 0.0;
 invariant e20 needs time > 0.0;
+invariant time > 0.0;
+invariant time > 0.0;
 
 // Cast expression.
 event e21;
@@ -121,6 +147,12 @@ invariant e21 needs <int[3..3]>3 < 3.0; // Different cast type.
 invariant e21 needs empty(<list[2] int[3..3]>[3, 3]);
 invariant e21 needs empty(<list[2] int[3..3]>[3, 3]);
 invariant e21 needs empty(<list[2] real>[3, 3]);
+invariant <real>3      < 3.0;
+invariant <real>3      < 3.0;
+invariant <int[3..3]>3 < 3.0; // Different cast type.
+invariant empty(<list[2] int[3..3]>[3, 3]);
+invariant empty(<list[2] int[3..3]>[3, 3]);
+invariant empty(<list[2] real>[3, 3]);
 
 // Binary expression.
 event e22;
@@ -129,6 +161,11 @@ invariant e22 needs 3.0 >= 1.0;
 invariant e22 needs 4.0 >= 1.0; // Different left.
 invariant e22 needs 3.0 >= 2.0; // Different right.
 invariant e22 needs 3.0 <= 1.0; // Different operator.
+invariant 3.0 >= 1.0;
+invariant 3.0 >= 1.0;
+invariant 4.0 >= 1.0; // Different left.
+invariant 3.0 >= 2.0; // Different right.
+invariant 3.0 <= 1.0; // Different operator.
 
 // Unary expression.
 event e23;
@@ -136,6 +173,10 @@ invariant e23 needs -3 < 3.0;
 invariant e23 needs -3 < 3.0;
 invariant e23 needs -4 < 3.0; // Different child.
 invariant e23 needs +3 < 3.0; // Different operator.
+invariant -3 < 3.0;
+invariant -3 < 3.0;
+invariant -4 < 3.0; // Different child.
+invariant +3 < 3.0; // Different operator.
 
 // If expression.
 event e24;
@@ -151,6 +192,18 @@ invariant e24 needs if true,  true:  true  elif false:        false else true  e
 invariant e24 needs if true,  true:  true  elif false, false: false elif true: true else true end; // Different number of elifs.
 invariant e24 needs if true,  true:  true  elif false, false: true  else true  end; // Different elif1 then.
 invariant e24 needs if true,  true:  true  elif false, false: false else false end; // Different else.
+invariant if true,  true:  true  elif false, false: false else true  end; // Original.
+invariant if true,  true:  true  elif false, false: false else true  end; // Original.
+invariant if false, true:  true  elif false, false: false else true  end; // Different guard 1.
+invariant if true,  false: true  elif false, false: false else true  end; // Different guard 2.
+invariant if true:         true  elif false, false: false else true  end; // Different number of guards.
+invariant if true,  true:  false elif false, false: false else true  end; // Different then.
+invariant if true,  true:  true  elif true,  false: false else true  end; // Different elif1 guard 1.
+invariant if true,  true:  true  elif false, true:  false else true  end; // Different elif1 guard 2.
+invariant if true,  true:  true  elif false:        false else true  end; // Different number of elif1 guards.
+invariant if true,  true:  true  elif false, false: false elif true: true else true end; // Different number of elifs.
+invariant if true,  true:  true  elif false, false: true  else true  end; // Different elif1 then.
+invariant if true,  true:  true  elif false, false: false else false end; // Different else.
 
 // Switch expression.
 input int i25, k25;
@@ -164,9 +217,20 @@ invariant e25 needs switch i25: case 1: true  case 1: false else true  end; // D
 invariant e25 needs switch i25: case 1: true  case 2: true  else true  end; // Different value 2.
 invariant e25 needs switch i25: case 1: true  case 2: false else false end; // Different else.
 invariant e25 needs switch i25: case 1: true                else true  end; // Different number of cases.
+invariant switch i25: case 1: true  case 2: false else true  end; // Original.
+invariant switch i25: case 1: true  case 2: false else true  end; // Original.
+invariant switch k25: case 1: true  case 2: false else true  end; // Different switch.
+invariant switch i25: case 2: true  case 2: false else true  end; // Different key 1.
+invariant switch i25: case 1: false case 2: false else true  end; // Different value 1.
+invariant switch i25: case 1: true  case 1: false else true  end; // Different key 2.
+invariant switch i25: case 1: true  case 2: true  else true  end; // Different value 2.
+invariant switch i25: case 1: true  case 2: false else false end; // Different else.
+invariant switch i25: case 1: true                else true  end; // Different number of cases.
 
 invariant e25 needs switch a4: case l1: true case l2: true case l3: false end; // Switch case without else and with else.
 invariant e25 needs switch a4: case l1: true case l2: true else false end;
+invariant switch a4: case l1: true case l2: true case l3: false end; // Switch case without else and with else.
+invariant switch a4: case l1: true case l2: true else false end;
 
 // Projection expression.
 event e26;
@@ -177,11 +241,19 @@ invariant e26 needs t1[0] > 0.0; // With index.
 invariant e26 needs t1[0] > 0.0;
 invariant e26 needs t1[1] > 0.0; // Different index.
 invariant e26 needs t2[0] > 0.0; // Different child.
+invariant t1[0] > 0.0; // With index.
+invariant t1[0] > 0.0;
+invariant t1[1] > 0.0; // Different index.
+invariant t2[0] > 0.0; // Different child.
 
 invariant e26 needs t1[a] > 0.0; // With field name.
 invariant e26 needs t1[a] > 0.0;
 invariant e26 needs t1[b] > 0.0; // Different field name.
 invariant e26 needs t2[a] > 0.0; // Different child.
+invariant t1[a] > 0.0; // With field name.
+invariant t1[a] > 0.0;
+invariant t1[b] > 0.0; // Different field name.
+invariant t2[a] > 0.0; // Different child.
 
 // Slice expression.
 event e27;
@@ -194,6 +266,15 @@ invariant e27 needs l1[1 : 1] = l1[1 : 1]; // Different end.
 invariant e27 needs l2[1 : 2] = l2[1 : 2]; // Different child.
 invariant e27 needs l1[:2]    = l1[:2];    // No beginning.
 invariant e27 needs l1[1:]    = l1[1:];    // No end.
+invariant e27 needs l1[:]     = l1[:];     // No beginning and no end.
+invariant l1[1 : 2] = l1[1 : 2];
+invariant l1[1 : 2] = l1[1 : 2];
+invariant l1[0 : 2] = l1[0 : 2]; // Different start.
+invariant l1[1 : 1] = l1[1 : 1]; // Different end.
+invariant l2[1 : 2] = l2[1 : 2]; // Different child.
+invariant l1[:2]    = l1[:2];    // No beginning.
+invariant l1[1:]    = l1[1:];    // No end.
+invariant l1[:]     = l1[:];     // No beginning and no end.
 
 // Function call expression.
 event e28;
@@ -201,16 +282,28 @@ invariant e28 needs F1(2); // Function expression.
 invariant e28 needs F1(2);
 invariant e28 needs F1(3); // Different argument.
 invariant e28 needs F2(3); // Different function.
+invariant F1(2); // Function expression.
+invariant F1(2);
+invariant F1(3); // Different argument.
+invariant F2(3); // Different function.
 
 invariant e28 needs F3(1, 2); // Function expression, multiple arguments.
 invariant e28 needs F3(1, 2);
 invariant e28 needs F3(0, 2); // Different first argument.
 invariant e28 needs F3(1, 0); // Different second argument.
+invariant F3(1, 2); // Function expression, multiple arguments.
+invariant F3(1, 2);
+invariant F3(0, 2); // Different first argument.
+invariant F3(1, 0); // Different second argument.
 
 invariant e28 needs sin(2) < 1; // Standard library function expression.
 invariant e28 needs sin(2) < 1;
 invariant e28 needs sin(3) < 1; // Different argument.
 invariant e28 needs cos(3) < 1; // Different function.
+invariant sin(2) < 1; // Standard library function expression.
+invariant sin(2) < 1;
+invariant sin(3) < 1; // Different argument.
+invariant cos(3) < 1; // Different function.
 
 func bool F1(int i):
   return i > 0;
@@ -230,6 +323,10 @@ invariant e29 needs 3 in [1, 2, 3];
 invariant e29 needs 3 in [1, 2, 3];
 invariant e29 needs 3 in [1, 2];    // Smaller list.
 invariant e29 needs 3 in [1, 3, 2]; // Different list order.
+invariant 3 in [1, 2, 3];
+invariant 3 in [1, 2, 3];
+invariant 3 in [1, 2];    // Smaller list.
+invariant 3 in [1, 3, 2]; // Different list order.
 
 // Set expression.
 event e30;
@@ -237,15 +334,24 @@ invariant e30 needs 3 in {1, 2, 3};
 invariant e30 needs 3 in {1, 2, 3};
 invariant e30 needs 3 in {1, 2};    // Smaller set.
 invariant e30 needs 3 in {1, 3, 2}; // Different set order.
+invariant 3 in {1, 2, 3};
+invariant 3 in {1, 2, 3};
+invariant 3 in {1, 2};    // Smaller set.
+invariant 3 in {1, 3, 2}; // Different set order.
 
 // Tuple expression.
 event e31;
 invariant e31 needs t1 = (1, 2.0);
 invariant e31 needs t1 = (1, 2.0);
 invariant e31 needs t1 = (2, 2.0); // Different tuple.
+invariant t1 = (1, 2.0);
+invariant t1 = (1, 2.0);
+invariant t1 = (2, 2.0); // Different tuple.
 
 invariant e31 needs (1, 2.0, 3.0) = (1, 2.0, 3.0); // Different number of fields.
 invariant e31 needs (1, 2.0) = (1, 2.0);
+invariant (1, 2.0, 3.0) = (1, 2.0, 3.0); // Different number of fields.
+invariant (1, 2.0) = (1, 2.0);
 
 // Dictionary expression.
 event e32;
@@ -255,6 +361,12 @@ invariant e32 needs {"eve": 32, "john": 34, "adam": 25}["adam"] = 32; // Differe
 invariant e32 needs {"eve": 32, "john": 34, "adam": 26}["adam"] = 32; // Different value.
 invariant e32 needs {"eve": 31, "john": 34, "adam": 25}["eve"]  = 32; // Different dictionary.
 invariant e32 needs {"ava": 32, "john": 34, "adam": 25}["eve"]  = 32; // Different dictionary.
+invariant {"eve": 32, "john": 34, "adam": 25}["eve"]  = 32;
+invariant {"eve": 32, "john": 34, "adam": 25}["eve"]  = 32;
+invariant {"eve": 32, "john": 34, "adam": 25}["adam"] = 32; // Different key.
+invariant {"eve": 32, "john": 34, "adam": 26}["adam"] = 32; // Different value.
+invariant {"eve": 31, "john": 34, "adam": 25}["eve"]  = 32; // Different dictionary.
+invariant {"ava": 32, "john": 34, "adam": 25}["eve"]  = 32; // Different dictionary.
 
 // Constant expression.
 event e33;
@@ -263,6 +375,9 @@ const int C2 = 0;
 invariant e33 needs C1 > 0;
 invariant e33 needs C1 > 0;
 invariant e33 needs C2 > 0; // Different constant.
+invariant C1 > 0;
+invariant C1 > 0;
+invariant C2 > 0; // Different constant.
 
 // Discrete variable expression.
 event e34;
@@ -275,6 +390,9 @@ end
 invariant e34 needs A3.D1;
 invariant e34 needs A3.D1;
 invariant e34 needs A3.D2; // Different discrete variable.
+invariant A3.D1;
+invariant A3.D1;
+invariant A3.D2; // Different discrete variable.
 
 // Algebraic variable expression.
 event e35;
@@ -282,6 +400,9 @@ alg bool X1 = true, X2 = true;
 invariant e35 needs X1;
 invariant e35 needs X1;
 invariant e35 needs X2; // Different algebraic variable.
+invariant X1;
+invariant X1;
+invariant X2; // Different algebraic variable.
 
 // Continuous variable expression.
 event e36;
@@ -290,10 +411,16 @@ cont Z2 = 0.0 der 1;
 invariant e36 needs Z1 > 0;
 invariant e36 needs Z1 > 0;
 invariant e36 needs Z2 > 0; // Different continuous variable.
+invariant Z1 > 0;
+invariant Z1 > 0;
+invariant Z2 > 0; // Different continuous variable.
 
 invariant e36 needs Z2' > 0;
 invariant e36 needs Z2' > 0;
 invariant e36 needs Z1' > 0; // Different continuous variable derivative.
+invariant Z2' > 0;
+invariant Z2' > 0;
+invariant Z1' > 0; // Different continuous variable derivative.
 
 // Tau expression.
 // Not applicable.
@@ -312,6 +439,9 @@ end
 invariant e37 needs a4.l1;
 invariant e37 needs a4.l1;
 invariant e37 needs a4.l2; // Different location.
+invariant a4.l1;
+invariant a4.l1;
+invariant a4.l2; // Different location.
 
 // Enum literal expression.
 event e38;
@@ -320,6 +450,9 @@ alg E enum1 = lit1;
 invariant e38 needs enum1 = lit1;
 invariant e38 needs enum1 = lit1;
 invariant e38 needs enum1 = lit2; // Different enumeration literal.
+invariant enum1 = lit1;
+invariant enum1 = lit1;
+invariant enum1 = lit2; // Different enumeration literal.
 
 // Event expression.
 // Not applicable.
@@ -339,6 +472,9 @@ input bool I1, I2;
 invariant e39 needs I1;
 invariant e39 needs I1;
 invariant e39 needs I2; // Different input variable.
+invariant I1;
+invariant I1;
+invariant I2; // Different input variable.
 
 // Component expression.
 // Not applicable.
@@ -349,6 +485,9 @@ event e40;
 invariant e40 needs switch a4: case l1: true else false end;
 invariant e40 needs switch a4: case l1: true else false end;
 invariant e40 needs switch a1: case l1: true else false end; // Different component.
+invariant switch a4: case l1: true else false end;
+invariant switch a4: case l1: true else false end;
+invariant switch a1: case l1: true else false end; // Different component.
 
 // Component instantiation wrap expression.
 // Not applicable.
@@ -364,12 +503,15 @@ event e41;
 automaton a5:
   invariant e41 needs <string>self = "l1";
   invariant e41 needs <string>self = "l1";
+  invariant <string>self = "l1";
+  invariant <string>self = "l1";
   location l1:
     initial;
 end
 
 automaton a6:
   invariant e41 needs <string>self = "l1"; // Different scope.
+  invariant <string>self = "l1"; // Different scope.
   location l1:
     initial;
 end
