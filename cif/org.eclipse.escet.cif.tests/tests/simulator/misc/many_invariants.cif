@@ -20,8 +20,8 @@ automaton def A():
 end
 
 group def G1():
-    a1: A();
-    a2: A();
+  a1: A();
+  a2: A();
 end
 
 group def G2():
