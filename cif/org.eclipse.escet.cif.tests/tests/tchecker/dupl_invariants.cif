@@ -266,6 +266,7 @@ invariant e27 needs l1[1 : 1] = l1[1 : 1]; // Different end.
 invariant e27 needs l2[1 : 2] = l2[1 : 2]; // Different child.
 invariant e27 needs l1[:2]    = l1[:2];    // No beginning.
 invariant e27 needs l1[1:]    = l1[1:];    // No end.
+invariant e27 needs l1[:]     = l1[:];     // No beginning and no end.
 invariant l1[1 : 2] = l1[1 : 2];
 invariant l1[1 : 2] = l1[1 : 2];
 invariant l1[0 : 2] = l1[0 : 2]; // Different start.
@@ -273,6 +274,7 @@ invariant l1[1 : 1] = l1[1 : 1]; // Different end.
 invariant l2[1 : 2] = l2[1 : 2]; // Different child.
 invariant l1[:2]    = l1[:2];    // No beginning.
 invariant l1[1:]    = l1[1:];    // No end.
+invariant l1[:]     = l1[:];     // No beginning and no end.
 
 // Function call expression.
 event e28;
