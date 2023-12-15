@@ -30,6 +30,12 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+New features:
+
+* The Eclipse ESCET project now deploys 'nightlies', in-development versions of the ESCET website and toolkit.
+See the nightly website at https://eclipse.dev/escet/nightly/.
+From the nightly website the nightly releases can be downloaded (issue {escet-issue}699[#699]).
+
 Improvements and fixes:
 
 * The Linux command line scripts for all ESCET tools no longer show a popup dialog upon exiting with a non-zero exit code (issue {escet-issue}89[#89]).
