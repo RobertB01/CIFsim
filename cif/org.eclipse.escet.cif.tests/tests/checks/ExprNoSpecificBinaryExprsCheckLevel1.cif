@@ -173,7 +173,7 @@ group MODULUS:
   input int i;
   invariant GG: 1 mod 1 = 0;
   invariant GI: 1 mod i = 0;
-  invariant IG: 1 mod 1 = 0;
+  invariant IG: i mod 1 = 0;
   invariant II: i mod i = 0;
 end
 
