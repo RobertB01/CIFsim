@@ -95,75 +95,75 @@ WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 253, colu
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 254, column 1: Duplicate state invariant.
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 262, column 11: Duplicate invariant for event "e27".
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 263, column 11: Duplicate invariant for event "e27".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 269, column 1: Duplicate state invariant.
 WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 270, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 279, column 11: Duplicate invariant for event "e28".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 280, column 11: Duplicate invariant for event "e28".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 283, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 284, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 288, column 11: Duplicate invariant for event "e28".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 289, column 11: Duplicate invariant for event "e28".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 292, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 293, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 297, column 11: Duplicate invariant for event "e28".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 298, column 11: Duplicate invariant for event "e28".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 301, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 302, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 320, column 11: Duplicate invariant for event "e29".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 321, column 11: Duplicate invariant for event "e29".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 324, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 325, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 331, column 11: Duplicate invariant for event "e30".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 332, column 11: Duplicate invariant for event "e30".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 335, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 336, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 342, column 11: Duplicate invariant for event "e31".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 343, column 11: Duplicate invariant for event "e31".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 345, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 346, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 356, column 11: Duplicate invariant for event "e32".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 357, column 11: Duplicate invariant for event "e32".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 362, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 363, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 373, column 11: Duplicate invariant for event "e33".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 374, column 11: Duplicate invariant for event "e33".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 376, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 377, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 388, column 11: Duplicate invariant for event "e34".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 389, column 11: Duplicate invariant for event "e34".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 391, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 392, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 398, column 11: Duplicate invariant for event "e35".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 399, column 11: Duplicate invariant for event "e35".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 401, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 402, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 409, column 11: Duplicate invariant for event "e36".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 410, column 11: Duplicate invariant for event "e36".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 412, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 413, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 416, column 11: Duplicate invariant for event "e36".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 417, column 11: Duplicate invariant for event "e36".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 419, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 420, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 437, column 11: Duplicate invariant for event "e37".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 438, column 11: Duplicate invariant for event "e37".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 440, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 441, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 448, column 11: Duplicate invariant for event "e38".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 449, column 11: Duplicate invariant for event "e38".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 451, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 452, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 470, column 11: Duplicate invariant for event "e39".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 471, column 11: Duplicate invariant for event "e39".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 473, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 474, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 483, column 11: Duplicate invariant for event "e40".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 484, column 11: Duplicate invariant for event "e40".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 485, column 46: Switch "else" is superfluous, as all locations already have a "case".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 486, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 487, column 1: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 488, column 36: Switch "else" is superfluous, as all locations already have a "case".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 502, column 13: Duplicate invariant for event "e41".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 503, column 13: Duplicate invariant for event "e41".
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 504, column 3: Duplicate state invariant.
-WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 505, column 3: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 271, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 281, column 11: Duplicate invariant for event "e28".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 282, column 11: Duplicate invariant for event "e28".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 285, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 286, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 290, column 11: Duplicate invariant for event "e28".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 291, column 11: Duplicate invariant for event "e28".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 294, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 295, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 299, column 11: Duplicate invariant for event "e28".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 300, column 11: Duplicate invariant for event "e28".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 303, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 304, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 322, column 11: Duplicate invariant for event "e29".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 323, column 11: Duplicate invariant for event "e29".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 326, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 327, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 333, column 11: Duplicate invariant for event "e30".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 334, column 11: Duplicate invariant for event "e30".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 337, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 338, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 344, column 11: Duplicate invariant for event "e31".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 345, column 11: Duplicate invariant for event "e31".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 347, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 348, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 358, column 11: Duplicate invariant for event "e32".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 359, column 11: Duplicate invariant for event "e32".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 364, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 365, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 375, column 11: Duplicate invariant for event "e33".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 376, column 11: Duplicate invariant for event "e33".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 378, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 379, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 390, column 11: Duplicate invariant for event "e34".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 391, column 11: Duplicate invariant for event "e34".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 393, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 394, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 400, column 11: Duplicate invariant for event "e35".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 401, column 11: Duplicate invariant for event "e35".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 403, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 404, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 411, column 11: Duplicate invariant for event "e36".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 412, column 11: Duplicate invariant for event "e36".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 414, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 415, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 418, column 11: Duplicate invariant for event "e36".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 419, column 11: Duplicate invariant for event "e36".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 421, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 422, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 439, column 11: Duplicate invariant for event "e37".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 440, column 11: Duplicate invariant for event "e37".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 442, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 443, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 450, column 11: Duplicate invariant for event "e38".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 451, column 11: Duplicate invariant for event "e38".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 453, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 454, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 472, column 11: Duplicate invariant for event "e39".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 473, column 11: Duplicate invariant for event "e39".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 475, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 476, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 485, column 11: Duplicate invariant for event "e40".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 486, column 11: Duplicate invariant for event "e40".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 487, column 46: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 488, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 489, column 1: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 490, column 36: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 504, column 13: Duplicate invariant for event "e41".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 505, column 13: Duplicate invariant for event "e41".
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 506, column 3: Duplicate state invariant.
+WARNING: File "tchecker/dupl_invariants.cif": Semantic warning at line 507, column 3: Duplicate state invariant.
