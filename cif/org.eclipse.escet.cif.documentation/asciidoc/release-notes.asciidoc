@@ -66,7 +66,7 @@ Improvements and fixes:
 * The CIF explorer no longer crashes for models with discrete variables with integer types that only support the minimum integer value (issue {escet-issue}689[#689]).
 * The CIF explorer no longer crashes for models with expressions that evaluate to the minimum integer value (issue {escet-issue}689[#689]).
 * The CIF explorer documentation has some fixes, improvements and extensions (issue {escet-issue}687[#687]).
-* The CIF controller checker now produces more debug output (if debug output is enabled), to be able to better track what its progress (issue {escet-issue}686[#686]).
+* The CIF controller checker now produces more debug output (if debug output is enabled), to be able to better track its progress (issue {escet-issue}686[#686]).
 * The CIF controller checker is now more responsive to termination requests (issue {escet-issue}686[#686]).
 * The CIF to mCRL2 transformer now supports CIF models with logical implication binary operators (issue {escet-issue}667[#667]).
 * The CIF code generator now generates better-formatted Java code for checking range violations (issue {escet-issue}272[#272]).
