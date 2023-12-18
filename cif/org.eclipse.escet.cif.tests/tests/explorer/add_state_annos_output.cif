@@ -62,7 +62,7 @@ group functions:
   end
 end
 
-automaton types:
+automaton values:
   enum E = lit1, lit2;
 
   disc bool b = true;
@@ -80,6 +80,25 @@ automaton types:
   disc dict(bool: int) d = {true: 1, false: 5};
   disc func bool(bool) f1 = functions.invert;
   disc func bool(bool) f2;       // A dummy function is created for the default initial value.
+
+  location:
+    initial;
+end
+
+automaton types:
+  enum E = lit1, lit2;
+
+  disc list E list1;
+  disc list func bool() list2;
+
+  disc set E set1;
+  // A set type with a function type as element type is not allowed in CIF.
+
+  disc dict(E:func bool()) dict1;
+  disc dict(bool:E) dict2;
+  // A dict type with a function type as key type is not allowed in CIF.
+
+  disc tuple(E f1; func bool() f2) tuple1;
 
   location:
     initial;
