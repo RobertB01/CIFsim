@@ -495,7 +495,7 @@ public class CifAutomatonBuilder {
         } else if (type instanceof DictType dtype) {
             return newDictType(makeAnnoArgType(dtype.getKeyType()), null, makeAnnoArgType(dtype.getValueType()));
         } else if (type instanceof FuncType) {
-            return newStringType(); // String type instead of enum type.
+            return newStringType(); // String type instead of function type.
         } else {
             throw new AssertionError("Unexpected type: " + type);
         }
