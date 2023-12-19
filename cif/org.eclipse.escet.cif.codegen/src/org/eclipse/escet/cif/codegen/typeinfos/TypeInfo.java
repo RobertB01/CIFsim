@@ -136,7 +136,8 @@ public abstract class TypeInfo {
      * @return The conversion result.
      */
     public ExprCode convertEqualsExpression(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.EQUAL, ctxt), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.EQUAL, ctxt), dest,
+                ctxt);
     }
 
     /**
@@ -148,7 +149,8 @@ public abstract class TypeInfo {
      * @return The conversion result.
      */
     public ExprCode convertUnequalsExpression(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.UNEQUAL, ctxt), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.UNEQUAL, ctxt), dest,
+                ctxt);
     }
 
     /**

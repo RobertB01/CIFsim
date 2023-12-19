@@ -1,6 +1,6 @@
 html, body {
     margin: 0;
-    background-color: #fff7df; // ESCET website yellow.
+    background-color: #fff7df; /* ESCET website yellow. */
     font-family: "Segoe UI";
     line-height: 1.5;
     height: 100%;

@@ -16,8 +16,7 @@ include::../_part_attributes.asciidoc[]
 [[tools-codegen-chapter-javascript]]
 == JavaScript code generation
 
-WARNING: The JavaScript code generation is currently being developed.
-It is not yet functional.
+WARNING: The JavaScript code generation is currently experimental.
 
 indexterm:[CIF code generator,JavaScript]
 indexterm:[JavaScript,code generation]

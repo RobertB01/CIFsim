@@ -358,9 +358,24 @@ class ${prefix}Utils {
      * @return {string} A formatted string.
      */
     static fmt(str) {
-        // TODO: CIF supports more than '%s' and '%d'. Support for that is to be added.
         var i = 1;
-        return str.replace(/%s|%d/g, () => arguments[i++]);
+        var floatRegex = /%.(\d)+f/;
+        var boolRegex = /%[Bb]/;
+        var hexRegex = /%[Xx]/;
+        var realRegex = /%[GgEe]/;
+        return str.replace(/%[Bb]|%[Xx]|%[GgEe]|%[Ss]|%d|%.(\d)f|%/g, (matched) => {
+            if (boolRegex.test(matched)) {
+                return arguments[i++].toString();
+            } else if (hexRegex.test(matched)) {
+                return parseInt(arguments[i++], 16);
+            } else if (realRegex.test(matched)) {
+                return arguments[i++].toExponential();
+            } else if (floatRegex.test(matched)) {
+                // JavaScript uses 'toFixed' to format floats.
+                return arguments[i++].toFixed(matched.match(floatRegex)[1]);
+            }
+            return arguments[i++];
+        });
     }
 
     /**
