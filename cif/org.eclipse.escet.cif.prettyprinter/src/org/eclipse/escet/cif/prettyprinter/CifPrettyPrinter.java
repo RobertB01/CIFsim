@@ -1193,34 +1193,42 @@ public final class CifPrettyPrinter {
         StringBuilder txt = new StringBuilder();
         txt.append("svgin id ");
         txt.append(pprint(svgIn.getId()));
-        txt.append(" event ");
 
-        SvgInEvent event = svgIn.getEvent();
-        if (event instanceof SvgInEventSingle) {
-            SvgInEventSingle single = (SvgInEventSingle)event;
-            txt.append(pprint(single.getEvent()));
-        } else if (event instanceof SvgInEventIf) {
-            SvgInEventIf ifEvent = (SvgInEventIf)event;
-            List<SvgInEventIfEntry> entries = ifEvent.getEntries();
-            for (int i = 0; i < entries.size(); i++) {
-                SvgInEventIfEntry entry = entries.get(i);
-                if (i == 0) {
-                    txt.append("if ");
-                } else if (entry.getGuard() == null) {
-                    txt.append("else ");
-                } else {
-                    txt.append("elif ");
+        if (svgIn.getEvent() != null) {
+            txt.append(" event ");
+
+            SvgInEvent event = svgIn.getEvent();
+            if (event instanceof SvgInEventSingle) {
+                SvgInEventSingle single = (SvgInEventSingle)event;
+                txt.append(pprint(single.getEvent()));
+            } else if (event instanceof SvgInEventIf) {
+                SvgInEventIf ifEvent = (SvgInEventIf)event;
+                List<SvgInEventIfEntry> entries = ifEvent.getEntries();
+                for (int i = 0; i < entries.size(); i++) {
+                    SvgInEventIfEntry entry = entries.get(i);
+                    if (i == 0) {
+                        txt.append("if ");
+                    } else if (entry.getGuard() == null) {
+                        txt.append("else ");
+                    } else {
+                        txt.append("elif ");
+                    }
+                    if (entry.getGuard() != null) {
+                        txt.append(pprint(entry.getGuard()));
+                        txt.append(": ");
+                    }
+                    txt.append(pprint(entry.getEvent()));
+                    txt.append(" ");
                 }
-                if (entry.getGuard() != null) {
-                    txt.append(pprint(entry.getGuard()));
-                    txt.append(": ");
-                }
-                txt.append(pprint(entry.getEvent()));
-                txt.append(" ");
+                txt.append("end");
+            } else {
+                throw new RuntimeException("Unknown SvgInEvent: " + event);
             }
-            txt.append("end");
-        } else {
-            throw new RuntimeException("Unknown SvgInEvent: " + event);
+        }
+
+        if (!svgIn.getUpdates().isEmpty()) {
+            txt.append(" do ");
+            txt.append(pprintUpdates(svgIn.getUpdates()));
         }
 
         if (svgIn.getSvgFile() != null) {
