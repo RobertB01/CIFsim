@@ -1368,14 +1368,14 @@ public final class CifParserHooks implements CifParser.Hooks {
         return l1;
     }
 
-    @Override // Addressable : Identifier;
-    public AExpression parseAddressable1(AIdentifier a1) {
-        return new ANameExpression(new AName(a1.id, a1.position), false, a1.position);
+    @Override // Addressable : Name;
+    public AExpression parseAddressable1(AName a1) {
+        return new ANameExpression(new AName(a1.name, a1.position), false, a1.position);
     }
 
-    @Override // Addressable : Identifier Projections;
-    public AExpression parseAddressable2(AIdentifier a1, List<AProjectionExpression> l2) {
-        AExpression refExpr = new ANameExpression(new AName(a1.id, a1.position), false, a1.position);
+    @Override // Addressable : Name Projections;
+    public AExpression parseAddressable2(AName a1, List<AProjectionExpression> l2) {
+        AExpression refExpr = new ANameExpression(new AName(a1.name, a1.position), false, a1.position);
         AProjectionExpression rslt = null;
         for (AProjectionExpression proj: l2) {
             if (rslt == null) {
@@ -1588,7 +1588,15 @@ public final class CifParserHooks implements CifParser.Hooks {
     @Override // SvgIn : @SVGINKW IDKW Expression EVENTKW SvgInEvent OptSvgFile @SEMICOLTK;
     public ASvgIn parseSvgIn1(Token t1, AExpression a3, ASvgInEvent a5, ASvgFile a6, Token t7) {
         parser.addFoldRange(t1.position, t7.position);
-        return new ASvgIn(a3, a5, a6, t1.position);
+        List<AUpdate> updates = list();
+        return new ASvgIn(a3, a5, updates, a6, t1.position);
+    }
+
+    @Override // SvgIn : @SVGINKW IDKW Expression DOKW Updates OptSvgFile @SEMICOLTK;
+    public ASvgIn parseSvgIn2(Token t1, AExpression a3, List<AUpdate> l5, ASvgFile a6, Token t7) {
+        parser.addFoldRange(t1.position, t7.position);
+        ASvgInEvent event = null;
+        return new ASvgIn(a3, event, l5, a6, t1.position);
     }
 
     @Override // SvgInEvent : Name;
