@@ -27,12 +27,15 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HI
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.STRING_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
+import static org.eclipse.escet.cif.typechecker.ExprContext.DEFAULT_CTXT;
+import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.SVG_UPDATE;
 import static org.eclipse.escet.common.position.common.PositionUtils.toPosition;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgCopy;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgFile;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -48,6 +51,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.parser.ast.automata.AUpdate;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgCopy;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgFile;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgIn;
@@ -280,7 +284,21 @@ public class CifSvgTypeChecker {
         }
 
         // Check event.
-        svgIn.setEvent(checkSvgInEvent(astSvgIn, scope));
+        if (astSvgIn.event != null) {
+            svgIn.setEvent(checkSvgInEvent(astSvgIn, scope));
+        }
+
+        // Get update expression type checking context.
+        ExprContext context = DEFAULT_CTXT.add(SVG_UPDATE);
+
+        // Check updates.
+        if (!astSvgIn.updates.isEmpty()) {
+            List<Update> updates = svgIn.getUpdates();
+            for (AUpdate update1: astSvgIn.updates) {
+                Update update2 = CifUpdateTypeChecker.typeCheckUpdate(update1, scope, context, tchecker);
+                updates.add(update2);
+            }
+        }
 
         // Check SVG file, if any.
         if (astSvgIn.svgFile != null) {

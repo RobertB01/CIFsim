@@ -40,6 +40,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
@@ -291,6 +292,23 @@ public class CifUpdateTypeChecker {
      * @param tchecker The CIF type checker to use.
      */
     private static void typeCheckSvgAddressable(Expression addr, ParentScope<?> scope, CifTypeChecker tchecker) {
+        // Make sure we refer to an input variables.
+        for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
+            // Get variable.
+            Expression uexpr = CifTypeUtils.unwrapExpression(expr);
+            Declaration var;
+            if (uexpr instanceof InputVariableExpression ivexpr) {
+                var = ivexpr.getVariable();
+            } else {
+                // Reference to wrong kind of object.
+                PositionObject obj = CifScopeUtils.getRefObjFromRef(uexpr);
+                tchecker.addProblem(ErrMsg.RESOLVE_NON_SVG_ASGN_VAR, expr.getPosition(), CifTextUtils.getAbsName(obj));
+                throw new SemanticException();
+            }
+
+            // Warn for string projections as addressables.
+            checkForStringProjection(expr, var, tchecker);
+        }
     }
 
     /**
