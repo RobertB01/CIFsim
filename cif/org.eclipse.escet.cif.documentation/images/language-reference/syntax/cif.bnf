@@ -284,8 +284,8 @@ Addressables : Addressable
              | Addressables "," Addressable
              ;
 
-Addressable : Identifier
-            | Identifier Projections
+Addressable : Name
+            | Name Projections
             | "(" Addressable "," Addressables ")"
             ;
 
@@ -366,6 +366,7 @@ SvgAttr : "attr" StringToken
         ;
 
 SvgIn : "svgin" "id" Expression "event" SvgInEvent OptSvgFile ";"
+      | "svgin" "id" Expression "do"    Updates    OptSvgFile ";"
       ;
 
 SvgInEvent : Name
