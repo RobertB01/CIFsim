@@ -644,8 +644,10 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="svgFile" eType="#//cifsvg/SvgFile"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
-          eType="#//cifsvg/SvgInEvent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//cifsvg/SvgInEvent"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="updates" upperBound="-1"
+          eType="#//automata/Update" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SvgInEventSingle" eSuperTypes="#//cifsvg/SvgInEvent">
       <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
