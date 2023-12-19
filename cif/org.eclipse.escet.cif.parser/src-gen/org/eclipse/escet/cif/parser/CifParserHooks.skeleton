@@ -1181,13 +1181,13 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Addressable : Identifier;
-    public AExpression parseAddressable1(AIdentifier a1) {
+    @Override // Addressable : Name;
+    public AExpression parseAddressable1(AName a1) {
         // return null;
     }
 
-    @Override // Addressable : Identifier Projections;
-    public AExpression parseAddressable2(AIdentifier a1, List<AProjectionExpression> l2) {
+    @Override // Addressable : Name Projections;
+    public AExpression parseAddressable2(AName a1, List<AProjectionExpression> l2) {
         // return null;
     }
 
@@ -1378,6 +1378,11 @@ implements CifParser.Hooks
 
     @Override // SvgIn : @SVGINKW IDKW Expression EVENTKW SvgInEvent OptSvgFile @SEMICOLTK;
     public ASvgIn parseSvgIn1(Token t1, AExpression a3, ASvgInEvent a5, ASvgFile a6, Token t7) {
+        // return null;
+    }
+
+    @Override // SvgIn : @SVGINKW IDKW Expression DOKW Updates OptSvgFile @SEMICOLTK;
+    public ASvgIn parseSvgIn2(Token t1, AExpression a3, List<AUpdate> l5, ASvgFile a6, Token t7) {
         // return null;
     }
 
