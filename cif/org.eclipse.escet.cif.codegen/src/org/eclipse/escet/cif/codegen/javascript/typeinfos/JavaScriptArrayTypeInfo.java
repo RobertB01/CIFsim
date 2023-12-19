@@ -40,15 +40,21 @@ import org.eclipse.escet.common.java.Assert;
 
 /** JavaScript type information about an array type. */
 public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
+    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
+    private final String prefix;
+
     /**
      * Constructor of the {@link JavaScriptArrayTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
      * @param childTIs Element type information, array of length 1.
      * @param length Number of elements in the array.
+     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
+     *     names.
      */
-    public JavaScriptArrayTypeInfo(CifType cifType, TypeInfo[] childTIs, int length) {
+    public JavaScriptArrayTypeInfo(CifType cifType, TypeInfo[] childTIs, int length, String prefix) {
         super(cifType, childTIs, -1); // List length is not relevant.
+        this.prefix = prefix;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
+        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
     }
 
     @Override

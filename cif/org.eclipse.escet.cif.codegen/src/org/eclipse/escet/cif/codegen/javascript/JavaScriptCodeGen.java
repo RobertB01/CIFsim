@@ -47,6 +47,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -189,7 +190,7 @@ public class JavaScriptCodeGen extends CodeGen {
             }
             ExprCode valueCode = ctxt.exprToTarget(value, null);
             code.add(valueCode.getCode());
-            code.add("this.%s = %s;", name, valueCode.getData());
+            code.add("%s.%s = %s;", ctxt.getPrefix(), name, valueCode.getData());
         }
 
         if (stateVars.isEmpty()) {
@@ -232,7 +233,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            code.add("var deriv%d = this.%sderiv();", i, getTargetName(var));
+            code.add("var deriv%d = %s.%sderiv();", i, ctxt.getPrefix(), getTargetName(var));
         }
         if (!contVars.isEmpty()) {
             code.add();
@@ -240,10 +241,11 @@ public class JavaScriptCodeGen extends CodeGen {
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
             String name = getTargetName(var);
-            code.add("this.%s = this.%s + delta * deriv%d;", name, name, i);
+            code.add("%s.%s = %s.%s + delta * deriv%d;", ctxt.getPrefix(), name, ctxt.getPrefix(), name, i);
             String origName = origDeclNames.get(var);
-            code.add("%sUtils.checkReal(this.%s, %s);", ctxt.getPrefix(), name, Strings.stringToJava(origName));
-            code.add("if (this.%s == -0.0) this.%s = 0.0;", name, name);
+            code.add("%sUtils.checkReal(%s.%s, %s);", ctxt.getPrefix(), ctxt.getPrefix(), name,
+                    Strings.stringToJava(origName));
+            code.add("if (%s.%s == -0.0) %s.%s = 0.0;", ctxt.getPrefix(), name, ctxt.getPrefix(), name);
         }
 
         if (contVars.isEmpty()) {
@@ -461,10 +463,51 @@ public class JavaScriptCodeGen extends CodeGen {
     }
 
     @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // Initialize replacement texts.
+        JavaScriptSvgCodeGen svgCodeGen = new JavaScriptSvgCodeGen();
+        svgCodeGen.codeSvgContent = makeCodeBox(5);
+        svgCodeGen.codeSvgToggles = makeCodeBox(5);
+        svgCodeGen.codeInEventHandlers = makeCodeBox(4);
+        svgCodeGen.codeInInteract = makeCodeBox(5);
+        svgCodeGen.codeInCss = makeCodeBox(4);
+        svgCodeGen.codeOutDeclarations = makeCodeBox(4);
+        svgCodeGen.codeOutAssignments = makeCodeBox(5);
+        svgCodeGen.codeOutApply = makeCodeBox(5);
+
+        // Generate code for SVG visualization and interaction.
+        svgCodeGen.genCodeCifSvg(ctxt, cifSpecFileDir, svgDecls, events);
+
+        // Fill the replacement patterns with generated code, for the SVG images.
+        replacements.put("javascript-svg-content", svgCodeGen.codeSvgContent.toString());
+        replacements.put("javascript-svg-toggles", svgCodeGen.codeSvgToggles.toString());
+
+        // Fill the replacement patterns with generated code, for SVG input mappings.
+        replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());
+        replacements.put("javascript-svg-in-interact-code", svgCodeGen.codeInInteract.toString());
+        replacements.put("javascript-svg-in-css", svgCodeGen.codeInCss.toString());
+
+        // Fill the replacement patterns with generated code, for SVG output mappings.
+        replacements.put("javascript-svg-out-declarations", svgCodeGen.codeOutDeclarations.toString());
+        replacements.put("javascript-svg-out-assignments-code", svgCodeGen.codeOutAssignments.toString());
+        replacements.put("javascript-svg-out-apply-code", svgCodeGen.codeOutApply.toString());
+    }
+
+    @Override
     protected void addEdges(CodeContext ctxt) {
+        // Create codeboxes to hold generated code.
         CodeBox codeCalls = makeCodeBox(6);
         CodeBox codeMethods = makeCodeBox(4);
+        CodeBox codeSvgInputAllowedVarDecls = makeCodeBox(4);
+        CodeBox codeSvgInputAllowedVarInit = makeCodeBox(5);
 
+        // Collect the SVG input declarations.
+        List<SvgIn> svgIns = svgDecls.stream().filter(decl -> decl instanceof SvgIn).map(decl -> (SvgIn)decl).toList();
+
+        // Get the indices of the interactive events, the events coupled to SVG input mappings.
+        Set<Integer> interactiveEventIndices = JavaScriptSvgCodeGen.getInteractiveEventIndices(svgIns, events);
+
+        // Generate code, per edge.
         for (int i = 0; i < edges.size(); i++) {
             // Get edge.
             Edge edge = edges.get(i);
@@ -482,9 +525,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeCalls.add("if (this.execEvent%d()) continue;", i);
             codeCalls.add();
 
-            // Add method code.
-
-            // Header.
+            // Add method code, starting with the header.
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -502,7 +543,7 @@ public class JavaScriptCodeGen extends CodeGen {
             Assert.check(guards.size() <= 1);
             Expression guard = guards.isEmpty() ? null : first(guards);
 
-            // Add event code.
+            // Add guard code.
             if (guard != null) {
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());
@@ -510,12 +551,36 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.add("if (!guard) return false;");
                 codeMethods.add();
             }
+
+            // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur until
+            // the corresponding SVG element is clicked.
+            if (interactiveEventIndices.contains(eventIdx)) {
+                // Add variable declaration.
+                codeSvgInputAllowedVarDecls.add("event%d_Allowed; // %s", eventIdx, eventName);
+
+                // Add code to initialize the variable.
+                codeSvgInputAllowedVarInit.add("%s.event%d_Allowed = false; // %s", ctxt.getPrefix(), eventIdx,
+                        eventName);
+
+                // Add code to test whether the event is enabled.
+                codeMethods.add("if (!%s.event%d_Allowed) return false;", ctxt.getPrefix(), eventIdx);
+
+                // Add code to reset the variable in case we perform a transition for the event.
+                codeMethods.add("%s.event%d_Allowed = false;", ctxt.getPrefix(), eventIdx);
+                codeMethods.add();
+            }
+
+            // Add pre-transition callbacks code.
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, true);", eventIdx);
             codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, true);", eventIdx);
             codeMethods.add();
+
+            // Add code for updates.
             if (!edge.getUpdates().isEmpty()) {
                 addUpdates(edge.getUpdates(), codeMethods, ctxt);
             }
+
+            // Add post-transition callbacks code.
             codeMethods.add();
             codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, false);", eventIdx);
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
@@ -526,8 +591,11 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add("}");
         }
 
+        // Fill the replacement patterns with generated code.
         replacements.put("javascript-event-calls-code", codeCalls.toString());
         replacements.put("javascript-event-methods-code", codeMethods.toString());
+        replacements.put("javascript-event-allowed-declarations", codeSvgInputAllowedVarDecls.toString());
+        replacements.put("javascript-event-allowed-init-code", codeSvgInputAllowedVarInit.toString());
     }
 
     @Override

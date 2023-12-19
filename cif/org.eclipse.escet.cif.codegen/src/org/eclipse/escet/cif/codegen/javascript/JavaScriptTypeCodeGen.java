@@ -59,22 +59,22 @@ public class JavaScriptTypeCodeGen extends TypeCodeGen {
 
         // Handle all different types.
         if (type instanceof BoolType) {
-            return uniqueTypeInfo(new JavaScriptBoolTypeInfo(type), ctxt);
+            return uniqueTypeInfo(new JavaScriptBoolTypeInfo(type, ctxt.getPrefix()), ctxt);
         } else if (type instanceof IntType) {
-            return uniqueTypeInfo(new JavaScriptIntTypeInfo(type), ctxt);
+            return uniqueTypeInfo(new JavaScriptIntTypeInfo(type, ctxt.getPrefix()), ctxt);
         } else if (type instanceof EnumType) {
             return uniqueTypeInfo(new JavaScriptEnumTypeInfo(ctxt.getPrefix()), ctxt);
         } else if (type instanceof RealType) {
-            return uniqueTypeInfo(new JavaScriptRealTypeInfo(type), ctxt);
+            return uniqueTypeInfo(new JavaScriptRealTypeInfo(type, ctxt.getPrefix()), ctxt);
         } else if (type instanceof StringType) {
-            return uniqueTypeInfo(new JavaScriptStringTypeInfo(type), ctxt);
+            return uniqueTypeInfo(new JavaScriptStringTypeInfo(type, ctxt.getPrefix()), ctxt);
         } else if (type instanceof ListType) {
             ListType ltype = (ListType)type;
             Assert.check(CifTypeUtils.isArrayType(ltype));
 
             TypeInfo[] elmTIs = new TypeInfo[1];
             elmTIs[0] = buildTypeInfo(ltype.getElementType(), ctxt);
-            return uniqueTypeInfo(new JavaScriptArrayTypeInfo(type, elmTIs, ltype.getLower()), ctxt);
+            return uniqueTypeInfo(new JavaScriptArrayTypeInfo(type, elmTIs, ltype.getLower(), ctxt.getPrefix()), ctxt);
         } else if (type instanceof TupleType) {
             TupleType ttype = (TupleType)type;
 
@@ -83,7 +83,7 @@ public class JavaScriptTypeCodeGen extends TypeCodeGen {
                 CifType fieldType = ttype.getFields().get(i).getType();
                 fieldTIs[i] = buildTypeInfo(fieldType, ctxt);
             }
-            return uniqueTypeInfo(new JavaScriptTupleTypeInfo(type, fieldTIs), ctxt);
+            return uniqueTypeInfo(new JavaScriptTupleTypeInfo(type, fieldTIs, ctxt.getPrefix()), ctxt);
         } else {
             throw new RuntimeException("Unexpected/unsupported type: " + type);
         }

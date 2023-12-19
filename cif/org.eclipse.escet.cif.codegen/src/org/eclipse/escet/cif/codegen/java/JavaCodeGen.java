@@ -490,6 +490,12 @@ public class JavaCodeGen extends CodeGen {
     }
 
     @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // All CIF/SVG declarations should have been removed from the model.
+        Assert.check(svgDecls.isEmpty());
+    }
+
+    @Override
     protected void addEdges(CodeContext ctxt) {
         CodeBox codeCalls = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);

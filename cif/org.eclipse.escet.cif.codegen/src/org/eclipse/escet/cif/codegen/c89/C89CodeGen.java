@@ -771,6 +771,12 @@ public class C89CodeGen extends CodeGen {
         replacements.put("print-function", code.toString());
     }
 
+    @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // All CIF/SVG declarations should have been removed from the model.
+        Assert.check(svgDecls.isEmpty());
+    }
+
     /**
      * Generate the event conditions for performing a print command.
      *

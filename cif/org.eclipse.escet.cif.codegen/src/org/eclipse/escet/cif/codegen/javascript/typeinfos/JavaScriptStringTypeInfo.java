@@ -41,13 +41,19 @@ import org.eclipse.escet.common.java.Strings;
 
 /** JavaScript type information about the string type. */
 public class JavaScriptStringTypeInfo extends StringTypeInfo {
+    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
+    private final String prefix;
+
     /**
      * Constructor for {@link JavaScriptStringTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
+     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
+     *     names.
      */
-    public JavaScriptStringTypeInfo(CifType cifType) {
+    public JavaScriptStringTypeInfo(CifType cifType, String prefix) {
         super(cifType);
+        this.prefix = prefix;
     }
 
     @Override
@@ -63,7 +69,7 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
+        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
     }
 
     @Override
@@ -121,7 +127,8 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
         ExprCode result = new ExprCode();
         result.add(childCode);
         result.add(indexCode);
-        String resultText = fmt("%sUtils.projectString(%s, %s)", ctxt.getPrefix(), childCode.getData(), indexCode.getData());
+        String resultText = fmt("%sUtils.projectString(%s, %s)", ctxt.getPrefix(), childCode.getData(),
+                indexCode.getData());
         result.setDestination(dest);
         result.setDataValue(new JavaScriptDataValue(resultText));
         return result;
