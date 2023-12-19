@@ -1595,8 +1595,7 @@ public final class CifParserHooks implements CifParser.Hooks {
     @Override // SvgIn : @SVGINKW IDKW Expression DOKW Updates OptSvgFile @SEMICOLTK;
     public ASvgIn parseSvgIn2(Token t1, AExpression a3, List<AUpdate> l5, ASvgFile a6, Token t7) {
         parser.addFoldRange(t1.position, t7.position);
-        ASvgInEvent event = null;
-        return new ASvgIn(a3, event, l5, a6, t1.position);
+        return new ASvgIn(a3, null, l5, a6, t1.position);
     }
 
     @Override // SvgInEvent : Name;
