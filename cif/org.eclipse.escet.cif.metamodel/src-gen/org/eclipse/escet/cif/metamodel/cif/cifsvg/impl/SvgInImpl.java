@@ -14,14 +14,19 @@
  */
 package org.eclipse.escet.cif.metamodel.cif.cifsvg.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.CifsvgPackage;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgFile;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -42,6 +47,7 @@ import org.eclipse.escet.cif.metamodel.cif.impl.IoDeclImpl;
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.impl.SvgInImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.impl.SvgInImpl#getSvgFile <em>Svg File</em>}</li>
  *   <li>{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.impl.SvgInImpl#getEvent <em>Event</em>}</li>
+ *   <li>{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.impl.SvgInImpl#getUpdates <em>Updates</em>}</li>
  * </ul>
  *
  * @generated
@@ -77,6 +83,16 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
      * @ordered
      */
     protected SvgInEvent event;
+
+    /**
+     * The cached value of the '{@link #getUpdates() <em>Updates</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getUpdates()
+     * @generated
+     * @ordered
+     */
+    protected EList<Update> updates;
 
     /**
      * <!-- begin-user-doc -->
@@ -255,6 +271,21 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
      * @generated
      */
     @Override
+    public EList<Update> getUpdates()
+    {
+        if (updates == null)
+        {
+            updates = new EObjectContainmentEList<Update>(Update.class, this, CifsvgPackage.SVG_IN__UPDATES);
+        }
+        return updates;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
     {
         switch (featureID)
@@ -265,6 +296,8 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
                 return basicSetSvgFile(null, msgs);
             case CifsvgPackage.SVG_IN__EVENT:
                 return basicSetEvent(null, msgs);
+            case CifsvgPackage.SVG_IN__UPDATES:
+                return ((InternalEList<?>)getUpdates()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -285,6 +318,8 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
                 return getSvgFile();
             case CifsvgPackage.SVG_IN__EVENT:
                 return getEvent();
+            case CifsvgPackage.SVG_IN__UPDATES:
+                return getUpdates();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -294,6 +329,7 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue)
     {
@@ -307,6 +343,10 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
                 return;
             case CifsvgPackage.SVG_IN__EVENT:
                 setEvent((SvgInEvent)newValue);
+                return;
+            case CifsvgPackage.SVG_IN__UPDATES:
+                getUpdates().clear();
+                getUpdates().addAll((Collection<? extends Update>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -331,6 +371,9 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
             case CifsvgPackage.SVG_IN__EVENT:
                 setEvent((SvgInEvent)null);
                 return;
+            case CifsvgPackage.SVG_IN__UPDATES:
+                getUpdates().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -351,6 +394,8 @@ public class SvgInImpl extends IoDeclImpl implements SvgIn
                 return svgFile != null;
             case CifsvgPackage.SVG_IN__EVENT:
                 return event != null;
+            case CifsvgPackage.SVG_IN__UPDATES:
+                return updates != null && !updates.isEmpty();
         }
         return super.eIsSet(featureID);
     }

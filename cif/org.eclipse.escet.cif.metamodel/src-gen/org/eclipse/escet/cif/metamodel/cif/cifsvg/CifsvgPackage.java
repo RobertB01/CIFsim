@@ -248,13 +248,22 @@ public interface CifsvgPackage extends EPackage
     int SVG_IN__EVENT = CifPackage.IO_DECL_FEATURE_COUNT + 2;
 
     /**
+     * The feature id for the '<em><b>Updates</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SVG_IN__UPDATES = CifPackage.IO_DECL_FEATURE_COUNT + 3;
+
+    /**
      * The number of structural features of the '<em>Svg In</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SVG_IN_FEATURE_COUNT = CifPackage.IO_DECL_FEATURE_COUNT + 3;
+    int SVG_IN_FEATURE_COUNT = CifPackage.IO_DECL_FEATURE_COUNT + 4;
 
     /**
      * The number of operations of the '<em>Svg In</em>' class.
@@ -726,6 +735,17 @@ public interface CifsvgPackage extends EPackage
     EReference getSvgIn_Event();
 
     /**
+     * Returns the meta object for the containment reference list '{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn#getUpdates <em>Updates</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Updates</em>'.
+     * @see org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn#getUpdates()
+     * @see #getSvgIn()
+     * @generated
+     */
+    EReference getSvgIn_Updates();
+
+    /**
      * Returns the meta object for class '{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventSingle <em>Svg In Event Single</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1042,6 +1062,14 @@ public interface CifsvgPackage extends EPackage
          * @generated
          */
         EReference SVG_IN__EVENT = eINSTANCE.getSvgIn_Event();
+
+        /**
+         * The meta object literal for the '<em><b>Updates</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SVG_IN__UPDATES = eINSTANCE.getSvgIn_Updates();
 
         /**
          * The meta object literal for the '{@link org.eclipse.escet.cif.metamodel.cif.cifsvg.impl.SvgInEventSingleImpl <em>Svg In Event Single</em>}' class.
