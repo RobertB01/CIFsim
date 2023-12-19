@@ -19,6 +19,8 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfUpdate;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
+import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.EDGE_UPDATE;
+import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.SVG_UPDATE;
 
 import java.util.List;
 
@@ -48,6 +50,8 @@ import org.eclipse.escet.cif.parser.ast.automata.AElifUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AIfUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AUpdate;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
+import org.eclipse.escet.cif.typechecker.scopes.AutDefScope;
+import org.eclipse.escet.cif.typechecker.scopes.AutScope;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -64,12 +68,12 @@ public class CifUpdateTypeChecker {
      * Type checks an update.
      *
      * @param astUpdate The CIF AST representation of the update.
-     * @param scope The scope of the automaton.
+     * @param scope The scope to resolve update in.
      * @param context The expression type checking context to use, or {@code null} for the default context.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the update.
      */
-    private static Update typeCheckUpdate(AUpdate astUpdate, ParentScope<?> scope, ExprContext context,
+    public static Update typeCheckUpdate(AUpdate astUpdate, ParentScope<?> scope, ExprContext context,
             CifTypeChecker tchecker)
     {
         if (astUpdate instanceof AAssignmentUpdate) {
@@ -85,7 +89,7 @@ public class CifUpdateTypeChecker {
      * Type checks an assignment update.
      *
      * @param astUpdate The CIF AST representation of the update.
-     * @param scope The scope of the automaton.
+     * @param scope The scope to resolve update in.
      * @param context The expression type checking context to use, or {@code null} for the default context.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the update.
@@ -122,7 +126,7 @@ public class CifUpdateTypeChecker {
      * Type checks an 'if' update.
      *
      * @param astUpdate The CIF AST representation of the update.
-     * @param scope The scope of the automaton.
+     * @param scope The scope to resolve update in.
      * @param context The expression type checking context to use, or {@code null} for the default context.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the update.
@@ -197,7 +201,7 @@ public class CifUpdateTypeChecker {
      * Type checks an addressable.
      *
      * @param astAddr The CIF AST representation of the addressable.
-     * @param scope The scope of the automaton.
+     * @param scope The scope to resolve update in.
      * @param context The expression type checking context to use, or {@code null} for the default context.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the addressable.
@@ -208,6 +212,32 @@ public class CifUpdateTypeChecker {
         // Type check addressable expression.
         Expression addr = transExpression(astAddr, NO_TYPE_HINT, scope, context, tchecker);
 
+        // Check if there is context.
+        if (context == null) {
+            throw new RuntimeException("Need expression context.");
+        }
+
+        // Type check based on context.
+        if (context.conditions.contains(EDGE_UPDATE)) {
+            typeCheckEdgeAddressable(addr, scope, tchecker);
+        } else if (context.conditions.contains(SVG_UPDATE)) {
+            typeCheckSvgAddressable(addr, scope, tchecker);
+        } else {
+            throw new RuntimeException("Update needs either edge context or SVG context.");
+        }
+
+        // Return metamodel representation of the addressable expression.
+        return addr;
+    }
+
+    /**
+     * Type checks an addressable on an edge.
+     *
+     * @param addr The CIF metamodel representation of the addressable.
+     * @param scope The scope to resolve update in.
+     * @param tchecker The CIF type checker to use.
+     */
+    private static void typeCheckEdgeAddressable(Expression addr, ParentScope<?> scope, CifTypeChecker tchecker) {
         // Make sure we refer to local discrete and/or continuous variables.
         for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
             // Get variable.
@@ -227,37 +257,61 @@ public class CifUpdateTypeChecker {
             }
 
             // Check variable scoping: disallow non-local variables.
+            // Get scope of addressed variable.
             EObject varParent = var.eContainer();
             Assert.check(varParent instanceof ComplexComponent);
-            Automaton curAut = scope.getAutomaton();
+
+            // Get scope of update.
+            Automaton curAut;
+            if (scope instanceof AutScope) {
+                curAut = ((AutScope)scope).getAutomaton();
+            } else if (scope instanceof AutDefScope) {
+                curAut = ((AutDefScope)scope).getAutomaton();
+            } else {
+                throw new RuntimeException("Must be an automaton scope.");
+            }
+
+            // Do the scope check.
             if (varParent != curAut) {
-                // This should actually hold by construction for discrete
-                // variables, as we can only specify an identifier in the
-                // ASCII syntax (not a general name), and ancestor scopes
-                // can't declare discrete variables. For continuous
-                // variables however, ancestor scopes can define them as
-                // well.
                 tchecker.addProblem(ErrMsg.ASGN_NON_LOCAL_VAR, expr.getPosition(), CifTextUtils.getAbsName(var),
                         CifTextUtils.getAbsName(curAut));
                 // Non-fatal error.
             }
 
-            // String projections are not allowed as addressables.
-            PositionObject varAncestor = (PositionObject)expr.eContainer();
-            while (varAncestor instanceof ProjectionExpression) {
-                ProjectionExpression proj = (ProjectionExpression)varAncestor;
-                CifType type = proj.getChild().getType();
-                CifType ntype = CifTypeUtils.normalizeType(type);
-                if (ntype instanceof StringType) {
-                    tchecker.addProblem(ErrMsg.ASGN_STRING_PROJ, varAncestor.getPosition(),
-                            CifTextUtils.getAbsName(var));
-                    // Non-fatal error.
-                }
-                varAncestor = (PositionObject)varAncestor.eContainer();
-            }
+            // Warn for string projections as addressables.
+            checkForStringProjection(expr, var, tchecker);
         }
+    }
 
-        // Return metamodel representation of the addressable expression.
-        return addr;
+    /**
+     * Type checks an addressable in an SVG input mapping.
+     *
+     * @param addr The CIF metamodel representation of the addressable.
+     * @param scope The scope to resolve update in.
+     * @param tchecker The CIF type checker to use.
+     */
+    private static void typeCheckSvgAddressable(Expression addr, ParentScope<?> scope, CifTypeChecker tchecker) {
+    }
+
+    /**
+     * Warns for string projections as addressables.
+     *
+     * @param expr The variable reference expressions.
+     * @param var The variable that is addressed.
+     * @param tchecker The CIF type checker to use.
+     */
+    private static void checkForStringProjection(Expression expr, Declaration var, CifTypeChecker tchecker) {
+        // String projections are not allowed as addressables.
+        PositionObject varAncestor = (PositionObject)expr.eContainer();
+        while (varAncestor instanceof ProjectionExpression) {
+            ProjectionExpression proj = (ProjectionExpression)varAncestor;
+            CifType type = proj.getChild().getType();
+            CifType ntype = CifTypeUtils.normalizeType(type);
+            if (ntype instanceof StringType) {
+                tchecker.addProblem(ErrMsg.ASGN_STRING_PROJ, varAncestor.getPosition(), CifTextUtils.getAbsName(var));
+                // Non-fatal error.
+            }
+            varAncestor = (PositionObject)varAncestor.eContainer();
+        }
     }
 }

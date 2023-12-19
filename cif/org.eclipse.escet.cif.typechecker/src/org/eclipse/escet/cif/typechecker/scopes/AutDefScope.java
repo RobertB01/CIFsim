@@ -79,7 +79,7 @@ public class AutDefScope extends ParentScope<ComponentDef> {
     }
 
     @Override
-    protected Automaton getAutomaton() {
+    public Automaton getAutomaton() {
         return (Automaton)obj.getBody();
     }
 

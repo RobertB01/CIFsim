@@ -26,6 +26,7 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HI
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.cif.typechecker.ExprContext.DEFAULT_CTXT;
 import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.ALLOW_EVENT;
+import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.EDGE_UPDATE;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.list2set;
@@ -154,7 +155,7 @@ public class AutScope extends ParentScope<Automaton> {
     }
 
     @Override
-    protected Automaton getAutomaton() {
+    public Automaton getAutomaton() {
         return obj;
     }
 
@@ -733,7 +734,7 @@ public class AutScope extends ParentScope<Automaton> {
         }
 
         // Get update expression type checking context.
-        ExprContext context = DEFAULT_CTXT;
+        ExprContext context = DEFAULT_CTXT.add(EDGE_UPDATE);
         if (hasReceive) {
             context = context.setReceiveType(channelType);
         }
