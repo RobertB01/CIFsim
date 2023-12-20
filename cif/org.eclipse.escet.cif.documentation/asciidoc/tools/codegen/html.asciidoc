@@ -15,3 +15,86 @@ include::../_part_attributes.asciidoc[]
 
 [[tools-codegen-chapter-html]]
 == HTML code generation
+
+indexterm:[CIF code generator,HTML]
+indexterm:[HTML,code generation]
+The <<tools-codegen-chapter-index,CIF code generator>> can generate HTML from a CIF specification.
+For a CIF specification, a single HTML file is generated, which can be opened in a browser.
+In this way, the CIF specification can be executed in a browser, similar to using the <<tools-cifsim-chapter-index,CIF simulator>> to simulate the specification.
+
+The HTML file that is generated contains JavaScript code that is used to execute the CIF specification (see <<tools-codegen-chapter-javascript,JavaScript code generation>> for more information).
+The HTML file also includes a simple UI, to control the execution.
+Furthermore, the SVG images <<tools-cifsim-output-svgviz-chapter-cifsvg,coupled to the specification>> are included.
+The images are animated based on the state of the CIF model, if the specification contains <<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>>.
+The images can be clicked to interact with the specification and influence the execution, if the specification contains <<tools-cifsim-input-svg-chapter-svgin,CIF/SVG input mappings>>.
+
+It is assumed the reader of this page is familiar with the general information of the <<tools-codegen-chapter-index,CIF code generator>> tool.
+This page describes specific information applicable only to HTML code generation.
+
+=== HTML page
+
+Generated HTML files can be opened in any modern browser.
+The HTML files may not function correctly when opened in the browser embedded in the Eclipse ESCET IDE.
+They should therefore be opened in an external browser.
+
+==== Areas
+
+The HTML page primarily consists of two areas:
+
+* In the upper area, the name of the model and the SVG images are displayed.
+* In the lower area, several buttons, configuration options, and a log panel are present.
+
+==== Execution
+
+When the HTML file is opened in a browser, the execution start directly.
+Several buttons are present to control the execution:
+
+* To stop the execution, press the _Stop_ button.
+* To continue the execution after stopping it, press the _Start_ button.
+* The execution can be reset to the start state by pressing the _Reset_ button.
+Resetting the execution also stops it.
+
+==== Visualization
+
+If the specification features SVG images, these are displayed in the upper area.
+As the execution progresses, the images are updated based on the state of the CIF specification being executed.
+The visualization can be influenced using the following options:
+
+* **Frequency:**
+A slides is present to set the frequency at which the code is executed.
+For instance, a frequency of 60 Hz means that the JavaScript code generated for the CIF specification is executed 60 times per second.
++
+Decreasing the frequency reduces the CPU usage of the browser, and makes animations less fluent.
+Conversely, increasing the frequency makes animations more fluent and accurate, but increases CPU usage.
++
+The default frequency is 60 Hz.
+
+* **Image visibility:**
+In case the CIF specification is connected to multiple SVG images, a checkbox is present for each image.
++
+Checking a checkbox ensures that the corresponding image is shown.
+Unchecking a checkbox hides the corresponding image.
++
+By default all images are shown.
+
+==== Interaction
+
+If the specification features CIF/SVG input mappings, the SVG images become interactive.
+Clicking an interactive element of an SVG image influences the execution of the specification.
+
+Elements of the SVG images that are interactive get a red outline when hovering over them.
+The mouse pointer then also changes, to indicate that they can be clicked.
+
+Clicking an interactive SVG element has no effect while the execution is stopped.
+
+==== Log panel
+
+In the lower area also a log panel is displayed.
+It provides a log of the current execution, such as which transitions are executed.
+Upon resetting the execution, the log is cleared.
+
+The log panel can be hidden by pressing the _Hide_ button.
+Once it is hidden, it can be shown again by clicking the _Show_ button.
+
+The log can be downloaded as a text file by pressing the _Download log_ button.
+The filename of the downloaded log includes the model name, and a timestamp, such that different logs can be easily distinguished.
