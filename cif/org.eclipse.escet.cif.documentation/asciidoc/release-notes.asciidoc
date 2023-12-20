@@ -44,9 +44,11 @@ New features:
 * A new CIF PLC code generator has been added to the CIF toolset.
 The new PLC code generator is currently being developed, and should be considered experimental.
 In due time, it will replace the current stable CIF PLC code generator (issues {escet-issue}397[#397], {escet-issue}676[#676] and {escet-issue}679[#679]).
+* The CIF code generator can now generate HTML files.
+The HTML files allow executing the model in a browser.
+The HTML code generation is currently an experimental feature (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
 * The CIF code generator can now generate JavaScript code.
-The JavaScript code is part of an HTML page, which allows simulating the model in a browser.
-The JavaScript code generation is currently being developed, and should be considered experimental (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
+The JavaScript code generation is currently an experimental feature (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
 * The CIF explorer now generates an output CIF model with state annotations.
 This can be disabled using the tool's new _Add state annotations_ option (issues {escet-issue}687[#687] and {escet-issue}698[#698]).
 * The tools from the event-based toolset that output CIF models, now generate CIF models with state annotations.
@@ -70,7 +72,7 @@ Improvements and fixes:
 * The CIF controller checker is now more responsive to termination requests (issue {escet-issue}686[#686]).
 * The CIF to mCRL2 transformer now supports CIF models with logical implication binary operators (issue {escet-issue}667[#667]).
 * The CIF code generator now generates better-formatted Java code for checking range violations (issue {escet-issue}272[#272]).
-* The CIF code generator now generates valid Java and Simulink code for models without enumerations and without any automata that have at least two locations (issue {escet-issue}272[#272]).
+* The CIF code generator now generates valid Java and Simulink code for models without enumerations and without any automata that have at least two locations (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
 * The CIF code generator no longer crashes for certain models with more complex initialization.
 Previously, if an automaton had multiple locations with initialization predicates that contained variables, but only one of those locations was an initial location, the code generator could crash (issue {escet-issue}683[#683]).
 * The CIF PLC code generator (stable version) no longer crashes for certain models with more complex initialization, if its _Simplify values_ option is disabled.
