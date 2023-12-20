@@ -97,6 +97,40 @@ It is also possible to execute the code repeatedly, as fast as possible, without
 As soon as a single execution has finished, another execution is started.
 This kind of behavior can be obtained by providing a negative or zero value for `frequency`.
 
+`execOnce` provides flexibility, but lacks automation for repeated execution.
+`exec` provides automatic repeated execution, but lacks flexibility.
+To support automatic repeated execution, with pausing/resuming support, and the ability to reset and restart the execution, use the following methods intead of `execOnce` and `exec`:
+
+* `start` method
++
+[source, javascript]
+----
+start()
+----
++
+Start or continue execution.
+If execution is already in progress, invoking this method has no effect.
+
+* `stop` method
++
+[source, javascript]
+----
+stop()
+----
++
+Stop or pause execution.
+If execution is not in progress, invoking this method has no effect.
+
+* `reset` method
++
+[source, javascript]
+----
+reset()
+----
++
+Invokes the `stop` method and resets the state.
+If execution is subsequently started via the `start` method, it starts from the initial state.
+
 === Environment interface
 
 The code generated for the CIF model does not do anything useful by itself.
@@ -183,7 +217,7 @@ This is enabled (`true`) by default.
 +
 [source, javascript]
 ----
-infoPrintOutput(text, target)
+infoPrintOutput(text)
 ----
 +
 This method informs that new print output has been generated during execution.
