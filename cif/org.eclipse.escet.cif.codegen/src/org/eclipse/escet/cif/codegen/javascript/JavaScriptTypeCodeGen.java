@@ -51,7 +51,7 @@ public class JavaScriptTypeCodeGen extends TypeCodeGen {
      * </p>
      *
      * @param type CIF type to convert to the JavaScript language.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The constructed type information object.
      */
     private TypeInfo buildTypeInfo(CifType type, CodeContext ctxt) {

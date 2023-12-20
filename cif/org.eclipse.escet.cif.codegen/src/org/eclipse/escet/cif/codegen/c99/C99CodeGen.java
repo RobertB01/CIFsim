@@ -838,7 +838,7 @@ public class C99CodeGen extends CodeGen {
      * @param txtExpr Text to print (only used for checking existence of output).
      * @param txtVarInfo Temporary string variable to use for generating the print text.
      * @param targetFile String denoting the target of the output.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return {@code null} if no output is ever generated, else the code to generate output.
      */
     private CodeBox genPrint(Expression whenPred, List<PrintFor> fors, Expression txtExpr,

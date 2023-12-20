@@ -85,7 +85,7 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
     /**
      * Generate code for SVG visualization and interaction.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
      * @param svgDecls The CIF/SVG declarations of the specification.
      * @param events The events of the specification.

@@ -78,7 +78,7 @@ public class C99EnumTypeInfo extends EnumTypeInfo implements C99TypeInfo {
     /**
      * Construct the name of an enumeration literal in C99.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param eLit Literal to convert.
      * @return Name of the enumeration literal in C99.
      */
@@ -120,7 +120,7 @@ public class C99EnumTypeInfo extends EnumTypeInfo implements C99TypeInfo {
      * Generate C99 enum type code.
      *
      * @param typeCode Destination for the generated type code.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void generateC99TypeCode(CodeBox typeCode, CodeContext ctxt) {
         String declarationPrefix = genLocalFunctions ? "static " : "extern ";
@@ -146,7 +146,7 @@ public class C99EnumTypeInfo extends EnumTypeInfo implements C99TypeInfo {
      *
      * @param typeCode Destination for the generated type code.
      * @param funcCode Destination for the generated functions.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void generateC99FuncCode(CodeBox typeCode, CodeBox funcCode, CodeContext ctxt) {
         String definitionPrefix, declarationPrefix;

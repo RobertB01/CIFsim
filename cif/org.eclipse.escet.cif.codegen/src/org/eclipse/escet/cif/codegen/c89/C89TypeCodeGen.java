@@ -51,7 +51,7 @@ public class C89TypeCodeGen extends TypeCodeGen {
      * </p>
      *
      * @param type CIF type to convert to the Java language.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The constructed type information object.
      */
     private TypeInfo buildTypeInfo(CifType type, CodeContext ctxt) {

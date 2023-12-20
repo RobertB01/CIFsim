@@ -75,9 +75,14 @@ public class JavaScriptCodeGen extends CodeGen {
     /** JavaScript code indent amount, as number of spaces. */
     private static final int INDENT = 4;
 
-    /** Constructor for the {@link JavaScriptCodeGen} class. */
-    public JavaScriptCodeGen() {
-        super(TargetLanguage.JAVASCRIPT, INDENT);
+    /**
+     * Constructor for the {@link JavaScriptCodeGen} class.
+     *
+     * @param language The target language. Either {@link TargetLanguage#JAVASCRIPT} or {@link TargetLanguage#HTML}.
+     */
+    public JavaScriptCodeGen(TargetLanguage language) {
+        super(language, INDENT);
+        Assert.check(language == TargetLanguage.JAVASCRIPT || language == TargetLanguage.HTML);
     }
 
     @Override
@@ -104,15 +109,75 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
-        templates.put("index.txt", ".html");
-        templates.put("utils.txt", "_utils.js");
-        templates.put("css.txt", "_escet_theme.css");
+        switch (language) {
+            case JAVASCRIPT:
+                // Only generate the JavaScript code.
+                templates.put("utils.txt", "_utils.js");
+                templates.put("class.txt", "_class.js");
+                break;
+            case HTML:
+                // Only one HTML file is generated. The rest is inlined later on.
+                templates.put("index.txt", ".html");
+                break;
+            default:
+                throw new AssertionError("Unexpected target language: " + language);
+        }
         return templates;
     }
 
     @Override
+    protected void postGenerate(CodeContext ctxt) {
+        // Generate code for updating the frequency slider UI.
+        if (language == TargetLanguage.HTML) {
+            // Add the frequency slider UI code for the HTML UI.
+            CodeBox frequencySliderCode = makeCodeBox(2);
+            frequencySliderCode.add("// Update frequency UI.");
+            frequencySliderCode.add("var range = document.getElementById('run-frequency');");
+            frequencySliderCode.add("range.value = %s.frequency;", ctxt.getPrefix());
+            frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
+            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
+        } else if (language == TargetLanguage.JAVASCRIPT) {
+            // Don't add the frequency slider UI code, since we don't have an HTML UI.
+            replacements.put("javascript-frequency-slider-code", "");
+        }
+
+        // Generate code for the 'infoEvent' method.
+        String logTransition = "log(" + ctxt.getPrefix()
+                + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
+        CodeBox logCallCode = makeCodeBox(2);
+        if (language == TargetLanguage.HTML) {
+            // Add the log transition code for the HTML UI.
+            logCallCode.add(logTransition);
+        } else if (language == TargetLanguage.JAVASCRIPT) {
+            // Add the log transition code, but write to console only.
+            logCallCode.add("console." + logTransition);
+        }
+        replacements.put("infoevent-log-call-code", logCallCode.toString());
+
+        // Finalize the replacement patterns based on the target language.
+        switch (language) {
+            case JAVASCRIPT:
+                // Special handling for the JavaScript-only output. Some replacement patterns are not used. Remove
+                // them from the replacements mapping.
+                replacements.remove("html-svg-in-css");
+                replacements.remove("html-svg-content");
+                replacements.remove("html-svg-toggles");
+                break;
+            case HTML:
+                // Special handling for single-file HTML output. Inline all templates into the HTML file.
+                List<String> utilsLines = readTemplate("utils.txt");
+                List<String> classLines = readTemplate("class.txt");
+                replacements.put("html-javascript-utils-placeholder", String.join("\n", utilsLines));
+                replacements.put("html-javascript-class-placeholder", String.join("\n", classLines));
+                break;
+            default:
+                throw new AssertionError("Unexpected target language: " + language);
+        }
+    }
+
+    @Override
     protected void addConstants(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
@@ -135,7 +200,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEvents(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(5);
+        CodeBox code = makeCodeBox(2);
 
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
@@ -150,7 +215,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addStateVars(CodeContext ctxt) {
         // State variable declarations.
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (Declaration var: stateVars) {
             String name = getTargetName(var);
@@ -173,7 +238,7 @@ public class JavaScriptCodeGen extends CodeGen {
         replacements.put("javascript-state-decls", code.toString());
 
         // State variable initialization.
-        code = makeCodeBox(5);
+        code = makeCodeBox(2);
 
         for (Declaration var: stateVars) {
             String name = getTargetName(var);
@@ -203,7 +268,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addContVars(CodeContext ctxt) {
         // Derivative code.
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (ContVariable var: contVars) {
             String name = getTargetName(var);
@@ -257,7 +322,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addAlgVars(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (AlgVariable var: algVars) {
             String name = getTargetName(var);
@@ -286,7 +351,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addInputVars(CodeContext ctxt) {
         // Input variable declarations.
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (InputVariable var: inputVars) {
             String name = getTargetName(var);
@@ -318,7 +383,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addFunctions(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (InternalFunction func: functions) {
             JavaScriptFunctionCodeGen funcGen = new JavaScriptFunctionCodeGen(func);
@@ -329,7 +394,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEnum(EnumDecl enumDecl, CodeContext ctxt) {
-        CodeBox code = makeCodeBox(5);
+        CodeBox code = makeCodeBox(2);
 
         List<EnumLiteral> lits = enumDecl.getLiterals();
         for (int i = 0; i < lits.size(); i++) {
@@ -346,7 +411,7 @@ public class JavaScriptCodeGen extends CodeGen {
     protected void addPrints(CodeContext ctxt) {
         // As the code runs forever, we never have a 'final' transition.
 
-        CodeBox code = makeCodeBox(5);
+        CodeBox code = makeCodeBox(2);
 
         // 0+ evt
         // -1 tau
@@ -467,25 +532,25 @@ public class JavaScriptCodeGen extends CodeGen {
         // Initialize replacement texts.
         JavaScriptSvgCodeGen svgCodeGen = new JavaScriptSvgCodeGen();
         svgCodeGen.codeSvgContent = makeCodeBox(5);
-        svgCodeGen.codeSvgToggles = makeCodeBox(5);
-        svgCodeGen.codeInEventHandlers = makeCodeBox(4);
-        svgCodeGen.codeInInteract = makeCodeBox(5);
-        svgCodeGen.codeInCss = makeCodeBox(4);
-        svgCodeGen.codeOutDeclarations = makeCodeBox(4);
-        svgCodeGen.codeOutAssignments = makeCodeBox(5);
-        svgCodeGen.codeOutApply = makeCodeBox(5);
+        svgCodeGen.codeSvgToggles = makeCodeBox(2);
+        svgCodeGen.codeInEventHandlers = makeCodeBox(1);
+        svgCodeGen.codeInInteract = makeCodeBox(2);
+        svgCodeGen.codeInCss = makeCodeBox(3);
+        svgCodeGen.codeOutDeclarations = makeCodeBox(1);
+        svgCodeGen.codeOutAssignments = makeCodeBox(2);
+        svgCodeGen.codeOutApply = makeCodeBox(2);
 
         // Generate code for SVG visualization and interaction.
         svgCodeGen.genCodeCifSvg(ctxt, cifSpecFileDir, svgDecls, events);
 
         // Fill the replacement patterns with generated code, for the SVG images.
-        replacements.put("javascript-svg-content", svgCodeGen.codeSvgContent.toString());
-        replacements.put("javascript-svg-toggles", svgCodeGen.codeSvgToggles.toString());
+        replacements.put("html-svg-content", svgCodeGen.codeSvgContent.toString());
+        replacements.put("html-svg-toggles", svgCodeGen.codeSvgToggles.toString());
 
         // Fill the replacement patterns with generated code, for SVG input mappings.
         replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());
         replacements.put("javascript-svg-in-interact-code", svgCodeGen.codeInInteract.toString());
-        replacements.put("javascript-svg-in-css", svgCodeGen.codeInCss.toString());
+        replacements.put("html-svg-in-css", svgCodeGen.codeInCss.toString());
 
         // Fill the replacement patterns with generated code, for SVG output mappings.
         replacements.put("javascript-svg-out-declarations", svgCodeGen.codeOutDeclarations.toString());
@@ -496,10 +561,10 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addEdges(CodeContext ctxt) {
         // Create codeboxes to hold generated code.
-        CodeBox codeCalls = makeCodeBox(6);
-        CodeBox codeMethods = makeCodeBox(4);
-        CodeBox codeSvgInputAllowedVarDecls = makeCodeBox(4);
-        CodeBox codeSvgInputAllowedVarInit = makeCodeBox(5);
+        CodeBox codeCalls = makeCodeBox(3);
+        CodeBox codeMethods = makeCodeBox(1);
+        CodeBox codeSvgInputAllowedVarDecls = makeCodeBox(1);
+        CodeBox codeSvgInputAllowedVarInit = makeCodeBox(2);
 
         // Collect the SVG input declarations.
         List<SvgIn> svgIns = svgDecls.stream().filter(decl -> decl instanceof SvgIn).map(decl -> (SvgIn)decl).toList();

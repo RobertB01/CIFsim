@@ -59,7 +59,7 @@ public class SimulinkArrayTypeInfo extends C89ArrayTypeInfo {
      *
      * @param declCode Declarations stream for the generated types and functions. Appended in-place.
      * @param defCode Implementation of the generated functions. Appended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     private void generateSimulinkCode(CodeBox declCode, CodeBox defCode, CodeContext ctxt) {
         String definitionPrefix, declarationPrefix;
