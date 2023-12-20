@@ -148,7 +148,7 @@
 ${html-svg-in-css}
         </style>
         <script type="text/javascript">
-${html-javascript-utils-class-placeholder}
+${html-javascript-utils-placeholder}
         </script>
         <script type="text/javascript">
 ${html-javascript-class-placeholder}

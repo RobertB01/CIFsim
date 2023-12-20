@@ -109,6 +109,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
+        // Finalize the replacement patterns based on the target language.
         switch (language) {
             case JAVASCRIPT:
                 // Only generate the JavaScript code.
@@ -127,9 +128,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void postGenerate(CodeContext ctxt) {
-        // Unless we're generating JavaScript only, add any required UI code for the HTML page to the JavaScript export.
-        // Ideally, there wouldn't be any UI code in the JavaScript class, though this is preferable to making calls
-        // to assumed HTML elements and JavaScript functions outside of the class scope.
+        // Generate code for updating the frequency slider UI.
         if (language == TargetLanguage.HTML) {
             // Add the frequency slider UI code for the HTML UI.
             CodeBox frequencySliderCode = makeCodeBox(2);
@@ -139,25 +138,22 @@ public class JavaScriptCodeGen extends CodeGen {
             frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
             replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
         } else if (language == TargetLanguage.JAVASCRIPT) {
-            // Don't add the frequency slider UI code, since we don't have HTML UI.
+            // Don't add the frequency slider UI code, since we don't have an HTML UI.
             replacements.put("javascript-frequency-slider-code", "");
         }
 
-        // For the log call included in the JavaScript export, we call either log() or console.log(), depending on
-        // whether the HTML page containing the log() function and log UI is included.
+        // Generate code for the 'infoEvent' method.
         String logTransition = "log(" + ctxt.getPrefix()
                 + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
+        CodeBox logCallCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
             // Add the log transition code for the HTML UI.
-            CodeBox logCallCode = makeCodeBox(2);
             logCallCode.add(logTransition);
-            replacements.put("infoevent-log-call-code", logCallCode.toString());
         } else if (language == TargetLanguage.JAVASCRIPT) {
             // Add the log transition code, but write to console only.
-            CodeBox logCallCode = makeCodeBox(2);
             logCallCode.add("console." + logTransition);
-            replacements.put("infoevent-log-call-code", logCallCode.toString());
         }
+        replacements.put("infoevent-log-call-code", logCallCode.toString());
 
         switch (language) {
             case JAVASCRIPT:
@@ -171,7 +167,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 // Special handling for single-file HTML output. Inline all templates into the HTML file.
                 List<String> utilsLines = readTemplate("utils.txt");
                 List<String> classLines = readTemplate("class.txt");
-                replacements.put("html-javascript-utils-class-placeholder", String.join("\n", utilsLines));
+                replacements.put("html-javascript-utils-placeholder", String.join("\n", utilsLines));
                 replacements.put("html-javascript-class-placeholder", String.join("\n", classLines));
                 break;
             default:
