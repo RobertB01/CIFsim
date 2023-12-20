@@ -137,7 +137,7 @@ public class JavaScriptCodeGen extends CodeGen {
             CodeBox frequencySliderCode = makeCodeBox(2);
             frequencySliderCode.add("// Update frequency UI.");
             frequencySliderCode.add("var range = document.getElementById('run-frequency');");
-            frequencySliderCode.add("range.value = %s.frequency;", CodePrefixOption.getPrefix());
+            frequencySliderCode.add("range.value = %s.frequency;", ctxt.getPrefix());
             frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
             replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
         } else if (language == TargetLanguage.JAVASCRIPT) {
@@ -147,7 +147,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
         // For the log call included in the JavaScript export, we call either log() or console.log(), depending on
         // whether the HTML page containing the log() function and log UI is included.
-        String logTransition = "log(" + CodePrefixOption.getPrefix()
+        String logTransition = "log(" + ctxt.getPrefix()
                 + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
         if (language == TargetLanguage.HTML) {
             // Add the log transition code for the HTML UI.
