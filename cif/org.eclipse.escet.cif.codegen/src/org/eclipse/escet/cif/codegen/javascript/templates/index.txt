@@ -278,8 +278,7 @@ ${html-svg-toggles}
                                 onclick="toggleStartStop(); return false;"/>
                         <input value="Reset" type="button" onclick="reset(); return false;"/>
                         <a href="#" onclick="downloadLog(this); return false;" title="Download log">
-                            <input value="Download log" type="button"/>
-                        </a>
+                            <input value="Download log" type="button"/></a>
                         <input value="Hide" type="button" onclick="showHide(this); return false;"/>
                     </span>
                 </div>
