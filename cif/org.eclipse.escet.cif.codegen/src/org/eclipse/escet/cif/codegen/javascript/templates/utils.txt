@@ -360,11 +360,11 @@ class ${prefix}Utils {
     static fmt(str) {
         // TODO: CIF supports more than what is handled here. Full support is to be added in the future.
         var i = 1;
-        var floatRegex = /%.(\d)+f/;
+        var floatRegex = /%\.(\d)+f/;
         var boolRegex = /%[Bb]/;
         var hexRegex = /%[Xx]/;
         var realRegex = /%[GgEe]/;
-        return str.replace(/%[Bb]|%[Xx]|%[GgEe]|%[Ss]|%d|%.(\d)f|%/g, (matched) => {
+        return str.replace(/%[Bb]|%[Xx]|%[GgEe]|%[Ss]|%d|%\.(\d)f|%/g, (matched) => {
             if (boolRegex.test(matched)) {
                 return arguments[i++].toString();
             } else if (hexRegex.test(matched)) {
