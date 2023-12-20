@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.typechecker.annotations.builtin;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.common.AnnotationEqHashWrap;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -93,10 +95,16 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * <li>Different state annotations on the same or different locations of a single automaton must have the same
  * arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
  * represent states from the same state space.</li>
+ * <li>Different state annotations on the same or different locations of a single automaton must represent different
+ * states of the same state space. That is, they must have at least one different current location of an automaton or at
+ * least one different current value of a variable.</li>
  * </ul>
  * </p>
  */
 public class StateAnnotationProvider extends AnnotationProvider {
+    /** Automata to skip for checking unique annotations per automaton. */
+    private Set<Automaton> autsToSkipForUniqueAnnosPerAutChk = setc(0); // Optimize for specifications without issues.
+
     /**
      * Constructor for the {@link StateAnnotationProvider} class.
      *
@@ -115,6 +123,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             reporter.reportProblem(annotation, "state annotation on a non-location object.", annotation.getPosition(),
                     SemanticProblemSeverity.ERROR);
             // Non-fatal problem.
+            return;
         }
 
         // Check the arguments.
@@ -228,6 +237,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             }
         } else {
             // Unsupported type.
+            autsToSkipForUniqueAnnosPerAutChk.add((Automaton)annotation.eContainer().eContainer());
             reporter.reportProblem(
                     annotation, fmt("unsupported value of type \"%s\" in argument \"%s\".",
                             CifTextUtils.typeToStr(value.getType()), arg.getName()),
@@ -273,6 +283,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
     private void reportNonLiteral(Annotation annotation, AnnotationArgument arg, Expression value,
             AnnotationProblemReporter reporter)
     {
+        autsToSkipForUniqueAnnosPerAutChk.add((Automaton)annotation.eContainer().eContainer());
         reporter.reportProblem(annotation, fmt("non-literal value in argument \"%s\".", arg.getName()),
                 value.getPosition(), SemanticProblemSeverity.ERROR);
         // Non-fatal problem.
@@ -280,9 +291,13 @@ public class StateAnnotationProvider extends AnnotationProvider {
 
     @Override
     public final void checkGlobal(Specification spec, AnnotationProblemReporter reporter) {
-        // Different state annotations on the same or different locations of a single automaton must have the same
+        // Check the following constraints:
+        // - Different state annotations on the same or different locations of a single automaton must have the same
         // arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
         // represent states from the same state space. Check this per automaton.
+        // - Different state annotations on the same or different locations of a single automaton must represent
+        // different states of the same state space. That is, they must have at least one different current location of
+        // an automaton or at least one different current value of a variable.
         Map<String, AnnotationArgument> argNameToAnnoArg = map();
         for (Automaton aut: CifCollectUtils.collectAutomata(spec, list())) {
             // Get a mapping with per argument name the first-encountered argument with that name.
@@ -307,6 +322,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             }
 
             // Check all state annotations of the locations.
+            Map<AnnotationEqHashWrap, Annotation> differentAnnos = map();
             for (Location loc: aut.getLocations()) {
                 boolean locHasStateAnno = false;
                 for (Annotation anno: loc.getAnnotations()) {
@@ -353,6 +369,19 @@ public class StateAnnotationProvider extends AnnotationProvider {
                                             + "of another state annotation in the same automaton.",
                                     CifTextUtils.typeToStr(otherType), arg.getName(), CifTextUtils.typeToStr(argType)),
                                     otherArg.getPosition(), SemanticProblemSeverity.ERROR);
+                            // Non-fatal problem.
+                        }
+                    }
+
+                    // Check that annotation is different from other annotations in the same automaton.
+                    if (!autsToSkipForUniqueAnnosPerAutChk.contains(aut)) {
+                        Annotation sameAnno = differentAnnos.put(new AnnotationEqHashWrap(anno), anno);
+                        if (sameAnno != null) {
+                            String msg = fmt("duplicate state annotation within automaton \"%s\".",
+                                    CifTextUtils.getAbsName(aut));
+                            reporter.reportProblem(anno, msg, anno.getPosition(), SemanticProblemSeverity.ERROR);
+                            reporter.reportProblem(sameAnno, msg, sameAnno.getPosition(),
+                                    SemanticProblemSeverity.ERROR);
                             // Non-fatal problem.
                         }
                     }
