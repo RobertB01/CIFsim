@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${prefix} | Eclipse ESCET</title>
         <style type="text/css">
-            /* ESCET theme styles */
+            /* ESCET theme styles. */
             html, body {
                 margin: 0;
                 background-color: #fff7df; /* ESCET website yellow. */
@@ -238,19 +238,28 @@ ${html-javascript-class-placeholder}
                 }
             }
 
-            function downloadLog(btn) {
+            function downloadLog() {
+                // Get log content.
                 var modelName = document.getElementById('model-name').innerHTML;
                 var content = document.getElementById('log-output').value;
 
-                var blob = new Blob([content], { type: 'plain/text' });
-                var fileURL = URL.createObjectURL(blob);
+                // Create URL object with log content.
+                var blob = new Blob([content], {type: 'plain/text'});
+                var url = URL.createObjectURL(blob);
 
-                btn.setAttribute('href', fileURL);
-                btn.setAttribute('download', modelName + '.' + new Date().toISOString() + '.log.txt');
+                // Create a new invisible 'a' element that serves as the download link.
+                var link = document.createElement('a');
+                link.style.display = 'none';
+                link.href = url;
+                link.download = modelName + '.' + new Date().toISOString() + '.log.txt';
 
-                // This throws an exception, but works and is required,
-                // catching the exception breaks the download feature.
+                // Click the link to start the download, after properly adding the link to the document.
                 document.body.appendChild(link);
+                link.click();
+
+                // Clean up the URL and temporary link element.
+                URL.revokeObjectURL(url);
+                link.remove();
             }
         </script>
     </head>
@@ -277,8 +286,7 @@ ${html-svg-toggles}
                         <input id="start-stop-toggle" value="Stop" type="button"
                                 onclick="toggleStartStop(); return false;"/>
                         <input value="Reset" type="button" onclick="reset(); return false;"/>
-                        <a href="#" onclick="downloadLog(this); return false;" title="Download log">
-                            <input value="Download log" type="button"/></a>
+                        <input value="Download log" type="button" onclick="downloadLog(); return false;"/>
                         <input value="Hide" type="button" onclick="showHide(this); return false;"/>
                     </span>
                 </div>

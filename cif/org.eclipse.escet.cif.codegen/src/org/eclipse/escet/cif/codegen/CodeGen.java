@@ -25,6 +25,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -408,11 +409,14 @@ public abstract class CodeGen {
         // Prepare for code generation.
         prepare(spec);
 
+        // Create code context.
+        CodeContext ctxt = new CodeContext(this);
+
         // Generate the code, putting them in the replacements mapping.
-        generateCode(spec, cifSpecFileDir);
+        generateCode(ctxt, spec, cifSpecFileDir);
 
         // Finalize the generated code.
-        postGenerate();
+        postGenerate(ctxt);
 
         // Write the output.
         write(outputPath);
@@ -656,7 +660,7 @@ public abstract class CodeGen {
         // Remove CIF/SVG declarations, for target languages where we don't
         // generate code for them. By removing the CIF/SVG declarations, we
         // don't get unsupported errors for features used in them.
-        if (language != TargetLanguage.JAVASCRIPT && language != TargetLanguage.HTML) {
+        if (language != TargetLanguage.HTML) {
             RemoveCifSvgDecls removeCifSvgDecls = new RemoveCifSvgDecls();
             removeCifSvgDecls.transform(spec);
             if (removeCifSvgDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
@@ -737,10 +741,11 @@ public abstract class CodeGen {
     /**
      * Generate code (replacements).
      *
+     * @param ctxt Code generation context.
      * @param spec The CIF specification for which to generate code (replacements).
      * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
      */
-    private void generateCode(Specification spec, String cifSpecFileDir) {
+    private void generateCode(CodeContext ctxt, Specification spec, String cifSpecFileDir) {
         // For the specification, we ignore the component definitions (have
         // already been eliminated), equations (eliminated due to
         // linearization), initialization predicates (should not exist, or
@@ -813,9 +818,6 @@ public abstract class CodeGen {
         } else {
             enumDecl = first(enumDecls);
         }
-
-        // Create code context.
-        CodeContext ctxt = new CodeContext(this);
 
         // Generate code for the declarations.
         addConstants(ctxt);
@@ -1025,8 +1027,10 @@ public abstract class CodeGen {
      * they could collect code in a {@link CodeBox} during code generation and in this method store it in the
      * {@link #replacements}.
      * </p>
+     *
+     * @param ctxt Code generation context.
      */
-    protected void postGenerate() {
+    protected void postGenerate(CodeContext ctxt) {
         // By default, nothing is done.
     }
 
@@ -1036,8 +1040,8 @@ public abstract class CodeGen {
      * @param path The absolute or relative local file system path to the output directory to which the code files will
      *     be written.
      */
-    protected void write(String path) {
-        // Get template names.
+    private void write(String path) {
+        // Get templates.
         Map<String, String> templates = getTemplates();
 
         // Create output directory, if it doesn't exist yet.
@@ -1058,7 +1062,7 @@ public abstract class CodeGen {
             // Get output file path.
             String fileName = template.getValue();
             fileName = replacements.get("prefix") + fileName;
-            String filePath = Paths.resolve(path, fileName);
+            String filePath = path + File.separator + fileName;
             String absFilePath = Paths.resolve(filePath);
 
             // Write code.

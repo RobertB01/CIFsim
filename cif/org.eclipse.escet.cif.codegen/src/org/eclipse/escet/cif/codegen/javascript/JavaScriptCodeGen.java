@@ -20,22 +20,10 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.text.TextStringBuilder;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
 import org.eclipse.escet.cif.codegen.CurlyBraceIfElseGenerator;
@@ -48,7 +36,6 @@ import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
 import org.eclipse.escet.cif.codegen.options.CodePrefixOption;
 import org.eclipse.escet.cif.codegen.options.TargetLanguage;
-import org.eclipse.escet.cif.codegen.options.TargetLanguageOption;
 import org.eclipse.escet.cif.codegen.typeinfos.ArrayTypeInfo;
 import org.eclipse.escet.cif.codegen.typeinfos.RangeCheckErrorLevelText;
 import org.eclipse.escet.cif.codegen.typeinfos.TupleTypeInfo;
@@ -80,8 +67,6 @@ import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
-import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -91,9 +76,13 @@ public class JavaScriptCodeGen extends CodeGen {
     /** JavaScript code indent amount, as number of spaces. */
     private static final int INDENT = 4;
 
-    /** Constructor for the {@link JavaScriptCodeGen} class. */
-    public JavaScriptCodeGen() {
-        super(TargetLanguageOption.getLanguage(), INDENT);
+    /** Constructor for the {@link JavaScriptCodeGen} class.
+     *
+     * @param language The target language. Either {@link TargetLanguage#JAVASCRIPT} or {@link TargetLanguage#HTML}.
+     */
+    public JavaScriptCodeGen(TargetLanguage language) {
+        super(language, INDENT);
+        Assert.check(language == TargetLanguage.JAVASCRIPT || language == TargetLanguage.HTML);
     }
 
     @Override
@@ -110,36 +99,6 @@ public class JavaScriptCodeGen extends CodeGen {
     protected void init() {
         super.init();
         replacements.put("javascript-tuples-code", "");
-
-        // Unless we're generating JavaScript only, add any required UI code for the HTML page to the JavaScript export.
-        // Ideally, there wouldn't be any UI code in the JavaScript class, though this is preferable to making calls
-        // to assumed HTML elements and JavaScript functions outside of the class scope.
-
-        // For the log call included in the JavaScript export, we call either log() or console.log(), depending on
-        // whether the HTML page containing the log() function and log UI is included.
-        String logTransition = "log(" + CodePrefixOption.getPrefix()
-                + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
-        if (language == TargetLanguage.HTML) {
-            // Add the frequency slider UI code for the HTML UI.
-            CodeBox frequencySliderCode = makeCodeBox(2);
-            frequencySliderCode.add("var range = document.getElementById('run-frequency');");
-            frequencySliderCode.add("range.value = %s.frequency;", CodePrefixOption.getPrefix());
-            frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
-            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
-
-            // Add the log transition code for the HTML UI.
-            CodeBox logCallCode = makeCodeBox(2);
-            logCallCode.add(logTransition);
-            replacements.put("infoevent-log-call-code", logCallCode.toString());
-        } else if (language == TargetLanguage.JAVASCRIPT) {
-            // Don't add the frequency slider UI code, since we don't have HTML UI.
-            replacements.put("javascript-frequency-slider-code", "");
-
-            // Add the log transition code, but write to console only.
-            CodeBox logCallCode = makeCodeBox(2);
-            logCallCode.add("console." + logTransition);
-            replacements.put("infoevent-log-call-code", logCallCode.toString());
-        }
     }
 
     @Override
@@ -152,12 +111,74 @@ public class JavaScriptCodeGen extends CodeGen {
         // For the HTML export option, we generate all templates, and merge them before writing.
         // For the JavaScript export option, we only generate the JavaScript templates.
         Map<String, String> templates = map();
-        templates.put("utils.txt", "_utils.js");
-        templates.put("class.txt", "_class.js");
-        if (language == TargetLanguage.HTML) {
-            templates.put("index.txt", ".html");
+        switch (language) {
+            case JAVASCRIPT:
+                // Only generate the JavaScript code.
+                templates.put("utils.txt", "_utils.js");
+                templates.put("class.txt", "_class.js");
+                break;
+            case HTML:
+                // Only one HTML file is generated. The rest is inlined later on.
+                templates.put("index.txt", ".html");
+                break;
+            default:
+                throw new AssertionError("Unexpected target language: " + language);
         }
         return templates;
+    }
+
+    @Override
+    protected void postGenerate(CodeContext ctxt) {
+        // Unless we're generating JavaScript only, add any required UI code for the HTML page to the JavaScript export.
+        // Ideally, there wouldn't be any UI code in the JavaScript class, though this is preferable to making calls
+        // to assumed HTML elements and JavaScript functions outside of the class scope.
+        if (language == TargetLanguage.HTML) {
+            // Add the frequency slider UI code for the HTML UI.
+            CodeBox frequencySliderCode = makeCodeBox(2);
+            frequencySliderCode.add("// Update frequency UI.");
+            frequencySliderCode.add("var range = document.getElementById('run-frequency');");
+            frequencySliderCode.add("range.value = %s.frequency;", CodePrefixOption.getPrefix());
+            frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
+            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
+        } else if (language == TargetLanguage.JAVASCRIPT) {
+            // Don't add the frequency slider UI code, since we don't have HTML UI.
+            replacements.put("javascript-frequency-slider-code", "");
+        }
+
+        // For the log call included in the JavaScript export, we call either log() or console.log(), depending on
+        // whether the HTML page containing the log() function and log UI is included.
+        String logTransition = "log(" + CodePrefixOption.getPrefix()
+                + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
+        if (language == TargetLanguage.HTML) {
+            // Add the log transition code for the HTML UI.
+            CodeBox logCallCode = makeCodeBox(2);
+            logCallCode.add(logTransition);
+            replacements.put("infoevent-log-call-code", logCallCode.toString());
+        } else if (language == TargetLanguage.JAVASCRIPT) {
+            // Add the log transition code, but write to console only.
+            CodeBox logCallCode = makeCodeBox(2);
+            logCallCode.add("console." + logTransition);
+            replacements.put("infoevent-log-call-code", logCallCode.toString());
+        }
+
+        switch (language) {
+            case JAVASCRIPT:
+                // Special handling for the JavaScript-only output. Some replacement patterns are not used. Remove
+                // them from the replacements mapping.
+                replacements.remove("html-svg-in-css");
+                replacements.remove("html-svg-content");
+                replacements.remove("html-svg-toggles");
+                break;
+            case HTML:
+                // Special handling for single-file HTML output. Inline all templates into the HTML file.
+                List<String> utilsLines = readTemplate("utils.txt");
+                List<String> classLines = readTemplate("class.txt");
+                replacements.put("html-javascript-utils-class-placeholder", String.join("\n", utilsLines));
+                replacements.put("html-javascript-class-placeholder", String.join("\n", classLines));
+                break;
+            default:
+                throw new AssertionError("Unexpected target language: " + language);
+        }
     }
 
     @Override
@@ -529,17 +550,13 @@ public class JavaScriptCodeGen extends CodeGen {
         svgCodeGen.genCodeCifSvg(ctxt, cifSpecFileDir, svgDecls, events);
 
         // Fill the replacement patterns with generated code, for the SVG images.
-        if (language == TargetLanguage.HTML) {
-            replacements.put("html-svg-content", svgCodeGen.codeSvgContent.toString());
-            replacements.put("html-svg-toggles", svgCodeGen.codeSvgToggles.toString());
-        }
+        replacements.put("html-svg-content", svgCodeGen.codeSvgContent.toString());
+        replacements.put("html-svg-toggles", svgCodeGen.codeSvgToggles.toString());
 
         // Fill the replacement patterns with generated code, for SVG input mappings.
         replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());
         replacements.put("javascript-svg-in-interact-code", svgCodeGen.codeInInteract.toString());
-        if (language == TargetLanguage.HTML) {
-            replacements.put("html-svg-in-css", svgCodeGen.codeInCss.toString());
-        }
+        replacements.put("html-svg-in-css", svgCodeGen.codeInCss.toString());
 
         // Fill the replacement patterns with generated code, for SVG output mappings.
         replacements.put("javascript-svg-out-declarations", svgCodeGen.codeOutDeclarations.toString());
@@ -840,131 +857,5 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     public DataValue makeDataValue(String value) {
         return new JavaScriptDataValue(value);
-    }
-
-    /**
-     * Write the code files to disk.
-     *
-     * @param path The absolute or relative local file system path to the output directory to which the code files will
-     *     be written.
-     */
-    @Override
-    protected void write(String path) {
-        // For the HTML export option, we merge templates using this method.
-        // For JavaScript exports, we only export the JavaScript templates via the normal method.
-        if (language != TargetLanguage.HTML) {
-            super.write(path);
-            return;
-        }
-
-        // Get template names.
-        Map<String, String> templates = getTemplates();
-
-        // Create output directory, if it doesn't exist yet.
-        String absPath = Paths.resolve(path);
-        Path nioAbsPath = java.nio.file.Paths.get(absPath);
-        if (!Files.isDirectory(nioAbsPath)) {
-            try {
-                Files.createDirectories(nioAbsPath);
-            } catch (IOException ex) {
-                String msg = fmt("Failed to create output directory \"%s\" for the generated code.", path);
-                throw new InputOutputException(msg, ex);
-            }
-        }
-
-        // Replace placeholders in templates. Collect the results as StringBuilders, so that we can merge the results.
-        boolean[] used = new boolean[replacements.size()];
-        Map<String, TextStringBuilder> stringBuilders = map();
-        for (Entry<String, String> template: templates.entrySet()) {
-            // Write code.
-            String resName = getResourceName(template.getKey());
-            Set<Entry<String, String>> replaces = replacements.entrySet();
-            ClassLoader classLoader = getClass().getClassLoader();
-            TextStringBuilder stringBuilder = new TextStringBuilder();
-            stringBuilders.put(template.getKey(), stringBuilder);
-            try (InputStream fstream = classLoader.getResourceAsStream(resName);
-                 InputStream istream = new BufferedInputStream(fstream);)
-            {
-                // Process all lines of the template.
-                LineIterator lines = IOUtils.lineIterator(istream, "UTF-8");
-                while (lines.hasNext()) {
-                    // Read the next line.
-                    String line = lines.nextLine();
-
-                    // Apply replacements. We skip this for empty lines, as then there is nothing to replace.
-                    if (!line.isEmpty()) {
-                        // Repeatedly apply replacements, as the replacement may also require replacements.
-                        while (true) {
-                            boolean anythingReplaced = false;
-
-                            // Apply each replacement, one by one.
-                            int i = 0;
-                            for (Entry<String, String> replace: replaces) {
-                                // Get marker to replace, and replacement text.
-                                String name = replace.getKey();
-                                String text = replace.getValue();
-                                String marker = fmt("${%s}", name);
-
-                                // If we will replace anything, mark that.
-                                if (!used[i] && line.contains(marker)) {
-                                    used[i] = true;
-                                    anythingReplaced = true;
-                                }
-                                i++;
-
-                                // Perform replacement.
-                                line = line.replace(marker, text);
-                            }
-
-                            // Stop once no more replacements are possible for the line.
-                            if (!anythingReplaced) {
-                                break;
-                            }
-                        }
-                    }
-
-                    // Output the line.
-                    stringBuilder.appendln(line);
-                }
-            } catch (IOException ex) {
-                // Should not have a read error for templates.
-                String msg = "Template read error: " + resName;
-                throw new RuntimeException(msg, ex);
-            }
-        }
-
-        // Make sure all replacements are used.
-        int i = 0;
-        for (Entry<String, String> replace: replacements.entrySet()) {
-            if (!used[i]) {
-                String msg = "Unused replacement: " + replace.getKey();
-                throw new RuntimeException(msg);
-            }
-            i++;
-        }
-
-        // For HTML exports, we merge in the the utils class common to all exports, and the unique class generated using
-        // the provided CIF model, into the HTML file.
-
-        // Get output file path for the HTML template.
-        String htmlFileName = ".html";
-        htmlFileName = replacements.get("prefix") + htmlFileName;
-        String htmlFilePath = Paths.resolve(path, htmlFileName);
-        String htmlAbsFilePath = Paths.resolve(htmlFilePath);
-
-        // Replace the placeholders in the HTML file with the generated JavaScript code.
-        TextStringBuilder htmlStringBuilder = stringBuilders.get("index.txt");
-        htmlStringBuilder.replaceAll("${html-javascript-utils-class-placeholder}",
-                stringBuilders.get("utils.txt").toString());
-        htmlStringBuilder.replaceAll("${html-javascript-class-placeholder}",
-                stringBuilders.get("class.txt").toString());
-
-        // Write to file.
-        try {
-            FileUtils.writeStringToFile(new File(htmlAbsFilePath), htmlStringBuilder.toString(),
-                    StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            throw new InputOutputException("Write error while exporting, file: " + htmlAbsFilePath, ex);
-        }
     }
 }

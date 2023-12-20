@@ -99,11 +99,8 @@ public class CodeGenApp extends Application<IOutputComponent> {
                     break;
 
                 case JAVASCRIPT:
-                    new JavaScriptCodeGen().generate(spec, absCifSpecDir, outputPath);
-                    break;
-
                 case HTML:
-                    new JavaScriptCodeGen().generate(spec, absCifSpecDir, outputPath);
+                    new JavaScriptCodeGen(lang).generate(spec, absCifSpecDir, outputPath);
                     break;
 
                 case C89:
