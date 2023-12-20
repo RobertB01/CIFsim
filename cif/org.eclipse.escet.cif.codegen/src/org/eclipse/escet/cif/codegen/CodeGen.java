@@ -741,7 +741,7 @@ public abstract class CodeGen {
     /**
      * Generate code (replacements).
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param spec The CIF specification for which to generate code (replacements).
      * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
      */
@@ -879,49 +879,49 @@ public abstract class CodeGen {
     /**
      * Add code (substitutions) for the {@link #constants}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addConstants(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #events}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addEvents(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #stateVars state variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addStateVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #contVars continuous variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addContVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #algVars algebraic variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addAlgVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #inputVars input variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addInputVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #functions internal user-defined functions}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addFunctions(CodeContext ctxt);
 
@@ -929,21 +929,21 @@ public abstract class CodeGen {
      * Add code (substitutions) for the merged enumeration (at most one).
      *
      * @param enumDecl The merged enumeration declaration.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addEnum(EnumDecl enumDecl, CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #printDecls print declarations}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addPrints(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #svgDecls SVG declarations}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
      */
     protected abstract void addSvgDecls(CodeContext ctxt, String cifSpecFileDir);
@@ -955,7 +955,7 @@ public abstract class CodeGen {
      * To add code for updates, use {@link #addUpdates}.
      * </p>
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addEdges(CodeContext ctxt);
 
@@ -964,7 +964,7 @@ public abstract class CodeGen {
      *
      * @param updates The updates.
      * @param code The already generated code. Is extended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void addUpdates(List<Update> updates, CodeBox code, CodeContext ctxt) {
         Assert.check(!updates.isEmpty());
@@ -1028,7 +1028,7 @@ public abstract class CodeGen {
      * {@link #replacements}.
      * </p>
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void postGenerate(CodeContext ctxt) {
         // By default, nothing is done.

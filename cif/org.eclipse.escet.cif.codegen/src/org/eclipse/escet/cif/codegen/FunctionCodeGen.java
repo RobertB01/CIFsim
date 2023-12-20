@@ -61,7 +61,7 @@ public abstract class FunctionCodeGen {
      *
      * @param statements The statements.
      * @param code The code. Is extended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void addFuncStatements(List<FunctionStatement> statements, CodeBox code, CodeContext ctxt) {
         addFuncStatements(statements, code, false, ctxt);
@@ -73,7 +73,7 @@ public abstract class FunctionCodeGen {
      * @param statements The statements.
      * @param code The code. Is extended in-place.
      * @param safeScope Whether the current scope is safe for creating temporary variables.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     private void addFuncStatements(List<FunctionStatement> statements, CodeBox code, boolean safeScope,
             CodeContext ctxt)
@@ -95,7 +95,7 @@ public abstract class FunctionCodeGen {
      * @param statement The statement.
      * @param code The code. Is extended in-place.
      * @param safeScope Whether the current scope is safe for creating temporary variables.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     private void addFuncStatement(FunctionStatement statement, CodeBox code, boolean safeScope, CodeContext ctxt) {
         if (statement instanceof AssignmentFuncStatement) {

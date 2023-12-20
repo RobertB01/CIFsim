@@ -75,7 +75,8 @@ public class JavaScriptCodeGen extends CodeGen {
     /** JavaScript code indent amount, as number of spaces. */
     private static final int INDENT = 4;
 
-    /** Constructor for the {@link JavaScriptCodeGen} class.
+    /**
+     * Constructor for the {@link JavaScriptCodeGen} class.
      *
      * @param language The target language. Either {@link TargetLanguage#JAVASCRIPT} or {@link TargetLanguage#HTML}.
      */
@@ -107,8 +108,6 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected Map<String, String> getTemplates() {
-        // For the HTML export option, we generate all templates, and merge them before writing.
-        // For the JavaScript export option, we only generate the JavaScript templates.
         Map<String, String> templates = map();
         switch (language) {
             case JAVASCRIPT:

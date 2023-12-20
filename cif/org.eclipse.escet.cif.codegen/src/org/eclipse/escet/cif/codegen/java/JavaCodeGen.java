@@ -759,7 +759,7 @@ public class JavaCodeGen extends CodeGen {
      * Get the Java type for the given CIF type.
      *
      * @param type CIF type to convert.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The name of the converted CIF type.
      */
     private String typeToJava(CifType type, CodeContext ctxt) {

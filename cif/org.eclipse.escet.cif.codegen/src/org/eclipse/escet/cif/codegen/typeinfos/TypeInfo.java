@@ -104,7 +104,7 @@ public abstract class TypeInfo {
      * Generate code in the target language required for representing the type, and for performing the required
      * operations in it.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     public abstract void generateCode(CodeContext ctxt);
 
@@ -188,7 +188,7 @@ public abstract class TypeInfo {
      * @param errorTexts Texts to output in case of a range error.
      * @param level Nesting level.
      * @param code Generated range checks on the rhsValue.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     public abstract void checkRange(CifType lhsType, CifType rhsType, DataValue rhsValue, CifType varType,
             String varName, List<RangeCheckErrorLevelText> errorTexts, int level, CodeBox code, CodeContext ctxt);

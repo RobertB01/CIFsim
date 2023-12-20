@@ -164,7 +164,7 @@ public class C99DataValue implements DataValue {
      *
      * @param value Value to make referencable.
      * @param valueTi Type of the value.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param box Storage of generated code (if any).
      * @return Text denoting the reference in the C99 target language.
      */
@@ -184,7 +184,7 @@ public class C99DataValue implements DataValue {
      *
      * @param value Value to make referencable.
      * @param valueTi Type of the value.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param exprCode Storage of generated code (if any).
      * @return Text denoting the reference in the C99 target language.
      */
