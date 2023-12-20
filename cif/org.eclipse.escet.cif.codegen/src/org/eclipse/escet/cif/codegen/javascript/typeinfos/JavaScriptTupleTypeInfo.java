@@ -116,19 +116,6 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.dedent();
         code.add("}");
 
-        // Add 'equals' method.
-        code.add();
-        code.add("equals(obj) {");
-        code.indent();
-        code.add("if (this == obj) return true;");
-        code.add("var other = obj;");
-        for (int i = 0; i < names.length; i++) {
-            code.add("%s %sUtils.equalObjs(%s.%s, other.%s)%s", (i == 0) ? "return" : "      ", ctxt.getPrefix(),
-                    ctxt.getPrefix(), names[i], names[i], (i == names.length - 1) ? ";" : " &&");
-        }
-        code.dedent();
-        code.add("}");
-
         // Add 'toString' method.
         code.add();
         code.add("toString() {");
