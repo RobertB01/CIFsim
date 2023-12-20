@@ -364,7 +364,7 @@ class ${prefix}Utils {
         var boolRegex = /%[Bb]/;
         var hexRegex = /%[Xx]/;
         var realRegex = /%[GgEe]/;
-        return str.replace(/%[Bb]|%[Xx]|%[GgEe]|%[Ss]|%d|%\.(\d)f|%/g, (matched) => {
+        return str.replace(/%[Bb]|%[Xx]|%[GgEe]|%[Ss]|%d|%\.(\d)+f|%/g, (matched) => {
             if (boolRegex.test(matched)) {
                 return arguments[i++].toString();
             } else if (hexRegex.test(matched)) {
