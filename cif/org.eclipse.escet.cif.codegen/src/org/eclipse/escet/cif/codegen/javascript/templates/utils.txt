@@ -368,7 +368,7 @@ class ${prefix}Utils {
             if (boolRegex.test(matched)) {
                 return arguments[i++].toString();
             } else if (hexRegex.test(matched)) {
-                return parseInt(arguments[i++], 16);
+                return arguments[i++].toString(16);
             } else if (realRegex.test(matched)) {
                 return arguments[i++].toExponential();
             } else if (floatRegex.test(matched)) {
