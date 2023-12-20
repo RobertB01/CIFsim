@@ -34,7 +34,7 @@ ${javascript-const-decls}
      * be executed (if positive), or execute as fast as possible, that is
      * as many times per second as possible (if negative or zero).
      */
-    frequency = 20;
+    frequency = 60;
 
     /**
      * Whether the next execution is the first execution of the session.

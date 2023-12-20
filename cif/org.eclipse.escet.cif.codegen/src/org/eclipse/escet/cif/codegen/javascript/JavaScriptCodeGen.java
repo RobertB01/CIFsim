@@ -94,29 +94,6 @@ public class JavaScriptCodeGen extends CodeGen {
     /** Constructor for the {@link JavaScriptCodeGen} class. */
     public JavaScriptCodeGen() {
         super(TargetLanguageOption.getLanguage(), INDENT);
-
-        // Unless we're generating JavaScript only, add any required UI code for the HTML page to the JavaScript export.
-        // Ideally, there wouldn't be any UI code in the JavaScript class, though this is preferable to making calls
-        // to assumed HTML elements and JavaScript functions outside of the class scope.
-        if (language == TargetLanguage.HTML) {
-            CodeBox frequencySliderCode = makeCodeBox(2);
-            frequencySliderCode.add("var range = document.getElementById('run-frequency');");
-            frequencySliderCode.add("range.value = %s.frequency;", CodePrefixOption.getPrefix());
-            frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
-            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
-
-            CodeBox logCallCode = makeCodeBox(2);
-            logCallCode.add("log(" + CodePrefixOption.getPrefix()
-                    + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))");
-            replacements.put("infoevent-log-call-code", logCallCode.toString());
-        } else if (language == TargetLanguage.JAVASCRIPT) {
-            replacements.put("javascript-frequency-slider-code", "");
-
-            CodeBox logCallCode = makeCodeBox(2);
-            logCallCode.add("console.log(" + CodePrefixOption.getPrefix()
-                    + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))");
-            replacements.put("infoevent-log-call-code", logCallCode.toString());
-        }
     }
 
     @Override
@@ -133,6 +110,36 @@ public class JavaScriptCodeGen extends CodeGen {
     protected void init() {
         super.init();
         replacements.put("javascript-tuples-code", "");
+
+        // Unless we're generating JavaScript only, add any required UI code for the HTML page to the JavaScript export.
+        // Ideally, there wouldn't be any UI code in the JavaScript class, though this is preferable to making calls
+        // to assumed HTML elements and JavaScript functions outside of the class scope.
+
+        // For the log call included in the JavaScript export, we call either log() or console.log(), depending on
+        // whether the HTML page containing the log() function and log UI is included.
+        String logTransition = "log(" + CodePrefixOption.getPrefix()
+                + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
+        if (language == TargetLanguage.HTML) {
+            // Add the frequency slider UI code for the HTML UI.
+            CodeBox frequencySliderCode = makeCodeBox(2);
+            frequencySliderCode.add("var range = document.getElementById('run-frequency');");
+            frequencySliderCode.add("range.value = %s.frequency;", CodePrefixOption.getPrefix());
+            frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
+            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
+
+            // Add the log transition code for the HTML UI.
+            CodeBox logCallCode = makeCodeBox(2);
+            logCallCode.add(logTransition);
+            replacements.put("infoevent-log-call-code", logCallCode.toString());
+        } else if (language == TargetLanguage.JAVASCRIPT) {
+            // Don't add the frequency slider UI code, since we don't have HTML UI.
+            replacements.put("javascript-frequency-slider-code", "");
+
+            // Add the log transition code, but write to console only.
+            CodeBox logCallCode = makeCodeBox(2);
+            logCallCode.add("console." + logTransition);
+            replacements.put("infoevent-log-call-code", logCallCode.toString());
+        }
     }
 
     @Override
