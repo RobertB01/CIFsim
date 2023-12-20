@@ -109,7 +109,6 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
-        // Finalize the replacement patterns based on the target language.
         switch (language) {
             case JAVASCRIPT:
                 // Only generate the JavaScript code.
@@ -155,6 +154,7 @@ public class JavaScriptCodeGen extends CodeGen {
         }
         replacements.put("infoevent-log-call-code", logCallCode.toString());
 
+        // Finalize the replacement patterns based on the target language.
         switch (language) {
             case JAVASCRIPT:
                 // Special handling for the JavaScript-only output. Some replacement patterns are not used. Remove
