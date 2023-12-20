@@ -295,7 +295,7 @@ The _Tuple postfix_ column in the table lists the texts used for each type in th
 For instance, for a `tuple(tuple(int x; real y; string z) a, list[3] int b)` type, the tuple class would be named `CifTuple_T2T3IRSLI`.
 
 * Due to <<tools-codegen-preprocessing,preprocessing>> all enumerations are merged together into a single enumeration.
-As such, always exactly one Java `enum` is generated for a CIF model.
+As such, always exactly one JavaScript `enum` is generated for a CIF model.
 
 === Runtime errors
 
