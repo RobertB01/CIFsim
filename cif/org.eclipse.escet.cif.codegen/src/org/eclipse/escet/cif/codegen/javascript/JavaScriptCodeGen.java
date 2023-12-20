@@ -854,6 +854,7 @@ public class JavaScriptCodeGen extends CodeGen {
         // For JavaScript exports, we only export the JavaScript templates via the normal method.
         if (language != TargetLanguage.HTML) {
             super.write(path);
+            return;
         }
 
         // Get template names.
