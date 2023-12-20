@@ -21,6 +21,9 @@ public enum TargetLanguage {
     /** JavaScript. */
     JAVASCRIPT("JavaScript"),
 
+    /** HTML. */
+    HTML("HTML"),
+
     /** C89. */
     C89("C89"),
 

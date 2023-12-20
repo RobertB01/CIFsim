@@ -97,7 +97,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
      *
      * @param func The internal user-defined function.
      * @param code The code. Is extended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     private void addFunctionBody(InternalFunction func, CodeBox code, CodeContext ctxt) {
         // Order local variables by their initialization interdependencies.
