@@ -20,10 +20,22 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.text.TextStringBuilder;
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
 import org.eclipse.escet.cif.codegen.CurlyBraceIfElseGenerator;
@@ -34,7 +46,9 @@ import org.eclipse.escet.cif.codegen.IfElseGenerator;
 import org.eclipse.escet.cif.codegen.TypeCodeGen;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
+import org.eclipse.escet.cif.codegen.options.CodePrefixOption;
 import org.eclipse.escet.cif.codegen.options.TargetLanguage;
+import org.eclipse.escet.cif.codegen.options.TargetLanguageOption;
 import org.eclipse.escet.cif.codegen.typeinfos.ArrayTypeInfo;
 import org.eclipse.escet.cif.codegen.typeinfos.RangeCheckErrorLevelText;
 import org.eclipse.escet.cif.codegen.typeinfos.TupleTypeInfo;
@@ -66,6 +80,8 @@ import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
+import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -77,7 +93,30 @@ public class JavaScriptCodeGen extends CodeGen {
 
     /** Constructor for the {@link JavaScriptCodeGen} class. */
     public JavaScriptCodeGen() {
-        super(TargetLanguage.JAVASCRIPT, INDENT);
+        super(TargetLanguageOption.getLanguage(), INDENT);
+
+        // Unless we're generating JavaScript only, add any required UI code for the HTML page to the JavaScript export.
+        // Ideally, there wouldn't be any UI code in the JavaScript class, though this is preferable to making calls
+        // to assumed HTML elements and JavaScript functions outside of the class scope.
+        if (language == TargetLanguage.HTML) {
+            CodeBox frequencySliderCode = makeCodeBox(2);
+            frequencySliderCode.add("var range = document.getElementById('run-frequency');");
+            frequencySliderCode.add("range.value = %s.frequency;", CodePrefixOption.getPrefix());
+            frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
+            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
+
+            CodeBox logCallCode = makeCodeBox(2);
+            logCallCode.add("log(" + CodePrefixOption.getPrefix()
+                    + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))");
+            replacements.put("infoevent-log-call-code", logCallCode.toString());
+        } else if (language == TargetLanguage.JAVASCRIPT) {
+            replacements.put("javascript-frequency-slider-code", "");
+
+            CodeBox logCallCode = makeCodeBox(2);
+            logCallCode.add("console.log(" + CodePrefixOption.getPrefix()
+                    + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))");
+            replacements.put("infoevent-log-call-code", logCallCode.toString());
+        }
     }
 
     @Override
@@ -103,16 +142,20 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected Map<String, String> getTemplates() {
+        // For the HTML export option, we generate all templates, and merge them before writing.
+        // For the JavaScript export option, we only generate the JavaScript templates.
         Map<String, String> templates = map();
-        templates.put("index.txt", ".html");
         templates.put("utils.txt", "_utils.js");
-        templates.put("css.txt", "_escet_theme.css");
+        templates.put("class.txt", "_class.js");
+        if (language == TargetLanguage.HTML) {
+            templates.put("index.txt", ".html");
+        }
         return templates;
     }
 
     @Override
     protected void addConstants(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
@@ -135,7 +178,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEvents(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(5);
+        CodeBox code = makeCodeBox(2);
 
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
@@ -150,7 +193,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addStateVars(CodeContext ctxt) {
         // State variable declarations.
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (Declaration var: stateVars) {
             String name = getTargetName(var);
@@ -173,7 +216,7 @@ public class JavaScriptCodeGen extends CodeGen {
         replacements.put("javascript-state-decls", code.toString());
 
         // State variable initialization.
-        code = makeCodeBox(5);
+        code = makeCodeBox(2);
 
         for (Declaration var: stateVars) {
             String name = getTargetName(var);
@@ -203,7 +246,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addContVars(CodeContext ctxt) {
         // Derivative code.
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (ContVariable var: contVars) {
             String name = getTargetName(var);
@@ -257,7 +300,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addAlgVars(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (AlgVariable var: algVars) {
             String name = getTargetName(var);
@@ -286,7 +329,7 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addInputVars(CodeContext ctxt) {
         // Input variable declarations.
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (InputVariable var: inputVars) {
             String name = getTargetName(var);
@@ -318,7 +361,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addFunctions(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(4);
+        CodeBox code = makeCodeBox(1);
 
         for (InternalFunction func: functions) {
             JavaScriptFunctionCodeGen funcGen = new JavaScriptFunctionCodeGen(func);
@@ -329,7 +372,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEnum(EnumDecl enumDecl, CodeContext ctxt) {
-        CodeBox code = makeCodeBox(5);
+        CodeBox code = makeCodeBox(2);
 
         List<EnumLiteral> lits = enumDecl.getLiterals();
         for (int i = 0; i < lits.size(); i++) {
@@ -346,7 +389,7 @@ public class JavaScriptCodeGen extends CodeGen {
     protected void addPrints(CodeContext ctxt) {
         // As the code runs forever, we never have a 'final' transition.
 
-        CodeBox code = makeCodeBox(5);
+        CodeBox code = makeCodeBox(2);
 
         // 0+ evt
         // -1 tau
@@ -467,25 +510,29 @@ public class JavaScriptCodeGen extends CodeGen {
         // Initialize replacement texts.
         JavaScriptSvgCodeGen svgCodeGen = new JavaScriptSvgCodeGen();
         svgCodeGen.codeSvgContent = makeCodeBox(5);
-        svgCodeGen.codeSvgToggles = makeCodeBox(5);
-        svgCodeGen.codeInEventHandlers = makeCodeBox(4);
-        svgCodeGen.codeInInteract = makeCodeBox(5);
-        svgCodeGen.codeInCss = makeCodeBox(4);
-        svgCodeGen.codeOutDeclarations = makeCodeBox(4);
-        svgCodeGen.codeOutAssignments = makeCodeBox(5);
-        svgCodeGen.codeOutApply = makeCodeBox(5);
+        svgCodeGen.codeSvgToggles = makeCodeBox(2);
+        svgCodeGen.codeInEventHandlers = makeCodeBox(1);
+        svgCodeGen.codeInInteract = makeCodeBox(2);
+        svgCodeGen.codeInCss = makeCodeBox(3);
+        svgCodeGen.codeOutDeclarations = makeCodeBox(1);
+        svgCodeGen.codeOutAssignments = makeCodeBox(2);
+        svgCodeGen.codeOutApply = makeCodeBox(2);
 
         // Generate code for SVG visualization and interaction.
         svgCodeGen.genCodeCifSvg(ctxt, cifSpecFileDir, svgDecls, events);
 
         // Fill the replacement patterns with generated code, for the SVG images.
-        replacements.put("javascript-svg-content", svgCodeGen.codeSvgContent.toString());
-        replacements.put("javascript-svg-toggles", svgCodeGen.codeSvgToggles.toString());
+        if (language == TargetLanguage.HTML) {
+            replacements.put("html-svg-content", svgCodeGen.codeSvgContent.toString());
+            replacements.put("html-svg-toggles", svgCodeGen.codeSvgToggles.toString());
+        }
 
         // Fill the replacement patterns with generated code, for SVG input mappings.
         replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());
         replacements.put("javascript-svg-in-interact-code", svgCodeGen.codeInInteract.toString());
-        replacements.put("javascript-svg-in-css", svgCodeGen.codeInCss.toString());
+        if (language == TargetLanguage.HTML) {
+            replacements.put("html-svg-in-css", svgCodeGen.codeInCss.toString());
+        }
 
         // Fill the replacement patterns with generated code, for SVG output mappings.
         replacements.put("javascript-svg-out-declarations", svgCodeGen.codeOutDeclarations.toString());
@@ -496,10 +543,10 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addEdges(CodeContext ctxt) {
         // Create codeboxes to hold generated code.
-        CodeBox codeCalls = makeCodeBox(6);
-        CodeBox codeMethods = makeCodeBox(4);
-        CodeBox codeSvgInputAllowedVarDecls = makeCodeBox(4);
-        CodeBox codeSvgInputAllowedVarInit = makeCodeBox(5);
+        CodeBox codeCalls = makeCodeBox(3);
+        CodeBox codeMethods = makeCodeBox(1);
+        CodeBox codeSvgInputAllowedVarDecls = makeCodeBox(1);
+        CodeBox codeSvgInputAllowedVarInit = makeCodeBox(2);
 
         // Collect the SVG input declarations.
         List<SvgIn> svgIns = svgDecls.stream().filter(decl -> decl instanceof SvgIn).map(decl -> (SvgIn)decl).toList();
@@ -786,5 +833,130 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     public DataValue makeDataValue(String value) {
         return new JavaScriptDataValue(value);
+    }
+
+    /**
+     * Write the code files to disk.
+     *
+     * @param path The absolute or relative local file system path to the output directory to which the code files will
+     *     be written.
+     */
+    @Override
+    protected void write(String path) {
+        // For the HTML export option, we merge templates using this method.
+        // For JavaScript exports, we only export the JavaScript templates via the normal method.
+        if (language != TargetLanguage.HTML) {
+            super.write(path);
+        }
+
+        // Get template names.
+        Map<String, String> templates = getTemplates();
+
+        // Create output directory, if it doesn't exist yet.
+        String absPath = Paths.resolve(path);
+        Path nioAbsPath = java.nio.file.Paths.get(absPath);
+        if (!Files.isDirectory(nioAbsPath)) {
+            try {
+                Files.createDirectories(nioAbsPath);
+            } catch (IOException ex) {
+                String msg = fmt("Failed to create output directory \"%s\" for the generated code.", path);
+                throw new InputOutputException(msg, ex);
+            }
+        }
+
+        // Replace placeholders in templates. Collect the results as StringBuilders, so that we can merge the results.
+        boolean[] used = new boolean[replacements.size()];
+        Map<String, TextStringBuilder> stringBuilders = map();
+        for (Entry<String, String> template: templates.entrySet()) {
+            // Write code.
+            String resName = getResourceName(template.getKey());
+            Set<Entry<String, String>> replaces = replacements.entrySet();
+            ClassLoader classLoader = getClass().getClassLoader();
+            TextStringBuilder stringBuilder = new TextStringBuilder();
+            stringBuilders.put(template.getKey(), stringBuilder);
+            try (InputStream fstream = classLoader.getResourceAsStream(resName);
+                 InputStream istream = new BufferedInputStream(fstream);)
+            {
+                // Process all lines of the template.
+                LineIterator lines = IOUtils.lineIterator(istream, "UTF-8");
+                while (lines.hasNext()) {
+                    // Read the next line.
+                    String line = lines.nextLine();
+
+                    // Apply replacements. We skip this for empty lines, as then there is nothing to replace.
+                    if (!line.isEmpty()) {
+                        // Repeatedly apply replacements, as the replacement may also require replacements.
+                        while (true) {
+                            boolean anythingReplaced = false;
+
+                            // Apply each replacement, one by one.
+                            int i = 0;
+                            for (Entry<String, String> replace: replaces) {
+                                // Get marker to replace, and replacement text.
+                                String name = replace.getKey();
+                                String text = replace.getValue();
+                                String marker = fmt("${%s}", name);
+
+                                // If we will replace anything, mark that.
+                                if (!used[i] && line.contains(marker)) {
+                                    used[i] = true;
+                                    anythingReplaced = true;
+                                }
+                                i++;
+
+                                // Perform replacement.
+                                line = line.replace(marker, text);
+                            }
+
+                            // Stop once no more replacements are possible for the line.
+                            if (!anythingReplaced) {
+                                break;
+                            }
+                        }
+                    }
+
+                    // Output the line.
+                    stringBuilder.appendln(line);
+                }
+            } catch (IOException ex) {
+                // Should not have a read error for templates.
+                String msg = "Template read error: " + resName;
+                throw new RuntimeException(msg, ex);
+            }
+        }
+
+        // Make sure all replacements are used.
+        int i = 0;
+        for (Entry<String, String> replace: replacements.entrySet()) {
+            if (!used[i]) {
+                String msg = "Unused replacement: " + replace.getKey();
+                throw new RuntimeException(msg);
+            }
+            i++;
+        }
+
+        // For HTML exports, we merge in the the utils class common to all exports, and the unique class generated using
+        // the provided CIF model, into the HTML file.
+
+        // Get output file path for the HTML template.
+        String htmlFileName = ".html";
+        htmlFileName = replacements.get("prefix") + htmlFileName;
+        String htmlFilePath = Paths.resolve(path, htmlFileName);
+        String htmlAbsFilePath = Paths.resolve(htmlFilePath);
+
+        // Replace the placeholders in the HTML file with the generated JavaScript code.
+        TextStringBuilder htmlStringBuilder = stringBuilders.get("index.txt");
+        htmlStringBuilder.replaceAll("${html-javascript-utils-class-placeholder}",
+                stringBuilders.get("utils.txt").toString());
+        htmlStringBuilder.replaceAll("${html-javascript-class-placeholder}",
+                stringBuilders.get("class.txt").toString());
+
+        // Write to file.
+        try {
+            FileUtils.writeStringToFile(new File(htmlAbsFilePath), htmlStringBuilder.toString(),
+                    StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            throw new InputOutputException("Write error while exporting, file: " + htmlAbsFilePath, ex);
+        }
     }
 }

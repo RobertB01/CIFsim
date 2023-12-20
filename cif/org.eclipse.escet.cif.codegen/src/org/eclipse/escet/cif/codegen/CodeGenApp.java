@@ -102,6 +102,10 @@ public class CodeGenApp extends Application<IOutputComponent> {
                     new JavaScriptCodeGen().generate(spec, absCifSpecDir, outputPath);
                     break;
 
+                case HTML:
+                    new JavaScriptCodeGen().generate(spec, absCifSpecDir, outputPath);
+                    break;
+
                 case C89:
                     new C89CodeGen().generate(spec, absCifSpecDir, outputPath);
                     break;
@@ -142,11 +146,6 @@ public class CodeGenApp extends Application<IOutputComponent> {
         List<OptionCategory> javaSubCats = list();
         OptionCategory javaCat = new OptionCategory("Java", "Java code generation options.", javaSubCats, javaOpts);
 
-        List<Option> javaScriptOpts = list();
-        List<OptionCategory> javaScriptSubCats = list();
-        OptionCategory javaScriptCat = new OptionCategory("JavaScript", "JavaScript code generation options.",
-                javaScriptSubCats, javaScriptOpts);
-
         List<Option> simulinkOpts = list();
         simulinkOpts.add(Options.getInstance(SimulinkOutputsOption.class));
         simulinkOpts.add(Options.getInstance(SimulinkSampleTimeOption.class));
@@ -160,7 +159,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
         genOpts.add(Options.getInstance(OutputDirOption.class));
         genOpts.add(Options.getInstance(TargetLanguageOption.class));
         genOpts.add(Options.getInstance(CodePrefixOption.class));
-        List<OptionCategory> genSubCats = list(simulinkCat, javaCat, javaScriptCat);
+        List<OptionCategory> genSubCats = list(simulinkCat, javaCat);
         OptionCategory genCat = new OptionCategory("Generation", "Generation options.", genSubCats, genOpts);
 
         List<OptionCategory> cats = list(generalCat, genCat);
