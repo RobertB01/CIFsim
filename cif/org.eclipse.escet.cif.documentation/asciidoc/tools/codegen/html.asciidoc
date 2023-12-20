@@ -16,6 +16,8 @@ include::../_part_attributes.asciidoc[]
 [[tools-codegen-chapter-html]]
 == HTML code generation
 
+WARNING: HTML code generation is currently an experimental feature.
+
 indexterm:[CIF code generator,HTML]
 indexterm:[HTML,code generation]
 The <<tools-codegen-chapter-index,CIF code generator>> can generate HTML from a CIF specification.
