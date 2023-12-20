@@ -358,6 +358,7 @@ class ${prefix}Utils {
      * @return {string} A formatted string.
      */
     static fmt(str) {
+        // TODO: CIF supports more than what is handled here. Full support is to be added in the future.
         var i = 1;
         var floatRegex = /%.(\d)+f/;
         var boolRegex = /%[Bb]/;
