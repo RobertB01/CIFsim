@@ -364,8 +364,8 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
                 // Single event.
                 SvgInEventSingle singleEvt = (SvgInEventSingle)event;
                 Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
-                int eventId = eventMap.get(evt);
-                interactiveEventIndices.add(eventId);
+                int eventIdx = eventMap.get(evt);
+                interactiveEventIndices.add(eventIdx);
             } else if (event instanceof SvgInEventIf) {
                 // 'if/then/else' event mapping.
                 SvgInEventIf ifEvent = (SvgInEventIf)event;
