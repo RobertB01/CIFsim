@@ -164,6 +164,7 @@ That is, functions may only be used in function calls, and may for instance not 
 * Print declarations with post/target state text and pre/source state filtering (`when`) are not supported.
 
 * CIF/SVG declarations are supported only or HTML code generation.
+If the specification connects to an SVG image, but no CIF/SVG input or output mappings apply to that image, a warning is printed.
 For the other target languages, a warning is printed if any CIF/SVG declarations are encountered, and these declarations are then ignored.
 
 indexterm:[CIF code generator,preprocessing]
