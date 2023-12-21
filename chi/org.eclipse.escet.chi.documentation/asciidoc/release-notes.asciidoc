@@ -22,9 +22,9 @@ The release notes for the versions of Chi and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-name}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 2.0
+=== Version 2.0 (2023-12-22)
 
-TBD
+This release contains no specific changes for Chi.
 
 === Version 1.0 (2023-09-30)
 
