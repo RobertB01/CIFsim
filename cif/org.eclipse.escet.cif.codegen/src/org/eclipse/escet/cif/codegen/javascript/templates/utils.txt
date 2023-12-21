@@ -385,6 +385,16 @@ class ${prefix}Utils {
     }
 
     /**
+     * Converts a JavaScript Number representing an integer value, to a JavaScript Number representing a real value.
+     *
+     * @param {number} x - The JavaScript Number value representing an integer value.
+     * @return {number} The JavaScript Number value representing a real value.
+     */
+    static intToReal(x) {
+        return x;
+    }
+
+    /**
      * Converts a JavaScript Number to a CIF integer value literal, in the CIF ASCII representation.
      *
      * @param {number} x - The JavaScript Number value.
