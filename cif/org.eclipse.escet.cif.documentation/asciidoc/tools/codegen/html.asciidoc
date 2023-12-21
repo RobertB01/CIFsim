@@ -46,6 +46,10 @@ The HTML page primarily consists of two areas:
 * In the upper area, the name of the model and the SVG images are displayed.
 * In the lower area, several buttons, configuration options, and a log panel are present.
 
+The lower area can be resized.
+If the <<tools-codegen-html-log-panel,log panel>> is not hidden, a small triangular marker appears at the bottom-right corner of the upper area, just above the _Hide_ button.
+Press and drag the marker up or down to resize the lower area.
+
 ==== Execution
 
 When the HTML file is opened in a browser, the execution start directly.
@@ -89,6 +93,7 @@ The mouse pointer then also changes, to indicate that they can be clicked.
 
 Clicking an interactive SVG element has no effect while the execution is stopped.
 
+[[tools-codegen-html-log-panel]]
 ==== Log panel
 
 In the lower area also a log panel is displayed.
