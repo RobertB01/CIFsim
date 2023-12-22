@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.product.feature"
       label="Eclipse ESCET"
-      version="2.0.0.qualifier"
+      version="3.0.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.releng.license.mit"
-      license-feature-version="2.0.0.qualifier">
+      license-feature-version="3.0.0.qualifier">
 
    <description>
       Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET).
