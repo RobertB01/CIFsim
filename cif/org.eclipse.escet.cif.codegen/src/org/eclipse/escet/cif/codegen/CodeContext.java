@@ -269,6 +269,7 @@ public class CodeContext {
 
         String origName = codeGen.origDeclNames.get(decl);
         if (origName == null) {
+            // New object, introduced by preprocessing and/or linearization.
             origName = decl.getName();
         }
 
@@ -354,6 +355,7 @@ public class CodeContext {
     public String getOrigFunctionName(InternalFunction func) {
         String origName = codeGen.origDeclNames.get(func);
         if (origName == null) {
+            // May be a function introduced for the default initial value of a discrete variable.
             origName = func.getName();
         }
         return origName;

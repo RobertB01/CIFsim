@@ -44,7 +44,6 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -182,10 +181,7 @@ public class JavaScriptCodeGen extends CodeGen {
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
             String origName = origDeclNames.get(constant);
-            if (origName == null) {
-                // Created by preprocessing or linearization.
-                origName = constant.getName();
-            }
+            Assert.notNull(origName);
 
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
             Assert.check(!constantCode.hasCode()); // JavaScript code generator never generates pre-execute code.
@@ -205,6 +201,7 @@ public class JavaScriptCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
             String name = origDeclNames.get(event);
+            Assert.notNull(name);
             String line = (i == events.size() - 1) ? "%s" : "%s,";
             code.add(line, Strings.stringToJava(name));
         }
@@ -226,10 +223,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 kindCode = "Continuous";
             }
             String origName = origDeclNames.get(var);
-            if (origName == null) {
-                // New variable introduced by preprocessing or linearization.
-                origName = CifTextUtils.getName(var);
-            }
+            Assert.notNull(origName);
             code.add();
             code.add("/** %s variable \"%s\". */", kindCode, origName);
             code.add("%s;", name);
@@ -308,6 +302,7 @@ public class JavaScriptCodeGen extends CodeGen {
             String name = getTargetName(var);
             code.add("%s.%s = %s.%s + delta * deriv%d;", ctxt.getPrefix(), name, ctxt.getPrefix(), name, i);
             String origName = origDeclNames.get(var);
+            Assert.notNull(origName);
             code.add("%sUtils.checkReal(%s.%s, %s);", ctxt.getPrefix(), ctxt.getPrefix(), name,
                     Strings.stringToJava(origName));
             code.add("if (%s.%s == -0.0) %s.%s = 0.0;", ctxt.getPrefix(), name, ctxt.getPrefix(), name);
