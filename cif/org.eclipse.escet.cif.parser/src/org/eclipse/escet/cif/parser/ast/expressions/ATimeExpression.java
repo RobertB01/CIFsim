@@ -18,7 +18,7 @@ import org.eclipse.escet.common.java.TextPosition;
 /** Time variable reference expression. */
 public class ATimeExpression extends AExpression {
     /**
-     * Constructor for the {@Link ATimeExpression} class.
+     * Constructor for the {@link ATimeExpression} class.
      *
      * @param position Position information.
      */

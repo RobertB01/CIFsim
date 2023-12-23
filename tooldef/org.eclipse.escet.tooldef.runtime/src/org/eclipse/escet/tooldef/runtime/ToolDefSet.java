@@ -29,13 +29,13 @@ public class ToolDefSet<E> implements Set<E> {
     /** The underlying storage. */
     private final Set<ToolDefEqWrap<E>> storage;
 
-    /** Constructor for the {@Link ToolDefSet} class. */
+    /** Constructor for the {@link ToolDefSet} class. */
     public ToolDefSet() {
         storage = set();
     }
 
     /**
-     * Constructor for the {@Link ToolDefSet} class.
+     * Constructor for the {@link ToolDefSet} class.
      *
      * @param initialCapacity The initial capacity of the set.
      * @throws IllegalArgumentException If the initial capacity is negative.
@@ -45,7 +45,7 @@ public class ToolDefSet<E> implements Set<E> {
     }
 
     /**
-     * Constructor for the {@Link ToolDefSet} class.
+     * Constructor for the {@link ToolDefSet} class.
      *
      * @param collection The collection whose elements are to be placed into this set.
      * @throws NullPointerException If the given collection is {@code null}.
@@ -58,7 +58,7 @@ public class ToolDefSet<E> implements Set<E> {
     }
 
     /**
-     * Constructor for the {@Link ToolDefSet} class.
+     * Constructor for the {@link ToolDefSet} class.
      *
      * @param set The set to wrap.
      */

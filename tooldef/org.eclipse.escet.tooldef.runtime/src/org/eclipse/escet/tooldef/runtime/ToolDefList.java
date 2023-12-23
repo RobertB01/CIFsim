@@ -31,13 +31,13 @@ public class ToolDefList<E> implements List<E> {
     /** The underlying storage. */
     private final List<ToolDefEqWrap<E>> storage;
 
-    /** Constructor for the {@Link ToolDefList} class. */
+    /** Constructor for the {@link ToolDefList} class. */
     public ToolDefList() {
         storage = list();
     }
 
     /**
-     * Constructor for the {@Link ToolDefList} class.
+     * Constructor for the {@link ToolDefList} class.
      *
      * @param initialCapacity The initial capacity of the list.
      * @throws IllegalArgumentException If the initial capacity is negative.
@@ -47,7 +47,7 @@ public class ToolDefList<E> implements List<E> {
     }
 
     /**
-     * Constructor for the {@Link ToolDefList} class.
+     * Constructor for the {@link ToolDefList} class.
      *
      * @param collection The collection whose elements are to be placed into this list.
      * @throws NullPointerException If the given collection is {@code null}.
@@ -60,7 +60,7 @@ public class ToolDefList<E> implements List<E> {
     }
 
     /**
-     * Constructor for the {@Link ToolDefList} class.
+     * Constructor for the {@link ToolDefList} class.
      *
      * @param list The list to wrap.
      */

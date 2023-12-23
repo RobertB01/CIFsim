@@ -18,7 +18,7 @@ package org.eclipse.escet.cif.cif2cif;
  * by not simplifying reference expressions, and with optimizations for literal expressions.
  */
 public class SimplifyValuesNoRefsOptimized extends SimplifyValues {
-    /** Constructor for the {@Link SimplifyValuesOptimized} class. */
+    /** Constructor for the {@link SimplifyValuesOptimized} class. */
     public SimplifyValuesNoRefsOptimized() {
         super(false, true);
     }

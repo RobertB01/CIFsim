@@ -18,7 +18,7 @@ import org.eclipse.escet.common.java.TextPosition;
 /** Received value reference expression. */
 public class AReceivedExpression extends AExpression {
     /**
-     * Constructor for the {@Link AReceivedExpression} class.
+     * Constructor for the {@link AReceivedExpression} class.
      *
      * @param position Position information.
      */

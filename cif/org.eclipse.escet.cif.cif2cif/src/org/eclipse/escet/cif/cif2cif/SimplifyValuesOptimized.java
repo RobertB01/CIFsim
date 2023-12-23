@@ -18,7 +18,7 @@ package org.eclipse.escet.cif.cif2cif;
  * with optimizations for literal expressions.
  */
 public class SimplifyValuesOptimized extends SimplifyValues {
-    /** Constructor for the {@Link SimplifyValuesOptimized} class. */
+    /** Constructor for the {@link SimplifyValuesOptimized} class. */
     public SimplifyValuesOptimized() {
         super(true, true);
     }
