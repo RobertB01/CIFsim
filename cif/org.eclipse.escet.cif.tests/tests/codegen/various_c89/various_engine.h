@@ -82,7 +82,7 @@ extern IntType g_rcv_v_;    /**< Discrete variable "int g.rcv.v". */
 extern IntType g_rcv_v2_;   /**< Discrete variable "int g.rcv.v2". */
 extern IntType g_snd_a_;    /**< Discrete variable "int g.snd.a". */
 extern RealType g_sync_c_;  /**< Continuous variable "real g.sync.c". */
-extern variousEnum g_sync_; /**< Discrete variable "E g_sync". */
+extern variousEnum g_sync_; /**< Discrete variable "E g.sync". */
 
 /* Algebraic and derivative functions (use for output only). */
 RealType g_sync_c_deriv(void);
