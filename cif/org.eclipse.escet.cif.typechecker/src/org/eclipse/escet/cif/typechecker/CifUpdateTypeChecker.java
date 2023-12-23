@@ -70,7 +70,7 @@ public class CifUpdateTypeChecker {
      *
      * @param astUpdate The CIF AST representation of the update.
      * @param scope The scope to resolve update in.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
+     * @param context The expression type checking context to use.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the update.
      */
@@ -128,7 +128,7 @@ public class CifUpdateTypeChecker {
      *
      * @param astUpdate The CIF AST representation of the update.
      * @param scope The scope to resolve update in.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
+     * @param context The expression type checking context to use.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the update.
      */
@@ -203,7 +203,7 @@ public class CifUpdateTypeChecker {
      *
      * @param astAddr The CIF AST representation of the addressable.
      * @param scope The scope to resolve update in.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
+     * @param context The expression type checking context to use.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel representation of the addressable.
      */
@@ -213,12 +213,8 @@ public class CifUpdateTypeChecker {
         // Type check addressable expression.
         Expression addr = transExpression(astAddr, NO_TYPE_HINT, scope, context, tchecker);
 
-        // Check if there is context.
-        if (context == null) {
-            throw new RuntimeException("Need expression context.");
-        }
-
         // Type check based on context.
+        Assert.notNull(context);
         if (context.conditions.contains(EDGE_UPDATE)) {
             typeCheckEdgeAddressable(addr, scope, tchecker);
         } else if (context.conditions.contains(SVG_UPDATE)) {
@@ -269,7 +265,7 @@ public class CifUpdateTypeChecker {
             } else if (scope instanceof AutDefScope) {
                 curAut = ((AutDefScope)scope).getAutomaton();
             } else {
-                throw new RuntimeException("Must be an automaton scope.");
+                throw new RuntimeException("Unknown automaton scope: " + scope);
             }
 
             // Do the scope check.
@@ -279,7 +275,7 @@ public class CifUpdateTypeChecker {
                 // Non-fatal error.
             }
 
-            // Warn for string projections as addressables.
+            // Check for no string projections as addressables.
             checkForStringProjection(expr, var, tchecker);
         }
     }
@@ -292,7 +288,7 @@ public class CifUpdateTypeChecker {
      * @param tchecker The CIF type checker to use.
      */
     private static void typeCheckSvgAddressable(Expression addr, ParentScope<?> scope, CifTypeChecker tchecker) {
-        // Make sure we refer to an input variables.
+        // Make sure we refer to input variables.
         for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
             // Get variable.
             Expression uexpr = CifTypeUtils.unwrapExpression(expr);
@@ -306,20 +302,19 @@ public class CifUpdateTypeChecker {
                 throw new SemanticException();
             }
 
-            // Warn for string projections as addressables.
+            // Check for no string projections as addressables.
             checkForStringProjection(expr, var, tchecker);
         }
     }
 
     /**
-     * Warns for string projections as addressables.
+     * Check for no string projections as addressables.
      *
      * @param expr The variable reference expressions.
      * @param var The variable that is addressed.
      * @param tchecker The CIF type checker to use.
      */
     private static void checkForStringProjection(Expression expr, Declaration var, CifTypeChecker tchecker) {
-        // String projections are not allowed as addressables.
         PositionObject varAncestor = (PositionObject)expr.eContainer();
         while (varAncestor instanceof ProjectionExpression) {
             ProjectionExpression proj = (ProjectionExpression)varAncestor;
