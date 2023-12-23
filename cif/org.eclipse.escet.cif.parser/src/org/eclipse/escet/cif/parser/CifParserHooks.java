@@ -551,8 +551,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // AutDecl : @MONITORKW SEMICOLTK;
     public ADecl parseAutDecl5(Token t1) {
-        List<AName> events = list();
-        return new AMonitorDecl(events, t1.position);
+        return new AMonitorDecl(list(), t1.position);
     }
 
     @Override // AutDecl : @DISCKW Type DiscDecls SEMICOLTK;
@@ -855,22 +854,17 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // CoreEdge : WHENKW Expressions OptEdgeUrgent OptEdgeUpdate;
     public ACoreEdge parseCoreEdge2(List<AExpression> l2, TextPosition t3, List<AUpdate> l4) {
-        List<AEdgeEvent> events = list();
-        return new ACoreEdge(events, l2, t3, l4);
+        return new ACoreEdge(list(), l2, t3, l4);
     }
 
     @Override // CoreEdge : @NOWKW OptEdgeUpdate;
     public ACoreEdge parseCoreEdge3(Token t1, List<AUpdate> l2) {
-        List<AEdgeEvent> events = list();
-        List<AExpression> guards = list();
-        return new ACoreEdge(events, guards, t1.position, l2);
+        return new ACoreEdge(list(), list(), t1.position, l2);
     }
 
     @Override // CoreEdge : DOKW Updates;
     public ACoreEdge parseCoreEdge4(List<AUpdate> l2) {
-        List<AEdgeEvent> events = list();
-        List<AExpression> guards = list();
-        return new ACoreEdge(events, guards, null, l2);
+        return new ACoreEdge(list(), list(), null, l2);
     }
 
     @Override // OptEdgeGuard : ;
@@ -1588,8 +1582,7 @@ public final class CifParserHooks implements CifParser.Hooks {
     @Override // SvgIn : @SVGINKW IDKW Expression EVENTKW SvgInEvent OptSvgFile @SEMICOLTK;
     public ASvgIn parseSvgIn1(Token t1, AExpression a3, ASvgInEvent a5, ASvgFile a6, Token t7) {
         parser.addFoldRange(t1.position, t7.position);
-        List<AUpdate> updates = list();
-        return new ASvgIn(a3, a5, updates, a6, t1.position);
+        return new ASvgIn(a3, a5, list(), a6, t1.position);
     }
 
     @Override // SvgIn : @SVGINKW IDKW Expression DOKW Updates OptSvgFile @SEMICOLTK;
@@ -1831,8 +1824,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Type : @FUNCKW Type PAROPENTK PARCLOSETK;
     public ACifType parseType12(Token t1, ACifType a2) {
-        List<ACifType> paramTypes = list();
-        return new AFuncType(a2, paramTypes, t1.position);
+        return new AFuncType(a2, list(), t1.position);
     }
 
     @Override // Type : @FUNCKW Type PAROPENTK Types PARCLOSETK;
@@ -2099,8 +2091,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // ExpressionFactor : @SQOPENTK SQCLOSETK;
     public AExpression parseExpressionFactor07(Token t1) {
-        List<AExpression> elements = list();
-        return new AListExpression(elements, t1.position);
+        return new AListExpression(list(), t1.position);
     }
 
     @Override // ExpressionFactor : @SQOPENTK Expressions SQCLOSETK;
