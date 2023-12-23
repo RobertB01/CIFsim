@@ -601,6 +601,10 @@ public enum ErrMsg {
     DUPL_VAR_ASGN_FUNC("Variable \"%s\", or a part of it, may have been assigned twice in a single assignment, "
             + "for assignments to \"%s\" and \"%s\"", 3, ERROR),
 
+    // SvgInputUpdate.uniqueVariables TODO: Temporary error.
+    DUPL_VAR_ASGN_SVG("Variable \"%s\", or a part of it, may have been assigned twice in a single assignment, "
+            + "for assignments to \"%s\" and \"%s\"", 3, ERROR),
+
     // Edge.urgWhenLocUrg
     EDGE_URG_LOC_URG("Edge is redundantly urgent, since its source location (%s) is also urgent.", 1, WARNING),
 

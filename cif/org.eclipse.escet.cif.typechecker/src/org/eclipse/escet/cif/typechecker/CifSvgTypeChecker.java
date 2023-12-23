@@ -29,9 +29,12 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.STRING_TYPE_
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.cif.typechecker.ExprContext.DEFAULT_CTXT;
 import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.SVG_UPDATE;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.position.common.PositionUtils.toPosition;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -45,6 +48,7 @@ import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventIfEntry;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventSingle;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgMove;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -62,6 +66,8 @@ import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgMove;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgOut;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.cif.typechecker.scopes.SymbolScope;
+import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF/SVG type checker, during 'normal' type checking phase. */
@@ -298,6 +304,10 @@ public class CifSvgTypeChecker {
                 Update update2 = CifUpdateTypeChecker.typeCheckUpdate(update1, scope, context, tchecker);
                 updates.add(update2);
             }
+
+            // Check for assignments to unique parts of variables, in the updates.
+            Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap = map();
+            AssignmentUniquenessChecker.checkUniqueAsgns(updates, asgnMap, tchecker, ErrMsg.DUPL_VAR_ASGN_SVG);
         }
 
         // Check SVG file, if any.
