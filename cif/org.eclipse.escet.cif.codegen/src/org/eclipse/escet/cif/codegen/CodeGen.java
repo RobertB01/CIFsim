@@ -719,6 +719,12 @@ public abstract class CodeGen {
         linearize.transform(spec);
         lpVariables = linearize.getLPVariables();
 
+        // Extend original object names mapping with newly introduced location pointer variables.
+        for (Entry<DiscVariable, String> entry: linearize.getLpVarToAbsAutNameMap().entrySet()) {
+            String prev = origDeclNames.put(entry.getKey(), entry.getValue());
+            Assert.check(prev == null);
+        }
+
         // Push print file declarations inwards for easier code generation.
         new PrintFileIntoDecls().transform(spec);
 
