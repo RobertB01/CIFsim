@@ -145,6 +145,24 @@ public class JavaScriptCodeGen extends CodeGen {
         }
         replacements.put("html-log-to-panel-code", logToPanelCode.toString());
 
+        // Add code for the 'getStateText' method.
+        // State variables are sorted similarly to 'org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec.init'.
+        CodeBox getStateTextCode = makeCodeBox(2);
+        List<Declaration> sortedStateVars = stateVars.stream()
+                .sorted((var1, var2) -> Strings.SORTER.compare(origDeclNames.get(var1), origDeclNames.get(var2)))
+                .toList();
+        for (Declaration stateVar: sortedStateVars) {
+            String origName = origDeclNames.get(stateVar);
+            Assert.notNull(origName);
+            getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s.%s));", ctxt.getPrefix(),
+                    origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+            if (stateVar instanceof ContVariable) {
+                getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%s.%sderiv()));",
+                        ctxt.getPrefix(), origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+            }
+        }
+        replacements.put("javascript-get-state-text-code", getStateTextCode.toString());
+
         // Finalize the replacement patterns based on the target language.
         switch (language) {
             case JAVASCRIPT:
