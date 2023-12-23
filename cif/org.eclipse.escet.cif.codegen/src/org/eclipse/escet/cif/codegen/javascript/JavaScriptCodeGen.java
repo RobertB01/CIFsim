@@ -126,32 +126,24 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void postGenerate(CodeContext ctxt) {
-        // Generate code for updating the frequency slider UI.
+        // For HTML, generate code for updating the frequency slider UI.
+        CodeBox frequencySliderCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
-            // Add the frequency slider UI code for the HTML UI.
-            CodeBox frequencySliderCode = makeCodeBox(2);
             frequencySliderCode.add("// Update frequency UI.");
             frequencySliderCode.add("var range = document.getElementById('run-frequency');");
             frequencySliderCode.add("range.value = %s.frequency;", ctxt.getPrefix());
             frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
-            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
-        } else if (language == TargetLanguage.JAVASCRIPT) {
-            // Don't add the frequency slider UI code, since we don't have an HTML UI.
-            replacements.put("javascript-frequency-slider-code", "");
         }
+        replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
 
-        // Generate code for the 'infoEvent' method.
-        String logTransition = "log(" + ctxt.getPrefix()
-                + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
-        CodeBox logCallCode = makeCodeBox(2);
+        // For HTML, log not only to the console, but also to the log panel.
+        CodeBox logToPanelCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
-            // Add the log transition code for the HTML UI.
-            logCallCode.add(logTransition);
-        } else if (language == TargetLanguage.JAVASCRIPT) {
-            // Add the log transition code, but write to console only.
-            logCallCode.add("console." + logTransition);
+            logToPanelCode.add("var elem = document.getElementById('log-output');");
+            logToPanelCode.add("elem.value += message + '\\r\\n';");
+            logToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
         }
-        replacements.put("infoevent-log-call-code", logCallCode.toString());
+        replacements.put("html-log-to-panel-code", logToPanelCode.toString());
 
         // Finalize the replacement patterns based on the target language.
         switch (language) {

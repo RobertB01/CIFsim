@@ -271,6 +271,11 @@ ${javascript-svg-out-apply-code}
         // Nothing is done here by default.
     }
 
+    log(message) {
+        console.log(message);
+${html-log-to-panel-code}
+    }
+
     /**
      * Informs about the duration of a single execution.
      *
@@ -291,7 +296,7 @@ ${javascript-svg-out-apply-code}
      */
     infoEvent(idx, pre) {
         if (pre) {
-${infoevent-log-call-code}
+            ${prefix}.log(${prefix}Utils.fmt('Transition: event %s', ${prefix}.getEventName(idx)));
         }
     }
 
@@ -346,6 +351,6 @@ ${javascript-print-code}
      * @param text The text being printed.
      */
     infoPrintOutput(text) {
-        log(text);
+        ${prefix}.log(text);
     }
 }
