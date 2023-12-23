@@ -241,7 +241,7 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     {
         String pattern = STANDARD_FUNCTIONS.get(stdLib);
         Assert.notNull(pattern);
-        return convertFunctionCallPattern(pattern, list(expr), dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.%s", ctxt.getPrefix(), pattern), list(expr), dest, ctxt);
     }
 
     @Override
@@ -250,6 +250,6 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     {
         String pattern = STANDARD_FUNCTIONS.get(stdLib);
         Assert.notNull(pattern);
-        return convertFunctionCallPattern(pattern, list(expr), dest, ctxt);
+        return convertFunctionCallPattern(fmt("%sUtils.%s", ctxt.getPrefix(), pattern), list(expr), dest, ctxt);
     }
 }
