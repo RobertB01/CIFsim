@@ -32,7 +32,7 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#//functions"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f9mbAYleEeqQaNL0VWGLjw" name="cifsvg" repPath="#_Yk9U4HcLEeWuLduNN8gYTg" changeId="393e91ca-9b40-4d53-ada3-18d5191541bb">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f9mbAYleEeqQaNL0VWGLjw" name="cifsvg" repPath="#_Yk9U4HcLEeWuLduNN8gYTg" changeId="b8b94c02-f0af-42a5-9343-e99d633bbd97">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#//cifsvg"/>
       </ownedRepresentationDescriptors>
@@ -15786,7 +15786,7 @@
             <styles xmi:type="notation:FilteringStyle" xmi:id="_X-xcRp6XEe6W_NR-rNqUGw"/>
           </children>
           <styles xmi:type="notation:ShapeStyle" xmi:id="_X-xcQZ6XEe6W_NR-rNqUGw" fontName="Segoe UI" fontHeight="8" italic="true"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X-xcQp6XEe6W_NR-rNqUGw" x="810" y="216" width="122" height="51"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X-xcQp6XEe6W_NR-rNqUGw" x="825" y="216" width="122" height="51"/>
         </children>
         <styles xmi:type="notation:DiagramStyle" xmi:id="_Yk9U6HcLEeWuLduNN8gYTg"/>
         <edges xmi:type="notation:Edge" xmi:id="_Y8z0OncLEeWuLduNN8gYTg" type="4001" element="_WcxsFmwMEe2zhP8KIy45qw" source="_Y8ymEHcLEeWuLduNN8gYTg" target="_Y8ymF3cLEeWuLduNN8gYTg">
@@ -16217,7 +16217,7 @@
           </children>
           <styles xmi:type="notation:ConnectorStyle" xmi:id="_sxsRkZ6XEe6W_NR-rNqUGw" routing="Rectilinear"/>
           <styles xmi:type="notation:FontStyle" xmi:id="_sxsRkp6XEe6W_NR-rNqUGw" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sxsRk56XEe6W_NR-rNqUGw" points="[31, 0, -44, -70]$[53, 0, -22, -70]$[53, 70, -22, 0]$[75, 70, 0, 0]"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sxsRk56XEe6W_NR-rNqUGw" points="[60, 28, -30, -67]$[60, 71, -30, -24]"/>
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sxs4oJ6XEe6W_NR-rNqUGw" id="(0.5,0.5)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sxs4oZ6XEe6W_NR-rNqUGw" id="(0.5,0.5)"/>
         </edges>
