@@ -949,11 +949,10 @@ class ${prefix}Utils {
             }
             txt += "]";
             return txt;
-        } else if (
-            typeof(value) == "object" ||
-            typeof(value) == "symbol"
-        ) {
+        } else if (typeof(value) == "object") {
             return value.toString();
+        } else if (typeof(value) == "symbol") {
+            return value.description;
         } else {
             throw new Error("Unsupported value: " + value);
         }
