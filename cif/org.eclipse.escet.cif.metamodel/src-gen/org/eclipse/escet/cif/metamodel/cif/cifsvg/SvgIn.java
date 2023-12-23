@@ -15,9 +15,11 @@
 package org.eclipse.escet.cif.metamodel.cif.cifsvg;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
 /**
