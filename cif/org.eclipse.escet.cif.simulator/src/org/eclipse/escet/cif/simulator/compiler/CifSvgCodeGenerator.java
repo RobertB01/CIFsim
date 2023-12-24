@@ -653,7 +653,7 @@ public class CifSvgCodeGenerator {
             } else if (!svgIn.getUpdates().isEmpty()) {
                 // TODO: Generate code for updates.
             } else {
-                throw new RuntimeException("Svgin must have event or update");
+                throw new RuntimeException("SVG input mapping must have event or update.");
             }
 
             c.dedent();
