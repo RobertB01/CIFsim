@@ -29,7 +29,7 @@ public class CommunicationTransition<S extends RuntimeState> extends EventTransi
     public final Object value;
 
     /**
-     * Constructor for the {@Link CommunicationTransition} class.
+     * Constructor for the {@link CommunicationTransition} class.
      *
      * @param source The source state of the transition.
      * @param event The event of the transition.

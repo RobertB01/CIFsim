@@ -18,7 +18,7 @@ import org.eclipse.escet.common.java.TextPosition;
 /** Tau event reference expression. */
 public class ATauExpression extends AExpression {
     /**
-     * Constructor for the {@Link ATauExpression} class.
+     * Constructor for the {@link ATauExpression} class.
      *
      * @param position Position information.
      */

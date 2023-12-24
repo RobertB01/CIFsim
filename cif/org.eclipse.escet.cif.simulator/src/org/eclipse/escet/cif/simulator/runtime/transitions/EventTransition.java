@@ -29,7 +29,7 @@ public class EventTransition<S extends RuntimeState> extends Transition<S> {
     private final S target;
 
     /**
-     * Constructor for the {@Link EventTransition} class.
+     * Constructor for the {@link EventTransition} class.
      *
      * @param source The source state of the transition.
      * @param event The event of the transition.
