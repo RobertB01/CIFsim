@@ -1,0 +1,229 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Whole variables, simple.
+group x:
+  input bool x;
+  svgin id "" do x := true, x := false;
+end
+
+// Whole variables, 'if' branches.
+group y:
+  input bool x1, x2, x3;
+  svgin id "" do x1 := true,
+            if true: x2 := true else x3 := true end,
+            x2 := false;
+  svgin id "" do x1 := true,
+            if true: x2 := true else x3 := true end,
+            if false: x3 := true else x2 := false end;
+end
+
+// Whole variables, multi-assignment.
+group z:
+  input bool v, w;
+  svgin id "" do (v, (w, v)) := (true, (false, true));
+end
+
+// Partial variables, different types of containers.
+group a:
+  input tuple(int a, b) x;
+  input list[1] int y;
+  input tuple(int a, b) z;
+  input dict(bool:real) d;
+
+  // Same tuple field, normalized.
+  svgin id "" do x[1] := 5, x[b] := 6;
+
+  // Same list element, normalized.
+  svgin id "" do y[0] := 5, y[-1] := 6;
+
+  // Same dictionary element.
+  svgin id "" do d[true] := 1.0, d[not false] := 2.0;
+
+  // Whole variable and part of it, even though they assign the same value.
+  svgin id "" do z := (5, 6), z[0] := 5;
+  svgin id "" do (z, z[0]) := ((5, 6), 5);
+  svgin id "" do z := (5, 6), z[0] := 5, z[1] := 6;
+end
+
+// Index evaluation failure.
+group b:
+  input tuple(int a, b) x;
+  svgin id "" do x[floor(sqrt(-1))] := 5;
+end
+
+// Multiple variables, multiple times, part/whole variable.
+group c:
+  input list int x;
+  input list int y;
+  svgin id "" do x[0] := 5, y[0] := 5, y[1] := 5, y[0] := 5, x[0] := 6, y := [5];
+end
+
+// Can't statically evaluate or normalize.
+group d:
+  input list int x;
+  input int i;
+  svgin id "" do x[-1] := 1, x[-2] := 2, x[0] := 5, x := [5];
+  svgin id "" do x := [5], x[i] := 6;
+end
+
+// Multiple projection levels, all evaluated/normalized.
+group e:
+  input list list list int x;
+  // 0 levels.
+  svgin id "" do x       := [], x       := [];
+
+  // 0 vs 1 levels.
+  svgin id "" do x       := [], x[0]    := [];
+  svgin id "" do x[0]    := [], x       := [];
+
+  // 1 level.
+  svgin id "" do x[0]    := [], x[0]    := [];
+  svgin id "" do x[0]    := [], x[1]    := [];
+  svgin id "" do x[1]    := [], x[0]    := [];
+  svgin id "" do x[1]    := [], x[1]    := [];
+
+  // 1 vs 2 levels.
+  svgin id "" do x[0]    := [], x[0][0] := [];
+  svgin id "" do x[0]    := [], x[0][1] := [];
+  svgin id "" do x[0]    := [], x[1][0] := [];
+  svgin id "" do x[0]    := [], x[1][1] := [];
+  svgin id "" do x[1]    := [], x[0][0] := [];
+  svgin id "" do x[1]    := [], x[0][1] := [];
+  svgin id "" do x[1]    := [], x[1][0] := [];
+  svgin id "" do x[1]    := [], x[1][1] := [];
+
+  svgin id "" do x[0][0] := [], x[0]    := [];
+  svgin id "" do x[0][1] := [], x[0]    := [];
+  svgin id "" do x[1][0] := [], x[0]    := [];
+  svgin id "" do x[1][1] := [], x[0]    := [];
+  svgin id "" do x[0][0] := [], x[1]    := [];
+  svgin id "" do x[0][1] := [], x[1]    := [];
+  svgin id "" do x[1][0] := [], x[1]    := [];
+  svgin id "" do x[1][1] := [], x[1]    := [];
+
+  // 2 levels.
+  svgin id "" do x[0][0] := [], x[0][0] := [];
+  svgin id "" do x[0][0] := [], x[0][1] := [];
+  svgin id "" do x[0][0] := [], x[1][0] := [];
+  svgin id "" do x[0][0] := [], x[1][1] := [];
+
+  svgin id "" do x[0][1] := [], x[0][0] := [];
+  svgin id "" do x[0][1] := [], x[0][1] := [];
+  svgin id "" do x[0][1] := [], x[1][0] := [];
+  svgin id "" do x[0][1] := [], x[1][1] := [];
+
+  svgin id "" do x[1][0] := [], x[0][0] := [];
+  svgin id "" do x[1][0] := [], x[0][1] := [];
+  svgin id "" do x[1][0] := [], x[1][0] := [];
+  svgin id "" do x[1][0] := [], x[1][1] := [];
+
+  svgin id "" do x[1][1] := [], x[0][0] := [];
+  svgin id "" do x[1][1] := [], x[0][1] := [];
+  svgin id "" do x[1][1] := [], x[1][0] := [];
+  svgin id "" do x[1][1] := [], x[1][1] := [];
+
+  svgin id "" do x[0][0] := [], x[0][0] := [];
+  svgin id "" do x[0][1] := [], x[0][0] := [];
+  svgin id "" do x[1][0] := [], x[0][0] := [];
+  svgin id "" do x[1][1] := [], x[0][0] := [];
+
+  svgin id "" do x[0][0] := [], x[0][1] := [];
+  svgin id "" do x[0][1] := [], x[0][1] := [];
+  svgin id "" do x[1][0] := [], x[0][1] := [];
+  svgin id "" do x[1][1] := [], x[0][1] := [];
+
+  svgin id "" do x[0][0] := [], x[1][0] := [];
+  svgin id "" do x[0][1] := [], x[1][0] := [];
+  svgin id "" do x[1][0] := [], x[1][0] := [];
+  svgin id "" do x[1][1] := [], x[1][0] := [];
+
+  svgin id "" do x[0][0] := [], x[1][1] := [];
+  svgin id "" do x[0][1] := [], x[1][1] := [];
+  svgin id "" do x[1][0] := [], x[1][1] := [];
+  svgin id "" do x[1][1] := [], x[1][1] := [];
+end
+
+// Multiple projection levels, including non-evaluated.
+group f:
+  input list list list int x;
+  input int i;
+  // 0 vs 1 levels.
+  svgin id "" do x       := [], x[i]    := [];
+  svgin id "" do x[i]    := [], x       := [];
+
+  // 1 level.
+  svgin id "" do x[0]    := [], x[i]    := [];
+  svgin id "" do x[i]    := [], x[0]    := [];
+  svgin id "" do x[i]    := [], x[i]    := [];
+
+  // 1 vs 2 levels.
+  svgin id "" do x[0]    := [], x[0][0] := [];
+  svgin id "" do x[0]    := [], x[0][i] := [];
+  svgin id "" do x[0]    := [], x[i][0] := [];
+  svgin id "" do x[0]    := [], x[i][i] := [];
+  svgin id "" do x[1]    := [], x[0][0] := [];
+  svgin id "" do x[1]    := [], x[0][i] := [];
+  svgin id "" do x[1]    := [], x[i][0] := [];
+  svgin id "" do x[1]    := [], x[i][1] := [];
+
+  svgin id "" do x[0][0] := [], x[0]    := [];
+  svgin id "" do x[0][i] := [], x[0]    := [];
+  svgin id "" do x[i][0] := [], x[0]    := [];
+  svgin id "" do x[i][i] := [], x[0]    := [];
+  svgin id "" do x[0][0] := [], x[1]    := [];
+  svgin id "" do x[0][i] := [], x[1]    := [];
+  svgin id "" do x[i][0] := [], x[1]    := [];
+  svgin id "" do x[i][i] := [], x[1]    := [];
+
+  // 2 levels.
+  svgin id "" do x[0][0] := [], x[0][0] := [];
+  svgin id "" do x[0][0] := [], x[0][i] := [];
+  svgin id "" do x[0][0] := [], x[i][0] := [];
+  svgin id "" do x[0][0] := [], x[i][i] := [];
+
+  svgin id "" do x[0][i] := [], x[0][0] := [];
+  svgin id "" do x[0][i] := [], x[0][i] := [];
+  svgin id "" do x[0][i] := [], x[i][0] := [];
+  svgin id "" do x[0][i] := [], x[i][i] := [];
+
+  svgin id "" do x[i][0] := [], x[0][0] := [];
+  svgin id "" do x[i][0] := [], x[0][i] := [];
+  svgin id "" do x[i][0] := [], x[i][0] := [];
+  svgin id "" do x[i][0] := [], x[i][i] := [];
+
+  svgin id "" do x[i][i] := [], x[0][0] := [];
+  svgin id "" do x[i][i] := [], x[0][i] := [];
+  svgin id "" do x[i][i] := [], x[i][0] := [];
+  svgin id "" do x[i][i] := [], x[i][i] := [];
+
+  svgin id "" do x[0][0] := [], x[0][0] := [];
+  svgin id "" do x[0][i] := [], x[0][0] := [];
+  svgin id "" do x[i][0] := [], x[0][0] := [];
+  svgin id "" do x[i][i] := [], x[0][0] := [];
+
+  svgin id "" do x[0][0] := [], x[0][i] := [];
+  svgin id "" do x[0][i] := [], x[0][i] := [];
+  svgin id "" do x[i][0] := [], x[0][i] := [];
+  svgin id "" do x[i][i] := [], x[0][i] := [];
+
+  svgin id "" do x[0][0] := [], x[i][0] := [];
+  svgin id "" do x[0][i] := [], x[i][0] := [];
+  svgin id "" do x[i][0] := [], x[i][0] := [];
+  svgin id "" do x[i][i] := [], x[i][0] := [];
+
+  svgin id "" do x[0][0] := [], x[i][i] := [];
+  svgin id "" do x[0][i] := [], x[i][i] := [];
+  svgin id "" do x[i][0] := [], x[i][i] := [];
+  svgin id "" do x[i][i] := [], x[i][i] := [];
+end
