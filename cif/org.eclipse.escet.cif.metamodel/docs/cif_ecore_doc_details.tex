@@ -1114,9 +1114,9 @@ The indices of the projections of the addressables are evaluated in the
   with projections, and may optionally be wrapped in tuples (possibly multiple
   times). Projected string typed variables are not allowed.
 \citem{Assignment.variablesInScope}
-  The variables that are assigned must be a discrete or continuous variables
+  The variables that are assigned must be discrete or continuous variables
   declared in the automaton that contains the source location of the edge of
-  this assignment update.  Discrete and continuous variables may be mixed in a
+  this assignment update. Discrete and continuous variables may be mixed in a
   single assignment.
 \end{constraints}
 }
@@ -3748,7 +3748,7 @@ pair, if the key of one of the other projections does not exist.
   projections, and may optionally be wrapped in tuples (possibly multiple
   times). Projected string typed variables are not allowed.
 \citem{AssignmentFuncStatement.variablesInScope}
-  The variables that are assigned must a local variables declared in the
+  The variables that are assigned must be local variables declared in the
   same function as the assignment statement, or they must be parameters of that
   same function. Local variables and parameters may be mixed in a single
   assignment.
@@ -4173,6 +4173,22 @@ The `id' of the interactive SVG element.
 \newcommand{\featdocuSvgInevent}{
 A specification of which event to choose during simulation, when the
 interactive SVG element for this input mapping is clicked.
+}
+
+\newcommand{\featdocuSvgInupdates}{
+A specification of which updates to execute during simulation, when the
+interactive SVG element for this input mapping is clicked.
+
+\begin{constraints}
+\citem{SvgIn.uniqueVariables}
+  The parts of variables that are assigned must be unique. That is, it must
+  never be possible to assign the same part of the same variable twice. We do
+  include the projections in the analysis, but only as far as we can statically
+  evaluate and normalize the indices. See the 'Edge.uniqueVariables' constraint
+  for the complete details.
+\citem{SvgIn.variablesInScope}
+  The variables that are assigned must be input variables.
+\end{constraints}
 }
 
 \newcommand{\featdocuSvgInsvgFile}{

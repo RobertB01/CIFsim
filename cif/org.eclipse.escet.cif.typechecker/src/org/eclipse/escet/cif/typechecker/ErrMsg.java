@@ -513,7 +513,7 @@ public enum ErrMsg {
     // Assignment.variablesInScope
     RESOLVE_NON_ASGN_VAR("\"%s\" is not a discrete or continuous variable.", 1, ERROR),
 
-    // TODO: Temporary error.
+    // SvgIn.variablesInScope
     RESOLVE_NON_SVG_ASGN_VAR("\"%s\" is not an input variable.", 1, ERROR),
 
     // AssignmentFuncStatement.variablesInScope
@@ -601,8 +601,8 @@ public enum ErrMsg {
     DUPL_VAR_ASGN_FUNC("Variable \"%s\", or a part of it, may have been assigned twice in a single assignment, "
             + "for assignments to \"%s\" and \"%s\"", 3, ERROR),
 
-    // SvgInputUpdate.uniqueVariables TODO: Temporary error.
-    DUPL_VAR_ASGN_SVG("Variable \"%s\", or a part of it, may have been assigned twice in a single assignment, "
+    // SvgIn.uniqueVariables
+    DUPL_VAR_ASGN_SVG("Variable \"%s\", or a part of it, may have been assigned twice in a single SVG input mapping, "
             + "for assignments to \"%s\" and \"%s\"", 3, ERROR),
 
     // Edge.urgWhenLocUrg
