@@ -1110,14 +1110,17 @@ The indices of the projections of the addressables are evaluated in the
 
 \begin{constraints}
 \citem{Assignment.addressableSyntax}
-  Adressables may be discrete and continuous variable references (non-wrapped),
-  with projections, and may optionally be wrapped in tuples (possibly multiple
-  times). Projected string typed variables are not allowed.
+  Adressables on edges may be discrete and continuous variable references 
+  (non-wrapped) with projections and addressables in CIF/SVG input mapping may
+  be input variable references (non-wrapped) with projections. The variable
+  references may optionally be wrapped in tuples (possibly multiple times).
+  Projected string typed variables are not allowed.
 \citem{Assignment.variablesInScope}
-  The variables that are assigned must be discrete or continuous variables
-  declared in the automaton that contains the source location of the edge of
-  this assignment update. Discrete and continuous variables may be mixed in a
-  single assignment.
+  The variables that are assigned on edges must be discrete or continuous
+  variables declared in the automaton that contains the source location of the
+  edge of this assignment update. Discrete and continuous variables may be mixed
+  in a single assignment. The variables that are assigned in CIF/SVG input mapping
+  must be input variables.
 \end{constraints}
 }
 
@@ -1521,7 +1524,7 @@ expressions to be used. See also Section~\ref{sec:scoping}.
 
 % Update (abstract class)
 \newcommand{\clsdocuUpdate}{
-An update of an \cifclass{Edge}.
+An update of an \cifclass{Edge} or \cifclass{SvgIn}.
 }
 
 
@@ -3756,7 +3759,7 @@ pair, if the key of one of the other projections does not exist.
   The parts of variables that are assigned must be unique. That is, it must
   never be possible to assign the same part of the same variable twice. We do
   include the projections in the analysis, but only as far as we can statically
-  evaluate and normalize the indices. See the 'Edge.uniqueVariables' constraint
+  evaluate and normalize the indices. See the `Edge.uniqueVariables' constraint
   for the complete details.
 \end{constraints}
 }
@@ -4150,6 +4153,9 @@ it turns a certain element of the SVG image into an interactive SVG element.
   ancestors of the input mapping does.
 \citem{SvgIn.unique}
   No two input mappings may be defined for the same element `id', per SVG file.
+\citem{SvgIn.eventOrUpdate}
+  Either the input mapping specifies which event to choose during simulation or
+  which updates to execute during simulation.
 \end{constraints}
 }
 
@@ -4184,10 +4190,8 @@ interactive SVG element for this input mapping is clicked.
   The parts of variables that are assigned must be unique. That is, it must
   never be possible to assign the same part of the same variable twice. We do
   include the projections in the analysis, but only as far as we can statically
-  evaluate and normalize the indices. See the 'Edge.uniqueVariables' constraint
+  evaluate and normalize the indices. See the `Edge.uniqueVariables' constraint
   for the complete details.
-\citem{SvgIn.variablesInScope}
-  The variables that are assigned must be input variables.
 \end{constraints}
 }
 

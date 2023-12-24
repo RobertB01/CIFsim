@@ -512,8 +512,6 @@ public enum ErrMsg {
 
     // Assignment.variablesInScope
     RESOLVE_NON_ASGN_VAR("\"%s\" is not a discrete or continuous variable.", 1, ERROR),
-
-    // SvgIn.variablesInScope
     RESOLVE_NON_SVG_ASGN_VAR("\"%s\" is not an input variable.", 1, ERROR),
 
     // AssignmentFuncStatement.variablesInScope
@@ -860,6 +858,7 @@ public enum ErrMsg {
     // - Specification.root
     // - StdLibFunctionExpression.occurrence
     // - StringExpression.type
+    // - SvgIn.eventOrUpdate
     // - SvgInEventIf.else
     // - SwitchExpression.elseOccurrence
     // - TauExpression.occurrence
