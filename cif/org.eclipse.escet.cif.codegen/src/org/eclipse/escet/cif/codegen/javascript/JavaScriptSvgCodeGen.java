@@ -38,6 +38,7 @@ import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.SvgCodeGen;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgFile;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEvent;
@@ -293,46 +294,54 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
 
         // Add the guards.
         SvgInEvent event = svgIn.getEvent();
-        if (event instanceof SvgInEventSingle) {
-            // Single event. Get the absolute name of the event, and its 'event allowed' variable.
-            SvgInEventSingle singleEvt = (SvgInEventSingle)event;
-            Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
-            int eventIdx = eventMap.get(evt);
-            String absEventName = getAbsName(evt);
-            String eventAllowedVarName = fmt("%s.event%d_Allowed", ctxt.getPrefix(), eventIdx);
-
-            // Enable the event when it is clicked.
-            codeInEventHandlers.add("%s = true; // %s", eventAllowedVarName, absEventName);
-        } else if (event instanceof SvgInEventIf) {
-            // 'if/then/else' event mapping.
-            SvgInEventIf ifEvent = (SvgInEventIf)event;
-
-            // Generate code for entries.
-            for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
-                // Get the absolute name of the event, and its 'event allowed' variable.
-                Event evt = ((EventExpression)entry.getEvent()).getEvent();
+        if (event != null) {
+            if (event instanceof SvgInEventSingle) {
+                // Single event. Get the absolute name of the event, and its 'event allowed' variable.
+                SvgInEventSingle singleEvt = (SvgInEventSingle)event;
+                Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
                 int eventIdx = eventMap.get(evt);
                 String absEventName = getAbsName(evt);
-                String eventAllowedName = fmt("%s.event%d_Allowed", ctxt.getPrefix(), eventIdx);
+                String eventAllowedVarName = fmt("%s.event%d_Allowed", ctxt.getPrefix(), eventIdx);
 
-                // Add code for the entry, to enable the event when it is clicked.
-                if (entry.getGuard() == null) {
-                    codeInEventHandlers.add("else {");
-                    codeInEventHandlers.indent();
-                    codeInEventHandlers.add("%s = true; // %s", eventAllowedName, absEventName);
-                    codeInEventHandlers.dedent();
-                    codeInEventHandlers.add("}");
-                } else {
-                    codeInEventHandlers.add("%s (%s) {", entry == ifEvent.getEntries().get(0) ? "if" : "else if",
-                            ctxt.exprToTarget(entry.getGuard(), null).getData());
-                    codeInEventHandlers.indent();
-                    codeInEventHandlers.add("%s = true; // %s", eventAllowedName, absEventName);
-                    codeInEventHandlers.dedent();
-                    codeInEventHandlers.add("}");
+                // Enable the event when it is clicked.
+                codeInEventHandlers.add("%s = true; // %s", eventAllowedVarName, absEventName);
+            } else if (event instanceof SvgInEventIf) {
+                // 'if/then/else' event mapping.
+                SvgInEventIf ifEvent = (SvgInEventIf)event;
+
+                // Generate code for entries.
+                for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
+                    // Get the absolute name of the event, and its 'event allowed' variable.
+                    Event evt = ((EventExpression)entry.getEvent()).getEvent();
+                    int eventIdx = eventMap.get(evt);
+                    String absEventName = getAbsName(evt);
+                    String eventAllowedName = fmt("%s.event%d_Allowed", ctxt.getPrefix(), eventIdx);
+
+                    // Add code for the entry, to enable the event when it is clicked.
+                    if (entry.getGuard() == null) {
+                        codeInEventHandlers.add("else {");
+                        codeInEventHandlers.indent();
+                        codeInEventHandlers.add("%s = true; // %s", eventAllowedName, absEventName);
+                        codeInEventHandlers.dedent();
+                        codeInEventHandlers.add("}");
+                    } else {
+                        codeInEventHandlers.add("%s (%s) {", entry == ifEvent.getEntries().get(0) ? "if" : "else if",
+                                ctxt.exprToTarget(entry.getGuard(), null).getData());
+                        codeInEventHandlers.indent();
+                        codeInEventHandlers.add("%s = true; // %s", eventAllowedName, absEventName);
+                        codeInEventHandlers.dedent();
+                        codeInEventHandlers.add("}");
+                    }
                 }
+            } else {
+                throw new RuntimeException("Unknown SVG input mapping event: " + event);
             }
-        } else {
-            throw new RuntimeException("Unknown SVG input mapping event: " + event);
+        }
+
+        // Add the updates.
+        List<Update> updates = svgIn.getUpdates();
+        if (!updates.isEmpty()) {
+            // TODO: Generate code for updates.
         }
 
         // Complete the event handler function.
@@ -360,7 +369,9 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
         Set<Integer> interactiveEventIndices = set();
         for (SvgIn svgIn: svgIns) {
             SvgInEvent event = svgIn.getEvent();
-            if (event instanceof SvgInEventSingle) {
+            if (event == null) {
+                // Input mapping without event.
+            } else if (event instanceof SvgInEventSingle) {
                 // Single event.
                 SvgInEventSingle singleEvt = (SvgInEventSingle)event;
                 Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();

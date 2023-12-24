@@ -593,8 +593,8 @@ Addressables : Addressable
              ;
 
 {exprs.AExpression}
-Addressable : Identifier
-            | Identifier Projections
+Addressable : Name
+            | Name Projections
             | @PAROPENTK Addressable COMMATK Addressables PARCLOSETK
             ;
 
@@ -695,6 +695,7 @@ SvgAttr : ATTRKW StringToken
 
 {svg.ASvgIn}
 SvgIn : @SVGINKW IDKW Expression EVENTKW SvgInEvent OptSvgFile @SEMICOLTK
+      | @SVGINKW IDKW Expression DOKW Updates OptSvgFile @SEMICOLTK
       ;
 
 {svg.ASvgInEvent}

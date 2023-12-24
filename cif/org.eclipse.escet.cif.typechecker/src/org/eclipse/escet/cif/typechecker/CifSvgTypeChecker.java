@@ -27,12 +27,18 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HI
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.STRING_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
+import static org.eclipse.escet.cif.typechecker.ExprContext.DEFAULT_CTXT;
+import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.SVG_UPDATE;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.position.common.PositionUtils.toPosition;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgCopy;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgFile;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -42,12 +48,14 @@ import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventIfEntry;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventSingle;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgMove;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
+import org.eclipse.escet.cif.parser.ast.automata.AUpdate;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgCopy;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgFile;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgIn;
@@ -58,6 +66,8 @@ import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgMove;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgOut;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.cif.typechecker.scopes.SymbolScope;
+import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF/SVG type checker, during 'normal' type checking phase. */
@@ -280,7 +290,25 @@ public class CifSvgTypeChecker {
         }
 
         // Check event.
-        svgIn.setEvent(checkSvgInEvent(astSvgIn, scope));
+        if (astSvgIn.event != null) {
+            svgIn.setEvent(checkSvgInEvent(astSvgIn, scope));
+        }
+
+        // Get update expression type checking context.
+        ExprContext context = DEFAULT_CTXT.add(SVG_UPDATE);
+
+        // Check updates.
+        if (!astSvgIn.updates.isEmpty()) {
+            List<Update> updates = svgIn.getUpdates();
+            for (AUpdate update1: astSvgIn.updates) {
+                Update update2 = CifUpdateTypeChecker.typeCheckUpdate(update1, scope, context, tchecker);
+                updates.add(update2);
+            }
+
+            // Check for assignments to unique parts of variables, in the updates.
+            Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap = map();
+            AssignmentUniquenessChecker.checkUniqueAsgns(updates, asgnMap, tchecker, ErrMsg.DUPL_VAR_ASGN_SVG);
+        }
 
         // Check SVG file, if any.
         if (astSvgIn.svgFile != null) {

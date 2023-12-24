@@ -154,7 +154,7 @@ map(string:list string) test_options = {
     "simulator/runtime_err_stack/err_stack_svg_outmap_attr.cif":     ["--frame-rate=4"],
     "simulator/runtime_err_stack/err_stack_svg_outmap_txt.cif":      ["--frame-rate=4"],
     "simulator/svgviz/option_disable_svg.cif":                       ["--svg=no"],
-    "simulator/svgviz/svg_input.cif":                                ["-i svg -a random:123"],
+    "simulator/svgviz/svg_input.cif":                                ["-i svg -a random:123 --init=b:false"],
     "simulator/trace/empty_trace.cif":                               ["-i trace"],
     "simulator/trace/err_cmd_unknown.cif":                           ["-i trace"],
     "simulator/trace/err_evt_no_name.cif":                           ["-i trace"],

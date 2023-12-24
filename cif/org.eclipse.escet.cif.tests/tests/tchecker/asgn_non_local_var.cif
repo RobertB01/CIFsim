@@ -14,10 +14,20 @@
 group g:
   cont x1 = 1.0 der 2.0;
   cont x2 = 3.0 der 4.0;
+  cont x3 = 5.0 der 6.0;
+  cont x4 = 7.0 der 8.0;
 
   automaton p:
     location:
       initial;
-      edge do (x1, x2) := (3.0, 4.0);
+      edge do (x1, x2, .g.x3,   ^g.x4, q.x5) := (1.0, 2.0, 3.0, 4.0, 5.0);
+      edge do (        .g.q.x1, ^g.x2, q.x3) := (1.0, 2.0, 3.0);
   end
+
+  automaton q:
+    cont x5 = 9.0 der 10.0;
+    disc real x1, x2, x3;
+    location:
+      initial;
+    end
 end

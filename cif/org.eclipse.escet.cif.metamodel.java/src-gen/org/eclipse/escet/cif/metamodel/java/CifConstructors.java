@@ -3243,13 +3243,14 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link SvgIn} class.
      *
-     * @param event The "event" of the new "SvgIn". Multiplicity [1..1]. May be {@code null} to set the "event" later.
+     * @param event The "event" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "event", or to set it later.
      * @param id The "id" of the new "SvgIn". Multiplicity [1..1]. May be {@code null} to set the "id" later.
      * @param position The "position" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param svgFile The "svgFile" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile", or to set it later.
+     * @param updates The "updates" of the new "SvgIn". Multiplicity [0..*]. May be {@code null} to skip setting the "updates", or to set it later.
      * @return A new instance of the {@link SvgIn} class.
      */
-    public static SvgIn newSvgIn(SvgInEvent event, Expression id, Position position, SvgFile svgFile) {
+    public static SvgIn newSvgIn(SvgInEvent event, Expression id, Position position, SvgFile svgFile, List<Update> updates) {
         SvgIn rslt_ = newSvgIn();
         if (event != null) {
             rslt_.setEvent(event);
@@ -3262,6 +3263,9 @@ public class CifConstructors {
         }
         if (svgFile != null) {
             rslt_.setSvgFile(svgFile);
+        }
+        if (updates != null) {
+            rslt_.getUpdates().addAll(updates);
         }
         return rslt_;
     }

@@ -40,3 +40,8 @@ func bool f():
   b, i := true, false;
   return true;
 end
+
+input bool b;
+input int[0..1] i;
+svgin id "" do b := 1, i := 2;
+svgin id "" do (b, i) := (true, false);

@@ -55,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
@@ -287,7 +288,8 @@ public class SimplifyValues extends CifWalker implements CifToCifTransformation 
         }
 
         // Don't walk over the actual addressable expression.
-        Assert.check(addr instanceof DiscVariableExpression || addr instanceof ContVariableExpression);
+        Assert.check(addr instanceof DiscVariableExpression || addr instanceof ContVariableExpression
+                || addr instanceof InputVariableExpression);
     }
 
     @Override

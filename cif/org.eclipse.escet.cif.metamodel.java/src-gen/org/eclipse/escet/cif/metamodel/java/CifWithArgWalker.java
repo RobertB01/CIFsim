@@ -7137,7 +7137,9 @@ public abstract class CifWithArgWalker<T> {
     protected void walkSvgIn(SvgIn obj, T arg) {
         precrawlSvgIn(obj, arg);
         SvgInEvent _event = obj.getEvent();
-        walkSvgInEvent(_event, arg);
+        if (_event != null) {
+            walkSvgInEvent(_event, arg);
+        }
         Expression _id = obj.getId();
         walkExpression(_id, arg);
         Position _position = obj.getPosition();
@@ -7147,6 +7149,10 @@ public abstract class CifWithArgWalker<T> {
         SvgFile _svgFile = obj.getSvgFile();
         if (_svgFile != null) {
             walkSvgFile(_svgFile, arg);
+        }
+        List<Update> _updates = obj.getUpdates();
+        for (Update x: _updates) {
+            walkUpdate(x, arg);
         }
         postcrawlSvgIn(obj, arg);
     }

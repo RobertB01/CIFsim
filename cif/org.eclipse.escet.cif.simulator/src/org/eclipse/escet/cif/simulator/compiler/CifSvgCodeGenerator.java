@@ -537,19 +537,21 @@ public class CifSvgCodeGenerator {
         }
 
         for (SvgIn svgIn: svgIns) {
-            SvgInEvent event = svgIn.getEvent();
-            if (event instanceof SvgInEventSingle) {
-                SvgInEventSingle singleEvt = (SvgInEventSingle)event;
-                Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
-                interactiveEvents.set(eventMap.get(evt), true);
-            } else if (event instanceof SvgInEventIf) {
-                SvgInEventIf ifEvent = (SvgInEventIf)event;
-                for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
-                    Event evt = ((EventExpression)entry.getEvent()).getEvent();
+            if (svgIn.getEvent() != null) {
+                SvgInEvent event = svgIn.getEvent();
+                if (event instanceof SvgInEventSingle) {
+                    SvgInEventSingle singleEvt = (SvgInEventSingle)event;
+                    Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
                     interactiveEvents.set(eventMap.get(evt), true);
+                } else if (event instanceof SvgInEventIf) {
+                    SvgInEventIf ifEvent = (SvgInEventIf)event;
+                    for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
+                        Event evt = ((EventExpression)entry.getEvent()).getEvent();
+                        interactiveEvents.set(eventMap.get(evt), true);
+                    }
+                } else {
+                    throw new RuntimeException("Unknown svgin event: " + event);
                 }
-            } else {
-                throw new RuntimeException("Unknown svgin event: " + event);
             }
         }
 
@@ -584,67 +586,74 @@ public class CifSvgCodeGenerator {
             c.add("case %d:", i);
             c.indent();
 
-            SvgInEvent event = svgIn.getEvent();
-            if (event instanceof SvgInEventSingle) {
-                // Single event.
-                SvgInEventSingle singleEvt = (SvgInEventSingle)event;
-                Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
-                c.add("return %d; // %s", eventMap.get(evt), getAbsName(evt));
-            } else if (event instanceof SvgInEventIf) {
-                // 'if/then/else' event mapping.
-                SvgInEventIf ifEvent = (SvgInEventIf)event;
+            if (svgIn.getEvent() != null) {
+                SvgInEvent event = svgIn.getEvent();
+                if (event instanceof SvgInEventSingle) {
+                    // Single event.
+                    SvgInEventSingle singleEvt = (SvgInEventSingle)event;
+                    Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
+                    c.add("return %d; // %s", eventMap.get(evt), getAbsName(evt));
+                } else if (event instanceof SvgInEventIf) {
+                    // 'if/then/else' event mapping.
+                    SvgInEventIf ifEvent = (SvgInEventIf)event;
 
-                // Generate 'try' for input mapping runtime failure.
-                c.add("try {");
-                c.indent();
+                    // Generate 'try' for input mapping runtime failure.
+                    c.add("try {");
+                    c.indent();
 
-                // Generate code for entries.
-                boolean hasElse = false;
-                for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
-                    Event evt = ((EventExpression)entry.getEvent()).getEvent();
-                    int eventIdx = eventMap.get(evt);
-                    String eventName = getAbsName(evt);
+                    // Generate code for entries.
+                    boolean hasElse = false;
+                    for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
+                        Event evt = ((EventExpression)entry.getEvent()).getEvent();
+                        int eventIdx = eventMap.get(evt);
+                        String eventName = getAbsName(evt);
 
-                    if (entry.getGuard() == null) {
-                        hasElse = true;
-                        c.add("return %d; // %s", eventIdx, eventName);
-                    } else {
-                        // Evaluate guard.
-                        c.add("try {");
-                        c.indent();
-                        ExprCodeGeneratorResult result = gencodeExpr(entry.getGuard(), ctxt, "state");
-                        c.add("g = %s;", result);
-                        guardResults.add(result);
-                        c.dedent();
-                        c.add("} catch (CifSimulatorException e) {");
-                        c.indent();
-                        c.add("throw new CifSimulatorException(\"Evaluation of guard value \\\"%s\\\" failed.\", e, "
-                                + "state);", escapeJava(truncate(exprToStr(entry.getGuard()), 1000)));
-                        c.dedent();
-                        c.add("}");
+                        if (entry.getGuard() == null) {
+                            hasElse = true;
+                            c.add("return %d; // %s", eventIdx, eventName);
+                        } else {
+                            // Evaluate guard.
+                            c.add("try {");
+                            c.indent();
+                            ExprCodeGeneratorResult result = gencodeExpr(entry.getGuard(), ctxt, "state");
+                            c.add("g = %s;", result);
+                            guardResults.add(result);
+                            c.dedent();
+                            c.add("} catch (CifSimulatorException e) {");
+                            c.indent();
+                            c.add("throw new CifSimulatorException(\"Evaluation of guard value \\\"%s\\\" failed.\", e, "
+                                    + "state);", escapeJava(truncate(exprToStr(entry.getGuard()), 1000)));
+                            c.dedent();
+                            c.add("}");
 
-                        // Return event index.
-                        c.add("if (g) return %d; // %s", eventIdx, eventName);
-                        c.add();
+                            // Return event index.
+                            c.add("if (g) return %d; // %s", eventIdx, eventName);
+                            c.add();
+                        }
                     }
-                }
 
-                // Generate code for incomplete mapping.
-                if (!hasElse) {
-                    c.add("throw new CifSimulatorException(\"Incomplete SVG input mapping: none of the guards are "
-                            + "satisfied (evaluate to value \\\"true\\\").\", state);");
-                }
+                    // Generate code for incomplete mapping.
+                    if (!hasElse) {
+                        c.add("throw new CifSimulatorException(\"Incomplete SVG input mapping: none of the guards are "
+                                + "satisfied (evaluate to value \\\"true\\\").\", state);");
+                    }
 
-                // Generate 'catch' for input mapping runtime failure.
-                c.dedent();
-                c.add("} catch (CifSimulatorException e) {");
-                c.indent();
-                c.add("throw new CifSimulatorException(fmt(\"Evaluation of the SVG input mapping (\\\"%%s\\\") for "
-                        + "the SVG element with id \\\"%s\\\" failed.\", getSvgRelPath()), e, state);", escapeJava(id));
-                c.dedent();
-                c.add("}");
+                    // Generate 'catch' for input mapping runtime failure.
+                    c.dedent();
+                    c.add("} catch (CifSimulatorException e) {");
+                    c.indent();
+                    c.add("throw new CifSimulatorException(fmt(\"Evaluation of the SVG input mapping (\\\"%%s\\\") for "
+                            + "the SVG element with id \\\"%s\\\" failed.\", getSvgRelPath()), e, state);",
+                            escapeJava(id));
+                    c.dedent();
+                    c.add("}");
+                } else {
+                    throw new RuntimeException("Unknown svgin event: " + event);
+                }
+            } else if (!svgIn.getUpdates().isEmpty()) {
+                // TODO: Generate code for updates.
             } else {
-                throw new RuntimeException("Unknown svgin event: " + event);
+                throw new RuntimeException("SVG input mapping must have event or update.");
             }
 
             c.dedent();
