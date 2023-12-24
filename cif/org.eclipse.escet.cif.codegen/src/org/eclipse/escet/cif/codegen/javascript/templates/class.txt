@@ -117,6 +117,8 @@ ${javascript-svg-in-event-handlers-code}
         // Initialize the state.
         if (this.firstExec) {
             this.initState();
+            ${prefix}.log('Initial state: ' + ${prefix}.getStateText());
+            ${prefix}.log('');
         }
 
         // Calculate time delta.
@@ -271,6 +273,11 @@ ${javascript-svg-out-apply-code}
         // Nothing is done here by default.
     }
 
+    log(message) {
+        console.log(message);
+${html-log-to-panel-code}
+    }
+
     /**
      * Informs about the duration of a single execution.
      *
@@ -291,7 +298,10 @@ ${javascript-svg-out-apply-code}
      */
     infoEvent(idx, pre) {
         if (pre) {
-${infoevent-log-call-code}
+            ${prefix}.log(${prefix}Utils.fmt('Transition: event %s', ${prefix}.getEventName(idx)));
+        } else {
+            ${prefix}.log('State: ' + ${prefix}.getStateText());
+            ${prefix}.log('');
         }
     }
 
@@ -322,6 +332,17 @@ ${infoevent-log-call-code}
         return this.EVENT_NAMES[idx];
     }
 
+    /**
+     * Returns a single-line textual representation of the model state.
+     *
+     * @return The single-line textual representation of the model state.
+     */
+    getStateText() {
+        var state = ${prefix}Utils.fmt('time=%s', ${prefix}.time);
+${javascript-get-state-text-code}
+        return state;
+    }
+
 ${javascript-alg-var-code}
 ${javascript-deriv-code}
 ${javascript-funcs-code}
@@ -346,6 +367,6 @@ ${javascript-print-code}
      * @param text The text being printed.
      */
     infoPrintOutput(text) {
-        log(text);
+        ${prefix}.log(text);
     }
 }

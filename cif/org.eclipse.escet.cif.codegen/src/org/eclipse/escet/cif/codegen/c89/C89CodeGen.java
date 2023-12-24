@@ -403,9 +403,7 @@ public class C89CodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
-            if (origName == null) {
-                origName = evt.getName();
-            }
+            Assert.notNull(origName);
             evtDecls.set(3 + i, 0, fmt("%s,", getTargetName(evt)));
             evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
@@ -429,9 +427,7 @@ public class C89CodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
-            if (origName == null) {
-                origName = evt.getName();
-            }
+            Assert.notNull(origName);
             evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
             evtNames.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
@@ -542,6 +538,7 @@ public class C89CodeGen extends CodeGen {
             ContVariable var = contVars.get(i);
             String name = getTargetName(var);
             String origName = origDeclNames.get(var);
+            Assert.notNull(origName);
             code.add("errno = 0;");
             code.add("%s = UpdateContValue(%s + delta * deriv%d, %s, errno == 0);", name, name, i,
                     stringToJava(origName));
@@ -937,6 +934,7 @@ public class C89CodeGen extends CodeGen {
                 eventTargetName = TAU_EVENT_NAME;
             } else {
                 eventName = origDeclNames.get(event);
+                Assert.notNull(eventName);
                 eventTargetName = getTargetName(event);
             }
 

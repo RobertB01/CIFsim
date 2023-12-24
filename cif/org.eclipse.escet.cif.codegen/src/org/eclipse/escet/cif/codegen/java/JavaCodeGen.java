@@ -45,7 +45,6 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -119,10 +118,7 @@ public class JavaCodeGen extends CodeGen {
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
             String origName = origDeclNames.get(constant);
-            if (origName == null) {
-                // Created by preprocessing or linearization.
-                origName = constant.getName();
-            }
+            Assert.notNull(origName);
 
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
             Assert.check(!constantCode.hasCode()); // Java code generator never generates pre-execute code.
@@ -143,6 +139,7 @@ public class JavaCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
             String name = origDeclNames.get(event);
+            Assert.notNull(name);
             code.add("%s,", Strings.stringToJava(name));
         }
 
@@ -166,10 +163,7 @@ public class JavaCodeGen extends CodeGen {
                 kindCode = "Continuous";
             }
             String origName = origDeclNames.get(var);
-            if (origName == null) {
-                // New variable introduced by preprocessing or linearization.
-                origName = CifTextUtils.getName(var);
-            }
+            Assert.notNull(origName);
             code.add();
             code.add("/** %s variable \"%s\". */", kindCode, origName);
             code.add("public %s %s;", typeCode, name);
@@ -248,6 +242,7 @@ public class JavaCodeGen extends CodeGen {
             String name = getTargetName(var);
             code.add("%s = %s + delta * deriv%d;", name, name, i);
             String origName = origDeclNames.get(var);
+            Assert.notNull(origName);
             code.add("checkDouble(%s, %s);", name, Strings.stringToJava(origName));
             code.add("if (%s == -0.0) %s = 0.0;", name, name);
         }

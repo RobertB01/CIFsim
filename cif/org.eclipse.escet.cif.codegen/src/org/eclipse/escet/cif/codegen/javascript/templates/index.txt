@@ -86,6 +86,7 @@
                 width: 100%;
                 margin: 0;
                 padding: 0;
+                text-wrap: nowrap;
             }
             #log-pane #div-log-pane-footer {
                 background: #fafafa;
@@ -172,7 +173,7 @@ ${html-javascript-class-placeholder}
 
             function start() {
                 if (!${prefix}.playing) {
-                    log('start');
+                    ${prefix}.log('start');
                     var btn = document.getElementById('start-stop-toggle');
                     btn.value = 'Stop';
                     ${prefix}.start();
@@ -181,7 +182,7 @@ ${html-javascript-class-placeholder}
 
             function stop() {
                 if (${prefix}.playing){
-                    log('stop');
+                    ${prefix}.log('stop');
                     var btn = document.getElementById('start-stop-toggle');
                     btn.value = 'Start';
                     ${prefix}.stop();
@@ -201,13 +202,6 @@ ${html-javascript-class-placeholder}
 
                 // Update frequency UI.
                 document.getElementById('run-frequency-output').value = range.value;
-            }
-
-            function log(message) {
-                console.log(message);
-                var elem = document.getElementById('log-output');
-                elem.value += message + '\r\n';
-                elem.scrollTop = elem.scrollHeight;
             }
 
             function clearLog() {

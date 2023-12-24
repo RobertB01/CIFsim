@@ -196,7 +196,7 @@ IntType g_rcv_v_;    /**< Discrete variable "int g.rcv.v". */
 IntType g_rcv_v2_;   /**< Discrete variable "int g.rcv.v2". */
 IntType g_snd_a_;    /**< Discrete variable "int g.snd.a". */
 RealType g_sync_c_;  /**< Continuous variable "real g.sync.c". */
-variousEnum g_sync_; /**< Discrete variable "E g_sync". */
+variousEnum g_sync_; /**< Discrete variable "E g.sync". */
 
 RealType model_time; /**< Current model time. */
 

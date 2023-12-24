@@ -132,7 +132,7 @@ RealType aut1_v1_;       /**< Discrete variable "real aut1.v1". */
 RealType aut1_v4_;       /**< Discrete variable "real aut1.v4". */
 RealType aut1_v5_;       /**< Discrete variable "real aut1.v5". */
 RealType aut2_v2_;       /**< Continuous variable "real aut2.v2". */
-declarationsEnum g1_a1_; /**< Discrete variable "E g1_a1". */
+declarationsEnum g1_a1_; /**< Discrete variable "E g1.a1". */
 RealType aut1_v3_;       /**< Continuous variable "real aut1.v3". */
 RealType aut2_v1_;       /**< Discrete variable "real aut2.v1". */
 RealType aut1_v2_;       /**< Discrete variable "real aut1.v2". */

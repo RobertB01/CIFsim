@@ -50,7 +50,7 @@ public abstract class various {
     /** Continuous variable "g.sync.c". */
     public double g_sync_c_;
 
-    /** Discrete variable "g_sync". */
+    /** Discrete variable "g.sync". */
     public variousEnum g_sync_;
 
     /** Input variable "x". */

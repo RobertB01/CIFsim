@@ -44,7 +44,6 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -127,32 +126,42 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void postGenerate(CodeContext ctxt) {
-        // Generate code for updating the frequency slider UI.
+        // For HTML, generate code for updating the frequency slider UI.
+        CodeBox frequencySliderCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
-            // Add the frequency slider UI code for the HTML UI.
-            CodeBox frequencySliderCode = makeCodeBox(2);
             frequencySliderCode.add("// Update frequency UI.");
             frequencySliderCode.add("var range = document.getElementById('run-frequency');");
             frequencySliderCode.add("range.value = %s.frequency;", ctxt.getPrefix());
             frequencySliderCode.add("document.getElementById('run-frequency-output').value = range.value;");
-            replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
-        } else if (language == TargetLanguage.JAVASCRIPT) {
-            // Don't add the frequency slider UI code, since we don't have an HTML UI.
-            replacements.put("javascript-frequency-slider-code", "");
         }
+        replacements.put("javascript-frequency-slider-code", frequencySliderCode.toString());
 
-        // Generate code for the 'infoEvent' method.
-        String logTransition = "log(" + ctxt.getPrefix()
-                + "Utils.fmt(\"Transition: event %s\", this.getEventName(idx)))";
-        CodeBox logCallCode = makeCodeBox(2);
+        // For HTML, log not only to the console, but also to the log panel.
+        CodeBox logToPanelCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
-            // Add the log transition code for the HTML UI.
-            logCallCode.add(logTransition);
-        } else if (language == TargetLanguage.JAVASCRIPT) {
-            // Add the log transition code, but write to console only.
-            logCallCode.add("console." + logTransition);
+            logToPanelCode.add("var elem = document.getElementById('log-output');");
+            logToPanelCode.add("elem.value += message + '\\r\\n';");
+            logToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
         }
-        replacements.put("infoevent-log-call-code", logCallCode.toString());
+        replacements.put("html-log-to-panel-code", logToPanelCode.toString());
+
+        // Add code for the 'getStateText' method.
+        // State variables are sorted similarly to 'org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec.init'.
+        CodeBox getStateTextCode = makeCodeBox(2);
+        List<Declaration> sortedStateVars = stateVars.stream()
+                .sorted((var1, var2) -> Strings.SORTER.compare(origDeclNames.get(var1), origDeclNames.get(var2)))
+                .toList();
+        for (Declaration stateVar: sortedStateVars) {
+            String origName = origDeclNames.get(stateVar);
+            Assert.notNull(origName);
+            getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s.%s));", ctxt.getPrefix(),
+                    origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+            if (stateVar instanceof ContVariable) {
+                getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%s.%sderiv()));",
+                        ctxt.getPrefix(), origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+            }
+        }
+        replacements.put("javascript-get-state-text-code", getStateTextCode.toString());
 
         // Finalize the replacement patterns based on the target language.
         switch (language) {
@@ -182,10 +191,7 @@ public class JavaScriptCodeGen extends CodeGen {
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
             String origName = origDeclNames.get(constant);
-            if (origName == null) {
-                // Created by preprocessing or linearization.
-                origName = constant.getName();
-            }
+            Assert.notNull(origName);
 
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
             Assert.check(!constantCode.hasCode()); // JavaScript code generator never generates pre-execute code.
@@ -205,6 +211,7 @@ public class JavaScriptCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
             String name = origDeclNames.get(event);
+            Assert.notNull(name);
             String line = (i == events.size() - 1) ? "%s" : "%s,";
             code.add(line, Strings.stringToJava(name));
         }
@@ -226,10 +233,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 kindCode = "Continuous";
             }
             String origName = origDeclNames.get(var);
-            if (origName == null) {
-                // New variable introduced by preprocessing or linearization.
-                origName = CifTextUtils.getName(var);
-            }
+            Assert.notNull(origName);
             code.add();
             code.add("/** %s variable \"%s\". */", kindCode, origName);
             code.add("%s;", name);
@@ -308,6 +312,7 @@ public class JavaScriptCodeGen extends CodeGen {
             String name = getTargetName(var);
             code.add("%s.%s = %s.%s + delta * deriv%d;", ctxt.getPrefix(), name, ctxt.getPrefix(), name, i);
             String origName = origDeclNames.get(var);
+            Assert.notNull(origName);
             code.add("%sUtils.checkReal(%s.%s, %s);", ctxt.getPrefix(), ctxt.getPrefix(), name,
                     Strings.stringToJava(origName));
             code.add("if (%s.%s == -0.0) %s.%s = 0.0;", ctxt.getPrefix(), name, ctxt.getPrefix(), name);
