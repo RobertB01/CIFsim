@@ -1,6 +1,8 @@
 alg string x = "box";
 event e;
 event f;
+input bool b;
+input int i;
 automaton def C(alg int x):
   svgout id "txt" + <string>x text value "bla" + <string>x file "text.svg";
   location:
@@ -25,3 +27,5 @@ svgmove id "grp" to 3, 4 file "../tchecker/small.svg";
 svgout id "box" attr "x" value 1 + 1 file "../tchecker/svg_unknown_name_elem.svg";
 svgin id "grp" event e file "../tchecker/small.svg";
 svgin id "box" event if aut.l1: e elif aut.l2: f end;
+svgin id "root" do b := true, i := 3;
+svgin id "defs9" do (b, i) := (true, 3) file "../tchecker/svg_unknown_name_elem.svg";

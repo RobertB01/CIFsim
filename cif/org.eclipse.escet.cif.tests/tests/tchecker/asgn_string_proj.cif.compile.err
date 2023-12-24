@@ -3,4 +3,5 @@ ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 23, column 4
 ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 33, column 17: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
 ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 33, column 20: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
 ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 33, column 23: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
+ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 37, column 17: Cannot assign a part of variable "i", as partial updates of "string" typed variables are not allowed.
 ERROR: Failed to load CIF file "tchecker/asgn_string_proj.cif": the file has errors.

@@ -43,6 +43,11 @@ svgin id "box" event if   aut.l1: e
                      elif aut.l2: f
                      end;
 
+input bool b;
+input int i;
+svgin id "root" do b := true, i := 3;
+svgin id "defs9" do (b, i) := (true, 3) file "../tchecker/svg_unknown_name_elem.svg";
+
 automaton def C(alg int x):
   location:
     initial;
