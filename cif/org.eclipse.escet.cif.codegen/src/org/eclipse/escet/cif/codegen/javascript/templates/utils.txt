@@ -358,9 +358,40 @@ class ${prefix}Utils {
      * @return {string} A formatted string.
      */
     static fmt(str) {
-        // TODO: CIF supports more than '%s' and '%d'. Support for that is to be added.
+        // TODO: CIF supports more than what is handled here. Full support is to be added in the future.
         var i = 1;
-        return str.replace(/%s|%d/g, () => arguments[i++]);
+        var hexRegex = /%[Xx]/;
+        var realRegex = /%[GgEe]/;
+        var floatRegex = /%(\.(\d+))?f/;
+        var percentRegex = /%%/;
+        return str.replace(/%[Bb]|%[Xx]|%[GgEe]|%[Ss]|%d|%(\.(\d+))?f|%%/g, (matched) => {
+            if (hexRegex.test(matched)) {
+                return arguments[i++].toString(16);
+            } else if (realRegex.test(matched)) {
+                return arguments[i++].toExponential();
+            } else if (floatRegex.test(matched)) {
+                // JavaScript uses 'toFixed' to format floats.
+                var digits = matched.match(floatRegex)[2];
+                if (digits) {
+                    return arguments[i++].toFixed(digits);
+                } else {
+                    return arguments[i++];
+                }
+            } else if (percentRegex.test(matched)) {
+                return '%';
+            }
+            return arguments[i++].toString();
+        });
+    }
+
+    /**
+     * Converts a JavaScript Number representing an integer value to a JavaScript Number representing a real value.
+     *
+     * @param {number} x - The JavaScript Number value representing an integer value.
+     * @return {number} The JavaScript Number value representing a real value.
+     */
+    static intToReal(x) {
+        return x;
     }
 
     /**

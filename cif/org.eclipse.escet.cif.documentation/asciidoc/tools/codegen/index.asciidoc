@@ -29,6 +29,7 @@ Specific information is available for each of the target languages/platforms, on
 * <<tools-codegen-chapter-c99,C99>>
 * <<tools-codegen-chapter-java,Java>>
 * <<tools-codegen-chapter-javascript,JavaScript>>
+* <<tools-codegen-chapter-html,HTML>>
 * <<tools-codegen-chapter-simulink,Simulink>>, with an example of <<tools-codegen-chapter-simulink-example,controlling a tank>>
 
 indexterm:[CIF code generator,start]
@@ -80,6 +81,9 @@ The following languages/platforms are supported:
 
 | <<tools-codegen-chapter-javascript,JavaScript>>
 | `javascript`
+
+| <<tools-codegen-chapter-html,HTML>>
+| `html`
 
 | <<tools-codegen-chapter-simulink,Simulink>>
 | `simulink`
@@ -159,8 +163,9 @@ That is, functions may only be used in function calls, and may for instance not 
 
 * Print declarations with post/target state text and pre/source state filtering (`when`) are not supported.
 
-* CIF/SVG declarations are ignored.
-A warning is printed if a CIF/SVG input declaration is encountered.
+* CIF/SVG declarations are supported only or HTML code generation.
+If the specification connects to an SVG image, but no CIF/SVG input or output mappings apply to that image, a warning is printed.
+For the other target languages, a warning is printed if any CIF/SVG declarations are encountered, and these declarations are then ignored.
 
 indexterm:[CIF code generator,preprocessing]
 
@@ -169,7 +174,7 @@ indexterm:[CIF code generator,preprocessing]
 
 The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
-* <<tools-cif2cif-chapter-remove-cif-svg-decls>>
+* <<tools-cif2cif-chapter-remove-cif-svg-decls>> (if the target language is not HTML)
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 * <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
 * <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
@@ -180,6 +185,7 @@ It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CI
 
 * <<tools-cif2cif-chapter-linearize-merge>>
 * <<tools-cif2cif-chapter-print-file-into-decls>>
+* <<tools-cif2cif-chapter-svg-file-into-decls>>
 * <<tools-cif2cif-chapter-merge-enums>>
 * <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
 * <<tools-cif2cif-chapter-add-default-init-values>>
@@ -262,7 +268,7 @@ In other words, choosing an appropriate cycle time is essential for the correct 
 [[tools-codegen-accuracy-over-time]]
 ==== Accuracy over time
 
-The generated C89, C99, Java and JavaScript code maintains the running time in seconds.
+The generated C89, C99, Java, JavaScript and HTML code maintains the running time in seconds.
 Due to the finite representation of numeric values, this results in numeric overflow after execution for a long time.
 Running the code continuously for longer than 100 years should be avoided.
 

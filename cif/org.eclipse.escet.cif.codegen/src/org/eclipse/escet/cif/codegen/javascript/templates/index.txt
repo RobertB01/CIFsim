@@ -1,10 +1,45 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${prefix} | Eclipse ESCET</title>
-        <link rel="stylesheet" href="${prefix}_escet_theme.css">
-        <style>
+        <style type="text/css">
+            /* ESCET theme styles. */
+            html, body {
+                margin: 0;
+                background-color: #fff7df; /* ESCET website yellow. */
+                font-family: "Segoe UI";
+                line-height: 1.5;
+                height: 100%;
+            }
+
+            a {
+                color: #cc9a06;
+            }
+
+            a:hover {
+                color: black;
+            }
+
+            input[type=button] {
+                background-color: #ffc107;
+                border: 0;
+                box-shadow: none;
+                padding: .375rem .75rem;
+                border-radius: .25rem;
+                cursor: pointer;
+            }
+
+            input[type=button]:hover {
+                background-color: #ffda6d;
+            }
+
+            textarea {
+                background: white;
+            }
+        </style>
+        <style type="text/css">
             body {
                 text-align: center;
             }
@@ -19,9 +54,6 @@
                 flex: 1 1 auto;
                 overflow: auto;
             }
-            #content .btns-div {
-                margin-bottom: 15px;
-            }
 
             #log-pane {
                 border-top: 2px solid #ddd;
@@ -29,18 +61,18 @@
                 background: #fafafa;
             }
             #log-pane .div-show-hide-btn {
-                height: 25px;
+                height: 42px;
                 padding-top: 5px;
                 text-align: right;
+                width: 100%;
                 border-bottom: 1px solid #ddd;
             }
-            #log-pane .div-show-hide-btn a {
-                display: block;
-                float: right;
-                margin: -4px 7px 0px 0px;
+
+            #log-pane .div-show-hide-btn span {
+                margin-right: 10px;
             }
             #log-pane #div-txt-area-background {
-                height: calc(100% - 60px);
+                height: calc(100% - 57px);
                 background: #fff;
             }
             #log-pane .div-txt-area {
@@ -61,7 +93,7 @@
             }
 
             .collapsed #log-pane {
-                height: 31px;
+                height: 48px;
                 flex: none;
             }
             .expanded #log-pane {
@@ -83,328 +115,180 @@
             .expanded #div-log-pane-footer {
                 display: visible;
             }
+
+            #run-frequency {
+                width: 250px;
+            }
+
+            svg {
+                background: white;
+                margin-bottom: 8px;
+            }
+
+            .svg-hidden {
+                visibility: hidden;
+                display: none;
+            }
+
+            .svg-visible {
+                visibility: visible;
+                display: block;
+            }
+
+            /* Defaults for SVG text elements, for same size and style as used by the CIF simulator. */
+            .text {
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                font-stretch: normal;
+                font-size: 11.8014px;
+                font-family: "Arial";
+            }
+
+${html-svg-in-css}
         </style>
-        <script src="${prefix}_utils.js"></script>
+        <script type="text/javascript">
+${html-javascript-utils-placeholder}
+        </script>
+        <script type="text/javascript">
+${html-javascript-class-placeholder}
+        </script>
         <script type="text/javascript">
             var ${prefix};
 
             function onLoad() {
                 ${prefix} = new ${prefix}_class();
+                reset();
+                start();
+            }
+
+            function toggleStartStop() {
+                if (${prefix}.playing) {
+                    stop();
+                } else {
+                    start();
+                }
+            }
+
+            function start() {
+                if (!${prefix}.playing) {
+                    log('start');
+                    var btn = document.getElementById('start-stop-toggle');
+                    btn.value = 'Stop';
+                    ${prefix}.start();
+                }
+            }
+
+            function stop() {
+                if (${prefix}.playing){
+                    log('stop');
+                    var btn = document.getElementById('start-stop-toggle');
+                    btn.value = 'Start';
+                    ${prefix}.stop();
+                }
+            }
+
+            function reset() {
+                stop();
+                ${prefix}.reset();
+                clearLog();
+            }
+
+            function updateFrequency() {
+                // Update frequency.
+                var range = document.getElementById('run-frequency');
+                ${prefix}.frequency = range.value;
+
+                // Update frequency UI.
+                document.getElementById('run-frequency-output').value = range.value;
             }
 
             function log(message) {
                 console.log(message);
-                var elem = document.getElementById("log-output");
+                var elem = document.getElementById('log-output');
                 elem.value += message + '\r\n';
                 elem.scrollTop = elem.scrollHeight;
             }
 
-            function reset() {
-                clearLog();
-            }
-
             function clearLog() {
-                document.getElementById("log-output").value = "";
+                document.getElementById('log-output').value = '';
             }
 
             function showHide(btn) {
-                var elem = document.getElementById("flex-container");
-                if (elem.classList.contains("expanded")) {
-                    btn.textContent = "Show";
+                var elem = document.getElementById('flex-container');
+                if (elem.classList.contains('expanded')) {
                     elem.classList.remove('expanded');
                     elem.classList.add('collapsed');
+                    btn.value = 'Show';
                 } else {
-                    btn.textContent = "Hide";
                     elem.classList.remove('collapsed');
                     elem.classList.add('expanded');
+                    btn.value = 'Hide';
                 }
             }
 
-${javascript-tuples-code}
-
-            /** ${prefix}_class code generated from a CIF specification. */
-            class ${prefix}_class {
-                ${prefix}Enum = Object.freeze({
-${javascript-enum-lits-code}
-                })
-
-                /** Should execution timing information be provided? */
-                doInfoExec = true;
-
-                /** Should executed event information be provided? */
-                doInfoEvent = false;
-
-                /** Should print output be provided? */
-                doInfoPrintOutput = true;
-
-                /** Whether this is the first time the code is (to be) executed. */
-                firstExec;
-
-                /** The names of all the events, except for event 'tau'. */
-                EVENT_NAMES = [
-${javascript-event-name-code}
-                ];
-${javascript-const-decls}
-
-                /** Variable 'time', tracks elapsed time for a session. */
-                time;
-
-                /**
-                 * The frequency in times per second, that the code should
-                 * be executed (if positive), or execute as fast as possible, that is
-                 * as many times per second as possible (if negative or zero).
-                 */
-                frequency = 20;
-
-                /**
-                 * Whether the next execution is the first execution of the session.
-                 * Used to initialize time-related variables for starting, pausing,
-                 * resuming or resetting each session.
-                 */
-                first;
-
-                /** The start time of the current session. */
-                startMilli;
-
-                /**
-                 * The targeted end time of the current/next cycle, to ensure
-                 * that the duration of the cycle matches with the configured
-                 * frequency.
-                 */
-                targetMilli;
-
-${javascript-state-decls}
-${javascript-state-input}
-
-                /** Constructor for the {@link ${prefix}_class} class. */
-                constructor() {
-                    this.reset();
+            function toggleSVG(elemId) {
+                var elem = document.getElementById(elemId);
+                if (elem.classList.contains('svg-visible')) {
+                    elem.classList.remove('svg-visible');
+                    elem.classList.add('svg-hidden');
+                } else {
+                    elem.classList.remove('svg-hidden');
+                    elem.classList.add('svg-visible');
                 }
+            }
 
-                /** Resets the object to its intitial state. */
-                reset() {
-                    this.firstExec = true;
-                    this.time = 0.0;
-                    this.first = true;
-                    this.initState();
-                }
+            function downloadLog() {
+                // Get log content.
+                var modelName = document.getElementById('model-name').innerHTML;
+                var content = document.getElementById('log-output').value;
 
-                /**
-                 * Execute the code once. Inputs are read, transitions are executed until
-                 * none are possible, outputs are written, etc.
-                 *
-                 * @param newTime The time in seconds, since the start of the first
-                 *      execution.
-                 * @throws ${prefix}Exception In case of a runtime error caused by code
-                 *      generated from the CIF model.
-                 */
-                execOnce(newTime) {
-                    // Pre execution notification.
-                    this.preExec();
+                // Create URL object with log content.
+                var blob = new Blob([content], {type: 'plain/text'});
+                var url = URL.createObjectURL(blob);
 
-                    // Update values of input variables.
-                    this.updateInputs();
+                // Create a new invisible 'a' element that serves as the download link.
+                var link = document.createElement('a');
+                link.style.display = 'none';
+                link.href = url;
+                link.download = modelName + '.' + new Date().toISOString() + '.log.txt';
 
-                    // Initialize the state.
-                    if (this.firstExec) {
-                        this.initState();
-                    }
+                // Click the link to start the download, after properly adding the link to the document.
+                document.body.appendChild(link);
+                link.click();
 
-                    // Calculate time delta.
-                    var delta = newTime - this.time;
-
-                    // Update values of continuous variables.
-                    if (!this.firstExec) {
-${javascript-cont-upd-code}
-                    }
-
-                    // Update time.
-                    this.time = newTime;
-
-                    // Apply print declarations.
-                    if (this.firstExec) {
-                        // For 'initial' transition.
-                        if (this.doInfoPrintOutput) this.printOutput(-3, true);
-                        if (this.doInfoPrintOutput) this.printOutput(-3, false);
-
-                    } else {
-                        // For 'post' of time transition.
-                        if (this.doInfoPrintOutput) this.printOutput(-2, false);
-                    }
-
-                    // Execute events as long as they are possible.
-                    while (true) {
-${javascript-event-calls-code}
-                        break;
-                    }
-
-                    // Apply print declarations for 'pre' of time transition.
-                    if (this.doInfoPrintOutput) this.printOutput(-2, true);
-
-                    // Post execution notification.
-                    this.postExec();
-
-                    // Done.
-                    this.firstExec = false;
-                }
-
-                /**
-                 * Calls {@link #execWhile}, which repeatedly {@link #execOnce executes the code}.
-                 *
-                 * @throws ${prefix}Exception In case of a runtime error caused by code
-                 *      generated from the CIF model.
-                 */
-                exec() {
-                    this.execWhile(1);
-                }
-
-                /**
-                 * Repeatedly {@link #execOnce executes the code}.
-                 *
-                 * @param delay The delay before executing, in milliseconds.
-                 *
-                 * @throws ${prefix}Exception In case of a runtime error caused by code
-                 *      generated from the CIF model.
-                 */
-                execWhile(delay) {
-                    setTimeout(
-                        function () {
-                            // Pre execution timing.
-                            var now = Date.now();
-                            var preMilli = now;
-
-                            // On first execution, initialize variables for timing.
-                            if (${prefix}.first) {
-                                ${prefix}.first = false;
-                                ${prefix}.startMilli = now;
-                                ${prefix}.targetMilli = ${prefix}.startMilli;
-                                preMilli = ${prefix}.startMilli;
-                            }
-
-                            // Get cycle time and current 'time'.
-                            var frequency = ${prefix}.frequency;
-                            var cycleMilli = (frequency <= 0) ? -1 : 1e3 / frequency;
-                            var timeMilli = preMilli - ${prefix}.startMilli;
-
-                            // Execute once.
-                            ${prefix}.execOnce(timeMilli / 1e3);
-
-                            // Post execution timing.
-                            var postMilli = Date.now();
-                            var duration = postMilli - preMilli;
-                            if (${prefix}.doInfoExec) {
-                                ${prefix}.infoExec(duration, cycleMilli);
-                            }
-
-                            // Ensure frequency.
-                            var remainderMilli = 0;
-                            if (frequency > 0) {
-                                ${prefix}.targetMilli += cycleMilli;
-                                remainderMilli = ${prefix}.targetMilli - postMilli;
-                            }
-
-                            // Execute again.
-                            ${prefix}.execWhile(remainderMilli > 0 ? remainderMilli : 0);
-                        },
-                    delay);
-                }
-${javascript-event-methods-code}
-
-                /** Initializes the state. */
-                initState() {
-${javascript-state-init}
-                }
-
-                /**
-                 * Updates the values of the input variables. Other variables from the
-                 * state may not be accessed or modified.
-                 */
-                updateInputs() { }
-
-                /**
-                 * Informs about the duration of a single execution.
-                 *
-                 * @param duration The duration of the execution, in milliseconds.
-                 * @param cycleTime The desired maximum duration of the execution, in
-                 *      milliseconds, or '-1' if not available.
-                 */
-                infoExec(duration, cycleTime) { }
-
-                /**
-                 * Informs that an event will be or has been executed.
-                 *
-                 * @param idx The 0-based index of the event, or '-1' for 'tau'.
-                 * @param pre Whether the event will be executed ('true') or has
-                 *      been executed ('false').
-                 */
-                infoEvent(idx, pre) { }
-
-                /**
-                 * Informs that the code is about to be executed. For the
-                 * {@link #firstExec} the state has not yet been initialized, except for
-                 * {@link #time}.
-                 */
-                preExec() { }
-
-                /** Informs that the code was just executed. */
-                postExec() { }
-
-                /**
-                 * Returns the name of an event.
-                 *
-                 * @param idx The 0-based index of the event, or '-1' for 'tau'.
-                 * @return The name of the event.
-                 */
-                getEventName(idx) {
-                    if (idx == -1) {
-                        return "tau";
-                    }
-                    return this.EVENT_NAMES[idx];
-                }
-
-${javascript-alg-var-code}
-${javascript-deriv-code}
-${javascript-funcs-code}
-
-                /**
-                 * Print output for all relevant print declarations.
-                 *
-                 * @param idx The 0-based event index of the transition, or '-1' for
-                 *      'tau' transitions, '-2' for time transitions, or '-3'
-                 *      for the 'initial' transition.
-                 * @param pre Whether to print output for the pre/source state of the
-                 *      transition ('true') or for the post/target state of the
-                 *      transition ('false').
-                 */
-                printOutput(idx, pre) {
-${javascript-print-code}
-                }
-
-                /**
-                 * Informs that new print output is available.
-                 *
-                 * @param text The text being printed.
-                 */
-                infoPrintOutput(text) {
-                    log(text);
-                }
+                // Clean up the URL and temporary link element.
+                URL.revokeObjectURL(url);
+                link.remove();
             }
         </script>
     </head>
     <body onload="onLoad()">
         <div class="expanded" id="flex-container">
             <div id="content">
-                <div>
-                    <h1>${prefix}</h1>
-                    <!-- SVG element goes here. -->
-                </div>
-                <div class="btns-div">
-                    <input value="Reset" type="button" onClick="reset()">
-                </div>
+                <h1 id="model-name">${prefix}</h1>
+${html-svg-content}
             </div>
             <div id="log-pane">
                 <div class="div-show-hide-btn">
-                    <a href="#" onclick="showHide(this); return false;">Hide</a>
+                    <span>
+${html-svg-toggles}
+                        <input id="run-frequency" type="range" min="1" max="120"
+                                list="run-frequency-markers" oninput="updateFrequency(); return false;"/>
+                        <output id="run-frequency-output" for="run-frequency"></output>
+                        <label for="run-frequency"> Hz</label>
+                        <datalist id="run-frequency-markers">
+                            <option value="30"/>
+                            <option value="60"/>
+                            <option value="90"/>
+                            <option value="120"/>
+                        </datalist>
+                        <input id="start-stop-toggle" value="Stop" type="button"
+                                onclick="toggleStartStop(); return false;"/>
+                        <input value="Reset" type="button" onclick="reset(); return false;"/>
+                        <input value="Download log" type="button" onclick="downloadLog(); return false;"/>
+                        <input value="Hide" type="button" onclick="showHide(this); return false;"/>
+                    </span>
                 </div>
                 <div id="div-txt-area-background">
                     <div class="div-txt-area">

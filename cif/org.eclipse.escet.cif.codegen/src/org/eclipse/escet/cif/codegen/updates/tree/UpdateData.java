@@ -49,7 +49,7 @@ public abstract class UpdateData {
     /**
      * Perform bottom-up traversal of the update tree, collecting read and written variables from the sub-trees.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Cumulative read and written variables of the update node.
      */
     public abstract ReadWriteDeclarations collectVariableUsage(CodeContext ctxt);
@@ -82,7 +82,7 @@ public abstract class UpdateData {
      * @param asgn Assignment to perform.
      * @param code Storage for generated code (updated in-place).
      * @param safeScope If set, the code environment is a scope that may be used for adding temporary variables.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     public static void generateAssignment(AssignmentFuncStatement asgn, CodeBox code, boolean safeScope,
             CodeContext ctxt)
@@ -98,7 +98,7 @@ public abstract class UpdateData {
      *
      * @param updates Updates to perform.
      * @param code Storage for generated code (updated in-place).
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     public static void generateAssignment(List<Update> updates, CodeBox code, CodeContext ctxt) {
         UpdateData updateTree = new SequenceUpdate(updates);

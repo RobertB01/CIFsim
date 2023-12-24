@@ -490,6 +490,12 @@ public class JavaCodeGen extends CodeGen {
     }
 
     @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // All CIF/SVG declarations should have been removed from the model.
+        Assert.check(svgDecls.isEmpty());
+    }
+
+    @Override
     protected void addEdges(CodeContext ctxt) {
         CodeBox codeCalls = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
@@ -753,7 +759,7 @@ public class JavaCodeGen extends CodeGen {
      * Get the Java type for the given CIF type.
      *
      * @param type CIF type to convert.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The name of the converted CIF type.
      */
     private String typeToJava(CifType type, CodeContext ctxt) {

@@ -39,14 +39,20 @@ import org.eclipse.escet.common.java.Numbers;
 
 /** JavaScript type information about the tuple type. */
 public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
+    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
+    private final String prefix;
+
     /**
      * Constructor of the {@link JavaScriptTupleTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
      * @param fieldTIs Fields type information.
+     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
+     *     names.
      */
-    public JavaScriptTupleTypeInfo(CifType cifType, TypeInfo[] fieldTIs) {
+    public JavaScriptTupleTypeInfo(CifType cifType, TypeInfo[] fieldTIs, String prefix) {
         super(cifType, fieldTIs);
+        this.prefix = prefix;
     }
 
     @Override
@@ -97,7 +103,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.add("constructor(%s) {", String.join(", ", paramTxts));
         code.indent();
         for (String name: names) {
-            code.add("this.%s = %s;", name, name);
+            code.add("%s.%s = %s;", ctxt.getPrefix(), name, name);
         }
         code.dedent();
         code.add("}");
@@ -107,19 +113,6 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.add("copy() {");
         code.indent();
         code.add("return new %s(%s);", className, String.join(", ", names));
-        code.dedent();
-        code.add("}");
-
-        // Add 'equals' method.
-        code.add();
-        code.add("equals(obj) {");
-        code.indent();
-        code.add("if (this == obj) return true;");
-        code.add("var other = obj;");
-        for (int i = 0; i < names.length; i++) {
-            code.add("%s %sUtils.equalObjs(this.%s, other.%s)%s", (i == 0) ? "return" : "      ", ctxt.getPrefix(),
-                    names[i], names[i], (i == names.length - 1) ? ";" : " &&");
-        }
         code.dedent();
         code.add("}");
 
@@ -152,7 +145,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
+        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
     }
 
     @Override

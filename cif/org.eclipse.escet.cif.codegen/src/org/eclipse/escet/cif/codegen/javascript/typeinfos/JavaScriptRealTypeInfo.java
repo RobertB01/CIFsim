@@ -45,6 +45,9 @@ import org.eclipse.escet.common.java.Assert;
 
 /** JavaScript type information about the real type. */
 public class JavaScriptRealTypeInfo extends RealTypeInfo {
+    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
+    private final String prefix;
+
     /** Conversions from CIF standard library functions to JavaScript functions in the implementation. */
     private static final Map<StdLibFunction, String> STANDARD_FUNCTIONS;
 
@@ -67,9 +70,12 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
      * Constructor of the {@link JavaScriptRealTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
+     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
+     *     names.
      */
-    public JavaScriptRealTypeInfo(CifType cifType) {
+    public JavaScriptRealTypeInfo(CifType cifType, String prefix) {
         super(cifType);
+        this.prefix = prefix;
     }
 
     @Override
@@ -85,7 +91,7 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("this.%s = %s;", dest.getData(), sourceValue.getData());
+        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
     }
 
     @Override
@@ -131,8 +137,8 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
         ExprCode result = new ExprCode();
         result.add(childCode);
         result.setDestination(dest);
-        result.setDataValue(new JavaScriptDataValue(fmt("%sUtils.negateReal(%s)", ctxt.getPrefix(),
-                childCode.getData())));
+        result.setDataValue(
+                new JavaScriptDataValue(fmt("%sUtils.negateReal(%s)", ctxt.getPrefix(), childCode.getData())));
         return result;
     }
 
@@ -144,14 +150,14 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
 
     @Override
     public ExprCode convertSubtraction(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, fmt("%sUtils.subtractReal(${left-value}, ${right-value})",
-                ctxt.getPrefix()), dest, ctxt);
+        return convertBinaryExpressionPattern(expr,
+                fmt("%sUtils.subtractReal(${left-value}, ${right-value})", ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
     public ExprCode convertMultiplication(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, fmt("%sUtils.multiplyReal(${left-value}, ${right-value})",
-                ctxt.getPrefix()), dest, ctxt);
+        return convertBinaryExpressionPattern(expr,
+                fmt("%sUtils.multiplyReal(${left-value}, ${right-value})", ctxt.getPrefix()), dest, ctxt);
     }
 
     @Override
@@ -172,7 +178,7 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     public ExprCode convertTimeExpression(Destination dest, CodeContext ctxt) {
         ExprCode result = new ExprCode();
         result.setDestination(dest);
-        result.setDataValue(new JavaScriptDataValue("time"));
+        result.setDataValue(new JavaScriptDataValue(fmt("%s.time", this.prefix)));
         return result;
     }
 

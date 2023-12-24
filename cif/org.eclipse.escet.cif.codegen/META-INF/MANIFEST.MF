@@ -2,25 +2,26 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF Code Generator
 Bundle-SymbolicName: org.eclipse.escet.cif.codegen;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 3.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="2.0.0",
- org.eclipse.escet.cif.common;bundle-version="2.0.0",
- org.eclipse.escet.cif.io;bundle-version="2.0.0",
- org.eclipse.escet.cif.metamodel;bundle-version="2.0.0",
- org.eclipse.escet.cif.parser;bundle-version="2.0.0",
- org.eclipse.escet.cif.typechecker;bundle-version="2.0.0",
- org.eclipse.escet.setext.runtime;bundle-version="2.0.0",
- org.eclipse.escet.common.typechecker;bundle-version="2.0.0",
- org.eclipse.escet.common.eclipse.ui;bundle-version="2.0.0",
+Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="3.0.0",
+ org.eclipse.escet.cif.common;bundle-version="3.0.0",
+ org.eclipse.escet.cif.io;bundle-version="3.0.0",
+ org.eclipse.escet.cif.metamodel;bundle-version="3.0.0",
+ org.eclipse.escet.cif.parser;bundle-version="3.0.0",
+ org.eclipse.escet.cif.typechecker;bundle-version="3.0.0",
+ org.eclipse.escet.setext.runtime;bundle-version="3.0.0",
+ org.eclipse.escet.common.typechecker;bundle-version="3.0.0",
+ org.eclipse.escet.common.eclipse.ui;bundle-version="3.0.0",
  org.eclipse.core.resources;bundle-version="3.13.600",
- org.eclipse.escet.common.java;bundle-version="2.0.0",
- org.eclipse.escet.cif.cif2cif;bundle-version="2.0.0",
- org.eclipse.escet.cif.metamodel.java;bundle-version="2.0.0",
+ org.eclipse.escet.common.java;bundle-version="3.0.0",
+ org.eclipse.escet.cif.cif2cif;bundle-version="3.0.0",
+ org.eclipse.escet.cif.metamodel.java;bundle-version="3.0.0",
  org.apache.commons.io;bundle-version="2.6.0",
- org.eclipse.escet.common.box;bundle-version="2.0.0",
- org.eclipse.escet.common.emf;bundle-version="2.0.0"
+ org.eclipse.escet.common.box;bundle-version="3.0.0",
+ org.eclipse.escet.common.emf;bundle-version="3.0.0",
+ org.eclipse.escet.common.svg;bundle-version="3.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Bundle-Vendor: Eclipse ESCET
 Export-Package: org.eclipse.escet.cif.codegen,

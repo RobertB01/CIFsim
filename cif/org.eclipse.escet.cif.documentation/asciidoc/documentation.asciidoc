@@ -695,6 +695,8 @@ include::tools/codegen/java.asciidoc[]
 
 include::tools/codegen/javascript.asciidoc[]
 
+include::tools/codegen/html.asciidoc[]
+
 include::tools/codegen/simulink.asciidoc[]
 
 include::tools/codegen/simulink-example.asciidoc[]

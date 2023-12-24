@@ -771,6 +771,12 @@ public class C89CodeGen extends CodeGen {
         replacements.put("print-function", code.toString());
     }
 
+    @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // All CIF/SVG declarations should have been removed from the model.
+        Assert.check(svgDecls.isEmpty());
+    }
+
     /**
      * Generate the event conditions for performing a print command.
      *
@@ -834,7 +840,7 @@ public class C89CodeGen extends CodeGen {
      * @param txtExpr Text to print (only used for checking existence of output).
      * @param txtVarInfo Temporary string variable to use for generating the print text.
      * @param targetFile String denoting the target of the output.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return {@code null} if no output is ever generated, else the code to generate output.
      */
     private CodeBox genPrint(Expression whenPred, List<PrintFor> fors, Expression txtExpr,

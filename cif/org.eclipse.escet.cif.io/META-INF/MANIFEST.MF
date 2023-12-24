@@ -2,20 +2,20 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF I/O
 Bundle-SymbolicName: org.eclipse.escet.cif.io;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="2.0.0",
- org.eclipse.escet.cif.typechecker;bundle-version="2.0.0",
- org.eclipse.escet.common.java;bundle-version="2.0.0",
- org.eclipse.escet.cif.metamodel;bundle-version="2.0.0",
- org.eclipse.escet.cif.parser;bundle-version="2.0.0",
- org.eclipse.escet.common.box;bundle-version="2.0.0",
- org.eclipse.escet.cif.prettyprinter;bundle-version="2.0.0",
- org.eclipse.escet.setext.runtime;bundle-version="2.0.0",
- org.eclipse.escet.common.typechecker;bundle-version="2.0.0",
- org.eclipse.escet.cif.common;bundle-version="2.0.0"
+Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="3.0.0",
+ org.eclipse.escet.cif.typechecker;bundle-version="3.0.0",
+ org.eclipse.escet.common.java;bundle-version="3.0.0",
+ org.eclipse.escet.cif.metamodel;bundle-version="3.0.0",
+ org.eclipse.escet.cif.parser;bundle-version="3.0.0",
+ org.eclipse.escet.common.box;bundle-version="3.0.0",
+ org.eclipse.escet.cif.prettyprinter;bundle-version="3.0.0",
+ org.eclipse.escet.setext.runtime;bundle-version="3.0.0",
+ org.eclipse.escet.common.typechecker;bundle-version="3.0.0",
+ org.eclipse.escet.cif.common;bundle-version="3.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.cif.io,
  org.eclipse.escet.cif.io.emf

@@ -22,32 +22,68 @@ The release notes for the versions of CIF and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-name}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 2.0
+=== Version 3.0
 
 TBD
+
+=== Version 2.0 (2023-12-22)
+
+Language changes:
+
+* Annotations may now be added to locations of automata.
+Annotations are still an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner (issue {escet-issue}593[#593]).
+* A single element of a CIF specification may now be annotated multiple times with the same annotation (typically with different arguments).
+Annotations are still an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner (issue {escet-issue}692[#692]).
+* The CIF toolset now comes bundled with the `state` annotation.
+It is currently an experimental work-in-progress annotation.
+Its design may change in a backward incompatible manner (issues {escet-issue}687[#687] and {escet-issue}697[#697]).
+* The CIF type checker now warns about certain duplicate state invariants (issue {escet-issue}542[#542]).
 
 New features:
 
 * A new CIF PLC code generator has been added to the CIF toolset.
-The new PLC code generator is currently being developed, and is not yet functional.
-In due time, it will replace the current CIF PLC code generator (issues {escet-issue}397[#397], {escet-issue}676[#676] and {escet-issue}679[#679]).
+The new PLC code generator is currently being developed, and should be considered experimental.
+In due time, it will replace the current stable CIF PLC code generator (issues {escet-issue}397[#397], {escet-issue}676[#676] and {escet-issue}679[#679]).
+* The CIF code generator can now generate HTML files.
+The HTML files allow executing the model in a browser.
+The HTML code generation is currently an experimental feature (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
 * The CIF code generator can now generate JavaScript code.
-The JavaScript code is part of an HTML page, which allows simulating the model in a browser.
-The JavaScript code generation is currently being developed, and is not yet functional (issue {escet-issue}272[#272]).
+The JavaScript code generation is currently an experimental feature (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
+* The CIF explorer now generates an output CIF model with state annotations.
+This can be disabled using the tool's new _Add state annotations_ option (issues {escet-issue}687[#687] and {escet-issue}698[#698]).
+* The tools from the event-based toolset that output CIF models, now generate CIF models with state annotations.
+This can be disabled using the tools' new _Add state annotations_ options (issue {escet-issue}708[#708]).
+* The CIF documentation now includes a history page, that explains the history of CIF, as well as what 'CIF' used to stand for (issue {escet-issue}669[#669]).
 
 Improvements and fixes:
 
+* All CIF tools that produce an output CIF file, no longer produce an invalid CIF file when a model contains integer types that only support the minimum integer value (issue {escet-issue}689[#689]).
 * The CIF type checker now produces improved error messages in case of a mismatch between an argument of a component instantiation and the corresponding parameter of the instantiated component definition (issue {escet-issue}672[#672]).
 * The CIF simulator no longer crashes when simulating models with large expressions (issue {escet-issue}611[#611]).
 * The CIF simulator now truncates messages for runtime errors that include large expressions (issue {escet-issue}661[#661]).
+* The CIF to CIF transformation to 'add default initial values' now produces correct results for models with discrete variables with an integer type that only supports negative integer values (issue {escet-issue}689[#689]).
+* The CIF to CIF transformation to 'simplify values' now produces correct results for models with integer expressions that are simplified to the minimum integer value (issue {escet-issue}689[#689]).
 * The CIF merger now produces correct models when merging models with annotations (issue {escet-issue}680[#680]).
+* The CIF explorer no longer crashes for models with discrete variables that have a function type and that are not explicitly initialized (issue {escet-issue}690[#690]).
+* The CIF explorer no longer crashes for models with discrete variables with integer types that only support the minimum integer value (issue {escet-issue}689[#689]).
+* The CIF explorer no longer crashes for models with expressions that evaluate to the minimum integer value (issue {escet-issue}689[#689]).
+* The CIF explorer documentation has some fixes, improvements and extensions (issue {escet-issue}687[#687]).
+* The CIF controller checker now produces more debug output (if debug output is enabled), to be able to better track its progress (issue {escet-issue}686[#686]).
+* The CIF controller checker is now more responsive to termination requests (issue {escet-issue}686[#686]).
 * The CIF to mCRL2 transformer now supports CIF models with logical implication binary operators (issue {escet-issue}667[#667]).
+* The CIF code generator now generates better-formatted Java code for checking range violations (issue {escet-issue}272[#272]).
+* The CIF code generator now generates valid Java and Simulink code for models without enumerations and without any automata that have at least two locations (issues {escet-issue}272[#272] and {escet-issue}715[#715]).
 * The CIF code generator no longer crashes for certain models with more complex initialization.
 Previously, if an automaton had multiple locations with initialization predicates that contained variables, but only one of those locations was an initial location, the code generator could crash (issue {escet-issue}683[#683]).
+* The CIF PLC code generator (stable version) no longer crashes for certain models with more complex initialization, if its _Simplify values_ option is disabled.
+Previously, if an automaton had multiple locations with initialization predicates that contained variables, but only one of those locations was an initial location, the code generator could crash (issue {escet-issue}684[#684]).
+* The 'lithography_init' benchmark model has been changed, removing a duplicate invariant (issue {escet-issue}712[#712]).
 * The CIF language tutorial has various improvements and extensions for the documentation about annotations (issue {escet-issue}593[#593]).
 * The CIF language reference manual now includes additional detailed information about annotations (issue {escet-issue}593[#593]).
 * The CIF tool manual now indicates for each tool which annotations it supports, and how it handles them (issue {escet-issue}593[#593]).
-* The CIF documentation has various small improvements and fixes (issues {escet-issue}593[#593], {escet-issue}648[#648] and {escet-issue}682[#682]).
+* The CIF documentation has various small improvements and fixes (issues {escet-issue}593[#593], {escet-issue}648[#648], {escet-issue}669[#669], {escet-issue}682[#682], {escet-issue}687[#687] and {escet-issue}708[#708]).
 
 === Version 1.0 (2023-09-30)
 

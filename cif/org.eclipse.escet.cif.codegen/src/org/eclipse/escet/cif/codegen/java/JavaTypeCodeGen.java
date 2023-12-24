@@ -51,7 +51,7 @@ public class JavaTypeCodeGen extends TypeCodeGen {
      * </p>
      *
      * @param type CIF type to convert to the Java language.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param generic Whether the context of the type requires a generic type rather than a primitive type.
      * @return The constructed type information object.
      */

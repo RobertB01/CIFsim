@@ -54,6 +54,9 @@ The following table shows the relation between the names of the ToolDef tools in
 | `cif2plc`
 | <<tools-cif2plc-chapter-index>>
 
+| `cifplcgen`
+| <<tools-plcgen-chapter-index>>
+
 | `cif2cif`
 | <<tools-cif2cif-chapter-index>>
 

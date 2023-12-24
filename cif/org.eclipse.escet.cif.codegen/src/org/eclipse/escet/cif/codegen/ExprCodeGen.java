@@ -79,7 +79,7 @@ public abstract class ExprCodeGen {
      * Generate a target language code fragment for the given predicates, assuming conjunction between the predicates.
      *
      * @param preds The predicates.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The target language code that represents the given predicates.
      */
     protected ExprCode predsToTarget(List<Expression> preds, CodeContext ctxt) {
@@ -94,7 +94,7 @@ public abstract class ExprCodeGen {
      * Generate a target language code fragment for the given predicates, assuming conjunction between the predicates.
      *
      * @param preds The predicates.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The target language code that represents the given predicates.
      */
     protected abstract ExprCode predTextsToTarget(List<ExprCode> preds, CodeContext ctxt);
@@ -108,7 +108,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr The expression.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The target language code that represents the given expression.
      */
     protected ExprCode exprToTarget(Expression expr, Destination dest, CodeContext ctxt) {
@@ -126,7 +126,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The generated code fragment.
      */
     private ExprCode internalExprToTarget(Expression expr, Destination dest, CodeContext ctxt) {
@@ -195,7 +195,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertBoolExpression(BoolExpression expr, Destination dest, CodeContext ctxt) {
@@ -208,7 +208,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertIntExpression(IntExpression expr, Destination dest, CodeContext ctxt) {
@@ -223,7 +223,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertRealExpression(RealExpression expr, Destination dest, CodeContext ctxt) {
@@ -244,7 +244,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertStringExpression(StringExpression expr, Destination dest, CodeContext ctxt) {
@@ -259,7 +259,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertTimeExpression(TimeExpression expr, Destination dest, CodeContext ctxt) {
@@ -282,7 +282,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertCastExpression(CastExpression expr, Destination dest, CodeContext ctxt) {
@@ -351,7 +351,7 @@ public abstract class ExprCodeGen {
      * @param childType Normalized type of the child value.
      * @param child Child expression.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected abstract ExprCode convertCastExpression(CifType exprType, CifType childType, Expression child,
@@ -362,7 +362,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertUnaryExpression(UnaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -396,7 +396,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertBinaryExpression(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -515,7 +515,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected abstract ExprCode convertIfExpression(IfExpression expr, Destination dest, CodeContext ctxt);
@@ -525,7 +525,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertProjectionExpression(ProjectionExpression expr, Destination dest, CodeContext ctxt) {
@@ -584,7 +584,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertFunctionCallExpression(FunctionCallExpression expr, Destination dest, CodeContext ctxt) {
@@ -629,7 +629,7 @@ public abstract class ExprCodeGen {
      * @param func Function to call.
      * @param argTexts Arguments of the call.
      * @param dest Storage destination of the result if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Textual representation of the function call in the target language.
      */
     protected abstract ExprCode convertInternalFunctionCall(InternalFunction func, List<ExprCode> argTexts,
@@ -646,7 +646,7 @@ public abstract class ExprCodeGen {
      * @param stdLib Standard library function being called.
      * @param args Arguments of the call.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Textual representation of the standard library call.
      */
     protected ExprCode convertStdLibFunctionCall(Expression expr, StdLibFunction stdLib, List<Expression> args,
@@ -824,7 +824,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertListExpression(ListExpression expr, Destination dest, CodeContext ctxt) {
@@ -837,7 +837,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertTupleExpression(TupleExpression expr, Destination dest, CodeContext ctxt) {
@@ -850,7 +850,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected abstract ExprCode convertConstantExpression(ConstantExpression expr, Destination dest, CodeContext ctxt);
@@ -860,7 +860,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertDiscVariableExpression(DiscVariableExpression expr, Destination dest, CodeContext ctxt) {
@@ -872,7 +872,7 @@ public abstract class ExprCodeGen {
      *
      * @param var Variable read to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     public abstract ExprCode convertDiscVariableExpression(DiscVariable var, Destination dest, CodeContext ctxt);
@@ -882,7 +882,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertAlgVariableExpression(AlgVariableExpression expr, Destination dest, CodeContext ctxt) {
@@ -894,7 +894,7 @@ public abstract class ExprCodeGen {
      *
      * @param var Variable read to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected abstract ExprCode convertAlgVariableExpression(AlgVariable var, Destination dest, CodeContext ctxt);
@@ -905,7 +905,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertContVariableExpression(ContVariableExpression expr, Destination dest, CodeContext ctxt) {
@@ -919,7 +919,7 @@ public abstract class ExprCodeGen {
      * @param var Variable being accessed.
      * @param isDerivative Whether the derivative value should be returned.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected abstract ExprCode convertContVariableExpression(ContVariable var, boolean isDerivative, Destination dest,
@@ -930,7 +930,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected ExprCode convertEnumLiteralExpression(EnumLiteralExpression expr, Destination dest, CodeContext ctxt) {
@@ -943,7 +943,7 @@ public abstract class ExprCodeGen {
      *
      * @param expr Expression to convert.
      * @param dest Destination to write the value to if available, else {@code null}.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Code fragment representing the value.
      */
     protected abstract ExprCode convertInputVariableExpression(InputVariableExpression expr, Destination dest,

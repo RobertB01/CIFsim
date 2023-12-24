@@ -26,8 +26,8 @@ public class TargetLanguageOption extends EnumOption<TargetLanguage> {
 
                 // description
                 "The target language of the code generator. Specify \"java\" for Java code, \"javascript\" for "
-                        + "JavaScript code, \"c89\" for C89 code, \"c99\" for C99 code, or \"simulink\" for "
-                        + "Simulink S-Function code. [DEFAULT=simulink]",
+                        + "JavaScript code, \"html\" for HTML code, \"c89\" for C89 code, \"c99\" for C99 code, "
+                        + "or \"simulink\" for Simulink S-Function code. [DEFAULT=simulink]",
 
                 // cmdShort
                 'l',

@@ -1,0 +1,351 @@
+/** Tuples. */
+${javascript-tuples-code}
+
+/** ${prefix}_class code generated from a CIF specification. */
+class ${prefix}_class {
+    /** ${prefix}Enum declaration. It contains the single merged enum from the CIF model. */
+    ${prefix}Enum = Object.freeze({
+${javascript-enum-lits-code}
+    })
+
+    /** Should execution timing information be provided? */
+    doInfoExec = true;
+
+    /** Should executed event information be provided? */
+    doInfoEvent = true;
+
+    /** Should print output be provided? */
+    doInfoPrintOutput = true;
+
+    /** Whether this is the first time the code is (to be) executed. */
+    firstExec;
+
+    /** The names of all the events, except for event 'tau'. */
+    EVENT_NAMES = [
+${javascript-event-name-code}
+    ];
+${javascript-const-decls}
+
+    /** Variable 'time', tracks elapsed time for a session. */
+    time;
+
+    /**
+     * The frequency in times per second, that the code should
+     * be executed (if positive), or execute as fast as possible, that is
+     * as many times per second as possible (if negative or zero).
+     */
+    frequency = 60;
+
+    /**
+     * Whether the next execution is the first execution of the session.
+     * Used to initialize time-related variables for starting, pausing,
+     * resuming or resetting each session.
+     */
+    first;
+
+    /**
+     * Whether the simulation is currently running, and should process
+     * user input, or is paused.
+     */
+    playing;
+
+    /** The start time of the current session. */
+    startMilli;
+
+    /**
+     * The targeted end time of the current/next cycle, to ensure
+     * that the duration of the cycle matches with the configured
+     * frequency.
+     */
+    targetMilli;
+
+${javascript-state-decls}
+${javascript-state-input}
+
+    /** SVG output elements. */
+${javascript-svg-out-declarations}
+
+    /** SVG event allowed variables. */
+${javascript-event-allowed-declarations}
+
+    /** SVG input event handlers. */
+${javascript-svg-in-event-handlers-code}
+
+    /** Starts the simulation. */
+    start() {
+        if (!this.playing) {
+            this.playing = true;
+            this.exec();
+        }
+    }
+
+    /** Stops the simulation. */
+    stop() {
+        if (this.playing) {
+            this.playing = false;
+        }
+    }
+
+    /** Resets the object to its initial state. */
+    reset() {
+        this.stop();
+        this.firstExec = true;
+        this.time = 0.0;
+        this.first = true;
+        this.timePaused = null;
+        this.initState();
+        this.initUI();
+        this.updateUI();
+    }
+
+    /**
+     * Execute the code once. Inputs are read, transitions are executed until
+     * none are possible, outputs are written, etc.
+     *
+     * @param newTime The time in seconds, since the start of the first
+     *      execution.
+     * @throws ${prefix}Exception In case of a runtime error caused by code
+     *      generated from the CIF model.
+     */
+    execOnce(newTime) {
+        // Pre execution notification.
+        this.preExec();
+
+        // Update values of input variables.
+        this.updateInputs();
+
+        // Initialize the state.
+        if (this.firstExec) {
+            this.initState();
+        }
+
+        // Calculate time delta.
+        var delta = newTime - this.time;
+
+        // Update values of continuous variables.
+        if (!this.firstExec) {
+${javascript-cont-upd-code}
+        }
+
+        // Update time.
+        this.time = newTime;
+
+        // Apply print declarations.
+        if (this.firstExec) {
+            // For 'initial' transition.
+            if (this.doInfoPrintOutput) this.printOutput(-3, true);
+            if (this.doInfoPrintOutput) this.printOutput(-3, false);
+
+        } else {
+            // For 'post' of time transition.
+            if (this.doInfoPrintOutput) this.printOutput(-2, false);
+        }
+
+        // Execute events as long as they are possible.
+        while (true) {
+${javascript-event-calls-code}
+            break;
+        }
+
+        // Apply print declarations for 'pre' of time transition.
+        if (this.doInfoPrintOutput) this.printOutput(-2, true);
+
+        // Post execution notification.
+        this.postExec();
+
+        // Done.
+        this.firstExec = false;
+    }
+
+    /**
+     * Calls {@link #execWhile}, which repeatedly {@link #execOnce executes the code}.
+     *
+     * @throws ${prefix}Exception In case of a runtime error caused by code
+     *      generated from the CIF model.
+     */
+    exec() {
+        this.execWhile(1);
+    }
+
+    /**
+     * Repeatedly {@link #execOnce executes the code}.
+     *
+     * @param delay The delay before executing, in milliseconds.
+     *
+     * @throws ${prefix}Exception In case of a runtime error caused by code
+     *      generated from the CIF model.
+     */
+    execWhile(delay) {
+        setTimeout(
+            function () {
+                // Pre execution timing.
+                var now = Date.now();
+                var preMilli = now;
+
+                // On first execution, initialize variables for timing.
+                if (${prefix}.first) {
+                    ${prefix}.first = false;
+                    ${prefix}.startMilli = now;
+                    ${prefix}.targetMilli = ${prefix}.startMilli;
+                    preMilli = ${prefix}.startMilli;
+                }
+
+                // Handle pausing/playing.
+                if (!${prefix}.playing) {
+                    ${prefix}.timePaused = now;
+                    return;
+                }
+
+                if (${prefix}.timePaused) {
+                    ${prefix}.startMilli += (now - ${prefix}.timePaused);
+                    ${prefix}.targetMilli += (now - ${prefix}.timePaused);
+                    ${prefix}.timePaused = null;
+                }
+
+                // Get cycle time and current 'time'.
+                var frequency = ${prefix}.frequency;
+                var cycleMilli = (frequency <= 0) ? -1 : 1e3 / frequency;
+                var timeMilli = preMilli - ${prefix}.startMilli;
+
+                // Execute once.
+                ${prefix}.execOnce(timeMilli / 1e3);
+
+                // Post execution timing.
+                var postMilli = Date.now();
+                var duration = postMilli - preMilli;
+                if (${prefix}.doInfoExec) {
+                    ${prefix}.infoExec(duration, cycleMilli);
+                }
+
+                // Ensure frequency.
+                var remainderMilli = 0;
+                if (frequency > 0) {
+                    ${prefix}.targetMilli += cycleMilli;
+                    remainderMilli = ${prefix}.targetMilli - postMilli;
+                }
+
+                // Execute again.
+                ${prefix}.execWhile(remainderMilli > 0 ? remainderMilli : 0);
+            },
+        delay);
+    }
+${javascript-event-methods-code}
+
+    /** Initializes the state. */
+    initState() {
+        // SVG input event allowed/clicked variables.
+${javascript-event-allowed-init-code}
+
+        // CIF model state variables.
+${javascript-state-init}
+    }
+
+    /**
+     * Initializes the user interface, either when loading the page
+     * or when resetting the simulation.
+     */
+    initUI() {
+${javascript-frequency-slider-code}
+
+        // Prepare SVG output.
+${javascript-svg-out-assignments-code}
+
+        // Prepare SVG input.
+${javascript-svg-in-interact-code}
+    }
+
+    /**
+     * Updates the user interface based on the latest state of
+     * the model. Is called at the end of each cycle.
+     */
+    updateUI() {
+        // Apply CIF/SVG output mappings.
+${javascript-svg-out-apply-code}
+    }
+
+    /**
+     * Updates the values of the input variables. Other variables from the
+     * state may not be accessed or modified.
+     */
+    updateInputs() {
+        // Nothing is done here by default.
+    }
+
+    /**
+     * Informs about the duration of a single execution.
+     *
+     * @param duration The duration of the execution, in milliseconds.
+     * @param cycleTime The desired maximum duration of the execution, in
+     *      milliseconds, or '-1' if not available.
+     */
+    infoExec(duration, cycleTime) {
+        // Nothing is done here by default.
+    }
+
+    /**
+     * Informs that an event will be or has been executed.
+     *
+     * @param idx The 0-based index of the event, or '-1' for 'tau'.
+     * @param pre Whether the event will be executed ('true') or has
+     *      been executed ('false').
+     */
+    infoEvent(idx, pre) {
+        if (pre) {
+${infoevent-log-call-code}
+        }
+    }
+
+    /**
+     * Informs that the code is about to be executed. For the
+     * {@link #firstExec} the state has not yet been initialized, except for
+     * {@link #time}.
+     */
+    preExec() {
+        // Nothing is done here by default.
+    }
+
+    /** Informs that the code was just executed. */
+    postExec() {
+        this.updateUI();
+    }
+
+    /**
+     * Returns the name of an event.
+     *
+     * @param idx The 0-based index of the event, or '-1' for 'tau'.
+     * @return The name of the event.
+     */
+    getEventName(idx) {
+        if (idx == -1) {
+            return 'tau';
+        }
+        return this.EVENT_NAMES[idx];
+    }
+
+${javascript-alg-var-code}
+${javascript-deriv-code}
+${javascript-funcs-code}
+
+    /**
+     * Print output for all relevant print declarations.
+     *
+     * @param idx The 0-based event index of the transition, or '-1' for
+     *      'tau' transitions, '-2' for time transitions, or '-3'
+     *      for the 'initial' transition.
+     * @param pre Whether to print output for the pre/source state of the
+     *      transition ('true') or for the post/target state of the
+     *      transition ('false').
+     */
+    printOutput(idx, pre) {
+${javascript-print-code}
+    }
+
+    /**
+     * Informs that new print output is available.
+     *
+     * @param text The text being printed.
+     */
+    infoPrintOutput(text) {
+        log(text);
+    }
+}

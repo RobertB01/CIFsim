@@ -221,7 +221,7 @@ public abstract class TypeID {
      * @param name Variable to assign to.
      * @param tp Type of the variable (with proper list initial length). May be {@code null}.
      * @param box Code box to store the assignment in.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param javaFile Java file used as target for the code generation.
      */
     public void assignInitialValue(String name, Type tp, VBox box, CodeGeneratorContext ctxt, JavaFile javaFile) {
@@ -240,7 +240,7 @@ public abstract class TypeID {
      * Convert an expression node to implementation language.
      *
      * @param expr Expression to convert.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param javaFile Java file used as target for the code generation.
      * @return Converted expression operation.
      */

@@ -199,7 +199,7 @@ public class C89ArrayTypeInfo extends ArrayTypeInfo implements C89TypeInfo {
      *
      * @param declCode Declarations stream for the generated types and functions. Appended in-place.
      * @param defCode Implementation of the generated functions. Appended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void generateC89Code(CodeBox declCode, CodeBox defCode, CodeContext ctxt) {
         String definitionPrefix, declarationPrefix;

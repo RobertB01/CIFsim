@@ -25,8 +25,10 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -47,6 +49,7 @@ import org.eclipse.escet.cif.cif2cif.RemoveCifSvgDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesNoRefsOptimized;
+import org.eclipse.escet.cif.cif2cif.SvgFileIntoDecls;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
 import org.eclipse.escet.cif.codegen.options.CodePrefixOption;
@@ -71,6 +74,8 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -232,6 +237,16 @@ public abstract class CodeGen {
     protected List<Print> printDecls;
 
     /**
+     * The SVG declarations of the specification. {@code null} if not available, empty until filled with actual data.
+     *
+     * <p>
+     * Each SVG declaration contains an explicit SVG file declaration as part of itself, due to preprocessing. There is
+     * no need to look for separate SVG file declarations.
+     * </p>
+     */
+    protected List<IoDecl> svgDecls;
+
+    /**
      * The edges of the specification. {@code null} if not available, empty until filled with actual data.
      *
      * <p>
@@ -383,24 +398,28 @@ public abstract class CodeGen {
      * Generate and write code.
      *
      * @param spec The CIF specification for which to generate code.
-     * @param path The absolute or relative local file system path to the output directory to which the code files will
-     *     be written.
+     * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
+     * @param outputPath The absolute or relative local file system path to the output directory to which the code files
+     *     will be written.
      */
-    public void generate(Specification spec, String path) {
+    public void generate(Specification spec, String cifSpecFileDir, String outputPath) {
         // Initialization.
         init();
 
         // Prepare for code generation.
         prepare(spec);
 
+        // Create code context.
+        CodeContext ctxt = new CodeContext(this);
+
         // Generate the code, putting them in the replacements mapping.
-        generate(spec);
+        generateCode(ctxt, spec, cifSpecFileDir);
 
         // Finalize the generated code.
-        postGenerate();
+        postGenerate(ctxt);
 
         // Write the output.
-        write(path);
+        write(outputPath);
 
         // Cleanup.
         cleanup();
@@ -429,6 +448,7 @@ public abstract class CodeGen {
         inputVars = list();
         functions = list();
         printDecls = list();
+        svgDecls = list();
         edges = list();
 
         // Initialize the expression and type code generators.
@@ -637,12 +657,15 @@ public abstract class CodeGen {
         // Remove position information, for performance.
         new RemovePositionInfo().transform(spec);
 
-        // Remove CIF/SVG declarations. We don't use them, and by removing them
-        // we don't get unsupported errors for features used in them.
-        RemoveCifSvgDecls removeCifSvgDecls = new RemoveCifSvgDecls();
-        removeCifSvgDecls.transform(spec);
-        if (removeCifSvgDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+        // Remove CIF/SVG declarations, for target languages where we don't
+        // generate code for them. By removing the CIF/SVG declarations, we
+        // don't get unsupported errors for features used in them.
+        if (language != TargetLanguage.HTML) {
+            RemoveCifSvgDecls removeCifSvgDecls = new RemoveCifSvgDecls();
+            removeCifSvgDecls.transform(spec);
+            if (removeCifSvgDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+                warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+            }
         }
 
         // Eliminate component definition/instantiation, to get a concrete
@@ -673,6 +696,7 @@ public abstract class CodeGen {
         switch (language) {
             case JAVA:
             case JAVASCRIPT:
+            case HTML:
             case C89:
             case C99:
                 new CodeGenPreChecker().check(spec);
@@ -698,6 +722,9 @@ public abstract class CodeGen {
         // Push print file declarations inwards for easier code generation.
         new PrintFileIntoDecls().transform(spec);
 
+        // Push SVG file declarations inwards for easier code generation.
+        new SvgFileIntoDecls().transform(spec);
+
         // Merge enumerations into a single enumeration for easier code generation.
         new MergeEnums().transform(spec);
 
@@ -714,9 +741,11 @@ public abstract class CodeGen {
     /**
      * Generate code (replacements).
      *
+     * @param ctxt The code generation context.
      * @param spec The CIF specification for which to generate code (replacements).
+     * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
      */
-    private void generate(Specification spec) {
+    private void generateCode(CodeContext ctxt, Specification spec, String cifSpecFileDir) {
         // For the specification, we ignore the component definitions (have
         // already been eliminated), equations (eliminated due to
         // linearization), initialization predicates (should not exist, or
@@ -784,14 +813,11 @@ public abstract class CodeGen {
         EnumDecl enumDecl;
         if (enumDecls.isEmpty()) {
             enumDecl = CifConstructors.newEnumDecl(null,
-                    list(CifConstructors.newEnumLiteral("__some_dummy_enum_literal", null)),
-                    "__some_dummy_enum_name", null);
+                    list(CifConstructors.newEnumLiteral("__some_dummy_enum_literal", null)), "__some_dummy_enum_name",
+                    null);
         } else {
             enumDecl = first(enumDecls);
         }
-
-        // Create code context.
-        CodeContext ctxt = new CodeContext(this);
 
         // Generate code for the declarations.
         addConstants(ctxt);
@@ -814,6 +840,15 @@ public abstract class CodeGen {
         }
 
         addPrints(ctxt);
+
+        // Get code for the SVG declarations.
+        for (IoDecl decl: ioDecls) {
+            if (decl instanceof SvgIn || decl instanceof SvgOut) {
+                svgDecls.add(decl);
+            }
+        }
+
+        addSvgDecls(ctxt, cifSpecFileDir);
 
         // Get single linearized location. We ignore the initialization
         // predicates (should be trivially 'true', precondition), state
@@ -844,49 +879,49 @@ public abstract class CodeGen {
     /**
      * Add code (substitutions) for the {@link #constants}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addConstants(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #events}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addEvents(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #stateVars state variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addStateVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #contVars continuous variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addContVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #algVars algebraic variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addAlgVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #inputVars input variables}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addInputVars(CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #functions internal user-defined functions}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addFunctions(CodeContext ctxt);
 
@@ -894,16 +929,24 @@ public abstract class CodeGen {
      * Add code (substitutions) for the merged enumeration (at most one).
      *
      * @param enumDecl The merged enumeration declaration.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addEnum(EnumDecl enumDecl, CodeContext ctxt);
 
     /**
      * Add code (substitutions) for the {@link #printDecls print declarations}.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addPrints(CodeContext ctxt);
+
+    /**
+     * Add code (substitutions) for the {@link #svgDecls SVG declarations}.
+     *
+     * @param ctxt The code generation context.
+     * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
+     */
+    protected abstract void addSvgDecls(CodeContext ctxt, String cifSpecFileDir);
 
     /**
      * Add code (substitutions) for the {@link #edges}.
@@ -912,7 +955,7 @@ public abstract class CodeGen {
      * To add code for updates, use {@link #addUpdates}.
      * </p>
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected abstract void addEdges(CodeContext ctxt);
 
@@ -921,7 +964,7 @@ public abstract class CodeGen {
      *
      * @param updates The updates.
      * @param code The already generated code. Is extended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void addUpdates(List<Update> updates, CodeBox code, CodeContext ctxt) {
         Assert.check(!updates.isEmpty());
@@ -984,8 +1027,10 @@ public abstract class CodeGen {
      * they could collect code in a {@link CodeBox} during code generation and in this method store it in the
      * {@link #replacements}.
      * </p>
+     *
+     * @param ctxt The code generation context.
      */
-    protected void postGenerate() {
+    protected void postGenerate(CodeContext ctxt) {
         // By default, nothing is done.
     }
 
@@ -996,7 +1041,7 @@ public abstract class CodeGen {
      *     be written.
      */
     private void write(String path) {
-        // Get template names.
+        // Get templates.
         Map<String, String> templates = getTemplates();
 
         // Create output directory, if it doesn't exist yet.
@@ -1014,42 +1059,59 @@ public abstract class CodeGen {
         // Write templates.
         boolean[] used = new boolean[replacements.size()];
         for (Entry<String, String> template: templates.entrySet()) {
-            // Get template resource name.
-            String resName = getClass().getPackage().getName();
-            resName = resName.replace(".", "/");
-            resName += fmt("/templates/%s", template.getKey());
-
             // Get output file path.
             String fileName = template.getValue();
             fileName = replacements.get("prefix") + fileName;
-            String filePath = path + "/" + fileName;
+            String filePath = path + File.separator + fileName;
             String absFilePath = Paths.resolve(filePath);
 
             // Write code.
+            String resName = getResourceName(template.getKey());
             Set<Entry<String, String>> replaces = replacements.entrySet();
             ClassLoader classLoader = getClass().getClassLoader();
             try (InputStream fstream = classLoader.getResourceAsStream(resName);
                  InputStream istream = new BufferedInputStream(fstream);
                  AppStream ostream = new FileAppStream(filePath, absFilePath))
             {
+                // Process all lines of the template.
                 LineIterator lines = IOUtils.lineIterator(istream, "UTF-8");
                 while (lines.hasNext()) {
+                    // Read the next line.
                     String line = lines.nextLine();
 
+                    // Apply replacements. We skip this for empty lines, as then there is nothing to replace.
                     if (!line.isEmpty()) {
-                        int i = 0;
-                        for (Entry<String, String> replace: replaces) {
-                            String name = replace.getKey();
-                            String text = replace.getValue();
-                            String marker = fmt("${%s}", name);
-                            if (!used[i] && line.contains(marker)) {
-                                used[i] = true;
+                        // Repeatedly apply replacements, as the replacement may also require replacements.
+                        while (true) {
+                            boolean anythingReplaced = false;
+
+                            // Apply each replacement, one by one.
+                            int i = 0;
+                            for (Entry<String, String> replace: replaces) {
+                                // Get marker to replace, and replacement text.
+                                String name = replace.getKey();
+                                String text = replace.getValue();
+                                String marker = fmt("${%s}", name);
+
+                                // If we will replace anything, mark that.
+                                if (!used[i] && line.contains(marker)) {
+                                    used[i] = true;
+                                    anythingReplaced = true;
+                                }
+                                i++;
+
+                                // Perform replacement.
+                                line = line.replace(marker, text);
                             }
-                            line = line.replace(marker, text);
-                            i++;
+
+                            // Stop once no more replacements are possible for the line.
+                            if (!anythingReplaced) {
+                                break;
+                            }
                         }
                     }
 
+                    // Output the line.
                     ostream.println(line);
                 }
             } catch (IOException ex) {
@@ -1067,6 +1129,38 @@ public abstract class CodeGen {
                 throw new RuntimeException(msg);
             }
             i++;
+        }
+    }
+
+    /**
+     * Returns the resource name for a given template filename.
+     *
+     * @param templateFileName The filename of the template.
+     * @return The resource name for the template.
+     */
+    protected String getResourceName(String templateFileName) {
+        String resName = getClass().getPackage().getName();
+        resName = resName.replace(".", "/");
+        resName += fmt("/templates/%s", templateFileName);
+        return resName;
+    }
+
+    /**
+     * Returns the content of a template.
+     *
+     * @param templateFileName The filename of the template.
+     * @return The lines of the template.
+     */
+    protected List<String> readTemplate(String templateFileName) {
+        String resName = getResourceName(templateFileName);
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream rstream = classLoader.getResourceAsStream(resName);
+             InputStream istream = new BufferedInputStream(rstream))
+        {
+            return IOUtils.readLines(istream, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            // Should not have a read error for templates.
+            throw new RuntimeException("Template read error: " + resName, ex);
         }
     }
 }
