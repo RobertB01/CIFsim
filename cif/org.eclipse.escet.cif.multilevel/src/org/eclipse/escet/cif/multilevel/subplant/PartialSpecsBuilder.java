@@ -120,9 +120,10 @@ public class PartialSpecsBuilder {
 
                 // Find or construct a contained object in the partial specification to replace the dangling object.
                 EObject contained = findOrMakeContained(dangling, partialMgr);
+
+                // Check for fields of tuple types that have not been copied yet. Postpone resolving them under the
+                // assumption that the object will eventually get copied into the partial specification.
                 if (contained == null) {
-                    // Field of a tuple type that has not been copied yet. Postpone resolving them under the assumption
-                    // that the object will eventually get copied into the partial specification.
                     unresolvedFields.add(entry);
                     continue;
                 }
