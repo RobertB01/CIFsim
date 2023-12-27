@@ -1,0 +1,7 @@
+automaton a:
+  event e;
+  location loc1:
+    initial;
+    edge e goto loc2;
+  location loc2;
+end

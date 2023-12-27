@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cif:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:automata="http://eclipse.org/escet/cif/automata" xmlns:cif="http://eclipse.org/escet/cif" xmlns:declarations="http://eclipse.org/escet/cif/declarations" xmlns:expressions="http://eclipse.org/escet/cif/expressions" xmlns:types="http://eclipse.org/escet/cif/types" xsi:schemaLocation="http://eclipse.org/escet/cif/automata http://eclipse.org/escet/cif#//automata http://eclipse.org/escet/cif/declarations http://eclipse.org/escet/cif#//declarations http://eclipse.org/escet/cif/expressions http://eclipse.org/escet/cif#//expressions http://eclipse.org/escet/cif/types http://eclipse.org/escet/cif#//types" xmi:id="1" name="specification">
+  <components xmi:type="automata:Automaton" xmi:id="2" name="a">
+    <declarations xmi:type="declarations:Event" xmi:id="3" name="e"/>
+    <locations xmi:type="automata:Location" xmi:id="4" name="loc1">
+      <initials xmi:type="expressions:BoolExpression" xmi:id="5" value="true">
+        <type xmi:type="types:BoolType" xmi:id="6"/>
+      </initials>
+      <edges xmi:type="automata:Edge" xmi:id="7" target="11">
+        <events xmi:type="automata:EdgeEvent" xmi:id="8">
+          <event xmi:type="expressions:EventExpression" xmi:id="9" event="3">
+            <type xmi:type="types:BoolType" xmi:id="10"/>
+          </event>
+        </events>
+      </edges>
+    </locations>
+    <locations xmi:type="automata:Location" xmi:id="11" name="loc2"/>
+  </components>
+</cif:Specification>

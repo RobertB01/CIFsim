@@ -17,7 +17,9 @@ from "lib:cif" import cif2cif;
 string test_path = "pprint_elim_cdef";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
-map(string:list string) test_options = {};
+map(string:list string) test_options = {
+    "pprint_elim_cdef/cifx_io.cif": ["-t remove-pos-info"],
+};
 set string test_skip = {};
 
 // Initialize counts.
@@ -30,7 +32,19 @@ int skipped = 0;
 list string tests = find(test_path, test_pattern);
 for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
 for i in reverse(range(tests)):
-    if endswith(tests[i], ".out.cif") or endswith(tests[i], ".elim.cif"):
+    if endswith(tests[i], ".out.cif") or endswith(tests[i], ".out.real.cif"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if endswith(tests[i], ".elim.cif") or endswith(tests[i], ".elim.real.cif"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if endswith(tests[i], ".out.cifx") or endswith(tests[i], ".out.real.cifx"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if endswith(tests[i], ".elim.cifx") or endswith(tests[i], ".elim.real.cifx"):
         tests = delidx(tests, i);
         continue;
     end
@@ -56,6 +70,10 @@ for test in tests:
     string test1_err_real = chfileext(test, newext="compile.err.real");
     string file1_out_exp  = chfileext(test, "cif", "out.cif");
     string file1_out_real = chfileext(test, "cif", "out.real.cif");
+    if isfile(file1_out_exp + "x"):
+        file1_out_exp  = file1_out_exp  + "x"; // .cifx
+        file1_out_real = file1_out_real + "x"; // .cifx
+    end
 
     // Pretty print (1st test).
     list string options1 = [test] + options + ["-o", file1_out_real];
@@ -140,9 +158,9 @@ for test in tests:
 
     // Update counts.
     diff_count = 0;
-    if stderr1_diff:: diff_count = diff_count + 1;
-    if stdout1_diff:: diff_count = diff_count + 1;
-    if file1_diff::   diff_count = diff_count + 1;
+    if stderr3_diff:: diff_count = diff_count + 1;
+    if stdout3_diff:: diff_count = diff_count + 1;
+    if file3_diff::   diff_count = diff_count + 1;
 
     count = count + 1;
     if diff_count == 0:: successes = successes + 1;
