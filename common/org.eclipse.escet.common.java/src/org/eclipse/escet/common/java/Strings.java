@@ -687,21 +687,6 @@ public final class Strings {
     public static String makeFixedLengthNumberText(int val, int maxVal) {
         Assert.check(val >= 0);
         Assert.check(maxVal >= val);
-
-        int length = 1;
-        long upperBound = 10; // Exclusive bound.
-        while (maxVal >= upperBound) {
-            length++;
-            upperBound *= 10;
-        }
-
-        StringBuilder sb = new StringBuilder(length);
-        String valueText = String.valueOf(val);
-        while (length > valueText.length()) {
-            length--;
-            sb.append('0');
-        }
-        sb.append(valueText);
-        return sb.toString();
+        return fmt("%0" + Integer.toString(maxVal).length() + "d", val);
     }
 }
