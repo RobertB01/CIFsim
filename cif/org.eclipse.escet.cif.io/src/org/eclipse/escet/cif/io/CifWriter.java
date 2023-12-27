@@ -14,14 +14,20 @@
 package org.eclipse.escet.cif.io;
 
 import static org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter.INDENT;
+import static org.eclipse.escet.common.java.Strings.fmt;
+
+import java.util.Locale;
 
 import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.emf.EMFResourceException;
+import org.eclipse.escet.common.emf.ResourceManager;
 
 /** CIF writer. */
 public class CifWriter {
@@ -44,6 +50,16 @@ public class CifWriter {
         // Adapt relative paths.
         String absDirPath = Paths.getAbsFilePathDir(absFilePath);
         CifRelativePathUtils.adaptRelativePaths(spec, specPath, absDirPath);
+
+        // Write as XMI, if it has an '.cifx' file extension.
+        if (absFilePath.toLowerCase(Locale.US).endsWith(".cifx")) {
+            try {
+                ResourceManager.saveResource(spec, absFilePath);
+            } catch (EMFResourceException e) {
+                throw new InvalidInputException(fmt("Failed to load CIF file \"%s\".", absFilePath), e);
+            }
+            return;
+        }
 
         // Pretty print the CIF specification directly to the file.
         AppStream stream = new FileAppStream(absFilePath);
