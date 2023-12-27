@@ -247,11 +247,12 @@ public class MultilevelApp extends Application<IOutputComponent> {
                 dirExists = true;
             } else {
                 String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
-                        absDirPath);
+                        partialSpecsDir);
                 throw new InputOutputException(msg, ex);
             }
         } catch (IOException ex) {
-            String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.", absDirPath);
+            String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
+                    partialSpecsDir);
             throw new InputOutputException(msg, ex);
         }
 
@@ -264,12 +265,13 @@ public class MultilevelApp extends Application<IOutputComponent> {
                         Files.delete(p);
                     } catch (IOException ex) {
                         String msg = fmt("Failed to clean output directory \"%s\" for the partial specifications.",
-                                absDirPath);
+                                partialSpecsDir);
                         throw new InputOutputException(msg, ex);
                     }
                 });
             } catch (IOException ex) {
-                String msg = fmt("Failed to clean output directory \"%s\" for the partial specifications.", absDirPath);
+                String msg = fmt("Failed to clean output directory \"%s\" for the partial specifications.",
+                        partialSpecsDir);
                 throw new InputOutputException(msg, ex);
             }
         }
@@ -296,7 +298,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     "spec_" + makeFixedLengthNumberText(node.index + 1, linearizedTree.size() + 1) + ".cif");
             CifWriter.writeCifSpec(partialSpec, outPath, cifReader.getAbsDirPath());
         }
-        out("Wrote %d partial specifications to directory %s", linearizedTree.size(), partialSpecsDir);
+        out("Wrote %d partial specifications to directory \"%s\".", linearizedTree.size(), partialSpecsDir);
 
         // TODO Implement.
         OutputProvider.warn("Multi-level synthesis not yet implemented.");
