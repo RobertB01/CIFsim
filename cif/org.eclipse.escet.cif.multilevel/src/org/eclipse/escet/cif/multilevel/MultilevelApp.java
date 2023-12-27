@@ -276,10 +276,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
             }
         }
 
-        // Construct the partial specifications. The partial builder is re-used for each partial specification.
+        // Construct and write the partial specifications. The partial builder is re-used for each partial
+        // specification.
         PartialSpecsBuilder partialBuilder = new PartialSpecsBuilder(spec);
-
-        // And construct and write the partial specifications.
         for (TreeNode node: linearizedTree) {
             // Find the objects that should be in the partial specification of this node.
             List<PositionObject> neededObjects = list();
@@ -298,7 +297,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     "spec_" + makeFixedLengthNumberText(node.index + 1, linearizedTree.size() + 1) + ".cif");
             CifWriter.writeCifSpec(partialSpec, outPath, cifReader.getAbsDirPath());
         }
-        out("Wrote %d partial specifications to directory \"%s\".", linearizedTree.size(), partialSpecsDir);
+        out("Wrote %d partial specification%s to directory \"%s\".", linearizedTree.size(),
+                (linearizedTree.size() == 1) ? "" : "s", partialSpecsDir);
 
         // TODO Implement.
         OutputProvider.warn("Multi-level synthesis not yet implemented.");
