@@ -109,7 +109,7 @@ public class Labels {
         if (label instanceof LocationLabel locLabel) {
             return locLabel.location;
         }
-        throw new AssertionError("Unexpected Label class encountered: " + label);
+        throw new AssertionError("Unexpected label class encountered: " + label);
     }
 
     /** DMM label holding a CIF automaton. */
