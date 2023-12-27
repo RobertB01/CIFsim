@@ -38,6 +38,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
@@ -137,9 +138,12 @@ public class PartialSpecsBuilder {
                     for (Setting setting: partialConnections) {
                         EObject partialParent = setting.getEObject();
 
-                        // As the partial parent is discarded and its type may have Field nodes that we may need, we
+                        // As the partial parent is discarded and its type may have 'Field' nodes that we may need, we
                         // steal its type.
-                        InputVariableExpression newParent = newInputVariableExpression(null, getType(partialParent),
+                        Assert.check(partialParent instanceof LocationExpression
+                                || partialParent instanceof DiscVariableExpression);
+                        CifType partialParentType = ((Expression)partialParent).getType();
+                        InputVariableExpression newParent = newInputVariableExpression(null, partialParentType,
                                 (InputVariable)contained);
                         EMFHelper.updateParentContainment(partialParent, newParent);
                     }
@@ -242,22 +246,5 @@ public class PartialSpecsBuilder {
         // until everything else has been copied.
         Assert.check(dangling instanceof Field, "Found unexpected dangling object " + dangling);
         return null;
-    }
-
-    /**
-     * Get the type of a location or discrete variable reference expression.
-     *
-     * @param expr Expression to retrieve the type from.
-     * @return The type contained in the provided expression.
-     */
-    private CifType getType(EObject expr) {
-        // Casting to 'Expression' and getting the type would work, but having the class check is useful to check
-        // sanity.
-        if (expr instanceof LocationExpression locExpr) {
-            return locExpr.getType();
-        } else if (expr instanceof DiscVariableExpression dvExpr) {
-            return dvExpr.getType();
-        }
-        throw new AssertionError("Unexpected expression \"" + expr + "\".");
     }
 }
