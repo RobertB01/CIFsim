@@ -94,6 +94,15 @@ public class PartialSpecManager {
     }
 
     /**
+     * Get the constructed partial specification.
+     *
+     * @return The constructed partial specification.
+     */
+    public Specification getPartialSpec() {
+        return partialSpec;
+    }
+
+    /**
      * Retrieve the partial object that represents the given original object if it exists. Returns {@code null} if no
      * such object exists.
      *
@@ -348,14 +357,5 @@ public class PartialSpecManager {
             addCopiedObject(entry.getKey(), entry.getValue());
         }
         return partialObject;
-    }
-
-    /**
-     * Get the constructed partial specification.
-     *
-     * @return The constructed partial specification.
-     */
-    public Specification getPartialSpec() {
-        return partialSpec;
     }
 }
