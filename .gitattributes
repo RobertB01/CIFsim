@@ -20,27 +20,30 @@
 *.sh text eol=lf
 Makefile text eol=lf
 
-# Denote all files that are truly binary.
+# Denote all files that are truly binary. For images, do allow image diff.
 *.7z        binary
-*.bmp       binary
+*.bmp       binary diff
 *.class     binary
 *.doc       binary
 *.docx      binary
 *.eps       binary
 *.exe       binary
-*.gif       binary
+*.gif       binary diff
 *.gz        binary
-*.ico       binary
+*.ico       binary diff
 *.jar       binary
-*.jpg       binary
+*.jpeg      binary diff
+*.jpg       binary diff
 *.pdf       binary
-*.png       binary
+*.png       binary diff
 *.ppt       binary
 *.pptx      binary
 *.ps        binary
 *.slx       binary
 *.tar       binary
 *.tgz       binary
+*.tiff      binary diff
 *.xls       binary
 *.xlsx      binary
+*.webp      binary diff
 *.zip       binary
