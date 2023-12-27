@@ -24,7 +24,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeFixedLengthNumberText;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.NumberFormat;
@@ -236,28 +235,12 @@ public class MultilevelApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Create a directory for storing the partial specifications, if it does not yet exist.
+        // Get directory for storing the partial specifications.
         String partialSpecsDir = OutputFileOption.getDerivedPath(".cif", "_partial_specs");
         Path absDirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
-        boolean dirExists = false;
-        try {
-            Files.createDirectory(absDirPath);
-        } catch (FileAlreadyExistsException ex) {
-            if (Files.isDirectory(absDirPath)) {
-                dirExists = true;
-            } else {
-                String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
-                        partialSpecsDir);
-                throw new InputOutputException(msg, ex);
-            }
-        } catch (IOException ex) {
-            String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
-                    partialSpecsDir);
-            throw new InputOutputException(msg, ex);
-        }
 
         // In case the directory already exists, delete existing "spec_NNN.cif" entries.
-        if (dirExists) {
+        if (Files.isDirectory(absDirPath)) {
             try (Stream<Path> dirContent = Files.list(absDirPath)) {
                 Predicate<String> matcher = SPEC_FILE_PATTERN.asMatchPredicate();
                 dirContent.filter(p -> matcher.test(p.getFileName().toString())).forEach(p -> {
@@ -274,6 +257,16 @@ public class MultilevelApp extends Application<IOutputComponent> {
                         partialSpecsDir);
                 throw new InputOutputException(msg, ex);
             }
+        }
+
+        // Create directory for storing the partial specifications, and any ancestor directories, if they don't exist
+        // yet.
+        try {
+            Files.createDirectories(absDirPath);
+        } catch (IOException ex) {
+            String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
+                    partialSpecsDir);
+            throw new InputOutputException(msg, ex);
         }
 
         // Construct and write the partial specifications. The partial builder is re-used for each partial
