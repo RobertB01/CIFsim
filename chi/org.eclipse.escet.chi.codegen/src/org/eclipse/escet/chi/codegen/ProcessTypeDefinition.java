@@ -48,7 +48,7 @@ public class ProcessTypeDefinition {
     /**
      * Generate process type construction with this process type signature.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     public void generate(CodeGeneratorContext ctxt) {
         // Enum with names of process definitions.

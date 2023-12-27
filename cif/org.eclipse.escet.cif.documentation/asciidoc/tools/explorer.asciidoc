@@ -38,11 +38,11 @@ indexterm:[CIF explorer,start]
 
 === Starting the program
 
-The explorer can be started in Eclipse in the following ways:
+The explorer can be started in the following ways:
 
-* Right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Explore untimed state space...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Explore untimed state space...].
 
-* Right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Explore untimed state space...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Explore untimed state space...].
 
 * Use the `cifexplorer` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
@@ -51,6 +51,7 @@ See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-sc
 
 indexterm:[CIF explorer,options]
 
+[[tools-chapter-cif-explorer-options]]
 === Options
 
 Besides the general application options, the application has the following options:
@@ -71,12 +72,20 @@ Enabled by default.
 [[tools-cif-explorer-enable-cif-output]]
 * _Enable CIF output_: Enable output of states and edges as a CIF automaton.
 Enabled by default.
+See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
+
+[[tools-cif-explorer-add-state-annos]]
+* _Add state annotations_: Add state annotations to the locations of the CIF automaton in the output CIF specification.
+Enabled by default.
+See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
 * _Output file path_: The absolute or relative file system path of the output CIF specification with the generated state space as a CIF automaton.
 
+[[tools-cif-explorer-name]]
 * _Name_: The name of the resulting statespace automaton.
 If not specified, it defaults to `statespace`.
 If the resulting statespace automaton has a name that conflicts with an existing declaration, it is automatically renamed to have a non-conflicting name.
+See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
 * _Enable report_: Enable writing a detailed report on the found states.
 Disabled by default.
@@ -130,7 +139,8 @@ A warning is printed if a requirement automaton or requirement invariant is enco
 A warning is printed if a CIF/SVG input declaration is encountered.
 
 * Annotations are ignored.
-If outputting a CIF model is <<tools-cif-explorer-enable-cif-output,enabled>>, the produced model has no annotations.
+If outputting a CIF model is <<tools-cif-explorer-enable-cif-output,enabled>>, the produced model may have annotations.
+See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
 indexterm:[CIF explorer,preprocessing]
 
@@ -145,3 +155,14 @@ Prior to exploration, the following <<tools-cif2cif-chapter-index,CIF to CIF tra
 * <<tools-cif2cif-chapter-elim-self>>
 
 In addition it applies the <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>> CIF to CIF transformation to speed up processing.
+
+[[tools-chapter-cif-explorer-output-cif]]
+=== Output as a CIF automaton
+
+If outputting a CIF model is <<tools-cif-explorer-enable-cif-output,enabled>>, a CIF specification is created and written to a file.
+The state space is represented by an automaton, each state is represented by a location of that automaton, and the edges between states are represented as edges between locations.
+The automaton is named as configured using the <<tools-cif-explorer-name,_Name_ option>>.
+If the state space is empty, the automaton has a single non-initial location.
+
+If adding <<lang-tut-extensions-chapter-annotations-state,state annotations>> is <<tools-cif-explorer-add-state-annos,enabled>> each location is annotated with a state annotation that indicates the current location of each automaton and the current value of each variable.
+If the state space is empty, the single location in the automaton does not have a state annotation, regardless of whether the option to add state annotations is enabled or not.

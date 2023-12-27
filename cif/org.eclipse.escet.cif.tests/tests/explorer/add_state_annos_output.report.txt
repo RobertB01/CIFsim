@@ -1,0 +1,80 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "nameless"
+        location "loc1" of automaton "named"
+        location "loc1" of automaton "vars"
+        location of automaton "values"
+        location of automaton "types"
+
+    Valuation:
+        cvar = 0.0
+        $cont = 0.0
+        vars.cvar = 0.0
+        vars.dvar = false
+        abs1.abs2.abs3 = 1.23
+        values.b = true
+        values.i1 = 123
+        values.i2 = -123
+        values.i3 = -2147483648
+        values.i4 = 2147483647
+        values.r1 = 1.23
+        values.r2 = -1.23
+        values.str = "a\nb\tc\"d"
+        values.e = lit2
+        values.t = (true, 135)
+        values.l = [[1, 2, 3], [4, 5, 6]]
+        values.s = {1.2, 3.7, 8.9}
+        values.d = {true: 1, false: 5}
+        values.f1 = functions.invert
+        values.f2 = *
+        types.list1 = []
+        types.list2 = []
+        types.set1 = {}
+        types.dict1 = {}
+        types.dict2 = {}
+        types.tuple1 = (lit1, *)
+
+    Edges:
+        edge e goto state 2
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "nameless"
+        location "loc2" of automaton "named"
+        location "loc2" of automaton "vars"
+        location of automaton "values"
+        location of automaton "types"
+
+    Valuation:
+        cvar = 0.0
+        $cont = 0.0
+        vars.cvar = 2.0
+        vars.dvar = true
+        abs1.abs2.abs3 = 1.23
+        values.b = true
+        values.i1 = 123
+        values.i2 = -123
+        values.i3 = -2147483648
+        values.i4 = 2147483647
+        values.r1 = 1.23
+        values.r2 = -1.23
+        values.str = "a\nb\tc\"d"
+        values.e = lit2
+        values.t = (true, 135)
+        values.l = [[1, 2, 3], [4, 5, 6]]
+        values.s = {1.2, 3.7, 8.9}
+        values.d = {true: 1, false: 5}
+        values.f1 = functions.invert
+        values.f2 = *
+        types.list1 = []
+        types.list2 = []
+        types.set1 = {}
+        types.dict1 = {}
+        types.dict2 = {}
+        types.tuple1 = (lit1, *)

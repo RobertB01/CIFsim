@@ -5,42 +5,50 @@ controllable x;
 controllable y;
 supervisor automaton sup:
   alphabet p, q, r, x, y;
+  @state(P1 = "A", P2 = "A", P3 = "A", R = "*")
   location s1:
     initial;
     marked;
     edge r goto s2;
     edge q goto s3;
     edge p goto s4;
+  @state(P1 = "A", P2 = "A", P3 = "B", R = "*")
   location s2:
     edge y;
     edge x;
     edge r goto s1;
     edge q goto s7;
     edge p goto s5;
+  @state(P1 = "A", P2 = "B", P3 = "A", R = "*")
   location s3:
     edge r goto s7;
     edge q goto s1;
     edge p goto s6;
+  @state(P1 = "B", P2 = "A", P3 = "A", R = "*")
   location s4:
     edge r goto s5;
     edge q goto s6;
     edge p goto s1;
+  @state(P1 = "B", P2 = "A", P3 = "B", R = "*")
   location s5:
     edge y;
     edge x;
     edge r goto s4;
     edge q goto s8;
     edge p goto s2;
+  @state(P1 = "B", P2 = "B", P3 = "A", R = "*")
   location s6:
     edge r goto s8;
     edge q goto s4;
     edge p goto s3;
+  @state(P1 = "A", P2 = "B", P3 = "B", R = "*")
   location s7:
     edge y;
     edge x;
     edge r goto s3;
     edge q goto s2;
     edge p goto s8;
+  @state(P1 = "B", P2 = "B", P3 = "B", R = "*")
   location s8:
     edge y;
     edge x;

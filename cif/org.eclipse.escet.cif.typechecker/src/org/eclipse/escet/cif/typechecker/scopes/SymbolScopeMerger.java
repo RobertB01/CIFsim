@@ -440,7 +440,7 @@ public class SymbolScopeMerger {
             svgFile = (ASvgFile)fixRelativePaths(svgFile, mainSource, impSource);
 
             // Create new SVG input mapping, with replaced SVG file.
-            svgIn = new ASvgIn(svgIn.svgId, svgIn.event, svgFile, svgIn.position);
+            svgIn = new ASvgIn(svgIn.svgId, svgIn.event, svgIn.updates, svgFile, svgIn.position);
             return svgIn;
         } else if (ioDecl instanceof APrintFile) {
             // Skip special paths.

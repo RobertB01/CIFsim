@@ -199,7 +199,7 @@ public class C89ArrayTypeInfo extends ArrayTypeInfo implements C89TypeInfo {
      *
      * @param declCode Declarations stream for the generated types and functions. Appended in-place.
      * @param defCode Implementation of the generated functions. Appended in-place.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void generateC89Code(CodeBox declCode, CodeBox defCode, CodeContext ctxt) {
         String definitionPrefix, declarationPrefix;
@@ -243,7 +243,7 @@ public class C89ArrayTypeInfo extends ArrayTypeInfo implements C89TypeInfo {
         if (typeSupportsRawMemCmp(childInfos[0])) {
             defCode.add("return memcmp(left, right, sizeof(%s)) == 0;", getTargetType());
         } else {
-            String elmEqualsTemplate = childInfos[0].getBinaryExpressionTemplate(BinaryOperator.EQUAL);
+            String elmEqualsTemplate = childInfos[0].getBinaryExpressionTemplate(BinaryOperator.EQUAL, ctxt);
 
             defCode.add("int i;");
             defCode.add("for (i = 0; i < %d; i++) {", length);
@@ -364,7 +364,7 @@ public class C89ArrayTypeInfo extends ArrayTypeInfo implements C89TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return fmt("%sTypeEquals(${left-ref}, ${right-ref})", getTypeName());
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

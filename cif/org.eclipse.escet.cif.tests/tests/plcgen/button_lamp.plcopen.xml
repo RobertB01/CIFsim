@@ -253,6 +253,7 @@ END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
 WHILE isProgress DO
     isProgress := FALSE;
 
@@ -291,6 +292,7 @@ WHILE isProgress DO
             sup := sup_s7;
         END_IF;
     END_IF;
+
     (* Try to perform event "timer.timeout". *)
     eventEnabled := TRUE;
     IF timer = timer_Running AND timer_t &lt;= 0.0 THEN
@@ -320,6 +322,7 @@ WHILE isProgress DO
             sup := sup_s9;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.push". *)
     eventEnabled := TRUE;
     IF sup = sup_s1 THEN
@@ -361,6 +364,7 @@ WHILE isProgress DO
             hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
+
     (* Try to perform event "button.release". *)
     eventEnabled := TRUE;
     IF sup = sup_s2 THEN
@@ -402,6 +406,7 @@ WHILE isProgress DO
             hw_button := hw_button_Released;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.on". *)
     eventEnabled := TRUE;
     IF sup = sup_s2 THEN
@@ -433,6 +438,7 @@ WHILE isProgress DO
             hw_lamp := hw_lamp_On;
         END_IF;
     END_IF;
+
     (* Try to perform event "lamp.off". *)
     eventEnabled := TRUE;
     IF sup = sup_s8 THEN

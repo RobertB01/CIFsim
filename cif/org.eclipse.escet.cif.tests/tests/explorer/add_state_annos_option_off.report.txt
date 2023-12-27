@@ -1,0 +1,16 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location "l1" of automaton "a"
+
+    Edges:
+        edge tau goto state 2
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "l2" of automaton "a"

@@ -352,7 +352,6 @@ Due to this restriction, constants that have a type of which the values can not 
 
 As mentioned in the <<tools-mergecif-shared>> section, an input variable can be merged with another input variable, discrete variable, continuous variable, algebraic variable, constant, or location.
 Input variables can only be merged with other objects that have the exact same type.
-Two input variables, or an input variable and a location, can only be merged if they have different annotations.
 When an input variable is merged with anything but a location or another input variable, the annotations of the input variable are discarded.
 
 A location can be merged with an input variable that has a boolean type.

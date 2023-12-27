@@ -3,14 +3,18 @@ event f;
 event g;
 automaton statespace:
   alphabet e, f, g;
+  @state(p = "l0", q = "l0")
   location loc1:
     initial;
     edge e;
     edge e goto loc2;
     edge e goto loc3;
     edge e goto loc4;
+  @state(p = "l0", q = "l1")
   location loc2;
+  @state(p = "l1", q = "l0")
   location loc3;
+  @state(p = "l1", q = "l1")
   location loc4:
     edge f goto loc1;
     edge f goto loc1;

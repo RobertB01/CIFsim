@@ -1,3 +1,11 @@
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 41, column 13: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 42, column 13: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 43, column 13: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 44, column 13: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 50, column 17: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 51, column 17: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 52, column 17: Duplicate state invariant.
+WARNING: File "explorer/preconditions.cif": Semantic warning at line 53, column 17: Duplicate state invariant.
 ERROR: State space exploration failed due to unsatisfied preconditions:
  - Discrete variable "pp.d1" of type "int" with 4.294967296e9 potential initial values is not supported.
  - Discrete variable "pp.d2" of type "list string" with infinite potential initial values is not supported.

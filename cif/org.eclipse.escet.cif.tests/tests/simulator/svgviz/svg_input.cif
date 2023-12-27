@@ -107,6 +107,10 @@ svgout id "x9" attr "visibility" value if aut_f.b: "visible" else "hidden" end;
 
 svgin id "x9" event f;
 
+// Single update input (not yet implemented).
+input bool b;
+svgin id "x10" do b := true;
+
 // Rectangle and text label in group, to test clicking children of interactive
 // elements.
 svgin id "x99" event a;

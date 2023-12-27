@@ -1,12 +1,16 @@
 automaton statespace:
   alphabet;
+  @state(aut = "*", aut.v = 0)
   location loc1:
     initial;
     edge tau goto loc3;
+  @state(aut = "*", aut.v = 2)
   location loc2:
     initial;
     edge tau goto loc4;
+  @state(aut = "*", aut.v = 1)
   location loc3:
     edge tau goto loc2;
+  @state(aut = "*", aut.v = 3)
   location loc4;
 end

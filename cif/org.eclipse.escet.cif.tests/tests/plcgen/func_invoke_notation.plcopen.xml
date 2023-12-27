@@ -142,6 +142,7 @@ END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
 WHILE isProgress DO
     isProgress := FALSE;
 
@@ -308,6 +309,7 @@ WHILE isProgress DO
             aut_i := current_aut_i + 1;
         END_IF;
     END_IF;
+
     (* Try to perform event "aut.f". *)
     eventEnabled := TRUE;
     IF aut = aut_l1 AND (aut_b OR aut_b) THEN

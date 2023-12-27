@@ -1,0 +1,2 @@
+WARNING: File "event_based/synchronous_product/empty_automaton.cif": Semantic warning at line 14, column 7: Automaton "p" has no initial location.
+WARNING: Product is empty.

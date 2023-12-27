@@ -176,7 +176,9 @@ import org.eclipse.escet.common.java.Assert;
  * for the location pointer variables, are added to their original scope and thus keep their original names.
  * </p>
  *
- * <p>All annotations of the original locations are lost.</p>
+ * <p>
+ * All annotations of the original locations are lost.
+ * </p>
  *
  * <p>
  * This transformation generates non-optimized expressions (mostly predicates). Apply the {@link SimplifyValues}
@@ -815,6 +817,16 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         List<DiscVariable> lpVariables = listc(lpVarToAbsAutNameMap.size());
         lpVariables.addAll(lpVarToAbsAutNameMap.keySet());
         return lpVariables;
+    }
+
+    /**
+     * Returns the mapping from location pointer variables to the absolute names (without keyword escaping) of the
+     * original automata for which they were created.
+     *
+     * @return The mapping.
+     */
+    public Map<DiscVariable, String> getLpVarToAbsAutNameMap() {
+        return Collections.unmodifiableMap(lpVarToAbsAutNameMap);
     }
 
     /** Replacer to use to replace 'received value' expressions by copies of the 'send value' expression. */

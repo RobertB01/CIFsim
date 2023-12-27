@@ -6,76 +6,100 @@ controllable q;
 controllable t;
 automaton product:
   alphabet a, b, c, p, q, t;
+  @state(abc = "s0", pq = "s0", tt = "s0")
   location s1:
     initial;
     edge t goto s2;
     edge p goto s3;
     edge a goto s4;
+  @state(abc = "s0", pq = "s0", tt = "s1")
   location s2:
     edge p goto s8;
     edge a goto s5;
+  @state(abc = "s0", pq = "s1", tt = "s0")
   location s3:
     edge t goto s8;
     edge q goto s9;
     edge a goto s6;
+  @state(abc = "s1", pq = "s0", tt = "s0")
   location s4:
     edge t goto s5;
     edge p goto s6;
     edge b goto s7;
+  @state(abc = "s1", pq = "s0", tt = "s1")
   location s5:
     edge p goto s13;
     edge b goto s10;
+  @state(abc = "s1", pq = "s1", tt = "s0")
   location s6:
     edge t goto s13;
     edge q goto s14;
     edge b goto s11;
+  @state(abc = "s2", pq = "s0", tt = "s0")
   location s7:
     edge t goto s10;
     edge p goto s11;
     edge c goto s12;
+  @state(abc = "s0", pq = "s1", tt = "s1")
   location s8:
     edge q goto s15;
     edge a goto s13;
+  @state(abc = "s0", pq = "s3", tt = "s0")
   location s9:
     edge t goto s15;
     edge a goto s14;
+  @state(abc = "s2", pq = "s0", tt = "s1")
   location s10:
     edge p goto s18;
     edge c goto s16;
+  @state(abc = "s2", pq = "s1", tt = "s0")
   location s11:
     edge t goto s18;
     edge q goto s19;
     edge c goto s17;
+  @state(abc = "s3", pq = "s0", tt = "s0")
   location s12:
     edge t goto s16;
     edge p goto s17;
+  @state(abc = "s1", pq = "s1", tt = "s1")
   location s13:
     edge q goto s20;
     edge b goto s18;
+  @state(abc = "s1", pq = "s3", tt = "s0")
   location s14:
     edge t goto s20;
     edge b goto s19;
+  @state(abc = "s0", pq = "s3", tt = "s1")
   location s15:
     edge a goto s20;
+  @state(abc = "s3", pq = "s0", tt = "s1")
   location s16:
     edge p goto s21;
+  @state(abc = "s3", pq = "s1", tt = "s0")
   location s17:
     edge t goto s21;
     edge q goto s22;
+  @state(abc = "s2", pq = "s1", tt = "s1")
   location s18:
     edge q goto s23;
     edge c goto s21;
+  @state(abc = "s2", pq = "s3", tt = "s0")
   location s19:
     edge t goto s23;
     edge c goto s22;
+  @state(abc = "s1", pq = "s3", tt = "s1")
   location s20:
     edge b goto s23;
+  @state(abc = "s3", pq = "s1", tt = "s1")
   location s21:
     edge q goto s24;
+  @state(abc = "s3", pq = "s3", tt = "s0")
   location s22:
     edge t goto s24;
+  @state(abc = "s2", pq = "s3", tt = "s1")
   location s23:
     edge c goto s24;
+  @state(abc = "s3", pq = "s3", tt = "s1")
   location s24:
     marked;
 end

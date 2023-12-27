@@ -3,21 +3,27 @@ controllable b;
 controllable e;
 plant automaton projected:
   alphabet a, b, e;
+  @state(P = "s0")
   location s1:
     initial;
     marked;
     edge a goto s2;
+  @state(P = "s1")
   location s2:
     edge e goto s3;
     edge b goto s4;
+  @state(P = "s2")
   location s3:
     edge e goto s5;
     edge a goto s1;
+  @state(P = "s1")
+  @state(P = "s0")
   location s4:
     marked;
     edge e goto s3;
     edge b;
     edge a goto s2;
+  @state(P = "s3")
   location s5:
     edge b goto s1;
 end

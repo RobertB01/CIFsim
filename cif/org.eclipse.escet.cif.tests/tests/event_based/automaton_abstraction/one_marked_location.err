@@ -1,0 +1,2 @@
+ERROR: Failed to compute automaton abstraction for CIF file "event_based/automaton_abstraction/one_marked_location.cif".
+CAUSE: Automaton "p" cannot be partitioned because it has no unmarked locations.

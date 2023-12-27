@@ -308,7 +308,7 @@ public abstract class ranges {
 
         {
             List<CifTuple_T2II> rhs1 = aut1_w1_;
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 CifTuple_T2II rng_elem0 = rhs1.get(rng_index0);
                 if (((rng_elem0)._field0) > 7) {
                     rangeErrInt("aut1.v1" + "[" + Integer.toString(rng_index0) + "][a]", valueToStr((rng_elem0)._field0), "list[3] tuple(int[0..7] a; int[0..7] b)");
@@ -352,7 +352,7 @@ public abstract class ranges {
 
         {
             List<CifTuple_T2II> rhs1 = makelist(new ArrayList<CifTuple_T2II>(3), new CifTuple_T2II(1, 2), new CifTuple_T2II(2, 3), new CifTuple_T2II(9, 4));
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 CifTuple_T2II rng_elem0 = rhs1.get(rng_index0);
                 if (((rng_elem0)._field0) > 7) {
                     rangeErrInt("aut1.v1" + "[" + Integer.toString(rng_index0) + "][a]", valueToStr((rng_elem0)._field0), "list[3] tuple(int[0..7] a; int[0..7] b)");
@@ -377,7 +377,7 @@ public abstract class ranges {
 
         {
             List<CifTuple_T2II> rhs1 = makelist(new ArrayList<CifTuple_T2II>(3), new CifTuple_T2II(1, 2), new CifTuple_T2II(2, 3), new CifTuple_T2II(3, 9));
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 CifTuple_T2II rng_elem0 = rhs1.get(rng_index0);
                 if (((rng_elem0)._field1) > 7) {
                     rangeErrInt("aut1.v1" + "[" + Integer.toString(rng_index0) + "][b]", valueToStr((rng_elem0)._field1), "list[3] tuple(int[0..7] a; int[0..7] b)");
@@ -402,7 +402,7 @@ public abstract class ranges {
 
         {
             List<CifTuple_T2II> rhs1 = makelist(new ArrayList<CifTuple_T2II>(3), new CifTuple_T2II(1, 2), new CifTuple_T2II(2, 3), new CifTuple_T2II(-(1), 4));
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 CifTuple_T2II rng_elem0 = rhs1.get(rng_index0);
                 if (((rng_elem0)._field0) < 0) {
                     rangeErrInt("aut1.v1" + "[" + Integer.toString(rng_index0) + "][a]", valueToStr((rng_elem0)._field0), "list[3] tuple(int[0..7] a; int[0..7] b)");
@@ -427,7 +427,7 @@ public abstract class ranges {
 
         {
             List<CifTuple_T2II> rhs1 = makelist(new ArrayList<CifTuple_T2II>(3), new CifTuple_T2II(1, 2), new CifTuple_T2II(-(3), 3), new CifTuple_T2II(9, 9));
-            for(int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
+            for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {
                 CifTuple_T2II rng_elem0 = rhs1.get(rng_index0);
                 if (((rng_elem0)._field0) < 0 || ((rng_elem0)._field0) > 7) {
                     rangeErrInt("aut1.v1" + "[" + Integer.toString(rng_index0) + "][a]", valueToStr((rng_elem0)._field0), "list[3] tuple(int[0..7] a; int[0..7] b)");
@@ -1006,7 +1006,7 @@ public abstract class ranges {
 
     /** ranges enumeration. */
     public static enum rangesEnum {
-${java-enum-lits-code}
+        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

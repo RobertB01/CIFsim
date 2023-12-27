@@ -4,70 +4,94 @@ controllable q_a;
 controllable q_b;
 automaton statespace:
   alphabet p_a, p_b, q_a, q_b;
+  @state(p = "loc1", p.x = 0, q = "loc1", sup = "*")
   location loc1:
     initial;
     marked;
     edge q_a goto loc7;
     edge q_b goto loc7;
+  @state(p = "loc1", p.x = 1, q = "loc1", sup = "*")
   location loc2:
     initial;
     marked;
     edge q_a goto loc8;
     edge q_b goto loc8;
+  @state(p = "loc1", p.x = 2, q = "loc1", sup = "*")
   location loc3:
     initial;
     marked;
     edge q_a goto loc9;
     edge q_b goto loc9;
+  @state(p = "loc1", p.x = 3, q = "loc1", sup = "*")
   location loc4:
     initial;
     marked;
     edge q_a goto loc10;
     edge q_b goto loc10;
+  @state(p = "loc1", p.x = 4, q = "loc1", sup = "*")
   location loc5:
     initial;
     marked;
     edge q_a goto loc11;
     edge q_b goto loc11;
+  @state(p = "loc1", p.x = 5, q = "loc1", sup = "*")
   location loc6:
     initial;
     marked;
     edge q_a goto loc12;
     edge q_b goto loc12;
+  @state(p = "loc1", p.x = 0, q = "loc2", sup = "*")
   location loc7:
     edge q_a goto loc13;
+  @state(p = "loc1", p.x = 1, q = "loc2", sup = "*")
   location loc8:
     edge q_a goto loc14;
+  @state(p = "loc1", p.x = 2, q = "loc2", sup = "*")
   location loc9:
     edge q_a goto loc15;
+  @state(p = "loc1", p.x = 3, q = "loc2", sup = "*")
   location loc10:
     edge q_a goto loc16;
+  @state(p = "loc1", p.x = 4, q = "loc2", sup = "*")
   location loc11:
     edge q_a goto loc17;
+  @state(p = "loc1", p.x = 5, q = "loc2", sup = "*")
   location loc12:
     edge q_a goto loc18;
+  @state(p = "loc1", p.x = 0, q = "loc3", sup = "*")
   location loc13:
     edge q_b goto loc19;
+  @state(p = "loc1", p.x = 1, q = "loc3", sup = "*")
   location loc14:
     edge q_b goto loc20;
+  @state(p = "loc1", p.x = 2, q = "loc3", sup = "*")
   location loc15:
     edge q_b goto loc21;
+  @state(p = "loc1", p.x = 3, q = "loc3", sup = "*")
   location loc16:
     edge q_b goto loc22;
+  @state(p = "loc1", p.x = 4, q = "loc3", sup = "*")
   location loc17:
     edge q_b goto loc23;
+  @state(p = "loc1", p.x = 5, q = "loc3", sup = "*")
   location loc18:
     edge q_b goto loc24;
+  @state(p = "loc1", p.x = 0, q = "loc4", sup = "*")
   location loc19:
     edge q_a goto loc1;
+  @state(p = "loc1", p.x = 1, q = "loc4", sup = "*")
   location loc20:
     edge q_a goto loc2;
+  @state(p = "loc1", p.x = 2, q = "loc4", sup = "*")
   location loc21:
     edge q_a goto loc3;
+  @state(p = "loc1", p.x = 3, q = "loc4", sup = "*")
   location loc22:
     edge q_a goto loc4;
+  @state(p = "loc1", p.x = 4, q = "loc4", sup = "*")
   location loc23:
     edge q_a goto loc5;
+  @state(p = "loc1", p.x = 5, q = "loc4", sup = "*")
   location loc24:
     edge q_a goto loc6;
 end

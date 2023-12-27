@@ -20,11 +20,15 @@ indexterm:[release, notes]
 
 The release notes for the versions of ToolDef and the associated tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
 
-See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-website-version}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
+See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-name}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 2.0
+=== Version 3.0
 
 TBD
+
+=== Version 2.0 (2023-12-22)
+
+This release contains no specific changes for ToolDef.
 
 === Version 1.0 (2023-09-30)
 

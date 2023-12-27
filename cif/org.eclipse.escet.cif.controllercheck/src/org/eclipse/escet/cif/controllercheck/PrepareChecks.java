@@ -18,6 +18,9 @@ import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEv
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
+import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
+import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -43,6 +46,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.AppEnvData;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -130,10 +134,7 @@ public class PrepareChecks {
 
         // Compute global guards, global guarded updates, and updated variables for each event.
         for (Automaton aut: automata) {
-            if (env.isTerminationRequested()) {
-                return false;
-            }
-
+            OutputProvider.dbg("Analyzing %s...", getComponentText1(aut));
             Set<Event> controllableAutEvents = intersection(getAlphabet(aut), allControllableEvents);
             if (!controllableAutEvents.isEmpty()) {
                 if (!processAutomaton(aut, controllableAutEvents)) {
@@ -161,8 +162,10 @@ public class PrepareChecks {
         Map<Event, Node> autGuardedUpdates = (globalGuardedUpdatesByEvent == null) ? null
                 : mapc(controllableAutEvents.size());
 
+        OutputProvider.idbg();
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
+            OutputProvider.dbg("Initializing the automaton data for event \"%s\"...", getAbsName(evt));
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
                 autGuardedUpdates.put(evt, Tree.ZERO);
@@ -176,10 +179,15 @@ public class PrepareChecks {
                 }
                 updatedVariablesByEvent.put(evt, set());
             }
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return false;
+            }
         }
 
         // Process the locations and edges.
         for (Location loc: aut.getLocations()) {
+            OutputProvider.dbg("Processing edges from %s...", getLocationText2(loc));
             for (Edge edge: loc.getEdges()) {
                 // Filter on relevant events.
                 Set<Event> controllableEdgeEvents = intersection(getEvents(edge), controllableAutEvents);
@@ -187,41 +195,70 @@ public class PrepareChecks {
                     continue;
                 }
 
-                // Compute guard and update of the edge.
+                // Compute guard of the edge.
                 Node guard = computeGuard(edge);
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
+
+                // Compute update of the edge.
                 Node update = computeUpdate(edge, controllableEdgeEvents);
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
+
+                // Compute combined guard and update of the edge.
                 Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
 
                 // Add the guard and guarded update as alternative to the relevant events of the edge.
                 for (Event evt: controllableEdgeEvents) {
                     Node autGuard = autGuards.get(evt);
                     autGuards.put(evt, tree.disjunct(autGuard, guard));
+                    if (env.isTerminationRequested()) {
+                        OutputProvider.ddbg();
+                        return false;
+                    }
 
                     if (autGuardedUpdates != null) {
                         Node autGuardedUpdate = autGuardedUpdates.get(evt);
                         autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
+                        if (env.isTerminationRequested()) {
+                            OutputProvider.ddbg();
+                            return false;
+                        }
                     }
-                }
-
-                // Abort computation if the user requests it.
-                if (env.isTerminationRequested()) {
-                    return false;
                 }
             }
         }
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
+            OutputProvider.dbg("Updating global guards and updates for event \"%s\"...", getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
+            if (env.isTerminationRequested()) {
+                OutputProvider.ddbg();
+                return false;
+            }
 
             if (autGuardedUpdates != null && globalGuardedUpdatesByEvent != null) {
                 Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
                 globalGuardedUpdatesByEvent.put(autEvent,
                         tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
+                if (env.isTerminationRequested()) {
+                    OutputProvider.ddbg();
+                    return false;
+                }
             }
         }
 
+        OutputProvider.ddbg();
         return true;
     }
 
@@ -235,7 +272,14 @@ public class PrepareChecks {
         Node guard = Tree.ONE;
         for (Expression grd: edge.getGuards()) {
             Node node = builder.getExpressionConvertor().convert(grd).get(1);
+            if (env.isTerminationRequested()) {
+                return guard;
+            }
+
             guard = builder.tree.conjunct(guard, node);
+            if (env.isTerminationRequested()) {
+                return guard;
+            }
         }
         return guard;
     }
@@ -265,7 +309,13 @@ public class PrepareChecks {
 
             if (updateNode != null) {
                 Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
+                if (env.isTerminationRequested()) {
+                    return updateNode;
+                }
                 updateNode = tree.conjunct(updateNode, asgNode);
+                if (env.isTerminationRequested()) {
+                    return updateNode;
+                }
             }
         }
 
@@ -275,6 +325,9 @@ public class PrepareChecks {
                 if (!assignedVariables.contains(otherVariable)) {
                     VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
                     updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
+                    if (env.isTerminationRequested()) {
+                        return updateNode;
+                    }
                 }
             }
         }
@@ -319,6 +372,9 @@ public class PrepareChecks {
         for (int idx = variables.size() - 1; idx >= 0; idx--) {
             VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(variables.get(idx));
             result = builder.tree.identity(vinfos[ORIGINAL_INDEX], vinfos[READ_INDEX], result);
+            if (env.isTerminationRequested()) {
+                return result;
+            }
         }
         return result;
     }

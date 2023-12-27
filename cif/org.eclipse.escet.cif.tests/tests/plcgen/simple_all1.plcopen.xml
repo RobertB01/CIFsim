@@ -224,6 +224,7 @@ END_IF;
 
 (* --- Process all events. ------------------------------------------------- *)
 isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
 WHILE isProgress DO
     isProgress := FALSE;
 

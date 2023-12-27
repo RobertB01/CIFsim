@@ -14,13 +14,15 @@
 include::../_part_attributes.asciidoc[]
 
 [[tools-cif2plc-chapter-index]]
-== CIF PLC code generator
+== CIF PLC code generator (stable)
 
 indexterm:[CIF PLC code generator]
 indexterm:[tools,CIF PLC code generator]
 indexterm:[see: PLC,CIF PLC code generator]
 The CIF PLC code generator can be used to generate **P**rogrammable **L**ogic **C**ontroller (PLC) code, for the implementation of CIF controllers on PLCs.
 The generated PLC code adheres to the IEC 61131-3 standard, a widely used international standard for PLC programming languages.
+
+A new <<tools-plcgen-chapter-index,experimental CIF PLC code generator>> is currently in development.
 
 indexterm:[CIF PLC code generator,start]
 

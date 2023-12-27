@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.eclipse.escet</groupId>
         <artifactId>org.eclipse.escet.root</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../../</relativePath>
     </parent>
 
@@ -127,8 +127,17 @@
                                     </paths>
                                     <replaces>
                                         <replace>
-                                            <from>@@ESCET-VERSION@@</from>
+                                            <from>@@ESCET-VERSION-ENDUSER@@</from>
                                             <to>${escet.version.enduser}</to>
+                                        </replace>
+                                        <replace>
+                                            <!-- Replacement by an empty text doesn't work, see: -->
+                                            <!-- https://github.com/Antibrumm/copy-maven-plugin/issues/13. -->
+                                            <!-- Therefore, we replace the preceding '/' as well. As a consequence -->
+                                            <!-- of this, the replacement pattern must always be preceded by '/', -->
+                                            <!-- or it won't get replaced. -->
+                                            <from>/@@ESCET-DEPLOY-FOLDER-NAME@@</from>
+                                            <to>/${escet.deploy.folder.name}</to>
                                         </replace>
                                     </replaces>
                                 </resource>

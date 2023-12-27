@@ -56,24 +56,26 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
 
     @Override
     public ExprCode convertLessThan(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_THAN), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_THAN, ctxt), dest,
+                ctxt);
     }
 
     @Override
     public ExprCode convertLessEqual(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_EQUAL), dest, ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.LESS_EQUAL, ctxt), dest,
+                ctxt);
     }
 
     @Override
     public ExprCode convertGreaterEqual(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_EQUAL), dest,
-                ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_EQUAL, ctxt),
+                dest, ctxt);
     }
 
     @Override
     public ExprCode convertGreaterThan(BinaryExpression expr, Destination dest, CodeContext ctxt) {
-        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_THAN), dest,
-                ctxt);
+        return convertBinaryExpressionPattern(expr, getBinaryExpressionTemplate(BinaryOperator.GREATER_THAN, ctxt),
+                dest, ctxt);
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      *
      * @param value Literal value.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertLiteral(String value, Destination dest, CodeContext ctxt);
@@ -91,7 +93,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertAddition(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -107,7 +109,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      * @param expr Expression to convert to the target language.
      * @param properties Properties of the operation.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     protected abstract ExprCode convertAddition(BinaryExpression expr, EnumSet<ExprProperties> properties,
@@ -118,7 +120,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertSubtraction(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -134,7 +136,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      * @param expr Expression to convert to the target language.
      * @param properties Properties of the operation.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     protected abstract ExprCode convertSubtraction(BinaryExpression expr, EnumSet<ExprProperties> properties,
@@ -145,7 +147,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertMultiplication(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -161,7 +163,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      * @param expr Expression to convert to the target language.
      * @param properties Properties of the operation.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     protected abstract ExprCode convertMultiplication(BinaryExpression expr, EnumSet<ExprProperties> properties,
@@ -172,7 +174,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertDiv(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -198,7 +200,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      * @param expr Expression to convert to the target language.
      * @param properties Properties of the operation.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     protected abstract ExprCode convertDiv(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,
@@ -209,7 +211,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      *
      * @param expr Expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     public ExprCode convertMod(BinaryExpression expr, Destination dest, CodeContext ctxt) {
@@ -230,7 +232,7 @@ public abstract class IntTypeInfo extends TypeInfo implements NegateOperation, O
      * @param expr Expression to convert to the target language.
      * @param properties Properties of the operation.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context of the expression.
      * @return Result of the conversion.
      */
     protected abstract ExprCode convertMod(BinaryExpression expr, EnumSet<ExprProperties> properties, Destination dest,

@@ -64,6 +64,19 @@ public abstract class annos_doc {
      */
     public boolean i4_;
 
+    /**
+     * Input variable "i5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc.
+     * </p>
+     */
+    public boolean i5_;
+
     /** Constructor for the {@link annos_doc} class. */
     public annos_doc() {
         firstExec = true;
@@ -287,7 +300,7 @@ public abstract class annos_doc {
 
     /** annos_doc enumeration. */
     public static enum annos_docEnum {
-${java-enum-lits-code}
+        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

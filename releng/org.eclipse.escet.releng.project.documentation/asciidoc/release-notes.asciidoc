@@ -22,13 +22,21 @@ The release notes for the versions of the Eclipse ESCET tools, as part of the Ec
 
 See also the release notes for the specific tools for more information:
 
-* link:https://eclipse.dev/escet/{escet-website-version}/cif/release-notes.html[CIF release notes]
-* link:https://eclipse.dev/escet/{escet-website-version}/chi/release-notes.html[Chi release notes]
-* link:https://eclipse.dev/escet/{escet-website-version}/tooldef/release-notes.html[ToolDef release notes]
+* link:https://eclipse.dev/escet/{escet-deploy-folder-name}/cif/release-notes.html[CIF release notes]
+* link:https://eclipse.dev/escet/{escet-deploy-folder-name}/chi/release-notes.html[Chi release notes]
+* link:https://eclipse.dev/escet/{escet-deploy-folder-name}/tooldef/release-notes.html[ToolDef release notes]
 
-=== Version 2.0
+=== Version 3.0
 
 TBD
+
+=== Version 2.0 (2023-12-22)
+
+New features:
+
+* The Eclipse ESCET project now deploys 'nightlies', in-development versions of the ESCET website and toolkit.
+See the nightly website at https://eclipse.dev/escet/nightly/.
+From the nightly website the nightly releases can be downloaded (issue {escet-issue}699[#699]).
 
 Improvements and fixes:
 

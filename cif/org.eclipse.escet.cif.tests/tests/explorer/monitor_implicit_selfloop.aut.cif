@@ -3,6 +3,7 @@ group A:
 end
 automaton statespace:
   alphabet A.e;
+  @state(A = "X")
   location loc1:
     initial;
     edge A.e;

@@ -6,38 +6,53 @@ group p:
 end
 automaton statespace:
   alphabet p.c1, p.u2, p.c3, p.u4;
+  @state(p = "l1", p.x = 0, p.y = 0, sup = "*")
   location loc1:
     initial;
     edge p.c1 goto loc2;
+  @state(p = "l1", p.x = 1, p.y = 0, sup = "*")
   location loc2:
     initial;
     edge p.c1 goto loc3;
+  @state(p = "l1", p.x = 2, p.y = 0, sup = "*")
   location loc3:
     initial;
     edge p.c1 goto loc4;
+  @state(p = "l1", p.x = 3, p.y = 0, sup = "*")
   location loc4:
     initial;
     edge p.c1 goto loc5;
+  @state(p = "l2", p.x = 3, p.y = 0, sup = "*")
   location loc5:
     edge p.u2 goto loc6;
+  @state(p = "l2", p.x = 3, p.y = 1, sup = "*")
   location loc6:
     edge p.u2 goto loc7;
+  @state(p = "l2", p.x = 3, p.y = 2, sup = "*")
   location loc7:
     edge p.u2 goto loc8;
+  @state(p = "l2", p.x = 3, p.y = 3, sup = "*")
   location loc8:
     edge p.u2 goto loc9;
+  @state(p = "l3", p.x = 3, p.y = 3, sup = "*")
   location loc9:
     edge p.c3 goto loc10;
+  @state(p = "l3", p.x = 2, p.y = 3, sup = "*")
   location loc10:
     edge p.c3 goto loc11;
+  @state(p = "l3", p.x = 1, p.y = 3, sup = "*")
   location loc11:
     edge p.c3 goto loc12;
+  @state(p = "l4", p.x = 1, p.y = 3, sup = "*")
   location loc12:
     edge p.u4 goto loc13;
+  @state(p = "l4", p.x = 1, p.y = 2, sup = "*")
   location loc13:
     edge p.u4 goto loc14;
+  @state(p = "l4", p.x = 1, p.y = 1, sup = "*")
   location loc14:
     edge p.u4 goto loc15;
+  @state(p = "l5", p.x = 1, p.y = 1, sup = "*")
   location loc15:
     marked;
 end

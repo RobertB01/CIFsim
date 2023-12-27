@@ -1,0 +1,3 @@
+WARNING: File "event_based/automaton_abstraction/empty_automaton.cif": Semantic warning at line 14, column 7: Automaton "p" has no initial location.
+ERROR: Failed to compute automaton abstraction for CIF file "event_based/automaton_abstraction/empty_automaton.cif".
+CAUSE: Automaton "p" cannot be partitioned because it has no marked locations.

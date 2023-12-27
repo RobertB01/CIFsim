@@ -2,10 +2,13 @@ uncontrollable a;
 uncontrollable b;
 automaton minimal:
   alphabet a, b;
+  @state(A = "p")
+  @state(A = "v")
   location s1:
     initial;
     edge b;
     edge a goto s2;
+  @state(A = "m")
   location s2:
     marked;
     edge b goto s1;

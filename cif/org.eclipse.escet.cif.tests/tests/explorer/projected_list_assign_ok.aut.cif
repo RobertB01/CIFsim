@@ -1,11 +1,15 @@
 automaton statespace:
   alphabet;
+  @state(A = "X", A.xs = [1, 2, 3], A.ys = [[1, 23], [4, 5, 6]])
   location loc1:
     initial;
     edge tau goto loc2;
+  @state(A = "Y", A.xs = [1, 5, 3], A.ys = [[1, 23], [4, 5, 6]])
   location loc2:
     edge tau goto loc3;
+  @state(A = "Z", A.xs = [1, 5, 3], A.ys = [[1, 23], [8, 5, 6]])
   location loc3:
     edge tau goto loc4;
+  @state(A = "done", A.xs = [1, 5, 3], A.ys = [[7], [8, 9, 6]])
   location loc4;
 end

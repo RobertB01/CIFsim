@@ -503,6 +503,7 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/id"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/svgFile"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/event"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/updates"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//cifsvg/SvgInEventSingle">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgInEventSingle/event"/>

@@ -1056,6 +1056,13 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 /* }}} */
 
 /* {{{ CIF types. */
+enum Enumannos_doc_ {
+    _annos_doc___some_dummy_enum_literal,
+};
+typedef enum Enumannos_doc_ annos_docEnum;
+
+static const char *enum_names[];
+static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end);
 
 /* }}} */
 
@@ -1132,6 +1139,16 @@ static real_T SimulinkToReal(real_T sr) {
 /* }}} */
 
 /* {{{ Type functions. */
+static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
+}
 
 /* }}} */
 /* {{{ work data structure. */
@@ -1166,10 +1183,20 @@ struct WorkStruct {
      */
     BoolType i4_;
 
+    /**
+     * Input variable "bool i5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    BoolType i5_;
+
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;
     unsigned char input_loaded03;
+    unsigned char input_loaded04;
 };
 /* }}} */
 
@@ -1209,7 +1236,9 @@ const char *evt_names[] = { /** < Event names. */
 };
 
 /** Enum names. */
-${enum-names-list}
+static const char *enum_names[] = {
+    "__some_dummy_enum_literal",
+};
 
 /**
  * Reset 'loaded' status of all input variables.
@@ -1220,6 +1249,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
     work->input_loaded01 = FALSE;
     work->input_loaded02 = FALSE;
     work->input_loaded03 = FALSE;
+    work->input_loaded04 = FALSE;
 }
 
 /* Time-dependent guards. */
@@ -1240,15 +1270,16 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     if (ssGetNumSFcnParams(sim_struct) != ssGetSFcnParamsCount(sim_struct)) return;
 
     /* Inputs. */
-    if (!ssSetNumInputPorts(sim_struct, 4)) return;
+    if (!ssSetNumInputPorts(sim_struct, 5)) return;
 
     ssSetInputPortWidth(sim_struct, 0, 1);
     ssSetInputPortWidth(sim_struct, 1, 1);
     ssSetInputPortWidth(sim_struct, 2, 1);
     ssSetInputPortWidth(sim_struct, 3, 1);
+    ssSetInputPortWidth(sim_struct, 4, 1);
 
     int idx;
-    for (idx = 0; idx < 4; idx++) {
+    for (idx = 0; idx < 5; idx++) {
         ssSetInputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetInputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
         ssSetInputPortDirectFeedThrough(sim_struct, idx, 1); /* Assume always feed-through. */

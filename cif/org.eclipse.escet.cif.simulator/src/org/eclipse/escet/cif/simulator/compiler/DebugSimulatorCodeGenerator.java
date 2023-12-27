@@ -98,7 +98,7 @@ public class DebugSimulatorCodeGenerator {
         c.add("CifSimulatorApp app = new CifSimulatorApp(null, null, null, properties);");
         c.add();
         c.add("String[] arguments = {" + String.join(", ", args) + "};");
-        c.add("app.run(arguments);");
+        c.add("app.run(arguments, true);");
         c.dedent();
         c.add("}");
     }

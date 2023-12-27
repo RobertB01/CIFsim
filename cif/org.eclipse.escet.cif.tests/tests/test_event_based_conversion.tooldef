@@ -17,7 +17,10 @@ from "lib:cif" import cifprod;
 string test_path = "event_based/conversion_tests";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
-map(string:list string) test_options = {};
+map(string:list string) test_options = {
+    "event_based/conversion_tests/add_state_annos_option_off.cif":  ["--add-state-annos=off"],
+    "event_based/conversion_tests/add_state_annos_option_on.cif":   ["--add-state-annos=on"],
+};
 set string test_skip = {};
 
 // Initialize counts.

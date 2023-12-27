@@ -1,0 +1,3 @@
+WARNING: File "pprint_elim_cdef/import3b.cif": Semantic warning at line 14, column 8: File "import3a.cif": Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/import3b.cif": Semantic warning at line 26, column 11: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/import3b.cif": Semantic warning at line 50, column 13: Duplicate state invariant.

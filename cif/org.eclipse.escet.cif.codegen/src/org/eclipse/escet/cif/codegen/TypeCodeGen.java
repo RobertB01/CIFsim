@@ -51,7 +51,7 @@ public abstract class TypeCodeGen {
      * </p>
      *
      * @param ti Type information object to search for.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The authorative type information object.
      */
     protected TypeInfo uniqueTypeInfo(TypeInfo ti, CodeContext ctxt) {
@@ -74,7 +74,7 @@ public abstract class TypeCodeGen {
      * </p>
      *
      * @param type CIF type to convert to the target language.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The converted target language type information object.
      */
     public abstract TypeInfo typeToTarget(CifType type, CodeContext ctxt);

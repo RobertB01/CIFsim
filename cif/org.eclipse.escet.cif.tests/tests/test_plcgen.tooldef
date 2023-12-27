@@ -26,16 +26,7 @@ map(string:list string) test_options = {
     "plcgen/convert_enums_consts.cif":        ["--convert-enums=consts"],
     "plcgen/convert_enums_ints.cif":          ["--convert-enums=ints"],
     "plcgen/enums_keep.cif":                  ["--convert-enums=no"],
-    "plcgen/formal_finvoke_all_all.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=all"],
-    "plcgen/formal_finvoke_all_std.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=std"],
-    "plcgen/formal_finvoke_all_others.cif":   ["--formal-finvoke-arg=all --formal-finvoke-func=others"],
-    "plcgen/formal_finvoke_multi_all.cif":    ["--formal-finvoke-arg=multi --formal-finvoke-func=all"],
-    "plcgen/formal_finvoke_multi_std.cif":    ["--formal-finvoke-arg=multi --formal-finvoke-func=std"],
-    "plcgen/formal_finvoke_multi_others.cif": ["--formal-finvoke-arg=multi --formal-finvoke-func=others"],
-    "plcgen/formal_finvoke_none_all.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=all"],
-    "plcgen/formal_finvoke_none_std.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=std"],
-    "plcgen/formal_finvoke_none_others.cif":  ["--formal-finvoke-arg=none --formal-finvoke-func=others"],
-    "plcgen/option_max_iter_inf.cif":         ["-x inf"], // Infinite event looping.
+    "plcgen/option_max_iter_inf.cif":         ["-x inf"],
     "plcgen/options.cif":                     ["-i off --int-size=32 --real-size=32 -x 101"],
 };
 set string test_skip = {};
@@ -155,13 +146,13 @@ for test in tests:
                 createEmptyTwincat(dir_real, "Untitled1", "PlcTask");
             end
         elif target == "s7-1200":
-            options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+            options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts"] + options;
         elif target == "s7-1500":
-            options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+            options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts"] + options;
         elif target == "s7-300":
-            options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+            options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts"] + options;
         elif target == "s7-400":
-            options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts", "--formal-finvoke-arg=multi", "--formal-finvoke-func=all"] + options;
+            options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts"] + options;
         elif target == "abb":
             options = ["-t", "abb", "-o", dir_real, "--convert-enums=consts"] + options;
         end

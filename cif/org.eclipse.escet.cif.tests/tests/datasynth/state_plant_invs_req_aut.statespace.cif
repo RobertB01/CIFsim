@@ -4,11 +4,13 @@ group A:
 end
 automaton statespace:
   alphabet A.c, A.u1;
+  @state(A = "l1", sup = "*", X = "*")
   location loc1:
     initial;
     marked;
     edge A.c goto loc2;
     edge A.u1;
+  @state(A = "l2", sup = "*", X = "*")
   location loc2:
     marked;
 end

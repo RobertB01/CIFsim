@@ -12,6 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant x:
+  disc bool d;
   input bool i;
   location:
     initial;
@@ -24,3 +25,8 @@ plant y:
   location:
     edge e do c := true;
 end
+
+cont z = 0.0 der 0;
+svgin id "" do x.d := true;
+svgin id "" do y.c := true;
+svgin id "" do z   := 0.0;

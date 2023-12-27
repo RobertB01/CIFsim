@@ -592,13 +592,8 @@ public class CifProcessor {
                             NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
                             NoSpecificUserDefFunc.NO_PARAMETER),
 
-                    // Limit internal user-defined function assignments and disallow the 'continue' statement.
-                    //
-                    // We use CifAddressableUtils.getRefs in the code generation, which doesn't properly handle
-                    // multi-assignments to different non-overlapping parts of the same variable.
-                    new FuncNoSpecificIntUserDefFuncStatsCheck( //
-                            NoSpecificStatement.ASSIGN_MULTI_PARTS_SAME_VAR, //
-                            NoSpecificStatement.CONTINUE),
+                    // Disallow the 'continue' statement.
+                    new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.CONTINUE),
 
                     // Disallow various types completely and function types in non-call context.
                     new TypeNoSpecificTypesCheck( //

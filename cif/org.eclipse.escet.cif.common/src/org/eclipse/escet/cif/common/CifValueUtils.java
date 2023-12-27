@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.common;
 
 import static org.eclipse.escet.cif.common.CifEquationUtils.getDerivativesForContVar;
 import static org.eclipse.escet.cif.common.CifEquationUtils.getValuesForAlgVar;
+import static org.eclipse.escet.cif.common.CifTypeUtils.hashType;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
@@ -34,6 +35,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInternalFunction;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newReturnFuncStatement;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSetExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStdLibFunctionExpression;
@@ -1053,24 +1055,24 @@ public class CifValueUtils {
         if (type instanceof BoolType) {
             return makeFalse();
         } else if (type instanceof IntType) {
-            IntExpression rslt = newIntExpression();
-            rslt.setType(deepclone(type));
-
+            // Get default value.
             IntType itype = (IntType)type;
+            int defaultValue;
             if (CifTypeUtils.isRangeless(itype)) {
-                rslt.setValue(0);
+                defaultValue = 0;
             } else {
-                // Set to value closest to zero.
+                // Use the value closest to zero.
                 if (itype.getLower() <= 0 && itype.getUpper() >= 0) {
-                    rslt.setValue(0);
+                    defaultValue = 0;
                 } else {
                     int lDistanceToZero = Math.abs(itype.getLower());
                     int uDistanceToZero = Math.abs(itype.getUpper());
-                    rslt.setValue((lDistanceToZero < uDistanceToZero) ? itype.getLower() : itype.getUpper());
+                    defaultValue = (lDistanceToZero < uDistanceToZero) ? itype.getLower() : itype.getUpper();
                 }
             }
 
-            return rslt;
+            // Return a proper expression for the default value.
+            return makeInt(defaultValue);
         } else if (type instanceof TypeRef) {
             return getDefaultValue(((TypeRef)type).getType().getType(), funcs);
         } else if (type instanceof EnumType) {
@@ -1614,6 +1616,7 @@ public class CifValueUtils {
      * @param expr1 The first expression to check.
      * @param expr2 The second expression to check.
      * @return {@code true} if the two expressions are structurally the same, {@code false} otherwise.
+     * @see #hashExpr
      */
     public static Boolean areStructurallySameExpression(Expression expr1, Expression expr2) {
         if (!expr1.getClass().equals(expr2.getClass())) {
@@ -1920,6 +1923,147 @@ public class CifValueUtils {
         }
 
         throw new RuntimeException("Unexpected expressions: " + expr1 + ", " + expr2);
+    }
+
+    /**
+     * Hashes the given expression.
+     *
+     * <p>
+     * Component types and component definition types are currently not supported by this method.
+     * </p>
+     *
+     * @param expr The expression.
+     * @return The hash of the expression.
+     * @see #areStructurallySameExpression
+     * @see CifTypeUtils#hashType
+     */
+    public static int hashExpr(Expression expr) {
+        if (expr instanceof BoolExpression bExpr) {
+            return bExpr.isValue() ? 1231 : 1237; // Same as 'java.lang.Boolean.hashCode'.
+        } else if (expr instanceof IntExpression iExpr) {
+            return iExpr.getValue(); // Same as 'java.lang.Integer.hashCode'.
+        } else if (expr instanceof RealExpression rExpr) {
+            return rExpr.getValue().hashCode();
+        } else if (expr instanceof StringExpression sExpr) {
+            return sExpr.getValue().hashCode();
+        } else if (expr instanceof TimeExpression tExpr) {
+            return 1 << 0;
+        } else if (expr instanceof CastExpression cExpr) {
+            return hashType(cExpr.getType()) + hashExpr(cExpr.getChild());
+        } else if (expr instanceof UnaryExpression uExpr) {
+            return uExpr.getOperator().hashCode() + hashExpr(uExpr.getChild());
+        } else if (expr instanceof BinaryExpression bExpr) {
+            return hashExpr(bExpr.getLeft()) + bExpr.getOperator().hashCode() + hashExpr(bExpr.getRight());
+        } else if (expr instanceof IfExpression iExpr) {
+            int rslt = 1 << 3;
+            for (Expression guard: iExpr.getGuards()) {
+                rslt += hashExpr(guard);
+            }
+            rslt += hashExpr(iExpr.getThen());
+            for (ElifExpression elifExpr: iExpr.getElifs()) {
+                for (Expression guard: elifExpr.getGuards()) {
+                    rslt += hashExpr(guard);
+                }
+                rslt += hashExpr(elifExpr.getThen());
+            }
+            rslt += hashExpr(iExpr.getElse());
+            return rslt;
+        } else if (expr instanceof SwitchExpression sExpr) {
+            int rslt = 1 << 6;
+            rslt += hashExpr(sExpr.getValue());
+            for (SwitchCase sCase: sExpr.getCases()) {
+                if (sCase.getKey() != null) {
+                    rslt += hashExpr(sCase.getKey());
+                }
+                rslt += hashExpr(sCase.getValue());
+            }
+            return rslt;
+        } else if (expr instanceof ProjectionExpression pExpr) {
+            return hashExpr(pExpr.getChild()) + hashExpr(pExpr.getIndex());
+        } else if (expr instanceof SliceExpression sExpr) {
+            int rslt = hashExpr(sExpr.getChild());
+            if (sExpr.getBegin() != null) {
+                rslt += hashExpr(sExpr.getBegin());
+            }
+            if (sExpr.getEnd() != null) {
+                rslt += hashExpr(sExpr.getEnd());
+            }
+            return rslt;
+        } else if (expr instanceof FunctionCallExpression fcExpr) {
+            int rslt = 1 << 9;
+            rslt += hashExpr(fcExpr.getFunction());
+            for (Expression argument: fcExpr.getArguments()) {
+                rslt += hashExpr(argument);
+            }
+            return rslt;
+        } else if (expr instanceof ListExpression lExpr) {
+            int rslt = 1 << 12;
+            for (Expression element: lExpr.getElements()) {
+                rslt += hashExpr(element);
+            }
+            return rslt;
+        } else if (expr instanceof SetExpression sExpr) {
+            int rslt = 1 << 15;
+            for (Expression element: sExpr.getElements()) {
+                rslt += hashExpr(element);
+            }
+            return rslt;
+        } else if (expr instanceof TupleExpression tExpr) {
+            int rslt = 1 << 18;
+            for (Expression field: tExpr.getFields()) {
+                rslt += hashExpr(field);
+            }
+            return rslt;
+        } else if (expr instanceof DictExpression dExpr) {
+            int rslt = 1 << 21;
+            for (DictPair pair: dExpr.getPairs()) {
+                rslt += hashExpr(pair.getKey()) + hashExpr(pair.getValue());
+            }
+            return rslt;
+        } else if (expr instanceof ConstantExpression cExpr) {
+            return cExpr.getConstant().hashCode();
+        } else if (expr instanceof DiscVariableExpression dvExpr) {
+            return dvExpr.getVariable().hashCode();
+        } else if (expr instanceof AlgVariableExpression aExpr) {
+            return aExpr.getVariable().hashCode();
+        } else if (expr instanceof ContVariableExpression cExpr) {
+            return cExpr.getVariable().hashCode() + (cExpr.isDerivative() ? 1231 : 1237);
+        } else if (expr instanceof TauExpression) {
+            return 1 << 24;
+        } else if (expr instanceof LocationExpression lExpr) {
+            return lExpr.getLocation().hashCode();
+        } else if (expr instanceof EnumLiteralExpression elExpr) {
+            return elExpr.getLiteral().hashCode();
+        } else if (expr instanceof EventExpression eExpr) {
+            return eExpr.getEvent().hashCode();
+        } else if (expr instanceof FieldExpression fExpr) {
+            int rslt = 1 << 27;
+            String fieldName = fExpr.getField().getName();
+            if (fieldName != null) {
+                rslt += fieldName.hashCode();
+            }
+            return rslt;
+        } else if (expr instanceof StdLibFunctionExpression slfExpr) {
+            return slfExpr.getFunction().hashCode();
+        } else if (expr instanceof FunctionExpression fExpr) {
+            return fExpr.getFunction().hashCode();
+        } else if (expr instanceof InputVariableExpression iExpr) {
+            return iExpr.getVariable().hashCode();
+        } else if (expr instanceof ComponentExpression cExpr) {
+            return cExpr.getComponent().hashCode();
+        } else if (expr instanceof CompParamExpression cpExpr) {
+            return cpExpr.getParameter().hashCode();
+        } else if (expr instanceof CompInstWrapExpression ciwExpr) {
+            return ciwExpr.getInstantiation().hashCode() + hashExpr(ciwExpr.getReference());
+        } else if (expr instanceof CompParamWrapExpression cpwExpr) {
+            return cpwExpr.getParameter().hashCode() + hashExpr(cpwExpr.getReference());
+        } else if (expr instanceof ReceivedExpression) {
+            return 1 << 30;
+        } else if (expr instanceof SelfExpression) {
+            return 1 << 31;
+        }
+
+        throw new RuntimeException("Unexpected expression: " + expr.toString());
     }
 
     /**
@@ -2239,7 +2383,7 @@ public class CifValueUtils {
      * properly handles negative values, as well as {@link Integer#MIN_VALUE}.
      *
      * @param value The integer value.
-     * @return The 'false' literal.
+     * @return The expression.
      */
     public static Expression makeInt(int value) {
         // Special case for -2,147,483,648, which we can't represent using
@@ -2288,6 +2432,36 @@ public class CifValueUtils {
         un.setChild(absExpr);
         un.setType(unType);
 
+        return un;
+    }
+
+    /**
+     * Returns a newly created expression, without position information, for the given real value. This method properly
+     * handles negative values.
+     *
+     * @param value The finite Java double value.
+     * @return The expression.
+     */
+    public static Expression makeReal(double value) {
+        // Check preconditions.
+        Assert.check(Double.isFinite(value));
+
+        // General work.
+        double absValue = Math.abs(value);
+        RealExpression absExpr = newRealExpression();
+        absExpr.setValue(CifMath.realToStr(absValue));
+        absExpr.setType(newRealType());
+
+        // If value is non-negative, we are done.
+        if (value >= 0) {
+            return absExpr;
+        }
+
+        // Additional work for negative values.
+        UnaryExpression un = newUnaryExpression();
+        un.setOperator(UnaryOperator.NEGATE);
+        un.setChild(absExpr);
+        un.setType(newRealType());
         return un;
     }
 

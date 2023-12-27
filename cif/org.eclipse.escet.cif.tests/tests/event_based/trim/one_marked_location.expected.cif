@@ -1,0 +1,7 @@
+plant automaton trim:
+  alphabet;
+  @state(p = "*")
+  location s1:
+    initial;
+    marked;
+end

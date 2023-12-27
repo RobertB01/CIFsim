@@ -62,7 +62,7 @@ public abstract class declarations {
     /** Continuous variable "aut2.v2". */
     public double aut2_v2_;
 
-    /** Discrete variable "g1_a1". */
+    /** Discrete variable "g1.a1". */
     public declarationsEnum g1_a1_;
 
     /** Continuous variable "aut1.v3". */

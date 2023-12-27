@@ -90,7 +90,7 @@ public class AssignmentUpdate extends UpdateData {
         int reservedRange = readCtxt.reserveTempVariables();
         CodeBox localCode = readCtxt.makeCodeBox();
 
-        // One assignment (thus no rhs projections), no
+        // One assignment (thus no rhs projections).
         if (assigns.size() == 1) {
             SingleVariableAssignment asg = assigns.get(0);
             if (asg.lhsProjections == null && !asg.needsRangeBoundCheck()) {

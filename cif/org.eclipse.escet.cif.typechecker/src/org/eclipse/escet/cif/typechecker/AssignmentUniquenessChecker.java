@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FieldExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
@@ -53,7 +54,10 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
-/** Assignment uniqueness checker. Supports both assignments on edges and assignments in functions. */
+/**
+ * Assignment uniqueness checker. Supports assignments on edges, assignments in functions, and assignments in CIF/SVG
+ * input mappings.
+ */
 public class AssignmentUniquenessChecker {
     /** Constructor for the {@link AssignmentUniquenessChecker} class. */
     private AssignmentUniquenessChecker() {
@@ -64,8 +68,8 @@ public class AssignmentUniquenessChecker {
      * Checks the given updates for uniqueness with respect to the (parts of the) variables that are assigned.
      *
      * @param updates The updates to check.
-     * @param asgnMap Mapping from the (discrete, continuous, and function local) variables that have already been
-     *     assigned so far, to all assignments that they were assigned in, with information about both the position
+     * @param asgnMap Mapping from the (discrete, continuous, input, and function local) variables that have already
+     *     been assigned so far, to all assignments that they were assigned in, with information about both the position
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
      *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
      *     they can not be statically computed or normalized. May be modified in-place.
@@ -138,8 +142,8 @@ public class AssignmentUniquenessChecker {
      * assigned.
      *
      * @param addr The addressable expression to check.
-     * @param asgnMap Mapping from the (discrete, continuous, and function local) variables that have already been
-     *     assigned so far, to all assignments that they were assigned in, with information about both the position
+     * @param asgnMap Mapping from the (discrete, continuous, input, and function local) variables that have already
+     *     been assigned so far, to all assignments that they were assigned in, with information about both the position
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
      *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
      *     they can not be statically computed or normalized. May be modified in-place.
@@ -168,8 +172,8 @@ public class AssignmentUniquenessChecker {
      *
      * @param addr The addressable expression to check. Must not be a {@link DiscVariableExpression},
      *     {@link ContVariableExpression}, or {@link ProjectionExpression}, but not a {@link TupleExpression}.
-     * @param asgnMap Mapping from the (discrete, continuous, and function local) variables that have already been
-     *     assigned so far, to all assignments that they were assigned in, with information about both the position
+     * @param asgnMap Mapping from the (discrete, continuous, input, and function local) variables that have already
+     *     been assigned so far, to all assignments that they were assigned in, with information about both the position
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
      *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
      *     they can not be statically computed or normalized. May be modified in-place.
@@ -187,6 +191,8 @@ public class AssignmentUniquenessChecker {
             var = ((DiscVariableExpression)varRef).getVariable();
         } else if (varRef instanceof ContVariableExpression) {
             var = ((ContVariableExpression)varRef).getVariable();
+        } else if (varRef instanceof InputVariableExpression) {
+            var = ((InputVariableExpression)varRef).getVariable();
         } else if (varRef instanceof ReceivedExpression) {
             throw new RuntimeException("Not allowed by parser.");
         } else {

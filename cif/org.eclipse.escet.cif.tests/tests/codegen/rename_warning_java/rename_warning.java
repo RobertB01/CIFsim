@@ -261,7 +261,7 @@ public abstract class rename_warning {
 
     /** rename_warning enumeration. */
     public static enum rename_warningEnum {
-${java-enum-lits-code}
+        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

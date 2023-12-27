@@ -76,7 +76,7 @@ public class JavaBoolTypeInfo extends BoolTypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         // Use 'equalObjs' instead of '==' to avoid object equality for two Boolean objects.
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "equalObjs(${left-value}, ${right-value})";

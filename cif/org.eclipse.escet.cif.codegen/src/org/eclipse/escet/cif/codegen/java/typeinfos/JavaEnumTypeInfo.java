@@ -65,7 +65,7 @@ public class JavaEnumTypeInfo extends EnumTypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         // Uses '==' instead of 'equalsObj' like for the other types, as object equality works for enumerations and may
         // also give slightly better performance.
         if (binOp.equals(BinaryOperator.EQUAL)) {

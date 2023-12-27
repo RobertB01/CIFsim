@@ -13,6 +13,10 @@
 
 package org.eclipse.escet.cif.eventbased.automata.origin;
 
+import java.util.List;
+
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+
 /** Class implementing origin tracking of a location. */
 public abstract class Origin {
     /** Allow CIF location. */
@@ -26,6 +30,13 @@ public abstract class Origin {
 
     /** Add prefix text. */
     public static final int ADD_PREFIX = 8;
+
+    /**
+     * Create state annotations for this origin.
+     *
+     * @return The state annotations.
+     */
+    public abstract List<Annotation> createStateAnnos();
 
     @Override
     public String toString() {

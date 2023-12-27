@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/synchronous_product/empty_file.cif".
+CAUSE: Cannot compute the product of 0 automata.

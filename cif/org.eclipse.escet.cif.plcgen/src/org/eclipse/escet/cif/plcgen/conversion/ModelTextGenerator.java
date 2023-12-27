@@ -432,8 +432,11 @@ public class ModelTextGenerator {
      * @param pouName Name of the surrounding POU.
      */
     private void toText(PlcCommentLine cmtLine, CodeBox boxBuilder, String pouName) {
-        String emptyStat = cmtLine.isEmptyStatement ? " ;" : "";
-        boxBuilder.add("(* %s *)%s", cmtLine.commentText, emptyStat);
+        if (cmtLine.commentText == null) {
+            boxBuilder.add("%s", cmtLine.isEmptyStatement ? ";" : "");
+        } else {
+            boxBuilder.add("(* %s *)%s", cmtLine.commentText, cmtLine.isEmptyStatement ? " ;" : "");
+        }
     }
 
     /**

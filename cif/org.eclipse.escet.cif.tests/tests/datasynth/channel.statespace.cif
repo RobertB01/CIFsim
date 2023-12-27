@@ -4,32 +4,41 @@ group cnt:
 end
 automaton statespace:
   alphabet cnt.next, e;
+  @state(cnt = "*", cnt.c = 0, rcv1 = "*", rcv1.x = 0, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc1:
     initial;
     marked;
     edge cnt.next goto loc2;
+  @state(cnt = "*", cnt.c = 1, rcv1 = "*", rcv1.x = 0, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc2:
     marked;
     edge cnt.next goto loc3;
     edge e goto loc4;
+  @state(cnt = "*", cnt.c = 2, rcv1 = "*", rcv1.x = 0, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc3:
     marked;
     edge cnt.next goto loc5;
     edge e goto loc6;
+  @state(cnt = "*", cnt.c = 1, rcv1 = "*", rcv1.x = 1, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc4:
     marked;
     edge cnt.next goto loc7;
+  @state(cnt = "*", cnt.c = 3, rcv1 = "*", rcv1.x = 0, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc5:
     marked;
+  @state(cnt = "*", cnt.c = 2, rcv1 = "*", rcv1.x = 0, rcv2 = "*", rcv2.x = 2, snd1 = "*", snd2 = "*", sup = "*")
   location loc6:
     marked;
     edge cnt.next goto loc8;
     edge e;
+  @state(cnt = "*", cnt.c = 2, rcv1 = "*", rcv1.x = 1, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc7:
     marked;
     edge cnt.next goto loc9;
+  @state(cnt = "*", cnt.c = 3, rcv1 = "*", rcv1.x = 0, rcv2 = "*", rcv2.x = 2, snd1 = "*", snd2 = "*", sup = "*")
   location loc8:
     marked;
+  @state(cnt = "*", cnt.c = 3, rcv1 = "*", rcv1.x = 1, rcv2 = "*", rcv2.x = 0, snd1 = "*", snd2 = "*", sup = "*")
   location loc9:
     marked;
 end

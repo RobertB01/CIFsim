@@ -24,6 +24,9 @@ automaton p2:
   alg bool a2 = p1.X;
   input real input_var1;
   input int[9..9] input_var2;
+  input list int input_var_lst;
+  input set int input_var_set;
+  input dict(int:bool) input_var_dict;
   disc bool b;
   disc int[0..10] i;
   disc int[1..1] j;
@@ -46,6 +49,7 @@ automaton p2:
   disc int ti;
   disc int[3..5] ti_3_5;
   disc int[99..99] ti_99_99;
+  disc int min_int = -2147483647 - 1;
   disc real tr;
   disc string tg;
   disc list int[1..1] tl;
@@ -89,6 +93,7 @@ automaton p2:
     edge do ti := ti;
     edge do ti_3_5 := ti_3_5;
     edge do ti_99_99 := 99;
+    edge do min_int := min_int;
     edge do tr := tr;
     edge do tg := tg;
     edge do tl := tl;
@@ -118,17 +123,20 @@ automaton p2:
     edge do li := <list[0] int>[];
     edge do li := [1];
     edge do li := [1, 2];
+    edge do tb := <list[0] int[2..2]>[] = input_var_lst;
     edge do si := <set int>{};
     edge do si := {1};
     edge do si := {1, 2};
     edge do si := {2, 2, 2};
     edge do si := {2, 1, 4, 3, 4};
+    edge do tb := <set int[2..2]>{} = input_var_set;
     edge do tibr := (1, true, 1.0);
     edge do tlisr := ([1], {-1.0});
     edge do dir := <dict(int:real)>{};
     edge do dir := {1: 5.0};
     edge do dir := {1: 5.0, 2: 6.0};
     edge do dir := {3: 5.0, 1: 6.0, 2: 6.0, 4: 5.0};
+    edge do tb := <dict(int[2..2]:bool)>{} = input_var_dict;
     edge do b := true;
     edge do b := true;
     edge do i := 2;

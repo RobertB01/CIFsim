@@ -1,0 +1,2 @@
+WARNING: File "pprint_elim_cdef/automata.out.cif": Semantic warning at line 10, column 3: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/automata.out.cif": Semantic warning at line 113, column 1: Duplicate state invariant.

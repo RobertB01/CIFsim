@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <!--
   Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
 
@@ -13,19 +14,19 @@
 -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="350"
    height="500"
    id="svg2"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="svg_input.svg">
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="svg_input.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata28">
     <rdf:RDF>
@@ -133,17 +134,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1251"
-     inkscape:window-height="965"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
      id="namedview24"
      showgrid="false"
      inkscape:zoom="2.247619"
-     inkscape:cx="165.86109"
-     inkscape:cy="353.4117"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg2" />
+     inkscape:cx="165.73094"
+     inkscape:cy="172.84958"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     inkscape:pagecheckerboard="0" />
   <rect
      width="20"
      height="20"
@@ -198,9 +200,15 @@
      x="5"
      y="205"
      id="x9" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="230"
+     id="x10" />
   <g
      id="x99"
-     transform="translate(3.1144029,165.9322)">
+     transform="translate(3.1144029,185.9322)">
     <rect
        y="80"
        x="5"
@@ -211,17 +219,16 @@
     <text
        id="txt_grp_text"
        y="89"
-       x="10">
-      <tspan
+       x="10"
+       style="line-height:0%"><tspan
          style="font-size:8px"
          y="89"
          x="10"
-         id="txt_grp_tspan">some txt</tspan>
-    </text>
+         id="txt_grp_tspan">some txt</tspan></text>
   </g>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.919493"
      y="20.826262"
      id="text2827"><tspan
@@ -229,65 +236,65 @@
        id="tspan2829"
        x="28.919493"
        y="20.826262"
-       style="font-size:12px">1. Single event: a</tspan></text>
+       style="font-size:12px;line-height:1.25">1. Single event: a</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.338587"
      y="45.279057"
      id="text2827-6"><tspan
        sodipodi:role="line"
        x="28.338587"
        y="45.279057"
-       style="font-size:12px"
+       style="font-size:12px;line-height:1.25"
        id="tspan2856">2. Multi event: b1, b2, b1, b2, ... (complete)</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.70455"
      y="71.451332"
      id="text2827-6-5"><tspan
        sodipodi:role="line"
        x="28.70455"
        y="71.451332"
-       style="font-size:12px"
+       style="font-size:12px;line-height:1.25"
        id="tspan2856-7">3. Multi event: b1, b2, b1, b2, ... (with else)</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.581171"
      y="97.638824"
      id="text2827-6-5-5"><tspan
        sodipodi:role="line"
        x="28.581171"
        y="97.638824"
-       style="font-size:12px"
+       style="font-size:12px;line-height:1.25"
        id="tspan2856-7-6">4. Multi event ordered: a</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.581171"
      y="121.66426"
      id="text2827-6-5-8"><tspan
        sodipodi:role="line"
        x="28.581171"
        y="121.66426"
-       style="font-size:12px"
+       style="font-size:12px;line-height:1.25"
        id="tspan2856-7-4">5. Multi event: b1, error (incomplete)</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="27.691341"
      y="145.68968"
      id="text2827-6-5-0"><tspan
        sodipodi:role="line"
        x="27.691341"
        y="145.68968"
-       style="font-size:12px"
+       style="font-size:12px;line-height:1.25"
        id="tspan2856-7-2">6. Multi event: error (guard eval, err wrap)</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="27.448755"
      y="163.62651"
      id="text2827-3"><tspan
@@ -295,10 +302,10 @@
        id="tspan2829-7"
        x="27.448755"
        y="163.62651"
-       style="font-size:12px">7. Single event: a (non-det, complete mode)</tspan></text>
+       style="font-size:12px;line-height:1.25">7. Single event: a (non-det, complete mode)</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.545519"
      y="175.66656"
      id="vd"
@@ -307,10 +314,10 @@
        id="tspan2829-7-6"
        x="28.545519"
        y="175.66656"
-       style="font-size:12px">vd = ?</tspan></text>
+       style="font-size:12px;line-height:1.25">vd = ?</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:8px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.990435"
      y="196.99515"
      id="text2827-3-9"><tspan
@@ -318,10 +325,10 @@
        id="tspan2829-7-0"
        x="28.990435"
        y="196.99515"
-       style="font-size:12px">8. Single event: warning</tspan></text>
+       style="font-size:12px;line-height:1.25">8. Single event: warning</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="28.626162"
      y="221.91043"
      id="text2827-3-9-0"><tspan
@@ -329,16 +336,27 @@
        id="tspan2829-7-0-3"
        x="28.626162"
        y="221.91043"
-       style="font-size:12px">9. Single event: f (hides box, click for &gt;1 sec)</tspan></text>
+       style="font-size:12px;line-height:1.25">9. Single event: f (hides box, click for &gt;1 sec)</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
      x="63.061577"
-     y="257.0799"
+     y="277.0799"
      id="text2827-3-9-0-3-7"><tspan
        sodipodi:role="line"
        id="tspan2829-7-0-3-4-9"
        x="63.061577"
-       y="257.0799"
-       style="font-size:12px">99. Single event: a (rect/txt in group)</tspan></text>
+       y="277.0799"
+       style="font-size:12px;line-height:1.25">99. Single event: a (rect/txt in group)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';fill:#000000;fill-opacity:1;stroke:none"
+     x="28.016657"
+     y="242.71304"
+     id="text2827-3-9-0-9"><tspan
+       sodipodi:role="line"
+       id="tspan2829-7-0-3-3"
+       x="28.016657"
+       y="242.71304"
+       style="font-size:12px;line-height:1.25">10. Single update: b -&gt; true</tspan></text>
 </svg>

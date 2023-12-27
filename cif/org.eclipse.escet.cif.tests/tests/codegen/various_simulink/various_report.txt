@@ -5,7 +5,7 @@ This report lists the variables in each vector, along with their index number.
 
 Modes
 -----
-g_sync 1
+g.sync 1
 
 Continuous states
 -----------------
@@ -20,7 +20,7 @@ input_li 3
 
 Outputs
 -------
-g_sync   1
+g.sync   1
 g.sync.c 2
 a.li     3
 a.x      4

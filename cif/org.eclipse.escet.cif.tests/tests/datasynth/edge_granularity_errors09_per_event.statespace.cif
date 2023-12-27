@@ -1,9 +1,11 @@
 uncontrollable e;
 automaton statespace:
   alphabet e;
+  @state(p = "l1", p.x = 5, sup = "*")
   location loc1:
     initial;
     edge e goto loc2;
+  @state(p = "l2", p.x = 7, sup = "*")
   location loc2:
     marked;
 end

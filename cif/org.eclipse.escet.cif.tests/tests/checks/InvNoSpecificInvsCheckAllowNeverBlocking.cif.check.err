@@ -11,6 +11,10 @@ WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic wa
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 73, column 15: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 74, column 21: Duplicate invariant for event "e".
 WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 75, column 20: Duplicate invariant for event "e".
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 79, column 3: Duplicate state invariant.
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 81, column 3: Duplicate state invariant.
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 82, column 3: Duplicate state invariant.
+WARNING: File "checks/InvNoSpecificInvsCheckAllowNeverBlocking.cif": Semantic warning at line 83, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   ---------------------------

@@ -181,6 +181,16 @@ public class CodeContext {
     }
 
     /**
+     * Make a target-specific data value for the given value.
+     *
+     * @param value The value.
+     * @return The target-specific data value.
+     */
+    public DataValue makeDataValue(String value) {
+        return codeGen.makeDataValue(value);
+    }
+
+    /**
      * Release the top range of the used numbers of temporary variables. After unreserving, the numbers up-to the
      * previously reserved range are used again.
      *
@@ -259,6 +269,7 @@ public class CodeContext {
 
         String origName = codeGen.origDeclNames.get(decl);
         if (origName == null) {
+            // New object, introduced by preprocessing and/or linearization.
             origName = decl.getName();
         }
 
@@ -344,6 +355,7 @@ public class CodeContext {
     public String getOrigFunctionName(InternalFunction func) {
         String origName = codeGen.origDeclNames.get(func);
         if (origName == null) {
+            // May be a function introduced for the default initial value of a discrete variable.
             origName = func.getName();
         }
         return origName;

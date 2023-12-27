@@ -29,7 +29,7 @@ The CIF tooling supports the entire development process of controllers, includin
 Combined they enable a synthesis-based engineering approach to efficiently and cost-effectively design and implement high-quality controllers.
 
 CIF is one of the tools of the Eclipse ESCET(TM) project.
-Visit the link:https://eclipse.dev/escet/{escet-website-version}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
+Visit the link:https://eclipse.dev/escet/{escet-deploy-folder-name}[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
 ifdef::website-output[]
 TIP: You can link:eclipse-escet-cif-manual.pdf[download this manual] as a PDF as well.
@@ -336,6 +336,8 @@ include::language-reference/annotations/index.asciidoc[]
 include::language-reference/annotations/builtin.asciidoc[]
 
 include::language-reference/annotations/documentation.asciidoc[]
+
+include::language-reference/annotations/state.asciidoc[]
 
 :leveloffset: -1
 
@@ -693,6 +695,8 @@ include::tools/codegen/java.asciidoc[]
 
 include::tools/codegen/javascript.asciidoc[]
 
+include::tools/codegen/html.asciidoc[]
+
 include::tools/codegen/simulink.asciidoc[]
 
 include::tools/codegen/simulink-example.asciidoc[]
@@ -706,6 +710,16 @@ include::tools/cif2plc/index.asciidoc[]
 include::tools/cif2plc/twincat.asciidoc[]
 
 include::tools/cif2plc/s7.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/plcgen/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/plcgen/twincat.asciidoc[]
+
+include::tools/plcgen/s7.asciidoc[]
 
 :leveloffset: -1
 

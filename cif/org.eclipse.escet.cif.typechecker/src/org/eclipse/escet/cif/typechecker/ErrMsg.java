@@ -291,6 +291,9 @@ public enum ErrMsg {
     // Invariant.unique
     INV_DUPL_EVENT("Duplicate invariant for event \"%s\".", 1, WARNING),
 
+    // Invariant.unique
+    INV_DUPL_STATE("Duplicate state invariant.", 0, WARNING),
+
     // UnaryExpression.type
     UNOP_INVALID_CHILD_TYPE("Unary operator \"%s\" can not be applied to a value of type \"%s\".", 2, ERROR),
 
@@ -509,6 +512,7 @@ public enum ErrMsg {
 
     // Assignment.variablesInScope
     RESOLVE_NON_ASGN_VAR("\"%s\" is not a discrete or continuous variable.", 1, ERROR),
+    RESOLVE_NON_SVG_ASGN_VAR("\"%s\" is not an input variable.", 1, ERROR),
 
     // AssignmentFuncStatement.variablesInScope
     RESOLVE_NON_FUNC_VAR("\"%s\" is not a variable or parameter of function \"%s\".", 2, ERROR),
@@ -593,6 +597,10 @@ public enum ErrMsg {
 
     // AssignmentFuncStatement.uniqueVariables
     DUPL_VAR_ASGN_FUNC("Variable \"%s\", or a part of it, may have been assigned twice in a single assignment, "
+            + "for assignments to \"%s\" and \"%s\"", 3, ERROR),
+
+    // SvgIn.uniqueVariables
+    DUPL_VAR_ASGN_SVG("Variable \"%s\", or a part of it, may have been assigned twice in a single SVG input mapping, "
             + "for assignments to \"%s\" and \"%s\"", 3, ERROR),
 
     // Edge.urgWhenLocUrg
@@ -787,9 +795,6 @@ public enum ErrMsg {
     // Print.duplFor
     PRINT_DUPL_FOR("Duplicate print declaration \"for\" filter: %s.", 1, WARNING),
 
-    // AnnotatedObject.uniqueAnnotations
-    OBJ_DUPL_ANNO("Duplicate annotation \"%s\" for %s.", 2, ERROR),
-
     // Annotation.annotationSpecificErrors
     ANNO_SPECIFIC_ERR("Annotation \"%s\": %s", 2, ERROR),
 
@@ -853,6 +858,7 @@ public enum ErrMsg {
     // - Specification.root
     // - StdLibFunctionExpression.occurrence
     // - StringExpression.type
+    // - SvgIn.eventOrUpdate
     // - SvgInEventIf.else
     // - SwitchExpression.elseOccurrence
     // - TauExpression.occurrence

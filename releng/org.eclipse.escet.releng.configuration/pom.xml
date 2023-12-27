@@ -16,24 +16,29 @@ SPDX-License-Identifier: MIT
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.escet</groupId>
     <artifactId>org.eclipse.escet.releng.configuration</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <!-- The end-user readable version number. -->
-        <!-- The default is 'dev'. Jenkinsfile overrides this for releases only, to e.g. v0.1, v0.1-M1, v0.1-RC1. -->
+        <!-- The end-user readable version number. The default is 'dev'. Jenkinsfile overrides this for releases -->
+        <!-- only, to e.g. 'v0.1', 'v0.1-M1', 'v0.1-RC1', or 'nightly-[timestamp]'. -->
         <escet.version.enduser>dev</escet.version.enduser>
 
-        <!-- The version to use for referring across-docset to web pages of other docsets.  -->
-        <!-- For instance, in AsciiDoc, use 'http://eclipse.dev/escet/{escet-website-version}/...'. -->
-        <!-- By default, this is replaced by nothing, to for instance 'http://eclipse.dev/escet//...'.  -->
-        <!-- The Jenkinsfile overrides this for releases only, to for instance 'http://eclipse.dev/escet/v0.1/...'. -->
-        <escet.website.version></escet.website.version>
+        <!-- The folder name under which the release is deployed on the download server and website. -->
+        <!-- By default, for non-releases, this is replaced by nothing. -->
+        <!-- The Jenkinsfile overrides this for releases, to e.g. 'v0.1', 'v0.1-M1', 'v0.1-RC1', or 'nightly'. -->
+        <!-- -->
+        <!-- This property is among others used for referring across-docset to web pages of other docsets.  -->
+        <!-- In AsciiDoc files, use 'http://eclipse.dev/escet/{escet-deploy-folder-name}/...'. -->
+        <!-- For non-releases (replaced by nothing), it becomes 'http://eclipse.dev/escet//...'.  -->
+        <!-- For releases, it comes for instance 'http://eclipse.dev/escet/v0.1/...'. -->
+        <escet.deploy.folder.name></escet.deploy.folder.name>
 
         <!-- The version qualifier to use for all plugins/features/etc. -->
-        <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to e.g., -->
-        <!-- 'v20210609-141908-dev' for development builds, 'v20210609-141908-M1' for milestone releases, -->
-        <!-- 'v20210609-141908-RC1' for release candidates, and 'v20210609-141908' for final releases. -->
+        <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to for instance: -->
+        <!-- 'v20210609-141908-nightly' for nightly releases, 'v20210609-141908-dev' for development builds, -->
+        <!-- 'v20210609-141908-M1' for milestone releases, 'v20210609-141908-RC1' for release candidates, and -->
+        <!-- 'v20210609-141908' for final releases. -->
         <escet.version.qualifier>dev</escet.version.qualifier>
 
         <!-- Ensure platform independent build by fixing encoding. Prevents warnings. -->

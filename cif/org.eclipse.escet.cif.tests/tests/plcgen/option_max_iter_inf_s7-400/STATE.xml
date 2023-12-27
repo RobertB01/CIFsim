@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='STATE'>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_x</Tag>
+    <Tag type='REAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='null'>p_t</Tag>
+</Tagtable>

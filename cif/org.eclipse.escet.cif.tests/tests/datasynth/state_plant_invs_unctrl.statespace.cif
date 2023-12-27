@@ -4,6 +4,7 @@ uncontrollable u2;
 uncontrollable u3;
 automaton statespace:
   alphabet u0, u1, u2, u3;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 0, A.Vu3 = 0, sup = "*")
   location loc1:
     initial;
     marked;
@@ -11,310 +12,369 @@ automaton statespace:
     edge u1 goto loc2;
     edge u2 goto loc3;
     edge u3 goto loc4;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 0, A.Vu3 = 0, sup = "*")
   location loc2:
     marked;
     edge u0;
     edge u1 goto loc5;
     edge u2 goto loc6;
     edge u3 goto loc7;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 1, A.Vu3 = 0, sup = "*")
   location loc3:
     marked;
     edge u0;
     edge u1 goto loc6;
     edge u2 goto loc8;
     edge u3 goto loc9;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 0, A.Vu3 = 1, sup = "*")
   location loc4:
     marked;
     edge u0;
     edge u1 goto loc7;
     edge u2 goto loc9;
     edge u3 goto loc10;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 0, A.Vu3 = 0, sup = "*")
   location loc5:
     marked;
     edge u0;
     edge u1 goto loc11;
     edge u2 goto loc12;
     edge u3 goto loc13;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 1, A.Vu3 = 0, sup = "*")
   location loc6:
     marked;
     edge u0;
     edge u1 goto loc12;
     edge u2 goto loc14;
     edge u3 goto loc15;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 0, A.Vu3 = 1, sup = "*")
   location loc7:
     marked;
     edge u0;
     edge u1 goto loc13;
     edge u2 goto loc15;
     edge u3 goto loc16;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 2, A.Vu3 = 0, sup = "*")
   location loc8:
     marked;
     edge u0;
     edge u1 goto loc14;
     edge u3 goto loc17;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 1, A.Vu3 = 1, sup = "*")
   location loc9:
     marked;
     edge u0;
     edge u1 goto loc15;
     edge u2 goto loc17;
     edge u3 goto loc18;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 0, A.Vu3 = 2, sup = "*")
   location loc10:
     marked;
     edge u0;
     edge u1 goto loc16;
     edge u2 goto loc18;
     edge u3 goto loc19;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 0, A.Vu3 = 0, sup = "*")
   location loc11:
     marked;
     edge u0;
     edge u1 goto loc20;
     edge u2 goto loc21;
     edge u3 goto loc22;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 1, A.Vu3 = 0, sup = "*")
   location loc12:
     marked;
     edge u0;
     edge u1 goto loc21;
     edge u2 goto loc23;
     edge u3 goto loc24;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 0, A.Vu3 = 1, sup = "*")
   location loc13:
     marked;
     edge u0;
     edge u1 goto loc22;
     edge u2 goto loc24;
     edge u3 goto loc25;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 2, A.Vu3 = 0, sup = "*")
   location loc14:
     marked;
     edge u0;
     edge u1 goto loc23;
     edge u3 goto loc26;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 1, A.Vu3 = 1, sup = "*")
   location loc15:
     marked;
     edge u0;
     edge u1 goto loc24;
     edge u2 goto loc26;
     edge u3 goto loc27;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 0, A.Vu3 = 2, sup = "*")
   location loc16:
     marked;
     edge u0;
     edge u1 goto loc25;
     edge u2 goto loc27;
     edge u3 goto loc28;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 2, A.Vu3 = 1, sup = "*")
   location loc17:
     marked;
     edge u0;
     edge u1 goto loc26;
     edge u3 goto loc29;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 1, A.Vu3 = 2, sup = "*")
   location loc18:
     marked;
     edge u0;
     edge u1 goto loc27;
     edge u2 goto loc29;
     edge u3 goto loc30;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 0, A.Vu3 = 3, sup = "*")
   location loc19:
     marked;
     edge u0;
     edge u1 goto loc28;
     edge u2 goto loc30;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 0, A.Vu3 = 0, sup = "*")
   location loc20:
     marked;
     edge u0;
     edge u2 goto loc31;
     edge u3 goto loc32;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 1, A.Vu3 = 0, sup = "*")
   location loc21:
     marked;
     edge u0;
     edge u1 goto loc31;
     edge u2 goto loc33;
     edge u3 goto loc34;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 0, A.Vu3 = 1, sup = "*")
   location loc22:
     marked;
     edge u0;
     edge u1 goto loc32;
     edge u2 goto loc34;
     edge u3 goto loc35;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 2, A.Vu3 = 0, sup = "*")
   location loc23:
     marked;
     edge u0;
     edge u1 goto loc33;
     edge u3 goto loc36;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 1, A.Vu3 = 1, sup = "*")
   location loc24:
     marked;
     edge u0;
     edge u1 goto loc34;
     edge u2 goto loc36;
     edge u3 goto loc37;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 0, A.Vu3 = 2, sup = "*")
   location loc25:
     marked;
     edge u0;
     edge u1 goto loc35;
     edge u2 goto loc37;
     edge u3 goto loc38;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 2, A.Vu3 = 1, sup = "*")
   location loc26:
     marked;
     edge u0;
     edge u1 goto loc36;
     edge u3 goto loc39;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 1, A.Vu3 = 2, sup = "*")
   location loc27:
     marked;
     edge u0;
     edge u1 goto loc37;
     edge u2 goto loc39;
     edge u3 goto loc40;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 0, A.Vu3 = 3, sup = "*")
   location loc28:
     marked;
     edge u0;
     edge u1 goto loc38;
     edge u2 goto loc40;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 2, A.Vu3 = 2, sup = "*")
   location loc29:
     marked;
     edge u0;
     edge u1 goto loc39;
     edge u3 goto loc41;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 1, A.Vu3 = 3, sup = "*")
   location loc30:
     marked;
     edge u0;
     edge u1 goto loc40;
     edge u2 goto loc41;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 1, A.Vu3 = 0, sup = "*")
   location loc31:
     marked;
     edge u0;
     edge u2 goto loc42;
     edge u3 goto loc43;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 0, A.Vu3 = 1, sup = "*")
   location loc32:
     marked;
     edge u0;
     edge u2 goto loc43;
     edge u3 goto loc44;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 2, A.Vu3 = 0, sup = "*")
   location loc33:
     marked;
     edge u0;
     edge u1 goto loc42;
     edge u3 goto loc45;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 1, A.Vu3 = 1, sup = "*")
   location loc34:
     marked;
     edge u0;
     edge u1 goto loc43;
     edge u2 goto loc45;
     edge u3 goto loc46;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 0, A.Vu3 = 2, sup = "*")
   location loc35:
     marked;
     edge u0;
     edge u1 goto loc44;
     edge u2 goto loc46;
     edge u3 goto loc47;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 2, A.Vu3 = 1, sup = "*")
   location loc36:
     marked;
     edge u0;
     edge u1 goto loc45;
     edge u3 goto loc48;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 1, A.Vu3 = 2, sup = "*")
   location loc37:
     marked;
     edge u0;
     edge u1 goto loc46;
     edge u2 goto loc48;
     edge u3 goto loc49;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 0, A.Vu3 = 3, sup = "*")
   location loc38:
     marked;
     edge u0;
     edge u1 goto loc47;
     edge u2 goto loc49;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 2, A.Vu3 = 2, sup = "*")
   location loc39:
     marked;
     edge u0;
     edge u1 goto loc48;
     edge u3 goto loc50;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 1, A.Vu3 = 3, sup = "*")
   location loc40:
     marked;
     edge u0;
     edge u1 goto loc49;
     edge u2 goto loc50;
+  @state(A = "*", A.Vu1 = 0, A.Vu2 = 2, A.Vu3 = 3, sup = "*")
   location loc41:
     marked;
     edge u0;
     edge u1 goto loc50;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 2, A.Vu3 = 0, sup = "*")
   location loc42:
     marked;
     edge u0;
     edge u3 goto loc51;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 1, A.Vu3 = 1, sup = "*")
   location loc43:
     marked;
     edge u0;
     edge u2 goto loc51;
     edge u3 goto loc52;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 0, A.Vu3 = 2, sup = "*")
   location loc44:
     marked;
     edge u0;
     edge u2 goto loc52;
     edge u3 goto loc53;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 2, A.Vu3 = 1, sup = "*")
   location loc45:
     marked;
     edge u0;
     edge u1 goto loc51;
     edge u3 goto loc54;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 1, A.Vu3 = 2, sup = "*")
   location loc46:
     marked;
     edge u0;
     edge u1 goto loc52;
     edge u2 goto loc54;
     edge u3 goto loc55;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 0, A.Vu3 = 3, sup = "*")
   location loc47:
     marked;
     edge u0;
     edge u1 goto loc53;
     edge u2 goto loc55;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 2, A.Vu3 = 2, sup = "*")
   location loc48:
     marked;
     edge u0;
     edge u1 goto loc54;
     edge u3 goto loc56;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 1, A.Vu3 = 3, sup = "*")
   location loc49:
     marked;
     edge u0;
     edge u1 goto loc55;
     edge u2 goto loc56;
+  @state(A = "*", A.Vu1 = 1, A.Vu2 = 2, A.Vu3 = 3, sup = "*")
   location loc50:
     marked;
     edge u0;
     edge u1 goto loc56;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 2, A.Vu3 = 1, sup = "*")
   location loc51:
     marked;
     edge u0;
     edge u3 goto loc57;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 1, A.Vu3 = 2, sup = "*")
   location loc52:
     marked;
     edge u0;
     edge u2 goto loc57;
     edge u3 goto loc58;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 0, A.Vu3 = 3, sup = "*")
   location loc53:
     marked;
     edge u0;
     edge u2 goto loc58;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 2, A.Vu3 = 2, sup = "*")
   location loc54:
     marked;
     edge u0;
     edge u1 goto loc57;
     edge u3 goto loc59;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 1, A.Vu3 = 3, sup = "*")
   location loc55:
     marked;
     edge u0;
     edge u1 goto loc58;
     edge u2 goto loc59;
+  @state(A = "*", A.Vu1 = 2, A.Vu2 = 2, A.Vu3 = 3, sup = "*")
   location loc56:
     marked;
     edge u0;
     edge u1 goto loc59;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 2, A.Vu3 = 2, sup = "*")
   location loc57:
     marked;
     edge u0;
     edge u3 goto loc60;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 1, A.Vu3 = 3, sup = "*")
   location loc58:
     marked;
     edge u0;
     edge u2 goto loc60;
+  @state(A = "*", A.Vu1 = 3, A.Vu2 = 2, A.Vu3 = 3, sup = "*")
   location loc59:
     marked;
     edge u0;
     edge u1 goto loc60;
+  @state(A = "*", A.Vu1 = 4, A.Vu2 = 2, A.Vu3 = 3, sup = "*")
   location loc60:
     marked;
     edge u0;

@@ -1,0 +1,10 @@
+event e;
+automaton statespace:
+  alphabet e;
+  @state(abs1.abs2.abs3 = 1.23, $cont = 0.0, cvar = 0.0, named = "loc1", nameless = "*", types = "*", types.dict1 = <dict(string:string)>{}, types.dict2 = <dict(bool:string)>{}, types.list1 = <list[0] string>[], types.list2 = <list[0] string>[], types.set1 = <set string>{}, types.tuple1 = ("lit1", "*"), values = "*", values.b = true, values.d = {true: 1, false: 5}, values.e = "lit2", values.f1 = "functions.invert", values.f2 = "*", values.i1 = 123, values.i2 = -123, values.i3 = -2147483647 - 1, values.i4 = 2147483647, values.l = [[1, 2, 3], [4, 5, 6]], values.r1 = 1.23, values.r2 = -1.23, values.s = {1.2, 3.7, 8.9}, values.str = "a\nb\tc\"d", values.t = (true, 135), vars = "loc1", vars.cvar = 0.0, vars.dvar = false)
+  location loc1:
+    initial;
+    edge e goto loc2;
+  @state(abs1.abs2.abs3 = 1.23, $cont = 0.0, cvar = 0.0, named = "loc2", nameless = "*", types = "*", types.dict1 = <dict(string:string)>{}, types.dict2 = <dict(bool:string)>{}, types.list1 = <list[0] string>[], types.list2 = <list[0] string>[], types.set1 = <set string>{}, types.tuple1 = ("lit1", "*"), values = "*", values.b = true, values.d = {true: 1, false: 5}, values.e = "lit2", values.f1 = "functions.invert", values.f2 = "*", values.i1 = 123, values.i2 = -123, values.i3 = -2147483647 - 1, values.i4 = 2147483647, values.l = [[1, 2, 3], [4, 5, 6]], values.r1 = 1.23, values.r2 = -1.23, values.s = {1.2, 3.7, 8.9}, values.str = "a\nb\tc\"d", values.t = (true, 135), vars = "loc2", vars.cvar = 2.0, vars.dvar = true)
+  location loc2;
+end

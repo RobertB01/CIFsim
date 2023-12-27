@@ -18,7 +18,7 @@ import org.eclipse.escet.common.java.TextPosition;
 /** Automaton 'self' reference expression. */
 public class ASelfExpression extends AExpression {
     /**
-     * Constructor for the {@Link ASelfExpression} class.
+     * Constructor for the {@link ASelfExpression} class.
      *
      * @param position Position information.
      */

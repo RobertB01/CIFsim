@@ -96,7 +96,7 @@ import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.options.processing.PatternMatchingOptionProcessing.OptionMatcher;
 import org.eclipse.escet.common.box.CodeBox;
@@ -255,10 +255,7 @@ public class SimulinkCodeGen extends CodeGen {
         }
 
         String origName = origDeclNames.get(decl);
-        if (origName == null) {
-            // New object, introduced by preprocessing and/or linearization.
-            origName = getName(decl);
-        }
+        Assert.notNull(origName);
         if (optionMatcher.matchName(origName, false)) {
             outputSection.add(Pair.pair(decl, origName));
         }
@@ -544,6 +541,11 @@ public class SimulinkCodeGen extends CodeGen {
         return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetName));
     }
 
+    @Override
+    public DataValue makeDataValue(String value) {
+        return makeValue(value);
+    }
+
     /**
      * Generate the pre-amble code to make Simulink storage structures available.
      *
@@ -600,9 +602,7 @@ public class SimulinkCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
-            if (origName == null) {
-                origName = evt.getName();
-            }
+            Assert.notNull(origName);
             evtDecls.set(3 + i, 0, fmt("%s,", getTargetName(evt)));
             evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
@@ -626,9 +626,7 @@ public class SimulinkCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
-            if (origName == null) {
-                origName = evt.getName();
-            }
+            Assert.notNull(origName);
             evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
             evtNames.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
@@ -799,21 +797,23 @@ public class SimulinkCodeGen extends CodeGen {
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetVariableName);
-            String doc = DocAnnotationProvider.getDoc(var);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
 
             if (!first) {
                 varDefCode.add();
             }
             first = false;
 
-            if (doc == null) {
+            if (docs.isEmpty()) {
                 varDefCode.add("/** Input variable \"%s %s\". */", typeText, declVarInfo.name);
             } else {
                 varDefCode.add("/**");
                 varDefCode.add(" * Input variable \"%s %s\".", typeText, declVarInfo.name);
-                varDefCode.add(" *");
-                for (String line: doc.split("\\r?\\n")) {
-                    varDefCode.add(" * %s", line);
+                for (String doc: docs) {
+                    varDefCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        varDefCode.add(" * %s", line);
+                    }
                 }
                 varDefCode.add(" */");
             }
@@ -897,7 +897,7 @@ public class SimulinkCodeGen extends CodeGen {
     /**
      * Generate code for Simulink output.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     private void addOutput(CodeContext ctxt) {
         setupVarmaps();
@@ -1084,6 +1084,12 @@ public class SimulinkCodeGen extends CodeGen {
         replacements.put("print-function", code.toString());
     }
 
+    @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // All CIF/SVG declarations should have been removed from the model.
+        Assert.check(svgDecls.isEmpty());
+    }
+
     /**
      * Generate the event conditions for performing a print command.
      *
@@ -1147,7 +1153,7 @@ public class SimulinkCodeGen extends CodeGen {
      * @param txtExpr Text to print (only used for checking existence of output).
      * @param txtVarInfo Temporary string variable to use for generating the print text.
      * @param targetFile String denoting the target of the output.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return {@code null} if no output is ever generated, else the code to generate output.
      */
     private CodeBox genPrint(Expression whenPred, List<PrintFor> fors, Expression txtExpr,
@@ -1287,6 +1293,7 @@ public class SimulinkCodeGen extends CodeGen {
                 eventTargetName = TAU_EVENT_NAME;
             } else {
                 eventName = origDeclNames.get(event);
+                Assert.notNull(eventName);
                 eventTargetName = getTargetName(event);
             }
 

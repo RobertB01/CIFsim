@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGen;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
@@ -88,28 +89,30 @@ public class CodeGenApp extends Application<IOutputComponent> {
         }
 
         // Generate code.
-        String path = OutputDirOption.getPath();
+        String absCifSpecDir = Paths.getAbsFilePathDir(Paths.resolve(InputFileOption.getPath()));
+        String outputPath = OutputDirOption.getPath();
         TargetLanguage lang = TargetLanguageOption.getLanguage();
         try {
             switch (lang) {
                 case JAVA:
-                    new JavaCodeGen().generate(spec, path);
+                    new JavaCodeGen().generate(spec, absCifSpecDir, outputPath);
                     break;
 
                 case JAVASCRIPT:
-                    new JavaScriptCodeGen().generate(spec, path);
+                case HTML:
+                    new JavaScriptCodeGen(lang).generate(spec, absCifSpecDir, outputPath);
                     break;
 
                 case C89:
-                    new C89CodeGen().generate(spec, path);
+                    new C89CodeGen().generate(spec, absCifSpecDir, outputPath);
                     break;
 
                 case C99:
-                    new C99CodeGen().generate(spec, path);
+                    new C99CodeGen().generate(spec, absCifSpecDir, outputPath);
                     break;
 
                 case SIMULINK:
-                    new SimulinkCodeGen().generate(spec, path);
+                    new SimulinkCodeGen().generate(spec, absCifSpecDir, outputPath);
                     break;
 
                 default:
@@ -140,11 +143,6 @@ public class CodeGenApp extends Application<IOutputComponent> {
         List<OptionCategory> javaSubCats = list();
         OptionCategory javaCat = new OptionCategory("Java", "Java code generation options.", javaSubCats, javaOpts);
 
-        List<Option> javaScriptOpts = list();
-        List<OptionCategory> javaScriptSubCats = list();
-        OptionCategory javaScriptCat = new OptionCategory("JavaScript", "JavaScript code generation options.",
-                javaScriptSubCats, javaScriptOpts);
-
         List<Option> simulinkOpts = list();
         simulinkOpts.add(Options.getInstance(SimulinkOutputsOption.class));
         simulinkOpts.add(Options.getInstance(SimulinkSampleTimeOption.class));
@@ -158,7 +156,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
         genOpts.add(Options.getInstance(OutputDirOption.class));
         genOpts.add(Options.getInstance(TargetLanguageOption.class));
         genOpts.add(Options.getInstance(CodePrefixOption.class));
-        List<OptionCategory> genSubCats = list(simulinkCat, javaCat, javaScriptCat);
+        List<OptionCategory> genSubCats = list(simulinkCat, javaCat);
         OptionCategory genCat = new OptionCategory("Generation", "Generation options.", genSubCats, genOpts);
 
         List<OptionCategory> cats = list(generalCat, genCat);

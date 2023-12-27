@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * <li>The derivative of the continuous variable is {@code -1}, and this can be statically determined.</li>
  * <li>The initial value of the continuous variable (if specified) is non-negative, and this can be statically
  * determined.</li>
+ * <li>The continuous variable is only assigned non-negative values, and this can be statically determined.</li>
  * <li>The value of the continuous variable is only used by comparing it against a non-negative value, and this can be
  * statically determined.</li>
  * <li>The value of the continuous variable is compared in value ranges where PLC semantics and CIF semantics are not

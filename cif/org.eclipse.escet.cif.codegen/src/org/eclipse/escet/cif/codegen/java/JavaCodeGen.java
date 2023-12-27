@@ -45,7 +45,6 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -66,7 +65,7 @@ import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.typechecker.annotations.DocAnnotationProvider;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.JavaCodeUtils;
@@ -119,10 +118,7 @@ public class JavaCodeGen extends CodeGen {
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
             String origName = origDeclNames.get(constant);
-            if (origName == null) {
-                // Created by preprocessing or linearization.
-                origName = constant.getName();
-            }
+            Assert.notNull(origName);
 
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
             Assert.check(!constantCode.hasCode()); // Java code generator never generates pre-execute code.
@@ -143,6 +139,7 @@ public class JavaCodeGen extends CodeGen {
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
             String name = origDeclNames.get(event);
+            Assert.notNull(name);
             code.add("%s,", Strings.stringToJava(name));
         }
 
@@ -166,10 +163,7 @@ public class JavaCodeGen extends CodeGen {
                 kindCode = "Continuous";
             }
             String origName = origDeclNames.get(var);
-            if (origName == null) {
-                // New variable introduced by preprocessing or linearization.
-                origName = CifTextUtils.getName(var);
-            }
+            Assert.notNull(origName);
             code.add();
             code.add("/** %s variable \"%s\". */", kindCode, origName);
             code.add("public %s %s;", typeCode, name);
@@ -248,6 +242,7 @@ public class JavaCodeGen extends CodeGen {
             String name = getTargetName(var);
             code.add("%s = %s + delta * deriv%d;", name, name, i);
             String origName = origDeclNames.get(var);
+            Assert.notNull(origName);
             code.add("checkDouble(%s, %s);", name, Strings.stringToJava(origName));
             code.add("if (%s == -0.0) %s = 0.0;", name, name);
         }
@@ -296,22 +291,24 @@ public class JavaCodeGen extends CodeGen {
         for (InputVariable var: inputVars) {
             String name = getTargetName(var);
             String typeCode = typeToJava(var.getType(), ctxt);
-            String doc = DocAnnotationProvider.getDoc(var);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
 
             code.add();
-            if (doc == null) {
+            if (docs.isEmpty()) {
                 code.add("/** Input variable \"%s\". */", origName);
             } else {
                 code.add("/**");
                 code.add(" * Input variable \"%s\".", origName);
-                code.add(" *");
-                code.add(" * <p>");
-                for (String line: doc.split("\\r?\\n")) {
-                    code.add(" * %s", line);
+                for (String doc: docs) {
+                    code.add(" *");
+                    code.add(" * <p>");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" * </p>");
                 }
-                code.add(" * </p>");
                 code.add(" */");
             }
             code.add("public %s %s;", typeCode, name);
@@ -485,6 +482,12 @@ public class JavaCodeGen extends CodeGen {
         }
 
         replacements.put("java-print-code", code.toString());
+    }
+
+    @Override
+    protected void addSvgDecls(CodeContext ctxt, String cifSpecFileDir) {
+        // All CIF/SVG declarations should have been removed from the model.
+        Assert.check(svgDecls.isEmpty());
     }
 
     @Override
@@ -742,11 +745,16 @@ public class JavaCodeGen extends CodeGen {
         return new Destination(null, varInfo.typeInfo, dataValue);
     }
 
+    @Override
+    public DataValue makeDataValue(String value) {
+        return new JavaDataValue(value);
+    }
+
     /**
      * Get the Java type for the given CIF type.
      *
      * @param type CIF type to convert.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return The name of the converted CIF type.
      */
     private String typeToJava(CifType type, CodeContext ctxt) {

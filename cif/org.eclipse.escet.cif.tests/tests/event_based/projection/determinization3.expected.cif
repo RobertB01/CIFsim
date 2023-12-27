@@ -1,5 +1,9 @@
 plant automaton projected:
   alphabet;
+  @state(P = "s0")
+  @state(P = "s1")
+  @state(P = "s2")
+  @state(P = "s3")
   location s1:
     initial;
     marked;

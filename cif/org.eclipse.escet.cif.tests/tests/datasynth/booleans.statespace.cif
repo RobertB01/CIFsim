@@ -6,12 +6,14 @@ group g:
 end
 automaton statespace:
   alphabet g.e1, g.e2, g.e3, g.e4;
+  @state(g.p = "*", g.p.b0 = false, g.p.b1 = true, g.p.b2 = false, g.p.b3 = true, g.p.b4 = true, sup = "*")
   location loc1:
     initial;
     edge g.e1 goto loc2;
     edge g.e2 goto loc2;
     edge g.e3;
     edge g.e4;
+  @state(g.p = "*", g.p.b0 = true, g.p.b1 = true, g.p.b2 = false, g.p.b3 = true, g.p.b4 = true, sup = "*")
   location loc2:
     marked;
     edge g.e1 goto loc1;

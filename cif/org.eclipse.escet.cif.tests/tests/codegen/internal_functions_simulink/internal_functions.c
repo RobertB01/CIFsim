@@ -1102,6 +1102,14 @@ typedef struct T2II_struct T2IIType;
 static BoolType T2IITypeEquals(T2IIType *left, T2IIType *right);
 static int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end);
 
+enum Enuminternal_functions_ {
+    _internal_functions___some_dummy_enum_literal,
+};
+typedef enum Enuminternal_functions_ internal_functionsEnum;
+
+static const char *enum_names[];
+static int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end);
+
 /* }}} */
 
 /* {{{ Elementary CIF element type <-> Simulink conversions. */
@@ -1409,6 +1417,17 @@ static int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end) {
     if (start < last) { dest[start++] = ' '; }
     start = IntTypePrint(tuple->_field1, dest, start, end);
     if (start < last) { dest[start++] = ')'; }
+    dest[start] = '\0';
+    return start;
+}
+
+static int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
     dest[start] = '\0';
     return start;
 }
@@ -1882,7 +1901,9 @@ const char *evt_names[] = { /** < Event names. */
 };
 
 /** Enum names. */
-${enum-names-list}
+static const char *enum_names[] = {
+    "__some_dummy_enum_literal",
+};
 
 /**
  * Reset 'loaded' status of all input variables.

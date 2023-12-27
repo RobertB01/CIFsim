@@ -27,4 +27,6 @@ The following built-in <<lang-ref-extensions-annotations,annotations>> are bundl
 
 | <<lang-ref-extensions-annotations-documentation,Documentation>>
 | `doc`
+| <<lang-ref-extensions-annotations-state,State>>
+| `state`
 |===

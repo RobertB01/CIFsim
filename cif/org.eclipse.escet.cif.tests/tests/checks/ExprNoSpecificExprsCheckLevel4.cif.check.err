@@ -1,6 +1,19 @@
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 15, column 1: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 19, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 25, column 5: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 51, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 56, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 61, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 120, column 13: The switch expression has only one case, which is deprecated.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 127, column 13: The switch expression has only one case, which is deprecated.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 155, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 189, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 218, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 236, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 266, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 276, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 320, column 13: The switch expression has only one case, which is deprecated.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 330, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -----------------------------------------------------

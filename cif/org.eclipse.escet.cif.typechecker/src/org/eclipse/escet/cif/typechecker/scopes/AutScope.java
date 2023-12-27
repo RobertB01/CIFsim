@@ -15,21 +15,18 @@ package org.eclipse.escet.cif.typechecker.scopes;
 
 import static org.eclipse.escet.cif.common.CifLocationUtils.getPossibleInitialLocs;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlphabet;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdge;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdgeEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdgeReceive;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdgeSend;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifUpdate;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfUpdate;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HINT;
-import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.NO_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.cif.typechecker.ExprContext.DEFAULT_CTXT;
 import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.ALLOW_EVENT;
+import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.EDGE_UPDATE;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.list2set;
@@ -42,8 +39,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
@@ -57,14 +52,11 @@ import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
-import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
-import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
-import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -72,29 +64,21 @@ import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.cif.parser.ast.ACompDecl;
 import org.eclipse.escet.cif.parser.ast.ADecl;
 import org.eclipse.escet.cif.parser.ast.AEquation;
 import org.eclipse.escet.cif.parser.ast.automata.AAlphabetDecl;
-import org.eclipse.escet.cif.parser.ast.automata.AAssignmentUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
 import org.eclipse.escet.cif.parser.ast.automata.AEdgeEvent;
 import org.eclipse.escet.cif.parser.ast.automata.AEdgeEvent.Direction;
 import org.eclipse.escet.cif.parser.ast.automata.AEdgeLocationElement;
-import org.eclipse.escet.cif.parser.ast.automata.AElifUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AEquationLocationElement;
-import org.eclipse.escet.cif.parser.ast.automata.AIfUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AInitialLocationElement;
 import org.eclipse.escet.cif.parser.ast.automata.AInvariantLocationElement;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
@@ -108,6 +92,7 @@ import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.AssignmentUniquenessChecker;
 import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
+import org.eclipse.escet.cif.typechecker.CifUpdateTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.ExprContext;
 import org.eclipse.escet.cif.typechecker.SymbolTableEntry;
@@ -170,7 +155,7 @@ public class AutScope extends ParentScope<Automaton> {
     }
 
     @Override
-    protected Automaton getAutomaton() {
+    public Automaton getAutomaton() {
         return obj;
     }
 
@@ -749,7 +734,7 @@ public class AutScope extends ParentScope<Automaton> {
         }
 
         // Get update expression type checking context.
-        ExprContext context = DEFAULT_CTXT;
+        ExprContext context = DEFAULT_CTXT.add(EDGE_UPDATE);
         if (hasReceive) {
             context = context.setReceiveType(channelType);
         }
@@ -757,214 +742,13 @@ public class AutScope extends ParentScope<Automaton> {
         // Updates.
         List<Update> updates = edge.getUpdates();
         for (AUpdate update1: astEdge.coreEdge.updates) {
-            Update update2 = typeCheckUpdate(update1, autScope, context, tchecker);
+            Update update2 = CifUpdateTypeChecker.typeCheckUpdate(update1, autScope, context, tchecker);
             updates.add(update2);
         }
 
         // Check for assignments to unique parts of variables, in the updates.
         Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap = map();
         AssignmentUniquenessChecker.checkUniqueAsgns(updates, asgnMap, tchecker, ErrMsg.DUPL_VAR_ASGN_EDGE);
-    }
-
-    /**
-     * Type checks an addressable.
-     *
-     * @param astAddr The CIF AST representation of the addressable.
-     * @param scope The scope of the automaton.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
-     * @param tchecker The CIF type checker to use.
-     * @return The CIF metamodel representation of the addressable.
-     */
-    private static Expression typeCheckAddressable(AExpression astAddr, ParentScope<?> scope, ExprContext context,
-            CifTypeChecker tchecker)
-    {
-        // Type check addressable expression.
-        Expression addr = transExpression(astAddr, NO_TYPE_HINT, scope, context, tchecker);
-
-        // Make sure we refer to local discrete and/or continuous variables.
-        for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
-            // Get variable.
-            Expression uexpr = CifTypeUtils.unwrapExpression(expr);
-            Declaration var;
-            if (uexpr instanceof DiscVariableExpression) {
-                var = ((DiscVariableExpression)uexpr).getVariable();
-            } else if (uexpr instanceof ContVariableExpression) {
-                var = ((ContVariableExpression)uexpr).getVariable();
-            } else if (uexpr instanceof ReceivedExpression) {
-                throw new RuntimeException("Parser doesn't allow this.");
-            } else {
-                // Reference to wrong kind of object.
-                PositionObject obj = CifScopeUtils.getRefObjFromRef(uexpr);
-                tchecker.addProblem(ErrMsg.RESOLVE_NON_ASGN_VAR, expr.getPosition(), CifTextUtils.getAbsName(obj));
-                throw new SemanticException();
-            }
-
-            // Check variable scoping: disallow non-local variables.
-            EObject varParent = var.eContainer();
-            Assert.check(varParent instanceof ComplexComponent);
-            Automaton curAut = scope.getAutomaton();
-            if (varParent != curAut) {
-                // This should actually hold by construction for discrete
-                // variables, as we can only specify an identifier in the
-                // ASCII syntax (not a general name), and ancestor scopes
-                // can't declare discrete variables. For continuous
-                // variables however, ancestor scopes can define them as
-                // well.
-                tchecker.addProblem(ErrMsg.ASGN_NON_LOCAL_VAR, expr.getPosition(), CifTextUtils.getAbsName(var),
-                        CifTextUtils.getAbsName(curAut));
-                // Non-fatal error.
-            }
-
-            // String projections are not allowed as addressables.
-            PositionObject varAncestor = (PositionObject)expr.eContainer();
-            while (varAncestor instanceof ProjectionExpression) {
-                ProjectionExpression proj = (ProjectionExpression)varAncestor;
-                CifType type = proj.getChild().getType();
-                CifType ntype = CifTypeUtils.normalizeType(type);
-                if (ntype instanceof StringType) {
-                    tchecker.addProblem(ErrMsg.ASGN_STRING_PROJ, varAncestor.getPosition(),
-                            CifTextUtils.getAbsName(var));
-                    // Non-fatal error.
-                }
-                varAncestor = (PositionObject)varAncestor.eContainer();
-            }
-        }
-
-        // Return metamodel representation of the addressable expression.
-        return addr;
-    }
-
-    /**
-     * Type checks an update.
-     *
-     * @param astUpdate The CIF AST representation of the update.
-     * @param scope The scope of the automaton.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
-     * @param tchecker The CIF type checker to use.
-     * @return The CIF metamodel representation of the update.
-     */
-    private static Update typeCheckUpdate(AUpdate astUpdate, ParentScope<?> scope, ExprContext context,
-            CifTypeChecker tchecker)
-    {
-        if (astUpdate instanceof AAssignmentUpdate) {
-            return typeCheckAssignment((AAssignmentUpdate)astUpdate, scope, context, tchecker);
-        } else if (astUpdate instanceof AIfUpdate) {
-            return typeCheckIfUpdate((AIfUpdate)astUpdate, scope, context, tchecker);
-        } else {
-            throw new RuntimeException("Unknown update: " + astUpdate);
-        }
-    }
-
-    /**
-     * Type checks an assignment update.
-     *
-     * @param astUpdate The CIF AST representation of the update.
-     * @param scope The scope of the automaton.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
-     * @param tchecker The CIF type checker to use.
-     * @return The CIF metamodel representation of the update.
-     */
-    private static Assignment typeCheckAssignment(AAssignmentUpdate astUpdate, ParentScope<?> scope,
-            ExprContext context, CifTypeChecker tchecker)
-    {
-        // Construct assignment.
-        Assignment asgn = newAssignment();
-        asgn.setPosition(astUpdate.createPosition());
-
-        // Type check and set addressable expression.
-        Expression addr = typeCheckAddressable(astUpdate.addressable, scope, context, tchecker);
-        asgn.setAddressable(addr);
-
-        // Type check and set value.
-        Expression value = transExpression(astUpdate.value, addr.getType(), scope, context, tchecker);
-        asgn.setValue(value);
-
-        // Compatible types for addressable and value.
-        CifType valueType = value.getType();
-        CifType addrType = addr.getType();
-        if (!CifTypeUtils.checkTypeCompat(addrType, valueType, RangeCompat.OVERLAP)) {
-            tchecker.addProblem(ErrMsg.ASGN_TYPE_VALUE_MISMATCH, astUpdate.position, CifTextUtils.typeToStr(valueType),
-                    CifTextUtils.typeToStr(addrType));
-            // Non-fatal error.
-        }
-
-        // Return metamodel representation of the assignment.
-        return asgn;
-    }
-
-    /**
-     * Type checks an 'if' update.
-     *
-     * @param astUpdate The CIF AST representation of the update.
-     * @param scope The scope of the automaton.
-     * @param context The expression type checking context to use, or {@code null} for the default context.
-     * @param tchecker The CIF type checker to use.
-     * @return The CIF metamodel representation of the update.
-     */
-    private static IfUpdate typeCheckIfUpdate(AIfUpdate astUpdate, ParentScope<?> scope, ExprContext context,
-            CifTypeChecker tchecker)
-    {
-        // Construct 'if' update.
-        IfUpdate update = newIfUpdate();
-        update.setPosition(astUpdate.createPosition());
-
-        // Guards.
-        List<Expression> guards = update.getGuards();
-        for (AExpression g: astUpdate.guards) {
-            Expression guard = transExpression(g, BOOL_TYPE_HINT, scope, context, tchecker);
-            CifType t = guard.getType();
-            CifType nt = CifTypeUtils.normalizeType(t);
-            if (!(nt instanceof BoolType)) {
-                tchecker.addProblem(ErrMsg.GUARD_NON_BOOL, guard.getPosition(), CifTextUtils.typeToStr(t));
-                // Non-fatal error.
-            }
-            guards.add(guard);
-        }
-
-        // Thens.
-        List<Update> thens = update.getThens();
-        for (AUpdate then1: astUpdate.thens) {
-            Update then2 = typeCheckUpdate(then1, scope, context, tchecker);
-            thens.add(then2);
-        }
-
-        // Elses.
-        List<Update> elses = update.getElses();
-        for (AUpdate else1: astUpdate.elses) {
-            Update else2 = typeCheckUpdate(else1, scope, context, tchecker);
-            elses.add(else2);
-        }
-
-        // Elifs.
-        List<ElifUpdate> elifs = update.getElifs();
-        for (AElifUpdate elif1: astUpdate.elifs) {
-            ElifUpdate elif2 = newElifUpdate();
-            elif2.setPosition(elif1.createPosition());
-            elifs.add(elif2);
-
-            // Guards.
-            guards = elif2.getGuards();
-            for (AExpression g: elif1.guards) {
-                Expression guard = transExpression(g, BOOL_TYPE_HINT, scope, context, tchecker);
-                CifType t = guard.getType();
-                CifType nt = CifTypeUtils.normalizeType(t);
-                if (!(nt instanceof BoolType)) {
-                    tchecker.addProblem(ErrMsg.GUARD_NON_BOOL, guard.getPosition(), CifTextUtils.typeToStr(t));
-                    // Non-fatal error.
-                }
-                guards.add(guard);
-            }
-
-            // Elif/thens.
-            List<Update> elifThens = elif2.getThens();
-            for (AUpdate then1: elif1.thens) {
-                Update then2 = typeCheckUpdate(then1, scope, context, tchecker);
-                elifThens.add(then2);
-            }
-        }
-
-        // Return metamodel representation of the 'if' update.
-        return update;
     }
 
     /**

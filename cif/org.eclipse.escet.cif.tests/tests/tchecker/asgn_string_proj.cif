@@ -32,3 +32,6 @@ automaton q:
     initial;
     edge do x[0][1][2][3] := "a";
 end
+
+input string i;
+svgin id "" do i[1] := "a";

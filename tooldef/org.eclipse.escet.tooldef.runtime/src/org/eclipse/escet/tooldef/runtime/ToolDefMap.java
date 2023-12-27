@@ -31,13 +31,13 @@ public class ToolDefMap<K, V> implements Map<K, V> {
     /** The underlying storage. */
     private final Map<ToolDefEqWrap<K>, ToolDefEqWrap<V>> storage;
 
-    /** Constructor for the {@Link ToolDefMap} class. */
+    /** Constructor for the {@link ToolDefMap} class. */
     public ToolDefMap() {
         storage = map();
     }
 
     /**
-     * Constructor for the {@Link ToolDefMap} class.
+     * Constructor for the {@link ToolDefMap} class.
      *
      * @param initialCapacity The initial capacity of the map.
      * @throws IllegalArgumentException If the initial capacity is negative.
@@ -47,7 +47,7 @@ public class ToolDefMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Constructor for the {@Link ToolDefMap} class.
+     * Constructor for the {@link ToolDefMap} class.
      *
      * @param map The map whose entries are to be placed into this map.
      * @throws NullPointerException If the given map is {@code null}.

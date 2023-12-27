@@ -6,6 +6,7 @@ controllable f1;
 controllable f2;
 automaton statespace:
   alphabet e1, e2, e3, e4, f1, f2;
+  @state(pe = "a", pf = "a", q1 = "*", q1.x = 0, q1.y = 1, sup = "*")
   location loc1:
     initial;
     marked;
@@ -14,6 +15,7 @@ automaton statespace:
     edge e4;
     edge f1;
     edge f2;
+  @state(pe = "b", pf = "a", q1 = "*", q1.x = 0, q1.y = 1, sup = "*")
   location loc2:
     edge e1 goto loc1;
     edge f1;

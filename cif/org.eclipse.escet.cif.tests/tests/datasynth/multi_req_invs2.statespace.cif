@@ -5,25 +5,30 @@ controllable d;
 controllable e;
 automaton statespace:
   alphabet a, b, c, d, e;
+  @state(p = "*", p.x = 3, p.y = 6, r = "*", sup = "*")
   location loc1:
     initial;
     marked;
     edge b goto loc2;
     edge c goto loc2;
     edge e goto loc2;
+  @state(p = "*", p.x = 4, p.y = 5, r = "*", sup = "*")
   location loc2:
     marked;
     edge a goto loc3;
     edge e goto loc3;
+  @state(p = "*", p.x = 5, p.y = 4, r = "*", sup = "*")
   location loc3:
     marked;
     edge a goto loc4;
     edge c goto loc4;
     edge e goto loc4;
+  @state(p = "*", p.x = 6, p.y = 3, r = "*", sup = "*")
   location loc4:
     marked;
     edge c goto loc5;
     edge e goto loc5;
+  @state(p = "*", p.x = 7, p.y = 2, r = "*", sup = "*")
   location loc5:
     marked;
 end

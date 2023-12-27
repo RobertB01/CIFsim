@@ -1,7 +1,9 @@
 automaton statespace:
   alphabet;
+  @state(aut = "*", aut.v = 1)
   location loc1:
     initial;
+  @state(aut = "*", aut.v = 2)
   location loc2:
     initial;
 end

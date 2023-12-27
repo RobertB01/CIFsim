@@ -1,8 +1,296 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${prefix} | Eclipse ESCET</title>
+        <style type="text/css">
+            /* ESCET theme styles. */
+            html, body {
+                margin: 0;
+                background-color: #fff7df; /* ESCET website yellow. */
+                font-family: "Segoe UI";
+                line-height: 1.5;
+                height: 100%;
+            }
+
+            a {
+                color: #cc9a06;
+            }
+
+            a:hover {
+                color: black;
+            }
+
+            input[type=button] {
+                background-color: #ffc107;
+                border: 0;
+                box-shadow: none;
+                padding: .375rem .75rem;
+                border-radius: .25rem;
+                cursor: pointer;
+            }
+
+            input[type=button]:hover {
+                background-color: #ffda6d;
+            }
+
+            textarea {
+                background: white;
+            }
+        </style>
+        <style type="text/css">
+            body {
+                text-align: center;
+            }
+
+            #flex-container {
+                display: flex;
+                flex-flow: column;
+                height: 100%;
+            }
+
+            #content {
+                flex: 1 1 auto;
+                overflow: auto;
+            }
+
+            #log-pane {
+                border-top: 2px solid #ddd;
+                min-height: 20px;
+                background: #fafafa;
+            }
+            #log-pane .div-show-hide-btn {
+                height: 42px;
+                padding-top: 5px;
+                text-align: right;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+            }
+
+            #log-pane .div-show-hide-btn span {
+                margin-right: 10px;
+            }
+            #log-pane #div-txt-area-background {
+                height: calc(100% - 57px);
+                background: #fff;
+            }
+            #log-pane .div-txt-area {
+                margin: 0px 20px;
+                height: 100%;
+            }
+            #log-pane .div-txt-area textarea {
+                resize: none;
+                border: 0;
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                text-wrap: nowrap;
+            }
+            #log-pane #div-log-pane-footer {
+                background: #fafafa;
+                border-top: 1px solid #ddd;
+            }
+
+            .collapsed #log-pane {
+                height: 48px;
+                flex: none;
+            }
+            .expanded #log-pane {
+                height: 40%;
+                flex: 1 1 auto;
+            }
+            .collapsed #content {
+                resize: none;
+            }
+            .expanded #content {
+                resize: vertical;
+            }
+
+            .collapsed #div-txt-area-background,
+            .collapsed #div-log-pane-footer {
+                display: none;
+            }
+            .expanded #div-txt-area-background,
+            .expanded #div-log-pane-footer {
+                display: visible;
+            }
+
+            #run-frequency {
+                width: 250px;
+            }
+
+            svg {
+                background: white;
+                margin-bottom: 8px;
+            }
+
+            .svg-hidden {
+                visibility: hidden;
+                display: none;
+            }
+
+            .svg-visible {
+                visibility: visible;
+                display: block;
+            }
+
+            /* Defaults for SVG text elements, for same size and style as used by the CIF simulator. */
+            .text {
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                font-stretch: normal;
+                font-size: 11.8014px;
+                font-family: "Arial";
+            }
+
+${html-svg-in-css}
+        </style>
+        <script type="text/javascript">
+${html-javascript-utils-placeholder}
+        </script>
+        <script type="text/javascript">
+${html-javascript-class-placeholder}
+        </script>
+        <script type="text/javascript">
+            var ${prefix};
+
+            function onLoad() {
+                ${prefix} = new ${prefix}_class();
+                reset();
+                start();
+            }
+
+            function toggleStartStop() {
+                if (${prefix}.playing) {
+                    stop();
+                } else {
+                    start();
+                }
+            }
+
+            function start() {
+                if (!${prefix}.playing) {
+                    ${prefix}.log('start');
+                    var btn = document.getElementById('start-stop-toggle');
+                    btn.value = 'Stop';
+                    ${prefix}.start();
+                }
+            }
+
+            function stop() {
+                if (${prefix}.playing){
+                    ${prefix}.log('stop');
+                    var btn = document.getElementById('start-stop-toggle');
+                    btn.value = 'Start';
+                    ${prefix}.stop();
+                }
+            }
+
+            function reset() {
+                stop();
+                ${prefix}.reset();
+                clearLog();
+            }
+
+            function updateFrequency() {
+                // Update frequency.
+                var range = document.getElementById('run-frequency');
+                ${prefix}.frequency = range.value;
+
+                // Update frequency UI.
+                document.getElementById('run-frequency-output').value = range.value;
+            }
+
+            function clearLog() {
+                document.getElementById('log-output').value = '';
+            }
+
+            function showHide(btn) {
+                var elem = document.getElementById('flex-container');
+                if (elem.classList.contains('expanded')) {
+                    elem.classList.remove('expanded');
+                    elem.classList.add('collapsed');
+                    btn.value = 'Show';
+                } else {
+                    elem.classList.remove('collapsed');
+                    elem.classList.add('expanded');
+                    btn.value = 'Hide';
+                }
+            }
+
+            function toggleSVG(elemId) {
+                var elem = document.getElementById(elemId);
+                if (elem.classList.contains('svg-visible')) {
+                    elem.classList.remove('svg-visible');
+                    elem.classList.add('svg-hidden');
+                } else {
+                    elem.classList.remove('svg-hidden');
+                    elem.classList.add('svg-visible');
+                }
+            }
+
+            function downloadLog() {
+                // Get log content.
+                var modelName = document.getElementById('model-name').innerHTML;
+                var content = document.getElementById('log-output').value;
+
+                // Create URL object with log content.
+                var blob = new Blob([content], {type: 'plain/text'});
+                var url = URL.createObjectURL(blob);
+
+                // Create a new invisible 'a' element that serves as the download link.
+                var link = document.createElement('a');
+                link.style.display = 'none';
+                link.href = url;
+                link.download = modelName + '.' + new Date().toISOString() + '.log.txt';
+
+                // Click the link to start the download, after properly adding the link to the document.
+                document.body.appendChild(link);
+                link.click();
+
+                // Clean up the URL and temporary link element.
+                URL.revokeObjectURL(url);
+                link.remove();
+            }
+        </script>
     </head>
-    <body></body>
+    <body onload="onLoad()">
+        <div class="expanded" id="flex-container">
+            <div id="content">
+                <h1 id="model-name">${prefix}</h1>
+${html-svg-content}
+            </div>
+            <div id="log-pane">
+                <div class="div-show-hide-btn">
+                    <span>
+${html-svg-toggles}
+                        <input id="run-frequency" type="range" min="1" max="120"
+                                list="run-frequency-markers" oninput="updateFrequency(); return false;"/>
+                        <output id="run-frequency-output" for="run-frequency"></output>
+                        <label for="run-frequency"> Hz</label>
+                        <datalist id="run-frequency-markers">
+                            <option value="30"/>
+                            <option value="60"/>
+                            <option value="90"/>
+                            <option value="120"/>
+                        </datalist>
+                        <input id="start-stop-toggle" value="Stop" type="button"
+                                onclick="toggleStartStop(); return false;"/>
+                        <input value="Reset" type="button" onclick="reset(); return false;"/>
+                        <input value="Download log" type="button" onclick="downloadLog(); return false;"/>
+                        <input value="Hide" type="button" onclick="showHide(this); return false;"/>
+                    </span>
+                </div>
+                <div id="div-txt-area-background">
+                    <div class="div-txt-area">
+                        <textarea disabled id="log-output"></textarea>
+                    </div>
+                <div>
+                <div id="div-log-pane-footer"></div>
+            </div>
+        </div>
+    </body>
 </html>

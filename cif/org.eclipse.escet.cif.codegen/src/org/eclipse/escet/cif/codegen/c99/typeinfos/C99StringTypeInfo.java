@@ -278,7 +278,7 @@ public class C99StringTypeInfo extends StringTypeInfo implements C99TypeInfo {
      * @param args Arguments of the format call.
      * @param argTypes Type of the arguments of the format call.
      * @param code Destination of generated code.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Text for accessing each argument, arguments that are used more than once are stored in a temporary
      *     variable.
      */
@@ -374,7 +374,7 @@ public class C99StringTypeInfo extends StringTypeInfo implements C99TypeInfo {
      * @param argType Type of the argument used by the part.
      * @param argText Text in the target language to access the argument value.
      * @param code Generated code so far (extended in-place).
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @return Result expression value in the target language.
      */
     private String convertArgument(FormatDescription part, CifType argType, String argText, CodeBox code,
@@ -494,7 +494,7 @@ public class C99StringTypeInfo extends StringTypeInfo implements C99TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "StringTypeEquals(${left-ref}, ${right-ref})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

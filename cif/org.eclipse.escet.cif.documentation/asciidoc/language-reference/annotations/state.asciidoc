@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-ref-extensions-annotations-state]]
+== State annotations
+
+WARNING: Annotations are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner.
+
+A state <<lang-ref-extensions-annotations,annotation>> adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton.
+For basic information on state annotations, see the <<lang-tut-extensions-chapter-annotations-state,language tutorial>>.
+Here we discuss further details.
+
+State annotations (`@state`) can be added to the following elements in CIF specifications:
+
+* Locations of automata.
+
+The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
+
+* A single location may have multiple state annotations, if that location represents multiple states of a state space.
+* Each argument of a state annotation represents either an automaton with its current location, or a variable with its current value.
+* There can be any number of arguments (including no arguments), as models may have any number of automata and variables.
+* The name of the argument must be the absolute name of the corresponding automaton or variable.
+* Argument values, and parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
+This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.
+* If at least one location in an automaton has at least one state annotation, all other locations in that same automaton must also have at least one state annotation, as all these locations should then represent a least one state from the state space.
+* Different state annotations on the same or different locations of a single automaton must have the same arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should represent states from the same state space.
+
+Most values can thus be represented as literals, but there are some exceptions.
+The following overview indicates how to represent locations and different types of values:
+
+[cols="1,4"]
+|===
+| Location / value | Represented as
+
+| Location of an automaton
+| String literal with the <<lang-ref-syntax-lexical-identifier,non-escaped>> name of the location, or `"*"` for a nameless location.
+
+| Boolean value
+| `true` or `false` boolean literal.
+
+| Integer value
+| Integer literal, such as `0`, `1` or `1234`.
+Note that negative integer values are represented as a negation (unary operator) applied to a positive integer literal.
+And `-2147483648` is represented as `-(2147483647) - 1`.
+
+| Real value
+| Real literal, such as `0.0`, `1e5` or `0.5e-3`.
+Note that negative real values are represented as a negation (unary operator) applied to a positive real literal.
+
+| Enumeration value
+| String literal with the <<lang-ref-syntax-lexical-identifier,non-escaped>> name of the enumeration literal.
+
+| String value
+| String literal, such as `"some text"`.
+
+| Tuple value
+| Tuple literal, such as `(1, 2)` or `(true, (1, 2))`.
+
+| List value
+| List literal, such as `[1, 2]` or `[[1, 2], [3, 4]]`.
+Note that empty lists typically require a type hint in the form of a type cast, such as `<list[0] int>[]`.
+
+| Set value
+| Set literal, such as `{1, 2}` or `{{1, 2}, {3, 4}}`.
+Note that empty sets typically require a type hint in the form of a type cast, such as `<set int>{}`.
+
+| Dictionary value
+| Dictionary literal, such as `{1: 2, 3: 4}` or `{1: {2: 3}, 2: {4, 5}}`.
+Note that empty dictionaries typically require a type hint in the form of a type cast, such as `<dict(int:int)>{}`.
+
+| Function value
+| String literal with the <<lang-ref-syntax-lexical-identifier,non-escaped>> absolute name of the function, or `"*"` for functions that represent a default initial value of a variable with a function type.
+|===

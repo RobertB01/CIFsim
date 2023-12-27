@@ -99,6 +99,10 @@ The `sup` part of the default extension depends on the _Result name_ option.
 If not specified, defaults to `sup`.
 Also affects the _Output file_ option.
 
+* _Add state annotations_: Add <<lang-tut-extensions-chapter-annotations-state,state annotations>> to the locations of the automaton in the output CIF file.
+This option is enabled by default.
+// No empty automaton can be produced as output file.
+
 * _Enable Synthesis dump_: If enabled, the synthesis algorithm writes a dump file containing the actions performed by the algorithm, for later analysis.
 The name of the file is decided by the _Dump file_ option.
 

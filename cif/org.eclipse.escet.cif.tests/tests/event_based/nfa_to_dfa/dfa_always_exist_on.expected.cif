@@ -2,11 +2,14 @@ controllable powerup;
 controllable shutdown;
 automaton dfa:
   alphabet powerup, shutdown;
+  @state(dfa = "s1")
   location s1:
     initial;
     edge powerup goto s2;
+  @state(dfa = "s2")
   location s2:
     edge shutdown goto s3;
+  @state(dfa = "s3")
   location s3:
     edge powerup goto s2;
 end

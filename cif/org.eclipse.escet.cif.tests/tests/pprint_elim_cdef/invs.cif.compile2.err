@@ -1,40 +1,90 @@
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 5, column 5: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 6, column 11: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 7, column 17: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 8, column 17: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 9, column 16: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 10, column 16: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 11, column 16: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 21, column 7: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 22, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 23, column 34: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 24, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 25, column 17: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 26, column 34: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 27, column 34: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 28, column 13: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 29, column 23: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 30, column 40: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 31, column 23: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 32, column 23: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 33, column 40: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 34, column 40: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 35, column 13: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 36, column 23: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 37, column 40: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 38, column 23: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 39, column 23: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 40, column 40: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 41, column 40: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 43, column 3: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 44, column 9: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 45, column 15: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 46, column 15: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 47, column 14: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 48, column 14: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 49, column 14: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 53, column 15: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 54, column 21: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 55, column 27: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 56, column 27: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 57, column 26: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 58, column 26: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 59, column 26: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 70, column 13: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 71, column 19: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 72, column 25: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 73, column 25: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 74, column 24: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 75, column 24: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 76, column 24: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 78, column 1: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 79, column 7: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 80, column 13: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 81, column 13: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 82, column 12: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 83, column 12: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 84, column 12: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 85, column 1: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 86, column 11: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 87, column 28: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 88, column 11: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 89, column 11: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 90, column 28: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 91, column 28: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 92, column 7: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 93, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 94, column 34: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 95, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 96, column 17: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 97, column 34: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 98, column 34: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 99, column 7: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 100, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 101, column 34: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 102, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 103, column 17: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 104, column 34: Duplicate invariant for event "f".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 105, column 34: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 106, column 11: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 107, column 17: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 108, column 23: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 109, column 23: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 110, column 22: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 111, column 22: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 112, column 22: Duplicate state invariant.
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 113, column 11: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 114, column 17: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 115, column 35: Duplicate invariant for event "e".
+WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 116, column 17: Duplicate state invariant.
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 117, column 24: Duplicate invariant for event "e".
 WARNING: File "pprint_elim_cdef/invs.out.cif": Semantic warning at line 118, column 41: Duplicate invariant for event "e".

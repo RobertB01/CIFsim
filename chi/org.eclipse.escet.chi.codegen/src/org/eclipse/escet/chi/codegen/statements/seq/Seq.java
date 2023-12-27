@@ -240,7 +240,7 @@ public abstract class Seq extends OutputPosition {
      * Convert an assignment statement.
      *
      * @param stat Assignment statement to convert.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The converted statement.
      */
@@ -411,7 +411,7 @@ public abstract class Seq extends OutputPosition {
      *
      * @param icc The iterative process creation statement.
      * @param startOnly If set, do not generate code to wait for child termination.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The converted statement as a sequence of statements.
      */
@@ -450,7 +450,7 @@ public abstract class Seq extends OutputPosition {
      *
      * @param cc Process start/run statement to convert.
      * @param startOnly If set, do not generate code to wait for child termination.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The converted statement.
      */
@@ -467,7 +467,7 @@ public abstract class Seq extends OutputPosition {
      * Generate a select alternative to wait for a child to terminate.
      *
      * @param stat Statement being generated.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The generated code.
      */
@@ -487,7 +487,7 @@ public abstract class Seq extends OutputPosition {
      * Convert a run statement.
      *
      * @param stat Run statement to convert.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The converted statement.
      */
@@ -533,7 +533,7 @@ public abstract class Seq extends OutputPosition {
      * @param localVars Local variables that must be stored and reset during execution (if available, else
      *     {@code null}).
      * @param sc Select case being converted.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The generated code.
      */
@@ -629,7 +629,7 @@ public abstract class Seq extends OutputPosition {
      * @param selChoiceNumber Selection number.
      * @param sc Select case being converted.
      * @param localVars Local variables that must be stored and reset during execution.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param currentClass Java class targeted for code generation.
      * @return The generated code.
      */

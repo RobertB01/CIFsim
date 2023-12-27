@@ -35,6 +35,13 @@ input bool i11;
 @abc:def
 @a(b = 1)
 input bool i12;
+@a(b = 1)
+@a(b = 3)
+@b(x = 1)
+@a(b = 2)
+@b(x = 3)
+@b(x = 2)
+input bool i13;
 automaton a1:
   @a(b = 1)
   location:

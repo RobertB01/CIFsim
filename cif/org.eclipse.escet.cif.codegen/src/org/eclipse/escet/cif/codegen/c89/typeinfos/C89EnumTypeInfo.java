@@ -78,7 +78,7 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
     /**
      * Construct the name of an enumeration literal in C89.
      *
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      * @param eLit Literal to convert.
      * @return Name of the enumeration literal in C89.
      */
@@ -120,7 +120,7 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
      * Generate C89 enum type code.
      *
      * @param typeCode Destination for the generated type code.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void generateC89TypeCode(CodeBox typeCode, CodeContext ctxt) {
         String declarationPrefix = genLocalFunctions ? "static " : "extern ";
@@ -146,7 +146,7 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
      *
      * @param typeCode Destination for the generated type code.
      * @param funcCode Destination for the generated functions.
-     * @param ctxt Code generation context.
+     * @param ctxt The code generation context.
      */
     protected void generateC89FuncCode(CodeBox typeCode, CodeBox funcCode, CodeContext ctxt) {
         String definitionPrefix, declarationPrefix;
@@ -195,7 +195,7 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
     }
 
     @Override
-    public String getBinaryExpressionTemplate(BinaryOperator binOp) {
+    public String getBinaryExpressionTemplate(BinaryOperator binOp, CodeContext ctxt) {
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "(${left-value}) == (${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

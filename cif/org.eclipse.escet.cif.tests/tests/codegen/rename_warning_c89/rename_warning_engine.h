@@ -10,6 +10,13 @@
 /* Types of the specification.
  * Note that integer ranges are ignored in C.
  */
+enum Enumrename_warning_ {
+    _rename_warning___some_dummy_enum_literal,
+};
+typedef enum Enumrename_warning_ rename_warningEnum;
+
+extern const char *enum_names[];
+extern int EnumTypePrint(rename_warningEnum value, char *dest, int start, int end);
 
 
 /* Event declarations. */

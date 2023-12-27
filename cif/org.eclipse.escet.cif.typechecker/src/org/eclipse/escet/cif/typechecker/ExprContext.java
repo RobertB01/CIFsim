@@ -105,6 +105,12 @@ public class ExprContext {
          * Allow use of event references (currently only in a few places where event references are explicitly the only
          * thing that is allowed).
          */
-        ALLOW_EVENT;
+        ALLOW_EVENT,
+
+        /** Expression is part of an SVG input update. Allow assignments to input variables. */
+        SVG_UPDATE,
+
+        /** Expression is part of an edge update. Allow assignments to continuous and discrete variables. */
+        EDGE_UPDATE;
     }
 }

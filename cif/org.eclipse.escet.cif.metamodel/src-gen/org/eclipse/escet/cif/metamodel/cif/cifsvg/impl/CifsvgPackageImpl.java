@@ -375,6 +375,17 @@ public class CifsvgPackageImpl extends EPackageImpl implements CifsvgPackage
      * @generated
      */
     @Override
+    public EReference getSvgIn_Updates()
+    {
+        return (EReference)svgInEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getSvgInEventSingle()
     {
         return svgInEventSingleEClass;
@@ -612,6 +623,7 @@ public class CifsvgPackageImpl extends EPackageImpl implements CifsvgPackage
         createEReference(svgInEClass, SVG_IN__ID);
         createEReference(svgInEClass, SVG_IN__SVG_FILE);
         createEReference(svgInEClass, SVG_IN__EVENT);
+        createEReference(svgInEClass, SVG_IN__UPDATES);
 
         svgInEventSingleEClass = createEClass(SVG_IN_EVENT_SINGLE);
         createEReference(svgInEventSingleEClass, SVG_IN_EVENT_SINGLE__EVENT);
@@ -666,6 +678,7 @@ public class CifsvgPackageImpl extends EPackageImpl implements CifsvgPackage
         CifPackage theCifPackage = (CifPackage)EPackage.Registry.INSTANCE.getEPackage(CifPackage.eNS_URI);
         ExpressionsPackage theExpressionsPackage = (ExpressionsPackage)EPackage.Registry.INSTANCE.getEPackage(ExpressionsPackage.eNS_URI);
         PositionPackage thePositionPackage = (PositionPackage)EPackage.Registry.INSTANCE.getEPackage(PositionPackage.eNS_URI);
+        AutomataPackage theAutomataPackage = (AutomataPackage)EPackage.Registry.INSTANCE.getEPackage(AutomataPackage.eNS_URI);
 
         // Create type parameters
 
@@ -696,7 +709,8 @@ public class CifsvgPackageImpl extends EPackageImpl implements CifsvgPackage
         initEClass(svgInEClass, SvgIn.class, "SvgIn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getSvgIn_Id(), theExpressionsPackage.getExpression(), null, "id", null, 1, 1, SvgIn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSvgIn_SvgFile(), this.getSvgFile(), null, "svgFile", null, 0, 1, SvgIn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSvgIn_Event(), this.getSvgInEvent(), null, "event", null, 1, 1, SvgIn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSvgIn_Event(), this.getSvgInEvent(), null, "event", null, 0, 1, SvgIn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSvgIn_Updates(), theAutomataPackage.getUpdate(), null, "updates", null, 0, -1, SvgIn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(svgInEventSingleEClass, SvgInEventSingle.class, "SvgInEventSingle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getSvgInEventSingle_Event(), theExpressionsPackage.getExpression(), null, "event", null, 1, 1, SvgInEventSingle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

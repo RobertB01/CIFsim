@@ -8,15 +8,19 @@ group Lamp1:
 end
 automaton statespace:
   alphabet Button1.u_pushed, Button1.u_released, Lamp1.c_on, Lamp1.c_off;
+  @state(Button1 = "Released", Lamp1 = "Off", LampOnWhileButtonPushed = "Released", sup = "*")
   location loc1:
     initial;
     marked;
     edge Button1.u_pushed goto loc2;
+  @state(Button1 = "Pushed", Lamp1 = "Off", LampOnWhileButtonPushed = "Pushed", sup = "*")
   location loc2:
     edge Button1.u_released goto loc1;
     edge Lamp1.c_on goto loc3;
+  @state(Button1 = "Pushed", Lamp1 = "On", LampOnWhileButtonPushed = "Pushed", sup = "*")
   location loc3:
     edge Button1.u_released goto loc4;
+  @state(Button1 = "Released", Lamp1 = "On", LampOnWhileButtonPushed = "Released", sup = "*")
   location loc4:
     edge Button1.u_pushed goto loc3;
     edge Lamp1.c_off goto loc1;

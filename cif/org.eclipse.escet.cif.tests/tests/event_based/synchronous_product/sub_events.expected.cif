@@ -8,13 +8,17 @@ group product:
 end
 plant automaton product2:
   alphabet z.a.x, product.x;
+  @state(z.a = "s1", product = "s1")
   location s1:
     initial;
     edge product.x goto s2;
     edge z.a.x goto s3;
+  @state(z.a = "s1", product = "s2")
   location s2:
     edge z.a.x goto s4;
+  @state(z.a = "s2", product = "s1")
   location s3:
     edge product.x goto s4;
+  @state(z.a = "s2", product = "s2")
   location s4;
 end

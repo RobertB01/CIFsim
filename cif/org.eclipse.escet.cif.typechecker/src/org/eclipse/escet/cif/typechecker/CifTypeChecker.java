@@ -36,6 +36,7 @@ import org.eclipse.escet.cif.typechecker.postchk.CifTypeCheckerPostCheckEnv;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.EventsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.SingleEventUsePerAutPostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.UniqueStateInvariantsPostChecker;
 import org.eclipse.escet.cif.typechecker.scopes.CompInstScope;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
 import org.eclipse.escet.cif.typechecker.scopes.SpecScope;
@@ -233,6 +234,9 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
 
             // Check 'Automaton.uniqueUsagePerEvent' constraint.
             SingleEventUsePerAutPostChecker.check(specNoCompDef, env);
+
+            // Check 'Invariant.unique' constraint for state invariants.
+            new UniqueStateInvariantsPostChecker().check(specNoCompDef, env);
 
             // Checks various constraints related to events that are difficult to check when component
             // definition/instantiation is not yet eliminated.

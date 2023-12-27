@@ -1,3 +1,9 @@
-ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 21, column 16: Cannot assign variable "g.x1", as it is not declared in automaton "g.p".
-ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 21, column 20: Cannot assign variable "g.x2", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 23, column 16: Cannot assign variable "g.x1", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 23, column 20: Cannot assign variable "g.x2", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 23, column 24: Cannot assign variable "g.x3", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 23, column 33: Cannot assign variable "g.x4", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 23, column 40: Cannot assign variable "g.q.x5", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 24, column 24: Cannot assign variable "g.q.x1", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 24, column 33: Cannot assign variable "g.x2", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 24, column 40: Cannot assign variable "g.q.x3", as it is not declared in automaton "g.p".
 ERROR: Failed to load CIF file "tchecker/asgn_non_local_var.cif": the file has errors.
