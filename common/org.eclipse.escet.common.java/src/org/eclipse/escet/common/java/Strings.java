@@ -695,7 +695,7 @@ public final class Strings {
             upperBound *= 10;
         }
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(length);
         String valueText = String.valueOf(val);
         while (length > valueText.length()) {
             length--;
