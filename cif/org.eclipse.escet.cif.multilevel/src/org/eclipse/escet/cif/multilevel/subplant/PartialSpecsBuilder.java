@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
@@ -196,9 +197,9 @@ public class PartialSpecsBuilder {
                 || dangling instanceof Event || dangling instanceof Function || dangling instanceof InputVariable
                 || dangling instanceof TypeDecl)
         {
-            EObject clonedObj = partialMgr.deepcloneAndAdd(dangling);
-            partialMgr.directlyAttachAddedToComponent(dangling, clonedObj);
-            return clonedObj;
+            Declaration clonedDecl = (Declaration)partialMgr.deepcloneAndAdd(dangling);
+            partialMgr.directlyAttachAddedToComponent(dangling, clonedDecl);
+            return clonedDecl;
         }
 
         // Enumeration literals can be referenced but the entire enumeration must be copied.
@@ -207,18 +208,18 @@ public class PartialSpecsBuilder {
         // - Code doesn't get here in that case, thus the surrounding enumeration declaration is not yet copied.
         // - Querying for the partial literals works after copying.
         if (dangling instanceof EnumLiteral) {
-            EObject enumDecl = dangling.eContainer();
-            EObject copiedDeclObj = partialMgr.deepcloneAndAdd(enumDecl);
-            partialMgr.directlyAttachAddedToComponent(enumDecl, copiedDeclObj);
+            EnumDecl enumDecl = (EnumDecl)dangling.eContainer();
+            EnumDecl copiedEnumDecl = partialMgr.deepcloneAndAdd(enumDecl);
+            partialMgr.directlyAttachAddedToComponent(enumDecl, copiedEnumDecl);
 
-            copiedDeclObj = partialMgr.getCopiedPartialObject(dangling);
-            Assert.notNull(copiedDeclObj);
-            return copiedDeclObj;
+            EnumLiteral copiedEnumLit = (EnumLiteral)partialMgr.getCopiedPartialObject(dangling);
+            Assert.notNull(copiedEnumLit);
+            return copiedEnumLit;
         }
 
         // Locations that were not copied in the first stage are replaced by input variables.
         if (dangling instanceof Location loc) {
-            EObject inputVar = newInputVariable(null, loc.getName(), null, newBoolType());
+            InputVariable inputVar = newInputVariable(null, loc.getName(), null, newBoolType());
             // 'newBoolType' object above is not registered in the copy administration but it has nothing that can be
             // referenced.
             partialMgr.addCopiedObject(loc, inputVar);
@@ -230,12 +231,12 @@ public class PartialSpecsBuilder {
         // input variables with the same domain.
         if (dangling instanceof DiscVariable dv) {
             if (dv.eContainer() instanceof Automaton) {
-                EObject clonedObj = partialMgr.deepcloneAndAdd(dv);
-                partialMgr.directlyAttachAddedToComponent(dangling, clonedObj);
-                return clonedObj;
+                DiscVariable clonedVar = partialMgr.deepcloneAndAdd(dv);
+                partialMgr.directlyAttachAddedToComponent(dangling, clonedVar);
+                return clonedVar;
             } else {
                 CifType clonedType = partialMgr.deepcloneAndAdd(dv.getType());
-                EObject inputVar = newInputVariable(null, dv.getName(), null, clonedType);
+                InputVariable inputVar = newInputVariable(null, dv.getName(), null, clonedType);
                 partialMgr.addCopiedObject(dangling, inputVar);
                 partialMgr.directlyAttachAddedToComponent(dangling, inputVar);
                 return inputVar;
