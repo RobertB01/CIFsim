@@ -131,7 +131,10 @@ public class PartialSpecManager {
      * @param origAut Automaton to copy.
      */
     public void copyAutomatonSkeleton(Automaton origAut) {
-        // Construct the partial automaton.
+        // Construct the partial automaton. Declarations and invariants are on purpose not copied. Annotations are
+        // ignored.
+        Assert.check(origAut.getEquations().isEmpty()); // Precondition sanity check.
+        Assert.check(origAut.getIoDecls().isEmpty()); // Preprocessing sanity check.
         Alphabet alphabet = deepcloneAndAdd(origAut.getAlphabet());
         List<Expression> initials = deepcloneAndAdd(origAut.getInitials());
         List<Expression> markeds = deepcloneAndAdd(origAut.getMarkeds());
@@ -141,8 +144,9 @@ public class PartialSpecManager {
         addCopiedObject(origAut, partialAut);
         directlyAttachAddedToComponent(origAut, partialAut);
 
-        // Create partial locations.
+        // Create partial locations. Invariants are on purpose not copied. Annotations are ignored.
         for (Location origLoc: origAut.getLocations()) {
+            Assert.check(origLoc.getEquations().isEmpty()); // Precondition sanity check.
             List<Edge> edges = deepcloneAndAdd(origLoc.getEdges());
             initials = deepcloneAndAdd(origLoc.getInitials());
             markeds = deepcloneAndAdd(origLoc.getMarkeds());
