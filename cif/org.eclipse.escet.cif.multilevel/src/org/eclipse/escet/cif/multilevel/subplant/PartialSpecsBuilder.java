@@ -76,7 +76,7 @@ public class PartialSpecsBuilder {
         // the result will still link to objects from the original specification. Such objects are known as dangling
         // objects and get resolved after the first stage.
 
-        // Copy the automata to avoid getting them added as Group by the manager.
+        // Copy the automata to avoid getting them added as a group by the manager.
         for (PositionObject element: neededObjects) {
             if (element instanceof Automaton aut) {
                 partialMgr.copyAutomatonSkeleton(aut);
@@ -105,19 +105,22 @@ public class PartialSpecsBuilder {
             // may already have been fixed in a previous iteration at other spots in the partial specification.
             Map<EObject, Collection<Setting>> danglings = partialMgr.getNextDanglingObjects();
             if (danglings == null) {
-                break;
+                break; // No more dangling objects.
             }
 
+            // Fix each dangling object.
             for (Entry<EObject, Collection<Setting>> entry: danglings.entrySet()) {
-                EObject dangling = entry.getKey(); // Original object connected with but not contained in the partial
-                                                   // specification.
-                Collection<Setting> partialConnections = entry.getValue(); // References from the partial specification
-                                                                           // to the dangling object.
+                // Original object connected with but not contained in the partial specification.
+                EObject dangling = entry.getKey();
+
+                // References from the partial specification to the dangling object.
+                Collection<Setting> partialConnections = entry.getValue();
+
                 // Find or construct a contained object in the partial specification to replace the dangling object.
                 EObject contained = findOrMakeContained(dangling, partialMgr);
                 if (contained == null) {
-                    // Field of a tuple that has not been copied yet. Postpone resolving them under the assumption that
-                    // the object will eventually get copied into the partial specification.
+                    // Field of a tuple type that has not been copied yet. Postpone resolving them under the assumption
+                    // that the object will eventually get copied into the partial specification.
                     unresolvedFields.add(entry);
                     continue;
                 }
@@ -144,13 +147,15 @@ public class PartialSpecsBuilder {
             }
         }
 
-        // Third stage resolves all remaining Field references as by now all types are contained in the partial
-        // specification.
+        // Third stage resolves all remaining tuple type field references as by now all types are contained in the
+        // partial specification.
         for (Entry<EObject, Collection<Setting>> entry: unresolvedFields) {
-            EObject danglingField = entry.getKey(); // Original Field connected with but not contained in the partial
-                                                    // specification.
-            Collection<Setting> partialConnections = entry.getValue(); // References from the partial specification
-                                                                       // to the dangling Field.
+            // Original Field connected with but not contained in the partial specification.
+            EObject danglingField = entry.getKey();
+
+            // References from the partial specification to the dangling Field.
+            Collection<Setting> partialConnections = entry.getValue();
+
             // The original field should have a partial counter-part now.
             EObject copiedField = partialMgr.getCopiedPartialObject(danglingField);
             Assert.notNull(copiedField);
@@ -159,6 +164,7 @@ public class PartialSpecsBuilder {
             }
         }
 
+        // Return the newly constructed partial specification.
         return partialMgr.getPartialSpec();
     }
 
@@ -170,10 +176,10 @@ public class PartialSpecsBuilder {
      *     done already.
      * @param partialMgr The manager tracking everything in the partial specification.
      * @return A replacement object that represents the dangling object in the partial specification if one can be
-     *     constructed. Otherwise {@code null} is returned.
+     *     constructed. For tuple type fields, {@code null} is returned.
      */
     private EObject findOrMakeContained(EObject dangling, PartialSpecManager partialMgr) {
-        // Maybe a contained object was created in the mean time?
+        // Find a contained object that was created in the mean time, if it exists.
         EObject copiedObj = partialMgr.getCopiedPartialObject(dangling);
         if (copiedObj != null) {
             return copiedObj;
@@ -193,9 +199,9 @@ public class PartialSpecsBuilder {
 
         // Enumeration literals can be referenced but the entire enumeration must be copied.
         //
-        // Copying the enumeration declaration also added its fields. That means that
+        // Copying the enumeration declaration also copies its literals. That means that:
         // - Code doesn't get here in that case, thus the surrounding enumeration declaration is not yet copied.
-        // - Querying for the partial field works after copying.
+        // - Querying for the partial literals works after copying.
         if (dangling instanceof EnumLiteral) {
             EObject enumDecl = dangling.eContainer();
             EObject copiedDeclObj = partialMgr.deepcloneAndAdd(enumDecl);
@@ -232,8 +238,8 @@ public class PartialSpecsBuilder {
             }
         }
 
-        // Tuple fields that have not been copied yet are the only case left at this point. They are deferred until
-        // everything else has been copied.
+        // Fields of tuple types that have not been copied yet are the only case left at this point. They are deferred
+        // until everything else has been copied.
         Assert.check(dangling instanceof Field, "Found unexpected dangling object " + dangling);
         return null;
     }
@@ -245,12 +251,13 @@ public class PartialSpecsBuilder {
      * @return The type contained in the provided expression.
      */
     private CifType getType(EObject expr) {
-        // Casting to Expression and getting the type would work, but having the class check is useful to check sanity.
+        // Casting to 'Expression' and getting the type would work, but having the class check is useful to check
+        // sanity.
         if (expr instanceof LocationExpression locExpr) {
             return locExpr.getType();
         } else if (expr instanceof DiscVariableExpression dvExpr) {
             return dvExpr.getType();
         }
-        throw new AssertionError("Unexpected parent class \"" + expr + "\".");
+        throw new AssertionError("Unexpected expression \"" + expr + "\".");
     }
 }
