@@ -54,15 +54,15 @@ public class PartialSpecManager {
     private final Specification partialSpec;
 
     /**
-     * Original objects with their partial copied objects.
+     * Original objects to their (partial) copies in {@link #partialSpec}.
      *
      * <p>
-     * The {@link #deepcloneAndAdd} functions put all copied objects in this map, that is, not just the top-level
-     * object.
+     * The {@link #deepcloneAndAdd} functions put all copied objects in this map, that is, both the directly copied
+     * objects as well as their recursively-contained descendants.
      * </p>
      * <p>
-     * In general, most original and copied partial object have the same class, but this is not always the case.
-     * Automata may get changed to Group, while locations and discrete variables may get changed to input variables.
+     * In general, most original and copied partial objects have the same class, but this is not always the case.
+     * Automata may get changed to groups, while locations and discrete variables may get changed to input variables.
      * </p>
      */
     private Map<EObject, EObject> copiedObjects = map();
@@ -97,7 +97,7 @@ public class PartialSpecManager {
      * Retrieve the partial object that represents the given original object if it exists. Returns {@code null} if no
      * such object exists.
      *
-     * @param origObject Original object to use for finding its partial equivalent part.
+     * @param origObject Original object to use for finding its partial equivalent.
      * @return The partial object that represents the original object, or {@code  null} if no such object exists.
      */
     public EObject getCopiedPartialObject(EObject origObject) {
@@ -105,13 +105,13 @@ public class PartialSpecManager {
     }
 
     /**
-     * Get a collection of dangling objects to resolve.
+     * Get the next collection of dangling objects to resolve, and remove it from the queue.
      *
-     * @return A collection of dangling objects. The returned information may be outdated because Returned dangling
-     *     object has been resolved for a different copied sub-tree in the mean time. Returns {@code null} when the
-     *     queue is empty.
+     * @return A collection of dangling objects. The returned information may be outdated because the returned dangling
+     *     objects may have been resolved for a different copied sub-tree in the mean time. Returns {@code null} when
+     *     the queue is empty.
      */
-    public Map<EObject, Collection<Setting>> getSomeDanglingObjects() {
+    public Map<EObject, Collection<Setting>> getNextDanglingObjects() {
         return danglingQueue.poll();
     }
 
@@ -146,14 +146,14 @@ public class PartialSpecManager {
 
     /**
      * Contain the given partial object by attaching it to its parent (partial) complex component. The latter is derived
-     * from the complex parent component of the original object. In addition, the given partial object is scanned for
+     * from the parent complex component of the original object. In addition, the given partial object is scanned for
      * dangling objects, which are stored and resolved in a next processing step.
      *
      * <p>
      * The given object pair must already have been added to {@link #copiedObjects}.
      * </p>
      *
-     * @param origObj Original object, must have a containing {@link ComplexComponent} parent object.
+     * @param origObj Original object. Must have a containing {@link ComplexComponent} parent object.
      * @param partialObj Created partial object to add to the parent partial complex component. The partial object may
      *     have a different type than the original object.
      */
@@ -180,10 +180,11 @@ public class PartialSpecManager {
             insertEObject(origParent.getInvariants(), partialParent.getInvariants(), inv);
         } else if (partialObj instanceof Location loc) {
             // Only works for explicitly added automata, since parent automata that had no partial copy always become a
-            // Group.
+            // group.
             insertEObject(((Automaton)origParent).getLocations(), ((Automaton)partialParent).getLocations(), loc);
         } else {
-            throw new AssertionError("Unexpected partial object \"" + partialObj + "\" found for group attachment.");
+            throw new AssertionError(
+                    "Unexpected partial object \"" + partialObj + "\" found for component attachment.");
         }
     }
 
@@ -192,21 +193,20 @@ public class PartialSpecManager {
      * specification object. Already copied complex components are kept as-is, newly created complex component are
      * always created as {@link Group}.
      *
-     * @param origComponent The original complex component to ensure is or becomes available..
+     * @param origComponent The original complex component to ensure is or becomes available.
      * @return The partial complex component associated with the given original complex component.
      */
     public ComplexComponent ensureComponent(ComplexComponent origComponent) {
-        // If a copied object exists for the origComponent, ensuring existence is trivial. This includes the partial
+        // If a copied object exists for the 'origComponent', ensuring existence is trivial. This includes the partial
         // specification object, which means the recursion here will terminate.
         ComplexComponent availablePartialComponent = (ComplexComponent)copiedObjects.get(origComponent);
         if (availablePartialComponent != null) {
             return availablePartialComponent;
         }
 
-        // 'origComponent' has no associated partial component and is thus not a Specification since that has been added
-        // to the 'copiedIbjects' before. It thus must have a currently unavailable partial parent component. The
-        // original parent must therefore be a Group object. Casting the result of the recursive parent query is thus
-        // safe.
+        // 'origComponent' has no associated partial component and is thus not a specification since that has been added
+        // to the 'copiedObjects' before. It thus must have a currently unavailable partial parent component. The
+        // original parent must therefore be a group. Casting the result of the recursive parent query is thus safe.
         Group origParent = (Group)origComponent.eContainer();
         Group partialParent = (Group)ensureComponent(origParent);
 
@@ -221,7 +221,7 @@ public class PartialSpecManager {
     }
 
     /**
-     * Perform {@code partialList.add(partialObject} such that the order of the elements between the original and
+     * Perform {@code partialList.add(partialObject)} such that the order of the elements between the original and
      * partial lists match through the {@link #copiedObjects} relations.
      *
      * <p>
@@ -233,8 +233,8 @@ public class PartialSpecManager {
      * </ol>
      * </p>
      *
-     * @param <T> Type of the lists.
-     * @param <U> Type of the new partial object
+     * @param <T> Type of the elements of the lists.
+     * @param <U> Type of the new partial object.
      * @param origList List of references in the original specification.
      * @param partialList List of references in the partial specification.
      * @param newPartialObject New partial object, to be added in the partial list at the correct index.
@@ -301,8 +301,8 @@ public class PartialSpecManager {
     }
 
     /**
-     * If the original object is not null, perform a deepclone on the original object and return its copy. It also
-     * updates the collection of copied objects.
+     * If the original object is not {@code null}, perform a deepclone on the original object and return its copy. It
+     * also updates the collection of copied objects.
      *
      * @param <T> Type of the original and the copied object.
      * @param origObject Object to copy.
@@ -319,7 +319,7 @@ public class PartialSpecManager {
         T partialObject = (T)copier.copy(origObject);
         copier.copyReferences();
 
-        // Rescue all copied object relations for future reference.
+        // Store all copied object relations for future reference.
         for (Entry<EObject, EObject> entry: copier.entrySet()) {
             addCopiedObject(entry.getKey(), entry.getValue());
         }
@@ -343,7 +343,7 @@ public class PartialSpecManager {
         List<T> partialObject = (List<T>)copier.copyAll(origObjects);
         copier.copyReferences();
 
-        // Rescue the copied instances for future reference.
+        // Store the copied instances for future reference.
         for (Entry<EObject, EObject> entry: copier.entrySet()) {
             addCopiedObject(entry.getKey(), entry.getValue());
         }
@@ -353,7 +353,7 @@ public class PartialSpecManager {
     /**
      * Get the constructed partial specification.
      *
-     * @return The constructed partial specification
+     * @return The constructed partial specification.
      */
     public Specification getPartialSpec() {
         return partialSpec;

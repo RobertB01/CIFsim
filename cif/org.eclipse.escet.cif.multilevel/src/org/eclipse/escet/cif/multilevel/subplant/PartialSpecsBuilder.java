@@ -103,7 +103,7 @@ public class PartialSpecsBuilder {
         while (true) {
             // Get found dangling objects from a previous addition to the partial specification. Note that these objects
             // may already have been fixed in a previous iteration at other spots in the partial specification.
-            Map<EObject, Collection<Setting>> danglings = partialMgr.getSomeDanglingObjects();
+            Map<EObject, Collection<Setting>> danglings = partialMgr.getNextDanglingObjects();
             if (danglings == null) {
                 break;
             }
