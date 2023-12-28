@@ -68,6 +68,7 @@ import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvid
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** JavaScript code generator. */
 public class JavaScriptCodeGen extends CodeGen {
@@ -154,11 +155,11 @@ public class JavaScriptCodeGen extends CodeGen {
         for (Declaration stateVar: sortedStateVars) {
             String origName = origDeclNames.get(stateVar);
             Assert.notNull(origName);
-            getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s.%s));", ctxt.getPrefix(),
-                    origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetRef(stateVar));
+            getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s));", ctxt.getPrefix(),
+                    origName, ctxt.getPrefix(), getTargetRef(stateVar));
             if (stateVar instanceof ContVariable) {
-                getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%s.%sderiv()));",
-                        ctxt.getPrefix(), origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetRef(stateVar));
+                getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%sderiv()));",
+                        ctxt.getPrefix(), origName, ctxt.getPrefix(), getTargetRef(stateVar));
             }
         }
         replacements.put("javascript-get-state-text-code", getStateTextCode.toString());
@@ -198,7 +199,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
             code.add();
             code.add("/** Constant \"%s\". */", origName);
-            code.add("%s = %s;", getTargetRef(constant), constantCode.getData());
+            code.add("%s = %s;", getTargetVariableName(constant), constantCode.getData());
         }
 
         replacements.put("javascript-const-decls", code.toString());
@@ -225,7 +226,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (Declaration var: stateVars) {
-            String name = getTargetRef(var);
+            String name = getTargetVariableName(var);
             String kindCode;
             if (var instanceof DiscVariable) {
                 kindCode = "Discrete";
@@ -245,7 +246,7 @@ public class JavaScriptCodeGen extends CodeGen {
         code = makeCodeBox(2);
 
         for (Declaration var: stateVars) {
-            String name = getTargetRef(var);
+            String ref = getTargetRef(var);
             Expression value;
             if (var instanceof DiscVariable) {
                 DiscVariable v = (DiscVariable)var;
@@ -259,7 +260,7 @@ public class JavaScriptCodeGen extends CodeGen {
             }
             ExprCode valueCode = ctxt.exprToTarget(value, null);
             code.add(valueCode.getCode());
-            code.add("%s.%s = %s;", ctxt.getPrefix(), name, valueCode.getData());
+            code.add("%s = %s;", ref, valueCode.getData());
         }
 
         if (stateVars.isEmpty()) {
@@ -275,7 +276,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (ContVariable var: contVars) {
-            String name = getTargetRef(var);
+            String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -302,20 +303,19 @@ public class JavaScriptCodeGen extends CodeGen {
 
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            code.add("var deriv%d = %s.%sderiv();", i, ctxt.getPrefix(), getTargetRef(var));
+            code.add("var deriv%d = %sderiv();", i, getTargetRef(var));
         }
         if (!contVars.isEmpty()) {
             code.add();
         }
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            String name = getTargetRef(var);
-            code.add("%s.%s = %s.%s + delta * deriv%d;", ctxt.getPrefix(), name, ctxt.getPrefix(), name, i);
+            String ref = getTargetRef(var);
+            code.add("%s = %s + delta * deriv%d;", ref, ref, i);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
-            code.add("%sUtils.checkReal(%s.%s, %s);", ctxt.getPrefix(), ctxt.getPrefix(), name,
-                    Strings.stringToJava(origName));
-            code.add("if (%s.%s == -0.0) %s.%s = 0.0;", ctxt.getPrefix(), name, ctxt.getPrefix(), name);
+            code.add("%sUtils.checkReal(%s, %s);", ctxt.getPrefix(), ref, Strings.stringToJava(origName));
+            code.add("if (%s == -0.0) %s = 0.0;", ref, ref);
         }
 
         if (contVars.isEmpty()) {
@@ -330,7 +330,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (AlgVariable var: algVars) {
-            String name = getTargetRef(var);
+            String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -359,7 +359,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (InputVariable var: inputVars) {
-            String name = getTargetRef(var);
+            String name = getTargetVariableName(var);
             List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
