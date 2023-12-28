@@ -737,7 +737,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 // Construct a variable for the index.
                 VariableInformation indexVarInfo = writeCtxt.makeTempVariable(newIntType(), "index");
                 indexTexts[i] = indexVarInfo.targetRef;
-                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetRef));
+                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetVariableName));
 
                 // Compute the index value.
                 ExprCode indexCode = readCtxt.exprToTarget(listProj.index, null);

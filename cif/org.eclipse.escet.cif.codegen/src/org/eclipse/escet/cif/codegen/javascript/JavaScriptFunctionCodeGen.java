@@ -61,7 +61,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
         for (FunctionParameter param: params) {
             DiscVariable var = param.getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
-            String name = varInfo.targetRef;
+            String name = varInfo.targetVariableName;
             paramTxts.add(name);
         }
 
@@ -78,7 +78,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
         for (int i = 0; i < params.size(); i++) {
             DiscVariable param = params.get(i).getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(param, false));
-            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetRef, varInfo.name);
+            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
         }
         code.add(" * @return The return value of the function.");
         code.add(" */");
