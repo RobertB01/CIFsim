@@ -293,7 +293,7 @@ public class CodeContext {
      * @return The name of the function in the target language.
      */
     public String getFunctionName(InternalFunction func) {
-        return codeGen.getTargetRef(func);
+        return codeGen.getTargetVariableName(func);
     }
 
     /**
