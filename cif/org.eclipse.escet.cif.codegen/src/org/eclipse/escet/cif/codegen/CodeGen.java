@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.codegen;
 
 import static org.eclipse.escet.cif.codegen.updates.tree.UpdateData.generateAssignment;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
@@ -465,6 +467,50 @@ public abstract class CodeGen {
      * @see #targetNames
      */
     protected abstract Set<String> getReservedTargetNames();
+
+    /**
+     * Collect all information about a declaration.
+     *
+     * @param decl Declaration to analyze.
+     * @return The collected information.
+     */
+    private VariableInformation internalGetVarInfo(Declaration decl) {
+        String targetName = codeGen.getTargetName(decl);
+        String varName = codeGen.getTargetVariableName(decl);
+
+        String origName = codeGen.origDeclNames.get(decl);
+        if (origName == null) {
+            // New object, introduced by preprocessing and/or linearization.
+            origName = decl.getName();
+        }
+
+        if (decl instanceof AlgVariable) {
+            AlgVariable algVar = (AlgVariable)decl;
+            TypeInfo ti = typeToTarget(algVar.getType());
+            return new VariableInformation(ti, origName, varName, targetName, false);
+        } else if (decl instanceof Constant) {
+            Constant constVar = (Constant)decl;
+            TypeInfo ti = typeToTarget(constVar.getType());
+            return new VariableInformation(ti, origName, varName, targetName, false);
+        } else if (decl instanceof ContVariable) { // Both continuous and derivative value.
+            TypeInfo ti = typeToTarget(newRealType());
+            return new VariableInformation(ti, origName, varName, targetName, false);
+        } else if (decl instanceof EnumDecl) {
+            EnumDecl enumDecl = (EnumDecl)decl;
+            TypeInfo ti = typeToTarget(newEnumType(enumDecl, null));
+            return new VariableInformation(ti, origName, varName, targetName, false);
+        } else if (decl instanceof InputVariable) {
+            InputVariable inputVar = (InputVariable)decl;
+            TypeInfo ti = typeToTarget(inputVar.getType());
+            return new VariableInformation(ti, origName, varName, targetName, false);
+        } else if (decl instanceof DiscVariable) {
+            DiscVariable discVar = (DiscVariable)decl;
+            TypeInfo ti = typeToTarget(discVar.getType());
+            return new VariableInformation(ti, origName, varName, targetName, false);
+        }
+
+        throw new RuntimeException("Unexpected kind of declaration encountered: " + str(decl));
+    }
 
     /**
      * Construct a temporary variable for the given variable.
