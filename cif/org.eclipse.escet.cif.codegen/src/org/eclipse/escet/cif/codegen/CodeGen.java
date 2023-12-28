@@ -481,8 +481,8 @@ public abstract class CodeGen {
      * @return The variable information.
      */
     protected VariableInformation getVarInfo(Declaration decl, CodeContext ctxt) {
-        String targetName = getTargetRef(decl);
-        String varName = getTargetVariableName(decl);
+        String targetVarName = getTargetVariableName(decl);
+        String targetRef = getTargetRef(decl);
 
         String origName = origDeclNames.get(decl);
         if (origName == null) {
@@ -493,26 +493,26 @@ public abstract class CodeGen {
         if (decl instanceof AlgVariable) {
             AlgVariable algVar = (AlgVariable)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(algVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName, false);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
         } else if (decl instanceof Constant) {
             Constant constVar = (Constant)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(constVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName, false);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
         } else if (decl instanceof ContVariable) { // Both continuous and derivative value.
             TypeInfo ti = typeCodeGen.typeToTarget(newRealType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName, false);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
         } else if (decl instanceof EnumDecl) {
             EnumDecl enumDecl = (EnumDecl)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(newEnumType(enumDecl, null), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName, false);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
         } else if (decl instanceof InputVariable) {
             InputVariable inputVar = (InputVariable)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(inputVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName, false);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
         } else if (decl instanceof DiscVariable) {
             DiscVariable discVar = (DiscVariable)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(discVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName, false);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
         }
 
         throw new RuntimeException("Unexpected kind of declaration encountered: " + str(decl));
