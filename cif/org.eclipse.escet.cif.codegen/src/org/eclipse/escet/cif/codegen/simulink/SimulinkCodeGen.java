@@ -351,11 +351,6 @@ public class SimulinkCodeGen extends CodeGen {
     }
 
     @Override
-    public String getTargetVariableName(PositionObject obj) {
-        return super.getTargetRef(obj);
-    }
-
-    @Override
     public void performSingleAssign(CodeBox code, SingleVariableAssignment asgn, Expression value, CodeContext readCtxt,
             CodeContext writeCtxt)
     {

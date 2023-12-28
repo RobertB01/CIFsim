@@ -343,10 +343,25 @@ public abstract class CodeGen {
     /**
      * Returns the code to refer to the storage for the variable in the target language.
      *
+     * <p>
+     * By default, uses the {@link #getTargetVariableName}. Code generators for specific target languages may override
+     * this.
+     * </p>
+     *
      * @param obj The CIF object. Must be a {@link CifTextUtils#getName named} object.
      * @return The code.
      */
     public String getTargetRef(PositionObject obj) {
+        return getTargetVariableName(obj);
+    }
+
+    /**
+     * Get the name of the variable for the target language to use for the given CIF object.
+     *
+     * @param obj The CIF object. Must be a {@link CifTextUtils#getName named} object.
+     * @return Name of the variable to use.
+     */
+    public String getTargetVariableName(PositionObject obj) {
         // Use previous result if available.
         String targetName = targetNameMap.get(obj);
         if (targetName != null) {
@@ -384,16 +399,6 @@ public abstract class CodeGen {
         targetNames.add(targetName);
         targetNameMap.put(obj, targetName);
         return targetName;
-    }
-
-    /**
-     * Get the name of the variable for the target language to use for the given CIF object.
-     *
-     * @param obj The CIF object. Must be a {@link CifTextUtils#getName named} object.
-     * @return Name of the variable to use.
-     */
-    public String getTargetVariableName(PositionObject obj) {
-        return getTargetRef(obj);
     }
 
     /**
