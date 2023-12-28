@@ -27,7 +27,7 @@ This page describes the CIF lexical syntax.
 [[lang-ref-syntax-lexical-characters]]
 === Characters
 
-CIF files may only contain link:https://en.wikipedia.org/wiki/ASCII[ASCII] characters (0 though 127).
+CIF files may only contain link:https://en.wikipedia.org/wiki/ASCII[ASCII] characters (0 through 127).
 
 The encoding of CIF files is assumed to be link:https://en.wikipedia.org/wiki/UTF-8[UTF-8].
 If a CIF file is actually encoded using a different encoding, error messages produced while reading it may indicate the wrong characters.
