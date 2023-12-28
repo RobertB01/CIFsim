@@ -153,7 +153,7 @@ public class JavaExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(expr.getConstant(), false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         result.setDestination(dest);
-        result.setDataValue(new JavaDataValue(varInfo.targetName));
+        result.setDataValue(new JavaDataValue(varInfo.targetRef));
         return result;
     }
 
@@ -163,7 +163,7 @@ public class JavaExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(discVar, false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         result.setDestination(dest);
-        result.setDataValue(new JavaDataValue(varInfo.targetName));
+        result.setDataValue(new JavaDataValue(varInfo.targetRef));
         return result;
     }
 
@@ -174,9 +174,9 @@ public class JavaExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         String resultText;
         if (varInfo.isTempVar) {
-            resultText = varInfo.targetName;
+            resultText = varInfo.targetRef;
         } else {
-            resultText = fmt("%s()", varInfo.targetName);
+            resultText = fmt("%s()", varInfo.targetRef);
         }
         result.setDataValue(new JavaDataValue(resultText));
         result.setDestination(dest);
@@ -189,7 +189,7 @@ public class JavaExprCodeGen extends ExprCodeGen {
     {
         VariableWrapper var = new VariableWrapper(contVar, isDerivative);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
-        String varName = varInfo.targetName;
+        String varName = varInfo.targetRef;
 
         ExprCode result = new ExprCode();
         result.setDestination(dest);
@@ -210,7 +210,7 @@ public class JavaExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(expr.getVariable(), false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         result.setDestination(dest);
-        result.setDataValue(new JavaDataValue(varInfo.targetName));
+        result.setDataValue(new JavaDataValue(varInfo.targetRef));
         return result;
     }
 

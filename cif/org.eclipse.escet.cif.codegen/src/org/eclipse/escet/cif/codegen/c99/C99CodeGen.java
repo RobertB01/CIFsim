@@ -233,8 +233,8 @@ public class C99CodeGen extends CodeGen {
 
                 // Construct a variable for the index.
                 VariableInformation indexVarInfo = writeCtxt.makeTempVariable(newIntType(), "index");
-                indexTexts[i] = indexVarInfo.targetName;
-                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetName));
+                indexTexts[i] = indexVarInfo.targetRef;
+                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetRef));
 
                 // Compute the index value.
                 ExprCode indexCode = readCtxt.exprToTarget(listProj.index, null);
@@ -269,7 +269,7 @@ public class C99CodeGen extends CodeGen {
             VariableInformation containerInfo = (i == 0)
                     ? readCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
             ExprCode containerValue = new ExprCode();
-            containerValue.setDataValue(makeValue(containerInfo.targetName));
+            containerValue.setDataValue(makeValue(containerInfo.targetRef));
 
             // Construct projection call.
             ExprCode projectRhs;
@@ -304,14 +304,14 @@ public class C99CodeGen extends CodeGen {
                     ? writeCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
 
             ExprCode containerCode = new ExprCode();
-            containerCode.setDataValue(makeValue(containerInfo.targetName));
+            containerCode.setDataValue(makeValue(containerInfo.targetRef));
 
             // Get the new value.
             ExprCode partCode = new ExprCode();
             if (i == last) {
                 partCode.setDataValue(rhsValue);
             } else {
-                partCode.setDataValue(makeValue(partVariables[i].targetName));
+                partCode.setDataValue(makeValue(partVariables[i].targetRef));
             }
 
             CodeBox modify;
@@ -351,7 +351,7 @@ public class C99CodeGen extends CodeGen {
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
-        return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetName));
+        return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetRef));
     }
 
     @Override
@@ -369,7 +369,7 @@ public class C99CodeGen extends CodeGen {
             VariableWrapper varWrap = new VariableWrapper(constant, false);
             VariableInformation constInfo = ctxt.getReadVarInfo(varWrap);
             String typeName = constInfo.typeInfo.getTargetType();
-            String varName = constInfo.targetName;
+            String varName = constInfo.targetRef;
 
             // Generate definition and declaration.
             defCode.add("%s %s; /**< Constant \"%s\". */", typeName, varName, constInfo.name);
@@ -454,7 +454,7 @@ public class C99CodeGen extends CodeGen {
                 kindText = "Continuous";
             }
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(decl);
-            String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetName);
+            String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetRef);
             String comment = fmt("/**< %s variable \"%s %s\". */", kindText, typeText, declVarInfo.name);
 
             varDefCode.set(i, 0, declaration);
@@ -502,7 +502,7 @@ public class C99CodeGen extends CodeGen {
             }
             first = false;
 
-            String header = fmt("static inline RealType %sderiv(void)", cvVarInfo.targetName);
+            String header = fmt("static inline RealType %sderiv(void)", cvVarInfo.targetRef);
             derivDeclCode.add("%s;", header);
 
             derivDefCode.add("/** Derivative of \"%s\". */", cvVarInfo.name);
@@ -529,7 +529,7 @@ public class C99CodeGen extends CodeGen {
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable cv = contVars.get(i);
             VariableInformation cvVarInfo = ctxt.getWriteVarInfo(cv);
-            code.add("RealType deriv%d = %sderiv();", i, cvVarInfo.targetName);
+            code.add("RealType deriv%d = %sderiv();", i, cvVarInfo.targetRef);
         }
         code.add();
 
@@ -562,7 +562,7 @@ public class C99CodeGen extends CodeGen {
             // Always return the actual data to the caller (like a function call),
             // since the 'return' will destroy any local data.
             TypeInfo ti = ctxt.typeToTarget(algVar.getType());
-            String header = fmt("static inline %s %s(void)", ti.getTargetType(), algVarInfo.targetName);
+            String header = fmt("static inline %s %s(void)", ti.getTargetType(), algVarInfo.targetRef);
             declCode.add("%s;", header);
 
             defCode.add("/**");
@@ -595,7 +595,7 @@ public class C99CodeGen extends CodeGen {
             InputVariable var = inputVars.get(i);
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
-            String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetName);
+            String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetRef);
             List<String> docs = DocAnnotationProvider.getDocs(var);
 
             for (boolean isDecl: new boolean[] {false, true}) {
@@ -641,7 +641,7 @@ public class C99CodeGen extends CodeGen {
             for (InputVariable var: inputVars) {
                 VariableInformation inputVar = ctxt.getWriteVarInfo(var);
                 Expression value = getDefaultValue(var.getType(), funcs);
-                Destination dest = new Destination(null, inputVar.typeInfo, makeValue(inputVar.targetName));
+                Destination dest = new Destination(null, inputVar.typeInfo, makeValue(inputVar.targetRef));
                 ExprCode initCode = ctxt.exprToTarget(value, dest);
                 if (!first) {
                     inputTestCode.add();
@@ -728,7 +728,7 @@ public class C99CodeGen extends CodeGen {
 
         if (!preCodes.isEmpty() || !postCodes.isEmpty()) {
             // Construct temporary string variable for generating output lines.
-            code.add("%s %s;", txtVarInfo.typeInfo.getTargetType(), txtVarInfo.targetName);
+            code.add("%s %s;", txtVarInfo.typeInfo.getTargetType(), txtVarInfo.targetRef);
             code.add();
 
             if (!preCodes.isEmpty()) {
@@ -875,12 +875,12 @@ public class C99CodeGen extends CodeGen {
                 } else {
                     // Ugh, need to make a temporary variable first.
                     VariableInformation tempVar = ctxt.makeTempVariable(ti, "print_temp");
-                    valueCode.add(fmt("%s %s = %s;", ti.getTargetType(), tempVar.targetName, dataValue.getData()));
-                    valueText = "&" + tempVar.targetName;
+                    valueCode.add(fmt("%s %s = %s;", ti.getTargetType(), tempVar.targetRef, dataValue.getData()));
+                    valueText = "&" + tempVar.targetRef;
                 }
             }
             valueCode.add("%s(%s, %s.data, 0, MAX_STRING_SIZE);", typeGetTypePrintName(ti, true), valueText,
-                    txtVarInfo.targetName);
+                    txtVarInfo.targetRef);
         }
         // Construct code with condition, and output generation.
         CodeBox result = ctxt.makeCodeBox();
@@ -904,7 +904,7 @@ public class C99CodeGen extends CodeGen {
         }
         result.add(valueCode);
         String prefix = replacements.get("prefix");
-        result.add("%s_PrintOutput(%s.data, %s);", prefix, txtVarInfo.targetName, targetFile);
+        result.add("%s_PrintOutput(%s.data, %s);", prefix, txtVarInfo.targetRef, targetFile);
         if (!unconditional) {
             result.dedent();
             result.add("}");

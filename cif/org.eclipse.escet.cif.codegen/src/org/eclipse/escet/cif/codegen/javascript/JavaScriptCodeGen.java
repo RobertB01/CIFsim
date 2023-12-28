@@ -736,8 +736,8 @@ public class JavaScriptCodeGen extends CodeGen {
 
                 // Construct a variable for the index.
                 VariableInformation indexVarInfo = writeCtxt.makeTempVariable(newIntType(), "index");
-                indexTexts[i] = indexVarInfo.targetName;
-                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetName));
+                indexTexts[i] = indexVarInfo.targetRef;
+                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetRef));
 
                 // Compute the index value.
                 ExprCode indexCode = readCtxt.exprToTarget(listProj.index, null);
@@ -770,7 +770,7 @@ public class JavaScriptCodeGen extends CodeGen {
             VariableInformation containerInfo = (i == 0)
                     ? readCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
             ExprCode containerValue = new ExprCode();
-            containerValue.setDataValue(new JavaScriptDataValue(containerInfo.targetName));
+            containerValue.setDataValue(new JavaScriptDataValue(containerInfo.targetRef));
 
             // Construct projection call.
             ExprCode projectRhs;
@@ -805,14 +805,14 @@ public class JavaScriptCodeGen extends CodeGen {
                     ? writeCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
 
             ExprCode containerCode = new ExprCode();
-            containerCode.setDataValue(new JavaScriptDataValue(containerInfo.targetName));
+            containerCode.setDataValue(new JavaScriptDataValue(containerInfo.targetRef));
 
             // Get the new value.
             ExprCode partCode = new ExprCode();
             if (i == last) {
                 partCode.setDataValue(rhsValue);
             } else {
-                partCode.setDataValue(new JavaScriptDataValue(partVariables[i].targetName));
+                partCode.setDataValue(new JavaScriptDataValue(partVariables[i].targetRef));
             }
 
             CodeBox modify;
@@ -821,7 +821,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 LhsTupleProjection tupleLhs = (LhsTupleProjection)lhsProj;
 
                 modify = readCtxt.makeCodeBox();
-                modify.add("%s = %s.copy();", containerInfo.targetName, containerInfo.targetName);
+                modify.add("%s = %s.copy();", containerInfo.targetRef, containerInfo.targetRef);
                 modify.add(tupleTi.modifyContainer(containerInfo, partCode, tupleLhs.fieldNumber, readCtxt));
             } else {
                 Assert.check(containerInfo.typeInfo instanceof ArrayTypeInfo);
@@ -849,7 +849,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
-        DataValue dataValue = new JavaScriptDataValue(varInfo.targetName);
+        DataValue dataValue = new JavaScriptDataValue(varInfo.targetRef);
         return new Destination(null, varInfo.typeInfo, dataValue);
     }
 

@@ -101,8 +101,8 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
                 paramVars[i] = ctxt.makeTempVariable(paramVar);
 
                 // Generate copy of the data into the local variable, through the reference.
-                DataValue src = makeReference(paramVars[i].targetName);
-                Destination dest = new Destination(null, paramVar.typeInfo, makeValue(paramVar.targetName));
+                DataValue src = makeReference(paramVars[i].targetRef);
+                Destination dest = new Destination(null, paramVar.typeInfo, makeValue(paramVar.targetRef));
                 paramVar.typeInfo.declareInit(vardeclCode, src, dest);
             }
         }
@@ -114,8 +114,8 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
             localIndex++;
 
             // Create and initialize the local variable.
-            vardeclCode.add("%s %s;", localVar.typeInfo.getTargetType(), localVar.targetName);
-            Destination dest = new Destination(null, localVar.typeInfo, makeValue(localVar.targetName));
+            vardeclCode.add("%s %s;", localVar.typeInfo.getTargetType(), localVar.targetRef);
+            Destination dest = new Destination(null, localVar.typeInfo, makeValue(localVar.targetRef));
             Assert.notNull(var.getValue());
             Assert.check(var.getValue().getValues().size() == 1);
             ExprCode initCode = ctxt.exprToTarget(var.getValue().getValues().get(0), dest);
@@ -142,11 +142,11 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
             if (typeUsesValues(paramVars[i].typeInfo)) {
                 fnHeader.append(paramVars[i].typeInfo.getTargetType());
                 fnHeader.append(' ');
-                fnHeader.append(paramVars[i].targetName);
+                fnHeader.append(paramVars[i].targetRef);
             } else {
                 fnHeader.append(paramVars[i].typeInfo.getTargetType());
                 fnHeader.append("* ");
-                fnHeader.append(paramVars[i].targetName);
+                fnHeader.append(paramVars[i].targetRef);
             }
         }
         fnHeader.append(")");

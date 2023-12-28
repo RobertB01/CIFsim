@@ -189,7 +189,7 @@ public class JavaScriptArrayTypeInfo extends ArrayTypeInfo {
         ExprCode result = new ExprCode();
         result.add(indexCode);
         result.add(partCode);
-        String resultText = fmt("%sUtils.modify(%s, %s, %s)", ctxt.getPrefix(), containerVar.targetName,
+        String resultText = fmt("%sUtils.modify(%s, %s, %s)", ctxt.getPrefix(), containerVar.targetRef,
                 indexCode.getData(), partCode.getData());
         result.setDestination(ctxt.makeDestination(containerVar));
         result.setDataValue(new JavaScriptDataValue(resultText));

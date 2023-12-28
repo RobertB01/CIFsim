@@ -175,8 +175,8 @@ public class C99DataValue implements DataValue {
 
         // Not a reference, store the value, then use the stored value instead.
         VariableInformation varInfo = ctxt.makeTempVariable(valueTi, "deref_store");
-        box.add("%s %s = %s;", valueTi.getTargetType(), varInfo.targetName, value.getData());
-        return "&" + varInfo.targetName;
+        box.add("%s %s = %s;", valueTi.getTargetType(), varInfo.targetRef, value.getData());
+        return "&" + varInfo.targetRef;
     }
 
     /**

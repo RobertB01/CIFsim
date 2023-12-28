@@ -180,7 +180,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         // Modify the field of the destination.
         CodeBox code = ctxt.makeCodeBox();
         code.add(partCode.getCode());
-        code.add("%s = %s;", appendProjection(containerInfo.targetName, true, index), partCode.getData());
+        code.add("%s = %s;", appendProjection(containerInfo.targetRef, true, index), partCode.getData());
         return code;
     }
 

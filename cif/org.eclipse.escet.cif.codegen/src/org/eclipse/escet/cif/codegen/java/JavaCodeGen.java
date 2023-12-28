@@ -628,8 +628,8 @@ public class JavaCodeGen extends CodeGen {
 
                 // Construct a variable for the index.
                 VariableInformation indexVarInfo = writeCtxt.makeTempVariable(newIntType(), "index");
-                indexTexts[i] = indexVarInfo.targetName;
-                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetName));
+                indexTexts[i] = indexVarInfo.targetRef;
+                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetRef));
 
                 // Compute the index value.
                 ExprCode indexCode = readCtxt.exprToTarget(listProj.index, null);
@@ -662,7 +662,7 @@ public class JavaCodeGen extends CodeGen {
             VariableInformation containerInfo = (i == 0)
                     ? readCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
             ExprCode containerValue = new ExprCode();
-            containerValue.setDataValue(new JavaDataValue(containerInfo.targetName));
+            containerValue.setDataValue(new JavaDataValue(containerInfo.targetRef));
 
             // Construct projection call.
             ExprCode projectRhs;
@@ -697,14 +697,14 @@ public class JavaCodeGen extends CodeGen {
                     ? writeCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
 
             ExprCode containerCode = new ExprCode();
-            containerCode.setDataValue(new JavaDataValue(containerInfo.targetName));
+            containerCode.setDataValue(new JavaDataValue(containerInfo.targetRef));
 
             // Get the new value.
             ExprCode partCode = new ExprCode();
             if (i == last) {
                 partCode.setDataValue(rhsValue);
             } else {
-                partCode.setDataValue(new JavaDataValue(partVariables[i].targetName));
+                partCode.setDataValue(new JavaDataValue(partVariables[i].targetRef));
             }
 
             CodeBox modify;
@@ -713,7 +713,7 @@ public class JavaCodeGen extends CodeGen {
                 LhsTupleProjection tupleLhs = (LhsTupleProjection)lhsProj;
 
                 modify = readCtxt.makeCodeBox();
-                modify.add("%s = %s.copy();", containerInfo.targetName, containerInfo.targetName);
+                modify.add("%s = %s.copy();", containerInfo.targetRef, containerInfo.targetRef);
                 modify.add(tupleTi.modifyContainer(containerInfo, partCode, tupleLhs.fieldNumber, readCtxt));
             } else {
                 Assert.check(containerInfo.typeInfo instanceof ArrayTypeInfo);
@@ -741,7 +741,7 @@ public class JavaCodeGen extends CodeGen {
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
-        DataValue dataValue = new JavaDataValue(varInfo.targetName);
+        DataValue dataValue = new JavaDataValue(varInfo.targetRef);
         return new Destination(null, varInfo.typeInfo, dataValue);
     }
 

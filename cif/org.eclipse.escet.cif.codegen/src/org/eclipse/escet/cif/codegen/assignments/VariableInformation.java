@@ -26,8 +26,8 @@ public class VariableInformation {
     /** Name of the variable in the target language. */
     public final String targetVariableName;
 
-    /** Name of the storage identifier in the target language. */
-    public final String targetName;
+    /** Code to refer to the storage for the variable in the target language. */
+    public final String targetRef;
 
     /** Whether the variable is a temporary copy of the 'real' variable. */
     public final boolean isTempVar;
@@ -38,16 +38,16 @@ public class VariableInformation {
      * @param typeInfo Type information of the variable.
      * @param name Name of the variable.
      * @param targetVariableName Name of the variable in the target language.
-     * @param targetName Name of the storage identifier in the target language.
+     * @param targetRef Code to refer to the storage for the variable in the target language.
      * @param isTempVar Whether the variable is a temporary copy of the 'real' variable.
      */
-    public VariableInformation(TypeInfo typeInfo, String name, String targetVariableName, String targetName,
+    public VariableInformation(TypeInfo typeInfo, String name, String targetVariableName, String targetRef,
             boolean isTempVar)
     {
         this.typeInfo = typeInfo;
         this.name = name;
         this.targetVariableName = targetVariableName;
-        this.targetName = targetName;
+        this.targetRef = targetRef;
         this.isTempVar = isTempVar;
     }
 }

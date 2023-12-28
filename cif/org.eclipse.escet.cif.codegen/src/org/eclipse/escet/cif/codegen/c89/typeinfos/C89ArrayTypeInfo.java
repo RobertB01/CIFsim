@@ -122,7 +122,7 @@ public class C89ArrayTypeInfo extends ArrayTypeInfo implements C89TypeInfo {
         } else {
             partValue = constructReference(partCode.getRawDataValue(), childInfos[0], ctxt, modifyCode);
         }
-        modifyCode.add("%sTypeModify(&%s, %s, %s);", getTypeName(), containerVar.targetName, indexCode.getData(),
+        modifyCode.add("%sTypeModify(&%s, %s, %s);", getTypeName(), containerVar.targetRef, indexCode.getData(),
                 partValue);
         return modifyCode;
     }
@@ -135,7 +135,7 @@ public class C89ArrayTypeInfo extends ArrayTypeInfo implements C89TypeInfo {
         String storeVar;
         if (dest == null) {
             VariableInformation tempVarInfo = ctxt.makeTempVariable(expr.getType(), "array_tmp");
-            storeVar = tempVarInfo.targetName;
+            storeVar = tempVarInfo.targetRef;
 
             result.add(fmt("%s %s;", getTargetType(), storeVar));
             result.setDataValue(makeValue(storeVar));

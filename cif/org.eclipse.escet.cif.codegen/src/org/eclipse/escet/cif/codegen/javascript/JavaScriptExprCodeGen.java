@@ -155,7 +155,7 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         Assert.check(!varInfo.isTempVar);
         result.setDestination(dest);
-        result.setDataValue(new JavaScriptDataValue(fmt("%s.%s", ctxt.getPrefix(), varInfo.targetName)));
+        result.setDataValue(new JavaScriptDataValue(fmt("%s.%s", ctxt.getPrefix(), varInfo.targetRef)));
         return result;
     }
 
@@ -166,11 +166,11 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         String resultText;
         if (varInfo.isTempVar) {
-            resultText = varInfo.targetName;
+            resultText = varInfo.targetRef;
         } else if (CifIntFuncUtils.isFuncParamOrLocalVar(discVar)) {
-            resultText = varInfo.targetName;
+            resultText = varInfo.targetRef;
         } else {
-            resultText = fmt("%s.%s", ctxt.getPrefix(), varInfo.targetName);
+            resultText = fmt("%s.%s", ctxt.getPrefix(), varInfo.targetRef);
         }
         result.setDestination(dest);
         result.setDataValue(new JavaScriptDataValue(resultText));
@@ -184,9 +184,9 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         String resultText;
         if (varInfo.isTempVar) {
-            resultText = varInfo.targetName;
+            resultText = varInfo.targetRef;
         } else {
-            resultText = fmt("%s.%s()", ctxt.getPrefix(), varInfo.targetName);
+            resultText = fmt("%s.%s()", ctxt.getPrefix(), varInfo.targetRef);
         }
         result.setDestination(dest);
         result.setDataValue(new JavaScriptDataValue(resultText));
@@ -202,11 +202,11 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         String resultText;
         if (varInfo.isTempVar) {
-            resultText = varInfo.targetName;
+            resultText = varInfo.targetRef;
         } else if (isDerivative) {
-            resultText = fmt("%s.%sderiv()", ctxt.getPrefix(), varInfo.targetName);
+            resultText = fmt("%s.%sderiv()", ctxt.getPrefix(), varInfo.targetRef);
         } else {
-            resultText = fmt("%s.%s", ctxt.getPrefix(), varInfo.targetName);
+            resultText = fmt("%s.%s", ctxt.getPrefix(), varInfo.targetRef);
         }
         result.setDestination(dest);
         result.setDataValue(new JavaScriptDataValue(resultText));
@@ -222,7 +222,7 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         Assert.check(!varInfo.isTempVar);
         result.setDestination(dest);
-        result.setDataValue(new JavaScriptDataValue(fmt("%s.%s", ctxt.getPrefix(), varInfo.targetName)));
+        result.setDataValue(new JavaScriptDataValue(fmt("%s.%s", ctxt.getPrefix(), varInfo.targetRef)));
         return result;
     }
 
