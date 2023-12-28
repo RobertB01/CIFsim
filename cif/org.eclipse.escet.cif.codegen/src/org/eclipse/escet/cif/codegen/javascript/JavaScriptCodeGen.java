@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifIntFuncUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -104,6 +105,29 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected Set<String> getReservedTargetNames() {
         return JavaScriptCodeUtils.JAVASCRIPT_IDS;
+    }
+
+    @Override
+    public String getTargetRef(PositionObject obj) {
+        // Get reference consisting only the variable name.
+        String ref = super.getTargetRef(obj);
+
+        // If it refers to an object in the main class, prefix the reference.
+        if (obj instanceof AlgVariable) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof Constant) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof ContVariable) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof DiscVariable dvar) {
+            return CifIntFuncUtils.isFuncParamOrLocalVar(dvar) ? ref : getPrefix() + "." + ref;
+        } else if (obj instanceof EnumDecl) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof InputVariable) {
+            return getPrefix() + "." + ref;
+        } else {
+            throw new AssertionError("Unexpected object: " + obj);
+        }
     }
 
     @Override
