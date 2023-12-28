@@ -126,8 +126,8 @@ public class SimulinkCodeGen extends CodeGen {
     /** Name of the enumeration literal names list. */
     public static final String ENUM_NAMES_LIST = "enum_names";
 
-    /** Mapping of CIF variables and declarations to unique names. */
-    public Map<PositionObject, String> simulinkTargetNameMap = null;
+    /** Mapping of CIF variables and declarations to the reference code to use to refer to them in Simulink code. */
+    public Map<PositionObject, String> simulinkTargetRefMap = null;
 
     /** Map of variables to their output port index in Simulink. */
     public Map<Declaration, Integer> outputMap;
@@ -150,7 +150,7 @@ public class SimulinkCodeGen extends CodeGen {
     @Override
     protected void init() {
         super.init();
-        simulinkTargetNameMap = null; // Mark as non-initialized.
+        simulinkTargetRefMap = null; // Mark as non-initialized.
 
         replacements.put("generated-types", "");
         replacements.put("type-support-code", "");
@@ -165,13 +165,13 @@ public class SimulinkCodeGen extends CodeGen {
         return reserved;
     }
 
-    /** Setup the {@link #simulinkTargetNameMap} and {@link #outputMap} for generating Simulink code. */
-    private void setupVarmaps() {
-        if (simulinkTargetNameMap != null) {
+    /** Setup the {@link #simulinkTargetRefMap} and {@link #outputMap} for generating Simulink code. */
+    private void setupVarMaps() {
+        if (simulinkTargetRefMap != null) {
             return;
         }
 
-        simulinkTargetNameMap = map();
+        simulinkTargetRefMap = map();
         outputMap = map();
         OptionMatcher outputVarMatcher = SimulinkOutputsOption.getMatcher();
 
@@ -184,7 +184,7 @@ public class SimulinkCodeGen extends CodeGen {
         int i = 0;
         int outputIndex = 0;
         for (DiscVariable lpVar: lpVariables) {
-            simulinkTargetNameMap.put(lpVar, fmt("modes[%d]", i));
+            simulinkTargetRefMap.put(lpVar, fmt("modes[%d]", i));
             reportLine(lpVar, i, modeReport);
             addDeclarationToSection(outputVarMatcher, lpVar, reportSection);
             i++;
@@ -197,7 +197,7 @@ public class SimulinkCodeGen extends CodeGen {
 
         i = 1; // cstate[0] is time.
         for (ContVariable cVar: contVars) {
-            simulinkTargetNameMap.put(cVar, fmt("cstate[%d]", i));
+            simulinkTargetRefMap.put(cVar, fmt("cstate[%d]", i));
             reportLine(cVar, i, cstateReport);
             addDeclarationToSection(outputVarMatcher, cVar, reportSection);
             i++;
@@ -207,22 +207,22 @@ public class SimulinkCodeGen extends CodeGen {
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
 
         for (Constant cVar: constants) {
-            simulinkTargetNameMap.put(cVar, fmt("work->%s", super.getTargetRef(cVar)));
+            simulinkTargetRefMap.put(cVar, fmt("work->%s", super.getTargetRef(cVar)));
         }
         for (InputVariable inpVar: inputVars) {
-            simulinkTargetNameMap.put(inpVar, fmt("work->%s", super.getTargetRef(inpVar)));
+            simulinkTargetRefMap.put(inpVar, fmt("work->%s", super.getTargetRef(inpVar)));
         }
 
         for (Declaration d: stateVars) {
             if (!(d instanceof DiscVariable)) {
                 continue;
             }
-            if (simulinkTargetNameMap.containsKey(d)) {
+            if (simulinkTargetRefMap.containsKey(d)) {
                 continue; // Modes have already been added.
             }
 
             DiscVariable dv = (DiscVariable)d;
-            simulinkTargetNameMap.put(d, fmt("work->%s", super.getTargetRef(d)));
+            simulinkTargetRefMap.put(d, fmt("work->%s", super.getTargetRef(d)));
             if (isGoodType(dv.getType())) {
                 addDeclarationToSection(outputVarMatcher, dv, reportSection);
             }
@@ -336,17 +336,17 @@ public class SimulinkCodeGen extends CodeGen {
 
     @Override
     public String getTargetRef(PositionObject obj) {
-        if (simulinkTargetNameMap == null) {
-            setupVarmaps();
+        if (simulinkTargetRefMap == null) {
+            setupVarMaps();
         }
 
-        String result = simulinkTargetNameMap.get(obj);
+        String result = simulinkTargetRefMap.get(obj);
         if (result != null) {
             return result;
         }
 
         result = super.getTargetRef(obj);
-        simulinkTargetNameMap.put(obj, result);
+        simulinkTargetRefMap.put(obj, result);
         return result;
     }
 
@@ -895,7 +895,7 @@ public class SimulinkCodeGen extends CodeGen {
      * @param ctxt The code generation context.
      */
     private void addOutput(CodeContext ctxt) {
-        setupVarmaps();
+        setupVarMaps();
 
         // Construct dimensions of the output.
         CodeBox outputDimsCode = makeCodeBox(1);
