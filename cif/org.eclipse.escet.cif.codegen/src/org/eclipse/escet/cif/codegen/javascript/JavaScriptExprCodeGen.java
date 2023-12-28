@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.codegen.ExprCodeGen;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
 import org.eclipse.escet.cif.codegen.updates.VariableWrapper;
+import org.eclipse.escet.cif.common.CifIntFuncUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -165,6 +166,8 @@ public class JavaScriptExprCodeGen extends ExprCodeGen {
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         String resultText;
         if (varInfo.isTempVar) {
+            resultText = varInfo.targetName;
+        } else if (CifIntFuncUtils.isFuncParamOrLocalVar(discVar)) {
             resultText = varInfo.targetName;
         } else {
             resultText = fmt("%s.%s", ctxt.getPrefix(), varInfo.targetName);
