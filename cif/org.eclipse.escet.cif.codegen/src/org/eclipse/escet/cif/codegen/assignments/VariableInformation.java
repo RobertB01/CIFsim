@@ -30,7 +30,7 @@ public class VariableInformation {
     public final String targetName;
 
     /** Whether the variable is a temporary copy of the 'real' variable. */
-    public boolean isTempVar = false;
+    public final boolean isTempVar;
 
     /**
      * Constructor of the {@link VariableInformation} class.
@@ -39,11 +39,15 @@ public class VariableInformation {
      * @param name Name of the variable.
      * @param targetVariableName Name of the variable in the target language.
      * @param targetName Name of the storage identifier in the target language.
+     * @param isTempVar Whether the variable is a temporary copy of the 'real' variable.
      */
-    public VariableInformation(TypeInfo typeInfo, String name, String targetVariableName, String targetName) {
+    public VariableInformation(TypeInfo typeInfo, String name, String targetVariableName, String targetName,
+            boolean isTempVar)
+    {
         this.typeInfo = typeInfo;
         this.name = name;
         this.targetVariableName = targetVariableName;
         this.targetName = targetName;
+        this.isTempVar = isTempVar;
     }
 }

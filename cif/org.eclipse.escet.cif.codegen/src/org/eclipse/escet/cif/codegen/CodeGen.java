@@ -488,26 +488,26 @@ public abstract class CodeGen {
         if (decl instanceof AlgVariable) {
             AlgVariable algVar = (AlgVariable)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(algVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName);
+            return new VariableInformation(ti, origName, varName, targetName, false);
         } else if (decl instanceof Constant) {
             Constant constVar = (Constant)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(constVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName);
+            return new VariableInformation(ti, origName, varName, targetName, false);
         } else if (decl instanceof ContVariable) { // Both continuous and derivative value.
             TypeInfo ti = typeCodeGen.typeToTarget(newRealType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName);
+            return new VariableInformation(ti, origName, varName, targetName, false);
         } else if (decl instanceof EnumDecl) {
             EnumDecl enumDecl = (EnumDecl)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(newEnumType(enumDecl, null), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName);
+            return new VariableInformation(ti, origName, varName, targetName, false);
         } else if (decl instanceof InputVariable) {
             InputVariable inputVar = (InputVariable)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(inputVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName);
+            return new VariableInformation(ti, origName, varName, targetName, false);
         } else if (decl instanceof DiscVariable) {
             DiscVariable discVar = (DiscVariable)decl;
             TypeInfo ti = typeCodeGen.typeToTarget(discVar.getType(), ctxt);
-            return new VariableInformation(ti, origName, varName, targetName);
+            return new VariableInformation(ti, origName, varName, targetName, false);
         }
 
         throw new RuntimeException("Unexpected kind of declaration encountered: " + str(decl));
@@ -522,7 +522,7 @@ public abstract class CodeGen {
     public VariableInformation makeTempVariable(VariableInformation varInfo) {
         String targetName = fmt("%stmp%d", varInfo.targetVariableName, tmpvarNumber);
         tmpvarNumber++;
-        return new VariableInformation(varInfo.typeInfo, varInfo.name, targetName, targetName);
+        return new VariableInformation(varInfo.typeInfo, varInfo.name, targetName, targetName, true);
     }
 
     /**
@@ -535,7 +535,7 @@ public abstract class CodeGen {
     public VariableInformation makeTempVariable(TypeInfo ti, String name) {
         String targetName = fmt("%s%d", name, tmpvarNumber);
         tmpvarNumber++;
-        return new VariableInformation(ti, name, targetName, targetName);
+        return new VariableInformation(ti, name, targetName, targetName, true);
     }
 
     /**
