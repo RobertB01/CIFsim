@@ -45,9 +45,6 @@ import org.eclipse.escet.common.java.Assert;
 
 /** JavaScript type information about the real type. */
 public class JavaScriptRealTypeInfo extends RealTypeInfo {
-    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
-    private final String prefix;
-
     /** Conversions from CIF standard library functions to JavaScript functions in the implementation. */
     private static final Map<StdLibFunction, String> STANDARD_FUNCTIONS;
 
@@ -70,12 +67,9 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
      * Constructor of the {@link JavaScriptRealTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
-     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
-     *     names.
      */
-    public JavaScriptRealTypeInfo(CifType cifType, String prefix) {
+    public JavaScriptRealTypeInfo(CifType cifType) {
         super(cifType);
-        this.prefix = prefix;
     }
 
     @Override
@@ -91,7 +85,7 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
+        code.add("%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
@@ -178,7 +172,7 @@ public class JavaScriptRealTypeInfo extends RealTypeInfo {
     public ExprCode convertTimeExpression(Destination dest, CodeContext ctxt) {
         ExprCode result = new ExprCode();
         result.setDestination(dest);
-        result.setDataValue(new JavaScriptDataValue(fmt("%s.time", this.prefix)));
+        result.setDataValue(new JavaScriptDataValue(fmt("%s.time", ctxt.getPrefix())));
         return result;
     }
 

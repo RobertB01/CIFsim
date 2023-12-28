@@ -41,19 +41,13 @@ import org.eclipse.escet.common.java.Strings;
 
 /** JavaScript type information about the string type. */
 public class JavaScriptStringTypeInfo extends StringTypeInfo {
-    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
-    private final String prefix;
-
     /**
      * Constructor for {@link JavaScriptStringTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
-     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
-     *     names.
      */
-    public JavaScriptStringTypeInfo(CifType cifType, String prefix) {
+    public JavaScriptStringTypeInfo(CifType cifType) {
         super(cifType);
-        this.prefix = prefix;
     }
 
     @Override
@@ -69,7 +63,7 @@ public class JavaScriptStringTypeInfo extends StringTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
+        code.add("%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
