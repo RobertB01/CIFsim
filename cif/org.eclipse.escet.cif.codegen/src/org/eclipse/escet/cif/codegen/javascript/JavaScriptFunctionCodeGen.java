@@ -129,7 +129,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
         // Generate 'throw' statement at the end of the body, to ensure JavaScript
         // doesn't return 'undefined'. While this should not happen for valid CIF
         // specifications, this adds extra robustness.
-        code.add("throw new Error(\"no return at end of func\");");
+        code.add("throw new Error('No return statement at end of function.');");
     }
 
     @Override
@@ -139,38 +139,29 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
 
     @Override
     protected void generateBreakFuncStatement(CodeBox code) {
-        // We generate 'if (true) ' to avoid unreachable statements in the
-        // JavaScript code.
-        code.add("if (true) break;");
+        code.add("break;");
     }
 
     @Override
     protected void generateContinueFuncStatement(CodeBox code) {
-        // We generate 'if (true) ' to avoid unreachable statements in the
-        // JavaScript code.
-        code.add("if (true) continue;");
+        code.add("continue;");
     }
 
     @Override
     protected void generateReturnFuncStatement(Expression retValue, CodeBox code, boolean safeScope, CodeContext ctxt) {
         ExprCode retCode = ctxt.exprToTarget(retValue, null);
         code.add(retCode.getCode());
-
-        // Actual return statement code. We generate 'if (true) ' to avoid
-        // unreachable statements in the JavaScript code.
-        code.add("if (true) return %s;", retCode.getData());
+        code.add("return %s;", retCode.getData());
     }
 
     @Override
     protected boolean generateWhileFuncStatement(ExprCode guardCode, CodeBox code, boolean safeScope) {
-        // We generate 'if (true) ' to avoid unreachable statements in the
-        // JavaScript code.
         if (!guardCode.hasCode()) {
-            code.add("if (true) while (%s) {", guardCode.getData());
+            code.add("while (%s) {", guardCode.getData());
             code.indent();
             return safeScope;
         } else {
-            code.add("if (true) while (true) {");
+            code.add("while (true) {");
             code.indent();
             code.add(guardCode.getCode());
             code.add("if (!(%s)) break;", guardCode.getData());
