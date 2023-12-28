@@ -19,7 +19,18 @@ indexterm:[syntax,lexical]
 [[lang-ref-syntax-lexical]]
 == Lexical syntax
 
+CIF files are textual files.
+While CIF files can have any file extension, by convention a `.cif` file extension is used.
+
 This page describes the CIF lexical syntax.
+
+[[lang-ref-syntax-lexical-characters]]
+=== Characters
+
+CIF files may only contain link:https://en.wikipedia.org/wiki/ASCII[ASCII] characters (0 through 127).
+
+The encoding of CIF files is assumed to be link:https://en.wikipedia.org/wiki/UTF-8[UTF-8].
+If a CIF file is actually encoded using a different encoding, error messages produced while reading it may indicate the wrong characters.
 
 indexterm:[keywords]
 indexterm:[syntax,keywords]
