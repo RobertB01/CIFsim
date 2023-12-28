@@ -100,8 +100,6 @@ public class SimulinkFunctionCodeGen extends FunctionCodeGen {
                 // Construct a new temporary variable for the moved parameter.
                 paramVars[i] = ctxt.makeTempVariable(paramVar);
 
-                paramVar.isReference = false;
-
                 // Generate copy of the data into the local variable, through the reference.
                 DataValue src = makeReference(paramVars[i].targetName);
                 Destination dest = new Destination(null, paramVar.typeInfo, makeValue(paramVar.targetName));

@@ -29,9 +29,6 @@ public class VariableInformation {
     /** Name of the storage identifier in the target language. */
     public final String targetName;
 
-    /** If set, the variable is a reference to the data value. */
-    public boolean isReference;
-
     /** Whether the variable is a temporary copy of the 'real' variable. */
     public boolean isTempVar = false;
 
@@ -42,15 +39,11 @@ public class VariableInformation {
      * @param name Name of the variable.
      * @param targetVariableName Name of the variable in the target language.
      * @param targetName Name of the storage identifier in the target language.
-     * @param isReference If set, the variable is a reference to the data value.
      */
-    public VariableInformation(TypeInfo typeInfo, String name, String targetVariableName, String targetName,
-            boolean isReference)
-    {
+    public VariableInformation(TypeInfo typeInfo, String name, String targetVariableName, String targetName) {
         this.typeInfo = typeInfo;
         this.name = name;
         this.targetVariableName = targetVariableName;
         this.targetName = targetName;
-        this.isReference = isReference;
     }
 }
