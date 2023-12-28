@@ -184,8 +184,7 @@ public class JavaScriptIntTypeInfo extends IntTypeInfo {
     protected ExprCode convertAbsStdLib(Expression expression, EnumSet<ExprProperties> properties, Destination dest,
             CodeContext ctxt)
     {
-        return convertFunctionCallPattern(
-                fmt("%sUtils.absInt(${args})", ctxt.getPrefix()), list(expression), dest,
+        return convertFunctionCallPattern(fmt("%sUtils.absInt(${args})", ctxt.getPrefix()), list(expression), dest,
                 ctxt);
     }
 

@@ -1072,8 +1072,7 @@ public abstract class CodeGen {
      *
      * <p>
      * The values of the mapping are used as postfixes for the output file names. They are prefixed with the
-     * {@link #getPrefix code prefix}. The output files are all written to the {@link OutputDirOption output
-     * directory}.
+     * {@link #getPrefix code prefix}. The output files are all written to the {@link OutputDirOption output directory}.
      * </p>
      *
      * <p>
