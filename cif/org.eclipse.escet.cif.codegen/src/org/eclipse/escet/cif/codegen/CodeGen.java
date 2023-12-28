@@ -465,6 +465,15 @@ public abstract class CodeGen {
     }
 
     /**
+     * Retrieve the code generation prefix.
+     *
+     * @return The prefix used by the generated code.
+     */
+    public String getPrefix() {
+        return replacements.get("prefix");
+    }
+
+    /**
      * Get the names that are already in use in the target language. These names are avoided while generating unique
      * identifiers.
      *
@@ -1063,7 +1072,7 @@ public abstract class CodeGen {
      *
      * <p>
      * The values of the mapping are used as postfixes for the output file names. They are prefixed with the
-     * {@link CodePrefixOption code prefix}. The output files are all written to the {@link OutputDirOption output
+     * {@link #getPrefix code prefix}. The output files are all written to the {@link OutputDirOption output
      * directory}.
      * </p>
      *
@@ -1119,7 +1128,7 @@ public abstract class CodeGen {
         for (Entry<String, String> template: templates.entrySet()) {
             // Get output file path.
             String fileName = template.getValue();
-            fileName = replacements.get("prefix") + fileName;
+            fileName = getPrefix() + fileName;
             String filePath = path + File.separator + fileName;
             String absFilePath = Paths.resolve(filePath);
 
