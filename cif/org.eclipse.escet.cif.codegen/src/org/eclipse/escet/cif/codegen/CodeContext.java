@@ -249,7 +249,7 @@ public class CodeContext {
      * @return The variable information for reading the variable.
      */
     public VariableInformation getReadVarInfo(VariableWrapper var) {
-        return internalGetVarInfo(var.decl);
+        return codeGen.getVarInfo(var.decl, this);
     }
 
     /**
@@ -282,8 +282,7 @@ public class CodeContext {
      */
     public VariableInformation getWriteVarInfo(Declaration decl) {
         // Basic case uses same variable for both read and write.
-        VariableInformation varInfo = internalGetVarInfo(decl);
-//        Assert.check(!varInfo.readOnly);
+        VariableInformation varInfo = codeGen.getVarInfo(decl, this);
         return varInfo;
     }
 
