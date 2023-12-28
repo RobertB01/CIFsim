@@ -207,10 +207,10 @@ public class SimulinkCodeGen extends CodeGen {
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
 
         for (Constant cVar: constants) {
-            simulinkTargetNameMap.put(cVar, fmt("work->%s", super.getTargetName(cVar)));
+            simulinkTargetNameMap.put(cVar, fmt("work->%s", super.getTargetRef(cVar)));
         }
         for (InputVariable inpVar: inputVars) {
-            simulinkTargetNameMap.put(inpVar, fmt("work->%s", super.getTargetName(inpVar)));
+            simulinkTargetNameMap.put(inpVar, fmt("work->%s", super.getTargetRef(inpVar)));
         }
 
         for (Declaration d: stateVars) {
@@ -222,7 +222,7 @@ public class SimulinkCodeGen extends CodeGen {
             }
 
             DiscVariable dv = (DiscVariable)d;
-            simulinkTargetNameMap.put(d, fmt("work->%s", super.getTargetName(d)));
+            simulinkTargetNameMap.put(d, fmt("work->%s", super.getTargetRef(d)));
             if (isGoodType(dv.getType())) {
                 addDeclarationToSection(outputVarMatcher, dv, reportSection);
             }
@@ -335,7 +335,7 @@ public class SimulinkCodeGen extends CodeGen {
     }
 
     @Override
-    public String getTargetName(PositionObject obj) {
+    public String getTargetRef(PositionObject obj) {
         if (simulinkTargetNameMap == null) {
             setupVarmaps();
         }
@@ -345,14 +345,14 @@ public class SimulinkCodeGen extends CodeGen {
             return result;
         }
 
-        result = super.getTargetName(obj);
+        result = super.getTargetRef(obj);
         simulinkTargetNameMap.put(obj, result);
         return result;
     }
 
     @Override
     public String getTargetVariableName(PositionObject obj) {
-        return super.getTargetName(obj);
+        return super.getTargetRef(obj);
     }
 
     @Override
@@ -603,7 +603,7 @@ public class SimulinkCodeGen extends CodeGen {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtDecls.set(3 + i, 0, fmt("%s,", getTargetName(evt)));
+            evtDecls.set(3 + i, 0, fmt("%s,", getTargetRef(evt)));
             evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
 
@@ -1122,7 +1122,7 @@ public class SimulinkCodeGen extends CodeGen {
                     Expression eventRef = pf.getEvent();
                     Assert.check(eventRef instanceof EventExpression);
                     Event event = ((EventExpression)eventRef).getEvent();
-                    conds.add(fmt("%s == %s", eventVar, getTargetName(event)));
+                    conds.add(fmt("%s == %s", eventVar, getTargetRef(event)));
                     break;
                 }
 
@@ -1294,7 +1294,7 @@ public class SimulinkCodeGen extends CodeGen {
             } else {
                 eventName = origDeclNames.get(event);
                 Assert.notNull(eventName);
-                eventTargetName = getTargetName(event);
+                eventTargetName = getTargetRef(event);
             }
 
             // Construct the call to try executing the event.

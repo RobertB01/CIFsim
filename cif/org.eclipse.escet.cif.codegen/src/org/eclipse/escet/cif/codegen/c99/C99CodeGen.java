@@ -404,7 +404,7 @@ public class C99CodeGen extends CodeGen {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtDecls.set(3 + i, 0, fmt("%s,", getTargetName(evt)));
+            evtDecls.set(3 + i, 0, fmt("%s,", getTargetRef(evt)));
             evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
 
@@ -536,7 +536,7 @@ public class C99CodeGen extends CodeGen {
         // Update the continuous variables.
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add("%s = UpdateContValue(%s + delta * deriv%d, %s);", name, name, i, stringToJava(origName));
@@ -804,7 +804,7 @@ public class C99CodeGen extends CodeGen {
                     Expression eventRef = pf.getEvent();
                     Assert.check(eventRef instanceof EventExpression);
                     Event event = ((EventExpression)eventRef).getEvent();
-                    conds.add(fmt("%s == %s", eventVar, getTargetName(event)));
+                    conds.add(fmt("%s == %s", eventVar, getTargetRef(event)));
                     break;
                 }
 
@@ -933,7 +933,7 @@ public class C99CodeGen extends CodeGen {
             } else {
                 eventName = origDeclNames.get(event);
                 Assert.notNull(eventName);
-                eventTargetName = getTargetName(event);
+                eventTargetName = getTargetRef(event);
             }
 
             // Construct the call to try executing the event.

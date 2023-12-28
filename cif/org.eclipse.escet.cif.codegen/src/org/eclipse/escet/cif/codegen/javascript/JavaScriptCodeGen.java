@@ -155,10 +155,10 @@ public class JavaScriptCodeGen extends CodeGen {
             String origName = origDeclNames.get(stateVar);
             Assert.notNull(origName);
             getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s.%s));", ctxt.getPrefix(),
-                    origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+                    origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetRef(stateVar));
             if (stateVar instanceof ContVariable) {
                 getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%s.%sderiv()));",
-                        ctxt.getPrefix(), origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+                        ctxt.getPrefix(), origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetRef(stateVar));
             }
         }
         replacements.put("javascript-get-state-text-code", getStateTextCode.toString());
@@ -198,7 +198,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
             code.add();
             code.add("/** Constant \"%s\". */", origName);
-            code.add("%s = %s;", getTargetName(constant), constantCode.getData());
+            code.add("%s = %s;", getTargetRef(constant), constantCode.getData());
         }
 
         replacements.put("javascript-const-decls", code.toString());
@@ -225,7 +225,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (Declaration var: stateVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String kindCode;
             if (var instanceof DiscVariable) {
                 kindCode = "Discrete";
@@ -245,7 +245,7 @@ public class JavaScriptCodeGen extends CodeGen {
         code = makeCodeBox(2);
 
         for (Declaration var: stateVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             Expression value;
             if (var instanceof DiscVariable) {
                 DiscVariable v = (DiscVariable)var;
@@ -275,7 +275,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (ContVariable var: contVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -302,14 +302,14 @@ public class JavaScriptCodeGen extends CodeGen {
 
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            code.add("var deriv%d = %s.%sderiv();", i, ctxt.getPrefix(), getTargetName(var));
+            code.add("var deriv%d = %s.%sderiv();", i, ctxt.getPrefix(), getTargetRef(var));
         }
         if (!contVars.isEmpty()) {
             code.add();
         }
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             code.add("%s.%s = %s.%s + delta * deriv%d;", ctxt.getPrefix(), name, ctxt.getPrefix(), name, i);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
@@ -330,7 +330,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (AlgVariable var: algVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -359,7 +359,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (InputVariable var: inputVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);

@@ -125,7 +125,7 @@ public class JavaCodeGen extends CodeGen {
 
             code.add();
             code.add("/** Constant \"%s\". */", origName);
-            code.add("public static final %s %s = %s;", typeToJava(constant.getType(), ctxt), getTargetName(constant),
+            code.add("public static final %s %s = %s;", typeToJava(constant.getType(), ctxt), getTargetRef(constant),
                     constantCode.getData());
         }
 
@@ -152,7 +152,7 @@ public class JavaCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (Declaration var: stateVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String typeCode;
             String kindCode;
             if (var instanceof DiscVariable) {
@@ -175,7 +175,7 @@ public class JavaCodeGen extends CodeGen {
         code = makeCodeBox(2);
 
         for (Declaration var: stateVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             Expression value;
             if (var instanceof DiscVariable) {
                 DiscVariable v = (DiscVariable)var;
@@ -205,7 +205,7 @@ public class JavaCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (ContVariable var: contVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -232,14 +232,14 @@ public class JavaCodeGen extends CodeGen {
 
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            code.add("double deriv%d = %sderiv();", i, getTargetName(var));
+            code.add("double deriv%d = %sderiv();", i, getTargetRef(var));
         }
         if (!contVars.isEmpty()) {
             code.add();
         }
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             code.add("%s = %s + delta * deriv%d;", name, name, i);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
@@ -260,7 +260,7 @@ public class JavaCodeGen extends CodeGen {
 
         for (AlgVariable var: algVars) {
             String typeCode = typeToJava(var.getType(), ctxt);
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -289,7 +289,7 @@ public class JavaCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (InputVariable var: inputVars) {
-            String name = getTargetName(var);
+            String name = getTargetRef(var);
             String typeCode = typeToJava(var.getType(), ctxt);
             List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
@@ -325,7 +325,7 @@ public class JavaCodeGen extends CodeGen {
             code.add("// Assign default values to the inputs, for testing.");
             List<InternalFunction> funcs = list();
             for (InputVariable var: inputVars) {
-                String name = getTargetName(var);
+                String name = getTargetRef(var);
                 CifType type = var.getType();
                 Expression value = CifValueUtils.getDefaultValue(type, funcs);
                 ExprCode valueCode = ctxt.exprToTarget(value, null);
