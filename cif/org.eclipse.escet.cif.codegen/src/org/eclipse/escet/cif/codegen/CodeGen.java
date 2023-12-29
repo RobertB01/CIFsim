@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.codegen;
 
 import static org.eclipse.escet.cif.codegen.updates.tree.UpdateData.generateAssignment;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
@@ -339,12 +341,27 @@ public abstract class CodeGen {
     protected abstract TypeCodeGen getTypeCodeGenerator();
 
     /**
-     * Returns the storage identifier for the target language to use for the given CIF object.
+     * Returns the code to refer to the storage for the variable in the target language.
+     *
+     * <p>
+     * By default, uses the {@link #getTargetVariableName}. Code generators for specific target languages may override
+     * this.
+     * </p>
      *
      * @param obj The CIF object. Must be a {@link CifTextUtils#getName named} object.
-     * @return The storage identifier to use.
+     * @return The code.
      */
-    public String getTargetName(PositionObject obj) {
+    public String getTargetRef(PositionObject obj) {
+        return getTargetVariableName(obj);
+    }
+
+    /**
+     * Get the name of the variable for the target language to use for the given CIF object.
+     *
+     * @param obj The CIF object. Must be a {@link CifTextUtils#getName named} object.
+     * @return Name of the variable to use.
+     */
+    public String getTargetVariableName(PositionObject obj) {
         // Use previous result if available.
         String targetName = targetNameMap.get(obj);
         if (targetName != null) {
@@ -382,16 +399,6 @@ public abstract class CodeGen {
         targetNames.add(targetName);
         targetNameMap.put(obj, targetName);
         return targetName;
-    }
-
-    /**
-     * Get the name of the variable for the target language to use for the given CIF object.
-     *
-     * @param obj The CIF object. Must be a {@link CifTextUtils#getName named} object.
-     * @return Name of the variable to use.
-     */
-    public String getTargetVariableName(PositionObject obj) {
-        return getTargetName(obj);
     }
 
     /**
@@ -458,6 +465,15 @@ public abstract class CodeGen {
     }
 
     /**
+     * Retrieve the code generation prefix.
+     *
+     * @return The prefix used by the generated code.
+     */
+    public String getPrefix() {
+        return replacements.get("prefix");
+    }
+
+    /**
      * Get the names that are already in use in the target language. These names are avoided while generating unique
      * identifiers.
      *
@@ -465,6 +481,51 @@ public abstract class CodeGen {
      * @see #targetNames
      */
     protected abstract Set<String> getReservedTargetNames();
+
+    /**
+     * Retrieve variable info from a declaration, for reading or writing the variable.
+     *
+     * @param decl Declaration to inspect.
+     * @param ctxt The code generation context.
+     * @return The variable information.
+     */
+    protected VariableInformation getVarInfo(Declaration decl, CodeContext ctxt) {
+        String targetVarName = getTargetVariableName(decl);
+        String targetRef = getTargetRef(decl);
+
+        String origName = origDeclNames.get(decl);
+        if (origName == null) {
+            // New object, introduced by preprocessing and/or linearization.
+            origName = decl.getName();
+        }
+
+        if (decl instanceof AlgVariable) {
+            AlgVariable algVar = (AlgVariable)decl;
+            TypeInfo ti = typeCodeGen.typeToTarget(algVar.getType(), ctxt);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
+        } else if (decl instanceof Constant) {
+            Constant constVar = (Constant)decl;
+            TypeInfo ti = typeCodeGen.typeToTarget(constVar.getType(), ctxt);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
+        } else if (decl instanceof ContVariable) { // Both continuous and derivative value.
+            TypeInfo ti = typeCodeGen.typeToTarget(newRealType(), ctxt);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
+        } else if (decl instanceof EnumDecl) {
+            EnumDecl enumDecl = (EnumDecl)decl;
+            TypeInfo ti = typeCodeGen.typeToTarget(newEnumType(enumDecl, null), ctxt);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
+        } else if (decl instanceof InputVariable) {
+            InputVariable inputVar = (InputVariable)decl;
+            TypeInfo ti = typeCodeGen.typeToTarget(inputVar.getType(), ctxt);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
+        } else if (decl instanceof DiscVariable) {
+            DiscVariable discVar = (DiscVariable)decl;
+            TypeInfo ti = typeCodeGen.typeToTarget(discVar.getType(), ctxt);
+            return new VariableInformation(ti, origName, targetVarName, targetRef, false);
+        }
+
+        throw new RuntimeException("Unexpected kind of declaration encountered: " + str(decl));
+    }
 
     /**
      * Construct a temporary variable for the given variable.
@@ -475,7 +536,7 @@ public abstract class CodeGen {
     public VariableInformation makeTempVariable(VariableInformation varInfo) {
         String targetName = fmt("%stmp%d", varInfo.targetVariableName, tmpvarNumber);
         tmpvarNumber++;
-        return new VariableInformation(varInfo.typeInfo, varInfo.name, targetName, targetName, varInfo.isReference);
+        return new VariableInformation(varInfo.typeInfo, varInfo.name, targetName, targetName, true);
     }
 
     /**
@@ -488,7 +549,7 @@ public abstract class CodeGen {
     public VariableInformation makeTempVariable(TypeInfo ti, String name) {
         String targetName = fmt("%s%d", name, tmpvarNumber);
         tmpvarNumber++;
-        return new VariableInformation(ti, name, targetName, targetName, false);
+        return new VariableInformation(ti, name, targetName, targetName, true);
     }
 
     /**
@@ -1011,8 +1072,7 @@ public abstract class CodeGen {
      *
      * <p>
      * The values of the mapping are used as postfixes for the output file names. They are prefixed with the
-     * {@link CodePrefixOption code prefix}. The output files are all written to the {@link OutputDirOption output
-     * directory}.
+     * {@link #getPrefix code prefix}. The output files are all written to the {@link OutputDirOption output directory}.
      * </p>
      *
      * <p>
@@ -1067,7 +1127,7 @@ public abstract class CodeGen {
         for (Entry<String, String> template: templates.entrySet()) {
             // Get output file path.
             String fileName = template.getValue();
-            fileName = replacements.get("prefix") + fileName;
+            fileName = getPrefix() + fileName;
             String filePath = path + File.separator + fileName;
             String absFilePath = Paths.resolve(filePath);
 

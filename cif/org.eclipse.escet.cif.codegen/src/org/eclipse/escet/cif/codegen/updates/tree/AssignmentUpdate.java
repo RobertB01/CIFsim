@@ -125,7 +125,7 @@ public class AssignmentUpdate extends UpdateData {
         tmpVar.typeInfo.declareInit(localCode, rhsCode.getRawDataValue(), dest);
 
         for (SingleVariableAssignment varAsgn: assigns) {
-            String rhsText = tmpVar.targetName;
+            String rhsText = tmpVar.targetRef;
             // Add rhs projections, to select a part of the value. These are
             // always tuple projections.
             if (varAsgn.rhsProjections != null) {

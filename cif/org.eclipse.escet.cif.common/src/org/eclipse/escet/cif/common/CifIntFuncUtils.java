@@ -136,4 +136,39 @@ public class CifIntFuncUtils {
             throw new RuntimeException("Unexpected/unsupported LHS expression: " + lhs);
         }
     }
+
+    /**
+     * Returns whether the given discrete variable object represents a parameter of an internal user-defined function.
+     *
+     * @param discVar The discrete variable object.
+     * @return {@code true} if the discrete variable object represents a parameter of an internal user-defined function,
+     *     {@code false} otherwise.
+     */
+    public static boolean isFuncParam(DiscVariable discVar) {
+        return discVar.eContainer() instanceof FunctionParameter;
+    }
+
+    /**
+     * Returns whether the given discrete variable object represents a local variable of an internal user-defined
+     * function.
+     *
+     * @param discVar The discrete variable object.
+     * @return {@code true} if the discrete variable object represents a local variable of an internal user-defined
+     *     function, {@code false} otherwise.
+     */
+    public static boolean isFuncLocalVar(DiscVariable discVar) {
+        return discVar.eContainer() instanceof InternalFunction;
+    }
+
+    /**
+     * Returns whether the given discrete variable object represents a parameter or local variable of an internal
+     * user-defined function.
+     *
+     * @param discVar The discrete variable object.
+     * @return {@code true} if the discrete variable object represents a parameter or local variable of an internal
+     *     user-defined function, {@code false} otherwise.
+     */
+    public static boolean isFuncParamOrLocalVar(DiscVariable discVar) {
+        return isFuncParam(discVar) || isFuncLocalVar(discVar);
+    }
 }

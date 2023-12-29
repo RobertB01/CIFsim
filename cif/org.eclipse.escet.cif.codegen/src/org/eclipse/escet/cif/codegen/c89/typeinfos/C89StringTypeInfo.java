@@ -93,10 +93,10 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
         String destRef;
         if (dest == null) {
             VariableInformation tempVar = ctxt.makeTempVariable(this, "str_tmp");
-            destRef = "&" + tempVar.targetName;
+            destRef = "&" + tempVar.targetRef;
 
-            result.add(fmt("%s %s;", getTargetType(), tempVar.targetName));
-            result.setDataValue(makeValue(tempVar.targetName));
+            result.add(fmt("%s %s;", getTargetType(), tempVar.targetRef));
+            result.setDataValue(makeValue(tempVar.targetRef));
         } else {
             destRef = dest.getReference();
         }
@@ -119,10 +119,10 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
         String destRef;
         if (dest == null) {
             VariableInformation tempVar = ctxt.makeTempVariable(this, "str_tmp");
-            destRef = "&" + tempVar.targetName;
+            destRef = "&" + tempVar.targetRef;
 
-            result.add(fmt("%s %s;", getTargetType(), tempVar.targetName));
-            result.setDataValue(makeValue(tempVar.targetName));
+            result.add(fmt("%s %s;", getTargetType(), tempVar.targetRef));
+            result.setDataValue(makeValue(tempVar.targetRef));
         } else {
             destRef = dest.getReference();
         }
@@ -172,12 +172,12 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
         if (dest == null) {
             // Temporary variable required, is definitely not a variable we could overwrite.
             VariableInformation tempVar = ctxt.makeTempVariable(this, "str_tmp");
-            destValue = tempVar.targetName;
+            destValue = tempVar.targetRef;
             destScratch = "&" + destValue; // Use the temp var directly.
             needsDestScratch = false;
 
-            result.add(fmt("%s %s;", getTargetType(), tempVar.targetName));
-            result.setDataValue(makeValue(tempVar.targetName));
+            result.add(fmt("%s %s;", getTargetType(), tempVar.targetRef));
+            result.setDataValue(makeValue(tempVar.targetRef));
         } else {
             // Use a temporary destination string, as the final destination of the format call
             // may also be used as argument.
@@ -306,8 +306,8 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
                         argText[i] = dataValue.getReference();
                     } else {
                         VariableInformation tempVar = ctxt.makeTempVariable(argTi, "fmt_temp");
-                        code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetName, dataValue.getData());
-                        argText[i] = "&" + tempVar.targetName;
+                        code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetRef, dataValue.getData());
+                        argText[i] = "&" + tempVar.targetRef;
                     }
                 }
             } else {
@@ -316,16 +316,16 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
                 code.add(argCode.getCode());
 
                 if (typeUsesValues(argTi)) {
-                    code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetName, argCode.getData());
-                    argText[i] = tempVar.targetName;
+                    code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetRef, argCode.getData());
+                    argText[i] = tempVar.targetRef;
                 } else {
                     DataValue dataValue = argCode.getRawDataValue();
                     if (dataValue.canBeReferenced()) {
-                        code.add("%s *%s = %s;", argTi.getTargetType(), tempVar.targetName, dataValue.getReference());
-                        argText[i] = tempVar.targetName;
+                        code.add("%s *%s = %s;", argTi.getTargetType(), tempVar.targetRef, dataValue.getReference());
+                        argText[i] = tempVar.targetRef;
                     } else {
-                        code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetName, dataValue.getData());
-                        argText[i] = "&" + tempVar.targetName;
+                        code.add("%s %s = %s;", argTi.getTargetType(), tempVar.targetRef, dataValue.getData());
+                        argText[i] = "&" + tempVar.targetRef;
                     }
                 }
             }
@@ -460,10 +460,10 @@ public class C89StringTypeInfo extends StringTypeInfo implements C89TypeInfo {
         String destRef;
         if (dest == null) {
             VariableInformation tempVar = ctxt.makeTempVariable(this, "str_tmp");
-            destRef = "&" + tempVar.targetName;
+            destRef = "&" + tempVar.targetRef;
 
-            result.add(fmt("%s %s;", getTargetType(), tempVar.targetName));
-            result.setDataValue(makeValue(tempVar.targetName));
+            result.add(fmt("%s %s;", getTargetType(), tempVar.targetRef));
+            result.setDataValue(makeValue(tempVar.targetRef));
         } else {
             destRef = dest.getReference();
         }

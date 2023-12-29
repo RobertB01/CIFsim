@@ -39,20 +39,14 @@ import org.eclipse.escet.common.java.Numbers;
 
 /** JavaScript type information about the tuple type. */
 public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
-    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
-    private final String prefix;
-
     /**
      * Constructor of the {@link JavaScriptTupleTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
      * @param fieldTIs Fields type information.
-     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
-     *     names.
      */
-    public JavaScriptTupleTypeInfo(CifType cifType, TypeInfo[] fieldTIs, String prefix) {
+    public JavaScriptTupleTypeInfo(CifType cifType, TypeInfo[] fieldTIs) {
         super(cifType, fieldTIs);
-        this.prefix = prefix;
     }
 
     @Override
@@ -145,7 +139,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
+        code.add("%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override
@@ -186,7 +180,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         // Modify the field of the destination.
         CodeBox code = ctxt.makeCodeBox();
         code.add(partCode.getCode());
-        code.add("%s = %s;", appendProjection(containerInfo.targetName, true, index), partCode.getData());
+        code.add("%s = %s;", appendProjection(containerInfo.targetRef, true, index), partCode.getData());
         return code;
     }
 

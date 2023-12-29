@@ -185,7 +185,7 @@ public class JavaArrayTypeInfo extends ArrayTypeInfo {
         ExprCode result = new ExprCode();
         result.add(indexCode);
         result.add(partCode);
-        String resultText = fmt("modify(%s, %s, %s)", containerVar.targetName, indexCode.getData(), partCode.getData());
+        String resultText = fmt("modify(%s, %s, %s)", containerVar.targetRef, indexCode.getData(), partCode.getData());
         result.setDestination(ctxt.makeDestination(containerVar));
         result.setDataValue(new JavaDataValue(resultText));
         return result.getCode();

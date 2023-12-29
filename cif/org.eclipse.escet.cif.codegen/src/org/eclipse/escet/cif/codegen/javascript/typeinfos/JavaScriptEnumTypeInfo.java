@@ -29,14 +29,13 @@ import org.eclipse.escet.common.box.CodeBox;
 
 /** JavaScript enum type information. */
 public class JavaScriptEnumTypeInfo extends EnumTypeInfo {
-    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
+    /** Name of the main object in the generated code. Is used as prefix for the enum class name. */
     private final String prefix;
 
     /**
      * Constructor of the {@link JavaScriptEnumTypeInfo} class.
      *
-     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
-     *     names.
+     * @param prefix Name of the main object in the generated code. Is used as prefix for the enum class name.
      */
     public JavaScriptEnumTypeInfo(String prefix) {
         super(null); // In linearized mode, there is only one enum.
@@ -56,7 +55,7 @@ public class JavaScriptEnumTypeInfo extends EnumTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
+        code.add("%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override

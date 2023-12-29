@@ -115,9 +115,9 @@ public class C99ExprCodeGen extends ExprCodeGen {
             if (dest == null) {
                 // Construct temporary var.
                 VariableInformation tempVarInfo = ctxt.makeTempVariable(exprType, "str_dest");
-                destVarname = tempVarInfo.targetName;
+                destVarname = tempVarInfo.targetRef;
                 result.setDataValue(makeComputed(destVarname));
-                targetVar = "&" + tempVarInfo.targetName;
+                targetVar = "&" + tempVarInfo.targetRef;
             } else {
                 destVarname = dest.getData();
                 targetVar = dest.getReference();
@@ -150,7 +150,7 @@ public class C99ExprCodeGen extends ExprCodeGen {
         VariableInformation tempVarInfo = ctxt.makeTempVariable(expr.getType(), "if_dest");
 
         CodeBox code = ctxt.makeCodeBox();
-        code.add(fmt("%s %s;", tempVarInfo.typeInfo.getTargetType(), tempVarInfo.targetName));
+        code.add(fmt("%s %s;", tempVarInfo.typeInfo.getTargetType(), tempVarInfo.targetRef));
 
         IfElseGenerator ifElse = ctxt.getIfElseUpdateGenerator();
 
@@ -178,7 +178,7 @@ public class C99ExprCodeGen extends ExprCodeGen {
         ExprCode ifCode = new ExprCode();
         ifCode.add(code);
         ifCode.setDestination(dest);
-        ifCode.setDataValue(makeComputed(tempVarInfo.targetName));
+        ifCode.setDataValue(makeComputed(tempVarInfo.targetRef));
         return ifCode;
     }
 
@@ -234,10 +234,10 @@ public class C99ExprCodeGen extends ExprCodeGen {
         // If required, construct a temporary variable to store the result, else just return the value to the caller.
         if (needsTemporary) {
             VariableInformation tempVarInfo = ctxt.makeTempVariable(retType, "ret_val");
-            result.add(fmt("%s %s = %s;", tempVarInfo.typeInfo.getTargetType(), tempVarInfo.targetName,
+            result.add(fmt("%s %s = %s;", tempVarInfo.typeInfo.getTargetType(), tempVarInfo.targetRef,
                     callText.toString()));
             result.setDestination(dest);
-            result.setDataValue(makeValue(tempVarInfo.targetName));
+            result.setDataValue(makeValue(tempVarInfo.targetRef));
             return result;
         } else {
             result.setDestination(dest);
@@ -252,7 +252,7 @@ public class C99ExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(expr.getConstant(), false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         result.setDestination(dest);
-        result.setDataValue(makeValue(varInfo.targetName));
+        result.setDataValue(makeValue(varInfo.targetRef));
         return result;
     }
 
@@ -262,7 +262,7 @@ public class C99ExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(discVar, false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         result.setDestination(dest);
-        result.setDataValue(makeValue(varInfo.targetName));
+        result.setDataValue(makeValue(varInfo.targetRef));
         return result;
     }
 
@@ -272,10 +272,10 @@ public class C99ExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(algVar, false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         if (varInfo.isTempVar) {
-            String resultText = varInfo.targetName;
+            String resultText = varInfo.targetRef;
             result.setDataValue(makeValue(resultText));
         } else {
-            String resultText = fmt("%s()", varInfo.targetName);
+            String resultText = fmt("%s()", varInfo.targetRef);
             result.setDataValue(makeComputed(resultText));
         }
         result.setDestination(dest);
@@ -288,7 +288,7 @@ public class C99ExprCodeGen extends ExprCodeGen {
     {
         VariableWrapper var = new VariableWrapper(contVar, isDerivative);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
-        String varName = varInfo.targetName;
+        String varName = varInfo.targetRef;
 
         ExprCode result = new ExprCode();
         result.setDestination(dest);
@@ -309,7 +309,7 @@ public class C99ExprCodeGen extends ExprCodeGen {
         VariableWrapper var = new VariableWrapper(expr.getVariable(), false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         result.setDestination(dest);
-        result.setDataValue(makeValue(varInfo.targetName));
+        result.setDataValue(makeValue(varInfo.targetRef));
         return result;
     }
 }

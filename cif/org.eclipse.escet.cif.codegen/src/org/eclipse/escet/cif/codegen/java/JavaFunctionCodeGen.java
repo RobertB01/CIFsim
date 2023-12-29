@@ -61,7 +61,7 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
         for (FunctionParameter param: params) {
             DiscVariable var = param.getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
-            String name = varInfo.targetName;
+            String name = varInfo.targetRef;
             TypeInfo typeInfo = ctxt.typeToTarget(var.getType());
             String typeTxt = typeInfo.getTargetType();
             paramTxts.add(typeTxt + " " + name);
@@ -80,7 +80,7 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
         for (int i = 0; i < params.size(); i++) {
             DiscVariable param = params.get(i).getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(param, false));
-            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetName, varInfo.name);
+            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetRef, varInfo.name);
         }
         code.add(" * @return The return value of the function.");
         code.add(" */");
