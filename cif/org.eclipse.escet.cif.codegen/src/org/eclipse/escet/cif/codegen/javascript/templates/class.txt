@@ -17,6 +17,9 @@ ${javascript-enum-lits-code}
     /** Should print output be provided? */
     doInfoPrintOutput = true;
 
+    /** Whether the SVG copy and move declarations have been applied already. */
+    svgCopiesAndMovesApplied = false;
+
     /** Whether this is the first time the code is (to be) executed. */
     firstExec;
 
@@ -248,6 +251,17 @@ ${javascript-state-init}
      */
     initUI() {
 ${javascript-frequency-slider-code}
+
+        // Apply SVG copies and moves, if not done so before.
+        if (!this.svgCopiesAndMovesApplied) {
+            this.svgCopiesAndMovesApplied = true;
+
+            // Apply SVG copy declarations.
+${html-svg-copy-apply-code}
+
+            // Apply SVG move declarations.
+${html-svg-move-apply-code}
+        }
 
         // Prepare SVG output.
 ${javascript-svg-out-assignments-code}
