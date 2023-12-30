@@ -562,6 +562,8 @@ public class JavaScriptCodeGen extends CodeGen {
         JavaScriptSvgCodeGen svgCodeGen = new JavaScriptSvgCodeGen();
         svgCodeGen.codeSvgContent = makeCodeBox(5);
         svgCodeGen.codeSvgToggles = makeCodeBox(2);
+        svgCodeGen.codeCopyApply = makeCodeBox(2);
+        svgCodeGen.codeMoveApply = makeCodeBox(2);
         svgCodeGen.codeInEventHandlers = makeCodeBox(1);
         svgCodeGen.codeInInteract = makeCodeBox(2);
         svgCodeGen.codeInCss = makeCodeBox(3);
@@ -575,6 +577,12 @@ public class JavaScriptCodeGen extends CodeGen {
         // Fill the replacement patterns with generated code, for the SVG images.
         replacements.put("html-svg-content", svgCodeGen.codeSvgContent.toString());
         replacements.put("html-svg-toggles", svgCodeGen.codeSvgToggles.toString());
+
+        // Fill the replacement patterns with generated code, for SVG copy declarations.
+        replacements.put("html-svg-copy-apply-code", svgCodeGen.codeCopyApply.toString());
+
+        // Fill the replacement patterns with generated code, for SVG move declarations.
+        replacements.put("html-svg-move-apply-code", svgCodeGen.codeMoveApply.toString());
 
         // Fill the replacement patterns with generated code, for SVG input mappings.
         replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());

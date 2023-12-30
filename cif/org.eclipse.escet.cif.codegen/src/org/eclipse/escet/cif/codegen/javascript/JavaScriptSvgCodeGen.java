@@ -39,17 +39,20 @@ import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.SvgCodeGen;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgCopy;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgFile;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEvent;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventIf;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventIfEntry;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventSingle;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgMove;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.svg.SvgUtils;
 import org.w3c.dom.Document;
@@ -61,6 +64,12 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
 
     /** The generated code for toggling (enabling/disabling) visibility of SVG images. */
     CodeBox codeSvgToggles;
+
+    /** The generated code for applying SVG copy declarations. */
+    CodeBox codeCopyApply;
+
+    /** The generated code for applying SVG move declarations. */
+    CodeBox codeMoveApply;
 
     /** The generated code for event handlers invoked when clicking interactive SVG elements. */
     CodeBox codeInEventHandlers;
@@ -104,10 +113,14 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
         for (IoDecl decl: svgDecls) {
             // Get SVG file declaration.
             SvgFile file = null;
-            if (decl instanceof SvgIn) {
-                file = ((SvgIn)decl).getSvgFile();
-            } else if (decl instanceof SvgOut) {
-                file = ((SvgOut)decl).getSvgFile();
+            if (decl instanceof SvgCopy svgCopy) {
+                file = svgCopy.getSvgFile();
+            } else if (decl instanceof SvgMove svgMove) {
+                file = svgMove.getSvgFile();
+            } else if (decl instanceof SvgIn svgIn) {
+                file = svgIn.getSvgFile();
+            } else if (decl instanceof SvgOut svgOut) {
+                file = svgOut.getSvgFile();
             } else {
                 throw new AssertionError("Unexpected CIF/SVG declaration: " + decl);
             }
@@ -131,6 +144,7 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
 
         // Generate code per SVG image.
         int svgImageNumber = 0;
+        int declsProcessed = 0;
         for (Entry<String, String> entry: svgPathsAbsToNormRel.entrySet()) {
             // Get the paths of this SVG image.
             String svgAbsPath = entry.getKey();
@@ -168,11 +182,26 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
 
             // Get CIF/SVG declarations for this SVG image.
             CifSvgDecls imgSvgDecls = filterAndGroup(svgDecls, svgAbsPath, svgPathsRelToAbs);
+            declsProcessed += imgSvgDecls.size();
 
             // Warn about SVG files without input/output mappings. We only check for mappings, as they can result in
             // changes to the image during simulation.
             if (imgSvgDecls.svgOuts.isEmpty() && imgSvgDecls.svgIns.isEmpty()) {
                 warn("SVG file \"%s\" has no CIF/SVG input/output mappings that apply to it.", svgNormRelPath);
+            }
+
+            // Generate code for SVG copy declarations.
+            for (SvgCopy svgCopy: imgSvgDecls.svgCopies) {
+                String svgWrapElemId = svgAbsPathsToWrapperElemIds
+                        .get(svgPathsRelToAbs.get(svgCopy.getSvgFile().getPath()));
+                gencodeSvgCopy(svgCopy, svgWrapElemId, ctxt);
+            }
+
+            // Generate code for SVG move declarations.
+            for (SvgMove svgMove: imgSvgDecls.svgMoves) {
+                String svgWrapElemId = svgAbsPathsToWrapperElemIds
+                        .get(svgPathsRelToAbs.get(svgMove.getSvgFile().getPath()));
+                gencodeSvgMove(svgMove, svgWrapElemId, ctxt);
             }
 
             // Generate code for SVG input mappings.
@@ -189,12 +218,45 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
                 gencodeSvgOut(svgOut, svgWrapElemId, svgOutElemQueriesToFields, ctxt);
             }
         }
+
+        // Make sure all CIF/SVG declarations were processed.
+        Assert.areEqual(declsProcessed, svgDecls.size());
+    }
+
+    /**
+     * Generate code for an SVG copy declaration.
+     *
+     * @param svgCopy The SVG copy declaration.
+     * @param svgWrapElemId The id of the SVG image wrapper element.
+     * @param ctxt The code context to use.
+     */
+    private void gencodeSvgCopy(SvgCopy svgCopy, String svgWrapElemId, CodeContext ctxt) {
+        String copyId = evalSvgStringExpr(svgCopy.getId());
+        String pre = (svgCopy.getPre() == null) ? "" : evalSvgStringExpr(svgCopy.getPre());
+        String post = (svgCopy.getPost() == null) ? "" : evalSvgStringExpr(svgCopy.getPost());
+        codeCopyApply.add("applySvgCopy(%s, %s, %s, %s);", Strings.stringToJava(svgWrapElemId),
+                Strings.stringToJava(copyId), Strings.stringToJava(pre), Strings.stringToJava(post));
+    }
+
+    /**
+     * Generate code for an SVG move declaration.
+     *
+     * @param svgMove The SVG move declaration.
+     * @param svgWrapElemId The id of the SVG image wrapper element.
+     * @param ctxt The code context to use.
+     */
+    private void gencodeSvgMove(SvgMove svgMove, String svgWrapElemId, CodeContext ctxt) {
+        String moveId = evalSvgStringExpr(svgMove.getId());
+        double x = evalSvgNumberExpr(svgMove.getX());
+        double y = evalSvgNumberExpr(svgMove.getY());
+        codeMoveApply.add("applySvgMove(%s, %s, %s, %s);", Strings.stringToJava(svgWrapElemId),
+                Strings.stringToJava(moveId), x, y);
     }
 
     /**
      * Generate code for an SVG output mapping.
      *
-     * @param svgOut The SvgOut mapping object.
+     * @param svgOut The SVG output mapping.
      * @param svgWrapElemId The id of the SVG image wrapper element.
      * @param svgOutElemQueriesToFields Per SVG output element selector query, the field that holds the element. Is
      *     extended in-place.
