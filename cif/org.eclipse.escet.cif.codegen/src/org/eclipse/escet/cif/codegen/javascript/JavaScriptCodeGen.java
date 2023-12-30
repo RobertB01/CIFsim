@@ -686,6 +686,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add();
             codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, false);", eventIdx);
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
+            codeMethods.add("if (this.doStateOutput || this.doTransitionOutput) this.log('');");
             codeMethods.add("return true;");
 
             // Method code done.
