@@ -966,7 +966,7 @@ class ${prefix}Utils {
         } else if (typeof(value) == "number") {
             return (value.toString()).replace('E', 'e');
         } else if (typeof(value) == "string") {
-            return "\"" + escape(value) + "\"";
+            return "\"" + ${prefix}Utils.escape(value) + "\"";
         } else if (Array.isArray(value)) {
             var txt = "[";
             for (var i = 0; i < value.length; i++) {
