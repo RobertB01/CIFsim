@@ -273,9 +273,16 @@ ${javascript-svg-out-apply-code}
         // Nothing is done here by default.
     }
 
+    /** Logs a normal message. */
     log(message) {
         console.log(message);
 ${html-log-to-panel-code}
+    }
+
+    /** Logs an error message. */
+    error(message) {
+        console.log(message);
+${html-error-to-panel-code}
     }
 
     /**
@@ -365,8 +372,22 @@ ${javascript-print-code}
      * Informs that new print output is available.
      *
      * @param text The text being printed.
+     * @param target The file or special target to which text is to be printed.
+     *      If printed to a file, an absolute or relative local file system
+     *      path is given. Paths may contain both '/' and '\\'
+     *      as file separators. Use {@link ${prefix}Utils#normalizePrintTarget}
+     *      to normalize the path to use '/' file separators. There are two
+     *      special targets: ':stdout' to print to the standard output stream,
+     *      and ':stderr' to print to the standard error stream.
      */
-    infoPrintOutput(text) {
-        ${prefix}.log(text);
+    infoPrintOutput(text, target) {
+        if (target == ':stdout') {
+            ${prefix}.log(text);
+        } else if (target == ':stderr') {
+            ${prefix}.error(text);
+        } else {
+            var path = ${prefix}Utils.normalizePrintTarget(target);
+            ${prefix}.infoPrintOutput(path + ': ' + text, ':stdout');
+        }
     }
 }

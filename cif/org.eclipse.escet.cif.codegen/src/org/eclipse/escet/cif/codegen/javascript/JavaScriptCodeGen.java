@@ -163,12 +163,20 @@ public class JavaScriptCodeGen extends CodeGen {
 
         // For HTML, log not only to the console, but also to the log panel.
         CodeBox logToPanelCode = makeCodeBox(2);
+        CodeBox errorToPanelCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
             logToPanelCode.add("var elem = document.getElementById('log-output');");
-            logToPanelCode.add("elem.value += message + '\\r\\n';");
+            logToPanelCode.add("elem.innerHTML += %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
             logToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
+
+            errorToPanelCode.add("var elem = document.getElementById('log-output');");
+            errorToPanelCode.add(
+                    "elem.innerHTML += '<span class=\"error\">' + %sUtils.escapeHtml(message) + '</span>\\n';",
+                    ctxt.getPrefix());
+            errorToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
         }
         replacements.put("html-log-to-panel-code", logToPanelCode.toString());
+        replacements.put("html-error-to-panel-code", errorToPanelCode.toString());
 
         // Add code for the 'getStateText' method.
         // State variables are sorted similarly to 'org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec.init'.
