@@ -14,8 +14,11 @@
 // Including common attributes to set for all documents within this directory.
 include::_root_attributes.asciidoc[]
 
-// Enable custom style in *-docinfo*.html.
+// Enable inclusion of custom content from '*-docinfo*.html' files.
 :docinfo: private
+
+// Enable custom stylesheet.
+:stylesheet: asciidoctor-escet.css
 
 // Use this for asciidoc documents containing a title.
 :doctype: book
