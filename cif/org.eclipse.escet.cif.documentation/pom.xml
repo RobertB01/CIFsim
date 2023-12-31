@@ -118,6 +118,8 @@
                                 <toc>left</toc>
                                 <toclevels>7</toclevels>
                                 <sectanchors>true</sectanchors>
+                                <linkcss>true</linkcss>
+                                <stylesdir>assets</stylesdir>
                                 <html-output>true</html-output>
                                 <website-output>true</website-output>
                                 <source-highlighter>coderay</source-highlighter>
