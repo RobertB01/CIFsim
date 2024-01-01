@@ -18,7 +18,7 @@ include::_root_attributes.asciidoc[]
 :docinfo: private
 
 // Enable custom stylesheet.
-:stylesheet: asciidoctor-escet.css
+:stylesheet: asciidoctor-escet-dev.css
 
 // Use this for asciidoc documents containing a title.
 :doctype: book
