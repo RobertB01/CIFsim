@@ -222,20 +222,38 @@ table.tableblock > .title,
 }
 
 /* TOC styling. */
-#toc ul, #toc.toc2 ul ul {
-    padding-left: 0;
+#toc > ul.sectlevel1 {
+    margin-left: 1em;
 }
-#toc li {
-    padding-left: 1em;
-}
-#toc li:before {
-    content: "\2022 ";
+#toc li.toc-item > div.toc-item-marker {
     display: inline-block;
     width: 1em;
     margin-left: -1em;
     color: rgb(var(--escet-color-link));
     font-weight: 600;
 }
-#toc .toc-cur-page {
-    font-weight: bold; /* Highlight current page. */
+#toc li.toc-item > div.toc-item-marker:after {
+    display: inline-block;
+    content: '\2022';
+}
+#toc li.toc-item-parent > div.toc-item-marker {
+    cursor: pointer;
+}
+#toc li.toc-item-parent > div.toc-item-marker:after {
+    content: '\203A';
+    padding-left: .05em;
+}
+#toc li.toc-item-parent.expanded > div.toc-item-marker:after {
+    transform: rotate(90deg) translateY(-.15em);
+    padding-left: 0;
+}
+#toc li.toc-item-parent > ul {
+    display: none;
+}
+#toc li.toc-item-parent.expanded > ul {
+    display: inherit;
+}
+#toc .toc-cur-page > a,
+#toc .toc-cur-page-ancestor > a {
+    font-weight: bold;
 }
