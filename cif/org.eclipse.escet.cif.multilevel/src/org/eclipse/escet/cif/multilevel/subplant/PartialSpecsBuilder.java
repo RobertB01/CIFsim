@@ -112,10 +112,10 @@ public class PartialSpecsBuilder {
 
             // Fix each dangling object.
             for (Entry<EObject, Collection<Setting>> entry: danglings.entrySet()) {
-                // Original object connected with but not contained in the partial specification.
+                // Get original object connected with but not contained in the partial specification.
                 EObject dangling = entry.getKey();
 
-                // References from the partial specification to the dangling object.
+                // Get references from the partial specification to the dangling object.
                 Collection<Setting> partialConnections = entry.getValue();
 
                 // Find or construct a contained object in the partial specification to replace the dangling object.
@@ -156,10 +156,10 @@ public class PartialSpecsBuilder {
         // Third stage resolves all remaining tuple type field references as by now all types are contained in the
         // partial specification.
         for (Entry<EObject, Collection<Setting>> entry: unresolvedFields) {
-            // Original Field connected with but not contained in the partial specification.
-            EObject danglingField = entry.getKey();
+            // Get original 'Field' connected with but not contained in the partial specification.
+            Field danglingField = (Field)entry.getKey();
 
-            // References from the partial specification to the dangling Field.
+            // Get references from the partial specification to the dangling field.
             Collection<Setting> partialConnections = entry.getValue();
 
             // The original field should have a partial counter-part now.
@@ -185,7 +185,9 @@ public class PartialSpecsBuilder {
      *     constructed. For tuple type fields, {@code null} is returned.
      */
     private EObject findOrMakeContained(EObject dangling, PartialSpecManager partialMgr) {
-        // Find a contained object that was created in the mean time, if it exists.
+        // Try to find a contained object. Since dangling objects may be found multiple times, and could be processed in
+        // any order, it may have been processed already in the mean time. If so, don't do it again, but reuse the
+        // object.
         EObject copiedObj = partialMgr.getCopiedPartialObject(dangling);
         if (copiedObj != null) {
             return copiedObj;
@@ -193,7 +195,7 @@ public class PartialSpecsBuilder {
 
         // A replacement object has to be created.
 
-        // Some of these objects can simply be cloned.
+        // Some declarations can simply be cloned.
         if (dangling instanceof AlgVariable || dangling instanceof Constant || dangling instanceof EnumDecl
                 || dangling instanceof Event || dangling instanceof Function || dangling instanceof InputVariable
                 || dangling instanceof TypeDecl)
@@ -228,8 +230,8 @@ public class PartialSpecsBuilder {
             return inputVar;
         }
 
-        // Discrete variables of copied automata in the first stage should be deepcloned, rather than becoming
-        // input variables with the same domain.
+        // Discrete variables of copied automata in the first stage should be deepcloned. Other discrete variables
+        // become input variables with the same domains as the original discrete variables.
         if (dangling instanceof DiscVariable dv) {
             if (dv.eContainer() instanceof Automaton) {
                 DiscVariable clonedVar = partialMgr.deepcloneAndAdd(dv);

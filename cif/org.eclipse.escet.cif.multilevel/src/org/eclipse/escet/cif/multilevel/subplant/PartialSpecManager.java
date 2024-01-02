@@ -116,9 +116,17 @@ public class PartialSpecManager {
     /**
      * Get the next collection of dangling objects to resolve, and remove it from the queue.
      *
-     * @return A collection of dangling objects. The returned information may be outdated because the returned dangling
-     *     objects may have been resolved for a different copied sub-tree in the mean time. Returns {@code null} when
-     *     the queue is empty.
+     * <p>
+     * The returned information may be outdated because the returned dangling objects may have been resolved for a
+     * different copied sub-tree in the mean time.
+     * </p>
+     *
+     * <p>
+     * No assumptions should be made about the order in which dangling objects and found, nor about in which order they
+     * are returned by this method. This may even be different between application runs.
+     * </p>
+     *
+     * @return A collection of dangling objects. Returns {@code null} when the queue is empty.
      */
     public Map<EObject, Collection<Setting>> getNextDanglingObjects() {
         return danglingQueue.poll();
