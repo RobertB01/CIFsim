@@ -20,7 +20,16 @@
          contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
          default="true"
          extensions="setext"
-         icon="icons/setext_file.png">
+         icon="icons/setext_ascii_file.png">
+      </editor>
+      <editor
+         name="SeText XMI Editor"
+         class="org.eclipse.emf.ecore.presentation.EcoreEditor"
+         id="org.eclipse.escet.setext.texteditor.SeTextXmiEditor"
+         contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective"
+         default="true"
+         extensions="setextx"
+         icon="icons/setext_xmi_file.png">
       </editor>
    </extension>
 

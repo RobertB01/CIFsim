@@ -21,6 +21,11 @@ import org.eclipse.escet.setext.runtime.io.BaseReader;
 
 /** CIF ASCII text file reader. */
 public class CifReader extends BaseReader<CifReader, ASpecification, Specification, CifParser, CifTypeChecker> {
+    /** Constructor for the {@link CifReader} class. */
+    public CifReader() {
+        super(Specification.class);
+    }
+
     @Override
     protected CifParser createParser() {
         return new CifParser();
@@ -34,5 +39,10 @@ public class CifReader extends BaseReader<CifReader, ASpecification, Specificati
     @Override
     protected String getLangName() {
         return "CIF";
+    }
+
+    @Override
+    protected String getXmiFileExt() {
+        return "cifx";
     }
 }
