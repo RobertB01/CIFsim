@@ -337,7 +337,7 @@ public class InputOutputGenerator {
         NameGenerator nameGenerator = target.getNameGenerator();
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
-        CifDataProvider dataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
+        CifDataProvider cifDataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
         for (IoEntry entry: entries) {
             // Preliminaries (check I/O direction, construct links to the correct local data structures).
             Assert.check(EnumSet.of(IoDirection.IO_READ, IoDirection.IO_WRITE).contains(entry.ioDirection));
@@ -359,9 +359,9 @@ public class InputOutputGenerator {
             if (isInput) { // state-var := io-var;
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
-                    leftSide = dataProvider.getAddressableForDiscVar(discVar);
+                    leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
                 } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    leftSide = dataProvider.getAddressableForInputVar(inpVar);
+                    leftSide = cifDataProvider.getAddressableForInputVar(inpVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }
@@ -373,9 +373,9 @@ public class InputOutputGenerator {
 
                 PlcExpression rightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
-                    rightSide = dataProvider.getValueForDiscVar(discVar);
+                    rightSide = cifDataProvider.getValueForDiscVar(discVar);
                 } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    rightSide = dataProvider.getValueForInputVar(inpVar);
+                    rightSide = cifDataProvider.getValueForInputVar(inpVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }

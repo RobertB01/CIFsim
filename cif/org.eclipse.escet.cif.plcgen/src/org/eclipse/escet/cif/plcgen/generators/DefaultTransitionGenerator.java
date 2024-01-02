@@ -337,7 +337,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Generate code to copy the old value of assigned variables so they survive assignment with a new value, and
         // setup a redirect map for a new data provider, to make the expression generator use the copied state for
         // reading.
-        CifDataProvider rootProvider = mainExprGen.getScopeCifDataProvider();
+        CifDataProvider cifDataProvider = mainExprGen.getScopeCifDataProvider();
         Map<Declaration, PlcExpression> redirectedDecls = map();
         for (Declaration assignedVar: assignedVarList) {
             // TODO If the variable is only written, a copy is not needed.
@@ -346,19 +346,19 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(dv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
-                        rootProvider.getValueForDiscVar(dv)));
+                        cifDataProvider.getValueForDiscVar(dv)));
             } else if (assignedVar instanceof ContVariable cv) {
                 PlcVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
                         target.getRealType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(cv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
-                        rootProvider.getValueForContvar(cv, false)));
+                        cifDataProvider.getValueForContvar(cv, false)));
             } else {
                 throw new AssertionError("Unexpected kind of assigned variable \"" + assignedVar + "\".");
             }
         }
-        return new TransitionDataProvider(redirectedDecls, rootProvider);
+        return new TransitionDataProvider(redirectedDecls, cifDataProvider);
     }
 
     /** CIF data provider that redirects value access of state variables. */
@@ -367,56 +367,56 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         private final Map<Declaration, PlcExpression> redirectedDecls;
 
         /** Original CIF data provider. */
-        private final CifDataProvider rootProvider;
+        private final CifDataProvider cifDataProvider;
 
         /**
          * Constructor of the {@link TransitionDataProvider} class.
          *
          * @param redirectedDecls The collection of redirected PLC variable values.
-         * @param rootProvider Original CIF data provider.
+         * @param cifDataProvider Original CIF data provider.
          */
-        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls, CifDataProvider rootProvider) {
+        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls, CifDataProvider cifDataProvider) {
             this.redirectedDecls = redirectedDecls;
-            this.rootProvider = rootProvider;
+            this.cifDataProvider = cifDataProvider;
         }
 
         @Override
         public PlcExpression getValueForInputVar(InputVariable variable) {
-            return rootProvider.getValueForInputVar(variable);
+            return cifDataProvider.getValueForInputVar(variable);
         }
 
         @Override
         public PlcExpression getValueForDiscVar(DiscVariable variable) {
-            return redirectedDecls.getOrDefault(variable, rootProvider.getValueForDiscVar(variable));
+            return redirectedDecls.getOrDefault(variable, cifDataProvider.getValueForDiscVar(variable));
         }
 
         @Override
         public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
             if (getDerivative) { // Derivatives can't be assigned.
-                return rootProvider.getValueForContvar(variable, getDerivative);
+                return cifDataProvider.getValueForContvar(variable, getDerivative);
             } else {
-                return redirectedDecls.getOrDefault(variable, rootProvider.getValueForContvar(variable, getDerivative));
+                return redirectedDecls.getOrDefault(variable, cifDataProvider.getValueForContvar(variable, getDerivative));
             }
         }
 
         @Override
         public PlcExpression getValueForConstant(Constant constant) {
-            return rootProvider.getValueForConstant(constant);
+            return cifDataProvider.getValueForConstant(constant);
         }
 
         @Override
         public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
-            return rootProvider.getAddressableForDiscVar(variable);
+            return cifDataProvider.getAddressableForDiscVar(variable);
         }
 
         @Override
         public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
-            return rootProvider.getAddressableForContvar(variable, writeDerivative);
+            return cifDataProvider.getAddressableForContvar(variable, writeDerivative);
         }
 
         @Override
         public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
-            return rootProvider.getAddressableForInputVar(variable);
+            return cifDataProvider.getAddressableForInputVar(variable);
         }
     }
 

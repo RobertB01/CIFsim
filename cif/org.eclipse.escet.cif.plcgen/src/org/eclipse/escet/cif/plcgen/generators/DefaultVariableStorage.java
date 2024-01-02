@@ -119,7 +119,7 @@ public class DefaultVariableStorage implements VariableStorage {
     }
 
     @Override
-    public CifDataProvider getRootCifDataProvider() {
+    public CifDataProvider getCifDataProvider() {
         return new CifDataProvider() {
             @Override
             public PlcExpression getValueForConstant(Constant constant) {
