@@ -51,7 +51,7 @@ public class GraphCycleFinder
     }
 
     /** Wrapper class around a graph edge to match the {@link DirectedGraphCycleFinder} class expectations. */
-    public static class CycleFinderEdge extends GraphEdge<Integer> {
+    public static class CycleFinderEdge extends DirectedGraphCycleFinder.GraphEdge<Integer> {
         /** The actual edge of the graph. */
         public final Edge edge;
 
