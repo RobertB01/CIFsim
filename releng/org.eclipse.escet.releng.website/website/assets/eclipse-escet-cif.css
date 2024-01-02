@@ -19,4 +19,5 @@
   --escet-color-light40-rgb: 116,172,252; /* RGB -> HSV -> 54% of S -> RGB */
   --escet-color-dark20-rgb:  12,90,201;   /* RGB -> HSV -> 79% of V -> RGB */
   --escet-color-dark40-rgb:  9,67,150;    /* RGB -> HSV -> 59% of V -> RGB */
+  --escet-color-link-rgb:    var(--escet-color-dark20-rgb);
 }
