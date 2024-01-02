@@ -21,8 +21,8 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.List;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.dsm.ClusterInput;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the {@link ReadMatrix} class. */

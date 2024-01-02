@@ -28,7 +28,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 

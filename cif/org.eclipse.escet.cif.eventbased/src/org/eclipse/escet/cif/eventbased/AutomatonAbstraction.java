@@ -30,8 +30,8 @@ import org.eclipse.escet.cif.eventbased.automata.origin.LocationSetOrigin;
 import org.eclipse.escet.cif.eventbased.automata.origin.Origin;
 import org.eclipse.escet.cif.eventbased.partitions.Partition;
 import org.eclipse.escet.cif.eventbased.partitions.PartitionRefinement;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /**
  * Perform automaton abstraction to an abstracted alphabet by partitioning.

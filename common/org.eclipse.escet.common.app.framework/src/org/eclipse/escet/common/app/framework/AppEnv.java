@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.common.app.framework;
 
-import org.eclipse.escet.common.app.framework.exceptions.DependencyException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.DevModeOption;
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -23,6 +22,7 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.app.framework.output.StreamOutputComponent;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.DependencyException;
 
 /**
  * Application environment manager. It manages application environment data, as provided by the {@link AppEnvData}

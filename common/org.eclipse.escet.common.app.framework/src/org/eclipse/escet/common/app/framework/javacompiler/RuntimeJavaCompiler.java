@@ -38,9 +38,9 @@ import javax.tools.JavaFileObject.Kind;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-import org.eclipse.escet.common.app.framework.exceptions.DependencyException;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.DependencyException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.jdt.internal.compiler.tool.EclipseCompiler;
 
 /** Java compiler that supports run-time in-memory compilation. */

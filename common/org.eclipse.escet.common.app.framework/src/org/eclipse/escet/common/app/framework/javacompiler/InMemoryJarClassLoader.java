@@ -21,7 +21,7 @@ import java.net.URLClassLoader;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Class loader for loading classes from JAR files. Loads the classes from the JAR file and stores them in-memory. */
 public class InMemoryJarClassLoader extends URLClassLoader {

@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.emf.EMFValidationHelper;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /**
  * Base class for type checkers that return instances of Ecore metamodels.

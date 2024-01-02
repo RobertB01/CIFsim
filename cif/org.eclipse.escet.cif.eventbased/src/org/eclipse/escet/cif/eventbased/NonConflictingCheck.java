@@ -23,7 +23,7 @@ import java.util.Set;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonHelper;
 import org.eclipse.escet.cif.eventbased.automata.Location;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /**
  * Class implementing the non-conflicting check.

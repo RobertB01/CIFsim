@@ -66,9 +66,9 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.functions.AssignmentFuncStatement;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 
 /**

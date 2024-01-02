@@ -22,9 +22,9 @@ import java.util.Map;
 
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Generic option class. */
 public class Options { // ignore checkstyle HideUtilityClassConstructor

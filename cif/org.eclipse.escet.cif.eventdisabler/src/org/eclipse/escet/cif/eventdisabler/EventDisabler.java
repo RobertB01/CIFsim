@@ -75,10 +75,10 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** CIF event disabler. */
 public class EventDisabler {

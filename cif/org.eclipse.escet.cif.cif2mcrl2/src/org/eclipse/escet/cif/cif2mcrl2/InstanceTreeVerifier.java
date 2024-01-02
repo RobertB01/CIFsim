@@ -33,9 +33,9 @@ import org.eclipse.escet.cif.cif2mcrl2.tree.ElementaryTextNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.ProcessNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.TextNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.VariableProcessNode;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** Verify whether the instance tree is correct. */
 public class InstanceTreeVerifier {

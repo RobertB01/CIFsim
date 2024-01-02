@@ -86,10 +86,10 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Maps;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /** Expression evaluation code. */
 public class ExpressionEval {

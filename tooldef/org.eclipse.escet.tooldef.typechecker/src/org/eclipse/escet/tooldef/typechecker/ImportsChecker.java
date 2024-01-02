@@ -49,10 +49,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.TextPosition;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;

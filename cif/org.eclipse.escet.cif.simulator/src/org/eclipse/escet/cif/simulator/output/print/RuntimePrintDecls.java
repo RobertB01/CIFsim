@@ -18,9 +18,9 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.cif.simulator.CifSimulatorContext;
 import org.eclipse.escet.cif.simulator.output.NormalOutputType;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Runtime print I/O declarations, for a single file/target. */
 public abstract class RuntimePrintDecls {

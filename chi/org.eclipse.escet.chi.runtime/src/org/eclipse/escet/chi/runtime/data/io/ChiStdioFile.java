@@ -19,8 +19,8 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import java.io.IOException;
 
 import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** File handle for standard input or output. */
 public class ChiStdioFile extends ChiFileHandle {

@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.cif.simulator.options;
 
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /**
  * Complete mode option.

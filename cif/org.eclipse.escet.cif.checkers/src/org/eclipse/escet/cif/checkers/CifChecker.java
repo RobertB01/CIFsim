@@ -21,9 +21,9 @@ import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.java.CompositeCifWithArgWalker;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
 /** CIF checker. Checks whether a given CIF specification satisfies certain {@link CifCheck conditions}. */

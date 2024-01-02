@@ -18,11 +18,11 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 import org.eclipse.escet.common.typechecker.TypeChecker;

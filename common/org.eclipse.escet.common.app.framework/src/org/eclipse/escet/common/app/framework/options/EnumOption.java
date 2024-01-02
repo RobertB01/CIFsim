@@ -19,8 +19,8 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;

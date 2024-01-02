@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** CIF check that allows marker predicates in locations only if they can be evaluated statically. */
 public class LocOnlyStaticEvalMarkerPredsCheck extends CifCheck {

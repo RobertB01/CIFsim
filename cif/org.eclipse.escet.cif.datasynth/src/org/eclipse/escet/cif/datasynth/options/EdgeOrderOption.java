@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Edge order option. */
 public class EdgeOrderOption extends StringOption {

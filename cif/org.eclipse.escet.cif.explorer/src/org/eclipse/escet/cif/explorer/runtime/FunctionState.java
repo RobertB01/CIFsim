@@ -30,8 +30,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** {@link BaseState} for functions. */

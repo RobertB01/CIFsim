@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.cif.plcgen.options;
 
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Option for defining the integer type size in the PLC. */
 public class PlcIntTypeSizeOption extends EnumOption<PlcNumberBits> {

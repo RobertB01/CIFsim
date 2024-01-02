@@ -183,10 +183,10 @@ import org.eclipse.escet.cif.metamodel.cif.types.SetType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF PLC code generator. */

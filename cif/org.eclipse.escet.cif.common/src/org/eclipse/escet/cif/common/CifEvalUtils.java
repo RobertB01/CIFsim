@@ -114,11 +114,11 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Maps;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * CIF expression evaluation utility methods.

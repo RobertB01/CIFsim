@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.setext.runtime.exceptions;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.TextPosition;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /**
  * Exception indicating a syntax exception. Scanners and parsers should only throw exceptions that extend this class.

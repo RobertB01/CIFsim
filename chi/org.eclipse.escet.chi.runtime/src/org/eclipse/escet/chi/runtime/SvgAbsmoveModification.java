@@ -15,7 +15,7 @@ package org.eclipse.escet.chi.runtime;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.svg.SvgUtils;
 import org.eclipse.escet.common.svg.SvgVisualizer;
 

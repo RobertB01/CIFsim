@@ -82,9 +82,9 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * In-place transformation that linearizes the CIF specification. It performs process-algebraic linearization, thereby

@@ -38,9 +38,9 @@ import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** State invariant predicate code generator. */
 public class StateInvPredCodeGenerator {

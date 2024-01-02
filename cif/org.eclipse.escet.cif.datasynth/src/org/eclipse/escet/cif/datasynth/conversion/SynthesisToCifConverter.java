@@ -121,11 +121,11 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 import com.github.javabdd.BDD;

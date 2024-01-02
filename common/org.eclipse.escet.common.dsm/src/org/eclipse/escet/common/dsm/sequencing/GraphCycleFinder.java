@@ -22,7 +22,6 @@ import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
-import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.Lists;
 
 /** Class for finding cycles in the graph. */

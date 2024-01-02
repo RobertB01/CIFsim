@@ -87,7 +87,6 @@ import org.eclipse.escet.cif.simulator.output.DebugOutputType;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.javacompiler.JavaCompilerOption;
 import org.eclipse.escet.common.app.framework.javacompiler.JavaInputFileObject;
 import org.eclipse.escet.common.app.framework.javacompiler.ResourceClassLoader;
@@ -97,6 +96,7 @@ import org.eclipse.escet.common.app.framework.javacompiler.RuntimeJavaCompilerEx
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.PairTextComparer;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.ui.PlatformUI;
 
@@ -1298,8 +1298,8 @@ public class CifCompilerContext {
                 "java.util.Map.Entry", //
 
                 // ESCET common. Never use CifMath, always use CifSimulatorMath!
-                "org.eclipse.escet.common.app.framework.exceptions.InputOutputException", //
-                "org.eclipse.escet.common.app.framework.exceptions.UnsupportedException", //
+                "org.eclipse.escet.common.java.exceptions.InputOutputException", //
+                "org.eclipse.escet.common.java.exceptions.UnsupportedException", //
                 "static org.eclipse.escet.common.app.framework.output.OutputProvider.warn", //
                 "org.eclipse.escet.common.java.Assert", //
                 "org.eclipse.escet.common.java.Lists", //

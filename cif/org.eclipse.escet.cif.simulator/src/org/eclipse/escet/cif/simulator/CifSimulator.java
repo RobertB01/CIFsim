@@ -70,15 +70,15 @@ import org.eclipse.escet.cif.simulator.runtime.transitions.HistoryTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.TimeTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.Transition;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.javacompiler.InMemoryJarClassLoader;
 import org.eclipse.escet.common.app.framework.javacompiler.JarClassLoader;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.ui.PlatformUI;
 
 /** CIF simulator. */

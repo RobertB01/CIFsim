@@ -32,7 +32,7 @@ import java.util.jar.Manifest;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** URL stream handler for {@link InMemoryJarClassLoader}. */
 public class InMemoryJarClassLoaderUrlStreamHandler extends URLStreamHandler {

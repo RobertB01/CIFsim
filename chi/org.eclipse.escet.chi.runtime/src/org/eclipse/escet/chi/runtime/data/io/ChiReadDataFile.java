@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Class for reading from a data file. */
 public class ChiReadDataFile extends ChiFileHandle {

@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.io.MemAppStream;
@@ -27,6 +26,7 @@ import org.eclipse.escet.common.app.framework.management.AppManager;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.junit.jupiter.api.Test;
 
 /** Unit tests for testing application framework exception reporting. */

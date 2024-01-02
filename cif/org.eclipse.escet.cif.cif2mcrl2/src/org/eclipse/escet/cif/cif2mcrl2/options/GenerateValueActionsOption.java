@@ -23,9 +23,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Option to specify the variables that need to have a 'value' action. */
 public class GenerateValueActionsOption extends StringOption {

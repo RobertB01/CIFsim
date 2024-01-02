@@ -36,11 +36,11 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.TextPosition;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.setext.runtime.exceptions.ParseException;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 

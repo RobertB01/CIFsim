@@ -11,33 +11,28 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework.exceptions;
+package org.eclipse.escet.common.java.exceptions;
 
-/**
- * Exception that indicates a problem with an external dependency. Common problems are:
- * <ul>
- * <li>The external dependency could not be found.</li>
- * <li>The external dependency could not be loaded.</li>
- * <li>The external dependency could has an incompatible version.</li>
- * </ul>
- */
-public class DependencyException extends ApplicationException {
+import java.io.IOException;
+
+/** Exception indicating something went wrong during I/O. This exception usually wraps an {@link IOException}. */
+public class InputOutputException extends ApplicationException {
     /**
-     * Constructor for the {@link DependencyException} class.
+     * Constructor for the {@link InputOutputException} class.
      *
      * @param message Message describing the exception.
      */
-    public DependencyException(String message) {
+    public InputOutputException(String message) {
         super(message);
     }
 
     /**
-     * Constructor for the {@link DependencyException} class.
+     * Constructor for the {@link InputOutputException} class.
      *
      * @param message Message describing the exception.
      * @param cause A deeper cause of the exception.
      */
-    public DependencyException(String message, Throwable cause) {
+    public InputOutputException(String message, Throwable cause) {
         super(message, cause);
     }
 }

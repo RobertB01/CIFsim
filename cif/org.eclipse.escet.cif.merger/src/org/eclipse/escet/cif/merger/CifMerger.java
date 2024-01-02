@@ -79,9 +79,9 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** CIF merger. */
