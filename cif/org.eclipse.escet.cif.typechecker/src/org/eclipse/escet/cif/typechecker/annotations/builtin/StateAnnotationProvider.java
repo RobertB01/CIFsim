@@ -72,6 +72,8 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * its current value.</li>
  * <li>There can be any number of arguments (including no arguments), as models may have any number of automata and
  * variables.</li>
+ * <li>The order of the arguments is not relevant. That is, if the arguments were to be re-ordered, the annotation would
+ * still refer to the same state.</li>
  * <li>The name of the argument should be the absolute name of the corresponding automaton or variable. This constraint
  * is not checked, as such variables and automata typically do not exist in the current specification.</li>
  * <li>Argument values, and parts of argument values (in case of containers), must be literals of type {@code bool},

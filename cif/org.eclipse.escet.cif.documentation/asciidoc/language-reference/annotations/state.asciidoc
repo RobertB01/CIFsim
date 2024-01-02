@@ -32,6 +32,8 @@ The annotation has the following additional constraints, in addition to the <<la
 * A single location may have multiple state annotations, if that location represents multiple states of a state space.
 * Each argument of a state annotation represents either an automaton with its current location, or a variable with its current value.
 * There can be any number of arguments (including no arguments), as models may have any number of automata and variables.
+* The order of the arguments is not relevant.
+That is, if the arguments were to be re-ordered, the annotation would still refer to the same state.
 * The name of the argument must be the absolute name of the corresponding automaton or variable.
 * Argument values, and parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
 This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.

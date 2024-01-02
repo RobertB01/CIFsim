@@ -13,17 +13,21 @@
 
 package org.eclipse.escet.cif.common;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.java.Sets;
 
 /** CIF annotation wrapper class, for proper hashing and equality. */
 public class AnnotationEqHashWrap {
     /** The wrapped annotation. */
     public final Annotation annotation;
 
-    /** The evaluated annotation argument values. */
-    private final List<Object> argValues;
+    /** Per annotation argument name, the evaluated argument value. */
+    private final Map<String, Object> argNamesToValues;
 
     /** The cached hash code of this wrapper. */
     private final int hashCode;
@@ -35,38 +39,47 @@ public class AnnotationEqHashWrap {
      */
     public AnnotationEqHashWrap(Annotation annotation) {
         this.annotation = annotation;
-        this.argValues = evalAnnoArgValues(annotation);
-        this.hashCode = computeHashCode(annotation, argValues);
+        this.argNamesToValues = evalAnnoArgValues(annotation);
+        this.hashCode = computeHashCode(annotation, argNamesToValues);
     }
 
     /**
      * Evaluate the annotation argument values.
      *
      * @param annotation The annotation.
-     * @return The evaluated argument values.
+     * @return Per annotation argument name, the evaluated argument value.
      */
-    private static List<Object> evalAnnoArgValues(Annotation annotation) {
-        return annotation.getArguments().stream().map(arg -> {
-            try {
-                return CifEvalUtils.eval(arg.getValue(), false);
-            } catch (CifEvalException e) {
-                // Type checker should have determined that it is safe to evaluate these literals.
-                throw new RuntimeException("Failed to evaluate annotation argument value.", e);
-            }
-        }).toList();
+    private static Map<String, Object> evalAnnoArgValues(Annotation annotation) {
+        return annotation.getArguments().stream()
+                .collect(Collectors.toMap(arg -> arg.getName(), arg -> evalAnnoArgValue(arg.getValue())));
+    }
+
+    /**
+     * Evaluate an annotation argument value.
+     *
+     * @param value The argument value.
+     * @return The evaluated argument value.
+     */
+    private static Object evalAnnoArgValue(Expression value) {
+        try {
+            return CifEvalUtils.eval(value, false);
+        } catch (CifEvalException e) {
+            // Type checker should have determined that it is safe to evaluate these literals.
+            throw new RuntimeException("Failed to evaluate annotation argument value.", e);
+        }
     }
 
     /**
      * Compute the hash code of an annotation.
      *
      * @param annotation The annotation.
-     * @param argValues The evaluated annotation argument values.
+     * @param argNamesToValues Per annotation argument name, the evaluated argument value.
      * @return The hash code of the annotation.
      */
-    private static int computeHashCode(Annotation annotation, List<Object> argValues) {
+    private static int computeHashCode(Annotation annotation, Map<String, Object> argNamesToValues) {
         int h = annotation.getName().hashCode();
-        for (int i = 0; i < argValues.size(); i++) {
-            h ^= annotation.getArguments().get(i).getName().hashCode() + argValues.get(i).hashCode();
+        for (Entry<String, Object> entry: argNamesToValues.entrySet()) {
+            h ^= entry.getKey().hashCode() + entry.getValue().hashCode();
         }
         return h;
     }
@@ -89,22 +102,20 @@ public class AnnotationEqHashWrap {
             return false;
         }
 
-        // Check annotation arguments.
+        // Check annotation arguments. Note that the order of the arguments is not relevant.
         if (this.annotation.getArguments().size() != other.annotation.getArguments().size()) {
             return false;
         }
-        for (int i = 0; i < this.annotation.getArguments().size(); i++) {
-            // Check argument names.
-            String thisArgName = this.annotation.getArguments().get(i).getName();
-            String otherArgName = other.annotation.getArguments().get(i).getName();
-            if (!thisArgName.equals(otherArgName)) {
+        for (String argName: Sets.union(this.argNamesToValues.keySet(), other.argNamesToValues.keySet())) {
+            // Check that both have the argument.
+            Object thisArgValue = this.argNamesToValues.get(argName);
+            Object otherArgValue = other.argNamesToValues.get(argName);
+            if (thisArgValue == null || otherArgValue == null) {
                 return false;
             }
 
             // Check argument values. Use evaluated values such that for instance '{1, 2}' and '{2, 1}' are considered
             // equal.
-            Object thisArgValue = this.argValues.get(i);
-            Object otherArgValue = other.argValues.get(i);
             if (!thisArgValue.equals(otherArgValue)) {
                 return false;
             }

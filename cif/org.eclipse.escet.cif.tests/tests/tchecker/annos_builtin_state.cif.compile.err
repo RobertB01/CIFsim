@@ -70,4 +70,6 @@ ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 278, colu
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 285, column 3: Annotation "state": duplicate state annotation within automaton "duplicate_annos_per_aut_dict".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 286, column 3: Annotation "state": duplicate state annotation within automaton "duplicate_annos_per_aut_dict".
 ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 287, column 3: Annotation "state": duplicate state annotation within automaton "duplicate_annos_per_aut_dict".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 294, column 3: Annotation "state": duplicate state annotation within automaton "duplicate_annos_per_aut_arg_order".
+ERROR: File "tchecker/annos_builtin_state.cif": Semantic error at line 295, column 3: Annotation "state": duplicate state annotation within automaton "duplicate_annos_per_aut_arg_order".
 ERROR: Failed to load CIF file "tchecker/annos_builtin_state.cif": the file has errors.

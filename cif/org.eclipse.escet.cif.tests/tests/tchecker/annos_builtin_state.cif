@@ -289,3 +289,10 @@ automaton duplicate_annos_per_aut_dict:
   location:
     initial;
 end
+
+automaton duplicate_annos_per_aut_arg_order:
+  @state(a = 1, b = 2, c = 3)
+  @state(b = 2, a = 1, c = 3)
+  location:
+    initial;
+end
