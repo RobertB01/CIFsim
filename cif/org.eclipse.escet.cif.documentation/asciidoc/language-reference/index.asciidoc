@@ -29,7 +29,7 @@ _Syntax_
 
 * <<lang-ref-syntax-lexical>>
 * <<lang-ref-syntax-grammar>>
-* <<lang-ref-syntax-xmi>>
+* <<lang-ref-syntax-xml>>
 
 _Annotations_
 
