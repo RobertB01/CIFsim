@@ -13,22 +13,25 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[lang-ref-syntax-xmi]]
-== CIF XMI files
+[[lang-ref-syntax-xml]]
+== CIF XML files
 
-While CIF has a textual syntax (see the <<lang-ref-syntax-lexical,lexical syntax>> and <<lang-ref-syntax-grammar,grammar>>), in certain cases it may be more convenient to work with CIF specifications as XML files.
+While CIF has a textual syntax (see the <<lang-ref-syntax-lexical,lexical syntax>> and <<lang-ref-syntax-grammar,grammar>>), in certain cases it may be more convenient to work with CIF specifications as link:https://en.wikipedia.org/wiki/XML[XML] files.
 For instance:
 
 * When debugging tools that produce CIF models, the XML file format contains all internal details, such as the types of expressions.
 * For processing of CIF specifications by other tools, having an XML syntax can be useful as well.
 Those tools do not have to parse and type check CIF specifications by themselves, as the XML files contain the type checked specifications.
 
-All CIF tools bundled with Eclipse ESCET support writing CIF specifications as link:https://en.wikipedia.org/wiki/XML_Metadata_Interchange[XMI] files, XML files with unique identifiers for all objects.
-To write a CIF XMI file instead of a regular CIF file in the CIF textual syntax, use the `.cifx` file extension for the output CIF file.
+All CIF tools bundled with Eclipse ESCET support writing CIF specifications as XML files.
+To write a CIF XML file instead of a regular CIF file in the CIF textual syntax, use the `.cifx` file extension for the output CIF file.
 
-All CIF tools bundled with Eclipse ESCET also support reading CIF specifications from XMI files.
-If an input CIF specification has the `.cifx` file extension, it is read as an XMI file.
+All CIF tools bundled with Eclipse ESCET also support reading CIF specifications from XML files.
+If an input CIF specification has the `.cifx` file extension, it is read as an XML file.
 
-XMI files produced by different versions of CIF may not be compatible.
-No care is taken to prevent such incompatibilities.
-And the CIF <<release-notes-chapter-index,release notes>> do not indicate such incompatibilities.
+The CIF XML files are a special type of XML, namely link:https://en.wikipedia.org/wiki/XML_Metadata_Interchange[XMI].
+XMI stands for 'XML Metadata Interchange' and is an link:https://en.wikipedia.org/wiki/Object_Management_Group[OMG] standard.
+
+XML files produced by CIF tools should be considered to be version-specific.
+Different versions of CIF may read and write XML files that are not compatible with previous versions.
+The CIF <<release-notes-chapter-index,release notes>> do not indicate such incompatibilities.
