@@ -180,6 +180,7 @@
                             <htmlType>WEBSITE</htmlType>
                             <parentWebsiteName>CIF website</parentWebsiteName>
                             <parentWebsiteLink>.</parentWebsiteLink>
+                            <jsFilePath>assets/asciidoctor-escet-cif.js</jsFilePath>
                         </configuration>
                     </execution>
                 </executions>

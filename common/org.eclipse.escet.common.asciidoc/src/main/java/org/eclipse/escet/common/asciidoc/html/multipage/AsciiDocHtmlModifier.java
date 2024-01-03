@@ -15,6 +15,7 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import static org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocHtmlUtil.single;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -59,7 +60,7 @@ class AsciiDocHtmlModifier {
 
     /**
      * Modify the AsciiDoc-generated single-page HTML file for each multi-page HTML page, and write the modified pages
-     * to disk.
+     * to disk. Also writes a JavaScript file, if applicable.
      *
      * @param singlePageDoc The AsciiDoc-generated single-page HTML document.
      * @param htmlPages The multi-page HTML pages.
@@ -71,10 +72,12 @@ class AsciiDocHtmlModifier {
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param jsFilePath The path to the JavaScript file to write, if {@code htmlType} is {@link HtmlType#WEBSITE},
+     *     {@code null} otherwise.
      * @param logger The logger to use.
      */
     static void generateAndWriteModifiedPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink,
+            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink, Path jsFilePath,
             Consumer<String> logger)
     {
         // Determine new section ids.
@@ -95,6 +98,11 @@ class AsciiDocHtmlModifier {
                 // any modifications to the document itself.
                 for (AsciiDocHtmlPage somePage: htmlPages.pages) {
                     somePage.multiPageNodes = determineClonedNodes(singlePageDoc, page.doc, somePage.singlePageNodes);
+                }
+
+                // Add JavaScript file link.
+                if (htmlType == HtmlType.WEBSITE) {
+                    addJsLink(page.doc, outputRootPath, jsFilePath);
                 }
 
                 // Modify page title.
@@ -174,6 +182,11 @@ class AsciiDocHtmlModifier {
                 throw new RuntimeException(
                         "Failed to modify HTML document for AsciiDoc multi-html page: " + page.sourceFile.relPath, e);
             }
+        }
+
+        // Write JavaScript file.
+        if (htmlType == HtmlType.WEBSITE) {
+            writeJsFile(jsFilePath);
         }
     }
 
@@ -328,6 +341,25 @@ class AsciiDocHtmlModifier {
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
             fillSectionIdRenameMap(childEntry, renames);
         }
+    }
+
+    /**
+     * Add JavaScript file link.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param outputRootPath The path to the directory in which to write output.
+     * @param jsFilePath The path to the JavaScript file to write.
+     */
+    private static void addJsLink(Document doc, Path outputRootPath, Path jsFilePath) {
+        // Get relative URL to JavaScript file.
+        String relPath = outputRootPath.relativize(jsFilePath).toString().replace("\\", "/");
+
+        // Add JavaScript file link.
+        Element headElem = single(doc.select("head"));
+        Element jsLinkElem = doc.createElement("script");
+        headElem.appendChild(jsLinkElem);
+        jsLinkElem.attr("type", "text/javascript");
+        jsLinkElem.attr("src", relPath);
     }
 
     /**
@@ -638,9 +670,10 @@ class AsciiDocHtmlModifier {
      *     the root AsciiDoc file.
      */
     private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath) {
-        updateReferences(page, htmlPages, sourceRootPath, "a", "href", true, true);
-        updateReferences(page, htmlPages, sourceRootPath, "img", "src", false, false);
-        updateReferences(page, htmlPages, sourceRootPath, "link", "href", false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "a", "href", false, true, true);
+        updateReferences(page, htmlPages, sourceRootPath, "img", "src", false, false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "link", "href", false, false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "script", "src", true, false, false);
     }
 
     /**
@@ -652,20 +685,31 @@ class AsciiDocHtmlModifier {
      *     the root AsciiDoc file.
      * @param tagName The tag name of elements for which to update references.
      * @param attrName The attribute name that contains the reference.
-     * @param allowEmptyRefIfNoChildren Whether to allow empty references (attribute values) if the element has no child
-     *     nodes ({@code true}), or disallow empty references altogether ({@code false}).
+     * @param allowEmptyRef Whether to allow no references and empty references, i.e., no attribute values and empty
+     *     attribute values. Must not be {@code true} if {@code allowEmptyRefIfNoChildren} is {@code true}.
+     * @param allowEmptyRefIfNoChildren Whether to allow no references and empty references, i.e., no attribute values
+     *     and empty attribute values, if the element has no child nodes. Must not be {@code true} if
+     *     {@code allowEmptyRef} is {@code true}.
      * @param allowSectionRefs Whether to allow section references ({@code #...}) as references ({@code true}) or not
      *     ({@code false}).
      */
     private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            String tagName, String attrName, boolean allowEmptyRefIfNoChildren, boolean allowSectionRefs)
+            String tagName, String attrName, boolean allowEmptyRef, boolean allowEmptyRefIfNoChildren,
+            boolean allowSectionRefs)
     {
+        // Check preconditions.
+        Verify.verify(!(allowEmptyRef && allowEmptyRefIfNoChildren));
+
+        // Update references.
         ELEMS_LOOP:
         for (Element elem: page.doc.select(tagName)) {
             // Get attribute value.
             String ref = elem.attr(attrName);
             if (ref == null || ref.isBlank()) {
-                if (allowEmptyRefIfNoChildren) {
+                if (allowEmptyRef) {
+                    // Occurs for 'script.src' when it is an inline script.
+                    continue;
+                } else if (allowEmptyRefIfNoChildren) {
                     // Occurs for 'a.href' for bibliography entries.
                     // But then they have no child nodes, and are thus not clickable.
                     Verify.verify(elem.childNodeSize() == 0);
@@ -751,62 +795,6 @@ class AsciiDocHtmlModifier {
      * @param doc The HTML document to modify in-place.
      */
     private static void addTocInteractivity(Document doc) {
-        // Add JavaScript to page header.
-        Element headElem = single(doc.select("html > head"));
-        Element scriptElem = doc.createElement("script");
-        headElem.appendChild(scriptElem);
-        scriptElem.attr("type", "text/javascript");
-        scriptElem.text("""
-                function onLoad() {
-                    tocAddCurrentSection();
-                    window.onhashchange = onHashChange;
-                }
-
-                function onHashChange(event) {
-                    tocClearCurrentSection();
-                    tocAddCurrentSection();
-                }
-
-                function tocAddCurrentSection() {
-                    if (window.location.hash) {
-                        var aElem = document.querySelector('#toc a[href="' + window.location.hash + '"]');
-                        if (aElem) {
-                            // Mark TOC item as the current section.
-                            var liElem = aElem.parentElement;
-                            liElem.classList.add('toc-cur-section');
-                            liElem.classList.add('expanded');
-
-                            // Mark ancestors. Don't give TOC items a duplicate marking though.
-                            var elem = liElem.parentElement;
-                            while (true) {
-                                if (elem === null) break;
-                                if (elem.id === 'toc') break;
-                                if (elem.classList.contains('toc-cur-page')) break;
-                                if (elem.classList.contains('toc-cur-page-ancestor')) break;
-                                if (elem.tagName === 'LI') {
-                                    elem.classList.add('toc-cur-section-ancestor');
-                                    elem.classList.add('expanded');
-                                }
-                                elem = elem.parentElement;
-                            }
-                        }
-                    }
-                }
-
-                function tocClearCurrentSection() {
-                    var elems = document.querySelectorAll('#toc li.toc-cur-section, #toc li.toc-cur-section-ancestor');
-                    for (let i = 0; i < elems.length; i++) {
-                        var elem = elems.item(i);
-                        elem.classList.remove('toc-cur-section', 'toc-cur-section-ancestor');
-                    }
-                }
-
-                function tocToggle(divElem) {
-                    var liElem = divElem.parentElement;
-                    liElem.classList.toggle('expanded');
-                }
-                """);
-
         // Initialize TOC on page load.
         Element bodyElem = single(doc.select("body"));
         bodyElem.attr("onload", "onLoad()");
@@ -875,5 +863,78 @@ class AsciiDocHtmlModifier {
         elemPdfTipA.attr("href", homePage.sourceFile.getBaseName() + "-single-page.html");
         elemPdfTipA.text("single-page HTML");
         elemPdfTip.appendText(" version.");
+    }
+
+    /**
+     * Write JavaScript file.
+     *
+     * @param filePath The path to the JavaScript file.
+     */
+    private static void writeJsFile(Path filePath) {
+        String code = """
+                /** The page has loaded. */
+                function onLoad() {
+                    tocAddCurrentSection();
+                    window.onhashchange = onHashChange;
+                }
+
+                /** The hash part ('#...') of the windows's location has changed. */
+                function onHashChange(event) {
+                    tocClearCurrentSection();
+                    tocAddCurrentSection();
+                }
+
+                /** Add current section class markers. */
+                function tocAddCurrentSection() {
+                    if (window.location.hash) {
+                        var aElem = document.querySelector('#toc a[href="' + window.location.hash + '"]');
+                        if (aElem) {
+                            // Mark TOC item as the current section.
+                            var liElem = aElem.parentElement;
+                            liElem.classList.add('toc-cur-section');
+                            liElem.classList.add('expanded');
+
+                            // Mark ancestors. Don't give TOC items a duplicate marking though.
+                            var elem = liElem.parentElement;
+                            while (true) {
+                                if (elem === null) break;
+                                if (elem.id === 'toc') break;
+                                if (elem.classList.contains('toc-cur-page')) break;
+                                if (elem.classList.contains('toc-cur-page-ancestor')) break;
+                                if (elem.tagName === 'LI') {
+                                    elem.classList.add('toc-cur-section-ancestor');
+                                    elem.classList.add('expanded');
+                                }
+                                elem = elem.parentElement;
+                            }
+                        }
+                    }
+                }
+
+                /** Clear all current section class markers. */
+                function tocClearCurrentSection() {
+                    var elems = document.querySelectorAll('#toc li.toc-cur-section, #toc li.toc-cur-section-ancestor');
+                    for (let i = 0; i < elems.length; i++) {
+                        var elem = elems.item(i);
+                        elem.classList.remove('toc-cur-section', 'toc-cur-section-ancestor');
+                    }
+                }
+
+                /**
+                 * Toggle a TOC item.
+                 *
+                 * @param {object} divElem - The TOC item's 'div' element.
+                 */
+                function tocToggle(divElem) {
+                    var liElem = divElem.parentElement;
+                    liElem.classList.toggle('expanded');
+                }
+                """;
+
+        try {
+            Files.writeString(filePath, code, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write JavaScript file: " + filePath, e);
+        }
     }
 }

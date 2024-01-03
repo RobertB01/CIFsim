@@ -180,6 +180,7 @@
                             <htmlType>WEBSITE</htmlType>
                             <parentWebsiteName>ToolDef website</parentWebsiteName>
                             <parentWebsiteLink>.</parentWebsiteLink>
+                            <jsFilePath>assets/asciidoctor-escet-tooldef.js</jsFilePath>
                         </configuration>
                     </execution>
                 </executions>

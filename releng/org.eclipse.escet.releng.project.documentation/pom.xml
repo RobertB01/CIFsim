@@ -180,6 +180,7 @@
                             <htmlType>WEBSITE</htmlType>
                             <parentWebsiteName>Eclipse ESCET™ website</parentWebsiteName>
                             <parentWebsiteLink>.</parentWebsiteLink>
+                            <jsFilePath>assets/asciidoctor-escet-project.js</jsFilePath>
                         </configuration>
                     </execution>
                 </executions>
