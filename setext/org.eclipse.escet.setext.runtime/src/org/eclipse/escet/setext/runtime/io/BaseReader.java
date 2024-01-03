@@ -101,9 +101,10 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
     protected abstract String getLangName();
 
     /**
-     * Returns the file extension for XMI files handled by this reader, excluding the {@code "."}.
+     * Returns the file extension for XMI files handled by this reader, excluding the {@code "."}, or {@code null} if
+     * reading XMI is not supported.
      *
-     * @return The file extension for XMI files handled by this reader, excluding the {@code "."}.
+     * @return The file extension for XMI files handled by this reader, excluding the {@code "."}, or {@code null}.
      */
     protected abstract String getXmiFileExt();
 
@@ -192,7 +193,8 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
         }
 
         // Read XMI file, if file has the reader's XMI file extension.
-        if (path.toLowerCase(Locale.US).endsWith("." + getXmiFileExt())) {
+        String xmiFileExt = getXmiFileExt();
+        if (xmiFileExt != null && path.toLowerCase(Locale.US).endsWith("." + xmiFileExt)) {
             try {
                 return ResourceManager.loadObject(path, rsltClass);
             } catch (EMFResourceException e) {
@@ -235,7 +237,8 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
         }
 
         // We will read an ASCII file. Make sure we are not reading as an XMI file.
-        Assert.check(!path.toLowerCase(Locale.US).endsWith("." + getXmiFileExt()));
+        String xmiFileExt = getXmiFileExt();
+        Assert.check(xmiFileExt == null || !path.toLowerCase(Locale.US).endsWith("." + xmiFileExt));
 
         // Parse input file.
         DebugMode debugMode = debugParser ? DebugMode.PARSER : DebugMode.NONE;
