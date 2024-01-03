@@ -16,7 +16,9 @@ package org.eclipse.escet.cif.codegen.javascript.typeinfos;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
@@ -97,7 +99,7 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.add("constructor(%s) {", String.join(", ", paramTxts));
         code.indent();
         for (String name: names) {
-            code.add("%s.%s = %s;", ctxt.getPrefix(), name, name);
+            code.add("this.%s = %s;", name, name);
         }
         code.dedent();
         code.add("}");
@@ -106,7 +108,8 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.add();
         code.add("copy() {");
         code.indent();
-        code.add("return new %s(%s);", className, String.join(", ", names));
+        code.add("return new %s(%s);", className,
+                Arrays.stream(names).map(name -> "this." + name).collect(Collectors.joining(", ")));
         code.dedent();
         code.add("}");
 
@@ -114,15 +117,14 @@ public class JavaScriptTupleTypeInfo extends TupleTypeInfo {
         code.add();
         code.add("toString() {");
         code.indent();
-        code.add("var rslt = \"\";");
-        code.add("rslt += \"(\";");
+        code.add("var rslt = '(';");
         for (int i = 0; i < names.length; i++) {
             if (i > 0) {
-                code.add("rslt += \", \";");
+                code.add("rslt += ', ';");
             }
-            code.add("rslt += %sUtils.valueToStr(%s);", ctxt.getPrefix(), names[i]);
+            code.add("rslt += %sUtils.valueToStr(this.%s);", ctxt.getPrefix(), names[i]);
         }
-        code.add("rslt += \")\";");
+        code.add("rslt += ')';");
         code.add("return rslt;");
         code.dedent();
         code.add("}");

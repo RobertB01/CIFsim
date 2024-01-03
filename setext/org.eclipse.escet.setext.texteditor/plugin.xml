@@ -20,7 +20,7 @@
          contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
          default="true"
          extensions="setext"
-         icon="icons/setext_file.png">
+         icon="icons/setext_ascii_file.png">
       </editor>
    </extension>
 

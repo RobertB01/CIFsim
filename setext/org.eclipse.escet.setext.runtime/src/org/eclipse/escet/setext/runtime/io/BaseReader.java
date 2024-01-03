@@ -16,12 +16,15 @@ package org.eclipse.escet.setext.runtime.io;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.emf.EMFResourceException;
+import org.eclipse.escet.common.emf.ResourceManager;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
@@ -43,6 +46,9 @@ import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRslt, TParser extends Parser<TAst>,
         TChk extends TypeChecker<TAst, TRslt>>
 {
+    /** The class matching {@code TRslt}. */
+    private final Class<TRslt> rsltClass;
+
     /**
      * The absolute or relative local file system path to the input file to parse. This path is used in the source for
      * position information.
@@ -65,6 +71,15 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
     private TChk tchecker;
 
     /**
+     * Constructor for the {@link BaseReader} class.
+     *
+     * @param rsltClass The class matching {@code TRslt}.
+     */
+    public BaseReader(Class<TRslt> rsltClass) {
+        this.rsltClass = rsltClass;
+    }
+
+    /**
      * Creates a new parser.
      *
      * @return The newly created parser.
@@ -84,6 +99,14 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
      * @return The name of the language of the files being read by this reader.
      */
     protected abstract String getLangName();
+
+    /**
+     * Returns the file extension for XMI files handled by this reader, excluding the {@code "."}, or {@code null} if
+     * reading XMI is not supported.
+     *
+     * @return The file extension for XMI files handled by this reader, excluding the {@code "."}, or {@code null}.
+     */
+    protected abstract String getXmiFileExt();
 
     /**
      * Returns the absolute local file system path to the input file to parse.
@@ -150,19 +173,36 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
     }
 
     /**
-     * Reads the input from the file set via the {@link #init} method. Parser warnings and type checking problems are
-     * printed to the console, using the application framework.
+     * Reads the input from the file set via the {@link #init} method.
      *
-     * @return The result of reading the input file, parsing it, and type checking it.
+     * <p>
+     * For ASCII files, parser warnings and type checking problems are printed to the console, using the application
+     * framework.
+     * </p>
+     *
+     * @return The result of reading the input file.
      * @throws IllegalStateException If the reader is not yet initialized.
-     * @throws SyntaxException If parsing fails.
-     * @throws InvalidInputException If type checking fails.
+     * @throws SyntaxException If parsing fails (for ASCII files).
+     * @throws InvalidInputException If type checking fails (for ASCII files).
+     * @throws InvalidInputException If loading the model fails (for XMI files).
      */
     public TRslt read() {
         // Check state.
         if (path == null) {
             throw new IllegalStateException("Not yet initialized.");
         }
+
+        // Read XMI file, if file has the reader's XMI file extension.
+        String xmiFileExt = getXmiFileExt();
+        if (xmiFileExt != null && path.toLowerCase(Locale.US).endsWith("." + xmiFileExt)) {
+            try {
+                return ResourceManager.loadObject(path, rsltClass);
+            } catch (EMFResourceException e) {
+                throw new InvalidInputException(fmt("Failed to load %s file \"%s\".", getLangName(), path), e);
+            }
+        }
+
+        // Not an XMI file. Read as a regular ASCII file.
 
         // Parse input file.
         DebugMode debugMode = debugParser ? DebugMode.PARSER : DebugMode.NONE;
@@ -195,6 +235,10 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
         if (path == null) {
             throw new IllegalStateException("Not yet initialized.");
         }
+
+        // We will read an ASCII file. Make sure we are not reading as an XMI file.
+        String xmiFileExt = getXmiFileExt();
+        Assert.check(xmiFileExt == null || !path.toLowerCase(Locale.US).endsWith("." + xmiFileExt));
 
         // Parse input file.
         DebugMode debugMode = debugParser ? DebugMode.PARSER : DebugMode.NONE;

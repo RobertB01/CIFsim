@@ -22,6 +22,15 @@
          extensions="cif"
          icon="icons/cif_ascii_file.png">
       </editor>
+      <editor
+         name="CIF XMI Editor"
+         class="org.eclipse.emf.ecore.presentation.EcoreEditor"
+         id="org.eclipse.escet.cif.texteditor.CifXmiEditor"
+         contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective"
+         default="true"
+         extensions="cifx"
+         icon="icons/cif_xmi_file.png">
+      </editor>
    </extension>
 
    <extension point="org.eclipse.core.resources.markers"

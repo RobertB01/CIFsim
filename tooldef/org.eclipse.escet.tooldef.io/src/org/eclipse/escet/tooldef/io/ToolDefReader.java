@@ -20,6 +20,11 @@ import org.eclipse.escet.tooldef.typechecker.ToolDefTypeChecker;
 
 /** ToolDef ASCII text file reader. */
 public class ToolDefReader extends BaseReader<ToolDefReader, Script, Script, ToolDefParser, ToolDefTypeChecker> {
+    /** Constructor for the {@link ToolDefReader} class. */
+    public ToolDefReader() {
+        super(Script.class);
+    }
+
     @Override
     protected ToolDefParser createParser() {
         return new ToolDefParser();
@@ -33,5 +38,10 @@ public class ToolDefReader extends BaseReader<ToolDefReader, Script, Script, Too
     @Override
     protected String getLangName() {
         return "ToolDef";
+    }
+
+    @Override
+    protected String getXmiFileExt() {
+        return "tooldefx";
     }
 }

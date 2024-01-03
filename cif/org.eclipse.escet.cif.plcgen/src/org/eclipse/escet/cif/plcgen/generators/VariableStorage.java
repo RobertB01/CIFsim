@@ -37,5 +37,5 @@ public interface VariableStorage {
      *
      * @return Access to PLC equivalents of the globally used CIF state for expression generation.
      */
-    public CifDataProvider getRootCifDataProvider();
+    public CifDataProvider getCifDataProvider();
 }
