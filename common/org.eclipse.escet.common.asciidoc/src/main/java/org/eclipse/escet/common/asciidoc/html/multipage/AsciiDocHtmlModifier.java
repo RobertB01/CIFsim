@@ -757,10 +757,59 @@ class AsciiDocHtmlModifier {
         headElem.appendChild(scriptElem);
         scriptElem.attr("type", "text/javascript");
         scriptElem.text("""
-                function tocToggle(elem) {
-                    elem.parentElement.classList.toggle('expanded');
+                function onLoad() {
+                    tocAddCurrentSection();
+                    window.onhashchange = onHashChange;
+                }
+
+                function onHashChange(event) {
+                    tocClearCurrentSection();
+                    tocAddCurrentSection();
+                }
+
+                function tocAddCurrentSection() {
+                    if (window.location.hash) {
+                        var aElem = document.querySelector('#toc a[href="' + window.location.hash + '"]');
+                        if (aElem) {
+                            // Mark TOC item as the current section.
+                            var liElem = aElem.parentElement;
+                            liElem.classList.add('toc-cur-section');
+                            liElem.classList.add('expanded');
+
+                            // Mark ancestors. Don't give TOC items a duplicate marking though.
+                            var elem = liElem.parentElement;
+                            while (true) {
+                                if (elem === null) break;
+                                if (elem.id === 'toc') break;
+                                if (elem.classList.contains('toc-cur-page')) break;
+                                if (elem.classList.contains('toc-cur-page-ancestor')) break;
+                                if (elem.tagName === 'LI') {
+                                    elem.classList.add('toc-cur-section-ancestor');
+                                    elem.classList.add('expanded');
+                                }
+                                elem = elem.parentElement;
+                            }
+                        }
+                    }
+                }
+
+                function tocClearCurrentSection() {
+                    var elems = document.querySelectorAll('#toc li.toc-cur-section, #toc li.toc-cur-section-ancestor');
+                    for (let i = 0; i < elems.length; i++) {
+                        var elem = elems.item(i);
+                        elem.classList.remove('toc-cur-section', 'toc-cur-section-ancestor');
+                    }
+                }
+
+                function tocToggle(divElem) {
+                    var liElem = divElem.parentElement;
+                    liElem.classList.toggle('expanded');
                 }
                 """);
+
+        // Initialize TOC on page load.
+        Element bodyElem = single(doc.select("body"));
+        bodyElem.attr("onload", "onLoad()");
 
         // Update TOC items.
         for (Element tocItemElem: doc.select("#toc li")) {

@@ -272,6 +272,8 @@ body {
     display: inherit;
 }
 #toc .toc-cur-page > a,
-#toc .toc-cur-page-ancestor > a {
+#toc .toc-cur-page-ancestor > a,
+#toc .toc-cur-section > a,
+#toc .toc-cur-section-ancestor > a {
     font-weight: bold;
 }
