@@ -194,6 +194,8 @@ You can also use this method to figure out the variability of the duration of ex
 +
 The `doInfoExec` field of the class can be used to configure whether this method is invoked during execution by the `exec` method.
 This is enabled (`true`) by default.
++
+By default, this method does not do anything.
 
 * `infoEvent` method
 +
@@ -212,25 +214,33 @@ You could for instance log that for debugging.
 +
 The `doInfoEvent` field of the class can be used to configure whether this method is invoked during execution.
 This is enabled (`true`) by default.
++
+By default, this methods prints information about event transitions that are executed, and states that are reached.
+The `doTransitionPrint` and `doStatePrint` fields of the class can be used to configure whether transition and state output, respectively, are printed.
+They are enabled (`true`) by default.
+If `doStatePrint` is enabled, information is also printed for the initial state.
 
 * `infoPrintOutput` method
 +
 [source, javascript]
 ----
-infoPrintOutput(text)
+infoPrintOutput(text, target)
 ----
 +
 This method informs that new print output has been generated during execution.
 The `text` is the text that is to be printed.
-//The `target` indicates the file or special target to which text is to be printed.
-//If printed to a file, an absolute or relative local file system path is given.
-//Paths may contain both `/` and `\` as file separators.
-//Supply the path to the `<prefix>Utils.normalizePrintTarget` method to normalize the path to use file separators for the current platform on which the JavaScript code is executed.
-//+
-//There are two special targets: `:stdout` to print to the standard output stream, and `:stderr` to print to the standard error stream.
+The `target` indicates the file or special target to which text is to be printed.
+If printed to a file, an absolute or relative local file system path is given.
+Paths may contain both `/` and `\` as file separators.
+Supply the path to the `<prefix>Utils.normalizePrintTarget` method to normalize the path to use `/` file separators.
++
+There are two special targets: `:stdout` to print to the standard output stream, and `:stderr` to print to the standard error stream.
 +
 The `doInfoPrintOutput` field of the class can be used to configure whether this method is invoked during execution.
 This is enabled (`true`) by default.
++
+By default, print output is printed to the JavaScript `console`.
+Output to files is also printed to the console, and is prefixed with the path.
 
 === Data access and manipulation
 

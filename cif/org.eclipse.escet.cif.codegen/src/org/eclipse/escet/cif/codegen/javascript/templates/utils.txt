@@ -317,6 +317,21 @@ class ${prefix}Utils {
     }
 
     /**
+     * Returns an HTML-escaped version of the string.
+     *
+     * @param {string} s - The string value to escape.
+     * @return {string} The escaped string value.
+     */
+    static escapeHtml(s) {
+        return s.toString()
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&apos;");
+    }
+
+    /**
      * Returns `e`<sup>`x`</sup> of a real number `x`.
      *
      * @param {number} x - The real number.
@@ -581,6 +596,17 @@ class ${prefix}Utils {
      */
     static negateReal(x) {
         return (x == 0.0) ? 0.0 : -x;
+    }
+
+    /**
+     * Normalizes a print target path. File separators '\\' are replaced by '/'.
+     *
+     * @param {string} path - The print target path. Should not be special target
+     *      ':stdout' or ':stderr'.
+     * @return {string} The normalized print target path.
+     */
+    static normalizePrintTarget(path) {
+        return path.replaceAll('\\', '/');
     }
 
     /**
@@ -940,7 +966,7 @@ class ${prefix}Utils {
         } else if (typeof(value) == "number") {
             return (value.toString()).replace('E', 'e');
         } else if (typeof(value) == "string") {
-            return "\"" + escape(value) + "\"";
+            return "\"" + ${prefix}Utils.escape(value) + "\"";
         } else if (Array.isArray(value)) {
             var txt = "[";
             for (var i = 0; i < value.length; i++) {

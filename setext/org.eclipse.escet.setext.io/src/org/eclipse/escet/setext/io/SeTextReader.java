@@ -102,6 +102,6 @@ public class SeTextReader
 
     @Override
     protected String getXmiFileExt() {
-        return "setextx";
+        return null;
     }
 }

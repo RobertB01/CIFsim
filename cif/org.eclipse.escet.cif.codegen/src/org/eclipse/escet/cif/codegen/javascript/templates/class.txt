@@ -17,6 +17,12 @@ ${javascript-enum-lits-code}
     /** Should print output be provided? */
     doInfoPrintOutput = true;
 
+    /** Should state output be provided? */
+    doStateOutput = true;
+
+    /** Should transition output be provided? */
+    doTransitionOutput = true;
+
     /** Whether this is the first time the code is (to be) executed. */
     firstExec;
 
@@ -117,8 +123,6 @@ ${javascript-svg-in-event-handlers-code}
         // Initialize the state.
         if (this.firstExec) {
             this.initState();
-            ${prefix}.log('Initial state: ' + ${prefix}.getStateText());
-            ${prefix}.log('');
         }
 
         // Calculate time delta.
@@ -137,6 +141,8 @@ ${javascript-cont-upd-code}
             // For 'initial' transition.
             if (this.doInfoPrintOutput) this.printOutput(-3, true);
             if (this.doInfoPrintOutput) this.printOutput(-3, false);
+            if (this.doStateOutput) ${prefix}.log('Initial state: ' + ${prefix}.getStateText());
+            if (this.doStateOutput || this.doTransitionOutput) this.log('');
 
         } else {
             // For 'post' of time transition.
@@ -273,9 +279,16 @@ ${javascript-svg-out-apply-code}
         // Nothing is done here by default.
     }
 
+    /** Logs a normal message. */
     log(message) {
         console.log(message);
 ${html-log-to-panel-code}
+    }
+
+    /** Logs an error message. */
+    error(message) {
+        console.log(message);
+${html-error-to-panel-code}
     }
 
     /**
@@ -298,10 +311,9 @@ ${html-log-to-panel-code}
      */
     infoEvent(idx, pre) {
         if (pre) {
-            ${prefix}.log(${prefix}Utils.fmt('Transition: event %s', ${prefix}.getEventName(idx)));
+            if (this.doTransitionOutput) ${prefix}.log(${prefix}Utils.fmt('Transition: event %s', ${prefix}.getEventName(idx)));
         } else {
-            ${prefix}.log('State: ' + ${prefix}.getStateText());
-            ${prefix}.log('');
+            if (this.doStateOutput) ${prefix}.log('State: ' + ${prefix}.getStateText());
         }
     }
 
@@ -365,8 +377,22 @@ ${javascript-print-code}
      * Informs that new print output is available.
      *
      * @param text The text being printed.
+     * @param target The file or special target to which text is to be printed.
+     *      If printed to a file, an absolute or relative local file system
+     *      path is given. Paths may contain both '/' and '\\'
+     *      as file separators. Use {@link ${prefix}Utils#normalizePrintTarget}
+     *      to normalize the path to use '/' file separators. There are two
+     *      special targets: ':stdout' to print to the standard output stream,
+     *      and ':stderr' to print to the standard error stream.
      */
-    infoPrintOutput(text) {
-        ${prefix}.log(text);
+    infoPrintOutput(text, target) {
+        if (target == ':stdout') {
+            ${prefix}.log(text);
+        } else if (target == ':stderr') {
+            ${prefix}.error(text);
+        } else {
+            var path = ${prefix}Utils.normalizePrintTarget(target);
+            ${prefix}.infoPrintOutput(path + ': ' + text, ':stdout');
+        }
     }
 }

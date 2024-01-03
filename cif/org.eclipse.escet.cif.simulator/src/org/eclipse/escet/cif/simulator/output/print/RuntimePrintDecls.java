@@ -15,9 +15,13 @@ package org.eclipse.escet.cif.simulator.output.print;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.eclipse.escet.cif.simulator.CifSimulatorContext;
 import org.eclipse.escet.cif.simulator.output.NormalOutputType;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
@@ -102,16 +106,28 @@ public abstract class RuntimePrintDecls {
      * @see #shouldClose
      */
     private void setStream(CifSimulatorContext ctxt) {
-        String absPath = getAbsPath();
-        if (absPath.equals(":stdout")) {
+        String absFilePath = getAbsPath();
+        if (absFilePath.equals(":stdout")) {
             stream = ctxt.appEnvData.getStreams().out;
             shouldClose = false;
-        } else if (absPath.equals(":stderr")) {
+        } else if (absFilePath.equals(":stderr")) {
             stream = ctxt.appEnvData.getStreams().err;
             shouldClose = false;
         } else {
+            // Ensure parent directory exists.
+            String absDirPath = Paths.getAbsFilePathDir(absFilePath);
             try {
-                stream = new FileAppStream(absPath);
+                Files.createDirectories(java.nio.file.Paths.get(absDirPath));
+            } catch (IOException ex) {
+                String msg = fmt(
+                        "Failed to create directory to contain file \"%s\" for writing using print declarations.",
+                        getRelPath());
+                throw new InputOutputException(msg, ex);
+            }
+
+            // Open stream.
+            try {
+                stream = new FileAppStream(absFilePath);
             } catch (InputOutputException ex) {
                 String msg = fmt("Failed to open file \"%s\" for writing using print declarations.", getRelPath());
                 throw new InputOutputException(msg, ex);
