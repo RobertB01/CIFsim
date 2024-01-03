@@ -26,12 +26,12 @@ import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.emf.ecore.xmi.RealXMIResource;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** CIF writer. */
 public class CifWriter {
