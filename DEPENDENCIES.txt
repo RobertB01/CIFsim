@@ -209,10 +209,14 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.ecf.provider.filetransfer.ssl/1.0.201.v20
 p2/orbit/p2.eclipse.plugin/org.eclipse.ecf.provider.filetransfer/3.2.800.v20220215-0126, EPL-1.0, approved, rt.ecf
 p2/orbit/p2.eclipse.plugin/org.eclipse.ecf.ssl/1.2.401.v20210409-2301, EPL-1.0, approved, rt.ecf
 p2/orbit/p2.eclipse.plugin/org.eclipse.ecf/3.10.0.v20210925-0032, EPL-1.0, approved, rt.ecf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.ui/2.21.0.v20230211-1150, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common/2.28.0.v20230223-0922, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change/2.15.0.v20230211-1150, EPL-1.0, approved, modeling.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.edit/2.14.0.v20230211-1150, EPL-1.0, approved, modeling.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.editor/2.18.0.v20230224-1122, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xmi/2.18.0.v20230211-1150, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore/2.33.0.v20230226-0921, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.ui/2.23.0.v20230211-1150, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit/2.18.0.v20230211-1150, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.validation/1.8.1.202208271102, EPL-1.0, approved, modeling.emfservices
 p2/orbit/p2.eclipse.plugin/org.eclipse.epp.mpc.core.win32/1.10.1.v20221110-1841, EPL-2.0, approved, technology.packaging.mpc
