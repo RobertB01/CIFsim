@@ -195,7 +195,7 @@ public class PartialSpecsBuilder {
 
         // A replacement object has to be created.
 
-        // Some declarations can simply be cloned.
+        // Some objects can simply be cloned. Currently, they are all declarations.
         if (dangling instanceof AlgVariable || dangling instanceof Constant || dangling instanceof EnumDecl
                 || dangling instanceof Event || dangling instanceof Function || dangling instanceof InputVariable
                 || dangling instanceof TypeDecl)
