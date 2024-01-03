@@ -14,12 +14,10 @@
 package org.eclipse.escet.cif.common;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.java.Sets;
 
 /** CIF annotation wrapper class, for proper hashing and equality. */
 public class AnnotationEqHashWrap {
@@ -39,19 +37,9 @@ public class AnnotationEqHashWrap {
      */
     public AnnotationEqHashWrap(Annotation annotation) {
         this.annotation = annotation;
-        this.argNamesToValues = evalAnnoArgValues(annotation);
-        this.hashCode = computeHashCode(annotation, argNamesToValues);
-    }
-
-    /**
-     * Evaluate the annotation argument values.
-     *
-     * @param annotation The annotation.
-     * @return Per annotation argument name, the evaluated argument value.
-     */
-    private static Map<String, Object> evalAnnoArgValues(Annotation annotation) {
-        return annotation.getArguments().stream()
+        this.argNamesToValues = annotation.getArguments().stream()
                 .collect(Collectors.toMap(arg -> arg.getName(), arg -> evalAnnoArgValue(arg.getValue())));
+        this.hashCode = annotation.getName().hashCode() + argNamesToValues.hashCode();
     }
 
     /**
@@ -69,21 +57,6 @@ public class AnnotationEqHashWrap {
         }
     }
 
-    /**
-     * Compute the hash code of an annotation.
-     *
-     * @param annotation The annotation.
-     * @param argNamesToValues Per annotation argument name, the evaluated argument value.
-     * @return The hash code of the annotation.
-     */
-    private static int computeHashCode(Annotation annotation, Map<String, Object> argNamesToValues) {
-        int h = annotation.getName().hashCode();
-        for (Entry<String, Object> entry: argNamesToValues.entrySet()) {
-            h ^= entry.getKey().hashCode() + entry.getValue().hashCode();
-        }
-        return h;
-    }
-
     @Override
     public int hashCode() {
         return hashCode;
@@ -97,29 +70,10 @@ public class AnnotationEqHashWrap {
         }
         AnnotationEqHashWrap other = (AnnotationEqHashWrap)obj;
 
-        // Check annotation name.
-        if (!this.annotation.getName().equals(other.annotation.getName())) {
-            return false;
-        }
-
-        // Check annotation arguments. Note that the order of the arguments is not relevant.
-        if (this.annotation.getArguments().size() != other.annotation.getArguments().size()) {
-            return false;
-        }
-        for (String argName: Sets.union(this.argNamesToValues.keySet(), other.argNamesToValues.keySet())) {
-            // Check that both have the argument.
-            Object thisArgValue = this.argNamesToValues.get(argName);
-            Object otherArgValue = other.argNamesToValues.get(argName);
-            if (thisArgValue == null || otherArgValue == null) {
-                return false;
-            }
-
-            // Check argument values. Use evaluated values such that for instance '{1, 2}' and '{2, 1}' are considered
-            // equal.
-            if (!thisArgValue.equals(otherArgValue)) {
-                return false;
-            }
-        }
-        return true;
+        // Check annotation name and arguments. We use a map of arguments as the order of the arguments is not relevant.
+        // And we use evaluated argument values such that for instance values '{1, 2}' and '{2, 1}' are considered
+        // equal.
+        return this.annotation.getName().equals(other.annotation.getName())
+                && this.argNamesToValues.equals(other.argNamesToValues);
     }
 }
