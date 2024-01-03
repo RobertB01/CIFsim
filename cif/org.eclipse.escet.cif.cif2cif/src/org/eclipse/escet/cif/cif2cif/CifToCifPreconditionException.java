@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.cif2cif;
 
-import org.eclipse.escet.common.app.framework.exceptions.EndUserException;
+import org.eclipse.escet.common.java.exceptions.EndUserException;
 
 /** CIF to CIF transformation precondition violation exception. */
 public class CifToCifPreconditionException extends RuntimeException implements EndUserException {

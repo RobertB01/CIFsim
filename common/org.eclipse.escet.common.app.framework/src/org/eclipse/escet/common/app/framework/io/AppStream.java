@@ -24,8 +24,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /**
  * Output stream that provides the following functionality:

@@ -38,8 +38,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.DataInputStream;
 
 import org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisEditor;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.swt.widgets.Display;
 
 /** Class for loading the synthesis dump file. */

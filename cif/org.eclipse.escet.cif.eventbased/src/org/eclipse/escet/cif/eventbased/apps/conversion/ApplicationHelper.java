@@ -21,8 +21,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.automata.Event;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Helper class in conversions between CIF and the event-based algorithms. */
 public class ApplicationHelper {

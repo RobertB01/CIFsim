@@ -17,11 +17,11 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Locale;
 
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionGroup;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;

@@ -13,9 +13,9 @@
 
 package org.eclipse.escet.cif.cif2plc.options;
 
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** PLC number bits option. */
 public class PlcNumberBitsOption extends EnumOption<PlcNumberBits> {

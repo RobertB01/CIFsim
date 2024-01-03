@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework.exceptions;
+package org.eclipse.escet.common.java.exceptions;
 
 /**
  * Base class for all application exceptions. Application exceptions are unchecked (runtime) exceptions.

@@ -14,9 +14,9 @@
 package org.eclipse.escet.cif.simulator.runtime.ode;
 
 import org.eclipse.escet.cif.simulator.options.FrameRateOption;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.DoubleOption;
 import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** ODE solver fixed output step size option. */
 public class OdeSolverOutStepOption extends DoubleOption {

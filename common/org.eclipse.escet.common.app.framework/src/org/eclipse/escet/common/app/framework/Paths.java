@@ -26,9 +26,9 @@ import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIHandler;
 import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Application framework specific path handling. */
 public class Paths {

@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.explorer.runtime;
 
-import org.eclipse.escet.common.app.framework.exceptions.EndUserException;
+import org.eclipse.escet.common.java.exceptions.EndUserException;
 
 /** Exception indicating there is no initial state. */
 public class NoInitialStateException extends RuntimeException implements EndUserException {

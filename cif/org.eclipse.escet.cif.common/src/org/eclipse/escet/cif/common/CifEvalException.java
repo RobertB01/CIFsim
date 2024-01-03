@@ -14,8 +14,8 @@
 package org.eclipse.escet.cif.common;
 
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
-import org.eclipse.escet.common.app.framework.exceptions.EndUserException;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.EndUserException;
 
 /**
  * Thrown in case of expression evaluation failures.

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework.exceptions;
+package org.eclipse.escet.common.java.exceptions;
 
 /**
  * Interface that all exceptions that provide an end-user readable message should implement.

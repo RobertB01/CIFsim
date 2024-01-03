@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.tooldef.runtime;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /** ToolDef end user exception. */
 public class ToolDefException extends ApplicationException {

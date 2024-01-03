@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.escet.cif.cif2mcrl2.InstanceTreeHelper;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.junit.jupiter.api.Test;
 
 /** Tests of the instance tree parser. */

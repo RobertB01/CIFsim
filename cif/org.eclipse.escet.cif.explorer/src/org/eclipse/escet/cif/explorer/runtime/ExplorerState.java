@@ -20,8 +20,8 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** {@link BaseState} for non-initial states. */

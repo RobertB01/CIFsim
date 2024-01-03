@@ -29,8 +29,8 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Perform IO to and from a synthesis dump file. */
 public class SynthesisDumpIO {

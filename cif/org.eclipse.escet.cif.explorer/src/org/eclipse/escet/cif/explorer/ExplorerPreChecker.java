@@ -42,8 +42,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.types.DistType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** Checker class to verify that a given specification satisfies the pre-conditions required for exploration. */
 public class ExplorerPreChecker extends CifWalker {

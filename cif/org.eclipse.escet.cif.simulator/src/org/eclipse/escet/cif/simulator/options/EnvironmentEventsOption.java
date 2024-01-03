@@ -23,9 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.simulator.output.svgviz.RuntimeCifSvgDecls;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Environment events option, to specify the non-urgent events. */
 public class EnvironmentEventsOption extends StringOption {

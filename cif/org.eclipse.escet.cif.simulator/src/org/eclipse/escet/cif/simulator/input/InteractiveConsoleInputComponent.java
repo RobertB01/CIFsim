@@ -31,8 +31,8 @@ import org.eclipse.escet.cif.simulator.runtime.transitions.HistoryTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.ResetTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.Transition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.UndoTransition;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /**
  * Console input component that interactively asks the user for input, via a stream (stdin by default). Using the

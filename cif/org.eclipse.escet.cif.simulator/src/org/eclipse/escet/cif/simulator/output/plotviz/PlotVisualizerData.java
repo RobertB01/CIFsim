@@ -25,7 +25,7 @@ import org.eclipse.escet.cif.simulator.runtime.meta.RuntimeStateFilterer;
 import org.eclipse.escet.cif.simulator.runtime.meta.RuntimeStateObjectMeta;
 import org.eclipse.escet.cif.simulator.runtime.meta.StateObjectType;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Holds the data for a {@link PlotVisualizer}. */
 public class PlotVisualizerData {

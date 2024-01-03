@@ -23,7 +23,7 @@ import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * CIF check that allows automata only if they have exactly one initial location. Automata for which this cannot be

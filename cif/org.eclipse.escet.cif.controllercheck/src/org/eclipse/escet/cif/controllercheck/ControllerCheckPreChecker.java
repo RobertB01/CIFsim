@@ -72,7 +72,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.SetType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** Pre-condition checker for the controller properties checker. */
 public class ControllerCheckPreChecker extends CifWalker {

@@ -15,8 +15,6 @@ package org.eclipse.escet.cif.plcgen.model.functions;
 
 import java.util.EnumSet;
 
-import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
-
 /** Function description extended with the semantic operation being performed in a function application. */
 public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
     /** The semantic operation performed by the function application. */
@@ -32,7 +30,7 @@ public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
      *     single parameter functions the infix name is assumed to be a prefix directly attached to the parameter,
      *     otherwise the infix name is assumed to be between arguments surrounded by spaces.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
-     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
+     *     {@link PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
      */

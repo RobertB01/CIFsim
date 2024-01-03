@@ -64,11 +64,11 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.SetType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.common.app.framework.Application;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.ListProductIterator;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** State space explorer that unfolds the untimed state space expressed by a given CIF specification. */

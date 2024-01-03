@@ -22,7 +22,7 @@ import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.eventbased.builders.AutomatonBuilder;
 import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /**
  * Compute the synchronous product of two or more automata.

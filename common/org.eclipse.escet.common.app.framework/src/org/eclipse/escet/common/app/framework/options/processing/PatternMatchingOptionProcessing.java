@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Perform pre-processing on option values that are a names match specification. */
 public class PatternMatchingOptionProcessing {

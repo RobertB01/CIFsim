@@ -30,7 +30,7 @@ indexterm:[exception, end-user]
 All exceptions that should be presented to the end user are considered end-user exceptions.
 These messages should be written in terms that the end user should be able to understand.
 For end-user exceptions, the exception framework does not display stack traces (at least not by default).
-All end-user exceptions must implement the `org.eclipse.escet.common.app.framework.exceptions.EndUserException` interface, and may inherit from the `org.eclipse.escet.common.app.framework.exceptions.ApplicationException` class.
+All end-user exceptions must implement the `org.eclipse.escet.common.java.exceptions.EndUserException` interface, and may inherit from the `org.eclipse.escet.common.java.exceptions.ApplicationException` class.
 All applications that use the application framework must satisfy these requirements when the error message is to be presented to end users.
 It is recommended to reuse existing application framework exceptions whenever possible.
 
@@ -58,7 +58,7 @@ All the causes of the exception are printed as well, each on a line of their own
 Those messages are prefixed with the `CAUSE:` text.
 For exceptions that provide an end-user readable message, only that message is printed after the `CAUSE:` text.
 For other exceptions, the simple name of the exception class, enclosed in parentheses, is printed between the `CAUSE:` text and the exception message.
-All end-user exceptions (the ones inheriting from the `org.eclipse.escet.common.app.framework.exceptions.ApplicationException` class), as well as all other exceptions explicitly designed as such (by implementing the `org.eclipse.escet.common.app.framework.exceptions.EndUserException` interface) are considered to provide readable messages.
+All end-user exceptions (the ones inheriting from the `org.eclipse.escet.common.java.exceptions.ApplicationException` class), as well as all other exceptions explicitly designed as such (by implementing the `org.eclipse.escet.common.java.exceptions.EndUserException` interface) are considered to provide readable messages.
 For other exceptions, it is assumed that they don't.
 This includes all exceptions provided by Java itself.
 

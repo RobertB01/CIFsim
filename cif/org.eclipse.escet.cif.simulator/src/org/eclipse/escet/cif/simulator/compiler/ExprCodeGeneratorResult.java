@@ -34,7 +34,9 @@ import org.eclipse.escet.common.java.Assert;
  * @param exprCode The expression code that is below the {@link #LIMIT} and thus not (yet) assigned to an extra method.
  * @param type The type of the generated code.
  */
-public record ExprCodeGeneratorResult(List<ExtraMethod> extraMethods, String exprCode, CifType type) {
+public record ExprCodeGeneratorResult(List<ExprCodeGeneratorResult.ExtraMethod> extraMethods, String exprCode,
+        CifType type)
+{
     /** The base name used for generating names for the extra methods. */
     private static final String METHOD_BASE_NAME = "evalExpression";
 

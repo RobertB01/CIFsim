@@ -23,7 +23,6 @@ Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.common.app.framework,
  org.eclipse.escet.common.app.framework.console,
  org.eclipse.escet.common.app.framework.eclipse.themes,
- org.eclipse.escet.common.app.framework.exceptions,
  org.eclipse.escet.common.app.framework.io,
  org.eclipse.escet.common.app.framework.javacompiler,
  org.eclipse.escet.common.app.framework.management,

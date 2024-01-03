@@ -11,31 +11,29 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework.exceptions;
-
-import org.eclipse.escet.common.java.Assert;
+package org.eclipse.escet.common.java.exceptions;
 
 /**
- * Exception that indicates that an option (or its value) is invalid, or that there is an other option related problem.
+ * Exception indicating the user-supplied invalid data. If one of the derived classes fits better, it should be used.
+ * However, it is allowed to use this class directly, if appropriate.
  */
-public class InvalidOptionException extends InvalidInputException {
+public class InvalidInputException extends ApplicationException {
     /**
-     * Constructor for the {@link InvalidOptionException} class.
+     * Constructor for the {@link InvalidInputException} class.
      *
      * @param message Message describing the exception.
      */
-    public InvalidOptionException(String message) {
+    public InvalidInputException(String message) {
         super(message);
-        Assert.notNull(message);
     }
 
     /**
-     * Constructor for the {@link InvalidOptionException} class.
+     * Constructor for the {@link InvalidInputException} class.
      *
      * @param message Message describing the exception.
      * @param cause A deeper cause of the exception.
      */
-    public InvalidOptionException(String message, Throwable cause) {
+    public InvalidInputException(String message, Throwable cause) {
         super(message, cause);
     }
 }

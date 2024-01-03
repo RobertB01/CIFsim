@@ -32,9 +32,9 @@ import org.apache.commons.math3.ode.sampling.StepNormalizerMode;
 import org.eclipse.escet.cif.simulator.CifSimulatorContext;
 import org.eclipse.escet.cif.simulator.runtime.CifSimulatorException;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * CIF ODE solver.

@@ -38,7 +38,6 @@ import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
 import org.eclipse.escet.cif.simulator.runtime.ode.Trajectories;
 import org.eclipse.escet.cif.simulator.runtime.transitions.TimeTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.Transition;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -46,6 +45,7 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** CIF simulator output component that writes trajectory data to a text file. */
 public class TrajDataOutputComponent extends NullSimulatorOutputComponent {

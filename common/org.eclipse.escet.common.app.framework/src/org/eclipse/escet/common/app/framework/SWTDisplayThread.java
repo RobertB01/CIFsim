@@ -18,11 +18,11 @@ import static org.eclipse.escet.common.java.Pair.pair;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
-import org.eclipse.escet.common.app.framework.exceptions.DependencyException;
 import org.eclipse.escet.common.app.framework.options.GuiMode;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.DependencyException;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.widgets.Display;
 

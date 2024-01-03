@@ -34,8 +34,8 @@ import org.eclipse.escet.chi.runtime.data.Timer;
 import org.eclipse.escet.chi.runtime.data.io.ChiFileHandle;
 import org.eclipse.escet.chi.runtime.data.random.RandomGenerator;
 import org.eclipse.escet.common.app.framework.Application;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.removablelist.RemovableList;
 
 /**

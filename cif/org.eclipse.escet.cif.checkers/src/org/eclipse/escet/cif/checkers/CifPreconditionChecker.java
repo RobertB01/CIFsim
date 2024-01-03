@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.List;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * CIF precondition checker. Checks whether a given CIF specification satisfies certain {@link CifCheck preconditions}.
