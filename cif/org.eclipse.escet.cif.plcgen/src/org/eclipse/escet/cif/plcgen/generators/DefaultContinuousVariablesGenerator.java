@@ -102,8 +102,9 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
     @Override
     public void addVariable(ContVariable contVar) {
-        CifDataProvider dataProvider = target.getCodeStorage().getExprGenerator().getScopeCifDataProvider();
-        PlcTimerGen timerData = new PlcTimerGen(target, contVar, dataProvider.getAddressableForContvar(contVar, false));
+        CifDataProvider cifDataProvider = target.getCodeStorage().getExprGenerator().getScopeCifDataProvider();
+        PlcTimerGen timerData = new PlcTimerGen(target, contVar,
+                cifDataProvider.getAddressableForContvar(contVar, false));
         timers.put(contVar, timerData);
     }
 

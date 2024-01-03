@@ -29,6 +29,11 @@ import org.eclipse.escet.setext.typechecker.SeTextTypeChecker;
 public class SeTextReader
         extends BaseReader<SeTextReader, Specification, Specification, SeTextParser, SeTextTypeChecker>
 {
+    /** Constructor for the {@link SeTextReader} class. */
+    public SeTextReader() {
+        super(Specification.class);
+    }
+
     @Override
     protected SeTextParser createParser() {
         return new SeTextParser();
@@ -93,5 +98,10 @@ public class SeTextReader
         Assert.check(spec.terminals.size() == 2);
         Assert.check(spec.terminals.get(1).isEof());
         return spec.terminals.get(0).regEx;
+    }
+
+    @Override
+    protected String getXmiFileExt() {
+        return "setextx";
     }
 }

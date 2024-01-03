@@ -14,14 +14,24 @@
 package org.eclipse.escet.cif.io;
 
 import static org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter.INDENT;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.io.IOException;
+import java.util.Locale;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.emf.EMFHelper;
+import org.eclipse.escet.common.emf.ecore.xmi.RealXMIResource;
 
 /** CIF writer. */
 public class CifWriter {
@@ -44,6 +54,29 @@ public class CifWriter {
         // Adapt relative paths.
         String absDirPath = Paths.getAbsFilePathDir(absFilePath);
         CifRelativePathUtils.adaptRelativePaths(spec, specPath, absDirPath);
+
+        // Write as XMI, if it has an '.cifx' file extension.
+        if (absFilePath.toLowerCase(Locale.US).endsWith(".cifx")) {
+            // Put specification in an EMF resource.
+            URI resourceUri = Paths.createEmfURI(absFilePath);
+            ResourceSet resourceSet = new ResourceSetImpl();
+            RealXMIResource resource = (RealXMIResource)resourceSet.createResource(resourceUri);
+            resource.getContents().add(spec);
+
+            // Normalize XMI ids for deterministic output.
+            EMFHelper.normalizeXmiIds(resource);
+
+            // Save resource.
+            try {
+                resource.save(null);
+            } catch (IOException e) {
+                throw new InvalidInputException(fmt("Failed to load CIF file \"%s\".", absFilePath), e);
+            }
+
+            // Cleanup.
+            resource.getContents().remove(spec);
+            return;
+        }
 
         // Pretty print the CIF specification directly to the file.
         AppStream stream = new FileAppStream(absFilePath);
