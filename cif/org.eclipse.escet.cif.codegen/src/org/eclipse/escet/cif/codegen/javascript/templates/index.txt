@@ -168,6 +168,54 @@ ${html-javascript-class-placeholder}
                 start();
             }
 
+            function applySvgCopy(wrapId, elemId, pre, post) {
+                // This implementation is inspired by a method from Eclipse ESCET:
+                // 'org.eclipse.escet.common.svg.SvgUtils.copy'.
+                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", wrapId, elemId));
+                var copy = elem.cloneNode(true);
+                applySvgCopyRename(copy, pre, post);
+                elem.parentNode.insertBefore(copy, elem);
+            }
+
+            function applySvgCopyRename(elem, pre, post) {
+                // This implementation is inspired by a method from Eclipse ESCET:
+                // 'org.eclipse.escet.common.svg.SvgUtils.renameElements'.
+                elem.setAttribute('id', pre + elem.getAttribute('id') + post);
+                for (var i = 0; i < elem.children.length; i++) {
+                    var child = elem.children[i];
+                    applySvgCopyRename(child, pre, post);
+                }
+            }
+
+            function applySvgMove(wrapId, elemId, x, y) {
+                // This implementation is inspired by a method from Eclipse ESCET:
+                // 'org.eclipse.escet.common.svg.SvgUtils.move'.
+                var root = document.querySelector(${prefix}Utils.fmt("#%s > svg", wrapId));
+                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", wrapId, elemId));
+                var rootBounds = root.getBoundingClientRect();
+                var elemBounds = elem.getBoundingClientRect();
+                var nx = elemBounds.x - rootBounds.x;
+                var ny = elemBounds.y - rootBounds.y;
+                var glob = elem.getScreenCTM();
+                glob = glob.translate(nx, ny);
+                var a = glob.a;
+                var b = glob.b;
+                var c = glob.c;
+                var d = glob.d;
+                var dbca = d - b * c / a;
+                var dy = (y - ny - b * (x - nx) / a) / dbca;
+                var dx = (x - nx) / a - c / a * dy;
+                var transform = elem.getAttribute('transform');
+                if (transform === null) {
+                    transform = '';
+                }
+                if (transform.length > 0) {
+                    transform += ' ';
+                }
+                transform += ${prefix}Utils.fmt("translate(%f,%f)", dx, dy);
+                elem.setAttribute('transform', transform);
+            }
+
             function toggleStartStop() {
                 if (${prefix}.playing) {
                     stop();

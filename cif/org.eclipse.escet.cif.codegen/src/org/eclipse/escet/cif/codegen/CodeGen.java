@@ -76,7 +76,9 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgCopy;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgMove;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -910,7 +912,7 @@ public abstract class CodeGen {
 
         // Get code for the SVG declarations.
         for (IoDecl decl: ioDecls) {
-            if (decl instanceof SvgIn || decl instanceof SvgOut) {
+            if (decl instanceof SvgCopy || decl instanceof SvgMove || decl instanceof SvgOut || decl instanceof SvgIn) {
                 svgDecls.add(decl);
             }
         }
