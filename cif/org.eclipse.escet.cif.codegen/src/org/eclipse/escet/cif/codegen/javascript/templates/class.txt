@@ -17,16 +17,14 @@ ${javascript-enum-lits-code}
     /** Should print output be provided? */
     doInfoPrintOutput = true;
 
-<<<<<<< HEAD
-    /** Whether the SVG copy and move declarations have been applied already. */
-    svgCopiesAndMovesApplied = false;
-=======
     /** Should state output be provided? */
     doStateOutput = true;
 
     /** Should transition output be provided? */
     doTransitionOutput = true;
->>>>>>> refs/remotes/origin/develop
+
+    /** Whether the SVG copy and move declarations have been applied already. */
+    svgCopiesAndMovesApplied = false;
 
     /** Whether this is the first time the code is (to be) executed. */
     firstExec;
