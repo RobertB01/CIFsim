@@ -50,7 +50,6 @@ import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.cif.multilevel.subplant.PartialSpecsBuilder;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -64,6 +63,7 @@ import org.eclipse.escet.common.dsm.Dmm;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.DsmClustering;
 import org.eclipse.escet.common.java.BitSetIterator;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
