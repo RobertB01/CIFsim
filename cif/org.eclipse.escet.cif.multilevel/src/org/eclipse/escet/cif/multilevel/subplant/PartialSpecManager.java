@@ -122,7 +122,7 @@ public class PartialSpecManager {
      * </p>
      *
      * <p>
-     * No assumptions should be made about the order in which dangling objects and found, nor about in which order they
+     * No assumptions should be made about the order in which dangling objects are found, nor about in which order they
      * are returned by this method. This may even be different between application runs.
      * </p>
      *

@@ -185,7 +185,7 @@ public class PartialSpecsBuilder {
      *     constructed. For tuple type fields, {@code null} is returned.
      */
     private EObject findOrMakeContained(EObject dangling, PartialSpecManager partialMgr) {
-        // Try to find a contained object. Since dangling objects may be found multiple times, and could be processed in
+        // Try to find a contained object. Since dangling objects may be found multiple times and can be processed in
         // any order, it may have been processed already in the mean time. If so, don't do it again, but reuse the
         // object.
         EObject copiedObj = partialMgr.getCopiedPartialObject(dangling);
@@ -230,7 +230,7 @@ public class PartialSpecsBuilder {
             return inputVar;
         }
 
-        // Discrete variables of copied automata in the first stage should be deepcloned. Other discrete variables
+        // Discrete variables of automata that were copied in the first stage should be deepcloned. Other discrete variables
         // become input variables with the same domains as the original discrete variables.
         if (dangling instanceof DiscVariable dv) {
             if (dv.eContainer() instanceof Automaton) {
