@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
@@ -38,6 +39,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
@@ -76,7 +78,7 @@ public class PartialSpecsBuilder {
         // the result will still link to objects from the original specification. Such objects are known as dangling
         // objects and get resolved after the first stage.
 
-        // Copy the automata to avoid getting them added as Group by the manager.
+        // Copy the automata to avoid getting them added as a group by the manager.
         for (PositionObject element: neededObjects) {
             if (element instanceof Automaton aut) {
                 partialMgr.copyAutomatonSkeleton(aut);
@@ -103,21 +105,25 @@ public class PartialSpecsBuilder {
         while (true) {
             // Get found dangling objects from a previous addition to the partial specification. Note that these objects
             // may already have been fixed in a previous iteration at other spots in the partial specification.
-            Map<EObject, Collection<Setting>> danglings = partialMgr.getSomeDanglingObjects();
+            Map<EObject, Collection<Setting>> danglings = partialMgr.getNextDanglingObjects();
             if (danglings == null) {
-                break;
+                break; // No more dangling objects.
             }
 
+            // Fix each dangling object.
             for (Entry<EObject, Collection<Setting>> entry: danglings.entrySet()) {
-                EObject dangling = entry.getKey(); // Original object connected with but not contained in the partial
-                                                   // specification.
-                Collection<Setting> partialConnections = entry.getValue(); // References from the partial specification
-                                                                           // to the dangling object.
+                // Get original object connected with but not contained in the partial specification.
+                EObject dangling = entry.getKey();
+
+                // Get references from the partial specification to the dangling object.
+                Collection<Setting> partialConnections = entry.getValue();
+
                 // Find or construct a contained object in the partial specification to replace the dangling object.
                 EObject contained = findOrMakeContained(dangling, partialMgr);
+
+                // Check for fields of tuple types that have not been copied yet. Postpone resolving them under the
+                // assumption that the object will eventually get copied into the partial specification.
                 if (contained == null) {
-                    // Field of a tuple that has not been copied yet. Postpone resolving them under the assumption that
-                    // the object will eventually get copied into the partial specification.
                     unresolvedFields.add(entry);
                     continue;
                 }
@@ -134,9 +140,12 @@ public class PartialSpecsBuilder {
                     for (Setting setting: partialConnections) {
                         EObject partialParent = setting.getEObject();
 
-                        // As the partial parent is discarded and its type may have Field nodes that we may need, we
+                        // As the partial parent is discarded and its type may have 'Field' nodes that we may need, we
                         // steal its type.
-                        InputVariableExpression newParent = newInputVariableExpression(null, getType(partialParent),
+                        Assert.check(partialParent instanceof LocationExpression
+                                || partialParent instanceof DiscVariableExpression);
+                        CifType partialParentType = ((Expression)partialParent).getType();
+                        InputVariableExpression newParent = newInputVariableExpression(null, partialParentType,
                                 (InputVariable)contained);
                         EMFHelper.updateParentContainment(partialParent, newParent);
                     }
@@ -144,13 +153,15 @@ public class PartialSpecsBuilder {
             }
         }
 
-        // Third stage resolves all remaining Field references as by now all types are contained in the partial
-        // specification.
+        // Third stage resolves all remaining tuple type field references as by now all types are contained in the
+        // partial specification.
         for (Entry<EObject, Collection<Setting>> entry: unresolvedFields) {
-            EObject danglingField = entry.getKey(); // Original Field connected with but not contained in the partial
-                                                    // specification.
-            Collection<Setting> partialConnections = entry.getValue(); // References from the partial specification
-                                                                       // to the dangling Field.
+            // Get original 'Field' connected with but not contained in the partial specification.
+            Field danglingField = (Field)entry.getKey();
+
+            // Get references from the partial specification to the dangling field.
+            Collection<Setting> partialConnections = entry.getValue();
+
             // The original field should have a partial counter-part now.
             EObject copiedField = partialMgr.getCopiedPartialObject(danglingField);
             Assert.notNull(copiedField);
@@ -159,6 +170,7 @@ public class PartialSpecsBuilder {
             }
         }
 
+        // Return the newly constructed partial specification.
         return partialMgr.getPartialSpec();
     }
 
@@ -170,10 +182,12 @@ public class PartialSpecsBuilder {
      *     done already.
      * @param partialMgr The manager tracking everything in the partial specification.
      * @return A replacement object that represents the dangling object in the partial specification if one can be
-     *     constructed. Otherwise {@code null} is returned.
+     *     constructed. For tuple type fields, {@code null} is returned.
      */
     private EObject findOrMakeContained(EObject dangling, PartialSpecManager partialMgr) {
-        // Maybe a contained object was created in the mean time?
+        // Try to find a contained object. Since dangling objects may be found multiple times and can be processed in
+        // any order, it may have been processed already in the mean time. If so, don't do it again, but reuse the
+        // object.
         EObject copiedObj = partialMgr.getCopiedPartialObject(dangling);
         if (copiedObj != null) {
             return copiedObj;
@@ -181,34 +195,34 @@ public class PartialSpecsBuilder {
 
         // A replacement object has to be created.
 
-        // Some of these objects can simply be cloned.
+        // Some objects can simply be cloned. Currently, they are all declarations.
         if (dangling instanceof AlgVariable || dangling instanceof Constant || dangling instanceof EnumDecl
                 || dangling instanceof Event || dangling instanceof Function || dangling instanceof InputVariable
                 || dangling instanceof TypeDecl)
         {
-            EObject clonedObj = partialMgr.deepcloneAndAdd(dangling);
-            partialMgr.directlyAttachAddedToComponent(dangling, clonedObj);
-            return clonedObj;
+            Declaration clonedDecl = (Declaration)partialMgr.deepcloneAndAdd(dangling);
+            partialMgr.directlyAttachAddedToComponent(dangling, clonedDecl);
+            return clonedDecl;
         }
 
         // Enumeration literals can be referenced but the entire enumeration must be copied.
         //
-        // Copying the enumeration declaration also added its fields. That means that
+        // Copying the enumeration declaration also copies its literals. That means that:
         // - Code doesn't get here in that case, thus the surrounding enumeration declaration is not yet copied.
-        // - Querying for the partial field works after copying.
+        // - Querying for the partial literals works after copying.
         if (dangling instanceof EnumLiteral) {
-            EObject enumDecl = dangling.eContainer();
-            EObject copiedDeclObj = partialMgr.deepcloneAndAdd(enumDecl);
-            partialMgr.directlyAttachAddedToComponent(enumDecl, copiedDeclObj);
+            EnumDecl enumDecl = (EnumDecl)dangling.eContainer();
+            EnumDecl copiedEnumDecl = partialMgr.deepcloneAndAdd(enumDecl);
+            partialMgr.directlyAttachAddedToComponent(enumDecl, copiedEnumDecl);
 
-            copiedDeclObj = partialMgr.getCopiedPartialObject(dangling);
-            Assert.notNull(copiedDeclObj);
-            return copiedDeclObj;
+            EnumLiteral copiedEnumLit = (EnumLiteral)partialMgr.getCopiedPartialObject(dangling);
+            Assert.notNull(copiedEnumLit);
+            return copiedEnumLit;
         }
 
         // Locations that were not copied in the first stage are replaced by input variables.
         if (dangling instanceof Location loc) {
-            EObject inputVar = newInputVariable(null, loc.getName(), null, newBoolType());
+            InputVariable inputVar = newInputVariable(null, loc.getName(), null, newBoolType());
             // 'newBoolType' object above is not registered in the copy administration but it has nothing that can be
             // referenced.
             partialMgr.addCopiedObject(loc, inputVar);
@@ -216,41 +230,25 @@ public class PartialSpecsBuilder {
             return inputVar;
         }
 
-        // Discrete variables of copied automata in the first stage should be deepcloned, rather than becoming
-        // input variables with the same domain.
+        // Discrete variables of automata that were copied in the first stage should be deepcloned. Other discrete variables
+        // become input variables with the same domains as the original discrete variables.
         if (dangling instanceof DiscVariable dv) {
             if (dv.eContainer() instanceof Automaton) {
-                EObject clonedObj = partialMgr.deepcloneAndAdd(dv);
-                partialMgr.directlyAttachAddedToComponent(dangling, clonedObj);
-                return clonedObj;
+                DiscVariable clonedVar = partialMgr.deepcloneAndAdd(dv);
+                partialMgr.directlyAttachAddedToComponent(dangling, clonedVar);
+                return clonedVar;
             } else {
                 CifType clonedType = partialMgr.deepcloneAndAdd(dv.getType());
-                EObject inputVar = newInputVariable(null, dv.getName(), null, clonedType);
+                InputVariable inputVar = newInputVariable(null, dv.getName(), null, clonedType);
                 partialMgr.addCopiedObject(dangling, inputVar);
                 partialMgr.directlyAttachAddedToComponent(dangling, inputVar);
                 return inputVar;
             }
         }
 
-        // Tuple fields that have not been copied yet are the only case left at this point. They are deferred until
-        // everything else has been copied.
+        // Fields of tuple types that have not been copied yet are the only case left at this point. They are deferred
+        // until everything else has been copied.
         Assert.check(dangling instanceof Field, "Found unexpected dangling object " + dangling);
         return null;
-    }
-
-    /**
-     * Get the type of a location or discrete variable reference expression.
-     *
-     * @param expr Expression to retrieve the type from.
-     * @return The type contained in the provided expression.
-     */
-    private CifType getType(EObject expr) {
-        // Casting to Expression and getting the type would work, but having the class check is useful to check sanity.
-        if (expr instanceof LocationExpression locExpr) {
-            return locExpr.getType();
-        } else if (expr instanceof DiscVariableExpression dvExpr) {
-            return dvExpr.getType();
-        }
-        throw new AssertionError("Unexpected parent class \"" + expr + "\".");
     }
 }

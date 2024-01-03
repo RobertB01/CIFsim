@@ -34,11 +34,7 @@ int failures = 0;
 int skipped = 0;
 
 // Find tests.
-list string tests = [];
-for i in find(test_path, test_pattern):
-    // Ignore *_partial_specs and *_expected_specs directories.
-    if not contains(i, "_specs"):: tests = tests + [i];
-end
+list string tests = find(test_path, test_pattern, recursive=false);
 for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
 for i in reverse(range(tests)):
     if contains(test_skip, tests[i]):
@@ -69,11 +65,6 @@ for test in tests:
     string dir_specs_exp = replace(test, oldtext=".cif", newtext="_expected_specs");
     string dir_specs_real = replace(test, oldtext=".cif", newtext="_partial_specs");
 
-    // Clean out the partial specs directory if it exists.
-    if isdir(dir_specs_real):
-        for partial_cif in find(dir_specs_real, "*.cif"):: rmfile(pathjoin(dir_specs_real, partial_cif));
-    end
-
     // Execute.
     multilevel([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
@@ -102,6 +93,7 @@ for test in tests:
           rmfile(real_spec);
       end
     end
+    if specs_diff_count == 0:: rmdir(dir_specs_real);
 
     // Update counts.
     int diff_count = specs_diff_count;
