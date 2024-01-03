@@ -22,7 +22,6 @@ import org.eclipse.escet.common.dsm.sequencing.graph.Edge;
 import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
-import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.Lists;
 
 /** Class for finding cycles in the graph. */
@@ -52,7 +51,7 @@ public class GraphCycleFinder
     }
 
     /** Wrapper class around a graph edge to match the {@link DirectedGraphCycleFinder} class expectations. */
-    public static class CycleFinderEdge extends GraphEdge<Integer> {
+    public static class CycleFinderEdge extends DirectedGraphCycleFinder.GraphEdge<Integer> {
         /** The actual edge of the graph. */
         public final Edge edge;
 

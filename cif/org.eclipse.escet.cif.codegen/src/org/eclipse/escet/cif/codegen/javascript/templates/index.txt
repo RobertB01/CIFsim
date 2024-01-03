@@ -34,10 +34,6 @@
             input[type=button]:hover {
                 background-color: #ffda6d;
             }
-
-            textarea {
-                background: white;
-            }
         </style>
         <style type="text/css">
             body {
@@ -76,17 +72,26 @@
                 background: #fff;
             }
             #log-pane .div-txt-area {
-                margin: 0px 20px;
+                margin: 0 10px;
                 height: 100%;
             }
-            #log-pane .div-txt-area textarea {
+            #log-pane .div-txt-area #log-output {
                 resize: none;
                 border: 0;
                 height: 100%;
                 width: 100%;
                 margin: 0;
                 padding: 0;
+                background: white;
+                font-family: monospace;
+                text-align: left;
                 text-wrap: nowrap;
+                overflow: auto;
+                white-space: pre;
+                color: black;
+            }
+            #log-pane .div-txt-area #log-output .error {
+                color: red;
             }
             #log-pane #div-log-pane-footer {
                 background: #fafafa;
@@ -114,7 +119,7 @@
             }
             .expanded #div-txt-area-background,
             .expanded #div-log-pane-footer {
-                display: visible;
+                display: inherit;
             }
 
             #run-frequency {
@@ -163,6 +168,54 @@ ${html-javascript-class-placeholder}
                 start();
             }
 
+            function applySvgCopy(wrapId, elemId, pre, post) {
+                // This implementation is inspired by a method from Eclipse ESCET:
+                // 'org.eclipse.escet.common.svg.SvgUtils.copy'.
+                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", wrapId, elemId));
+                var copy = elem.cloneNode(true);
+                applySvgCopyRename(copy, pre, post);
+                elem.parentNode.insertBefore(copy, elem);
+            }
+
+            function applySvgCopyRename(elem, pre, post) {
+                // This implementation is inspired by a method from Eclipse ESCET:
+                // 'org.eclipse.escet.common.svg.SvgUtils.renameElements'.
+                elem.setAttribute('id', pre + elem.getAttribute('id') + post);
+                for (var i = 0; i < elem.children.length; i++) {
+                    var child = elem.children[i];
+                    applySvgCopyRename(child, pre, post);
+                }
+            }
+
+            function applySvgMove(wrapId, elemId, x, y) {
+                // This implementation is inspired by a method from Eclipse ESCET:
+                // 'org.eclipse.escet.common.svg.SvgUtils.move'.
+                var root = document.querySelector(${prefix}Utils.fmt("#%s > svg", wrapId));
+                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", wrapId, elemId));
+                var rootBounds = root.getBoundingClientRect();
+                var elemBounds = elem.getBoundingClientRect();
+                var nx = elemBounds.x - rootBounds.x;
+                var ny = elemBounds.y - rootBounds.y;
+                var glob = elem.getScreenCTM();
+                glob = glob.translate(nx, ny);
+                var a = glob.a;
+                var b = glob.b;
+                var c = glob.c;
+                var d = glob.d;
+                var dbca = d - b * c / a;
+                var dy = (y - ny - b * (x - nx) / a) / dbca;
+                var dx = (x - nx) / a - c / a * dy;
+                var transform = elem.getAttribute('transform');
+                if (transform === null) {
+                    transform = '';
+                }
+                if (transform.length > 0) {
+                    transform += ' ';
+                }
+                transform += ${prefix}Utils.fmt("translate(%f,%f)", dx, dy);
+                elem.setAttribute('transform', transform);
+            }
+
             function toggleStartStop() {
                 if (${prefix}.playing) {
                     stop();
@@ -205,7 +258,7 @@ ${html-javascript-class-placeholder}
             }
 
             function clearLog() {
-                document.getElementById('log-output').value = '';
+                document.getElementById('log-output').innerHTML = '';
             }
 
             function showHide(btn) {
@@ -235,7 +288,7 @@ ${html-javascript-class-placeholder}
             function downloadLog() {
                 // Get log content.
                 var modelName = document.getElementById('model-name').innerHTML;
-                var content = document.getElementById('log-output').value;
+                var content = document.getElementById('log-output').textContent;
 
                 // Create URL object with log content.
                 var blob = new Blob([content], {type: 'plain/text'});
@@ -286,7 +339,7 @@ ${html-svg-toggles}
                 </div>
                 <div id="div-txt-area-background">
                     <div class="div-txt-area">
-                        <textarea disabled id="log-output"></textarea>
+                        <div id="log-output"></div>
                     </div>
                 <div>
                 <div id="div-log-pane-footer"></div>

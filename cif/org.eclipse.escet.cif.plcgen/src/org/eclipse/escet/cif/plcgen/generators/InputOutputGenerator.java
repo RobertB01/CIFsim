@@ -47,10 +47,10 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -337,7 +337,7 @@ public class InputOutputGenerator {
         NameGenerator nameGenerator = target.getNameGenerator();
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
-        CifDataProvider dataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
+        CifDataProvider cifDataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
         for (IoEntry entry: entries) {
             // Preliminaries (check I/O direction, construct links to the correct local data structures).
             Assert.check(EnumSet.of(IoDirection.IO_READ, IoDirection.IO_WRITE).contains(entry.ioDirection));
@@ -359,9 +359,9 @@ public class InputOutputGenerator {
             if (isInput) { // state-var := io-var;
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
-                    leftSide = dataProvider.getAddressableForDiscVar(discVar);
+                    leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
                 } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    leftSide = dataProvider.getAddressableForInputVar(inpVar);
+                    leftSide = cifDataProvider.getAddressableForInputVar(inpVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }
@@ -373,9 +373,9 @@ public class InputOutputGenerator {
 
                 PlcExpression rightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
-                    rightSide = dataProvider.getValueForDiscVar(discVar);
+                    rightSide = cifDataProvider.getValueForDiscVar(discVar);
                 } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    rightSide = dataProvider.getValueForInputVar(inpVar);
+                    rightSide = cifDataProvider.getValueForInputVar(inpVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }

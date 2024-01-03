@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.simulator.runtime;
 
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
-import org.eclipse.escet.common.app.framework.exceptions.EndUserException;
+import org.eclipse.escet.common.java.exceptions.EndUserException;
 
 /** CIF simulator runtime exception. */
 public class CifSimulatorException extends RuntimeException implements EndUserException {

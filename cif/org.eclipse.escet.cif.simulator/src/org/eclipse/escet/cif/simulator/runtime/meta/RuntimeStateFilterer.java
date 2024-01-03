@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Provides name-based filtering of runtime state object meta data. */
 public class RuntimeStateFilterer {

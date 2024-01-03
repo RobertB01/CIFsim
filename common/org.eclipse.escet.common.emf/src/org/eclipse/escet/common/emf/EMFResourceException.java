@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.emf;
 
-import org.eclipse.escet.common.app.framework.exceptions.EndUserException;
+import org.eclipse.escet.common.java.exceptions.EndUserException;
 
 /** Exception that indicates there is a problem with an EMF resource. */
 public class EMFResourceException extends Exception implements EndUserException {

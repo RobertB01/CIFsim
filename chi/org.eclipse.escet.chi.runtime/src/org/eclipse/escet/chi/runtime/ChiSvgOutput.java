@@ -17,10 +17,10 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.chi.runtime.data.io.ChiFileHandle;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.eclipse.ui.ControlEditor;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.svg.SvgCanvas;
 import org.eclipse.escet.common.svg.SvgException;
 import org.eclipse.escet.common.svg.SvgVisualizer;

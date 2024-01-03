@@ -97,13 +97,13 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.options.processing.PatternMatchingOptionProcessing.OptionMatcher;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Main code generator class for generating C89 Simulink code from CIF. */
@@ -126,8 +126,8 @@ public class SimulinkCodeGen extends CodeGen {
     /** Name of the enumeration literal names list. */
     public static final String ENUM_NAMES_LIST = "enum_names";
 
-    /** Mapping of CIF variables and declarations to unique names. */
-    public Map<PositionObject, String> simulinkTargetNameMap = null;
+    /** Mapping of CIF variables and declarations to the reference code to use to refer to them in Simulink code. */
+    public Map<PositionObject, String> simulinkTargetRefMap = null;
 
     /** Map of variables to their output port index in Simulink. */
     public Map<Declaration, Integer> outputMap;
@@ -150,7 +150,7 @@ public class SimulinkCodeGen extends CodeGen {
     @Override
     protected void init() {
         super.init();
-        simulinkTargetNameMap = null; // Mark as non-initialized.
+        simulinkTargetRefMap = null; // Mark as non-initialized.
 
         replacements.put("generated-types", "");
         replacements.put("type-support-code", "");
@@ -165,13 +165,13 @@ public class SimulinkCodeGen extends CodeGen {
         return reserved;
     }
 
-    /** Setup the {@link #simulinkTargetNameMap} and {@link #outputMap} for generating Simulink code. */
-    private void setupVarmaps() {
-        if (simulinkTargetNameMap != null) {
+    /** Setup the {@link #simulinkTargetRefMap} and {@link #outputMap} for generating Simulink code. */
+    private void setupVarMaps() {
+        if (simulinkTargetRefMap != null) {
             return;
         }
 
-        simulinkTargetNameMap = map();
+        simulinkTargetRefMap = map();
         outputMap = map();
         OptionMatcher outputVarMatcher = SimulinkOutputsOption.getMatcher();
 
@@ -184,7 +184,7 @@ public class SimulinkCodeGen extends CodeGen {
         int i = 0;
         int outputIndex = 0;
         for (DiscVariable lpVar: lpVariables) {
-            simulinkTargetNameMap.put(lpVar, fmt("modes[%d]", i));
+            simulinkTargetRefMap.put(lpVar, fmt("modes[%d]", i));
             reportLine(lpVar, i, modeReport);
             addDeclarationToSection(outputVarMatcher, lpVar, reportSection);
             i++;
@@ -197,7 +197,7 @@ public class SimulinkCodeGen extends CodeGen {
 
         i = 1; // cstate[0] is time.
         for (ContVariable cVar: contVars) {
-            simulinkTargetNameMap.put(cVar, fmt("cstate[%d]", i));
+            simulinkTargetRefMap.put(cVar, fmt("cstate[%d]", i));
             reportLine(cVar, i, cstateReport);
             addDeclarationToSection(outputVarMatcher, cVar, reportSection);
             i++;
@@ -207,22 +207,22 @@ public class SimulinkCodeGen extends CodeGen {
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
 
         for (Constant cVar: constants) {
-            simulinkTargetNameMap.put(cVar, fmt("work->%s", super.getTargetName(cVar)));
+            simulinkTargetRefMap.put(cVar, fmt("work->%s", super.getTargetRef(cVar)));
         }
         for (InputVariable inpVar: inputVars) {
-            simulinkTargetNameMap.put(inpVar, fmt("work->%s", super.getTargetName(inpVar)));
+            simulinkTargetRefMap.put(inpVar, fmt("work->%s", super.getTargetRef(inpVar)));
         }
 
         for (Declaration d: stateVars) {
             if (!(d instanceof DiscVariable)) {
                 continue;
             }
-            if (simulinkTargetNameMap.containsKey(d)) {
+            if (simulinkTargetRefMap.containsKey(d)) {
                 continue; // Modes have already been added.
             }
 
             DiscVariable dv = (DiscVariable)d;
-            simulinkTargetNameMap.put(d, fmt("work->%s", super.getTargetName(d)));
+            simulinkTargetRefMap.put(d, fmt("work->%s", super.getTargetRef(d)));
             if (isGoodType(dv.getType())) {
                 addDeclarationToSection(outputVarMatcher, dv, reportSection);
             }
@@ -335,24 +335,19 @@ public class SimulinkCodeGen extends CodeGen {
     }
 
     @Override
-    public String getTargetName(PositionObject obj) {
-        if (simulinkTargetNameMap == null) {
-            setupVarmaps();
+    public String getTargetRef(PositionObject obj) {
+        if (simulinkTargetRefMap == null) {
+            setupVarMaps();
         }
 
-        String result = simulinkTargetNameMap.get(obj);
+        String result = simulinkTargetRefMap.get(obj);
         if (result != null) {
             return result;
         }
 
-        result = super.getTargetName(obj);
-        simulinkTargetNameMap.put(obj, result);
+        result = super.getTargetRef(obj);
+        simulinkTargetRefMap.put(obj, result);
         return result;
-    }
-
-    @Override
-    public String getTargetVariableName(PositionObject obj) {
-        return super.getTargetName(obj);
     }
 
     @Override
@@ -420,8 +415,8 @@ public class SimulinkCodeGen extends CodeGen {
 
                 // Construct a variable for the index.
                 VariableInformation indexVarInfo = writeCtxt.makeTempVariable(newIntType(), "index");
-                indexTexts[i] = indexVarInfo.targetName;
-                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetName));
+                indexTexts[i] = indexVarInfo.targetRef;
+                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetRef));
 
                 // Compute the index value.
                 ExprCode indexCode = readCtxt.exprToTarget(listProj.index, null);
@@ -456,7 +451,7 @@ public class SimulinkCodeGen extends CodeGen {
             VariableInformation containerInfo = (i == 0)
                     ? readCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
             ExprCode containerValue = new ExprCode();
-            containerValue.setDataValue(makeValue(containerInfo.targetName));
+            containerValue.setDataValue(makeValue(containerInfo.targetRef));
 
             // Construct projection call.
             ExprCode projectRhs;
@@ -491,14 +486,14 @@ public class SimulinkCodeGen extends CodeGen {
                     ? writeCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
 
             ExprCode containerCode = new ExprCode();
-            containerCode.setDataValue(makeValue(containerInfo.targetName));
+            containerCode.setDataValue(makeValue(containerInfo.targetRef));
 
             // Get the new value.
             ExprCode partCode = new ExprCode();
             if (i == last) {
                 partCode.setDataValue(rhsValue);
             } else {
-                partCode.setDataValue(makeValue(partVariables[i].targetName));
+                partCode.setDataValue(makeValue(partVariables[i].targetRef));
             }
 
             CodeBox modify;
@@ -538,7 +533,7 @@ public class SimulinkCodeGen extends CodeGen {
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
-        return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetName));
+        return new Destination(null, varInfo.typeInfo, makeValue(varInfo.targetRef));
     }
 
     @Override
@@ -603,7 +598,7 @@ public class SimulinkCodeGen extends CodeGen {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtDecls.set(3 + i, 0, fmt("%s,", getTargetName(evt)));
+            evtDecls.set(3 + i, 0, fmt("%s,", getTargetRef(evt)));
             evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
 
@@ -761,7 +756,7 @@ public class SimulinkCodeGen extends CodeGen {
             // Always return the actual data to the caller (like a function call),
             // since the 'return' will destroy any local data.
             TypeInfo ti = ctxt.typeToTarget(algVar.getType());
-            String header = fmt("static %s %s(SimStruct *sim_struct)", ti.getTargetType(), algVarInfo.targetName);
+            String header = fmt("static %s %s(SimStruct *sim_struct)", ti.getTargetType(), algVarInfo.targetRef);
             declCode.add("%s;", header);
 
             defCode.add("/** Algebraic variable %s = %s; */\n", algVarInfo.name, exprToStr(algVar.getValue()));
@@ -900,7 +895,7 @@ public class SimulinkCodeGen extends CodeGen {
      * @param ctxt The code generation context.
      */
     private void addOutput(CodeContext ctxt) {
-        setupVarmaps();
+        setupVarMaps();
 
         // Construct dimensions of the output.
         CodeBox outputDimsCode = makeCodeBox(1);
@@ -953,7 +948,7 @@ public class SimulinkCodeGen extends CodeGen {
             outputCode.add("y = ssGetOutputPortSignal(sim_struct, %d);", entry.getValue());
 
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(d, false));
-            String varAccess = varInfo.targetName;
+            String varAccess = varInfo.targetRef;
             if (normalizeType(varInfo.typeInfo.cifType) instanceof ListType) {
                 if (d instanceof AlgVariable) { // Algebraic variables are functions, make a temporary variable.
                     String dest = fmt("tmp%d", index);
@@ -1046,7 +1041,7 @@ public class SimulinkCodeGen extends CodeGen {
 
         if (!preCodes.isEmpty() || !postCodes.isEmpty()) {
             // Construct temporary string variable for generating output lines.
-            code.add("%s %s;", txtVarInfo.typeInfo.getTargetType(), txtVarInfo.targetName);
+            code.add("%s %s;", txtVarInfo.typeInfo.getTargetType(), txtVarInfo.targetRef);
             code.add();
 
             if (!preCodes.isEmpty()) {
@@ -1122,7 +1117,7 @@ public class SimulinkCodeGen extends CodeGen {
                     Expression eventRef = pf.getEvent();
                     Assert.check(eventRef instanceof EventExpression);
                     Event event = ((EventExpression)eventRef).getEvent();
-                    conds.add(fmt("%s == %s", eventVar, getTargetName(event)));
+                    conds.add(fmt("%s == %s", eventVar, getTargetRef(event)));
                     break;
                 }
 
@@ -1196,12 +1191,12 @@ public class SimulinkCodeGen extends CodeGen {
                 } else {
                     // Ugh, need to make a temporary variable first.
                     VariableInformation tempVar = ctxt.makeTempVariable(ti, "print_temp");
-                    valueCode.add(fmt("%s %s = %s;", ti.getTargetType(), tempVar.targetName, dataValue.getData()));
-                    valueText = "&" + tempVar.targetName;
+                    valueCode.add(fmt("%s %s = %s;", ti.getTargetType(), tempVar.targetRef, dataValue.getData()));
+                    valueText = "&" + tempVar.targetRef;
                 }
             }
             valueCode.add("%s(%s, %s.data, 0, MAX_STRING_SIZE);", typeGetTypePrintName(ti, true), valueText,
-                    txtVarInfo.targetName);
+                    txtVarInfo.targetRef);
         }
         // Construct code with condition, and output generation.
         CodeBox result = ctxt.makeCodeBox();
@@ -1224,7 +1219,7 @@ public class SimulinkCodeGen extends CodeGen {
             result.indent();
         }
         result.add(valueCode);
-        result.add("ssPrintf(\"%s\\n\", %s.data);", txtVarInfo.targetName);
+        result.add("ssPrintf(\"%s\\n\", %s.data);", txtVarInfo.targetRef);
         if (!unconditional) {
             result.dedent();
             result.add("}");
@@ -1294,7 +1289,7 @@ public class SimulinkCodeGen extends CodeGen {
             } else {
                 eventName = origDeclNames.get(event);
                 Assert.notNull(eventName);
-                eventTargetName = getTargetName(event);
+                eventTargetName = getTargetRef(event);
             }
 
             // Construct the call to try executing the event.

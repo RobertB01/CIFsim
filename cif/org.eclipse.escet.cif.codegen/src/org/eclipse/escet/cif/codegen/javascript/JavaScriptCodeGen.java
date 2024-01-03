@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifIntFuncUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
@@ -68,6 +69,7 @@ import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvid
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** JavaScript code generator. */
 public class JavaScriptCodeGen extends CodeGen {
@@ -106,6 +108,29 @@ public class JavaScriptCodeGen extends CodeGen {
     }
 
     @Override
+    public String getTargetRef(PositionObject obj) {
+        // Get reference consisting only the variable name.
+        String ref = super.getTargetRef(obj);
+
+        // If it refers to an object in the main class, prefix the reference.
+        if (obj instanceof AlgVariable) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof Constant) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof ContVariable) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof DiscVariable dvar) {
+            return CifIntFuncUtils.isFuncParamOrLocalVar(dvar) ? ref : getPrefix() + "." + ref;
+        } else if (obj instanceof EnumDecl) {
+            return getPrefix() + "." + ref;
+        } else if (obj instanceof InputVariable) {
+            return getPrefix() + "." + ref;
+        } else {
+            throw new AssertionError("Unexpected object: " + obj);
+        }
+    }
+
+    @Override
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
         switch (language) {
@@ -138,12 +163,20 @@ public class JavaScriptCodeGen extends CodeGen {
 
         // For HTML, log not only to the console, but also to the log panel.
         CodeBox logToPanelCode = makeCodeBox(2);
+        CodeBox errorToPanelCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
             logToPanelCode.add("var elem = document.getElementById('log-output');");
-            logToPanelCode.add("elem.value += message + '\\r\\n';");
+            logToPanelCode.add("elem.innerHTML += %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
             logToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
+
+            errorToPanelCode.add("var elem = document.getElementById('log-output');");
+            errorToPanelCode.add(
+                    "elem.innerHTML += '<span class=\"error\">' + %sUtils.escapeHtml(message) + '</span>\\n';",
+                    ctxt.getPrefix());
+            errorToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
         }
         replacements.put("html-log-to-panel-code", logToPanelCode.toString());
+        replacements.put("html-error-to-panel-code", errorToPanelCode.toString());
 
         // Add code for the 'getStateText' method.
         // State variables are sorted similarly to 'org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec.init'.
@@ -154,11 +187,11 @@ public class JavaScriptCodeGen extends CodeGen {
         for (Declaration stateVar: sortedStateVars) {
             String origName = origDeclNames.get(stateVar);
             Assert.notNull(origName);
-            getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s.%s));", ctxt.getPrefix(),
-                    origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+            getStateTextCode.add("state += %sUtils.fmt(', %s=%%s', %sUtils.valueToStr(%s));", ctxt.getPrefix(),
+                    origName, ctxt.getPrefix(), getTargetRef(stateVar));
             if (stateVar instanceof ContVariable) {
-                getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%s.%sderiv()));",
-                        ctxt.getPrefix(), origName, ctxt.getPrefix(), ctxt.getPrefix(), getTargetName(stateVar));
+                getStateTextCode.add("state += %sUtils.fmt(', %s\\'=%%s', %sUtils.valueToStr(%sderiv()));",
+                        ctxt.getPrefix(), origName, ctxt.getPrefix(), getTargetRef(stateVar));
             }
         }
         replacements.put("javascript-get-state-text-code", getStateTextCode.toString());
@@ -198,7 +231,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
             code.add();
             code.add("/** Constant \"%s\". */", origName);
-            code.add("%s = %s;", getTargetName(constant), constantCode.getData());
+            code.add("%s = %s;", getTargetVariableName(constant), constantCode.getData());
         }
 
         replacements.put("javascript-const-decls", code.toString());
@@ -225,7 +258,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (Declaration var: stateVars) {
-            String name = getTargetName(var);
+            String name = getTargetVariableName(var);
             String kindCode;
             if (var instanceof DiscVariable) {
                 kindCode = "Discrete";
@@ -245,7 +278,7 @@ public class JavaScriptCodeGen extends CodeGen {
         code = makeCodeBox(2);
 
         for (Declaration var: stateVars) {
-            String name = getTargetName(var);
+            String ref = getTargetRef(var);
             Expression value;
             if (var instanceof DiscVariable) {
                 DiscVariable v = (DiscVariable)var;
@@ -259,7 +292,7 @@ public class JavaScriptCodeGen extends CodeGen {
             }
             ExprCode valueCode = ctxt.exprToTarget(value, null);
             code.add(valueCode.getCode());
-            code.add("%s.%s = %s;", ctxt.getPrefix(), name, valueCode.getData());
+            code.add("%s = %s;", ref, valueCode.getData());
         }
 
         if (stateVars.isEmpty()) {
@@ -275,7 +308,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (ContVariable var: contVars) {
-            String name = getTargetName(var);
+            String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -302,20 +335,19 @@ public class JavaScriptCodeGen extends CodeGen {
 
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            code.add("var deriv%d = %s.%sderiv();", i, ctxt.getPrefix(), getTargetName(var));
+            code.add("var deriv%d = %sderiv();", i, getTargetRef(var));
         }
         if (!contVars.isEmpty()) {
             code.add();
         }
         for (int i = 0; i < contVars.size(); i++) {
             ContVariable var = contVars.get(i);
-            String name = getTargetName(var);
-            code.add("%s.%s = %s.%s + delta * deriv%d;", ctxt.getPrefix(), name, ctxt.getPrefix(), name, i);
+            String ref = getTargetRef(var);
+            code.add("%s = %s + delta * deriv%d;", ref, ref, i);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
-            code.add("%sUtils.checkReal(%s.%s, %s);", ctxt.getPrefix(), ctxt.getPrefix(), name,
-                    Strings.stringToJava(origName));
-            code.add("if (%s.%s == -0.0) %s.%s = 0.0;", ctxt.getPrefix(), name, ctxt.getPrefix(), name);
+            code.add("%sUtils.checkReal(%s, %s);", ctxt.getPrefix(), ref, Strings.stringToJava(origName));
+            code.add("if (%s == -0.0) %s = 0.0;", ref, ref);
         }
 
         if (contVars.isEmpty()) {
@@ -330,7 +362,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (AlgVariable var: algVars) {
-            String name = getTargetName(var);
+            String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
             code.add();
@@ -359,7 +391,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(1);
 
         for (InputVariable var: inputVars) {
-            String name = getTargetName(var);
+            String name = getTargetVariableName(var);
             List<String> docs = DocAnnotationProvider.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
@@ -538,6 +570,8 @@ public class JavaScriptCodeGen extends CodeGen {
         JavaScriptSvgCodeGen svgCodeGen = new JavaScriptSvgCodeGen();
         svgCodeGen.codeSvgContent = makeCodeBox(5);
         svgCodeGen.codeSvgToggles = makeCodeBox(2);
+        svgCodeGen.codeCopyApply = makeCodeBox(2);
+        svgCodeGen.codeMoveApply = makeCodeBox(2);
         svgCodeGen.codeInEventHandlers = makeCodeBox(1);
         svgCodeGen.codeInInteract = makeCodeBox(2);
         svgCodeGen.codeInCss = makeCodeBox(3);
@@ -551,6 +585,12 @@ public class JavaScriptCodeGen extends CodeGen {
         // Fill the replacement patterns with generated code, for the SVG images.
         replacements.put("html-svg-content", svgCodeGen.codeSvgContent.toString());
         replacements.put("html-svg-toggles", svgCodeGen.codeSvgToggles.toString());
+
+        // Fill the replacement patterns with generated code, for SVG copy declarations.
+        replacements.put("html-svg-copy-apply-code", svgCodeGen.codeCopyApply.toString());
+
+        // Fill the replacement patterns with generated code, for SVG move declarations.
+        replacements.put("html-svg-move-apply-code", svgCodeGen.codeMoveApply.toString());
 
         // Fill the replacement patterns with generated code, for SVG input mappings.
         replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());
@@ -654,6 +694,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add();
             codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, false);", eventIdx);
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
+            codeMethods.add("if (this.doStateOutput || this.doTransitionOutput) this.log('');");
             codeMethods.add("return true;");
 
             // Method code done.
@@ -736,8 +777,8 @@ public class JavaScriptCodeGen extends CodeGen {
 
                 // Construct a variable for the index.
                 VariableInformation indexVarInfo = writeCtxt.makeTempVariable(newIntType(), "index");
-                indexTexts[i] = indexVarInfo.targetName;
-                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetName));
+                indexTexts[i] = indexVarInfo.targetRef;
+                rangeErrorTexts.add(new RangeCheckErrorLevelText(true, indexVarInfo.targetVariableName));
 
                 // Compute the index value.
                 ExprCode indexCode = readCtxt.exprToTarget(listProj.index, null);
@@ -770,7 +811,7 @@ public class JavaScriptCodeGen extends CodeGen {
             VariableInformation containerInfo = (i == 0)
                     ? readCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
             ExprCode containerValue = new ExprCode();
-            containerValue.setDataValue(new JavaScriptDataValue(containerInfo.targetName));
+            containerValue.setDataValue(new JavaScriptDataValue(containerInfo.targetRef));
 
             // Construct projection call.
             ExprCode projectRhs;
@@ -805,14 +846,14 @@ public class JavaScriptCodeGen extends CodeGen {
                     ? writeCtxt.getReadVarInfo(new VariableWrapper(asgn.variable, false)) : partVariables[i - 1];
 
             ExprCode containerCode = new ExprCode();
-            containerCode.setDataValue(new JavaScriptDataValue(containerInfo.targetName));
+            containerCode.setDataValue(new JavaScriptDataValue(containerInfo.targetRef));
 
             // Get the new value.
             ExprCode partCode = new ExprCode();
             if (i == last) {
                 partCode.setDataValue(rhsValue);
             } else {
-                partCode.setDataValue(new JavaScriptDataValue(partVariables[i].targetName));
+                partCode.setDataValue(new JavaScriptDataValue(partVariables[i].targetRef));
             }
 
             CodeBox modify;
@@ -821,7 +862,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 LhsTupleProjection tupleLhs = (LhsTupleProjection)lhsProj;
 
                 modify = readCtxt.makeCodeBox();
-                modify.add("%s = %s.copy();", containerInfo.targetName, containerInfo.targetName);
+                modify.add("%s = %s.copy();", containerInfo.targetRef, containerInfo.targetRef);
                 modify.add(tupleTi.modifyContainer(containerInfo, partCode, tupleLhs.fieldNumber, readCtxt));
             } else {
                 Assert.check(containerInfo.typeInfo instanceof ArrayTypeInfo);
@@ -849,7 +890,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     public Destination makeDestination(VariableInformation varInfo) {
-        DataValue dataValue = new JavaScriptDataValue(varInfo.targetName);
+        DataValue dataValue = new JavaScriptDataValue(varInfo.targetRef);
         return new Destination(null, varInfo.typeInfo, dataValue);
     }
 

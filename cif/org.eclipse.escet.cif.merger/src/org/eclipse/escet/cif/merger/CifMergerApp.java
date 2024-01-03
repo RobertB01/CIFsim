@@ -33,7 +33,6 @@ import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.FilesOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -42,6 +41,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF merger application. */

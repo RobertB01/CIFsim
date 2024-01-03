@@ -120,10 +120,10 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         // else just return the value to the caller.
         if (needsTemporary) {
             VariableInformation tempVarInfo = ctxt.makeTempVariable(retType, "ret_val");
-            result.add(fmt("%s %s = %s;", tempVarInfo.typeInfo.getTargetType(), tempVarInfo.targetName,
+            result.add(fmt("%s %s = %s;", tempVarInfo.typeInfo.getTargetType(), tempVarInfo.targetRef,
                     callText.toString()));
             result.setDestination(dest);
-            result.setDataValue(makeValue(tempVarInfo.targetName));
+            result.setDataValue(makeValue(tempVarInfo.targetRef));
             return result;
         } else {
             result.setDestination(dest);
@@ -158,10 +158,10 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         code.indent();
         code.add("InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(sim_struct, %d);", index);
         if (rows == 0) {
-            code.add("%s = %s;", varInfo.targetName,
+            code.add("%s = %s;", varInfo.targetRef,
                     getElementConversionFromSimulinkVector(varInfo.typeInfo, "*uPtrs[0]"));
         } else {
-            code.add("%sTypeToSimulink(*uPtrs, &%s)", varInfo.typeInfo.getTypeName(), varInfo.targetName);
+            code.add("%sTypeToSimulink(*uPtrs, &%s)", varInfo.typeInfo.getTypeName(), varInfo.targetRef);
         }
         code.add("work->input_loaded%02d = TRUE;", index);
         code.dedent();
@@ -169,7 +169,7 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         result.add(code);
 
         result.setDestination(dest);
-        result.setDataValue(makeValue(varInfo.targetName));
+        result.setDataValue(makeValue(varInfo.targetRef));
         return result;
     }
 
@@ -179,10 +179,10 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         VariableWrapper var = new VariableWrapper(algVar, false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
         if (varInfo.isTempVar) {
-            String resultText = varInfo.targetName;
+            String resultText = varInfo.targetRef;
             result.setDataValue(makeValue(resultText));
         } else {
-            String resultText = fmt("%s(sim_struct)", varInfo.targetName);
+            String resultText = fmt("%s(sim_struct)", varInfo.targetRef);
             result.setDataValue(makeComputed(resultText));
         }
         result.setDestination(dest);
@@ -209,7 +209,7 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
             String resultText = fmt("deriv%02d(sim_struct)", contVarMap.get(contVar));
             result.setDataValue(makeComputed(resultText));
         } else {
-            result.setDataValue(makeValue(varInfo.targetName));
+            result.setDataValue(makeValue(varInfo.targetRef));
         }
         return result;
     }

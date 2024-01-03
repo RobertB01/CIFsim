@@ -25,7 +25,7 @@ import org.eclipse.escet.chi.metamodel.chi.ChiFactory;
 import org.eclipse.escet.chi.metamodel.chi.Declaration;
 import org.eclipse.escet.chi.metamodel.chi.Specification;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.typechecker.EcoreTypeChecker;
 
 /** Type checker class, since an application always needs an object. */

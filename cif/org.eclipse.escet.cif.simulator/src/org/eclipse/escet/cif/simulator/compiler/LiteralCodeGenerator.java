@@ -344,7 +344,7 @@ public class LiteralCodeGenerator {
 
         // Add new code file.
         JavaCodeFile file = ctxt.addCodeFile(LITERAL_READER_CLS_NAME);
-        file.imports.add("org.eclipse.escet.common.app.framework.exceptions.InputOutputException");
+        file.imports.add("org.eclipse.escet.common.java.exceptions.InputOutputException");
 
         // Add header.
         CodeBox h = file.header;

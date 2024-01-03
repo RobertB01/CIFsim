@@ -27,8 +27,8 @@ import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.eventbased.partitions.PartitionLocation;
 import org.eclipse.escet.cif.eventbased.partitions.PartitionRefinement;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /**
  * Check whether an automaton is a proper L-observer.

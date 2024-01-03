@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.equivalence.AutomatonMinimizer;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Minimize the number of locations of a DFA. */
 public class DfaMinimize {

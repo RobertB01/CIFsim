@@ -20,8 +20,8 @@ import java.util.List;
 import org.eclipse.escet.cif.cif2mcrl2.tree.CombinedTextNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.ElementaryTextNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.TextNode;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Helper class for interpreting the instance tree provided by the user. */
 public class InstanceTreeHelper {

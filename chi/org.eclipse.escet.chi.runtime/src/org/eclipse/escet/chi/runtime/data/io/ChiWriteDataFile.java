@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** File handle for writing to a data file. */
 public class ChiWriteDataFile extends ChiFileHandle {

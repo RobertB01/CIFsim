@@ -21,7 +21,9 @@ import java.util.Map;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgCopy;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgMove;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
@@ -41,7 +43,15 @@ public abstract class SvgCodeGen {
     {
         CifSvgDecls cifSvgDecls = new CifSvgDecls();
         for (IoDecl ioDecl: svgDecls) {
-            if (ioDecl instanceof SvgOut svgOut) {
+            if (ioDecl instanceof SvgCopy svgCopy) {
+                if (svgAbsPath.equals(svgPathsRelToAbs.get(svgCopy.getSvgFile().getPath()))) {
+                    cifSvgDecls.svgCopies.add(svgCopy);
+                }
+            } else if (ioDecl instanceof SvgMove svgMove) {
+                if (svgAbsPath.equals(svgPathsRelToAbs.get(svgMove.getSvgFile().getPath()))) {
+                    cifSvgDecls.svgMoves.add(svgMove);
+                }
+            } else if (ioDecl instanceof SvgOut svgOut) {
                 if (svgAbsPath.equals(svgPathsRelToAbs.get(svgOut.getSvgFile().getPath()))) {
                     cifSvgDecls.svgOuts.add(svgOut);
                 }
@@ -71,12 +81,49 @@ public abstract class SvgCodeGen {
         }
     }
 
+    /**
+     * Evaluates a CIF expression that can be statically evaluated for use by a CIF/SVG declaration.
+     *
+     * @param expr The expression to evaluate. The expression must have an integer or real type.
+     * @return The number resulting from evaluation of the expression.
+     */
+    protected static double evalSvgNumberExpr(Expression expr) {
+        try {
+            Object rslt = CifEvalUtils.eval(expr, false);
+            if (rslt instanceof Integer) {
+                return (int)rslt;
+            }
+            if (rslt instanceof Double) {
+                return (double)rslt;
+            }
+            throw new RuntimeException("Number expected: " + rslt);
+        } catch (CifEvalException e) {
+            // Shouldn't happen, as type checker already evaluated it.
+            throw new RuntimeException(e);
+        }
+    }
+
     /** CIF/SVG declarations for a single SVG file, grouped per type. */
     public static class CifSvgDecls {
+        /** SVG copy declarations. */
+        public final List<SvgCopy> svgCopies = list();
+
+        /** SVG move declarations. */
+        public final List<SvgMove> svgMoves = list();
+
         /** SVG output mappings. */
         public final List<SvgOut> svgOuts = list();
 
         /** SVG input mappings. */
         public final List<SvgIn> svgIns = list();
+
+        /**
+         * Returns the number of declarations for this SVG file.
+         *
+         * @return The number of declarations.
+         */
+        public int size() {
+            return svgCopies.size() + svgMoves.size() + svgOuts.size() + svgIns.size();
+        }
     }
 }

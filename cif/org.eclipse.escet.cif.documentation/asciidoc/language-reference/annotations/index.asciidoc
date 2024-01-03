@@ -101,6 +101,8 @@ The following general constraints apply to all annotations:
 * If an element has multiple annotations, different annotations can be put in any order.
 * In case a single element is annotated with the same annotation multiple times, then the order of these annotations may be relevant, although this could differ per annotation.
 * Each argument of an annotation must have a different name.
+* The order of the arguments of an annotation is not relevant.
+That is, if the arguments are re-ordered, then the annotation still has the same meaning.
 
 Each annotation must be registered.
 When registering an annotation, an annotation provider is registered with it:

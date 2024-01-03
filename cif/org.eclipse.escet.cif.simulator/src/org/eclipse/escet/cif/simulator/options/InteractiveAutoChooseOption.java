@@ -22,9 +22,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeSpec;
 import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /**
  * Automatic transition choice option, for the interactive input mode. Can be used in interactive input mode to make it

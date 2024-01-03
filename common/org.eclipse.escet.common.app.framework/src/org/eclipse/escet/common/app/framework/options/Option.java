@@ -15,10 +15,10 @@ package org.eclipse.escet.common.app.framework.options;
 
 import java.util.Comparator;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.swt.widgets.Composite;
 
 /**

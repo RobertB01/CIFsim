@@ -45,10 +45,10 @@ import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.tooldef.runtime.ToolDefException;
 import org.eclipse.escet.tooldef.runtime.ToolDefList;
 

@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.IOException;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 /** {@link AppStream} that writes to an Eclipse console I/O stream. */

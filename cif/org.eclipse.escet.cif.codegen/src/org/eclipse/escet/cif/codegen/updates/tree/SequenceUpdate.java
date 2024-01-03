@@ -202,9 +202,6 @@ public class SequenceUpdate extends UpdateData {
 
             // Construct new variable information object for the renamed variable.
             VariableInformation newInfo = writeCtxt.makeTempVariable(origInfo);
-            newInfo.isTempVar = true; // Mark it as temporary copy of the real thing.
-            newInfo.isReference = origInfo.isReference;
-//            newInfo.readOnly = false;
 
             // Generate assignment to the copy.
             ExprCode readVarCode = readCtxt.getReadVariableCode(var);

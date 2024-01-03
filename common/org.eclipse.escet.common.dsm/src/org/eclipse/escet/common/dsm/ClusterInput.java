@@ -17,8 +17,8 @@ import static org.eclipse.escet.common.dsm.BusDetectionAlgorithm.NO_BUS;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.apache.commons.math3.linear.RealMatrix;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 

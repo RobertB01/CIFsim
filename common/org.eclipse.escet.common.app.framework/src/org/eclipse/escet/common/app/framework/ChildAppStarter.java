@@ -26,13 +26,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.io.input.NullInputStream;
 import org.eclipse.escet.common.app.framework.console.Console;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.app.framework.io.NullAppStream;
 import org.eclipse.escet.common.app.framework.management.AppManager;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /**
  * Class that can be used to start one application framework application (the child) from another application framework

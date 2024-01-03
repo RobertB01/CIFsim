@@ -40,10 +40,10 @@ import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.eventbased.builders.AutomatonBuilder;
 import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /**
  * Event-based supervisor synthesis.

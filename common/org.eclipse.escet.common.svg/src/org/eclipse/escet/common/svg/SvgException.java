@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.common.svg;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /** SVG exception. */
 public class SvgException extends ApplicationException {

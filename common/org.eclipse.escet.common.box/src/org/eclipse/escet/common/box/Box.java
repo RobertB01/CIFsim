@@ -16,9 +16,9 @@ package org.eclipse.escet.common.box;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Box base class. */
 public abstract class Box {

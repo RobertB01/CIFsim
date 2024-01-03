@@ -31,19 +31,13 @@ import org.eclipse.escet.common.box.CodeBox;
 
 /** JavaScript type information about the boolean type. */
 public class JavaScriptBoolTypeInfo extends BoolTypeInfo {
-    /** Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable names. */
-    private final String prefix;
-
     /**
      * Constructor of the {@link JavaScriptBoolTypeInfo} class.
      *
      * @param cifType The CIF type used for creating this type information object.
-     * @param prefix Name of the main object in the generated code. Is used as prefix to ensure fully-qualified variable
-     *     names.
      */
-    public JavaScriptBoolTypeInfo(CifType cifType, String prefix) {
+    public JavaScriptBoolTypeInfo(CifType cifType) {
         super(cifType);
-        this.prefix = prefix;
     }
 
     @Override
@@ -59,7 +53,7 @@ public class JavaScriptBoolTypeInfo extends BoolTypeInfo {
     @Override
     public void storeValue(CodeBox code, DataValue sourceValue, Destination dest) {
         code.add(dest.getCode());
-        code.add("%s.%s = %s;", this.prefix, dest.getData(), sourceValue.getData());
+        code.add("%s = %s;", dest.getData(), sourceValue.getData());
     }
 
     @Override

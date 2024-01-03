@@ -331,6 +331,8 @@ include::language-reference/syntax/lexical.asciidoc[]
 
 include::language-reference/syntax/grammar.asciidoc[]
 
+include::language-reference/syntax/xml.asciidoc[]
+
 include::language-reference/annotations/index.asciidoc[]
 
 include::language-reference/annotations/builtin.asciidoc[]

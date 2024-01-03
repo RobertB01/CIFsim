@@ -13,8 +13,8 @@
 
 package org.eclipse.escet.chi.runtime;
 
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /** Exception class denoting a fatal runtime error of the Chi simulator. */
 public class ChiSimulatorException extends ApplicationException {

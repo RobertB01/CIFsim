@@ -22,9 +22,9 @@ import java.util.Map;
 import org.eclipse.escet.cif.simulator.options.CifSpecInitOption;
 import org.eclipse.escet.cif.simulator.runtime.meta.RuntimeStateObjectMeta;
 import org.eclipse.escet.cif.simulator.runtime.meta.StateObjectType;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Runtime state initializer base class. */
 public abstract class RuntimeStateInit {

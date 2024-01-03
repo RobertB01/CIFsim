@@ -30,7 +30,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProblemReporter;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 
 /**

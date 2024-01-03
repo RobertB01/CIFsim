@@ -16,8 +16,8 @@ package org.eclipse.escet.cif.simulator.runtime.io;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.simulator.runtime.RuntimeEnumUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Runtime literal reader. */
 public class RuntimeLiteralReader {

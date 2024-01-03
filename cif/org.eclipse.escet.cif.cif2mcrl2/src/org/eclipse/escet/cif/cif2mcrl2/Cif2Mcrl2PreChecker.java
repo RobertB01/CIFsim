@@ -61,10 +61,10 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** Class for performing checks whether the specification can be used as input for the CIF to mCRL2 transformation. */
 public class Cif2Mcrl2PreChecker {

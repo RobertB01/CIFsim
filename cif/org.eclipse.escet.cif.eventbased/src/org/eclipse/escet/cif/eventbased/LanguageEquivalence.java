@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.equivalence.CounterExample;
 import org.eclipse.escet.cif.eventbased.equivalence.LangEquivCalculation;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Language equivalence check. */
 public class LanguageEquivalence {

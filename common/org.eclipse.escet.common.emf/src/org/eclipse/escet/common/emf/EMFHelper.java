@@ -23,6 +23,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -130,6 +131,20 @@ public final class EMFHelper {
 
         // Apply recursively.
         syncXmiIds(target.eContents(), source.eContents());
+    }
+
+    /**
+     * Normalizes the xmi:id values of the objects in the XML resource, recursively.
+     *
+     * @param resource The XML resource.
+     */
+    public static void normalizeXmiIds(XMLResource resource) {
+        int id = 0;
+        for (TreeIterator<EObject> iter = resource.getAllContents(); iter.hasNext();) {
+            id++;
+            EObject obj = iter.next();
+            resource.setID(obj, Integer.toString(id));
+        }
     }
 
     /**

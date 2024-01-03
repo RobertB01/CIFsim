@@ -64,10 +64,10 @@ import org.eclipse.escet.cif.simulator.runtime.transitions.EventTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.TimeTransition;
 import org.eclipse.escet.cif.simulator.runtime.transitions.Transition;
 import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.ListProductIterator;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * Runtime specification representation.

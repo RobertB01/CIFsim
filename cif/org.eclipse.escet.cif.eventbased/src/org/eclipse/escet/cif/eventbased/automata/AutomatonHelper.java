@@ -31,8 +31,8 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpInterface;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidModelException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /** Several routines to inspect or operate at an automaton. */
 public class AutomatonHelper {

@@ -16,8 +16,8 @@ package org.eclipse.escet.chi.runtime.data.io;
 import static org.eclipse.escet.common.app.framework.Paths.resolve;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Class representing a file handle in a Chi simulation. */
 public abstract class ChiFileHandle {

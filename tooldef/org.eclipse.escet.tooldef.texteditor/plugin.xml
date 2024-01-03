@@ -20,7 +20,16 @@
          contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
          default="true"
          extensions="tooldef"
-         icon="icons/tooldef_file.png">
+         icon="icons/tooldef_ascii_file.png">
+      </editor>
+      <editor
+         name="ToolDef XMI Editor"
+         class="org.eclipse.emf.ecore.presentation.EcoreEditor"
+         id="org.eclipse.escet.tooldef.texteditor.ToolDefXmiEditor"
+         contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective"
+         default="true"
+         extensions="tooldefx"
+         icon="icons/tooldef_xmi_file.png">
       </editor>
    </extension>
 

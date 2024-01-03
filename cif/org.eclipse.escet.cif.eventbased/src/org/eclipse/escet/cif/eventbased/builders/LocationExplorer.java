@@ -22,7 +22,7 @@ import java.util.Queue;
 
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.Location;
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /**
  * Explorer of the locations of an automaton by traversing edges.

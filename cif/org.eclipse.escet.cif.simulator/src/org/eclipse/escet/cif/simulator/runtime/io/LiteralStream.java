@@ -20,9 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PositionTrackingInputStream;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Wrapper around {@link InputStream} with additional functionality. */
 public class LiteralStream extends InputStream {

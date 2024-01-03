@@ -16,9 +16,9 @@ package org.eclipse.escet.cif.explorer.options;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.common.CifValidationUtils;
-import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Resulting statespace automaton name option. */
 public class AutomatonNameOption extends StringOption {

@@ -129,7 +129,7 @@ public class PlcCodeStorage {
      */
     public ExprGenerator getExprGenerator() {
         if (exprGenerator == null) {
-            exprGenerator = new ExprGenerator(target, target.getVarStorage().getRootCifDataProvider());
+            exprGenerator = new ExprGenerator(target, target.getVarStorage().getCifDataProvider());
         }
         return exprGenerator;
     }

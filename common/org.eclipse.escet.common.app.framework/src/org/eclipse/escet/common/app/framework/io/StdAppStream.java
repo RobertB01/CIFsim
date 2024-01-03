@@ -17,7 +17,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.PrintStream;
 
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** {@link AppStream} that writes to {@link System#out} or {@link System#err}. */
 public class StdAppStream extends AppStream {

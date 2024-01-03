@@ -22,7 +22,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
+import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.wiring.BundleWiring;
 

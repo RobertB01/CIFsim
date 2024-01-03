@@ -83,7 +83,7 @@ public class C89TupleTypeInfo extends TupleTypeInfo implements C89TypeInfo {
         String storeVar;
         if (dest == null) {
             VariableInformation tempVarInfo = ctxt.makeTempVariable(expr.getType(), "tuple_tmp");
-            storeVar = tempVarInfo.targetName;
+            storeVar = tempVarInfo.targetRef;
 
             result.add(fmt("%s %s;", getTargetType(), storeVar));
             result.setDataValue(makeValue(storeVar));
@@ -108,7 +108,7 @@ public class C89TupleTypeInfo extends TupleTypeInfo implements C89TypeInfo {
         CodeBox code = ctxt.makeCodeBox();
         code.add(partCode.getCode());
 
-        String fieldText = fmt("%s._field%d", containerVar.targetName, index);
+        String fieldText = fmt("%s._field%d", containerVar.targetRef, index);
         Destination dest = new Destination(null, childInfos[index], makeValue(fieldText));
         childInfos[index].storeValue(code, partCode.getRawDataValue(), dest);
         return code;

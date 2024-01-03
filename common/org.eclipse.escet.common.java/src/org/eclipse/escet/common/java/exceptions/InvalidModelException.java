@@ -11,28 +11,26 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.app.framework.exceptions;
+package org.eclipse.escet.common.java.exceptions;
 
-import java.io.IOException;
-
-/** Exception indicating something went wrong during I/O. This exception usually wraps an {@link IOException}. */
-public class InputOutputException extends ApplicationException {
+/** Exception indicating a user-supplied model is invalid. */
+public class InvalidModelException extends InvalidInputException {
     /**
-     * Constructor for the {@link InputOutputException} class.
+     * Constructor for the {@link InvalidModelException} class.
      *
      * @param message Message describing the exception.
      */
-    public InputOutputException(String message) {
+    public InvalidModelException(String message) {
         super(message);
     }
 
     /**
-     * Constructor for the {@link InputOutputException} class.
+     * Constructor for the {@link InvalidModelException} class.
      *
      * @param message Message describing the exception.
      * @param cause A deeper cause of the exception.
      */
-    public InputOutputException(String message, Throwable cause) {
+    public InvalidModelException(String message, Throwable cause) {
         super(message, cause);
     }
 }

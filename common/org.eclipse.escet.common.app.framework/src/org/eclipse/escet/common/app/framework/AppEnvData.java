@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.escet.common.app.framework.console.Console;
-import org.eclipse.escet.common.app.framework.exceptions.DependencyException;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.management.AppManager;
 import org.eclipse.escet.common.app.framework.management.AppStatus;
@@ -27,6 +26,7 @@ import org.eclipse.escet.common.app.framework.options.GuiMode;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.exceptions.DependencyException;
 
 /**
  * Application specific environment data, that is to be managed by the application environment manager (the
