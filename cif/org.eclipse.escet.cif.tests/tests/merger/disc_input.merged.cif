@@ -10,3 +10,14 @@ plant automaton a:
   location:
     initial;
 end
+automaton annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  disc bool x;
+  invariant x;
+  invariant x;
+  location:
+    initial;
+end
