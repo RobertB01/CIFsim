@@ -84,3 +84,12 @@ automaton a2:
   location loc2:
     initial;
 end
+
+automaton a3:
+  @a(b = 1)
+  disc int x = 1, y = 2;
+  invariant x > 0 and y > 0;
+
+  location:
+    initial;
+end

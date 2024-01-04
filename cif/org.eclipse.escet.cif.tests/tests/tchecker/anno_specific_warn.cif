@@ -44,3 +44,12 @@ automaton a2:
   location loc2:
     initial;
 end
+
+automaton a3:
+  @cif:typechecker:tests:anno1(x = true)
+  disc int x = 1;
+  invariant x > 0;
+
+  location:
+    initial;
+end
