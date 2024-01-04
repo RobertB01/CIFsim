@@ -291,7 +291,7 @@ AutDecl : Decl
         | @ALPHABETKW SEMICOLTK
         | @MONITORKW Events SEMICOLTK
         | @MONITORKW SEMICOLTK
-        | @DISCKW Type DiscDecls SEMICOLTK
+        | OptAnnos @DISCKW Type DiscDecls SEMICOLTK
         ;
 
 {cif.ADecl}

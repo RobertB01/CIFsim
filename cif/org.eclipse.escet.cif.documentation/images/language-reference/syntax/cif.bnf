@@ -34,7 +34,7 @@ AutDecl : Decl
         | "alphabet" ";"
         | "monitor" Events ";"
         | "monitor" ";"
-        | "disc" Type DiscDecls ";"
+        | OptAnnos "disc" Type DiscDecls ";"
         ;
 
 Decl : "type" TypeDefs ";"
