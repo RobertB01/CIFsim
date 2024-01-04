@@ -275,7 +275,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.Xauthority-.*:0$"
 
 # Get license header count per file, using copyright statement from license header.
 # Exclude ones with exactly one match, as that is the expected/desired situation.
-grep -r -c $EXCLUDE_ARGS -E "Copyright \(c\) ([0-9]{4}, )?2023 Contributors to the Eclipse Foundation" . | \
+grep -r -c $EXCLUDE_ARGS -E "Copyright \(c\) ([0-9]{4}, )?2024 Contributors to the Eclipse Foundation" . | \
     grep -v "^.*:1$" | grep -v -E $POST_EXCLUDE_PATTERN > misc/license-header/license-header-list.txt
 
 # Print/check results.
