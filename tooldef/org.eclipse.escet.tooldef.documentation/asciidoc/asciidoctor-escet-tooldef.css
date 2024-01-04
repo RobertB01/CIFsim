@@ -221,6 +221,24 @@ table.tableblock > .title,
     color: rgba(255,255,255,.8)
 }
 
+/* Footer at bottom of the page, regardless of the amount of content on the page. */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+#header {
+    flex-shrink: 0;
+}
+#content {
+    flex: 1 0 auto;
+}
+#footer {
+    flex-shrink: 0;
+}
+
 /* TOC styling. */
 #toc > ul.sectlevel1 {
     margin-left: 1em;
