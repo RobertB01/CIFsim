@@ -87,6 +87,40 @@ BoolType i5_;
 
 /* State variables. */
 
+/** Discrete variable "bool a.i1". */
+BoolType a_i1_;
+
+/**
+ * Discrete variable "bool a.i2".
+ *
+ * single line doc
+ */
+BoolType a_i2_;
+
+/**
+ * Discrete variable "bool a.i3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+BoolType a_i3_;
+
+/**
+ * Discrete variable "bool a.i4".
+ *
+ * some doc
+ */
+BoolType a_i4_;
+
+/**
+ * Discrete variable "bool a.i5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+BoolType a_i5_;
 
 RealType model_time; /**< Current model time. */
 
@@ -103,6 +137,24 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
 
 /* Event execution code. */
 
+/**
+ * Execute code for event "tau".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent0(void) {
+    BoolType guard = ((((a_i1_) || (a_i2_)) || (a_i3_)) || (a_i4_)) || (a_i5_);
+    if (!guard) return FALSE;
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(EVT_TAU_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(EVT_TAU_, FALSE);
+    #endif
+    return TRUE;
+}
 
 /**
  * Normalize and check the new value of a continuous variable after an update.
@@ -142,7 +194,7 @@ static void PerformEvents(void) {
             break;
         }
 
-
+        if (execEvent0()) continue;  /* (Try to) perform event "tau". */
         break; /* No event fired, done with discrete steps. */
     }
 }
@@ -153,7 +205,11 @@ void annos_doc_EngineFirstStep(void) {
 
     model_time = 0.0;
     annos_doc_AssignInputVariables();
-
+    a_i1_ = FALSE;
+    a_i2_ = FALSE;
+    a_i3_ = FALSE;
+    a_i4_ = FALSE;
+    a_i5_ = FALSE;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

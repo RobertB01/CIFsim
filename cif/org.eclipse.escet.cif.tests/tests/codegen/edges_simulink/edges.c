@@ -1978,44 +1978,119 @@ static int EnumTypePrint(edgesEnum value, char *dest, int start, int end) {
 struct WorkStruct {
 
 
-    int_T aut02_x_;              /**< Discrete variable "int[0..3] aut02.x". */
-    int_T aut03_d_;              /**< Discrete variable "int aut03.d". */
-    int_T aut04_a_;              /**< Discrete variable "int aut04.a". */
-    int_T aut04_b_;              /**< Discrete variable "int aut04.b". */
-    int_T aut04_c_;              /**< Discrete variable "int aut04.c". */
-    int_T aut04_d_;              /**< Discrete variable "int aut04.d". */
-    A5IType aut05_v1_;           /**< Discrete variable "list[5] int aut05.v1". */
-    A5IType aut05_v2_;           /**< Discrete variable "list[5] int aut05.v2". */
-    T2IIType aut06_v1_;          /**< Discrete variable "tuple(int a; int b) aut06.v1". */
-    T2IIType aut06_v2_;          /**< Discrete variable "tuple(int a; int b) aut06.v2". */
-    int_T aut06_x_;              /**< Discrete variable "int aut06.x". */
-    int_T aut06_y_;              /**< Discrete variable "int aut06.y". */
-    T2T2IISType aut08_tt1_;      /**< Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt1". */
-    T2T2IISType aut08_tt2_;      /**< Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt2". */
-    T2IIType aut08_t_;           /**< Discrete variable "tuple(int a; int b) aut08.t". */
-    int_T aut08_i_;              /**< Discrete variable "int aut08.i". */
-    int_T aut08_j_;              /**< Discrete variable "int aut08.j". */
-    StringType aut08_s_;         /**< Discrete variable "string aut08.s". */
-    A2A3IType aut09_ll1_;        /**< Discrete variable "list[2] list[3] int aut09.ll1". */
-    A2A3IType aut09_ll2_;        /**< Discrete variable "list[2] list[3] int aut09.ll2". */
-    A3IType aut09_l_;            /**< Discrete variable "list[3] int aut09.l". */
-    int_T aut09_i_;              /**< Discrete variable "int aut09.i". */
-    int_T aut09_j_;              /**< Discrete variable "int aut09.j". */
-    T2SA2T2A1IA1RType aut10_x1_; /**< Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x1". */
-    T2SA2T2A1IA1RType aut10_x2_; /**< Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x2". */
-    A2T2A1IA1RType aut10_l_;     /**< Discrete variable "list[2] tuple(list[1] int x; list[1] real y) aut10.l". */
-    A1IType aut10_li_;           /**< Discrete variable "list[1] int aut10.li". */
-    A1RType aut10_lr_;           /**< Discrete variable "list[1] real aut10.lr". */
-    int_T aut10_i_;              /**< Discrete variable "int aut10.i". */
-    real_T aut10_r_;             /**< Discrete variable "real aut10.r". */
-    A3T2IIType aut11_v1_;        /**< Discrete variable "list[3] tuple(int a; int b) aut11.v1". */
-    real_T aut12_x_;             /**< Discrete variable "real aut12.x". */
-    real_T aut12_y_;             /**< Discrete variable "real aut12.y". */
-    real_T aut12_z_;             /**< Discrete variable "real aut12.z". */
-    real_T aut12_td_;            /**< Discrete variable "real aut12.td". */
-    real_T aut13_x_;             /**< Discrete variable "real aut13.x". */
-    real_T aut13_y_;             /**< Discrete variable "real aut13.y". */
-    real_T aut13_z_;             /**< Discrete variable "real aut13.z". */
+    /** Discrete variable "int[0..3] aut02.x". */
+    int_T aut02_x_;
+
+    /** Discrete variable "int aut03.d". */
+    int_T aut03_d_;
+
+    /** Discrete variable "int aut04.a". */
+    int_T aut04_a_;
+
+    /** Discrete variable "int aut04.b". */
+    int_T aut04_b_;
+
+    /** Discrete variable "int aut04.c". */
+    int_T aut04_c_;
+
+    /** Discrete variable "int aut04.d". */
+    int_T aut04_d_;
+
+    /** Discrete variable "list[5] int aut05.v1". */
+    A5IType aut05_v1_;
+
+    /** Discrete variable "list[5] int aut05.v2". */
+    A5IType aut05_v2_;
+
+    /** Discrete variable "tuple(int a; int b) aut06.v1". */
+    T2IIType aut06_v1_;
+
+    /** Discrete variable "tuple(int a; int b) aut06.v2". */
+    T2IIType aut06_v2_;
+
+    /** Discrete variable "int aut06.x". */
+    int_T aut06_x_;
+
+    /** Discrete variable "int aut06.y". */
+    int_T aut06_y_;
+
+    /** Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt1". */
+    T2T2IISType aut08_tt1_;
+
+    /** Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt2". */
+    T2T2IISType aut08_tt2_;
+
+    /** Discrete variable "tuple(int a; int b) aut08.t". */
+    T2IIType aut08_t_;
+
+    /** Discrete variable "int aut08.i". */
+    int_T aut08_i_;
+
+    /** Discrete variable "int aut08.j". */
+    int_T aut08_j_;
+
+    /** Discrete variable "string aut08.s". */
+    StringType aut08_s_;
+
+    /** Discrete variable "list[2] list[3] int aut09.ll1". */
+    A2A3IType aut09_ll1_;
+
+    /** Discrete variable "list[2] list[3] int aut09.ll2". */
+    A2A3IType aut09_ll2_;
+
+    /** Discrete variable "list[3] int aut09.l". */
+    A3IType aut09_l_;
+
+    /** Discrete variable "int aut09.i". */
+    int_T aut09_i_;
+
+    /** Discrete variable "int aut09.j". */
+    int_T aut09_j_;
+
+    /** Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x1". */
+    T2SA2T2A1IA1RType aut10_x1_;
+
+    /** Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x2". */
+    T2SA2T2A1IA1RType aut10_x2_;
+
+    /** Discrete variable "list[2] tuple(list[1] int x; list[1] real y) aut10.l". */
+    A2T2A1IA1RType aut10_l_;
+
+    /** Discrete variable "list[1] int aut10.li". */
+    A1IType aut10_li_;
+
+    /** Discrete variable "list[1] real aut10.lr". */
+    A1RType aut10_lr_;
+
+    /** Discrete variable "int aut10.i". */
+    int_T aut10_i_;
+
+    /** Discrete variable "real aut10.r". */
+    real_T aut10_r_;
+
+    /** Discrete variable "list[3] tuple(int a; int b) aut11.v1". */
+    A3T2IIType aut11_v1_;
+
+    /** Discrete variable "real aut12.x". */
+    real_T aut12_x_;
+
+    /** Discrete variable "real aut12.y". */
+    real_T aut12_y_;
+
+    /** Discrete variable "real aut12.z". */
+    real_T aut12_z_;
+
+    /** Discrete variable "real aut12.td". */
+    real_T aut12_td_;
+
+    /** Discrete variable "real aut13.x". */
+    real_T aut13_x_;
+
+    /** Discrete variable "real aut13.y". */
+    real_T aut13_y_;
+
+    /** Discrete variable "real aut13.z". */
+    real_T aut13_z_;
 
     /** Input variable "bool aut14.b". */
     BoolType aut14_b_;

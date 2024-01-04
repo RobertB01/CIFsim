@@ -103,27 +103,69 @@ extern IntType fr_();
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern IntType aut_v00_;   /**< Discrete variable "int aut.v00". */
-extern IntType aut_v01_;   /**< Discrete variable "int aut.v01". */
-extern IntType aut_v02_;   /**< Discrete variable "int aut.v02". */
-extern IntType aut_v03_;   /**< Discrete variable "int aut.v03". */
-extern IntType aut_v04_;   /**< Discrete variable "int aut.v04". */
-extern IntType aut_v05_;   /**< Discrete variable "int aut.v05". */
-extern IntType aut_v06_;   /**< Discrete variable "int aut.v06". */
-extern IntType aut_v07_;   /**< Discrete variable "int aut.v07". */
-extern IntType aut_v08_;   /**< Discrete variable "int aut.v08". */
-extern RealType aut_v09_;  /**< Discrete variable "real aut.v09". */
-extern IntType aut_v10_;   /**< Discrete variable "int aut.v10". */
-extern A4IType aut_v11_;   /**< Discrete variable "list[4] int aut.v11". */
-extern A4IType aut_v12_;   /**< Discrete variable "list[4] int aut.v12". */
-extern IntType aut_v13_;   /**< Discrete variable "int aut.v13". */
-extern IntType aut_v14_;   /**< Discrete variable "int aut.v14". */
-extern IntType aut_v15_;   /**< Discrete variable "int aut.v15". */
-extern IntType aut_v16_;   /**< Discrete variable "int aut.v16". */
-extern IntType aut_v17_;   /**< Discrete variable "int aut.v17". */
-extern IntType aut_v18_;   /**< Discrete variable "int aut.v18". */
-extern IntType aut_v19_;   /**< Discrete variable "int aut.v19". */
-extern IntType aut_combi_; /**< Discrete variable "int aut.combi". */
+
+/** Discrete variable "int aut.v00". */
+extern IntType aut_v00_;
+
+/** Discrete variable "int aut.v01". */
+extern IntType aut_v01_;
+
+/** Discrete variable "int aut.v02". */
+extern IntType aut_v02_;
+
+/** Discrete variable "int aut.v03". */
+extern IntType aut_v03_;
+
+/** Discrete variable "int aut.v04". */
+extern IntType aut_v04_;
+
+/** Discrete variable "int aut.v05". */
+extern IntType aut_v05_;
+
+/** Discrete variable "int aut.v06". */
+extern IntType aut_v06_;
+
+/** Discrete variable "int aut.v07". */
+extern IntType aut_v07_;
+
+/** Discrete variable "int aut.v08". */
+extern IntType aut_v08_;
+
+/** Discrete variable "real aut.v09". */
+extern RealType aut_v09_;
+
+/** Discrete variable "int aut.v10". */
+extern IntType aut_v10_;
+
+/** Discrete variable "list[4] int aut.v11". */
+extern A4IType aut_v11_;
+
+/** Discrete variable "list[4] int aut.v12". */
+extern A4IType aut_v12_;
+
+/** Discrete variable "int aut.v13". */
+extern IntType aut_v13_;
+
+/** Discrete variable "int aut.v14". */
+extern IntType aut_v14_;
+
+/** Discrete variable "int aut.v15". */
+extern IntType aut_v15_;
+
+/** Discrete variable "int aut.v16". */
+extern IntType aut_v16_;
+
+/** Discrete variable "int aut.v17". */
+extern IntType aut_v17_;
+
+/** Discrete variable "int aut.v18". */
+extern IntType aut_v18_;
+
+/** Discrete variable "int aut.v19". */
+extern IntType aut_v19_;
+
+/** Discrete variable "int aut.combi". */
+extern IntType aut_combi_;
 
 /* Algebraic and derivative functions (use for output only). */
 

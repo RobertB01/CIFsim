@@ -191,13 +191,27 @@ IntType y_;
 A3IType input_li_;
 
 /* State variables. */
-A2IType a_li_;       /**< Discrete variable "list[2] int[0..3] a.li". */
-IntType a_x_;        /**< Discrete variable "int[2..5] a.x". */
-IntType g_rcv_v_;    /**< Discrete variable "int g.rcv.v". */
-IntType g_rcv_v2_;   /**< Discrete variable "int g.rcv.v2". */
-IntType g_snd_a_;    /**< Discrete variable "int g.snd.a". */
-RealType g_sync_c_;  /**< Continuous variable "real g.sync.c". */
-variousEnum g_sync_; /**< Discrete variable "E g.sync". */
+
+/** Discrete variable "list[2] int[0..3] a.li". */
+A2IType a_li_;
+
+/** Discrete variable "int[2..5] a.x". */
+IntType a_x_;
+
+/** Discrete variable "int g.rcv.v". */
+IntType g_rcv_v_;
+
+/** Discrete variable "int g.rcv.v2". */
+IntType g_rcv_v2_;
+
+/** Discrete variable "int g.snd.a". */
+IntType g_snd_a_;
+
+/** Continuous variable "real g.sync.c". */
+RealType g_sync_c_;
+
+/** Discrete variable "E g.sync". */
+variousEnum g_sync_;
 
 /* Derivative and algebraic variable functions. */
 /** Derivative of "g.sync.c". */
