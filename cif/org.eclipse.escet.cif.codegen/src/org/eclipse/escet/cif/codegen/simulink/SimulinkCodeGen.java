@@ -637,27 +637,17 @@ public class SimulinkCodeGen extends CodeGen {
         addPreamble(preAmble, true);
         replacements.put("preamble", preAmble.toString());
 
+        // Generate state variable definitions/declarations.
         Set<DiscVariable> lpVarSet = setc(lpVariables.size());
         lpVarSet.addAll(lpVariables);
 
-        // Compute number of real discrete variables.
-        int i = 0;
+        CodeBox varDefCode = makeCodeBox();
+        boolean first = true;
         for (Declaration decl: stateVars) {
             if (lpVarSet.contains(decl)) {
                 continue;
             }
-            if (decl instanceof DiscVariable) {
-                i++;
-            }
-        }
-        GridBox varDefCode = new GridBox(i, 2, 0, 1);
 
-        // Generate state variable definitions/declarations.
-        i = 0;
-        for (Declaration decl: stateVars) {
-            if (lpVarSet.contains(decl)) {
-                continue;
-            }
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
                 String typeText = typeToStr(dv.getType());
@@ -665,11 +655,27 @@ public class SimulinkCodeGen extends CodeGen {
                 VariableInformation declVarInfo = ctxt.getWriteVarInfo(decl);
                 String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(),
                         declVarInfo.targetVariableName);
-                String comment = fmt("/**< Discrete variable \"%s %s\". */", typeText, declVarInfo.name);
+                List<String> docs = DocAnnotationProvider.getDocs(dv);
 
-                varDefCode.set(i, 0, declaration);
-                varDefCode.set(i, 1, comment);
-                i++;
+                if (!first) {
+                    varDefCode.add();
+                }
+                first = false;
+
+                if (docs.isEmpty()) {
+                    varDefCode.add("/** Discrete variable \"%s %s\". */", typeText, declVarInfo.name);
+                } else {
+                    varDefCode.add("/**");
+                    varDefCode.add(" * Discrete variable \"%s %s\".", typeText, declVarInfo.name);
+                    for (String doc: docs) {
+                        varDefCode.add(" *");
+                        for (String line: doc.split("\\r?\\n")) {
+                            varDefCode.add(" * %s", line);
+                        }
+                    }
+                    varDefCode.add(" */");
+                }
+                varDefCode.add(declaration);
             }
         }
         CodeBox code = makeCodeBox(1);

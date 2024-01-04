@@ -267,8 +267,24 @@ public class JavaScriptCodeGen extends CodeGen {
             }
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
+
             code.add();
-            code.add("/** %s variable \"%s\". */", kindCode, origName);
+            if (docs.isEmpty()) {
+                code.add("/** %s variable \"%s\". */", kindCode, origName);
+            } else {
+                code.add("/**");
+                code.add(" * %s variable \"%s\".", kindCode, origName);
+                for (String doc: docs) {
+                    code.add(" *");
+                    code.add(" * <p>");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" * </p>");
+                }
+                code.add(" */");
+            }
             code.add("%s;", name);
         }
 

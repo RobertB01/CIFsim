@@ -438,12 +438,10 @@ public class C89CodeGen extends CodeGen {
 
     @Override
     protected void addStateVars(CodeContext ctxt) {
-        GridBox varDefCode = new GridBox(stateVars.size(), 2, 0, 1);
-        GridBox varDeclCode = new GridBox(stateVars.size(), 2, 0, 1);
-
         // Generate state variable definitions/declarations.
-        for (int i = 0; i < stateVars.size(); i++) {
-            Declaration decl = stateVars.get(i);
+        CodeBox varDefCode = new MemoryCodeBox();
+        CodeBox varDeclCode = new MemoryCodeBox();
+        for (Declaration decl: stateVars) {
             String typeText, kindText;
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
@@ -455,12 +453,27 @@ public class C89CodeGen extends CodeGen {
             }
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(decl);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetRef);
-            String comment = fmt("/**< %s variable \"%s %s\". */", kindText, typeText, declVarInfo.name);
+            List<String> docs = DocAnnotationProvider.getDocs(decl);
 
-            varDefCode.set(i, 0, declaration);
-            varDefCode.set(i, 1, comment);
-            varDeclCode.set(i, 0, "extern " + declaration);
-            varDeclCode.set(i, 1, comment);
+            for (boolean isDecl: new boolean[] {false, true}) {
+                CodeBox code = isDecl ? varDeclCode : varDefCode;
+                String fullDeclaration = isDecl ? "extern " + declaration : declaration;
+                code.add();
+                if (docs.isEmpty()) {
+                    code.add("/** %s variable \"%s %s\". */", kindText, typeText, declVarInfo.name);
+                } else {
+                    code.add("/**");
+                    code.add(" * %s variable \"%s %s\".", kindText, typeText, declVarInfo.name);
+                    for (String doc: docs) {
+                        code.add(" *");
+                        for (String line: doc.split("\\r?\\n")) {
+                            code.add(" * %s", line);
+                        }
+                    }
+                    code.add(" */");
+                }
+                code.add(fullDeclaration);
+            }
         }
         replacements.put("statevar-definitions", varDefCode.toString());
         replacements.put("statevar-declarations", varDeclCode.toString());
@@ -593,8 +606,7 @@ public class C89CodeGen extends CodeGen {
         // Generate state variable definitions/declarations.
         CodeBox varDefCode = new MemoryCodeBox();
         CodeBox varDeclCode = new MemoryCodeBox();
-        for (int i = 0; i < inputVars.size(); i++) {
-            InputVariable var = inputVars.get(i);
+        for (InputVariable var: inputVars) {
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetRef);
