@@ -300,6 +300,9 @@ public class CifMerger {
         varRef.setType(deepclone(discType));
         refExprReplacements.put(inputVar, varRef);
 
+        // Move annotations.
+        discVar.getAnnotations().addAll(inputVar.getAnnotations());
+
         // Return merged discrete variable.
         return discVar;
     }
