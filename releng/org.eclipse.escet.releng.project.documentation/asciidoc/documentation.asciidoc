@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -21,7 +21,7 @@ include::_root_attributes.asciidoc[]
 :doctype: book
 
 = Eclipse ESCET(TM) general toolkit documentation
-:author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+:author: Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 
 The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project is an link:https://eclipse.org[Eclipse Foundation] open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
 The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -21,7 +21,7 @@ include::_root_attributes.asciidoc[]
 :doctype: book
 
 = Chi documentation
-:author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+:author: Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 :favicon: favicon.png
 
 Chi is a modeling language for describing and analyzing performance of discrete event systems by means of simulation.

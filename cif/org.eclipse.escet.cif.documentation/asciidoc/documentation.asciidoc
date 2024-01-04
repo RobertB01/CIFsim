@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -21,7 +21,7 @@ include::_root_attributes.asciidoc[]
 :doctype: book
 
 = CIF documentation
-:author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+:author: Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 :favicon: favicon.png
 
 CIF is a declarative modeling language for the specification of discrete event, timed, and hybrid systems as a collection of synchronizing automata.
