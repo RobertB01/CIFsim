@@ -35,7 +35,6 @@ import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
-import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -159,7 +158,7 @@ public class CifDataSynthesis {
             if (aut.settings.shouldTerminate.get()) {
                 return;
             }
-            if (EventWarnOption.isEnabled()) {
+            if (aut.settings.doNeverEnabledEventsWarn) {
                 checkInputEdges(aut);
             }
 
@@ -268,7 +267,7 @@ public class CifDataSynthesis {
             Map<Event, BDD> ctrlGuards = determineGuards(aut, aut.controllables, false);
 
             // Check edges.
-            if (EventWarnOption.isEnabled()) {
+            if (aut.settings.doNeverEnabledEventsWarn) {
                 if (aut.settings.shouldTerminate.get()) {
                     return;
                 }

@@ -40,6 +40,12 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /**
+     * Whether to warn for events that are never enabled in the input specification or always disabled by the
+     * synthesized supervisor ({@code true}) or don't warn ({@code false}).
+     */
+    public final boolean doNeverEnabledEventsWarn;
+
     /** The order in which the fixed-point computations are to be performed during synthesis. */
     public final FixedPointComputationsOrder fixedPointComputationsOrder;
 
@@ -69,6 +75,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param doNeverEnabledEventsWarn Whether to warn for events that are never enabled in the input specification or
+     *     always disabled by the synthesized supervisor ({@code true}) or don't warn ({@code false}).
      * @param fixedPointComputationsOrder The order in which the fixed-point computations are to be performed during
      *     synthesis.
      * @param doForwardReach Whether to perform forward reachability during synthesis ({@code true}) or omit it
@@ -83,7 +91,7 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean doNeverEnabledEventsWarn,
             FixedPointComputationsOrder fixedPointComputationsOrder, boolean doForwardReach,
             boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode, String supervisorName,
             String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
@@ -93,6 +101,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
         this.fixedPointComputationsOrder = fixedPointComputationsOrder;
         this.doForwardReach = doForwardReach;
         this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
