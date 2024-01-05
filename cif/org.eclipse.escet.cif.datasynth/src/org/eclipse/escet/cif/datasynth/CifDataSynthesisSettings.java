@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.datasynth;
 
 import java.util.function.Supplier;
 
+import org.eclipse.escet.common.java.output.WarnOutput;
+
 /** CIF data-based synthesis settings. */
 public class CifDataSynthesisSettings {
     /**
@@ -23,13 +25,18 @@ public class CifDataSynthesisSettings {
      */
     public final Supplier<Boolean> shouldTerminate;
 
+    /** Callback for warning output. */
+    public final WarnOutput warnOutput;
+
     /**
      * Constructor for the {@link CifDataSynthesisSettings} class.
      *
      * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
      *     {@code true}, it must return {@code true} also on subsequent calls.
+     * @param warnOutput Callback for warning output.
      */
-    public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate) {
+    public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, WarnOutput warnOutput) {
         this.shouldTerminate = shouldTerminate;
+        this.warnOutput = warnOutput;
     }
 }

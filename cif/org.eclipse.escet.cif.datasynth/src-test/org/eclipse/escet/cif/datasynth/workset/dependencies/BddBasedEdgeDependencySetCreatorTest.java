@@ -45,6 +45,7 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Lists;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -589,7 +590,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         Supplier<Boolean> shouldTerminate = () -> false;
-        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate);
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
+                new BlackHoleOutputProvider().getWarnOutput());
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory, false);
         for (SynthesisEdge edge: synthAut.edges) {
