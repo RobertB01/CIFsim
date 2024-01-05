@@ -81,7 +81,7 @@ public class PartialSpecManager {
      * different copied sub-tree. The {@link #copiedObjects} map will have the replacement object in that case.
      * </p>
      */
-    private final Deque<Map<EObject, Collection<Setting>>> danglingQueue = new ArrayDeque<>();
+    private Deque<Map<EObject, Collection<Setting>>> danglingQueue = new ArrayDeque<>();
 
     /**
      * Constructor of the {@link PartialSpecManager} class.
