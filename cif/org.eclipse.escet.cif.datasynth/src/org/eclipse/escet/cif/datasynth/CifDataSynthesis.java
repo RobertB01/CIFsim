@@ -17,7 +17,6 @@ import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -1634,7 +1633,8 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             dbg();
         }
-        out("Controlled system: %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr, nr == 1 ? "" : "s");
+        aut.settings.normalOutput.line("Controlled system: %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr,
+                nr == 1 ? "" : "s");
     }
 
     /**

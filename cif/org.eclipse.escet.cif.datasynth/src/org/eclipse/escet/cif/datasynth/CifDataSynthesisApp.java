@@ -140,7 +140,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             // Print timing statistics.
             if (doTiming) {
                 timing.total.stop();
-                timing.print(AppEnv.getData());
+                timing.print(OutputProvider.getNormalOutputStream());
             }
         }
 
@@ -246,7 +246,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         List<Long> continuousOpMisses = list();
         List<Integer> continuousUsedBddNodes = list();
         BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
-                continuousOpMisses, continuousUsedBddNodes);
+                OutputProvider.getNormalOutputStream(), continuousOpMisses, continuousUsedBddNodes);
 
         boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_PERF_CACHE);
         boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);

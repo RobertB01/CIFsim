@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -23,12 +22,12 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatisticsOption;
-import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.GridBox.GridBoxLayout;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Stopwatch;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /** Timing measurement data for CIF data-based synthesis. */
 public class CifDataSynthesisTiming {
@@ -71,9 +70,9 @@ public class CifDataSynthesisTiming {
     /**
      * Prints the timing statistics to the console.
      *
-     * @param env The application environment data.
+     * @param normalOutput Callback for normal output.
      */
-    public void print(AppEnvData env) {
+    public void print(DebugNormalOutput normalOutput) {
         // Paranoia checking.
         Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
         Assert.check(stats.contains(SynthesisStatistics.TIMING));
@@ -167,7 +166,7 @@ public class CifDataSynthesisTiming {
 
         // Print.
         for (String line: grid.getLines()) {
-            out(line);
+            normalOutput.line(line);
         }
     }
 }
