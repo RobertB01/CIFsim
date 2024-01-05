@@ -87,7 +87,6 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -555,7 +554,7 @@ public class CifToSynthesisConverter {
         }
 
         // Check edge workset algorithm options.
-        checkEdgeWorksetAlgorithmOptions();
+        checkEdgeWorksetAlgorithmOptions(synthAut.settings);
         if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
@@ -2541,10 +2540,14 @@ public class CifToSynthesisConverter {
         }
     }
 
-    /** Check edge workset algorithm options. */
-    private void checkEdgeWorksetAlgorithmOptions() {
+    /**
+     * Check edge workset algorithm settings.
+     *
+     * @param settings The settings.
+     */
+    private void checkEdgeWorksetAlgorithmOptions(CifDataSynthesisSettings settings) {
         // Skip if workset algorithm is disabled.
-        if (!EdgeWorksetAlgoOption.isEnabled()) {
+        if (!settings.doUseEdgeWorksetAlgo) {
             return;
         }
 

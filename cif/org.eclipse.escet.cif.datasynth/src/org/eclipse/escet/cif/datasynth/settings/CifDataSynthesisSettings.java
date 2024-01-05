@@ -41,6 +41,12 @@ public class CifDataSynthesisSettings {
     public final WarnOutput warnOutput;
 
     /**
+     * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
+     * computations ({@code true}), or not ({@code false}).
+     */
+    public final boolean doUseEdgeWorksetAlgo;
+
+    /**
      * Whether to warn for events that are never enabled in the input specification or always disabled by the
      * synthesized supervisor ({@code true}) or don't warn ({@code false}).
      */
@@ -75,6 +81,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param doUseEdgeWorksetAlgo Whether to use the edge workset algorithm to dynamically choose the best edge to
+     *     apply during reachability computations ({@code true}), or not ({@code false}).
      * @param doNeverEnabledEventsWarn Whether to warn for events that are never enabled in the input specification or
      *     always disabled by the synthesized supervisor ({@code true}) or don't warn ({@code false}).
      * @param fixedPointComputationsOrder The order in which the fixed-point computations are to be performed during
@@ -91,16 +99,17 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean doNeverEnabledEventsWarn,
-            FixedPointComputationsOrder fixedPointComputationsOrder, boolean doForwardReach,
-            boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode, String supervisorName,
-            String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean doUseEdgeWorksetAlgo,
+            boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
+            boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
+            String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
         this.fixedPointComputationsOrder = fixedPointComputationsOrder;
         this.doForwardReach = doForwardReach;

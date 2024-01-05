@@ -27,7 +27,6 @@ import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
@@ -166,7 +165,7 @@ public class CifDataSynthesisReachability {
         }
 
         // Determine the edges to be applied.
-        boolean useWorkSetAlgo = EdgeWorksetAlgoOption.isEnabled();
+        boolean useWorkSetAlgo = aut.settings.doUseEdgeWorksetAlgo;
         List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
         Predicate<SynthesisEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
                 || (unctrl && !e.event.getControllable());

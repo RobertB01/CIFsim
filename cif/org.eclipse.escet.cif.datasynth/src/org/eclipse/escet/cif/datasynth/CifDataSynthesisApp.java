@@ -158,7 +158,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), EventWarnOption.isEnabled(),
+                OutputProvider.getWarningOutputStream(), EdgeWorksetAlgoOption.isEnabled(), EventWarnOption.isEnabled(),
                 FixedPointComputationsOrderOption.getOrder(), ForwardReachOption.isEnabled(),
                 PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
                 SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),

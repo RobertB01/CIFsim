@@ -34,7 +34,6 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -163,7 +162,7 @@ public class CifDataSynthesis {
             }
 
             // Prepare workset algorithm, if enabled.
-            if (EdgeWorksetAlgoOption.isEnabled()) {
+            if (aut.settings.doUseEdgeWorksetAlgo) {
                 if (aut.settings.shouldTerminate.get()) {
                     return;
                 }

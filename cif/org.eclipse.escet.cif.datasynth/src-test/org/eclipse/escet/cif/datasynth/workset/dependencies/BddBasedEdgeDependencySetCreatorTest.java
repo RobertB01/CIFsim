@@ -594,6 +594,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         Supplier<Boolean> shouldTerminate = () -> false;
+        boolean doUseEdgeWorksetAlgo = false;
         boolean doNeverEnabledEventsWarn = false;
         FixedPointComputationsOrder fixedPointComputationsOrder = FixedPointComputationsOrder.NONBLOCK_CTRL_REACH;
         boolean doForwardReach = false;
@@ -602,9 +603,9 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), doNeverEnabledEventsWarn, fixedPointComputationsOrder,
-                doForwardReach, doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName,
-                supervisorNamespace, EnumSet.noneOf(SynthesisStatistics.class));
+                new BlackHoleOutputProvider().getWarnOutput(), doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
+                fixedPointComputationsOrder, doForwardReach, doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH,
+                supervisorName, supervisorNamespace, EnumSet.noneOf(SynthesisStatistics.class));
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {
