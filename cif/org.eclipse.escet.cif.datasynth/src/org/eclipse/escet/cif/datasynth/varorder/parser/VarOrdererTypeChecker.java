@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
@@ -69,13 +70,18 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     /** The synthesis variables to order. */
     private final List<SynthesisVariable> variables;
 
+    /** The settings to use. */
+    private final CifDataSynthesisSettings settings;
+
     /**
      * Constructor for the {@link VarOrdererTypeChecker} class.
      *
      * @param variables The synthesis variables to order.
+     * @param settings The settings to use.
      */
-    public VarOrdererTypeChecker(List<SynthesisVariable> variables) {
+    public VarOrdererTypeChecker(List<SynthesisVariable> variables, CifDataSynthesisSettings settings) {
         this.variables = variables;
+        this.settings = settings;
     }
 
     @Override
@@ -237,7 +243,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
      * @return The initial variable orderer.
      */
     private VarOrderer getBasicConfiguredInitialOrderer() {
-        String orderTxt = BddVariableOrderOption.getOrder().trim();
+        String orderTxt = settings.bddVarOrderInit.trim();
         String orderTxtLower = orderTxt.toLowerCase(Locale.US);
         if (orderTxtLower.equals("model")) {
             return new ModelVarOrderer(VarOrdererEffect.BOTH);

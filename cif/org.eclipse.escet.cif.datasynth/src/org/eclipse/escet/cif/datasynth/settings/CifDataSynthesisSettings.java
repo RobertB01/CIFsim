@@ -40,6 +40,12 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The initial BDD variable ordering and domain interleaving. */
+    public final String bddVarOrderInit;
+
+    /** The advanced BDD variable ordering and domain interleaving. */
+    public final String bddVarOrderAdvanced;
+
     /** The absolute or relative path to the continuous performance statistics output file. */
     public final String continuousPerformanceStatisticsFilePath;
 
@@ -99,6 +105,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
+     * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
      * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
      *     statistics output file.
      * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
@@ -125,9 +133,9 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String continuousPerformanceStatisticsFilePath,
-            String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
-            String edgeOrderBackward, String edgeOrderForward,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, String bddVarOrderInit, String bddVarOrderAdvanced,
+            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
+            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
@@ -138,6 +146,8 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddVarOrderInit = bddVarOrderInit;
+        this.bddVarOrderAdvanced = bddVarOrderAdvanced;
         this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
         this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;
         this.edgeGranularity = edgeGranularity;

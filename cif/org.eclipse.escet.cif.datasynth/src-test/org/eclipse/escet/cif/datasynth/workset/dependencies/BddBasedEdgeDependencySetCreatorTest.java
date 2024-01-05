@@ -592,8 +592,10 @@ public class BddBasedEdgeDependencySetCreatorTest {
         reader.init("memory", "/memory", false);
         Specification spec = reader.read(specTxt);
 
-        // Convert to BDDs.
+        // Get settings.
         Supplier<Boolean> shouldTerminate = () -> false;
+        String bddVarOrderInit = "sorted";
+        String bddVarOrderAdvanced = "basic";
         String continuousPerformanceStatisticsFilePath = null;
         String continuousPerformanceStatisticsFileAbsPath = null;
         String edgeOrderBackward = "model";
@@ -606,12 +608,15 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), continuousPerformanceStatisticsFilePath,
-                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
-                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
-                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
-                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                new BlackHoleOutputProvider().getWarnOutput(), bddVarOrderInit, bddVarOrderAdvanced,
+                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
+                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
+                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
                 EnumSet.noneOf(SynthesisStatistics.class));
+
+        // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {

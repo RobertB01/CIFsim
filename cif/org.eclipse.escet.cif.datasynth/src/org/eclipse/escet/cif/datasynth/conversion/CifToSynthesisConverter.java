@@ -78,7 +78,6 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
@@ -661,7 +660,7 @@ public class CifToSynthesisConverter {
         }
 
         // Configure variable orderer.
-        String varOrderTxt = BddAdvancedVariableOrderOption.getOrder();
+        String varOrderTxt = synthAut.settings.bddVarOrderAdvanced;
         List<VarOrdererInstance> parseResult;
         try {
             parseResult = new VarOrdererParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
@@ -669,7 +668,8 @@ public class CifToSynthesisConverter {
             throw new InvalidOptionException("Invalid BDD variable ordering configuration.", ex);
         }
 
-        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(synthAut.variables));
+        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(synthAut.variables),
+                synthAut.settings);
         VarOrderer varOrderer = typeChecker.typeCheck(parseResult);
         Assert.check(!typeChecker.hasWarning());
         if (varOrderer == null) {

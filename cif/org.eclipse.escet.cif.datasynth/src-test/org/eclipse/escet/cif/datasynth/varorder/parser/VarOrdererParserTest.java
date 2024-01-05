@@ -22,7 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
@@ -32,6 +34,12 @@ import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEd
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
+import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
+import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
+import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
@@ -41,6 +49,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import org.junit.jupiter.api.AfterEach;
@@ -836,7 +845,8 @@ public class VarOrdererParserTest {
         List<VarOrdererInstance> parseResult = parser.parseString(ordererTxt, "/dummy", null, DebugMode.NONE);
 
         // Type check.
-        VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables);
+        CifDataSynthesisSettings settings = getSettings();
+        VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables, settings);
         VarOrderer orderer = tchecker.typeCheck(parseResult);
         assertFalse(tchecker.hasWarning(), "Type check warnings found.");
         if (tchecker.hasError()) {
@@ -878,7 +888,8 @@ public class VarOrdererParserTest {
 
         // Type check.
         try {
-            VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables);
+            CifDataSynthesisSettings settings = getSettings();
+            VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables, settings);
             VarOrderer orderer = tchecker.typeCheck(parseResult);
             assertEquals(orderer, null, "Type checker produced result.");
             assertFalse(tchecker.hasWarning(), "Type check warnings found.");
@@ -888,5 +899,34 @@ public class VarOrdererParserTest {
         } catch (InvalidOptionException e) {
             assertEquals(expectedMsg, e.getMessage());
         }
+    }
+
+    /**
+     * Returns the settings to use.
+     *
+     * @return The settings to use.
+     */
+    private CifDataSynthesisSettings getSettings() {
+        Supplier<Boolean> shouldTerminate = () -> false;
+        String bddVarOrderInit = "sorted";
+        String bddVarOrderAdvanced = "basic";
+        String continuousPerformanceStatisticsFilePath = null;
+        String continuousPerformanceStatisticsFileAbsPath = null;
+        String edgeOrderBackward = "model";
+        String edgeOrderForward = "model";
+        boolean doUseEdgeWorksetAlgo = false;
+        boolean doNeverEnabledEventsWarn = false;
+        boolean doForwardReach = false;
+        boolean doPlantsRefReqsWarn = false;
+        String supervisorName = "sup";
+        String supervisorNamespace = null;
+        return new CifDataSynthesisSettings(shouldTerminate, new BlackHoleOutputProvider().getDebugOutput(),
+                new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput(),
+                bddVarOrderInit, bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
+                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
+                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
+                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
+                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                EnumSet.noneOf(SynthesisStatistics.class));
     }
 }

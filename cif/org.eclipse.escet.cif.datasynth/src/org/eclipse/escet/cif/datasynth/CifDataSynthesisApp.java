@@ -158,7 +158,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), ContinuousPerformanceStatisticsFileOption.getPath(),
+                OutputProvider.getWarningOutputStream(), BddVariableOrderOption.getOrder(),
+                BddAdvancedVariableOrderOption.getOrder(), ContinuousPerformanceStatisticsFileOption.getPath(),
                 Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()),
                 EdgeGranularityOption.getGranularity(), EdgeOrderBackwardOption.getOrder(),
                 EdgeOrderForwardOption.getOrder(), EdgeOrderDuplicateEventsOption.getAllowance(),
