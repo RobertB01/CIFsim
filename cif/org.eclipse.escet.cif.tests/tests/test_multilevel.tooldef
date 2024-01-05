@@ -78,22 +78,22 @@ for test in tests:
 
     // Collect all CIF files in the partial and expected specs directories.
     set string spec_files = {};
-    for cif_file in find(dir_specs_exp, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
-    for cif_file in find(dir_specs_real, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
+    if exists(dir_specs_exp):: for cif_file in find(dir_specs_exp, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
+    if exists(dir_specs_real):: for cif_file in find(dir_specs_real, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
 
     // Assuming both directories contain the same files, compare all. Count errors, and delete good real specifications.
     int specs_diff_count = 0;
     for cif_file in spec_files:
-      string real_spec = replace(pathjoin(dir_specs_real, cif_file), "\\", "/");
-      string exp_spec = replace(pathjoin(dir_specs_exp, cif_file), "\\", "/");
-      bool spec_diff = diff(exp_spec, real_spec, missingAsEmpty=true, warnOnDiff=true);
-      if spec_diff:
-          specs_diff_count = specs_diff_count + 1;
-      else
-          rmfile(real_spec);
-      end
+        string real_spec = replace(pathjoin(dir_specs_real, cif_file), "\\", "/");
+        string exp_spec = replace(pathjoin(dir_specs_exp, cif_file), "\\", "/");
+        bool spec_diff = diff(exp_spec, real_spec, missingAsEmpty=true, warnOnDiff=true);
+        if spec_diff:
+    	    specs_diff_count = specs_diff_count + 1;
+        else
+            rmfile(real_spec);
+        end
     end
-    if specs_diff_count == 0:: rmdir(dir_specs_real);
+    if specs_diff_count == 0 and exists(dir_specs_real):: rmdir(dir_specs_real);
 
     // Update counts.
     int diff_count = specs_diff_count;
