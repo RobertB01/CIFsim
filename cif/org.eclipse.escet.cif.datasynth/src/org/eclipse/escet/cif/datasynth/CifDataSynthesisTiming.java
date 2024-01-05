@@ -17,10 +17,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
-import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
-import org.eclipse.escet.cif.datasynth.options.SynthesisStatisticsOption;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.GridBox.GridBoxLayout;
 import org.eclipse.escet.common.java.Assert;
@@ -73,10 +70,6 @@ public class CifDataSynthesisTiming {
      * @param normalOutput Callback for normal output.
      */
     public void print(DebugNormalOutput debugOutput, DebugNormalOutput normalOutput) {
-        // Paranoia checking.
-        Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
-        Assert.check(stats.contains(SynthesisStatistics.TIMING));
-
         // Get prefixes and stopwatches.
         List<String> prefixes = list();
         List<Stopwatch> stopwatches = list();

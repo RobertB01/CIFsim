@@ -15,9 +15,11 @@ package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -45,6 +47,9 @@ public class CifDataSynthesisSettings {
     /** The namespace of the resulting supervisor, or {@code null} to use the empty namespace. */
     public final String supervisorNamespace;
 
+    /** The kinds of statistics to print. */
+    public final EnumSet<SynthesisStatistics> synthesisStatistics;
+
     /**
      * Constructor for the {@link CifDataSynthesisSettings} class.
      *
@@ -57,9 +62,11 @@ public class CifDataSynthesisSettings {
      *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
      * @param supervisorNamespace The namespace of the resulting supervisor, or {@code null} to use the empty namespace.
      *     If not {@code null}, it must be a valid {@link CifValidationUtils#isValidName CIF name}.
+     * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String supervisorName, String supervisorNamespace)
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, String supervisorName, String supervisorNamespace,
+            EnumSet<SynthesisStatistics> synthesisStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
@@ -68,6 +75,7 @@ public class CifDataSynthesisSettings {
         this.warnOutput = warnOutput;
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;
+        this.synthesisStatistics = synthesisStatistics;
 
         // Check supervisor name.
         if (!CifValidationUtils.isValidIdentifier(supervisorName)) {

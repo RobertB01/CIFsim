@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.workset.dependencies;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
+import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.io.CifReader;
@@ -594,7 +596,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), supervisorName, supervisorNamespace);
+                new BlackHoleOutputProvider().getWarnOutput(), supervisorName, supervisorNamespace,
+                EnumSet.noneOf(SynthesisStatistics.class));
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {

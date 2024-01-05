@@ -158,7 +158,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
                 OutputProvider.getWarningOutputStream(), SupervisorNameOption.getSupervisorName("sup"),
-                SupervisorNamespaceOption.getNamespace());
+                SupervisorNamespaceOption.getNamespace(), SynthesisStatisticsOption.getStatistics());
 
         // Initialize debugging.
         boolean dbgEnabled = OutputProvider.dodbg();
@@ -240,18 +240,17 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             factory.setCacheRatio(bddCacheRatio);
         }
 
-        Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
-        boolean doGcStats = stats.contains(SynthesisStatistics.BDD_GC_COLLECT);
-        boolean doResizeStats = stats.contains(SynthesisStatistics.BDD_GC_RESIZE);
-        boolean doContinuousPerformanceStats = stats.contains(SynthesisStatistics.BDD_PERF_CONT);
+        boolean doGcStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_COLLECT);
+        boolean doResizeStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_RESIZE);
+        boolean doContinuousPerformanceStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CONT);
         List<Long> continuousOpMisses = list();
         List<Integer> continuousUsedBddNodes = list();
         BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
                 OutputProvider.getNormalOutputStream(), continuousOpMisses, continuousUsedBddNodes);
 
-        boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_PERF_CACHE);
-        boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
-        boolean doMaxMemoryStats = stats.contains(SynthesisStatistics.MAX_MEMORY);
+        boolean doCacheStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CACHE);
+        boolean doMaxBddNodesStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.synthesisStatistics.contains(SynthesisStatistics.MAX_MEMORY);
         if (doCacheStats || doContinuousPerformanceStats) {
             factory.getCacheStats().enableMeasurements();
         }
@@ -292,7 +291,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Starting data-based synthesis.");
             }
-            boolean doPrintCtrlSysStates = stats.contains(SynthesisStatistics.CTRL_SYS_STATES);
+            boolean doPrintCtrlSysStates = settings.synthesisStatistics.contains(SynthesisStatistics.CTRL_SYS_STATES);
             CifDataSynthesis.synthesize(aut, doTiming, timing, doPrintCtrlSysStates);
             if (isTerminationRequested()) {
                 return;
