@@ -16,8 +16,10 @@ package org.eclipse.escet.cif.datasynth.workset.dependencies;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.datasynth.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
 import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
@@ -586,8 +588,10 @@ public class BddBasedEdgeDependencySetCreatorTest {
         Specification spec = reader.read(specTxt);
 
         // Convert to BDDs.
+        Supplier<Boolean> shouldTerminate = () -> false;
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate);
         BDDFactory factory = JFactory.init(100, 100);
-        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, factory, false);
+        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory, false);
         for (SynthesisEdge edge: synthAut.edges) {
             edge.initApply(true);
         }
