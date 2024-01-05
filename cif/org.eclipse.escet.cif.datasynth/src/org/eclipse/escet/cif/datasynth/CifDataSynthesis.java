@@ -14,8 +14,8 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
-import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
-import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
+import static org.eclipse.escet.cif.datasynth.settings.FixedPointComputation.CTRL;
+import static org.eclipse.escet.cif.datasynth.settings.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -36,8 +36,7 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
-import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
-import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation;
+import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -1345,7 +1344,7 @@ public class CifDataSynthesis {
         // is already stable.
 
         // Get the fixed-point reachability computations to perform, in the order to perform them.
-        List<FixedPointComputation> computationsInOrder = FixedPointComputationsOrderOption.getOrder().computations;
+        List<FixedPointComputation> computationsInOrder = aut.settings.fixedPointComputationsOrder.computations;
         if (!doForward) {
             computationsInOrder = computationsInOrder.stream().filter(c -> c != REACH).toList();
         }

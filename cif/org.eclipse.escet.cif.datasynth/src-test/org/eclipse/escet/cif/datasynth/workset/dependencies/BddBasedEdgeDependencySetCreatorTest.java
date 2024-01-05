@@ -38,6 +38,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.Ed
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -593,14 +594,15 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         Supplier<Boolean> shouldTerminate = () -> false;
+        FixedPointComputationsOrder fixedPointComputationsOrder = FixedPointComputationsOrder.NONBLOCK_CTRL_REACH;
         boolean doForwardReach = false;
         boolean doPlantsRefReqsWarn = false;
         String supervisorName = "sup";
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), doForwardReach, doPlantsRefReqsWarn,
-                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                new BlackHoleOutputProvider().getWarnOutput(), fixedPointComputationsOrder, doForwardReach,
+                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
                 EnumSet.noneOf(SynthesisStatistics.class));
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
