@@ -259,6 +259,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             factory.getMaxMemoryStats().enableMeasurements();
         }
 
+        // Construct settings.
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings();
+
         // Perform synthesis.
         Specification rslt;
         try {
@@ -274,7 +277,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
-                aut = converter1.convert(spec, factory, dbgEnabled);
+                aut = converter1.convert(spec, settings, factory, dbgEnabled);
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();

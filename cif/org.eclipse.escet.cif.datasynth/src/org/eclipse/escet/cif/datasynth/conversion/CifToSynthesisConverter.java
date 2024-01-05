@@ -77,6 +77,7 @@ import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.datasynth.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
@@ -188,14 +189,17 @@ public class CifToSynthesisConverter {
      * the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param settings The settings to use.
      * @param factory The BDD factory to use.
      * @param dbgEnabled Whether debug output is enabled.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    public SynthesisAutomaton convert(Specification spec, BDDFactory factory, boolean dbgEnabled) {
+    public SynthesisAutomaton convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory,
+            boolean dbgEnabled)
+    {
         // Convert CIF specification and return the resulting synthesis automaton, but only if no precondition
         // violations.
-        SynthesisAutomaton aut = convertSpec(spec, factory, dbgEnabled);
+        SynthesisAutomaton aut = convertSpec(spec, settings, factory, dbgEnabled);
         if (problems.isEmpty()) {
             return aut;
         }
@@ -211,13 +215,16 @@ public class CifToSynthesisConverter {
      * the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param settings The settings to use.
      * @param factory The BDD factory to use.
      * @param dbgEnabled Whether debug output is enabled.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    private SynthesisAutomaton convertSpec(Specification spec, BDDFactory factory, boolean dbgEnabled) {
+    private SynthesisAutomaton convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory,
+            boolean dbgEnabled)
+    {
         // Initialize synthesis automaton.
-        SynthesisAutomaton synthAut = new SynthesisAutomaton();
+        SynthesisAutomaton synthAut = new SynthesisAutomaton(settings);
         synthAut.factory = factory;
         synthAut.debugMaxNodes = BddDebugMaxNodesOption.getMaximum();
         synthAut.debugMaxPaths = BddDebugMaxPathsOption.getMaximum();

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.datasynth.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.AppEnvData;
@@ -35,6 +36,9 @@ import com.github.javabdd.BDDVarSet;
 public class SynthesisAutomaton {
     /** The application context to use. */
     public final AppEnvData env = AppEnv.getData();
+
+    /** The settings to use. */
+    public final CifDataSynthesisSettings settings;
 
     /** The BDD factory to use. */
     public BDDFactory factory;
@@ -341,6 +345,15 @@ public class SynthesisAutomaton {
 
     /** Controlled-behavior predicate of the system. Computed and used during synthesis. Also a result of synthesis. */
     public BDD ctrlBeh;
+
+    /**
+     * Constructor for the {@link SynthesisAutomaton} class.
+     *
+     * @param settings The settings to use.
+     */
+    public SynthesisAutomaton(CifDataSynthesisSettings settings) {
+        this.settings = settings;
+    }
 
     @Override
     public String toString() {
