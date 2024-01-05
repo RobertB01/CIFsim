@@ -178,13 +178,27 @@ const char *enum_names[] = {
 
 
 /* State variables. */
-A3T2IIType aut1_v1_; /**< Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v1". */
-A3T2IIType aut1_v2_; /**< Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v2". */
-A3T2IIType aut1_w1_; /**< Discrete variable "list[3] tuple(int[1..8] a; int[1..8] b) aut1.w1". */
-IntType aut1_x1_;    /**< Discrete variable "int[0..4] aut1.x1". */
-IntType aut1_x2_;    /**< Discrete variable "int[0..9] aut1.x2". */
-IntType aut1_x3_;    /**< Discrete variable "int[-1..4] aut1.x3". */
-IntType aut1_x4_;    /**< Discrete variable "int[-1..9] aut1.x4". */
+
+/** Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v1". */
+A3T2IIType aut1_v1_;
+
+/** Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v2". */
+A3T2IIType aut1_v2_;
+
+/** Discrete variable "list[3] tuple(int[1..8] a; int[1..8] b) aut1.w1". */
+A3T2IIType aut1_w1_;
+
+/** Discrete variable "int[0..4] aut1.x1". */
+IntType aut1_x1_;
+
+/** Discrete variable "int[0..9] aut1.x2". */
+IntType aut1_x2_;
+
+/** Discrete variable "int[-1..4] aut1.x3". */
+IntType aut1_x3_;
+
+/** Discrete variable "int[-1..9] aut1.x4". */
+IntType aut1_x4_;
 
 /* Derivative and algebraic variable functions. */
 

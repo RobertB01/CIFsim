@@ -53,7 +53,9 @@ const char *enum_names[] = {
 
 
 /* State variables. */
-locs_multiple_potential_initialEnum a_; /**< Discrete variable "E a". */
+
+/** Discrete variable "E a". */
+locs_multiple_potential_initialEnum a_;
 
 RealType model_time; /**< Current model time. */
 

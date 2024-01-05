@@ -327,19 +327,35 @@ include::language-reference/index.asciidoc[]
 
 :leveloffset: +1
 
+== Syntax
+
+:leveloffset: +1
+
 include::language-reference/syntax/lexical.asciidoc[]
 
 include::language-reference/syntax/grammar.asciidoc[]
 
 include::language-reference/syntax/xml.asciidoc[]
 
+:leveloffset: -1
+
+== Annotations
+
+:leveloffset: +1
+
 include::language-reference/annotations/index.asciidoc[]
 
 include::language-reference/annotations/builtin.asciidoc[]
 
+:leveloffset: +1
+
 include::language-reference/annotations/documentation.asciidoc[]
 
 include::language-reference/annotations/state.asciidoc[]
+
+:leveloffset: -1
+
+:leveloffset: -1
 
 :leveloffset: -1
 

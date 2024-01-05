@@ -129,17 +129,39 @@ RealType i2_;
 T3IIRType i3_;
 
 /* State variables. */
-RealType aut1_v1_;       /**< Discrete variable "real aut1.v1". */
-RealType aut1_v4_;       /**< Discrete variable "real aut1.v4". */
-RealType aut1_v5_;       /**< Discrete variable "real aut1.v5". */
-RealType aut2_v2_;       /**< Continuous variable "real aut2.v2". */
-declarationsEnum g1_a1_; /**< Discrete variable "E g1.a1". */
-RealType aut1_v3_;       /**< Continuous variable "real aut1.v3". */
-RealType aut2_v1_;       /**< Discrete variable "real aut2.v1". */
-RealType aut1_v2_;       /**< Discrete variable "real aut1.v2". */
-RealType aut1_v7_;       /**< Discrete variable "real aut1.v7". */
-RealType aut1_v8_;       /**< Discrete variable "real aut1.v8". */
-RealType aut1_v6_;       /**< Discrete variable "real aut1.v6". */
+
+/** Discrete variable "real aut1.v1". */
+RealType aut1_v1_;
+
+/** Discrete variable "real aut1.v4". */
+RealType aut1_v4_;
+
+/** Discrete variable "real aut1.v5". */
+RealType aut1_v5_;
+
+/** Continuous variable "real aut2.v2". */
+RealType aut2_v2_;
+
+/** Discrete variable "E g1.a1". */
+declarationsEnum g1_a1_;
+
+/** Continuous variable "real aut1.v3". */
+RealType aut1_v3_;
+
+/** Discrete variable "real aut2.v1". */
+RealType aut2_v1_;
+
+/** Discrete variable "real aut1.v2". */
+RealType aut1_v2_;
+
+/** Discrete variable "real aut1.v7". */
+RealType aut1_v7_;
+
+/** Discrete variable "real aut1.v8". */
+RealType aut1_v8_;
+
+/** Discrete variable "real aut1.v6". */
+RealType aut1_v6_;
 
 /* Derivative and algebraic variable functions. */
 /** Derivative of "aut1.v3". */

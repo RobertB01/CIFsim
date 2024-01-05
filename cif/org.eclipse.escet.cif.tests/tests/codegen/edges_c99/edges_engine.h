@@ -235,50 +235,138 @@ extern void edges_AssignInputVariables();
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern IntType aut02_x_;            /**< Discrete variable "int[0..3] aut02.x". */
-extern edgesEnum aut02_;            /**< Discrete variable "E aut02". */
-extern RealType aut03_c_;           /**< Continuous variable "real aut03.c". */
-extern IntType aut03_d_;            /**< Discrete variable "int aut03.d". */
-extern IntType aut04_a_;            /**< Discrete variable "int aut04.a". */
-extern IntType aut04_b_;            /**< Discrete variable "int aut04.b". */
-extern IntType aut04_c_;            /**< Discrete variable "int aut04.c". */
-extern IntType aut04_d_;            /**< Discrete variable "int aut04.d". */
-extern A5IType aut05_v1_;           /**< Discrete variable "list[5] int aut05.v1". */
-extern A5IType aut05_v2_;           /**< Discrete variable "list[5] int aut05.v2". */
-extern T2IIType aut06_v1_;          /**< Discrete variable "tuple(int a; int b) aut06.v1". */
-extern T2IIType aut06_v2_;          /**< Discrete variable "tuple(int a; int b) aut06.v2". */
-extern IntType aut06_x_;            /**< Discrete variable "int aut06.x". */
-extern IntType aut06_y_;            /**< Discrete variable "int aut06.y". */
-extern RealType aut07_x_;           /**< Continuous variable "real aut07.x". */
-extern RealType aut07_y_;           /**< Continuous variable "real aut07.y". */
-extern T2T2IISType aut08_tt1_;      /**< Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt1". */
-extern T2T2IISType aut08_tt2_;      /**< Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt2". */
-extern T2IIType aut08_t_;           /**< Discrete variable "tuple(int a; int b) aut08.t". */
-extern IntType aut08_i_;            /**< Discrete variable "int aut08.i". */
-extern IntType aut08_j_;            /**< Discrete variable "int aut08.j". */
-extern StringType aut08_s_;         /**< Discrete variable "string aut08.s". */
-extern A2A3IType aut09_ll1_;        /**< Discrete variable "list[2] list[3] int aut09.ll1". */
-extern A2A3IType aut09_ll2_;        /**< Discrete variable "list[2] list[3] int aut09.ll2". */
-extern A3IType aut09_l_;            /**< Discrete variable "list[3] int aut09.l". */
-extern IntType aut09_i_;            /**< Discrete variable "int aut09.i". */
-extern IntType aut09_j_;            /**< Discrete variable "int aut09.j". */
-extern T2SA2T2A1IA1RType aut10_x1_; /**< Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x1". */
-extern T2SA2T2A1IA1RType aut10_x2_; /**< Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x2". */
-extern A2T2A1IA1RType aut10_l_;     /**< Discrete variable "list[2] tuple(list[1] int x; list[1] real y) aut10.l". */
-extern A1IType aut10_li_;           /**< Discrete variable "list[1] int aut10.li". */
-extern A1RType aut10_lr_;           /**< Discrete variable "list[1] real aut10.lr". */
-extern IntType aut10_i_;            /**< Discrete variable "int aut10.i". */
-extern RealType aut10_r_;           /**< Discrete variable "real aut10.r". */
-extern A3T2IIType aut11_v1_;        /**< Discrete variable "list[3] tuple(int a; int b) aut11.v1". */
-extern RealType aut12_x_;           /**< Discrete variable "real aut12.x". */
-extern RealType aut12_y_;           /**< Discrete variable "real aut12.y". */
-extern RealType aut12_z_;           /**< Discrete variable "real aut12.z". */
-extern RealType aut12_td_;          /**< Discrete variable "real aut12.td". */
-extern RealType aut12_t_;           /**< Continuous variable "real aut12.t". */
-extern RealType aut12_u_;           /**< Continuous variable "real aut12.u". */
-extern RealType aut13_x_;           /**< Discrete variable "real aut13.x". */
-extern RealType aut13_y_;           /**< Discrete variable "real aut13.y". */
-extern RealType aut13_z_;           /**< Discrete variable "real aut13.z". */
+
+/** Discrete variable "int[0..3] aut02.x". */
+extern IntType aut02_x_;
+
+/** Discrete variable "E aut02". */
+extern edgesEnum aut02_;
+
+/** Continuous variable "real aut03.c". */
+extern RealType aut03_c_;
+
+/** Discrete variable "int aut03.d". */
+extern IntType aut03_d_;
+
+/** Discrete variable "int aut04.a". */
+extern IntType aut04_a_;
+
+/** Discrete variable "int aut04.b". */
+extern IntType aut04_b_;
+
+/** Discrete variable "int aut04.c". */
+extern IntType aut04_c_;
+
+/** Discrete variable "int aut04.d". */
+extern IntType aut04_d_;
+
+/** Discrete variable "list[5] int aut05.v1". */
+extern A5IType aut05_v1_;
+
+/** Discrete variable "list[5] int aut05.v2". */
+extern A5IType aut05_v2_;
+
+/** Discrete variable "tuple(int a; int b) aut06.v1". */
+extern T2IIType aut06_v1_;
+
+/** Discrete variable "tuple(int a; int b) aut06.v2". */
+extern T2IIType aut06_v2_;
+
+/** Discrete variable "int aut06.x". */
+extern IntType aut06_x_;
+
+/** Discrete variable "int aut06.y". */
+extern IntType aut06_y_;
+
+/** Continuous variable "real aut07.x". */
+extern RealType aut07_x_;
+
+/** Continuous variable "real aut07.y". */
+extern RealType aut07_y_;
+
+/** Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt1". */
+extern T2T2IISType aut08_tt1_;
+
+/** Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt2". */
+extern T2T2IISType aut08_tt2_;
+
+/** Discrete variable "tuple(int a; int b) aut08.t". */
+extern T2IIType aut08_t_;
+
+/** Discrete variable "int aut08.i". */
+extern IntType aut08_i_;
+
+/** Discrete variable "int aut08.j". */
+extern IntType aut08_j_;
+
+/** Discrete variable "string aut08.s". */
+extern StringType aut08_s_;
+
+/** Discrete variable "list[2] list[3] int aut09.ll1". */
+extern A2A3IType aut09_ll1_;
+
+/** Discrete variable "list[2] list[3] int aut09.ll2". */
+extern A2A3IType aut09_ll2_;
+
+/** Discrete variable "list[3] int aut09.l". */
+extern A3IType aut09_l_;
+
+/** Discrete variable "int aut09.i". */
+extern IntType aut09_i_;
+
+/** Discrete variable "int aut09.j". */
+extern IntType aut09_j_;
+
+/** Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x1". */
+extern T2SA2T2A1IA1RType aut10_x1_;
+
+/** Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x2". */
+extern T2SA2T2A1IA1RType aut10_x2_;
+
+/** Discrete variable "list[2] tuple(list[1] int x; list[1] real y) aut10.l". */
+extern A2T2A1IA1RType aut10_l_;
+
+/** Discrete variable "list[1] int aut10.li". */
+extern A1IType aut10_li_;
+
+/** Discrete variable "list[1] real aut10.lr". */
+extern A1RType aut10_lr_;
+
+/** Discrete variable "int aut10.i". */
+extern IntType aut10_i_;
+
+/** Discrete variable "real aut10.r". */
+extern RealType aut10_r_;
+
+/** Discrete variable "list[3] tuple(int a; int b) aut11.v1". */
+extern A3T2IIType aut11_v1_;
+
+/** Discrete variable "real aut12.x". */
+extern RealType aut12_x_;
+
+/** Discrete variable "real aut12.y". */
+extern RealType aut12_y_;
+
+/** Discrete variable "real aut12.z". */
+extern RealType aut12_z_;
+
+/** Discrete variable "real aut12.td". */
+extern RealType aut12_td_;
+
+/** Continuous variable "real aut12.t". */
+extern RealType aut12_t_;
+
+/** Continuous variable "real aut12.u". */
+extern RealType aut12_u_;
+
+/** Discrete variable "real aut13.x". */
+extern RealType aut13_x_;
+
+/** Discrete variable "real aut13.y". */
+extern RealType aut13_y_;
+
+/** Discrete variable "real aut13.z". */
+extern RealType aut13_z_;
 
 /* Algebraic and derivative functions (use for output only). */
 static inline RealType aut03_c_deriv(void);

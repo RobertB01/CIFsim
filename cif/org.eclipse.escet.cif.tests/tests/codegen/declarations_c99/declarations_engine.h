@@ -74,17 +74,39 @@ extern RealType f1_(IntType f1_x_);
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern RealType aut1_v1_;       /**< Discrete variable "real aut1.v1". */
-extern RealType aut1_v4_;       /**< Discrete variable "real aut1.v4". */
-extern RealType aut1_v5_;       /**< Discrete variable "real aut1.v5". */
-extern RealType aut2_v2_;       /**< Continuous variable "real aut2.v2". */
-extern declarationsEnum g1_a1_; /**< Discrete variable "E g1.a1". */
-extern RealType aut1_v3_;       /**< Continuous variable "real aut1.v3". */
-extern RealType aut2_v1_;       /**< Discrete variable "real aut2.v1". */
-extern RealType aut1_v2_;       /**< Discrete variable "real aut1.v2". */
-extern RealType aut1_v7_;       /**< Discrete variable "real aut1.v7". */
-extern RealType aut1_v8_;       /**< Discrete variable "real aut1.v8". */
-extern RealType aut1_v6_;       /**< Discrete variable "real aut1.v6". */
+
+/** Discrete variable "real aut1.v1". */
+extern RealType aut1_v1_;
+
+/** Discrete variable "real aut1.v4". */
+extern RealType aut1_v4_;
+
+/** Discrete variable "real aut1.v5". */
+extern RealType aut1_v5_;
+
+/** Continuous variable "real aut2.v2". */
+extern RealType aut2_v2_;
+
+/** Discrete variable "E g1.a1". */
+extern declarationsEnum g1_a1_;
+
+/** Continuous variable "real aut1.v3". */
+extern RealType aut1_v3_;
+
+/** Discrete variable "real aut2.v1". */
+extern RealType aut2_v1_;
+
+/** Discrete variable "real aut1.v2". */
+extern RealType aut1_v2_;
+
+/** Discrete variable "real aut1.v7". */
+extern RealType aut1_v7_;
+
+/** Discrete variable "real aut1.v8". */
+extern RealType aut1_v8_;
+
+/** Discrete variable "real aut1.v6". */
+extern RealType aut1_v6_;
 
 /* Algebraic and derivative functions (use for output only). */
 static inline RealType aut1_v3_deriv(void);

@@ -92,10 +92,18 @@ extern BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2);
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern databased_supervisorEnum Button_; /**< Discrete variable "E Button". */
-extern databased_supervisorEnum Cycle_;  /**< Discrete variable "E Cycle". */
-extern databased_supervisorEnum Lamp_;   /**< Discrete variable "E Lamp". */
-extern databased_supervisorEnum Timer_;  /**< Discrete variable "E Timer". */
+
+/** Discrete variable "E Button". */
+extern databased_supervisorEnum Button_;
+
+/** Discrete variable "E Cycle". */
+extern databased_supervisorEnum Cycle_;
+
+/** Discrete variable "E Lamp". */
+extern databased_supervisorEnum Lamp_;
+
+/** Discrete variable "E Timer". */
+extern databased_supervisorEnum Timer_;
 
 /* Algebraic and derivative functions (use for output only). */
 

@@ -89,13 +89,27 @@ extern const char *ranges_event_names[];
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern A3T2IIType aut1_v1_; /**< Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v1". */
-extern A3T2IIType aut1_v2_; /**< Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v2". */
-extern A3T2IIType aut1_w1_; /**< Discrete variable "list[3] tuple(int[1..8] a; int[1..8] b) aut1.w1". */
-extern IntType aut1_x1_;    /**< Discrete variable "int[0..4] aut1.x1". */
-extern IntType aut1_x2_;    /**< Discrete variable "int[0..9] aut1.x2". */
-extern IntType aut1_x3_;    /**< Discrete variable "int[-1..4] aut1.x3". */
-extern IntType aut1_x4_;    /**< Discrete variable "int[-1..9] aut1.x4". */
+
+/** Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v1". */
+extern A3T2IIType aut1_v1_;
+
+/** Discrete variable "list[3] tuple(int[0..7] a; int[0..7] b) aut1.v2". */
+extern A3T2IIType aut1_v2_;
+
+/** Discrete variable "list[3] tuple(int[1..8] a; int[1..8] b) aut1.w1". */
+extern A3T2IIType aut1_w1_;
+
+/** Discrete variable "int[0..4] aut1.x1". */
+extern IntType aut1_x1_;
+
+/** Discrete variable "int[0..9] aut1.x2". */
+extern IntType aut1_x2_;
+
+/** Discrete variable "int[-1..4] aut1.x3". */
+extern IntType aut1_x3_;
+
+/** Discrete variable "int[-1..9] aut1.x4". */
+extern IntType aut1_x4_;
 
 /* Algebraic and derivative functions (use for output only). */
 

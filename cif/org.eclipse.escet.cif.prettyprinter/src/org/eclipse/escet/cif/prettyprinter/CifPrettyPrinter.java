@@ -657,6 +657,10 @@ public final class CifPrettyPrinter {
      * @param var The discrete variable. Must not be a local variable of a function or a function parameter.
      */
     public void add(DiscVariable var) {
+        // Add annotations.
+        add(var.getAnnotations());
+
+        // Add declaration.
         StringBuilder txt = new StringBuilder();
         txt.append("disc ");
         txt.append(pprint(var.getType()));

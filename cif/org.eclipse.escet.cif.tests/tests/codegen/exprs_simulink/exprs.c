@@ -1491,150 +1491,437 @@ static int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end) {
 struct WorkStruct {
     int_T x1_; /**< Constant "x1". */
 
-    int_T a1_x_;            /**< Discrete variable "int a1.x". */
-    BoolType AA_vb_;        /**< Discrete variable "bool AA.vb". */
-    int_T AA_vi_;           /**< Discrete variable "int AA.vi". */
-    int_T AA_vp_;           /**< Discrete variable "int[1..3] AA.vp". */
-    int_T AA_vn_;           /**< Discrete variable "int[-5..-1] AA.vn". */
-    int_T AA_vz_;           /**< Discrete variable "int[0..5] AA.vz". */
-    real_T AA_vr_;          /**< Discrete variable "real AA.vr". */
-    StringType AA_vs_;      /**< Discrete variable "string AA.vs". */
-    exprsEnum AA_ve_;       /**< Discrete variable "E AA.ve". */
-    A2IType AA_va_;         /**< Discrete variable "list[2] int AA.va". */
-    real_T AA_v2_;          /**< Discrete variable "real AA.v2". */
-    real_T AA_i2r_;         /**< Discrete variable "real AA.i2r". */
-    StringType AA_b2s_;     /**< Discrete variable "string AA.b2s". */
-    StringType AA_i2s_;     /**< Discrete variable "string AA.i2s". */
-    StringType AA_r2s_;     /**< Discrete variable "string AA.r2s". */
-    BoolType AA_s2b_;       /**< Discrete variable "bool AA.s2b". */
-    int_T AA_s2i_;          /**< Discrete variable "int AA.s2i". */
-    real_T AA_s2r_;         /**< Discrete variable "real AA.s2r". */
-    A3IType AA_self_cast1_; /**< Discrete variable "list[3] int AA.self_cast1". */
-    A3IType AA_self_cast2_; /**< Discrete variable "list[3] int AA.self_cast2". */
-    BoolType AA_inv1_;      /**< Discrete variable "bool AA.inv1". */
-    BoolType AA_inv2_;      /**< Discrete variable "bool AA.inv2". */
-    int_T AA_neg1_;         /**< Discrete variable "int AA.neg1". */
-    int_T AA_neg2_;         /**< Discrete variable "int AA.neg2". */
-    int_T AA_neg3_;         /**< Discrete variable "int AA.neg3". */
-    int_T AA_neg4_;         /**< Discrete variable "int AA.neg4". */
-    int_T AA_pos1_;         /**< Discrete variable "int AA.pos1". */
-    int_T AA_pos2_;         /**< Discrete variable "int AA.pos2". */
-    int_T AA_posneg_;       /**< Discrete variable "int AA.posneg". */
-    A1BType AA_l3i_;        /**< Discrete variable "list[1] bool AA.l3i". */
-    int_T AA_idx1_;         /**< Discrete variable "int[0..4] AA.idx1". */
-    BoolType AA_vt_;        /**< Discrete variable "bool AA.vt". */
-    BoolType AA_vf_;        /**< Discrete variable "bool AA.vf". */
-    BoolType AA_short_and_; /**< Discrete variable "bool AA.short_and". */
-    BoolType AA_short_or_;  /**< Discrete variable "bool AA.short_or". */
-    BoolType AA_impl_;      /**< Discrete variable "bool AA.impl". */
-    BoolType AA_biimpl_;    /**< Discrete variable "bool AA.biimpl". */
-    BoolType AA_conj_;      /**< Discrete variable "bool AA.conj". */
-    BoolType AA_disj_;      /**< Discrete variable "bool AA.disj". */
-    BoolType AA_lt1_;       /**< Discrete variable "bool AA.lt1". */
-    BoolType AA_le1_;       /**< Discrete variable "bool AA.le1". */
-    BoolType AA_gt1_;       /**< Discrete variable "bool AA.gt1". */
-    BoolType AA_ge1_;       /**< Discrete variable "bool AA.ge1". */
-    BoolType AA_lt2_;       /**< Discrete variable "bool AA.lt2". */
-    BoolType AA_le2_;       /**< Discrete variable "bool AA.le2". */
-    BoolType AA_gt2_;       /**< Discrete variable "bool AA.gt2". */
-    BoolType AA_ge2_;       /**< Discrete variable "bool AA.ge2". */
-    BoolType AA_lt3_;       /**< Discrete variable "bool AA.lt3". */
-    BoolType AA_le3_;       /**< Discrete variable "bool AA.le3". */
-    BoolType AA_gt3_;       /**< Discrete variable "bool AA.gt3". */
-    BoolType AA_ge3_;       /**< Discrete variable "bool AA.ge3". */
-    BoolType AA_lt4_;       /**< Discrete variable "bool AA.lt4". */
-    BoolType AA_le4_;       /**< Discrete variable "bool AA.le4". */
-    BoolType AA_gt4_;       /**< Discrete variable "bool AA.gt4". */
-    BoolType AA_ge4_;       /**< Discrete variable "bool AA.ge4". */
-    BoolType AA_eq1_;       /**< Discrete variable "bool AA.eq1". */
-    BoolType AA_eq2_;       /**< Discrete variable "bool AA.eq2". */
-    BoolType AA_eq3_;       /**< Discrete variable "bool AA.eq3". */
-    BoolType AA_eq4_;       /**< Discrete variable "bool AA.eq4". */
-    BoolType AA_eq5_;       /**< Discrete variable "bool AA.eq5". */
-    BoolType AA_ne1_;       /**< Discrete variable "bool AA.ne1". */
-    BoolType AA_ne2_;       /**< Discrete variable "bool AA.ne2". */
-    BoolType AA_ne3_;       /**< Discrete variable "bool AA.ne3". */
-    BoolType AA_ne4_;       /**< Discrete variable "bool AA.ne4". */
-    BoolType AA_ne5_;       /**< Discrete variable "bool AA.ne5". */
-    int_T AA_add1_;         /**< Discrete variable "int AA.add1". */
-    real_T AA_add2_;        /**< Discrete variable "real AA.add2". */
-    real_T AA_add3_;        /**< Discrete variable "real AA.add3". */
-    real_T AA_add4_;        /**< Discrete variable "real AA.add4". */
-    StringType AA_add5_;    /**< Discrete variable "string AA.add5". */
-    int_T AA_add6_;         /**< Discrete variable "int AA.add6". */
-    int_T AA_add7_;         /**< Discrete variable "int AA.add7". */
-    int_T AA_add8_;         /**< Discrete variable "int AA.add8". */
-    int_T AA_sub1_;         /**< Discrete variable "int AA.sub1". */
-    real_T AA_sub2_;        /**< Discrete variable "real AA.sub2". */
-    real_T AA_sub3_;        /**< Discrete variable "real AA.sub3". */
-    real_T AA_sub4_;        /**< Discrete variable "real AA.sub4". */
-    int_T AA_sub5_;         /**< Discrete variable "int AA.sub5". */
-    int_T AA_sub6_;         /**< Discrete variable "int AA.sub6". */
-    int_T AA_sub7_;         /**< Discrete variable "int AA.sub7". */
-    int_T AA_mul1_;         /**< Discrete variable "int AA.mul1". */
-    real_T AA_mul2_;        /**< Discrete variable "real AA.mul2". */
-    real_T AA_mul3_;        /**< Discrete variable "real AA.mul3". */
-    real_T AA_mul4_;        /**< Discrete variable "real AA.mul4". */
-    int_T AA_mul5_;         /**< Discrete variable "int AA.mul5". */
-    int_T AA_mul6_;         /**< Discrete variable "int AA.mul6". */
-    int_T AA_mul7_;         /**< Discrete variable "int AA.mul7". */
-    real_T AA_rdiv1_;       /**< Discrete variable "real AA.rdiv1". */
-    real_T AA_rdiv2_;       /**< Discrete variable "real AA.rdiv2". */
-    real_T AA_rdiv3_;       /**< Discrete variable "real AA.rdiv3". */
-    real_T AA_rdiv4_;       /**< Discrete variable "real AA.rdiv4". */
-    real_T AA_rdiv5_;       /**< Discrete variable "real AA.rdiv5". */
-    real_T AA_rdiv6_;       /**< Discrete variable "real AA.rdiv6". */
-    int_T AA_div1_;         /**< Discrete variable "int AA.div1". */
-    int_T AA_div2_;         /**< Discrete variable "int AA.div2". */
-    int_T AA_div3_;         /**< Discrete variable "int AA.div3". */
-    int_T AA_div4_;         /**< Discrete variable "int AA.div4". */
-    int_T AA_mod1_;         /**< Discrete variable "int AA.mod1". */
-    int_T AA_mod2_;         /**< Discrete variable "int AA.mod2". */
-    A2IType AA_li_;         /**< Discrete variable "list[2] int AA.li". */
-    T2IIType AA_tii_;       /**< Discrete variable "tuple(int a; int b) AA.tii". */
-    StringType AA_ss_;      /**< Discrete variable "string AA.ss". */
-    int_T AA_proj1_;        /**< Discrete variable "int AA.proj1". */
-    int_T AA_proj2_;        /**< Discrete variable "int AA.proj2". */
-    int_T AA_proj3_;        /**< Discrete variable "int AA.proj3". */
-    int_T AA_proj4_;        /**< Discrete variable "int AA.proj4". */
-    StringType AA_proj5_;   /**< Discrete variable "string AA.proj5". */
-    StringType AA_proj6_;   /**< Discrete variable "string AA.proj6". */
-    real_T AA_f_acos_;      /**< Discrete variable "real AA.f_acos". */
-    real_T AA_f_asin_;      /**< Discrete variable "real AA.f_asin". */
-    real_T AA_f_atan_;      /**< Discrete variable "real AA.f_atan". */
-    real_T AA_f_cos_;       /**< Discrete variable "real AA.f_cos". */
-    real_T AA_f_sin_;       /**< Discrete variable "real AA.f_sin". */
-    real_T AA_f_tan_;       /**< Discrete variable "real AA.f_tan". */
-    int_T AA_f_abs1_;       /**< Discrete variable "int AA.f_abs1". */
-    int_T AA_f_abs12_;      /**< Discrete variable "int AA.f_abs12". */
-    real_T AA_f_abs2_;      /**< Discrete variable "real AA.f_abs2". */
-    real_T AA_f_cbrt_;      /**< Discrete variable "real AA.f_cbrt". */
-    int_T AA_f_ceil_;       /**< Discrete variable "int AA.f_ceil". */
-    BoolType AA_f_empty_;   /**< Discrete variable "bool AA.f_empty". */
-    real_T AA_f_exp_;       /**< Discrete variable "real AA.f_exp". */
-    int_T AA_f_floor_;      /**< Discrete variable "int AA.f_floor". */
-    real_T AA_f_ln_;        /**< Discrete variable "real AA.f_ln". */
-    real_T AA_f_log_;       /**< Discrete variable "real AA.f_log". */
-    int_T AA_f_max1_;       /**< Discrete variable "int AA.f_max1". */
-    real_T AA_f_max2_;      /**< Discrete variable "real AA.f_max2". */
-    real_T AA_f_max3_;      /**< Discrete variable "real AA.f_max3". */
-    real_T AA_f_max4_;      /**< Discrete variable "real AA.f_max4". */
-    int_T AA_f_min1_;       /**< Discrete variable "int AA.f_min1". */
-    real_T AA_f_min2_;      /**< Discrete variable "real AA.f_min2". */
-    real_T AA_f_min3_;      /**< Discrete variable "real AA.f_min3". */
-    real_T AA_f_min4_;      /**< Discrete variable "real AA.f_min4". */
-    real_T AA_f_pow1_;      /**< Discrete variable "real AA.f_pow1". */
-    int_T AA_f_pow12_;      /**< Discrete variable "int AA.f_pow12". */
-    real_T AA_f_pow2_;      /**< Discrete variable "real AA.f_pow2". */
-    real_T AA_f_pow3_;      /**< Discrete variable "real AA.f_pow3". */
-    real_T AA_f_pow4_;      /**< Discrete variable "real AA.f_pow4". */
-    int_T AA_f_round_;      /**< Discrete variable "int AA.f_round". */
-    real_T AA_f_scale_;     /**< Discrete variable "real AA.f_scale". */
-    int_T AA_f_sign1_;      /**< Discrete variable "int AA.f_sign1". */
-    int_T AA_f_sign2_;      /**< Discrete variable "int AA.f_sign2". */
-    int_T AA_f_size1_;      /**< Discrete variable "int AA.f_size1". */
-    int_T AA_f_size2_;      /**< Discrete variable "int AA.f_size2". */
-    real_T AA_f_sqrt_;      /**< Discrete variable "real AA.f_sqrt". */
+    /** Discrete variable "int a1.x". */
+    int_T a1_x_;
+
+    /** Discrete variable "bool AA.vb". */
+    BoolType AA_vb_;
+
+    /** Discrete variable "int AA.vi". */
+    int_T AA_vi_;
+
+    /** Discrete variable "int[1..3] AA.vp". */
+    int_T AA_vp_;
+
+    /** Discrete variable "int[-5..-1] AA.vn". */
+    int_T AA_vn_;
+
+    /** Discrete variable "int[0..5] AA.vz". */
+    int_T AA_vz_;
+
+    /** Discrete variable "real AA.vr". */
+    real_T AA_vr_;
+
+    /** Discrete variable "string AA.vs". */
+    StringType AA_vs_;
+
+    /** Discrete variable "E AA.ve". */
+    exprsEnum AA_ve_;
+
+    /** Discrete variable "list[2] int AA.va". */
+    A2IType AA_va_;
+
+    /** Discrete variable "real AA.v2". */
+    real_T AA_v2_;
+
+    /** Discrete variable "real AA.i2r". */
+    real_T AA_i2r_;
+
+    /** Discrete variable "string AA.b2s". */
+    StringType AA_b2s_;
+
+    /** Discrete variable "string AA.i2s". */
+    StringType AA_i2s_;
+
+    /** Discrete variable "string AA.r2s". */
+    StringType AA_r2s_;
+
+    /** Discrete variable "bool AA.s2b". */
+    BoolType AA_s2b_;
+
+    /** Discrete variable "int AA.s2i". */
+    int_T AA_s2i_;
+
+    /** Discrete variable "real AA.s2r". */
+    real_T AA_s2r_;
+
+    /** Discrete variable "list[3] int AA.self_cast1". */
+    A3IType AA_self_cast1_;
+
+    /** Discrete variable "list[3] int AA.self_cast2". */
+    A3IType AA_self_cast2_;
+
+    /** Discrete variable "bool AA.inv1". */
+    BoolType AA_inv1_;
+
+    /** Discrete variable "bool AA.inv2". */
+    BoolType AA_inv2_;
+
+    /** Discrete variable "int AA.neg1". */
+    int_T AA_neg1_;
+
+    /** Discrete variable "int AA.neg2". */
+    int_T AA_neg2_;
+
+    /** Discrete variable "int AA.neg3". */
+    int_T AA_neg3_;
+
+    /** Discrete variable "int AA.neg4". */
+    int_T AA_neg4_;
+
+    /** Discrete variable "int AA.pos1". */
+    int_T AA_pos1_;
+
+    /** Discrete variable "int AA.pos2". */
+    int_T AA_pos2_;
+
+    /** Discrete variable "int AA.posneg". */
+    int_T AA_posneg_;
+
+    /** Discrete variable "list[1] bool AA.l3i". */
+    A1BType AA_l3i_;
+
+    /** Discrete variable "int[0..4] AA.idx1". */
+    int_T AA_idx1_;
+
+    /** Discrete variable "bool AA.vt". */
+    BoolType AA_vt_;
+
+    /** Discrete variable "bool AA.vf". */
+    BoolType AA_vf_;
+
+    /** Discrete variable "bool AA.short_and". */
+    BoolType AA_short_and_;
+
+    /** Discrete variable "bool AA.short_or". */
+    BoolType AA_short_or_;
+
+    /** Discrete variable "bool AA.impl". */
+    BoolType AA_impl_;
+
+    /** Discrete variable "bool AA.biimpl". */
+    BoolType AA_biimpl_;
+
+    /** Discrete variable "bool AA.conj". */
+    BoolType AA_conj_;
+
+    /** Discrete variable "bool AA.disj". */
+    BoolType AA_disj_;
+
+    /** Discrete variable "bool AA.lt1". */
+    BoolType AA_lt1_;
+
+    /** Discrete variable "bool AA.le1". */
+    BoolType AA_le1_;
+
+    /** Discrete variable "bool AA.gt1". */
+    BoolType AA_gt1_;
+
+    /** Discrete variable "bool AA.ge1". */
+    BoolType AA_ge1_;
+
+    /** Discrete variable "bool AA.lt2". */
+    BoolType AA_lt2_;
+
+    /** Discrete variable "bool AA.le2". */
+    BoolType AA_le2_;
+
+    /** Discrete variable "bool AA.gt2". */
+    BoolType AA_gt2_;
+
+    /** Discrete variable "bool AA.ge2". */
+    BoolType AA_ge2_;
+
+    /** Discrete variable "bool AA.lt3". */
+    BoolType AA_lt3_;
+
+    /** Discrete variable "bool AA.le3". */
+    BoolType AA_le3_;
+
+    /** Discrete variable "bool AA.gt3". */
+    BoolType AA_gt3_;
+
+    /** Discrete variable "bool AA.ge3". */
+    BoolType AA_ge3_;
+
+    /** Discrete variable "bool AA.lt4". */
+    BoolType AA_lt4_;
+
+    /** Discrete variable "bool AA.le4". */
+    BoolType AA_le4_;
+
+    /** Discrete variable "bool AA.gt4". */
+    BoolType AA_gt4_;
+
+    /** Discrete variable "bool AA.ge4". */
+    BoolType AA_ge4_;
+
+    /** Discrete variable "bool AA.eq1". */
+    BoolType AA_eq1_;
+
+    /** Discrete variable "bool AA.eq2". */
+    BoolType AA_eq2_;
+
+    /** Discrete variable "bool AA.eq3". */
+    BoolType AA_eq3_;
+
+    /** Discrete variable "bool AA.eq4". */
+    BoolType AA_eq4_;
+
+    /** Discrete variable "bool AA.eq5". */
+    BoolType AA_eq5_;
+
+    /** Discrete variable "bool AA.ne1". */
+    BoolType AA_ne1_;
+
+    /** Discrete variable "bool AA.ne2". */
+    BoolType AA_ne2_;
+
+    /** Discrete variable "bool AA.ne3". */
+    BoolType AA_ne3_;
+
+    /** Discrete variable "bool AA.ne4". */
+    BoolType AA_ne4_;
+
+    /** Discrete variable "bool AA.ne5". */
+    BoolType AA_ne5_;
+
+    /** Discrete variable "int AA.add1". */
+    int_T AA_add1_;
+
+    /** Discrete variable "real AA.add2". */
+    real_T AA_add2_;
+
+    /** Discrete variable "real AA.add3". */
+    real_T AA_add3_;
+
+    /** Discrete variable "real AA.add4". */
+    real_T AA_add4_;
+
+    /** Discrete variable "string AA.add5". */
+    StringType AA_add5_;
+
+    /** Discrete variable "int AA.add6". */
+    int_T AA_add6_;
+
+    /** Discrete variable "int AA.add7". */
+    int_T AA_add7_;
+
+    /** Discrete variable "int AA.add8". */
+    int_T AA_add8_;
+
+    /** Discrete variable "int AA.sub1". */
+    int_T AA_sub1_;
+
+    /** Discrete variable "real AA.sub2". */
+    real_T AA_sub2_;
+
+    /** Discrete variable "real AA.sub3". */
+    real_T AA_sub3_;
+
+    /** Discrete variable "real AA.sub4". */
+    real_T AA_sub4_;
+
+    /** Discrete variable "int AA.sub5". */
+    int_T AA_sub5_;
+
+    /** Discrete variable "int AA.sub6". */
+    int_T AA_sub6_;
+
+    /** Discrete variable "int AA.sub7". */
+    int_T AA_sub7_;
+
+    /** Discrete variable "int AA.mul1". */
+    int_T AA_mul1_;
+
+    /** Discrete variable "real AA.mul2". */
+    real_T AA_mul2_;
+
+    /** Discrete variable "real AA.mul3". */
+    real_T AA_mul3_;
+
+    /** Discrete variable "real AA.mul4". */
+    real_T AA_mul4_;
+
+    /** Discrete variable "int AA.mul5". */
+    int_T AA_mul5_;
+
+    /** Discrete variable "int AA.mul6". */
+    int_T AA_mul6_;
+
+    /** Discrete variable "int AA.mul7". */
+    int_T AA_mul7_;
+
+    /** Discrete variable "real AA.rdiv1". */
+    real_T AA_rdiv1_;
+
+    /** Discrete variable "real AA.rdiv2". */
+    real_T AA_rdiv2_;
+
+    /** Discrete variable "real AA.rdiv3". */
+    real_T AA_rdiv3_;
+
+    /** Discrete variable "real AA.rdiv4". */
+    real_T AA_rdiv4_;
+
+    /** Discrete variable "real AA.rdiv5". */
+    real_T AA_rdiv5_;
+
+    /** Discrete variable "real AA.rdiv6". */
+    real_T AA_rdiv6_;
+
+    /** Discrete variable "int AA.div1". */
+    int_T AA_div1_;
+
+    /** Discrete variable "int AA.div2". */
+    int_T AA_div2_;
+
+    /** Discrete variable "int AA.div3". */
+    int_T AA_div3_;
+
+    /** Discrete variable "int AA.div4". */
+    int_T AA_div4_;
+
+    /** Discrete variable "int AA.mod1". */
+    int_T AA_mod1_;
+
+    /** Discrete variable "int AA.mod2". */
+    int_T AA_mod2_;
+
+    /** Discrete variable "list[2] int AA.li". */
+    A2IType AA_li_;
+
+    /** Discrete variable "tuple(int a; int b) AA.tii". */
+    T2IIType AA_tii_;
+
+    /** Discrete variable "string AA.ss". */
+    StringType AA_ss_;
+
+    /** Discrete variable "int AA.proj1". */
+    int_T AA_proj1_;
+
+    /** Discrete variable "int AA.proj2". */
+    int_T AA_proj2_;
+
+    /** Discrete variable "int AA.proj3". */
+    int_T AA_proj3_;
+
+    /** Discrete variable "int AA.proj4". */
+    int_T AA_proj4_;
+
+    /** Discrete variable "string AA.proj5". */
+    StringType AA_proj5_;
+
+    /** Discrete variable "string AA.proj6". */
+    StringType AA_proj6_;
+
+    /** Discrete variable "real AA.f_acos". */
+    real_T AA_f_acos_;
+
+    /** Discrete variable "real AA.f_asin". */
+    real_T AA_f_asin_;
+
+    /** Discrete variable "real AA.f_atan". */
+    real_T AA_f_atan_;
+
+    /** Discrete variable "real AA.f_cos". */
+    real_T AA_f_cos_;
+
+    /** Discrete variable "real AA.f_sin". */
+    real_T AA_f_sin_;
+
+    /** Discrete variable "real AA.f_tan". */
+    real_T AA_f_tan_;
+
+    /** Discrete variable "int AA.f_abs1". */
+    int_T AA_f_abs1_;
+
+    /** Discrete variable "int AA.f_abs12". */
+    int_T AA_f_abs12_;
+
+    /** Discrete variable "real AA.f_abs2". */
+    real_T AA_f_abs2_;
+
+    /** Discrete variable "real AA.f_cbrt". */
+    real_T AA_f_cbrt_;
+
+    /** Discrete variable "int AA.f_ceil". */
+    int_T AA_f_ceil_;
+
+    /** Discrete variable "bool AA.f_empty". */
+    BoolType AA_f_empty_;
+
+    /** Discrete variable "real AA.f_exp". */
+    real_T AA_f_exp_;
+
+    /** Discrete variable "int AA.f_floor". */
+    int_T AA_f_floor_;
+
+    /** Discrete variable "real AA.f_ln". */
+    real_T AA_f_ln_;
+
+    /** Discrete variable "real AA.f_log". */
+    real_T AA_f_log_;
+
+    /** Discrete variable "int AA.f_max1". */
+    int_T AA_f_max1_;
+
+    /** Discrete variable "real AA.f_max2". */
+    real_T AA_f_max2_;
+
+    /** Discrete variable "real AA.f_max3". */
+    real_T AA_f_max3_;
+
+    /** Discrete variable "real AA.f_max4". */
+    real_T AA_f_max4_;
+
+    /** Discrete variable "int AA.f_min1". */
+    int_T AA_f_min1_;
+
+    /** Discrete variable "real AA.f_min2". */
+    real_T AA_f_min2_;
+
+    /** Discrete variable "real AA.f_min3". */
+    real_T AA_f_min3_;
+
+    /** Discrete variable "real AA.f_min4". */
+    real_T AA_f_min4_;
+
+    /** Discrete variable "real AA.f_pow1". */
+    real_T AA_f_pow1_;
+
+    /** Discrete variable "int AA.f_pow12". */
+    int_T AA_f_pow12_;
+
+    /** Discrete variable "real AA.f_pow2". */
+    real_T AA_f_pow2_;
+
+    /** Discrete variable "real AA.f_pow3". */
+    real_T AA_f_pow3_;
+
+    /** Discrete variable "real AA.f_pow4". */
+    real_T AA_f_pow4_;
+
+    /** Discrete variable "int AA.f_round". */
+    int_T AA_f_round_;
+
+    /** Discrete variable "real AA.f_scale". */
+    real_T AA_f_scale_;
+
+    /** Discrete variable "int AA.f_sign1". */
+    int_T AA_f_sign1_;
+
+    /** Discrete variable "int AA.f_sign2". */
+    int_T AA_f_sign2_;
+
+    /** Discrete variable "int AA.f_size1". */
+    int_T AA_f_size1_;
+
+    /** Discrete variable "int AA.f_size2". */
+    int_T AA_f_size2_;
+
+    /** Discrete variable "real AA.f_sqrt". */
+    real_T AA_f_sqrt_;
 
     /** Input variable "int x8". */
     int_T x8_;

@@ -31,6 +31,50 @@ public abstract class annos_doc {
     /** Variable 'time'. */
     public double time;
 
+    /** Discrete variable "a.i1". */
+    public boolean a_i1_;
+
+    /**
+     * Discrete variable "a.i2".
+     *
+     * <p>
+     * single line doc
+     * </p>
+     */
+    public boolean a_i2_;
+
+    /**
+     * Discrete variable "a.i3".
+     *
+     * <p>
+     * doc with multiple
+     * lines of
+     *  text
+     * </p>
+     */
+    public boolean a_i3_;
+
+    /**
+     * Discrete variable "a.i4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     */
+    public boolean a_i4_;
+
+    /**
+     * Discrete variable "a.i5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc.
+     * </p>
+     */
+    public boolean a_i5_;
 
     /** Input variable "i1". */
     public boolean i1_;
@@ -128,6 +172,8 @@ public abstract class annos_doc {
 
         // Execute events as long as they are possible.
         while (true) {
+            // Event "tau".
+            if (execEvent0()) continue;
 
             break;
         }
@@ -191,10 +237,31 @@ public abstract class annos_doc {
         }
     }
 
+    /**
+     * Execute code for event "tau".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent0() {
+        boolean guard = ((((a_i1_) || (a_i2_)) || (a_i3_)) || (a_i4_)) || (a_i5_);
+        if (!guard) return false;
+
+        if (doInfoPrintOutput) printOutput(-1, true);
+        if (doInfoEvent) infoEvent(-1, true);
+
+
+        if (doInfoEvent) infoEvent(-1, false);
+        if (doInfoPrintOutput) printOutput(-1, false);
+        return true;
+    }
 
     /** Initializes the state. */
     private void initState() {
-        // No state variables, except variable 'time'.
+        a_i1_ = false;
+        a_i2_ = false;
+        a_i3_ = false;
+        a_i4_ = false;
+        a_i5_ = false;
     }
 
     /**

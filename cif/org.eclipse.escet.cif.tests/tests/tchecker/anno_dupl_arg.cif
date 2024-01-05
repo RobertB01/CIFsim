@@ -29,3 +29,11 @@ automaton a2:
   location loc2:
     initial;
 end
+
+automaton a3:
+  @a(x = 1, x = 2)
+  disc int x = 1;
+
+  location:
+    initial;
+end

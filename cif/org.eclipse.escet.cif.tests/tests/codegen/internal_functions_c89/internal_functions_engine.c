@@ -591,27 +591,69 @@ IntType fr_() {
 
 
 /* State variables. */
-IntType aut_v00_;   /**< Discrete variable "int aut.v00". */
-IntType aut_v01_;   /**< Discrete variable "int aut.v01". */
-IntType aut_v02_;   /**< Discrete variable "int aut.v02". */
-IntType aut_v03_;   /**< Discrete variable "int aut.v03". */
-IntType aut_v04_;   /**< Discrete variable "int aut.v04". */
-IntType aut_v05_;   /**< Discrete variable "int aut.v05". */
-IntType aut_v06_;   /**< Discrete variable "int aut.v06". */
-IntType aut_v07_;   /**< Discrete variable "int aut.v07". */
-IntType aut_v08_;   /**< Discrete variable "int aut.v08". */
-RealType aut_v09_;  /**< Discrete variable "real aut.v09". */
-IntType aut_v10_;   /**< Discrete variable "int aut.v10". */
-A4IType aut_v11_;   /**< Discrete variable "list[4] int aut.v11". */
-A4IType aut_v12_;   /**< Discrete variable "list[4] int aut.v12". */
-IntType aut_v13_;   /**< Discrete variable "int aut.v13". */
-IntType aut_v14_;   /**< Discrete variable "int aut.v14". */
-IntType aut_v15_;   /**< Discrete variable "int aut.v15". */
-IntType aut_v16_;   /**< Discrete variable "int aut.v16". */
-IntType aut_v17_;   /**< Discrete variable "int aut.v17". */
-IntType aut_v18_;   /**< Discrete variable "int aut.v18". */
-IntType aut_v19_;   /**< Discrete variable "int aut.v19". */
-IntType aut_combi_; /**< Discrete variable "int aut.combi". */
+
+/** Discrete variable "int aut.v00". */
+IntType aut_v00_;
+
+/** Discrete variable "int aut.v01". */
+IntType aut_v01_;
+
+/** Discrete variable "int aut.v02". */
+IntType aut_v02_;
+
+/** Discrete variable "int aut.v03". */
+IntType aut_v03_;
+
+/** Discrete variable "int aut.v04". */
+IntType aut_v04_;
+
+/** Discrete variable "int aut.v05". */
+IntType aut_v05_;
+
+/** Discrete variable "int aut.v06". */
+IntType aut_v06_;
+
+/** Discrete variable "int aut.v07". */
+IntType aut_v07_;
+
+/** Discrete variable "int aut.v08". */
+IntType aut_v08_;
+
+/** Discrete variable "real aut.v09". */
+RealType aut_v09_;
+
+/** Discrete variable "int aut.v10". */
+IntType aut_v10_;
+
+/** Discrete variable "list[4] int aut.v11". */
+A4IType aut_v11_;
+
+/** Discrete variable "list[4] int aut.v12". */
+A4IType aut_v12_;
+
+/** Discrete variable "int aut.v13". */
+IntType aut_v13_;
+
+/** Discrete variable "int aut.v14". */
+IntType aut_v14_;
+
+/** Discrete variable "int aut.v15". */
+IntType aut_v15_;
+
+/** Discrete variable "int aut.v16". */
+IntType aut_v16_;
+
+/** Discrete variable "int aut.v17". */
+IntType aut_v17_;
+
+/** Discrete variable "int aut.v18". */
+IntType aut_v18_;
+
+/** Discrete variable "int aut.v19". */
+IntType aut_v19_;
+
+/** Discrete variable "int aut.combi". */
+IntType aut_combi_;
 
 /* Derivative and algebraic variable functions. */
 

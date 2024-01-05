@@ -44,7 +44,9 @@ extern const char *locs_multiple_potential_initial_event_names[];
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern locs_multiple_potential_initialEnum a_; /**< Discrete variable "E a". */
+
+/** Discrete variable "E a". */
+extern locs_multiple_potential_initialEnum a_;
 
 /* Algebraic and derivative functions (use for output only). */
 

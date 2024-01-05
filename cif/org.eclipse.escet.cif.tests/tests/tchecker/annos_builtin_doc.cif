@@ -35,6 +35,11 @@ input bool i5;
 @doc($text = "some text")
 input bool i6;
 
+// Multiple times.
+@doc($text = "some text1")
+@doc($text = "some text2")
+input bool i7;
+
 // Also check other types of annotated objects.
 
 automaton a1:
@@ -50,5 +55,14 @@ automaton a2:
 
   @doc
   location loc2:
+    initial;
+end
+
+automaton a3:
+  @doc
+  disc int x = 1;
+  invariant x > 0;
+
+  location:
     initial;
 end

@@ -1155,7 +1155,40 @@ static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
 struct WorkStruct {
 
 
+    /** Discrete variable "bool a.i1". */
+    BoolType a_i1_;
 
+    /**
+     * Discrete variable "bool a.i2".
+     *
+     * single line doc
+     */
+    BoolType a_i2_;
+
+    /**
+     * Discrete variable "bool a.i3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    BoolType a_i3_;
+
+    /**
+     * Discrete variable "bool a.i4".
+     *
+     * some doc
+     */
+    BoolType a_i4_;
+
+    /**
+     * Discrete variable "bool a.i5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    BoolType a_i5_;
 
     /** Input variable "bool i1". */
     BoolType i1_;
@@ -1257,6 +1290,22 @@ static void ClearInputFlags(struct WorkStruct *work) {
 
 /* Event execution. */
 
+/**
+ * Execute code for event "tau".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent0(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    BoolType guard = ((((work->a_i1_) || (work->a_i2_)) || (work->a_i3_)) || (work->a_i4_)) || (work->a_i5_);
+    if (!guard) return FALSE;
+
+
+    return TRUE;
+}
 
 #if PRINT_OUTPUT
 static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
@@ -1286,11 +1335,15 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 0)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 5)) return;
 
+    ssSetOutputPortWidth(sim_struct, 0, 1);
+    ssSetOutputPortWidth(sim_struct, 1, 1);
+    ssSetOutputPortWidth(sim_struct, 2, 1);
+    ssSetOutputPortWidth(sim_struct, 3, 1);
+    ssSetOutputPortWidth(sim_struct, 4, 1);
 
-
-    for (idx = 0; idx < 0; idx++) {
+    for (idx = 0; idx < 5; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1348,7 +1401,11 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 
     /* Initialize discrete, continuous, and location pointer variables. */
     cstate[0] = 0.0; /* time = 0.0 */
-
+    work->a_i1_ = FALSE;
+    work->a_i2_ = FALSE;
+    work->a_i3_ = FALSE;
+    work->a_i4_ = FALSE;
+    work->a_i5_ = FALSE;
 }
 #endif
 /* }}} */
@@ -1392,6 +1449,20 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     UNUSED_ARG(tid);
 
     real_T *y;
+    y = ssGetOutputPortSignal(sim_struct, 0);
+    *y = BoolToSimulink(work->a_i1_);
+
+    y = ssGetOutputPortSignal(sim_struct, 1);
+    *y = BoolToSimulink(work->a_i2_);
+
+    y = ssGetOutputPortSignal(sim_struct, 2);
+    *y = BoolToSimulink(work->a_i3_);
+
+    y = ssGetOutputPortSignal(sim_struct, 3);
+    *y = BoolToSimulink(work->a_i4_);
+
+    y = ssGetOutputPortSignal(sim_struct, 4);
+    *y = BoolToSimulink(work->a_i5_);
 }
 /* }}} */
 
@@ -1420,7 +1491,7 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
     }
 
     for (;;) {
-
+        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "tau". */
 
         break; /* None of the events triggered. */
     }

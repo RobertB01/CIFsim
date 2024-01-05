@@ -21,3 +21,10 @@ group a:
 
   plant invariant inp1 + inp2 + inp3 > 0;
 end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  input bool x;
+  invariant x;
+end

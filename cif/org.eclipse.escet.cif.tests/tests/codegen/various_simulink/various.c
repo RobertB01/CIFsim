@@ -1350,11 +1350,20 @@ static int EnumTypePrint(variousEnum value, char *dest, int start, int end) {
 struct WorkStruct {
 
 
-    A2IType a_li_;   /**< Discrete variable "list[2] int[0..3] a.li". */
-    int_T a_x_;      /**< Discrete variable "int[2..5] a.x". */
-    int_T g_rcv_v_;  /**< Discrete variable "int g.rcv.v". */
-    int_T g_rcv_v2_; /**< Discrete variable "int g.rcv.v2". */
-    int_T g_snd_a_;  /**< Discrete variable "int g.snd.a". */
+    /** Discrete variable "list[2] int[0..3] a.li". */
+    A2IType a_li_;
+
+    /** Discrete variable "int[2..5] a.x". */
+    int_T a_x_;
+
+    /** Discrete variable "int g.rcv.v". */
+    int_T g_rcv_v_;
+
+    /** Discrete variable "int g.rcv.v2". */
+    int_T g_rcv_v2_;
+
+    /** Discrete variable "int g.snd.a". */
+    int_T g_snd_a_;
 
     /** Input variable "int x". */
     int_T x_;
