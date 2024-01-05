@@ -19,8 +19,6 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifValidationUtils;
-import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
-import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;

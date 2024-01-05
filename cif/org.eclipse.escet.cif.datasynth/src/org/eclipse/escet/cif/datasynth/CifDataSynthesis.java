@@ -39,7 +39,7 @@ import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
-import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
+import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
