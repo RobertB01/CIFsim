@@ -158,11 +158,13 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), EdgeGranularityOption.getGranularity(),
-                EdgeOrderBackwardOption.getOrder(), EdgeOrderForwardOption.getOrder(),
-                EdgeOrderDuplicateEventsOption.getAllowance(), EdgeWorksetAlgoOption.isEnabled(),
-                EventWarnOption.isEnabled(), FixedPointComputationsOrderOption.getOrder(),
-                ForwardReachOption.isEnabled(), PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
+                OutputProvider.getWarningOutputStream(), ContinuousPerformanceStatisticsFileOption.getPath(),
+                Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()),
+                EdgeGranularityOption.getGranularity(), EdgeOrderBackwardOption.getOrder(),
+                EdgeOrderForwardOption.getOrder(), EdgeOrderDuplicateEventsOption.getAllowance(),
+                EdgeWorksetAlgoOption.isEnabled(), EventWarnOption.isEnabled(),
+                FixedPointComputationsOrderOption.getOrder(), ForwardReachOption.isEnabled(),
+                PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
                 SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
                 SynthesisStatisticsOption.getStatistics());
 
@@ -329,7 +331,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 printBddCacheStats(factory.getCacheStats());
             }
             if (doContinuousPerformanceStats) {
-                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes);
+                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
+                        settings.continuousPerformanceStatisticsFilePath,
+                        settings.continuousPerformanceStatisticsFileAbsPath);
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -408,19 +412,25 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      *
      * @param operationsSamples The collected continuous operation misses samples.
      * @param nodesSamples The collected continuous used BDD nodes statistics samples.
+     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
+     *     statistics output file.
+     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
+     *     output file.
      */
-    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples) {
+    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples,
+            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath)
+    {
         // Get number of data points.
         Assert.areEqual(operationsSamples.size(), nodesSamples.size());
         int numberOfDataPoints = operationsSamples.size();
 
-        // Get the file to print to.
-        String outPath = ContinuousPerformanceStatisticsFileOption.getPath();
-        dbg("Writing continuous BDD performance statistics file \"%s\".", outPath);
-        String absOutPath = Paths.resolve(outPath);
+        // Debug output.
+        dbg("Writing continuous BDD performance statistics file \"%s\".", continuousPerformanceStatisticsFilePath);
 
         // Start the actual printing.
-        try (AppStream stream = new FileAppStream(outPath, absOutPath)) {
+        try (AppStream stream = new FileAppStream(continuousPerformanceStatisticsFilePath,
+                continuousPerformanceStatisticsFileAbsPath))
+        {
             stream.println("Operations,Used BBD nodes");
             long lastOperations = -1;
             int lastNodes = -1;

@@ -594,6 +594,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         Supplier<Boolean> shouldTerminate = () -> false;
+        String continuousPerformanceStatisticsFilePath = null;
+        String continuousPerformanceStatisticsFileAbsPath = null;
         String edgeOrderBackward = "model";
         String edgeOrderForward = "model";
         boolean doUseEdgeWorksetAlgo = false;
@@ -604,7 +606,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), EdgeGranularity.PER_EDGE, edgeOrderBackward,
+                new BlackHoleOutputProvider().getWarnOutput(), continuousPerformanceStatisticsFilePath,
+                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
                 edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
                 doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
                 doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,

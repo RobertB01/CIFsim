@@ -40,6 +40,12 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The absolute or relative path to the continuous performance statistics output file. */
+    public final String continuousPerformanceStatisticsFilePath;
+
+    /** The absolute path to the continuous performance statistics output file. */
+    public final String continuousPerformanceStatisticsFileAbsPath;
+
     /** The granularity of edges to use during synthesis. */
     public final EdgeGranularity edgeGranularity;
 
@@ -93,6 +99,10 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
+     *     statistics output file.
+     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
+     *     output file.
      * @param edgeGranularity The granularity of edges to use during synthesis.
      * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
      * @param edgeOrderForward The edge ordering to use for forward reachability computations.
@@ -115,7 +125,8 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, EdgeGranularity edgeGranularity,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, String continuousPerformanceStatisticsFilePath,
+            String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
             String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
@@ -127,6 +138,8 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
+        this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;
         this.edgeGranularity = edgeGranularity;
         this.edgeOrderBackward = edgeOrderBackward;
         this.edgeOrderForward = edgeOrderForward;
