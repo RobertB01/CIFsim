@@ -20,7 +20,6 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getLocationOrComponentTe
 import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
 import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.updateToStr;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
@@ -86,11 +85,24 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Checker that checks for plants referencing requirements. */
 public class CifDataSynthesisPlantsRefsReqsChecker {
+    /** Callback for warning output. */
+    private final WarnOutput warnOutput;
+
     /** Assigned variables per automaton. */
     private final Map<Automaton, Set<Declaration>> assignedVariablesPerAut = map();
+
+    /**
+     * Constructor for the {@link CifDataSynthesisPlantsRefsReqsChecker} class.
+     *
+     * @param warnOutput Callback for warning output.
+     */
+    public CifDataSynthesisPlantsRefsReqsChecker(WarnOutput warnOutput) {
+        this.warnOutput = warnOutput;
+    }
 
     /**
      * Checks whether a plant references requirement state.
@@ -157,8 +169,8 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
 
                 for (Expression value: variableValue.getValues()) {
                     if (referencesReq(value)) {
-                        warn("An initial value of plant discrete variables \"%s\" references requirement state.",
-                                getAbsName(decl));
+                        warnOutput.line("An initial value of plant discrete variables \"%s\" references requirement "
+                                + "state.", getAbsName(decl));
                     }
                 }
             }
@@ -187,13 +199,14 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
 
                 // Check initial value.
                 if (contVariable.getValue() != null && referencesReq(contVariable.getValue())) {
-                    warn("The initial value of plant continuous variables \"%s\" references requirement state.",
+                    warnOutput.line(
+                            "The initial value of plant continuous variables \"%s\" references requirement state.",
                             getAbsName(decl));
                 }
 
                 // Check derivative.
                 if (contVariable.getDerivative() != null && referencesReq(contVariable.getDerivative())) {
-                    warn("The derivative of plant continuous variables \"%s\" references requirement state.",
+                    warnOutput.line("The derivative of plant continuous variables \"%s\" references requirement state.",
                             getAbsName(decl));
                 }
             }
@@ -203,7 +216,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 // Check initialization predicates.
                 for (Expression initPred: loc.getInitials()) {
                     if (referencesReq(initPred)) {
-                        warn("Plant initialization predicate \"%s\" in %s references requirement state.",
+                        warnOutput.line("Plant initialization predicate \"%s\" in %s references requirement state.",
                                 exprToStr(initPred), getLocationText2(loc));
                     }
                 }
@@ -211,16 +224,16 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                 // Check marker predicates.
                 for (Expression markPred: loc.getMarkeds()) {
                     if (referencesReq(markPred)) {
-                        warn("Plant marker predicate \"%s\" in %s references requirement state.", exprToStr(markPred),
-                                getLocationText2(loc));
+                        warnOutput.line("Plant marker predicate \"%s\" in %s references requirement state.",
+                                exprToStr(markPred), getLocationText2(loc));
                     }
                 }
 
                 // Check equations.
                 for (Equation equation: loc.getEquations()) {
                     if (referencesReq(equation.getValue())) {
-                        warn("Plant equation \"%s\" in %s references requirement state.", equationToStr(equation),
-                                getLocationText2(loc));
+                        warnOutput.line("Plant equation \"%s\" in %s references requirement state.",
+                                equationToStr(equation), getLocationText2(loc));
                     }
                 }
 
@@ -229,16 +242,16 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
                     // Check edge guards.
                     for (Expression guard: edge.getGuards()) {
                         if (referencesReq(guard)) {
-                            warn("Plant edge guard \"%s\" in %s references requirement state.", exprToStr(guard),
-                                    getLocationText2(loc));
+                            warnOutput.line("Plant edge guard \"%s\" in %s references requirement state.",
+                                    exprToStr(guard), getLocationText2(loc));
                         }
                     }
 
                     // Check edge updates.
                     for (Update update: edge.getUpdates()) {
                         if (referencesReq(update)) {
-                            warn("Plant edge update \"%s\" in %s references requirement state.", updateToStr(update),
-                                    getLocationText2(loc));
+                            warnOutput.line("Plant edge update \"%s\" in %s references requirement state.",
+                                    updateToStr(update), getLocationText2(loc));
                         }
                     }
                 }
@@ -251,7 +264,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     if (inv.getSupKind() == SupKind.PLANT) {
-                        warn("Plant invariant \"%s\" in %s implicitly depends on requirement state.",
+                        warnOutput.line("Plant invariant \"%s\" in %s implicitly depends on requirement state.",
                                 invToStr(inv, false), getLocationText2(loc));
                     }
                 }
@@ -285,7 +298,7 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
         // If the invariant references requirement state, show a warning.
         Expression pred = inv.getPredicate();
         if (referencesReq(pred)) {
-            warn("Plant invariant \"%s\" in %s references requirement state.", exprToStr(pred),
+            warnOutput.line("Plant invariant \"%s\" in %s references requirement state.", exprToStr(pred),
                     getLocationOrComponentText2(inv.eContainer()));
         }
     }
