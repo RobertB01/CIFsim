@@ -83,10 +83,8 @@ import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -2404,9 +2402,9 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton. Is modified in-place.
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
-        synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, EdgeOrderBackwardOption.getOrder(),
+        synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderBackward,
                 false);
-        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, EdgeOrderForwardOption.getOrder(), true);
+        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderForward, true);
     }
 
     /**
