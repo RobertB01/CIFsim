@@ -20,7 +20,6 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
 import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
@@ -40,6 +39,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.io.CifReader;

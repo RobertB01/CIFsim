@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.Strings;
 

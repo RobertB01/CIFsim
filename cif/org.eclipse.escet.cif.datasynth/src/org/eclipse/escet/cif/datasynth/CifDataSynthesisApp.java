@@ -60,6 +60,7 @@ import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatisticsOption;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;

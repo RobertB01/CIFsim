@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth;
+package org.eclipse.escet.cif.datasynth.settings;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
