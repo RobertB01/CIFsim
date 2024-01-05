@@ -23,8 +23,6 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.datasynth.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
@@ -34,9 +32,6 @@ import com.github.javabdd.BDDVarSet;
 
 /** Data-based synthesis algorithm linearized automaton. */
 public class SynthesisAutomaton {
-    /** The application context to use. */
-    public final AppEnvData env = AppEnv.getData();
-
     /** The settings to use. */
     public final CifDataSynthesisSettings settings;
 
