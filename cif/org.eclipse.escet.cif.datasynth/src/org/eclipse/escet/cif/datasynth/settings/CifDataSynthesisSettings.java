@@ -40,6 +40,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
+    public final boolean doPlantsRefReqsWarn;
+
     /** The way that state requirement invariants are enforced. */
     public final StateReqInvEnforceMode stateReqInvEnforceMode;
 
@@ -60,6 +63,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param doPlantsRefReqsWarn Whether to warn for plants that reference requirement state ({@code true}) or don't
+     *     warn ({@code false}).
      * @param stateReqInvEnforceMode The way that state requirement invariants are enforced.
      * @param supervisorName The name of the resulting supervisor automaton. Must be a valid
      *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
@@ -68,14 +73,16 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, StateReqInvEnforceMode stateReqInvEnforceMode,
-            String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean doPlantsRefReqsWarn,
+            StateReqInvEnforceMode stateReqInvEnforceMode, String supervisorName, String supervisorNamespace,
+            EnumSet<SynthesisStatistics> synthesisStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
         this.stateReqInvEnforceMode = stateReqInvEnforceMode;
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;

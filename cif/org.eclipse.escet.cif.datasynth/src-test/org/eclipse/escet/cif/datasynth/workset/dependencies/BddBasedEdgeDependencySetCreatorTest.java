@@ -593,12 +593,13 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         Supplier<Boolean> shouldTerminate = () -> false;
+        boolean doPlantsRefReqsWarn = false;
         String supervisorName = "sup";
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName,
-                supervisorNamespace, EnumSet.noneOf(SynthesisStatistics.class));
+                new BlackHoleOutputProvider().getWarnOutput(), doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH,
+                supervisorName, supervisorNamespace, EnumSet.noneOf(SynthesisStatistics.class));
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {
