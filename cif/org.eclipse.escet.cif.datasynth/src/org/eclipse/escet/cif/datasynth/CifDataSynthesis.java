@@ -39,7 +39,6 @@ import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
-import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -631,7 +630,7 @@ public class CifDataSynthesis {
         aut.plantInvComps.free();
         aut.plantInvLocs.free();
 
-        if (StateReqInvEnforceOption.getMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
+        if (aut.settings.stateReqInvEnforceMode == StateReqInvEnforceMode.ALL_CTRL_BEH) {
             for (BDD bdd: aut.reqInvsComps) {
                 bdd.free();
             }
@@ -686,7 +685,7 @@ public class CifDataSynthesis {
         aut.plantInvsLocs = null;
         aut.plantInvLocs = null;
 
-        if (StateReqInvEnforceOption.getMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
+        if (aut.settings.stateReqInvEnforceMode == StateReqInvEnforceMode.ALL_CTRL_BEH) {
             aut.reqInvsComps = null;
             aut.reqInvsLocs = null;
         }
@@ -859,8 +858,7 @@ public class CifDataSynthesis {
             aut.settings.debugOutput.line("Restricting behavior using state requirements.");
         }
 
-        StateReqInvEnforceMode enforceMode = StateReqInvEnforceOption.getMode();
-        switch (enforceMode) {
+        switch (aut.settings.stateReqInvEnforceMode) {
             case ALL_CTRL_BEH: {
                 // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
                 // controlled system if the state requirement invariants hold.
@@ -958,7 +956,7 @@ public class CifDataSynthesis {
                 break;
             }
             default:
-                throw new RuntimeException("Unknown mode: " + enforceMode);
+                throw new RuntimeException("Unknown mode: " + aut.settings.stateReqInvEnforceMode);
         }
     }
 

@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -41,6 +42,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The way that state requirement invariants are enforced. */
+    public final StateReqInvEnforceMode stateReqInvEnforceMode;
+
     /** The name of the resulting supervisor automaton. */
     public final String supervisorName;
 
@@ -58,6 +62,7 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param stateReqInvEnforceMode The way that state requirement invariants are enforced.
      * @param supervisorName The name of the resulting supervisor automaton. Must be a valid
      *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
      * @param supervisorNamespace The namespace of the resulting supervisor, or {@code null} to use the empty namespace.
@@ -65,14 +70,15 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String supervisorName, String supervisorNamespace,
-            EnumSet<SynthesisStatistics> synthesisStatistics)
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, StateReqInvEnforceMode stateReqInvEnforceMode,
+            String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.stateReqInvEnforceMode = stateReqInvEnforceMode;
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;

@@ -157,8 +157,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), SupervisorNameOption.getSupervisorName("sup"),
-                SupervisorNamespaceOption.getNamespace(), SynthesisStatisticsOption.getStatistics());
+                OutputProvider.getWarningOutputStream(), StateReqInvEnforceOption.getMode(),
+                SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
+                SynthesisStatisticsOption.getStatistics());
 
         // Initialize debugging.
         boolean dbgEnabled = OutputProvider.dodbg();
