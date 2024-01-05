@@ -26,6 +26,9 @@ public class CifDataSynthesisSettings {
      */
     public final Supplier<Boolean> shouldTerminate;
 
+    /** Callback for debug output. */
+    public final DebugNormalOutput debugOutput;
+
     /** Callback for normal output. */
     public final DebugNormalOutput normalOutput;
 
@@ -37,13 +40,15 @@ public class CifDataSynthesisSettings {
      *
      * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
      *     {@code true}, it must return {@code true} also on subsequent calls.
+     * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
      */
-    public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput normalOutput,
-            WarnOutput warnOutput)
+    public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput)
     {
         this.shouldTerminate = shouldTerminate;
+        this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
     }
