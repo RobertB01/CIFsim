@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-remove-annos]]
+== Remove annotations
+
+indexterm:[CIF to CIF transformer,remove annotations]
+indexterm:[remove annotations]
+indexterm:[annotations,remove]
+This CIF to CIF transformation removes <<lang-tut-extensions-chapter-annotations,annotations>> from the specification.
+This may reduce the size of the specification.
+It may also lead to the specification being supported by more tools, as the annotations may use features of the CIF language that certain tools don't support.
+
+=== Supported specifications
+
+This transformation supports all CIF specifications.
+
+=== Preprocessing
+
+n/a
+
+indexterm:[remove annotations,implementation]
+
+=== Implementation details
+
+All annotations are removed from the specification.
+
+=== Renaming
+
+n/a
+
+indexterm:[remove annotations,size considerations]
+
+=== Size considerations
+
+Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
+
+=== Optimality
+
+n/a
+
+=== Annotations
+
+This transformation removes all annotations.

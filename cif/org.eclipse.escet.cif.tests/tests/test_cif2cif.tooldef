@@ -60,6 +60,7 @@ map(string:list string) test_options = {
    "cif2cif/merge_enums1.cif":                      ["-t merge-enums"],
    "cif2cif/merge_enums2.cif":                      ["-t merge-enums"],
    "cif2cif/print_file_into_decls.cif":             ["-t elim-comp-def-inst,print-file-into-decls"],
+   "cif2cif/remove_annos.cif":                      ["-t remove-annos"],
    "cif2cif/remove_cif_svg_decls.cif":              ["-t remove-cif-svg-decls"],
    "cif2cif/remove_io_decls.cif":                   ["-t remove-io-decls"],
    "cif2cif/remove_print_decls.cif":                ["-t remove-print-decls"],
