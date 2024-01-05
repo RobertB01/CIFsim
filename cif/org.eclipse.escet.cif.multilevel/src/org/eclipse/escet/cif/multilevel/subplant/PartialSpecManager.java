@@ -247,7 +247,7 @@ public class PartialSpecManager {
     }
 
     /**
-     * Perform {@code partialList.add(partialObject)} such that the order of the elements between the original and
+     * Perform {@code partialList.add(newPartialObject)} such that the order of the elements between the original and
      * partial lists match through the {@link #copiedObjects} relations.
      *
      * <p>
@@ -265,39 +265,62 @@ public class PartialSpecManager {
      * @param partialList List of references in the partial specification.
      * @param newPartialObject New partial object, to be added in the partial list at the correct index.
      */
-    private <T extends EObject, U extends T> void insertEObject(EList<T> origList, EList<T> partialList,
+    <T extends EObject, U extends T> void insertEObject(EList<T> origList, EList<T> partialList,
             U newPartialObject)
     {
         Assert.notNull(newPartialObject);
 
-        int partialIndex = 0;
-        if (!partialList.isEmpty()) {
-            for (EObject origObj: origList) {
-                EObject expectedPartialObject = copiedObjects.get(origObj);
-                if (expectedPartialObject == null) {
-                    // Original object has not been copied, continue with the next entry.
-                    continue;
-                }
+        // If the destination list is empty, the new partial object must trivially be the first object. We're finished.
+        if (partialList.isEmpty()) {
+            partialList.add(newPartialObject);
+            return;
+        }
 
-                // If the expected partial object is already in the partial list, skip to the next entry.
+        // The 'partialList' is a subset of 'origList' in the same order through the 'copiedObjects' map.
+        //
+        // To insert a new partial object in the former list, code must find the position in 'partialList' just after
+        // the last already added partial object that precedes the new partial object.
+        //
+        // It does that by looping over the original list, finding the associated copied object, and moving forward in
+        // the partial list whenever a match is found for the copied object. As both lists have the same order and the
+        // new partial object exists, the needed index is found when the associated copied object is also the new
+        // partial object.
+
+        int partialIndex = 0; // Index just after all recognized partial objects before the new partial object.
+
+        // Loop over the original objects and advance the partial index when a match is found until the end of the
+        // partial list or until the index of the new partial object has been found.
+        for (EObject origObj: origList) {
+            // Find the associated partial object for the original object. If it doesn't exist, nothing needs to be done
+            // in the partial list.
+            EObject expectedPartialObject = copiedObjects.get(origObj);
+            if (expectedPartialObject == null) {
+                // Original object has not been copied, continue with the next entry.
+                continue;
+            }
+
+            // Either the expected partial object is before the new partial object or it is the new partial object.
+            if (expectedPartialObject != newPartialObject) {
+                // Not yet reached the new partial object, the expected partial object must be before it. If the
+                // expected partial object is already in the partial list, skip over it.
                 if (partialList.get(partialIndex) == expectedPartialObject) {
                     partialIndex++;
 
-                    // Abort comparing if all partial list elements have been found.
+                    // Abort comparing if all partial list elements have been found. At this point, in all cases the new
+                    // partial object must be positioned after all already added partial objects.
                     if (partialIndex >= partialList.size()) {
-                        break;
+                        partialList.add(newPartialObject);
+                        return;
                     }
-                    continue;
                 }
+            } else {
+                // The next position in the partial list is for the new partial object. Verify it is indeed new.
+                Assert.check(newPartialObject != partialList.get(partialIndex));
 
-                // It must be the partial object that has not been added yet.
-                Assert.areEqual(expectedPartialObject, newPartialObject);
+                // Insert it at this spot in the list.
                 partialList.add(partialIndex, newPartialObject);
                 return;
             }
-        }
-        if (newPartialObject != null) {
-            partialList.add(newPartialObject);
         }
     }
 
