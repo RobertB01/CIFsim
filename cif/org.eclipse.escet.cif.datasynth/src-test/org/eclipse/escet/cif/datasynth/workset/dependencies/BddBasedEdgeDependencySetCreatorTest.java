@@ -31,12 +31,12 @@ import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
@@ -596,20 +596,19 @@ public class BddBasedEdgeDependencySetCreatorTest {
         Supplier<Boolean> shouldTerminate = () -> false;
         String edgeOrderBackward = "model";
         String edgeOrderForward = "model";
-        EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents = EdgeOrderDuplicateEventAllowance.DISALLOWED;
         boolean doUseEdgeWorksetAlgo = false;
         boolean doNeverEnabledEventsWarn = false;
-        FixedPointComputationsOrder fixedPointComputationsOrder = FixedPointComputationsOrder.NONBLOCK_CTRL_REACH;
         boolean doForwardReach = false;
         boolean doPlantsRefReqsWarn = false;
         String supervisorName = "sup";
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), edgeOrderBackward, edgeOrderForward,
-                edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
-                fixedPointComputationsOrder, doForwardReach, doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH,
-                supervisorName, supervisorNamespace, EnumSet.noneOf(SynthesisStatistics.class));
+                new BlackHoleOutputProvider().getWarnOutput(), EdgeGranularity.PER_EDGE, edgeOrderBackward,
+                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
+                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
+                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                EnumSet.noneOf(SynthesisStatistics.class));
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {

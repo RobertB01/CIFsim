@@ -158,11 +158,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), EdgeOrderBackwardOption.getOrder(),
-                EdgeOrderForwardOption.getOrder(), EdgeOrderDuplicateEventsOption.getAllowance(),
-                EdgeWorksetAlgoOption.isEnabled(), EventWarnOption.isEnabled(),
-                FixedPointComputationsOrderOption.getOrder(), ForwardReachOption.isEnabled(),
-                PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
+                OutputProvider.getWarningOutputStream(), EdgeGranularityOption.getGranularity(),
+                EdgeOrderBackwardOption.getOrder(), EdgeOrderForwardOption.getOrder(),
+                EdgeOrderDuplicateEventsOption.getAllowance(), EdgeWorksetAlgoOption.isEnabled(),
+                EventWarnOption.isEnabled(), FixedPointComputationsOrderOption.getOrder(),
+                ForwardReachOption.isEnabled(), PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
                 SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
                 SynthesisStatisticsOption.getStatistics());
 

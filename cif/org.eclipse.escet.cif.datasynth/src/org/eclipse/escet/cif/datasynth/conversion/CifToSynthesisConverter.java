@@ -81,9 +81,8 @@ import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
 import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -2375,8 +2374,7 @@ public class CifToSynthesisConverter {
         }
 
         // Merge the edges, if needed.
-        EdgeGranularity granularity = EdgeGranularityOption.getGranularity();
-        switch (granularity) {
+        switch (synthAut.settings.edgeGranularity) {
             case PER_EDGE:
                 // Nothing to do, as already at per-edge granularity.
                 return;
@@ -2392,7 +2390,7 @@ public class CifToSynthesisConverter {
                 return;
             }
         }
-        throw new RuntimeException("Unknown granularity: " + granularity);
+        throw new RuntimeException("Unknown granularity: " + synthAut.settings.edgeGranularity);
     }
 
     /**
@@ -2551,7 +2549,7 @@ public class CifToSynthesisConverter {
         }
 
         // Edge workset algorithm requires per-event edge granularity, and no duplicate edges in the edge order.
-        if (EdgeGranularityOption.getGranularity() != EdgeGranularity.PER_EVENT) {
+        if (settings.edgeGranularity != EdgeGranularity.PER_EVENT) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can only be used with per-event edge granularity. "
                             + "Either disable the edge workset algorithm, or configure per-event edge granularity.");

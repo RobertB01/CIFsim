@@ -40,6 +40,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The granularity of edges to use during synthesis. */
+    public final EdgeGranularity edgeGranularity;
+
     /** The edge ordering to use for backward reachability computations. */
     public final String edgeOrderBackward;
 
@@ -90,6 +93,7 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param edgeGranularity The granularity of edges to use during synthesis.
      * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
      * @param edgeOrderForward The edge ordering to use for forward reachability computations.
      * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
@@ -111,7 +115,8 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String edgeOrderBackward, String edgeOrderForward,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, EdgeGranularity edgeGranularity,
+            String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
@@ -122,6 +127,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.edgeGranularity = edgeGranularity;
         this.edgeOrderBackward = edgeOrderBackward;
         this.edgeOrderForward = edgeOrderForward;
         this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
