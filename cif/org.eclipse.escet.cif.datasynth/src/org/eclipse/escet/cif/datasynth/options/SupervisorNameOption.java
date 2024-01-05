@@ -13,12 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
-import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Supervisor name option. */
 public class SupervisorNameOption extends StringOption {
@@ -35,16 +31,9 @@ public class SupervisorNameOption extends StringOption {
      * @return The name of the resulting supervisor automaton.
      */
     public static String getSupervisorName(String defaultName) {
-        // Get name, and use default if not supplied.
         String name = Options.get(SupervisorNameOption.class);
         if (name == null) {
             name = defaultName;
-        }
-
-        // Check name.
-        if (!CifValidationUtils.isValidIdentifier(name)) {
-            String msg = fmt("Supervisor name \"%s\" is not a valid CIF identifier.", name);
-            throw new InvalidOptionException(msg);
         }
         return name;
     }

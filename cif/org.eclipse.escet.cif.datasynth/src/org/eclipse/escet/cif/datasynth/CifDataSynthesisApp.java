@@ -153,9 +153,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      * @param timing The timing statistics data. Is modified in-place.
      */
     private void doSynthesis(boolean doTiming, CifDataSynthesisTiming timing) {
-        // Read option value, to validate it early.
-        String supName = SupervisorNameOption.getSupervisorName("sup");
-        String supNamespace = SupervisorNamespaceOption.getNamespace();
+        // Construct settings. Do it early, to validate settings early.
+        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
+                OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
+                OutputProvider.getWarningOutputStream(), SupervisorNameOption.getSupervisorName("sup"),
+                SupervisorNamespaceOption.getNamespace());
 
         // Initialize debugging.
         boolean dbgEnabled = OutputProvider.dodbg();
@@ -259,12 +262,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             factory.getMaxMemoryStats().enableMeasurements();
         }
 
-        // Construct settings.
-        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
-        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
-                OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream());
-
         // Perform synthesis.
         Specification rslt;
         try {
@@ -311,7 +308,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.outputConvert.start();
             }
             try {
-                rslt = converter2.convert(aut, spec, supName, supNamespace);
+                rslt = converter2.convert(aut, spec);
             } finally {
                 if (doTiming) {
                     timing.outputConvert.stop();

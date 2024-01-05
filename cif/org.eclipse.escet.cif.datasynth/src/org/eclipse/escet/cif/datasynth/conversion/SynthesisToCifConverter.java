@@ -176,11 +176,9 @@ public class SynthesisToCifConverter {
      *
      * @param synthAut The synthesis result.
      * @param spec The input CIF specification. Is modified in-place.
-     * @param supName The name of the supervisor automaton.
-     * @param supNamespace The namespace of the supervisor, or {@code null} for the empty namespace.
      * @return The output CIF specification, i.e. the modified input CIF specification.
      */
-    public Specification convert(SynthesisAutomaton synthAut, Specification spec, String supName, String supNamespace) {
+    public Specification convert(SynthesisAutomaton synthAut, Specification spec) {
         // Initialization.
         this.synthAut = synthAut;
         this.spec = spec;
@@ -228,7 +226,7 @@ public class SynthesisToCifConverter {
         relabelRequirementInvariants(spec);
 
         // Construct new supervisor automaton.
-        supervisor = createSupervisorAutomaton(supName);
+        supervisor = createSupervisorAutomaton(synthAut.settings.supervisorName);
 
         // Add the alphabet to the automaton. Only add controllable events, as
         // they may be restricted by the supervisor.
@@ -291,8 +289,8 @@ public class SynthesisToCifConverter {
         finalizeBddToCif();
 
         // Add namespace, if requested.
-        if (supNamespace != null) {
-            spec = addNamespace(supNamespace);
+        if (synthAut.settings.supervisorNamespace != null) {
+            spec = addNamespace(synthAut.settings.supervisorNamespace);
             this.spec = spec;
         }
 
@@ -775,7 +773,7 @@ public class SynthesisToCifConverter {
      * automaton.
      *
      * @param namespace The (absolute) namespace name. Is not {@code null} and has already been
-     *     {@link CifValidationUtils#isValidName}.
+     *     {@link CifValidationUtils#isValidName validated}.
      * @return The new specification.
      */
     private Specification addNamespace(String namespace) {
