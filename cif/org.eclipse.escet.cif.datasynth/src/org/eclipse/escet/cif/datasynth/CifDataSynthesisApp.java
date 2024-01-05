@@ -22,6 +22,7 @@ import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
@@ -260,7 +261,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Construct settings.
-        CifDataSynthesisSettings settings = new CifDataSynthesisSettings();
+        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate);
 
         // Perform synthesis.
         Specification rslt;

@@ -13,7 +13,23 @@
 
 package org.eclipse.escet.cif.datasynth;
 
+import java.util.function.Supplier;
+
 /** CIF data-based synthesis settings. */
 public class CifDataSynthesisSettings {
+    /**
+     * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
+     * {@code true} also on subsequent calls.
+     */
+    public final Supplier<Boolean> shouldTerminate;
 
+    /**
+     * Constructor for the {@link CifDataSynthesisSettings} class.
+     *
+     * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
+     *     {@code true}, it must return {@code true} also on subsequent calls.
+     */
+    public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate) {
+        this.shouldTerminate = shouldTerminate;
+    }
 }
