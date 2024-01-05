@@ -46,6 +46,9 @@ public class CifDataSynthesisSettings {
     /** The edge ordering to use for forward reachability computations. */
     public final String edgeOrderForward;
 
+    /** Whether duplicate events are allowed for custom edge orders. */
+    public final EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents;
+
     /**
      * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
      * computations ({@code true}), or not ({@code false}).
@@ -89,6 +92,7 @@ public class CifDataSynthesisSettings {
      * @param warnOutput Callback for warning output.
      * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
      * @param edgeOrderForward The edge ordering to use for forward reachability computations.
+     * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
      * @param doUseEdgeWorksetAlgo Whether to use the edge workset algorithm to dynamically choose the best edge to
      *     apply during reachability computations ({@code true}), or not ({@code false}).
      * @param doNeverEnabledEventsWarn Whether to warn for events that are never enabled in the input specification or
@@ -108,10 +112,10 @@ public class CifDataSynthesisSettings {
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
             DebugNormalOutput normalOutput, WarnOutput warnOutput, String edgeOrderBackward, String edgeOrderForward,
-            boolean doUseEdgeWorksetAlgo, boolean doNeverEnabledEventsWarn,
-            FixedPointComputationsOrder fixedPointComputationsOrder, boolean doForwardReach,
-            boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode, String supervisorName,
-            String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
+            EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
+            boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
+            boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
+            String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
@@ -120,6 +124,7 @@ public class CifDataSynthesisSettings {
         this.warnOutput = warnOutput;
         this.edgeOrderBackward = edgeOrderBackward;
         this.edgeOrderForward = edgeOrderForward;
+        this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
         this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
         this.fixedPointComputationsOrder = fixedPointComputationsOrder;

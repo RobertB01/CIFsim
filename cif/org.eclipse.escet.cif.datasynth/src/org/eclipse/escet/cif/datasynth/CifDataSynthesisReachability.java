@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
@@ -174,8 +173,9 @@ public class CifDataSynthesisReachability {
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
         // Prepare edges for being applied.
-        Collection<SynthesisEdge> edgesToPrepare = EdgeOrderDuplicateEventsOption
-                .getAllowance() == EdgeOrderDuplicateEventAllowance.ALLOWED ? list2set(edgesToApply) : edgesToApply;
+        Collection<SynthesisEdge> edgesToPrepare = //
+                (aut.settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED)
+                        ? list2set(edgesToApply) : edgesToApply;
         for (SynthesisEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }

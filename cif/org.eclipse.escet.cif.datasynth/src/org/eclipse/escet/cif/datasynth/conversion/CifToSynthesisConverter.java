@@ -83,9 +83,8 @@ import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
 import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -2403,8 +2402,9 @@ public class CifToSynthesisConverter {
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
         synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderBackward,
-                false);
-        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderForward, true);
+                synthAut.settings.edgeOrderAllowDuplicateEvents, false);
+        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderForward,
+                synthAut.settings.edgeOrderAllowDuplicateEvents, true);
     }
 
     /**
@@ -2412,12 +2412,13 @@ public class CifToSynthesisConverter {
      *
      * @param edges The edges in linearized model order.
      * @param orderTxt The order as textual value from the option, for the given direction.
+     * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
      * @param forForwardReachability Order for forward reachability ({@code true}) or backward reachability
      *     ({@code false}).
      * @return The ordered edges.
      */
     private static List<SynthesisEdge> orderEdgesForDirection(List<SynthesisEdge> edges, String orderTxt,
-            boolean forForwardReachability)
+            EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean forForwardReachability)
     {
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
             // No reordering. Keep linearized model order.
@@ -2501,7 +2502,7 @@ public class CifToSynthesisConverter {
                         (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
                 // Check for duplicate events, if duplicates are disallowed.
-                if (EdgeOrderDuplicateEventsOption.getAllowance() == EdgeOrderDuplicateEventAllowance.DISALLOWED) {
+                if (edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.DISALLOWED) {
                     for (SynthesisEdge edge: matches) {
                         if (processedEdges.contains(edge)) {
                             String msg = fmt("Invalid custom %s edge order: event \"%s\" is included more than once. "
@@ -2555,7 +2556,7 @@ public class CifToSynthesisConverter {
                     "The edge workset algorithm can only be used with per-event edge granularity. "
                             + "Either disable the edge workset algorithm, or configure per-event edge granularity.");
         }
-        if (EdgeOrderDuplicateEventsOption.getAllowance() == EdgeOrderDuplicateEventAllowance.ALLOWED) {
+        if (settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can not be used with duplicate events in the edge order. "
                             + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");
