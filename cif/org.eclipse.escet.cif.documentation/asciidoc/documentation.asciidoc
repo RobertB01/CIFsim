@@ -805,6 +805,8 @@ include::tools/cif2cif/print-file-into-decls.asciidoc[]
 
 include::tools/cif2cif/svg-file-into-decls.asciidoc[]
 
+include::tools/cif2cif/remove-annos.asciidoc[]
+
 include::tools/cif2cif/remove-cif-svg-decls.asciidoc[]
 
 include::tools/cif2cif/remove-io-decls.asciidoc[]
