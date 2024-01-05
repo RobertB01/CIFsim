@@ -76,8 +76,6 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
-import org.eclipse.escet.common.app.framework.output.OutputMode;
-import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
@@ -160,7 +158,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         String supNamespace = SupervisorNamespaceOption.getNamespace();
 
         // Initialize debugging.
-        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
+        boolean dbgEnabled = OutputProvider.dodbg();
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
