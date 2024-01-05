@@ -43,6 +43,18 @@ public class CifDataSynthesisSettings {
     /** The initial BDD variable ordering and domain interleaving. */
     public final String bddVarOrderInit;
 
+    /**
+     * Whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering
+     * ({@code true}), or not apply it ({@code false}).
+     */
+    public final boolean bddSlidingWindowEnabled;
+
+    /**
+     * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. Must be an
+     * integer number in the range [1 .. 12].
+     */
+    public final int bddSlidingWindowMaxLen;
+
     /** The advanced BDD variable ordering and domain interleaving. */
     public final String bddVarOrderAdvanced;
 
@@ -106,6 +118,10 @@ public class CifDataSynthesisSettings {
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
+     * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
+     *     initial variable ordering ({@code true}), or not apply it ({@code false}).
+     * @param bddSlidingWindowMaxLen The maximum length of the window to use for the BDD sliding window variable
+     *     ordering algorithm. Must be an integer number in the range [1 .. 12].
      * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
      * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
      *     statistics output file.
@@ -133,7 +149,8 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String bddVarOrderInit, String bddVarOrderAdvanced,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, String bddVarOrderInit,
+            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
             String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
             EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
@@ -147,6 +164,8 @@ public class CifDataSynthesisSettings {
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
         this.bddVarOrderInit = bddVarOrderInit;
+        this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;
+        this.bddSlidingWindowMaxLen = bddSlidingWindowMaxLen;
         this.bddVarOrderAdvanced = bddVarOrderAdvanced;
         this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
         this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;

@@ -909,6 +909,8 @@ public class VarOrdererParserTest {
     private CifDataSynthesisSettings getSettings() {
         Supplier<Boolean> shouldTerminate = () -> false;
         String bddVarOrderInit = "sorted";
+        boolean bddSlidingWindowEnabled = true;
+        int bddSlidingWindowMaxLen = 4;
         String bddVarOrderAdvanced = "basic";
         String continuousPerformanceStatisticsFilePath = null;
         String continuousPerformanceStatisticsFileAbsPath = null;
@@ -922,11 +924,12 @@ public class VarOrdererParserTest {
         String supervisorNamespace = null;
         return new CifDataSynthesisSettings(shouldTerminate, new BlackHoleOutputProvider().getDebugOutput(),
                 new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput(),
-                bddVarOrderInit, bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
-                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
-                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
-                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
-                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
+                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
+                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
+                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
                 EnumSet.noneOf(SynthesisStatistics.class));
     }
 }

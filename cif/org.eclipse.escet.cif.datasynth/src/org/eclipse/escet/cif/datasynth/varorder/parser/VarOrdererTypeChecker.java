@@ -229,9 +229,8 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, getBasicConfiguredRelationsKind("force"),
                     VarOrdererEffect.VAR_ORDER));
         }
-        if (BddSlidingWindowVarOrderOption.isEnabled()) {
-            int maxLen = BddSlidingWindowSizeOption.getMaxLen();
-            orderers.add(new SlidingWindowVarOrderer(maxLen, VarOrderMetricKind.TOTAL_SPAN,
+        if (settings.bddSlidingWindowEnabled) {
+            orderers.add(new SlidingWindowVarOrderer(settings.bddSlidingWindowMaxLen, VarOrderMetricKind.TOTAL_SPAN,
                     getBasicConfiguredRelationsKind("slidwin"), VarOrdererEffect.VAR_ORDER));
         }
         return (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
@@ -561,7 +560,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             }
         }
         if (size == null) {
-            size = BddSlidingWindowSizeOption.getMaxLen();
+            size = settings.bddSlidingWindowMaxLen;
         }
         if (metric == null) {
             metric = VarOrderMetricKind.TOTAL_SPAN;
