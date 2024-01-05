@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.datasynth;
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.CTRL;
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -70,13 +69,12 @@ public class CifDataSynthesis {
      * Performs data-based supervisory controller synthesis.
      *
      * @param aut The automaton on which to perform synthesis. Is updated to represent the result of synthesis.
-     * @param dbgEnabled Whether debug output is enabled.
      * @param doTiming Whether to collect timing statistics.
      * @param timing The timing statistics data. Is modified in-place.
      * @param doPrintCtrlSysStates Whether to print controlled system states statistics.
      */
-    public static void synthesize(SynthesisAutomaton aut, boolean dbgEnabled, boolean doTiming,
-            CifDataSynthesisTiming timing, boolean doPrintCtrlSysStates)
+    public static void synthesize(SynthesisAutomaton aut, boolean doTiming, CifDataSynthesisTiming timing,
+            boolean doPrintCtrlSysStates)
     {
         // Algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson:
         // Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions
@@ -84,6 +82,7 @@ public class CifDataSynthesis {
 
         // Configuration.
         boolean doForward = ForwardReachOption.isEnabled();
+        boolean dbgEnabled = aut.settings.debugOutput.isEnabled();
 
         // Pre synthesis.
         if (doTiming) {
@@ -127,9 +126,11 @@ public class CifDataSynthesis {
             aut.initialCtrl = aut.initialPlantInv.id();
 
             if (dbgEnabled) {
-                dbg();
-                dbg("Initialized controlled-behavior predicate: %s.", bddToStr(aut.ctrlBeh, aut));
-                dbg("Initialized controlled-initialization predicate: %s.", bddToStr(aut.initialCtrl, aut));
+                aut.settings.debugOutput.line();
+                aut.settings.debugOutput.line("Initialized controlled-behavior predicate: %s.",
+                        bddToStr(aut.ctrlBeh, aut));
+                aut.settings.debugOutput.line("Initialized controlled-initialization predicate: %s.",
+                        bddToStr(aut.initialCtrl, aut));
             }
 
             // Apply requirements.
@@ -227,9 +228,9 @@ public class CifDataSynthesis {
                 return;
             }
             if (dbgEnabled) {
-                dbg();
-                dbg("Final synthesis result:");
-                dbg(aut.toString(1));
+                aut.settings.debugOutput.line();
+                aut.settings.debugOutput.line("Final synthesis result:");
+                aut.settings.debugOutput.line(aut.toString(1));
             }
 
             // Determine controlled system initialization predicate.
@@ -285,7 +286,7 @@ public class CifDataSynthesis {
 
             // Separate debug output from what is to come.
             if (dbgEnabled) {
-                dbg();
+                aut.settings.debugOutput.line();
             }
         } finally {
             if (doTiming) {
@@ -307,11 +308,12 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
+            aut.settings.debugOutput.line();
             for (BDD pred: aut.plantInvsComps) {
-                dbg("Invariant (component state plant invariant): %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Invariant (component state plant invariant): %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (components state plant inv):      %s", bddToStr(aut.plantInvComps, aut));
+            aut.settings.debugOutput.line("Invariant (components state plant inv):      %s",
+                    bddToStr(aut.plantInvComps, aut));
         }
 
         // Debug state plant invariants (predicates) of the locations of the automata.
@@ -320,9 +322,10 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.plantInvsLocs) {
-                dbg("Invariant (location state plant invariant):  %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Invariant (location state plant invariant):  %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (locations state plant invariant): %s", bddToStr(aut.plantInvLocs, aut));
+            aut.settings.debugOutput.line("Invariant (locations state plant invariant): %s",
+                    bddToStr(aut.plantInvLocs, aut));
         }
 
         // Debug state plant invariant (predicate) of the system.
@@ -330,7 +333,8 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Invariant (system state plant invariant):    %s", bddToStr(aut.plantInv, aut));
+            aut.settings.debugOutput.line("Invariant (system state plant invariant):    %s",
+                    bddToStr(aut.plantInv, aut));
         }
 
         // Warn if no state in system, due to state plant invariants.
@@ -347,11 +351,12 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
+            aut.settings.debugOutput.line();
             for (BDD pred: aut.reqInvsComps) {
-                dbg("Invariant (component state req invariant):   %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Invariant (component state req invariant):   %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (components state req invariant):  %s", bddToStr(aut.reqInvComps, aut));
+            aut.settings.debugOutput.line("Invariant (components state req invariant):  %s",
+                    bddToStr(aut.reqInvComps, aut));
         }
 
         // Debug state requirement invariants (predicates) of the locations of the automata.
@@ -360,9 +365,10 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.reqInvsLocs) {
-                dbg("Invariant (location state req invariant):    %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Invariant (location state req invariant):    %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (locations state req invariant):   %s", bddToStr(aut.reqInvLocs, aut));
+            aut.settings.debugOutput.line("Invariant (locations state req invariant):   %s",
+                    bddToStr(aut.reqInvLocs, aut));
         }
 
         // Debug state requirement invariant (predicate) of the system.
@@ -370,7 +376,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Invariant (system state req invariant):      %s", bddToStr(aut.reqInv, aut));
+            aut.settings.debugOutput.line("Invariant (system state req invariant):      %s", bddToStr(aut.reqInv, aut));
         }
 
         // Warn if no state in system, due to state requirement invariants.
@@ -387,7 +393,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
+            aut.settings.debugOutput.line();
             for (int i = 0; i < aut.variables.length; i++) {
                 SynthesisVariable var = aut.variables[i];
                 if (!(var instanceof SynthesisDiscVariable)) {
@@ -395,11 +401,12 @@ public class CifDataSynthesis {
                 }
 
                 String nr = String.valueOf(i);
-                dbg("Initial   (discrete variable %s):%s%s", nr, Strings.spaces(14 - nr.length()),
-                        bddToStr(aut.initialsVars.get(i), aut));
+                aut.settings.debugOutput.line("Initial   (discrete variable %s):%s%s", nr,
+                        Strings.spaces(14 - nr.length()), bddToStr(aut.initialsVars.get(i), aut));
             }
 
-            dbg("Initial   (discrete variables):              %s", bddToStr(aut.initialVars, aut));
+            aut.settings.debugOutput.line("Initial   (discrete variables):              %s",
+                    bddToStr(aut.initialVars, aut));
         }
 
         // Debug initialization predicates of the components.
@@ -408,9 +415,10 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.initialsComps) {
-                dbg("Initial   (component init predicate):        %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Initial   (component init predicate):        %s", bddToStr(pred, aut));
             }
-            dbg("Initial   (components init predicate):       %s", bddToStr(aut.initialComps, aut));
+            aut.settings.debugOutput.line("Initial   (components init predicate):       %s",
+                    bddToStr(aut.initialComps, aut));
         }
 
         // Debug initialization predicates of the locations of the automata.
@@ -419,9 +427,10 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.initialsLocs) {
-                dbg("Initial   (aut/locs init predicate):         %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Initial   (aut/locs init predicate):         %s", bddToStr(pred, aut));
             }
-            dbg("Initial   (auts/locs init predicate):        %s", bddToStr(aut.initialLocs, aut));
+            aut.settings.debugOutput.line("Initial   (auts/locs init predicate):        %s",
+                    bddToStr(aut.initialLocs, aut));
         }
 
         // Debug initialization predicate of the uncontrolled system.
@@ -429,7 +438,8 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (uncontrolled system):             %s", bddToStr(aut.initialUnctrl, aut));
+            aut.settings.debugOutput.line("Initial   (uncontrolled system):             %s",
+                    bddToStr(aut.initialUnctrl, aut));
         }
 
         // Debug combined initialization and state plant invariants of the system.
@@ -437,7 +447,8 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (system, combined init/plant inv): %s", bddToStr(aut.initialPlantInv, aut));
+            aut.settings.debugOutput.line("Initial   (system, combined init/plant inv): %s",
+                    bddToStr(aut.initialPlantInv, aut));
         }
 
         // Debug combined initialization and state invariants of the system.
@@ -445,7 +456,8 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (system, combined init/state inv): %s", bddToStr(aut.initialInv, aut));
+            aut.settings.debugOutput.line("Initial   (system, combined init/state inv): %s",
+                    bddToStr(aut.initialInv, aut));
         }
 
         // Warn if no initial state in uncontrolled system.
@@ -480,11 +492,12 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
+            aut.settings.debugOutput.line();
             for (BDD pred: aut.markedsComps) {
-                dbg("Marked    (component marker predicate):      %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Marked    (component marker predicate):      %s", bddToStr(pred, aut));
             }
-            dbg("Marked    (components marker predicate):     %s", bddToStr(aut.markedComps, aut));
+            aut.settings.debugOutput.line("Marked    (components marker predicate):     %s",
+                    bddToStr(aut.markedComps, aut));
         }
 
         // Debug marker predicates of the locations of the automata.
@@ -493,9 +506,10 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.markedsLocs) {
-                dbg("Marked    (aut/locs marker predicate):       %s", bddToStr(pred, aut));
+                aut.settings.debugOutput.line("Marked    (aut/locs marker predicate):       %s", bddToStr(pred, aut));
             }
-            dbg("Marked    (auts/locs marker predicate):      %s", bddToStr(aut.markedLocs, aut));
+            aut.settings.debugOutput.line("Marked    (auts/locs marker predicate):      %s",
+                    bddToStr(aut.markedLocs, aut));
         }
 
         // Debug marker predicate of the uncontrolled system.
@@ -503,7 +517,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (uncontrolled system):             %s", bddToStr(aut.marked, aut));
+            aut.settings.debugOutput.line("Marked    (uncontrolled system):             %s", bddToStr(aut.marked, aut));
         }
 
         // Debug combined marking and state plant invariants of the system.
@@ -511,7 +525,8 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined mark/plant inv): %s", bddToStr(aut.markedPlantInv, aut));
+            aut.settings.debugOutput.line("Marked    (system, combined mark/plant inv): %s",
+                    bddToStr(aut.markedPlantInv, aut));
         }
 
         // Debug combined marking and state invariants of the system.
@@ -519,7 +534,8 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined mark/state inv): %s", bddToStr(aut.markedInv, aut));
+            aut.settings.debugOutput.line("Marked    (system, combined mark/state inv): %s",
+                    bddToStr(aut.markedInv, aut));
         }
 
         // Warn if no marked state in uncontrolled system.
@@ -554,18 +570,18 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
-            dbg("State/event exclusion plants:");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("State/event exclusion plants:");
             if (aut.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                dbg("  None");
+                aut.settings.debugOutput.line("  None");
             }
             for (Entry<Event, List<BDD>> entry: aut.stateEvtExclPlantLists.entrySet()) {
                 if (entry.getValue().isEmpty()) {
                     continue;
                 }
-                dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
+                aut.settings.debugOutput.line("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
                 for (BDD pred: entry.getValue()) {
-                    dbg("    %s", bddToStr(pred, aut));
+                    aut.settings.debugOutput.line("    %s", bddToStr(pred, aut));
                 }
             }
         }
@@ -575,18 +591,18 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
-            dbg("State/event exclusion requirements:");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("State/event exclusion requirements:");
             if (aut.stateEvtExclReqLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                dbg("  None");
+                aut.settings.debugOutput.line("  None");
             }
             for (Entry<Event, List<BDD>> entry: aut.stateEvtExclReqLists.entrySet()) {
                 if (entry.getValue().isEmpty()) {
                     continue;
                 }
-                dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
+                aut.settings.debugOutput.line("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
                 for (BDD pred: entry.getValue()) {
-                    dbg("    %s", bddToStr(pred, aut));
+                    aut.settings.debugOutput.line("    %s", bddToStr(pred, aut));
                 }
             }
         }
@@ -596,13 +612,13 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg();
+            aut.settings.debugOutput.line();
             if (aut.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                dbg("Uncontrolled system:");
+                aut.settings.debugOutput.line("Uncontrolled system:");
             } else {
-                dbg("Uncontrolled system (state/event exclusion plants not applied yet):");
+                aut.settings.debugOutput.line("Uncontrolled system (state/event exclusion plants not applied yet):");
             }
-            dbg(aut.toString(1));
+            aut.settings.debugOutput.line(aut.toString(1));
         }
 
         // Free no longer needed predicates.
@@ -706,8 +722,8 @@ public class CifDataSynthesis {
         // Update guards to ensure that transitions not allowed by the state/event exclusion plant invariants, are
         // blocked.
         if (dbgEnabled) {
-            dbg();
-            dbg("Restricting behavior using state/event exclusion plants.");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Restricting behavior using state/event exclusion plants.");
         }
 
         boolean firstDbg = true;
@@ -735,10 +751,10 @@ public class CifDataSynthesis {
                 if (dbgEnabled) {
                     if (firstDbg) {
                         firstDbg = false;
-                        dbg();
+                        aut.settings.debugOutput.line();
                     }
-                    dbg("Edge %s: guard: %s -> %s [plant: %s].", edge.toString(0, ""), bddToStr(edge.guard, aut),
-                            bddToStr(newGuard, aut), bddToStr(plant, aut));
+                    aut.settings.debugOutput.line("Edge %s: guard: %s -> %s [plant: %s].", edge.toString(0, ""),
+                            bddToStr(edge.guard, aut), bddToStr(newGuard, aut), bddToStr(plant, aut));
                 }
                 edge.guard.free();
                 edge.guard = newGuard;
@@ -750,9 +766,9 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled && guardChanged) {
-            dbg();
-            dbg("Uncontrolled system:");
-            dbg(aut.toString(1, guardChanged));
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Uncontrolled system:");
+            aut.settings.debugOutput.line(aut.toString(1, guardChanged));
         }
     }
 
@@ -764,8 +780,8 @@ public class CifDataSynthesis {
      */
     private static void applyStatePlantInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
         if (dbgEnabled) {
-            dbg();
-            dbg("Restricting uncontrolled behavior using state plant invariants.");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Restricting uncontrolled behavior using state plant invariants.");
         }
 
         boolean guardUpdated = false;
@@ -818,10 +834,10 @@ public class CifDataSynthesis {
             } else {
                 if (dbgEnabled) {
                     if (!guardUpdated) {
-                        dbg();
+                        aut.settings.debugOutput.line();
                     }
-                    dbg("Edge %s: guard: %s -> %s.", edge.toString(0, ""), bddToStr(edge.guard, aut),
-                            bddToStr(newGuard, aut));
+                    aut.settings.debugOutput.line("Edge %s: guard: %s -> %s.", edge.toString(0, ""),
+                            bddToStr(edge.guard, aut), bddToStr(newGuard, aut));
                 }
                 edge.guard.free();
                 edge.guard = newGuard;
@@ -839,8 +855,8 @@ public class CifDataSynthesis {
     private static void applyStateReqInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Apply the state requirement invariants.
         if (dbgEnabled) {
-            dbg();
-            dbg("Restricting behavior using state requirements.");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Restricting behavior using state requirements.");
         }
 
         StateReqInvEnforceMode enforceMode = StateReqInvEnforceOption.getMode();
@@ -857,8 +873,8 @@ public class CifDataSynthesis {
                     newCtrlBeh.free();
                 } else {
                     if (dbgEnabled) {
-                        dbg("Controlled behavior: %s -> %s [state requirements: %s].", bddToStr(aut.ctrlBeh, aut),
-                                bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
+                        aut.settings.debugOutput.line("Controlled behavior: %s -> %s [state requirements: %s].",
+                                bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), bddToStr(aut.reqInv, aut));
                     }
                     aut.ctrlBeh.free();
                     aut.ctrlBeh = newCtrlBeh;
@@ -921,7 +937,7 @@ public class CifDataSynthesis {
                     newInitialCtrl.free();
                 } else {
                     if (dbgEnabled) {
-                        dbg("Controlled initialization: %s -> %s [state requirements: %s].",
+                        aut.settings.debugOutput.line("Controlled initialization: %s -> %s [state requirements: %s].",
                                 bddToStr(aut.initialCtrl, aut), bddToStr(newInitialCtrl, aut),
                                 bddToStr(aut.reqInv, aut));
                     }
@@ -964,8 +980,8 @@ public class CifDataSynthesis {
      */
     private static void applyVarRanges(SynthesisAutomaton aut, boolean dbgEnabled) {
         if (dbgEnabled) {
-            dbg();
-            dbg("Extending controlled-behavior predicate using variable ranges.");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Extending controlled-behavior predicate using variable ranges.");
         }
 
         boolean firstDbg = true;
@@ -994,10 +1010,11 @@ public class CifDataSynthesis {
                 if (dbgEnabled) {
                     if (firstDbg) {
                         firstDbg = false;
-                        dbg();
+                        aut.settings.debugOutput.line();
                     }
-                    dbg("Controlled behavior: %s -> %s [range: %s, variable: %s].", bddToStr(aut.ctrlBeh, aut),
-                            bddToStr(newCtrlBeh, aut), bddToStr(range, aut), var.toString(0, ""));
+                    aut.settings.debugOutput.line("Controlled behavior: %s -> %s [range: %s, variable: %s].",
+                            bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), bddToStr(range, aut),
+                            var.toString(0, ""));
                 }
                 range.free();
                 aut.ctrlBeh.free();
@@ -1010,8 +1027,9 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled && changed) {
-            dbg();
-            dbg("Extended controlled-behavior predicate using variable ranges: %s.", bddToStr(aut.ctrlBeh, aut));
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Extended controlled-behavior predicate using variable ranges: %s.",
+                    bddToStr(aut.ctrlBeh, aut));
         }
     }
 
@@ -1025,8 +1043,8 @@ public class CifDataSynthesis {
         // Update guards and controlled-behavior predicate, to ensure that transitions not allowed by the state/event
         // exclusion requirement invariants, are blocked.
         if (dbgEnabled) {
-            dbg();
-            dbg("Restricting behavior using state/event exclusion requirements.");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Restricting behavior using state/event exclusion requirements.");
         }
 
         // Apply state/event exclusion requirement invariants, per edge.
@@ -1091,11 +1109,11 @@ public class CifDataSynthesis {
                         if (dbgEnabled) {
                             if (firstDbg) {
                                 firstDbg = false;
-                                dbg();
+                                aut.settings.debugOutput.line();
                             }
-                            dbg("Edge %s: guard: %s -> %s [%s requirement: %s].", edge.toString(0, ""),
-                                    bddToStr(edge.guard, aut), bddToStr(newGuard, aut), dbgDescription,
-                                    bddToStr(req, aut));
+                            aut.settings.debugOutput.line("Edge %s: guard: %s -> %s [%s requirement: %s].",
+                                    edge.toString(0, ""), bddToStr(edge.guard, aut), bddToStr(newGuard, aut),
+                                    dbgDescription, bddToStr(req, aut));
                         }
                         edge.guard.free();
                         edge.guard = newGuard;
@@ -1127,9 +1145,10 @@ public class CifDataSynthesis {
                         if (dbgEnabled) {
                             if (firstDbg) {
                                 firstDbg = false;
-                                dbg();
+                                aut.settings.debugOutput.line();
                             }
-                            dbg("Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].",
+                            aut.settings.debugOutput.line(
+                                    "Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].",
                                     bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut), dbgDescription,
                                     bddToStr(req, aut), edge.toString(0, ""));
                         }
@@ -1150,9 +1169,9 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled && changed) {
-            dbg();
-            dbg("Restricted behavior using %s requirements:", dbgDescription);
-            dbg(aut.toString(1, guardChanged));
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Restricted behavior using %s requirements:", dbgDescription);
+            aut.settings.debugOutput.line(aut.toString(1, guardChanged));
         }
     }
 
@@ -1255,8 +1274,8 @@ public class CifDataSynthesis {
             int edgeCnt = aut.worksetDependenciesBackward.size();
             if (edgeCnt > 0) {
                 if (forwardEnabled) {
-                    dbg();
-                    dbg("Edge workset algorithm forward dependencies:");
+                    aut.settings.debugOutput.line();
+                    aut.settings.debugOutput.line("Edge workset algorithm forward dependencies:");
                     GridBox box = new GridBox(edgeCnt, 4, 0, 1);
                     for (int i = 0; i < edgeCnt; i++) {
                         BitSet bitset = aut.worksetDependenciesForward.get(i);
@@ -1266,12 +1285,12 @@ public class CifDataSynthesis {
                         box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
                     }
                     for (String line: box.getLines()) {
-                        dbg(line);
+                        aut.settings.debugOutput.line(line);
                     }
                 }
 
-                dbg();
-                dbg("Edge workset algorithm backward dependencies:");
+                aut.settings.debugOutput.line();
+                aut.settings.debugOutput.line("Edge workset algorithm backward dependencies:");
                 GridBox box = new GridBox(edgeCnt, 4, 0, 1);
                 for (int i = 0; i < edgeCnt; i++) {
                     BitSet bitset = aut.worksetDependenciesBackward.get(i);
@@ -1281,7 +1300,7 @@ public class CifDataSynthesis {
                     box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
                 }
                 for (String line: box.getLines()) {
-                    dbg(line);
+                    aut.settings.debugOutput.line(line);
                 }
             }
         }
@@ -1347,8 +1366,8 @@ public class CifDataSynthesis {
             }
 
             if (dbgEnabled) {
-                dbg();
-                dbg("Round %d: started.", round);
+                aut.settings.debugOutput.line();
+                aut.settings.debugOutput.line("Round %d: started.", round);
             }
 
             // Perform the fixed-point reachability computations of the round.
@@ -1463,7 +1482,8 @@ public class CifDataSynthesis {
                     stableCount++;
                 } else {
                     if (dbgEnabled) {
-                        dbg("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut), bddToStr(newCtrlBeh, aut));
+                        aut.settings.debugOutput.line("Controlled behavior: %s -> %s.", bddToStr(aut.ctrlBeh, aut),
+                                bddToStr(newCtrlBeh, aut));
                     }
                     aut.ctrlBeh.free();
                     aut.ctrlBeh = newCtrlBeh;
@@ -1478,8 +1498,8 @@ public class CifDataSynthesis {
                 ctrlStates.free();
                 if (noCtrlStates) {
                     if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, all states are bad.", round);
+                        aut.settings.debugOutput.line();
+                        aut.settings.debugOutput.line("Round %d: finished, all states are bad.", round);
                     }
                     break FIXED_POINT_LOOP;
                 }
@@ -1490,8 +1510,8 @@ public class CifDataSynthesis {
                 // 2) Check for controlled behavior being stable, after having performed all computations at least once.
                 if (stableCount == numberOfComputations) {
                     if (dbgEnabled) {
-                        dbg();
-                        dbg("Round %d: finished, controlled behavior is stable.", round);
+                        aut.settings.debugOutput.line();
+                        aut.settings.debugOutput.line("Round %d: finished, controlled behavior is stable.", round);
                     }
                     break FIXED_POINT_LOOP;
                 }
@@ -1505,8 +1525,8 @@ public class CifDataSynthesis {
                     init.free();
                     if (noInit) {
                         if (dbgEnabled) {
-                            dbg();
-                            dbg("Round %d: finished, no initialization possible.", round);
+                            aut.settings.debugOutput.line();
+                            aut.settings.debugOutput.line("Round %d: finished, no initialization possible.", round);
                         }
                         break FIXED_POINT_LOOP;
                     }
@@ -1518,8 +1538,8 @@ public class CifDataSynthesis {
 
             // Finished round.
             if (dbgEnabled) {
-                dbg();
-                dbg("Round %d: finished, need another round.", round);
+                aut.settings.debugOutput.line();
+                aut.settings.debugOutput.line("Round %d: finished, need another round.", round);
             }
         }
     }
@@ -1533,8 +1553,8 @@ public class CifDataSynthesis {
     private static void determineCtrlSysGuards(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Compute guards of edges with controllable events.
         if (dbgEnabled) {
-            dbg();
-            dbg("Computing controlled system guards.");
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Computing controlled system guards.");
         }
 
         boolean guardUpdated = false;
@@ -1565,10 +1585,10 @@ public class CifDataSynthesis {
             } else {
                 if (dbgEnabled) {
                     if (!guardUpdated) {
-                        dbg();
+                        aut.settings.debugOutput.line();
                     }
-                    dbg("Edge %s: guard: %s -> %s.", edge.toString(0, ""), bddToStr(edge.guard, aut),
-                            bddToStr(newGuard, aut));
+                    aut.settings.debugOutput.line("Edge %s: guard: %s -> %s.", edge.toString(0, ""),
+                            bddToStr(edge.guard, aut), bddToStr(newGuard, aut));
                 }
                 edge.guard.free();
                 edge.guard = newGuard;
@@ -1631,7 +1651,7 @@ public class CifDataSynthesis {
         // Print controlled system states statistics.
         boolean isExact = emptySup || doForward;
         if (dbgEnabled) {
-            dbg();
+            aut.settings.debugOutput.line();
         }
         aut.settings.normalOutput.line("Controlled system: %s %,.0f state%s.", (isExact ? "exactly" : "at most"), nr,
                 nr == 1 ? "" : "s");
@@ -1646,10 +1666,11 @@ public class CifDataSynthesis {
     private static void determineOutputInitial(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Print some debug output.
         if (dbgEnabled) {
-            dbg();
-            dbg("Initial (synthesis result):            %s", bddToStr(aut.ctrlBeh, aut));
-            dbg("Initial (uncontrolled system):         %s", bddToStr(aut.initialUnctrl, aut));
-            dbg("Initial (controlled system):           %s", bddToStr(aut.initialCtrl, aut));
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Initial (synthesis result):            %s", bddToStr(aut.ctrlBeh, aut));
+            aut.settings.debugOutput.line("Initial (uncontrolled system):         %s",
+                    bddToStr(aut.initialUnctrl, aut));
+            aut.settings.debugOutput.line("Initial (controlled system):           %s", bddToStr(aut.initialCtrl, aut));
         }
         if (aut.settings.shouldTerminate.get()) {
             return;
@@ -1669,8 +1690,8 @@ public class CifDataSynthesis {
         }
 
         if (dbgEnabled) {
-            dbg("Initial (removed by supervisor):       %s", bddToStr(initialRemoved, aut));
-            dbg("Initial (added by supervisor):         %s", bddToStr(initialAdded, aut));
+            aut.settings.debugOutput.line("Initial (removed by supervisor):       %s", bddToStr(initialRemoved, aut));
+            aut.settings.debugOutput.line("Initial (added by supervisor):         %s", bddToStr(initialAdded, aut));
         }
         if (aut.settings.shouldTerminate.get()) {
             return;
@@ -1724,11 +1745,11 @@ public class CifDataSynthesis {
                 }
 
                 if (dbgEnabled && !aut.initialOutput.equals(newInitial)) {
-                    dbg();
-                    dbg("Simplification of controlled system initialization predicate under the assumption of the %s:",
-                            assumptionsTxt);
-                    dbg("  Initial: %s -> %s [assume %s].", bddToStr(aut.initialOutput, aut), bddToStr(newInitial, aut),
-                            bddToStr(assumption, aut));
+                    aut.settings.debugOutput.line();
+                    aut.settings.debugOutput.line("Simplification of controlled system initialization predicate under "
+                            + "the assumption of the %s:", assumptionsTxt);
+                    aut.settings.debugOutput.line("  Initial: %s -> %s [assume %s].", bddToStr(aut.initialOutput, aut),
+                            bddToStr(newInitial, aut), bddToStr(assumption, aut));
                 }
                 aut.initialOutput.free();
                 aut.initialOutput = newInitial;
@@ -2142,11 +2163,13 @@ public class CifDataSynthesis {
             if (dbgEnabled && !guard.equals(newGuard)) {
                 if (!dbgPrinted) {
                     dbgPrinted = true;
-                    dbg();
-                    dbg("Simplification of controlled system under the assumption of the %s:", assumptionsTxt);
                 }
-                dbg("  Event %s: guard: %s -> %s [assume %s].", CifTextUtils.getAbsName(controllable),
-                        bddToStr(guard, aut), bddToStr(newGuard, aut), bddToStr(assumption, aut));
+                aut.settings.debugOutput.line();
+                aut.settings.debugOutput.line("Simplification of controlled system under the assumption of the %s:",
+                        assumptionsTxt);
+                aut.settings.debugOutput.line("  Event %s: guard: %s -> %s [assume %s].",
+                        CifTextUtils.getAbsName(controllable), bddToStr(guard, aut), bddToStr(newGuard, aut),
+                        bddToStr(assumption, aut));
             }
 
             // Free no longer needed predicates.

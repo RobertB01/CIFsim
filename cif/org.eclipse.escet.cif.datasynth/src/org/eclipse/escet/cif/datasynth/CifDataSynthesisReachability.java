@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.list2set;
@@ -135,9 +134,10 @@ public class CifDataSynthesisReachability {
     public BDD performReachability(BDD pred) {
         // Print debug output.
         if (dbgEnabled) {
-            dbg();
-            dbg("Round %d: computing %s predicate.", round, predName);
-            dbg("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName), bddToStr(pred, aut), initName);
+            aut.settings.debugOutput.line();
+            aut.settings.debugOutput.line("Round %d: computing %s predicate.", round, predName);
+            aut.settings.debugOutput.line("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName),
+                    bddToStr(pred, aut), initName);
         }
 
         // Initialization.
@@ -155,9 +155,9 @@ public class CifDataSynthesisReachability {
             } else {
                 if (dbgEnabled) {
                     Assert.notNull(restrictionName);
-                    dbg("%s: %s -> %s [restricted to %s predicate: %s]", Strings.makeInitialUppercase(predName),
-                            bddToStr(pred, aut), bddToStr(restrictedPred, aut), restrictionName,
-                            bddToStr(restriction, aut));
+                    aut.settings.debugOutput.line("%s: %s -> %s [restricted to %s predicate: %s]",
+                            Strings.makeInitialUppercase(predName), bddToStr(pred, aut), bddToStr(restrictedPred, aut),
+                            restrictionName, bddToStr(restriction, aut));
                 }
                 pred.free();
                 pred = restrictedPred;
@@ -207,7 +207,8 @@ public class CifDataSynthesisReachability {
             return null;
         }
         if (dbgEnabled && changed) {
-            dbg("%s: %s [fixed point].", Strings.makeInitialUppercase(predName), bddToStr(pred, aut));
+            aut.settings.debugOutput.line("%s: %s [fixed point].", Strings.makeInitialUppercase(predName),
+                    bddToStr(pred, aut));
         }
         return pred;
     }
@@ -270,9 +271,9 @@ public class CifDataSynthesisReachability {
                         Assert.notNull(restrictionName);
                         restrTxt = fmt(", restricted to %s predicate: %s", restrictionName, bddToStr(restriction, aut));
                     }
-                    dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
-                            bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
-                            edge.toString(0, ""), restrTxt);
+                    aut.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
+                            Strings.makeInitialUppercase(predName), bddToStr(pred, aut), bddToStr(newPred, aut),
+                            (forward ? "forward" : "backward"), edge.toString(0, ""), restrTxt);
                 }
 
                 // Update the administration.
@@ -320,7 +321,8 @@ public class CifDataSynthesisReachability {
             // Print iteration, for debugging.
             iter++;
             if (dbgEnabled) {
-                dbg("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"), iter);
+                aut.settings.debugOutput.line("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"),
+                        iter);
             }
 
             // Push through all edges.
@@ -357,9 +359,9 @@ public class CifDataSynthesisReachability {
                             restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
                                     bddToStr(restriction, aut));
                         }
-                        dbg("%s: %s -> %s [%s reach with edge: %s%s]", Strings.makeInitialUppercase(predName),
-                                bddToStr(pred, aut), bddToStr(newPred, aut), (forward ? "forward" : "backward"),
-                                edge.toString(0, ""), restrTxt);
+                        aut.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
+                                Strings.makeInitialUppercase(predName), bddToStr(pred, aut), bddToStr(newPred, aut),
+                                (forward ? "forward" : "backward"), edge.toString(0, ""), restrTxt);
                     }
 
                     // Update the administration.

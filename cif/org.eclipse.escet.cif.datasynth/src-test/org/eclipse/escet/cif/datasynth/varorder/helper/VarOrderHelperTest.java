@@ -43,6 +43,7 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -101,7 +102,7 @@ public class VarOrderHelperTest {
 
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 5, 2, 3}; // For each variable in 'variables', its new 0-based index.
-        VarOrderHelper helper = new VarOrderHelper(spec, variables);
+        VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput());
         List<SynthesisVariable> ordered = helper.reorderForNewIndices(newIndices);
 
         // Check the result. Invariant: ordered[newIndices[i]] == variables[i].
@@ -155,7 +156,7 @@ public class VarOrderHelperTest {
         List<SynthesisVariable> variables = list(a, b, c, d, e);
 
         // Create helper.
-        VarOrderHelper helper = new VarOrderHelper(spec, variables);
+        VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput());
 
         // Test hyper-edges: c/e (invariant), a/b (guard), b/a (guard), a/c (guard), c/d (update), c/d (update), c/d
         // (update), a/b/c/d (event c_e).

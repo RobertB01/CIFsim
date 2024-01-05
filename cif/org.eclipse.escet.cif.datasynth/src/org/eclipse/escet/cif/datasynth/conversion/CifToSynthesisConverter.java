@@ -26,7 +26,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.copy;
@@ -190,15 +189,12 @@ public class CifToSynthesisConverter {
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @param dbgEnabled Whether debug output is enabled.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    public SynthesisAutomaton convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory,
-            boolean dbgEnabled)
-    {
+    public SynthesisAutomaton convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting synthesis automaton, but only if no precondition
         // violations.
-        SynthesisAutomaton aut = convertSpec(spec, settings, factory, dbgEnabled);
+        SynthesisAutomaton aut = convertSpec(spec, settings, factory);
         if (problems.isEmpty()) {
             return aut;
         }
@@ -216,12 +212,9 @@ public class CifToSynthesisConverter {
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @param dbgEnabled Whether debug output is enabled.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    private SynthesisAutomaton convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory,
-            boolean dbgEnabled)
-    {
+    private SynthesisAutomaton convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Initialize synthesis automaton.
         SynthesisAutomaton synthAut = new SynthesisAutomaton(settings);
         synthAut.factory = factory;
@@ -401,7 +394,7 @@ public class CifToSynthesisConverter {
         }
 
         // Order variables and create domains.
-        orderVars(synthAut, spec, dbgEnabled);
+        orderVars(synthAut, spec);
         if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
@@ -665,9 +658,8 @@ public class CifToSynthesisConverter {
      *
      * @param synthAut The synthesis automaton.
      * @param spec The CIF specification.
-     * @param dbgEnabled Whether debug output is enabled.
      */
-    private void orderVars(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
+    private void orderVars(SynthesisAutomaton synthAut, Specification spec) {
         // Skip ordering, including option processing and debug output printing, if any variables failed to convert.
         if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
@@ -704,6 +696,7 @@ public class CifToSynthesisConverter {
         }
 
         // Print variable debugging information, before ordering.
+        boolean dbgEnabled = synthAut.settings.debugOutput.isEnabled();
         if (dbgEnabled) {
             debugCifVars(synthAut);
         }
@@ -711,16 +704,16 @@ public class CifToSynthesisConverter {
         // Only apply variable ordering if there are at least two variables (to order).
         if (synthAut.variables.length < 2) {
             if (dbgEnabled) {
-                dbg();
-                dbg("Skipping variable ordering: only one variable present.");
-                dbg();
+                synthAut.settings.debugOutput.line();
+                synthAut.settings.debugOutput.line("Skipping variable ordering: only one variable present.");
+                synthAut.settings.debugOutput.line();
             }
             return;
         }
 
         // Create variable order helper, based on model order.
         List<SynthesisVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder);
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, synthAut.settings.debugOutput);
 
         // Get current variable order, which is model order.
         VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);
@@ -731,8 +724,8 @@ public class CifToSynthesisConverter {
 
         // Get new variable order.
         if (dbgEnabled) {
-            dbg();
-            dbg("Applying variable ordering:");
+            synthAut.settings.debugOutput.line();
+            synthAut.settings.debugOutput.line("Applying variable ordering:");
         }
         VarOrdererData orderingResult = varOrderer.order(data, dbgEnabled, 1);
         VarOrder newOrder = orderingResult.varOrder;
@@ -758,12 +751,12 @@ public class CifToSynthesisConverter {
         // If the new order differs from the current order, print updated variable debugging information.
         if (dbgEnabled) {
             boolean orderChanged = !curOrder.equals(newOrder);
-            dbg();
-            dbg("Variable order %schanged.", orderChanged ? "" : "un");
+            synthAut.settings.debugOutput.line();
+            synthAut.settings.debugOutput.line("Variable order %schanged.", orderChanged ? "" : "un");
             if (orderChanged) {
                 debugCifVars(synthAut);
             }
-            dbg();
+            synthAut.settings.debugOutput.line();
         }
     }
 
@@ -846,10 +839,10 @@ public class CifToSynthesisConverter {
         }
 
         // Print the variable information, for debugging.
-        dbg();
-        dbg("CIF variables and location pointers:");
+        aut.settings.debugOutput.line();
+        aut.settings.debugOutput.line("CIF variables and location pointers:");
         for (String line: grid.getLines()) {
-            dbg("  " + line);
+            aut.settings.debugOutput.line("  " + line);
         }
     }
 

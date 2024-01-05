@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.datasynth;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -70,9 +69,10 @@ public class CifDataSynthesisTiming {
     /**
      * Prints the timing statistics to the console.
      *
+     * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      */
-    public void print(DebugNormalOutput normalOutput) {
+    public void print(DebugNormalOutput debugOutput, DebugNormalOutput normalOutput) {
         // Paranoia checking.
         Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
         Assert.check(stats.contains(SynthesisStatistics.TIMING));
@@ -162,7 +162,7 @@ public class CifDataSynthesisTiming {
         }
 
         // Separate from debug output. There is no other 'normal' output.
-        dbg();
+        debugOutput.line();
 
         // Print.
         for (String line: grid.getLines()) {

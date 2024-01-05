@@ -594,7 +594,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
                 new BlackHoleOutputProvider().getWarnOutput());
         BDDFactory factory = JFactory.init(100, 100);
-        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory, false);
+        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {
             edge.initApply(true);
         }

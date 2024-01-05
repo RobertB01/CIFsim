@@ -37,11 +37,11 @@ import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LinearizedHyperEdgeCr
 import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
 import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 /**
  * Helper for variable ordering. It provides:
@@ -65,6 +65,9 @@ public class VarOrderHelper {
      * between the synthesis variables.
      */
     private final List<SynthesisVariable> variables;
+
+    /** Callback for debug output. */
+    private final DebugNormalOutput debugOutput;
 
     /**
      * For each synthesis variable in the given {@link #variables variable order}, its 0-based index within that order.
@@ -114,11 +117,13 @@ public class VarOrderHelper {
      * @param spec The CIF specification.
      * @param variables The synthesis variables, in the order they are to be used to create the various representations
      *     of the relations between the synthesis variables.
+     * @param debugOutput Callback for debug output.
      */
-    public VarOrderHelper(Specification spec, List<SynthesisVariable> variables) {
+    public VarOrderHelper(Specification spec, List<SynthesisVariable> variables, DebugNormalOutput debugOutput) {
         // Store the arguments.
         this.spec = spec;
         this.variables = Collections.unmodifiableList(variables);
+        this.debugOutput = debugOutput;
 
         // Compute and store different representations of the relations from the specification.
         List<BitSet> legacyHyperEdges = createHyperEdges(new LegacyHyperEdgeCreator(spec, variables));
@@ -150,12 +155,13 @@ public class VarOrderHelper {
     /**
      * Constructor for the {@link VarOrderHelper} class.
      *
-     * @param helper The existing variable order helper from which to inherit the CIF specification.
+     * @param helper The existing variable order helper from which to inherit the CIF specification and callback for
+     *     debug output.
      * @param variables The synthesis variables, in the order they are to be used to create the various representations
      *     of the relations between the synthesis variables.
      */
     public VarOrderHelper(VarOrderHelper helper, List<SynthesisVariable> variables) {
-        this(helper.spec, variables);
+        this(helper.spec, variables, helper.debugOutput);
     }
 
     /**
@@ -236,13 +242,9 @@ public class VarOrderHelper {
         return graphs.get(relationsKind.ordinal());
     }
 
-    /**
-     * Print an empty line of debugging output.
-     *
-     * @see OutputProvider#dbg()
-     */
+    /** Print an empty line of debugging output. */
     public void dbg() {
-        OutputProvider.dbg();
+        debugOutput.line();
     }
 
     /**
@@ -251,10 +253,9 @@ public class VarOrderHelper {
      * @param dbgLevel The debug indentation level.
      * @param msg The debug output (pattern) to forward.
      * @param args The arguments of the debug output pattern.
-     * @see OutputProvider#dbg(String, Object...)
      */
     public void dbg(int dbgLevel, String msg, Object... args) {
-        OutputProvider.dbg(Strings.spaces(dbgLevel * 2) + msg, args);
+        debugOutput.line(Strings.spaces(dbgLevel * 2) + msg, args);
     }
 
     /**
