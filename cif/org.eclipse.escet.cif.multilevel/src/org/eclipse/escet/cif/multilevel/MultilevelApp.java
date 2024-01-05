@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -16,10 +16,10 @@ package org.eclipse.escet.cif.multilevel;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.err;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeFixedLengthNumberText;
 
@@ -47,6 +47,8 @@ import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
 import org.eclipse.escet.cif.multilevel.clustering.ComputeMultiLevelTree;
 import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
+import org.eclipse.escet.cif.multilevel.options.DmmOutputFileOption;
+import org.eclipse.escet.cif.multilevel.options.PartialSpecsOutputDirectoryOption;
 import org.eclipse.escet.cif.multilevel.subplant.PartialSpecsBuilder;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -55,7 +57,6 @@ import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
-import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.dsm.ClusterInput;
@@ -160,9 +161,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
             return 0;
         }
 
-        if (WriteDMMsOption.writeDmms()) {
-            String outPath = OutputFileOption.getDerivedPath(".cif", ".dmms.txt");
-            cifRelations.writeDmms(InputFileOption.getPath(), outPath);
+        if (DmmOutputFileOption.getDmmOutputFilePath() != null) {
+            cifRelations.writeDmms(InputFileOption.getPath(), DmmOutputFileOption.getDmmOutputFilePath());
         }
         Dmm reqsPlantsDmm = cifRelations.relations; // Requirement-group rows against plant-groups columns.
         if (dodbg()) {
@@ -230,14 +230,47 @@ public class MultilevelApp extends Application<IOutputComponent> {
             out();
         }
 
-        // If there are no results, warn the user about it, and avoid creating a directory for them.
-        if (linearizedTree.isEmpty()) {
-            err("No partial specifications were created.");
-            return 0;
+        // Construct the partial specifications. The partial builder is re-used for each partial
+        // specification.
+        List<Specification> partialSpecs = listc(linearizedTree.size());
+
+        PartialSpecsBuilder partialBuilder = new PartialSpecsBuilder(spec);
+        for (TreeNode node: linearizedTree) {
+            // Find the objects that should be in the partial specification of this node.
+            List<PositionObject> neededObjects = list();
+            for (int plantGrp: new BitSetIterator(node.plantGroups)) {
+                neededObjects.addAll(cifRelations.getPlantsOfGroup(plantGrp));
+            }
+            for (int reqGrp: new BitSetIterator(node.requirementGroups)) {
+                neededObjects.addAll(cifRelations.getRequirementsOfGroup(reqGrp));
+            }
+
+            // Construct the specification.
+            Specification partialSpec = partialBuilder.createPartialSpecification(neededObjects);
+            partialSpecs.add(partialSpec);
         }
 
+        // Optionally write the partial specifications.
+        String partialSpecsDir = PartialSpecsOutputDirectoryOption.getPath();
+        if (partialSpecsDir != null) {
+            String absCifDir = cifReader.getAbsDirPath();
+            writePartialSpecs(partialSpecsDir, partialSpecs, absCifDir);
+        }
+
+        // TODO Implement.
+        OutputProvider.warn("Multi-level synthesis not yet implemented.");
+        return 0;
+    }
+
+    /**
+     * Write the partial specifications to the provided directory.
+     *
+     * @param partialSpecsDir Directory to use for writing the partial specifications.
+     * @param partialSpecs Created partial specifications.
+     * @param absCifDir Absolute directory path containing the input CIF file.
+     */
+    private void writePartialSpecs(String partialSpecsDir, List<Specification> partialSpecs, String absCifDir) {
         // Get directory for storing the partial specifications.
-        String partialSpecsDir = OutputFileOption.getDerivedPath(".cif", "_partial_specs");
         Path absDirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
 
         // In case the directory already exists, delete existing "spec_NNN.cif" entries.
@@ -270,33 +303,16 @@ public class MultilevelApp extends Application<IOutputComponent> {
             throw new InputOutputException(msg, ex);
         }
 
-        // Construct and write the partial specifications. The partial builder is re-used for each partial
-        // specification.
-        PartialSpecsBuilder partialBuilder = new PartialSpecsBuilder(spec);
-        for (TreeNode node: linearizedTree) {
-            // Find the objects that should be in the partial specification of this node.
-            List<PositionObject> neededObjects = list();
-            for (int plantGrp: new BitSetIterator(node.plantGroups)) {
-                neededObjects.addAll(cifRelations.getPlantsOfGroup(plantGrp));
-            }
-            for (int reqGrp: new BitSetIterator(node.requirementGroups)) {
-                neededObjects.addAll(cifRelations.getRequirementsOfGroup(reqGrp));
-            }
-
-            // Construct the specification.
-            Specification partialSpec = partialBuilder.createPartialSpecification(neededObjects);
-
-            // And write the output file.
+        // And write the output files.
+        int specNumber = 1;
+        for (Specification partialSpec: partialSpecs) {
             String outPath = Paths.join(Paths.resolve(partialSpecsDir),
-                    "spec_" + makeFixedLengthNumberText(node.index + 1, linearizedTree.size() + 1) + ".cif");
-            CifWriter.writeCifSpec(partialSpec, outPath, cifReader.getAbsDirPath());
+                    "spec_" + makeFixedLengthNumberText(specNumber, partialSpecs.size()) + ".cif");
+            CifWriter.writeCifSpec(partialSpec, outPath, absCifDir);
+            specNumber++;
         }
-        out("Wrote %d partial specification%s to directory \"%s\".", linearizedTree.size(),
-                (linearizedTree.size() == 1) ? "" : "s", partialSpecsDir);
-
-        // TODO Implement.
-        OutputProvider.warn("Multi-level synthesis not yet implemented.");
-        return 0;
+        out("Wrote %d partial specification%s to directory \"%s\".", partialSpecs.size(),
+                (partialSpecs.size() == 1) ? "" : "s", partialSpecsDir);
     }
 
     @Override
@@ -315,7 +331,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
         OptionCategory generalCat = getGeneralOptionCategory();
 
         List<Option> programOpts = List.of(Options.getInstance(InputFileOption.class),
-                Options.getInstance(OutputFileOption.class), Options.getInstance(WriteDMMsOption.class));
+                Options.getInstance(DmmOutputFileOption.class),
+                Options.getInstance(PartialSpecsOutputDirectoryOption.class));
         OptionCategory programCat = new OptionCategory("Multi-level synthesis", "Multi-level synthesis options.",
                 List.of(), programOpts);
 
