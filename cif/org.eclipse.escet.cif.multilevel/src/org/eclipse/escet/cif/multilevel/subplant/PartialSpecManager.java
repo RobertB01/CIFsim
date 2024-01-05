@@ -211,23 +211,28 @@ public class PartialSpecManager {
 
     /**
      * Ensure the given original complex component exists in the partial specification and is connected to the partial
-     * specification object. Already copied complex components are kept as-is, newly created complex component are
-     * always created as {@link Group}.
+     * specification object.
      *
-     * @param origComponent The original complex component to ensure is or becomes available.
+     * <p>
+     * Already copied complex components are kept as-is, newly created complex component are always created as
+     * {@link Group}.
+     * </p>
+     *
+     * @param origComponent The original complex component to ensure is or becomes available as partial object.
      * @return The partial complex component associated with the given original complex component.
      */
-    public ComplexComponent ensureComponent(ComplexComponent origComponent) {
-        // If a copied object exists for the 'origComponent', ensuring existence is trivial. This includes the partial
-        // specification object, which means the recursion here will terminate.
+    private ComplexComponent ensureComponent(ComplexComponent origComponent) {
+        // If a copied object exists for the 'origComponent', ensuring existence is trivial. This case includes
+        // the partial specification object, which means the recursion here will terminate.
         ComplexComponent availablePartialComponent = (ComplexComponent)copiedObjects.get(origComponent);
         if (availablePartialComponent != null) {
             return availablePartialComponent;
         }
 
-        // 'origComponent' has no associated partial component and is thus not a specification since that has been added
-        // to the 'copiedObjects' before. It thus must have a currently unavailable partial parent component. The
-        // original parent must therefore be a group. Casting the result of the recursive parent query is thus safe.
+        // 'origComponent' has no associated partial component and is thus not a specification since that has been
+        // added to the 'copiedObjects' before. It must thus be a group or an automaton. The EMF containing parent
+        // object is thus not 'null'. In addition, that parent object is not a automaton. The cast to 'Group' is thus
+        // safe.
         Group origParent = (Group)origComponent.eContainer();
         Group partialParent = (Group)ensureComponent(origParent);
 
