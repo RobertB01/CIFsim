@@ -230,6 +230,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
             out();
         }
 
+        // If there are no results, warn the user about it, and avoid creating a directory for them.
         if (linearizedTree.isEmpty()) {
             err("No partial specifications were created.");
             return 0;
