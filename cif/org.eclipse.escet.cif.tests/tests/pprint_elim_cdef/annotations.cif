@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -82,5 +82,14 @@ automaton a2:
 
   @a(b = 1)
   location loc2:
+    initial;
+end
+
+automaton a3:
+  @a(b = 1)
+  disc int x = 1, y = 2;
+  invariant x > 0 and y > 0;
+
+  location:
     initial;
 end

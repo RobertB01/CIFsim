@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -657,6 +657,10 @@ public final class CifPrettyPrinter {
      * @param var The discrete variable. Must not be a local variable of a function or a function parameter.
      */
     public void add(DiscVariable var) {
+        // Add annotations.
+        add(var.getAnnotations());
+
+        // Add declaration.
         StringBuilder txt = new StringBuilder();
         txt.append("disc ");
         txt.append(pprint(var.getType()));

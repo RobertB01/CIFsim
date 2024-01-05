@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -36,7 +36,7 @@ Annotations have two main purposes:
 * Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
 * Annotations allow to test out language extensions before fully integrating them into the language.
 
-Currently, annotations are only supported for input variables and locations of automata, but this will be extended to other elements of specifications in the future.
+Currently, annotations are only supported for discrete variables, input variables and locations of automata, but this will be extended to other elements of specifications in the future.
 
 The following built-in annotations are bundled with CIF:
 
@@ -64,7 +64,7 @@ indexterm:[doc, annotation]
 [[lang-tut-extensions-chapter-annotations-documentation]]
 === Documentation annotations
 
-Documentation can be added to input variables and locations of automata:
+Documentation can be added to discrete variables, input variables and locations of automata:
 
 [source, cif]
 ----

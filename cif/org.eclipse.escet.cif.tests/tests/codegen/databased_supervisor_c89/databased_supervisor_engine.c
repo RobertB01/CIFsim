@@ -262,10 +262,18 @@ BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {
 
 
 /* State variables. */
-databased_supervisorEnum Button_; /**< Discrete variable "E Button". */
-databased_supervisorEnum Cycle_;  /**< Discrete variable "E Cycle". */
-databased_supervisorEnum Lamp_;   /**< Discrete variable "E Lamp". */
-databased_supervisorEnum Timer_;  /**< Discrete variable "E Timer". */
+
+/** Discrete variable "E Button". */
+databased_supervisorEnum Button_;
+
+/** Discrete variable "E Cycle". */
+databased_supervisorEnum Cycle_;
+
+/** Discrete variable "E Lamp". */
+databased_supervisorEnum Lamp_;
+
+/** Discrete variable "E Timer". */
+databased_supervisorEnum Timer_;
 
 /* Derivative and algebraic variable functions. */
 

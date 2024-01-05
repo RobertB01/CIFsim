@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+%% Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 %%
 %% See the NOTICE file(s) distributed with this work for additional
 %% information regarding copyright ownership.
@@ -3596,7 +3596,9 @@ The cases of the switch. They are processed in order.
   At most one of the `cases' may be an `else'. If it is present, it must be the
   last of the `cases'.
 \citem{SwitchExpression.elseMandatory}
-  If the `value' does not refer to an automaton, an `else' case is mandatory.
+  If the `value' does not refer to an automaton, and it can not be statically
+  determined whether the switch expression is complete without an `else' case,
+  an `else' case is mandatory.
 \end{constraints}
 }
 
@@ -4628,6 +4630,7 @@ The annotations of the annotated object.
 \citem{AnnotatedObject.onlyForSupportedObjects}
   Currently only the following objects support annotations:
   \begin{itemize}
+    \item Discrete variables. But not parameters and local variables of internal user-defined functions.
     \item Input variables.
     \item Locations of automata.
   \end{itemize}

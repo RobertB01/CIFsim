@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -352,7 +352,7 @@ Due to this restriction, constants that have a type of which the values can not 
 
 As mentioned in the <<tools-mergecif-shared>> section, an input variable can be merged with another input variable, discrete variable, continuous variable, algebraic variable, constant, or location.
 Input variables can only be merged with other objects that have the exact same type.
-When an input variable is merged with anything but a location or another input variable, the annotations of the input variable are discarded.
+When an input variable is merged with anything but a discrete variable, location, or another input variable, the annotations of the input variable are discarded.
 
 A location can be merged with an input variable that has a boolean type.
 The input variable is then a placeholder for the location, indicating whether the location is the current location of its automaton.

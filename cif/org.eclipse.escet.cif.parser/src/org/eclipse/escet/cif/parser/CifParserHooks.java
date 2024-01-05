@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -554,9 +554,9 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new AMonitorDecl(list(), t1.position);
     }
 
-    @Override // AutDecl : @DISCKW Type DiscDecls SEMICOLTK;
-    public ADecl parseAutDecl6(Token t1, ACifType a2, List<ADiscVariable> l3) {
-        return new ADiscVariableDecl(a2, l3, t1.position);
+    @Override // AutDecl : OptAnnos @DISCKW Type DiscDecls SEMICOLTK;
+    public ADecl parseAutDecl6(List<AAnnotation> l1, Token t2, ACifType a3, List<ADiscVariable> l4) {
+        return new ADiscVariableDecl(l1, a3, l4, t2.position);
     }
 
     @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
@@ -742,7 +742,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // FuncVarDecls : FuncVarDecls Type FuncVarDecl SEMICOLTK;
     public List<ADiscVariableDecl> parseFuncVarDecls2(List<ADiscVariableDecl> l1, ACifType a2, List<ADiscVariable> l3) {
-        l1.add(new ADiscVariableDecl(a2, l3, null));
+        l1.add(new ADiscVariableDecl(listc(0), a2, l3, null));
         return l1;
     }
 

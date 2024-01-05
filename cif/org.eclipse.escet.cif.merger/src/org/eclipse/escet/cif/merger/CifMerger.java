@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -299,6 +299,9 @@ public class CifMerger {
         varRef.setVariable(discVar);
         varRef.setType(deepclone(discType));
         refExprReplacements.put(inputVar, varRef);
+
+        // Move annotations.
+        discVar.getAnnotations().addAll(inputVar.getAnnotations());
 
         // Return merged discrete variable.
         return discVar;

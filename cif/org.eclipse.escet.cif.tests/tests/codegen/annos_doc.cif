@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -27,6 +27,22 @@ input bool i4;
 input bool i5;
 
 automaton a:
+    disc bool i1;
+
+    @doc($text = "single line doc")
+    disc bool i2;
+
+    @doc($text = "doc with multiple\nlines " + "of\n text")
+    disc bool i3;
+
+    @doc($text = fmt("%s", "some doc"))
+    disc bool i4;
+
+    @doc($text = "First doc.")
+    @doc($text = "Second doc.")
+    disc bool i5;
+
   location:
     initial;
+    edge when i1 or i2 or i3 or i4 or i5;
 end

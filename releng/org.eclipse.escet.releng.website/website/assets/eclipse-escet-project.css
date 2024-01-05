@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,4 +19,5 @@
   --escet-color-light40-rgb: 255,218,109; /* RGB -> HSV -> 57% of S -> RGB */
   --escet-color-dark20-rgb:  204,154,6;   /* RGB -> HSV -> 80% of V -> RGB */
   --escet-color-dark40-rgb:  153,115,4;   /* RGB -> HSV -> 60% of V -> RGB */
+  --escet-color-link-rgb:    var(--escet-color-dark20-rgb);
 }

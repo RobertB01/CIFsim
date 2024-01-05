@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -14,14 +14,17 @@
 // Including common attributes to set for all documents within this directory.
 include::_root_attributes.asciidoc[]
 
-// Enable custom style in *-docinfo*.html.
+// Enable inclusion of custom content from '*-docinfo*.html' files.
 :docinfo: private
+
+// Enable custom stylesheet.
+:stylesheet: asciidoctor-escet-cif.css
 
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
 = CIF documentation
-:author: Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+:author: Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 :favicon: favicon.png
 
 CIF is a declarative modeling language for the specification of discrete event, timed, and hybrid systems as a collection of synchronizing automata.
@@ -327,19 +330,35 @@ include::language-reference/index.asciidoc[]
 
 :leveloffset: +1
 
+== Syntax
+
+:leveloffset: +1
+
 include::language-reference/syntax/lexical.asciidoc[]
 
 include::language-reference/syntax/grammar.asciidoc[]
 
 include::language-reference/syntax/xml.asciidoc[]
 
+:leveloffset: -1
+
+== Annotations
+
+:leveloffset: +1
+
 include::language-reference/annotations/index.asciidoc[]
 
 include::language-reference/annotations/builtin.asciidoc[]
 
+:leveloffset: +1
+
 include::language-reference/annotations/documentation.asciidoc[]
 
 include::language-reference/annotations/state.asciidoc[]
+
+:leveloffset: -1
+
+:leveloffset: -1
 
 :leveloffset: -1
 

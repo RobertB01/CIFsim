@@ -78,6 +78,40 @@ extern void annos_doc_AssignInputVariables();
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
 
+/** Discrete variable "bool a.i1". */
+extern BoolType a_i1_;
+
+/**
+ * Discrete variable "bool a.i2".
+ *
+ * single line doc
+ */
+extern BoolType a_i2_;
+
+/**
+ * Discrete variable "bool a.i3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern BoolType a_i3_;
+
+/**
+ * Discrete variable "bool a.i4".
+ *
+ * some doc
+ */
+extern BoolType a_i4_;
+
+/**
+ * Discrete variable "bool a.i5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern BoolType a_i5_;
 
 /* Algebraic and derivative functions (use for output only). */
 

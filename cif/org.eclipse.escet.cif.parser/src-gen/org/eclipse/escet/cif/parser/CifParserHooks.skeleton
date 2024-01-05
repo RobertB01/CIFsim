@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -451,8 +451,8 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // AutDecl : @DISCKW Type DiscDecls SEMICOLTK;
-    public ADecl parseAutDecl6(Token t1, ACifType a2, List<ADiscVariable> l3) {
+    @Override // AutDecl : OptAnnos @DISCKW Type DiscDecls SEMICOLTK;
+    public ADecl parseAutDecl6(List<AAnnotation> l1, Token t2, ACifType a3, List<ADiscVariable> l4) {
         // return null;
     }
 

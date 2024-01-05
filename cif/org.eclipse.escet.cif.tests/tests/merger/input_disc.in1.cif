@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -20,4 +20,11 @@ group a:
   input t3 inp3;
 
   plant invariant inp1 + inp2 + inp3 > 0;
+end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  input bool x;
+  invariant x;
 end

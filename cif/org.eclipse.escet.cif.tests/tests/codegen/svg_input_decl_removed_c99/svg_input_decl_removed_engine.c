@@ -56,7 +56,9 @@ const char *enum_names[] = {
 BoolType x_;
 
 /* State variables. */
-svg_input_decl_removedEnum p_; /**< Discrete variable "E p". */
+
+/** Discrete variable "E p". */
+svg_input_decl_removedEnum p_;
 
 RealType model_time; /**< Current model time. */
 

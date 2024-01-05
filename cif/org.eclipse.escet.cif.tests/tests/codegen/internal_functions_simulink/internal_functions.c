@@ -1437,27 +1437,68 @@ static int EnumTypePrint(internal_functionsEnum value, char *dest, int start, in
 struct WorkStruct {
 
 
-    int_T aut_v00_;   /**< Discrete variable "int aut.v00". */
-    int_T aut_v01_;   /**< Discrete variable "int aut.v01". */
-    int_T aut_v02_;   /**< Discrete variable "int aut.v02". */
-    int_T aut_v03_;   /**< Discrete variable "int aut.v03". */
-    int_T aut_v04_;   /**< Discrete variable "int aut.v04". */
-    int_T aut_v05_;   /**< Discrete variable "int aut.v05". */
-    int_T aut_v06_;   /**< Discrete variable "int aut.v06". */
-    int_T aut_v07_;   /**< Discrete variable "int aut.v07". */
-    int_T aut_v08_;   /**< Discrete variable "int aut.v08". */
-    real_T aut_v09_;  /**< Discrete variable "real aut.v09". */
-    int_T aut_v10_;   /**< Discrete variable "int aut.v10". */
-    A4IType aut_v11_; /**< Discrete variable "list[4] int aut.v11". */
-    A4IType aut_v12_; /**< Discrete variable "list[4] int aut.v12". */
-    int_T aut_v13_;   /**< Discrete variable "int aut.v13". */
-    int_T aut_v14_;   /**< Discrete variable "int aut.v14". */
-    int_T aut_v15_;   /**< Discrete variable "int aut.v15". */
-    int_T aut_v16_;   /**< Discrete variable "int aut.v16". */
-    int_T aut_v17_;   /**< Discrete variable "int aut.v17". */
-    int_T aut_v18_;   /**< Discrete variable "int aut.v18". */
-    int_T aut_v19_;   /**< Discrete variable "int aut.v19". */
-    int_T aut_combi_; /**< Discrete variable "int aut.combi". */
+    /** Discrete variable "int aut.v00". */
+    int_T aut_v00_;
+
+    /** Discrete variable "int aut.v01". */
+    int_T aut_v01_;
+
+    /** Discrete variable "int aut.v02". */
+    int_T aut_v02_;
+
+    /** Discrete variable "int aut.v03". */
+    int_T aut_v03_;
+
+    /** Discrete variable "int aut.v04". */
+    int_T aut_v04_;
+
+    /** Discrete variable "int aut.v05". */
+    int_T aut_v05_;
+
+    /** Discrete variable "int aut.v06". */
+    int_T aut_v06_;
+
+    /** Discrete variable "int aut.v07". */
+    int_T aut_v07_;
+
+    /** Discrete variable "int aut.v08". */
+    int_T aut_v08_;
+
+    /** Discrete variable "real aut.v09". */
+    real_T aut_v09_;
+
+    /** Discrete variable "int aut.v10". */
+    int_T aut_v10_;
+
+    /** Discrete variable "list[4] int aut.v11". */
+    A4IType aut_v11_;
+
+    /** Discrete variable "list[4] int aut.v12". */
+    A4IType aut_v12_;
+
+    /** Discrete variable "int aut.v13". */
+    int_T aut_v13_;
+
+    /** Discrete variable "int aut.v14". */
+    int_T aut_v14_;
+
+    /** Discrete variable "int aut.v15". */
+    int_T aut_v15_;
+
+    /** Discrete variable "int aut.v16". */
+    int_T aut_v16_;
+
+    /** Discrete variable "int aut.v17". */
+    int_T aut_v17_;
+
+    /** Discrete variable "int aut.v18". */
+    int_T aut_v18_;
+
+    /** Discrete variable "int aut.v19". */
+    int_T aut_v19_;
+
+    /** Discrete variable "int aut.combi". */
+    int_T aut_combi_;
 
 
 };

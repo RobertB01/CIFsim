@@ -21,4 +21,8 @@ i5 5
 
 Outputs
 -------
-No variables are available here.
+a.i1 1
+a.i2 2
+a.i3 3
+a.i4 4
+a.i5 5

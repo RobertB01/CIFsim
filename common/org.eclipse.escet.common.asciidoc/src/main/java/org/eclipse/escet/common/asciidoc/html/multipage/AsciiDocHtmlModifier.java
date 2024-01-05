@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -129,9 +129,9 @@ class AsciiDocHtmlModifier {
                     normalizeContentHeaders(page.doc);
                 }
 
-                // Highlight current page in TOC. This must be done before updating TOC entry links.
+                // Mark current page and its ancestors in TOC. This must be done before updating TOC entry links.
                 if (htmlType == HtmlType.WEBSITE) {
-                    highlightCurrentPageInToc(page, htmlPages);
+                    markCurrentPageTrailInToc(page, htmlPages);
                 }
 
                 // Renamed defined section ids.
@@ -146,6 +146,11 @@ class AsciiDocHtmlModifier {
                 // Add home page (root AsciiDoc file) to TOC.
                 if (htmlType == HtmlType.WEBSITE) {
                     addHomePageToToc(page, htmlPages.homePage);
+                }
+
+                // Add TOC interactivity (collapse/expand functionality).
+                if (htmlType == HtmlType.WEBSITE) {
+                    addTocInteractivity(page.doc);
                 }
 
                 // Add breadcrumbs. Not added for Eclipse help, as Eclipse help already has breadcrumbs built-in. Not
@@ -537,20 +542,31 @@ class AsciiDocHtmlModifier {
     }
 
     /**
-     * Highlight current page in TOC.
+     * Mark current page and its ancestors in TOC.
      *
      * @param page The multi-page HTML page to modify in-place.
      * @param htmlPages The multi-page HTML pages.
      */
-    private static void highlightCurrentPageInToc(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages) {
-        // Add extra class to current page in TOC.
+    private static void markCurrentPageTrailInToc(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages) {
+        // Add extra classes to current page and its ancestors in TOC.
         String curPageHref = "#" + page.sourceFile.sourceId; // Section id renaming has not yet been applied.
         List<Element> tocLinkElems = page.doc.select("#toc a");
         int tocLinkCurPageCount = 0;
         for (Element tocLinkElem: tocLinkElems) {
             if (curPageHref.equals(tocLinkElem.attr("href"))) {
-                tocLinkElem.addClass("toc-cur-page");
                 tocLinkCurPageCount++;
+                boolean first = true;
+                while (tocLinkElem != null && !tocLinkElem.id().equals("toc")) {
+                    if (tocLinkElem.tagName().toLowerCase(Locale.US).equals("li")) {
+                        if (first) {
+                            tocLinkElem.addClass("toc-cur-page");
+                            first = false;
+                        } else {
+                            tocLinkElem.addClass("toc-cur-page-ancestor");
+                        }
+                    }
+                    tocLinkElem = tocLinkElem.parent();
+                }
             }
         }
 
@@ -727,6 +743,47 @@ class AsciiDocHtmlModifier {
             elemTocHomeA.addClass("toc-cur-page");
         }
         elemTocHomeA.appendText(homePage.sourceFile.title);
+    }
+
+    /**
+     * Add TOC interactivity (collapse/expand functionality).
+     *
+     * @param doc The HTML document to modify in-place.
+     */
+    private static void addTocInteractivity(Document doc) {
+        // Add JavaScript to page header.
+        Element headElem = single(doc.select("html > head"));
+        Element scriptElem = doc.createElement("script");
+        headElem.appendChild(scriptElem);
+        scriptElem.attr("type", "text/javascript");
+        scriptElem.text("""
+                function tocToggle(elem) {
+                    elem.parentElement.classList.toggle('expanded');
+                }
+                """);
+
+        // Update TOC items.
+        for (Element tocItemElem: doc.select("#toc li")) {
+            // Add classes to TOC item.
+            tocItemElem.addClass("toc-item");
+            boolean isParent = !tocItemElem.getElementsByTag("ul").isEmpty();
+            if (isParent) {
+                tocItemElem.addClass("toc-item-parent");
+            }
+
+            // Add marker to TOC item.
+            Element child = doc.createElement("div");
+            child.addClass("toc-item-marker");
+            if (isParent) {
+                child.attr("onclick", "tocToggle(this); return false;");
+            }
+            tocItemElem.prependChild(child);
+
+            // Expand trail upto and including the current TOC item (current page).
+            if (tocItemElem.hasClass("toc-cur-page") || tocItemElem.hasClass("toc-cur-page-ancestor")) {
+                tocItemElem.addClass("expanded");
+            }
+        }
     }
 
     /**

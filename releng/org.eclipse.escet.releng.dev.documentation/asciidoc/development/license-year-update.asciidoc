@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -22,6 +22,7 @@ Therefore, at the beginning of each new year, the license headers need to be upd
 
 To update the license year:
 
+* Update the desired license-header regular expression in `org.eclipse.escet.root/misc/license-header/license-header-check.bash`.
 * Change the year in the source file headers, where `xxxx` is the previous year, `yyyy` is the new year, and `zzzz` the year after that:
 ** In Eclipse, select menu:Search[Search...].
 ** For _Containg text_ enter: `([0-9]\{4\}), xxxx Contributors to the Eclipse Foundation`.
@@ -29,8 +30,9 @@ To update the license year:
 ** For _File name patterns_ enter `*`.
 ** For _Scope_ select _Workspace_.
 ** Click btn:[Replace...] and wait for the _Replace Text Matches_ window to appear.
-** For _With_ enter: `($1), yyyy Contributors to the Eclipse Foundation`.
+** For _With_ enter: `$1, yyyy Contributors to the Eclipse Foundation`.
 ** Click btn:[OK].
+** If problems are found, review them and click btn:[Continue].
 ** Again select menu:Search[Search...].
 ** For _Containg text_ enter: `xxxx Contributors to the Eclipse Foundation`.
 ** Click btn:[Replace...] and wait for the _Replace Text Matches_ window to appear.
@@ -38,7 +40,6 @@ To update the license year:
 ** Commit the changes of the automatic regular expression replacements, to more easily see the subsequent changes.
 ** Update the header of `org.eclipse.escet.setext.tests/test_models/models_invalid/char_cls_empty.setext` manually.
 * Check if anything was missed by searching for the previous year (menu:Search[Search...]).
-* Update the desired license-header regular expression in `org.eclipse.escet.root/misc/license-header/license-header-check.bash`.
 * Run `license-header-check.bash` and fix the violations if there are any.
 * Commit the remaining changes.
 * Create a license update issue for next year:

@@ -47,7 +47,9 @@ extern void svg_input_decl_removed_AssignInputVariables();
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern svg_input_decl_removedEnum p_; /**< Discrete variable "E p". */
+
+/** Discrete variable "E p". */
+extern svg_input_decl_removedEnum p_;
 
 /* Algebraic and derivative functions (use for output only). */
 
