@@ -18,7 +18,6 @@ import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrde
 import static org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -340,7 +339,8 @@ public class CifDataSynthesis {
             return;
         }
         if (aut.plantInv.isZero()) {
-            warn("The uncontrolled system has no states (taking into account only the state plant invariants).");
+            aut.settings.warnOutput.line(
+                    "The uncontrolled system has no states (taking into account only the state plant invariants).");
         }
 
         // Debug state requirement invariants (predicates) of the components.
@@ -379,7 +379,8 @@ public class CifDataSynthesis {
             return;
         }
         if (aut.reqInv.isZero()) {
-            warn("The controlled system has no states (taking into account only the state requirement invariants).");
+            aut.settings.warnOutput.line(
+                    "The controlled system has no states (taking into account only the state requirement invariants).");
         }
 
         // Debug initialization predicates of the discrete variables.
@@ -453,15 +454,16 @@ public class CifDataSynthesis {
             return;
         }
         if (aut.initialUnctrl.isZero()) {
-            warn("The uncontrolled system has no initial state (taking into account only initialization).");
+            aut.settings.warnOutput
+                    .line("The uncontrolled system has no initial state (taking into account only initialization).");
         }
 
         if (aut.settings.shouldTerminate.get()) {
             return;
         }
         if (!aut.initialUnctrl.isZero() && !aut.plantInv.isZero() && aut.initialPlantInv.isZero()) {
-            warn("The uncontrolled system has no initial state (taking into account only initialization and state "
-                    + "plant invariants).");
+            aut.settings.warnOutput.line("The uncontrolled system has no initial state (taking into account only "
+                    + "initialization and state plant invariants).");
         }
 
         if (aut.settings.shouldTerminate.get()) {
@@ -470,8 +472,8 @@ public class CifDataSynthesis {
         if (!aut.initialPlantInv.isZero() && !aut.initialUnctrl.isZero() && !aut.plantInv.isZero()
                 && !aut.reqInv.isZero() && aut.initialInv.isZero())
         {
-            warn("The controlled system has no initial state (taking into account both initialization and state "
-                    + "invariants).");
+            aut.settings.warnOutput.line("The controlled system has no initial state (taking into account both "
+                    + "initialization and state invariants).");
         }
 
         // Debug marker predicates of the components.
@@ -526,15 +528,16 @@ public class CifDataSynthesis {
             return;
         }
         if (aut.marked.isZero()) {
-            warn("The uncontrolled system has no marked state (taking into account only marking).");
+            aut.settings.warnOutput
+                    .line("The uncontrolled system has no marked state (taking into account only marking).");
         }
 
         if (aut.settings.shouldTerminate.get()) {
             return;
         }
         if (!aut.marked.isZero() && !aut.plantInv.isZero() && aut.markedPlantInv.isZero()) {
-            warn("The uncontrolled system has no marked state (taking into account only marking and state plant "
-                    + "invariants).");
+            aut.settings.warnOutput.line("The uncontrolled system has no marked state (taking into account only "
+                    + "marking and state plant invariants).");
         }
 
         if (aut.settings.shouldTerminate.get()) {
@@ -543,7 +546,8 @@ public class CifDataSynthesis {
         if (!aut.markedPlantInv.isZero() && !aut.marked.isZero() && !aut.plantInv.isZero() && !aut.reqInv.isZero()
                 && aut.markedInv.isZero())
         {
-            warn("The controlled system has no marked state (taking into account both marking and state invariants).");
+            aut.settings.warnOutput.line("The controlled system has no marked state (taking into account both marking "
+                    + "and state invariants).");
         }
 
         // Debug state/event exclusion plants.
@@ -1181,16 +1185,16 @@ public class CifDataSynthesis {
 
             // Check whether the combined state/event exclusion plants are 'false'.
             if (aut.stateEvtExclPlants.get(event).isZero()) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account only state/event "
-                        + "exclusion plants.", CifTextUtils.getAbsName(event));
+                aut.settings.warnOutput.line("Event \"%s\" is never enabled in the input specification, taking into "
+                        + "account only state/event exclusion plants.", CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
             }
 
             // Check whether the combined state/event exclusion requirements are 'false'.
             if (event.getControllable() && aut.stateEvtExclsReqInvs.get(event).isZero()) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account only state/event "
-                        + "exclusion requirements.", CifTextUtils.getAbsName(event));
+                aut.settings.warnOutput.line("Event \"%s\" is never enabled in the input specification, taking into "
+                        + "account only state/event exclusion requirements.", CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
             }
@@ -1198,8 +1202,8 @@ public class CifDataSynthesis {
             // Check whether the guards on edges of automata are all 'false'. There might be multiple edges for an
             // event.
             if (aut.eventEdges.get(event).stream().filter(edge -> !edge.origGuard.isZero()).count() == 0) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account only automaton "
-                        + "guards.", CifTextUtils.getAbsName(event));
+                aut.settings.warnOutput.line("Event \"%s\" is never enabled in the input specification, taking into "
+                        + "account only automaton guards.", CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
             }
@@ -1208,7 +1212,8 @@ public class CifDataSynthesis {
             // multiple edges for an event. State/event exclusion plant invariants are included in the edge guards.
             // State/event exclusion requirement invariants are included in the edge guards for controllable events.
             // State plant invariants and state requirement invariants are sometimes included in the edge guard
-            // (it may depend on options, and on whether the edge guard was strengthened). To simplify the implementation and make it
+            // (it may depend on options, and on whether the edge guard was strengthened). To simplify the
+            // implementation and make it
             // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
@@ -1226,8 +1231,8 @@ public class CifDataSynthesis {
             }
 
             if (alwaysDisabled) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
-                        + "and invariants.", CifTextUtils.getAbsName(event));
+                aut.settings.warnOutput.line("Event \"%s\" is never enabled in the input specification, taking into "
+                        + "account automaton guards and invariants.", CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
             }
@@ -1850,7 +1855,8 @@ public class CifDataSynthesis {
 
             // Warn for events that are never enabled.
             if (ctrlBehGuard.isZero() && !aut.disabledEvents.contains(event)) {
-                warn("Event \"%s\" is disabled in the controlled system.", CifTextUtils.getAbsName(event));
+                aut.settings.warnOutput.line("Event \"%s\" is disabled in the controlled system.",
+                        CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
             }

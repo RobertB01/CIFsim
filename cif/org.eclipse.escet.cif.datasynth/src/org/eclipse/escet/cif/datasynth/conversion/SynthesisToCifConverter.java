@@ -47,7 +47,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newWhileFuncStatement;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -737,7 +736,9 @@ public class SynthesisToCifConverter {
         curNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (curNames.contains(supName)) {
             name = CifScopeUtils.getUniqueName(name, curNames, Collections.emptySet());
-            warn("Supervisor automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name, supName);
+            synthAut.settings.warnOutput.line(
+                    "Supervisor automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name,
+                    supName);
         }
         aut.setName(name);
 

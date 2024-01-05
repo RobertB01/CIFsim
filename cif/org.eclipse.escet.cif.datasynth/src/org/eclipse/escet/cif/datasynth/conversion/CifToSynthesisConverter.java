@@ -27,7 +27,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.copy;
@@ -1496,7 +1495,7 @@ public class CifToSynthesisConverter {
                                 + "in the alphabet of any automaton.",
                         CifTextUtils.invToStr(inv, false), CifTextUtils.getComponentText2(comp),
                         CifTextUtils.getAbsName(event));
-                warn(msg);
+                synthAut.settings.warnOutput.line(msg);
 
                 // Skip the rest as we won't use this invariant for synthesis.
                 continue;
@@ -1574,7 +1573,7 @@ public class CifToSynthesisConverter {
                                         + "the alphabet of any automaton.",
                                 CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
                                 CifTextUtils.getAbsName(event));
-                        warn(msg);
+                        synthAut.settings.warnOutput.line(msg);
 
                         // Skip the rest as we won't use this invariant for synthesis.
                         continue;
