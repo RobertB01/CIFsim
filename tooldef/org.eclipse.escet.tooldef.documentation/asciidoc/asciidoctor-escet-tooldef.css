@@ -1,0 +1,277 @@
+/*****************************************************************************
+ * Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the terms
+ * of the MIT License which is available at https://opensource.org/licenses/MIT
+ *
+ * SPDX-License-Identifier: MIT
+ ****************************************************************************/
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700");
+@import url("https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css");
+
+/* Variables. */
+:root {
+    /* Colors to match ToolDef website theme. */
+    --escet-color-rgb:                111,66,193;
+    --escet-color-heading:            var(--escet-color-rgb);
+    --escet-color-link:               var(--escet-color-rgb);
+    --escet-color-admonition:         var(--escet-color-rgb);
+    --escet-color-quoteblock:         var(--escet-color-rgb);
+    --escet-color-exampleblock:       var(--escet-color-rgb);
+}
+
+/* Same sans-serif font everywhere. */
+body {
+    font-family: "Open Sans","DejaVu Sans",sans-serif;
+}
+
+/* Header styling. */
+#header > h1:first-child {
+    color: rgb(var(--escet-color-heading));
+}
+h1, h2, h3, h4, h5, h6, #toctitle, .sidebarblock > .content > .title {
+    color: rgb(var(--escet-color-heading));
+    font-weight: 600;
+}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, #toctitle small, .sidebarblock > .content > .title small {
+    color: rgb(var(--escet-color-heading));
+}
+
+/* Revision number styling. */
+#header #revnumber {
+    text-transform: inherit; /* Don't capitalize the first letter. */
+}
+
+/* Menu macro styling. */
+.menu, .submenu, .menuitem, .menuref {
+    font-style: italic; /* Make it stand out a bit more. */
+}
+
+/* Code styling. */
+:not(pre):not([class^=L]) > code {
+    padding: .1em .2em; /* Less horizontal padding. */
+}
+p.tableblock > code:only-child {
+    background: #f7f7f8; /* Also style code in tables as elsewhere. */
+    padding: .1em .2em; /* Also style code in tables as elsewhere. */
+}
+
+/* Listing styling. */
+pre > code {
+    text-wrap: nowrap;
+    overflow: auto;
+}
+.listingblock:hover code[data-lang]::before {
+    content: none;
+    display: none;
+}
+
+/* Link styling. */
+html body a {
+    color: rgb(var(--escet-color-link));
+}
+html > body a:hover,
+html > body a:focus {
+    color: black;
+}
+
+/* External links styling. */
+a[href^="http://"]:not([href^="http://eclipse.dev/escet"]),
+a[href^="https://"]:not([href^="https://eclipse.dev/escet"]) {
+    /* Image source: https://en.m.wikipedia.org/wiki/File:Link-external-small-ltr-progressive.svg */
+    /* Image license: CC BY 4.0 License (see https://creativecommons.org/licenses/by/4.0/) */
+    /* Image modifications compared to source:
+       - Removed XML declaration.
+       - Removed SVG namespace.
+       - Removed title.
+       - Changed color from blue to grey.
+       - Scaled to 80% of original size.
+    */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' transform='scale(0.8)' d='M6 1h5v5L8.86 3.85 4.7 8 4 7.3l4.15-4.16L6 1ZM2 3h2v1H2v6h6V8h1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z'/%3E%3C/svg%3E");
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: 0.857em;
+    padding-right: 1em;
+    margin-right: -0.15em;
+}
+#footer a {
+    background: unset;
+    padding-right: unset;
+    margin-right: unset;
+}
+
+/* Keyboard macro styling. */
+kbd {
+    display: inline; /* Make sure an end of sentence period after a 'kbd' macro doesn't get wrapped to the next line. */
+}
+
+/* Button macro styling. */
+.button {
+    border: 3px solid #eee;
+    border-radius: 4px;
+    padding-left: 0.5ex;
+    padding-right: 0.5ex;
+    font-weight: normal;
+    white-space: nowrap;
+}
+.button:before {
+    content: none !important; /* Default styling puts '[' before the button. Disable that. */
+}
+.button:after {
+    content: none !important; /* Default styling puts ']' after the button. Disable that. */
+}
+
+/* Admonition styling. */
+.admonitionblock > table td.icon {
+    border-style: solid;
+    border-width: 0 0 0 6px;
+    border-color: rgba(var(--escet-color-admonition),0.25);
+    background-color: rgba(var(--escet-color-admonition),0.125);
+    margin: 0;
+    padding: 0;
+    width: 0; /* Content determines size. */
+}
+.admonitionblock > table td.icon i[class^="fa icon-"] {
+    font-size: 100%;
+    vertical-align: middle;
+}
+.admonitionblock > table td.icon i[class^="fa icon-"]::before {
+    content: none;
+}
+.admonitionblock > table td.icon i[class^="fa icon-"]::after {
+    content: attr(title);
+    text-transform: uppercase; 
+    text-shadow: none;
+    font-family: "Open Sans","DejaVu Sans",sans-serif;
+    font-size: 100%;
+    font-style: normal;
+    font-weight: 600;
+    padding: 0 1em;
+}
+.admonitionblock > table td.content {
+    border: none;
+    background-color: rgba(var(--escet-color-admonition),0.05);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+/* Block styling. */
+.quoteblock blockquote::before { 
+    color: rgb(var(--escet-color-quoteblock));
+}
+.exampleblock > .content {
+    background: rgba(var(--escet-color-exampleblock),0.05);
+    border-color: rgba(var(--escet-color-exampleblock),0.125);
+    border-width: 2px;
+    box-shadow: none;
+}
+
+/* Title styling (not page title, but titles in content, such as image titles). */
+.admonitionblock td.content > .title,
+.audioblock > .title,
+.exampleblock > .title,
+.imageblock > .title,
+.listingblock > .title,
+.literalblock > .title,
+.stemblock > .title,
+.openblock > .title,
+.paragraph > .title,
+.quoteblock > .title,
+table.tableblock > .title,
+.verseblock > .title,
+.videoblock > .title,
+.dlist > .title,
+.olist > .title,
+.ulist > .title,
+.qlist > .title,
+.hdlist > .title {
+    font-family: "Open Sans","DejaVu Sans",sans-serif; /* Same font as other elements. */
+}
+.subheader,
+.admonitionblock td.content > .title,
+.audioblock > .title,
+.exampleblock > .title,
+.imageblock > .title,
+.listingblock > .title,
+.literalblock > .title,
+.stemblock > .title,
+.openblock > .title,
+.paragraph > .title,
+.quoteblock > .title,
+table.tableblock > .title,
+.verseblock > .title,
+.videoblock > .title,
+.dlist > .title,
+.olist > .title,
+.ulist > .title,
+.qlist > .title,
+.hdlist > .title {
+    color: #5d5d5d;
+}
+.sidebarblock > .content > .title {
+    color: #000;
+}
+
+/* Footer styling. */
+#footer-text, #footer-text a {
+    color: rgba(255,255,255,.8)
+}
+
+/* Footer at bottom of the page, regardless of the amount of content on the page. */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+#header {
+    flex-shrink: 0;
+}
+#content {
+    flex: 1 0 auto;
+}
+#footer {
+    flex-shrink: 0;
+}
+
+/* TOC styling. */
+#toc > ul.sectlevel1 {
+    margin-left: 1em;
+}
+#toc li.toc-item > div.toc-item-marker {
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+    color: rgb(var(--escet-color-link));
+    font-weight: 600;
+}
+#toc li.toc-item > div.toc-item-marker:after {
+    display: inline-block;
+    content: '\2022';
+}
+#toc li.toc-item-parent > div.toc-item-marker {
+    cursor: pointer;
+}
+#toc li.toc-item-parent > div.toc-item-marker:after {
+    content: '\203A';
+    padding-left: .05em;
+}
+#toc li.toc-item-parent.expanded > div.toc-item-marker:after {
+    transform: rotate(90deg) translateY(-.15em);
+    padding-left: 0;
+}
+#toc li.toc-item-parent > ul {
+    display: none;
+}
+#toc li.toc-item-parent.expanded > ul {
+    display: inherit;
+}
+#toc .toc-cur-page > a,
+#toc .toc-cur-page-ancestor > a {
+    font-weight: bold;
+}
