@@ -229,7 +229,7 @@ public class CifToSynthesisConverter {
         synthAut.debugMaxNodes = BddDebugMaxNodesOption.getMaximum();
         synthAut.debugMaxPaths = BddDebugMaxPathsOption.getMaximum();
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -244,7 +244,7 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -252,7 +252,7 @@ public class CifToSynthesisConverter {
         List<Automaton> automata = list();
         collectAutomata(spec, automata);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -275,7 +275,7 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -285,14 +285,14 @@ public class CifToSynthesisConverter {
             problems.add(msg);
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Update automata for partitioned ordering.
         automata = concat(plants, requirements);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -316,7 +316,7 @@ public class CifToSynthesisConverter {
             reqAlphabet.addAll(alphabets.recvAlphabet);
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -326,7 +326,7 @@ public class CifToSynthesisConverter {
         // that event, in the uncontrolled system.
         synthAut.alphabet = union(plantAlphabet, reqAlphabet);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -348,7 +348,7 @@ public class CifToSynthesisConverter {
             problems.add(msg);
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -363,7 +363,7 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -372,7 +372,7 @@ public class CifToSynthesisConverter {
         List<PositionObject> cifVarObjs = list();
         collectVariableObjects(spec, cifVarObjs);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -380,7 +380,7 @@ public class CifToSynthesisConverter {
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
         CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -397,24 +397,24 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Order variables and create domains.
         orderVars(synthAut, spec, dbgEnabled);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         createVarDomains(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Create auxiliary data for updates.
         createUpdateAuxiliaries(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -433,7 +433,7 @@ public class CifToSynthesisConverter {
         synthAut.initialUnctrl = synthAut.initialVars.and(initialCompsAndLocs);
         initialCompsAndLocs.free();
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -445,7 +445,7 @@ public class CifToSynthesisConverter {
         convertMarked(spec, synthAut, locPtrManager);
         synthAut.marked = synthAut.markedComps.and(synthAut.markedLocs);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -472,7 +472,7 @@ public class CifToSynthesisConverter {
         // components and the state requirement invariant for the locations of automata.
         synthAut.reqInv = synthAut.reqInvComps.and(synthAut.reqInvLocs);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -484,7 +484,7 @@ public class CifToSynthesisConverter {
         synthAut.markedPlantInv = synthAut.marked.and(synthAut.plantInv);
         synthAut.markedInv = synthAut.markedPlantInv.and(synthAut.reqInv);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -512,25 +512,25 @@ public class CifToSynthesisConverter {
             synthAut.stateEvtExclReqLists.put(event, list());
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Convert state/event exclusion invariants.
         convertStateEvtExclInvs(spec, synthAut, locPtrManager);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Preconvert requirement automata, to enable treating them as plants from here on.
         preconvertReqAuts(requirements, reqAlphabets, synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Convert plant and requirement automata.
         convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -540,31 +540,31 @@ public class CifToSynthesisConverter {
         }
         originalMonitors = null;
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Add events and edges for input variables.
         addInputVariableEdges(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Merge edges to the desired granularity.
         mergeEdges(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Order the synthesis edges.
         orderEdges(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Check edge workset algorithm options.
         checkEdgeWorksetAlgorithmOptions();
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -990,7 +990,7 @@ public class CifToSynthesisConverter {
         synthAut.oldToNewVarsPairing.set(oldDomains, newDomains);
         synthAut.newToOldVarsPairing.set(newDomains, oldDomains);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return;
         }
 
@@ -1013,7 +1013,7 @@ public class CifToSynthesisConverter {
         synthAut.varSetOld = synthAut.factory.makeSet(varIdxsOld);
         synthAut.varSetNew = synthAut.factory.makeSet(varIdxsNew);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return;
         }
     }
@@ -1786,7 +1786,7 @@ public class CifToSynthesisConverter {
             synthAut.eventEdges = mapc(synthAut.alphabet.size());
             for (Edge cifEdge: cifEdges) {
                 // Check for termination.
-                if (synthAut.env.isTerminationRequested()) {
+                if (synthAut.settings.shouldTerminate.get()) {
                     break;
                 }
 
@@ -1834,7 +1834,7 @@ public class CifToSynthesisConverter {
                 convertUpdates(updates, synthEdge, locPtrManager, synthAut);
             }
 
-            if (synthAut.env.isTerminationRequested()) {
+            if (synthAut.settings.shouldTerminate.get()) {
                 return;
             }
 
@@ -2066,7 +2066,7 @@ public class CifToSynthesisConverter {
         BDD error = aut.factory.zero();
         for (Update update: updates) {
             Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, aut);
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return;
             }
 
@@ -2078,7 +2078,7 @@ public class CifToSynthesisConverter {
                 error = error.orWith(updateError);
             }
 
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return;
             }
         }

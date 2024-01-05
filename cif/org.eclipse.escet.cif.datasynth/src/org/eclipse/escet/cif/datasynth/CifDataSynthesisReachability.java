@@ -146,7 +146,7 @@ public class CifDataSynthesisReachability {
         // Restrict predicate.
         if (restriction != null) {
             BDD restrictedPred = pred.and(restriction);
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return null;
             }
 
@@ -180,7 +180,7 @@ public class CifDataSynthesisReachability {
         for (SynthesisEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }
-        if (aut.env.isTerminationRequested()) {
+        if (aut.settings.shouldTerminate.get()) {
             return null;
         }
 
@@ -191,7 +191,7 @@ public class CifDataSynthesisReachability {
         } else {
             reachabilityResult = performReachabilityFixedOrder(pred, edgesToApply);
         }
-        if (reachabilityResult == null || aut.env.isTerminationRequested()) {
+        if (reachabilityResult == null || aut.settings.shouldTerminate.get()) {
             return null;
         }
         pred = reachabilityResult.left;
@@ -203,7 +203,7 @@ public class CifDataSynthesisReachability {
         }
 
         // Fixed point reached. Inform the user.
-        if (aut.env.isTerminationRequested()) {
+        if (aut.settings.shouldTerminate.get()) {
             return null;
         }
         if (dbgEnabled && changed) {
@@ -245,13 +245,13 @@ public class CifDataSynthesisReachability {
                 // Apply selected edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (aut.env.isTerminationRequested()) {
+                if (aut.settings.shouldTerminate.get()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (aut.env.isTerminationRequested()) {
+                if (aut.settings.shouldTerminate.get()) {
                     return null;
                 }
 
@@ -328,13 +328,13 @@ public class CifDataSynthesisReachability {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (aut.env.isTerminationRequested()) {
+                if (aut.settings.shouldTerminate.get()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (aut.env.isTerminationRequested()) {
+                if (aut.settings.shouldTerminate.get()) {
                     return null;
                 }
 
