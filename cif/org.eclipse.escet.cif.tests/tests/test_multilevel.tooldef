@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2023 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -22,7 +22,7 @@ end
 // Configuration.
 string test_path = "multilevel";
 string test_pattern = "*.cif";
-list string default_options = ["--devmode=1", "--output-mode=debug", "--write-dmms=yes"];
+list string default_options = ["--devmode=1", "--output-mode=debug"];
 
 map(string:list string) test_options = {};
 set string test_skip = {};
@@ -66,7 +66,8 @@ for test in tests:
     string dir_specs_real = replace(test, oldtext=".cif", newtext="_partial_specs");
 
     // Execute.
-    multilevel([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+    list string full_options = options + ["--specs-dir=" + dir_specs_real, "--dmm-output=" + test_dmm_real];
+    multilevel([test] + full_options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
     bool dmm_diff = diff(test_dmm_exp, test_dmm_real, missingAsEmpty=true, warnOnDiff=true);
