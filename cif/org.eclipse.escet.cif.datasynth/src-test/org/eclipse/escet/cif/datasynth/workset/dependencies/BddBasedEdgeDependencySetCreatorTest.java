@@ -591,7 +591,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
         // Convert to BDDs.
         Supplier<Boolean> shouldTerminate = () -> false;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
-                new BlackHoleOutputProvider().getWarnOutput());
+                new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput());
         BDDFactory factory = JFactory.init(100, 100);
         SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory, false);
         for (SynthesisEdge edge: synthAut.edges) {

@@ -264,7 +264,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Construct settings.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
-                OutputProvider.getWarningOutputStream());
+                OutputProvider.getNormalOutputStream(), OutputProvider.getWarningOutputStream());
 
         // Perform synthesis.
         Specification rslt;
