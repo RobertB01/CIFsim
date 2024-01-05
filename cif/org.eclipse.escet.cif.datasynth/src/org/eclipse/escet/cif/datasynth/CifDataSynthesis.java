@@ -38,7 +38,6 @@ import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption.FixedPointComputation;
-import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -80,7 +79,7 @@ public class CifDataSynthesis {
         // on Automation Science and Engineering, Volume 8, Issue 3, Pages 560-569, July 2011.
 
         // Configuration.
-        boolean doForward = ForwardReachOption.isEnabled();
+        boolean doForward = aut.settings.doForwardReach;
         boolean dbgEnabled = aut.settings.debugOutput.isEnabled();
 
         // Pre synthesis.
@@ -1263,7 +1262,7 @@ public class CifDataSynthesis {
      */
     private static void prepareWorksetAlgorithm(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Compute the dependency sets for all edges, and store them in the synthesis automaton.
-        boolean forwardEnabled = ForwardReachOption.isEnabled();
+        boolean forwardEnabled = aut.settings.doForwardReach;
         EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
         creator.createAndStore(aut, forwardEnabled);
 

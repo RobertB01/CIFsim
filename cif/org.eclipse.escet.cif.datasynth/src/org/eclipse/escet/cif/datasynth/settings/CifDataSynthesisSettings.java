@@ -40,6 +40,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** Whether to perform forward reachability during synthesis ({@code true}) or omit it ({@code false}). */
+    public final boolean doForwardReach;
+
     /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
     public final boolean doPlantsRefReqsWarn;
 
@@ -63,6 +66,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param doForwardReach Whether to perform forward reachability during synthesis ({@code true}) or omit it
+     *     ({@code false}).
      * @param doPlantsRefReqsWarn Whether to warn for plants that reference requirement state ({@code true}) or don't
      *     warn ({@code false}).
      * @param stateReqInvEnforceMode The way that state requirement invariants are enforced.
@@ -73,7 +78,7 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean doPlantsRefReqsWarn,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean doForwardReach, boolean doPlantsRefReqsWarn,
             StateReqInvEnforceMode stateReqInvEnforceMode, String supervisorName, String supervisorNamespace,
             EnumSet<SynthesisStatistics> synthesisStatistics)
     {
@@ -82,6 +87,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.doForwardReach = doForwardReach;
         this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
         this.stateReqInvEnforceMode = stateReqInvEnforceMode;
         this.supervisorName = supervisorName;
