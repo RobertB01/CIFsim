@@ -910,6 +910,8 @@ public class VarOrdererParserTest {
      */
     private CifDataSynthesisSettings getSettings() {
         Supplier<Boolean> shouldTerminate = () -> false;
+        double bddOpCacheRatio = 1;
+        Integer bddOpCacheSize = null;
         String bddOutputNamePrefix = "bdd";
         String bddVarOrderInit = "sorted";
         boolean bddSlidingWindowEnabled = true;
@@ -927,13 +929,13 @@ public class VarOrdererParserTest {
         String supervisorNamespace = null;
         return new CifDataSynthesisSettings(shouldTerminate, new BlackHoleOutputProvider().getDebugOutput(),
                 new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput(),
-                bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class), bddVarOrderInit,
-                bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
-                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
-                EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
-                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
-                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
-                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
+                EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
+                bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
+                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
+                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
+                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
+                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
                 EnumSet.noneOf(SynthesisStatistics.class));
     }
 }

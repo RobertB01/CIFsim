@@ -41,6 +41,18 @@ public class CifDataSynthesisSettings {
     public final WarnOutput warnOutput;
 
     /**
+     * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
+     * Value is in the range [0.01 .. 1000]. This setting has no effect if {@link #bddOpCacheSize} is non-{@code null}.
+     */
+    public final double bddOpCacheRatio;
+
+    /**
+     * The fixed size of the operation cache of the BDD library. Value is in the range [2 .. 2^31-1]. Use {@code null}
+     * to disable a fixed cache size. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
+     */
+    public final Integer bddOpCacheSize;
+
+    /**
      * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
      * CIF identifier}.
      */
@@ -135,6 +147,12 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
+     *     table of the BDD library. Value must be in the range [0.01 .. 1000]. This setting has no effect if
+     *     {@code bddOpCacheSize} is non-{@code null}.
+     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Value must be in the range [2 ..
+     *     2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
+     *     {@code bddOpCacheRatio}.
      * @param bddOutputNamePrefix The prefix to use for BDD related names in the output. Must be a valid
      *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
      * @param bddOutputMode The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis.
@@ -171,11 +189,12 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String bddOutputNamePrefix,
-            BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit,
-            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
-            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
-            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, double bddOpCacheRatio, Integer bddOpCacheSize,
+            String bddOutputNamePrefix, BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications,
+            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
+            String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
+            String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
+            String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
@@ -186,6 +205,8 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddOpCacheRatio = bddOpCacheRatio;
+        this.bddOpCacheSize = bddOpCacheSize;
         this.bddOutputNamePrefix = bddOutputNamePrefix;
         this.bddOutputMode = bddOutputMode;
         this.bddSimplifications = bddSimplifications;
@@ -209,9 +230,29 @@ public class CifDataSynthesisSettings {
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;
 
+        // Check BDD library operation cache ratio.
+        if (bddOpCacheRatio < 0.01 || bddOpCacheRatio > 1000) {
+            String msg = fmt("BDD library operation cache ratio \"%s\" is not in the range [0.01 .. 1000].",
+                    bddOpCacheRatio);
+            throw new InvalidOptionException(msg);
+        }
+
+        // Check BDD library operation cache size.
+        if (bddOpCacheSize != null && bddOpCacheSize < 2) {
+            String msg = fmt("BDD library operation cache size \"%s\" is not in the range [2 .. 2^31-1].",
+                    bddOpCacheSize);
+            throw new InvalidOptionException(msg);
+        }
+
         // Check BDD output name prefix.
         if (!CifValidationUtils.isValidIdentifier(bddOutputNamePrefix)) {
             String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", bddOutputNamePrefix);
+            throw new InvalidOptionException(msg);
+        }
+
+        // Check sliding window maximum window length.
+        if (bddSlidingWindowMaxLen < 1 || bddSlidingWindowMaxLen > 12) {
+            String msg = fmt("BDD sliding window size \"%s\" is not in the range [1 .. 12].", bddSlidingWindowMaxLen);
             throw new InvalidOptionException(msg);
         }
 
