@@ -2156,10 +2156,10 @@ public class CifDataSynthesis {
             if (dbgEnabled && !guard.equals(newGuard)) {
                 if (!dbgPrinted) {
                     dbgPrinted = true;
+                    aut.settings.debugOutput.line();
+                    aut.settings.debugOutput.line("Simplification of controlled system under the assumption of the %s:",
+                            assumptionsTxt);
                 }
-                aut.settings.debugOutput.line();
-                aut.settings.debugOutput.line("Simplification of controlled system under the assumption of the %s:",
-                        assumptionsTxt);
                 aut.settings.debugOutput.line("  Event %s: guard: %s -> %s [assume %s].",
                         CifTextUtils.getAbsName(controllable), bddToStr(guard, aut), bddToStr(newGuard, aut),
                         bddToStr(assumption, aut));
