@@ -597,6 +597,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Get settings.
         Supplier<Boolean> shouldTerminate = () -> false;
+        boolean bddForceEnabled = true;
         int bddInitNodeTableSize = 100_000;
         double bddOpCacheRatio = 1;
         Integer bddOpCacheSize = null;
@@ -617,8 +618,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), BddHyperEdgeAlgo.DEFAULT, bddInitNodeTableSize,
-                bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
+                new BlackHoleOutputProvider().getWarnOutput(), bddForceEnabled, BddHyperEdgeAlgo.DEFAULT,
+                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
                 EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
                 bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
                 continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,

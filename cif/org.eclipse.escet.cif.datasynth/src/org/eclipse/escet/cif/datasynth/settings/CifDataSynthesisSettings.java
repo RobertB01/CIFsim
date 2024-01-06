@@ -40,6 +40,12 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /**
+     * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
+     * or not apply it ({@code false}).
+     */
+    public final boolean bddForceEnabled;
+
     /** The algorithm to use to create hyper-edges for BDD variable ordering. */
     public final BddHyperEdgeAlgo bddHyperEdgeAlgo;
 
@@ -153,6 +159,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddForceEnabled Whether to apply the FORCE variable ordering algorithm to improve the initial variable
+     *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
      * @param bddInitNodeTableSize The initial size of the node table of the BDD library. Value must be in the range [1
      *     .. 2^31-1].
@@ -198,12 +206,13 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, BddHyperEdgeAlgo bddHyperEdgeAlgo,
-            int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize, String bddOutputNamePrefix,
-            BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit,
-            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
-            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
-            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean bddForceEnabled,
+            BddHyperEdgeAlgo bddHyperEdgeAlgo, int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize,
+            String bddOutputNamePrefix, BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications,
+            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
+            String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
+            String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
+            String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
@@ -214,6 +223,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddForceEnabled = bddForceEnabled;
         this.bddHyperEdgeAlgo = bddHyperEdgeAlgo;
         this.bddInitNodeTableSize = bddInitNodeTableSize;
         this.bddOpCacheRatio = bddOpCacheRatio;
