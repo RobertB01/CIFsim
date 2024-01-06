@@ -38,18 +38,6 @@ public class SynthesisAutomaton {
     /** The BDD factory to use. */
     public BDDFactory factory;
 
-    /**
-     * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
-     * output, or {@code null} for no maximum.
-     */
-    public Integer debugMaxNodes;
-
-    /**
-     * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
-     * debug output, or {@code null} for no maximum.
-     */
-    public Double debugMaxPaths;
-
     /** The alphabet of the automaton. */
     public Set<Event> alphabet;
 

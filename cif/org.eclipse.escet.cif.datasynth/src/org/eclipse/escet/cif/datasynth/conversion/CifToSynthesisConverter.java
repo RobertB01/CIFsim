@@ -78,8 +78,6 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
-import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
@@ -212,8 +210,6 @@ public class CifToSynthesisConverter {
         // Initialize synthesis automaton.
         SynthesisAutomaton synthAut = new SynthesisAutomaton(settings);
         synthAut.factory = factory;
-        synthAut.debugMaxNodes = BddDebugMaxNodesOption.getMaximum();
-        synthAut.debugMaxPaths = BddDebugMaxPathsOption.getMaximum();
 
         if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;

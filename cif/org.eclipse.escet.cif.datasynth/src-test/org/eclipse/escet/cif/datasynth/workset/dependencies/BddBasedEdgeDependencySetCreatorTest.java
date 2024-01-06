@@ -597,6 +597,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Get settings.
         Supplier<Boolean> shouldTerminate = () -> false;
+        Integer bddDebugMaxNodes = 10;
+        Double bddDebugMaxPaths = 10.0;
         boolean bddForceEnabled = true;
         int bddInitNodeTableSize = 100_000;
         double bddOpCacheRatio = 1;
@@ -618,10 +620,10 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), bddForceEnabled, BddHyperEdgeAlgo.DEFAULT,
-                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
-                EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
-                bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
+                new BlackHoleOutputProvider().getWarnOutput(), bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled,
+                BddHyperEdgeAlgo.DEFAULT, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix,
+                BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled,
+                bddSlidingWindowMaxLen, bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
                 continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
                 edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
                 doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,

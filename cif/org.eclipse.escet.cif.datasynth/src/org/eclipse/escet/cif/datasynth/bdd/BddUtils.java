@@ -91,13 +91,13 @@ public class BddUtils {
     public static String bddToStr(BDD bdd, SynthesisAutomaton aut) {
         // If one of the specific maximum counts is exceeded, don't actually
         // convert the BDD to a CNF/DNF predicate, for performance reasons.
-        if (aut.debugMaxNodes != null || aut.debugMaxPaths != null) {
+        if (aut.settings.bddDebugMaxNodes != null || aut.settings.bddDebugMaxPaths != null) {
             // Get node count and true path count.
             int nc = bdd.nodeCount();
             double tpc = bdd.pathCount();
 
-            boolean skip = (aut.debugMaxNodes != null && nc > aut.debugMaxNodes)
-                    || (aut.debugMaxPaths != null && tpc > aut.debugMaxPaths);
+            boolean skip = (aut.settings.bddDebugMaxNodes != null && nc > aut.settings.bddDebugMaxNodes)
+                    || (aut.settings.bddDebugMaxPaths != null && tpc > aut.settings.bddDebugMaxPaths);
             if (skip) {
                 return fmt("<bdd %,dn %,.0fp>", nc, tpc);
             }

@@ -41,6 +41,18 @@ public class CifDataSynthesisSettings {
     public final WarnOutput warnOutput;
 
     /**
+     * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
+     * output. Value is in the range [0 .. 2^31-1]. {@code null} indicates no maximum.
+     */
+    public final Integer bddDebugMaxNodes;
+
+    /**
+     * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
+     * debug output. Value is in the range [0 .. 1.7e308]. {@code null} indicates no maximum.
+     */
+    public final Double bddDebugMaxPaths;
+
+    /**
      * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
      * or not apply it ({@code false}).
      */
@@ -59,8 +71,8 @@ public class CifDataSynthesisSettings {
     public final double bddOpCacheRatio;
 
     /**
-     * The fixed size of the operation cache of the BDD library. Value is in the range [2 .. 2^31-1]. Use {@code null}
-     * to disable a fixed cache size. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
+     * The fixed size of the operation cache of the BDD library. Value is in the range [2 .. 2^31-1]. {@code null} means
+     * a fixed cache size is disabled. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
      */
     public final Integer bddOpCacheSize;
 
@@ -86,8 +98,8 @@ public class CifDataSynthesisSettings {
     public final boolean bddSlidingWindowEnabled;
 
     /**
-     * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. Must be an
-     * integer number in the range [1 .. 12].
+     * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. Is an integer
+     * number in the range [1 .. 12].
      */
     public final int bddSlidingWindowMaxLen;
 
@@ -159,6 +171,12 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddDebugMaxNodes The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF
+     *     representation for the debug output. Value must be in the range [0 .. 2^31-1]. Use {@code null} to not set a
+     *     maximum.
+     * @param bddDebugMaxPaths The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF
+     *     representation for the debug output. Value must be in the range [0 .. 1.7e308]. Use {@code null} to not set a
+     *     maximum.
      * @param bddForceEnabled Whether to apply the FORCE variable ordering algorithm to improve the initial variable
      *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
@@ -206,11 +224,11 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean bddForceEnabled,
-            BddHyperEdgeAlgo bddHyperEdgeAlgo, int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize,
-            String bddOutputNamePrefix, BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications,
-            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
-            String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, Integer bddDebugMaxNodes, Double bddDebugMaxPaths,
+            boolean bddForceEnabled, BddHyperEdgeAlgo bddHyperEdgeAlgo, int bddInitNodeTableSize,
+            double bddOpCacheRatio, Integer bddOpCacheSize, String bddOutputNamePrefix, BddOutputMode bddOutputMode,
+            EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit, boolean bddSlidingWindowEnabled,
+            int bddSlidingWindowMaxLen, String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
             String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
             String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
@@ -223,6 +241,8 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddDebugMaxNodes = bddDebugMaxNodes;
+        this.bddDebugMaxPaths = bddDebugMaxPaths;
         this.bddForceEnabled = bddForceEnabled;
         this.bddHyperEdgeAlgo = bddHyperEdgeAlgo;
         this.bddInitNodeTableSize = bddInitNodeTableSize;
@@ -251,6 +271,21 @@ public class CifDataSynthesisSettings {
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;
 
+        // Check BDD debug max nodes.
+        if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {
+            String msg = fmt("BDD debug max nodes value \"%s\" is not in the range [0 .. 2^31-1].", bddDebugMaxNodes);
+            throw new InvalidOptionException(msg);
+        }
+
+        // Check BDD debug max paths.
+        if (bddDebugMaxPaths != null && Double.isNaN(bddDebugMaxPaths)) {
+            throw new InvalidOptionException("BDD debug max paths value must not be NaN.");
+        }
+        if (bddDebugMaxPaths != null && bddDebugMaxPaths < 0) {
+            String msg = fmt("BDD debug max paths value \"%s\" is not in the range [0 .. 1.7e308].", bddDebugMaxPaths);
+            throw new InvalidOptionException(msg);
+        }
+
         // Check BDD library initial node table size.
         if (bddInitNodeTableSize < 1) {
             String msg = fmt("BDD library initial node table size \"%s\" is not in the range [1 .. 2^31-1].",
@@ -259,6 +294,9 @@ public class CifDataSynthesisSettings {
         }
 
         // Check BDD library operation cache ratio.
+        if (Double.isNaN(bddOpCacheRatio)) {
+            throw new InvalidOptionException("BDD library operation cache ratio must not be NaN.");
+        }
         if (bddOpCacheRatio < 0.01 || bddOpCacheRatio > 1000) {
             String msg = fmt("BDD library operation cache ratio \"%s\" is not in the range [0.01 .. 1000].",
                     bddOpCacheRatio);

@@ -158,7 +158,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), BddForceVarOrderOption.isEnabled(),
+                OutputProvider.getWarningOutputStream(), BddDebugMaxNodesOption.getMaximum(),
+                BddDebugMaxPathsOption.getMaximum(), BddForceVarOrderOption.isEnabled(),
                 BddHyperEdgeAlgoOption.getAlgo(), BddInitNodeTableSizeOption.getInitialSize(),
                 BddOpCacheRatioOption.getCacheRatio(), BddOpCacheSizeOption.getCacheSize(),
                 BddOutputNamePrefixOption.getPrefix(), BddOutputOption.getMode(),
