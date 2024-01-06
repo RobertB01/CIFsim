@@ -910,6 +910,7 @@ public class VarOrdererParserTest {
      */
     private CifDataSynthesisSettings getSettings() {
         Supplier<Boolean> shouldTerminate = () -> false;
+        int bddInitNodeTableSize = 100_000;
         double bddOpCacheRatio = 1;
         Integer bddOpCacheSize = null;
         String bddOutputNamePrefix = "bdd";
@@ -929,7 +930,7 @@ public class VarOrdererParserTest {
         String supervisorNamespace = null;
         return new CifDataSynthesisSettings(shouldTerminate, new BlackHoleOutputProvider().getDebugOutput(),
                 new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput(),
-                bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
+                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
                 EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
                 bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
                 continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,

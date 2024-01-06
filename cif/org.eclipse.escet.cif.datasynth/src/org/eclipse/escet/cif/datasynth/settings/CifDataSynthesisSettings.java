@@ -40,6 +40,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The initial size of the node table of the BDD library. Value is in the range [1 .. 2^31-1]. */
+    public final int bddInitNodeTableSize;
+
     /**
      * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
      * Value is in the range [0.01 .. 1000]. This setting has no effect if {@link #bddOpCacheSize} is non-{@code null}.
@@ -147,6 +150,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. Value must be in the range [1
+     *     .. 2^31-1].
      * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
      *     table of the BDD library. Value must be in the range [0.01 .. 1000]. This setting has no effect if
      *     {@code bddOpCacheSize} is non-{@code null}.
@@ -189,10 +194,10 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, double bddOpCacheRatio, Integer bddOpCacheSize,
-            String bddOutputNamePrefix, BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications,
-            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
-            String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, int bddInitNodeTableSize, double bddOpCacheRatio,
+            Integer bddOpCacheSize, String bddOutputNamePrefix, BddOutputMode bddOutputMode,
+            EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit, boolean bddSlidingWindowEnabled,
+            int bddSlidingWindowMaxLen, String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
             String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
             String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
@@ -205,6 +210,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddInitNodeTableSize = bddInitNodeTableSize;
         this.bddOpCacheRatio = bddOpCacheRatio;
         this.bddOpCacheSize = bddOpCacheSize;
         this.bddOutputNamePrefix = bddOutputNamePrefix;
@@ -229,6 +235,13 @@ public class CifDataSynthesisSettings {
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;
+
+        // Check BDD library initial node table size.
+        if (bddInitNodeTableSize < 1) {
+            String msg = fmt("BDD library initial node table size \"%s\" is not in the range [1 .. 2^31-1].",
+                    bddInitNodeTableSize);
+            throw new InvalidOptionException(msg);
+        }
 
         // Check BDD library operation cache ratio.
         if (bddOpCacheRatio < 0.01 || bddOpCacheRatio > 1000) {

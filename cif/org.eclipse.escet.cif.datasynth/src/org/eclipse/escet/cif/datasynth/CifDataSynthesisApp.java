@@ -158,8 +158,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), BddOpCacheRatioOption.getCacheRatio(),
-                BddOpCacheSizeOption.getCacheSize(), BddOutputNamePrefixOption.getPrefix(), BddOutputOption.getMode(),
+                OutputProvider.getWarningOutputStream(), BddInitNodeTableSizeOption.getInitialSize(),
+                BddOpCacheRatioOption.getCacheRatio(), BddOpCacheSizeOption.getCacheSize(),
+                BddOutputNamePrefixOption.getPrefix(), BddOutputOption.getMode(),
                 BddSimplifyOption.getSimplifications(), BddVariableOrderOption.getOrder(),
                 BddSlidingWindowVarOrderOption.isEnabled(), BddSlidingWindowSizeOption.getMaxLen(),
                 BddAdvancedVariableOrderOption.getOrder(), ContinuousPerformanceStatisticsFileOption.getPath(),
@@ -233,7 +234,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Create BDD factory.
-        int bddTableSize = BddInitNodeTableSizeOption.getInitialSize();
+        int bddTableSize = settings.bddInitNodeTableSize;
         Integer bddCacheSize = settings.bddOpCacheSize;
         double bddCacheRatio = settings.bddOpCacheRatio;
         if (bddCacheSize == null) {
