@@ -23,13 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
-import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
-import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
@@ -192,19 +186,18 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     }
 
     /**
-     * Check whether basic options and advanced settings for configuring BDD variable ordering are mixed.
+     * Check whether basic settings and advanced settings for configuring BDD variable ordering are mixed.
      *
      * @throws InvalidOptionException If the settings are mixed.
      */
     private void checkBasicAndAdvancedSettingsMix() {
-        boolean basicDefault = //
-                BddVariableOrderOption.isDefault() && //
-                        BddDcshVarOrderOption.isDefault() && //
-                        BddForceVarOrderOption.isDefault() && //
-                        BddSlidingWindowVarOrderOption.isDefault() && //
-                        BddSlidingWindowSizeOption.isDefault() && //
-                        BddHyperEdgeAlgoOption.isDefault();
-        boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
+        boolean basicDefault = settings.bddVarOrderInit.equals(BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT)
+                && settings.bddDcshEnabled == BddSettingsDefaults.DCSH_ENABLED_DEFAULT
+                && settings.bddForceEnabled == BddSettingsDefaults.FORCE_ENABLED_DEFAULT
+                && settings.bddSlidingWindowEnabled == BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT
+                && settings.bddSlidingWindowMaxLen == BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT
+                && settings.bddHyperEdgeAlgo == BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
+        boolean advancedDefault = settings.bddVarOrderAdvanced.equals(BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT);
 
         if (!basicDefault && !advancedDefault) {
             throw new InvalidOptionException("The BDD variable ordering has both basic and advanced configuration, "
