@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEdgeAlgo;
+import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -84,20 +84,5 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
      */
     public static boolean isDefault() {
         return getAlgo().equals(DEFAULT_VALUE);
-    }
-
-    /** BDD hyper-edge creation algorithm. */
-    public static enum BddHyperEdgeAlgo {
-        /** Use the legacy hyper-edge creation algorithm. */
-        LEGACY,
-
-        /** Use the linearized hyper-edge creation algorithm. */
-        LINEARIZED,
-
-        /**
-         * Use the linearized hyper-edge creation algorithm for the FORCE and sliding window algorithms, and the legacy
-         * hyper-edge creation algorithm otherwise.
-         */
-        DEFAULT;
     }
 }

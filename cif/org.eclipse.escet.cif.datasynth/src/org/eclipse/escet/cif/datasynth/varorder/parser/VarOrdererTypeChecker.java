@@ -283,7 +283,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
      * @return The relations kind.
      */
     private RelationsKind getBasicConfiguredRelationsKind(String ordererName) {
-        switch (BddHyperEdgeAlgoOption.getAlgo()) {
+        switch (settings.bddHyperEdgeAlgo) {
             case LEGACY:
                 return RelationsKind.LEGACY;
             case LINEARIZED:
@@ -293,7 +293,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                 return useLinearized ? RelationsKind.LINEARIZED : RelationsKind.LEGACY;
             }
         }
-        throw new RuntimeException("Unexpected option value: " + BddHyperEdgeAlgoOption.getAlgo());
+        throw new RuntimeException("Unexpected option value: " + settings.bddHyperEdgeAlgo);
     }
 
     /**

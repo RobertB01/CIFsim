@@ -30,10 +30,10 @@ import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
@@ -930,9 +930,9 @@ public class VarOrdererParserTest {
         String supervisorNamespace = null;
         return new CifDataSynthesisSettings(shouldTerminate, new BlackHoleOutputProvider().getDebugOutput(),
                 new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput(),
-                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
-                EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
-                bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
+                BddHyperEdgeAlgo.DEFAULT, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix,
+                BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled,
+                bddSlidingWindowMaxLen, bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
                 continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
                 edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
                 doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,

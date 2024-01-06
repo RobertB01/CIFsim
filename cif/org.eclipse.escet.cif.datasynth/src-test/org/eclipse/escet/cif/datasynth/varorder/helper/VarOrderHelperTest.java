@@ -27,7 +27,7 @@ import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEdgeAlgo;
+import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
