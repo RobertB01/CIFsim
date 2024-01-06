@@ -32,8 +32,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
-import org.eclipse.escet.cif.datasynth.options.BddSimplify;
-import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
@@ -1693,7 +1692,7 @@ public class CifDataSynthesis {
 
         // Determine initialization predicate. The initialization predicate of the controlled system is used, if it is
         // at all restricted with respect to the uncontrolled system.
-        EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
+        EnumSet<BddSimplify> simplifications = aut.settings.bddSimplifications;
         List<String> assumptionTxts = list();
 
         if (!initialRemoved.isZero()) {
@@ -1894,7 +1893,7 @@ public class CifDataSynthesis {
      */
     private static void determineOutputGuards(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards, boolean dbgEnabled) {
         // Get simplifications to perform.
-        EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
+        EnumSet<BddSimplify> simplifications = aut.settings.bddSimplifications;
         List<String> assumptionTxts = list();
 
         // Initialize assumptions to 'true', for all controllable events.

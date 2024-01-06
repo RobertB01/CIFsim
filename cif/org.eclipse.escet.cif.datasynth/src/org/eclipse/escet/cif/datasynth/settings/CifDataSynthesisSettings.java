@@ -40,6 +40,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The BDD predicate simplifications to perform. */
+    public final EnumSet<BddSimplify> bddSimplifications;
+
     /** The initial BDD variable ordering and domain interleaving. */
     public final String bddVarOrderInit;
 
@@ -117,6 +120,7 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddSimplifications The BDD predicate simplifications to perform.
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
      * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
      *     initial variable ordering ({@code true}), or not apply it ({@code false}).
@@ -149,10 +153,11 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, String bddVarOrderInit,
-            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
-            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
-            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, EnumSet<BddSimplify> bddSimplifications,
+            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
+            String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
+            String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
+            String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
@@ -163,6 +168,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddSimplifications = bddSimplifications;
         this.bddVarOrderInit = bddVarOrderInit;
         this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;
         this.bddSlidingWindowMaxLen = bddSlidingWindowMaxLen;

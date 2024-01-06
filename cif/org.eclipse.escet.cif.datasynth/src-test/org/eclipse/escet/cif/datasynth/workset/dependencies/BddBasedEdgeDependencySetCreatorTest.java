@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
+import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
@@ -610,12 +611,13 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
                 new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), bddVarOrderInit, bddSlidingWindowEnabled,
-                bddSlidingWindowMaxLen, bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
-                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
-                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
-                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
-                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                new BlackHoleOutputProvider().getWarnOutput(), EnumSet.allOf(BddSimplify.class), bddVarOrderInit,
+                bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
+                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
+                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
+                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
                 EnumSet.noneOf(SynthesisStatistics.class));
 
         // Convert to BDDs.

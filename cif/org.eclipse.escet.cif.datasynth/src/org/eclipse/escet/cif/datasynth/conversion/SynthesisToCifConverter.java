@@ -77,8 +77,7 @@ import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
 import org.eclipse.escet.cif.datasynth.options.BddOutputNamePrefixOption;
 import org.eclipse.escet.cif.datasynth.options.BddOutputOption;
 import org.eclipse.escet.cif.datasynth.options.BddOutputOption.BddOutputMode;
-import org.eclipse.escet.cif.datasynth.options.BddSimplify;
-import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -210,7 +209,7 @@ public class SynthesisToCifConverter {
         try {
             // If we simplify against something, the 'something' needs to
             // remain to ensure we don't loose that restriction.
-            EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
+            EnumSet<BddSimplify> simplifications = synthAut.settings.bddSimplifications;
             RemoveRequirements remover = new RemoveRequirements();
             remover.removeReqAuts = true;
             remover.removeStateEvtExclReqInvs = !simplifications.contains(BddSimplify.GUARDS_SE_EXCL_REQ_INVS);

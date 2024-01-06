@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.options;
+package org.eclipse.escet.cif.datasynth.settings;
 
 /** Potential BDD predicate simplifications that can be performed. */
 public enum BddSimplify {
