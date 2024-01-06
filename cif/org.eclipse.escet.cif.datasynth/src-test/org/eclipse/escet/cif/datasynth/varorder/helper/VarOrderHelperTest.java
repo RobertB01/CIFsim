@@ -26,8 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import java.util.BitSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
-import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
@@ -39,30 +37,13 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /** Tests for {@link VarOrderHelper}. */
 public class VarOrderHelperTest {
-    @SuppressWarnings("javadoc")
-    @BeforeAll
-    public static void beforeClass() {
-        AppEnv.registerSimple();
-        Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgo.LEGACY);
-    }
-
-    @SuppressWarnings("javadoc")
-    @AfterAll
-    public static void afterClass() {
-        AppEnv.unregisterApplication();
-    }
-
     @SuppressWarnings("javadoc")
     @Test
     public void testReorder() {
