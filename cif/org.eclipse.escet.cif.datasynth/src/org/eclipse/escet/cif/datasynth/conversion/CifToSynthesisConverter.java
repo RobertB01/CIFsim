@@ -544,8 +544,8 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Check edge workset algorithm options.
-        checkEdgeWorksetAlgorithmOptions(synthAut.settings);
+        // Check edge workset algorithm settings.
+        checkEdgeWorksetAlgorithmSettings(synthAut.settings);
         if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
@@ -650,7 +650,7 @@ public class CifToSynthesisConverter {
      * @param spec The CIF specification.
      */
     private void orderVars(SynthesisAutomaton synthAut, Specification spec) {
-        // Skip ordering, including option processing and debug output printing, if any variables failed to convert.
+        // Skip ordering, including settings processing and debug output printing, if any variables failed to convert.
         if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
         }
@@ -2405,7 +2405,7 @@ public class CifToSynthesisConverter {
      * Orders the synthesis edges, for a single direction, i.e., for forward or backward reachability computations.
      *
      * @param edges The edges in linearized model order.
-     * @param orderTxt The order as textual value from the option, for the given direction.
+     * @param orderTxt The order as textual value from the settings, for the given direction.
      * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
      * @param forForwardReachability Order for forward reachability ({@code true}) or backward reachability
      *     ({@code false}).
@@ -2499,9 +2499,10 @@ public class CifToSynthesisConverter {
                 if (edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.DISALLOWED) {
                     for (SynthesisEdge edge: matches) {
                         if (processedEdges.contains(edge)) {
-                            String msg = fmt("Invalid custom %s edge order: event \"%s\" is included more than once. "
-                                    + "If the duplicate event is intentional, enable allowing duplicate events "
-                                    + "in the custom event order using the \"Edge order duplicate events\" option.",
+                            String msg = fmt(
+                                    "Invalid custom %s edge order: event \"%s\" is included more than once. "
+                                            + "If the duplicate event is intentional, enable allowing duplicate events "
+                                            + "in the custom event order.",
                                     forForwardReachability ? "forward" : "backward", getAbsName(edge.event, false));
                             throw new InvalidOptionException(msg);
                         }
@@ -2538,7 +2539,7 @@ public class CifToSynthesisConverter {
      *
      * @param settings The settings.
      */
-    private void checkEdgeWorksetAlgorithmOptions(CifDataSynthesisSettings settings) {
+    private void checkEdgeWorksetAlgorithmSettings(CifDataSynthesisSettings settings) {
         // Skip if workset algorithm is disabled.
         if (!settings.doUseEdgeWorksetAlgo) {
             return;

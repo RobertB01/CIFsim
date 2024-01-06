@@ -86,10 +86,10 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
 
     @Override
     protected VarOrderer transRoot(List<VarOrdererInstance> astInstances) {
-        // Make sure basic and advanced options are not mixed.
-        checkBasicAndAdvancedOptionsMix();
+        // Make sure basic and advanced settings are not mixed.
+        checkBasicAndAdvancedSettingsMix();
 
-        // Process the advanced option.
+        // Process the advanced setting.
         List<VarOrderer> orderers = checkVarOrderers(astInstances);
         VarOrderer orderer = (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
         return orderer;
@@ -129,7 +129,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
         VarOrdererSingleInstance astOrderer = (VarOrdererSingleInstance)astInstance;
         String name = astOrderer.name.text;
         switch (name) {
-            // Use basic variable ordering options.
+            // Use basic variable ordering settings.
             case "basic":
                 return checkBasicOrderer(astOrderer);
 
@@ -192,11 +192,11 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     }
 
     /**
-     * Check whether basic options and advanced options for configuring BDD variable ordering are mixed.
+     * Check whether basic options and advanced settings for configuring BDD variable ordering are mixed.
      *
-     * @throws InvalidOptionException If the options are mixed.
+     * @throws InvalidOptionException If the settings are mixed.
      */
-    private void checkBasicAndAdvancedOptionsMix() {
+    private void checkBasicAndAdvancedSettingsMix() {
         boolean basicDefault = //
                 BddVariableOrderOption.isDefault() && //
                         BddDcshVarOrderOption.isDefault() && //
@@ -207,14 +207,13 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
         boolean advancedDefault = BddAdvancedVariableOrderOption.isDefault();
 
         if (!basicDefault && !advancedDefault) {
-            throw new InvalidOptionException(
-                    "The BDD variable ordering is configured through basic and advanced options, "
-                            + "which is not supported. Use only basic or only advanced options.");
+            throw new InvalidOptionException("The BDD variable ordering has both basic and advanced configuration, "
+                    + "which is not supported. Use only basic or only advanced configuration.");
         }
     }
 
     /**
-     * Get the variable orderer configured via the basic (non-advanced) options.
+     * Get the variable orderer configured via the basic (non-advanced) settings.
      *
      * @return The variable orderer.
      */
@@ -237,7 +236,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     }
 
     /**
-     * Get the initial variable orderer configured via the basic (non-advanced) option.
+     * Get the initial variable orderer configured via the basic (non-advanced) setting.
      *
      * @return The initial variable orderer.
      */
@@ -277,7 +276,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     }
 
     /**
-     * Get the hyper-edges relations kind configured via the basic (non-advanced) option.
+     * Get the hyper-edges relations kind configured via the basic (non-advanced) setting.
      *
      * @param ordererName The variable orderer name.
      * @return The relations kind.
@@ -293,7 +292,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                 return useLinearized ? RelationsKind.LINEARIZED : RelationsKind.LEGACY;
             }
         }
-        throw new RuntimeException("Unexpected option value: " + settings.bddHyperEdgeAlgo);
+        throw new RuntimeException("Unexpected setting value: " + settings.bddHyperEdgeAlgo);
     }
 
     /**

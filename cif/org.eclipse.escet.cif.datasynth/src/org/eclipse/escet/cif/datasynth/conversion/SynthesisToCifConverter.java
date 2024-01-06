@@ -203,7 +203,7 @@ public class SynthesisToCifConverter {
         // supervisors, and are thus not removed.
         //
         // Whether it is allowed to remove the requirements depends on the BDD
-        // predicate simplification option.
+        // predicate simplification setting.
         try {
             // If we simplify against something, the 'something' needs to
             // remain to ensure we don't loose that restriction.
@@ -308,11 +308,9 @@ public class SynthesisToCifConverter {
                 Set<String> names = CifScopeUtils.getSymbolNamesForScope(spec, null);
                 for (String name: names) {
                     if (name.startsWith(bddNamePrefix)) {
-                        String msg = fmt(
-                                "Can't create BDD output using BDD output name prefix \"%s\", as a declaration "
-                                        + "named \"%s\" already exists in the specification. Use the appropriate "
-                                        + "option to specify a different name prefix.",
-                                bddNamePrefix, name);
+                        String msg = fmt("Can't create BDD output using BDD output name prefix \"%s\", as a "
+                                + "declaration named \"%s\" already exists in the specification. Configure a "
+                                + "different name prefix.", bddNamePrefix, name);
                         throw new InvalidOptionException(msg);
                     }
                 }

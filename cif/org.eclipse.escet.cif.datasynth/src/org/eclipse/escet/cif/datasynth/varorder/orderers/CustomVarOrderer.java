@@ -53,7 +53,7 @@ public class CustomVarOrderer extends VarOrderer {
     }
 
     /**
-     * Returns the custom order, in option syntax.
+     * Returns the custom order, in textual syntax.
      *
      * @return The custom order text.
      */

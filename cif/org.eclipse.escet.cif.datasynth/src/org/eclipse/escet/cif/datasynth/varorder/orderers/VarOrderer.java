@@ -35,11 +35,11 @@ public abstract class VarOrderer {
     public abstract VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel);
 
     /**
-     * Returns the textual option syntax for the given enumeration constant value.
+     * Returns the textual syntax for the given enumeration constant value.
      *
      * @param <T> The type of the enumeration.
      * @param value The enumeration constant value.
-     * @return The textual option syntax.
+     * @return The textual syntax.
      */
     protected <T extends Enum<T>> String enumValueToParserArg(T value) {
         return value.name().toLowerCase(Locale.US).replace("_", "-");

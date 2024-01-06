@@ -144,7 +144,7 @@ public class CifDataSynthesis {
             applyStateEvtExclReqs(aut, dbgEnabled);
 
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
-            // (depending on options), and state/event exclusion requirement invariants.
+            // (depending on settings), and state/event exclusion requirement invariants.
             for (SynthesisEdge edge: aut.edges) {
                 if (aut.settings.shouldTerminate.get()) {
                     return;
@@ -1223,7 +1223,7 @@ public class CifDataSynthesis {
             // multiple edges for an event. State/event exclusion plant invariants are included in the edge guards.
             // State/event exclusion requirement invariants are included in the edge guards for controllable events.
             // State plant invariants and state requirement invariants are sometimes included in the edge guard
-            // (it may depend on options, and on whether the edge guard was strengthened). To simplify the
+            // (it may depend on settings, and on whether the edge guard was strengthened). To simplify the
             // implementation and make it
             // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
@@ -1483,7 +1483,7 @@ public class CifDataSynthesis {
                     stableCount = 1;
                 }
 
-                // Detect a fixed point for all fixed-point computations (as far as they are not disabled by options):
+                // Detect a fixed point for all fixed-point computations (as far as they are not disabled by settings):
 
                 // 1) Check for empty controlled behavior.
                 BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);

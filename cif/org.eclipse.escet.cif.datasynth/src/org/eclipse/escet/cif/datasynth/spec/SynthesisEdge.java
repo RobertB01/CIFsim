@@ -139,7 +139,7 @@ public class SynthesisEdge {
 
     /**
      * Global edge re-initialization. Edges must be reinitialized when the guards have been updated due to applying the
-     * state plant invariants, state requirement invariants (depending on options), and state/event exclusion
+     * state plant invariants, state requirement invariants (depending on settings), and state/event exclusion
      * requirement invariants. Must be invoked only once per edge. Must be invoked after an invocation of
      * {@link #initApply}.
      *
