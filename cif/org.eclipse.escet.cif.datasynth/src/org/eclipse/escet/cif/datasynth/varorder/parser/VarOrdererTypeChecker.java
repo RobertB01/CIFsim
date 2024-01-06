@@ -221,7 +221,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     private VarOrderer getBasicConfiguredOrderer() {
         VarOrderer initialOrderer = getBasicConfiguredInitialOrderer();
         List<VarOrderer> orderers = list(initialOrderer);
-        if (BddDcshVarOrderOption.isEnabled()) {
+        if (settings.bddDcshEnabled) {
             orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
                     getBasicConfiguredRelationsKind("dcsh"), VarOrdererEffect.VAR_ORDER));
         }
