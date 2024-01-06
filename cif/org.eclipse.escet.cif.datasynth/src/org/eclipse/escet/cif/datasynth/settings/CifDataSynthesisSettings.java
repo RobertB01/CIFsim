@@ -40,6 +40,12 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /**
+     * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
+     * CIF identifier}.
+     */
+    public final String bddOutputNamePrefix;
+
     /** The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis. */
     public final BddOutputMode bddOutputMode;
 
@@ -106,10 +112,16 @@ public class CifDataSynthesisSettings {
     /** The way that state requirement invariants are enforced. */
     public final StateReqInvEnforceMode stateReqInvEnforceMode;
 
-    /** The name of the resulting supervisor automaton. */
+    /**
+     * The name of the resulting supervisor automaton. It is a valid {@link CifValidationUtils#isValidIdentifier CIF
+     * identifier}.
+     */
     public final String supervisorName;
 
-    /** The namespace of the resulting supervisor, or {@code null} to use the empty namespace. */
+    /**
+     * The namespace of the resulting supervisor, or {@code null} to use the empty namespace. If not {@code null}, it is
+     * a valid {@link CifValidationUtils#isValidName CIF name}.
+     */
     public final String supervisorNamespace;
 
     /** The kinds of statistics to print. */
@@ -123,6 +135,8 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddOutputNamePrefix The prefix to use for BDD related names in the output. Must be a valid
+     *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
      * @param bddOutputMode The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis.
      * @param bddSimplifications The BDD predicate simplifications to perform.
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
@@ -157,11 +171,11 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, BddOutputMode bddOutputMode,
-            EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit, boolean bddSlidingWindowEnabled,
-            int bddSlidingWindowMaxLen, String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
-            String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
-            String edgeOrderBackward, String edgeOrderForward,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, String bddOutputNamePrefix,
+            BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit,
+            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
+            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
+            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
             boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
@@ -172,6 +186,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddOutputNamePrefix = bddOutputNamePrefix;
         this.bddOutputMode = bddOutputMode;
         this.bddSimplifications = bddSimplifications;
         this.bddVarOrderInit = bddVarOrderInit;
@@ -193,6 +208,12 @@ public class CifDataSynthesisSettings {
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;
+
+        // Check BDD output name prefix.
+        if (!CifValidationUtils.isValidIdentifier(bddOutputNamePrefix)) {
+            String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", bddOutputNamePrefix);
+            throw new InvalidOptionException(msg);
+        }
 
         // Check supervisor name.
         if (!CifValidationUtils.isValidIdentifier(supervisorName)) {
