@@ -127,7 +127,7 @@ public class CifDataSynthesisReachability {
      *
      * @param pred The predicate to which to apply the reachability. This predicate is {@link BDD#free freed} by this
      *     method.
-     * @return The fixed point result of the reachability computation, or {@code null} if the application is terminated.
+     * @return The fixed point result of the reachability computation, or {@code null} if termination was requested.
      */
     public BDD performReachability(BDD pred) {
         // Print debug output.
@@ -224,7 +224,7 @@ public class CifDataSynthesisReachability {
      *     applied.
      * @return The fixed point result of the reachability computation, together with an indication of whether the
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
-     *     returned if the application is terminated.
+     *     returned if termination was requested.
      */
     private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<SynthesisEdge> edges, BitSet edgesMask) {
         boolean changed = false;
@@ -310,7 +310,7 @@ public class CifDataSynthesisReachability {
      * @param edges The synthesis edges to apply.
      * @return The fixed point result of the reachability computation, together with an indication of whether the
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
-     *     returned if the application is terminated.
+     *     returned if termination was requested.
      */
     private Pair<BDD, Boolean> performReachabilityFixedOrder(BDD pred, List<SynthesisEdge> edges) {
         boolean changed = false;
