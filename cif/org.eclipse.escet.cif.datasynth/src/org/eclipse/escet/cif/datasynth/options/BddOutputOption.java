@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.datasynth.options.BddOutputOption.BddOutputMode;
+import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -47,14 +47,5 @@ public class BddOutputOption extends EnumOption<BddOutputMode> {
      */
     public static BddOutputMode getMode() {
         return Options.get(BddOutputOption.class);
-    }
-
-    /** BDD output mode. */
-    public static enum BddOutputMode {
-        /** Use conjunctive or disjunctive normal form. */
-        NORMAL,
-
-        /** Represent the internal BDD nodes directly in CI. */
-        NODES;
     }
 }

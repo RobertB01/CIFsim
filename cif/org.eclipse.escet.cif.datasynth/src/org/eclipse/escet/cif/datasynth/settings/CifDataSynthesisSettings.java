@@ -40,6 +40,9 @@ public class CifDataSynthesisSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis. */
+    public final BddOutputMode bddOutputMode;
+
     /** The BDD predicate simplifications to perform. */
     public final EnumSet<BddSimplify> bddSimplifications;
 
@@ -120,6 +123,7 @@ public class CifDataSynthesisSettings {
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
+     * @param bddOutputMode The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis.
      * @param bddSimplifications The BDD predicate simplifications to perform.
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
      * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
@@ -153,9 +157,9 @@ public class CifDataSynthesisSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, EnumSet<BddSimplify> bddSimplifications,
-            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
-            String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, BddOutputMode bddOutputMode,
+            EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit, boolean bddSlidingWindowEnabled,
+            int bddSlidingWindowMaxLen, String bddVarOrderAdvanced, String continuousPerformanceStatisticsFilePath,
             String continuousPerformanceStatisticsFileAbsPath, EdgeGranularity edgeGranularity,
             String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
@@ -168,6 +172,7 @@ public class CifDataSynthesisSettings {
         this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
+        this.bddOutputMode = bddOutputMode;
         this.bddSimplifications = bddSimplifications;
         this.bddVarOrderInit = bddVarOrderInit;
         this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;

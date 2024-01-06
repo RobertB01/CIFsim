@@ -75,8 +75,7 @@ import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
 import org.eclipse.escet.cif.datasynth.options.BddOutputNamePrefixOption;
-import org.eclipse.escet.cif.datasynth.options.BddOutputOption;
-import org.eclipse.escet.cif.datasynth.options.BddOutputOption.BddOutputMode;
+import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
@@ -182,7 +181,7 @@ public class SynthesisToCifConverter {
         this.synthAut = synthAut;
         this.spec = spec;
         this.supervisor = null;
-        this.outputMode = BddOutputOption.getMode();
+        this.outputMode = synthAut.settings.bddOutputMode;
         this.bddNamePrefix = BddOutputNamePrefixOption.getPrefix();
         this.bddNodeMap = null;
         this.bddVarIdxMap = null;
