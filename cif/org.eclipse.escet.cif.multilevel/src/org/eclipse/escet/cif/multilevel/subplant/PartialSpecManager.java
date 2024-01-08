@@ -68,12 +68,14 @@ public class PartialSpecManager {
     private Map<EObject, EObject> copiedObjects = map();
 
     /**
-     * Queue with unprocessed collections of dangling references in the partial specification.
+     * Queue with unprocessed collections of dangling references in the partial specification. Dangling references are
+     * non-containment references from an object to another object, where containment-wise the objects don't have a
+     * common ancestor.
      *
      * <p>
      * The result of a scan is a map of dangling objects with their relations to the scanned tree. Keys of the map are
-     * the dangling objects. The associated values are 'settings', the EMF connections from non-containing parents of
-     * the sub-tree to the dangling object in the key.
+     * the dangling objects. The associated values are 'settings', the EMF connections from the objects that refer to
+     * the dangling object in the key.
      * </p>
      * <p>
      * No attempt is done to merge entries from different scans. This means that in processing the dangling references
@@ -231,8 +233,8 @@ public class PartialSpecManager {
 
         // 'origComponent' has no associated partial component and is thus not a specification since that has been
         // added to the 'copiedObjects' before. It must thus be a group or an automaton. The EMF containing parent
-        // object is thus not 'null'. In addition, that parent object is not a automaton. The cast to 'Group' is thus
-        // safe.
+        // object is thus not 'null'. In addition, that parent object is not a automaton, as automata cannot contain
+        // other components. The cast to 'Group' is thus safe.
         Group origParent = (Group)origComponent.eContainer();
         Group partialParent = (Group)ensureComponent(origParent);
 

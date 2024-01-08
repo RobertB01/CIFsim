@@ -55,6 +55,7 @@ public class PartialSpecsTest {
     private void doTest(List<DiscVariable> varsToAdd, boolean dropVarCb) {
         // Construct original specification.
         Specification origSpec = newSpecification();
+
         // Borrow the declarations list for defining the desired order.
         origSpec.getDeclarations().addAll(List.of(varA, varB, varC, varD));
 

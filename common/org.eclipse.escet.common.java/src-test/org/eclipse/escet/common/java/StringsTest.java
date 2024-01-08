@@ -272,7 +272,7 @@ public class StringsTest {
         assertEquals("199", makeFixedLengthNumberText(199, 200));
         assertEquals("200", makeFixedLengthNumberText(200, 200));
 
-        int num = 1073741824; // 0.5 larger than MAX_VALUE / 2.0 .
+        int num = 1073741824; // '0.5' larger than 'MAX_VALUE / 2.0'.
         assertEquals(String.valueOf(num), makeFixedLengthNumberText(num, Integer.MAX_VALUE));
     }
 }
