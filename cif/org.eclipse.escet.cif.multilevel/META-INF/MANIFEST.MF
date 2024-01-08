@@ -28,4 +28,5 @@ Automatic-Module-Name: org.eclipse.escet.cif.multilevel
 Export-Package: org.eclipse.escet.cif.multilevel,
  org.eclipse.escet.cif.multilevel.ciftodmm,
  org.eclipse.escet.cif.multilevel.clustering,
+ org.eclipse.escet.cif.multilevel.options,
  org.eclipse.escet.cif.multilevel.subplant

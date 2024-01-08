@@ -25,13 +25,16 @@ public class PartialSpecsOutputDirectoryOption extends StringOption {
     public PartialSpecsOutputDirectoryOption() {
         super("Partial specifications output directory",
                 "The path to the partial specifications output directory. Partial specifications are not written if "
-                        + "this option is left empty [DEFAULT_VALUIE=empty]",
-                null, "specs-dir", "SPECS_DIR", null, true, true, "The partial specifications output directory path.",
-                "Partial specifications output directory path:");
+                        + "this option is left empty. Is empty by default.",
+                null, "specs-dir", "PATH", null, true, true,
+                "The path to the partial specifications output directory. Partial specifications are not written if "
+                        + "this option is left empty.",
+                "Directory path:");
     }
 
     /**
-     * Returns the path of the partial specifications output directory, or {@code null} if not provided.
+     * Returns the path of the partial specifications output directory, or {@code null} to not output the partial
+     * specifications to a directory.
      *
      * @return The path of the partial specifications output directory, or {@code null}.
      */

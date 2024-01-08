@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.multilevel.options;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** Output file option. */
+/** DMM output file option. */
 public class DmmOutputFileOption extends StringOption {
     /**
      * Constructor for the {@link DmmOutputFileOption} class. Don't directly create instances of this class. Use the
@@ -24,13 +24,15 @@ public class DmmOutputFileOption extends StringOption {
      */
     public DmmOutputFileOption() {
         super("DMM output file",
-                "The path to the DMM output file. DMM output file is not written if this option is left empty "
-                        + "[DEFAULT_VALUE=empty]",
-                null, "dmm-output", "FILE", null, true, true, "The DMM output file path.", "DMM output file path:");
+                "The path to the DMM output file. DMM output file is not written if this option is left empty. "
+                        + "Is empty by default.",
+                null, "dmm-file", "PATH", null, true, true,
+                "The path to the DMM output file. DMM output file is not written if this option is left empty.",
+                "File path:");
     }
 
     /**
-     * Returns the path of the DMM output file, or {@code null} if not provided.
+     * Returns the path of the DMM output file, or {@code null} to not output the DMM to a file.
      *
      * @return The path of the DMM output file, or {@code null}.
      */
