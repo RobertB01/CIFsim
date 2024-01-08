@@ -49,7 +49,7 @@ import org.eclipse.escet.cif.multilevel.clustering.ComputeMultiLevelTree;
 import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.cif.multilevel.options.DmmOutputFileOption;
 import org.eclipse.escet.cif.multilevel.options.PartialSpecsOutputDirectoryOption;
-import org.eclipse.escet.cif.multilevel.subplant.PartialSpecsBuilder;
+import org.eclipse.escet.cif.multilevel.partialspecs.PartialSpecsBuilder;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.multilevel.subplant;
+package org.eclipse.escet.cif.multilevel.partialspecs;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
