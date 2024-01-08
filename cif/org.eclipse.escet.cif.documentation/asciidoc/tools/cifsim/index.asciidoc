@@ -21,6 +21,7 @@ indexterm:[tools,simulator]
 The CIF simulator can be used to explore the <<tools-cifsim-traces-state-space,state space>> of CIF specifications, either interactively, or using a more automated approach.
 Powerful visualization features allow for interactive visualization-based validation of the CIF specification.
 
+[[virtual-toc-target--tools-simulator-basics]]
 *Basics*
 
 * <<tools-cifsim-chapter-supported>>
@@ -30,12 +31,14 @@ Powerful visualization features allow for interactive visualization-based valida
 * <<tools-cifsim-chapter-traces>>
 * <<tools-cifsim-chapter-repeated-simulation>>
 
+[[virtual-toc-target--tools-simulator-input-output]]
 *Input/output*
 
 * <<tools-cifsim-input-chapter-index>>
 * <<tools-cifsim-chapter-env-events>> (non-urgent events)
 * <<tools-cifsim-output-chapter-index>>
 
+[[virtual-toc-target--tools-simulator-advanced]]
 *Advanced*
 
 * <<tools-cifsim-chapter-options>>
@@ -43,6 +46,7 @@ Powerful visualization features allow for interactive visualization-based valida
 * <<tools-cifsim-solver-chapter-index>> (integration and guard/event detection)
 * <<tools-cifsim-chapter-java-compiler>>
 
+[[virtual-toc-target--tools-simulator-misc]]
 *Miscellaneous*
 
 * <<tools-cifsim-chapter-complete-mode>>
@@ -50,6 +54,7 @@ Powerful visualization features allow for interactive visualization-based valida
 * <<tools-cifsim-chapter-profiling>>
 * <<tools-cifsim-chapter-distr-seeds>>
 
+[[virtual-toc-target--tools-simulator-dev]]
 *Developers*
 
 * <<tools-cifsim-chapter-max-time-point-tol>>

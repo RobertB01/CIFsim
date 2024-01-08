@@ -82,6 +82,7 @@ include::synthesis-based-engineering/in-practice/index.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--sbe-steps]]
 == Steps
 
 :leveloffset: +1
@@ -104,6 +105,7 @@ include::synthesis-based-engineering/in-practice/steps/implementation.asciidoc[]
 
 :leveloffset: -1
 
+[[virtual-toc-entry--sbe-advanced]]
 == Advanced
 
 :leveloffset: +1
@@ -130,6 +132,7 @@ include::synthesis-based-engineering/challenges.asciidoc[]
 
 include::language-tutorial/index.asciidoc[]
 
+[[virtual-toc-entry--lang-tut-basics]]
 === Basics
 
 :leveloffset: +2
@@ -148,6 +151,7 @@ include::language-tutorial/basics/shorter-notations.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-data]]
 === Data
 
 :leveloffset: +2
@@ -180,6 +184,7 @@ include::language-tutorial/data/state-evt-excl-invariants.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-values]]
 === Types and values
 
 :leveloffset: +2
@@ -216,6 +221,7 @@ include::language-tutorial/values/if-and-switch.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-reuse1]]
 === Scalable solutions and reuse (1/2)
 
 :leveloffset: +2
@@ -230,6 +236,7 @@ include::language-tutorial/reuse1/type-declarations.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-time]]
 === Time
 
 :leveloffset: +2
@@ -250,6 +257,7 @@ include::language-tutorial/time/deadlock-livelock.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-channels]]
 === Channel communication
 
 :leveloffset: +2
@@ -262,6 +270,7 @@ include::language-tutorial/channels/chan-sync-combi.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-functions]]
 === Functions
 
 :leveloffset: +2
@@ -276,6 +285,7 @@ include::language-tutorial/functions/functions-as-values.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-reuse2]]
 === Scalable solutions and reuse (2/2)
 
 :leveloffset: +2
@@ -302,6 +312,7 @@ include::language-tutorial/reuse2/input-variables.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-stochastics]]
 === Stochastics
 
 :leveloffset: +2
@@ -314,6 +325,7 @@ include::language-tutorial/stochastics/pseudo-randomness.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-tut-extensions]]
 === Language extensions
 
 :leveloffset: +2
@@ -330,6 +342,7 @@ include::language-reference/index.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--lang-ref-syntax]]
 == Syntax
 
 :leveloffset: +1
@@ -342,6 +355,7 @@ include::language-reference/syntax/xml.asciidoc[]
 
 :leveloffset: -1
 
+[[virtual-toc-entry--lang-ref-annotations]]
 == Annotations
 
 :leveloffset: +1
@@ -366,6 +380,7 @@ include::language-reference/annotations/state.asciidoc[]
 
 include::tools/index.asciidoc[]
 
+[[virtual-toc-entry--tools-specification]]
 === Specification tools
 
 :leveloffset: +2
@@ -374,6 +389,7 @@ include::tools/text-editor.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--tools-synthesis]]
 === Supervisory controller synthesis tools
 
 :leveloffset: +2
@@ -470,6 +486,7 @@ include::tools/cif2supremica.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--tools-v-and-v]]
 === Simulation, validation, and verification tools
 
 :leveloffset: +2
@@ -480,6 +497,7 @@ include::tools/cifsim/index.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--tools-simulator-basics]]
 ==== Simulation basics
 
 :leveloffset: -1
@@ -502,6 +520,7 @@ include::tools/cifsim/repeated-simulation.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--tools-simulator-input-output]]
 ==== Simulation input/output
 
 :leveloffset: -1
@@ -620,6 +639,7 @@ include::tools/cifsim/output/realtime.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--tools-simulator-advanced]]
 ==== Simulation advanced topics
 
 :leveloffset: -1
@@ -656,6 +676,7 @@ include::tools/cifsim/java-compiler.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--tools-simulator-misc]]
 ==== Simulation miscellaneous topics
 
 :leveloffset: -1
@@ -676,6 +697,7 @@ include::tools/cifsim/distr-seeds.asciidoc[]
 
 :leveloffset: +1
 
+[[virtual-toc-entry--tools-simulator-dev]]
 ==== Simulation developer topics
 
 :leveloffset: -1
@@ -700,6 +722,7 @@ include::tools/controller-checker.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--tools-implementation]]
 === Real-time testing, code generation, and implementation tools
 
 :leveloffset: +2
@@ -746,6 +769,7 @@ include::tools/plcgen/s7.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--tools-misc]]
 === Miscellaneous tools
 
 :leveloffset: +2
@@ -846,6 +870,7 @@ include::tools/cif2yed.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--tools-scripting]]
 === Scripting
 
 :leveloffset: +2

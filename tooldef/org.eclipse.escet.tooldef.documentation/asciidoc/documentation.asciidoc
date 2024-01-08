@@ -58,6 +58,7 @@ include::introduction.asciidoc[]
 
 include::language-reference/index.asciidoc[]
 
+[[virtual-toc-entry--lang-ref-syntax]]
 === Syntax
 
 :leveloffset: +2
@@ -68,6 +69,7 @@ include::language-reference/syntax/grammar.asciidoc[]
 
 :leveloffset: -2
 
+[[virtual-toc-entry--lang-ref-builtins]]
 === Built-in tools and operators
 
 :leveloffset: +2

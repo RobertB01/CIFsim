@@ -32,6 +32,7 @@ ifdef::website-output[]
 TIP: You can link:eclipse-escet-dev-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
+[[virtual-toc-target--development]]
 *Eclipse ESCET development*
 
 This manual includes information related to the development of the Eclipse ESCET toolkit as a whole, as it applies to all its languages and tools.
@@ -67,6 +68,7 @@ Information on the following libraries and development tools is available:
 
 // Development
 
+[[virtual-toc-entry--development]]
 == Eclipse ESCET development
 
 :leveloffset: +1

@@ -25,12 +25,14 @@ The reference documentation generally provides detailed and complete information
 The information is divided into categories.
 The following categories and information is part of the language reference documentation:
 
+[[virtual-toc-target--lang-ref-syntax]]
 _Syntax_
 
 * <<lang-ref-syntax-lexical>>
 * <<lang-ref-syntax-grammar>>
 * <<lang-ref-syntax-xml>>
 
+[[virtual-toc-target--lang-ref-annotations]]
 _Annotations_
 
 * <<lang-ref-extensions-annotations>>
