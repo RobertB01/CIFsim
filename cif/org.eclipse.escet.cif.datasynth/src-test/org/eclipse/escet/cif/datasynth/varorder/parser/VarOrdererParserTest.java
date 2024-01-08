@@ -902,6 +902,7 @@ public class VarOrdererParserTest {
      */
     private CifDataSynthesisSettings getSettings() {
         Supplier<Boolean> shouldTerminate = () -> false;
+        BlackHoleOutputProvider outputProvider = new BlackHoleOutputProvider();
         Integer bddDebugMaxNodes = 10;
         Double bddDebugMaxPaths = 10.0;
         int bddInitNodeTableSize = 100_000;
@@ -918,16 +919,16 @@ public class VarOrdererParserTest {
         boolean doPlantsRefReqsWarn = false;
         String supervisorName = "sup";
         String supervisorNamespace = null;
-        return new CifDataSynthesisSettings(shouldTerminate, new BlackHoleOutputProvider().getDebugOutput(),
-                new BlackHoleOutputProvider().getNormalOutput(), new BlackHoleOutputProvider().getWarnOutput(),
-                bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo,
-                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL,
-                EnumSet.allOf(BddSimplify.class), bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
-                bddVarOrderAdvanced, continuousPerformanceStatisticsFilePath,
-                continuousPerformanceStatisticsFileAbsPath, EdgeGranularity.PER_EDGE, edgeOrderBackward,
-                edgeOrderForward, EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo,
-                doNeverEnabledEventsWarn, FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach,
-                doPlantsRefReqsWarn, StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+        return new CifDataSynthesisSettings(shouldTerminate, outputProvider.getDebugOutput(),
+                outputProvider.getNormalOutput(), outputProvider.getWarnOutput(), bddDcshEnabled, bddDebugMaxNodes,
+                bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize, bddOpCacheRatio,
+                bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class),
+                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
+                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
+                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
+                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
                 EnumSet.noneOf(SynthesisStatistics.class));
     }
 }

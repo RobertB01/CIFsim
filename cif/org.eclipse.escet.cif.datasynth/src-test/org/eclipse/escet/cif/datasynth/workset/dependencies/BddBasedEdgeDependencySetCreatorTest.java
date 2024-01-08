@@ -549,6 +549,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Get settings.
         Supplier<Boolean> shouldTerminate = () -> false;
+        BlackHoleOutputProvider outputProvider = new BlackHoleOutputProvider();
         boolean bddDcshEnabled = BddSettingsDefaults.DCSH_ENABLED_DEFAULT;
         Integer bddDebugMaxNodes = 0;
         Double bddDebugMaxPaths = 0.0;
@@ -572,11 +573,11 @@ public class BddBasedEdgeDependencySetCreatorTest {
         String supervisorName = "sup";
         String supervisorNamespace = null;
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
-                new BlackHoleOutputProvider().getDebugOutput(), new BlackHoleOutputProvider().getNormalOutput(),
-                new BlackHoleOutputProvider().getWarnOutput(), bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths,
-                bddForceEnabled, BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT, bddInitNodeTableSize, bddOpCacheRatio,
-                bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class),
-                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
+                outputProvider.getDebugOutput(), outputProvider.getNormalOutput(), outputProvider.getWarnOutput(),
+                bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled,
+                BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize,
+                bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class), bddVarOrderInit,
+                bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
                 continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
                 EdgeGranularity.PER_EVENT, edgeOrderBackward, edgeOrderForward,
                 EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
