@@ -16,7 +16,7 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.helper.Validate;
+import com.google.common.base.Verify;
 
 /** AsciiDoc Table of Contents (TOC) entry, corresponding to a section in an AsciiDoc document. */
 class AsciiDocTocEntry {
@@ -49,6 +49,6 @@ class AsciiDocTocEntry {
         this.refId = refId;
         this.parent = parent;
 
-        Validate.isTrue((refId == null) == (parent == null));
+        Verify.verify((refId == null) == (parent == null));
     }
 }
