@@ -26,14 +26,14 @@ The information is divided into categories.
 The following categories and information is part of the language reference documentation:
 
 [[virtual-toc-target--lang-ref-syntax]]
-_Syntax_
+*Syntax*
 
 * <<lang-ref-syntax-lexical>>
 * <<lang-ref-syntax-grammar>>
 * <<lang-ref-syntax-xml>>
 
 [[virtual-toc-target--lang-ref-annotations]]
-_Annotations_
+*Annotations*
 
 * <<lang-ref-extensions-annotations>>
 * <<lang-ref-extensions-annotations-builtin>>

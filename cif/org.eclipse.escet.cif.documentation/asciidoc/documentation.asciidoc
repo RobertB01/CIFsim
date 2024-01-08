@@ -82,8 +82,8 @@ include::synthesis-based-engineering/in-practice/index.asciidoc[]
 
 :leveloffset: +1
 
-[[virtual-toc-entry--sbe-steps]]
-== Steps
+[[virtual-toc-entry--sbe-process]]
+== Development process
 
 :leveloffset: +1
 
@@ -106,7 +106,7 @@ include::synthesis-based-engineering/in-practice/steps/implementation.asciidoc[]
 :leveloffset: -1
 
 [[virtual-toc-entry--sbe-advanced]]
-== Advanced
+== Advanced topics
 
 :leveloffset: +1
 

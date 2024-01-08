@@ -22,7 +22,7 @@ Before reading this section, please familiarize yourself with:
 * The <<lang-tut-chapter-index,basics of the CIF language>>.
 * The <<sbe-approaches-synthesis-based,synthesis-based engineering>> approach.
 
-[[virtual-toc-target--sbe-steps]]
+[[virtual-toc-target--sbe-process]]
 *Development process*
 
 The process to develop supervisory controllers using the synthesis-based engineering approach typically following several steps.
