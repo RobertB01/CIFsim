@@ -807,15 +807,15 @@ class AsciiDocHtmlModifier {
             }
 
             // Ensure it is a relative path to an entire file.
-            Verify.verify(uriScheme == null);
-            Verify.verify(uri.getUserInfo() == null);
-            Verify.verify(uri.getHost() == null);
-            Verify.verify(uri.getPort() == -1);
-            Verify.verify(uri.getAuthority() == null);
-            Verify.verify(uri.getQuery() == null);
-            Verify.verify(uri.getFragment() == null);
-            Verify.verifyNotNull(uri.getPath());
-            Verify.verify(ref.equals(uri.getPath()));
+            Verify.verify(uriScheme == null, uri.toString());
+            Verify.verify(uri.getUserInfo() == null, uri.toString());
+            Verify.verify(uri.getHost() == null, uri.toString());
+            Verify.verify(uri.getPort() == -1, uri.toString());
+            Verify.verify(uri.getAuthority() == null, uri.toString());
+            Verify.verify(uri.getQuery() == null, uri.toString());
+            Verify.verify(uri.getFragment() == null, uri.toString());
+            Verify.verifyNotNull(uri.getPath(), uri.toString());
+            Verify.verify(ref.equals(uri.getPath()), uri.toString());
 
             // Get absolute path of file referred to by href.
             Path hrefAbsTarget = sourceRootPath.resolve(ref);
