@@ -849,7 +849,7 @@ class AsciiDocHtmlModifier {
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
         elemTocHomeA.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, homePage, null));
         if (page == homePage) {
-            elemTocHomeA.addClass("toc-cur-page");
+            elemTocHomeLi.addClass("toc-cur-page");
         }
         elemTocHomeA.appendText(homePage.sourceFile.title);
     }
