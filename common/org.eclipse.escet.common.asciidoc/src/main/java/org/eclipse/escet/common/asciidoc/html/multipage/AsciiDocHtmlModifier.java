@@ -648,7 +648,8 @@ class AsciiDocHtmlModifier {
      */
     private static void renameSectionIdsInToc(AsciiDocHtmlPage page, AsciiDocTocEntry tocEntry) {
         // Rename this TOC entry.
-        if (tocEntry.page == page && tocEntry.refId != null) {
+        if (tocEntry.page == page && tocEntry.parent != null) {
+            Verify.verifyNotNull(tocEntry.refId);
             String newRefId = page.sectionIdRenames.get(tocEntry.refId);
             Verify.verifyNotNull(newRefId, tocEntry.refId);
             tocEntry.refId = newRefId;
