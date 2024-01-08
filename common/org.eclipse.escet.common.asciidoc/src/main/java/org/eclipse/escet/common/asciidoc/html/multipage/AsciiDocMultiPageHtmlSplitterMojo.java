@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -53,25 +54,33 @@ public class AsciiDocMultiPageHtmlSplitterMojo extends AbstractMojo {
     private HtmlType htmlType;
 
     /**
-     * The name of the parent website to link to, if {@code htmlType} is {@link HtmlType#WEBSITE}, {@code null}
+     * The name of the parent website to link to, if {@link #htmlType} is {@link HtmlType#WEBSITE}, {@code null}
      * otherwise.
      */
     @Parameter
     private String parentWebsiteName;
 
     /**
-     * The relative path of the parent website to link to, if {@code htmlType} is {@link HtmlType#WEBSITE}, {@code null}
-     * otherwise.
+     * The relative path of the parent website to link to, if {@link #htmlType} is {@link HtmlType#WEBSITE},
+     * {@code null} otherwise.
      */
     @Parameter
     private String parentWebsiteLink;
+
+    /**
+     * The path to the JavaScript file to write, relative to {@link #outputRootPath}, if {@link #htmlType} is
+     * {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     */
+    @Parameter
+    private String jsFilePath;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         Log log = getLog();
         try {
             AsciiDocMultiPageHtmlSplitter.splitHtml(sourceRootPath.toPath(), singleHtmlPagePath.toPath(),
-                    outputRootPath.toPath(), htmlType, parentWebsiteName, parentWebsiteLink, rootBaseName, log::info);
+                    outputRootPath.toPath(), htmlType, parentWebsiteName, parentWebsiteLink,
+                    (jsFilePath == null) ? null : Paths.get(jsFilePath), rootBaseName, log::info);
         } catch (Throwable e) {
             log.error(e);
             throw new MojoExecutionException("Error while executing Maven plugin.", e);

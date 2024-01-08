@@ -180,6 +180,7 @@
                             <htmlType>WEBSITE</htmlType>
                             <parentWebsiteName>Chi website</parentWebsiteName>
                             <parentWebsiteLink>.</parentWebsiteLink>
+                            <jsFilePath>assets/asciidoctor-escet-chi.js</jsFilePath>
                         </configuration>
                     </execution>
                 </executions>
