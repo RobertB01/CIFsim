@@ -13,6 +13,13 @@
 
 package org.eclipse.escet.cif.multilevel;
 
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind.STATE;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind.ALL_PLACES;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind.LOCATIONS;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.KINDLESS;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.PLANT;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.REQUIREMENT;
+import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.SUPERVISOR;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
@@ -36,6 +43,21 @@ import java.util.stream.Stream;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealMatrixFormat;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
@@ -43,8 +65,11 @@ import org.eclipse.escet.cif.cif2cif.SimplifyValuesOptimized;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
+import org.eclipse.escet.cif.multilevel.ciftodmm.SpecHasPlantCheck;
+import org.eclipse.escet.cif.multilevel.ciftodmm.SpecHasRequirementCheck;
 import org.eclipse.escet.cif.multilevel.clustering.ComputeMultiLevelTree;
 import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.cif.multilevel.options.DmmOutputFileOption;
@@ -146,9 +171,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Verify pre-conditions.
-        // TODO: CifToDmm prechecker only verifies conditions needed for the CIF to DMM transformation, other parts of
-        // TODO: the multilevel application need more or other checks.
-        CifToDmm.checkSpec(spec, absSpecPath);
+        checkSpec(spec, absSpecPath);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -313,6 +336,57 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
         out("Wrote %d partial specification%s to directory \"%s\".", partialSpecs.size(),
                 (partialSpecs.size() == 1) ? "" : "s", partialSpecsDir);
+    }
+
+    /**
+     * Perform checking on the specification to decide if it is appropriate for multi-level synthesis.
+     *
+     * @param spec Specification to check.
+     * @param absSpecPath The absolute local file system path to the CIF file to check.
+     */
+    public static void checkSpec(Specification spec, String absSpecPath) {
+        CifPreconditionChecker checker = new MultiLevelPreChecker();
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF multi-level synthesis");
+    }
+
+    /** CIF checker class to check pre-conditions of the multi-level synthesis. */
+    private static class MultiLevelPreChecker extends CifPreconditionChecker {
+        /** Constructor of the {@link MultiLevelPreChecker} class. */
+        public MultiLevelPreChecker() {
+            // All but the final check are pre-conditions for CIF to DMM. The final check is needed by data synthesis.
+            super(
+                    // Ensure there are no relations between elements hidden in initialization expressions.
+                    new AutOnlyWithOneInitLocCheck(), //
+                    new VarNoDiscWithMultiInitValuesCheck(), //
+                    new VarDiscOnlyStaticEvalInitCheck(),
+
+                    // Should have only plant and requirement automata.
+                    new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT),
+
+                    // Need at least one plant element, to prevent empty DMMs.
+                    // Both plant automata and input variables count as 'plant'.
+                    new SpecHasPlantCheck(),
+
+                    // Need at least one requirement element, to prevent empty DMMs.
+                    // Both requirement automata and state/event exclusion invariants count as requirement.
+                    new SpecHasRequirementCheck(),
+
+                    // Only requirement state/event exclusion invariants in components are supported.
+                    new InvNoSpecificInvsCheck() //
+                            .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
+                            .disallow(SUPERVISOR, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
+                            .disallow(PLANT, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
+                            .disallow(REQUIREMENT, STATE, ALL_PLACES) //
+                            .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, LOCATIONS),
+
+                    // Unsupported features.
+                    new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES), //
+                    new EventNoTauCheck(), //
+                    new VarNoContinuousCheck(), //
+                    new EqnNotAllowedCheck(), //
+                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.INTERNAL)
+            );
+        }
     }
 
     @Override
