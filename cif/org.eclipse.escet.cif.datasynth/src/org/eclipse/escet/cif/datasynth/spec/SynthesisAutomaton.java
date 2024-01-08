@@ -21,9 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
@@ -33,23 +32,11 @@ import com.github.javabdd.BDDVarSet;
 
 /** Data-based synthesis algorithm linearized automaton. */
 public class SynthesisAutomaton {
-    /** The application context to use. */
-    public final AppEnvData env = AppEnv.getData();
+    /** The settings to use. */
+    public final CifDataSynthesisSettings settings;
 
     /** The BDD factory to use. */
     public BDDFactory factory;
-
-    /**
-     * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
-     * output, or {@code null} for no maximum.
-     */
-    public Integer debugMaxNodes;
-
-    /**
-     * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
-     * debug output, or {@code null} for no maximum.
-     */
-    public Double debugMaxPaths;
 
     /** The alphabet of the automaton. */
     public Set<Event> alphabet;
@@ -341,6 +328,15 @@ public class SynthesisAutomaton {
 
     /** Controlled-behavior predicate of the system. Computed and used during synthesis. Also a result of synthesis. */
     public BDD ctrlBeh;
+
+    /**
+     * Constructor for the {@link SynthesisAutomaton} class.
+     *
+     * @param settings The settings to use.
+     */
+    public SynthesisAutomaton(CifDataSynthesisSettings settings) {
+        this.settings = settings;
+    }
 
     @Override
     public String toString() {

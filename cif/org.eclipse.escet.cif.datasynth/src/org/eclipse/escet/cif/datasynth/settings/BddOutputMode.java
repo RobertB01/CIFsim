@@ -11,31 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.options;
+package org.eclipse.escet.cif.datasynth.settings;
 
-/** Synthesis statistics. */
-public enum SynthesisStatistics {
-    /** BDD garbage collection. */
-    BDD_GC_COLLECT,
+/** BDD output mode. */
+public enum BddOutputMode {
+    /** Use conjunctive or disjunctive normal form. */
+    NORMAL,
 
-    /** BDD node table resize. */
-    BDD_GC_RESIZE,
-
-    /** BDD cache. */
-    BDD_PERF_CACHE,
-
-    /** Continuous BDD performance. */
-    BDD_PERF_CONT,
-
-    /** Maximum used BDD nodes. */
-    BDD_PERF_MAX_NODES,
-
-    /** Controlled system states. */
-    CTRL_SYS_STATES,
-
-    /** Timing. */
-    TIMING,
-
-    /** Maximum used memory. */
-    MAX_MEMORY,
+    /** Represent the internal BDD nodes directly in CI. */
+    NODES;
 }

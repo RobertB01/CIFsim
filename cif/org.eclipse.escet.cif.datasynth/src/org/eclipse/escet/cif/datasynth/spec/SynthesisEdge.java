@@ -139,7 +139,7 @@ public class SynthesisEdge {
 
     /**
      * Global edge re-initialization. Edges must be reinitialized when the guards have been updated due to applying the
-     * state plant invariants, state requirement invariants (depending on options), and state/event exclusion
+     * state plant invariants, state requirement invariants (depending on settings), and state/event exclusion
      * requirement invariants. Must be invoked only once per edge. Must be invoked after an invocation of
      * {@link #initApply}.
      *
@@ -260,7 +260,7 @@ public class SynthesisEdge {
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)
             BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, aut.varSetOld);
             pred.free();
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return rslt;
             }
 
@@ -272,14 +272,14 @@ public class SynthesisEdge {
         } else {
             // predNew = pred[x+/x, y+/y, z+/z, ...]
             BDD predNew = pred.replaceWith(aut.oldToNewVarsPairing);
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return predNew;
             }
 
             // rslt = Exists{x+, y+, z+, ...}(guard && update && predNew)
             BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, aut.varSetNew);
             predNew.free();
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return rslt;
             }
 

@@ -47,7 +47,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newWhileFuncStatement;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -75,11 +74,8 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
-import org.eclipse.escet.cif.datasynth.options.BddOutputNamePrefixOption;
-import org.eclipse.escet.cif.datasynth.options.BddOutputOption;
-import org.eclipse.escet.cif.datasynth.options.BddOutputOption.BddOutputMode;
-import org.eclipse.escet.cif.datasynth.options.BddSimplify;
-import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
+import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -177,17 +173,15 @@ public class SynthesisToCifConverter {
      *
      * @param synthAut The synthesis result.
      * @param spec The input CIF specification. Is modified in-place.
-     * @param supName The name of the supervisor automaton.
-     * @param supNamespace The namespace of the supervisor, or {@code null} for the empty namespace.
      * @return The output CIF specification, i.e. the modified input CIF specification.
      */
-    public Specification convert(SynthesisAutomaton synthAut, Specification spec, String supName, String supNamespace) {
+    public Specification convert(SynthesisAutomaton synthAut, Specification spec) {
         // Initialization.
         this.synthAut = synthAut;
         this.spec = spec;
         this.supervisor = null;
-        this.outputMode = BddOutputOption.getMode();
-        this.bddNamePrefix = BddOutputNamePrefixOption.getPrefix();
+        this.outputMode = synthAut.settings.bddOutputMode;
+        this.bddNamePrefix = synthAut.settings.bddOutputNamePrefix;
         this.bddNodeMap = null;
         this.bddVarIdxMap = null;
         this.bddNodesConst = null;
@@ -209,11 +203,11 @@ public class SynthesisToCifConverter {
         // supervisors, and are thus not removed.
         //
         // Whether it is allowed to remove the requirements depends on the BDD
-        // predicate simplification option.
+        // predicate simplification setting.
         try {
             // If we simplify against something, the 'something' needs to
             // remain to ensure we don't loose that restriction.
-            EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
+            EnumSet<BddSimplify> simplifications = synthAut.settings.bddSimplifications;
             RemoveRequirements remover = new RemoveRequirements();
             remover.removeReqAuts = true;
             remover.removeStateEvtExclReqInvs = !simplifications.contains(BddSimplify.GUARDS_SE_EXCL_REQ_INVS);
@@ -229,7 +223,7 @@ public class SynthesisToCifConverter {
         relabelRequirementInvariants(spec);
 
         // Construct new supervisor automaton.
-        supervisor = createSupervisorAutomaton(supName);
+        supervisor = createSupervisorAutomaton(synthAut.settings.supervisorName);
 
         // Add the alphabet to the automaton. Only add controllable events, as
         // they may be restricted by the supervisor.
@@ -292,8 +286,8 @@ public class SynthesisToCifConverter {
         finalizeBddToCif();
 
         // Add namespace, if requested.
-        if (supNamespace != null) {
-            spec = addNamespace(supNamespace);
+        if (synthAut.settings.supervisorNamespace != null) {
+            spec = addNamespace(synthAut.settings.supervisorNamespace);
             this.spec = spec;
         }
 
@@ -314,11 +308,9 @@ public class SynthesisToCifConverter {
                 Set<String> names = CifScopeUtils.getSymbolNamesForScope(spec, null);
                 for (String name: names) {
                     if (name.startsWith(bddNamePrefix)) {
-                        String msg = fmt(
-                                "Can't create BDD output using BDD output name prefix \"%s\", as a declaration "
-                                        + "named \"%s\" already exists in the specification. Use the appropriate "
-                                        + "option to specify a different name prefix.",
-                                bddNamePrefix, name);
+                        String msg = fmt("Can't create BDD output using BDD output name prefix \"%s\", as a "
+                                + "declaration named \"%s\" already exists in the specification. Configure a "
+                                + "different name prefix.", bddNamePrefix, name);
                         throw new InvalidOptionException(msg);
                     }
                 }
@@ -737,7 +729,9 @@ public class SynthesisToCifConverter {
         curNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (curNames.contains(supName)) {
             name = CifScopeUtils.getUniqueName(name, curNames, Collections.emptySet());
-            warn("Supervisor automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name, supName);
+            synthAut.settings.warnOutput.line(
+                    "Supervisor automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name,
+                    supName);
         }
         aut.setName(name);
 
@@ -774,7 +768,7 @@ public class SynthesisToCifConverter {
      * automaton.
      *
      * @param namespace The (absolute) namespace name. Is not {@code null} and has already been
-     *     {@link CifValidationUtils#isValidName}.
+     *     {@link CifValidationUtils#isValidName validated}.
      * @return The new specification.
      */
     private Specification addNamespace(String namespace) {

@@ -22,6 +22,7 @@ import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
@@ -57,8 +58,9 @@ import org.eclipse.escet.cif.datasynth.options.PlantsRefReqsWarnOption;
 import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
-import org.eclipse.escet.cif.datasynth.options.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatisticsOption;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
@@ -75,8 +77,6 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
-import org.eclipse.escet.common.app.framework.output.OutputMode;
-import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
@@ -139,7 +139,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             // Print timing statistics.
             if (doTiming) {
                 timing.total.stop();
-                timing.print(AppEnv.getData());
+                timing.print(OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream());
             }
         }
 
@@ -154,12 +154,29 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      * @param timing The timing statistics data. Is modified in-place.
      */
     private void doSynthesis(boolean doTiming, CifDataSynthesisTiming timing) {
-        // Read option value, to validate it early.
-        String supName = SupervisorNameOption.getSupervisorName("sup");
-        String supNamespace = SupervisorNamespaceOption.getNamespace();
+        // Construct settings. Do it early, to validate settings early.
+        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
+                OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
+                OutputProvider.getWarningOutputStream(), BddDcshVarOrderOption.isEnabled(),
+                BddDebugMaxNodesOption.getMaximum(), BddDebugMaxPathsOption.getMaximum(),
+                BddForceVarOrderOption.isEnabled(), BddHyperEdgeAlgoOption.getAlgo(),
+                BddInitNodeTableSizeOption.getInitialSize(), BddOpCacheRatioOption.getCacheRatio(),
+                BddOpCacheSizeOption.getCacheSize(), BddOutputNamePrefixOption.getPrefix(), BddOutputOption.getMode(),
+                BddSimplifyOption.getSimplifications(), BddVariableOrderOption.getOrder(),
+                BddSlidingWindowVarOrderOption.isEnabled(), BddSlidingWindowSizeOption.getMaxLen(),
+                BddAdvancedVariableOrderOption.getOrder(), ContinuousPerformanceStatisticsFileOption.getPath(),
+                Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()),
+                EdgeGranularityOption.getGranularity(), EdgeOrderBackwardOption.getOrder(),
+                EdgeOrderForwardOption.getOrder(), EdgeOrderDuplicateEventsOption.getAllowance(),
+                EdgeWorksetAlgoOption.isEnabled(), EventWarnOption.isEnabled(),
+                FixedPointComputationsOrderOption.getOrder(), ForwardReachOption.isEnabled(),
+                PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
+                SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
+                SynthesisStatisticsOption.getStatistics());
 
         // Initialize debugging.
-        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
+        boolean dbgEnabled = OutputProvider.dodbg();
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
@@ -204,8 +221,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             new ElimComponentDefInst().transform(spec);
 
             // Check whether plants reference requirements.
-            if (PlantsRefReqsWarnOption.isEnabled()) {
-                new CifDataSynthesisPlantsRefsReqsChecker().checkPlantRefToRequirement(spec);
+            if (settings.doPlantsRefReqsWarn) {
+                new CifDataSynthesisPlantsRefsReqsChecker(OutputProvider.getWarningOutputStream())
+                        .checkPlantRefToRequirement(spec);
             }
         } finally {
             if (doTiming) {
@@ -218,9 +236,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Create BDD factory.
-        int bddTableSize = BddInitNodeTableSizeOption.getInitialSize();
-        Integer bddCacheSize = BddOpCacheSizeOption.getCacheSize();
-        double bddCacheRatio = BddOpCacheRatioOption.getCacheRatio();
+        int bddTableSize = settings.bddInitNodeTableSize;
+        Integer bddCacheSize = settings.bddOpCacheSize;
+        double bddCacheRatio = settings.bddOpCacheRatio;
         if (bddCacheSize == null) {
             // Initialize BDD cache size using cache ratio.
             bddCacheSize = (int)(bddTableSize * bddCacheRatio);
@@ -237,18 +255,17 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             factory.setCacheRatio(bddCacheRatio);
         }
 
-        Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
-        boolean doGcStats = stats.contains(SynthesisStatistics.BDD_GC_COLLECT);
-        boolean doResizeStats = stats.contains(SynthesisStatistics.BDD_GC_RESIZE);
-        boolean doContinuousPerformanceStats = stats.contains(SynthesisStatistics.BDD_PERF_CONT);
+        boolean doGcStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_COLLECT);
+        boolean doResizeStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_RESIZE);
+        boolean doContinuousPerformanceStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CONT);
         List<Long> continuousOpMisses = list();
         List<Integer> continuousUsedBddNodes = list();
         BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
-                continuousOpMisses, continuousUsedBddNodes);
+                OutputProvider.getNormalOutputStream(), continuousOpMisses, continuousUsedBddNodes);
 
-        boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_PERF_CACHE);
-        boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
-        boolean doMaxMemoryStats = stats.contains(SynthesisStatistics.MAX_MEMORY);
+        boolean doCacheStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CACHE);
+        boolean doMaxBddNodesStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.synthesisStatistics.contains(SynthesisStatistics.MAX_MEMORY);
         if (doCacheStats || doContinuousPerformanceStats) {
             factory.getCacheStats().enableMeasurements();
         }
@@ -274,7 +291,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
-                aut = converter1.convert(spec, factory, dbgEnabled);
+                aut = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
@@ -289,8 +306,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Starting data-based synthesis.");
             }
-            boolean doPrintCtrlSysStates = stats.contains(SynthesisStatistics.CTRL_SYS_STATES);
-            CifDataSynthesis.synthesize(aut, dbgEnabled, doTiming, timing, doPrintCtrlSysStates);
+            boolean doPrintCtrlSysStates = settings.synthesisStatistics.contains(SynthesisStatistics.CTRL_SYS_STATES);
+            CifDataSynthesis.synthesize(aut, doTiming, timing, doPrintCtrlSysStates);
             if (isTerminationRequested()) {
                 return;
             }
@@ -305,7 +322,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.outputConvert.start();
             }
             try {
-                rslt = converter2.convert(aut, spec, supName, supNamespace);
+                rslt = converter2.convert(aut, spec);
             } finally {
                 if (doTiming) {
                     timing.outputConvert.stop();
@@ -321,7 +338,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 printBddCacheStats(factory.getCacheStats());
             }
             if (doContinuousPerformanceStats) {
-                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes);
+                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
+                        settings.continuousPerformanceStatisticsFilePath,
+                        settings.continuousPerformanceStatisticsFileAbsPath);
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -400,19 +419,25 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      *
      * @param operationsSamples The collected continuous operation misses samples.
      * @param nodesSamples The collected continuous used BDD nodes statistics samples.
+     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
+     *     statistics output file.
+     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
+     *     output file.
      */
-    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples) {
+    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples,
+            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath)
+    {
         // Get number of data points.
         Assert.areEqual(operationsSamples.size(), nodesSamples.size());
         int numberOfDataPoints = operationsSamples.size();
 
-        // Get the file to print to.
-        String outPath = ContinuousPerformanceStatisticsFileOption.getPath();
-        dbg("Writing continuous BDD performance statistics file \"%s\".", outPath);
-        String absOutPath = Paths.resolve(outPath);
+        // Debug output.
+        dbg("Writing continuous BDD performance statistics file \"%s\".", continuousPerformanceStatisticsFilePath);
 
         // Start the actual printing.
-        try (AppStream stream = new FileAppStream(outPath, absOutPath)) {
+        try (AppStream stream = new FileAppStream(continuousPerformanceStatisticsFilePath,
+                continuousPerformanceStatisticsFileAbsPath))
+        {
             stream.println("Operations,Used BBD nodes");
             long lastOperations = -1;
             int lastNodes = -1;

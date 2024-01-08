@@ -13,14 +13,12 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
 /** BDD FORCE variable ordering option. */
 public class BddForceVarOrderOption extends BooleanOption {
-    /** The default value of the {@link BddForceVarOrderOption} option. */
-    public static final boolean DEFAULT_VALUE = true;
-
     /** Constructor for the {@link BddForceVarOrderOption} class. */
     public BddForceVarOrderOption() {
         super(
@@ -41,7 +39,7 @@ public class BddForceVarOrderOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                DEFAULT_VALUE,
+                BddSettingsDefaults.FORCE_ENABLED_DEFAULT,
 
                 // showInDialog
                 true,
@@ -60,14 +58,5 @@ public class BddForceVarOrderOption extends BooleanOption {
      */
     public static boolean isEnabled() {
         return Options.get(BddForceVarOrderOption.class);
-    }
-
-    /**
-     * Returns whether the {@link BddForceVarOrderOption} option is configured with its default value.
-     *
-     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
-     */
-    public static boolean isDefault() {
-        return isEnabled() == DEFAULT_VALUE;
     }
 }

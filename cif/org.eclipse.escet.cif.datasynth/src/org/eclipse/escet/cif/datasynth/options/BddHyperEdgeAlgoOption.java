@@ -13,15 +13,13 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption.BddHyperEdgeAlgo;
+import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
+import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
 /** BDD hyper-edge creation algorithm option. */
 public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
-    /** The default value of the {@link BddHyperEdgeAlgoOption} option. */
-    public static final BddHyperEdgeAlgo DEFAULT_VALUE = BddHyperEdgeAlgo.DEFAULT;
-
     /** Constructor for the {@link BddHyperEdgeAlgoOption} class. */
     public BddHyperEdgeAlgoOption() {
         super(
@@ -46,7 +44,7 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 "ALGO",
 
                 // defaultValue
-                DEFAULT_VALUE,
+                BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT,
 
                 // showInDialog
                 true,
@@ -75,29 +73,5 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
      */
     public static BddHyperEdgeAlgo getAlgo() {
         return Options.get(BddHyperEdgeAlgoOption.class);
-    }
-
-    /**
-     * Returns whether the {@link BddHyperEdgeAlgoOption} option is configured with its default value.
-     *
-     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
-     */
-    public static boolean isDefault() {
-        return getAlgo().equals(DEFAULT_VALUE);
-    }
-
-    /** BDD hyper-edge creation algorithm. */
-    public static enum BddHyperEdgeAlgo {
-        /** Use the legacy hyper-edge creation algorithm. */
-        LEGACY,
-
-        /** Use the linearized hyper-edge creation algorithm. */
-        LINEARIZED,
-
-        /**
-         * Use the linearized hyper-edge creation algorithm for the FORCE and sliding window algorithms, and the legacy
-         * hyper-edge creation algorithm otherwise.
-         */
-        DEFAULT;
     }
 }

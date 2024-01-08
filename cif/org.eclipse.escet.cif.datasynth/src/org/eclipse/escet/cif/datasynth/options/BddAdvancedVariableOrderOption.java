@@ -13,14 +13,12 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
 /** BDD advanced variable order and domain interleaving option. */
 public class BddAdvancedVariableOrderOption extends StringOption {
-    /** The default value of the {@link BddAdvancedVariableOrderOption} option. */
-    public static final String DEFAULT_VALUE = "basic";
-
     /** Constructor for the {@link BddAdvancedVariableOrderOption} class. */
     public BddAdvancedVariableOrderOption() {
         super(
@@ -41,7 +39,7 @@ public class BddAdvancedVariableOrderOption extends StringOption {
                 "ORDER",
 
                 // defaultValue
-                DEFAULT_VALUE,
+                BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT,
 
                 // emptyAsNull
                 false,
@@ -64,14 +62,5 @@ public class BddAdvancedVariableOrderOption extends StringOption {
      */
     public static String getOrder() {
         return Options.get(BddAdvancedVariableOrderOption.class);
-    }
-
-    /**
-     * Returns whether the {@link BddAdvancedVariableOrderOption} option is configured with its default value.
-     *
-     * @return {@code true} if the option is configured with its default value, {@code false} otherwise.
-     */
-    public static boolean isDefault() {
-        return getOrder().equals(DEFAULT_VALUE);
     }
 }

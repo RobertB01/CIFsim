@@ -26,8 +26,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.copy;
@@ -80,16 +78,9 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
-import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
+import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -188,14 +179,14 @@ public class CifToSynthesisConverter {
      * the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @param dbgEnabled Whether debug output is enabled.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    public SynthesisAutomaton convert(Specification spec, BDDFactory factory, boolean dbgEnabled) {
+    public SynthesisAutomaton convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting synthesis automaton, but only if no precondition
         // violations.
-        SynthesisAutomaton aut = convertSpec(spec, factory, dbgEnabled);
+        SynthesisAutomaton aut = convertSpec(spec, settings, factory);
         if (problems.isEmpty()) {
             return aut;
         }
@@ -211,18 +202,16 @@ public class CifToSynthesisConverter {
      * the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @param dbgEnabled Whether debug output is enabled.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    private SynthesisAutomaton convertSpec(Specification spec, BDDFactory factory, boolean dbgEnabled) {
+    private SynthesisAutomaton convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Initialize synthesis automaton.
-        SynthesisAutomaton synthAut = new SynthesisAutomaton();
+        SynthesisAutomaton synthAut = new SynthesisAutomaton(settings);
         synthAut.factory = factory;
-        synthAut.debugMaxNodes = BddDebugMaxNodesOption.getMaximum();
-        synthAut.debugMaxPaths = BddDebugMaxPathsOption.getMaximum();
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -237,7 +226,7 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -245,7 +234,7 @@ public class CifToSynthesisConverter {
         List<Automaton> automata = list();
         collectAutomata(spec, automata);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -268,7 +257,7 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -278,14 +267,14 @@ public class CifToSynthesisConverter {
             problems.add(msg);
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Update automata for partitioned ordering.
         automata = concat(plants, requirements);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -309,7 +298,7 @@ public class CifToSynthesisConverter {
             reqAlphabet.addAll(alphabets.recvAlphabet);
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -319,7 +308,7 @@ public class CifToSynthesisConverter {
         // that event, in the uncontrolled system.
         synthAut.alphabet = union(plantAlphabet, reqAlphabet);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -341,7 +330,7 @@ public class CifToSynthesisConverter {
             problems.add(msg);
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -356,7 +345,7 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -365,7 +354,7 @@ public class CifToSynthesisConverter {
         List<PositionObject> cifVarObjs = list();
         collectVariableObjects(spec, cifVarObjs);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -373,7 +362,7 @@ public class CifToSynthesisConverter {
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
         CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -390,24 +379,24 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Order variables and create domains.
-        orderVars(synthAut, spec, dbgEnabled);
-        if (synthAut.env.isTerminationRequested()) {
+        orderVars(synthAut, spec);
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         createVarDomains(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Create auxiliary data for updates.
         createUpdateAuxiliaries(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -426,7 +415,7 @@ public class CifToSynthesisConverter {
         synthAut.initialUnctrl = synthAut.initialVars.and(initialCompsAndLocs);
         initialCompsAndLocs.free();
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -438,7 +427,7 @@ public class CifToSynthesisConverter {
         convertMarked(spec, synthAut, locPtrManager);
         synthAut.marked = synthAut.markedComps.and(synthAut.markedLocs);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -465,7 +454,7 @@ public class CifToSynthesisConverter {
         // components and the state requirement invariant for the locations of automata.
         synthAut.reqInv = synthAut.reqInvComps.and(synthAut.reqInvLocs);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -477,7 +466,7 @@ public class CifToSynthesisConverter {
         synthAut.markedPlantInv = synthAut.marked.and(synthAut.plantInv);
         synthAut.markedInv = synthAut.markedPlantInv.and(synthAut.reqInv);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -505,25 +494,25 @@ public class CifToSynthesisConverter {
             synthAut.stateEvtExclReqLists.put(event, list());
         }
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Convert state/event exclusion invariants.
         convertStateEvtExclInvs(spec, synthAut, locPtrManager);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Preconvert requirement automata, to enable treating them as plants from here on.
         preconvertReqAuts(requirements, reqAlphabets, synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Convert plant and requirement automata.
         convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -533,31 +522,31 @@ public class CifToSynthesisConverter {
         }
         originalMonitors = null;
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Add events and edges for input variables.
         addInputVariableEdges(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Merge edges to the desired granularity.
         mergeEdges(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
         // Order the synthesis edges.
         orderEdges(synthAut);
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
-        // Check edge workset algorithm options.
-        checkEdgeWorksetAlgorithmOptions();
-        if (synthAut.env.isTerminationRequested()) {
+        // Check edge workset algorithm settings.
+        checkEdgeWorksetAlgorithmSettings(synthAut.settings);
+        if (synthAut.settings.shouldTerminate.get()) {
             return synthAut;
         }
 
@@ -659,16 +648,15 @@ public class CifToSynthesisConverter {
      *
      * @param synthAut The synthesis automaton.
      * @param spec The CIF specification.
-     * @param dbgEnabled Whether debug output is enabled.
      */
-    private void orderVars(SynthesisAutomaton synthAut, Specification spec, boolean dbgEnabled) {
-        // Skip ordering, including option processing and debug output printing, if any variables failed to convert.
+    private void orderVars(SynthesisAutomaton synthAut, Specification spec) {
+        // Skip ordering, including settings processing and debug output printing, if any variables failed to convert.
         if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
         }
 
         // Configure variable orderer.
-        String varOrderTxt = BddAdvancedVariableOrderOption.getOrder();
+        String varOrderTxt = synthAut.settings.bddVarOrderAdvanced;
         List<VarOrdererInstance> parseResult;
         try {
             parseResult = new VarOrdererParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
@@ -676,7 +664,8 @@ public class CifToSynthesisConverter {
             throw new InvalidOptionException("Invalid BDD variable ordering configuration.", ex);
         }
 
-        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(synthAut.variables));
+        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(synthAut.variables),
+                synthAut.settings);
         VarOrderer varOrderer = typeChecker.typeCheck(parseResult);
         Assert.check(!typeChecker.hasWarning());
         if (varOrderer == null) {
@@ -698,6 +687,7 @@ public class CifToSynthesisConverter {
         }
 
         // Print variable debugging information, before ordering.
+        boolean dbgEnabled = synthAut.settings.debugOutput.isEnabled();
         if (dbgEnabled) {
             debugCifVars(synthAut);
         }
@@ -705,16 +695,16 @@ public class CifToSynthesisConverter {
         // Only apply variable ordering if there are at least two variables (to order).
         if (synthAut.variables.length < 2) {
             if (dbgEnabled) {
-                dbg();
-                dbg("Skipping variable ordering: only one variable present.");
-                dbg();
+                synthAut.settings.debugOutput.line();
+                synthAut.settings.debugOutput.line("Skipping variable ordering: only one variable present.");
+                synthAut.settings.debugOutput.line();
             }
             return;
         }
 
         // Create variable order helper, based on model order.
         List<SynthesisVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder);
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, synthAut.settings.debugOutput);
 
         // Get current variable order, which is model order.
         VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);
@@ -725,8 +715,8 @@ public class CifToSynthesisConverter {
 
         // Get new variable order.
         if (dbgEnabled) {
-            dbg();
-            dbg("Applying variable ordering:");
+            synthAut.settings.debugOutput.line();
+            synthAut.settings.debugOutput.line("Applying variable ordering:");
         }
         VarOrdererData orderingResult = varOrderer.order(data, dbgEnabled, 1);
         VarOrder newOrder = orderingResult.varOrder;
@@ -752,12 +742,12 @@ public class CifToSynthesisConverter {
         // If the new order differs from the current order, print updated variable debugging information.
         if (dbgEnabled) {
             boolean orderChanged = !curOrder.equals(newOrder);
-            dbg();
-            dbg("Variable order %schanged.", orderChanged ? "" : "un");
+            synthAut.settings.debugOutput.line();
+            synthAut.settings.debugOutput.line("Variable order %schanged.", orderChanged ? "" : "un");
             if (orderChanged) {
                 debugCifVars(synthAut);
             }
-            dbg();
+            synthAut.settings.debugOutput.line();
         }
     }
 
@@ -840,10 +830,10 @@ public class CifToSynthesisConverter {
         }
 
         // Print the variable information, for debugging.
-        dbg();
-        dbg("CIF variables and location pointers:");
+        aut.settings.debugOutput.line();
+        aut.settings.debugOutput.line("CIF variables and location pointers:");
         for (String line: grid.getLines()) {
-            dbg("  " + line);
+            aut.settings.debugOutput.line("  " + line);
         }
     }
 
@@ -983,7 +973,7 @@ public class CifToSynthesisConverter {
         synthAut.oldToNewVarsPairing.set(oldDomains, newDomains);
         synthAut.newToOldVarsPairing.set(newDomains, oldDomains);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return;
         }
 
@@ -1006,7 +996,7 @@ public class CifToSynthesisConverter {
         synthAut.varSetOld = synthAut.factory.makeSet(varIdxsOld);
         synthAut.varSetNew = synthAut.factory.makeSet(varIdxsNew);
 
-        if (synthAut.env.isTerminationRequested()) {
+        if (synthAut.settings.shouldTerminate.get()) {
             return;
         }
     }
@@ -1489,7 +1479,7 @@ public class CifToSynthesisConverter {
                                 + "in the alphabet of any automaton.",
                         CifTextUtils.invToStr(inv, false), CifTextUtils.getComponentText2(comp),
                         CifTextUtils.getAbsName(event));
-                warn(msg);
+                synthAut.settings.warnOutput.line(msg);
 
                 // Skip the rest as we won't use this invariant for synthesis.
                 continue;
@@ -1567,7 +1557,7 @@ public class CifToSynthesisConverter {
                                         + "the alphabet of any automaton.",
                                 CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
                                 CifTextUtils.getAbsName(event));
-                        warn(msg);
+                        synthAut.settings.warnOutput.line(msg);
 
                         // Skip the rest as we won't use this invariant for synthesis.
                         continue;
@@ -1779,7 +1769,7 @@ public class CifToSynthesisConverter {
             synthAut.eventEdges = mapc(synthAut.alphabet.size());
             for (Edge cifEdge: cifEdges) {
                 // Check for termination.
-                if (synthAut.env.isTerminationRequested()) {
+                if (synthAut.settings.shouldTerminate.get()) {
                     break;
                 }
 
@@ -1827,7 +1817,7 @@ public class CifToSynthesisConverter {
                 convertUpdates(updates, synthEdge, locPtrManager, synthAut);
             }
 
-            if (synthAut.env.isTerminationRequested()) {
+            if (synthAut.settings.shouldTerminate.get()) {
                 return;
             }
 
@@ -2059,7 +2049,7 @@ public class CifToSynthesisConverter {
         BDD error = aut.factory.zero();
         for (Update update: updates) {
             Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, aut);
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return;
             }
 
@@ -2071,7 +2061,7 @@ public class CifToSynthesisConverter {
                 error = error.orWith(updateError);
             }
 
-            if (aut.env.isTerminationRequested()) {
+            if (aut.settings.shouldTerminate.get()) {
                 return;
             }
         }
@@ -2380,8 +2370,7 @@ public class CifToSynthesisConverter {
         }
 
         // Merge the edges, if needed.
-        EdgeGranularity granularity = EdgeGranularityOption.getGranularity();
-        switch (granularity) {
+        switch (synthAut.settings.edgeGranularity) {
             case PER_EDGE:
                 // Nothing to do, as already at per-edge granularity.
                 return;
@@ -2397,7 +2386,7 @@ public class CifToSynthesisConverter {
                 return;
             }
         }
-        throw new RuntimeException("Unknown granularity: " + granularity);
+        throw new RuntimeException("Unknown granularity: " + synthAut.settings.edgeGranularity);
     }
 
     /**
@@ -2406,22 +2395,24 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton. Is modified in-place.
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
-        synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, EdgeOrderBackwardOption.getOrder(),
-                false);
-        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, EdgeOrderForwardOption.getOrder(), true);
+        synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderBackward,
+                synthAut.settings.edgeOrderAllowDuplicateEvents, false);
+        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderForward,
+                synthAut.settings.edgeOrderAllowDuplicateEvents, true);
     }
 
     /**
      * Orders the synthesis edges, for a single direction, i.e., for forward or backward reachability computations.
      *
      * @param edges The edges in linearized model order.
-     * @param orderTxt The order as textual value from the option, for the given direction.
+     * @param orderTxt The order as textual value from the settings, for the given direction.
+     * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
      * @param forForwardReachability Order for forward reachability ({@code true}) or backward reachability
      *     ({@code false}).
      * @return The ordered edges.
      */
     private static List<SynthesisEdge> orderEdgesForDirection(List<SynthesisEdge> edges, String orderTxt,
-            boolean forForwardReachability)
+            EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean forForwardReachability)
     {
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
             // No reordering. Keep linearized model order.
@@ -2505,12 +2496,13 @@ public class CifToSynthesisConverter {
                         (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
                 // Check for duplicate events, if duplicates are disallowed.
-                if (EdgeOrderDuplicateEventsOption.getAllowance() == EdgeOrderDuplicateEventAllowance.DISALLOWED) {
+                if (edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.DISALLOWED) {
                     for (SynthesisEdge edge: matches) {
                         if (processedEdges.contains(edge)) {
-                            String msg = fmt("Invalid custom %s edge order: event \"%s\" is included more than once. "
-                                    + "If the duplicate event is intentional, enable allowing duplicate events "
-                                    + "in the custom event order using the \"Edge order duplicate events\" option.",
+                            String msg = fmt(
+                                    "Invalid custom %s edge order: event \"%s\" is included more than once. "
+                                            + "If the duplicate event is intentional, enable allowing duplicate events "
+                                            + "in the custom event order.",
                                     forForwardReachability ? "forward" : "backward", getAbsName(edge.event, false));
                             throw new InvalidOptionException(msg);
                         }
@@ -2542,20 +2534,24 @@ public class CifToSynthesisConverter {
         }
     }
 
-    /** Check edge workset algorithm options. */
-    private void checkEdgeWorksetAlgorithmOptions() {
+    /**
+     * Check edge workset algorithm settings.
+     *
+     * @param settings The settings.
+     */
+    private void checkEdgeWorksetAlgorithmSettings(CifDataSynthesisSettings settings) {
         // Skip if workset algorithm is disabled.
-        if (!EdgeWorksetAlgoOption.isEnabled()) {
+        if (!settings.doUseEdgeWorksetAlgo) {
             return;
         }
 
         // Edge workset algorithm requires per-event edge granularity, and no duplicate edges in the edge order.
-        if (EdgeGranularityOption.getGranularity() != EdgeGranularity.PER_EVENT) {
+        if (settings.edgeGranularity != EdgeGranularity.PER_EVENT) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can only be used with per-event edge granularity. "
                             + "Either disable the edge workset algorithm, or configure per-event edge granularity.");
         }
-        if (EdgeOrderDuplicateEventsOption.getAllowance() == EdgeOrderDuplicateEventAllowance.ALLOWED) {
+        if (settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can not be used with duplicate events in the edge order. "
                             + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");

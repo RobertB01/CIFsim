@@ -16,35 +16,27 @@ package org.eclipse.escet.cif.datasynth.workset.dependencies;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
-import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddDebugMaxNodesOption;
-import org.eclipse.escet.cif.datasynth.options.BddDebugMaxPathsOption;
-import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddHyperEdgeAlgoOption;
-import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
-import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
-import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeGranularityOption.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderBackwardOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderDuplicateEventsOption.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
-import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
+import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
+import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
+import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
+import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
+import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Lists;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDDFactory;
@@ -52,36 +44,6 @@ import com.github.javabdd.JFactory;
 
 /** Tests for {@link BddBasedEdgeDependencySetCreator}. */
 public class BddBasedEdgeDependencySetCreatorTest {
-    /** Register application and options. */
-    @BeforeAll
-    public static void before() {
-        AppEnv.registerSimple();
-
-        // Variable ordering options.
-        Options.set(BddDebugMaxNodesOption.class, 0);
-        Options.set(BddDebugMaxPathsOption.class, 0.0);
-        Options.set(BddHyperEdgeAlgoOption.class, BddHyperEdgeAlgoOption.DEFAULT_VALUE);
-        Options.set(BddAdvancedVariableOrderOption.class, BddAdvancedVariableOrderOption.DEFAULT_VALUE);
-        Options.set(BddVariableOrderOption.class, BddVariableOrderOption.DEFAULT_VALUE);
-        Options.set(BddDcshVarOrderOption.class, BddDcshVarOrderOption.DEFAULT_VALUE);
-        Options.set(BddForceVarOrderOption.class, BddForceVarOrderOption.DEFAULT_VALUE);
-        Options.set(BddSlidingWindowVarOrderOption.class, BddSlidingWindowVarOrderOption.DEFAULT_VALUE);
-        Options.set(BddSlidingWindowSizeOption.class, BddSlidingWindowSizeOption.DEFAULT_VALUE);
-
-        // Edge options.
-        Options.set(EdgeGranularityOption.class, EdgeGranularity.PER_EVENT);
-        Options.set(EdgeOrderForwardOption.class, "sorted");
-        Options.set(EdgeOrderBackwardOption.class, "sorted");
-        Options.set(EdgeOrderDuplicateEventsOption.class, EdgeOrderDuplicateEventAllowance.DISALLOWED);
-        Options.set(EdgeWorksetAlgoOption.class, true);
-    }
-
-    /** Unregister application. */
-    @AfterAll
-    public static void after() {
-        AppEnv.unregisterApplication();
-    }
-
     @Test
     @SuppressWarnings("javadoc")
     public void testNoEdges() {
@@ -585,9 +547,47 @@ public class BddBasedEdgeDependencySetCreatorTest {
         reader.init("memory", "/memory", false);
         Specification spec = reader.read(specTxt);
 
+        // Get settings.
+        Supplier<Boolean> shouldTerminate = () -> false;
+        BlackHoleOutputProvider outputProvider = new BlackHoleOutputProvider();
+        boolean bddDcshEnabled = BddSettingsDefaults.DCSH_ENABLED_DEFAULT;
+        Integer bddDebugMaxNodes = 0;
+        Double bddDebugMaxPaths = 0.0;
+        boolean bddForceEnabled = BddSettingsDefaults.FORCE_ENABLED_DEFAULT;
+        int bddInitNodeTableSize = 100_000;
+        double bddOpCacheRatio = 1;
+        Integer bddOpCacheSize = null;
+        String bddOutputNamePrefix = "bdd";
+        String bddVarOrderInit = BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
+        boolean bddSlidingWindowEnabled = BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
+        int bddSlidingWindowMaxLen = BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
+        String bddVarOrderAdvanced = BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
+        String continuousPerformanceStatisticsFilePath = null;
+        String continuousPerformanceStatisticsFileAbsPath = null;
+        String edgeOrderBackward = "sorted";
+        String edgeOrderForward = "sorted";
+        boolean doUseEdgeWorksetAlgo = true;
+        boolean doNeverEnabledEventsWarn = false;
+        boolean doForwardReach = false;
+        boolean doPlantsRefReqsWarn = false;
+        String supervisorName = "sup";
+        String supervisorNamespace = null;
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
+                outputProvider.getDebugOutput(), outputProvider.getNormalOutput(), outputProvider.getWarnOutput(),
+                bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled,
+                BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize,
+                bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class), bddVarOrderInit,
+                bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
+                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                EdgeGranularity.PER_EVENT, edgeOrderBackward, edgeOrderForward,
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
+                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
+                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
+                EnumSet.noneOf(SynthesisStatistics.class));
+
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
-        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, factory, false);
+        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
         for (SynthesisEdge edge: synthAut.edges) {
             edge.initApply(true);
         }

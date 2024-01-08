@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth.options;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.common.app.framework.options.EnumSetOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 

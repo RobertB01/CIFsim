@@ -14,8 +14,6 @@
 package org.eclipse.escet.cif.datasynth.bdd;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddToCif.bddToCifPred;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.doout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
@@ -24,6 +22,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
@@ -92,13 +91,13 @@ public class BddUtils {
     public static String bddToStr(BDD bdd, SynthesisAutomaton aut) {
         // If one of the specific maximum counts is exceeded, don't actually
         // convert the BDD to a CNF/DNF predicate, for performance reasons.
-        if (aut.debugMaxNodes != null || aut.debugMaxPaths != null) {
+        if (aut.settings.bddDebugMaxNodes != null || aut.settings.bddDebugMaxPaths != null) {
             // Get node count and true path count.
             int nc = bdd.nodeCount();
             double tpc = bdd.pathCount();
 
-            boolean skip = (aut.debugMaxNodes != null && nc > aut.debugMaxNodes)
-                    || (aut.debugMaxPaths != null && tpc > aut.debugMaxPaths);
+            boolean skip = (aut.settings.bddDebugMaxNodes != null && nc > aut.settings.bddDebugMaxNodes)
+                    || (aut.settings.bddDebugMaxPaths != null && tpc > aut.settings.bddDebugMaxPaths);
             if (skip) {
                 return fmt("<bdd %,dn %,.0fp>", nc, tpc);
             }
@@ -113,23 +112,26 @@ public class BddUtils {
      * If requested, register BDD factory callbacks that print some statistics.
      *
      * @param factory The BDD factory for which to register the callbacks.
-     * @param doGcStats Whether to output BDD GC statistics.
-     * @param doResizeStats Whether to output BDD resize statistics.
+     * @param doGcStats Whether to output BDD GC statistics, if normal output is enabled.
+     * @param doResizeStats Whether to output BDD resize statistics, if normal output is enabled.
      * @param doContinuousPerformanceStats Whether to output continuous BDD performance statistics.
+     * @param normalOutput Callback for normal output.
      * @param continuousOpMisses The list into which to collect continuous operation misses samples.
      * @param continuousUsedBddNodes The list into which to collect continuous used BDD nodes statistics samples.
      */
     public static void registerBddCallbacks(BDDFactory factory, boolean doGcStats, boolean doResizeStats,
-            boolean doContinuousPerformanceStats, List<Long> continuousOpMisses, List<Integer> continuousUsedBddNodes)
+            boolean doContinuousPerformanceStats, DebugNormalOutput normalOutput, List<Long> continuousOpMisses,
+            List<Integer> continuousUsedBddNodes)
     {
         // Register BDD garbage collection callback.
-        if (doGcStats && doout()) {
-            factory.registerGcStatsCallback(BddUtils::bddGcStatsCallback);
+        if (doGcStats && normalOutput.isEnabled()) {
+            factory.registerGcStatsCallback((stats, pre) -> bddGcStatsCallback(stats, pre, normalOutput));
         }
 
         // Register BDD internal node array resize callback.
-        if (doResizeStats && doout()) {
-            factory.registerResizeStatsCallback(BddUtils::bddResizeStatsCallback);
+        if (doResizeStats && normalOutput.isEnabled()) {
+            factory.registerResizeStatsCallback(
+                    (oldSize, newSize) -> bddResizeStatsCallback(oldSize, newSize, normalOutput));
         }
 
         // Register continuous BDD performance statistics callback.
@@ -148,8 +150,9 @@ public class BddUtils {
      * @param stats The garbage collection statistics.
      * @param pre Whether the callback is invoked just before garbage collection ({@code true}) or just after it
      *     ({@code false}).
+     * @param normalOutput Callback for normal output.
      */
-    private static void bddGcStatsCallback(GCStats stats, boolean pre) {
+    private static void bddGcStatsCallback(GCStats stats, boolean pre, DebugNormalOutput normalOutput) {
         StringBuilder txt = new StringBuilder();
         txt.append("BDD ");
         txt.append(pre ? "pre " : "post");
@@ -167,7 +170,7 @@ public class BddUtils {
             txt.append(fmt("%,13d", stats.sumtime));
             txt.append(" ms total");
         }
-        out(txt.toString());
+        normalOutput.line(txt.toString());
     }
 
     /**
@@ -175,8 +178,9 @@ public class BddUtils {
      *
      * @param oldSize The old size of the internal node array.
      * @param newSize The new size of the internal node array.
+     * @param normalOutput Callback for normal output.
      */
-    private static void bddResizeStatsCallback(int oldSize, int newSize) {
-        out("BDD node table resize: from %,13d nodes to %,13d nodes", oldSize, newSize);
+    private static void bddResizeStatsCallback(int oldSize, int newSize, DebugNormalOutput normalOutput) {
+        normalOutput.line("BDD node table resize: from %,13d nodes to %,13d nodes", oldSize, newSize);
     }
 }
