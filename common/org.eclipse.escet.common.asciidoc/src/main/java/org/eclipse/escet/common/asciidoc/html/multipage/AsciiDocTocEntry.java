@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Verify;
@@ -50,5 +51,21 @@ class AsciiDocTocEntry {
         this.parent = parent;
 
         Verify.verify((refId == null) == (parent == null));
+    }
+
+    /**
+     * Returns a trail from the root TOC entry to this TOC entry.
+     *
+     * @return The trail, with the root TOC entry first, and this TOC entry last.
+     */
+    List<AsciiDocTocEntry> getTrail() {
+        List<AsciiDocTocEntry> trail = new ArrayList<>();
+        AsciiDocTocEntry entry = this;
+        while (entry != null) {
+            trail.add(entry);
+            entry = entry.parent;
+        }
+        Collections.reverse(trail);
+        return trail;
     }
 }

@@ -92,6 +92,10 @@ class AsciiDocHtmlModifier {
         // Determine new section ids.
         determineNewSectionIds(htmlPages);
 
+        // Determine TOC entries for the pages.
+        Map<AsciiDocHtmlPage, AsciiDocTocEntry> pageToTocEntry = new LinkedHashMap<>();
+        fillPageToTocEntryMap(htmlPages.toc, pageToTocEntry);
+
         // Modify the pages, per page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
             try {
@@ -176,7 +180,7 @@ class AsciiDocHtmlModifier {
                 // Add breadcrumbs. Not added for Eclipse help, as Eclipse help already has breadcrumbs built-in. Not
                 // added for the home page as it has no ancestors.
                 if (htmlType != HtmlType.ECLIPSE_HELP && page != htmlPages.homePage) {
-                    addBreadcrumbs(page, htmlPages.homePage, docOriginalTitle);
+                    addBreadcrumbs(page, htmlPages.homePage, docOriginalTitle, pageToTocEntry);
                 }
 
                 // Add link to single-page HTML version.
@@ -389,6 +393,26 @@ class AsciiDocHtmlModifier {
         // Process children.
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
             fillSectionIdRenameMap(childEntry, renames);
+        }
+    }
+
+    /**
+     * Fill a mapping from pages to TOC entries.
+     *
+     * @param tocEntry The TOC entry to process.
+     * @param pageToTocEntry The mapping from pages to TOC entries. Is modified in-place.
+     */
+    private static void fillPageToTocEntryMap(AsciiDocTocEntry tocEntry,
+            Map<AsciiDocHtmlPage, AsciiDocTocEntry> pageToTocEntry)
+    {
+        // We perform a depth-first search. The first time a page is encountered, we add it to the mapping.
+        // Section on pages are thus not considered, as they are encountered later in the depth-first search.
+        // This ensures we only include TOC entries for pages, not page sections or virtual TOC entries.
+        pageToTocEntry.computeIfAbsent(tocEntry.page, page -> tocEntry);
+
+        // Process children.
+        for (AsciiDocTocEntry childTocEntry: tocEntry.children) {
+            fillPageToTocEntryMap(childTocEntry, pageToTocEntry);
         }
     }
 
@@ -906,25 +930,41 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      * @param homePage The multi-page HTML home page.
      * @param docOriginalTitle The original HTML page title.
+     * @param pageToTocEntry The mapping from pages to TOC entries.
      */
-    private static void addBreadcrumbs(AsciiDocHtmlPage page, AsciiDocHtmlPage homePage, String docOriginalTitle) {
+    private static void addBreadcrumbs(AsciiDocHtmlPage page, AsciiDocHtmlPage homePage, String docOriginalTitle,
+            Map<AsciiDocHtmlPage, AsciiDocTocEntry> pageToTocEntry)
+    {
         // Prepare breadcrumbs element.
         Element elemContent = single(page.doc.select("#content"));
         Element elemBreadcrumbsDiv = elemContent.prependElement("div");
         elemBreadcrumbsDiv.attr("id", "breadcrumbs");
 
+        // Get TOC entry for page.
+        AsciiDocTocEntry pageTocEntry = pageToTocEntry.get(page);
+        Verify.verifyNotNull(pageTocEntry, page.sourceFile.sourceId);
+
         // Add breadcrumbs.
-        for (AsciiDocHtmlPage breadcrumb: page.breadcrumbs) {
+        List<AsciiDocTocEntry> breadcrumbs = pageTocEntry.getTrail();
+        for (AsciiDocTocEntry breadcrumb: breadcrumbs) {
+            // Add separator between breadcrumbs.
             if (elemBreadcrumbsDiv.childNodeSize() > 0) {
                 elemBreadcrumbsDiv.appendText(" > ");
             }
-            boolean isSelfBreadcrumb = breadcrumb == page;
+
+            // Add a new HTML element for the breadcrumb.
+            boolean isSelfBreadcrumb = breadcrumb.page == page;
             Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
             elemBreadcrumb.addClass("breadcrumb");
+
+            // Link the breadcrumb, if not for the page itself.
             if (!isSelfBreadcrumb) {
-                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb, null));
+                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb.page, null));
             }
-            elemBreadcrumb.text(breadcrumb == homePage ? docOriginalTitle : breadcrumb.sourceFile.title);
+
+            // Set the text of the breadcrumb.
+            boolean isRootBreadcrumb = breadcrumb.parent == null;
+            elemBreadcrumb.text(isRootBreadcrumb ? docOriginalTitle : breadcrumb.title);
         }
     }
 
