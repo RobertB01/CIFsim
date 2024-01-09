@@ -12,7 +12,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocMultiPageHtmlSplitter"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="org.eclipse.escet.common.asciidoc"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../../releng/org.eclipse.escet.releng.dev.documentation/asciidoc ../../releng/org.eclipse.escet.releng.dev.documentation/target/website-intermediate/index.html test/output-website-escet-dev --website &quot;Eclipse ESCET™ website&quot; .."/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../../releng/org.eclipse.escet.releng.dev.documentation/asciidoc ../../releng/org.eclipse.escet.releng.dev.documentation/target/website-intermediate/index.html test/output-website-escet-dev --website &quot;Eclipse ESCET™ website&quot; .. assets/asciidoctor-escet-dev.js"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.escet.common.asciidoc"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>

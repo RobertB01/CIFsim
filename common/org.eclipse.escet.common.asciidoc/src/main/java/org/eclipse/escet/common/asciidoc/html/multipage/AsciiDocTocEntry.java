@@ -16,6 +16,8 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Verify;
+
 /** AsciiDoc Table of Contents (TOC) entry, corresponding to a section in an AsciiDoc document. */
 class AsciiDocTocEntry {
     /** The AsciiDoc multi-page HTML page that contains the section represented by this TOC entry. */
@@ -27,6 +29,9 @@ class AsciiDocTocEntry {
     /** The HTML reference ID for the TOC entry, or {@code null} for the root TOC entry. */
     String refId;
 
+    /** The parent TOC entry, or {@code null} for the root TOC entry. */
+    final AsciiDocTocEntry parent;
+
     /** The child TOC entries. */
     final List<AsciiDocTocEntry> children = new ArrayList<>();
 
@@ -36,10 +41,14 @@ class AsciiDocTocEntry {
      * @param page The AsciiDoc multi-page HTML page that contains the section represented by this TOC entry.
      * @param title The title of the TOC entry.
      * @param refId The HTML reference ID for the TOC entry, or {@code null} for the root TOC entry.
+     * @param parent The parent TOC entry, or {@code null} for the root TOC entry.
      */
-    AsciiDocTocEntry(AsciiDocHtmlPage page, String title, String refId) {
+    AsciiDocTocEntry(AsciiDocHtmlPage page, String title, String refId, AsciiDocTocEntry parent) {
         this.page = page;
         this.title = title;
         this.refId = refId;
+        this.parent = parent;
+
+        Verify.verify((refId == null) == (parent == null));
     }
 }

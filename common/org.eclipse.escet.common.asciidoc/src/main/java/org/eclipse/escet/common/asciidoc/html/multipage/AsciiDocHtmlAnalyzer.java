@@ -78,7 +78,7 @@ class AsciiDocHtmlAnalyzer {
         pageStack.push(ImmutablePair.of(htmlPages.homePage, 0));
 
         Deque<Pair<AsciiDocTocEntry, Integer>> tocStack = new LinkedList<>();
-        tocStack.push(ImmutablePair.of(new AsciiDocTocEntry(htmlPages.homePage, doc.title(), null), 0));
+        tocStack.push(ImmutablePair.of(new AsciiDocTocEntry(htmlPages.homePage, doc.title(), null, null), 0));
 
         Element elemContent = single(doc.select("#content"));
         elemContent.children().traverse(new NodeVisitor() {
@@ -96,7 +96,7 @@ class AsciiDocHtmlAnalyzer {
 
                         AsciiDocTocEntry curTocEntry = tocStack.peek().getLeft();
                         AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(elemPage, elemPage.sourceFile.title,
-                                elemPage.sourceFile.sourceId);
+                                elemPage.sourceFile.sourceId, curTocEntry);
                         curTocEntry.children.add(newTocEntry);
                         tocStack.push(ImmutablePair.of(newTocEntry, depth));
 
@@ -108,7 +108,8 @@ class AsciiDocHtmlAnalyzer {
                         if (elem.tagName().matches("h\\d+")) {
                             String entryTitle = elem.text();
                             AsciiDocTocEntry curTocEntry = tocStack.peek().getLeft();
-                            AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(curTocEntry.page, entryTitle, id);
+                            AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(curTocEntry.page, entryTitle, id,
+                                    curTocEntry);
                             curTocEntry.children.add(newTocEntry);
                             tocStack.push(ImmutablePair.of(newTocEntry, depth));
                         }

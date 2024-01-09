@@ -53,6 +53,15 @@ class AsciiDocHtmlModifier {
     /** Whether to print debug output. */
     private static final boolean DEBUG = false;
 
+    /** Prefix for ids of virtual TOC entries and their targets. */
+    private static final String VIRTUAL_TOC_PREFIX = "virtual-toc-";
+
+    /** Prefix for ids of virtual TOC entries. */
+    private static final String VIRTUAL_TOC_ENTRY_PREFIX = VIRTUAL_TOC_PREFIX + "entry--";
+
+    /** Prefix for ids of virtual TOC entry targets. */
+    private static final String VIRTUAL_TOC_TARGET_PREFIX = VIRTUAL_TOC_PREFIX + "target--";
+
     /** Constructor for the {@link AsciiDocHtmlModifier} class. */
     private AsciiDocHtmlModifier() {
         // Static class.
@@ -144,6 +153,9 @@ class AsciiDocHtmlModifier {
 
                 // Renamed defined section ids.
                 renameDefinedSectionIds(page);
+
+                // Renamed virtual TOC entry targets.
+                renameVirtualTocEntryTargets(page);
 
                 // Rename section ids in TOC.
                 renameSectionIdsInToc(page, htmlPages.toc);
@@ -279,8 +291,34 @@ class AsciiDocHtmlModifier {
                 ListMultimap<String, String> inversePageRenames = Multimaps.invertFrom(Multimaps.forMap(pageRenames),
                         ArrayListMultimap.create());
                 for (Entry<String, Collection<String>> entry: inversePageRenames.asMap().entrySet()) {
-                    Collection<String> oldIds = entry.getValue();
+                    List<String> oldIds = new ArrayList<>(entry.getValue());
                     if (oldIds.size() > 1) {
+                        // It is OK for a virtual TOC entry and its target to be mapped to the same name.
+                        if (oldIds.size() == 2) {
+                            String oldId1 = oldIds.get(0);
+                            String oldId2 = oldIds.get(1);
+                            if (oldId1.startsWith(VIRTUAL_TOC_ENTRY_PREFIX)
+                                    && oldId2.startsWith(VIRTUAL_TOC_TARGET_PREFIX))
+                            {
+                                String oldIdPost1 = oldId1.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                                String oldIdPost2 = oldId2.substring(VIRTUAL_TOC_TARGET_PREFIX.length());
+                                Verify.verify(oldIdPost1.equals(oldIdPost2), oldId1 + " / " + oldId2);
+                                continue;
+                            } else if (oldId1.startsWith(VIRTUAL_TOC_TARGET_PREFIX)
+                                    && oldId2.startsWith(VIRTUAL_TOC_ENTRY_PREFIX))
+                            {
+                                String oldIdPost1 = oldId1.substring(VIRTUAL_TOC_TARGET_PREFIX.length());
+                                String oldIdPost2 = oldId2.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                                Verify.verify(oldIdPost1.equals(oldIdPost2), oldId1 + " / " + oldId2);
+                                continue;
+                            }
+                        }
+
+                        // Should not have any duplicates for virtual TOC entry ids or their targets.
+                        for (String oldId: oldIds) {
+                            Verify.verify(!oldId.startsWith(VIRTUAL_TOC_PREFIX), oldId);
+                        }
+
                         // Duplicate new id, as new id is used for multiple old ids.
                         duplicateFound = true;
                         String newId = entry.getKey();
@@ -336,6 +374,17 @@ class AsciiDocHtmlModifier {
         // Store new id.
         String previous = renames.put(tocEntry.refId, newId);
         Verify.verify(previous == null);
+
+        // Handle virtual TOC entries:
+        // - The TOC entry itself has id '<VIRTUAL_TOC_ENTRY_PREFIX><some_name>'.
+        // - The target on the page has id '<VIRTUAL_TOC_TARGET_PREFIX><some_name>'.
+        // - We map both to the same new name, such that the virtual TOC entry links to its target.
+        if (tocEntry.refId != null && tocEntry.refId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX)) {
+            String targetRefId = VIRTUAL_TOC_TARGET_PREFIX
+                    + tocEntry.refId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+            previous = renames.put(targetRefId, newId);
+            Verify.verify(previous == null);
+        }
 
         // Process children.
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
@@ -641,6 +690,22 @@ class AsciiDocHtmlModifier {
     }
 
     /**
+     * Rename virtual TOC entry targets.
+     *
+     * @param page The multi-page HTML page to modify in-place.
+     */
+    private static void renameVirtualTocEntryTargets(AsciiDocHtmlPage page) {
+        Elements elements = page.doc.select("[id^=" + VIRTUAL_TOC_TARGET_PREFIX + "]");
+        for (Element element: elements) {
+            String oldId = element.id();
+            String newId = page.sectionIdRenames.get(oldId);
+            Verify.verifyNotNull(newId, oldId);
+            Verify.verify(page.multiPageIds.contains(newId));
+            element.id(newId);
+        }
+    }
+
+    /**
      * Rename section ids in TOC.
      *
      * @param page The multi-page HTML page to modify in-place.
@@ -648,11 +713,23 @@ class AsciiDocHtmlModifier {
      */
     private static void renameSectionIdsInToc(AsciiDocHtmlPage page, AsciiDocTocEntry tocEntry) {
         // Rename this TOC entry.
-        if (tocEntry.page == page && tocEntry.refId != null) {
+        if (tocEntry.page == page && tocEntry.parent != null) {
+            // Sanity check: TOC entry must have a reference ID.
+            Verify.verifyNotNull(tocEntry.refId);
+
+            // Get new reference ID.
             String newRefId = page.sectionIdRenames.get(tocEntry.refId);
             Verify.verifyNotNull(newRefId, tocEntry.refId);
+
+            // Set new reference ID.
             tocEntry.refId = newRefId;
+
+            // Check that the new reference ID is one of the registered IDs of the page.
             Verify.verify(tocEntry.page.multiPageIds.contains(newRefId), newRefId);
+
+            // Check that the new reference ID exists on the page.
+            Elements foundElemsWithNewRefId = page.doc.select("#" + newRefId);
+            Verify.verify(foundElemsWithNewRefId.size() == 1, newRefId);
         }
 
         // Rename children.
@@ -742,15 +819,15 @@ class AsciiDocHtmlModifier {
             }
 
             // Ensure it is a relative path to an entire file.
-            Verify.verify(uriScheme == null);
-            Verify.verify(uri.getUserInfo() == null);
-            Verify.verify(uri.getHost() == null);
-            Verify.verify(uri.getPort() == -1);
-            Verify.verify(uri.getAuthority() == null);
-            Verify.verify(uri.getQuery() == null);
-            Verify.verify(uri.getFragment() == null);
-            Verify.verifyNotNull(uri.getPath());
-            Verify.verify(ref.equals(uri.getPath()));
+            Verify.verify(uriScheme == null, uri.toString());
+            Verify.verify(uri.getUserInfo() == null, uri.toString());
+            Verify.verify(uri.getHost() == null, uri.toString());
+            Verify.verify(uri.getPort() == -1, uri.toString());
+            Verify.verify(uri.getAuthority() == null, uri.toString());
+            Verify.verify(uri.getQuery() == null, uri.toString());
+            Verify.verify(uri.getFragment() == null, uri.toString());
+            Verify.verifyNotNull(uri.getPath(), uri.toString());
+            Verify.verify(ref.equals(uri.getPath()), uri.toString());
 
             // Get absolute path of file referred to by href.
             Path hrefAbsTarget = sourceRootPath.resolve(ref);
@@ -784,7 +861,7 @@ class AsciiDocHtmlModifier {
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
         elemTocHomeA.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, homePage, null));
         if (page == homePage) {
-            elemTocHomeA.addClass("toc-cur-page");
+            elemTocHomeLi.addClass("toc-cur-page");
         }
         elemTocHomeA.appendText(homePage.sourceFile.title);
     }
