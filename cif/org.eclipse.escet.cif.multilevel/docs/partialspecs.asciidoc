@@ -91,7 +91,7 @@ This is expressed as "`pointing at existing`" in the tables below.
 * If the pointed-at cross-connection has not been copied and it is allowed to copy it, that can be done now and get added that to the copied tree.
 That is expressed as "`is also copied`" in the tables below.
 * If the pointed-at cross-connection has not been copied and it should not be added to the copied tree, then a new tree must be created as replacement.
-This is expressed as "`conversion to an `InputVariable`"` in the tables below, since the replacement instance is always an `InputVariable` class instance.
+This is expressed as "`conversion to an InputVariable`" in the tables below, since the replacement instance is always an `InputVariable` class instance.
 * Cross-connections to fields of tuple types do not have a fixed cross-connection destination, so it's hard to decide where to start making a copy of the tree.
 This is handled by waiting until all other cross-connections have been resolved, since at that point it is certain that the fields have been copied as well, and they can thus be resolved by redirecting to a previous copied part of the copied tree.
 This is expressed as "`possibly after resolving all other non-containing references`" in the tables below.
