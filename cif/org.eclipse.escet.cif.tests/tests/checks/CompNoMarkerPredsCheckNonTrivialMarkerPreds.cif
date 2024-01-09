@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+input bool b;
+
+marked 1 = 1;
+
+group g_trivial:
+  marked 2 = 2;
+
+  automaton a:
+    marked 4 = 4;
+    location:
+      initial;
+      marked;
+  end
+
+  automaton def A():
+    marked 4 = 4;
+    location:
+      initial;
+      marked 5 = 5;
+  end
+
+  group def G():
+    marked 6 = 6;
+  end
+end
+
+group g_nontrivial:
+  marked b;
+
+  automaton a:
+    marked b;
+    location:
+      initial;
+      marked;
+  end
+
+  automaton def A():
+    marked b;
+    location:
+      initial;
+      marked b;
+  end
+
+  group def G():
+    marked b;
+  end
+end

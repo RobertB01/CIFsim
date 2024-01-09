@@ -1,0 +1,28 @@
+automaton A:
+  disc int[-10..-1] fully_below;
+
+  disc int[-10..0] highest_allowed;
+  disc int[-10..6] partial_below;
+
+  disc int[0..10] exact;
+  disc int[4..6] inside;
+
+  disc int[4..60] partial_above;
+  disc int[10..60] lowest_allowed;
+
+  disc int[15..60] fully_above;
+
+  disc int[-10..100] below_and_above;
+
+  disc int plain = 500;
+
+  location A:
+    initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0;
+    initial plain > 0;
+
+    edge when -1 > 0;
+    edge when 0 > 0;
+    edge when 5 > 0;
+    edge when 15 > 0;
+    edge when 3 - 4 > 0;
+end

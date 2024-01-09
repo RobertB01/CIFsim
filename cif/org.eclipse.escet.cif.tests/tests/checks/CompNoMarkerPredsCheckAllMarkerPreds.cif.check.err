@@ -1,0 +1,32 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ---------------------------------------
+  (1/1) Component has a marker predicate.
+  ---------------------------------------
+   * In the top-level scope of the specification:
+     - marked 1 = 1;
+                ^
+   * In group "g_nontrivial":
+     - marked b;
+              ^
+   * In automaton definition "g_nontrivial.A":
+     - marked b;
+              ^
+   * In group definition "g_nontrivial.G":
+     - marked b;
+              ^
+   * In automaton "g_nontrivial.a":
+     - marked b;
+              ^
+   * In group "g_trivial":
+     - marked 2 = 2;
+                ^
+   * In automaton definition "g_trivial.A":
+     - marked 4 = 4;
+                ^
+   * In group definition "g_trivial.G":
+     - marked 6 = 6;
+                ^
+   * In automaton "g_trivial.a":
+     - marked 4 = 4;
+                ^
