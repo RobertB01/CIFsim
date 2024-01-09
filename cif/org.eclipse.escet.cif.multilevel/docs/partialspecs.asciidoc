@@ -1,0 +1,156 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+= Partial specifications construction
+
+Splitting a specification into a collection of partial specifications.
+
+Multi-level synthesis is a way to split a single original specification in multiple partial specifications that interact with each other, such that behavior of the synthesizes original specification is the same as the combined behavior of all synthesized partial specifications.
+This is achieved by giving each partial specification a part of the state of the original specification, together with the ability for partial specifications to inspect state of (some of the) other partial specifications.
+
+Splitting the original specification in parts starts in the CIF to DMM transformation where plant groups and requirement groups are established.
+All CIF elements in a group are considered so closely connected with each other that splitting should not never be attempted.
+One way to split the original specification now is to see each group as representing a partial specification.
+That may however result in having too many partial specifications.
+Also, two groups may share a lot of data between them, which makes them tightly connected to each other.
+It often is sub-optimal to split the original specification between tightly connected groups.
+In other words, it may be desirable to reduce the number of partial specifications, and/or reduce the amount of shared data between such partial specifications.
+The answer for that desire is to apply clustering on groups.
+
+By clustering the groups, sets of groups are formed.
+Generally speaking, clustering puts tightly connected groups together in one set, and puts less connected groups in different sets.
+Each set is considered to represent a partial specification.
+After clustering, generally the number of partial specifications is reduced, and tight connections between partial specifications are avoided.
+
+== Constructing a partial CIF specification
+
+Above, sets of groups were formed, where each set represents a partial specification.
+Each set must eventually be synthesized to reach the final goal of mu;ti-level synthesis.
+The way to do that is by first converting each set of groups to a proper partial CIF specification, and then synthesizing each of those specifications separately.
+That is however more easily said than done.
+
+A group in the CIF to DMM conversion is a highly abstracted way to indicate a part of a CIF specification.
+It contains automata, invariants, and discrete and input variables.
+It does for example not contain used types, constants, or algebraic variables.
+Also, the expressed relations in a group are about usage and not so much about point of definition.
+In particular, if an automaton in a group defines for example an event or an input variable but it does not use them, the event or input variable are not part of the group, even though the automaton itself is part of the group.
+In other words, group boundaries in CIF to DMM, and group boundaries in CIF specification match mostly but not always exactly.
+
+Another point not yet discussed is that all partial synthesized specifications combined should behave the same as the original specification.
+This means that each partial specification needs to interact with (some of the) other partial specifications, and co-ordinate behavior.
+In particular, they need to agree on values in the state of the system.
+
+The solution here is to add additional input variables to each partial specification.
+Each new input variable represents some state in another partial specification.
+When combining all partial specifications afterwards, the added input variables can be replaced by their real CIF equivalents from another partial specification, and interaction can occur.
+This leads to the following approach in constructing a proper partial CIF specification.
+For each set of groups do:
+
+* Create a new (empty) CIF specification.
+This specification becomes the proper partial specification for that set.
+* Copy CIF elements of the groups from the original specification to the new specification that are definitely needed.
+For invariants, that is the invariant itself.
+For automata, copy the locations with their edges, and their explicit alphabet and monitor declarations.
+* Repeatedly copy minimal parts (one variable, one type declaration, one event, and so on) that are missing in the new specification.
+Alternatively, sometimes, a missing part can be replaced by a different part, for example replacing a discrete variable of location of a different set by an input variable.
+
+Once nothing is missing anymore, the partial specification is complete, and the next set can be converted.
+
+=== Copying CIF elements
+
+[NOTE]
+====
+The following assumes knowledge about hoe CIF elements are encoded in a tree of class instances.
+For details, please consult the CIF meta-model documentation in the `docs/cif_ecore_doc.pdf` document in the `org.eclipse.escet.cif.metamodel` project.
+====
+
+At implementation level, a CIF specification is a directed tree of class instances, with cross-connections from one branch to another branch in the tree.
+Copying a part of the specification is always done in the tree hierarchy, from some point in the tree to the leaves.
+Such points are for example a type declaration or an automaton, but also a type or an event.
+The basic idea behind partial specifications is to copy just enough (small) parts of the original tree.
+
+Cross-connections originating from a copied part however still point at class instances in the original tree.
+The class instances that these connections point at are not included in the copy.
+To get a valid copy, the pointed-at connections must be resolved, and also become a part of the copied tree hierarchy.
+There are several ways to do that:
+
+* One possibility is that the pointed at cross-connection has been copied already in the past.
+In that case, just redirecting the cross-connection is sufficient.
+This is expressed as "`pointing at existing`" in the tables below.
+* If the pointed-at cross-connection has not been copied and it is allowed to copy it, that can be done now and get added that to the copied tree.
+That is expressed as "`is also copied`" in the tables below.
+* If the pointed-at cross-connection has not been copied and it should not be added to the copied tree, then a new tree must be created as replacement.
+This is expressed as "`conversion to an `InputVariable`"` in the tables below, since the replacement instance is always an `InputVariable` class instance.
+* Cross-connections to fields of tuples do not have a fixed cross-connection destination, so it's hard to decide where to start making a copy of the tree.
+This is handled by waiting until all other cross-connections have been resolved, since at that point it is certain that the fields have been copied as well, and they can thus be resolved by redirecting to a previous copied part of the copied tree.
+This is expressed as "`possibly after resolving all other non-containing references`" in the tables below.
+* The final case is that some kinds of cross-connections will never occur, since the program supports only a subset of the CIF language.
+This is expressed as "`never happens due to pre-condition`" in the tables below.
+
+.`Automaton` package
+[cols="4,3,9"]
+|===
+| Class | Reference to | Handled by
+
+| `Edge` | `Location` | Pointing at existing `Location`.
+|===
+
+.`Cif` package
+[cols="4,3,9"]
+|===
+| Class | Reference to | Handled by
+
+| `Equation` | `Declaration` | Never happens due to pre-condition.
+|===
+
+.`Expressions` package
+[cols="4,3,9"]
+|===
+| Class | Reference to | Handled by
+
+| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class is an `Automaton`, else conversion to an `InputVariable` with the same domain.
+| `AlgVariableExpression` | `AlgVariable` | `AlgVariable` is also copied.
+| `EventExpression` | `Event` | `Event` is also copied.
+| `EnumLiteralExpression` | `EnumLiteral` | Containing `EnumDecl` is also copied.
+| `LocationExpression` | `Location` | Pointing at existing `Location`, else conversion to boolean `InputVariable`.
+| `CompParamWrapExpression` | `ComponentParameter` | Never happens due to pre-condition.
+| `CompInstWrapExpression` | `ComponentInst` | Never happens due to pre-condition.
+| `ComponentExpression` | `Component` | Never happens due to pre-condition.
+| `CompParamExpression` | `ComponentParameter` | Never happens due to pre-condition.
+| `ConstantExpression` | `Constant` | `Constant` is also copied.
+| `FieldExpression` | `Field` | Pointing at existing `Field`, possibly after resolving all other non-containing references.
+| `FunctionExpression` | `Function` | Never happens due to pre-condition.
+| `ContVariableExpression` | `ContVariable` | Never happens due to pre-condition.
+| `InputVariableExpression` | `InputVariable` | `InputVariable` is also copied.
+|===
+
+.`Type` package
+[cols="4,3,9"]
+|===
+| Class | Reference to | Handled by
+
+| `TypeRef` | `TypeDecl` | `TypeDecl` is also copied.
+| `EnumType` | `EnumDecl` | `EnumDecl` is also copied.
+| `CompParamWrapType` | `ComponentParameter` | Never happens due to pre-condition.
+| `CompInstWrapType` | `ComponentInst` | Never happens due to pre-condition.
+| `ComponentType` | `Component` | Never happens due to pre-condition.
+| `ComponentDefType` | `ComponentDef` | Never happens due to pre-condition.
+|===
+
+Finally, a few details about (lack of) possible consequences of replacing a cross-connection:
+
+* In case of a `DiscVariableExpression` or `LocationExpression` the code may replace the non-contained reference by an `InputVariable` instance.
+In that case the `DiscVariableExpression` or `LocationExpression` instance must also be replaced by an `InputVariableExpression`.
+If this is done, the type of the previous expression instance is moved to the new `InputVariableExpression` instance.
+That type was already copied and scanned, and is already or will be resolved for dangling references without additional effort.
+* As both `DiscVariableExpression` and `LocationExpression` have no other content that could trigger further additional copying, the replacement to in `InputVariableExpression` instance will not cause adding of unused additional parts.
