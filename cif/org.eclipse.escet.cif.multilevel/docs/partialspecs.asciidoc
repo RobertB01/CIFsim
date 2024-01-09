@@ -15,7 +15,7 @@
 
 Splitting a specification into a collection of partial specifications.
 
-Multi-level synthesis is a way to split a single original specification in multiple partial specifications that interact with each other, such that behavior of the synthesizes original specification is the same as the combined behavior of all synthesized partial specifications.
+Multi-level synthesis is a way to split a single original specification in multiple partial specifications that interact with each other, such that behavior of the synthesized original specification is the same as the combined behavior of all synthesized partial specifications.
 This is achieved by giving each partial specification a part of the state of the original specification, together with the ability for partial specifications to inspect state of (some of the) other partial specifications.
 
 Splitting the original specification in parts starts in the CIF to DMM transformation where plant groups and requirement groups are established.
@@ -35,7 +35,7 @@ After clustering, generally the number of partial specifications is reduced, and
 == Constructing a partial CIF specification
 
 Above, sets of groups were formed, where each set represents a partial specification.
-Each set must eventually be synthesized to reach the final goal of mu;ti-level synthesis.
+Each set must eventually be synthesized to reach the final goal of multi-level synthesis.
 The way to do that is by first converting each set of groups to a proper partial CIF specification, and then synthesizing each of those specifications separately.
 That is however more easily said than done.
 
@@ -53,6 +53,7 @@ In particular, they need to agree on values in the state of the system.
 The solution here is to add additional input variables to each partial specification.
 Each new input variable represents some state in another partial specification.
 When combining all partial specifications afterwards, the added input variables can be replaced by their real CIF equivalents from another partial specification, and interaction can occur.
+
 This leads to the following approach in constructing a proper partial CIF specification.
 For each set of groups do:
 
@@ -70,13 +71,13 @@ Once nothing is missing anymore, the partial specification is complete, and the 
 
 [NOTE]
 ====
-The following assumes knowledge about hoe CIF elements are encoded in a tree of class instances.
+The following assumes knowledge about how CIF elements are encoded in a tree of class instances.
 For details, please consult the CIF meta-model documentation in the `docs/cif_ecore_doc.pdf` document in the `org.eclipse.escet.cif.metamodel` project.
 ====
 
-At implementation level, a CIF specification is a directed tree of class instances, with cross-connections from one branch to another branch in the tree.
-Copying a part of the specification is always done in the tree hierarchy, from some point in the tree to the leaves.
-Such points are for example a type declaration or an automaton, but also a type or an event.
+At implementation level, a CIF specification is a containment tree of Ecore objects, with cross-references from one branch to another branch in the tree.
+Copying a part of the specification is always done over the tree's containment hierarchy, from some point in the tree to the leaves.
+Such points are for example a type declaration, a type or an event.
 The basic idea behind partial specifications is to copy just enough (small) parts of the original tree.
 
 Cross-connections originating from a copied part however still point at class instances in the original tree.
@@ -91,13 +92,13 @@ This is expressed as "`pointing at existing`" in the tables below.
 That is expressed as "`is also copied`" in the tables below.
 * If the pointed-at cross-connection has not been copied and it should not be added to the copied tree, then a new tree must be created as replacement.
 This is expressed as "`conversion to an `InputVariable`"` in the tables below, since the replacement instance is always an `InputVariable` class instance.
-* Cross-connections to fields of tuples do not have a fixed cross-connection destination, so it's hard to decide where to start making a copy of the tree.
+* Cross-connections to fields of tuple types do not have a fixed cross-connection destination, so it's hard to decide where to start making a copy of the tree.
 This is handled by waiting until all other cross-connections have been resolved, since at that point it is certain that the fields have been copied as well, and they can thus be resolved by redirecting to a previous copied part of the copied tree.
 This is expressed as "`possibly after resolving all other non-containing references`" in the tables below.
 * The final case is that some kinds of cross-connections will never occur, since the program supports only a subset of the CIF language.
 This is expressed as "`never happens due to pre-condition`" in the tables below.
 
-.`Automaton` package
+.`automata` package
 [cols="4,3,9"]
 |===
 | Class | Reference to | Handled by
@@ -153,4 +154,4 @@ Finally, a few details about (lack of) possible consequences of replacing a cros
 In that case the `DiscVariableExpression` or `LocationExpression` instance must also be replaced by an `InputVariableExpression`.
 If this is done, the type of the previous expression instance is moved to the new `InputVariableExpression` instance.
 That type was already copied and scanned, and is already or will be resolved for dangling references without additional effort.
-* As both `DiscVariableExpression` and `LocationExpression` have no other content that could trigger further additional copying, the replacement to in `InputVariableExpression` instance will not cause adding of unused additional parts.
+* As both `DiscVariableExpression` and `LocationExpression` have no other content that could trigger further additional copying, the replacement by an `InputVariableExpression` will not cause adding of unused additional parts.
