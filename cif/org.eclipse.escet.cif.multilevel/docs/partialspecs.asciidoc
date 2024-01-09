@@ -80,22 +80,22 @@ Copying a part of the specification is always done over the tree's containment h
 Such points are for example a type declaration, a type or an event.
 The basic idea behind partial specifications is to copy just enough (small) parts of the original tree.
 
-Cross-connections originating from a copied part however still point at class instances in the original tree.
-The class instances that these connections point at are not included in the copy.
-To get a valid copy, the pointed-at connections must be resolved, and also become a part of the copied tree hierarchy.
+Cross-references originating from a copied part however still point at class instances in the original tree.
+The class instances that these references point at are not included in the copy.
+To get a valid copy, the pointed-at references must be resolved, and also become a part of the copied tree hierarchy.
 There are several ways to do that:
 
-* One possibility is that the pointed at cross-connection has been copied already in the past.
-In that case, just redirecting the cross-connection is sufficient.
+* One possibility is that the pointed at cross-reference has been copied already in the past.
+In that case, just redirecting the cross-reference is sufficient.
 This is expressed as "`pointing at existing`" in the tables below.
-* If the pointed-at cross-connection has not been copied and it is allowed to copy it, that can be done now and get added that to the copied tree.
+* If the pointed-at cross-reference has not been copied and it is allowed to copy it, that can be done now and get added that to the copied tree.
 That is expressed as "`is also copied`" in the tables below.
-* If the pointed-at cross-connection has not been copied and it should not be added to the copied tree, then a new tree must be created as replacement.
+* If the pointed-at cross-reference has not been copied and it should not be added to the copied tree, then a new tree must be created as replacement.
 This is expressed as "`conversion to an InputVariable`" in the tables below, since the replacement instance is always an `InputVariable` class instance.
-* Cross-connections to fields of tuple types do not have a fixed cross-connection destination, so it's hard to decide where to start making a copy of the tree.
-This is handled by waiting until all other cross-connections have been resolved, since at that point it is certain that the fields have been copied as well, and they can thus be resolved by redirecting to a previous copied part of the copied tree.
+* Cross-references to fields of tuple types do not have a fixed cross-reference destination, so it's hard to decide where to start making a copy of the tree.
+This is handled by waiting until all other cross-references have been resolved, since at that point it is certain that the fields have been copied as well, and they can thus be resolved by redirecting to a previous copied part of the copied tree.
 This is expressed as "`possibly after resolving all other non-containing references`" in the tables below.
-* The final case is that some kinds of cross-connections will never occur, since the program supports only a subset of the CIF language.
+* The final case is that some kinds of cross-references will never occur, since the program supports only a subset of the CIF language.
 This is expressed as "`never happens due to pre-condition`" in the tables below.
 
 .`automata` package
@@ -148,7 +148,7 @@ This is expressed as "`never happens due to pre-condition`" in the tables below.
 | `ComponentDefType` | `ComponentDef` | Never happens due to pre-condition.
 |===
 
-Finally, a few details about (lack of) possible consequences of replacing a cross-connection:
+Finally, a few details about (lack of) possible consequences of replacing a cross-reference:
 
 * In case of a `DiscVariableExpression` or `LocationExpression` the code may replace the non-contained reference by an `InputVariable` instance.
 In that case the `DiscVariableExpression` or `LocationExpression` instance must also be replaced by an `InputVariableExpression`.
