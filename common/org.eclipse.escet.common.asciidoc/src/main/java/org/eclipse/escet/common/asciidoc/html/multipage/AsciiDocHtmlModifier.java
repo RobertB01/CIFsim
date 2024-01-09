@@ -959,7 +959,29 @@ class AsciiDocHtmlModifier {
 
             // Link the breadcrumb, if not for the page itself.
             if (!isSelfBreadcrumb) {
-                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb.page, null));
+                // Get the id on the HTML page to refer to, or 'null' for the entire page.
+                String singlePageId;
+                String breadcrumbRefId = breadcrumb.origRefId;
+                String pageSourceId = breadcrumb.page.sourceFile.sourceId;
+                if (breadcrumbRefId == null || pageSourceId == null) {
+                    // Breadcrumb is for the root TOC entry. Link to the entire HTML file.
+                    Verify.verify(breadcrumbRefId == null);
+                    Verify.verify(pageSourceId == null);
+                    Verify.verify(breadcrumb.parent == null);
+                    singlePageId = null;
+                } else if (breadcrumbRefId.equals(pageSourceId)) {
+                    // Breadcrumb is for the whole non-root page. Link to the entire HTML file.
+                    singlePageId = null;
+                } else {
+                    // Breadcrumb is for a virtual TOC entry target on the page. Link to the relevant id within the HTML
+                    // file.
+                    Verify.verify(breadcrumbRefId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX), breadcrumbRefId);
+                    singlePageId = VIRTUAL_TOC_TARGET_PREFIX
+                            + breadcrumbRefId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                }
+
+                // Add the link.
+                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb.page, singlePageId));
             }
 
             // Set the text of the breadcrumb.
