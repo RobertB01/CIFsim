@@ -48,10 +48,20 @@ import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoMarkedPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.IntegerTypeBoundsCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -355,8 +365,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
     private static class MultiLevelPreChecker extends CifPreconditionChecker {
         /** Constructor of the {@link MultiLevelPreChecker} class. */
         public MultiLevelPreChecker() {
-            // All but the final check are pre-conditions for CIF to DMM. The final check is needed by data synthesis.
             super(
+                    // Constraints from CIF to DMM:
+
                     // Ensure there are no relations between elements hidden in initialization expressions.
                     new AutOnlyWithOneInitLocCheck(), //
                     new VarNoDiscWithMultiInitValuesCheck(), //
@@ -389,8 +400,123 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES), //
                     new EventNoTauCheck(), //
                     new VarNoContinuousCheck(), //
-                    new EqnNotAllowedCheck(), //
-                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.INTERNAL)
+                    new EqnNotAllowedCheck(),
+
+                    // Constraints from data-based synthesis (approximately):
+
+                    // No user-defined functions.
+                    new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.INTERNAL),
+
+                    // new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT),  ALREADY INCLUDED.
+
+                    // new SpecHasPlantCheck(),  ALREADY INCLUDED.
+
+                    // Only allow events that are either controllable or uncontrollable.
+                    new EventOnlyWithControllabilityCheck(),
+
+                    // Don't allow channels.
+                    new EventNoChannelsCheck(),
+
+                    // new InvNoSpecificInvsCheck()  ALREADY INCLUDED.
+                    //   .disallow(SUPERVISOR, NoInvariantKind.ALL_KINDS, ALL_PLACES)
+                    //   .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES),
+
+                    // new VarNoContinuousCheck(),  ALREADY INCLUDED.
+
+                    // Only allow non-negative integer values in expressions.
+                    new IntegerTypeBoundsCheck(true, 0, null, null, null),
+
+                    // Only allow ranged integers and booleans.
+                    new TypeNoSpecificTypesCheck( //
+                            NoSpecificType.COMP_DEF_TYPES, //
+                            NoSpecificType.COMP_TYPES, //
+                            NoSpecificType.DICT_TYPES, //
+                            NoSpecificType.DIST_TYPES, //
+                            NoSpecificType.ENUM_TYPES, //
+                            NoSpecificType.FUNC_TYPES, //
+                            NoSpecificType.FUNC_TYPES_AS_DATA, //
+                            NoSpecificType.INT_TYPES_RANGELESS, //
+                            NoSpecificType.LIST_TYPES, //
+                            NoSpecificType.REAL_TYPES, //
+                            NoSpecificType.SET_TYPES, //
+                            NoSpecificType.STRING_TYPES, //
+                            NoSpecificType.TUPLE_TYPES, //
+                            NoSpecificType.VOID_TYPES),
+
+                    // Disallow unsupported expressions.
+                    new ExprNoSpecificExprsCheck( //
+                            NoSpecificExpr.FUNC_REFS_USER_DEF, //
+                            NoSpecificExpr.CAST_EXPRS, //
+                            NoSpecificExpr.COMP_REFS, //
+                            NoSpecificExpr.COMP_PARAM_REFS, //
+                            NoSpecificExpr.CONT_VAR_REFS, //
+                            NoSpecificExpr.DICT_LITS, //
+                            NoSpecificExpr.TUPLE_FIELD_REFS, //
+                            NoSpecificExpr.FUNC_CALLS, //
+                            NoSpecificExpr.LIST_LITS, //
+                            NoSpecificExpr.PROJECTION_EXPRS, //
+                            NoSpecificExpr.REAL_LITS, //
+                            NoSpecificExpr.RECEIVE_EXPRS, //
+                            NoSpecificExpr.SET_LITS, //
+                            NoSpecificExpr.SLICE_EXPRS, //
+                            NoSpecificExpr.STRING_LITS, //
+                            NoSpecificExpr.TIME_VAR_REFS, //
+                            NoSpecificExpr.TUPLE_LITS),
+
+                    // Only allow inversion unary operator.
+                    new ExprNoSpecificUnaryExprsCheck( //
+                            NoSpecificUnaryOp.NEGATE, //
+                            NoSpecificUnaryOp.PLUS),
+
+                    // Disallow all non-supported binary operators.
+                    new ExprNoSpecificBinaryExprsCheck( //
+                            NoSpecificBinaryOp.ADDITION_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.ADDITION_REALS, //
+                            NoSpecificBinaryOp.ADDITION_LISTS, //
+                            NoSpecificBinaryOp.ADDITION_STRINGS, //
+                            NoSpecificBinaryOp.ADDITION_DICTS, //
+                            NoSpecificBinaryOp.CONJUNCTION_SETS, //
+                            NoSpecificBinaryOp.DISJUNCTION_SETS, //
+                            NoSpecificBinaryOp.DIVISION, //
+                            NoSpecificBinaryOp.ELEMENT_OF, //
+                            NoSpecificBinaryOp.EQUAL_DICT, //
+                            NoSpecificBinaryOp.EQUAL_ENUM, //
+                            NoSpecificBinaryOp.EQUAL_INT_RANGELESS, //
+                            NoSpecificBinaryOp.EQUAL_LIST, //
+                            NoSpecificBinaryOp.EQUAL_REAL, //
+                            NoSpecificBinaryOp.EQUAL_SET, //
+                            NoSpecificBinaryOp.EQUAL_STRING, //
+                            NoSpecificBinaryOp.EQUAL_TUPLE, //
+                            NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.GREATER_EQUAL_REALS, //
+                            NoSpecificBinaryOp.GREATER_THAN_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.GREATER_THAN_REALS, //
+                            NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.LESS_EQUAL_REALS, //
+                            NoSpecificBinaryOp.LESS_THAN_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.LESS_THAN_REALS, //
+                            NoSpecificBinaryOp.MODULUS_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.MULTIPLICATION_REALS, //
+                            NoSpecificBinaryOp.SUBSET, //
+                            NoSpecificBinaryOp.SUBTRACTION_INTS_RANGELESS, //
+                            NoSpecificBinaryOp.SUBTRACTION_REALS, //
+                            NoSpecificBinaryOp.SUBTRACTION_LISTS, //
+                            NoSpecificBinaryOp.SUBTRACTION_SETS, //
+                            NoSpecificBinaryOp.SUBTRACTION_DICTS, //
+                            NoSpecificBinaryOp.UNEQUAL_DICT, //
+                            NoSpecificBinaryOp.UNEQUAL_ENUM, //
+                            NoSpecificBinaryOp.UNEQUAL_INT_RANGELESS, //
+                            NoSpecificBinaryOp.UNEQUAL_LIST, //
+                            NoSpecificBinaryOp.UNEQUAL_REAL, //
+                            NoSpecificBinaryOp.UNEQUAL_SET, //
+                            NoSpecificBinaryOp.UNEQUAL_STRING, //
+                            NoSpecificBinaryOp.UNEQUAL_TUPLE),
+
+                    // Conditional updates (if updates), multi-assignments, and partial variable assignments are not
+                    // supported.
+                    new EdgeOnlySimpleAssignmentsCheck()
             );
         }
     }
