@@ -53,6 +53,15 @@ class AsciiDocHtmlModifier {
     /** Whether to print debug output. */
     private static final boolean DEBUG = false;
 
+    /** Prefix for ids of virtual TOC entries and their targets. */
+    private static final String VIRTUAL_TOC_PREFIX = "virtual-toc-";
+
+    /** Prefix for ids of virtual TOC entries. */
+    private static final String VIRTUAL_TOC_ENTRY_PREFIX = VIRTUAL_TOC_PREFIX + "entry--";
+
+    /** Prefix for ids of virtual TOC entry targets. */
+    private static final String VIRTUAL_TOC_TARGET_PREFIX = VIRTUAL_TOC_PREFIX + "target--";
+
     /** Constructor for the {@link AsciiDocHtmlModifier} class. */
     private AsciiDocHtmlModifier() {
         // Static class.
@@ -288,16 +297,18 @@ class AsciiDocHtmlModifier {
                         if (oldIds.size() == 2) {
                             String oldId1 = oldIds.get(0);
                             String oldId2 = oldIds.get(1);
-                            String entryPrefix = "virtual-toc-entry--";
-                            String targetPrefix = "virtual-toc-target--";
-                            if (oldId1.startsWith(entryPrefix) && oldId2.startsWith(targetPrefix)) {
-                                String oldIdPost1 = oldId1.substring(entryPrefix.length());
-                                String oldIdPost2 = oldId2.substring(targetPrefix.length());
+                            if (oldId1.startsWith(VIRTUAL_TOC_ENTRY_PREFIX)
+                                    && oldId2.startsWith(VIRTUAL_TOC_TARGET_PREFIX))
+                            {
+                                String oldIdPost1 = oldId1.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                                String oldIdPost2 = oldId2.substring(VIRTUAL_TOC_TARGET_PREFIX.length());
                                 Verify.verify(oldIdPost1.equals(oldIdPost2), oldId1 + " / " + oldId2);
                                 continue;
-                            } else if (oldId1.startsWith(targetPrefix) && oldId2.startsWith(entryPrefix)) {
-                                String oldIdPost1 = oldId1.substring(targetPrefix.length());
-                                String oldIdPost2 = oldId2.substring(entryPrefix.length());
+                            } else if (oldId1.startsWith(VIRTUAL_TOC_TARGET_PREFIX)
+                                    && oldId2.startsWith(VIRTUAL_TOC_ENTRY_PREFIX))
+                            {
+                                String oldIdPost1 = oldId1.substring(VIRTUAL_TOC_TARGET_PREFIX.length());
+                                String oldIdPost2 = oldId2.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
                                 Verify.verify(oldIdPost1.equals(oldIdPost2), oldId1 + " / " + oldId2);
                                 continue;
                             }
@@ -305,7 +316,7 @@ class AsciiDocHtmlModifier {
 
                         // Should not have any duplicates for virtual TOC entry ids or their targets.
                         for (String oldId: oldIds) {
-                            Verify.verify(!oldId.startsWith("virtual-toc-"), oldId);
+                            Verify.verify(!oldId.startsWith(VIRTUAL_TOC_PREFIX), oldId);
                         }
 
                         // Duplicate new id, as new id is used for multiple old ids.
@@ -365,11 +376,12 @@ class AsciiDocHtmlModifier {
         Verify.verify(previous == null);
 
         // Handle virtual TOC entries:
-        // - The TOC entry itself has id 'virtual-toc-entry--<some_name>'.
-        // - The target on the page has id 'virtual-toc-target-<some_name>'.
+        // - The TOC entry itself has id '<VIRTUAL_TOC_ENTRY_PREFIX><some_name>'.
+        // - The target on the page has id '<VIRTUAL_TOC_TARGET_PREFIX><some_name>'.
         // - We map both to the same new name, such that the virtual TOC entry links to its target.
-        if (tocEntry.refId != null && tocEntry.refId.startsWith("virtual-toc-entry--")) {
-            String targetRefId = "virtual-toc-target--" + tocEntry.refId.substring("virtual-toc-entry--".length());
+        if (tocEntry.refId != null && tocEntry.refId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX)) {
+            String targetRefId = VIRTUAL_TOC_TARGET_PREFIX
+                    + tocEntry.refId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
             previous = renames.put(targetRefId, newId);
             Verify.verify(previous == null);
         }
@@ -683,7 +695,7 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      */
     private static void renameVirtualTocEntryTargets(AsciiDocHtmlPage page) {
-        Elements elements = page.doc.select("[id^=virtual-toc-target--]");
+        Elements elements = page.doc.select("[id^=" + VIRTUAL_TOC_TARGET_PREFIX + "]");
         for (Element element: elements) {
             String oldId = element.id();
             String newId = page.sectionIdRenames.get(oldId);
