@@ -134,7 +134,10 @@ public class PartialSpecsBuilder {
                         setting.set(contained);
                     }
                 } else {
-                    // Contained object has a different class. The partial object must be an input variable.
+                    // Contained object has a different class. The partial object must be an input variable as that is
+                    // the only way to get a different class. Also, the partial parent must either be a location or a
+                    // discrete variable reference since those are the only two cases that may contain external state
+                    // that needs to be hidden here.
                     // Not only the dangling object, but also its parent in the partial specification must be changed.
                     Assert.check(contained instanceof InputVariable);
                     for (Setting setting: partialConnections) {
