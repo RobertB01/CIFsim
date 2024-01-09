@@ -71,7 +71,7 @@ Once nothing is missing anymore, the partial specification is complete, and the 
 
 [NOTE]
 ====
-The following assumes knowledge about how CIF elements are encoded in a tree of class instances.
+The following assumes knowledge about how CIF elements are encoded in a tree of objects.
 For details, please consult the CIF meta-model documentation in the `docs/cif_ecore_doc.pdf` document in the `org.eclipse.escet.cif.metamodel` project.
 ====
 
@@ -80,8 +80,8 @@ Copying a part of the specification is always done over the tree's containment h
 Such points are for example a type declaration, a type or an event.
 The basic idea behind partial specifications is to copy just enough (small) parts of the original tree.
 
-Cross-references originating from a copied part however still point at class instances in the original tree.
-The class instances that these references point at are not included in the copy.
+Cross-references originating from a copied part however still point at objects in the original tree.
+The objects that these references point at are not included in the copy.
 To get a valid copy, the pointed-at references must be resolved, and also become a part of the copied tree hierarchy.
 There are several ways to do that:
 
@@ -91,7 +91,7 @@ This is expressed as "`pointing at existing`" in the tables below.
 * If the pointed-at cross-reference has not been copied and it is allowed to copy it, that can be done now and get added that to the copied tree.
 That is expressed as "`is also copied`" in the tables below.
 * If the pointed-at cross-reference has not been copied and it should not be added to the copied tree, then a new tree must be created as replacement.
-This is expressed as "`conversion to an InputVariable`" in the tables below, since the replacement instance is always an `InputVariable` class instance.
+This is expressed as "`conversion to an InputVariable`" in the tables below, since the replacement is always an `InputVariable` object.
 * Cross-references to fields of tuple types do not have a fixed cross-reference destination, so it's hard to decide where to start making a copy of the tree.
 This is handled by waiting until all other cross-references have been resolved, since at that point it is certain that the fields have been copied as well, and they can thus be resolved by redirecting to a previous copied part of the copied tree.
 This is expressed as "`possibly after resolving all other non-containing references`" in the tables below.
@@ -106,7 +106,7 @@ This is expressed as "`never happens due to pre-condition`" in the tables below.
 | `Edge` | `Location` | Pointing at existing `Location`.
 |===
 
-.`Cif` package
+.`cif` package
 [cols="4,3,9"]
 |===
 | Class | Reference to | Handled by
@@ -114,44 +114,44 @@ This is expressed as "`never happens due to pre-condition`" in the tables below.
 | `Equation` | `Declaration` | Never happens due to pre-condition.
 |===
 
-.`Expressions` package
+.`expressions` package
 [cols="4,3,9"]
 |===
 | Class | Reference to | Handled by
 
-| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class is an `Automaton`, else conversion to an `InputVariable` with the same domain.
 | `AlgVariableExpression` | `AlgVariable` | `AlgVariable` is also copied.
-| `EventExpression` | `Event` | `Event` is also copied.
-| `EnumLiteralExpression` | `EnumLiteral` | Containing `EnumDecl` is also copied.
-| `LocationExpression` | `Location` | Pointing at existing `Location`, else conversion to boolean `InputVariable`.
-| `CompParamWrapExpression` | `ComponentParameter` | Never happens due to pre-condition.
 | `CompInstWrapExpression` | `ComponentInst` | Never happens due to pre-condition.
 | `ComponentExpression` | `Component` | Never happens due to pre-condition.
 | `CompParamExpression` | `ComponentParameter` | Never happens due to pre-condition.
+| `CompParamWrapExpression` | `ComponentParameter` | Never happens due to pre-condition.
 | `ConstantExpression` | `Constant` | `Constant` is also copied.
+| `ContVariableExpression` | `ContVariable` | Never happens due to pre-condition.
+| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class is an `Automaton`, else conversion to an `InputVariable` with the same domain.
+| `EnumLiteralExpression` | `EnumLiteral` | Containing `EnumDecl` is also copied.
+| `EventExpression` | `Event` | `Event` is also copied.
 | `FieldExpression` | `Field` | Pointing at existing `Field`, possibly after resolving all other non-containing references.
 | `FunctionExpression` | `Function` | Never happens due to pre-condition.
-| `ContVariableExpression` | `ContVariable` | Never happens due to pre-condition.
 | `InputVariableExpression` | `InputVariable` | `InputVariable` is also copied.
+| `LocationExpression` | `Location` | Pointing at existing `Location`, else conversion to boolean `InputVariable`.
 |===
 
-.`Type` package
+.`type` package
 [cols="4,3,9"]
 |===
 | Class | Reference to | Handled by
 
-| `TypeRef` | `TypeDecl` | `TypeDecl` is also copied.
-| `EnumType` | `EnumDecl` | `EnumDecl` is also copied.
-| `CompParamWrapType` | `ComponentParameter` | Never happens due to pre-condition.
 | `CompInstWrapType` | `ComponentInst` | Never happens due to pre-condition.
-| `ComponentType` | `Component` | Never happens due to pre-condition.
 | `ComponentDefType` | `ComponentDef` | Never happens due to pre-condition.
+| `ComponentType` | `Component` | Never happens due to pre-condition.
+| `CompParamWrapType` | `ComponentParameter` | Never happens due to pre-condition.
+| `EnumType` | `EnumDecl` | `EnumDecl` is also copied.
+| `TypeRef` | `TypeDecl` | `TypeDecl` is also copied.
 |===
 
 Finally, a few details about (lack of) possible consequences of replacing a cross-reference:
 
-* In case of a `DiscVariableExpression` or `LocationExpression` the code may replace the non-contained reference by an `InputVariable` instance.
-In that case the `DiscVariableExpression` or `LocationExpression` instance must also be replaced by an `InputVariableExpression`.
-If this is done, the type of the previous expression instance is moved to the new `InputVariableExpression` instance.
+* In case of a `DiscVariableExpression` or `LocationExpression` the code may replace the non-contained reference by an `InputVariable` object.
+In that case the `DiscVariableExpression` or `LocationExpression` object must also be replaced by an `InputVariableExpression`.
+If this is done, the type of the previous expression object is moved to the new `InputVariableExpression` object.
 That type was already copied and scanned, and is already or will be resolved for dangling references without additional effort.
 * As both `DiscVariableExpression` and `LocationExpression` have no other content that could trigger further additional copying, the replacement by an `InputVariableExpression` will not cause adding of unused additional parts.
