@@ -230,8 +230,8 @@ public class PartialSpecsBuilder {
             return inputVar;
         }
 
-        // Discrete variables of automata that were copied in the first stage should be deepcloned. Other discrete variables
-        // become input variables with the same domains as the original discrete variables.
+        // Discrete variables of automata that were copied in the first stage should be deepcloned. Other discrete
+        // variables become input variables with the same domains as the original discrete variables.
         if (dangling instanceof DiscVariable dv) {
             if (dv.eContainer() instanceof Automaton) {
                 DiscVariable clonedVar = partialMgr.deepcloneAndAdd(dv);
