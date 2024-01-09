@@ -23,27 +23,27 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
  * CIF check that does not allow marker predicates in components, that is, does not allow marker predicates outside
  * locations.
  */
-public class CompNoMarkedPredsCheck extends CifCheck {
+public class CompNoMarkerPredsCheck extends CifCheck {
     /** Whether to ignore marker predicates that trivially hold. */
     private boolean ignoreTriviallyTrueMarkerPreds;
 
     /**
-     * Constructor of the {@link CompNoMarkedPredsCheck} class.
+     * Constructor of the {@link CompNoMarkerPredsCheck} class.
      *
      * <p>
      * Using this constructor will cause the check to also report marker predicates that trivially hold.
      * </p>
      */
-    public CompNoMarkedPredsCheck() {
+    public CompNoMarkerPredsCheck() {
         this(false);
     }
 
     /**
-     * Constructor of the {@link CompNoMarkedPredsCheck} class.
+     * Constructor of the {@link CompNoMarkerPredsCheck} class.
      *
      * @param ignoreTriviallyTrueMarkerPreds Whether to ignore marker predicates that trivially hold.
      */
-    public CompNoMarkedPredsCheck(boolean ignoreTriviallyTrueMarkerPreds) {
+    public CompNoMarkerPredsCheck(boolean ignoreTriviallyTrueMarkerPreds) {
         this.ignoreTriviallyTrueMarkerPreds = ignoreTriviallyTrueMarkerPreds;
     }
 
@@ -51,9 +51,8 @@ public class CompNoMarkedPredsCheck extends CifCheck {
     protected void preprocessComplexComponent(ComplexComponent comp, CifCheckViolations violations) {
         for (Expression marked: comp.getMarkeds()) {
             if (!ignoreTriviallyTrueMarkerPreds || !CifValueUtils.isTriviallyTrue(marked, false, true)) {
-                violations.add(marked, "Component has a marked predicate");
+                violations.add(marked, "Component has a marker predicate");
             }
         }
-        super.preprocessComplexComponent(comp, violations);
     }
 }

@@ -19,7 +19,7 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 
 /** Check that verifies all ranged integer types are within the specified boundaries. */
-public class IntegerTypeBoundsCheck extends CifCheck {
+public class TypeIntBoundsCheck extends CifCheck {
     /** Whether to check all integer types, including integer types without limits. */
     private final boolean checkRangeless;
 
@@ -36,7 +36,7 @@ public class IntegerTypeBoundsCheck extends CifCheck {
     private final int maxUpper;
 
     /**
-     * Constructor of the {@link IntegerTypeBoundsCheck} class.
+     * Constructor of the {@link TypeIntBoundsCheck} class.
      *
      * @param checkRangeless Whether to check all integer types, including integer types without limits.
      * @param minLowerBound Smallest allowed value of the lower bound of an integer type.
@@ -44,7 +44,7 @@ public class IntegerTypeBoundsCheck extends CifCheck {
      * @param minUpperBound Smallest allowed value of the upper bound of an integer type.
      * @param maxUpperBound Largest allowed value of the upper bound of an integer type.
      */
-    public IntegerTypeBoundsCheck(boolean checkRangeless, Integer minLowerBound, Integer maxLowerBound,
+    public TypeIntBoundsCheck(boolean checkRangeless, Integer minLowerBound, Integer maxLowerBound,
             Integer minUpperBound, Integer maxUpperBound)
     {
         this.checkRangeless = checkRangeless;

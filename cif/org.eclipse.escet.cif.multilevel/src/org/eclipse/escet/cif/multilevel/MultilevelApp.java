@@ -47,7 +47,7 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
-import org.eclipse.escet.cif.checkers.checks.CompNoMarkedPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
@@ -61,7 +61,7 @@ import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
-import org.eclipse.escet.cif.checkers.checks.IntegerTypeBoundsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeIntBoundsCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -386,7 +386,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
 
                     // Disallow initialization and marker predicates outside locations.
                     new CompNoInitPredsCheck(true), //
-                    new CompNoMarkedPredsCheck(true),
+                    new CompNoMarkerPredsCheck(true),
 
                     // Only requirement state/event exclusion invariants in components are supported.
                     new InvNoSpecificInvsCheck() //
@@ -424,7 +424,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // new VarNoContinuousCheck(),  ALREADY INCLUDED.
 
                     // Only allow non-negative integer values in expressions.
-                    new IntegerTypeBoundsCheck(true, 0, null, null, null),
+                    new TypeIntBoundsCheck(true, 0, null, null, null),
 
                     // Only allow ranged integers and booleans.
                     new TypeNoSpecificTypesCheck( //
