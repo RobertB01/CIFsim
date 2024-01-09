@@ -2,8 +2,8 @@ group A:
   enum Labels = ON, OFF;
 end
 plant automaton B:
-  event c;
-  event d;
+  controllable c;
+  controllable d;
   disc A.Labels x = A.OFF;
   location:
     initial;
@@ -11,7 +11,7 @@ plant automaton B:
     edge d do x := A.OFF;
 end
 plant automaton C:
-  event e;
+  controllable e;
   location:
     initial;
     edge e;

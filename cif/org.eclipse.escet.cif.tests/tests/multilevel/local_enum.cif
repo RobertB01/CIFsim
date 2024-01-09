@@ -13,7 +13,7 @@
 
 plant A:
   enum Labels = ON, OFF;
-  event a, b;
+  uncontrollable a, b;
 
   location l1:
     initial;
@@ -23,7 +23,7 @@ plant A:
 end
 
 plant B:
-  event c, d;
+  controllable c, d;
   disc A.Labels x = A.OFF;
 
   location:
@@ -33,7 +33,7 @@ plant B:
 end
 
 plant C:
-  event e;
+  controllable e;
 
   location:
     initial;

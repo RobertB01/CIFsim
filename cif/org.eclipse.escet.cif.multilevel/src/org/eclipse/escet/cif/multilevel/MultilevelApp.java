@@ -61,8 +61,8 @@ import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
-import org.eclipse.escet.cif.checkers.checks.TypeIntBoundsCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeIntBoundsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
@@ -426,13 +426,12 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Only allow non-negative integer values in expressions.
                     new TypeIntBoundsCheck(true, 0, null, null, null),
 
-                    // Only allow ranged integers and booleans.
+                    // Only allow ranged integers, enumerations, and booleans.
                     new TypeNoSpecificTypesCheck( //
                             NoSpecificType.COMP_DEF_TYPES, //
                             NoSpecificType.COMP_TYPES, //
                             NoSpecificType.DICT_TYPES, //
                             NoSpecificType.DIST_TYPES, //
-                            NoSpecificType.ENUM_TYPES, //
                             NoSpecificType.FUNC_TYPES, //
                             NoSpecificType.FUNC_TYPES_AS_DATA, //
                             NoSpecificType.INT_TYPES_RANGELESS, //
@@ -480,7 +479,6 @@ public class MultilevelApp extends Application<IOutputComponent> {
                             NoSpecificBinaryOp.DIVISION, //
                             NoSpecificBinaryOp.ELEMENT_OF, //
                             NoSpecificBinaryOp.EQUAL_DICT, //
-                            NoSpecificBinaryOp.EQUAL_ENUM, //
                             NoSpecificBinaryOp.EQUAL_INT_RANGELESS, //
                             NoSpecificBinaryOp.EQUAL_LIST, //
                             NoSpecificBinaryOp.EQUAL_REAL, //

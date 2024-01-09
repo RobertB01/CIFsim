@@ -1,5 +1,5 @@
 plant automaton C:
-  event e;
+  controllable e;
   location:
     initial;
     edge e;

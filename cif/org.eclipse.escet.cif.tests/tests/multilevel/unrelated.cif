@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-event evt2;
+controllable evt2;
 
 // Can't have an unrelated invariant as the SimplifyValues transformation eliminates it.
 

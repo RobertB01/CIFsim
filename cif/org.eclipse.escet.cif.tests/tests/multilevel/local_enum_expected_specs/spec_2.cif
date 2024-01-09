@@ -1,6 +1,6 @@
 plant automaton A:
-  event a;
-  event b;
+  uncontrollable a;
+  uncontrollable b;
   location l1:
     initial;
     edge a goto l2;
