@@ -32,7 +32,7 @@ See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index
 
 === Options
 
-The C89 code generator only uses the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>.
+The JavaScript code generator only uses the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>.
 It has no specific options of its own.
 
 The code prefix that can be configured using a common option, is used in the generated JavaScript code as prefix for class names.
