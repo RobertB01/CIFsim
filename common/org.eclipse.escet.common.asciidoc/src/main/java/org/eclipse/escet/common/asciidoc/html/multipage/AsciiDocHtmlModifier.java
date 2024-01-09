@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -963,18 +964,19 @@ class AsciiDocHtmlModifier {
                 String singlePageId;
                 String breadcrumbRefId = breadcrumb.origRefId;
                 String pageSourceId = breadcrumb.page.sourceFile.sourceId;
-                if (breadcrumbRefId == null || pageSourceId == null) {
+                if (breadcrumb.parent == null) {
                     // Breadcrumb is for the root TOC entry. Link to the entire HTML file.
-                    Verify.verify(breadcrumbRefId == null);
-                    Verify.verify(pageSourceId == null);
-                    Verify.verify(breadcrumb.parent == null);
+                    Verify.verify(breadcrumbRefId == null, breadcrumbRefId);
+                    Verify.verify(pageSourceId == null, pageSourceId);
                     singlePageId = null;
-                } else if (breadcrumbRefId.equals(pageSourceId)) {
+                } else if (Objects.equals(breadcrumbRefId, pageSourceId)) {
                     // Breadcrumb is for the whole non-root page. Link to the entire HTML file.
                     singlePageId = null;
                 } else {
                     // Breadcrumb is for a virtual TOC entry target on the page. Link to the relevant id within the HTML
-                    // file.
+                    // file. Note that the page source ID may be 'null' if this virtual TOC entry is a virtual TOC entry
+                    // with a target on the root page.
+                    Verify.verifyNotNull(breadcrumbRefId);
                     Verify.verify(breadcrumbRefId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX), breadcrumbRefId);
                     singlePageId = VIRTUAL_TOC_TARGET_PREFIX
                             + breadcrumbRefId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
