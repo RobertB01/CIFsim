@@ -16,13 +16,11 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 import static org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocHtmlUtil.single;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -53,7 +51,6 @@ class AsciiDocHtmlAnalyzer {
     static void analyze(Document doc, AsciiDocHtmlPages htmlPages) {
         // Check that not yet partitioned, and initialize.
         for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
-            Verify.verify(htmlPage.breadcrumbs == null);
             Verify.verify(htmlPage.singlePageIds == null);
             Verify.verify(htmlPage.singlePageNodes == null);
             htmlPage.singlePageIds = new LinkedHashSet<>();
@@ -99,10 +96,6 @@ class AsciiDocHtmlAnalyzer {
                                 elemPage.sourceFile.sourceId, curTocEntry);
                         curTocEntry.children.add(newTocEntry);
                         tocStack.push(ImmutablePair.of(newTocEntry, depth));
-
-                        // Store reversed stack as breadcrumbs.
-                        elemPage.breadcrumbs = pageStack.stream().map(e -> e.getLeft()).collect(Collectors.toList());
-                        Collections.reverse(elemPage.breadcrumbs);
                     } else {
                         // Same page.
                         if (elem.tagName().matches("h\\d+")) {

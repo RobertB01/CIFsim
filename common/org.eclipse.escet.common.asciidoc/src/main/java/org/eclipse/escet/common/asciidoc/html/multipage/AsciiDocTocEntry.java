@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Verify;
@@ -26,7 +27,10 @@ class AsciiDocTocEntry {
     /** The title of the TOC entry. */
     final String title;
 
-    /** The HTML reference ID for the TOC entry, or {@code null} for the root TOC entry. */
+    /** The original HTML reference ID for the TOC entry, or {@code null} for the root TOC entry. */
+    final String origRefId;
+
+    /** The original or modified HTML reference ID for the TOC entry, or {@code null} for the root TOC entry. */
     String refId;
 
     /** The parent TOC entry, or {@code null} for the root TOC entry. */
@@ -46,9 +50,26 @@ class AsciiDocTocEntry {
     AsciiDocTocEntry(AsciiDocHtmlPage page, String title, String refId, AsciiDocTocEntry parent) {
         this.page = page;
         this.title = title;
+        this.origRefId = refId;
         this.refId = refId;
         this.parent = parent;
 
         Verify.verify((refId == null) == (parent == null));
+    }
+
+    /**
+     * Returns a trail from the root TOC entry to this TOC entry.
+     *
+     * @return The trail, with the root TOC entry first, and this TOC entry last.
+     */
+    List<AsciiDocTocEntry> getTrail() {
+        List<AsciiDocTocEntry> trail = new ArrayList<>();
+        AsciiDocTocEntry entry = this;
+        while (entry != null) {
+            trail.add(entry);
+            entry = entry.parent;
+        }
+        Collections.reverse(trail);
+        return trail;
     }
 }
