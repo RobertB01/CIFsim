@@ -18,7 +18,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -87,11 +86,9 @@ import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
-import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -108,9 +105,6 @@ public class CifProcessor {
 
     /** Whether to simplify values during pre-processing. */
     private final boolean simplifyValues;
-
-    /** How to treat enumerations. */
-    private final ConvertEnums enumConversion;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
@@ -129,7 +123,6 @@ public class CifProcessor {
         inputPath = settings.inputPath;
         absInputPath = settings.absInputPath;
         simplifyValues = settings.simplifyValues;
-        enumConversion = settings.enumConversion;
         warnOutput = settings.warnOutput;
     }
 
@@ -587,7 +580,7 @@ public class CifProcessor {
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
                     // TODO Implement internal user-defined functions with at least one parameter.
-                    new FuncNoSpecificUserDefCheck(
+                    new FuncNoSpecificUserDefCheck( //
                             NoSpecificUserDefFunc.EXTERNAL, //
                             NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
                             NoSpecificUserDefFunc.NO_PARAMETER),
@@ -706,17 +699,23 @@ public class CifProcessor {
         }
 
         // If requested, convert enumerations.
-        if (enumConversion == ConvertEnums.INTS) {
-            new EnumsToInts().transform(spec);
-        } else if (enumConversion == ConvertEnums.CONSTS) {
-            // This transformation introduces new constants that are intentionally not removed if simplify values is
-            // enabled.
-            new EnumsToConsts().transform(spec);
-        } else if (!target.supportsEnumerations()) {
-            // Enumerations are not converted.
-            String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
-                    + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
-            throw new InvalidInputException(msg);
+        switch (target.getActualEnumerationsConversion()) {
+            case CONSTS:
+                // This transformation introduces new constants that are intentionally not removed if simplify values is
+                // enabled.
+                new EnumsToConsts().transform(spec);
+                break;
+            case INTS:
+                new EnumsToInts().transform(spec);
+                break;
+            case KEEP:
+                // Nothing to do.
+                break;
+
+            case AUTO: // The target should not respond with AUTO.
+            default:
+                throw new AssertionError("Unexpected enumeration conversion request \""
+                        + target.getActualEnumerationsConversion() + "\".");
         }
     }
 

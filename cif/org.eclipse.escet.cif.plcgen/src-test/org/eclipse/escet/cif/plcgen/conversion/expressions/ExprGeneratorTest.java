@@ -186,7 +186,7 @@ public class ExprGeneratorTest {
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
-            ConvertEnums enumConversion = ConvertEnums.NO;
+            ConvertEnums enumConversion = ConvertEnums.KEEP;
             Supplier<Boolean> shouldTerminate = () -> false;
             boolean warnOnRename = false;
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();

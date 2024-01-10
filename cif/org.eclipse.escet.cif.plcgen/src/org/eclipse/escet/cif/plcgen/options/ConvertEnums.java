@@ -13,10 +13,13 @@
 
 package org.eclipse.escet.cif.plcgen.options;
 
-/** Should enumeration data types be converted? */
+/** Available ways to handle enumeration conversion. */
 public enum ConvertEnums {
+    /** Let the target decide what to do. */
+    AUTO,
+
     /** No, keep enumeration data types. */
-    NO,
+    KEEP,
 
     /** Yes, convert enumerations to integers. */
     INTS,

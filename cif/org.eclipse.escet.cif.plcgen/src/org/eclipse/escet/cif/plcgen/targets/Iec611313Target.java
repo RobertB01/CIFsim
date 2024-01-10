@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.Iec611313Writer;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 
@@ -20,7 +21,7 @@ import org.eclipse.escet.cif.plcgen.writers.Writer;
 public class Iec611313Target extends PlcBaseTarget {
     /** Constructor of the {@link Iec611313Target} class. */
     public Iec611313Target() {
-        super(PlcTargetType.IEC_61131_3);
+        super(PlcTargetType.IEC_61131_3, ConvertEnums.KEEP);
     }
 
     @Override
@@ -35,11 +36,6 @@ public class Iec611313Target extends PlcBaseTarget {
 
     @Override
     public boolean supportsConstants() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsEnumerations() {
         return true;
     }
 

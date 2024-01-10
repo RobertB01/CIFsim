@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.AbbWriter;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 
@@ -21,7 +22,7 @@ public class AbbTarget extends PlcBaseTarget {
     /** Constructor of the {@link AbbTarget} class. */
     public AbbTarget() {
         // TODO Verify settings of the ABB target.
-        super(PlcTargetType.ABB);
+        super(PlcTargetType.ABB, ConvertEnums.KEEP);
     }
 
     @Override
@@ -36,11 +37,6 @@ public class AbbTarget extends PlcBaseTarget {
 
     @Override
     public boolean supportsConstants() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsEnumerations() {
         return false;
     }
 
