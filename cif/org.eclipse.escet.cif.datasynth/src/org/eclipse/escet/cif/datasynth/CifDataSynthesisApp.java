@@ -279,8 +279,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Perform synthesis.
         Specification rslt;
         try {
-            // Convert CIF specification to synthesis format, checking for
-            // precondition violations along the way.
+            // Convert CIF specification to a CIF/BDD representation, checking for precondition violations along the
+            // way.
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
