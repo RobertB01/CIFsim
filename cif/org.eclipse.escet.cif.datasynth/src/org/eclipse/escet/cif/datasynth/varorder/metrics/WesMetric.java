@@ -40,7 +40,7 @@ public class WesMetric implements VarOrderMetric {
         // The formula is: WES = SUM_{e in E} (2 * x_b) / |x| * (x_b - x_t + 1) / (|x| * |E|)
         // Where:
         // 1) 'E' is the set of edges. We use the hyper-edges.
-        // 2) 'x' the current-state variables. We use the synthesis variables.
+        // 2) 'x' the current-state variables. We use the CIF/BDD variables.
         // 3) 'x_b'/'x_t' the indices of the bottom/top BDD-variable in 'T_e(X)', the transition relation of edge 'e'.
         // Note that we use hyper-edges as edges. Also, variables in the variable order with lower indices are higher
         // (less deep, closer to the root) in the BDDs, while variables with higher indices are lower (deeper, closer

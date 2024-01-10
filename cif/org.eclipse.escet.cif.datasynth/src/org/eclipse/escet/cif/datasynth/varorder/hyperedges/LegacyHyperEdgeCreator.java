@@ -65,7 +65,7 @@ public class LegacyHyperEdgeCreator extends HyperEdgeCreator {
      * Constructor for the {@link LegacyHyperEdgeCreator} class.
      *
      * @param spec The CIF specification.
-     * @param variables The synthesis variables.
+     * @param variables The CIF/BDD variables.
      */
     public LegacyHyperEdgeCreator(Specification spec, List<CifBddVariable> variables) {
         super(spec, variables);

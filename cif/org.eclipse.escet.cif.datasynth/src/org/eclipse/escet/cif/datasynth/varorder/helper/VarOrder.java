@@ -18,7 +18,7 @@ import java.util.Objects;
 
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 
-/** Variable order. Puts all synthesis variables in a certain order. The variables may optionally be interleaved. */
+/** Variable order. Puts all CIF/BDD variables in a certain order. The variables may optionally be interleaved. */
 public class VarOrder {
     /**
      * The variable order. The outer list represents ordered groups. Each inner list represents a group of ordered and

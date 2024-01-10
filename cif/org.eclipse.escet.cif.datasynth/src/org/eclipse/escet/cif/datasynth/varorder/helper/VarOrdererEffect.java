@@ -20,25 +20,25 @@ public enum VarOrdererEffect {
     /** Only update the variable order. */
     VAR_ORDER(true, false),
 
-    /** Only update the various representations of the relations between the synthesis variables. */
+    /** Only update the various representations of the relations between the CIF/BDD variables. */
     REPRESENTATIONS(false, true),
 
     /**
-     * Update both the variable order and the various representations of the relations between the synthesis variables.
+     * Update both the variable order and the various representations of the relations between the CIF/BDD variables.
      */
     BOTH(true, true);
 
     /** Whether to update the variable order. */
     public final boolean updateVarOrder;
 
-    /** Whether to update the various representations of the relations between the synthesis variables. */
+    /** Whether to update the various representations of the relations between the CIF/BDD variables. */
     public final boolean updateRepresentations;
 
     /**
      * Constructor for the {@link VarOrdererEffect} enumeration.
      *
      * @param updateVarOrder Whether to update the variable order.
-     * @param updateRepresentations Whether to update the various representations of the relations between the synthesis
+     * @param updateRepresentations Whether to update the various representations of the relations between the CIF/BDD
      *     variables.
      */
     private VarOrdererEffect(boolean updateVarOrder, boolean updateRepresentations) {

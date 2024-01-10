@@ -32,33 +32,33 @@ public abstract class HyperEdgeCreator {
     /** The CIF specification. Must not be modified. */
     private final Specification spec;
 
-    /** The synthesis variables. */
+    /** The CIF/BDD variables. */
     private final List<CifBddVariable> variables;
 
-    /** Per synthesis variable CIF object, the index into the bitset for a hyper-edge. */
-    private final Map<PositionObject, Integer> synthVarBitIndices;
+    /** Per CIF/BDD variable CIF object, the index into the bitset for a hyper-edge. */
+    private final Map<PositionObject, Integer> cifBddVarBitIndices;
 
     /**
      * Constructor for the {@link HyperEdgeCreator} class.
      *
      * @param spec The CIF specification. Must not be modified.
-     * @param variables The synthesis variables.
+     * @param variables The CIF/BDD variables.
      */
     public HyperEdgeCreator(Specification spec, List<CifBddVariable> variables) {
         this.spec = spec;
         this.variables = variables;
 
-        synthVarBitIndices = mapc(variables.size());
+        cifBddVarBitIndices = mapc(variables.size());
         for (int i = 0; i < variables.size(); i++) {
-            CifBddVariable synthVar = variables.get(i);
-            if (synthVar instanceof CifBddDiscVariable) {
-                synthVarBitIndices.put(((CifBddDiscVariable)synthVar).var, i);
-            } else if (synthVar instanceof CifBddInputVariable) {
-                synthVarBitIndices.put(((CifBddInputVariable)synthVar).var, i);
-            } else if (synthVar instanceof CifBddLocPtrVariable) {
-                synthVarBitIndices.put(((CifBddLocPtrVariable)synthVar).aut, i);
+            CifBddVariable cifBddVar = variables.get(i);
+            if (cifBddVar instanceof CifBddDiscVariable discCifBddVar) {
+                cifBddVarBitIndices.put(discCifBddVar.var, i);
+            } else if (cifBddVar instanceof CifBddInputVariable inputCifBddVar) {
+                cifBddVarBitIndices.put(inputCifBddVar.var, i);
+            } else if (cifBddVar instanceof CifBddLocPtrVariable locPtrCifBddVar) {
+                cifBddVarBitIndices.put(locPtrCifBddVar.aut, i);
             } else {
-                throw new RuntimeException("Unknown synthesis variable: " + synthVar);
+                throw new RuntimeException("Unknown CIF/BDD variable: " + cifBddVar);
             }
         }
     }
@@ -73,9 +73,9 @@ public abstract class HyperEdgeCreator {
     }
 
     /**
-     * Returns the synthesis variables.
+     * Returns the CIF/BDD variables.
      *
-     * @return The synthesis variables.
+     * @return The CIF/BDD variables.
      */
     protected List<CifBddVariable> getVariables() {
         return variables;
@@ -85,18 +85,18 @@ public abstract class HyperEdgeCreator {
      * Create hyper-edges.
      *
      * @return The hyper-edges. Each bitset represents a hyper-edge. Within each hyper-edge, there are bits
-     *     corresponding to the synthesis variables of the {@link #getSpecification CIF specification}, indicating
-     *     whether each variable is included in the hyper-edge or not. The bit indices in the bitsets correspond to the
-     *     indices of the {@link #getVariables synthesis variables}.
+     *     corresponding to the CIF/BDD variables of the {@link #getSpecification CIF specification}, indicating whether
+     *     each variable is included in the hyper-edge or not. The bit indices in the bitsets correspond to the indices
+     *     of the {@link #getVariables CIF/BDD variables}.
      */
     public abstract List<BitSet> getHyperEdges();
 
     /**
-     * Add a hyper-edge for the given CIF variable objects. Creating and adding a hyper-edge is skipped if no CIF
-     * variable objects are provided.
+     * Add a hyper-edge for the given CIF/BDD variable CIF objects. Creating and adding a hyper-edge is skipped if no
+     * CIF objects are provided.
      *
-     * @param edgeVars The CIF variable objects for which to create a new hyper-edge. This must be a subset of the
-     *     variables represented by {@code variables}.
+     * @param edgeVars The CIF/BDD variable CIF objects for which to create a new hyper-edge. This must be a subset of
+     *     the variables represented by {@link #getVariables}.
      * @param hyperEdges The collection of hyper-edges so far, gets expanded in-place.
      */
     protected void addHyperEdge(Collection<PositionObject> edgeVars, List<BitSet> hyperEdges) {
@@ -106,9 +106,9 @@ public abstract class HyperEdgeCreator {
         }
 
         // Create and add hyper-edge.
-        BitSet hyperEdge = new BitSet(synthVarBitIndices.size());
+        BitSet hyperEdge = new BitSet(cifBddVarBitIndices.size());
         for (PositionObject var: edgeVars) {
-            int bitIdx = synthVarBitIndices.get(var);
+            int bitIdx = cifBddVarBitIndices.get(var);
             hyperEdge.set(bitIdx);
         }
         hyperEdges.add(hyperEdge);

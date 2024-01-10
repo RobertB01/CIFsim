@@ -43,7 +43,7 @@ public class CustomVarOrderParser {
      * Parse a custom variable order.
      *
      * @param orderTxt The text of the custom variable order.
-     * @param variables The synthesis variables to be ordered.
+     * @param variables The CIF/BDD variables to be ordered.
      * @return The custom variable order, and an error message indicating why the given order is invalid. If the order
      *     is valid, the error message is {@code null}. If the order is invalid, the order is {@code null}.
      */
@@ -70,7 +70,7 @@ public class CustomVarOrderParser {
                 regEx = regEx.replace("*", ".*");
                 Pattern pattern = Pattern.compile("^" + regEx + "$");
 
-                // Found actual element. Look up matching synthesis variables.
+                // Found actual element. Look up matching CIF/BDD variables.
                 List<CifBddVariable> matches = variables.stream().filter(v -> pattern.matcher(v.rawName).matches())
                         .collect(Collectors.toList());
 

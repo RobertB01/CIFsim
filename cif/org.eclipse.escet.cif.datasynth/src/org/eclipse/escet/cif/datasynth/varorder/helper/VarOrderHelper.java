@@ -46,7 +46,7 @@ import org.eclipse.escet.common.java.output.DebugNormalOutput;
 /**
  * Helper for variable ordering. It provides:
  * <ul>
- * <li>Multiple representations of the relations between synthesis variables, derived from the CIF specification.
+ * <li>Multiple representations of the relations between CIF/BDD variables, derived from the CIF specification.
  * Algorithms may operate upon these representations:
  * <ul>
  * <li>{@link #getHyperEdges Hyper-edges}</li>
@@ -61,8 +61,8 @@ public class VarOrderHelper {
     private final Specification spec;
 
     /**
-     * The synthesis variables, in the order they were used to create the various representations of the relations
-     * between the synthesis variables.
+     * The CIF/BDD variables, in the order they were used to create the various representations of the relations between
+     * the CIF/BDD variables.
      */
     private final List<CifBddVariable> variables;
 
@@ -70,20 +70,20 @@ public class VarOrderHelper {
     private final DebugNormalOutput debugOutput;
 
     /**
-     * For each synthesis variable in the given {@link #variables variable order}, its 0-based index within that order.
+     * For each CIF/BDD variable in the given {@link #variables variable order}, its 0-based index within that order.
      */
     private final Map<CifBddVariable, Integer> origIndices;
 
     /**
      * For each {@link RelationsKind} (outer list), the hyper-edges representing relations from the CIF specification
-     * (inner list). Each hyper-edge bitset represents related synthesis variables. Each bit in a hyper-edge bitset
-     * represents a synthesis variable.
+     * (inner list). Each hyper-edge bitset represents related CIF/BDD variables. Each bit in a hyper-edge bitset
+     * represents a CIF/BDD variable.
      */
     private final List<List<BitSet>> hyperEdges;
 
     /**
      * For each {@link RelationsKind}, the graph representing relations from the CIF specification. Each node represents
-     * a synthesis variable. Each edge represents a weighted relation between two different synthesis variables.
+     * a CIF/BDD variable. Each edge represents a weighted relation between two different CIF/BDD variables.
      */
     private final List<Graph> graphs;
 
@@ -115,8 +115,8 @@ public class VarOrderHelper {
      * Constructor for the {@link VarOrderHelper} class.
      *
      * @param spec The CIF specification.
-     * @param variables The synthesis variables, in the order they are to be used to create the various representations
-     *     of the relations between the synthesis variables.
+     * @param variables The CIF/BDD variables, in the order they are to be used to create the various representations of
+     *     the relations between the CIF/BDD variables.
      * @param debugOutput Callback for debug output.
      */
     public VarOrderHelper(Specification spec, List<CifBddVariable> variables, DebugNormalOutput debugOutput) {
@@ -157,17 +157,17 @@ public class VarOrderHelper {
      *
      * @param helper The existing variable order helper from which to inherit the CIF specification and callback for
      *     debug output.
-     * @param variables The synthesis variables, in the order they are to be used to create the various representations
-     *     of the relations between the synthesis variables.
+     * @param variables The CIF/BDD variables, in the order they are to be used to create the various representations of
+     *     the relations between the CIF/BDD variables.
      */
     public VarOrderHelper(VarOrderHelper helper, List<CifBddVariable> variables) {
         this(helper.spec, variables, helper.debugOutput);
     }
 
     /**
-     * Returns the number of synthesis variables.
+     * Returns the number of CIF/BDD variables.
      *
-     * @return The number of synthesis variables.
+     * @return The number of CIF/BDD variables.
      */
     public int size() {
         return variables.size();
@@ -175,7 +175,7 @@ public class VarOrderHelper {
 
     /**
      * Create hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
-     * represents related synthesis variables. Each bit in a hyper-edge bitset represents a synthesis variable.
+     * represents related CIF/BDD variables. Each bit in a hyper-edge bitset represents a CIF/BDD variable.
      *
      * @param creator The hyper-edge creator to use to create the hyper-edges.
      * @return The hyper-edges.
@@ -188,7 +188,7 @@ public class VarOrderHelper {
 
     /**
      * Returns hyper-edges representing relations between variables of the CIF specification. Each hyper-edge bitset
-     * represents related synthesis variables. Each bit in a hyper-edge bitset represents a synthesis variable.
+     * represents related CIF/BDD variables. Each bit in a hyper-edge bitset represents a CIF/BDD variable.
      *
      * @param relationsKind The kind of relations for which to return the hyper-edges.
      * @return The hyper-edges.
@@ -199,8 +199,8 @@ public class VarOrderHelper {
 
     /**
      * Create a weighted undirected adjacency graph representing relations between variables of the CIF specification.
-     * Each node represents a synthesis variable. Each edge represents a weighted relation between two different
-     * synthesis variables.
+     * Each node represents a CIF/BDD variable. Each edge represents a weighted relation between two different CIF/BDD
+     * variables.
      *
      * @param hyperEdges The hyper-edges from which to create the graph.
      * @return The graph.
@@ -232,8 +232,8 @@ public class VarOrderHelper {
 
     /**
      * Returns a weighted undirected adjacency graph representing relations between variables of the CIF specification.
-     * Each node represents a synthesis variable. Each edge represents a weighted relation between two different
-     * synthesis variables.
+     * Each node represents a CIF/BDD variable. Each edge represents a weighted relation between two different CIF/BDD
+     * variables.
      *
      * @param relationsKind The kind of relations for which to return the graph.
      * @return The graph.
@@ -259,7 +259,7 @@ public class VarOrderHelper {
     }
 
     /**
-     * Print debug output about a certain representation of the synthesis variable relations from the CIF specification.
+     * Print debug output about a certain representation of the CIF/BDD variable relations from the CIF specification.
      *
      * @param dbgLevel The debug indentation level.
      * @param representationKind The representation kind to use.
@@ -371,10 +371,10 @@ public class VarOrderHelper {
     }
 
     /**
-     * Reorder the synthesis variables to a new order.
+     * Reorder the CIF/BDD variables to a new order.
      *
      * @param order The new variable/node order.
-     * @return The synthesis variables, in their new order.
+     * @return The CIF/BDD variables, in their new order.
      */
     public List<CifBddVariable> reorderForNodeOrder(List<Node> order) {
         int[] varOrder = getNewIndicesForNodeOrder(order);
@@ -382,10 +382,10 @@ public class VarOrderHelper {
     }
 
     /**
-     * Reorder the synthesis variables to a new order.
+     * Reorder the CIF/BDD variables to a new order.
      *
      * @param newIndices For each variable, its new 0-based index.
-     * @return The synthesis variables, in their new order.
+     * @return The CIF/BDD variables, in their new order.
      */
     public List<CifBddVariable> reorderForNewIndices(int[] newIndices) {
         Assert.areEqual(variables.size(), newIndices.length);

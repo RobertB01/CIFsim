@@ -61,7 +61,7 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
      * Constructor for the {@link LinearizedHyperEdgeCreator} class.
      *
      * @param spec The CIF specification.
-     * @param variables The synthesis variables.
+     * @param variables The CIF/BDD variables.
      */
     public LinearizedHyperEdgeCreator(Specification spec, List<CifBddVariable> variables) {
         super(spec, variables);
@@ -73,7 +73,7 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
         Specification spec = EMFHelper.deepclone(getSpecification());
 
         // Convert state/event exclusion invariants to automata. They will then be taken into account for the linearized
-        // edges, similar to how they are also part of the linearized edges during synthesis itself.
+        // edges, similar to how they are also part of the linearized edges of the CIF/BDD specification.
         new ElimStateEvtExclInvs().transform(spec);
 
         // Collect all automata and alphabets.
@@ -109,7 +109,7 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
                 varCollector.collectCifVarObjs(update, edgeVars);
             }
 
-            // Map variables from linearized copy of the specification to the ones from the synthesis variables for the
+            // Map variables from linearized copy of the specification to the ones from the CIF/BDD variables for the
             // original specification.
             edgeVars = varMap.mapVars(edgeVars);
 
@@ -123,11 +123,11 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
 
     /**
      * Mapping for variables from the linearized copy of the specification to variables from the original specification
-     * as represented by the synthesis variables.
+     * as represented by the CIF/BDD variables.
      */
     private static class VariableMapping {
         /**
-         * Absolute non-escaped names of synthesis variables to their variable objects as represented by synthesis
+         * Absolute non-escaped names of CIF/BDD variables to their variable objects as represented by CIF/BDD
          * variables.
          */
         private Map<String, PositionObject> mapping = map();
@@ -135,22 +135,22 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
         /**
          * Constructor for the {@link VariableMapping} class.
          *
-         * @param synthVars The synthesis variables.
+         * @param cifBddVars The CIF/BDD variables.
          */
-        private VariableMapping(List<CifBddVariable> synthVars) {
-            this.mapping = mapc(synthVars.size());
-            for (CifBddVariable synthVar: synthVars) {
+        private VariableMapping(List<CifBddVariable> cifBddVars) {
+            this.mapping = mapc(cifBddVars.size());
+            for (CifBddVariable cifBddVar: cifBddVars) {
                 PositionObject obj;
-                if (synthVar instanceof CifBddDiscVariable) {
-                    obj = ((CifBddDiscVariable)synthVar).var;
-                } else if (synthVar instanceof CifBddInputVariable) {
-                    obj = ((CifBddInputVariable)synthVar).var;
-                } else if (synthVar instanceof CifBddLocPtrVariable) {
-                    obj = ((CifBddLocPtrVariable)synthVar).aut;
+                if (cifBddVar instanceof CifBddDiscVariable cifBddDiscVar) {
+                    obj = cifBddDiscVar.var;
+                } else if (cifBddVar instanceof CifBddInputVariable cifBddInputVar) {
+                    obj = cifBddInputVar.var;
+                } else if (cifBddVar instanceof CifBddLocPtrVariable cifBddLocPtrVar) {
+                    obj = cifBddLocPtrVar.aut;
                 } else {
-                    throw new RuntimeException("Unknown synthesis variable: " + synthVar);
+                    throw new RuntimeException("Unknown CIF/BDD variable: " + cifBddVar);
                 }
-                PositionObject prev = mapping.put(synthVar.rawName, obj);
+                PositionObject prev = mapping.put(cifBddVar.rawName, obj);
                 Assert.check(prev == null); // Ensure no mapping entries get overwritten.
             }
         }

@@ -61,7 +61,7 @@ import org.eclipse.escet.setext.runtime.Token;
 
 /** Variable orderer type checker. */
 public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>, VarOrderer> {
-    /** The synthesis variables to order. */
+    /** The CIF/BDD variables to order. */
     private final List<CifBddVariable> variables;
 
     /** The settings to use. */
@@ -70,7 +70,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     /**
      * Constructor for the {@link VarOrdererTypeChecker} class.
      *
-     * @param variables The synthesis variables to order.
+     * @param variables The CIF/BDD variables to order.
      * @param settings The settings to use.
      */
     public VarOrdererTypeChecker(List<CifBddVariable> variables, CifDataSynthesisSettings settings) {

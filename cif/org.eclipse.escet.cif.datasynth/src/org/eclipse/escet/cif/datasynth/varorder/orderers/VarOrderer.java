@@ -20,7 +20,7 @@ import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
 /** Variable orderer. May produce a fixed variable order, apply an algorithm, etc. */
 public abstract class VarOrderer {
     /**
-     * Order synthesis variables.
+     * Order CIF/BDD variables.
      *
      * <p>
      * In general, there are no guarantees that the new order is always a 'better' order, though some algorithms may
