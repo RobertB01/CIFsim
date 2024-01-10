@@ -171,7 +171,7 @@ public class ExprGeneratorTest {
         private NameGenerator testNameGenerator = new TestNameGenerator();
 
         public TestPlcTarget() {
-            super(PlcTargetType.IEC_61131_3);
+            super(PlcTargetType.IEC_61131_3, ConvertEnums.KEEP);
 
             // Configure the target.
             String projectName = "projName";
@@ -239,11 +239,6 @@ public class ExprGeneratorTest {
 
         @Override
         public boolean supportsConstants() {
-            throw new UnsupportedOperationException("Not needed for the test.");
-        }
-
-        @Override
-        public boolean supportsEnumerations() {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
 
