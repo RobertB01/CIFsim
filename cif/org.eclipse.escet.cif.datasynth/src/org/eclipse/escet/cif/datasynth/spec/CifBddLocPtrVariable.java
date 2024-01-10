@@ -20,28 +20,28 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Information on a location pointer variable for an automaton, used for synthesis.
+ * A CIF/BDD location pointer variable. Represents (state of) a CIF automaton in a BDD representation.
  *
  * <p>
- * Location pointer variables are only created for automata with at least two locations.
+ * Location pointer variables are only created for CIF automata with at least two locations.
  * </p>
  */
 public class CifBddLocPtrVariable extends CifBddVariable {
-    /** The automaton for which this variable is a location pointer. */
+    /** The automaton for which this CIF/BDD variable is a location pointer. */
     public final Automaton aut;
 
     /**
-     * A dummy, internally-created CIF discrete variable that corresponds to this synthesis variable. Does not have a
-     * data type.
+     * A dummy, internally-created CIF discrete variable that corresponds to this CIF/BDD variable. Does not have a data
+     * type.
      */
     public final DiscVariable var;
 
     /**
      * Constructor for the {@link CifBddLocPtrVariable} class.
      *
-     * @param aut The automaton for which this variable is a location pointer.
-     * @param var A dummy, internally-created CIF discrete variable that corresponds to this synthesis variable. Does
-     *     not have a data type.
+     * @param aut The automaton for which this CIF/BDD variable is a location pointer.
+     * @param var A dummy, internally-created CIF discrete variable that corresponds to this CIF/BDD variable. Does not
+     *     have a data type.
      */
     public CifBddLocPtrVariable(Automaton aut, DiscVariable var) {
         super(aut, aut.getLocations().size(), 0, aut.getLocations().size() - 1);

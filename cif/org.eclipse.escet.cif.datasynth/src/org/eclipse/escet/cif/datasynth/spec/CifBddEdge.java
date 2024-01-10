@@ -35,15 +35,15 @@ import org.eclipse.escet.common.java.Strings;
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDFactory;
 
-/** Data-based synthesis algorithm edge. */
+/** A CIF/BDD edge. Represents an edge of a linearized CIF specification in a BDD representation. */
 public class CifBddEdge {
-    /** The synthesis automaton that contains this edge. */
+    /** The CIF/BDD specification that contains this edge. */
     public final CifBddSpec aut;
 
     /**
-     * The linearized CIF edges that corresponds to this synthesis edge. Contains a {@code null} value for edges created
+     * The linearized CIF edges that corresponds to this CIF/BDD edge. Contains a {@code null} value for edges created
      * for input variables. There is always at least one edge (or {@code null}). If there are multiple edges, then this
-     * synthesis edge represents the disjunction of multiple linearized edges.
+     * CIF/BDD edge represents the disjunction of multiple linearized edges.
      */
     public List<Edge> edges;
 
@@ -53,13 +53,13 @@ public class CifBddEdge {
     /** The original guard of the edge. */
     public BDD origGuard;
 
-    /** The current guard of the edge. Is updated during the synthesis. */
+    /** The current guard of the edge. Is updated during synthesis. */
     public BDD guard;
 
     /** Precomputed '{@link #guard} and {@link #error}'. Is {@code null} if not available. */
     public BDD guardError;
 
-    /** Per {@link #edges edge}, the CIF assignments that are applied by this synthesis edge. */
+    /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
 
     /**
@@ -85,7 +85,7 @@ public class CifBddEdge {
      * taking the edge.
      *
      * <p>
-     * Runtime errors include assignments leading to values outside of the BDD representable ranges, division by zero,
+     * Runtime errors include assignments leading to values outside of the BDD-representable ranges, division by zero,
      * etc. Runtime errors may or may not include assignments leading to values that are outside of the valid CIF range,
      * which can still be represented by BDDs, as those situations are also taken care of by the range invariants.
      * </p>
@@ -98,7 +98,7 @@ public class CifBddEdge {
     /**
      * Constructor for the {@link CifBddEdge} class.
      *
-     * @param aut The synthesis automaton that contains this edge.
+     * @param aut The CIF/BDD specification that contains this edge.
      */
     public CifBddEdge(CifBddSpec aut) {
         this.aut = aut;
@@ -235,7 +235,7 @@ public class CifBddEdge {
      * Applies the assignments of the edge, to a given predicate. The assignments can be applied forward (normally) or
      * backward (reversed).
      *
-     * @param pred The predicate to which to apply the assignment. This predicate is {@link BDD#free freed} by this
+     * @param pred The predicate to which to apply the assignments. This predicate is {@link BDD#free freed} by this
      *     method.
      * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). If
      *     applying forward, bad states are currently not supported.
@@ -302,7 +302,7 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns a textual representation of the synthesis edge.
+     * Returns a textual representation of the CIF/BDD edge.
      *
      * @return The textual representation.
      */
@@ -312,7 +312,7 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns a textual representation of the synthesis edge.
+     * Returns a textual representation of the CIF/BDD edge.
      *
      * @param indent The indentation level.
      * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
@@ -406,15 +406,15 @@ public class CifBddEdge {
                 // 'normal' assignment.
                 return fmt("%s+ != %s", synthInputVar.name, synthInputVar.name);
             } else {
-                String msg = "Unexpected synthesis variable for addressable: " + var;
+                String msg = "Unexpected CIF/BDD variable for addressable: " + var;
                 throw new RuntimeException(msg);
             }
         }
-        throw new RuntimeException("No synthesis variable found for addressable: " + addrVar);
+        throw new RuntimeException("No CIF/BDD variable found for addressable: " + addrVar);
     }
 
     /**
-     * Merges two synthesis edges for the same event, from the same synthesis automaton. The result is a single merged
+     * Merges two CIF/BDD edges for the same event, from the same CIF/BDD specification. The result is a single merged
      * edge that is the disjunction of the two edges. The edges being merged are no longer valid edges afterwards, and
      * any BDD instances they held will have been freed.
      *
@@ -423,17 +423,17 @@ public class CifBddEdge {
      * @return The merged edge.
      */
     public static CifBddEdge mergeEdges(CifBddEdge edge1, CifBddEdge edge2) {
-        // Ensure we merge edges for the same event, in the same synthesis automaton.
+        // Ensure we merge edges for the same event, in the same CIF/BDD specification.
         Assert.areEqual(edge1.aut, edge2.aut);
         Assert.areEqual(edge1.event, edge2.event);
         Assert.check(!edge1.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
         Assert.check(!edge2.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
 
-        // Create new synthesis edge.
+        // Create new CIF/BDD edge.
         CifBddEdge mergedEdge = new CifBddEdge(edge1.aut);
         mergedEdge.event = edge1.event;
 
-        // Merged the edges and assignments.
+        // Merge the edges and assignments.
         mergedEdge.edges = concat(edge1.edges, edge2.edges);
         mergedEdge.assignments = concat(edge1.assignments, edge2.assignments);
 

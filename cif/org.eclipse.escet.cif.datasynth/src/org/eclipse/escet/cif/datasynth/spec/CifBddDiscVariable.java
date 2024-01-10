@@ -16,15 +16,15 @@ package org.eclipse.escet.cif.datasynth.spec;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 
-/** Information on a discrete variable of a specification, used for synthesis. */
+/** A CIF/BDD discrete variable. Represents a CIF discrete variable in a BDD representation. */
 public class CifBddDiscVariable extends CifBddTypedVariable {
-    /** The CIF variable that corresponds to this synthesis variable. */
+    /** The CIF variable that corresponds to this CIF/BDD variable. */
     public final DiscVariable var;
 
     /**
      * Constructor for the {@link CifBddDiscVariable} class.
      *
-     * @param var The CIF discrete variable that corresponds to this synthesis variable.
+     * @param var The CIF discrete variable that corresponds to this CIF/BDD variable.
      * @param type The normalized type of the variable.
      * @param count The number of potential values of the variable.
      * @param lower The lower bound (minimum value) of the variable.

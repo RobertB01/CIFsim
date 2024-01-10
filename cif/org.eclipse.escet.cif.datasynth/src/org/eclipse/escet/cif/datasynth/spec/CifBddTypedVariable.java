@@ -24,10 +24,10 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
-/** Information on a typed variable of a specification, used for synthesis. */
+/** A CIF/BDD typed variable. Represents a CIF typed state object in a BDD representation. */
 public abstract class CifBddTypedVariable extends CifBddVariable {
     /**
-     * The CIF object that corresponds to this synthesis variable. Must be a {@link CifTextUtils#getName named} CIF
+     * The CIF object that corresponds to this CIF/BDD variable. Must be a {@link CifTextUtils#getName named} CIF
      * object.
      */
     public final PositionObject obj;
@@ -38,8 +38,8 @@ public abstract class CifBddTypedVariable extends CifBddVariable {
     /**
      * Constructor for the {@link CifBddTypedVariable} class.
      *
-     * @param obj The CIF object that corresponds to this synthesis variable. Must be a {@link CifTextUtils#getName
-     *     named} CIF object.
+     * @param obj The CIF object that corresponds to this CIF/BDD variable. Must be a {@link CifTextUtils#getName named}
+     *     CIF object.
      * @param type The normalized type of the variable.
      * @param count The number of potential values of the variable.
      * @param lower The lower bound (minimum value) of the variable.

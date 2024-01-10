@@ -16,15 +16,15 @@ package org.eclipse.escet.cif.datasynth.spec;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 
-/** Information on an input variable of a specification, used for synthesis. */
+/** A CIF/BDD input variable. Represents a CIF input variable in a BDD representation. */
 public class CifBddInputVariable extends CifBddTypedVariable {
-    /** The CIF variable that corresponds to this synthesis variable. */
+    /** The CIF variable that corresponds to this CIF/BDD variable. */
     public final InputVariable var;
 
     /**
      * Constructor for the {@link CifBddInputVariable} class.
      *
-     * @param var The CIF input variable that corresponds to this synthesis variable.
+     * @param var The CIF input variable that corresponds to this CIF/BDD variable.
      * @param type The normalized type of the variable.
      * @param count The number of potential values of the variable.
      * @param lower The lower bound (minimum value) of the variable.

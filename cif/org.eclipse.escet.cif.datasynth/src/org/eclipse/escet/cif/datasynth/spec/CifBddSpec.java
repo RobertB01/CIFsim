@@ -30,7 +30,7 @@ import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDPairing;
 import com.github.javabdd.BDDVarSet;
 
-/** Data-based synthesis algorithm linearized automaton. */
+/** CIF/BDD specification. Represents a linearized CIF specification in a BDD representation. */
 public class CifBddSpec {
     /** The settings to use. */
     public final CifDataSynthesisSettings settings;
@@ -38,57 +38,57 @@ public class CifBddSpec {
     /** The BDD factory to use. */
     public BDDFactory factory;
 
-    /** The alphabet of the automaton. */
+    /** The alphabet of the specification. */
     public Set<Event> alphabet;
 
-    /** The controllable subset of the {@link #alphabet} of the automaton. */
+    /** The controllable subset of the {@link #alphabet} of the specification. */
     public Set<Event> controllables;
 
     /** The temporary events created for the input variables. */
     public Set<Event> inputVarEvents;
 
     /**
-     * Information on the variables of the specification, including location pointer variables. This is the order used
-     * whenever variables are ordered.
+     * The CIF/BDD variables of the specification, including location pointer variables. This is the order used whenever
+     * variables are ordered.
      */
     public CifBddVariable[] variables;
 
-    /** The synthesis edges. */
+    /** The CIF/BDD edges of the specification. */
     public List<CifBddEdge> edges;
 
     /**
-     * The synthesis edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
-     * least once.
+     * The CIF/BDD edges of the specification, ordered for backward reachability computations. Contains all edges from
+     * {@link #edges} at least once.
      */
     public List<CifBddEdge> orderedEdgesBackward;
 
     /**
-     * The synthesis edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
-     * least once.
+     * The CIF/BDD edges of the specification, ordered for forward reachability computations. Contains all edges from
+     * {@link #edges} at least once.
      */
     public List<CifBddEdge> orderedEdgesForward;
 
-    /** Mapping from events to their synthesis edges. */
+    /** Mapping from events to their CIF/BDD edges. */
     public Map<Event, List<CifBddEdge>> eventEdges;
 
     /** The events that are disabled before synthesis. */
     public Set<Event> disabledEvents;
 
     /**
-     * Per synthesis edge in {@link #orderedEdgesBackward}, its backward edge dependencies set for the workset
-     * algorithm. This field is {@code null} until it is computed.
+     * Per CIF/BDD edge in {@link #orderedEdgesBackward}, its backward edge dependencies set for the workset algorithm.
+     * This field is {@code null} until it is computed.
      */
     public List<BitSet> worksetDependenciesBackward;
 
     /**
-     * Per synthesis edge in {@link #orderedEdgesForward}, its forward edge dependencies set for the workset algorithm.
+     * Per CIF/BDD edge in {@link #orderedEdgesForward}, its forward edge dependencies set for the workset algorithm.
      * This field is {@code null} until it is computed.
      */
     public List<BitSet> worksetDependenciesForward;
 
     /**
-     * Initialization predicates for each of the synthesis variables. Predicates are obtained from the initial values as
-     * specified with the declarations of the discrete variables. For synthesis variables that don't represent a
+     * Initialization predicates for each of the CIF/BDD variables. Predicates are obtained from the initial values as
+     * specified with the declarations of the discrete variables. For CIF/BDD variables that don't represent a
      * discrete variable, the predicate is {@code null}. Is {@code null} if not yet or no longer available.
      */
     public List<BDD> initialsVars;
@@ -344,7 +344,7 @@ public class CifBddSpec {
     }
 
     /**
-     * Returns a textual representation of the synthesis automaton, including the edges.
+     * Returns a textual representation of the CIF/BDD specification, including the edges.
      *
      * @param indent The indentation level.
      * @return The textual representation.
@@ -354,7 +354,7 @@ public class CifBddSpec {
     }
 
     /**
-     * Returns a textual representation of the synthesis automaton.
+     * Returns a textual representation of the CIF/BDD specification.
      *
      * @param indent The indentation level.
      * @param inclEdges Whether to include the edges.
@@ -365,7 +365,7 @@ public class CifBddSpec {
     }
 
     /**
-     * Returns a textual representation of the synthesis automaton.
+     * Returns a textual representation of the CIF/BDD specification.
      *
      * @param indent The indentation level.
      * @param prefix The prefix to use, e.g. {@code "State: "} or {@code ""}.

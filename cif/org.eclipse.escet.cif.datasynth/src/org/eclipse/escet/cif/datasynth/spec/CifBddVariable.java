@@ -23,16 +23,16 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 import com.github.javabdd.BDDDomain;
 
-/** Information on a variable of a specification, used for synthesis. */
+/** A CIF/BDD variable. Represents CIF state in a BDD representation. */
 public abstract class CifBddVariable {
-    /** The name of the synthesis variable. */
+    /** The name of the CIF/BDD variable. */
     public final String name;
 
-    /** The name of the synthesis variable, without escaping. */
+    /** The name of the CIF/BDD variable, without escaping. */
     public final String rawName;
 
     /**
-     * The 0-based group index number. Synthesis variables are in the same group if their {@link #domain domains} are
+     * The 0-based group index number. CIF/BDD variables are in the same group if their {@link #domain domains} are
      * interleaved. Is {@code -1} until actual value is set.
      */
     public int group = -1;
@@ -61,8 +61,8 @@ public abstract class CifBddVariable {
     /**
      * Constructor for the {@link CifBddVariable} class.
      *
-     * @param obj The CIF object that corresponds to this synthesis variable. Must be a {@link CifTextUtils#getName
-     *     named} CIF object.
+     * @param obj The CIF object that corresponds to this CIF/BDD variable. Must be a {@link CifTextUtils#getName named}
+     *     CIF object.
      * @param count The number of potential values of the variable.
      * @param lower The lower bound (minimum value) of the variable.
      * @param upper The upper bound (maximum value) of the variable.
@@ -80,20 +80,20 @@ public abstract class CifBddVariable {
     }
 
     /**
-     * Returns the size of the {@link #domain} and {@link #domainNew} to create for this synthesis variable. This is the
+     * Returns the size of the {@link #domain} and {@link #domainNew} to create for this CIF/BDD variable. This is the
      * not the number of BDD variables, but the number of actual distinct values that can be represented. For an integer
      * that can have values in the domain {@code [0..n]}, the size is {@code n + 1}. For an integer that can have values
      * in the domain {@code [l..u]}, the size is {@code u + 1}, as domains always start at zero lower bound.
      *
-     * @return The size of the {@link #domain} and {@link #domainNew} to create for this synthesis variable.
+     * @return The size of the {@link #domain} and {@link #domainNew} to create for this CIF/BDD variable.
      */
     public abstract int getDomainSize();
 
     /**
-     * Returns the number of BDD variables to use to represent this variable. Is obtained from {@link #domain} if
-     * present, and is computed otherwise.
+     * Returns the number of BDD variables to use to represent this CIF/BDD variable. Is obtained from {@link #domain}
+     * if present, and is computed otherwise.
      *
-     * @return The number of BDD variables to use to represent this variable.
+     * @return The number of BDD variables to use to represent this CIF/BDD variable.
      */
     public int getBddVarCount() {
         // Ask the domain, if it is present.
@@ -113,23 +113,23 @@ public abstract class CifBddVariable {
     }
 
     /**
-     * Returns a textual representation of the kind of the synthesis variable, relating to the kind of original CIF
-     * object it corresponds to.
+     * Returns a textual representation of the kind of the CIF/BDD variable, relating to the kind of original CIF object
+     * it corresponds to.
      *
      * @return The textual representation.
      */
     public abstract String getKindText();
 
     /**
-     * Returns a textual representation of the type of the synthesis variable. Returns {@code null} if the variable has
-     * no type.
+     * Returns a textual representation of the type of the CIF/BDD variable. Returns {@code null} if the variable has no
+     * type.
      *
      * @return The textual representation of the type, or {@code null}.
      */
     public abstract String getTypeText();
 
     /**
-     * Returns a textual representation of the synthesis variable.
+     * Returns a textual representation of the CIF/BDD variable.
      *
      * @param indent The indentation level.
      * @param prefix The prefix to use, e.g. {@code "Variable: "} or {@code ""}.
@@ -142,7 +142,7 @@ public abstract class CifBddVariable {
     }
 
     /**
-     * Returns a textual representation of the synthesis variable, to use as part of the output for {@link #toString}.
+     * Returns a textual representation of the CIF/BDD variable, to use as part of the output for {@link #toString}.
      *
      * @return The textual representation.
      */
