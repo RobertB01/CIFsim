@@ -1226,9 +1226,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton to be updated with marking information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertMarked(ComplexComponent comp, CifBddAutomaton synthAut,
-            LocationPointerManager locPtrManager)
-    {
+    private void convertMarked(ComplexComponent comp, CifBddAutomaton synthAut, LocationPointerManager locPtrManager) {
         // Marker predicates of the component.
         for (Expression pred: comp.getMarkeds()) {
             // Convert.
@@ -1667,9 +1665,7 @@ public class CifToSynthesisConverter {
      * @param alphabets Per requirement automaton, all the alphabets.
      * @param synthAut The synthesis automaton.
      */
-    private void preconvertReqAuts(List<Automaton> requirements, List<Alphabets> alphabets,
-            CifBddAutomaton synthAut)
-    {
+    private void preconvertReqAuts(List<Automaton> requirements, List<Alphabets> alphabets, CifBddAutomaton synthAut) {
         // Initialization.
         originalMonitors = mapc(requirements.size());
 
