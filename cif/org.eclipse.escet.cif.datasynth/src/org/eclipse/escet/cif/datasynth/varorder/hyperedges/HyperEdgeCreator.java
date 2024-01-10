@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -33,7 +33,7 @@ public abstract class HyperEdgeCreator {
     private final Specification spec;
 
     /** The synthesis variables. */
-    private final List<SynthesisVariable> variables;
+    private final List<CifBddVariable> variables;
 
     /** Per synthesis variable CIF object, the index into the bitset for a hyper-edge. */
     private final Map<PositionObject, Integer> synthVarBitIndices;
@@ -44,19 +44,19 @@ public abstract class HyperEdgeCreator {
      * @param spec The CIF specification. Must not be modified.
      * @param variables The synthesis variables.
      */
-    public HyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
+    public HyperEdgeCreator(Specification spec, List<CifBddVariable> variables) {
         this.spec = spec;
         this.variables = variables;
 
         synthVarBitIndices = mapc(variables.size());
         for (int i = 0; i < variables.size(); i++) {
-            SynthesisVariable synthVar = variables.get(i);
-            if (synthVar instanceof SynthesisDiscVariable) {
-                synthVarBitIndices.put(((SynthesisDiscVariable)synthVar).var, i);
-            } else if (synthVar instanceof SynthesisInputVariable) {
-                synthVarBitIndices.put(((SynthesisInputVariable)synthVar).var, i);
-            } else if (synthVar instanceof SynthesisLocPtrVariable) {
-                synthVarBitIndices.put(((SynthesisLocPtrVariable)synthVar).aut, i);
+            CifBddVariable synthVar = variables.get(i);
+            if (synthVar instanceof CifBddDiscVariable) {
+                synthVarBitIndices.put(((CifBddDiscVariable)synthVar).var, i);
+            } else if (synthVar instanceof CifBddInputVariable) {
+                synthVarBitIndices.put(((CifBddInputVariable)synthVar).var, i);
+            } else if (synthVar instanceof CifBddLocPtrVariable) {
+                synthVarBitIndices.put(((CifBddLocPtrVariable)synthVar).aut, i);
             } else {
                 throw new RuntimeException("Unknown synthesis variable: " + synthVar);
             }
@@ -77,7 +77,7 @@ public abstract class HyperEdgeCreator {
      *
      * @return The synthesis variables.
      */
-    protected List<SynthesisVariable> getVariables() {
+    protected List<CifBddVariable> getVariables() {
         return variables;
     }
 

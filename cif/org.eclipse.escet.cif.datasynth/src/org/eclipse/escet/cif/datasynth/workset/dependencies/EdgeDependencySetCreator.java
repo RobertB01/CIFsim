@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
 import org.eclipse.escet.cif.datasynth.CifDataSynthesisReachability;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
 
 /** Edge dependency set creator for the {@link CifDataSynthesisReachability reachability} workset algorithm. */
 public interface EdgeDependencySetCreator {
@@ -42,8 +42,8 @@ public interface EdgeDependencySetCreator {
      * @param synthAut The synthesis automaton. Is modified in-place.
      * @param forwardEnabled Whether forward reachability is enabled. If it is disabled, the forward edge dependency
      *     sets are not computed and thus also not stored in the synthesis automaton.
-     * @see SynthesisAutomaton#worksetDependenciesBackward
-     * @see SynthesisAutomaton#worksetDependenciesForward
+     * @see CifBddAutomaton#worksetDependenciesBackward
+     * @see CifBddAutomaton#worksetDependenciesForward
      */
-    public void createAndStore(SynthesisAutomaton synthAut, boolean forwardEnabled);
+    public void createAndStore(CifBddAutomaton synthAut, boolean forwardEnabled);
 }

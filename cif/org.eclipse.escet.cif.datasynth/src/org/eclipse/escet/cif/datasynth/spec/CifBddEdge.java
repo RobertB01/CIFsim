@@ -36,9 +36,9 @@ import com.github.javabdd.BDD;
 import com.github.javabdd.BDDFactory;
 
 /** Data-based synthesis algorithm edge. */
-public class SynthesisEdge {
+public class CifBddEdge {
     /** The synthesis automaton that contains this edge. */
-    public final SynthesisAutomaton aut;
+    public final CifBddAutomaton aut;
 
     /**
      * The linearized CIF edges that corresponds to this synthesis edge. Contains a {@code null} value for edges created
@@ -96,11 +96,11 @@ public class SynthesisEdge {
     public BDD errorNot;
 
     /**
-     * Constructor for the {@link SynthesisEdge} class.
+     * Constructor for the {@link CifBddEdge} class.
      *
      * @param aut The synthesis automaton that contains this edge.
      */
-    public SynthesisEdge(SynthesisAutomaton aut) {
+    public CifBddEdge(CifBddAutomaton aut) {
         this.aut = aut;
     }
 
@@ -366,7 +366,7 @@ public class SynthesisEdge {
         Expression addr = asgn.getAddressable();
         Declaration addrVar = (Declaration)CifScopeUtils.getRefObjFromRef(addr);
         Expression rhs = asgn.getValue();
-        for (SynthesisVariable var: aut.variables) {
+        for (CifBddVariable var: aut.variables) {
             // Skip if precondition violation (conversion failure). Should not
             // occur here once conversion has finished, but check may be useful
             // when debugging conversion code.
@@ -375,18 +375,18 @@ public class SynthesisEdge {
             }
 
             // Case distinction based on kind of addressable variable.
-            if (var instanceof SynthesisDiscVariable) {
+            if (var instanceof CifBddDiscVariable) {
                 // Check for match with addressable.
-                SynthesisDiscVariable synthDiscVar = (SynthesisDiscVariable)var;
+                CifBddDiscVariable synthDiscVar = (CifBddDiscVariable)var;
                 if (synthDiscVar.var != addrVar) {
                     continue;
                 }
 
                 // Assignment from the original CIF model.
                 return fmt("%s := %s", synthDiscVar.name, CifTextUtils.exprToStr(rhs));
-            } else if (var instanceof SynthesisLocPtrVariable) {
+            } else if (var instanceof CifBddLocPtrVariable) {
                 // Check for match with addressable.
-                SynthesisLocPtrVariable synthLpVar = (SynthesisLocPtrVariable)var;
+                CifBddLocPtrVariable synthLpVar = (CifBddLocPtrVariable)var;
                 if (synthLpVar.var != addrVar) {
                     continue;
                 }
@@ -395,9 +395,9 @@ public class SynthesisEdge {
                 int locIdx = ((IntExpression)rhs).getValue();
                 Location loc = synthLpVar.aut.getLocations().get(locIdx);
                 return fmt("%s := %s", synthLpVar.name, CifTextUtils.getAbsName(loc));
-            } else if (var instanceof SynthesisInputVariable) {
+            } else if (var instanceof CifBddInputVariable) {
                 // Check for match with addressable.
-                SynthesisInputVariable synthInputVar = (SynthesisInputVariable)var;
+                CifBddInputVariable synthInputVar = (CifBddInputVariable)var;
                 if (synthInputVar.var != addrVar) {
                     continue;
                 }
@@ -422,7 +422,7 @@ public class SynthesisEdge {
      * @param edge2 The second edge to merge. Is modified in-place.
      * @return The merged edge.
      */
-    public static SynthesisEdge mergeEdges(SynthesisEdge edge1, SynthesisEdge edge2) {
+    public static CifBddEdge mergeEdges(CifBddEdge edge1, CifBddEdge edge2) {
         // Ensure we merge edges for the same event, in the same synthesis automaton.
         Assert.areEqual(edge1.aut, edge2.aut);
         Assert.areEqual(edge1.event, edge2.event);
@@ -430,7 +430,7 @@ public class SynthesisEdge {
         Assert.check(!edge2.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
 
         // Create new synthesis edge.
-        SynthesisEdge mergedEdge = new SynthesisEdge(edge1.aut);
+        CifBddEdge mergedEdge = new CifBddEdge(edge1.aut);
         mergedEdge.event = edge1.event;
 
         // Merged the edges and assignments.

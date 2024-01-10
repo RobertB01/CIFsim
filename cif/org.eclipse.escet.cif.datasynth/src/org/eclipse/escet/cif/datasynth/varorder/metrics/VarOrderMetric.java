@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.datasynth.varorder.metrics;
 import java.util.BitSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
 
@@ -39,7 +39,7 @@ public interface VarOrderMetric {
      * @param hyperEdges The hyper-edges to use to compute the metric value.
      * @return The metric value.
      */
-    public default double computeForVarOrder(VarOrderHelper helper, List<SynthesisVariable> order,
+    public default double computeForVarOrder(VarOrderHelper helper, List<CifBddVariable> order,
             List<BitSet> hyperEdges)
     {
         int[] newIndices = helper.getNewIndicesForVarOrder(order);

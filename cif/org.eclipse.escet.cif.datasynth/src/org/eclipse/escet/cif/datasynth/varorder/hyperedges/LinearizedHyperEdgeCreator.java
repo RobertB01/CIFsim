@@ -34,10 +34,10 @@ import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.conversion.CifDataSynthesisLocationPointerManager;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -63,7 +63,7 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
      * @param spec The CIF specification.
      * @param variables The synthesis variables.
      */
-    public LinearizedHyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
+    public LinearizedHyperEdgeCreator(Specification spec, List<CifBddVariable> variables) {
         super(spec, variables);
     }
 
@@ -137,16 +137,16 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
          *
          * @param synthVars The synthesis variables.
          */
-        private VariableMapping(List<SynthesisVariable> synthVars) {
+        private VariableMapping(List<CifBddVariable> synthVars) {
             this.mapping = mapc(synthVars.size());
-            for (SynthesisVariable synthVar: synthVars) {
+            for (CifBddVariable synthVar: synthVars) {
                 PositionObject obj;
-                if (synthVar instanceof SynthesisDiscVariable) {
-                    obj = ((SynthesisDiscVariable)synthVar).var;
-                } else if (synthVar instanceof SynthesisInputVariable) {
-                    obj = ((SynthesisInputVariable)synthVar).var;
-                } else if (synthVar instanceof SynthesisLocPtrVariable) {
-                    obj = ((SynthesisLocPtrVariable)synthVar).aut;
+                if (synthVar instanceof CifBddDiscVariable) {
+                    obj = ((CifBddDiscVariable)synthVar).var;
+                } else if (synthVar instanceof CifBddInputVariable) {
+                    obj = ((CifBddInputVariable)synthVar).var;
+                } else if (synthVar instanceof CifBddLocPtrVariable) {
+                    obj = ((CifBddLocPtrVariable)synthVar).aut;
                 } else {
                     throw new RuntimeException("Unknown synthesis variable: " + synthVar);
                 }

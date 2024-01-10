@@ -76,8 +76,8 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -129,7 +129,7 @@ import com.github.javabdd.BDD;
 /** Converter to convert synthesis result back to CIF. */
 public class SynthesisToCifConverter {
     /** The synthesis result, or {@code null} if not available. */
-    private SynthesisAutomaton synthAut;
+    private CifBddAutomaton synthAut;
 
     /** The input CIF specification, or {@code null} if not available. May be modified in-place. */
     private Specification spec;
@@ -175,7 +175,7 @@ public class SynthesisToCifConverter {
      * @param spec The input CIF specification. Is modified in-place.
      * @return The output CIF specification, i.e. the modified input CIF specification.
      */
-    public Specification convert(SynthesisAutomaton synthAut, Specification spec) {
+    public Specification convert(CifBddAutomaton synthAut, Specification spec) {
         // Initialization.
         this.synthAut = synthAut;
         this.spec = spec;
@@ -353,7 +353,7 @@ public class SynthesisToCifConverter {
                 spec.getDeclarations().add(bddNodesConst);
 
                 // Get variables in sorted order.
-                SynthesisVariable[] sortedVars = synthAut.variables.clone();
+                CifBddVariable[] sortedVars = synthAut.variables.clone();
                 Arrays.sort(sortedVars, (v, w) -> Strings.SORTER.compare(v.rawName, w.rawName));
 
                 // Initialize BDD variable index mapping.
@@ -365,7 +365,7 @@ public class SynthesisToCifConverter {
                 // variable index mapping.
                 List<AlgVariable> valueVars = listc(synthAut.factory.varNum());
                 int cifVarIdx = 0;
-                for (SynthesisVariable synthVar: sortedVars) {
+                for (CifBddVariable synthVar: sortedVars) {
                     int[] varIdxs = synthVar.domain.vars();
                     for (int i = 0; i < varIdxs.length; i++) {
                         AlgVariable var = newAlgVariable();

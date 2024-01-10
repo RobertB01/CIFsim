@@ -26,8 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.RewardBasedEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.SequentialEdgePruner;
@@ -44,7 +44,7 @@ import com.github.javabdd.BDD;
 /** CIF data-based synthesis reachability computations. */
 public class CifDataSynthesisReachability {
     /** The synthesis automaton. */
-    private final SynthesisAutomaton aut;
+    private final CifBddAutomaton aut;
 
     /** The 1-based round number of the main synthesis algorithm, for debug output. */
     private final int round;
@@ -104,7 +104,7 @@ public class CifDataSynthesisReachability {
      * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    public CifDataSynthesisReachability(SynthesisAutomaton aut, int round, String predName, String initName,
+    public CifDataSynthesisReachability(CifBddAutomaton aut, int round, String predName, String initName,
             String restrictionName, BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
             boolean dbgEnabled)
     {
@@ -165,18 +165,18 @@ public class CifDataSynthesisReachability {
 
         // Determine the edges to be applied.
         boolean useWorkSetAlgo = aut.settings.doUseEdgeWorksetAlgo;
-        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
-        Predicate<SynthesisEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
+        List<CifBddEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
+        Predicate<CifBddEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
                 || (unctrl && !e.event.getControllable());
-        List<SynthesisEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
+        List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
         BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
         // Prepare edges for being applied.
-        Collection<SynthesisEdge> edgesToPrepare = //
+        Collection<CifBddEdge> edgesToPrepare = //
                 (aut.settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED)
                         ? list2set(edgesToApply) : edgesToApply;
-        for (SynthesisEdge edge: edgesToPrepare) {
+        for (CifBddEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }
         if (aut.settings.shouldTerminate.get()) {
@@ -197,7 +197,7 @@ public class CifDataSynthesisReachability {
         changed |= reachabilityResult.right;
 
         // Cleanup edges for being applied.
-        for (SynthesisEdge edge: edgesToPrepare) {
+        for (CifBddEdge edge: edgesToPrepare) {
             edge.postApply(forward);
         }
 
@@ -226,7 +226,7 @@ public class CifDataSynthesisReachability {
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if termination was requested.
      */
-    private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<SynthesisEdge> edges, BitSet edgesMask) {
+    private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<CifBddEdge> edges, BitSet edgesMask) {
         boolean changed = false;
         List<BitSet> dependencies = forward ? aut.worksetDependenciesForward : aut.worksetDependenciesBackward;
         EdgeSelector edgeSelector = new PruningEdgeSelector(
@@ -237,7 +237,7 @@ public class CifDataSynthesisReachability {
         while (!workset.isEmpty()) {
             // Select the next edge to apply.
             int edgeIdx = edgeSelector.select(workset);
-            SynthesisEdge edge = edges.get(edgeIdx);
+            CifBddEdge edge = edges.get(edgeIdx);
 
             // Repeatedly apply the selected edge, until it no longer has an effect.
             boolean changedByEdge = false;
@@ -312,7 +312,7 @@ public class CifDataSynthesisReachability {
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if termination was requested.
      */
-    private Pair<BDD, Boolean> performReachabilityFixedOrder(BDD pred, List<SynthesisEdge> edges) {
+    private Pair<BDD, Boolean> performReachabilityFixedOrder(BDD pred, List<CifBddEdge> edges) {
         boolean changed = false;
         int iter = 0;
         int remainingEdges = edges.size(); // Number of edges to apply without change to get the fixed point.
@@ -325,7 +325,7 @@ public class CifDataSynthesisReachability {
             }
 
             // Push through all edges.
-            for (SynthesisEdge edge: edges) {
+            for (CifBddEdge edge: edges) {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);

@@ -26,7 +26,7 @@ import org.eclipse.escet.common.java.Assert;
  * Location pointer variables are only created for automata with at least two locations.
  * </p>
  */
-public class SynthesisLocPtrVariable extends SynthesisVariable {
+public class CifBddLocPtrVariable extends CifBddVariable {
     /** The automaton for which this variable is a location pointer. */
     public final Automaton aut;
 
@@ -37,13 +37,13 @@ public class SynthesisLocPtrVariable extends SynthesisVariable {
     public final DiscVariable var;
 
     /**
-     * Constructor for the {@link SynthesisLocPtrVariable} class.
+     * Constructor for the {@link CifBddLocPtrVariable} class.
      *
      * @param aut The automaton for which this variable is a location pointer.
      * @param var A dummy, internally-created CIF discrete variable that corresponds to this synthesis variable. Does
      *     not have a data type.
      */
-    public SynthesisLocPtrVariable(Automaton aut, DiscVariable var) {
+    public CifBddLocPtrVariable(Automaton aut, DiscVariable var) {
         super(aut, aut.getLocations().size(), 0, aut.getLocations().size() - 1);
 
         this.aut = aut;

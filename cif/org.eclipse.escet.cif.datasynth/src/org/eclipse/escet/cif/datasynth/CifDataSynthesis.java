@@ -35,10 +35,10 @@ import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.workset.dependencies.BddBasedEdgeDependencySetCreator;
 import org.eclipse.escet.cif.datasynth.workset.dependencies.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -67,7 +67,7 @@ public class CifDataSynthesis {
      * @param timing The timing statistics data. Is modified in-place.
      * @param doPrintCtrlSysStates Whether to print controlled system states statistics.
      */
-    public static void synthesize(SynthesisAutomaton aut, boolean doTiming, CifDataSynthesisTiming timing,
+    public static void synthesize(CifBddAutomaton aut, boolean doTiming, CifDataSynthesisTiming timing,
             boolean doPrintCtrlSysStates)
     {
         // Algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson:
@@ -96,7 +96,7 @@ public class CifDataSynthesis {
             applyStateEvtExclPlants(aut, dbgEnabled);
 
             // Initialize applying edges.
-            for (SynthesisEdge edge: aut.edges) {
+            for (CifBddEdge edge: aut.edges) {
                 if (aut.settings.shouldTerminate.get()) {
                     return;
                 }
@@ -145,7 +145,7 @@ public class CifDataSynthesis {
 
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
             // (depending on settings), and state/event exclusion requirement invariants.
-            for (SynthesisEdge edge: aut.edges) {
+            for (CifBddEdge edge: aut.edges) {
                 if (aut.settings.shouldTerminate.get()) {
                     return;
                 }
@@ -213,7 +213,7 @@ public class CifDataSynthesis {
             if (aut.settings.shouldTerminate.get()) {
                 return;
             }
-            for (SynthesisEdge edge: aut.edges) {
+            for (CifBddEdge edge: aut.edges) {
                 edge.cleanupApply();
             }
 
@@ -296,7 +296,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void checkSystem(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void checkSystem(CifBddAutomaton aut, boolean dbgEnabled) {
         // Debug state plant invariants (predicates) of the components.
         if (aut.settings.shouldTerminate.get()) {
             return;
@@ -389,8 +389,8 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             aut.settings.debugOutput.line();
             for (int i = 0; i < aut.variables.length; i++) {
-                SynthesisVariable var = aut.variables[i];
-                if (!(var instanceof SynthesisDiscVariable)) {
+                CifBddVariable var = aut.variables[i];
+                if (!(var instanceof CifBddDiscVariable)) {
                     continue;
                 }
 
@@ -712,7 +712,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateEvtExclPlants(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyStateEvtExclPlants(CifBddAutomaton aut, boolean dbgEnabled) {
         // Update guards to ensure that transitions not allowed by the state/event exclusion plant invariants, are
         // blocked.
         if (dbgEnabled) {
@@ -722,7 +722,7 @@ public class CifDataSynthesis {
 
         boolean firstDbg = true;
         boolean guardChanged = false;
-        for (SynthesisEdge edge: aut.edges) {
+        for (CifBddEdge edge: aut.edges) {
             // Get additional condition for the edge. Skip for internal events that are not in the original
             // specification and for trivially true conditions.
             if (aut.settings.shouldTerminate.get()) {
@@ -772,14 +772,14 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStatePlantInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyStatePlantInvs(CifBddAutomaton aut, boolean dbgEnabled) {
         if (dbgEnabled) {
             aut.settings.debugOutput.line();
             aut.settings.debugOutput.line("Restricting uncontrolled behavior using state plant invariants.");
         }
 
         boolean guardUpdated = false;
-        for (SynthesisEdge edge: aut.edges) {
+        for (CifBddEdge edge: aut.edges) {
             if (aut.settings.shouldTerminate.get()) {
                 return;
             }
@@ -846,7 +846,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateReqInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyStateReqInvs(CifBddAutomaton aut, boolean dbgEnabled) {
         // Apply the state requirement invariants.
         if (dbgEnabled) {
             aut.settings.debugOutput.line();
@@ -877,7 +877,7 @@ public class CifDataSynthesis {
             case PER_EDGE: {
                 // Apply state requirement invariants, per edge.
                 List<BDD> reqInvs = concat(aut.reqInvsComps, aut.reqInvsLocs);
-                Function<SynthesisEdge, Stream<BDD>> reqsPerEdge = edge -> reqInvs.stream().map(reqInv -> {
+                Function<CifBddEdge, Stream<BDD>> reqsPerEdge = edge -> reqInvs.stream().map(reqInv -> {
                     // Apply the requirement invariant backwards through the edge, to obtain a requirement condition
                     // that must hold for the edge to be taken. This condition further restricts the edge to prevent
                     // transitioning to a state that violates the requirement invariant.
@@ -958,7 +958,7 @@ public class CifDataSynthesis {
     /**
      * Ensure that variables stay within their range, i.e. ensure no out of bounds values are ever used, as
      * preprocessing step for synthesis. This is done by enforcing that variables stay within their
-     * {@link SynthesisVariable#domain domains}.
+     * {@link CifBddVariable#domain domains}.
      *
      * <p>
      * As an example, consider a variable 'x' of type 'int[0..2]'. Two BDD variables are used to represent the integer
@@ -971,7 +971,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyVarRanges(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyVarRanges(CifBddAutomaton aut, boolean dbgEnabled) {
         if (dbgEnabled) {
             aut.settings.debugOutput.line();
             aut.settings.debugOutput.line("Extending controlled-behavior predicate using variable ranges.");
@@ -979,7 +979,7 @@ public class CifDataSynthesis {
 
         boolean firstDbg = true;
         boolean changed = false;
-        for (SynthesisVariable var: aut.variables) {
+        for (CifBddVariable var: aut.variables) {
             if (aut.settings.shouldTerminate.get()) {
                 return;
             }
@@ -1032,7 +1032,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateEvtExclReqs(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyStateEvtExclReqs(CifBddAutomaton aut, boolean dbgEnabled) {
         // Update guards and controlled-behavior predicate, to ensure that transitions not allowed by the state/event
         // exclusion requirement invariants, are blocked.
         if (dbgEnabled) {
@@ -1041,7 +1041,7 @@ public class CifDataSynthesis {
         }
 
         // Apply state/event exclusion requirement invariants, per edge.
-        Function<SynthesisEdge, Stream<BDD>> reqsPerEdge = edge -> {
+        Function<CifBddEdge, Stream<BDD>> reqsPerEdge = edge -> {
             BDD req = aut.stateEvtExclReqs.get(edge.event);
             return (req == null) ? Stream.empty() : Stream.of(req);
         };
@@ -1063,13 +1063,13 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      * @param dbgDescription Description of the kind of requirements that are applied.
      */
-    private static void applyReqsPerEdge(SynthesisAutomaton aut, Function<SynthesisEdge, Stream<BDD>> reqsPerEdge,
+    private static void applyReqsPerEdge(CifBddAutomaton aut, Function<CifBddEdge, Stream<BDD>> reqsPerEdge,
             boolean freeReqs, boolean dbgEnabled, String dbgDescription)
     {
         boolean firstDbg = true;
         boolean changed = false;
         boolean guardChanged = false;
-        for (SynthesisEdge edge: aut.edges) {
+        for (CifBddEdge edge: aut.edges) {
             // Get requirements for the edge.
             if (aut.settings.shouldTerminate.get()) {
                 return;
@@ -1174,7 +1174,7 @@ public class CifDataSynthesis {
      *
      * @param aut The automaton on which to perform synthesis.
      */
-    private static void checkInputEdges(SynthesisAutomaton aut) {
+    private static void checkInputEdges(CifBddAutomaton aut) {
         aut.disabledEvents = setc(aut.alphabet.size());
 
         for (Event event: aut.alphabet) {
@@ -1227,7 +1227,7 @@ public class CifDataSynthesis {
             // implementation and make it
             // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
-            for (SynthesisEdge edge: aut.eventEdges.get(event)) {
+            for (CifBddEdge edge: aut.eventEdges.get(event)) {
                 if (aut.settings.shouldTerminate.get()) {
                     return;
                 }
@@ -1256,7 +1256,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void prepareWorksetAlgorithm(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void prepareWorksetAlgorithm(CifBddAutomaton aut, boolean dbgEnabled) {
         // Compute the dependency sets for all edges, and store them in the synthesis automaton.
         boolean forwardEnabled = aut.settings.doForwardReach;
         EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
@@ -1308,7 +1308,7 @@ public class CifDataSynthesis {
      * @param doTiming Whether to collect timing statistics.
      * @param timing The timing statistics data. Is modified in-place.
      */
-    private static void synthesizeFixedPoints(SynthesisAutomaton aut, boolean doForward, boolean dbgEnabled,
+    private static void synthesizeFixedPoints(CifBddAutomaton aut, boolean doForward, boolean dbgEnabled,
             boolean doTiming, CifDataSynthesisTiming timing)
     {
         // We know that:
@@ -1543,7 +1543,7 @@ public class CifDataSynthesis {
      * @param aut The synthesis result.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void determineCtrlSysGuards(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void determineCtrlSysGuards(CifBddAutomaton aut, boolean dbgEnabled) {
         // Compute guards of edges with controllable events.
         if (dbgEnabled) {
             aut.settings.debugOutput.line();
@@ -1551,7 +1551,7 @@ public class CifDataSynthesis {
         }
 
         boolean guardUpdated = false;
-        for (SynthesisEdge edge: aut.edges) {
+        for (CifBddEdge edge: aut.edges) {
             if (!edge.event.getControllable()) {
                 continue;
             }
@@ -1592,11 +1592,11 @@ public class CifDataSynthesis {
 
     /**
      * Determine the initialization predicate of the controlled system, updating the initialization predicate of the
-     * controlled system as computed so far ({@link SynthesisAutomaton#initialCtrl}) with the controlled behavior.
+     * controlled system as computed so far ({@link CifBddAutomaton#initialCtrl}) with the controlled behavior.
      *
      * @param aut The synthesis result.
      */
-    private static void determineCtrlSysInit(SynthesisAutomaton aut) {
+    private static void determineCtrlSysInit(CifBddAutomaton aut) {
         // Update initialization predicate for controlled system with the controlled behavior.
         aut.initialCtrl = aut.initialCtrl.andWith(aut.ctrlBeh.id());
 
@@ -1612,7 +1612,7 @@ public class CifDataSynthesis {
      * @return Whether an initial state exists in the controlled system ({@code true}) or the supervisor is empty
      *     ({@code false}).
      */
-    private static boolean checkInitStatePresent(SynthesisAutomaton aut) {
+    private static boolean checkInitStatePresent(CifBddAutomaton aut) {
         // Check for empty supervisor (no initial state).
         boolean emptySup = aut.initialCtrl.isZero();
         return !emptySup;
@@ -1626,7 +1626,7 @@ public class CifDataSynthesis {
      * @param doForward Whether to do forward reachability during synthesis.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void printNumberStates(SynthesisAutomaton aut, boolean emptySup, boolean doForward,
+    private static void printNumberStates(CifBddAutomaton aut, boolean emptySup, boolean doForward,
             boolean dbgEnabled)
     {
         // Get number of states in controlled system.
@@ -1656,7 +1656,7 @@ public class CifDataSynthesis {
      * @param aut The synthesis result.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void determineOutputInitial(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void determineOutputInitial(CifBddAutomaton aut, boolean dbgEnabled) {
         // Print some debug output.
         if (dbgEnabled) {
             aut.settings.debugOutput.line();
@@ -1777,7 +1777,7 @@ public class CifDataSynthesis {
      * @param useOrigGuards Whether to use the original guard or the current guard on the synthesis edge.
      * @return The guards.
      */
-    private static Map<Event, BDD> determineGuards(SynthesisAutomaton aut, Set<Event> events, boolean useOrigGuards) {
+    private static Map<Event, BDD> determineGuards(CifBddAutomaton aut, Set<Event> events, boolean useOrigGuards) {
         Map<Event, BDD> guards = mapc(events.size());
 
         // Initialize guards to 'false'.
@@ -1786,7 +1786,7 @@ public class CifDataSynthesis {
         }
 
         // Compute linearized guards. This is done by combining the guards of all edges, per event.
-        for (SynthesisEdge synthEdge: aut.edges) {
+        for (CifBddEdge synthEdge: aut.edges) {
             // Skip the edges for other events.
             if (!events.contains(synthEdge.event)) {
                 continue;
@@ -1818,7 +1818,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which synthesis was performed.
      * @param ctrlGuards The guards in the controlled system for the controllable events to check.
      */
-    private static void checkOutputEdges(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards) {
+    private static void checkOutputEdges(CifBddAutomaton aut, Map<Event, BDD> ctrlGuards) {
         // Determine the guards for the uncontrollable events.
         Set<Event> uncontrollables = Sets.difference(aut.alphabet, aut.controllables, aut.inputVarEvents);
         Map<Event, BDD> unctrlGuards = determineGuards(aut, uncontrollables, false);
@@ -1854,7 +1854,7 @@ public class CifDataSynthesis {
      * @param aut The automaton on which synthesis was performed.
      * @param guards The guards in the controlled system for the events.
      */
-    private static void warnEventsDisabled(SynthesisAutomaton aut, Map<Event, BDD> guards) {
+    private static void warnEventsDisabled(CifBddAutomaton aut, Map<Event, BDD> guards) {
         // Calculate controlled state space.
         BDD ctrlBehPlantInv = aut.ctrlBeh.and(aut.plantInv);
 
@@ -1891,7 +1891,7 @@ public class CifDataSynthesis {
      * @param ctrlGuards The guards in the controlled system for the controllable events.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void determineOutputGuards(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards, boolean dbgEnabled) {
+    private static void determineOutputGuards(CifBddAutomaton aut, Map<Event, BDD> ctrlGuards, boolean dbgEnabled) {
         // Get simplifications to perform.
         EnumSet<BddSimplify> simplifications = aut.settings.bddSimplifications;
         List<String> assumptionTxts = list();
@@ -2117,7 +2117,7 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Simplify the {@link SynthesisAutomaton#outputGuards output guards}.
+     * Simplify the {@link CifBddAutomaton#outputGuards output guards}.
      *
      * @param aut The synthesis result. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
@@ -2125,7 +2125,7 @@ public class CifDataSynthesis {
      *     after use.
      * @param assumptionsTxt Text describing the assumptions that are used, for debugging output.
      */
-    private static void simplifyOutputGuards(SynthesisAutomaton aut, boolean dbgEnabled, Map<Event, BDD> assumptions,
+    private static void simplifyOutputGuards(CifBddAutomaton aut, boolean dbgEnabled, Map<Event, BDD> assumptions,
             String assumptionsTxt)
     {
         boolean dbgPrinted = false;

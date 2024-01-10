@@ -26,10 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import java.util.BitSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -73,18 +73,18 @@ public class VarOrderHelperTest {
         DiscVariable vf = newDiscVariable(null, "f", null, null, null);
 
         // Create synthesis variables.
-        SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 0), 1, 0, 0);
-        SynthesisVariable b = new SynthesisInputVariable(vb, newIntType(0, null, 0), 1, 0, 0);
-        SynthesisVariable c = new SynthesisInputVariable(vc, newIntType(0, null, 0), 1, 0, 0);
-        SynthesisVariable d = new SynthesisInputVariable(vd, newIntType(0, null, 0), 1, 0, 0);
-        SynthesisVariable e = new SynthesisInputVariable(ve, newIntType(0, null, 0), 1, 0, 0);
-        SynthesisVariable f = new SynthesisLocPtrVariable(aut, vf);
-        List<SynthesisVariable> variables = list(a, b, c, d, e, f);
+        CifBddVariable a = new CifBddInputVariable(va, newIntType(0, null, 0), 1, 0, 0);
+        CifBddVariable b = new CifBddInputVariable(vb, newIntType(0, null, 0), 1, 0, 0);
+        CifBddVariable c = new CifBddInputVariable(vc, newIntType(0, null, 0), 1, 0, 0);
+        CifBddVariable d = new CifBddInputVariable(vd, newIntType(0, null, 0), 1, 0, 0);
+        CifBddVariable e = new CifBddInputVariable(ve, newIntType(0, null, 0), 1, 0, 0);
+        CifBddVariable f = new CifBddLocPtrVariable(aut, vf);
+        List<CifBddVariable> variables = list(a, b, c, d, e, f);
 
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 5, 2, 3}; // For each variable in 'variables', its new 0-based index.
         VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput());
-        List<SynthesisVariable> ordered = helper.reorderForNewIndices(newIndices);
+        List<CifBddVariable> ordered = helper.reorderForNewIndices(newIndices);
 
         // Check the result. Invariant: ordered[newIndices[i]] == variables[i].
         assertSame(a, ordered.get(0));
@@ -129,12 +129,12 @@ public class VarOrderHelperTest {
         InputVariable vd = (InputVariable)spec.getDeclarations().get(2);
         InputVariable ve = (InputVariable)spec.getDeclarations().get(3);
         DiscVariable vc = (DiscVariable)p.getDeclarations().get(0);
-        SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 2), 3, 0, 2);
-        SynthesisVariable b = new SynthesisInputVariable(vb, newIntType(0, null, 2), 3, 0, 2);
-        SynthesisVariable c = new SynthesisDiscVariable(vc, newIntType(0, null, 2), 3, 0, 2);
-        SynthesisVariable d = new SynthesisInputVariable(vd, newIntType(0, null, 2), 3, 0, 2);
-        SynthesisVariable e = new SynthesisInputVariable(ve, newIntType(0, null, 2), 3, 0, 2);
-        List<SynthesisVariable> variables = list(a, b, c, d, e);
+        CifBddVariable a = new CifBddInputVariable(va, newIntType(0, null, 2), 3, 0, 2);
+        CifBddVariable b = new CifBddInputVariable(vb, newIntType(0, null, 2), 3, 0, 2);
+        CifBddVariable c = new CifBddDiscVariable(vc, newIntType(0, null, 2), 3, 0, 2);
+        CifBddVariable d = new CifBddInputVariable(vd, newIntType(0, null, 2), 3, 0, 2);
+        CifBddVariable e = new CifBddInputVariable(ve, newIntType(0, null, 2), 3, 0, 2);
+        List<CifBddVariable> variables = list(a, b, c, d, e);
 
         // Create helper.
         VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput());

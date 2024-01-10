@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
 import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
 import org.eclipse.escet.cif.datasynth.varorder.hyperedges.HyperEdgeCreator;
@@ -64,7 +64,7 @@ public class VarOrderHelper {
      * The synthesis variables, in the order they were used to create the various representations of the relations
      * between the synthesis variables.
      */
-    private final List<SynthesisVariable> variables;
+    private final List<CifBddVariable> variables;
 
     /** Callback for debug output. */
     private final DebugNormalOutput debugOutput;
@@ -72,7 +72,7 @@ public class VarOrderHelper {
     /**
      * For each synthesis variable in the given {@link #variables variable order}, its 0-based index within that order.
      */
-    private final Map<SynthesisVariable, Integer> origIndices;
+    private final Map<CifBddVariable, Integer> origIndices;
 
     /**
      * For each {@link RelationsKind} (outer list), the hyper-edges representing relations from the CIF specification
@@ -119,7 +119,7 @@ public class VarOrderHelper {
      *     of the relations between the synthesis variables.
      * @param debugOutput Callback for debug output.
      */
-    public VarOrderHelper(Specification spec, List<SynthesisVariable> variables, DebugNormalOutput debugOutput) {
+    public VarOrderHelper(Specification spec, List<CifBddVariable> variables, DebugNormalOutput debugOutput) {
         // Store the arguments.
         this.spec = spec;
         this.variables = Collections.unmodifiableList(variables);
@@ -160,7 +160,7 @@ public class VarOrderHelper {
      * @param variables The synthesis variables, in the order they are to be used to create the various representations
      *     of the relations between the synthesis variables.
      */
-    public VarOrderHelper(VarOrderHelper helper, List<SynthesisVariable> variables) {
+    public VarOrderHelper(VarOrderHelper helper, List<CifBddVariable> variables) {
         this(helper.spec, variables, helper.debugOutput);
     }
 
@@ -285,7 +285,7 @@ public class VarOrderHelper {
      * @param annotation A human-readable text indicating the reason for printing the metrics.
      * @param relationsKind The relations to use to compute metric values.
      */
-    public void dbgMetricsForVarOrder(int dbgLevel, List<SynthesisVariable> order, String annotation,
+    public void dbgMetricsForVarOrder(int dbgLevel, List<CifBddVariable> order, String annotation,
             RelationsKind relationsKind)
     {
         int[] newIndices = getNewIndicesForVarOrder(order);
@@ -348,7 +348,7 @@ public class VarOrderHelper {
      * @param order The new variable order.
      * @return For each variable, its new 0-based index.
      */
-    public int[] getNewIndicesForVarOrder(List<SynthesisVariable> order) {
+    public int[] getNewIndicesForVarOrder(List<CifBddVariable> order) {
         int[] newIndices = new int[order.size()];
         for (int i = 0; i < order.size(); i++) {
             newIndices[origIndices.get(order.get(i))] = i;
@@ -376,7 +376,7 @@ public class VarOrderHelper {
      * @param order The new variable/node order.
      * @return The synthesis variables, in their new order.
      */
-    public List<SynthesisVariable> reorderForNodeOrder(List<Node> order) {
+    public List<CifBddVariable> reorderForNodeOrder(List<Node> order) {
         int[] varOrder = getNewIndicesForNodeOrder(order);
         return reorderForNewIndices(varOrder);
     }
@@ -387,9 +387,9 @@ public class VarOrderHelper {
      * @param newIndices For each variable, its new 0-based index.
      * @return The synthesis variables, in their new order.
      */
-    public List<SynthesisVariable> reorderForNewIndices(int[] newIndices) {
+    public List<CifBddVariable> reorderForNewIndices(int[] newIndices) {
         Assert.areEqual(variables.size(), newIndices.length);
-        SynthesisVariable[] result = new SynthesisVariable[variables.size()];
+        CifBddVariable[] result = new CifBddVariable[variables.size()];
         for (int i = 0; i < newIndices.length; i++) {
             result[newIndices[i]] = variables.get(i);
         }

@@ -31,7 +31,7 @@ import com.github.javabdd.BDDPairing;
 import com.github.javabdd.BDDVarSet;
 
 /** Data-based synthesis algorithm linearized automaton. */
-public class SynthesisAutomaton {
+public class CifBddAutomaton {
     /** The settings to use. */
     public final CifDataSynthesisSettings settings;
 
@@ -51,25 +51,25 @@ public class SynthesisAutomaton {
      * Information on the variables of the specification, including location pointer variables. This is the order used
      * whenever variables are ordered.
      */
-    public SynthesisVariable[] variables;
+    public CifBddVariable[] variables;
 
     /** The synthesis edges. */
-    public List<SynthesisEdge> edges;
+    public List<CifBddEdge> edges;
 
     /**
      * The synthesis edges, ordered for backward reachability computations. Contains all edges from {@link #edges} at
      * least once.
      */
-    public List<SynthesisEdge> orderedEdgesBackward;
+    public List<CifBddEdge> orderedEdgesBackward;
 
     /**
      * The synthesis edges, ordered for forward reachability computations. Contains all edges from {@link #edges} at
      * least once.
      */
-    public List<SynthesisEdge> orderedEdgesForward;
+    public List<CifBddEdge> orderedEdgesForward;
 
     /** Mapping from events to their synthesis edges. */
-    public Map<Event, List<SynthesisEdge>> eventEdges;
+    public Map<Event, List<CifBddEdge>> eventEdges;
 
     /** The events that are disabled before synthesis. */
     public Set<Event> disabledEvents;
@@ -330,11 +330,11 @@ public class SynthesisAutomaton {
     public BDD ctrlBeh;
 
     /**
-     * Constructor for the {@link SynthesisAutomaton} class.
+     * Constructor for the {@link CifBddAutomaton} class.
      *
      * @param settings The settings to use.
      */
-    public SynthesisAutomaton(CifDataSynthesisSettings settings) {
+    public CifBddAutomaton(CifDataSynthesisSettings settings) {
         this.settings = settings;
     }
 
@@ -379,7 +379,7 @@ public class SynthesisAutomaton {
         String cbTxt = (ctrlBeh == null) ? "?" : bddToStr(ctrlBeh, this);
         txt.append(fmt("(controlled-behavior: %s)", cbTxt));
         if (inclEdges) {
-            for (SynthesisEdge edge: edges) {
+            for (CifBddEdge edge: edges) {
                 txt.append("\n");
                 txt.append(edge.toString(indent + 1, "Edge: "));
             }

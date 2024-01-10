@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.datasynth.varorder.orderers;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
@@ -59,9 +59,9 @@ public class CustomVarOrderer extends VarOrderer {
      */
     private String getOrderText() {
         StringBuilder txt = new StringBuilder();
-        List<List<SynthesisVariable>> groups = order.getVarOrder();
+        List<List<CifBddVariable>> groups = order.getVarOrder();
         for (int i = 0; i < groups.size(); i++) {
-            List<SynthesisVariable> group = groups.get(i);
+            List<CifBddVariable> group = groups.get(i);
             if (i > 0) {
                 txt.append(";");
             }
@@ -69,7 +69,7 @@ public class CustomVarOrderer extends VarOrderer {
                 if (j > 0) {
                     txt.append(",");
                 }
-                SynthesisVariable var = group.get(j);
+                CifBddVariable var = group.get(j);
                 txt.append(var.rawName);
             }
         }

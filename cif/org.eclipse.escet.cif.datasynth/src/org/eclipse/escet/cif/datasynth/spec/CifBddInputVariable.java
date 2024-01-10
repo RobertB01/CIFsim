@@ -17,12 +17,12 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 
 /** Information on an input variable of a specification, used for synthesis. */
-public class SynthesisInputVariable extends SynthesisTypedVariable {
+public class CifBddInputVariable extends CifBddTypedVariable {
     /** The CIF variable that corresponds to this synthesis variable. */
     public final InputVariable var;
 
     /**
-     * Constructor for the {@link SynthesisInputVariable} class.
+     * Constructor for the {@link CifBddInputVariable} class.
      *
      * @param var The CIF input variable that corresponds to this synthesis variable.
      * @param type The normalized type of the variable.
@@ -30,7 +30,7 @@ public class SynthesisInputVariable extends SynthesisTypedVariable {
      * @param lower The lower bound (minimum value) of the variable.
      * @param upper The upper bound (maximum value) of the variable.
      */
-    public SynthesisInputVariable(InputVariable var, CifType type, int count, int lower, int upper) {
+    public CifBddInputVariable(InputVariable var, CifType type, int count, int lower, int upper) {
         super(var, type, count, lower, upper);
         this.var = var;
     }

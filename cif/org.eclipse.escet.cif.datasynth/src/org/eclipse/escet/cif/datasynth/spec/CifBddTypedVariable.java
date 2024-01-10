@@ -25,7 +25,7 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Information on a typed variable of a specification, used for synthesis. */
-public abstract class SynthesisTypedVariable extends SynthesisVariable {
+public abstract class CifBddTypedVariable extends CifBddVariable {
     /**
      * The CIF object that corresponds to this synthesis variable. Must be a {@link CifTextUtils#getName named} CIF
      * object.
@@ -36,7 +36,7 @@ public abstract class SynthesisTypedVariable extends SynthesisVariable {
     public final CifType type;
 
     /**
-     * Constructor for the {@link SynthesisTypedVariable} class.
+     * Constructor for the {@link CifBddTypedVariable} class.
      *
      * @param obj The CIF object that corresponds to this synthesis variable. Must be a {@link CifTextUtils#getName
      *     named} CIF object.
@@ -45,7 +45,7 @@ public abstract class SynthesisTypedVariable extends SynthesisVariable {
      * @param lower The lower bound (minimum value) of the variable.
      * @param upper The upper bound (maximum value) of the variable.
      */
-    public SynthesisTypedVariable(PositionObject obj, CifType type, int count, int lower, int upper) {
+    public CifBddTypedVariable(PositionObject obj, CifType type, int count, int lower, int upper) {
         super(obj, count, lower, upper);
         this.obj = obj;
         this.type = type;

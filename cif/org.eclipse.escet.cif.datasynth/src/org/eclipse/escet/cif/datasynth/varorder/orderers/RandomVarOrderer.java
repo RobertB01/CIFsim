@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
@@ -54,10 +54,10 @@ public class RandomVarOrderer extends VarOrderer {
         }
 
         // Get variables in model order.
-        List<SynthesisVariable> modelOrder = inputData.varsInModelOrder;
+        List<CifBddVariable> modelOrder = inputData.varsInModelOrder;
 
         // Shuffle to random order.
-        List<SynthesisVariable> randomOrder = copy(modelOrder);
+        List<CifBddVariable> randomOrder = copy(modelOrder);
         if (seed == null) {
             Collections.shuffle(randomOrder);
         } else {

@@ -19,8 +19,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
@@ -67,7 +67,7 @@ public class BddUtils {
      * @param factory The BDD factory to use.
      * @return The possible values of the variable being assigned.
      */
-    public static BDD getVarDomain(SynthesisVariable variable, boolean newDomain, BDDFactory factory) {
+    public static BDD getVarDomain(CifBddVariable variable, boolean newDomain, BDDFactory factory) {
         // Get minimum and maximum value of the domain.
         int min = variable.lower;
         int max = variable.upper;
@@ -88,7 +88,7 @@ public class BddUtils {
      * @param aut The synthesis automaton.
      * @return The textual representation of the BDD.
      */
-    public static String bddToStr(BDD bdd, SynthesisAutomaton aut) {
+    public static String bddToStr(BDD bdd, CifBddAutomaton aut) {
         // If one of the specific maximum counts is exceeded, don't actually
         // convert the BDD to a CNF/DNF predicate, for performance reasons.
         if (aut.settings.bddDebugMaxNodes != null || aut.settings.bddDebugMaxPaths != null) {

@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 import com.github.javabdd.BDD;
@@ -31,11 +31,11 @@ import com.github.javabdd.BDD;
 /** BDD-based edge dependency set creator. */
 public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreator {
     @Override
-    public void createAndStore(SynthesisAutomaton synthAut, boolean forwardEnabled) {
+    public void createAndStore(CifBddAutomaton synthAut, boolean forwardEnabled) {
         // Compute which events may potentially follow which other events.
         int edgeCnt = synthAut.edges.size();
         Map<Event, Set<Event>> followEvents = mapc(edgeCnt); // For each event, which events can follow it.
-        for (SynthesisEdge precedingEdge: synthAut.orderedEdgesForward) {
+        for (CifBddEdge precedingEdge: synthAut.orderedEdgesForward) {
             Event precedingEvent = precedingEdge.event;
 
             // Compute the states that can potentially be reached by this edge.
@@ -50,7 +50,7 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
             precedingEdge.postApply(true); // Forward reachability.
 
             // Compute which events may potentially follow the event of this edge.
-            for (SynthesisEdge followingEdge: synthAut.orderedEdgesForward) {
+            for (CifBddEdge followingEdge: synthAut.orderedEdgesForward) {
                 Event followingEvent = followingEdge.event;
                 if (precedingEvent == followingEvent) {
                     continue; // Save computations by skipping self-dependencies (workset algorithm does not need them).
@@ -84,15 +84,15 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
      * @param forward Whether to create the forward ({@code true}) or backward ({@code false}) dependency sets.
      * @return The workset dependency sets, one per edge, in the order of the edges as they are given.
      */
-    private List<BitSet> create(Map<Event, Set<Event>> followEvents, List<SynthesisEdge> edges, boolean forward) {
+    private List<BitSet> create(Map<Event, Set<Event>> followEvents, List<CifBddEdge> edges, boolean forward) {
         // Consider each edge.
         List<BitSet> dependencies = listc(edges.size());
-        for (SynthesisEdge edge1: edges) {
+        for (CifBddEdge edge1: edges) {
             BitSet dependencies1 = new BitSet(edges.size());
 
             // Consider each other edge.
             for (int i = 0; i < edges.size(); i++) {
-                SynthesisEdge edge2 = edges.get(i);
+                CifBddEdge edge2 = edges.get(i);
 
                 // Add dependency based on event follows relation.
                 boolean isDependency;

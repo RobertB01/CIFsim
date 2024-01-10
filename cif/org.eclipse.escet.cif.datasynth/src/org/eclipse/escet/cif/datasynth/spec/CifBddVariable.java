@@ -24,7 +24,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import com.github.javabdd.BDDDomain;
 
 /** Information on a variable of a specification, used for synthesis. */
-public abstract class SynthesisVariable {
+public abstract class CifBddVariable {
     /** The name of the synthesis variable. */
     public final String name;
 
@@ -59,7 +59,7 @@ public abstract class SynthesisVariable {
     public BDDDomain domainNew;
 
     /**
-     * Constructor for the {@link SynthesisVariable} class.
+     * Constructor for the {@link CifBddVariable} class.
      *
      * @param obj The CIF object that corresponds to this synthesis variable. Must be a {@link CifTextUtils#getName
      *     named} CIF object.
@@ -67,7 +67,7 @@ public abstract class SynthesisVariable {
      * @param lower The lower bound (minimum value) of the variable.
      * @param upper The upper bound (maximum value) of the variable.
      */
-    public SynthesisVariable(PositionObject obj, int count, int lower, int upper) {
+    public CifBddVariable(PositionObject obj, int count, int lower, int upper) {
         Assert.check(lower <= upper);
         Assert.check(count > 0);
         Assert.check(count == upper - lower + 1);
