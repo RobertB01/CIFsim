@@ -31,7 +31,7 @@ import com.github.javabdd.BDDPairing;
 import com.github.javabdd.BDDVarSet;
 
 /** Data-based synthesis algorithm linearized automaton. */
-public class CifBddAutomaton {
+public class CifBddSpec {
     /** The settings to use. */
     public final CifDataSynthesisSettings settings;
 
@@ -330,11 +330,11 @@ public class CifBddAutomaton {
     public BDD ctrlBeh;
 
     /**
-     * Constructor for the {@link CifBddAutomaton} class.
+     * Constructor for the {@link CifBddSpec} class.
      *
      * @param settings The settings to use.
      */
-    public CifBddAutomaton(CifDataSynthesisSettings settings) {
+    public CifBddSpec(CifDataSynthesisSettings settings) {
         this.settings = settings;
     }
 

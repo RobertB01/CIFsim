@@ -38,7 +38,7 @@ import com.github.javabdd.BDDFactory;
 /** Data-based synthesis algorithm edge. */
 public class CifBddEdge {
     /** The synthesis automaton that contains this edge. */
-    public final CifBddAutomaton aut;
+    public final CifBddSpec aut;
 
     /**
      * The linearized CIF edges that corresponds to this synthesis edge. Contains a {@code null} value for edges created
@@ -100,7 +100,7 @@ public class CifBddEdge {
      *
      * @param aut The synthesis automaton that contains this edge.
      */
-    public CifBddEdge(CifBddAutomaton aut) {
+    public CifBddEdge(CifBddSpec aut) {
         this.aut = aut;
     }
 

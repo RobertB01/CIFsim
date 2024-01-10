@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
@@ -71,7 +71,7 @@ public class BddToCif {
      * @param aut The synthesis automaton.
      * @return The CIF predicate.
      */
-    public static Expression bddToCifPred(BDD bdd, CifBddAutomaton aut) {
+    public static Expression bddToCifPred(BDD bdd, CifBddSpec aut) {
         // Convert to both DNF and CNF.
         Expression predDnf = bddToCifPred(bdd, aut, true);
         Expression predCnf = bddToCifPred(bdd, aut, false);
@@ -91,7 +91,7 @@ public class BddToCif {
      *     {@code false}) predicate.
      * @return The CIF predicate.
      */
-    private static Expression bddToCifPred(BDD bdd, CifBddAutomaton aut, boolean dnf) {
+    private static Expression bddToCifPred(BDD bdd, CifBddSpec aut, boolean dnf) {
         // Special case for 'true' and 'false'.
         if (bdd.isZero()) {
             return CifValueUtils.makeFalse();
@@ -131,7 +131,7 @@ public class BddToCif {
      * @param dnf Whether to create a Disjunctive Normal Form (DNF, {@code true}) or Conjunctive Normal Form (CNF,
      *     {@code false}) predicate.
      */
-    private static void bddToCifPred(BDD bdd, CifBddAutomaton aut, byte[] valuation, List<Expression> paths,
+    private static void bddToCifPred(BDD bdd, CifBddSpec aut, byte[] valuation, List<Expression> paths,
             boolean dnf)
     {
         if (bdd.isZero() && dnf) {

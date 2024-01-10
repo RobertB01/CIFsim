@@ -61,7 +61,7 @@ import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatisticsOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -286,7 +286,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             }
             CifToSynthesisConverter converter1 = new CifToSynthesisConverter();
 
-            CifBddAutomaton aut;
+            CifBddSpec aut;
             if (doTiming) {
                 timing.inputConvert.start();
             }

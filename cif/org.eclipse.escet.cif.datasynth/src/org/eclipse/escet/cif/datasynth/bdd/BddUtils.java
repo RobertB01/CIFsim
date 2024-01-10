@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -88,7 +88,7 @@ public class BddUtils {
      * @param aut The synthesis automaton.
      * @return The textual representation of the BDD.
      */
-    public static String bddToStr(BDD bdd, CifBddAutomaton aut) {
+    public static String bddToStr(BDD bdd, CifBddSpec aut) {
         // If one of the specific maximum counts is exceeded, don't actually
         // convert the BDD to a CNF/DNF predicate, for performance reasons.
         if (aut.settings.bddDebugMaxNodes != null || aut.settings.bddDebugMaxPaths != null) {

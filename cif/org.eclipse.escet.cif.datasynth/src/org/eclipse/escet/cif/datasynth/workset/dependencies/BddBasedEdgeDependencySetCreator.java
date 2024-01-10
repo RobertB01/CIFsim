@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
@@ -31,7 +31,7 @@ import com.github.javabdd.BDD;
 /** BDD-based edge dependency set creator. */
 public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreator {
     @Override
-    public void createAndStore(CifBddAutomaton synthAut, boolean forwardEnabled) {
+    public void createAndStore(CifBddSpec synthAut, boolean forwardEnabled) {
         // Compute which events may potentially follow which other events.
         int edgeCnt = synthAut.edges.size();
         Map<Event, Set<Event>> followEvents = mapc(edgeCnt); // For each event, which events can follow it.

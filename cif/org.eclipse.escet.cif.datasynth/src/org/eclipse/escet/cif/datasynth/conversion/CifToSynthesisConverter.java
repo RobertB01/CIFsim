@@ -81,7 +81,7 @@ import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
@@ -183,10 +183,10 @@ public class CifToSynthesisConverter {
      * @param factory The BDD factory to use.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    public CifBddAutomaton convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting synthesis automaton, but only if no precondition
         // violations.
-        CifBddAutomaton aut = convertSpec(spec, settings, factory);
+        CifBddSpec aut = convertSpec(spec, settings, factory);
         if (problems.isEmpty()) {
             return aut;
         }
@@ -206,9 +206,9 @@ public class CifToSynthesisConverter {
      * @param factory The BDD factory to use.
      * @return The data-based synthesis representation of the CIF specification.
      */
-    private CifBddAutomaton convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    private CifBddSpec convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Initialize synthesis automaton.
-        CifBddAutomaton synthAut = new CifBddAutomaton(settings);
+        CifBddSpec synthAut = new CifBddSpec(settings);
         synthAut.factory = factory;
 
         if (synthAut.settings.shouldTerminate.get()) {
@@ -649,7 +649,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton.
      * @param spec The CIF specification.
      */
-    private void orderVars(CifBddAutomaton synthAut, Specification spec) {
+    private void orderVars(CifBddSpec synthAut, Specification spec) {
         // Skip ordering, including settings processing and debug output printing, if any variables failed to convert.
         if (Arrays.asList(synthAut.variables).contains(null)) {
             return;
@@ -756,7 +756,7 @@ public class CifToSynthesisConverter {
      *
      * @param aut The synthesis automaton.
      */
-    private static void debugCifVars(CifBddAutomaton aut) {
+    private static void debugCifVars(CifBddSpec aut) {
         // Get variable counts.
         int cifVarCnt = aut.variables.length;
 
@@ -864,7 +864,7 @@ public class CifToSynthesisConverter {
      *
      * @param synthAut The synthesis automaton.
      */
-    private void createVarDomains(CifBddAutomaton synthAut) {
+    private void createVarDomains(CifBddSpec synthAut) {
         // Skip if no variables (due to earlier conversion error).
         int varCnt = synthAut.variables.length;
         if (varCnt == 0) {
@@ -947,12 +947,12 @@ public class CifToSynthesisConverter {
      * Create auxiliary data for updates.
      *
      * @param synthAut The synthesis automaton. Is modified in-place.
-     * @see CifBddAutomaton#oldToNewVarsPairing
-     * @see CifBddAutomaton#newToOldVarsPairing
-     * @see CifBddAutomaton#varSetOld
-     * @see CifBddAutomaton#varSetNew
+     * @see CifBddSpec#oldToNewVarsPairing
+     * @see CifBddSpec#newToOldVarsPairing
+     * @see CifBddSpec#varSetOld
+     * @see CifBddSpec#varSetNew
      */
-    private void createUpdateAuxiliaries(CifBddAutomaton synthAut) {
+    private void createUpdateAuxiliaries(CifBddSpec synthAut) {
         // Skip if earlier conversion failure.
         int domainCnt = synthAut.factory.numberOfDomains();
         int cifVarCnt = synthAut.variables.length;
@@ -1009,7 +1009,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton to be updated with initialization information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertInit(ComplexComponent comp, CifBddAutomaton synthAut, LocationPointerManager locPtrManager) {
+    private void convertInit(ComplexComponent comp, CifBddSpec synthAut, LocationPointerManager locPtrManager) {
         // Initialization predicates of the component.
         for (Expression pred: comp.getInitials()) {
             // Convert.
@@ -1226,7 +1226,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton to be updated with marking information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertMarked(ComplexComponent comp, CifBddAutomaton synthAut, LocationPointerManager locPtrManager) {
+    private void convertMarked(ComplexComponent comp, CifBddSpec synthAut, LocationPointerManager locPtrManager) {
         // Marker predicates of the component.
         for (Expression pred: comp.getMarkeds()) {
             // Convert.
@@ -1315,7 +1315,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton to be updated with state invariants (predicates) information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateInvs(ComplexComponent comp, CifBddAutomaton synthAut,
+    private void convertStateInvs(ComplexComponent comp, CifBddSpec synthAut,
             LocationPointerManager locPtrManager)
     {
         // State invariants (predicates) of the component.
@@ -1451,7 +1451,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton to be updated with state/event exclusion invariants information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateEvtExclInvs(ComplexComponent comp, CifBddAutomaton synthAut,
+    private void convertStateEvtExclInvs(ComplexComponent comp, CifBddSpec synthAut,
             LocationPointerManager locPtrManager)
     {
         // State/event exclusion invariants of the component.
@@ -1665,7 +1665,7 @@ public class CifToSynthesisConverter {
      * @param alphabets Per requirement automaton, all the alphabets.
      * @param synthAut The synthesis automaton.
      */
-    private void preconvertReqAuts(List<Automaton> requirements, List<Alphabets> alphabets, CifBddAutomaton synthAut) {
+    private void preconvertReqAuts(List<Automaton> requirements, List<Alphabets> alphabets, CifBddSpec synthAut) {
         // Initialization.
         originalMonitors = mapc(requirements.size());
 
@@ -1743,7 +1743,7 @@ public class CifToSynthesisConverter {
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
             List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddAutomaton synthAut)
+            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec synthAut)
     {
         // Combine information about plants and requirements.
         List<Automaton> automata = concat(plants, requirements);
@@ -2034,7 +2034,7 @@ public class CifToSynthesisConverter {
      * @param aut The synthesis automaton.
      */
     private void convertUpdates(List<Update> updates, CifBddEdge synthEdge,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddAutomaton aut)
+            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec aut)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
@@ -2106,7 +2106,7 @@ public class CifToSynthesisConverter {
      *     to a precondition violation.
      */
     private Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddAutomaton aut)
+            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec aut)
     {
         // Make sure it is not a conditional update ('if' update).
         if (update instanceof IfUpdate) {
@@ -2273,7 +2273,7 @@ public class CifToSynthesisConverter {
      *
      * @param synthAut The synthesis automaton. Is modified in-place.
      */
-    private void addInputVariableEdges(CifBddAutomaton synthAut) {
+    private void addInputVariableEdges(CifBddSpec synthAut) {
         // Initialization.
         synthAut.inputVarEvents = set();
 
@@ -2359,7 +2359,7 @@ public class CifToSynthesisConverter {
      *
      * @param synthAut The synthesis automaton. Is modified in-place.
      */
-    private void mergeEdges(CifBddAutomaton synthAut) {
+    private void mergeEdges(CifBddSpec synthAut) {
         // Skip in case of conversion failure.
         if (synthAut.eventEdges == null) {
             return;
@@ -2390,7 +2390,7 @@ public class CifToSynthesisConverter {
      *
      * @param synthAut The synthesis automaton. Is modified in-place.
      */
-    private void orderEdges(CifBddAutomaton synthAut) {
+    private void orderEdges(CifBddSpec synthAut) {
         synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderBackward,
                 synthAut.settings.edgeOrderAllowDuplicateEvents, false);
         synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderForward,
@@ -2564,7 +2564,7 @@ public class CifToSynthesisConverter {
      * @return The synthesis predicate.
      * @throws UnsupportedPredicateException If one of the predicates is not supported.
      */
-    private static BDD convertPreds(List<Expression> preds, boolean initial, CifBddAutomaton synthAut)
+    private static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec synthAut)
             throws UnsupportedPredicateException
     {
         BDD rslt = synthAut.factory.one();
@@ -2584,7 +2584,7 @@ public class CifToSynthesisConverter {
      * @return The synthesis predicate.
      * @throws UnsupportedPredicateException If the predicate is not supported.
      */
-    private static BDD convertPred(Expression pred, boolean initial, CifBddAutomaton synthAut)
+    private static BDD convertPred(Expression pred, boolean initial, CifBddSpec synthAut)
             throws UnsupportedPredicateException
     {
         if (pred instanceof BoolExpression) {
@@ -2822,7 +2822,7 @@ public class CifToSynthesisConverter {
      * @throws UnsupportedPredicateException If the predicate is not supported.
      */
     private static BDD convertCmpPred(Expression lhs, Expression rhs, BinaryOperator op, Expression pred,
-            BinaryExpression bpred, boolean initial, CifBddAutomaton synthAut) throws UnsupportedPredicateException
+            BinaryExpression bpred, boolean initial, CifBddSpec synthAut) throws UnsupportedPredicateException
     {
         // Check lhs and rhs types.
         CifType ltype = normalizeType(lhs.getType());
@@ -2921,7 +2921,7 @@ public class CifToSynthesisConverter {
      * @throws UnsupportedPredicateException If the predicate is not supported.
      * @throws InvalidInputException If a static part of the given expression can't be evaluated.
      */
-    private static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddAutomaton synthAut,
+    private static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddSpec synthAut,
             boolean allowSubtract, Supplier<String> partMsg) throws UnsupportedPredicateException
     {
         // Variable references.

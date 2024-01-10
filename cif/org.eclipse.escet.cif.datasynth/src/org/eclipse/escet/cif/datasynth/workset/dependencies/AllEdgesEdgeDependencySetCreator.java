@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
 import static org.eclipse.escet.common.java.Lists.listc;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.common.java.BitSets;
 
 /**
@@ -24,7 +24,7 @@ import org.eclipse.escet.common.java.BitSets;
  */
 public class AllEdgesEdgeDependencySetCreator implements EdgeDependencySetCreator {
     @Override
-    public void createAndStore(CifBddAutomaton synthAut, boolean forwardEnabled) {
+    public void createAndStore(CifBddSpec synthAut, boolean forwardEnabled) {
         // Backward.
         synthAut.worksetDependenciesBackward = listc(synthAut.orderedEdgesBackward.size());
         for (int i = 0; i < synthAut.orderedEdgesBackward.size(); i++) {

@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.RewardBasedEdgePruner;
@@ -44,7 +44,7 @@ import com.github.javabdd.BDD;
 /** CIF data-based synthesis reachability computations. */
 public class CifDataSynthesisReachability {
     /** The synthesis automaton. */
-    private final CifBddAutomaton aut;
+    private final CifBddSpec aut;
 
     /** The 1-based round number of the main synthesis algorithm, for debug output. */
     private final int round;
@@ -104,7 +104,7 @@ public class CifDataSynthesisReachability {
      * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    public CifDataSynthesisReachability(CifBddAutomaton aut, int round, String predName, String initName,
+    public CifDataSynthesisReachability(CifBddSpec aut, int round, String predName, String initName,
             String restrictionName, BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
             boolean dbgEnabled)
     {

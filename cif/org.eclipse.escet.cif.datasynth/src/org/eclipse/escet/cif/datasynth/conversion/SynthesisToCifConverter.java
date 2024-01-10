@@ -76,7 +76,7 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
-import org.eclipse.escet.cif.datasynth.spec.CifBddAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -129,7 +129,7 @@ import com.github.javabdd.BDD;
 /** Converter to convert synthesis result back to CIF. */
 public class SynthesisToCifConverter {
     /** The synthesis result, or {@code null} if not available. */
-    private CifBddAutomaton synthAut;
+    private CifBddSpec synthAut;
 
     /** The input CIF specification, or {@code null} if not available. May be modified in-place. */
     private Specification spec;
@@ -175,7 +175,7 @@ public class SynthesisToCifConverter {
      * @param spec The input CIF specification. Is modified in-place.
      * @return The output CIF specification, i.e. the modified input CIF specification.
      */
-    public Specification convert(CifBddAutomaton synthAut, Specification spec) {
+    public Specification convert(CifBddSpec synthAut, Specification spec) {
         // Initialization.
         this.synthAut = synthAut;
         this.spec = spec;
