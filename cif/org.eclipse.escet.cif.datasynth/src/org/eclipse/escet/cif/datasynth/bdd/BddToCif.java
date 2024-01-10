@@ -29,10 +29,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -131,9 +131,7 @@ public class BddToCif {
      * @param dnf Whether to create a Disjunctive Normal Form (DNF, {@code true}) or Conjunctive Normal Form (CNF,
      *     {@code false}) predicate.
      */
-    private static void bddToCifPred(BDD bdd, CifBddSpec aut, byte[] valuation, List<Expression> paths,
-            boolean dnf)
-    {
+    private static void bddToCifPred(BDD bdd, CifBddSpec aut, byte[] valuation, List<Expression> paths, boolean dnf) {
         if (bdd.isZero() && dnf) {
             // Paths to 'false' are ignored in DNF.
             return;

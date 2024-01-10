@@ -81,11 +81,11 @@ import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddTypedVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
@@ -1315,9 +1315,7 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton to be updated with state invariants (predicates) information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateInvs(ComplexComponent comp, CifBddSpec synthAut,
-            LocationPointerManager locPtrManager)
-    {
+    private void convertStateInvs(ComplexComponent comp, CifBddSpec synthAut, LocationPointerManager locPtrManager) {
         // State invariants (predicates) of the component.
         for (Invariant inv: comp.getInvariants()) {
             // Skip non-state invariants.

@@ -35,9 +35,9 @@ import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.workset.dependencies.BddBasedEdgeDependencySetCreator;
 import org.eclipse.escet.cif.datasynth.workset.dependencies.EdgeDependencySetCreator;
@@ -1308,8 +1308,8 @@ public class CifDataSynthesis {
      * @param doTiming Whether to collect timing statistics.
      * @param timing The timing statistics data. Is modified in-place.
      */
-    private static void synthesizeFixedPoints(CifBddSpec aut, boolean doForward, boolean dbgEnabled,
-            boolean doTiming, CifDataSynthesisTiming timing)
+    private static void synthesizeFixedPoints(CifBddSpec aut, boolean doForward, boolean dbgEnabled, boolean doTiming,
+            CifDataSynthesisTiming timing)
     {
         // We know that:
         // - Each round, we perform the same computations, in the same order.
@@ -1626,9 +1626,7 @@ public class CifDataSynthesis {
      * @param doForward Whether to do forward reachability during synthesis.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void printNumberStates(CifBddSpec aut, boolean emptySup, boolean doForward,
-            boolean dbgEnabled)
-    {
+    private static void printNumberStates(CifBddSpec aut, boolean emptySup, boolean doForward, boolean dbgEnabled) {
         // Get number of states in controlled system.
         double nr;
         if (emptySup) {

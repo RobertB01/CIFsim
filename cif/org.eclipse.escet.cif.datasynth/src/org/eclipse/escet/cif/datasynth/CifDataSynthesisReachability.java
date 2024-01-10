@@ -26,8 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.RewardBasedEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.SequentialEdgePruner;
