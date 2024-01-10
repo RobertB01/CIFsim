@@ -38,7 +38,7 @@ import com.github.javabdd.BDDFactory;
 /** A CIF/BDD edge. Represents an edge of a linearized CIF specification in a BDD representation. */
 public class CifBddEdge {
     /** The CIF/BDD specification that contains this edge. */
-    public final CifBddSpec aut;
+    public final CifBddSpec cifBddSpec;
 
     /**
      * The linearized CIF edges that corresponds to this CIF/BDD edge. Contains a {@code null} value for edges created
@@ -98,10 +98,10 @@ public class CifBddEdge {
     /**
      * Constructor for the {@link CifBddEdge} class.
      *
-     * @param aut The CIF/BDD specification that contains this edge.
+     * @param cifBddSpec The CIF/BDD specification that contains this edge.
      */
-    public CifBddEdge(CifBddSpec aut) {
-        this.aut = aut;
+    public CifBddEdge(CifBddSpec cifBddSpec) {
+        this.cifBddSpec = cifBddSpec;
     }
 
     /**
@@ -181,7 +181,7 @@ public class CifBddEdge {
             if (restriction == null) {
                 updateGuardRestricted = updateGuard.id();
             } else {
-                BDD restrictionNew = restriction.replace(aut.oldToNewVarsPairing);
+                BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
                 updateGuardRestricted = updateGuardErrorNot.and(restrictionNew);
                 restrictionNew.free();
             }
@@ -258,28 +258,28 @@ public class CifBddEdge {
             Assert.check(!applyError);
 
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)
-            BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, aut.varSetOld);
+            BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, cifBddSpec.varSetOld);
             pred.free();
-            if (aut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return rslt;
             }
 
             // rsltOld = rslt[x/x+, y/y+, z/z+, ...]
-            BDD rsltOld = rslt.replaceWith(aut.newToOldVarsPairing);
+            BDD rsltOld = rslt.replaceWith(cifBddSpec.newToOldVarsPairing);
 
             // Return the result of applying the update.
             return rsltOld;
         } else {
             // predNew = pred[x+/x, y+/y, z+/z, ...]
-            BDD predNew = pred.replaceWith(aut.oldToNewVarsPairing);
-            if (aut.settings.shouldTerminate.get()) {
+            BDD predNew = pred.replaceWith(cifBddSpec.oldToNewVarsPairing);
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return predNew;
             }
 
             // rslt = Exists{x+, y+, z+, ...}(guard && update && predNew)
-            BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, aut.varSetNew);
+            BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, cifBddSpec.varSetNew);
             predNew.free();
-            if (aut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return rslt;
             }
 
@@ -323,8 +323,8 @@ public class CifBddEdge {
         txt.append(Strings.duplicate(" ", 2 * indent));
         txt.append(prefix);
         txt.append(fmt("(event: %s)", CifTextUtils.getAbsName(event)));
-        String origGuardTxt = bddToStr(origGuard, aut);
-        String guardTxt = bddToStr(guard, aut);
+        String origGuardTxt = bddToStr(origGuard, cifBddSpec);
+        String guardTxt = bddToStr(guard, cifBddSpec);
         String guardsTxt;
         if (origGuard.equals(guard)) {
             guardsTxt = fmt("%s", guardTxt);
@@ -366,7 +366,7 @@ public class CifBddEdge {
         Expression addr = asgn.getAddressable();
         Declaration addrVar = (Declaration)CifScopeUtils.getRefObjFromRef(addr);
         Expression rhs = asgn.getValue();
-        for (CifBddVariable var: aut.variables) {
+        for (CifBddVariable var: cifBddSpec.variables) {
             // Skip if precondition violation (conversion failure). Should not
             // occur here once conversion has finished, but check may be useful
             // when debugging conversion code.
@@ -377,34 +377,34 @@ public class CifBddEdge {
             // Case distinction based on kind of addressable variable.
             if (var instanceof CifBddDiscVariable) {
                 // Check for match with addressable.
-                CifBddDiscVariable synthDiscVar = (CifBddDiscVariable)var;
-                if (synthDiscVar.var != addrVar) {
+                CifBddDiscVariable cifBddDiscVar = (CifBddDiscVariable)var;
+                if (cifBddDiscVar.var != addrVar) {
                     continue;
                 }
 
                 // Assignment from the original CIF model.
-                return fmt("%s := %s", synthDiscVar.name, CifTextUtils.exprToStr(rhs));
+                return fmt("%s := %s", cifBddDiscVar.name, CifTextUtils.exprToStr(rhs));
             } else if (var instanceof CifBddLocPtrVariable) {
                 // Check for match with addressable.
-                CifBddLocPtrVariable synthLpVar = (CifBddLocPtrVariable)var;
-                if (synthLpVar.var != addrVar) {
+                CifBddLocPtrVariable cifBddLpVar = (CifBddLocPtrVariable)var;
+                if (cifBddLpVar.var != addrVar) {
                     continue;
                 }
 
                 // Location pointer assignment.
                 int locIdx = ((IntExpression)rhs).getValue();
-                Location loc = synthLpVar.aut.getLocations().get(locIdx);
-                return fmt("%s := %s", synthLpVar.name, CifTextUtils.getAbsName(loc));
+                Location loc = cifBddLpVar.aut.getLocations().get(locIdx);
+                return fmt("%s := %s", cifBddLpVar.name, CifTextUtils.getAbsName(loc));
             } else if (var instanceof CifBddInputVariable) {
                 // Check for match with addressable.
-                CifBddInputVariable synthInputVar = (CifBddInputVariable)var;
-                if (synthInputVar.var != addrVar) {
+                CifBddInputVariable cifBddInputVar = (CifBddInputVariable)var;
+                if (cifBddInputVar.var != addrVar) {
                     continue;
                 }
 
                 // Input variable edge. No right hand side, as this is not a
                 // 'normal' assignment.
-                return fmt("%s+ != %s", synthInputVar.name, synthInputVar.name);
+                return fmt("%s+ != %s", cifBddInputVar.name, cifBddInputVar.name);
             } else {
                 String msg = "Unexpected CIF/BDD variable for addressable: " + var;
                 throw new RuntimeException(msg);
@@ -424,13 +424,13 @@ public class CifBddEdge {
      */
     public static CifBddEdge mergeEdges(CifBddEdge edge1, CifBddEdge edge2) {
         // Ensure we merge edges for the same event, in the same CIF/BDD specification.
-        Assert.areEqual(edge1.aut, edge2.aut);
+        Assert.areEqual(edge1.cifBddSpec, edge2.cifBddSpec);
         Assert.areEqual(edge1.event, edge2.event);
         Assert.check(!edge1.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
         Assert.check(!edge2.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
 
         // Create new CIF/BDD edge.
-        CifBddEdge mergedEdge = new CifBddEdge(edge1.aut);
+        CifBddEdge mergedEdge = new CifBddEdge(edge1.cifBddSpec);
         mergedEdge.event = edge1.event;
 
         // Merge the edges and assignments.

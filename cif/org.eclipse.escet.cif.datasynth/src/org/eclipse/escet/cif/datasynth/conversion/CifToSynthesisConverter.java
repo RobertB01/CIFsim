@@ -185,9 +185,9 @@ public class CifToSynthesisConverter {
     public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
         // violations.
-        CifBddSpec aut = convertSpec(spec, settings, factory);
+        CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);
         if (problems.isEmpty()) {
-            return aut;
+            return cifBddSpec;
         }
 
         // Precondition violations found.

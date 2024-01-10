@@ -286,12 +286,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             }
             CifToSynthesisConverter converter1 = new CifToSynthesisConverter();
 
-            CifBddSpec aut;
+            CifBddSpec cifBddSpec;
             if (doTiming) {
                 timing.inputConvert.start();
             }
             try {
-                aut = converter1.convert(spec, settings, factory);
+                cifBddSpec = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
@@ -307,7 +307,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 dbg("Starting data-based synthesis.");
             }
             boolean doPrintCtrlSysStates = settings.synthesisStatistics.contains(SynthesisStatistics.CTRL_SYS_STATES);
-            CifDataSynthesis.synthesize(aut, doTiming, timing, doPrintCtrlSysStates);
+            CifDataSynthesis.synthesize(cifBddSpec, doTiming, timing, doPrintCtrlSysStates);
             if (isTerminationRequested()) {
                 return;
             }
@@ -322,7 +322,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.outputConvert.start();
             }
             try {
-                rslt = converter2.convert(aut, spec);
+                rslt = converter2.convert(cifBddSpec, spec);
             } finally {
                 if (doTiming) {
                     timing.outputConvert.stop();
