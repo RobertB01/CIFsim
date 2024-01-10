@@ -161,7 +161,7 @@ import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
 
-/** Converter to convert CIF specification to synthesis representation. */
+/** Converter to convert CIF specification to CIF/BDD representation. */
 public class CifToSynthesisConverter {
     /** Precondition violations found so far. */
     private final Set<String> problems = set();
@@ -175,16 +175,15 @@ public class CifToSynthesisConverter {
     private Map<Automaton, Monitors> originalMonitors;
 
     /**
-     * Converts a CIF specification to a data-based synthesis representation, checking for precondition violations along
-     * the way.
+     * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @return The data-based synthesis representation of the CIF specification.
+     * @return The CIF/BDD representation of the CIF specification.
      */
     public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
-        // Convert CIF specification and return the resulting synthesis automaton, but only if no precondition
+        // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
         // violations.
         CifBddSpec aut = convertSpec(spec, settings, factory);
         if (problems.isEmpty()) {
@@ -198,21 +197,20 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts a CIF specification to a data-based synthesis representation, checking for precondition violations along
-     * the way.
+     * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @return The data-based synthesis representation of the CIF specification.
+     * @return The CIF/BDD representation of the CIF specification.
      */
     private CifBddSpec convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
-        // Initialize synthesis automaton.
-        CifBddSpec synthAut = new CifBddSpec(settings);
-        synthAut.factory = factory;
+        // Initialize CIF/BDD specification.
+        CifBddSpec cifBddSpec = new CifBddSpec(settings);
+        cifBddSpec.factory = factory;
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Collect and check events. May collect more than union of alphabets.
@@ -226,16 +224,16 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Collect automata.
         List<Automaton> automata = list();
         collectAutomata(spec, automata);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Check automata, and partition into plants/requirements.
@@ -257,8 +255,8 @@ public class CifToSynthesisConverter {
             }
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Need at least one plant automaton.
@@ -267,15 +265,15 @@ public class CifToSynthesisConverter {
             problems.add(msg);
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Update automata for partitioned ordering.
         automata = concat(plants, requirements);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Get plant and requirement alphabets.
@@ -298,18 +296,18 @@ public class CifToSynthesisConverter {
             reqAlphabet.addAll(alphabets.recvAlphabet);
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Get alphabet for (un)controlled system. We allow events that are only in the alphabet of the requirements, by
         // considering them always enabled in the plant. Since the requirement automata are used as fully monitored
         // plants (full observers) during linearization, the combined linearized edges for such an event always allow
         // that event, in the uncontrolled system.
-        synthAut.alphabet = union(plantAlphabet, reqAlphabet);
+        cifBddSpec.alphabet = union(plantAlphabet, reqAlphabet);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Check use of channels in requirements.
@@ -330,23 +328,23 @@ public class CifToSynthesisConverter {
             problems.add(msg);
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Get controllable events subset of the alphabet.
-        synthAut.controllables = set();
-        for (Event event: synthAut.alphabet) {
+        cifBddSpec.controllables = set();
+        for (Event event: cifBddSpec.alphabet) {
             if (event.getControllable() == null) {
                 continue;
             }
             if (event.getControllable()) {
-                synthAut.controllables.add(event);
+                cifBddSpec.controllables.add(event);
             }
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Collect variables, and automata for which we need to create location pointer variables, i.e. the automata
@@ -354,166 +352,166 @@ public class CifToSynthesisConverter {
         List<PositionObject> cifVarObjs = list();
         collectVariableObjects(spec, cifVarObjs);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Create location pointer manager.
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
         CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Check and convert variables. Create location pointers.
-        synthAut.variables = new CifBddVariable[cifVarObjs.size()];
-        for (int i = 0; i < synthAut.variables.length; i++) {
+        cifBddSpec.variables = new CifBddVariable[cifVarObjs.size()];
+        for (int i = 0; i < cifBddSpec.variables.length; i++) {
             PositionObject cifVarObj = cifVarObjs.get(i);
             if (cifVarObj instanceof Automaton) {
                 Automaton lpAut = (Automaton)cifVarObj;
                 DiscVariable lpVar = locPtrManager.getLocationPointer(lpAut);
-                synthAut.variables[i] = createLpVar(lpAut, lpVar);
+                cifBddSpec.variables[i] = createLpVar(lpAut, lpVar);
             } else {
-                synthAut.variables[i] = convertTypedVar((Declaration)cifVarObj);
+                cifBddSpec.variables[i] = convertTypedVar((Declaration)cifVarObj);
             }
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Order variables and create domains.
-        orderVars(synthAut, spec);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        orderVars(cifBddSpec, spec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
-        createVarDomains(synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        createVarDomains(cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Create auxiliary data for updates.
-        createUpdateAuxiliaries(synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        createUpdateAuxiliaries(cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Check and convert initialization predicates.
-        synthAut.initialsVars = listc(synthAut.variables.length);
-        for (int i = 0; i < synthAut.variables.length; i++) {
-            synthAut.initialsVars.add(null);
+        cifBddSpec.initialsVars = listc(cifBddSpec.variables.length);
+        for (int i = 0; i < cifBddSpec.variables.length; i++) {
+            cifBddSpec.initialsVars.add(null);
         }
-        synthAut.initialsComps = list();
-        synthAut.initialsLocs = list();
-        synthAut.initialVars = synthAut.factory.one();
-        synthAut.initialComps = synthAut.factory.one();
-        synthAut.initialLocs = synthAut.factory.one();
-        convertInit(spec, synthAut, locPtrManager);
-        BDD initialCompsAndLocs = synthAut.initialComps.and(synthAut.initialLocs);
-        synthAut.initialUnctrl = synthAut.initialVars.and(initialCompsAndLocs);
+        cifBddSpec.initialsComps = list();
+        cifBddSpec.initialsLocs = list();
+        cifBddSpec.initialVars = cifBddSpec.factory.one();
+        cifBddSpec.initialComps = cifBddSpec.factory.one();
+        cifBddSpec.initialLocs = cifBddSpec.factory.one();
+        convertInit(spec, cifBddSpec, locPtrManager);
+        BDD initialCompsAndLocs = cifBddSpec.initialComps.and(cifBddSpec.initialLocs);
+        cifBddSpec.initialUnctrl = cifBddSpec.initialVars.and(initialCompsAndLocs);
         initialCompsAndLocs.free();
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Check and convert marker predicates.
-        synthAut.markedsComps = list();
-        synthAut.markedsLocs = list();
-        synthAut.markedComps = synthAut.factory.one();
-        synthAut.markedLocs = synthAut.factory.one();
-        convertMarked(spec, synthAut, locPtrManager);
-        synthAut.marked = synthAut.markedComps.and(synthAut.markedLocs);
+        cifBddSpec.markedsComps = list();
+        cifBddSpec.markedsLocs = list();
+        cifBddSpec.markedComps = cifBddSpec.factory.one();
+        cifBddSpec.markedLocs = cifBddSpec.factory.one();
+        convertMarked(spec, cifBddSpec, locPtrManager);
+        cifBddSpec.marked = cifBddSpec.markedComps.and(cifBddSpec.markedLocs);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Initialize state plant invariants (predicates).
-        synthAut.plantInvsComps = list();
-        synthAut.plantInvsLocs = list();
-        synthAut.plantInvComps = synthAut.factory.one();
-        synthAut.plantInvLocs = synthAut.factory.one();
+        cifBddSpec.plantInvsComps = list();
+        cifBddSpec.plantInvsLocs = list();
+        cifBddSpec.plantInvComps = cifBddSpec.factory.one();
+        cifBddSpec.plantInvLocs = cifBddSpec.factory.one();
 
         // Initialize state requirement invariants (predicates).
-        synthAut.reqInvsComps = list();
-        synthAut.reqInvsLocs = list();
-        synthAut.reqInvComps = synthAut.factory.one();
-        synthAut.reqInvLocs = synthAut.factory.one();
+        cifBddSpec.reqInvsComps = list();
+        cifBddSpec.reqInvsLocs = list();
+        cifBddSpec.reqInvComps = cifBddSpec.factory.one();
+        cifBddSpec.reqInvLocs = cifBddSpec.factory.one();
 
         // Convert state invariants.
-        convertStateInvs(spec, synthAut, locPtrManager);
+        convertStateInvs(spec, cifBddSpec, locPtrManager);
 
         // Determine state plant invariant for the system, combination of the state plant invariant for the components
         // and the state plant invariant for the locations of the automata.
-        synthAut.plantInv = synthAut.plantInvComps.and(synthAut.plantInvLocs);
+        cifBddSpec.plantInv = cifBddSpec.plantInvComps.and(cifBddSpec.plantInvLocs);
 
         // Determine state requirement invariant for the system, combination of the state requirement invariant for the
         // components and the state requirement invariant for the locations of automata.
-        synthAut.reqInv = synthAut.reqInvComps.and(synthAut.reqInvLocs);
+        cifBddSpec.reqInv = cifBddSpec.reqInvComps.and(cifBddSpec.reqInvLocs);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Set combined predicate for initialization with state invariants.
-        synthAut.initialPlantInv = synthAut.initialUnctrl.and(synthAut.plantInv);
-        synthAut.initialInv = synthAut.initialPlantInv.and(synthAut.reqInv);
+        cifBddSpec.initialPlantInv = cifBddSpec.initialUnctrl.and(cifBddSpec.plantInv);
+        cifBddSpec.initialInv = cifBddSpec.initialPlantInv.and(cifBddSpec.reqInv);
 
         // Set combined predicate for marking with state invariants.
-        synthAut.markedPlantInv = synthAut.marked.and(synthAut.plantInv);
-        synthAut.markedInv = synthAut.markedPlantInv.and(synthAut.reqInv);
+        cifBddSpec.markedPlantInv = cifBddSpec.marked.and(cifBddSpec.plantInv);
+        cifBddSpec.markedInv = cifBddSpec.markedPlantInv.and(cifBddSpec.reqInv);
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Initialize state/event plant exclusion conditions for events.
-        synthAut.stateEvtExclPlants = mapc(synthAut.alphabet.size());
-        synthAut.stateEvtExclPlantLists = mapc(synthAut.alphabet.size());
-        for (Event event: synthAut.alphabet) {
-            synthAut.stateEvtExclPlants.put(event, synthAut.factory.one());
-            synthAut.stateEvtExclPlantLists.put(event, list());
+        cifBddSpec.stateEvtExclPlants = mapc(cifBddSpec.alphabet.size());
+        cifBddSpec.stateEvtExclPlantLists = mapc(cifBddSpec.alphabet.size());
+        for (Event event: cifBddSpec.alphabet) {
+            cifBddSpec.stateEvtExclPlants.put(event, cifBddSpec.factory.one());
+            cifBddSpec.stateEvtExclPlantLists.put(event, list());
         }
 
         // Initialize state/event requirement exclusion conditions for controllable events.
-        synthAut.stateEvtExclsReqAuts = mapc(synthAut.controllables.size());
-        synthAut.stateEvtExclsReqInvs = mapc(synthAut.controllables.size());
-        for (Event event: synthAut.controllables) {
-            synthAut.stateEvtExclsReqAuts.put(event, synthAut.factory.one());
-            synthAut.stateEvtExclsReqInvs.put(event, synthAut.factory.one());
+        cifBddSpec.stateEvtExclsReqAuts = mapc(cifBddSpec.controllables.size());
+        cifBddSpec.stateEvtExclsReqInvs = mapc(cifBddSpec.controllables.size());
+        for (Event event: cifBddSpec.controllables) {
+            cifBddSpec.stateEvtExclsReqAuts.put(event, cifBddSpec.factory.one());
+            cifBddSpec.stateEvtExclsReqInvs.put(event, cifBddSpec.factory.one());
         }
 
         // Initialize state/event requirement exclusion conditions for events.
-        synthAut.stateEvtExclReqs = mapc(synthAut.alphabet.size());
-        synthAut.stateEvtExclReqLists = mapc(synthAut.alphabet.size());
-        for (Event event: synthAut.alphabet) {
-            synthAut.stateEvtExclReqs.put(event, synthAut.factory.one());
-            synthAut.stateEvtExclReqLists.put(event, list());
+        cifBddSpec.stateEvtExclReqs = mapc(cifBddSpec.alphabet.size());
+        cifBddSpec.stateEvtExclReqLists = mapc(cifBddSpec.alphabet.size());
+        for (Event event: cifBddSpec.alphabet) {
+            cifBddSpec.stateEvtExclReqs.put(event, cifBddSpec.factory.one());
+            cifBddSpec.stateEvtExclReqLists.put(event, list());
         }
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Convert state/event exclusion invariants.
-        convertStateEvtExclInvs(spec, synthAut, locPtrManager);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        convertStateEvtExclInvs(spec, cifBddSpec, locPtrManager);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Preconvert requirement automata, to enable treating them as plants from here on.
-        preconvertReqAuts(requirements, reqAlphabets, synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        preconvertReqAuts(requirements, reqAlphabets, cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Convert plant and requirement automata.
-        convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Restore original monitors of the requirement automata.
@@ -522,43 +520,43 @@ public class CifToSynthesisConverter {
         }
         originalMonitors = null;
 
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Add events and edges for input variables.
-        addInputVariableEdges(synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        addInputVariableEdges(cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Merge edges to the desired granularity.
-        mergeEdges(synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        mergeEdges(cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
-        // Order the synthesis edges.
-        orderEdges(synthAut);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        // Order the CIF/BDD edges.
+        orderEdges(cifBddSpec);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
         // Check edge workset algorithm settings.
-        checkEdgeWorksetAlgorithmSettings(synthAut.settings);
-        if (synthAut.settings.shouldTerminate.get()) {
-            return synthAut;
+        checkEdgeWorksetAlgorithmSettings(cifBddSpec.settings);
+        if (cifBddSpec.settings.shouldTerminate.get()) {
+            return cifBddSpec;
         }
 
-        // Return the conversion result, the synthesis automaton.
-        return synthAut;
+        // Return the conversion result, the CIF/BDD specification.
+        return cifBddSpec;
     }
 
     /**
-     * Converts a CIF variable to a synthesis variable.
+     * Converts a CIF variable to a CIF/BDD variable.
      *
      * @param var The CIF variable. Must be a {@link DiscVariable} or a {@link InputVariable}.
-     * @return The synthesis variable, or {@code null} if conversion failed due to a precondition not being satisfied.
+     * @return The CIF/BDD variable, or {@code null} if conversion failed due to a precondition not being satisfied.
      */
     private CifBddVariable convertTypedVar(Declaration var) {
         // Get normalized type of the variable.
@@ -602,7 +600,7 @@ public class CifToSynthesisConverter {
                 return null;
             }
 
-            // Return synthesis variable.
+            // Determine number of values.
             count = upper - lower + 1;
         } else if (type instanceof EnumType) {
             // Represent as 'int[0..n-1]' for an enumeration with 'n' literals.
@@ -618,7 +616,7 @@ public class CifToSynthesisConverter {
             return null;
         }
 
-        // Construct synthesis variable.
+        // Construct CIF/BDD variable.
         if (var instanceof DiscVariable) {
             DiscVariable discVar = (DiscVariable)var;
             return new CifBddDiscVariable(discVar, type, count, lower, upper);
@@ -631,11 +629,11 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Creates a synthesis location pointer variable for a CIF automaton.
+     * Creates a CIF/BDD location pointer variable for a CIF automaton.
      *
      * @param aut The CIF automaton.
      * @param var The dummy, internally-created location pointer variable for the CIF automaton. Does not have a type.
-     * @return The synthesis variable.
+     * @return The CIF/BDD variable.
      */
     private CifBddVariable createLpVar(Automaton aut, DiscVariable var) {
         int count = aut.getLocations().size();
@@ -644,19 +642,19 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Orders the synthesis variables. Also sets the {@link CifBddVariable#group group} of each synthesis variable.
+     * Orders the CIF/BDD variables. Also sets the {@link CifBddVariable#group group} of each CIF/BDD variable.
      *
-     * @param synthAut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @param spec The CIF specification.
      */
-    private void orderVars(CifBddSpec synthAut, Specification spec) {
+    private void orderVars(CifBddSpec cifBddSpec, Specification spec) {
         // Skip ordering, including settings processing and debug output printing, if any variables failed to convert.
-        if (Arrays.asList(synthAut.variables).contains(null)) {
+        if (Arrays.asList(cifBddSpec.variables).contains(null)) {
             return;
         }
 
         // Configure variable orderer.
-        String varOrderTxt = synthAut.settings.bddVarOrderAdvanced;
+        String varOrderTxt = cifBddSpec.settings.bddVarOrderAdvanced;
         List<VarOrdererInstance> parseResult;
         try {
             parseResult = new VarOrdererParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
@@ -664,8 +662,8 @@ public class CifToSynthesisConverter {
             throw new InvalidOptionException("Invalid BDD variable ordering configuration.", ex);
         }
 
-        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(synthAut.variables),
-                synthAut.settings);
+        VarOrdererTypeChecker typeChecker = new VarOrdererTypeChecker(Arrays.asList(cifBddSpec.variables),
+                cifBddSpec.settings);
         VarOrderer varOrderer = typeChecker.typeCheck(parseResult);
         Assert.check(!typeChecker.hasWarning());
         if (varOrderer == null) {
@@ -676,35 +674,35 @@ public class CifToSynthesisConverter {
         }
 
         // Skip ordering, including debug output printing, if no variables are present.
-        int varCnt = synthAut.variables.length;
+        int varCnt = cifBddSpec.variables.length;
         if (varCnt == 0) {
             return;
         }
 
         // Initialize to model variable order without interleaving.
-        for (int i = 0; i < synthAut.variables.length; i++) {
-            synthAut.variables[i].group = i;
+        for (int i = 0; i < cifBddSpec.variables.length; i++) {
+            cifBddSpec.variables[i].group = i;
         }
 
         // Print variable debugging information, before ordering.
-        boolean dbgEnabled = synthAut.settings.debugOutput.isEnabled();
+        boolean dbgEnabled = cifBddSpec.settings.debugOutput.isEnabled();
         if (dbgEnabled) {
-            debugCifVars(synthAut);
+            debugCifVars(cifBddSpec);
         }
 
         // Only apply variable ordering if there are at least two variables (to order).
-        if (synthAut.variables.length < 2) {
+        if (cifBddSpec.variables.length < 2) {
             if (dbgEnabled) {
-                synthAut.settings.debugOutput.line();
-                synthAut.settings.debugOutput.line("Skipping variable ordering: only one variable present.");
-                synthAut.settings.debugOutput.line();
+                cifBddSpec.settings.debugOutput.line();
+                cifBddSpec.settings.debugOutput.line("Skipping variable ordering: only one variable present.");
+                cifBddSpec.settings.debugOutput.line();
             }
             return;
         }
 
         // Create variable order helper, based on model order.
-        List<CifBddVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(synthAut.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, synthAut.settings.debugOutput);
+        List<CifBddVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(cifBddSpec.variables));
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.debugOutput);
 
         // Get current variable order, which is model order.
         VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);
@@ -715,8 +713,8 @@ public class CifToSynthesisConverter {
 
         // Get new variable order.
         if (dbgEnabled) {
-            synthAut.settings.debugOutput.line();
-            synthAut.settings.debugOutput.line("Applying variable ordering:");
+            cifBddSpec.settings.debugOutput.line();
+            cifBddSpec.settings.debugOutput.line("Applying variable ordering:");
         }
         VarOrdererData orderingResult = varOrderer.order(data, dbgEnabled, 1);
         VarOrder newOrder = orderingResult.varOrder;
@@ -730,8 +728,8 @@ public class CifToSynthesisConverter {
         Assert.areEqual(varsInCurOrder.size(), varsInNewOrder.size()); // Same number of variables.
         Assert.areEqual(list2set(varsInCurOrder), list2set(varsInNewOrder)); // Same variables.
 
-        // Update the variable order of the synthesis automaton.
-        synthAut.variables = varsInNewOrder.toArray(n -> new CifBddVariable[n]);
+        // Update the variable order of the CIF/BDD specification.
+        cifBddSpec.variables = varsInNewOrder.toArray(n -> new CifBddVariable[n]);
         for (int i = 0; i < newOrder.getVarOrder().size(); i++) {
             List<CifBddVariable> group = newOrder.getVarOrder().get(i);
             for (CifBddVariable var: group) {
@@ -742,23 +740,23 @@ public class CifToSynthesisConverter {
         // If the new order differs from the current order, print updated variable debugging information.
         if (dbgEnabled) {
             boolean orderChanged = !curOrder.equals(newOrder);
-            synthAut.settings.debugOutput.line();
-            synthAut.settings.debugOutput.line("Variable order %schanged.", orderChanged ? "" : "un");
+            cifBddSpec.settings.debugOutput.line();
+            cifBddSpec.settings.debugOutput.line("Variable order %schanged.", orderChanged ? "" : "un");
             if (orderChanged) {
-                debugCifVars(synthAut);
+                debugCifVars(cifBddSpec);
             }
-            synthAut.settings.debugOutput.line();
+            cifBddSpec.settings.debugOutput.line();
         }
     }
 
     /**
      * Prints CIF variable information. Should only be invoked if debug output is enabled.
      *
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      */
-    private static void debugCifVars(CifBddSpec aut) {
+    private static void debugCifVars(CifBddSpec cifBddSpec) {
         // Get variable counts.
-        int cifVarCnt = aut.variables.length;
+        int cifVarCnt = cifBddSpec.variables.length;
 
         // Initialize grid and header.
         GridBox grid = new GridBox(cifVarCnt + 4, 9, 0, 2);
@@ -778,8 +776,8 @@ public class CifToSynthesisConverter {
         int totalUsedCnt = 0;
         int totalReprCnt = 0;
         for (int i = 0; i < cifVarCnt; i++) {
-            // Get synthesis variable.
-            CifBddVariable var = aut.variables[i];
+            // Get CIF/BDD variable.
+            CifBddVariable var = cifBddSpec.variables[i];
 
             // Get type text.
             String typeTxt = var.getTypeText();
@@ -830,10 +828,10 @@ public class CifToSynthesisConverter {
         }
 
         // Print the variable information, for debugging.
-        aut.settings.debugOutput.line();
-        aut.settings.debugOutput.line("CIF variables and location pointers:");
+        cifBddSpec.settings.debugOutput.line();
+        cifBddSpec.settings.debugOutput.line("CIF variables and location pointers:");
         for (String line: grid.getLines()) {
-            aut.settings.debugOutput.line("  " + line);
+            cifBddSpec.settings.debugOutput.line("  " + line);
         }
     }
 
@@ -860,13 +858,13 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Creates and sets BDD {@link CifBddVariable#domain domains} for all the synthesis variables.
+     * Creates and sets BDD {@link CifBddVariable#domain domains} for all the CIF/BDD variables.
      *
-     * @param synthAut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      */
-    private void createVarDomains(CifBddSpec synthAut) {
+    private void createVarDomains(CifBddSpec cifBddSpec) {
         // Skip if no variables (due to earlier conversion error).
-        int varCnt = synthAut.variables.length;
+        int varCnt = cifBddSpec.variables.length;
         if (varCnt == 0) {
             return;
         }
@@ -875,7 +873,7 @@ public class CifToSynthesisConverter {
         // errors later on.
         boolean ordered = true;
         for (int i = 0; i < varCnt; i++) {
-            CifBddVariable var = synthAut.variables[i];
+            CifBddVariable var = cifBddSpec.variables[i];
             if (var == null || var.group == -1) {
                 ordered = false;
                 break;
@@ -884,22 +882,22 @@ public class CifToSynthesisConverter {
 
         if (!ordered) {
             for (int i = 0; i < varCnt; i++) {
-                CifBddVariable var = synthAut.variables[i];
+                CifBddVariable var = cifBddSpec.variables[i];
                 if (var == null) {
                     continue;
                 }
                 int size = var.getDomainSize();
-                var.domain = synthAut.factory.extDomain(size);
-                var.domainNew = synthAut.factory.extDomain(size);
+                var.domain = cifBddSpec.factory.extDomain(size);
+                var.domainNew = cifBddSpec.factory.extDomain(size);
                 var.group = i;
             }
             return;
         }
 
-        // Make sure the synthesis variable domain interleaving groups are ascending and continuous.
+        // Make sure the CIF/BDD variable domain interleaving groups are ascending and continuous.
         int cur = 0;
         for (int i = 0; i < varCnt; i++) {
-            int group = synthAut.variables[i].group;
+            int group = cifBddSpec.variables[i].group;
             if (group == cur) {
                 continue;
             }
@@ -910,11 +908,11 @@ public class CifToSynthesisConverter {
             Assert.fail(fmt("Invalid cur/group: %d/%d.", cur, group));
         }
 
-        // Count number of synthesis variables per group of interleaving domains.
-        CifBddVariable lastVar = synthAut.variables[varCnt - 1];
+        // Count number of CIF/BDD variables per group of interleaving domains.
+        CifBddVariable lastVar = cifBddSpec.variables[varCnt - 1];
         int[] counts = new int[lastVar.group + 1];
         for (int i = 0; i < varCnt; i++) {
-            counts[synthAut.variables[i].group]++;
+            counts[cifBddSpec.variables[i].group]++;
         }
 
         // Create and set domains, per group of interleaving domains.
@@ -924,18 +922,18 @@ public class CifToSynthesisConverter {
             int grpVarCnt = counts[grpIdx];
             int[] sizes = new int[grpVarCnt * 2];
             for (int varIdx = 0; varIdx < grpVarCnt; varIdx++) {
-                int size = synthAut.variables[offset + varIdx].getDomainSize();
+                int size = cifBddSpec.variables[offset + varIdx].getDomainSize();
                 sizes[(2 * varIdx) + 0] = size;
                 sizes[(2 * varIdx) + 1] = size;
             }
 
             // Create domains.
-            BDDDomain[] domains = synthAut.factory.extDomain(sizes);
+            BDDDomain[] domains = cifBddSpec.factory.extDomain(sizes);
 
             // Set domains.
             for (int varIdx = 0; varIdx < grpVarCnt; varIdx++) {
-                synthAut.variables[offset + varIdx].domain = domains[(2 * varIdx) + 0];
-                synthAut.variables[offset + varIdx].domainNew = domains[(2 * varIdx) + 1];
+                cifBddSpec.variables[offset + varIdx].domain = domains[(2 * varIdx) + 0];
+                cifBddSpec.variables[offset + varIdx].domainNew = domains[(2 * varIdx) + 1];
             }
 
             // Proceed with next group of interleaving domains.
@@ -946,16 +944,16 @@ public class CifToSynthesisConverter {
     /**
      * Create auxiliary data for updates.
      *
-     * @param synthAut The synthesis automaton. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      * @see CifBddSpec#oldToNewVarsPairing
      * @see CifBddSpec#newToOldVarsPairing
      * @see CifBddSpec#varSetOld
      * @see CifBddSpec#varSetNew
      */
-    private void createUpdateAuxiliaries(CifBddSpec synthAut) {
+    private void createUpdateAuxiliaries(CifBddSpec cifBddSpec) {
         // Skip if earlier conversion failure.
-        int domainCnt = synthAut.factory.numberOfDomains();
-        int cifVarCnt = synthAut.variables.length;
+        int domainCnt = cifBddSpec.factory.numberOfDomains();
+        int cifVarCnt = cifBddSpec.variables.length;
         if (cifVarCnt * 2 != domainCnt) {
             return;
         }
@@ -965,21 +963,21 @@ public class CifToSynthesisConverter {
         BDDDomain[] oldDomains = new BDDDomain[cifVarCnt];
         BDDDomain[] newDomains = new BDDDomain[cifVarCnt];
         for (int i = 0; i < cifVarCnt; i++) {
-            oldDomains[i] = synthAut.variables[i].domain;
-            newDomains[i] = synthAut.variables[i].domainNew;
+            oldDomains[i] = cifBddSpec.variables[i].domain;
+            newDomains[i] = cifBddSpec.variables[i].domainNew;
         }
-        synthAut.oldToNewVarsPairing = synthAut.factory.makePair();
-        synthAut.newToOldVarsPairing = synthAut.factory.makePair();
-        synthAut.oldToNewVarsPairing.set(oldDomains, newDomains);
-        synthAut.newToOldVarsPairing.set(newDomains, oldDomains);
+        cifBddSpec.oldToNewVarsPairing = cifBddSpec.factory.makePair();
+        cifBddSpec.newToOldVarsPairing = cifBddSpec.factory.makePair();
+        cifBddSpec.oldToNewVarsPairing.set(oldDomains, newDomains);
+        cifBddSpec.newToOldVarsPairing.set(newDomains, oldDomains);
 
-        if (synthAut.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
 
         // varSetOld = {x, y, z, ...}
         // varSetNew = {x+, y+, z+, ...}
-        int bddVarCnt = synthAut.factory.varNum();
+        int bddVarCnt = cifBddSpec.factory.varNum();
         Assert.check(bddVarCnt % 2 == 0);
         int[] varIdxsOld = new int[bddVarCnt / 2];
         int[] varIdxsNew = new int[bddVarCnt / 2];
@@ -993,10 +991,10 @@ public class CifToSynthesisConverter {
             System.arraycopy(domainVarIdxsNew, 0, varIdxsNew, varIdx, domainVarIdxsNew.length);
             varIdx += domainVarIdxsOld.length;
         }
-        synthAut.varSetOld = synthAut.factory.makeSet(varIdxsOld);
-        synthAut.varSetNew = synthAut.factory.makeSet(varIdxsNew);
+        cifBddSpec.varSetOld = cifBddSpec.factory.makeSet(varIdxsOld);
+        cifBddSpec.varSetNew = cifBddSpec.factory.makeSet(varIdxsNew);
 
-        if (synthAut.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
     }
@@ -1006,16 +1004,16 @@ public class CifToSynthesisConverter {
      * and the initial values of the variables.
      *
      * @param comp The component for which to convert initialization, recursively.
-     * @param synthAut The synthesis automaton to be updated with initialization information.
+     * @param cifBddSpec The CIF/BDD specification to be updated with initialization information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertInit(ComplexComponent comp, CifBddSpec synthAut, LocationPointerManager locPtrManager) {
+    private void convertInit(ComplexComponent comp, CifBddSpec cifBddSpec, LocationPointerManager locPtrManager) {
         // Initialization predicates of the component.
         for (Expression pred: comp.getInitials()) {
             // Convert.
             BDD initial;
             try {
-                initial = convertPred(pred, true, synthAut);
+                initial = convertPred(pred, true, cifBddSpec);
             } catch (UnsupportedPredicateException ex) {
                 if (ex.expr != null) {
                     String msg = fmt("Unsupported %s: unsupported part \"%s\" of initialization predicate \"%s\": %s",
@@ -1027,8 +1025,8 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            synthAut.initialsComps.add(initial);
-            synthAut.initialComps = synthAut.initialComps.andWith(initial.id());
+            cifBddSpec.initialsComps.add(initial);
+            cifBddSpec.initialComps = cifBddSpec.initialComps.andWith(initial.id());
         }
 
         // Initial values of discrete variables (automata only).
@@ -1040,14 +1038,14 @@ public class CifToSynthesisConverter {
                 }
                 DiscVariable cifVar = (DiscVariable)cifDecl;
 
-                // Get synthesis variable. Skip if earlier precondition violation.
-                int varIdx = getDiscVarIdx(synthAut.variables, cifVar);
+                // Get CIF/BDD variable. Skip if earlier precondition violation.
+                int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
                 if (varIdx == -1) {
                     continue;
                 }
-                CifBddVariable synthVar = synthAut.variables[varIdx];
-                Assert.check(synthVar instanceof CifBddDiscVariable);
-                CifBddDiscVariable var = (CifBddDiscVariable)synthVar;
+                CifBddVariable cifBddVar = cifBddSpec.variables[varIdx];
+                Assert.check(cifBddVar instanceof CifBddDiscVariable);
+                CifBddDiscVariable var = (CifBddDiscVariable)cifBddVar;
 
                 // Get initial value expressions. Use 'null' to indicate any value in the CIF domain.
                 List<Expression> values;
@@ -1067,17 +1065,17 @@ public class CifToSynthesisConverter {
                 BDD pred;
                 if (values == null) {
                     // Any value in its domain.
-                    pred = BddUtils.getVarDomain(var, false, synthAut.factory);
+                    pred = BddUtils.getVarDomain(var, false, cifBddSpec.factory);
                 } else {
                     // Specific values.
-                    pred = synthAut.factory.zero();
+                    pred = cifBddSpec.factory.zero();
                     for (Expression value: values) {
                         // Case distinction on types of values.
                         if (var.type instanceof BoolType) {
                             // Convert right hand side (value to assign).
                             BDD valueBdd;
                             try {
-                                valueBdd = convertPred(value, true, synthAut);
+                                valueBdd = convertPred(value, true, cifBddSpec);
                             } catch (UnsupportedPredicateException ex) {
                                 // Add new problem, if not failed due to earlier problems.
                                 if (ex.expr != null) {
@@ -1091,7 +1089,7 @@ public class CifToSynthesisConverter {
 
                                 // Set predicate to 'true' to prevent no initialization.
                                 pred.free();
-                                pred = synthAut.factory.one();
+                                pred = cifBddSpec.factory.one();
 
                                 // Proceed with next value to check it as well.
                                 continue;
@@ -1100,7 +1098,7 @@ public class CifToSynthesisConverter {
                             // Create BDD for the left hand side (variable to get a new value).
                             Assert.check(var.domain.varNum() == 1);
                             int varVar = var.domain.vars()[0];
-                            BDD varBdd = synthAut.factory.ithVar(varVar);
+                            BDD varBdd = cifBddSpec.factory.ithVar(varVar);
 
                             // Construct 'var = value' relation.
                             BDD relation = varBdd.biimpWith(valueBdd);
@@ -1114,7 +1112,7 @@ public class CifToSynthesisConverter {
 
                             CifBddBitVectorAndCarry valueRslt;
                             try {
-                                valueRslt = convertExpr(value, true, synthAut, false, partMsg);
+                                valueRslt = convertExpr(value, true, cifBddSpec, false, partMsg);
                             } catch (UnsupportedPredicateException ex) {
                                 // Add new problem, if not failed due to earlier problems.
                                 if (ex.expr != null) {
@@ -1128,7 +1126,7 @@ public class CifToSynthesisConverter {
 
                                 // Set predicate to 'true' to prevent no initialization.
                                 pred.free();
-                                pred = synthAut.factory.one();
+                                pred = cifBddSpec.factory.one();
 
                                 // Proceed with next value to check it as well.
                                 continue;
@@ -1153,8 +1151,8 @@ public class CifToSynthesisConverter {
                 }
 
                 // Store initialization.
-                synthAut.initialsVars.set(varIdx, pred);
-                synthAut.initialVars = synthAut.initialVars.andWith(pred.id());
+                cifBddSpec.initialsVars.set(varIdx, pred);
+                cifBddSpec.initialVars = cifBddSpec.initialVars.andWith(pred.id());
             }
         }
 
@@ -1164,7 +1162,7 @@ public class CifToSynthesisConverter {
             Automaton aut = (Automaton)comp;
 
             // Combine initialization predicates from the locations.
-            BDD autInit = synthAut.factory.zero();
+            BDD autInit = cifBddSpec.factory.zero();
             for (Location loc: aut.getLocations()) {
                 // Skip location without initialization predicates (implicit 'false').
                 if (loc.getInitials().isEmpty()) {
@@ -1172,10 +1170,10 @@ public class CifToSynthesisConverter {
                 }
 
                 // Convert initialization predicates of the location.
-                BDD locInit = synthAut.factory.one();
+                BDD locInit = cifBddSpec.factory.one();
                 List<Expression> locInits = loc.getInitials();
                 try {
-                    locInit = convertPreds(locInits, true, synthAut);
+                    locInit = convertPreds(locInits, true, cifBddSpec);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
                         String msg = fmt(
@@ -1191,7 +1189,7 @@ public class CifToSynthesisConverter {
                 BDD srcLocPred;
                 try {
                     Expression srcLocRef = locPtrManager.createLocRef(loc);
-                    srcLocPred = convertPred(srcLocRef, true, synthAut);
+                    srcLocPred = convertPred(srcLocRef, true, cifBddSpec);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
                         // Internally created predicate shouldn't fail conversion.
@@ -1207,14 +1205,14 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            synthAut.initialsLocs.add(autInit);
-            synthAut.initialLocs = synthAut.initialLocs.andWith(autInit.id());
+            cifBddSpec.initialsLocs.add(autInit);
+            cifBddSpec.initialLocs = cifBddSpec.initialLocs.andWith(autInit.id());
         }
 
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertInit((ComplexComponent)child, synthAut, locPtrManager);
+                convertInit((ComplexComponent)child, cifBddSpec, locPtrManager);
             }
         }
     }
@@ -1223,16 +1221,16 @@ public class CifToSynthesisConverter {
      * Converts marker predicates from the components and marker predicates from the locations of automata.
      *
      * @param comp The component for which to convert marking, recursively.
-     * @param synthAut The synthesis automaton to be updated with marking information.
+     * @param cifBddSpec The CIF/BDD specification to be updated with marking information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertMarked(ComplexComponent comp, CifBddSpec synthAut, LocationPointerManager locPtrManager) {
+    private void convertMarked(ComplexComponent comp, CifBddSpec cifBddSpec, LocationPointerManager locPtrManager) {
         // Marker predicates of the component.
         for (Expression pred: comp.getMarkeds()) {
             // Convert.
             BDD marked;
             try {
-                marked = convertPred(pred, false, synthAut);
+                marked = convertPred(pred, false, cifBddSpec);
             } catch (UnsupportedPredicateException ex) {
                 if (ex.expr != null) {
                     String msg = fmt("Unsupported %s: unsupported part \"%s\" of marker predicate \"%s\": %s",
@@ -1244,8 +1242,8 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            synthAut.markedsComps.add(marked);
-            synthAut.markedComps = synthAut.markedComps.andWith(marked.id());
+            cifBddSpec.markedsComps.add(marked);
+            cifBddSpec.markedComps = cifBddSpec.markedComps.andWith(marked.id());
         }
 
         // Marker predicates of locations (automata only).
@@ -1254,7 +1252,7 @@ public class CifToSynthesisConverter {
             Automaton aut = (Automaton)comp;
 
             // Combine marker predicates from the locations.
-            BDD autMarked = synthAut.factory.zero();
+            BDD autMarked = cifBddSpec.factory.zero();
             for (Location loc: aut.getLocations()) {
                 // Skip location without marker predicates (implicit 'false').
                 if (loc.getMarkeds().isEmpty()) {
@@ -1262,10 +1260,10 @@ public class CifToSynthesisConverter {
                 }
 
                 // Convert marker predicates of the location.
-                BDD locMarked = synthAut.factory.one();
+                BDD locMarked = cifBddSpec.factory.one();
                 List<Expression> locMarkeds = loc.getMarkeds();
                 try {
-                    locMarked = convertPreds(locMarkeds, false, synthAut);
+                    locMarked = convertPreds(locMarkeds, false, cifBddSpec);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
                         String msg = fmt("Unsupported %s: unsupported part \"%s\" of marker predicate(s) \"%s\": %s",
@@ -1280,7 +1278,7 @@ public class CifToSynthesisConverter {
                 BDD srcLocPred;
                 try {
                     Expression srcLocRef = locPtrManager.createLocRef(loc);
-                    srcLocPred = convertPred(srcLocRef, false, synthAut);
+                    srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
                         // Internally created predicate shouldn't fail conversion.
@@ -1296,14 +1294,14 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            synthAut.markedsLocs.add(autMarked);
-            synthAut.markedLocs = synthAut.markedLocs.andWith(autMarked.id());
+            cifBddSpec.markedsLocs.add(autMarked);
+            cifBddSpec.markedLocs = cifBddSpec.markedLocs.andWith(autMarked.id());
         }
 
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertMarked((ComplexComponent)child, synthAut, locPtrManager);
+                convertMarked((ComplexComponent)child, cifBddSpec, locPtrManager);
             }
         }
     }
@@ -1312,10 +1310,10 @@ public class CifToSynthesisConverter {
      * Converts state invariants (predicates) from the components and the locations of automata.
      *
      * @param comp The component for which to convert state invariants (predicates), recursively.
-     * @param synthAut The synthesis automaton to be updated with state invariants (predicates) information.
+     * @param cifBddSpec The CIF/BDD specification to be updated with state invariants (predicates) information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateInvs(ComplexComponent comp, CifBddSpec synthAut, LocationPointerManager locPtrManager) {
+    private void convertStateInvs(ComplexComponent comp, CifBddSpec cifBddSpec, LocationPointerManager locPtrManager) {
         // State invariants (predicates) of the component.
         for (Invariant inv: comp.getInvariants()) {
             // Skip non-state invariants.
@@ -1336,7 +1334,7 @@ public class CifToSynthesisConverter {
             Expression pred = inv.getPredicate();
             BDD invComp;
             try {
-                invComp = convertPred(pred, false, synthAut);
+                invComp = convertPred(pred, false, cifBddSpec);
             } catch (UnsupportedPredicateException ex) {
                 if (ex.expr != null) {
                     String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
@@ -1350,12 +1348,12 @@ public class CifToSynthesisConverter {
             // Store.
             switch (inv.getSupKind()) {
                 case PLANT:
-                    synthAut.plantInvsComps.add(invComp);
-                    synthAut.plantInvComps = synthAut.plantInvComps.andWith(invComp.id());
+                    cifBddSpec.plantInvsComps.add(invComp);
+                    cifBddSpec.plantInvComps = cifBddSpec.plantInvComps.andWith(invComp.id());
                     break;
                 case REQUIREMENT:
-                    synthAut.reqInvsComps.add(invComp);
-                    synthAut.reqInvComps = synthAut.reqInvComps.andWith(invComp.id());
+                    cifBddSpec.reqInvsComps.add(invComp);
+                    cifBddSpec.reqInvComps = cifBddSpec.reqInvComps.andWith(invComp.id());
                     break;
                 default:
                     throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
@@ -1389,7 +1387,7 @@ public class CifToSynthesisConverter {
                     Expression pred = inv.getPredicate();
                     BDD invLoc;
                     try {
-                        invLoc = convertPred(pred, false, synthAut);
+                        invLoc = convertPred(pred, false, cifBddSpec);
                     } catch (UnsupportedPredicateException ex) {
                         if (ex.expr != null) {
                             String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
@@ -1404,7 +1402,7 @@ public class CifToSynthesisConverter {
                     BDD srcLocPred;
                     try {
                         Expression srcLocRef = locPtrManager.createLocRef(loc);
-                        srcLocPred = convertPred(srcLocRef, false, synthAut);
+                        srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
                     } catch (UnsupportedPredicateException ex) {
                         if (ex.expr != null) {
                             // Internally created predicate shouldn't fail conversion.
@@ -1419,12 +1417,12 @@ public class CifToSynthesisConverter {
                     // Store.
                     switch (inv.getSupKind()) {
                         case PLANT:
-                            synthAut.plantInvsLocs.add(invLoc);
-                            synthAut.plantInvLocs = synthAut.plantInvLocs.andWith(invLoc.id());
+                            cifBddSpec.plantInvsLocs.add(invLoc);
+                            cifBddSpec.plantInvLocs = cifBddSpec.plantInvLocs.andWith(invLoc.id());
                             break;
                         case REQUIREMENT:
-                            synthAut.reqInvsLocs.add(invLoc);
-                            synthAut.reqInvLocs = synthAut.reqInvLocs.andWith(invLoc.id());
+                            cifBddSpec.reqInvsLocs.add(invLoc);
+                            cifBddSpec.reqInvLocs = cifBddSpec.reqInvLocs.andWith(invLoc.id());
                             break;
                         default:
                             throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
@@ -1436,7 +1434,7 @@ public class CifToSynthesisConverter {
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertStateInvs((ComplexComponent)child, synthAut, locPtrManager);
+                convertStateInvs((ComplexComponent)child, cifBddSpec, locPtrManager);
             }
         }
     }
@@ -1446,10 +1444,10 @@ public class CifToSynthesisConverter {
      * automata.
      *
      * @param comp The component for which to convert state/event exclusion invariants, recursively.
-     * @param synthAut The synthesis automaton to be updated with state/event exclusion invariants information.
+     * @param cifBddSpec The CIF/BDD specification to be updated with state/event exclusion invariants information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateEvtExclInvs(ComplexComponent comp, CifBddSpec synthAut,
+    private void convertStateEvtExclInvs(ComplexComponent comp, CifBddSpec cifBddSpec,
             LocationPointerManager locPtrManager)
     {
         // State/event exclusion invariants of the component.
@@ -1469,15 +1467,15 @@ public class CifToSynthesisConverter {
 
             // Check that event is in the alphabet.
             Event event = ((EventExpression)inv.getEvent()).getEvent();
-            if (!synthAut.alphabet.contains(event)) {
+            if (!cifBddSpec.alphabet.contains(event)) {
                 String msg = fmt(
                         "State/event exclusion invariant \"%s\" of %s has no effect, as event \"%s\" is not "
                                 + "in the alphabet of any automaton.",
                         CifTextUtils.invToStr(inv, false), CifTextUtils.getComponentText2(comp),
                         CifTextUtils.getAbsName(event));
-                synthAut.settings.warnOutput.line(msg);
+                cifBddSpec.settings.warnOutput.line(msg);
 
-                // Skip the rest as we won't use this invariant for synthesis.
+                // Skip the rest as we won't use this invariant any further.
                 continue;
             }
 
@@ -1485,7 +1483,7 @@ public class CifToSynthesisConverter {
             Expression pred = inv.getPredicate();
             BDD compInv;
             try {
-                compInv = convertPred(pred, false, synthAut);
+                compInv = convertPred(pred, false, cifBddSpec);
             } catch (UnsupportedPredicateException ex) {
                 if (ex.expr != null) {
                     String msg = fmt("Unsupported %s: unsupported part \"%s\" of invariant \"%s\": %s",
@@ -1506,14 +1504,14 @@ public class CifToSynthesisConverter {
             // Store copies of the BDD.
             switch (inv.getSupKind()) {
                 case PLANT:
-                    storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv.id());
-                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv.id());
+                    storeStateEvtExclInv(cifBddSpec.stateEvtExclPlantLists, event, compInv.id());
+                    conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclPlants, event, compInv.id());
                     break;
                 case REQUIREMENT:
-                    storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv.id());
-                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv.id());
+                    storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, compInv.id());
+                    conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, compInv.id());
                     if (Boolean.TRUE.equals(event.getControllable())) {
-                        conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv.id());
+                        conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqInvs, event, compInv.id());
                     }
                     break;
                 default:
@@ -1547,15 +1545,15 @@ public class CifToSynthesisConverter {
 
                     // Check that event is in the alphabet.
                     Event event = ((EventExpression)inv.getEvent()).getEvent();
-                    if (!synthAut.alphabet.contains(event)) {
+                    if (!cifBddSpec.alphabet.contains(event)) {
                         String msg = fmt(
                                 "State/event exclusion invariant \"%s\" of %s has no effect, as event \"%s\" is not in "
                                         + "the alphabet of any automaton.",
                                 CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
                                 CifTextUtils.getAbsName(event));
-                        synthAut.settings.warnOutput.line(msg);
+                        cifBddSpec.settings.warnOutput.line(msg);
 
-                        // Skip the rest as we won't use this invariant for synthesis.
+                        // Skip the rest as we won't use this invariant any further.
                         continue;
                     }
 
@@ -1563,7 +1561,7 @@ public class CifToSynthesisConverter {
                     Expression pred = inv.getPredicate();
                     BDD locInv;
                     try {
-                        locInv = convertPred(pred, false, synthAut);
+                        locInv = convertPred(pred, false, cifBddSpec);
                     } catch (UnsupportedPredicateException ex) {
                         if (ex.expr != null) {
                             String msg = fmt("Unsupported %s: unsupported part \"%s\" of invariant \"%s\": %s",
@@ -1578,7 +1576,7 @@ public class CifToSynthesisConverter {
                     BDD srcLocPred;
                     try {
                         Expression srcLocRef = locPtrManager.createLocRef(loc);
-                        srcLocPred = convertPred(srcLocRef, false, synthAut);
+                        srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
                     } catch (UnsupportedPredicateException ex) {
                         if (ex.expr != null) {
                             // Internally created predicate shouldn't fail conversion.
@@ -1600,14 +1598,14 @@ public class CifToSynthesisConverter {
                     // Store copies of the BDD.
                     switch (inv.getSupKind()) {
                         case PLANT:
-                            storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv.id());
-                            conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv.id());
+                            storeStateEvtExclInv(cifBddSpec.stateEvtExclPlantLists, event, locInv.id());
+                            conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclPlants, event, locInv.id());
                             break;
                         case REQUIREMENT:
-                            storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv.id());
-                            conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv.id());
+                            storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, locInv.id());
+                            conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, locInv.id());
                             if (Boolean.TRUE.equals(event.getControllable())) {
-                                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv.id());
+                                conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqInvs, event, locInv.id());
                             }
                             break;
                         default:
@@ -1623,7 +1621,7 @@ public class CifToSynthesisConverter {
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertStateEvtExclInvs((ComplexComponent)child, synthAut, locPtrManager);
+                convertStateEvtExclInvs((ComplexComponent)child, cifBddSpec, locPtrManager);
             }
         }
     }
@@ -1657,17 +1655,17 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Preconvert requirement automata, to enable treating them as monitor plants during synthesis.
+     * Preconvert requirement automata, to enable treating them as monitor plants in the CIF/BDD representation.
      *
      * @param requirements The requirement automata.
      * @param alphabets Per requirement automaton, all the alphabets.
-     * @param synthAut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      */
-    private void preconvertReqAuts(List<Automaton> requirements, List<Alphabets> alphabets, CifBddSpec synthAut) {
+    private void preconvertReqAuts(List<Automaton> requirements, List<Alphabets> alphabets, CifBddSpec cifBddSpec) {
         // Initialization.
         originalMonitors = mapc(requirements.size());
 
-        // For synthesis, requirement automata are treated as plants that monitor the entire alphabet. They thus don't
+        // For CIF/BDD, requirement automata are treated as plants that monitor the entire alphabet. They thus don't
         // restrict anything guard-wise. We add additional state/event exclusion requirements to restrict the behavior
         // to what the original requirement automaton allowed.
         for (int i = 0; i < requirements.size(); i++) {
@@ -1688,9 +1686,9 @@ public class CifToSynthesisConverter {
                         LocRefExprCreator.DEFAULT);
 
                 // Convert guard.
-                BDD synthGuard;
+                BDD cifBddGuard;
                 try {
-                    synthGuard = convertPred(cifGuard, false, synthAut);
+                    cifBddGuard = convertPred(cifGuard, false, cifBddSpec);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
                         String msg = fmt("Unsupported %s: unsupported part \"%s\" of combined guard \"%s\": %s",
@@ -1702,14 +1700,14 @@ public class CifToSynthesisConverter {
                 }
 
                 // Add guard as state/event exclusion requirement for the event.
-                storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, synthGuard.id());
-                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, synthGuard.id());
+                storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, cifBddGuard.id());
+                conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, cifBddGuard.id());
 
                 if (Boolean.TRUE.equals(event.getControllable())) {
-                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqAuts, event, synthGuard.id());
+                    conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqAuts, event, cifBddGuard.id());
                 }
 
-                synthGuard.free();
+                cifBddGuard.free();
             }
 
             // Change requirement automaton to monitor all events. Skip this if the alphabet is empty, as we then get a
@@ -1730,18 +1728,18 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts the plant and requirement automata, to a single linearized synthesis automaton.
+     * Converts the plant and requirement automata, to a single linearized CIF/BDD specification.
      *
      * @param plants The plant automata of the specification.
      * @param requirements The requirement automata.
      * @param plantAlphabets Per plant automaton, all the alphabets.
      * @param reqAlphabets Per requirement automaton, all the alphabets.
      * @param locPtrManager Location pointer manager.
-     * @param synthAut The synthesis automaton to be updated.
+     * @param cifBddSpec The CIF/BDD specification to be updated.
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
             List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec synthAut)
+            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Combine information about plants and requirements.
         List<Automaton> automata = concat(plants, requirements);
@@ -1755,41 +1753,41 @@ public class CifToSynthesisConverter {
             // Linearize edges for all events in the alphabet.
             // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
             List<Edge> cifEdges = list();
-            LinearizeProduct.linearizeEdges(automata, alphabets, set2list(synthAut.alphabet), locPtrManager, false,
+            LinearizeProduct.linearizeEdges(automata, alphabets, set2list(cifBddSpec.alphabet), locPtrManager, false,
                     true, cifEdges);
 
-            // Create and add synthesis edges.
-            synthAut.edges = listc(cifEdges.size());
-            synthAut.eventEdges = mapc(synthAut.alphabet.size());
+            // Create and add CIF/BDD edges.
+            cifBddSpec.edges = listc(cifEdges.size());
+            cifBddSpec.eventEdges = mapc(cifBddSpec.alphabet.size());
             for (Edge cifEdge: cifEdges) {
                 // Check for termination.
-                if (synthAut.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.shouldTerminate.get()) {
                     break;
                 }
 
                 // Create edge.
-                CifBddEdge synthEdge = new CifBddEdge(synthAut);
-                synthEdge.edges = list(cifEdge);
+                CifBddEdge cifBddEdge = new CifBddEdge(cifBddSpec);
+                cifBddEdge.edges = list(cifEdge);
 
                 // Set event.
                 Assert.check(cifEdge.getEvents().size() == 1);
                 EdgeEvent edgeEvent = first(cifEdge.getEvents());
                 Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
-                synthEdge.event = event;
+                cifBddEdge.event = event;
 
                 // Add edge.
-                synthAut.edges.add(synthEdge);
-                List<CifBddEdge> synthEdges = synthAut.eventEdges.get(event);
-                if (synthEdges == null) {
-                    synthEdges = list();
-                    synthAut.eventEdges.put(event, synthEdges);
+                cifBddSpec.edges.add(cifBddEdge);
+                List<CifBddEdge> cifBddEdges = cifBddSpec.eventEdges.get(event);
+                if (cifBddEdges == null) {
+                    cifBddEdges = list();
+                    cifBddSpec.eventEdges.put(event, cifBddEdges);
                 }
-                synthEdges.add(synthEdge);
+                cifBddEdges.add(cifBddEdge);
 
                 // Convert and set guards.
                 BDD guard;
                 try {
-                    guard = convertPreds(cifEdge.getGuards(), false, synthAut);
+                    guard = convertPreds(cifEdge.getGuards(), false, cifBddSpec);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
                         String msg = fmt("Unsupported linearized guard: unsupported part \"%s\" of guard(s) \"%s\": %s",
@@ -1800,23 +1798,23 @@ public class CifToSynthesisConverter {
 
                     // Set dummy guard to allow continuing. Use 'false' to avoid non-determinism check to give false
                     // positives.
-                    guard = synthAut.factory.zero();
+                    guard = cifBddSpec.factory.zero();
                 }
 
-                synthEdge.guard = guard;
-                synthEdge.origGuard = guard.id();
+                cifBddEdge.guard = guard;
+                cifBddEdge.origGuard = guard.id();
 
                 // Convert and set assignments.
                 List<Update> updates = cifEdge.getUpdates();
-                convertUpdates(updates, synthEdge, locPtrManager, synthAut);
+                convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec);
             }
 
-            if (synthAut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return;
             }
 
             // Check for non-determinism of controllable events.
-            checkNonDeterminism(synthAut.edges);
+            checkNonDeterminism(cifBddSpec.edges);
         }
     }
 
@@ -1855,13 +1853,13 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Check synthesis edges to make sure there is no non-determinism for controllable events. Non-determinism by means
-     * of multiple outgoing edges for the same event, with overlapping guards, is not supported. An external supervisor
+     * Check CIF/BDD edges to make sure there is no non-determinism for controllable events. Non-determinism by means of
+     * multiple outgoing edges for the same event, with overlapping guards, is not supported. An external supervisor
      * can't force the correct edge to be taken, if only the updates (includes location pointer variable assignment for
      * target location) are different. For uncontrollable events non-determinism is not a problem, as the supervisor
      * won't restrict edges for uncontrollable events.
      *
-     * @param edges The synthesis edges (self loops). May include edges for both controllable and uncontrollable events.
+     * @param edges The CIF/BDD edges (self loops). May include edges for both controllable and uncontrollable events.
      */
     private void checkNonDeterminism(List<CifBddEdge> edges) {
         // Initialize conflict information.
@@ -1933,7 +1931,7 @@ public class CifToSynthesisConverter {
                 // Add guards text for this group.
                 List<String> guardTxts = list();
                 for (CifBddEdge edge: group) {
-                    Assert.check(edge.edges.size() == 1); // No synthesis edges have been merged yet.
+                    Assert.check(edge.edges.size() == 1); // No CIF/BDD edges have been merged yet.
                     List<Expression> guards = first(edge.edges).getGuards();
                     String guardsTxt;
                     if (guards.isEmpty()) {
@@ -2024,26 +2022,26 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts CIF updates to synthesis updates.
+     * Converts CIF updates to CIF/BDD updates.
      *
      * @param updates The CIF updates.
-     * @param synthEdge The synthesis edge in which to store the synthesis updates. Is modified in-place.
+     * @param cifBddEdge The CIF/BDD edge in which to store the CIF/BDD updates. Is modified in-place.
      * @param locPtrManager Location pointer manager.
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      */
-    private void convertUpdates(List<Update> updates, CifBddEdge synthEdge,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec aut)
+    private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
+            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
-        boolean[] assigned = new boolean[aut.variables.length];
+        boolean[] assigned = new boolean[cifBddSpec.variables.length];
 
         // Convert separate updates, and merge to form the update relation and runtime error predicate.
-        BDD relation = aut.factory.one();
-        BDD error = aut.factory.zero();
+        BDD relation = cifBddSpec.factory.one();
+        BDD error = cifBddSpec.factory.zero();
         for (Update update: updates) {
-            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, aut);
-            if (aut.settings.shouldTerminate.get()) {
+            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec);
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return;
             }
 
@@ -2055,7 +2053,7 @@ public class CifToSynthesisConverter {
                 error = error.orWith(updateError);
             }
 
-            if (aut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return;
             }
         }
@@ -2072,7 +2070,7 @@ public class CifToSynthesisConverter {
             }
 
             // If conversion of variable failed, skip it.
-            CifBddVariable var = aut.variables[i];
+            CifBddVariable var = cifBddSpec.variables[i];
             if (var == null) {
                 continue;
             }
@@ -2087,9 +2085,9 @@ public class CifToSynthesisConverter {
         }
 
         // Store data for the updates.
-        synthEdge.assignments = list(assignments);
-        synthEdge.update = relation;
-        synthEdge.error = error;
+        cifBddEdge.assignments = list(assignments);
+        cifBddEdge.update = relation;
+        cifBddEdge.error = error;
     }
 
     /**
@@ -2097,14 +2095,14 @@ public class CifToSynthesisConverter {
      *
      * @param update The CIF update to convert.
      * @param assignments The assignments converted so far. Is modified in-place.
-     * @param assigned Per synthesis variable, whether it has been assigned on this edge. Is modified in-place.
+     * @param assigned Per CIF/BDD variable, whether it has been assigned on this edge. Is modified in-place.
      * @param locPtrManager Location pointer manager.
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @return The update relation and runtime error predicate. May be {@code null} if the update can't be converted due
      *     to a precondition violation.
      */
     private Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec aut)
+            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Make sure it is not a conditional update ('if' update).
         if (update instanceof IfUpdate) {
@@ -2142,12 +2140,12 @@ public class CifToSynthesisConverter {
         // updates are created also have location pointer variables.
         Automaton cifAut = locPtrManager.getAutomaton(cifVar);
         if (cifAut != null) {
-            // Get synthesis variable.
-            int varIdx = getLpVarIdx(aut.variables, cifAut);
+            // Get CIF/BDD variable.
+            int varIdx = getLpVarIdx(cifBddSpec.variables, cifAut);
             if (varIdx == -1) {
                 return null;
             }
-            CifBddVariable var = aut.variables[varIdx];
+            CifBddVariable var = cifBddSpec.variables[varIdx];
             Assert.check(var instanceof CifBddLocPtrVariable);
 
             // Mark variable as assigned.
@@ -2161,23 +2159,23 @@ public class CifToSynthesisConverter {
             // Create and return assignment relation 'lp+ = locIdx'. The location always fits within the domain of the
             // location pointer variable, so there is no error predicate.
             CifBddBitVector varVector = CifBddBitVector.createDomain(var.domainNew);
-            CifBddBitVector locVector = CifBddBitVector.createInt(aut.factory, locIdx);
+            CifBddBitVector locVector = CifBddBitVector.createInt(cifBddSpec.factory, locIdx);
             Assert.check(locVector.length() <= varVector.length());
             locVector.resize(varVector.length());
             BDD relation = varVector.equalTo(locVector);
             varVector.free();
             locVector.free();
-            return pair(relation, aut.factory.zero());
+            return pair(relation, cifBddSpec.factory.zero());
         }
 
         // Normal case: assignment originating from original CIF model.
-        int varIdx = getTypedVarIdx(aut.variables, cifVar);
+        int varIdx = getTypedVarIdx(cifBddSpec.variables, cifVar);
         if (varIdx == -1) {
             return null;
         }
-        CifBddVariable synthVar = aut.variables[varIdx];
-        Assert.check(synthVar instanceof CifBddTypedVariable);
-        CifBddTypedVariable var = (CifBddTypedVariable)synthVar;
+        CifBddVariable cifBddVar = cifBddSpec.variables[varIdx];
+        Assert.check(cifBddVar instanceof CifBddTypedVariable);
+        CifBddTypedVariable var = (CifBddTypedVariable)cifBddVar;
 
         // Mark variable as assigned.
         Assert.check(!assigned[varIdx]);
@@ -2189,7 +2187,7 @@ public class CifToSynthesisConverter {
             Expression rhsExpr = asgn.getValue();
             BDD rhsBdd;
             try {
-                rhsBdd = convertPred(rhsExpr, false, aut);
+                rhsBdd = convertPred(rhsExpr, false, cifBddSpec);
             } catch (UnsupportedPredicateException ex) {
                 // Add new problem, if not failed due to earlier problems.
                 if (ex.expr != null) {
@@ -2200,19 +2198,19 @@ public class CifToSynthesisConverter {
                 }
 
                 // Return identity values.
-                return pair(aut.factory.one(), aut.factory.zero());
+                return pair(cifBddSpec.factory.one(), cifBddSpec.factory.zero());
             }
 
             // Create BDD for the left hand side (variable to get a new value).
             Assert.check(var.domainNew.varNum() == 1);
             int lhsVar = var.domainNew.vars()[0];
-            BDD lhsBdd = aut.factory.ithVar(lhsVar);
+            BDD lhsBdd = cifBddSpec.factory.ithVar(lhsVar);
 
             // Construct 'lhs+ = rhs' relation.
             BDD relation = lhsBdd.biimpWith(rhsBdd);
 
             // Return the full relation.
-            return pair(relation, aut.factory.zero());
+            return pair(relation, cifBddSpec.factory.zero());
         } else {
             // Convert right hand side (value to assign).
             Expression rhsExpr = asgn.getValue();
@@ -2221,7 +2219,7 @@ public class CifToSynthesisConverter {
 
             CifBddBitVectorAndCarry rhsRslt;
             try {
-                rhsRslt = convertExpr(rhsExpr, false, aut, true, partMsg);
+                rhsRslt = convertExpr(rhsExpr, false, cifBddSpec, true, partMsg);
             } catch (UnsupportedPredicateException ex) {
                 // Add new problem, if not failed due to earlier problems.
                 if (ex.expr != null) {
@@ -2232,7 +2230,7 @@ public class CifToSynthesisConverter {
                 }
 
                 // Return identity values.
-                return pair(aut.factory.one(), aut.factory.zero());
+                return pair(cifBddSpec.factory.one(), cifBddSpec.factory.zero());
             }
             CifBddBitVector rhsVec = rhsRslt.vector;
 
@@ -2269,14 +2267,14 @@ public class CifToSynthesisConverter {
     /**
      * Adds and event and edge for each input variable.
      *
-     * @param synthAut The synthesis automaton. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      */
-    private void addInputVariableEdges(CifBddSpec synthAut) {
+    private void addInputVariableEdges(CifBddSpec cifBddSpec) {
         // Initialization.
-        synthAut.inputVarEvents = set();
+        cifBddSpec.inputVarEvents = set();
 
         // Add for each input variable.
-        for (CifBddVariable var: synthAut.variables) {
+        for (CifBddVariable var: cifBddSpec.variables) {
             // Handle only input variables.
             if (var == null) {
                 continue;
@@ -2284,43 +2282,43 @@ public class CifToSynthesisConverter {
             if (!(var instanceof CifBddInputVariable)) {
                 continue;
             }
-            CifBddInputVariable synthInputVar = (CifBddInputVariable)var;
+            CifBddInputVariable cifBddInputVar = (CifBddInputVariable)var;
 
             // Create uncontrollable event for the input variable.
             Event event = newEvent();
             event.setControllable(false);
-            event.setName(synthInputVar.var.getName());
+            event.setName(cifBddInputVar.var.getName());
 
             // Add new event to the alphabet.
-            synthAut.alphabet.add(event);
+            cifBddSpec.alphabet.add(event);
 
-            // Add new event to the original specification, for proper absolute naming. Also store it in the synthesis
-            // automaton, to allow for post synthesis removal of the temporary event.
-            ComplexComponent comp = (ComplexComponent)synthInputVar.var.eContainer();
+            // Add new event to the original specification, for proper absolute naming. Also store it in the CIF/BDD
+            // specification, to allow for later removal of the temporary event, for instance after synthesis.
+            ComplexComponent comp = (ComplexComponent)cifBddInputVar.var.eContainer();
             comp.getDeclarations().add(event);
-            synthAut.inputVarEvents.add(event);
+            cifBddSpec.inputVarEvents.add(event);
 
             // Add edge that allows input variable to change to any other value.
-            CifBddEdge edge = new CifBddEdge(synthAut);
+            CifBddEdge edge = new CifBddEdge(cifBddSpec);
             edge.edges = list((Edge)null);
             edge.event = event;
-            edge.origGuard = synthAut.factory.one();
-            edge.guard = synthAut.factory.one();
-            edge.error = synthAut.factory.zero();
-            synthAut.edges.add(edge);
-            synthAut.eventEdges.put(event, list(edge));
+            edge.origGuard = cifBddSpec.factory.one();
+            edge.guard = cifBddSpec.factory.one();
+            edge.error = cifBddSpec.factory.zero();
+            cifBddSpec.edges.add(edge);
+            cifBddSpec.eventEdges.put(event, list(edge));
 
             // Add CIF assignment to edge. Right hand side not filled, as it is not a 'normal' assignment. Also,
             // technically in CIF an input variable can not be assigned.
             InputVariableExpression addr = newInputVariableExpression();
-            addr.setVariable(synthInputVar.var);
+            addr.setVariable(cifBddInputVar.var);
             Assignment asgn = newAssignment();
             asgn.setAddressable(addr);
             edge.assignments = list(list(asgn));
 
             // Add update relation.
-            edge.update = synthAut.factory.one();
-            for (CifBddVariable updVar: synthAut.variables) {
+            edge.update = cifBddSpec.factory.one();
+            for (CifBddVariable updVar: cifBddSpec.variables) {
                 // If conversion of variable failed, skip it.
                 if (updVar == null) {
                     continue;
@@ -2335,7 +2333,7 @@ public class CifToSynthesisConverter {
                 if (updVar == var) {
                     // The input variable: add 'input != input+' to allow it to change to any other value. Also keep the
                     // new value in the domain.
-                    BDD newInDomain = BddUtils.getVarDomain(updVar, true, synthAut.factory);
+                    BDD newInDomain = BddUtils.getVarDomain(updVar, true, cifBddSpec.factory);
                     varUpdate = vectorOld.unequalTo(vectorNew);
                     varUpdate = varUpdate.andWith(newInDomain);
                 } else {
@@ -2353,50 +2351,50 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Merges synthesis edges to the desired granularity.
+     * Merges CIF/BDD edges to the desired granularity.
      *
-     * @param synthAut The synthesis automaton. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      */
-    private void mergeEdges(CifBddSpec synthAut) {
+    private void mergeEdges(CifBddSpec cifBddSpec) {
         // Skip in case of conversion failure.
-        if (synthAut.eventEdges == null) {
+        if (cifBddSpec.eventEdges == null) {
             return;
         }
 
         // Merge the edges, if needed.
-        switch (synthAut.settings.edgeGranularity) {
+        switch (cifBddSpec.settings.edgeGranularity) {
             case PER_EDGE:
                 // Nothing to do, as already at per-edge granularity.
                 return;
             case PER_EVENT: {
                 // Merge edges per event.
-                int eventCount = synthAut.eventEdges.size();
-                synthAut.edges = listc(eventCount);
-                for (Entry<Event, List<CifBddEdge>> entry: synthAut.eventEdges.entrySet()) {
+                int eventCount = cifBddSpec.eventEdges.size();
+                cifBddSpec.edges = listc(eventCount);
+                for (Entry<Event, List<CifBddEdge>> entry: cifBddSpec.eventEdges.entrySet()) {
                     CifBddEdge mergedEdge = entry.getValue().stream().reduce(CifBddEdge::mergeEdges).get();
-                    synthAut.edges.add(mergedEdge);
+                    cifBddSpec.edges.add(mergedEdge);
                     entry.setValue(list(mergedEdge));
                 }
                 return;
             }
         }
-        throw new RuntimeException("Unknown granularity: " + synthAut.settings.edgeGranularity);
+        throw new RuntimeException("Unknown granularity: " + cifBddSpec.settings.edgeGranularity);
     }
 
     /**
-     * Orders the synthesis edges, for reachability computations.
+     * Orders the CIF/BDD edges, for reachability computations.
      *
-     * @param synthAut The synthesis automaton. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      */
-    private void orderEdges(CifBddSpec synthAut) {
-        synthAut.orderedEdgesBackward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderBackward,
-                synthAut.settings.edgeOrderAllowDuplicateEvents, false);
-        synthAut.orderedEdgesForward = orderEdgesForDirection(synthAut.edges, synthAut.settings.edgeOrderForward,
-                synthAut.settings.edgeOrderAllowDuplicateEvents, true);
+    private void orderEdges(CifBddSpec cifBddSpec) {
+        cifBddSpec.orderedEdgesBackward = orderEdgesForDirection(cifBddSpec.edges,
+                cifBddSpec.settings.edgeOrderBackward, cifBddSpec.settings.edgeOrderAllowDuplicateEvents, false);
+        cifBddSpec.orderedEdgesForward = orderEdgesForDirection(cifBddSpec.edges, cifBddSpec.settings.edgeOrderForward,
+                cifBddSpec.settings.edgeOrderAllowDuplicateEvents, true);
     }
 
     /**
-     * Orders the synthesis edges, for a single direction, i.e., for forward or backward reachability computations.
+     * Orders the CIF/BDD edges, for a single direction, i.e., for forward or backward reachability computations.
      *
      * @param edges The edges in linearized model order.
      * @param orderTxt The order as textual value from the settings, for the given direction.
@@ -2467,7 +2465,7 @@ public class CifToSynthesisConverter {
                 regEx = regEx.replace("*", ".*");
                 Pattern pattern = Pattern.compile("^" + regEx + "$");
 
-                // Found actual element. Look up matching synthesis edges.
+                // Found actual element. Look up matching CIF/BDD edges.
                 List<CifBddEdge> matches = list();
                 for (CifBddEdge edge: edges) {
                     String name = getAbsName(edge.event, false);
@@ -2553,65 +2551,65 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts CIF predicates to a synthesis predicate, assuming conjunction between the CIF predicates.
+     * Converts CIF predicates to a BDD predicate, assuming conjunction between the CIF predicates.
      *
      * @param preds The CIF predicates.
      * @param initial Whether the predicates apply only to the initial state ({@code true}) or any state ({@code false},
      *     includes the initial state).
-     * @param synthAut The synthesis automaton.
-     * @return The synthesis predicate.
+     * @param cifBddSpec The CIF/BDD specification.
+     * @return The BDD predicate.
      * @throws UnsupportedPredicateException If one of the predicates is not supported.
      */
-    private static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec synthAut)
+    private static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec cifBddSpec)
             throws UnsupportedPredicateException
     {
-        BDD rslt = synthAut.factory.one();
+        BDD rslt = cifBddSpec.factory.one();
         for (Expression pred: preds) {
-            rslt = rslt.andWith(convertPred(pred, initial, synthAut));
+            rslt = rslt.andWith(convertPred(pred, initial, cifBddSpec));
         }
         return rslt;
     }
 
     /**
-     * Converts a CIF predicate to a synthesis predicate.
+     * Converts a CIF predicate to a BDD predicate.
      *
      * @param pred The CIF predicate.
      * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
-     * @param synthAut The synthesis automaton.
-     * @return The synthesis predicate.
+     * @param cifBddSpec The CIF/BDD specification.
+     * @return The BDD predicate.
      * @throws UnsupportedPredicateException If the predicate is not supported.
      */
-    private static BDD convertPred(Expression pred, boolean initial, CifBddSpec synthAut)
+    private static BDD convertPred(Expression pred, boolean initial, CifBddSpec cifBddSpec)
             throws UnsupportedPredicateException
     {
         if (pred instanceof BoolExpression) {
             // Boolean literal.
             boolean value = ((BoolExpression)pred).isValue();
-            return value ? synthAut.factory.one() : synthAut.factory.zero();
+            return value ? cifBddSpec.factory.one() : cifBddSpec.factory.zero();
         } else if (pred instanceof DiscVariableExpression) {
             // Boolean variable reference.
             DiscVariable cifVar = ((DiscVariableExpression)pred).getVariable();
             Assert.check(normalizeType(cifVar.getType()) instanceof BoolType);
-            int varIdx = getDiscVarIdx(synthAut.variables, cifVar);
+            int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
             if (varIdx == -1) {
                 throw new UnsupportedPredicateException();
             }
 
-            // Create synthesis predicate for 'x' or 'x = true'.
-            CifBddVariable var = synthAut.variables[varIdx];
+            // Create BDD predicate for 'x' or 'x = true'.
+            CifBddVariable var = cifBddSpec.variables[varIdx];
             return var.domain.ithVar(1);
         } else if (pred instanceof InputVariableExpression) {
             // Boolean variable reference.
             InputVariable cifVar = ((InputVariableExpression)pred).getVariable();
             Assert.check(normalizeType(cifVar.getType()) instanceof BoolType);
-            int varIdx = getInputVarIdx(synthAut.variables, cifVar);
+            int varIdx = getInputVarIdx(cifBddSpec.variables, cifVar);
             if (varIdx == -1) {
                 throw new UnsupportedPredicateException();
             }
 
-            // Create synthesis predicate for 'x' or 'x = true'.
-            CifBddVariable var = synthAut.variables[varIdx];
+            // Create BDD predicate for 'x' or 'x = true'.
+            CifBddVariable var = cifBddSpec.variables[varIdx];
             return var.domain.ithVar(1);
         } else if (pred instanceof AlgVariableExpression) {
             // Algebraic variable reference. Get the single defining value expression, representing the value of the
@@ -2622,26 +2620,26 @@ public class CifToSynthesisConverter {
             Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
 
             // Convert the defining value expression instead.
-            return convertPred(value, initial, synthAut);
+            return convertPred(value, initial, cifBddSpec);
         } else if (pred instanceof LocationExpression) {
             // Location reference.
             Location loc = ((LocationExpression)pred).getLocation();
             Automaton aut = CifLocationUtils.getAutomaton(loc);
-            int varIdx = getLpVarIdx(synthAut.variables, aut);
+            int varIdx = getLpVarIdx(cifBddSpec.variables, aut);
             if (varIdx == -1) {
                 // Automata with only one location have no location pointer, but are always the active location. So,
                 // referring to them is as using a 'true' predicate.
                 if (aut.getLocations().size() == 1) {
-                    return synthAut.factory.one();
+                    return cifBddSpec.factory.one();
                 }
 
                 // Unsupported automaton, probably due to wrong kind.
                 throw new UnsupportedPredicateException();
             }
             Assert.check(varIdx >= 0);
-            CifBddVariable var = synthAut.variables[varIdx];
+            CifBddVariable var = cifBddSpec.variables[varIdx];
 
-            // Create synthesis predicate for location pointer being equal to value that represents the location.
+            // Create BDD predicate for location pointer being equal to value that represents the location.
             int locIdx = aut.getLocations().indexOf(loc);
             Assert.check(locIdx >= 0);
             return var.domain.ithVar(locIdx);
@@ -2659,7 +2657,7 @@ public class CifToSynthesisConverter {
                 throw new InvalidInputException(msg, ex);
             }
 
-            return (boolean)valueObj ? synthAut.factory.one() : synthAut.factory.zero();
+            return (boolean)valueObj ? cifBddSpec.factory.one() : cifBddSpec.factory.zero();
         } else if (pred instanceof UnaryExpression) {
             // Inverse unary expression.
             UnaryExpression upred = (UnaryExpression)pred;
@@ -2670,7 +2668,7 @@ public class CifToSynthesisConverter {
             }
 
             // not x
-            BDD child = convertPred(upred.getChild(), initial, synthAut);
+            BDD child = convertPred(upred.getChild(), initial, cifBddSpec);
             BDD rslt = child.not();
             child.free();
             return rslt;
@@ -2692,8 +2690,8 @@ public class CifToSynthesisConverter {
                     throw new UnsupportedPredicateException(msg, bpred);
                 }
 
-                BDD left = convertPred(lhs, initial, synthAut);
-                BDD right = convertPred(rhs, initial, synthAut);
+                BDD left = convertPred(lhs, initial, cifBddSpec);
+                BDD right = convertPred(rhs, initial, cifBddSpec);
                 return left.andWith(right);
             }
 
@@ -2708,22 +2706,22 @@ public class CifToSynthesisConverter {
                     throw new UnsupportedPredicateException(msg, bpred);
                 }
 
-                BDD left = convertPred(lhs, initial, synthAut);
-                BDD right = convertPred(rhs, initial, synthAut);
+                BDD left = convertPred(lhs, initial, cifBddSpec);
+                BDD right = convertPred(rhs, initial, cifBddSpec);
                 return left.orWith(right);
             }
 
             // a => b
             if (op == IMPLICATION) {
-                BDD left = convertPred(lhs, initial, synthAut);
-                BDD right = convertPred(rhs, initial, synthAut);
+                BDD left = convertPred(lhs, initial, cifBddSpec);
+                BDD right = convertPred(rhs, initial, cifBddSpec);
                 return left.impWith(right);
             }
 
             // a <=> b
             if (op == BI_CONDITIONAL) {
-                BDD left = convertPred(lhs, initial, synthAut);
-                BDD right = convertPred(rhs, initial, synthAut);
+                BDD left = convertPred(lhs, initial, cifBddSpec);
+                BDD right = convertPred(rhs, initial, cifBddSpec);
                 return left.biimpWith(right);
             }
 
@@ -2743,19 +2741,19 @@ public class CifToSynthesisConverter {
                 }
             }
 
-            return convertCmpPred(lhs, rhs, op, pred, bpred, initial, synthAut);
+            return convertCmpPred(lhs, rhs, op, pred, bpred, initial, cifBddSpec);
         } else if (pred instanceof IfExpression) {
             // Condition expression with boolean result values.
             IfExpression ifPred = (IfExpression)pred;
 
             // Convert else.
-            BDD rslt = convertPred(ifPred.getElse(), initial, synthAut);
+            BDD rslt = convertPred(ifPred.getElse(), initial, cifBddSpec);
 
             // Convert elifs/thens.
             for (int i = ifPred.getElifs().size() - 1; i >= 0; i--) {
                 ElifExpression elifPred = ifPred.getElifs().get(i);
-                BDD elifGuards = convertPreds(elifPred.getGuards(), initial, synthAut);
-                BDD elifThen = convertPred(elifPred.getThen(), initial, synthAut);
+                BDD elifGuards = convertPreds(elifPred.getGuards(), initial, cifBddSpec);
+                BDD elifThen = convertPred(elifPred.getThen(), initial, cifBddSpec);
                 BDD elifRslt = elifGuards.ite(elifThen, rslt);
                 elifGuards.free();
                 elifThen.free();
@@ -2764,8 +2762,8 @@ public class CifToSynthesisConverter {
             }
 
             // Convert if/then.
-            BDD ifGuards = convertPreds(ifPred.getGuards(), initial, synthAut);
-            BDD ifThen = convertPred(ifPred.getThen(), initial, synthAut);
+            BDD ifGuards = convertPreds(ifPred.getGuards(), initial, cifBddSpec);
+            BDD ifThen = convertPred(ifPred.getThen(), initial, cifBddSpec);
             BDD elifRslt = ifGuards.ite(ifThen, rslt);
             ifGuards.free();
             ifThen.free();
@@ -2781,15 +2779,15 @@ public class CifToSynthesisConverter {
             List<SwitchCase> cases = switchPred.getCases();
 
             // Convert else.
-            BDD rslt = convertPred(last(cases).getValue(), initial, synthAut);
+            BDD rslt = convertPred(last(cases).getValue(), initial, cifBddSpec);
 
             // Convert cases.
             for (int i = cases.size() - 2; i >= 0; i--) {
                 SwitchCase cse = cases.get(i);
                 Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
                         deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
-                BDD caseGuard = convertPred(caseGuardExpr, initial, synthAut);
-                BDD caseThen = convertPred(cse.getValue(), initial, synthAut);
+                BDD caseGuard = convertPred(caseGuardExpr, initial, cifBddSpec);
+                BDD caseThen = convertPred(cse.getValue(), initial, cifBddSpec);
                 BDD caseRslt = caseGuard.ite(caseThen, rslt);
                 caseGuard.free();
                 caseThen.free();
@@ -2806,7 +2804,7 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts a CIF comparison predicate to a synthesis predicate.
+     * Converts a CIF comparison predicate to a BDD predicate.
      *
      * @param lhs The left hand side of the comparison predicate.
      * @param rhs The right hand side of the comparison predicate.
@@ -2815,12 +2813,12 @@ public class CifToSynthesisConverter {
      * @param bpred The binary expression of the comparison predicate. Essentially '{@code lhs op rhs}'.
      * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
-     * @param synthAut The synthesis automaton.
-     * @return The synthesis predicate.
+     * @param cifBddSpec The CIF/BDD specification.
+     * @return The BDD predicate.
      * @throws UnsupportedPredicateException If the predicate is not supported.
      */
     private static BDD convertCmpPred(Expression lhs, Expression rhs, BinaryOperator op, Expression pred,
-            BinaryExpression bpred, boolean initial, CifBddSpec synthAut) throws UnsupportedPredicateException
+            BinaryExpression bpred, boolean initial, CifBddSpec cifBddSpec) throws UnsupportedPredicateException
     {
         // Check lhs and rhs types.
         CifType ltype = normalizeType(lhs.getType());
@@ -2836,8 +2834,8 @@ public class CifToSynthesisConverter {
 
         // Special handling of boolean values.
         if (ltype instanceof BoolType && rtype instanceof BoolType) {
-            BDD lbdd = convertPred(lhs, initial, synthAut);
-            BDD rbdd = convertPred(rhs, initial, synthAut);
+            BDD lbdd = convertPred(lhs, initial, cifBddSpec);
+            BDD rbdd = convertPred(rhs, initial, cifBddSpec);
             switch (op) {
                 case EQUAL:
                     return lbdd.biimpWith(rbdd);
@@ -2856,8 +2854,8 @@ public class CifToSynthesisConverter {
 
         // Convert lhs and rhs to bit vectors.
         Supplier<String> partMsg = () -> fmt("predicate \"%s\"", CifTextUtils.exprToStr(pred));
-        CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, synthAut, false, partMsg);
-        CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, synthAut, false, partMsg);
+        CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
+        CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false, partMsg);
         Assert.check(lrslt.carry.isZero());
         Assert.check(rrslt.carry.isZero());
         CifBddBitVector lvec = lrslt.vector;
@@ -2904,7 +2902,7 @@ public class CifToSynthesisConverter {
      * @param expr The CIF expression. Has an integer or enumeration type.
      * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
-     * @param synthAut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @param allowSubtract Whether a subtraction is allowed ({@code true}) or not ({@code false}). It must only be
      *     allowed for top level expressions, if the caller can handle the potential unrepresentable results. For sub
      *     expressions, subtraction is never allowed.
@@ -2919,34 +2917,34 @@ public class CifToSynthesisConverter {
      * @throws UnsupportedPredicateException If the predicate is not supported.
      * @throws InvalidInputException If a static part of the given expression can't be evaluated.
      */
-    private static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddSpec synthAut,
+    private static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddSpec cifBddSpec,
             boolean allowSubtract, Supplier<String> partMsg) throws UnsupportedPredicateException
     {
         // Variable references.
         if (expr instanceof DiscVariableExpression) {
             // Get variable.
             DiscVariable cifVar = ((DiscVariableExpression)expr).getVariable();
-            int varIdx = getDiscVarIdx(synthAut.variables, cifVar);
+            int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
             if (varIdx == -1) {
                 throw new UnsupportedPredicateException();
             }
-            CifBddVariable var = synthAut.variables[varIdx];
+            CifBddVariable var = cifBddSpec.variables[varIdx];
 
             // Create bit vector for the domain of the variable.
             CifBddBitVector vector = CifBddBitVector.createDomain(var.domain);
-            return new CifBddBitVectorAndCarry(vector, synthAut.factory.zero());
+            return new CifBddBitVectorAndCarry(vector, cifBddSpec.factory.zero());
         } else if (expr instanceof InputVariableExpression) {
             // Get variable.
             InputVariable cifVar = ((InputVariableExpression)expr).getVariable();
-            int varIdx = getInputVarIdx(synthAut.variables, cifVar);
+            int varIdx = getInputVarIdx(cifBddSpec.variables, cifVar);
             if (varIdx == -1) {
                 throw new UnsupportedPredicateException();
             }
-            CifBddVariable var = synthAut.variables[varIdx];
+            CifBddVariable var = cifBddSpec.variables[varIdx];
 
             // Create bit vector for the domain of the variable.
             CifBddBitVector vector = CifBddBitVector.createDomain(var.domain);
-            return new CifBddBitVectorAndCarry(vector, synthAut.factory.zero());
+            return new CifBddBitVectorAndCarry(vector, cifBddSpec.factory.zero());
         } else if (expr instanceof AlgVariableExpression) {
             // Algebraic variable reference. Get the single defining value expression, representing the value of the
             // variable. It is in an 'if' expression if an equation is provided per location of an automaton with more
@@ -2955,7 +2953,7 @@ public class CifToSynthesisConverter {
             Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
 
             // Convert the defining value expression instead.
-            return convertExpr(value, initial, synthAut, allowSubtract, partMsg);
+            return convertExpr(value, initial, cifBddSpec, allowSubtract, partMsg);
         }
 
         // Unary operators.
@@ -2963,7 +2961,7 @@ public class CifToSynthesisConverter {
             UnaryExpression uexpr = (UnaryExpression)expr;
             switch (uexpr.getOperator()) {
                 case PLUS:
-                    return convertExpr(uexpr.getChild(), initial, synthAut, false, partMsg);
+                    return convertExpr(uexpr.getChild(), initial, cifBddSpec, false, partMsg);
 
                 default:
                     break;
@@ -2979,8 +2977,8 @@ public class CifToSynthesisConverter {
             switch (bexpr.getOperator()) {
                 case ADDITION: {
                     // Get lhs and rhs vectors.
-                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, synthAut, false, partMsg);
-                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, synthAut, false, partMsg);
+                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
+                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false, partMsg);
                     Assert.check(lrslt.carry.isZero());
                     Assert.check(rrslt.carry.isZero());
                     CifBddBitVector lvec = lrslt.vector;
@@ -3008,8 +3006,8 @@ public class CifToSynthesisConverter {
                     }
 
                     // Get lhs and rhs vectors.
-                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, synthAut, false, partMsg);
-                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, synthAut, false, partMsg);
+                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
+                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false, partMsg);
                     Assert.check(lrslt.carry.isZero());
                     Assert.check(rrslt.carry.isZero());
                     CifBddBitVector lvec = lrslt.vector;
@@ -3030,7 +3028,7 @@ public class CifToSynthesisConverter {
                 case INTEGER_DIVISION:
                 case MODULUS: {
                     // Convert lhs.
-                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, synthAut, false, partMsg);
+                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
                     Assert.check(lrslt.carry.isZero());
                     CifBddBitVector lvec = lrslt.vector;
 
@@ -3078,7 +3076,7 @@ public class CifToSynthesisConverter {
                     // Apply div/mod.
                     CifBddBitVector rslt = lvec.divmod(divisor, isDiv);
                     lvec.free();
-                    return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
+                    return new CifBddBitVectorAndCarry(rslt, cifBddSpec.factory.zero());
                 }
 
                 default:
@@ -3092,15 +3090,15 @@ public class CifToSynthesisConverter {
             IfExpression ifExpr = (IfExpression)expr;
 
             // Convert else.
-            CifBddBitVectorAndCarry elseRslt = convertExpr(ifExpr.getElse(), initial, synthAut, false, partMsg);
+            CifBddBitVectorAndCarry elseRslt = convertExpr(ifExpr.getElse(), initial, cifBddSpec, false, partMsg);
             Assert.check(elseRslt.carry.isZero());
             CifBddBitVector rslt = elseRslt.vector;
 
             // Convert elifs/thens.
             for (int i = ifExpr.getElifs().size() - 1; i >= 0; i--) {
                 ElifExpression elifExpr = ifExpr.getElifs().get(i);
-                BDD elifGuards = convertPreds(elifExpr.getGuards(), initial, synthAut);
-                CifBddBitVectorAndCarry elifThen = convertExpr(elifExpr.getThen(), initial, synthAut, false, partMsg);
+                BDD elifGuards = convertPreds(elifExpr.getGuards(), initial, cifBddSpec);
+                CifBddBitVectorAndCarry elifThen = convertExpr(elifExpr.getThen(), initial, cifBddSpec, false, partMsg);
                 Assert.check(elifThen.carry.isZero());
                 CifBddBitVector elifVector = elifThen.vector;
                 int len = Math.max(rslt.length(), elifVector.length());
@@ -3114,8 +3112,8 @@ public class CifToSynthesisConverter {
             }
 
             // Convert if/then.
-            BDD ifGuards = convertPreds(ifExpr.getGuards(), initial, synthAut);
-            CifBddBitVectorAndCarry ifThen = convertExpr(ifExpr.getThen(), initial, synthAut, false, partMsg);
+            BDD ifGuards = convertPreds(ifExpr.getGuards(), initial, cifBddSpec);
+            CifBddBitVectorAndCarry ifThen = convertExpr(ifExpr.getThen(), initial, cifBddSpec, false, partMsg);
             Assert.check(ifThen.carry.isZero());
             CifBddBitVector ifVector = ifThen.vector;
             int len = Math.max(rslt.length(), ifVector.length());
@@ -3128,7 +3126,7 @@ public class CifToSynthesisConverter {
             rslt = ifRslt;
 
             // Return converted conditional expression.
-            return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
+            return new CifBddBitVectorAndCarry(rslt, cifBddSpec.factory.zero());
         }
 
         // Switch expression.
@@ -3138,7 +3136,7 @@ public class CifToSynthesisConverter {
             List<SwitchCase> cases = switchExpr.getCases();
 
             // Convert else.
-            CifBddBitVectorAndCarry elseRslt = convertExpr(last(cases).getValue(), initial, synthAut, false, partMsg);
+            CifBddBitVectorAndCarry elseRslt = convertExpr(last(cases).getValue(), initial, cifBddSpec, false, partMsg);
             Assert.check(elseRslt.carry.isZero());
             CifBddBitVector rslt = elseRslt.vector;
 
@@ -3147,8 +3145,8 @@ public class CifToSynthesisConverter {
                 SwitchCase cse = cases.get(i);
                 Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
                         deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
-                BDD caseGuard = convertPred(caseGuardExpr, initial, synthAut);
-                CifBddBitVectorAndCarry caseThen = convertExpr(cse.getValue(), initial, synthAut, false, partMsg);
+                BDD caseGuard = convertPred(caseGuardExpr, initial, cifBddSpec);
+                CifBddBitVectorAndCarry caseThen = convertExpr(cse.getValue(), initial, cifBddSpec, false, partMsg);
                 Assert.check(caseThen.carry.isZero());
                 CifBddBitVector caseVector = caseThen.vector;
                 int len = Math.max(rslt.length(), caseVector.length());
@@ -3162,7 +3160,7 @@ public class CifToSynthesisConverter {
             }
 
             // Return converted switch expression.
-            return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
+            return new CifBddBitVectorAndCarry(rslt, cifBddSpec.factory.zero());
         }
 
         // Static evaluable expression.
@@ -3194,8 +3192,8 @@ public class CifToSynthesisConverter {
             }
 
             // Create BDD bit vector for constant value.
-            CifBddBitVector vector = CifBddBitVector.createInt(synthAut.factory, value);
-            return new CifBddBitVectorAndCarry(vector, synthAut.factory.zero());
+            CifBddBitVector vector = CifBddBitVector.createInt(cifBddSpec.factory, value);
+            return new CifBddBitVectorAndCarry(vector, cifBddSpec.factory.zero());
         } else {
             // Get enumeration declaration and literal.
             Assert.check(valueObj instanceof CifEnumLiteral);
@@ -3204,8 +3202,8 @@ public class CifToSynthesisConverter {
 
             // Create bit vector.
             int litIdx = enumDecl.getLiterals().indexOf(lit);
-            CifBddBitVector vector = CifBddBitVector.createInt(synthAut.factory, litIdx);
-            return new CifBddBitVectorAndCarry(vector, synthAut.factory.zero());
+            CifBddBitVector vector = CifBddBitVector.createInt(cifBddSpec.factory, litIdx);
+            return new CifBddBitVectorAndCarry(vector, cifBddSpec.factory.zero());
         }
     }
 
@@ -3250,7 +3248,7 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Collect CIF objects for which synthesis variables need to be constructed.
+     * Collect CIF objects for which CIF/BDD variables need to be constructed.
      *
      * @param comp The component in which to collect (recursively).
      * @param objs The objects collected so far. Is modified in-place.
@@ -3283,12 +3281,12 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Returns the synthesis variable index of the given CIF discrete variable.
+     * Returns the CIF/BDD variable index of the given CIF discrete variable.
      *
-     * @param vars The synthesis variables, in which to look for the given CIF discrete variable. May not be a
+     * @param vars The CIF/BDD variables, in which to look for the given CIF discrete variable. May not be a
      *     dummy/internal location pointer variable created for an automaton with two or more locations.
      * @param var The CIF discrete variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the synthesis variable, or {@code -1} if it is not found, due to it not being
+     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
      *     available, due to a precondition violation.
      */
     private static int getDiscVarIdx(CifBddVariable[] vars, DiscVariable var) {
@@ -3301,11 +3299,11 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Returns the synthesis variable index of the given CIF input variable.
+     * Returns the CIF/BDD variable index of the given CIF input variable.
      *
-     * @param vars The synthesis variables, in which to look for the given CIF input variable.
+     * @param vars The CIF/BDD variables, in which to look for the given CIF input variable.
      * @param var The CIF input variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the synthesis variable, or {@code -1} if it is not found, due to it not being
+     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
      *     available, due to a precondition violation.
      */
     private static int getInputVarIdx(CifBddVariable[] vars, InputVariable var) {
@@ -3313,26 +3311,25 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Returns the synthesis variable index of the given CIF typed object, i.e. a discrete variable or an input
-     * variable.
+     * Returns the CIF/BDD variable index of the given CIF typed object, i.e. a discrete variable or an input variable.
      *
-     * @param vars The synthesis variables, in which to look for the given CIF typed object. May not be a dummy/internal
+     * @param vars The CIF/BDD variables, in which to look for the given CIF typed object. May not be a dummy/internal
      *     location pointer variable created for an automaton with two or more locations.
      * @param var The CIF variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the synthesis variable, or {@code -1} if it is not found, due to it not being
+     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
      *     available, due to a precondition violation.
      */
     private static int getTypedVarIdx(CifBddVariable[] vars, Declaration var) {
         for (int i = 0; i < vars.length; i++) {
-            CifBddVariable synthVar = vars[i];
-            if (synthVar == null) {
+            CifBddVariable cifBddVar = vars[i];
+            if (cifBddVar == null) {
                 continue;
             }
-            if (!(synthVar instanceof CifBddTypedVariable)) {
+            if (!(cifBddVar instanceof CifBddTypedVariable)) {
                 continue;
             }
-            CifBddTypedVariable synthTypedVar = (CifBddTypedVariable)synthVar;
-            if (synthTypedVar.obj == var) {
+            CifBddTypedVariable cifBddVarTypedVar = (CifBddTypedVariable)cifBddVar;
+            if (cifBddVarTypedVar.obj == var) {
                 return i;
             }
         }
@@ -3340,26 +3337,26 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Returns the synthesis variable index of the given CIF automaton, or rather the location pointer variable for that
+     * Returns the CIF/BDD variable index of the given CIF automaton, or rather the location pointer variable for that
      * automaton.
      *
-     * @param vars The synthesis variables, in which to look for the given CIF automaton.
+     * @param vars The CIF/BDD variables, in which to look for the given CIF automaton.
      * @param aut The CIF automaton to look for, and for which the index is to be returned.
-     * @return The 0-based index of the synthesis variable, or {@code -1} if it is not found. If not found, no location
+     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found. If not found, no location
      *     pointer was created for the automaton, or the location pointer is not available, due to a precondition
      *     violation.
      */
     private static int getLpVarIdx(CifBddVariable[] vars, Automaton aut) {
         for (int i = 0; i < vars.length; i++) {
-            CifBddVariable synthVar = vars[i];
-            if (synthVar == null) {
+            CifBddVariable cifBddVar = vars[i];
+            if (cifBddVar == null) {
                 continue;
             }
-            if (!(synthVar instanceof CifBddLocPtrVariable)) {
+            if (!(cifBddVar instanceof CifBddLocPtrVariable)) {
                 continue;
             }
-            CifBddLocPtrVariable synthLpVar = (CifBddLocPtrVariable)synthVar;
-            if (synthLpVar.aut == aut) {
+            CifBddLocPtrVariable cifBddLpVar = (CifBddLocPtrVariable)cifBddVar;
+            if (cifBddLpVar.aut == aut) {
                 return i;
             }
         }
