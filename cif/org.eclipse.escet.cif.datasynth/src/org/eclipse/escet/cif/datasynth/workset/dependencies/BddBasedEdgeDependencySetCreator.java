@@ -31,17 +31,17 @@ import com.github.javabdd.BDD;
 /** BDD-based edge dependency set creator. */
 public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreator {
     @Override
-    public void createAndStore(CifBddSpec synthAut, boolean forwardEnabled) {
+    public void createAndStore(CifBddSpec cifBddSpec, boolean forwardEnabled) {
         // Compute which events may potentially follow which other events.
-        int edgeCnt = synthAut.edges.size();
+        int edgeCnt = cifBddSpec.edges.size();
         Map<Event, Set<Event>> followEvents = mapc(edgeCnt); // For each event, which events can follow it.
-        for (CifBddEdge precedingEdge: synthAut.orderedEdgesForward) {
+        for (CifBddEdge precedingEdge: cifBddSpec.orderedEdgesForward) {
             Event precedingEvent = precedingEdge.event;
 
             // Compute the states that can potentially be reached by this edge.
             precedingEdge.preApply(true, null); // Forward reachability, no restriction.
             BDD precedingEdgeReachableStates = precedingEdge.apply( //
-                    synthAut.factory.one(), // Apply edge to 'true' predicate.
+                    cifBddSpec.factory.one(), // Apply edge to 'true' predicate.
                     false, // Not bad states = good states.
                     true, // Forward reachability.
                     null, // No restriction.
@@ -50,7 +50,7 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
             precedingEdge.postApply(true); // Forward reachability.
 
             // Compute which events may potentially follow the event of this edge.
-            for (CifBddEdge followingEdge: synthAut.orderedEdgesForward) {
+            for (CifBddEdge followingEdge: cifBddSpec.orderedEdgesForward) {
                 Event followingEvent = followingEdge.event;
                 if (precedingEvent == followingEvent) {
                     continue; // Save computations by skipping self-dependencies (workset algorithm does not need them).
@@ -70,9 +70,9 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
         }
 
         // Compute and store the edge dependency sets, based on the event follows relation.
-        synthAut.worksetDependenciesBackward = create(followEvents, synthAut.orderedEdgesBackward, false);
+        cifBddSpec.worksetDependenciesBackward = create(followEvents, cifBddSpec.orderedEdgesBackward, false);
         if (forwardEnabled) {
-            synthAut.worksetDependenciesForward = create(followEvents, synthAut.orderedEdgesForward, true);
+            cifBddSpec.worksetDependenciesForward = create(followEvents, cifBddSpec.orderedEdgesForward, true);
         }
     }
 
