@@ -113,7 +113,7 @@ When using these options, always make sure the intended PLC model supports the c
 In addition, the PLC code generator introduces enumerations in its conversion of automata.
 This option controls how all enumerations are converted to PLC code:
 
-** Use _Automatically decide how to handle enumerations_ (`==convert-enums=auto`) if the target type should decide.
+** Use _Automatically decide how to handle enumerations_ (`--convert-enums=auto`) if the target type should decide.
 This is the default value of the option.
 It will pick one of the other other values to convert enumerations.
 
