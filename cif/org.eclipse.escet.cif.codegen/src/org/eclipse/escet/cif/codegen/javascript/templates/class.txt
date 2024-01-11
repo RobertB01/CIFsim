@@ -23,6 +23,9 @@ ${javascript-enum-lits-code}
     /** Should transition output be provided? */
     doTransitionOutput = true;
 
+    /** Whether the constants have been initialized already. */
+    constantsInitialized = false;
+
     /** Whether the SVG copy and move declarations have been applied already. */
     svgCopiesAndMovesApplied = false;
 
@@ -244,6 +247,12 @@ ${javascript-event-methods-code}
 
     /** Initializes the state. */
     initState() {
+        // Initialized constants, if not yet done so.
+        if (!this.constantsInitialized) {
+            this.constantsInitialized = true;
+${javascript-const-init-code}
+        }
+
         // SVG input event allowed/clicked variables.
 ${javascript-event-allowed-init-code}
 

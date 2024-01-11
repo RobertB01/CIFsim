@@ -219,22 +219,25 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addConstants(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(1);
+        CodeBox declCode = makeCodeBox(1);
+        CodeBox initCode = makeCodeBox(3);
 
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
             String origName = origDeclNames.get(constant);
             Assert.notNull(origName);
 
-            ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
-            Assert.check(!constantCode.hasCode()); // JavaScript code generator never generates pre-execute code.
+            declCode.add();
+            declCode.add("/** Constant \"%s\". */", origName);
+            declCode.add("%s;", getTargetVariableName(constant));
 
-            code.add();
-            code.add("/** Constant \"%s\". */", origName);
-            code.add("%s = %s;", getTargetVariableName(constant), constantCode.getData());
+            ExprCode valueCode = ctxt.exprToTarget(constant.getValue(), null);
+            Assert.check(!valueCode.hasCode()); // JavaScript code generator never generates pre-execute code.
+            initCode.add("%s = %s;", getTargetRef(constant), valueCode.getData());
         }
 
-        replacements.put("javascript-const-decls", code.toString());
+        replacements.put("javascript-const-decls", declCode.toString());
+        replacements.put("javascript-const-init-code", initCode.toString());
     }
 
     @Override
