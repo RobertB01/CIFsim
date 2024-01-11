@@ -113,9 +113,12 @@ When using these options, always make sure the intended PLC model supports the c
 In addition, the PLC code generator introduces enumerations in its conversion of automata.
 This option controls how all enumerations are converted to PLC code:
 
-** Use _Keep enumerations_ (`--convert-enums=no`) if the target PLC supports enumerations.
+** Use _Automatically decide how to handle enumerations_ (`==convert-enums=auto`) if the target type should decide.
 This is the default value of the option.
-It is also the preferred value because using enumeration names improves readability of the generated PLC code.
+It will pick one of the other other values to convert enumerations.
+
+** Use _Preserve enumerations_ (`--convert-enums=keep`) if the target PLC supports enumerations.
+It is generally the preferred value because using enumeration names improves readability of the generated PLC code.
 
 ** Use _Convert enumerations to constants_ (`--convert-enums=consts`) if the target PLC does not support enumerations but does support constants.
 This option value also causes generation of names in the PLC code, but information about which names belong together is lost.
