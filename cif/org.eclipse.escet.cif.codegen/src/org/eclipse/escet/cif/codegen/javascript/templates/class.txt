@@ -247,7 +247,7 @@ ${javascript-event-methods-code}
 
     /** Initializes the state. */
     initState() {
-        // Initialized constants, if not yet done so.
+        // Initialize constants, if not yet done so.
         if (!this.constantsInitialized) {
             this.constantsInitialized = true;
 ${javascript-const-init-code}
