@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -65,9 +65,9 @@ public class LegacyHyperEdgeCreator extends HyperEdgeCreator {
      * Constructor for the {@link LegacyHyperEdgeCreator} class.
      *
      * @param spec The CIF specification.
-     * @param variables The synthesis variables.
+     * @param variables The CIF/BDD variables.
      */
-    public LegacyHyperEdgeCreator(Specification spec, List<SynthesisVariable> variables) {
+    public LegacyHyperEdgeCreator(Specification spec, List<CifBddVariable> variables) {
         super(spec, variables);
     }
 

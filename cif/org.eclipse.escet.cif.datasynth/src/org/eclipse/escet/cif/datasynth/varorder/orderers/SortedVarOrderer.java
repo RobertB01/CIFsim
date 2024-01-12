@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
@@ -47,10 +47,10 @@ public class SortedVarOrderer extends VarOrderer {
         }
 
         // Get variables in model order.
-        List<SynthesisVariable> modelOrder = inputData.varsInModelOrder;
+        List<CifBddVariable> modelOrder = inputData.varsInModelOrder;
 
         // Sort variables based on their name.
-        List<SynthesisVariable> sortedOrder = modelOrder.stream()
+        List<CifBddVariable> sortedOrder = modelOrder.stream()
                 .sorted((v, w) -> Strings.SORTER.compare(v.rawName, w.rawName)).collect(Collectors.toList());
 
         // Return new variable order.

@@ -19,8 +19,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
@@ -61,13 +61,13 @@ public class BddUtils {
      * type 'int[0..3]'. Values '0' and '3' are not valid values of variable 'x'. This method returns 'x = 1 or x = 2'.
      * </p>
      *
-     * @param variable The synthesis variable.
+     * @param variable The CIF/BDD variable.
      * @param newDomain Whether to return a predicate for the pre/old domain of the variable ({@code false}) or the
      *     post/new domain of the variable ({@code true}).
      * @param factory The BDD factory to use.
      * @return The possible values of the variable being assigned.
      */
-    public static BDD getVarDomain(SynthesisVariable variable, boolean newDomain, BDDFactory factory) {
+    public static BDD getVarDomain(CifBddVariable variable, boolean newDomain, BDDFactory factory) {
         // Get minimum and maximum value of the domain.
         int min = variable.lower;
         int max = variable.upper;
@@ -85,26 +85,26 @@ public class BddUtils {
      * Converts a BDD to a textual representation that closely resembles CIF ASCII syntax.
      *
      * @param bdd The BDD.
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @return The textual representation of the BDD.
      */
-    public static String bddToStr(BDD bdd, SynthesisAutomaton aut) {
+    public static String bddToStr(BDD bdd, CifBddSpec cifBddSpec) {
         // If one of the specific maximum counts is exceeded, don't actually
         // convert the BDD to a CNF/DNF predicate, for performance reasons.
-        if (aut.settings.bddDebugMaxNodes != null || aut.settings.bddDebugMaxPaths != null) {
+        if (cifBddSpec.settings.bddDebugMaxNodes != null || cifBddSpec.settings.bddDebugMaxPaths != null) {
             // Get node count and true path count.
             int nc = bdd.nodeCount();
             double tpc = bdd.pathCount();
 
-            boolean skip = (aut.settings.bddDebugMaxNodes != null && nc > aut.settings.bddDebugMaxNodes)
-                    || (aut.settings.bddDebugMaxPaths != null && tpc > aut.settings.bddDebugMaxPaths);
+            boolean skip = (cifBddSpec.settings.bddDebugMaxNodes != null && nc > cifBddSpec.settings.bddDebugMaxNodes)
+                    || (cifBddSpec.settings.bddDebugMaxPaths != null && tpc > cifBddSpec.settings.bddDebugMaxPaths);
             if (skip) {
                 return fmt("<bdd %,dn %,.0fp>", nc, tpc);
             }
         }
 
         // Convert BDD to CNF/DNF predicate.
-        Expression pred = bddToCifPred(bdd, aut);
+        Expression pred = bddToCifPred(bdd, cifBddSpec);
         return CifTextUtils.exprToStr(pred);
     }
 

@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
@@ -43,12 +43,12 @@ public class CustomVarOrderParser {
      * Parse a custom variable order.
      *
      * @param orderTxt The text of the custom variable order.
-     * @param variables The synthesis variables to be ordered.
+     * @param variables The CIF/BDD variables to be ordered.
      * @return The custom variable order, and an error message indicating why the given order is invalid. If the order
      *     is valid, the error message is {@code null}. If the order is invalid, the order is {@code null}.
      */
-    public static Pair<VarOrder, String> parse(String orderTxt, List<SynthesisVariable> variables) {
-        List<List<SynthesisVariable>> customVarOrder = list();
+    public static Pair<VarOrder, String> parse(String orderTxt, List<CifBddVariable> variables) {
+        List<List<CifBddVariable>> customVarOrder = list();
         for (String groupTxt: StringUtils.split(orderTxt, ";")) {
             // Skip empty.
             groupTxt = groupTxt.trim();
@@ -57,7 +57,7 @@ public class CustomVarOrderParser {
             }
 
             // Process elements.
-            List<SynthesisVariable> group = list();
+            List<CifBddVariable> group = list();
             for (String elemTxt: StringUtils.split(groupTxt, ",")) {
                 // Skip empty.
                 elemTxt = elemTxt.trim();
@@ -70,8 +70,8 @@ public class CustomVarOrderParser {
                 regEx = regEx.replace("*", ".*");
                 Pattern pattern = Pattern.compile("^" + regEx + "$");
 
-                // Found actual element. Look up matching synthesis variables.
-                List<SynthesisVariable> matches = variables.stream().filter(v -> pattern.matcher(v.rawName).matches())
+                // Found actual element. Look up matching CIF/BDD variables.
+                List<CifBddVariable> matches = variables.stream().filter(v -> pattern.matcher(v.rawName).matches())
                         .collect(Collectors.toList());
 
                 // Need a least one match.
@@ -94,9 +94,9 @@ public class CustomVarOrderParser {
         }
 
         // Check for duplicates.
-        Set<SynthesisVariable> varsInOrder = setc(customVarOrder.size());
-        for (List<SynthesisVariable> group: customVarOrder) {
-            for (SynthesisVariable var: group) {
+        Set<CifBddVariable> varsInOrder = setc(customVarOrder.size());
+        for (List<CifBddVariable> group: customVarOrder) {
+            for (CifBddVariable var: group) {
                 boolean added = varsInOrder.add(var);
                 if (!added) {
                     String msg = fmt("\"%s\" is included more than once.", var.name);
@@ -106,7 +106,7 @@ public class CustomVarOrderParser {
         }
 
         // Check completeness.
-        Set<SynthesisVariable> missingVars = difference(list2set(variables), varsInOrder);
+        Set<CifBddVariable> missingVars = difference(list2set(variables), varsInOrder);
         if (!missingVars.isEmpty()) {
             String names = missingVars.stream().map(v -> "\"" + v.name + "\"").sorted(Strings.SORTER)
                     .collect(Collectors.joining(", "));

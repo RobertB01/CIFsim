@@ -35,15 +35,15 @@ import org.eclipse.escet.common.java.Strings;
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDFactory;
 
-/** Data-based synthesis algorithm edge. */
-public class SynthesisEdge {
-    /** The synthesis automaton that contains this edge. */
-    public final SynthesisAutomaton aut;
+/** A CIF/BDD edge. Represents an edge of a linearized CIF specification in a BDD representation. */
+public class CifBddEdge {
+    /** The CIF/BDD specification that contains this edge. */
+    public final CifBddSpec cifBddSpec;
 
     /**
-     * The linearized CIF edges that corresponds to this synthesis edge. Contains a {@code null} value for edges created
+     * The linearized CIF edges that corresponds to this CIF/BDD edge. Contains a {@code null} value for edges created
      * for input variables. There is always at least one edge (or {@code null}). If there are multiple edges, then this
-     * synthesis edge represents the disjunction of multiple linearized edges.
+     * CIF/BDD edge represents the disjunction of multiple linearized edges.
      */
     public List<Edge> edges;
 
@@ -53,13 +53,13 @@ public class SynthesisEdge {
     /** The original guard of the edge. */
     public BDD origGuard;
 
-    /** The current guard of the edge. Is updated during the synthesis. */
+    /** The current guard of the edge. Is updated during synthesis. */
     public BDD guard;
 
     /** Precomputed '{@link #guard} and {@link #error}'. Is {@code null} if not available. */
     public BDD guardError;
 
-    /** Per {@link #edges edge}, the CIF assignments that are applied by this synthesis edge. */
+    /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
 
     /**
@@ -85,7 +85,7 @@ public class SynthesisEdge {
      * taking the edge.
      *
      * <p>
-     * Runtime errors include assignments leading to values outside of the BDD representable ranges, division by zero,
+     * Runtime errors include assignments leading to values outside of the BDD-representable ranges, division by zero,
      * etc. Runtime errors may or may not include assignments leading to values that are outside of the valid CIF range,
      * which can still be represented by BDDs, as those situations are also taken care of by the range invariants.
      * </p>
@@ -96,12 +96,12 @@ public class SynthesisEdge {
     public BDD errorNot;
 
     /**
-     * Constructor for the {@link SynthesisEdge} class.
+     * Constructor for the {@link CifBddEdge} class.
      *
-     * @param aut The synthesis automaton that contains this edge.
+     * @param cifBddSpec The CIF/BDD specification that contains this edge.
      */
-    public SynthesisEdge(SynthesisAutomaton aut) {
-        this.aut = aut;
+    public CifBddEdge(CifBddSpec cifBddSpec) {
+        this.cifBddSpec = cifBddSpec;
     }
 
     /**
@@ -181,7 +181,7 @@ public class SynthesisEdge {
             if (restriction == null) {
                 updateGuardRestricted = updateGuard.id();
             } else {
-                BDD restrictionNew = restriction.replace(aut.oldToNewVarsPairing);
+                BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
                 updateGuardRestricted = updateGuardErrorNot.and(restrictionNew);
                 restrictionNew.free();
             }
@@ -235,7 +235,7 @@ public class SynthesisEdge {
      * Applies the assignments of the edge, to a given predicate. The assignments can be applied forward (normally) or
      * backward (reversed).
      *
-     * @param pred The predicate to which to apply the assignment. This predicate is {@link BDD#free freed} by this
+     * @param pred The predicate to which to apply the assignments. This predicate is {@link BDD#free freed} by this
      *     method.
      * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). If
      *     applying forward, bad states are currently not supported.
@@ -258,28 +258,28 @@ public class SynthesisEdge {
             Assert.check(!applyError);
 
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)
-            BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, aut.varSetOld);
+            BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, cifBddSpec.varSetOld);
             pred.free();
-            if (aut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return rslt;
             }
 
             // rsltOld = rslt[x/x+, y/y+, z/z+, ...]
-            BDD rsltOld = rslt.replaceWith(aut.newToOldVarsPairing);
+            BDD rsltOld = rslt.replaceWith(cifBddSpec.newToOldVarsPairing);
 
             // Return the result of applying the update.
             return rsltOld;
         } else {
             // predNew = pred[x+/x, y+/y, z+/z, ...]
-            BDD predNew = pred.replaceWith(aut.oldToNewVarsPairing);
-            if (aut.settings.shouldTerminate.get()) {
+            BDD predNew = pred.replaceWith(cifBddSpec.oldToNewVarsPairing);
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return predNew;
             }
 
             // rslt = Exists{x+, y+, z+, ...}(guard && update && predNew)
-            BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, aut.varSetNew);
+            BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, cifBddSpec.varSetNew);
             predNew.free();
-            if (aut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return rslt;
             }
 
@@ -302,7 +302,7 @@ public class SynthesisEdge {
     }
 
     /**
-     * Returns a textual representation of the synthesis edge.
+     * Returns a textual representation of the CIF/BDD edge.
      *
      * @return The textual representation.
      */
@@ -312,7 +312,7 @@ public class SynthesisEdge {
     }
 
     /**
-     * Returns a textual representation of the synthesis edge.
+     * Returns a textual representation of the CIF/BDD edge.
      *
      * @param indent The indentation level.
      * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
@@ -323,8 +323,8 @@ public class SynthesisEdge {
         txt.append(Strings.duplicate(" ", 2 * indent));
         txt.append(prefix);
         txt.append(fmt("(event: %s)", CifTextUtils.getAbsName(event)));
-        String origGuardTxt = bddToStr(origGuard, aut);
-        String guardTxt = bddToStr(guard, aut);
+        String origGuardTxt = bddToStr(origGuard, cifBddSpec);
+        String guardTxt = bddToStr(guard, cifBddSpec);
         String guardsTxt;
         if (origGuard.equals(guard)) {
             guardsTxt = fmt("%s", guardTxt);
@@ -366,7 +366,7 @@ public class SynthesisEdge {
         Expression addr = asgn.getAddressable();
         Declaration addrVar = (Declaration)CifScopeUtils.getRefObjFromRef(addr);
         Expression rhs = asgn.getValue();
-        for (SynthesisVariable var: aut.variables) {
+        for (CifBddVariable var: cifBddSpec.variables) {
             // Skip if precondition violation (conversion failure). Should not
             // occur here once conversion has finished, but check may be useful
             // when debugging conversion code.
@@ -375,46 +375,46 @@ public class SynthesisEdge {
             }
 
             // Case distinction based on kind of addressable variable.
-            if (var instanceof SynthesisDiscVariable) {
+            if (var instanceof CifBddDiscVariable) {
                 // Check for match with addressable.
-                SynthesisDiscVariable synthDiscVar = (SynthesisDiscVariable)var;
-                if (synthDiscVar.var != addrVar) {
+                CifBddDiscVariable cifBddDiscVar = (CifBddDiscVariable)var;
+                if (cifBddDiscVar.var != addrVar) {
                     continue;
                 }
 
                 // Assignment from the original CIF model.
-                return fmt("%s := %s", synthDiscVar.name, CifTextUtils.exprToStr(rhs));
-            } else if (var instanceof SynthesisLocPtrVariable) {
+                return fmt("%s := %s", cifBddDiscVar.name, CifTextUtils.exprToStr(rhs));
+            } else if (var instanceof CifBddLocPtrVariable) {
                 // Check for match with addressable.
-                SynthesisLocPtrVariable synthLpVar = (SynthesisLocPtrVariable)var;
-                if (synthLpVar.var != addrVar) {
+                CifBddLocPtrVariable cifBddLpVar = (CifBddLocPtrVariable)var;
+                if (cifBddLpVar.var != addrVar) {
                     continue;
                 }
 
                 // Location pointer assignment.
                 int locIdx = ((IntExpression)rhs).getValue();
-                Location loc = synthLpVar.aut.getLocations().get(locIdx);
-                return fmt("%s := %s", synthLpVar.name, CifTextUtils.getAbsName(loc));
-            } else if (var instanceof SynthesisInputVariable) {
+                Location loc = cifBddLpVar.aut.getLocations().get(locIdx);
+                return fmt("%s := %s", cifBddLpVar.name, CifTextUtils.getAbsName(loc));
+            } else if (var instanceof CifBddInputVariable) {
                 // Check for match with addressable.
-                SynthesisInputVariable synthInputVar = (SynthesisInputVariable)var;
-                if (synthInputVar.var != addrVar) {
+                CifBddInputVariable cifBddInputVar = (CifBddInputVariable)var;
+                if (cifBddInputVar.var != addrVar) {
                     continue;
                 }
 
                 // Input variable edge. No right hand side, as this is not a
                 // 'normal' assignment.
-                return fmt("%s+ != %s", synthInputVar.name, synthInputVar.name);
+                return fmt("%s+ != %s", cifBddInputVar.name, cifBddInputVar.name);
             } else {
-                String msg = "Unexpected synthesis variable for addressable: " + var;
+                String msg = "Unexpected CIF/BDD variable for addressable: " + var;
                 throw new RuntimeException(msg);
             }
         }
-        throw new RuntimeException("No synthesis variable found for addressable: " + addrVar);
+        throw new RuntimeException("No CIF/BDD variable found for addressable: " + addrVar);
     }
 
     /**
-     * Merges two synthesis edges for the same event, from the same synthesis automaton. The result is a single merged
+     * Merges two CIF/BDD edges for the same event, from the same CIF/BDD specification. The result is a single merged
      * edge that is the disjunction of the two edges. The edges being merged are no longer valid edges afterwards, and
      * any BDD instances they held will have been freed.
      *
@@ -422,18 +422,18 @@ public class SynthesisEdge {
      * @param edge2 The second edge to merge. Is modified in-place.
      * @return The merged edge.
      */
-    public static SynthesisEdge mergeEdges(SynthesisEdge edge1, SynthesisEdge edge2) {
-        // Ensure we merge edges for the same event, in the same synthesis automaton.
-        Assert.areEqual(edge1.aut, edge2.aut);
+    public static CifBddEdge mergeEdges(CifBddEdge edge1, CifBddEdge edge2) {
+        // Ensure we merge edges for the same event, in the same CIF/BDD specification.
+        Assert.areEqual(edge1.cifBddSpec, edge2.cifBddSpec);
         Assert.areEqual(edge1.event, edge2.event);
         Assert.check(!edge1.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
         Assert.check(!edge2.edges.contains(null)); // Input variables only have one edge, so they can't be merged.
 
-        // Create new synthesis edge.
-        SynthesisEdge mergedEdge = new SynthesisEdge(edge1.aut);
+        // Create new CIF/BDD edge.
+        CifBddEdge mergedEdge = new CifBddEdge(edge1.cifBddSpec);
         mergedEdge.event = edge1.event;
 
-        // Merged the edges and assignments.
+        // Merge the edges and assignments.
         mergedEdge.edges = concat(edge1.edges, edge2.edges);
         mergedEdge.assignments = concat(edge1.assignments, edge2.assignments);
 

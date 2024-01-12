@@ -29,12 +29,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisTypedVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
+import org.eclipse.escet.cif.datasynth.spec.CifBddTypedVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
@@ -68,13 +68,13 @@ public class BddToCif {
      * Converts a BDD to a CIF predicate.
      *
      * @param bdd The BDD.
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @return The CIF predicate.
      */
-    public static Expression bddToCifPred(BDD bdd, SynthesisAutomaton aut) {
+    public static Expression bddToCifPred(BDD bdd, CifBddSpec cifBddSpec) {
         // Convert to both DNF and CNF.
-        Expression predDnf = bddToCifPred(bdd, aut, true);
-        Expression predCnf = bddToCifPred(bdd, aut, false);
+        Expression predDnf = bddToCifPred(bdd, cifBddSpec, true);
+        Expression predCnf = bddToCifPred(bdd, cifBddSpec, false);
 
         // Return smallest one.
         int sizeDnf = exprNodeSize(predDnf);
@@ -86,12 +86,12 @@ public class BddToCif {
      * Converts a BDD to a CIF predicate.
      *
      * @param bdd The BDD.
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @param dnf Whether to create a Disjunctive Normal Form (DNF, {@code true}) or Conjunctive Normal Form (CNF,
      *     {@code false}) predicate.
      * @return The CIF predicate.
      */
-    private static Expression bddToCifPred(BDD bdd, SynthesisAutomaton aut, boolean dnf) {
+    private static Expression bddToCifPred(BDD bdd, CifBddSpec cifBddSpec, boolean dnf) {
         // Special case for 'true' and 'false'.
         if (bdd.isZero()) {
             return CifValueUtils.makeFalse();
@@ -104,12 +104,12 @@ public class BddToCif {
         // to 'true' (or 'false').
 
         // Initialize valuation to don't cares (-1).
-        byte[] valuation = new byte[aut.factory.varNum()];
+        byte[] valuation = new byte[cifBddSpec.factory.varNum()];
         Arrays.fill(valuation, (byte)-1);
 
         // Get predicates for paths in the BDD to either 'true' or 'false'.
         List<Expression> paths = list();
-        bddToCifPred(bdd, aut, valuation, paths, dnf);
+        bddToCifPred(bdd, cifBddSpec, valuation, paths, dnf);
 
         // Combine path predicates.
         Expression rslt = dnf ? CifValueUtils.createDisjunction(paths, true)
@@ -123,7 +123,7 @@ public class BddToCif {
      * Converts a BDD to a CIF predicate.
      *
      * @param bdd The BDD.
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @param valuation The valuation of the internal BDD variables, with {@code -1} for don't care, {@code 0} for
      *     'false', and {@code 1} for 'true'. It represents that the first variable can('t) have a certain value
      *     <i>and</i> the second variable can('t) have a certain value <i>and</i> etc.
@@ -131,7 +131,7 @@ public class BddToCif {
      * @param dnf Whether to create a Disjunctive Normal Form (DNF, {@code true}) or Conjunctive Normal Form (CNF,
      *     {@code false}) predicate.
      */
-    private static void bddToCifPred(BDD bdd, SynthesisAutomaton aut, byte[] valuation, List<Expression> paths,
+    private static void bddToCifPred(BDD bdd, CifBddSpec cifBddSpec, byte[] valuation, List<Expression> paths,
             boolean dnf)
     {
         if (bdd.isZero() && dnf) {
@@ -147,7 +147,7 @@ public class BddToCif {
             List<Expression> parts = list();
 
             // Process all variables/domains.
-            for (SynthesisVariable var: aut.variables) {
+            for (CifBddVariable var: cifBddSpec.variables) {
                 // Get valuation for the domain of this variable.
                 BDDDomain domain = var.domain;
                 byte[] domainValuation = new byte[domain.varNum()];
@@ -174,13 +174,13 @@ public class BddToCif {
             // Try path via low edge.
             valuation[varIdx] = 0;
             BDD lowBdd = bdd.low();
-            bddToCifPred(lowBdd, aut, valuation, paths, dnf);
+            bddToCifPred(lowBdd, cifBddSpec, valuation, paths, dnf);
             lowBdd.free();
 
             // Try path via high edge.
             valuation[varIdx] = 1;
             BDD highBdd = bdd.high();
-            bddToCifPred(highBdd, aut, valuation, paths, dnf);
+            bddToCifPred(highBdd, cifBddSpec, valuation, paths, dnf);
             highBdd.free();
 
             // Restore valuation.
@@ -189,9 +189,9 @@ public class BddToCif {
     }
 
     /**
-     * Converts a valuation for a synthesis variable to a CIF predicate.
+     * Converts a valuation for a CIF/BDD variable to a CIF predicate.
      *
-     * @param var The synthesis variable.
+     * @param var The CIF/BDD variable.
      * @param valuation The valuation of the internal BDD variables, with {@code -1} for don't care, {@code 0} for
      *     'false', and {@code 1} for 'true'. It represents that the first variable can('t) have a certain value
      *     <i>and</i> the second variable can('t) have a certain value <i>and</i> etc.
@@ -199,7 +199,7 @@ public class BddToCif {
      *     {@code false}) predicate.
      * @return The CIF predicate.
      */
-    private static Expression valuationToCif(SynthesisVariable var, byte[] valuation, boolean dnf) {
+    private static Expression valuationToCif(CifBddVariable var, byte[] valuation, boolean dnf) {
         // Get possible values of the variable, from the valuation.
         boolean[] values = new boolean[var.count];
         if (!dnf) {
@@ -212,7 +212,7 @@ public class BddToCif {
     }
 
     /**
-     * Computes the values of a synthesis variable for which a valuation of that variable evaluates to 'true'.
+     * Computes the values of a CIF/BDD variable for which a valuation of that variable evaluates to 'true'.
      *
      * @param valuation The valuation of the internal BDD variables, with {@code -1} for don't care, {@code 0} for
      *     'false', and {@code 1} for 'true'. It represents that the first variable can('t) have a certain value
@@ -260,12 +260,12 @@ public class BddToCif {
      * Converts values of a variable to a CIF predicate that evaluates to 'true' if and only if the variable has one of
      * those values.
      *
-     * @param var The synthesis variable..
+     * @param var The CIF/BDD variable.
      * @param possibles Per possible value of the variable, whether the variable can have that value. Elements are
      *     present for the range {@code [min..max]}.
      * @return The CIF predicate.
      */
-    private static Expression valuesToCif(SynthesisVariable var, boolean[] possibles) {
+    private static Expression valuesToCif(CifBddVariable var, boolean[] possibles) {
         // Count possible and impossible values.
         int possibleCnt = 0;
         int impossibleCnt = 0;
@@ -301,7 +301,7 @@ public class BddToCif {
         }
 
         // Create 'small' representation.
-        CifType type = (var instanceof SynthesisTypedVariable) ? ((SynthesisTypedVariable)var).type : null;
+        CifType type = (var instanceof CifBddTypedVariable) ? ((CifBddTypedVariable)var).type : null;
 
         if (type instanceof IntType) {
             // Split bits into consecutive ranges.
@@ -396,10 +396,10 @@ public class BddToCif {
     }
 
     /**
-     * Creates an 'x op n' CIF predicate for a single synthesis variable. Is optimized for boolean and location pointer
+     * Creates an 'x op n' CIF predicate for a single CIF/BDD variable. Is optimized for boolean and location pointer
      * variables.
      *
-     * @param var The synthesis variable 'x' for which to create the predicate.
+     * @param var The CIF/BDD variable 'x' for which to create the predicate.
      * @param bitIdx The 0-based bit index of the value 'n' of the variable. For a variable with integer range
      *     {@code [-2..5]}, the range for 'n' is {@code [0..7]}.
      * @param op The binary operator 'op' to use. Must be a comparison operator.
@@ -407,12 +407,12 @@ public class BddToCif {
      *     operator ({@code false}).
      * @return The newly created predicate.
      */
-    private static Expression createVarPred(SynthesisVariable var, int bitIdx, BinaryOperator op, boolean varLeft) {
+    private static Expression createVarPred(CifBddVariable var, int bitIdx, BinaryOperator op, boolean varLeft) {
         // Optimize for location pointers.
-        if (var instanceof SynthesisLocPtrVariable) {
+        if (var instanceof CifBddLocPtrVariable) {
             Assert.check(op == BinaryOperator.EQUAL || op == BinaryOperator.UNEQUAL);
 
-            SynthesisLocPtrVariable lpVar = (SynthesisLocPtrVariable)var;
+            CifBddLocPtrVariable lpVar = (CifBddLocPtrVariable)var;
             Location loc = lpVar.aut.getLocations().get(bitIdx);
             LocationExpression locRef = newLocationExpression();
             locRef.setLocation(loc);
@@ -426,7 +426,7 @@ public class BddToCif {
         }
 
         // Not a location pointer. Get variable reference expression.
-        SynthesisTypedVariable typedVar = (SynthesisTypedVariable)var;
+        CifBddTypedVariable typedVar = (CifBddTypedVariable)var;
         Expression varRef = createVarRef(typedVar);
 
         // Optimize for boolean variables.
@@ -467,22 +467,22 @@ public class BddToCif {
     }
 
     /**
-     * Creates a CIF reference expression for a given synthesis variable.
+     * Creates a CIF reference expression for a given CIF/BDD variable.
      *
-     * @param var The synthesis variable.
+     * @param var The CIF/BDD variable.
      * @return A CIF reference expression.
      */
-    private static Expression createVarRef(SynthesisVariable var) {
-        Assert.check(var instanceof SynthesisTypedVariable);
+    private static Expression createVarRef(CifBddVariable var) {
+        Assert.check(var instanceof CifBddTypedVariable);
 
-        if (var instanceof SynthesisDiscVariable) {
-            SynthesisDiscVariable discVar = (SynthesisDiscVariable)var;
+        if (var instanceof CifBddDiscVariable) {
+            CifBddDiscVariable discVar = (CifBddDiscVariable)var;
             DiscVariableExpression discVarRef = newDiscVariableExpression();
             discVarRef.setVariable(discVar.var);
             discVarRef.setType(deepclone(discVar.type));
             return discVarRef;
-        } else if (var instanceof SynthesisInputVariable) {
-            SynthesisInputVariable inputVar = (SynthesisInputVariable)var;
+        } else if (var instanceof CifBddInputVariable) {
+            CifBddInputVariable inputVar = (CifBddInputVariable)var;
             InputVariableExpression inputVarRef = newInputVariableExpression();
             inputVarRef.setVariable(inputVar.var);
             inputVarRef.setType(deepclone(inputVar.type));
@@ -534,14 +534,14 @@ public class BddToCif {
     /**
      * Creates a CIF predicate for a BDD variable.
      *
-     * @param var The synthesis variable.
-     * @param idx The 0-based index of the BDD variable into the domain of the synthesis variable, for which to create
-     *     the CIF predicate.
+     * @param var The CIF/BDD variable.
+     * @param idx The 0-based index of the BDD variable into the domain of the CIF/BDD variable, for which to create the
+     *     CIF predicate.
      * @return The CIF predicate the BDD variable.
      */
-    public static Expression getBddVarPred(SynthesisVariable var, int idx) {
+    public static Expression getBddVarPred(CifBddVariable var, int idx) {
         // Get variable type.
-        CifType type = (var instanceof SynthesisTypedVariable) ? ((SynthesisTypedVariable)var).type : null;
+        CifType type = (var instanceof CifBddTypedVariable) ? ((CifBddTypedVariable)var).type : null;
 
         // Get node predicate.
         if (type == null) {
@@ -549,8 +549,8 @@ public class BddToCif {
             // to the 0-based integer index of the active location and proceed
             // as we do for integer values, but such a cast is not (yet)
             // available in CIF.
-            SynthesisLocPtrVariable synthLpVar = (SynthesisLocPtrVariable)var;
-            List<Location> locs = synthLpVar.aut.getLocations();
+            CifBddLocPtrVariable cifBddLpVar = (CifBddLocPtrVariable)var;
+            List<Location> locs = cifBddLpVar.aut.getLocations();
             List<Expression> locRefs = list();
             int mask = 1 << idx;
             for (int i = 0; i < locs.size(); i++) {

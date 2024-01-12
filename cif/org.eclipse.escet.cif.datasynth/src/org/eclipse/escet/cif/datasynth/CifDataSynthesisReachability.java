@@ -26,8 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.RewardBasedEdgePruner;
 import org.eclipse.escet.cif.datasynth.workset.pruners.SequentialEdgePruner;
@@ -43,8 +43,8 @@ import com.github.javabdd.BDD;
 
 /** CIF data-based synthesis reachability computations. */
 public class CifDataSynthesisReachability {
-    /** The synthesis automaton. */
-    private final SynthesisAutomaton aut;
+    /** The CIF/BDD specification. */
+    private final CifBddSpec cifBddSpec;
 
     /** The 1-based round number of the main synthesis algorithm, for debug output. */
     private final int round;
@@ -89,7 +89,7 @@ public class CifDataSynthesisReachability {
     /**
      * Constructor for the {@link CifDataSynthesisReachability} class.
      *
-     * @param aut The synthesis automaton.
+     * @param cifBddSpec The CIF/BDD specification.
      * @param round The 1-based round number of the main synthesis algorithm, for debug output.
      * @param predName The name of the given predicate, for debug output. Must be in lower case.
      * @param initName The name of the initial value of the given predicate, for debug output. Must be in lower case.
@@ -104,12 +104,12 @@ public class CifDataSynthesisReachability {
      * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    public CifDataSynthesisReachability(SynthesisAutomaton aut, int round, String predName, String initName,
+    public CifDataSynthesisReachability(CifBddSpec cifBddSpec, int round, String predName, String initName,
             String restrictionName, BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
             boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);
-        this.aut = aut;
+        this.cifBddSpec = cifBddSpec;
         this.round = round;
         this.predName = predName;
         this.initName = initName;
@@ -132,10 +132,10 @@ public class CifDataSynthesisReachability {
     public BDD performReachability(BDD pred) {
         // Print debug output.
         if (dbgEnabled) {
-            aut.settings.debugOutput.line();
-            aut.settings.debugOutput.line("Round %d: computing %s predicate.", round, predName);
-            aut.settings.debugOutput.line("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName),
-                    bddToStr(pred, aut), initName);
+            cifBddSpec.settings.debugOutput.line();
+            cifBddSpec.settings.debugOutput.line("Round %d: computing %s predicate.", round, predName);
+            cifBddSpec.settings.debugOutput.line("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName),
+                    bddToStr(pred, cifBddSpec), initName);
         }
 
         // Initialization.
@@ -144,7 +144,7 @@ public class CifDataSynthesisReachability {
         // Restrict predicate.
         if (restriction != null) {
             BDD restrictedPred = pred.and(restriction);
-            if (aut.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.shouldTerminate.get()) {
                 return null;
             }
 
@@ -153,9 +153,9 @@ public class CifDataSynthesisReachability {
             } else {
                 if (dbgEnabled) {
                     Assert.notNull(restrictionName);
-                    aut.settings.debugOutput.line("%s: %s -> %s [restricted to %s predicate: %s]",
-                            Strings.makeInitialUppercase(predName), bddToStr(pred, aut), bddToStr(restrictedPred, aut),
-                            restrictionName, bddToStr(restriction, aut));
+                    cifBddSpec.settings.debugOutput.line("%s: %s -> %s [restricted to %s predicate: %s]",
+                            Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
+                            bddToStr(restrictedPred, cifBddSpec), restrictionName, bddToStr(restriction, cifBddSpec));
                 }
                 pred.free();
                 pred = restrictedPred;
@@ -164,22 +164,22 @@ public class CifDataSynthesisReachability {
         }
 
         // Determine the edges to be applied.
-        boolean useWorkSetAlgo = aut.settings.doUseEdgeWorksetAlgo;
-        List<SynthesisEdge> orderedEdges = forward ? aut.orderedEdgesForward : aut.orderedEdgesBackward;
-        Predicate<SynthesisEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
+        boolean useWorkSetAlgo = cifBddSpec.settings.doUseEdgeWorksetAlgo;
+        List<CifBddEdge> orderedEdges = forward ? cifBddSpec.orderedEdgesForward : cifBddSpec.orderedEdgesBackward;
+        Predicate<CifBddEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
                 || (unctrl && !e.event.getControllable());
-        List<SynthesisEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
+        List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
         BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
         // Prepare edges for being applied.
-        Collection<SynthesisEdge> edgesToPrepare = //
-                (aut.settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED)
+        Collection<CifBddEdge> edgesToPrepare = //
+                (cifBddSpec.settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED)
                         ? list2set(edgesToApply) : edgesToApply;
-        for (SynthesisEdge edge: edgesToPrepare) {
+        for (CifBddEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }
-        if (aut.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.shouldTerminate.get()) {
             return null;
         }
 
@@ -190,24 +190,24 @@ public class CifDataSynthesisReachability {
         } else {
             reachabilityResult = performReachabilityFixedOrder(pred, edgesToApply);
         }
-        if (reachabilityResult == null || aut.settings.shouldTerminate.get()) {
+        if (reachabilityResult == null || cifBddSpec.settings.shouldTerminate.get()) {
             return null;
         }
         pred = reachabilityResult.left;
         changed |= reachabilityResult.right;
 
         // Cleanup edges for being applied.
-        for (SynthesisEdge edge: edgesToPrepare) {
+        for (CifBddEdge edge: edgesToPrepare) {
             edge.postApply(forward);
         }
 
         // Fixed point reached. Inform the user.
-        if (aut.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.shouldTerminate.get()) {
             return null;
         }
         if (dbgEnabled && changed) {
-            aut.settings.debugOutput.line("%s: %s [fixed point].", Strings.makeInitialUppercase(predName),
-                    bddToStr(pred, aut));
+            cifBddSpec.settings.debugOutput.line("%s: %s [fixed point].", Strings.makeInitialUppercase(predName),
+                    bddToStr(pred, cifBddSpec));
         }
         return pred;
     }
@@ -219,16 +219,17 @@ public class CifDataSynthesisReachability {
      * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
-     * @param edges The synthesis edges.
+     * @param edges The CIF/BDD edges.
      * @param edgesMask The edges to apply, as a mask on the edges, indicating for each edge whether it should be
      *     applied.
      * @return The fixed point result of the reachability computation, together with an indication of whether the
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if termination was requested.
      */
-    private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<SynthesisEdge> edges, BitSet edgesMask) {
+    private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<CifBddEdge> edges, BitSet edgesMask) {
         boolean changed = false;
-        List<BitSet> dependencies = forward ? aut.worksetDependenciesForward : aut.worksetDependenciesBackward;
+        List<BitSet> dependencies = forward ? cifBddSpec.worksetDependenciesForward
+                : cifBddSpec.worksetDependenciesBackward;
         EdgeSelector edgeSelector = new PruningEdgeSelector(
                 new SequentialEdgePruner(new MaxCardinalityEdgePruner(dependencies),
                         new RewardBasedEdgePruner(edges.size(), 1, -1)),
@@ -237,7 +238,7 @@ public class CifDataSynthesisReachability {
         while (!workset.isEmpty()) {
             // Select the next edge to apply.
             int edgeIdx = edgeSelector.select(workset);
-            SynthesisEdge edge = edges.get(edgeIdx);
+            CifBddEdge edge = edges.get(edgeIdx);
 
             // Repeatedly apply the selected edge, until it no longer has an effect.
             boolean changedByEdge = false;
@@ -245,13 +246,13 @@ public class CifDataSynthesisReachability {
                 // Apply selected edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (aut.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.shouldTerminate.get()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (aut.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.shouldTerminate.get()) {
                     return null;
                 }
 
@@ -268,11 +269,13 @@ public class CifDataSynthesisReachability {
                         restrTxt = "";
                     } else {
                         Assert.notNull(restrictionName);
-                        restrTxt = fmt(", restricted to %s predicate: %s", restrictionName, bddToStr(restriction, aut));
+                        restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
+                                bddToStr(restriction, cifBddSpec));
                     }
-                    aut.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
-                            Strings.makeInitialUppercase(predName), bddToStr(pred, aut), bddToStr(newPred, aut),
-                            (forward ? "forward" : "backward"), edge.toString(0, ""), restrTxt);
+                    cifBddSpec.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
+                            Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
+                            bddToStr(newPred, cifBddSpec), (forward ? "forward" : "backward"), edge.toString(0, ""),
+                            restrTxt);
                 }
 
                 // Update the administration.
@@ -307,12 +310,12 @@ public class CifDataSynthesisReachability {
      * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
      *     returned by this method as part of the return value.
-     * @param edges The synthesis edges to apply.
+     * @param edges The CIF/BDD edges to apply.
      * @return The fixed point result of the reachability computation, together with an indication of whether the
      *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
      *     returned if termination was requested.
      */
-    private Pair<BDD, Boolean> performReachabilityFixedOrder(BDD pred, List<SynthesisEdge> edges) {
+    private Pair<BDD, Boolean> performReachabilityFixedOrder(BDD pred, List<CifBddEdge> edges) {
         boolean changed = false;
         int iter = 0;
         int remainingEdges = edges.size(); // Number of edges to apply without change to get the fixed point.
@@ -320,22 +323,22 @@ public class CifDataSynthesisReachability {
             // Print iteration, for debugging.
             iter++;
             if (dbgEnabled) {
-                aut.settings.debugOutput.line("%s reachability: iteration %d.", (forward ? "Forward" : "Backward"),
-                        iter);
+                cifBddSpec.settings.debugOutput.line("%s reachability: iteration %d.",
+                        (forward ? "Forward" : "Backward"), iter);
             }
 
             // Push through all edges.
-            for (SynthesisEdge edge: edges) {
+            for (CifBddEdge edge: edges) {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (aut.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.shouldTerminate.get()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (aut.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.shouldTerminate.get()) {
                     return null;
                 }
 
@@ -356,11 +359,12 @@ public class CifDataSynthesisReachability {
                         } else {
                             Assert.notNull(restrictionName);
                             restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
-                                    bddToStr(restriction, aut));
+                                    bddToStr(restriction, cifBddSpec));
                         }
-                        aut.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
-                                Strings.makeInitialUppercase(predName), bddToStr(pred, aut), bddToStr(newPred, aut),
-                                (forward ? "forward" : "backward"), edge.toString(0, ""), restrTxt);
+                        cifBddSpec.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
+                                Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
+                                bddToStr(newPred, cifBddSpec), (forward ? "forward" : "backward"), edge.toString(0, ""),
+                                restrTxt);
                     }
 
                     // Update the administration.

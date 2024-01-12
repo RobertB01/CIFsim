@@ -13,30 +13,30 @@
 
 package org.eclipse.escet.cif.datasynth.spec;
 
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 
-/** Information on a discrete variable of a specification, used for synthesis. */
-public class SynthesisDiscVariable extends SynthesisTypedVariable {
-    /** The CIF variable that corresponds to this synthesis variable. */
-    public final DiscVariable var;
+/** A CIF/BDD input variable. Represents a CIF input variable in a BDD representation. */
+public class CifBddInputVariable extends CifBddTypedVariable {
+    /** The CIF variable that corresponds to this CIF/BDD variable. */
+    public final InputVariable var;
 
     /**
-     * Constructor for the {@link SynthesisDiscVariable} class.
+     * Constructor for the {@link CifBddInputVariable} class.
      *
-     * @param var The CIF discrete variable that corresponds to this synthesis variable.
+     * @param var The CIF input variable that corresponds to this CIF/BDD variable.
      * @param type The normalized type of the variable.
      * @param count The number of potential values of the variable.
      * @param lower The lower bound (minimum value) of the variable.
      * @param upper The upper bound (maximum value) of the variable.
      */
-    public SynthesisDiscVariable(DiscVariable var, CifType type, int count, int lower, int upper) {
+    public CifBddInputVariable(InputVariable var, CifType type, int count, int lower, int upper) {
         super(var, type, count, lower, upper);
         this.var = var;
     }
 
     @Override
     public String getKindText() {
-        return "discrete variable";
+        return "input variable";
     }
 }

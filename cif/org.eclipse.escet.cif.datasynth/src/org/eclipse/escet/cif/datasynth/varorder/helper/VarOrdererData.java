@@ -15,12 +15,12 @@ package org.eclipse.escet.cif.datasynth.varorder.helper;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 
 /** Data used by variable orderers, being provided as input and produced as result. */
 public class VarOrdererData {
     /** The non-interleaved variables in model order. */
-    public final List<SynthesisVariable> varsInModelOrder;
+    public final List<CifBddVariable> varsInModelOrder;
 
     /** The variable order. */
     public final VarOrder varOrder;
@@ -35,7 +35,7 @@ public class VarOrdererData {
      * @param varOrder The variable order.
      * @param helper The helper for variable ordering.
      */
-    public VarOrdererData(List<SynthesisVariable> varsInModelOrder, VarOrder varOrder, VarOrderHelper helper) {
+    public VarOrdererData(List<CifBddVariable> varsInModelOrder, VarOrder varOrder, VarOrderHelper helper) {
         this.varsInModelOrder = varsInModelOrder;
         this.varOrder = varOrder;
         this.helper = helper;

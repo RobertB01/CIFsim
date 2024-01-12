@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
@@ -47,7 +47,7 @@ public class ReverseVarOrderer extends VarOrderer {
     @Override
     public VarOrdererData order(VarOrdererData inputData, boolean dbgEnabled, int dbgLevel) {
         // Debug output before reversing the variable order.
-        List<SynthesisVariable> orderedVars = inputData.varOrder.getOrderedVars();
+        List<CifBddVariable> orderedVars = inputData.varOrder.getOrderedVars();
         if (dbgEnabled) {
             inputData.helper.dbg(dbgLevel, "Reversing the variable order:");
             inputData.helper.dbg(dbgLevel + 1, "Relations: %s", enumValueToParserArg(relationsKind));
@@ -58,7 +58,7 @@ public class ReverseVarOrderer extends VarOrderer {
         }
 
         // Reverse the order.
-        List<List<SynthesisVariable>> varOrder = inputData.varOrder.getVarOrder();
+        List<List<CifBddVariable>> varOrder = inputData.varOrder.getVarOrder();
         varOrder = varOrder.stream().map(grp -> reverse(grp)).toList(); // Reverse inner lists (groups).
         varOrder = reverse(varOrder); // Reverse outer list (groups).
 

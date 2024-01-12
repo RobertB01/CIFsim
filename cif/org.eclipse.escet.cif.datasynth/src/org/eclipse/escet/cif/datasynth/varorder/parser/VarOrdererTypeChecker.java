@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
 import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
@@ -61,8 +61,8 @@ import org.eclipse.escet.setext.runtime.Token;
 
 /** Variable orderer type checker. */
 public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>, VarOrderer> {
-    /** The synthesis variables to order. */
-    private final List<SynthesisVariable> variables;
+    /** The CIF/BDD variables to order. */
+    private final List<CifBddVariable> variables;
 
     /** The settings to use. */
     private final CifDataSynthesisSettings settings;
@@ -70,10 +70,10 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     /**
      * Constructor for the {@link VarOrdererTypeChecker} class.
      *
-     * @param variables The synthesis variables to order.
+     * @param variables The CIF/BDD variables to order.
      * @param settings The settings to use.
      */
-    public VarOrdererTypeChecker(List<SynthesisVariable> variables, CifDataSynthesisSettings settings) {
+    public VarOrdererTypeChecker(List<CifBddVariable> variables, CifDataSynthesisSettings settings) {
         this.variables = variables;
         this.settings = settings;
     }

@@ -76,8 +76,8 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -128,8 +128,8 @@ import com.github.javabdd.BDD;
 
 /** Converter to convert synthesis result back to CIF. */
 public class SynthesisToCifConverter {
-    /** The synthesis result, or {@code null} if not available. */
-    private SynthesisAutomaton synthAut;
+    /** The CIF/BDD specification that represents the synthesis result, or {@code null} if not available. */
+    private CifBddSpec cifBddSpec;
 
     /** The input CIF specification, or {@code null} if not available. May be modified in-place. */
     private Specification spec;
@@ -171,17 +171,17 @@ public class SynthesisToCifConverter {
      * Converts a synthesis result back to CIF. The original CIF specification is extended with an external supervisor,
      * to obtain the controlled system.
      *
-     * @param synthAut The synthesis result.
+     * @param cifBddSpec The CIF/BDD specification that represents the synthesis result.
      * @param spec The input CIF specification. Is modified in-place.
      * @return The output CIF specification, i.e. the modified input CIF specification.
      */
-    public Specification convert(SynthesisAutomaton synthAut, Specification spec) {
+    public Specification convert(CifBddSpec cifBddSpec, Specification spec) {
         // Initialization.
-        this.synthAut = synthAut;
+        this.cifBddSpec = cifBddSpec;
         this.spec = spec;
         this.supervisor = null;
-        this.outputMode = synthAut.settings.bddOutputMode;
-        this.bddNamePrefix = synthAut.settings.bddOutputNamePrefix;
+        this.outputMode = cifBddSpec.settings.bddOutputMode;
+        this.bddNamePrefix = cifBddSpec.settings.bddOutputNamePrefix;
         this.bddNodeMap = null;
         this.bddVarIdxMap = null;
         this.bddNodesConst = null;
@@ -189,9 +189,9 @@ public class SynthesisToCifConverter {
         this.bddEvalFunc = null;
 
         // Remove temporary events created for input variables.
-        for (Event event: synthAut.inputVarEvents) {
+        for (Event event: cifBddSpec.inputVarEvents) {
             EMFHelper.removeFromParentContainment(event);
-            synthAut.alphabet.remove(event);
+            cifBddSpec.alphabet.remove(event);
         }
 
         // Relabel requirement automata from input model to supervisors.
@@ -207,7 +207,7 @@ public class SynthesisToCifConverter {
         try {
             // If we simplify against something, the 'something' needs to
             // remain to ensure we don't loose that restriction.
-            EnumSet<BddSimplify> simplifications = synthAut.settings.bddSimplifications;
+            EnumSet<BddSimplify> simplifications = cifBddSpec.settings.bddSimplifications;
             RemoveRequirements remover = new RemoveRequirements();
             remover.removeReqAuts = true;
             remover.removeStateEvtExclReqInvs = !simplifications.contains(BddSimplify.GUARDS_SE_EXCL_REQ_INVS);
@@ -223,12 +223,12 @@ public class SynthesisToCifConverter {
         relabelRequirementInvariants(spec);
 
         // Construct new supervisor automaton.
-        supervisor = createSupervisorAutomaton(synthAut.settings.supervisorName);
+        supervisor = createSupervisorAutomaton(cifBddSpec.settings.supervisorName);
 
         // Add the alphabet to the automaton. Only add controllable events, as
         // they may be restricted by the supervisor.
         Alphabet alphabet = newAlphabet();
-        for (Event event: synthAut.alphabet) {
+        for (Event event: cifBddSpec.alphabet) {
             if (!event.getControllable()) {
                 continue;
             }
@@ -246,7 +246,7 @@ public class SynthesisToCifConverter {
 
         // Get controllable events for which we have to add self loops.
         Set<Event> controllables = setc(alphabet.getEvents().size());
-        for (Event event: synthAut.alphabet) {
+        for (Event event: cifBddSpec.alphabet) {
             if (event.getControllable()) {
                 controllables.add(event);
             }
@@ -260,7 +260,7 @@ public class SynthesisToCifConverter {
 
         // Add edges for controllable events.
         List<Edge> edges = listc(controllables.size());
-        for (Entry<Event, BDD> entry: synthAut.outputGuards.entrySet()) {
+        for (Entry<Event, BDD> entry: cifBddSpec.outputGuards.entrySet()) {
             Event event = entry.getKey();
             BDD guard = entry.getValue();
 
@@ -277,8 +277,8 @@ public class SynthesisToCifConverter {
         cifLoc.getEdges().addAll(edges);
 
         // Add initialization predicate, if any.
-        if (synthAut.initialOutput != null) {
-            Expression initialPred = convertPred(synthAut.initialOutput);
+        if (cifBddSpec.initialOutput != null) {
+            Expression initialPred = convertPred(cifBddSpec.initialOutput);
             supervisor.getInitials().add(initialPred);
         }
 
@@ -286,8 +286,8 @@ public class SynthesisToCifConverter {
         finalizeBddToCif();
 
         // Add namespace, if requested.
-        if (synthAut.settings.supervisorNamespace != null) {
-            spec = addNamespace(synthAut.settings.supervisorNamespace);
+        if (cifBddSpec.settings.supervisorNamespace != null) {
+            spec = addNamespace(cifBddSpec.settings.supervisorNamespace);
             this.spec = spec;
         }
 
@@ -353,27 +353,27 @@ public class SynthesisToCifConverter {
                 spec.getDeclarations().add(bddNodesConst);
 
                 // Get variables in sorted order.
-                SynthesisVariable[] sortedVars = synthAut.variables.clone();
+                CifBddVariable[] sortedVars = cifBddSpec.variables.clone();
                 Arrays.sort(sortedVars, (v, w) -> Strings.SORTER.compare(v.rawName, w.rawName));
 
                 // Initialize BDD variable index mapping.
-                int bddVarCnt = synthAut.factory.varNum();
+                int bddVarCnt = cifBddSpec.factory.varNum();
                 Assert.check(bddVarCnt % 2 == 0); // #old = #new, so total is even.
                 bddVarIdxMap = mapc(bddVarCnt / 2);
 
                 // Create 'BDD variable value' algebraic variables. Fill BDD
                 // variable index mapping.
-                List<AlgVariable> valueVars = listc(synthAut.factory.varNum());
+                List<AlgVariable> valueVars = listc(cifBddSpec.factory.varNum());
                 int cifVarIdx = 0;
-                for (SynthesisVariable synthVar: sortedVars) {
-                    int[] varIdxs = synthVar.domain.vars();
+                for (CifBddVariable cifBddVar: sortedVars) {
+                    int[] varIdxs = cifBddVar.domain.vars();
                     for (int i = 0; i < varIdxs.length; i++) {
                         AlgVariable var = newAlgVariable();
                         int bddVarIdx = varIdxs[i];
                         Assert.check(bddVarIdx % 2 == 0); // Is an old variable.
                         var.setName(bddNamePrefix + "_value" + str(cifVarIdx));
                         var.setType(newBoolType());
-                        var.setValue(BddToCif.getBddVarPred(synthVar, i));
+                        var.setValue(BddToCif.getBddVarPred(cifBddVar, i));
                         spec.getDeclarations().add(var);
                         valueVars.add(var);
                         bddVarIdxMap.put(bddVarIdx, cifVarIdx);
@@ -558,7 +558,7 @@ public class SynthesisToCifConverter {
     private Expression convertPred(BDD bdd) {
         switch (outputMode) {
             case NORMAL:
-                return BddToCif.bddToCifPred(bdd, synthAut);
+                return BddToCif.bddToCifPred(bdd, cifBddSpec);
 
             case NODES: {
                 // Add to node map, and get index.
@@ -729,7 +729,7 @@ public class SynthesisToCifConverter {
         curNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (curNames.contains(supName)) {
             name = CifScopeUtils.getUniqueName(name, curNames, Collections.emptySet());
-            synthAut.settings.warnOutput.line(
+            cifBddSpec.settings.warnOutput.line(
                     "Supervisor automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name,
                     supName);
         }

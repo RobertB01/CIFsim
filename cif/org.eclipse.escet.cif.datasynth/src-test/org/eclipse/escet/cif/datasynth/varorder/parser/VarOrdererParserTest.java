@@ -36,8 +36,8 @@ import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
 import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -203,10 +203,10 @@ public class VarOrdererParserTest {
         spec.getDeclarations().add(va);
         spec.getDeclarations().add(vb);
         spec.getDeclarations().add(vc);
-        SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 1), 2, 0, 1);
-        SynthesisVariable b = new SynthesisInputVariable(vb, newIntType(0, null, 1), 2, 0, 1);
-        SynthesisVariable c = new SynthesisInputVariable(vc, newIntType(0, null, 1), 2, 0, 1);
-        List<SynthesisVariable> vars = list(a, b, c);
+        CifBddVariable a = new CifBddInputVariable(va, newIntType(0, null, 1), 2, 0, 1);
+        CifBddVariable b = new CifBddInputVariable(vb, newIntType(0, null, 1), 2, 0, 1);
+        CifBddVariable c = new CifBddInputVariable(vc, newIntType(0, null, 1), 2, 0, 1);
+        List<CifBddVariable> vars = list(a, b, c);
 
         testValid("custom(order=\"a,b,c\")", vars, "custom(effect=both, order=\"a,b,c\")");
         testValid("custom(order=\"c,a,b\")", vars, "custom(effect=both, order=\"c,a,b\")");
@@ -245,10 +245,10 @@ public class VarOrdererParserTest {
         spec.getDeclarations().add(va);
         spec.getDeclarations().add(vb);
         spec.getDeclarations().add(vc);
-        SynthesisVariable a = new SynthesisInputVariable(va, newIntType(0, null, 1), 2, 0, 1);
-        SynthesisVariable b = new SynthesisInputVariable(vb, newIntType(0, null, 1), 2, 0, 1);
-        SynthesisVariable c = new SynthesisInputVariable(vc, newIntType(0, null, 1), 2, 0, 1);
-        List<SynthesisVariable> vars = list(a, b, c);
+        CifBddVariable a = new CifBddInputVariable(va, newIntType(0, null, 1), 2, 0, 1);
+        CifBddVariable b = new CifBddInputVariable(vb, newIntType(0, null, 1), 2, 0, 1);
+        CifBddVariable c = new CifBddInputVariable(vc, newIntType(0, null, 1), 2, 0, 1);
+        List<CifBddVariable> vars = list(a, b, c);
 
         testInvalid("custom(order=\"a,a,b,c\")", vars, "Semantic error at line 1, column 8: The \"custom\" orderer "
                 + "has an unsupported value for the \"order\" argument: \"a\" is included more than once.");
@@ -833,7 +833,7 @@ public class VarOrdererParserTest {
      * @param variables The synthesis variables.
      * @param expectedOrderer The expected textual representation of the orderer.
      */
-    private void testValid(String ordererTxt, List<SynthesisVariable> variables, String expectedOrderer) {
+    private void testValid(String ordererTxt, List<CifBddVariable> variables, String expectedOrderer) {
         // Parse.
         VarOrdererParser parser = new VarOrdererParser();
         List<VarOrdererInstance> parseResult = parser.parseString(ordererTxt, "/dummy", null, DebugMode.NONE);
@@ -868,7 +868,7 @@ public class VarOrdererParserTest {
      * @param variables The synthesis variables.
      * @param expectedMsg The error message.
      */
-    private void testInvalid(String ordererTxt, List<SynthesisVariable> variables, String expectedMsg) {
+    private void testInvalid(String ordererTxt, List<CifBddVariable> variables, String expectedMsg) {
         // Parse.
         VarOrdererParser parser = new VarOrdererParser();
         List<VarOrdererInstance> parseResult;

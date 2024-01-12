@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
 import static org.eclipse.escet.common.java.Lists.listc;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.common.java.BitSets;
 
 /**
@@ -24,18 +24,18 @@ import org.eclipse.escet.common.java.BitSets;
  */
 public class AllEdgesEdgeDependencySetCreator implements EdgeDependencySetCreator {
     @Override
-    public void createAndStore(SynthesisAutomaton synthAut, boolean forwardEnabled) {
+    public void createAndStore(CifBddSpec cifBddSpec, boolean forwardEnabled) {
         // Backward.
-        synthAut.worksetDependenciesBackward = listc(synthAut.orderedEdgesBackward.size());
-        for (int i = 0; i < synthAut.orderedEdgesBackward.size(); i++) {
-            synthAut.worksetDependenciesBackward.add(BitSets.ones(synthAut.orderedEdgesBackward.size()));
+        cifBddSpec.worksetDependenciesBackward = listc(cifBddSpec.orderedEdgesBackward.size());
+        for (int i = 0; i < cifBddSpec.orderedEdgesBackward.size(); i++) {
+            cifBddSpec.worksetDependenciesBackward.add(BitSets.ones(cifBddSpec.orderedEdgesBackward.size()));
         }
 
         // Forward.
         if (forwardEnabled) {
-            synthAut.worksetDependenciesForward = listc(synthAut.orderedEdgesForward.size());
-            for (int i = 0; i < synthAut.orderedEdgesForward.size(); i++) {
-                synthAut.worksetDependenciesForward.add(BitSets.ones(synthAut.orderedEdgesForward.size()));
+            cifBddSpec.worksetDependenciesForward = listc(cifBddSpec.orderedEdgesForward.size());
+            for (int i = 0; i < cifBddSpec.orderedEdgesForward.size(); i++) {
+                cifBddSpec.worksetDependenciesForward.add(BitSets.ones(cifBddSpec.orderedEdgesForward.size()));
             }
         }
     }

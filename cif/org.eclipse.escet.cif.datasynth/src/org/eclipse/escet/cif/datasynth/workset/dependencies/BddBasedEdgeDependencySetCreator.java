@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 import com.github.javabdd.BDD;
@@ -31,17 +31,17 @@ import com.github.javabdd.BDD;
 /** BDD-based edge dependency set creator. */
 public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreator {
     @Override
-    public void createAndStore(SynthesisAutomaton synthAut, boolean forwardEnabled) {
+    public void createAndStore(CifBddSpec cifBddSpec, boolean forwardEnabled) {
         // Compute which events may potentially follow which other events.
-        int edgeCnt = synthAut.edges.size();
+        int edgeCnt = cifBddSpec.edges.size();
         Map<Event, Set<Event>> followEvents = mapc(edgeCnt); // For each event, which events can follow it.
-        for (SynthesisEdge precedingEdge: synthAut.orderedEdgesForward) {
+        for (CifBddEdge precedingEdge: cifBddSpec.orderedEdgesForward) {
             Event precedingEvent = precedingEdge.event;
 
             // Compute the states that can potentially be reached by this edge.
             precedingEdge.preApply(true, null); // Forward reachability, no restriction.
             BDD precedingEdgeReachableStates = precedingEdge.apply( //
-                    synthAut.factory.one(), // Apply edge to 'true' predicate.
+                    cifBddSpec.factory.one(), // Apply edge to 'true' predicate.
                     false, // Not bad states = good states.
                     true, // Forward reachability.
                     null, // No restriction.
@@ -50,7 +50,7 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
             precedingEdge.postApply(true); // Forward reachability.
 
             // Compute which events may potentially follow the event of this edge.
-            for (SynthesisEdge followingEdge: synthAut.orderedEdgesForward) {
+            for (CifBddEdge followingEdge: cifBddSpec.orderedEdgesForward) {
                 Event followingEvent = followingEdge.event;
                 if (precedingEvent == followingEvent) {
                     continue; // Save computations by skipping self-dependencies (workset algorithm does not need them).
@@ -70,9 +70,9 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
         }
 
         // Compute and store the edge dependency sets, based on the event follows relation.
-        synthAut.worksetDependenciesBackward = create(followEvents, synthAut.orderedEdgesBackward, false);
+        cifBddSpec.worksetDependenciesBackward = create(followEvents, cifBddSpec.orderedEdgesBackward, false);
         if (forwardEnabled) {
-            synthAut.worksetDependenciesForward = create(followEvents, synthAut.orderedEdgesForward, true);
+            cifBddSpec.worksetDependenciesForward = create(followEvents, cifBddSpec.orderedEdgesForward, true);
         }
     }
 
@@ -84,15 +84,15 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
      * @param forward Whether to create the forward ({@code true}) or backward ({@code false}) dependency sets.
      * @return The workset dependency sets, one per edge, in the order of the edges as they are given.
      */
-    private List<BitSet> create(Map<Event, Set<Event>> followEvents, List<SynthesisEdge> edges, boolean forward) {
+    private List<BitSet> create(Map<Event, Set<Event>> followEvents, List<CifBddEdge> edges, boolean forward) {
         // Consider each edge.
         List<BitSet> dependencies = listc(edges.size());
-        for (SynthesisEdge edge1: edges) {
+        for (CifBddEdge edge1: edges) {
             BitSet dependencies1 = new BitSet(edges.size());
 
             // Consider each other edge.
             for (int i = 0; i < edges.size(); i++) {
-                SynthesisEdge edge2 = edges.get(i);
+                CifBddEdge edge2 = edges.get(i);
 
                 // Add dependency based on event follows relation.
                 boolean isDependency;

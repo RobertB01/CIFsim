@@ -16,15 +16,15 @@ package org.eclipse.escet.cif.datasynth.varorder.helper;
 import java.util.List;
 import java.util.Objects;
 
-import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
+import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 
-/** Variable order. Puts all synthesis variables in a certain order. The variables may optionally be interleaved. */
+/** Variable order. Puts all CIF/BDD variables in a certain order. The variables may optionally be interleaved. */
 public class VarOrder {
     /**
      * The variable order. The outer list represents ordered groups. Each inner list represents a group of ordered and
      * interleaved variables.
      */
-    private final List<List<SynthesisVariable>> varOrder;
+    private final List<List<CifBddVariable>> varOrder;
 
     /**
      * Constructor for the {@link VarOrder} class.
@@ -32,7 +32,7 @@ public class VarOrder {
      * @param varOrder The variable order. The outer list represents ordered groups. Each inner list represents a group
      *     of ordered and interleaved variables.
      */
-    public VarOrder(List<List<SynthesisVariable>> varOrder) {
+    public VarOrder(List<List<CifBddVariable>> varOrder) {
         this.varOrder = varOrder;
     }
 
@@ -42,7 +42,7 @@ public class VarOrder {
      * @param orderedVars The ordered variables.
      * @return The non-interleaved variable order.
      */
-    public static VarOrder createFromOrderedVars(List<SynthesisVariable> orderedVars) {
+    public static VarOrder createFromOrderedVars(List<CifBddVariable> orderedVars) {
         return new VarOrder(orderedVars.stream().map(v -> List.of(v)).toList());
     }
 
@@ -52,7 +52,7 @@ public class VarOrder {
      * @return The variable order. The outer list represents ordered groups. Each inner list represents a group of
      *     ordered and interleaved variables.
      */
-    public List<List<SynthesisVariable>> getVarOrder() {
+    public List<List<CifBddVariable>> getVarOrder() {
         return varOrder;
     }
 
@@ -61,7 +61,7 @@ public class VarOrder {
      *
      * @return The ordered variables.
      */
-    public List<SynthesisVariable> getOrderedVars() {
+    public List<CifBddVariable> getOrderedVars() {
         return varOrder.stream().flatMap(grp -> grp.stream()).toList();
     }
 

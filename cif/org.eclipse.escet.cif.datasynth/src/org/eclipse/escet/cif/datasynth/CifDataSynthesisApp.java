@@ -61,7 +61,7 @@ import org.eclipse.escet.cif.datasynth.options.SupervisorNamespaceOption;
 import org.eclipse.escet.cif.datasynth.options.SynthesisStatisticsOption;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -279,19 +279,19 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Perform synthesis.
         Specification rslt;
         try {
-            // Convert CIF specification to synthesis format, checking for
-            // precondition violations along the way.
+            // Convert CIF specification to a CIF/BDD representation, checking for precondition violations along the
+            // way.
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
             CifToSynthesisConverter converter1 = new CifToSynthesisConverter();
 
-            SynthesisAutomaton aut;
+            CifBddSpec cifBddSpec;
             if (doTiming) {
                 timing.inputConvert.start();
             }
             try {
-                aut = converter1.convert(spec, settings, factory);
+                cifBddSpec = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
@@ -307,7 +307,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 dbg("Starting data-based synthesis.");
             }
             boolean doPrintCtrlSysStates = settings.synthesisStatistics.contains(SynthesisStatistics.CTRL_SYS_STATES);
-            CifDataSynthesis.synthesize(aut, doTiming, timing, doPrintCtrlSysStates);
+            CifDataSynthesis.synthesize(cifBddSpec, doTiming, timing, doPrintCtrlSysStates);
             if (isTerminationRequested()) {
                 return;
             }
@@ -322,7 +322,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.outputConvert.start();
             }
             try {
-                rslt = converter2.convert(aut, spec);
+                rslt = converter2.convert(cifBddSpec, spec);
             } finally {
                 if (doTiming) {
                     timing.outputConvert.stop();

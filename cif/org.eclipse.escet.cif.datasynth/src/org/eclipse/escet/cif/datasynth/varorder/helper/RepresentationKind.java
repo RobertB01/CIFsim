@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.datasynth.varorder.helper;
 
 /**
- * The kind of representations of the relations between synthesis variables, derived from the CIF specification, that
+ * The kind of representations of the relations between CIF/BDD variables, derived from the CIF specification, that
  * variable ordering algorithms may operate on.
  */
 public enum RepresentationKind {

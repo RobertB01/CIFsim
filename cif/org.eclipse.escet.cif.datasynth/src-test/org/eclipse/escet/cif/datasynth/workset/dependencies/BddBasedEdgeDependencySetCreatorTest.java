@@ -30,8 +30,8 @@ import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.BitSets;
@@ -587,8 +587,8 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
-        SynthesisAutomaton synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
-        for (SynthesisEdge edge: synthAut.edges) {
+        CifBddSpec synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
+        for (CifBddEdge edge: synthAut.edges) {
             edge.initApply(true);
         }
 

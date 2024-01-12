@@ -14,12 +14,12 @@
 package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
 import org.eclipse.escet.cif.datasynth.CifDataSynthesisReachability;
-import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 
 /** Edge dependency set creator for the {@link CifDataSynthesisReachability reachability} workset algorithm. */
 public interface EdgeDependencySetCreator {
     /**
-     * Create the forward and backward edge dependency sets, and store them in the synthesis automaton.
+     * Create the forward and backward edge dependency sets, and store them in the CIF/BDD specification.
      *
      * <p>
      * For each edge 'e', its forward dependencies are those edges that may become enabled after taking edge 'e'. The
@@ -34,16 +34,16 @@ public interface EdgeDependencySetCreator {
      * <p>
      * Ideally, we'd compute the exact dependencies, but with arbitrary guard predicates and arbitrary assigned values
      * in updates, this is typically too complex to analyze statically. Hence, we compute an over-approximation. The
-     * larger the over-approximation, the more edges are needlessly applied, impacting synthesis performance. The
-     * dependencies must never be under-approximated, as that would make the workset algorithm invalid, since it then
-     * may no longer reach all reachable states.
+     * larger the over-approximation, the more edges are needlessly applied, impacting the performance of reachability
+     * computations. The dependencies must never be under-approximated, as that would make the workset algorithm
+     * invalid, since it then may no longer reach all reachable states.
      * </p>
      *
-     * @param synthAut The synthesis automaton. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      * @param forwardEnabled Whether forward reachability is enabled. If it is disabled, the forward edge dependency
-     *     sets are not computed and thus also not stored in the synthesis automaton.
-     * @see SynthesisAutomaton#worksetDependenciesBackward
-     * @see SynthesisAutomaton#worksetDependenciesForward
+     *     sets are not computed and thus also not stored in the CIF/BDD specification.
+     * @see CifBddSpec#worksetDependenciesBackward
+     * @see CifBddSpec#worksetDependenciesForward
      */
-    public void createAndStore(SynthesisAutomaton synthAut, boolean forwardEnabled);
+    public void createAndStore(CifBddSpec cifBddSpec, boolean forwardEnabled);
 }
