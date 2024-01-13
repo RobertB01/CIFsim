@@ -259,9 +259,13 @@ body {
 }
 #toc li.toc-item-parent > div.toc-item-marker:after {
     content: '\203A';
+    transition: 0.2s;
+}
+#toc li.toc-item-parent:not(.expanded) > div.toc-item-marker:after {
+    transform: rotate(0deg);
     padding-left: .05em;
 }
-#toc li.toc-item-parent.expanded > div.toc-item-marker:after {
+#toc li.toc-item-parent:is(.expanded) > div.toc-item-marker:after {
     transform: rotate(90deg) translateY(-.15em);
     padding-left: 0;
 }
