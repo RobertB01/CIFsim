@@ -1738,8 +1738,8 @@ public class CifToSynthesisConverter {
      * @param cifBddSpec The CIF/BDD specification to be updated.
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
-            List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+            List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets, CifBddLocationPointerManager locPtrManager,
+            CifBddSpec cifBddSpec)
     {
         // Combine information about plants and requirements.
         List<Automaton> automata = concat(plants, requirements);
@@ -2029,8 +2029,8 @@ public class CifToSynthesisConverter {
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
      */
-    private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+    private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge, CifBddLocationPointerManager locPtrManager,
+            CifBddSpec cifBddSpec)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
