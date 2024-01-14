@@ -73,6 +73,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.datasynth.CifDataSynthesisResult;
 import org.eclipse.escet.cif.datasynth.bdd.BddToCif;
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
@@ -128,7 +129,7 @@ import com.github.javabdd.BDD;
 
 /** Converter to convert synthesis result back to CIF. */
 public class SynthesisToCifConverter {
-    /** The CIF/BDD specification that represents the synthesis result, or {@code null} if not available. */
+    /** The CIF/BDD specification on which synthesis was performed, or {@code null} if not available. */
     private CifBddSpec cifBddSpec;
 
     /** The input CIF specification, or {@code null} if not available. May be modified in-place. */
@@ -171,13 +172,13 @@ public class SynthesisToCifConverter {
      * Converts a synthesis result back to CIF. The original CIF specification is extended with an external supervisor,
      * to obtain the controlled system.
      *
-     * @param cifBddSpec The CIF/BDD specification that represents the synthesis result.
+     * @param synthResult The synthesis result.
      * @param spec The input CIF specification. Is modified in-place.
      * @return The output CIF specification, i.e. the modified input CIF specification.
      */
-    public Specification convert(CifBddSpec cifBddSpec, Specification spec) {
+    public Specification convert(CifDataSynthesisResult synthResult, Specification spec) {
         // Initialization.
-        this.cifBddSpec = cifBddSpec;
+        this.cifBddSpec = synthResult.cifBddSpec;
         this.spec = spec;
         this.supervisor = null;
         this.outputMode = cifBddSpec.settings.bddOutputMode;
@@ -260,7 +261,7 @@ public class SynthesisToCifConverter {
 
         // Add edges for controllable events.
         List<Edge> edges = listc(controllables.size());
-        for (Entry<Event, BDD> entry: cifBddSpec.outputGuards.entrySet()) {
+        for (Entry<Event, BDD> entry: synthResult.outputGuards.entrySet()) {
             Event event = entry.getKey();
             BDD guard = entry.getValue();
 
@@ -277,8 +278,8 @@ public class SynthesisToCifConverter {
         cifLoc.getEdges().addAll(edges);
 
         // Add initialization predicate, if any.
-        if (cifBddSpec.initialOutput != null) {
-            Expression initialPred = convertPred(cifBddSpec.initialOutput);
+        if (synthResult.initialOutput != null) {
+            Expression initialPred = convertPred(synthResult.initialOutput);
             supervisor.getInitials().add(initialPred);
         }
 
