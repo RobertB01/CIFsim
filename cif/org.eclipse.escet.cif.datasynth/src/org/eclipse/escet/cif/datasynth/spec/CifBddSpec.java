@@ -88,8 +88,8 @@ public class CifBddSpec {
 
     /**
      * Initialization predicates for each of the CIF/BDD variables. Predicates are obtained from the initial values as
-     * specified with the declarations of the discrete variables. For CIF/BDD variables that don't represent a
-     * discrete variable, the predicate is {@code null}. Is {@code null} if not yet or no longer available.
+     * specified with the declarations of the discrete variables. For CIF/BDD variables that don't represent a discrete
+     * variable, the predicate is {@code null}. Is {@code null} if not yet or no longer available.
      */
     public List<BDD> initialsVars;
 
