@@ -80,7 +80,8 @@ public class CifDataSynthesis {
         boolean doForward = cifBddSpec.settings.doForwardReach;
         boolean dbgEnabled = cifBddSpec.settings.debugOutput.isEnabled();
 
-        // Initialize synthesis result.
+        // Initialize some variables.
+        Set<Event> disabledEvents = null;
         CifDataSynthesisResult synthResult = new CifDataSynthesisResult(cifBddSpec);
 
         // Pre synthesis.
@@ -162,7 +163,7 @@ public class CifDataSynthesis {
                 return null;
             }
             if (cifBddSpec.settings.doNeverEnabledEventsWarn) {
-                checkInputEdges(cifBddSpec);
+                disabledEvents = checkInputEdges(cifBddSpec);
             }
 
             // Prepare workset algorithm, if enabled.
@@ -277,7 +278,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.shouldTerminate.get()) {
                     return null;
                 }
-                checkOutputEdges(cifBddSpec, synthResult, ctrlGuards);
+                checkOutputEdges(cifBddSpec, disabledEvents, synthResult, ctrlGuards);
             }
 
             // Determine the output of synthesis (2/2).
@@ -1221,13 +1222,14 @@ public class CifDataSynthesis {
      * events.
      *
      * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @return The events that are disabled before synthesis. May be incomplete if termination is requested.
      */
-    private static void checkInputEdges(CifBddSpec cifBddSpec) {
-        cifBddSpec.disabledEvents = setc(cifBddSpec.alphabet.size());
+    private static Set<Event> checkInputEdges(CifBddSpec cifBddSpec) {
+        Set<Event> disabledEvents = setc(cifBddSpec.alphabet.size());
 
         for (Event event: cifBddSpec.alphabet) {
             if (cifBddSpec.settings.shouldTerminate.get()) {
-                return;
+                return disabledEvents;
             }
 
             // Skip events for input variables as they have no edges.
@@ -1238,7 +1240,7 @@ public class CifDataSynthesis {
             // Skip events that are in the alphabet, but never on an edge as these are globally disabled. Note, the type
             // checker reports these already.
             if (cifBddSpec.eventEdges.get(event) == null) {
-                cifBddSpec.disabledEvents.add(event);
+                disabledEvents.add(event);
                 continue;
             }
 
@@ -1247,7 +1249,7 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.warnOutput
                         .line("Event \"%s\" is never enabled in the input specification, taking into "
                                 + "account only state/event exclusion plants.", CifTextUtils.getAbsName(event));
-                cifBddSpec.disabledEvents.add(event);
+                disabledEvents.add(event);
                 continue;
             }
 
@@ -1256,7 +1258,7 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.warnOutput
                         .line("Event \"%s\" is never enabled in the input specification, taking into "
                                 + "account only state/event exclusion requirements.", CifTextUtils.getAbsName(event));
-                cifBddSpec.disabledEvents.add(event);
+                disabledEvents.add(event);
                 continue;
             }
 
@@ -1266,7 +1268,7 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.warnOutput
                         .line("Event \"%s\" is never enabled in the input specification, taking into "
                                 + "account only automaton guards.", CifTextUtils.getAbsName(event));
-                cifBddSpec.disabledEvents.add(event);
+                disabledEvents.add(event);
                 continue;
             }
 
@@ -1280,7 +1282,7 @@ public class CifDataSynthesis {
             boolean alwaysDisabled = true;
             for (CifBddEdge edge: cifBddSpec.eventEdges.get(event)) {
                 if (cifBddSpec.settings.shouldTerminate.get()) {
-                    return;
+                    return disabledEvents;
                 }
 
                 BDD enabledExpression = edge.guard.and(cifBddSpec.reqInv);
@@ -1296,10 +1298,13 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.warnOutput
                         .line("Event \"%s\" is never enabled in the input specification, taking into "
                                 + "account automaton guards and invariants.", CifTextUtils.getAbsName(event));
-                cifBddSpec.disabledEvents.add(event);
+                disabledEvents.add(event);
                 continue;
             }
         }
+
+        // Return the events that are disabled before synthesis.
+        return disabledEvents;
     }
 
     /**
@@ -1890,11 +1895,12 @@ public class CifDataSynthesis {
      * </p>
      *
      * @param cifBddSpec The CIF/BDD specification on which synthesis was performed.
+     * @param disabledEvents The events that are disabled before synthesis.
      * @param synthResult The synthesis result. Is modified in-place.
      * @param ctrlGuards The guards in the controlled system for the controllable events to check.
      */
-    private static void checkOutputEdges(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
-            Map<Event, BDD> ctrlGuards)
+    private static void checkOutputEdges(CifBddSpec cifBddSpec, Set<Event> disabledEvents,
+            CifDataSynthesisResult synthResult, Map<Event, BDD> ctrlGuards)
     {
         // Determine the guards for the uncontrollable events.
         Set<Event> uncontrollables = Sets.difference(cifBddSpec.alphabet, cifBddSpec.controllables,
@@ -1905,13 +1911,13 @@ public class CifDataSynthesis {
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
-        warnEventsDisabled(cifBddSpec, synthResult, ctrlGuards);
+        warnEventsDisabled(cifBddSpec, disabledEvents, synthResult, ctrlGuards);
 
         // Warn for uncontrollable events never enabled in the controlled system.
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
-        warnEventsDisabled(cifBddSpec, synthResult, unctrlGuards);
+        warnEventsDisabled(cifBddSpec, disabledEvents, synthResult, unctrlGuards);
 
         // Free no longer needed predicates.
         if (cifBddSpec.settings.shouldTerminate.get()) {
@@ -1930,11 +1936,12 @@ public class CifDataSynthesis {
      * </p>
      *
      * @param cifBddSpec The CIF/BDD specification on which synthesis was performed.
+     * @param disabledEvents The events that are disabled before synthesis.
      * @param synthResult The synthesis result. Is modified in-place.
      * @param guards The guards in the controlled system for the events.
      */
-    private static void warnEventsDisabled(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
-            Map<Event, BDD> guards)
+    private static void warnEventsDisabled(CifBddSpec cifBddSpec, Set<Event> disabledEvents,
+            CifDataSynthesisResult synthResult, Map<Event, BDD> guards)
     {
         // Calculate controlled state space.
         BDD ctrlBehPlantInv = synthResult.ctrlBeh.and(cifBddSpec.plantInv);
@@ -1949,10 +1956,10 @@ public class CifDataSynthesis {
             BDD ctrlBehGuard = guards.get(event).and(ctrlBehPlantInv);
 
             // Warn for events that are never enabled.
-            if (ctrlBehGuard.isZero() && !cifBddSpec.disabledEvents.contains(event)) {
+            if (ctrlBehGuard.isZero() && !disabledEvents.contains(event)) {
                 cifBddSpec.settings.warnOutput.line("Event \"%s\" is disabled in the controlled system.",
                         CifTextUtils.getAbsName(event));
-                cifBddSpec.disabledEvents.add(event);
+                disabledEvents.add(event);
                 continue;
             }
             ctrlBehGuard.free();

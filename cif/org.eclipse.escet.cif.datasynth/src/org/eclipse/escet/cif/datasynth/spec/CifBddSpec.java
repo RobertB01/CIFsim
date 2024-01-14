@@ -68,9 +68,6 @@ public class CifBddSpec {
     /** Mapping from events to their CIF/BDD edges. */
     public Map<Event, List<CifBddEdge>> eventEdges;
 
-    /** The events that are disabled before synthesis. */
-    public Set<Event> disabledEvents;
-
     /**
      * Per CIF/BDD edge in {@link #orderedEdgesBackward}, its backward edge dependencies set for the workset algorithm.
      * This field is {@code null} until it is computed.
