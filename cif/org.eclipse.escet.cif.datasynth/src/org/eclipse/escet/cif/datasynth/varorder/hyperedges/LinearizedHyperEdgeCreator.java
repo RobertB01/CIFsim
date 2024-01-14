@@ -86,7 +86,7 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
                 .collect(Collectors.toList());
 
         // Linearize the edges of the copy of the specification.
-        // Must match a similar call to linearize edges in `CifToSynthesisConverter'.
+        // Must match a similar call to linearize edges in `CifToBddConverter'.
         CifBddLocationPointerManager locPtrManager = new CifBddLocationPointerManager(lpAuts);
         List<Edge> linearizedEdges = list();
         LinearizeProduct.linearizeEdges(automata, alphabets, set2list(events), locPtrManager, false, true,
