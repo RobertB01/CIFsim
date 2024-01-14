@@ -25,6 +25,9 @@ public class CifDataSynthesisResult {
     /** The CIF/BDD specification that represents the CIF specification. */
     public final CifBddSpec cifBddSpec;
 
+    /** Controlled-behavior predicate of the system. */
+    public BDD ctrlBeh;
+
     /** Initialization predicate of the controlled system. Is {@code null} if not yet or no longer available. */
     public BDD initialCtrl;
 

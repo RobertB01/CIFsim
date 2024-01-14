@@ -311,9 +311,6 @@ public class CifBddSpec {
      */
     public BDDVarSet varSetNew;
 
-    /** Controlled-behavior predicate of the system. Computed and used during synthesis. Also a result of synthesis. */
-    public BDD ctrlBeh;
-
     /**
      * Constructor for the {@link CifBddSpec} class.
      *
