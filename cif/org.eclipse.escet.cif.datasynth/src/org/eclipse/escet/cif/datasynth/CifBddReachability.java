@@ -42,7 +42,7 @@ import org.eclipse.escet.common.java.Strings;
 import com.github.javabdd.BDD;
 
 /** CIF data-based synthesis reachability computations. */
-public class CifDataSynthesisReachability {
+public class CifBddReachability {
     /** The CIF/BDD specification. */
     private final CifBddSpec cifBddSpec;
 
@@ -87,7 +87,7 @@ public class CifDataSynthesisReachability {
     private final boolean dbgEnabled;
 
     /**
-     * Constructor for the {@link CifDataSynthesisReachability} class.
+     * Constructor for the {@link CifBddReachability} class.
      *
      * @param cifBddSpec The CIF/BDD specification.
      * @param round The 1-based round number of the main synthesis algorithm, for debug output.
@@ -104,7 +104,7 @@ public class CifDataSynthesisReachability {
      * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    public CifDataSynthesisReachability(CifBddSpec cifBddSpec, int round, String predName, String initName,
+    public CifBddReachability(CifBddSpec cifBddSpec, int round, String predName, String initName,
             String restrictionName, BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
             boolean dbgEnabled)
     {

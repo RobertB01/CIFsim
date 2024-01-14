@@ -1452,7 +1452,7 @@ public class CifDataSynthesis {
                 // Perform the fixed-point reachability computation.
                 BDD reachabilityResult;
                 try {
-                    CifDataSynthesisReachability reachability = new CifDataSynthesisReachability(cifBddSpec, round,
+                    CifBddReachability reachability = new CifBddReachability(cifBddSpec, round,
                             predName, initName, restrictionName, restriction, badStates, applyForward, inclCtrl,
                             inclUnctrl, dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
