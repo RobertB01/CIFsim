@@ -20,7 +20,7 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
+import org.eclipse.escet.cif.datasynth.conversion.CifToBddConverter;
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
@@ -587,7 +587,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
-        CifBddSpec synthAut = new CifToSynthesisConverter().convert(spec, settings, factory);
+        CifBddSpec synthAut = new CifToBddConverter().convert(spec, settings, factory);
         for (CifBddEdge edge: synthAut.edges) {
             edge.initApply(true);
         }

@@ -777,7 +777,7 @@ public class SynthesisToCifConverter {
 
         // Collect the events from original specification.
         List<Event> events = list();
-        CifToSynthesisConverter.collectEvents(spec, events);
+        CifToBddConverter.collectEvents(spec, events);
 
         // Move events to new specification, in proper groups, to maintain
         // their original identity.

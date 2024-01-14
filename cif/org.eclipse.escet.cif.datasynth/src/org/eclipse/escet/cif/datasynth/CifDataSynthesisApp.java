@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
-import org.eclipse.escet.cif.datasynth.conversion.CifToSynthesisConverter;
+import org.eclipse.escet.cif.datasynth.conversion.CifToBddConverter;
 import org.eclipse.escet.cif.datasynth.conversion.SynthesisToCifConverter;
 import org.eclipse.escet.cif.datasynth.options.BddAdvancedVariableOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddDcshVarOrderOption;
@@ -283,7 +283,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
-            CifToSynthesisConverter converter1 = new CifToSynthesisConverter();
+            CifToBddConverter converter1 = new CifToBddConverter();
 
             CifBddSpec cifBddSpec;
             if (doTiming) {
