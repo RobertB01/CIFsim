@@ -413,7 +413,7 @@ public class CifToBddConverter {
         cifBddSpec.initialLocs = cifBddSpec.factory.one();
         convertInit(spec, cifBddSpec, locPtrManager);
         BDD initialCompsAndLocs = cifBddSpec.initialComps.and(cifBddSpec.initialLocs);
-        cifBddSpec.initialUnctrl = cifBddSpec.initialVars.and(initialCompsAndLocs);
+        cifBddSpec.initial = cifBddSpec.initialVars.and(initialCompsAndLocs);
         initialCompsAndLocs.free();
 
         if (cifBddSpec.settings.shouldTerminate.get()) {
@@ -460,7 +460,7 @@ public class CifToBddConverter {
         }
 
         // Set combined predicate for initialization with state invariants.
-        cifBddSpec.initialPlantInv = cifBddSpec.initialUnctrl.and(cifBddSpec.plantInv);
+        cifBddSpec.initialPlantInv = cifBddSpec.initial.and(cifBddSpec.plantInv);
         cifBddSpec.initialInv = cifBddSpec.initialPlantInv.and(cifBddSpec.reqInv);
 
         // Set combined predicate for marking with state invariants.

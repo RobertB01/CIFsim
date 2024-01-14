@@ -124,11 +124,11 @@ public class CifBddSpec {
      * Initialization predicate of the uncontrolled system. Conjunction of {@link #initialVars}, {@link #initialComps}
      * and {@link #initialLocs}. Is {@code null} if not yet or no longer available.
      */
-    public BDD initialUnctrl;
+    public BDD initial;
 
     /**
      * Combined initialization and state plant invariant predicates of the uncontrolled system. Conjunction of
-     * {@link #initialUnctrl} and {@link #plantInv}. Is {@code null} if not yet or no longer available.
+     * {@link #initial} and {@link #plantInv}. Is {@code null} if not yet or no longer available.
      */
     public BDD initialPlantInv;
 

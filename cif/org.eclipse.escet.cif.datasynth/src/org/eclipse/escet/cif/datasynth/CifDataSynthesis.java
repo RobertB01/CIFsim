@@ -448,7 +448,7 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             cifBddSpec.settings.debugOutput.line("Initial   (uncontrolled system):             %s",
-                    bddToStr(cifBddSpec.initialUnctrl, cifBddSpec));
+                    bddToStr(cifBddSpec.initial, cifBddSpec));
         }
 
         // Debug combined initialization and state plant invariants of the system.
@@ -473,7 +473,7 @@ public class CifDataSynthesis {
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
-        if (cifBddSpec.initialUnctrl.isZero()) {
+        if (cifBddSpec.initial.isZero()) {
             cifBddSpec.settings.warnOutput
                     .line("The uncontrolled system has no initial state (taking into account only initialization).");
         }
@@ -481,7 +481,7 @@ public class CifDataSynthesis {
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
-        if (!cifBddSpec.initialUnctrl.isZero() && !cifBddSpec.plantInv.isZero()
+        if (!cifBddSpec.initial.isZero() && !cifBddSpec.plantInv.isZero()
                 && cifBddSpec.initialPlantInv.isZero())
         {
             cifBddSpec.settings.warnOutput
@@ -492,7 +492,7 @@ public class CifDataSynthesis {
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
-        if (!cifBddSpec.initialPlantInv.isZero() && !cifBddSpec.initialUnctrl.isZero() && !cifBddSpec.plantInv.isZero()
+        if (!cifBddSpec.initialPlantInv.isZero() && !cifBddSpec.initial.isZero() && !cifBddSpec.plantInv.isZero()
                 && !cifBddSpec.reqInv.isZero() && cifBddSpec.initialInv.isZero())
         {
             cifBddSpec.settings.warnOutput.line("The controlled system has no initial state (taking into account both "
@@ -1708,7 +1708,7 @@ public class CifDataSynthesis {
             cifBddSpec.settings.debugOutput.line("Initial (synthesis result):            %s",
                     bddToStr(cifBddSpec.ctrlBeh, cifBddSpec));
             cifBddSpec.settings.debugOutput.line("Initial (uncontrolled system):         %s",
-                    bddToStr(cifBddSpec.initialUnctrl, cifBddSpec));
+                    bddToStr(cifBddSpec.initial, cifBddSpec));
             cifBddSpec.settings.debugOutput.line("Initial (controlled system):           %s",
                     bddToStr(synthResult.initialCtrl, cifBddSpec));
         }
@@ -1719,7 +1719,7 @@ public class CifDataSynthesis {
         // What initialization was allowed in the uncontrolled system, but is no longer allowed in the controlled
         // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
         // as additional initialization restriction on top of the uncontrolled system.
-        BDD initialRemoved = cifBddSpec.initialUnctrl.id().andWith(synthResult.initialCtrl.not());
+        BDD initialRemoved = cifBddSpec.initial.id().andWith(synthResult.initialCtrl.not());
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
         }
@@ -1757,7 +1757,7 @@ public class CifDataSynthesis {
             if (simplifications.contains(BddSimplify.INITIAL_UNCTRL)) {
                 assumptionTxts.add("uncontrolled system initialization predicates");
 
-                BDD extra = cifBddSpec.initialUnctrl.id();
+                BDD extra = cifBddSpec.initial.id();
                 assumption = assumption.andWith(extra);
             }
 
@@ -1808,12 +1808,12 @@ public class CifDataSynthesis {
 
         // Free no longer needed predicates.
         synthResult.initialCtrl.free();
-        cifBddSpec.initialUnctrl.free();
+        cifBddSpec.initial.free();
         initialRemoved.free();
         initialAdded.free();
 
         synthResult.initialCtrl = null;
-        cifBddSpec.initialUnctrl = null;
+        cifBddSpec.initial = null;
     }
 
     /**
