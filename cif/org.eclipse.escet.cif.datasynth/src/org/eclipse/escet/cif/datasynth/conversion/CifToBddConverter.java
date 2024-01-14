@@ -180,9 +180,12 @@ public class CifToBddConverter {
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
+     * @param appName The human-readable name of the application. Should start with a capital letter.
      * @return The CIF/BDD representation of the CIF specification.
      */
-    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory,
+            String appName)
+    {
         // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
         // violations.
         CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);
@@ -191,7 +194,7 @@ public class CifToBddConverter {
         }
 
         // Precondition violations found.
-        String msg = "Data-based supervisory controller synthesis failed due to unsatisfied preconditions:\n - "
+        String msg = fmt("%s failed due to unsatisfied preconditions:\n - ", appName)
                 + String.join("\n - ", sortedstrings(problems));
         throw new UnsupportedException(msg);
     }

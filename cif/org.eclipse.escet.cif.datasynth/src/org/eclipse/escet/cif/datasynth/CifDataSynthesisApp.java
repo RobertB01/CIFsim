@@ -290,7 +290,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
-                cifBddSpec = converter1.convert(spec, settings, factory);
+                cifBddSpec = converter1.convert(spec, settings, factory, "Data-based supervisory controller synthesis");
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();

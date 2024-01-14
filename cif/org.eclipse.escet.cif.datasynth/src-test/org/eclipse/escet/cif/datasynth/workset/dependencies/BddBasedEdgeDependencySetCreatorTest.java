@@ -587,7 +587,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
-        CifBddSpec cifBddSpec = new CifToBddConverter().convert(spec, settings, factory);
+        CifBddSpec cifBddSpec = new CifToBddConverter().convert(spec, settings, factory, "Test");
         for (CifBddEdge edge: cifBddSpec.edges) {
             edge.initApply(true);
         }
