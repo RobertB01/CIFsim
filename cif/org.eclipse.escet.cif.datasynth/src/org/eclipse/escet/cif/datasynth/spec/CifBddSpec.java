@@ -138,15 +138,6 @@ public class CifBddSpec {
      */
     public BDD initialInv;
 
-    /** Initialization predicate of the controlled system. Is {@code null} if not yet or no longer available. */
-    public BDD initialCtrl;
-
-    /**
-     * Initialization predicate of the to use for the output. Computed as a result of synthesis. Is {@code null} if not
-     * yet available, or if no additional initialization predicate is to be added to the output.
-     */
-    public BDD initialOutput;
-
     /** Marker predicates from the components. Is {@code null} if not yet or no longer available. */
     public List<BDD> markedsComps;
 
@@ -319,12 +310,6 @@ public class CifBddSpec {
      * The BDD variable set containing all new variables, i.e. '{x+, y+, z+, ...}'. Is {@code null} if not available.
      */
     public BDDVarSet varSetNew;
-
-    /**
-     * Mapping from the controllable events in the {@link #alphabet} to the guards to use as output of synthesis, when
-     * constructing the output CIF model. Is {@code null} until computed as part of synthesis.
-     */
-    public Map<Event, BDD> outputGuards;
 
     /** Controlled-behavior predicate of the system. Computed and used during synthesis. Also a result of synthesis. */
     public BDD ctrlBeh;
