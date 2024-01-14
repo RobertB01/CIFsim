@@ -222,8 +222,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Check whether plants reference requirements.
             if (settings.doPlantsRefReqsWarn) {
-                new PlantsRefsReqsChecker(OutputProvider.getWarningOutputStream())
-                        .checkPlantRefToRequirement(spec);
+                new PlantsRefsReqsChecker(OutputProvider.getWarningOutputStream()).checkPlantRefToRequirement(spec);
             }
         } finally {
             if (doTiming) {
