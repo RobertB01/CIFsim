@@ -358,7 +358,7 @@ public class CifToSynthesisConverter {
 
         // Create location pointer manager.
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
-        CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
+        CifBddLocationPointerManager locPtrManager = new CifBddLocationPointerManager(lpAuts);
 
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return cifBddSpec;
@@ -1739,7 +1739,7 @@ public class CifToSynthesisConverter {
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
             List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Combine information about plants and requirements.
         List<Automaton> automata = concat(plants, requirements);
@@ -2030,7 +2030,7 @@ public class CifToSynthesisConverter {
      * @param cifBddSpec The CIF/BDD specification.
      */
     private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
@@ -2102,7 +2102,7 @@ public class CifToSynthesisConverter {
      *     to a precondition violation.
      */
     private Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Make sure it is not a conditional update ('if' update).
         if (update instanceof IfUpdate) {
