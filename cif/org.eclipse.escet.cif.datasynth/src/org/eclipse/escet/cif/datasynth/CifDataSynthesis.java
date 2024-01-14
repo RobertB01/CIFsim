@@ -223,7 +223,7 @@ public class CifDataSynthesis {
                 edge.cleanupApply();
             }
 
-            // Controlled system behavior is in the synthesis result.
+            // The final controlled system behavior is in the synthesis result.
             if (cifBddSpec.settings.shouldTerminate.get()) {
                 return null;
             }
