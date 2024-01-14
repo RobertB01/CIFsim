@@ -53,7 +53,10 @@ public class CifBddEdge {
     /** The original guard of the edge. */
     public BDD origGuard;
 
-    /** The current guard of the edge. Is updated during synthesis. */
+    /**
+     * The current guard of the edge. May be different from {@link #origGuard} if it is changed after the conversion of
+     * the CIF specification to the CIF/BDD representation.
+     */
     public BDD guard;
 
     /** Precomputed '{@link #guard} and {@link #error}'. Is {@code null} if not available. */
@@ -106,7 +109,9 @@ public class CifBddEdge {
 
     /**
      * Global edge initialization for {@link #apply applying} the edge. Must be invoked only once per edge. Must be
-     * invoked before any invocation of {@link #preApply} or {@link #apply}.
+     * invoked before any invocation of {@link #preApply} or {@link #apply}. If the {@link #guard} is changed after
+     * invoking this method, {@link #reinitApply} must be invoked to re-initialize the edge for applying, unless
+     * {@link #cleanupApply} has already been invoked.
      *
      * @param doForward Whether to allow for forward reachability.
      */
@@ -114,13 +119,13 @@ public class CifBddEdge {
         // Precompute 'errorNot'.
         errorNot = error.not();
 
-        // We can include the guard in the update, as it won't change during
-        // synthesis. That is, it may differ from the uncontrolled system
-        // guard as preparations for state/event exclusion invariants for
-        // edges with controllable events may have changed them, etc. But
-        // during the actual synthesis the guard won't change. It will then
-        // only change again afterwards, after synthesis has completed and the
-        // controlled system guards are determined.
+        // We can include the guard in the update, assuming it won't anymore. That is, the guard may differ from the
+        // uncontrolled system guard as preparations for state/event exclusion invariants for edges with controllable
+        // events may have changed it, etc. But during the actual computations on the CIF/BDD specification, it
+        // shouldn't change. If the edge guard does change, the edge must be re-initialized for application.
+        //
+        // For instance, during the actual synthesis the guard won't change. It could then still change again
+        // afterwards, after synthesis has completed and the controlled system guards are determined.
         Assert.check(update != null);
         Assert.check(updateGuard == null);
         updateGuard = update.and(guard);
@@ -138,10 +143,8 @@ public class CifBddEdge {
     }
 
     /**
-     * Global edge re-initialization. Edges must be reinitialized when the guards have been updated due to applying the
-     * state plant invariants, state requirement invariants (depending on settings), and state/event exclusion
-     * requirement invariants. Must be invoked only once per edge. Must be invoked after an invocation of
-     * {@link #initApply}.
+     * Global edge re-initialization. Edges must be reinitialized when the guards have been updated after
+     * {@link #initApply} was invoked. Must be invoked only once per edge.
      *
      * <p>
      * Since {@link CifDataSynthesis#applyStatePlantInvs} applies edges, it requires edges to be initialized. Hence,
