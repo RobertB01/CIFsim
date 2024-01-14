@@ -108,7 +108,7 @@ public class CifBddEdge {
      * Global edge initialization for {@link #apply applying} the edge. Must be invoked only once per edge. Must be
      * invoked before any invocation of {@link #preApply} or {@link #apply}.
      *
-     * @param doForward Whether to do forward reachability during synthesis.
+     * @param doForward Whether to allow for forward reachability.
      */
     public void initApply(boolean doForward) {
         // Precompute 'errorNot'.
@@ -130,7 +130,7 @@ public class CifBddEdge {
         // Precompute 'guardError'.
         guardError = guard.and(error);
 
-        // If we do forward reachability, precompute 'updateGuardErrorNot'.
+        // If we allow forward reachability, precompute 'updateGuardErrorNot'.
         Assert.check(updateGuardErrorNot == null);
         if (doForward) {
             updateGuardErrorNot = updateGuard.and(errorNot);
@@ -148,7 +148,7 @@ public class CifBddEdge {
      * initialization cannot be done later and re-initialization is necessary.
      * </p>
      *
-     * @param doForward Whether to do forward reachability during synthesis.
+     * @param doForward Whether to allow for forward reachability.
      */
     public void reinitApply(boolean doForward) {
         Assert.check(update == null);
@@ -157,7 +157,7 @@ public class CifBddEdge {
         updateGuard.free();
         updateGuard = updateGuardNew;
 
-        // If we do forward reachability, update 'updateGuardErrorNot'.
+        // If we allow forward reachability, update 'updateGuardErrorNot'.
         if (doForward) {
             updateGuardErrorNot.free();
             updateGuardErrorNot = updateGuard.and(errorNot);
