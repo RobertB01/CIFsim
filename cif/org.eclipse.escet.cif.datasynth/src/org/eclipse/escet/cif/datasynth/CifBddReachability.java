@@ -41,7 +41,7 @@ import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
 
-/** CIF data-based synthesis reachability computations. */
+/** CIF/BDD reachability computations. */
 public class CifBddReachability {
     /** The CIF/BDD specification. */
     private final CifBddSpec cifBddSpec;
