@@ -1449,10 +1449,16 @@ public class CifDataSynthesis {
                     stopwatch.start();
                 }
 
+                // Debug output.
+                if (dbgEnabled) {
+                    cifBddSpec.settings.debugOutput.line();
+                    cifBddSpec.settings.debugOutput.line("Round %d: computing %s predicate.", round, predName);
+                }
+
                 // Perform the fixed-point reachability computation.
                 BDD reachabilityResult;
                 try {
-                    CifBddReachability reachability = new CifBddReachability(cifBddSpec, round, predName, initName,
+                    CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
                             restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {

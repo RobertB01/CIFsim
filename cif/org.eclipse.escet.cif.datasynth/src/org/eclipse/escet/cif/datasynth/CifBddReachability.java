@@ -46,9 +46,6 @@ public class CifBddReachability {
     /** The CIF/BDD specification. */
     private final CifBddSpec cifBddSpec;
 
-    /** The 1-based round number of the main synthesis algorithm, for debug output. */
-    private final int round;
-
     /** The name of the predicate on which to apply the reachability, for debug output. Must be in lower case. */
     private final String predName;
 
@@ -90,7 +87,6 @@ public class CifBddReachability {
      * Constructor for the {@link CifBddReachability} class.
      *
      * @param cifBddSpec The CIF/BDD specification.
-     * @param round The 1-based round number of the main synthesis algorithm, for debug output.
      * @param predName The name of the given predicate, for debug output. Must be in lower case.
      * @param initName The name of the initial value of the given predicate, for debug output. Must be in lower case.
      * @param restrictionName The name of the restriction predicate, for debug output. Must be in lower case. May be
@@ -104,13 +100,11 @@ public class CifBddReachability {
      * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    public CifBddReachability(CifBddSpec cifBddSpec, int round, String predName, String initName,
-            String restrictionName, BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl,
-            boolean dbgEnabled)
+    public CifBddReachability(CifBddSpec cifBddSpec, String predName, String initName, String restrictionName,
+            BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl, boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);
         this.cifBddSpec = cifBddSpec;
-        this.round = round;
         this.predName = predName;
         this.initName = initName;
         this.restrictionName = restrictionName;
@@ -132,8 +126,6 @@ public class CifBddReachability {
     public BDD performReachability(BDD pred) {
         // Print debug output.
         if (dbgEnabled) {
-            cifBddSpec.settings.debugOutput.line();
-            cifBddSpec.settings.debugOutput.line("Round %d: computing %s predicate.", round, predName);
             cifBddSpec.settings.debugOutput.line("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName),
                     bddToStr(pred, cifBddSpec), initName);
         }
