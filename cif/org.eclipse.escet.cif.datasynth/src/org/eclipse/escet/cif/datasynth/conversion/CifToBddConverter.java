@@ -161,7 +161,7 @@ import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
 
-/** Converter to convert CIF a specification to a CIF/BDD representation. */
+/** Converter to convert a CIF specification to a CIF/BDD representation. */
 public class CifToBddConverter {
     /** Precondition violations found so far. */
     private final Set<String> problems = set();
