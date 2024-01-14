@@ -92,13 +92,13 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.shouldTerminate.get()) {
                 return null;
             }
-            checkSystem(cifBddSpec, dbgEnabled);
+            checkSystem(cifBddSpec, synthResult, dbgEnabled);
 
             // Apply state/event exclusion plant invariants.
             if (cifBddSpec.settings.shouldTerminate.get()) {
                 return null;
             }
-            applyStateEvtExclPlants(cifBddSpec, dbgEnabled);
+            applyStateEvtExclPlants(cifBddSpec, synthResult, dbgEnabled);
 
             // Initialize applying edges.
             for (CifBddEdge edge: cifBddSpec.edges) {
@@ -229,7 +229,10 @@ public class CifDataSynthesis {
             if (dbgEnabled) {
                 cifBddSpec.settings.debugOutput.line();
                 cifBddSpec.settings.debugOutput.line("Final synthesis result:");
-                cifBddSpec.settings.debugOutput.line(cifBddSpec.toString(1));
+                cifBddSpec.settings.debugOutput.line(synthResult.getCtrlBehText(1));
+                if (!cifBddSpec.edges.isEmpty()) {
+                    cifBddSpec.settings.debugOutput.line(cifBddSpec.getEdgesText(2));
+                }
             }
 
             // Determine controlled system initialization predicate.
@@ -302,9 +305,10 @@ public class CifDataSynthesis {
      * information.
      *
      * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @param synthResult The synthesis result.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void checkSystem(CifBddSpec cifBddSpec, boolean dbgEnabled) {
+    private static void checkSystem(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult, boolean dbgEnabled) {
         // Debug state plant invariants (predicates) of the components.
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return;
@@ -633,7 +637,10 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.debugOutput
                         .line("Uncontrolled system (state/event exclusion plants not applied yet):");
             }
-            cifBddSpec.settings.debugOutput.line(cifBddSpec.toString(1));
+            cifBddSpec.settings.debugOutput.line(synthResult.getCtrlBehText(1));
+            if (!cifBddSpec.edges.isEmpty()) {
+                cifBddSpec.settings.debugOutput.line(cifBddSpec.getEdgesText(2));
+            }
         }
 
         // Free no longer needed predicates.
@@ -731,9 +738,12 @@ public class CifDataSynthesis {
      * Applies the state/event exclusion plant invariants, as preprocessing step for synthesis.
      *
      * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @param synthResult The synthesis result.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateEvtExclPlants(CifBddSpec cifBddSpec, boolean dbgEnabled) {
+    private static void applyStateEvtExclPlants(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
+            boolean dbgEnabled)
+    {
         // Update guards to ensure that transitions not allowed by the state/event exclusion plant invariants, are
         // blocked.
         if (dbgEnabled) {
@@ -784,7 +794,10 @@ public class CifDataSynthesis {
         if (dbgEnabled && guardChanged) {
             cifBddSpec.settings.debugOutput.line();
             cifBddSpec.settings.debugOutput.line("Uncontrolled system:");
-            cifBddSpec.settings.debugOutput.line(cifBddSpec.toString(1, guardChanged));
+            cifBddSpec.settings.debugOutput.line(synthResult.getCtrlBehText(1));
+            if (!cifBddSpec.edges.isEmpty()) {
+                cifBddSpec.settings.debugOutput.line(cifBddSpec.getEdgesText(2));
+            }
         }
     }
 
@@ -1196,7 +1209,10 @@ public class CifDataSynthesis {
         if (dbgEnabled && changed) {
             cifBddSpec.settings.debugOutput.line();
             cifBddSpec.settings.debugOutput.line("Restricted behavior using %s requirements:", dbgDescription);
-            cifBddSpec.settings.debugOutput.line(cifBddSpec.toString(1, guardChanged));
+            cifBddSpec.settings.debugOutput.line(synthResult.getCtrlBehText(1));
+            if (guardChanged && !cifBddSpec.edges.isEmpty()) {
+                cifBddSpec.settings.debugOutput.line(cifBddSpec.getEdgesText(2));
+            }
         }
     }
 

@@ -13,17 +13,14 @@
 
 package org.eclipse.escet.cif.datasynth.spec;
 
-import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDFactory;
@@ -322,50 +319,16 @@ public class CifBddSpec {
 
     @Override
     public String toString() {
-        return toString(0, "State: ", true);
+        return getEdgesText(0);
     }
 
     /**
-     * Returns a textual representation of the CIF/BDD specification, including the edges.
+     * Returns a textual representation of the {@link #edges}.
      *
      * @param indent The indentation level.
      * @return The textual representation.
      */
-    public String toString(int indent) {
-        return toString(indent, "State: ", true);
-    }
-
-    /**
-     * Returns a textual representation of the CIF/BDD specification.
-     *
-     * @param indent The indentation level.
-     * @param inclEdges Whether to include the edges.
-     * @return The textual representation.
-     */
-    public String toString(int indent, boolean inclEdges) {
-        return toString(indent, "State: ", inclEdges);
-    }
-
-    /**
-     * Returns a textual representation of the CIF/BDD specification.
-     *
-     * @param indent The indentation level.
-     * @param prefix The prefix to use, e.g. {@code "State: "} or {@code ""}.
-     * @param inclEdges Whether to include the edges.
-     * @return The textual representation.
-     */
-    public String toString(int indent, String prefix, boolean inclEdges) {
-        StringBuilder txt = new StringBuilder();
-        txt.append(Strings.duplicate(" ", 2 * indent));
-        txt.append(prefix);
-        String cbTxt = (ctrlBeh == null) ? "?" : bddToStr(ctrlBeh, this);
-        txt.append(fmt("(controlled-behavior: %s)", cbTxt));
-        if (inclEdges) {
-            for (CifBddEdge edge: edges) {
-                txt.append("\n");
-                txt.append(edge.toString(indent + 1, "Edge: "));
-            }
-        }
-        return txt.toString();
+    public String getEdgesText(int indent) {
+        return edges.stream().map(e -> e.toString(indent, "Edge: ")).collect(Collectors.joining("\n"));
     }
 }
