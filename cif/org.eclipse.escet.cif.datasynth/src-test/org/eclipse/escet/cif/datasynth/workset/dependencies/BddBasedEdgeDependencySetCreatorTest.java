@@ -587,27 +587,27 @@ public class BddBasedEdgeDependencySetCreatorTest {
 
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
-        CifBddSpec synthAut = new CifToBddConverter().convert(spec, settings, factory);
-        for (CifBddEdge edge: synthAut.edges) {
+        CifBddSpec cifBddSpec = new CifToBddConverter().convert(spec, settings, factory);
+        for (CifBddEdge edge: cifBddSpec.edges) {
             edge.initApply(true);
         }
 
         // Reverse the ordered edges, if requested.
         if (reverseEdges) {
-            synthAut.orderedEdgesBackward = Lists.reverse(synthAut.orderedEdgesBackward);
-            synthAut.orderedEdgesForward = Lists.reverse(synthAut.orderedEdgesForward);
+            cifBddSpec.orderedEdgesBackward = Lists.reverse(cifBddSpec.orderedEdgesBackward);
+            cifBddSpec.orderedEdgesForward = Lists.reverse(cifBddSpec.orderedEdgesForward);
         }
 
         // Compute dependency sets.
         EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
-        creator.createAndStore(synthAut, true);
+        creator.createAndStore(cifBddSpec, true);
 
         // Check result.
-        int edgeCnt = synthAut.edges.size();
+        int edgeCnt = cifBddSpec.edges.size();
         String expectedBwdDeps = invertDeps(expectedFwdDeps);
-        String actualFwdDeps = synthAut.worksetDependenciesForward.stream().map(b -> BitSets.bitsetToStr(b, edgeCnt))
+        String actualFwdDeps = cifBddSpec.worksetDependenciesForward.stream().map(b -> BitSets.bitsetToStr(b, edgeCnt))
                 .collect(Collectors.joining("\n"));
-        String actualBwdDeps = synthAut.worksetDependenciesBackward.stream().map(b -> BitSets.bitsetToStr(b, edgeCnt))
+        String actualBwdDeps = cifBddSpec.worksetDependenciesBackward.stream().map(b -> BitSets.bitsetToStr(b, edgeCnt))
                 .collect(Collectors.joining("\n"));
         assertEquals(expectedFwdDeps.trim(), actualFwdDeps.trim());
         assertEquals(expectedBwdDeps.trim(), actualBwdDeps.trim());
