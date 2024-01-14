@@ -29,8 +29,8 @@ public class CifDataSynthesisResult {
     public BDD initialCtrl;
 
     /**
-     * Initialization predicate of the to use for the output. Computed as a result of synthesis. Is {@code null} if not
-     * yet available, or if no additional initialization predicate is to be added to the output.
+     * Initialization predicate to use for the output. Computed as a result of synthesis. Is {@code null} if not yet
+     * available, or if no additional initialization predicate is to be added to the output.
      */
     public BDD initialOutput;
 
