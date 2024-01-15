@@ -163,6 +163,9 @@ import com.github.javabdd.BDDFactory;
 
 /** Converter to convert a CIF specification to a CIF/BDD representation. */
 public class CifToBddConverter {
+    /** The human-readable name of the application. Should start with a capital letter. */
+    private final String appName;
+
     /** Precondition violations found so far. */
     private final Set<String> problems = set();
 
@@ -175,17 +178,23 @@ public class CifToBddConverter {
     private Map<Automaton, Monitors> originalMonitors;
 
     /**
+     * Constructor for the {@link CifToBddConverter} class.
+     *
+     * @param appName The human-readable name of the application. Should start with a capital letter.
+     */
+    public CifToBddConverter(String appName) {
+        this.appName = appName;
+    }
+
+    /**
      * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
      * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
-     * @param appName The human-readable name of the application. Should start with a capital letter.
      * @return The CIF/BDD representation of the CIF specification.
      */
-    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory,
-            String appName)
-    {
+    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
         // violations.
         CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);

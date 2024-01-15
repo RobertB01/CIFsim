@@ -283,14 +283,14 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
-            CifToBddConverter converter1 = new CifToBddConverter();
+            CifToBddConverter converter1 = new CifToBddConverter("Data-based supervisory controller synthesis");
 
             CifBddSpec cifBddSpec;
             if (doTiming) {
                 timing.inputConvert.start();
             }
             try {
-                cifBddSpec = converter1.convert(spec, settings, factory, "Data-based supervisory controller synthesis");
+                cifBddSpec = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
