@@ -118,7 +118,7 @@ public abstract class PlcTarget {
     /**
      * Return how to convert enumerations.
      *
-     * @return The desired conversion to enumerations. This should not be {@link ConvertEnums#AUTO}.
+     * @return The desired conversion to enumerations. Never returns {@link ConvertEnums#AUTO}.
      */
     public abstract ConvertEnums getActualEnumerationsConversion();
 
