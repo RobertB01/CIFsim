@@ -58,6 +58,9 @@ public class PlcCodeStorage {
     /** Task running the PLC program. */
     private final PlcTask task;
 
+    /** Main program POU. */
+    private PlcPou mainProgram;
+
     /** Global variable list for constants, lazily created. */
     private PlcGlobalVarList globalConstants = null;
 
@@ -110,16 +113,21 @@ public class PlcCodeStorage {
         this.target = target;
         this.maxIter = settings.maxIter;
 
-        // Create project, configuration, resource, and task.
+        // Create the project and a configuration.
         project = new PlcProject(settings.projectName);
         PlcConfiguration config = new PlcConfiguration(settings.configurationName);
         project.configurations.add(config);
 
+        // Create a resource and a task for it.
         resource = new PlcResource(settings.resourceName);
         config.resources.add(resource);
-
         task = new PlcTask(settings.taskName, settings.taskCycleTime, settings.taskPriority);
         resource.tasks.add(task);
+
+        // Create the main program POU, and hook it into the task.
+        mainProgram = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
+        project.pous.add(mainProgram);
+        task.pouInstances.add(new PlcPouInstance("MAIN", mainProgram));
     }
 
     /**
@@ -332,16 +340,12 @@ public class PlcCodeStorage {
         addGlobalVariableTable(globalStateVars);
         addGlobalVariableTable(globalTimerVars);
 
-        // Create code file for program, with header etc.
-        PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
-        project.pous.add(main);
-
         // Global variable list of the main program. Note that the Siemens target currently requires the "TIMERS" name.
         PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
         addGlobalVariableTable(mainVariables);
 
         // Prepare adding code to the program.
-        CodeBox box = main.body;
+        CodeBox box = mainProgram.body;
         boolean boxNeedsEmptyLine = false;
         int commentLength = 79; // Length of a comment header line.
 
@@ -350,7 +354,7 @@ public class PlcCodeStorage {
             generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
-            textGenerator.toText(inputFuncCode, box, main.name, false);
+            textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
         }
 
         // Add initialization code if it exists.
@@ -370,12 +374,12 @@ public class PlcCodeStorage {
                 box.add("%s := 0;", loopsKilled.name);
             }
             box.add();
-            textGenerator.toText(stateInitializationCode, box, main.name, false);
+            textGenerator.toText(stateInitializationCode, box, mainProgram.name, false);
             box.dedent();
             if (updateContVarsRemainingTimeCode != null) {
                 box.add("ELSE");
                 box.indent();
-                textGenerator.toText(updateContVarsRemainingTimeCode, box, main.name, false);
+                textGenerator.toText(updateContVarsRemainingTimeCode, box, mainProgram.name, false);
                 box.dedent();
             }
             box.add("END_IF;");
@@ -413,7 +417,7 @@ public class PlcCodeStorage {
             // Construct the while body with event processing.
             box.add("%s := FALSE;", progressVar.name);
             box.add();
-            textGenerator.toText(eventTransitionsIterationCode, box, main.name, false);
+            textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
             box.dedent();
             box.add("END_WHILE;");
 
@@ -442,16 +446,13 @@ public class PlcCodeStorage {
             generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
-            textGenerator.toText(outputFuncCode, box, main.name, false);
+            textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
         }
 
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
 
         // Add temporary variables of the main program code.
-        main.tempVars = exprGen.getCreatedTempVariables();
-
-        // Add program to task.
-        task.pouInstances.add(new PlcPouInstance("MAIN", main));
+        mainProgram.tempVars = exprGen.getCreatedTempVariables();
     }
 
     /**
