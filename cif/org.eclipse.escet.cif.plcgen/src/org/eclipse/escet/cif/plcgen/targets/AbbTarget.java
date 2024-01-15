@@ -22,7 +22,7 @@ public class AbbTarget extends PlcBaseTarget {
     /** Constructor of the {@link AbbTarget} class. */
     public AbbTarget() {
         // TODO Verify settings of the ABB target.
-        super(PlcTargetType.ABB, ConvertEnums.KEEP);
+        super(PlcTargetType.ABB, ConvertEnums.INTS);
     }
 
     @Override

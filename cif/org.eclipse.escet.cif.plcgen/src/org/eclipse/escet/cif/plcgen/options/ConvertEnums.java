@@ -18,12 +18,12 @@ public enum ConvertEnums {
     /** Let the target decide what to do. */
     AUTO,
 
-    /** No, keep enumeration data types. */
+    /** Keep enumeration data types. */
     KEEP,
 
-    /** Yes, convert enumerations to integers. */
+    /** Convert enumerations to integers. */
     INTS,
 
-    /** Yes, convert enumerations to constants. */
+    /** Convert enumerations to constants. */
     CONSTS;
 }
