@@ -76,11 +76,9 @@ public class CifDataSynthesis {
         // Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions
         // on Automation Science and Engineering, Volume 8, Issue 3, Pages 560-569, July 2011.
 
-        // Configuration.
+        // Initialization.
         boolean doForward = cifBddSpec.settings.doForwardReach;
         boolean dbgEnabled = cifBddSpec.settings.debugOutput.isEnabled();
-
-        // Initialize some variables.
         Set<Event> disabledEvents = null;
         CifDataSynthesisResult synthResult = new CifDataSynthesisResult(cifBddSpec);
 
@@ -223,7 +221,9 @@ public class CifDataSynthesis {
                 edge.cleanupApply();
             }
 
-            // The final controlled system behavior is in the synthesis result.
+            // At this point, the final controlled system behavior is in the synthesis result.
+
+            // Print the final controlled system behavior as debug output.
             if (cifBddSpec.settings.shouldTerminate.get()) {
                 return null;
             }
