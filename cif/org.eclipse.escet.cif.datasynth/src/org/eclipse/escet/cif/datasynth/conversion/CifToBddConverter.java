@@ -169,7 +169,7 @@ public class CifToBddConverter {
     /**
      * Per requirement automaton, the monitors as specified in the original specification. They are replaced by monitors
      * that monitor the entire alphabet of the automaton, in order to be able to treat requirement automata as plants.
-     * This mapping can be used to later restore the original monitors. The mapping is {@code null} if not yet or no
+     * This mapping can be used to restore the original monitors. The mapping is {@code null} if not yet or no
      * longer available.
      */
     private Map<Automaton, Monitors> originalMonitors;
