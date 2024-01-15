@@ -70,9 +70,6 @@ public class PlcCodeStorage {
     /** Global variable list for output variables, lazily created. */
     private PlcGlobalVarList globalOutputs = null;
 
-    /** Global variable list for state variables, lazily created. */
-    private PlcGlobalVarList globalStateVars = null;
-
     /** Global variable list for timer variables, lazily created. */
     private PlcGlobalVarList globalTimerVars = null;
 
@@ -198,10 +195,16 @@ public class PlcCodeStorage {
      * @param variable Variable to add. Name is assumed to be unique.
      */
     public void addStateVariable(PlcVariable variable) {
-        if (globalStateVars == null) {
-            globalStateVars = new PlcGlobalVarList("STATE", false);
-        }
-        globalStateVars.variables.add(variable);
+        mainProgram.localVars.add(variable);
+    }
+
+    /**
+     * Add a temporary variable to the program (valid for a single PLC cycle).
+     *
+     * @param variable Variable to add. Name is assumed to be unique.
+     */
+    public void addTempVariable(PlcVariable variable) {
+        mainProgram.tempVars.add(variable);
     }
 
     /**
@@ -307,7 +310,7 @@ public class PlcCodeStorage {
         if (stateInitializationCode != null) {
             firstRun = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
                     new PlcBoolLiteral(true));
-            addTimerVariable(firstRun);
+            addStateVariable(firstRun);
         }
 
         // Construct loop and killed counters.
@@ -329,20 +332,15 @@ public class PlcCodeStorage {
                 default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
             };
 
-            addTimerVariable(loopCount);
-            addTimerVariable(loopsKilled);
+            addTempVariable(loopCount);
+            addStateVariable(loopsKilled);
         }
 
         // Add all created variable tables.
         addGlobalVariableTable(globalConstants);
         addGlobalVariableTable(globalInputs);
         addGlobalVariableTable(globalOutputs);
-        addGlobalVariableTable(globalStateVars);
         addGlobalVariableTable(globalTimerVars);
-
-        // Global variable list of the main program. Note that the Siemens target currently requires the "TIMERS" name.
-        PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
-        addGlobalVariableTable(mainVariables);
 
         // Prepare adding code to the program.
         CodeBox box = mainProgram.body;
