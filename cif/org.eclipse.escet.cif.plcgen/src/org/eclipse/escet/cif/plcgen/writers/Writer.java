@@ -21,6 +21,7 @@ import java.nio.file.Path;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
@@ -194,7 +195,8 @@ public abstract class Writer {
     protected Box toBox(PlcGlobalVarList globVarList) {
         Assert.check(!globVarList.variables.isEmpty()); // Empty VAR_GLOBAL is illegal.
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("VAR_GLOBAL%s // %s", globVarList.constants ? " CONSTANT" : "", globVarList.name);
+        c.add("VAR_GLOBAL%s // %s", globVarList.listKind.equals(PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
+                globVarList.name);
         c.indent();
         for (PlcVariable variable: globVarList.variables) {
             c.add(toBox(variable));

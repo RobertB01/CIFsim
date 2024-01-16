@@ -22,8 +22,8 @@ public class PlcGlobalVarList {
     /** The name of the global variable list. */
     public final String name;
 
-    /** Whether the variable list contains constants ({@code true}) or variables ({@code false}). */
-    public final boolean constants;
+    /** Kind of global variable list. */
+    public final PlcVarListKind listKind;
 
     /** The variables of the global variable list. */
     public List<PlcVariable> variables = list();
@@ -32,10 +32,25 @@ public class PlcGlobalVarList {
      * Constructor for the {@link PlcGlobalVarList} class.
      *
      * @param name The name of the global variable list.
-     * @param constants Whether the variable list contains constants ({@code true}) or variables ({@code false}).
+     * @param listKind Kind of global variables.
      */
-    public PlcGlobalVarList(String name, boolean constants) {
+    public PlcGlobalVarList(String name, PlcVarListKind listKind) {
         this.name = name;
-        this.constants = constants;
+        this.listKind = listKind;
+    }
+
+    /** Available kinds of global variable lists. */
+    public static enum PlcVarListKind {
+        /** Global variable list contains constants. */
+        CONSTANTS,
+
+        /** Global variable list contains normal variables. */
+        GENERIC,
+
+        /** Global variable list contains input or output variables. */
+        INPUT_OUTPUT,
+
+        /** Global variable list contains timeers. */
+        TIMERS
     }
 }

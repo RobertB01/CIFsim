@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
@@ -160,7 +161,7 @@ public class PlcCodeStorage {
         Assert.check(target.supportsConstants());
 
         if (globalConstants == null) {
-            globalConstants = new PlcGlobalVarList("CONSTANTS", true);
+            globalConstants = new PlcGlobalVarList("CONSTANTS", PlcVarListKind.CONSTANTS);
         }
         globalConstants.variables.add(plcVar);
     }
@@ -172,7 +173,7 @@ public class PlcCodeStorage {
      */
     public void addInputVariable(PlcVariable variable) {
         if (globalInputs == null) {
-            globalInputs = new PlcGlobalVarList("INPUTS", false);
+            globalInputs = new PlcGlobalVarList("INPUTS", PlcVarListKind.INPUT_OUTPUT);
         }
         globalInputs.variables.add(variable);
     }
@@ -184,7 +185,7 @@ public class PlcCodeStorage {
      */
     public void addOutputVariable(PlcVariable variable) {
         if (globalOutputs == null) {
-            globalOutputs = new PlcGlobalVarList("OUTPUTS", false);
+            globalOutputs = new PlcGlobalVarList("OUTPUTS", PlcVarListKind.INPUT_OUTPUT);
         }
         globalOutputs.variables.add(variable);
     }
@@ -214,9 +215,7 @@ public class PlcCodeStorage {
      */
     public void addTimerVariable(PlcVariable variable) {
         if (globalTimerVars == null) {
-            // Global variable list of timer-related data of the main program. Note that the Siemens target currently
-            // requires the "TIMERS" name.
-            globalTimerVars = new PlcGlobalVarList("TIMERS", false);
+            globalTimerVars = new PlcGlobalVarList("TIMERS", PlcVarListKind.TIMERS);
         }
         globalTimerVars.variables.add(variable);
     }

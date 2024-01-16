@@ -24,6 +24,7 @@ import java.util.List;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
@@ -70,7 +71,7 @@ public class S7Writer extends Writer {
             }
 
             // Write the non-empty variable list.
-            if (globalVarList.name.equals("TIMERS")) {
+            if (globalVarList.listKind.equals(PlcVarListKind.TIMERS)) {
                 writeTimers(globalVarList.variables, outPath);
             } else {
                 writeGlobalVarList(globalVarList, outPath);
@@ -266,7 +267,7 @@ public class S7Writer extends Writer {
 
         // The variables, either constants or input variables. 'type', 'value', 'name' and 'address' shouldn't contain
         // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
-        if (globVarList.constants) {
+        if (globVarList.listKind.equals(PlcVarListKind.CONSTANTS)) {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcVariable constant: globVarList.variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),
