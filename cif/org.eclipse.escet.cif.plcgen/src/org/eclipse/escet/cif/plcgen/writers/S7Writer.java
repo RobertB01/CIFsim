@@ -132,8 +132,10 @@ public class S7Writer extends Writer {
 
         // Generate timer data blocks to the data base.
         for (PlcVariable timerVar: timerVariables) {
+            // Don't let any non-TON block slip through.
             Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
 
+            // Generate the data block for the TON timer.
             c.add("DATA_BLOCK \"%s\"", timerVar.name);
             c.add("{InstructionName := '%s';", hasIecTimers ? "IEC_TIMER" : "TON");
             c.add("LibVersion := '1.0';");

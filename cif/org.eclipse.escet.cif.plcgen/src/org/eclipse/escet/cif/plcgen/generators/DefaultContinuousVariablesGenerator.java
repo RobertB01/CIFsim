@@ -189,7 +189,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         public void addInstanceVariables() {
             PlcCodeStorage codeStorage = target.getCodeStorage();
             codeStorage.addTimerVariable(timerVar);
-            codeStorage.addTimerVariable(presetVar);
+            codeStorage.addStateVariable(presetVar);
         }
 
         @Override

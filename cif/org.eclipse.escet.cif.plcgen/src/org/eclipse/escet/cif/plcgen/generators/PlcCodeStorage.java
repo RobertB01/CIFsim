@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
@@ -217,6 +218,9 @@ public class PlcCodeStorage {
         if (globalTimerVars == null) {
             globalTimerVars = new PlcGlobalVarList("TIMERS", PlcVarListKind.TIMERS);
         }
+        // S7 needs timer function blocks as a separate list. Other timer related data should be stored in other
+        // variable lists.
+        Assert.check(variable.type instanceof PlcDerivedType der && der.name.equals("TON"));
         globalTimerVars.variables.add(variable);
     }
 
