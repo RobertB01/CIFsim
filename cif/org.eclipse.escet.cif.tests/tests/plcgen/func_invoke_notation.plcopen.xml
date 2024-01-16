@@ -45,6 +45,66 @@
     <pous>
       <pou name="MAIN" pouType="program">
         <interface>
+          <localVars>
+            <variable name="inp">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="c">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="aut_r">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="aut_b">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="aut_i">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="aut_tii">
+              <type>
+                <derived name="TupleStruct"/>
+              </type>
+            </variable>
+            <variable name="aut_i2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="aut_i3">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="aut">
+              <type>
+                <derived name="aut_location"/>
+              </type>
+            </variable>
+            <variable name="preset_c">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+          </localVars>
           <tempVars>
             <variable name="curValue">
               <type>
@@ -339,71 +399,11 @@ END_WHILE;</xhtml>
               </documentation>
             </pouInstance>
           </task>
-          <globalVars constant="false" name="STATE">
-            <variable name="inp">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="c">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="aut_r">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="aut_b">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
-            <variable name="aut_i">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="aut_tii">
-              <type>
-                <derived name="TupleStruct"/>
-              </type>
-            </variable>
-            <variable name="aut_i2">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="aut_i3">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="aut">
-              <type>
-                <derived name="aut_location"/>
-              </type>
-            </variable>
-          </globalVars>
           <globalVars constant="false" name="TIMERS">
             <variable name="ton_c">
               <type>
                 <derived name="TON"/>
               </type>
-            </variable>
-            <variable name="preset_c">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
-            <variable name="firstRun">
-              <type>
-                <BOOL/>
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE"/>
-              </initialValue>
             </variable>
           </globalVars>
         </resource>

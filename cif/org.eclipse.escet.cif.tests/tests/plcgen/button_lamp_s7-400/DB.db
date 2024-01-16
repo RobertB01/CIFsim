@@ -1,0 +1,16 @@
+DATA_BLOCK "DB"
+{ S7_Optimized_Access := 'false' }
+    VAR
+        timer_t: REAL;
+        timer: DINT;
+        sup: DINT;
+        hw_button_bit: BOOL;
+        hw_button: DINT;
+        hw_lamp_bit: BOOL;
+        hw_lamp: DINT;
+        preset_timer_t: TIME;
+        firstRun: BOOL;
+    END_VAR
+BEGIN
+    firstRun := TRUE;
+END_DATA_BLOCK

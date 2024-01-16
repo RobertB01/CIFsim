@@ -1,0 +1,11 @@
+DATA_BLOCK "DB"
+{ S7_Optimized_Access := 'false' }
+    VAR
+        p_x: DINT;
+        p_t: REAL;
+        preset_p_t: TIME;
+        firstRun: BOOL;
+    END_VAR
+BEGIN
+    firstRun := TRUE;
+END_DATA_BLOCK

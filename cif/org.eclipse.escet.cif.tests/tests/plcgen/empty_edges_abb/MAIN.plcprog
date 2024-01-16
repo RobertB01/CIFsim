@@ -1,4 +1,8 @@
 PROGRAM MAIN
+VAR
+    Good_x: DINT;
+    firstRun: BOOL := TRUE;
+END_VAR
 VAR_TEMP
     channelValue: DINT;
     current_Good_x: DINT;

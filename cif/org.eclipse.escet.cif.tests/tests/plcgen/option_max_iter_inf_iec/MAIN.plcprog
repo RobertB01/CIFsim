@@ -1,4 +1,10 @@
 PROGRAM MAIN
+VAR
+    p_x: DINT;
+    p_t: LREAL;
+    preset_p_t: TIME;
+    firstRun: BOOL := TRUE;
+END_VAR
 VAR_TEMP
     curValue: LREAL;
     current_p_t: LREAL;
