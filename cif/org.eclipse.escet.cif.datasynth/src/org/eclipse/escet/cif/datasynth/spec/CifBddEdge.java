@@ -113,7 +113,9 @@ public class CifBddEdge {
      * invoking this method, {@link #reinitApply} must be invoked to re-initialize the edge for applying, unless
      * {@link #cleanupApply} has already been invoked.
      *
-     * @param doForward Whether to allow for forward reachability.
+     * @param doForward Whether to also initialize this edge for forward reachability, making it possible to
+     *     {@link #apply} this edge both forwards and backwards ({@code true}), or not initialize this edge for forward
+     *     reachability, making it only possible to apply this edge backwards ({@code false}).
      */
     public void initApply(boolean doForward) {
         // Precompute 'errorNot'.
@@ -151,7 +153,9 @@ public class CifBddEdge {
      * initialization cannot be done later and re-initialization is necessary.
      * </p>
      *
-     * @param doForward Whether to allow for forward reachability.
+     * @param doForward Whether to also re-initialize this edge for forward reachability, making it possible to
+     *     {@link #apply} this edge both forwards and backwards ({@code true}), or not re-initialize this edge for
+     *     forward reachability, making it only possible to apply this edge backwards ({@code false}).
      */
     public void reinitApply(boolean doForward) {
         Assert.check(update == null);
