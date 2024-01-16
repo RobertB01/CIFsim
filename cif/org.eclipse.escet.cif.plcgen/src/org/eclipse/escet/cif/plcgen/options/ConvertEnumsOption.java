@@ -20,12 +20,15 @@ import org.eclipse.escet.common.app.framework.options.Options;
 public class ConvertEnumsOption extends EnumOption<ConvertEnums> {
     /** Constructor for the {@link ConvertEnumsOption} class. */
     public ConvertEnumsOption() {
-        super("Convert enumerations",
-                "Specify how enumerations should be treated. Specify "
-                        + "\"auto\" to automatically decide how to treat enumerations, "
-                        + "\"keep\" to preserve enumerations, " + "\"consts\" for conversion to constants, or "
-                        + "\"ints\" for conversion to integers. " + "[DEFAULT=auto]",
-                null, "convert-enums", "CONVERT", ConvertEnums.AUTO, true, "Specify how enumerations should be treated.");
+        super("Convert enumerations", //
+                "Specify how enumerations should be treated. Specify " //
+                        + "\"auto\" to automatically decide how to treat enumerations, " //
+                        + "\"keep\" to preserve enumerations, " //
+                        + "\"consts\" for conversion to constants, or " //
+                        + "\"ints\" for conversion to integers. " //
+                        + "[DEFAULT=auto]", //
+                null, "convert-enums", "CONVERT", ConvertEnums.AUTO, true,  //
+                "Specify how enumerations should be treated.");
     }
 
     @Override
