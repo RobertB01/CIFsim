@@ -39,6 +39,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -192,12 +193,29 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global state variable table.
+     * Add a variable to the global persistent state variable table.
      *
-     * @param variable Variable to add. Name is assumed to be unique.
+     * @param name Nam of new variable. Name is assumed to be unique.
+     * @param type Type of the new variable.
+     * @return The added new variable.
      */
-    public void addStateVariable(PlcVariable variable) {
-        mainProgram.localVars.add(variable);
+    public PlcVariable addStateVariable(String name, PlcType type) {
+        return addStateVariable(name, type, null, null);
+    }
+
+    /**
+     * Add a variable to the global persistent state variable table.
+     *
+     * @param name Nam of new variable. Name is assumed to be unique.
+     * @param type Type of the new variable.
+     * @param address If not {@code null}, the IO address of the new variable.
+     * @param initValue If not {@code null}, the initial value of the new variable.
+     * @return The added new variable.
+     */
+    public PlcVariable addStateVariable(String name, PlcType type, String address, PlcExpression initValue) {
+        PlcVariable plcVar = new PlcVariable(name, type, address, initValue);
+        mainProgram.localVars.add(plcVar);
+        return plcVar;
     }
 
     /**
@@ -306,14 +324,14 @@ public class PlcCodeStorage {
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
+        NameGenerator nameGen = target.getNameGenerator();
 
         // The "firstRun" boolean is needed in state initialization, but creation has been moved to here before
         // pushing the variable tables to the output.
         PlcVariable firstRun = null;
         if (stateInitializationCode != null) {
-            firstRun = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
-                    new PlcBoolLiteral(true));
-            addStateVariable(firstRun);
+            String name = nameGen.generateGlobalName("firstRun", false);
+            firstRun = addStateVariable(name, PlcElementaryType.BOOL_TYPE, null, new PlcBoolLiteral(true));
         }
 
         // Construct loop and killed counters.
@@ -321,7 +339,8 @@ public class PlcCodeStorage {
         PlcVariable loopsKilled = null;
         if (maxIter != null) {
             // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
-            loopsKilled = exprGen.makeLocalVariable("loopsKilled", PlcElementaryType.INT_TYPE);
+            String name = nameGen.generateGlobalName("loopsKilled", false);
+            loopsKilled = addStateVariable(name, PlcElementaryType.INT_TYPE);
             Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)".
 
             // Construct a "loopCount" variable, limit the maximum number of iterations to the type.
@@ -334,9 +353,7 @@ public class PlcCodeStorage {
                 case 8 -> Math.min(maxIter, 0x7F);
                 default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
             };
-
             addTempVariable(loopCount);
-            addStateVariable(loopsKilled);
         }
 
         // Add all created variable tables.

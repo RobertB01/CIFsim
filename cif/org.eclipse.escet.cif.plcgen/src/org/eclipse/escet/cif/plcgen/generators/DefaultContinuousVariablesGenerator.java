@@ -110,11 +110,6 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
     @Override
     public void process() {
-        // Add the timer PLC variables to the output.
-        for (PlcTimerCodeGenerator timer: timers.values()) {
-            timer.addInstanceVariables();
-        }
-
         // Generate code to update continuous state variables at the start of a PLC cycle.
         //
         // For the first cycle, timers are initialized as part of state initialization. For the non-first cycle however,
@@ -176,20 +171,16 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
             // Construct the variables needed for the timer. Relate all variables to the continuous variable.
             NameGenerator nameGen = target.getNameGenerator();
+            PlcCodeStorage codeStorage = target.getCodeStorage();
+
             String cvarName = getAbsName(contVar, false);
             String name = nameGen.generateGlobalName("ton_" + cvarName, false);
             tonFuncBlock = PlcFunctionBlockDescription.makeTonBlock(name);
             timerVar = new PlcVariable(name, tonFuncBlock.funcBlockType);
+            codeStorage.addTimerVariable(timerVar);
 
             name = nameGen.generateGlobalName("preset_" + cvarName, false);
-            presetVar = new PlcVariable(name, PlcElementaryType.TIME_TYPE);
-        }
-
-        @Override
-        public void addInstanceVariables() {
-            PlcCodeStorage codeStorage = target.getCodeStorage();
-            codeStorage.addTimerVariable(timerVar);
-            codeStorage.addStateVariable(presetVar);
+            presetVar = codeStorage.addStateVariable(name, PlcElementaryType.TIME_TYPE);
         }
 
         @Override
