@@ -161,18 +161,30 @@ import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
 
-/** Converter to convert CIF specification to CIF/BDD representation. */
-public class CifToSynthesisConverter {
+/** Converter to convert a CIF specification to a CIF/BDD representation. */
+public class CifToBddConverter {
+    /** The human-readable name of the application. Should start with a capital letter. */
+    private final String appName;
+
     /** Precondition violations found so far. */
     private final Set<String> problems = set();
 
     /**
      * Per requirement automaton, the monitors as specified in the original specification. They are replaced by monitors
      * that monitor the entire alphabet of the automaton, in order to be able to treat requirement automata as plants.
-     * This mapping is used to restore the original monitors afterwards. The mapping is {@code null} if not yet or no
-     * longer available.
+     * This mapping can be used to restore the original monitors. The mapping is {@code null} if not yet or no longer
+     * available.
      */
     private Map<Automaton, Monitors> originalMonitors;
+
+    /**
+     * Constructor for the {@link CifToBddConverter} class.
+     *
+     * @param appName The human-readable name of the application. Should start with a capital letter.
+     */
+    public CifToBddConverter(String appName) {
+        this.appName = appName;
+    }
 
     /**
      * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
@@ -191,7 +203,7 @@ public class CifToSynthesisConverter {
         }
 
         // Precondition violations found.
-        String msg = "Data-based supervisory controller synthesis failed due to unsatisfied preconditions:\n - "
+        String msg = fmt("%s failed due to unsatisfied preconditions:\n - ", appName)
                 + String.join("\n - ", sortedstrings(problems));
         throw new UnsupportedException(msg);
     }
@@ -358,7 +370,7 @@ public class CifToSynthesisConverter {
 
         // Create location pointer manager.
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
-        CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
+        CifBddLocationPointerManager locPtrManager = new CifBddLocationPointerManager(lpAuts);
 
         if (cifBddSpec.settings.shouldTerminate.get()) {
             return cifBddSpec;
@@ -410,7 +422,7 @@ public class CifToSynthesisConverter {
         cifBddSpec.initialLocs = cifBddSpec.factory.one();
         convertInit(spec, cifBddSpec, locPtrManager);
         BDD initialCompsAndLocs = cifBddSpec.initialComps.and(cifBddSpec.initialLocs);
-        cifBddSpec.initialUnctrl = cifBddSpec.initialVars.and(initialCompsAndLocs);
+        cifBddSpec.initial = cifBddSpec.initialVars.and(initialCompsAndLocs);
         initialCompsAndLocs.free();
 
         if (cifBddSpec.settings.shouldTerminate.get()) {
@@ -457,7 +469,7 @@ public class CifToSynthesisConverter {
         }
 
         // Set combined predicate for initialization with state invariants.
-        cifBddSpec.initialPlantInv = cifBddSpec.initialUnctrl.and(cifBddSpec.plantInv);
+        cifBddSpec.initialPlantInv = cifBddSpec.initial.and(cifBddSpec.plantInv);
         cifBddSpec.initialInv = cifBddSpec.initialPlantInv.and(cifBddSpec.reqInv);
 
         // Set combined predicate for marking with state invariants.
@@ -1738,8 +1750,8 @@ public class CifToSynthesisConverter {
      * @param cifBddSpec The CIF/BDD specification to be updated.
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
-            List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+            List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets, CifBddLocationPointerManager locPtrManager,
+            CifBddSpec cifBddSpec)
     {
         // Combine information about plants and requirements.
         List<Automaton> automata = concat(plants, requirements);
@@ -2029,8 +2041,8 @@ public class CifToSynthesisConverter {
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
      */
-    private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+    private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge, CifBddLocationPointerManager locPtrManager,
+            CifBddSpec cifBddSpec)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
@@ -2102,7 +2114,7 @@ public class CifToSynthesisConverter {
      *     to a precondition violation.
      */
     private Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifDataSynthesisLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Make sure it is not a conditional update ('if' update).
         if (update instanceof IfUpdate) {

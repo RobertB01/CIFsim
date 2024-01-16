@@ -39,7 +39,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 
 /** Location pointer manager for data-based synthesis. */
-public class CifDataSynthesisLocationPointerManager implements LocationPointerManager {
+public class CifBddLocationPointerManager implements LocationPointerManager {
     /** Mapping of automata to location pointer variables. */
     private final Map<Automaton, DiscVariable> autToLpMap;
 
@@ -47,11 +47,11 @@ public class CifDataSynthesisLocationPointerManager implements LocationPointerMa
     private final Map<DiscVariable, Automaton> lpToAutMap;
 
     /**
-     * Constructor for the {@link CifDataSynthesisLocationPointerManager} class.
+     * Constructor for the {@link CifBddLocationPointerManager} class.
      *
      * @param automata The automata that need location pointers. They must each have more than one location.
      */
-    public CifDataSynthesisLocationPointerManager(List<Automaton> automata) {
+    public CifBddLocationPointerManager(List<Automaton> automata) {
         // Ensure that the automata actual require location pointer variables.
         Assert.check(automata.stream().allMatch(aut -> aut.getLocations().size() > 1));
 

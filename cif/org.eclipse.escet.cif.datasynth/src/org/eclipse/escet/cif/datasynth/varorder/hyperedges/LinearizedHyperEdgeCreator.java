@@ -33,7 +33,7 @@ import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.conversion.CifDataSynthesisLocationPointerManager;
+import org.eclipse.escet.cif.datasynth.conversion.CifBddLocationPointerManager;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
@@ -86,8 +86,8 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
                 .collect(Collectors.toList());
 
         // Linearize the edges of the copy of the specification.
-        // Must match a similar call to linearize edges in `CifToSynthesisConverter'.
-        CifDataSynthesisLocationPointerManager locPtrManager = new CifDataSynthesisLocationPointerManager(lpAuts);
+        // Must match a similar call to linearize edges in `CifToBddConverter'.
+        CifBddLocationPointerManager locPtrManager = new CifBddLocationPointerManager(lpAuts);
         List<Edge> linearizedEdges = list();
         LinearizeProduct.linearizeEdges(automata, alphabets, set2list(events), locPtrManager, false, true,
                 linearizedEdges);

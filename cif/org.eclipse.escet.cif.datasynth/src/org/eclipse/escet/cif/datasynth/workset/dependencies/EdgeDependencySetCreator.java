@@ -13,10 +13,10 @@
 
 package org.eclipse.escet.cif.datasynth.workset.dependencies;
 
-import org.eclipse.escet.cif.datasynth.CifDataSynthesisReachability;
+import org.eclipse.escet.cif.datasynth.CifBddReachability;
 import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 
-/** Edge dependency set creator for the {@link CifDataSynthesisReachability reachability} workset algorithm. */
+/** Edge dependency set creator for the {@link CifBddReachability reachability} workset algorithm. */
 public interface EdgeDependencySetCreator {
     /**
      * Create the forward and backward edge dependency sets, and store them in the CIF/BDD specification.
