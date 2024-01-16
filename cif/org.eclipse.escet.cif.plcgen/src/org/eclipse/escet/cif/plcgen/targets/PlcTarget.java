@@ -101,6 +101,13 @@ public abstract class PlcTarget {
     public abstract NameGenerator getNameGenerator();
 
     /**
+     * Get the prefix string for state variables.
+     *
+     * @return The prefix string for state variables.
+     */
+    public abstract String getStateVariablePrefix();
+
+    /**
      * Returns whether the target supports arrays.
      *
      * @return Whether arrays are supported.

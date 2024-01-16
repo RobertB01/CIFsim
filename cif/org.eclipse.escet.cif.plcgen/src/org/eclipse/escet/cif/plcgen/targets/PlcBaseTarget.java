@@ -52,6 +52,9 @@ public abstract class PlcBaseTarget extends PlcTarget {
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
 
+    /** The prefix string for state variables. */
+    protected final String stateVariablePrefix;
+
     /** User-defined integer type size to use by the PLC. */
     private PlcNumberBits intTypeSize;
 
@@ -97,7 +100,18 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * @param targetType PLC target type for code generation.
      */
     public PlcBaseTarget(PlcTargetType targetType) {
+        this(targetType, "");
+    }
+
+    /**
+     * Constructor of the {@link PlcBaseTarget} class.
+     *
+     * @param targetType PLC target type for code generation.
+     * @param stateVariablePrefix The prefix string for state variables.
+     */
+    public PlcBaseTarget(PlcTargetType targetType, String stateVariablePrefix) {
         this.targetType = targetType;
+        this.stateVariablePrefix = stateVariablePrefix;
     }
 
     /**
@@ -238,6 +252,11 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public NameGenerator getNameGenerator() {
         return nameGenerator;
+    }
+
+    @Override
+    public String getStateVariablePrefix() {
+        return stateVariablePrefix;
     }
 
     @Override
