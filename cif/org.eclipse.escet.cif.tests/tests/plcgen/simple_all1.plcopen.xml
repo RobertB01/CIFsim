@@ -158,14 +158,14 @@
                 <LREAL/>
               </type>
             </variable>
-            <variable name="p">
-              <type>
-                <derived name="p_location"/>
-              </type>
-            </variable>
             <variable name="preset_p_t">
               <type>
                 <TIME/>
+              </type>
+            </variable>
+            <variable name="p">
+              <type>
+                <derived name="p_location"/>
               </type>
             </variable>
             <variable name="firstRun">

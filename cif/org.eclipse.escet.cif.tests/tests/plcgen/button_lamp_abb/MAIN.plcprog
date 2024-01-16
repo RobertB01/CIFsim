@@ -1,13 +1,13 @@
 PROGRAM MAIN
 VAR
     timer_t: REAL;
+    preset_timer_t: TIME;
     timer: DINT;
     sup: DINT;
     hw_button_bit: BOOL;
     hw_button: DINT;
     hw_lamp_bit: BOOL;
     hw_lamp: DINT;
-    preset_timer_t: TIME;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP

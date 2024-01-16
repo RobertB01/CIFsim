@@ -3,6 +3,7 @@ DATA_BLOCK "DB"
     VAR
         inp: LREAL;
         c: LREAL;
+        preset_c: TIME;
         aut_r: LREAL;
         aut_b: BOOL;
         aut_i: DINT;
@@ -10,7 +11,6 @@ DATA_BLOCK "DB"
         aut_i2: DINT;
         aut_i3: DINT;
         aut: DINT;
-        preset_c: TIME;
         firstRun: BOOL;
     END_VAR
 BEGIN

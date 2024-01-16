@@ -73,6 +73,11 @@
                 <LREAL/>
               </type>
             </variable>
+            <variable name="preset_timer_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
             <variable name="timer">
               <type>
                 <derived name="timer_location"/>
@@ -101,11 +106,6 @@
             <variable name="hw_lamp">
               <type>
                 <derived name="hw_lamp_location"/>
-              </type>
-            </variable>
-            <variable name="preset_timer_t">
-              <type>
-                <TIME/>
               </type>
             </variable>
             <variable name="firstRun">

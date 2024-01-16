@@ -56,6 +56,11 @@
                 <LREAL/>
               </type>
             </variable>
+            <variable name="preset_c">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
             <variable name="aut_r">
               <type>
                 <LREAL/>
@@ -89,11 +94,6 @@
             <variable name="aut">
               <type>
                 <derived name="aut_location"/>
-              </type>
-            </variable>
-            <variable name="preset_c">
-              <type>
-                <TIME/>
               </type>
             </variable>
             <variable name="firstRun">
