@@ -17,16 +17,23 @@ import static org.eclipse.escet.cif.datasynth.bdd.BddToCif.bddToCifPred;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.io.AppStream;
-import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
@@ -243,8 +250,11 @@ public class BddUtils {
         debugOutput.line("Writing continuous BDD performance statistics file \"%s\".", filePath);
 
         // Start the actual printing.
-        try (AppStream stream = new FileAppStream(filePath, absFilePath)) {
-            stream.println("Operations,Used BBD nodes");
+        try (OutputStream stream = new BufferedOutputStream(new FileOutputStream(absFilePath));
+             Writer writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8))
+        {
+            writer.write("Operations,Used BBD nodes");
+            writer.write(Strings.NL);
             long lastOperations = -1;
             int lastNodes = -1;
             for (int i = 0; i < numberOfDataPoints; i++) {
@@ -254,9 +264,13 @@ public class BddUtils {
                 if (nextOperations != lastOperations || nextNodes != lastNodes) {
                     lastOperations = nextOperations;
                     lastNodes = nextNodes;
-                    stream.printfln("%d,%d", lastOperations, lastNodes);
+                    writer.write(fmt("%d,%d", lastOperations, lastNodes));
+                    writer.write(Strings.NL);
                 }
             }
+        } catch (IOException e) {
+            throw new InputOutputException(
+                    fmt("Failed to write continuous BDD performance statistics file \"%s\".", filePath), e);
         }
     }
 }
