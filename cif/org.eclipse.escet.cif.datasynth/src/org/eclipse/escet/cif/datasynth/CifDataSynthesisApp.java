@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 import java.util.Set;
@@ -65,9 +64,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
-import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
@@ -75,12 +72,9 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.box.GridBox;
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.FileSizes;
 
 import com.github.javabdd.BDDFactory;
-import com.github.javabdd.BDDFactory.CacheStats;
 
 /** CIF data-based supervisory controller synthesis application. */
 public class CifDataSynthesisApp extends Application<IOutputComponent> {
@@ -302,12 +296,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Print statistics before we clean up the factory.
             if (doCacheStats) {
-                printBddCacheStats(factory.getCacheStats());
+                BddUtils.printBddCacheStats(factory.getCacheStats(), settings.normalOutput);
             }
             if (doContinuousPerformanceStats) {
-                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
+                BddUtils.printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
                         settings.continuousPerformanceStatisticsFilePath,
-                        settings.continuousPerformanceStatisticsFileAbsPath);
+                        settings.continuousPerformanceStatisticsFileAbsPath, settings.debugOutput);
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -346,78 +340,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         if (isTerminationRequested()) {
             return;
-        }
-    }
-
-    /**
-     * Print the BDD factory cache statistics.
-     *
-     * @param stats The BDD factory cache statistics.
-     */
-    private void printBddCacheStats(CacheStats stats) {
-        // Create grid.
-        GridBox grid = new GridBox(7, 2, 0, 1);
-
-        grid.set(0, 0, "Node creation requests:");
-        grid.set(1, 0, "Node creation chain accesses:");
-        grid.set(2, 0, "Node creation cache hits:");
-        grid.set(3, 0, "Node creation cache misses:");
-        grid.set(4, 0, "Operation count:");
-        grid.set(5, 0, "Operation cache hits:");
-        grid.set(6, 0, "Operation cache misses:");
-
-        grid.set(0, 1, str(stats.uniqueAccess));
-        grid.set(1, 1, str(stats.uniqueChain));
-        grid.set(2, 1, str(stats.uniqueHit));
-        grid.set(3, 1, str(stats.uniqueMiss));
-        grid.set(4, 1, str(stats.opAccess));
-        grid.set(5, 1, str(stats.opHit));
-        grid.set(6, 1, str(stats.opMiss));
-
-        // Print statistics.
-        out("BDD cache statistics:");
-        for (String line: grid.getLines()) {
-            out("  " + line);
-        }
-    }
-
-    /**
-     * Print the continuous BDD performance statistics to a file.
-     *
-     * @param operationsSamples The collected continuous operation misses samples.
-     * @param nodesSamples The collected continuous used BDD nodes statistics samples.
-     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
-     *     statistics output file.
-     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
-     *     output file.
-     */
-    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples,
-            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath)
-    {
-        // Get number of data points.
-        Assert.areEqual(operationsSamples.size(), nodesSamples.size());
-        int numberOfDataPoints = operationsSamples.size();
-
-        // Debug output.
-        dbg("Writing continuous BDD performance statistics file \"%s\".", continuousPerformanceStatisticsFilePath);
-
-        // Start the actual printing.
-        try (AppStream stream = new FileAppStream(continuousPerformanceStatisticsFilePath,
-                continuousPerformanceStatisticsFileAbsPath))
-        {
-            stream.println("Operations,Used BBD nodes");
-            long lastOperations = -1;
-            int lastNodes = -1;
-            for (int i = 0; i < numberOfDataPoints; i++) {
-                // Only print new data points.
-                long nextOperations = operationsSamples.get(i);
-                int nextNodes = nodesSamples.get(i);
-                if (nextOperations != lastOperations || nextNodes != lastNodes) {
-                    lastOperations = nextOperations;
-                    lastNodes = nextNodes;
-                    stream.printfln("%d,%d", lastOperations, lastNodes);
-                }
-            }
         }
     }
 
