@@ -161,7 +161,8 @@ public class CifDataSynthesisSettings extends CifBddSettings {
                 bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize,
                 bddOpCacheRatio, bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
                 bddVarOrderAdvanced, edgeGranularity, edgeOrderBackward, edgeOrderForward,
-                edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn);
+                edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
+                SynthesisStatistics.toCifBdd(synthesisStatistics));
 
         // Store settings.
         this.normalOutput = normalOutput;

@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.datasynth.settings;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
@@ -119,6 +120,9 @@ public class CifBddSettings {
     /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
     public final boolean doPlantsRefReqsWarn;
 
+    /** The kinds of statistics to print. */
+    public final EnumSet<CifBddStatistics> cifBddStatistics;
+
     /**
      * Constructor for the {@link CifBddSettings} class.
      *
@@ -160,6 +164,7 @@ public class CifBddSettings {
      *     apply during reachability computations ({@code true}), or not ({@code false}).
      * @param doPlantsRefReqsWarn Whether to warn for plants that reference requirement state ({@code true}) or don't
      *     warn ({@code false}).
+     * @param cifBddStatistics The kinds of statistics to print.
      */
     public CifBddSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput, WarnOutput warnOutput,
             AllowNonDeterminism allowNonDeterminism, boolean bddDcshEnabled, Integer bddDebugMaxNodes,
@@ -168,7 +173,7 @@ public class CifBddSettings {
             boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
             EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
             EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
-            boolean doPlantsRefReqsWarn)
+            boolean doPlantsRefReqsWarn, EnumSet<CifBddStatistics> cifBddStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
@@ -193,6 +198,7 @@ public class CifBddSettings {
         this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
         this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
+        this.cifBddStatistics = cifBddStatistics;
 
         // Check BDD debug max nodes.
         if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {

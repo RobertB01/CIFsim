@@ -13,7 +13,19 @@
 
 package org.eclipse.escet.cif.datasynth.settings;
 
-/** Synthesis statistics. */
+import static org.eclipse.escet.common.java.Sets.setc;
+
+import java.util.EnumSet;
+import java.util.Set;
+
+/**
+ * Synthesis statistics.
+ *
+ * <p>
+ * These statistics to choose from must at least include those from {@link CifBddStatistics} for {@link #toCifBdd} to
+ * function correctly.
+ * </p>
+ */
 public enum SynthesisStatistics {
     /** BDD garbage collection. */
     BDD_GC_COLLECT,
@@ -37,5 +49,30 @@ public enum SynthesisStatistics {
     TIMING,
 
     /** Maximum used memory. */
-    MAX_MEMORY,
+    MAX_MEMORY;
+
+    /**
+     * Converts a set of synthesis statistics to a set of CIF/BDD-related statistics. Leaves out the statistics that are
+     * not CIF/BDD-related.
+     *
+     * @param synthesisStatistics The synthesis statistics.
+     * @return The CIF/BDD-related statistics.
+     */
+    public static EnumSet<CifBddStatistics> toCifBdd(EnumSet<SynthesisStatistics> synthesisStatistics) {
+        // Get the statistics to include.
+        Set<CifBddStatistics> cifBddStatistics = setc(synthesisStatistics.size());
+        for (SynthesisStatistics synthesisStatistic: synthesisStatistics) {
+            try {
+                CifBddStatistics cifBddStatistic = CifBddStatistics.valueOf(synthesisStatistic.name());
+                cifBddStatistics.add(cifBddStatistic);
+            } catch (IllegalArgumentException e) {
+                // Filter out synthesis statistics that are not CIF/BDD statistics.
+            }
+        }
+
+        // Return an enum set with the statistics.
+        EnumSet<CifBddStatistics> result = EnumSet.noneOf(CifBddStatistics.class);
+        result.addAll(cifBddStatistics);
+        return result;
+    }
 }
