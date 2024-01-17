@@ -72,7 +72,7 @@ public class VarOrderHelperTest {
         loc2.setName("loc2");
         DiscVariable vf = newDiscVariable(null, "f", null, null, null);
 
-        // Create synthesis variables.
+        // Create CIF/BDD variables.
         CifBddVariable a = new CifBddInputVariable(va, newIntType(0, null, 0), 1, 0, 0);
         CifBddVariable b = new CifBddInputVariable(vb, newIntType(0, null, 0), 1, 0, 0);
         CifBddVariable c = new CifBddInputVariable(vc, newIntType(0, null, 0), 1, 0, 0);
@@ -122,7 +122,7 @@ public class VarOrderHelperTest {
         reader.init("memory", "/memory", false);
         Specification spec = reader.read(box.toString());
 
-        // Create synthesis variables.
+        // Create CIF/BDD variables.
         Automaton p = (Automaton)spec.getComponents().get(0);
         InputVariable va = (InputVariable)spec.getDeclarations().get(0);
         InputVariable vb = (InputVariable)spec.getDeclarations().get(1);
