@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.FileSizes;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -41,6 +42,8 @@ import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDFactory.CacheStats;
 import com.github.javabdd.BDDFactory.GCStats;
+import com.github.javabdd.BDDFactory.MaxMemoryStats;
+import com.github.javabdd.BDDFactory.MaxUsedBddNodesStats;
 
 /** BDD utility methods. */
 public class BddUtils {
@@ -228,6 +231,28 @@ public class BddUtils {
         for (String line: grid.getLines()) {
             normalOutput.line("  " + line);
         }
+    }
+
+    /**
+     * Print the BDD factory maximum used BDD nodes statistics.
+     *
+     * @param stats The BDD factory maximum used BDD nodes statistics.
+     * @param normalOutput Callback for normal output.
+     */
+    public static void printBddMaxUsedBddNodesStats(MaxUsedBddNodesStats stats, DebugNormalOutput normalOutput) {
+        normalOutput.line(fmt("Maximum used BDD nodes: %d.", stats.getMaxUsedBddNodes()));
+    }
+
+    /**
+     * Print the maximum memory usage statistics.
+     *
+     * @param stats The maximum memory usage statistics.
+     * @param normalOutput Callback for normal output.
+     */
+    public static void printMaxMemoryStats(MaxMemoryStats stats, DebugNormalOutput normalOutput) {
+        long maxMemoryBytes = stats.getMaxMemoryBytes();
+        normalOutput.line(fmt("Maximum used memory: %d bytes = %s.", maxMemoryBytes,
+                FileSizes.formatFileSize(maxMemoryBytes, false)));
     }
 
     /**

@@ -14,9 +14,7 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Set;
@@ -72,7 +70,6 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.java.FileSizes;
 
 import com.github.javabdd.BDDFactory;
 
@@ -306,12 +303,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                         settings.continuousPerformanceStatisticsFileAbsPath);
             }
             if (doMaxBddNodesStats) {
-                out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
+                BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.normalOutput);
             }
             if (doMaxMemoryStats) {
-                long maxMemoryBytes = factory.getMaxMemoryStats().getMaxMemoryBytes();
-                out(fmt("Maximum used memory: %d bytes = %s.", maxMemoryBytes,
-                        FileSizes.formatFileSize(maxMemoryBytes, false)));
+                BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.normalOutput);
             }
 
             if (isTerminationRequested()) {
