@@ -227,7 +227,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         List<Long> continuousOpMisses = list();
         List<Integer> continuousUsedBddNodes = list();
         BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
-                OutputProvider.getNormalOutputStream(), continuousOpMisses, continuousUsedBddNodes);
+                settings.normalOutput, continuousOpMisses, continuousUsedBddNodes);
 
         boolean doCacheStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CACHE);
         boolean doMaxBddNodesStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
