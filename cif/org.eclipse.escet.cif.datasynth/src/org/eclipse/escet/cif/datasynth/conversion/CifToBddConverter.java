@@ -83,6 +83,7 @@ import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
 import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
@@ -230,22 +231,21 @@ public class CifToBddConverter {
     /**
      * Create a BDD factory.
      *
-     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. Value must be in the range [1
-     *     .. 2^31-1].
-     * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
-     *     table of the BDD library. Value must be in the range [0.01 .. 1000]. This setting has no effect if
-     *     {@code bddOpCacheSize} is non-{@code null}.
-     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Value must be in the range [2 ..
-     *     2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
-     *     {@code bddOpCacheRatio}.
+     * @param settings The settings to use.
+     * @param continuousOpMisses The list into which to collect continuous operation misses samples.
+     * @param continuousUsedBddNodes The list into which to collect continuous used BDD nodes statistics samples.
      * @return The new BDD factory. The caller is responsible for {@link BDDFactory#done cleaning up} the factory once
      *     it is no longer needed.
      */
-    public static BDDFactory createFactory(int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize) {
+    public static BDDFactory createFactory(CifBddSettings settings, List<Long> continuousOpMisses,
+            List<Integer> continuousUsedBddNodes)
+    {
         // Determine BDD operation cache size and ratio to use.
+        double bddOpCacheRatio = settings.bddOpCacheRatio;
+        Integer bddOpCacheSize = settings.bddOpCacheSize;
         if (bddOpCacheSize == null) {
             // Initialize BDD cache size using cache ratio.
-            bddOpCacheSize = (int)(bddInitNodeTableSize * bddOpCacheRatio);
+            bddOpCacheSize = (int)(settings.bddInitNodeTableSize * bddOpCacheRatio);
             if (bddOpCacheSize < 2) {
                 bddOpCacheSize = 2;
             }
@@ -254,11 +254,33 @@ public class CifToBddConverter {
             bddOpCacheRatio = -1;
         }
 
-        // Create and return BDD factory.
-        BDDFactory factory = JFactory.init(bddInitNodeTableSize, bddOpCacheSize);
+        // Create BDD factory, and configure cache settings.
+        BDDFactory factory = JFactory.init(settings.bddInitNodeTableSize, bddOpCacheSize);
         if (bddOpCacheRatio != -1) {
             factory.setCacheRatio(bddOpCacheRatio);
         }
+
+        // Configure statistics.
+        boolean doGcStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_GC_COLLECT);
+        boolean doResizeStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_GC_RESIZE);
+        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
+        BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
+                settings.normalOutput, continuousOpMisses, continuousUsedBddNodes);
+
+        boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
+        if (doCacheStats || doContinuousPerformanceStats) {
+            factory.getCacheStats().enableMeasurements();
+        }
+        if (doMaxBddNodesStats) {
+            factory.getMaxUsedBddNodesStats().enableMeasurements();
+        }
+        if (doMaxMemoryStats) {
+            factory.getMaxMemoryStats().enableMeasurements();
+        }
+
+        // Return BDD factory.
         return factory;
     }
 

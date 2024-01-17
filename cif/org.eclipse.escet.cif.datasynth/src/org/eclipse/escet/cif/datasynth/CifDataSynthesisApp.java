@@ -208,29 +208,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Create BDD factory.
-        BDDFactory factory = CifToBddConverter.createFactory(settings.bddInitNodeTableSize, settings.bddOpCacheRatio,
-                settings.bddOpCacheSize);
-
-        boolean doGcStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_COLLECT);
-        boolean doResizeStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_RESIZE);
-        boolean doContinuousPerformanceStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CONT);
         List<Long> continuousOpMisses = list();
         List<Integer> continuousUsedBddNodes = list();
-        BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
-                settings.normalOutput, continuousOpMisses, continuousUsedBddNodes);
-
-        boolean doCacheStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CACHE);
-        boolean doMaxBddNodesStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
-        boolean doMaxMemoryStats = settings.synthesisStatistics.contains(SynthesisStatistics.MAX_MEMORY);
-        if (doCacheStats || doContinuousPerformanceStats) {
-            factory.getCacheStats().enableMeasurements();
-        }
-        if (doMaxBddNodesStats) {
-            factory.getMaxUsedBddNodesStats().enableMeasurements();
-        }
-        if (doMaxMemoryStats) {
-            factory.getMaxMemoryStats().enableMeasurements();
-        }
+        BDDFactory factory = CifToBddConverter.createFactory(settings, continuousOpMisses, continuousUsedBddNodes);
 
         // Perform synthesis.
         Specification rslt;
@@ -289,22 +269,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             }
 
             // Print statistics before we clean up the factory.
-            if (doCacheStats) {
-                BddUtils.printBddCacheStats(factory.getCacheStats(), settings.normalOutput);
-            }
-            if (doContinuousPerformanceStats) {
-                settings.debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
-                        settings.continuousPerformanceStatisticsFilePath);
-                BddUtils.printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
-                        settings.continuousPerformanceStatisticsFilePath,
-                        settings.continuousPerformanceStatisticsFileAbsPath);
-            }
-            if (doMaxBddNodesStats) {
-                BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.normalOutput);
-            }
-            if (doMaxMemoryStats) {
-                BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.normalOutput);
-            }
+            BddUtils.printStats(factory, settings, continuousOpMisses, continuousUsedBddNodes,
+                    settings.continuousPerformanceStatisticsFilePath,
+                    settings.continuousPerformanceStatisticsFileAbsPath);
 
             if (isTerminationRequested()) {
                 return;

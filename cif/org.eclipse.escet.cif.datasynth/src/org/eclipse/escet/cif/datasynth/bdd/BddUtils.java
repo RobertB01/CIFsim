@@ -27,6 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
 import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
@@ -198,6 +200,48 @@ public class BddUtils {
      */
     private static void bddResizeStatsCallback(int oldSize, int newSize, DebugNormalOutput normalOutput) {
         normalOutput.line("BDD node table resize: from %,13d nodes to %,13d nodes", oldSize, newSize);
+    }
+
+    /**
+     * Prints the BDD factory cache statistics, maximum used BDD nodes statistics, and maximum memory usage statistics,
+     * if enabled in the settings. Also writes the continuous BDD performance statistics to a file, if enabled in the
+     * settings.
+     *
+     * @param factory The BDD factory.
+     * @param settings The settings to use.
+     * @param continuousOpMisses The list into which to collect continuous operation misses samples.
+     * @param continuousUsedBddNodes The list into which to collect continuous used BDD nodes statistics samples.
+     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
+     *     statistics output file.
+     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
+     *     output file.
+     */
+    public static void printStats(BDDFactory factory, CifBddSettings settings, List<Long> continuousOpMisses,
+            List<Integer> continuousUsedBddNodes, String continuousPerformanceStatisticsFilePath,
+            String continuousPerformanceStatisticsFileAbsPath)
+    {
+        // Check what statistics to print.
+        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
+        boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
+
+        // Print the statistics.
+        if (doCacheStats) {
+            BddUtils.printBddCacheStats(factory.getCacheStats(), settings.normalOutput);
+        }
+        if (doContinuousPerformanceStats) {
+            settings.debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
+                    continuousPerformanceStatisticsFilePath);
+            BddUtils.printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
+                    continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath);
+        }
+        if (doMaxBddNodesStats) {
+            BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.normalOutput);
+        }
+        if (doMaxMemoryStats) {
+            BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.normalOutput);
+        }
     }
 
     /**
