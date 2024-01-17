@@ -23,7 +23,7 @@ import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
-/** CIF data-based synthesis settings. */
+/** CIF/BDD-related settings. */
 public class CifBddSettings {
     /**
      * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
