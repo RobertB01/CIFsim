@@ -81,7 +81,6 @@ import org.eclipse.escet.common.java.FileSizes;
 
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDFactory.CacheStats;
-import com.github.javabdd.JFactory;
 
 /** CIF data-based supervisory controller synthesis application. */
 public class CifDataSynthesisApp extends Application<IOutputComponent> {
@@ -219,24 +218,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Create BDD factory.
-        int bddTableSize = settings.bddInitNodeTableSize;
-        Integer bddCacheSize = settings.bddOpCacheSize;
-        double bddCacheRatio = settings.bddOpCacheRatio;
-        if (bddCacheSize == null) {
-            // Initialize BDD cache size using cache ratio.
-            bddCacheSize = (int)(bddTableSize * bddCacheRatio);
-            if (bddCacheSize < 2) {
-                bddCacheSize = 2;
-            }
-        } else {
-            // Disable cache ratio.
-            bddCacheRatio = -1;
-        }
-
-        BDDFactory factory = JFactory.init(bddTableSize, bddCacheSize);
-        if (bddCacheRatio != -1) {
-            factory.setCacheRatio(bddCacheRatio);
-        }
+        BDDFactory factory = CifToBddConverter.createFactory(settings.bddInitNodeTableSize, settings.bddOpCacheRatio,
+                settings.bddOpCacheSize);
 
         boolean doGcStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_COLLECT);
         boolean doResizeStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_RESIZE);

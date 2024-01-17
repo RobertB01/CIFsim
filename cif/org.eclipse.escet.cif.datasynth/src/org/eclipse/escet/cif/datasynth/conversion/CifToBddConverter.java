@@ -164,6 +164,7 @@ import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
+import com.github.javabdd.JFactory;
 
 /** Converter to convert a CIF specification to a CIF/BDD representation. */
 public class CifToBddConverter {
@@ -212,6 +213,40 @@ public class CifToBddConverter {
         if (doPlantsRefReqsWarn) {
             new PlantsRefsReqsChecker(warnOutput).checkPlantRefToRequirement(spec);
         }
+    }
+
+    /**
+     * Create a BDD factory.
+     *
+     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. Value must be in the range [1
+     *     .. 2^31-1].
+     * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
+     *     table of the BDD library. Value must be in the range [0.01 .. 1000]. This setting has no effect if
+     *     {@code bddOpCacheSize} is non-{@code null}.
+     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Value must be in the range [2 ..
+     *     2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
+     *     {@code bddOpCacheRatio}.
+     * @return The new BDD factory.
+     */
+    public static BDDFactory createFactory(int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize) {
+        // Determine BDD operation cache size and ratio to use.
+        if (bddOpCacheSize == null) {
+            // Initialize BDD cache size using cache ratio.
+            bddOpCacheSize = (int)(bddInitNodeTableSize * bddOpCacheRatio);
+            if (bddOpCacheSize < 2) {
+                bddOpCacheSize = 2;
+            }
+        } else {
+            // Disable cache ratio.
+            bddOpCacheRatio = -1;
+        }
+
+        // Create and return BDD factory.
+        BDDFactory factory = JFactory.init(bddInitNodeTableSize, bddOpCacheSize);
+        if (bddOpCacheRatio != -1) {
+            factory.setCacheRatio(bddOpCacheRatio);
+        }
+        return factory;
     }
 
     /**
