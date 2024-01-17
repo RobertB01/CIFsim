@@ -299,9 +299,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 BddUtils.printBddCacheStats(factory.getCacheStats(), settings.normalOutput);
             }
             if (doContinuousPerformanceStats) {
+                settings.debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
+                        settings.continuousPerformanceStatisticsFilePath);
                 BddUtils.printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
                         settings.continuousPerformanceStatisticsFilePath,
-                        settings.continuousPerformanceStatisticsFileAbsPath, settings.debugOutput);
+                        settings.continuousPerformanceStatisticsFileAbsPath);
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));

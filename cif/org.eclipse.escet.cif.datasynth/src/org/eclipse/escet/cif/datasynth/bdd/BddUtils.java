@@ -237,17 +237,13 @@ public class BddUtils {
      * @param nodesSamples The collected continuous used BDD nodes statistics samples.
      * @param filePath The absolute or relative path to the continuous performance statistics output file.
      * @param absFilePath The absolute path to the continuous performance statistics output file.
-     * @param debugOutput Callback for debug output.
      */
     public static void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples,
-            String filePath, String absFilePath, DebugNormalOutput debugOutput)
+            String filePath, String absFilePath)
     {
         // Get number of data points.
         Assert.areEqual(operationsSamples.size(), nodesSamples.size());
         int numberOfDataPoints = operationsSamples.size();
-
-        // Debug output.
-        debugOutput.line("Writing continuous BDD performance statistics file \"%s\".", filePath);
 
         // Start the actual printing.
         try (OutputStream stream = new BufferedOutputStream(new FileOutputStream(absFilePath));
