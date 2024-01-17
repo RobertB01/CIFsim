@@ -181,8 +181,8 @@ public class SynthesisToCifConverter {
         this.cifBddSpec = synthResult.cifBddSpec;
         this.spec = spec;
         this.supervisor = null;
-        this.outputMode = cifBddSpec.settings.bddOutputMode;
-        this.bddNamePrefix = cifBddSpec.settings.bddOutputNamePrefix;
+        this.outputMode = synthResult.settings.bddOutputMode;
+        this.bddNamePrefix = synthResult.settings.bddOutputNamePrefix;
         this.bddNodeMap = null;
         this.bddVarIdxMap = null;
         this.bddNodesConst = null;
@@ -208,7 +208,7 @@ public class SynthesisToCifConverter {
         try {
             // If we simplify against something, the 'something' needs to
             // remain to ensure we don't loose that restriction.
-            EnumSet<BddSimplify> simplifications = cifBddSpec.settings.bddSimplifications;
+            EnumSet<BddSimplify> simplifications = synthResult.settings.bddSimplifications;
             RemoveRequirements remover = new RemoveRequirements();
             remover.removeReqAuts = true;
             remover.removeStateEvtExclReqInvs = !simplifications.contains(BddSimplify.GUARDS_SE_EXCL_REQ_INVS);
@@ -224,7 +224,7 @@ public class SynthesisToCifConverter {
         relabelRequirementInvariants(spec);
 
         // Construct new supervisor automaton.
-        supervisor = createSupervisorAutomaton(cifBddSpec.settings.supervisorName);
+        supervisor = createSupervisorAutomaton(synthResult.settings.supervisorName);
 
         // Add the alphabet to the automaton. Only add controllable events, as
         // they may be restricted by the supervisor.
@@ -287,8 +287,8 @@ public class SynthesisToCifConverter {
         finalizeBddToCif();
 
         // Add namespace, if requested.
-        if (cifBddSpec.settings.supervisorNamespace != null) {
-            spec = addNamespace(cifBddSpec.settings.supervisorNamespace);
+        if (synthResult.settings.supervisorNamespace != null) {
+            spec = addNamespace(synthResult.settings.supervisorNamespace);
             this.spec = spec;
         }
 

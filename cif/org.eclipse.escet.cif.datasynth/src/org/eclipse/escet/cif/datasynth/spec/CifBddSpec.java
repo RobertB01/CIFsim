@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 import com.github.javabdd.BDD;
@@ -30,7 +30,7 @@ import com.github.javabdd.BDDVarSet;
 /** CIF/BDD specification. Represents a linearized CIF specification in a BDD representation. */
 public class CifBddSpec {
     /** The settings to use. */
-    public final CifDataSynthesisSettings settings;
+    public final CifBddSettings settings;
 
     /** The BDD factory to use. */
     public BDDFactory factory;
@@ -310,7 +310,7 @@ public class CifBddSpec {
      *
      * @param settings The settings to use.
      */
-    public CifBddSpec(CifDataSynthesisSettings settings) {
+    public CifBddSpec(CifBddSettings settings) {
         this.settings = settings;
     }
 

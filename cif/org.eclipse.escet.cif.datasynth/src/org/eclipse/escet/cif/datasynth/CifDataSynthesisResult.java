@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Map;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.Strings;
@@ -28,6 +29,9 @@ import com.github.javabdd.BDD;
 public class CifDataSynthesisResult {
     /** The CIF/BDD specification that represents the CIF specification. */
     public final CifBddSpec cifBddSpec;
+
+    /** The settings to use. */
+    public final CifDataSynthesisSettings settings;
 
     /** Controlled-behavior predicate of the system. */
     public BDD ctrlBeh;
@@ -51,9 +55,11 @@ public class CifDataSynthesisResult {
      * The constructor for the {@link CifDataSynthesisResult} class.
      *
      * @param cifBddSpec The CIF/BDD specification that represents the CIF specification.
+     * @param settings The settings to use.
      */
-    public CifDataSynthesisResult(CifBddSpec cifBddSpec) {
+    public CifDataSynthesisResult(CifBddSpec cifBddSpec, CifDataSynthesisSettings settings) {
         this.cifBddSpec = cifBddSpec;
+        this.settings = settings;
     }
 
     @Override

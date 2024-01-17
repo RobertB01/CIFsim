@@ -262,9 +262,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Starting data-based synthesis.");
             }
-            boolean doPrintCtrlSysStates = settings.synthesisStatistics.contains(SynthesisStatistics.CTRL_SYS_STATES);
-            CifDataSynthesisResult synthResult = CifDataSynthesis.synthesize(cifBddSpec, doTiming, timing,
-                    doPrintCtrlSysStates);
+            CifDataSynthesisResult synthResult = CifDataSynthesis.synthesize(cifBddSpec, settings, timing);
             if (isTerminationRequested()) {
                 return;
             }

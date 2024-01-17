@@ -81,7 +81,7 @@ import org.eclipse.escet.cif.datasynth.PlantsRefsReqsChecker;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
@@ -269,7 +269,7 @@ public class CifToBddConverter {
      * @param factory The BDD factory to use.
      * @return The CIF/BDD representation of the CIF specification.
      */
-    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    public CifBddSpec convert(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
         // violations.
         CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);
@@ -291,7 +291,7 @@ public class CifToBddConverter {
      * @param factory The BDD factory to use.
      * @return The CIF/BDD representation of the CIF specification.
      */
-    private CifBddSpec convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    private CifBddSpec convertSpec(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Initialize CIF/BDD specification.
         CifBddSpec cifBddSpec = new CifBddSpec(settings);
         cifBddSpec.factory = factory;
@@ -2618,7 +2618,7 @@ public class CifToBddConverter {
      *
      * @param settings The settings.
      */
-    private void checkEdgeWorksetAlgorithmSettings(CifDataSynthesisSettings settings) {
+    private void checkEdgeWorksetAlgorithmSettings(CifBddSettings settings) {
         // Skip if workset algorithm is disabled.
         if (!settings.doUseEdgeWorksetAlgo) {
             return;
