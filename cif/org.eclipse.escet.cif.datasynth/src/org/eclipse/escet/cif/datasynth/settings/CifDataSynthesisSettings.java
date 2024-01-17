@@ -24,63 +24,9 @@ import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** CIF data-based synthesis settings. */
-public class CifDataSynthesisSettings {
-    /**
-     * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
-     * {@code true} also on subsequent calls.
-     */
-    public final Supplier<Boolean> shouldTerminate;
-
-    /** Callback for debug output. */
-    public final DebugNormalOutput debugOutput;
-
+public class CifDataSynthesisSettings extends CifBddSettings {
     /** Callback for normal output. */
     public final DebugNormalOutput normalOutput;
-
-    /** Callback for warning output. */
-    public final WarnOutput warnOutput;
-
-    /**
-     * Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering ({@code true}), or
-     * not apply it ({@code false}).
-     */
-    public final boolean bddDcshEnabled;
-
-    /**
-     * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
-     * output. Value is in the range [0 .. 2^31-1]. {@code null} indicates no maximum.
-     */
-    public final Integer bddDebugMaxNodes;
-
-    /**
-     * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
-     * debug output. Value is in the range [0 .. 1.7e308]. {@code null} indicates no maximum.
-     */
-    public final Double bddDebugMaxPaths;
-
-    /**
-     * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
-     * or not apply it ({@code false}).
-     */
-    public final boolean bddForceEnabled;
-
-    /** The algorithm to use to create hyper-edges for BDD variable ordering. */
-    public final BddHyperEdgeAlgo bddHyperEdgeAlgo;
-
-    /** The initial size of the node table of the BDD library. Value is in the range [1 .. 2^31-1]. */
-    public final int bddInitNodeTableSize;
-
-    /**
-     * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
-     * Value is in the range [0.01 .. 1000]. This setting has no effect if {@link #bddOpCacheSize} is non-{@code null}.
-     */
-    public final double bddOpCacheRatio;
-
-    /**
-     * The fixed size of the operation cache of the BDD library. Value is in the range [2 .. 2^31-1]. {@code null} means
-     * a fixed cache size is disabled. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
-     */
-    public final Integer bddOpCacheSize;
 
     /**
      * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
@@ -94,47 +40,11 @@ public class CifDataSynthesisSettings {
     /** The BDD predicate simplifications to perform. */
     public final EnumSet<BddSimplify> bddSimplifications;
 
-    /** The initial BDD variable ordering and domain interleaving. */
-    public final String bddVarOrderInit;
-
-    /**
-     * Whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering
-     * ({@code true}), or not apply it ({@code false}).
-     */
-    public final boolean bddSlidingWindowEnabled;
-
-    /**
-     * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. Is an integer
-     * number in the range [1 .. 12].
-     */
-    public final int bddSlidingWindowMaxLen;
-
-    /** The advanced BDD variable ordering and domain interleaving. */
-    public final String bddVarOrderAdvanced;
-
     /** The absolute or relative path to the continuous performance statistics output file. */
     public final String continuousPerformanceStatisticsFilePath;
 
     /** The absolute path to the continuous performance statistics output file. */
     public final String continuousPerformanceStatisticsFileAbsPath;
-
-    /** The granularity of edges to use during synthesis. */
-    public final EdgeGranularity edgeGranularity;
-
-    /** The edge ordering to use for backward reachability computations. */
-    public final String edgeOrderBackward;
-
-    /** The edge ordering to use for forward reachability computations. */
-    public final String edgeOrderForward;
-
-    /** Whether duplicate events are allowed for custom edge orders. */
-    public final EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents;
-
-    /**
-     * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations ({@code true}), or not ({@code false}).
-     */
-    public final boolean doUseEdgeWorksetAlgo;
 
     /**
      * Whether to warn for events that are never enabled in the input specification or always disabled by the
@@ -147,9 +57,6 @@ public class CifDataSynthesisSettings {
 
     /** Whether to perform forward reachability during synthesis ({@code true}) or omit it ({@code false}). */
     public final boolean doForwardReach;
-
-    /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
-    public final boolean doPlantsRefReqsWarn;
 
     /** The way that state requirement invariants are enforced. */
     public final StateReqInvEnforceMode stateReqInvEnforceMode;
@@ -244,90 +151,31 @@ public class CifDataSynthesisSettings {
             boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
             String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
     {
+        // Pass on the CIF/BDD-related settings.
+        super(shouldTerminate, debugOutput, warnOutput, bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths,
+                bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize,
+                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced, edgeGranularity,
+                edgeOrderBackward, edgeOrderForward, edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo,
+                doPlantsRefReqsWarn);
+
         // Store settings.
-        this.shouldTerminate = shouldTerminate;
-        this.debugOutput = debugOutput;
         this.normalOutput = normalOutput;
-        this.warnOutput = warnOutput;
-        this.bddDcshEnabled = bddDcshEnabled;
-        this.bddDebugMaxNodes = bddDebugMaxNodes;
-        this.bddDebugMaxPaths = bddDebugMaxPaths;
-        this.bddForceEnabled = bddForceEnabled;
-        this.bddHyperEdgeAlgo = bddHyperEdgeAlgo;
-        this.bddInitNodeTableSize = bddInitNodeTableSize;
-        this.bddOpCacheRatio = bddOpCacheRatio;
-        this.bddOpCacheSize = bddOpCacheSize;
         this.bddOutputNamePrefix = bddOutputNamePrefix;
         this.bddOutputMode = bddOutputMode;
         this.bddSimplifications = bddSimplifications;
-        this.bddVarOrderInit = bddVarOrderInit;
-        this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;
-        this.bddSlidingWindowMaxLen = bddSlidingWindowMaxLen;
-        this.bddVarOrderAdvanced = bddVarOrderAdvanced;
         this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
         this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;
-        this.edgeGranularity = edgeGranularity;
-        this.edgeOrderBackward = edgeOrderBackward;
-        this.edgeOrderForward = edgeOrderForward;
-        this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
-        this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
         this.fixedPointComputationsOrder = fixedPointComputationsOrder;
         this.doForwardReach = doForwardReach;
-        this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
         this.stateReqInvEnforceMode = stateReqInvEnforceMode;
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;
 
-        // Check BDD debug max nodes.
-        if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {
-            String msg = fmt("BDD debug max nodes value \"%s\" is not in the range [0 .. 2^31-1].", bddDebugMaxNodes);
-            throw new InvalidOptionException(msg);
-        }
-
-        // Check BDD debug max paths.
-        if (bddDebugMaxPaths != null && Double.isNaN(bddDebugMaxPaths)) {
-            throw new InvalidOptionException("BDD debug max paths value must not be NaN.");
-        }
-        if (bddDebugMaxPaths != null && bddDebugMaxPaths < 0) {
-            String msg = fmt("BDD debug max paths value \"%s\" is not in the range [0 .. 1.7e308].", bddDebugMaxPaths);
-            throw new InvalidOptionException(msg);
-        }
-
-        // Check BDD library initial node table size.
-        if (bddInitNodeTableSize < 1) {
-            String msg = fmt("BDD library initial node table size \"%s\" is not in the range [1 .. 2^31-1].",
-                    bddInitNodeTableSize);
-            throw new InvalidOptionException(msg);
-        }
-
-        // Check BDD library operation cache ratio.
-        if (Double.isNaN(bddOpCacheRatio)) {
-            throw new InvalidOptionException("BDD library operation cache ratio must not be NaN.");
-        }
-        if (bddOpCacheRatio < 0.01 || bddOpCacheRatio > 1000) {
-            String msg = fmt("BDD library operation cache ratio \"%s\" is not in the range [0.01 .. 1000].",
-                    bddOpCacheRatio);
-            throw new InvalidOptionException(msg);
-        }
-
-        // Check BDD library operation cache size.
-        if (bddOpCacheSize != null && bddOpCacheSize < 2) {
-            String msg = fmt("BDD library operation cache size \"%s\" is not in the range [2 .. 2^31-1].",
-                    bddOpCacheSize);
-            throw new InvalidOptionException(msg);
-        }
-
         // Check BDD output name prefix.
         if (!CifValidationUtils.isValidIdentifier(bddOutputNamePrefix)) {
             String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", bddOutputNamePrefix);
-            throw new InvalidOptionException(msg);
-        }
-
-        // Check sliding window maximum window length.
-        if (bddSlidingWindowMaxLen < 1 || bddSlidingWindowMaxLen > 12) {
-            String msg = fmt("BDD sliding window size \"%s\" is not in the range [1 .. 12].", bddSlidingWindowMaxLen);
             throw new InvalidOptionException(msg);
         }
 
