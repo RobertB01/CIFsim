@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.settings;
 
-/** Synthesis statistics. */
+/** CIF/BDD-related statistics. */
 public enum CifBddStatistics {
     /** BDD garbage collection. */
     BDD_GC_COLLECT,
@@ -29,12 +29,6 @@ public enum CifBddStatistics {
 
     /** Maximum used BDD nodes. */
     BDD_PERF_MAX_NODES,
-
-    /** Controlled system states. */
-    CTRL_SYS_STATES,
-
-    /** Timing. */
-    TIMING,
 
     /** Maximum used memory. */
     MAX_MEMORY,
