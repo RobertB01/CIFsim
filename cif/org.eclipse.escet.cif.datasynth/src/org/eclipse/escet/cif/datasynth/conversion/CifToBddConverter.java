@@ -61,8 +61,10 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.cif2cif.LocationPointerManager;
+import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.common.CifEnumLiteral;
 import org.eclipse.escet.cif.common.CifEquationUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -75,6 +77,7 @@ import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.datasynth.PlantsRefsReqsChecker;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
@@ -153,6 +156,7 @@ import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
@@ -184,6 +188,30 @@ public class CifToBddConverter {
      */
     public CifToBddConverter(String appName) {
         this.appName = appName;
+    }
+
+    /**
+     * Preprocess the input model, before conversion.
+     *
+     * @param spec The CIF specification to preprocess.
+     * @param warnOutput Callback for warning output.
+     * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
+     */
+    public static void preprocess(Specification spec, WarnOutput warnOutput, boolean doPlantsRefReqsWarn) {
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warnOutput.line("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
+        // Eliminate component definition/instantiation, to avoid having to handle them.
+        new ElimComponentDefInst().transform(spec);
+
+        // Check whether plants reference requirements.
+        if (doPlantsRefReqsWarn) {
+            new PlantsRefsReqsChecker(warnOutput).checkPlantRefToRequirement(spec);
+        }
     }
 
     /**

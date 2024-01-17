@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
@@ -24,8 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
-import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.conversion.CifToBddConverter;
 import org.eclipse.escet.cif.datasynth.conversion.SynthesisToCifConverter;
@@ -210,20 +207,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             timing.inputPreProcess.start();
         }
         try {
-            // Remove/ignore I/O declarations, to increase the supported subset.
-            RemoveIoDecls removeIoDecls = new RemoveIoDecls();
-            removeIoDecls.transform(spec);
-            if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-                warn("The specification contains CIF/SVG input declarations. These will be ignored.");
-            }
-
-            // Eliminate component definition/instantiation, to avoid having to handle them.
-            new ElimComponentDefInst().transform(spec);
-
-            // Check whether plants reference requirements.
-            if (settings.doPlantsRefReqsWarn) {
-                new PlantsRefsReqsChecker(OutputProvider.getWarningOutputStream()).checkPlantRefToRequirement(spec);
-            }
+            CifToBddConverter.preprocess(spec, settings.warnOutput, settings.doPlantsRefReqsWarn);
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
