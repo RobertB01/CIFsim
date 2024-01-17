@@ -25,9 +25,6 @@ import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** CIF data-based synthesis settings. */
 public class CifDataSynthesisSettings extends CifBddSettings {
-    /** Callback for normal output. */
-    public final DebugNormalOutput normalOutput;
-
     /**
      * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
      * CIF identifier}.
@@ -157,15 +154,14 @@ public class CifDataSynthesisSettings extends CifBddSettings {
         // be taken, if only the updates (includes location pointer variable assignment for target location) are
         // different. For uncontrollable events non-determinism is not a problem, as the supervisor won't restrict edges
         // for uncontrollable events.
-        super(shouldTerminate, debugOutput, warnOutput, AllowNonDeterminism.UNCONTROLLABLE, bddDcshEnabled,
-                bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize,
-                bddOpCacheRatio, bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
-                bddVarOrderAdvanced, edgeGranularity, edgeOrderBackward, edgeOrderForward,
+        super(shouldTerminate, debugOutput, normalOutput, warnOutput, AllowNonDeterminism.UNCONTROLLABLE,
+                bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo,
+                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled,
+                bddSlidingWindowMaxLen, bddVarOrderAdvanced, edgeGranularity, edgeOrderBackward, edgeOrderForward,
                 edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
                 SynthesisStatistics.toCifBdd(synthesisStatistics));
 
         // Store settings.
-        this.normalOutput = normalOutput;
         this.bddOutputNamePrefix = bddOutputNamePrefix;
         this.bddOutputMode = bddOutputMode;
         this.bddSimplifications = bddSimplifications;

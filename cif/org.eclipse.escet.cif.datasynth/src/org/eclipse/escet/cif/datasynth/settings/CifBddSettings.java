@@ -33,6 +33,9 @@ public class CifBddSettings {
     /** Callback for debug output. */
     public final DebugNormalOutput debugOutput;
 
+    /** Callback for normal output. */
+    public final DebugNormalOutput normalOutput;
+
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
@@ -129,6 +132,7 @@ public class CifBddSettings {
      * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
      *     {@code true}, it must return {@code true} also on subsequent calls.
      * @param debugOutput Callback for debug output.
+     * @param normalOutput Callback for normal output.
      * @param warnOutput Callback for warning output.
      * @param allowNonDeterminism Events for which to allow non-determinism.
      * @param bddDcshEnabled Whether to apply the DCSH variable ordering algorithm to improve the initial variable
@@ -166,18 +170,19 @@ public class CifBddSettings {
      *     warn ({@code false}).
      * @param cifBddStatistics The kinds of statistics to print.
      */
-    public CifBddSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput, WarnOutput warnOutput,
-            AllowNonDeterminism allowNonDeterminism, boolean bddDcshEnabled, Integer bddDebugMaxNodes,
-            Double bddDebugMaxPaths, boolean bddForceEnabled, BddHyperEdgeAlgo bddHyperEdgeAlgo,
-            int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize, String bddVarOrderInit,
-            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
-            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
-            EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
-            boolean doPlantsRefReqsWarn, EnumSet<CifBddStatistics> cifBddStatistics)
+    public CifBddSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
+            DebugNormalOutput normalOutput, WarnOutput warnOutput, AllowNonDeterminism allowNonDeterminism,
+            boolean bddDcshEnabled, Integer bddDebugMaxNodes, Double bddDebugMaxPaths, boolean bddForceEnabled,
+            BddHyperEdgeAlgo bddHyperEdgeAlgo, int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize,
+            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
+            String bddVarOrderAdvanced, EdgeGranularity edgeGranularity, String edgeOrderBackward,
+            String edgeOrderForward, EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents,
+            boolean doUseEdgeWorksetAlgo, boolean doPlantsRefReqsWarn, EnumSet<CifBddStatistics> cifBddStatistics)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
         this.debugOutput = debugOutput;
+        this.normalOutput = normalOutput;
         this.warnOutput = warnOutput;
         this.allowNonDeterminism = allowNonDeterminism;
         this.bddDcshEnabled = bddDcshEnabled;
