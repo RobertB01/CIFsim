@@ -221,8 +221,8 @@ public class BddUtils {
             String continuousPerformanceStatisticsFileAbsPath)
     {
         // Check what statistics to print.
-        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
         boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
         boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
         boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
 
