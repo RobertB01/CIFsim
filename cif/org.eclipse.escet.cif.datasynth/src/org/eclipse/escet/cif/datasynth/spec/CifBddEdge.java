@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.CifDataSynthesis;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -147,11 +146,6 @@ public class CifBddEdge {
     /**
      * Global edge re-initialization. Edges must be reinitialized when the guards have been updated after
      * {@link #initApply} was invoked. Must be invoked only once per edge.
-     *
-     * <p>
-     * Since {@link CifDataSynthesis#applyStatePlantInvs} applies edges, it requires edges to be initialized. Hence,
-     * initialization cannot be done later and re-initialization is necessary.
-     * </p>
      *
      * @param doForward Whether to also re-initialize this edge for forward reachability, making it possible to
      *     {@link #apply} this edge both forwards and backwards ({@code true}), or not re-initialize this edge for

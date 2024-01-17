@@ -95,7 +95,7 @@ public class CifBddSettings {
     /** The advanced BDD variable ordering and domain interleaving. */
     public final String bddVarOrderAdvanced;
 
-    /** The granularity of edges to use during synthesis. */
+    /** The granularity of edges to use in the BDD representation of the CIF specification. */
     public final EdgeGranularity edgeGranularity;
 
     /** The edge ordering to use for backward reachability computations. */
@@ -148,7 +148,7 @@ public class CifBddSettings {
      * @param bddSlidingWindowMaxLen The maximum length of the window to use for the BDD sliding window variable
      *     ordering algorithm. Must be an integer number in the range [1 .. 12].
      * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
-     * @param edgeGranularity The granularity of edges to use during synthesis.
+     * @param edgeGranularity The granularity of edges to use in the BDD representation of the CIF specification.
      * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
      * @param edgeOrderForward The edge ordering to use for forward reachability computations.
      * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
