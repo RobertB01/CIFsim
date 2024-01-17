@@ -35,6 +35,9 @@ public class CifBddSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** Events for which to allow non-determinism. */
+    public final AllowNonDeterminism allowNonDeterminism;
+
     /**
      * Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering ({@code true}), or
      * not apply it ({@code false}).
@@ -123,6 +126,7 @@ public class CifBddSettings {
      *     {@code true}, it must return {@code true} also on subsequent calls.
      * @param debugOutput Callback for debug output.
      * @param warnOutput Callback for warning output.
+     * @param allowNonDeterminism Events for which to allow non-determinism.
      * @param bddDcshEnabled Whether to apply the DCSH variable ordering algorithm to improve the initial variable
      *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddDebugMaxNodes The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF
@@ -158,17 +162,19 @@ public class CifBddSettings {
      *     warn ({@code false}).
      */
     public CifBddSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput, WarnOutput warnOutput,
-            boolean bddDcshEnabled, Integer bddDebugMaxNodes, Double bddDebugMaxPaths, boolean bddForceEnabled,
-            BddHyperEdgeAlgo bddHyperEdgeAlgo, int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize,
-            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
-            String bddVarOrderAdvanced, EdgeGranularity edgeGranularity, String edgeOrderBackward,
-            String edgeOrderForward, EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents,
-            boolean doUseEdgeWorksetAlgo, boolean doPlantsRefReqsWarn)
+            AllowNonDeterminism allowNonDeterminism, boolean bddDcshEnabled, Integer bddDebugMaxNodes,
+            Double bddDebugMaxPaths, boolean bddForceEnabled, BddHyperEdgeAlgo bddHyperEdgeAlgo,
+            int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize, String bddVarOrderInit,
+            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
+            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
+            EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
+            boolean doPlantsRefReqsWarn)
     {
         // Store settings.
         this.shouldTerminate = shouldTerminate;
         this.debugOutput = debugOutput;
         this.warnOutput = warnOutput;
+        this.allowNonDeterminism = allowNonDeterminism;
         this.bddDcshEnabled = bddDcshEnabled;
         this.bddDebugMaxNodes = bddDebugMaxNodes;
         this.bddDebugMaxPaths = bddDebugMaxPaths;

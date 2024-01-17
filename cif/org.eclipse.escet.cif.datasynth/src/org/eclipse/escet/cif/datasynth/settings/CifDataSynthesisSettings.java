@@ -152,11 +152,16 @@ public class CifDataSynthesisSettings extends CifBddSettings {
             String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
     {
         // Pass on the CIF/BDD-related settings.
-        super(shouldTerminate, debugOutput, warnOutput, bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths,
-                bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize,
-                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced, edgeGranularity,
-                edgeOrderBackward, edgeOrderForward, edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo,
-                doPlantsRefReqsWarn);
+        //
+        // Do not allow non-determinism for controllable events. An external supervisor can't force the correct edge to
+        // be taken, if only the updates (includes location pointer variable assignment for target location) are
+        // different. For uncontrollable events non-determinism is not a problem, as the supervisor won't restrict edges
+        // for uncontrollable events.
+        super(shouldTerminate, debugOutput, warnOutput, AllowNonDeterminism.UNCONTROLLABLE, bddDcshEnabled,
+                bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize,
+                bddOpCacheRatio, bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen,
+                bddVarOrderAdvanced, edgeGranularity, edgeOrderBackward, edgeOrderForward,
+                edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn);
 
         // Store settings.
         this.normalOutput = normalOutput;

@@ -81,6 +81,7 @@ import org.eclipse.escet.cif.datasynth.PlantsRefsReqsChecker;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
+import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
@@ -1900,8 +1901,8 @@ public class CifToBddConverter {
                 return;
             }
 
-            // Check for non-determinism of controllable events.
-            checkNonDeterminism(cifBddSpec.edges);
+            // Check for non-determinism.
+            checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.allowNonDeterminism);
         }
     }
 
@@ -1940,25 +1941,24 @@ public class CifToBddConverter {
     }
 
     /**
-     * Check CIF/BDD edges to make sure there is no non-determinism for controllable events. Non-determinism by means of
-     * multiple outgoing edges for the same event, with overlapping guards, is not supported. An external supervisor
-     * can't force the correct edge to be taken, if only the updates (includes location pointer variable assignment for
-     * target location) are different. For uncontrollable events non-determinism is not a problem, as the supervisor
-     * won't restrict edges for uncontrollable events.
+     * Check CIF/BDD edges to make sure there is no non-determinism, i.e., non-determinism by means of multiple outgoing
+     * edges for the same event, with overlapping guards.
      *
      * @param edges The CIF/BDD edges (self loops). May include edges for both controllable and uncontrollable events.
+     * @param allowNonDeterminism Events for which to allow non-determinism.
      */
-    private void checkNonDeterminism(List<CifBddEdge> edges) {
+    private void checkNonDeterminism(List<CifBddEdge> edges, AllowNonDeterminism allowNonDeterminism) {
         // Initialize conflict information.
         Map<Event, BDD> eventGuards = map();
         Set<Event> conflicts = setc(0);
 
         // Check edges for conflicts (non-determinism).
         for (CifBddEdge edge: edges) {
-            // Skip uncontrollable events. Also skip events without controllability (is already previously reported).
+            // Skip events for which non-determinism is allowed. Also skip events without controllability (is already
+            // previously reported).
             Event evt = edge.event;
             Boolean controllable = evt.getControllable();
-            if (controllable == null || !controllable) {
+            if (controllable == null || allowNonDeterminism.allowFor(controllable)) {
                 continue;
             }
 
@@ -2047,8 +2047,14 @@ public class CifToBddConverter {
             }
 
             // Report conflict.
-            String msg = fmt("Unsupported linearized edges: non-determinism detected for edges of controllable "
-                    + "event \"%s\" with overlapping guards:%s", getAbsName(conflict), groupsTxt);
+            String eventKind = switch (allowNonDeterminism) {
+                case ALL -> throw new AssertionError("Should not get here, as non-determinism is allowed.");
+                case NONE -> "";
+                case CONTROLLABLE -> "uncontrollable ";
+                case UNCONTROLLABLE -> "controllable ";
+            };
+            String msg = fmt("Unsupported linearized edges: non-determinism detected for edges of "
+                    + "%sevent \"%s\" with overlapping guards:%s", eventKind, getAbsName(conflict), groupsTxt);
             problems.add(msg);
         }
     }
