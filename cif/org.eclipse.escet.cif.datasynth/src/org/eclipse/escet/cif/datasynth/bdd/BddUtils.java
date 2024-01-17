@@ -233,7 +233,7 @@ public class BddUtils {
         if (doContinuousPerformanceStats) {
             settings.debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
                     continuousPerformanceStatisticsFilePath);
-            BddUtils.printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
+            BddUtils.writeBddContinuousPerformanceStatsFile(continuousOpMisses, continuousUsedBddNodes,
                     continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath);
         }
         if (doMaxBddNodesStats) {
@@ -300,21 +300,21 @@ public class BddUtils {
     }
 
     /**
-     * Print the continuous BDD performance statistics to a file.
+     * Write the continuous BDD performance statistics to a file.
      *
      * @param operationsSamples The collected continuous operation misses samples.
      * @param nodesSamples The collected continuous used BDD nodes statistics samples.
      * @param filePath The absolute or relative path to the continuous performance statistics output file.
      * @param absFilePath The absolute path to the continuous performance statistics output file.
      */
-    public static void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples,
+    public static void writeBddContinuousPerformanceStatsFile(List<Long> operationsSamples, List<Integer> nodesSamples,
             String filePath, String absFilePath)
     {
         // Get number of data points.
         Assert.areEqual(operationsSamples.size(), nodesSamples.size());
         int numberOfDataPoints = operationsSamples.size();
 
-        // Start the actual printing.
+        // Write the data to a file.
         try (OutputStream stream = new BufferedOutputStream(new FileOutputStream(absFilePath));
              Writer writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8))
         {
