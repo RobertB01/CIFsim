@@ -166,7 +166,18 @@ import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.JFactory;
 
-/** Converter to convert a CIF specification to a CIF/BDD representation. */
+/**
+ * Converter to convert a CIF specification to a CIF/BDD representation.
+ *
+ * <p>
+ * To use, call the following methods, in the given order:
+ * <ul>
+ * <li>{@link #preprocess}</li>
+ * <li>{@link #createFactory}</li>
+ * <li>{@link #convert}</li>
+ * </ul>
+ * </p>
+ */
 public class CifToBddConverter {
     /** The human-readable name of the application. Should start with a capital letter. */
     private final String appName;
@@ -194,7 +205,7 @@ public class CifToBddConverter {
     /**
      * Preprocess the input model, before conversion.
      *
-     * @param spec The CIF specification to preprocess.
+     * @param spec The CIF specification to preprocess. Is modified in-place.
      * @param warnOutput Callback for warning output.
      * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
      */
@@ -226,7 +237,8 @@ public class CifToBddConverter {
      * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Value must be in the range [2 ..
      *     2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
      *     {@code bddOpCacheRatio}.
-     * @return The new BDD factory.
+     * @return The new BDD factory. The caller is responsible for {@link BDDFactory#done cleaning up} the factory once
+     *     it is no longer needed.
      */
     public static BDDFactory createFactory(int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize) {
         // Determine BDD operation cache size and ratio to use.
