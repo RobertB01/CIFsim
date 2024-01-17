@@ -163,7 +163,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 SynthesisStatisticsOption.getStatistics());
 
         // Initialize debugging.
-        boolean dbgEnabled = OutputProvider.dodbg();
+        boolean dbgEnabled = settings.debugOutput.isEnabled();
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
