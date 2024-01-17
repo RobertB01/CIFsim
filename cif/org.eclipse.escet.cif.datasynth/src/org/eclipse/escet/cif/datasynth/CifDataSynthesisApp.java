@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
@@ -111,36 +110,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Initialize timing statistics.
-        Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
-        boolean doTiming = stats.contains(SynthesisStatistics.TIMING);
-        CifDataSynthesisTiming timing = new CifDataSynthesisTiming();
-
-        // Do synthesis.
-        if (doTiming) {
-            timing.total.start();
-        }
-        try {
-            doSynthesis(doTiming, timing);
-        } finally {
-            // Print timing statistics.
-            if (doTiming) {
-                timing.total.stop();
-                timing.print(OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream());
-            }
-        }
-
-        // All done.
-        return 0;
-    }
-
-    /**
-     * Perform synthesis.
-     *
-     * @param doTiming Whether to collect timing statistics.
-     * @param timing The timing statistics data. Is modified in-place.
-     */
-    private void doSynthesis(boolean doTiming, CifDataSynthesisTiming timing) {
         // Construct settings. Do it early, to validate settings early.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
@@ -162,6 +131,36 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
                 SynthesisStatisticsOption.getStatistics());
 
+        // Initialize timing statistics.
+        boolean doTiming = settings.synthesisStatistics.contains(SynthesisStatistics.TIMING);
+        CifDataSynthesisTiming timing = new CifDataSynthesisTiming();
+
+        // Do synthesis.
+        if (doTiming) {
+            timing.total.start();
+        }
+        try {
+            doSynthesis(settings, doTiming, timing);
+        } finally {
+            // Print timing statistics.
+            if (doTiming) {
+                timing.total.stop();
+                timing.print(settings.debugOutput, settings.normalOutput);
+            }
+        }
+
+        // All done.
+        return 0;
+    }
+
+    /**
+     * Perform synthesis.
+     *
+     * @param settings The settings to use.
+     * @param doTiming Whether to collect timing statistics.
+     * @param timing The timing statistics data. Is modified in-place.
+     */
+    private void doSynthesis(CifDataSynthesisSettings settings, boolean doTiming, CifDataSynthesisTiming timing) {
         // Initialize debugging.
         boolean dbgEnabled = settings.debugOutput.isEnabled();
 
