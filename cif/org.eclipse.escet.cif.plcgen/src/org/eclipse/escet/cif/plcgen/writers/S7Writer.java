@@ -71,7 +71,7 @@ public class S7Writer extends Writer {
             }
 
             // Write the non-empty variable list.
-            if (globalVarList.listKind.equals(PlcVarListKind.TIMERS)) {
+            if (globalVarList.listKind == PlcVarListKind.TIMERS) {
                 writeTimers(globalVarList.variables, outPath);
             } else {
                 writeGlobalVarList(globalVarList, outPath);
@@ -269,7 +269,7 @@ public class S7Writer extends Writer {
 
         // The variables, either constants or input variables. 'type', 'value', 'name' and 'address' shouldn't contain
         // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
-        if (globVarList.listKind.equals(PlcVarListKind.CONSTANTS)) {
+        if (globVarList.listKind == PlcVarListKind.CONSTANTS) {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcVariable constant: globVarList.variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),

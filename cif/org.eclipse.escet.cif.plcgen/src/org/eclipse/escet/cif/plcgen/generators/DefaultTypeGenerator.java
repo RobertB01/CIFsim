@@ -223,7 +223,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
      * @return The created equivalent PLC type and value information.
      */
     public EnumDeclData makeEnumDeclData(EnumDecl enumDecl) {
-        Assert.check(enumConversion.equals(ConvertEnums.NO)); // Other conversions have been eliminated already.
+        Assert.areEqual(enumConversion, ConvertEnums.NO); // Other conversions have been eliminated already.
 
         // Convert the enumeration literals.
         List<EnumLiteral> cifLiterals = enumDecl.getLiterals();

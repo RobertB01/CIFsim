@@ -445,7 +445,7 @@ public class PlcOpenXmlWriter extends Writer {
         parent.appendChild(gv);
 
         gv.setAttribute("name", varList.name);
-        gv.setAttribute("constant", varList.listKind.equals(PlcVarListKind.CONSTANTS) ? "true" : "false");
+        gv.setAttribute("constant", (varList.listKind == PlcVarListKind.CONSTANTS) ? "true" : "false");
         for (PlcVariable var: varList.variables) {
             transVariable(var, gv);
         }

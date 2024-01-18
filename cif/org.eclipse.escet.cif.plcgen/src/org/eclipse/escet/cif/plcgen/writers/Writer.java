@@ -195,7 +195,7 @@ public abstract class Writer {
     protected Box toBox(PlcGlobalVarList globVarList) {
         Assert.check(!globVarList.variables.isEmpty()); // Empty VAR_GLOBAL is illegal.
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("VAR_GLOBAL%s // %s", globVarList.listKind.equals(PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
+        c.add("VAR_GLOBAL%s // %s", (globVarList.listKind == PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
                 globVarList.name);
         c.indent();
         for (PlcVariable variable: globVarList.variables) {
