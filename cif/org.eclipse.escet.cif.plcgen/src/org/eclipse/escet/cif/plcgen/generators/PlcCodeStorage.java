@@ -385,11 +385,11 @@ public class PlcCodeStorage {
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
             // The variable is added above, before the variable tables are pushed to the output.
             //
-            box.add("IF %s THEN", firstRun.name);
+            box.add("IF %s THEN", firstRun.getFullName());
             box.indent();
-            box.add("%s := FALSE;", firstRun.name);
+            box.add("%s := FALSE;", firstRun.getFullName());
             if (loopsKilled != null) {
-                box.add("%s := 0;", loopsKilled.name);
+                box.add("%s := 0;", loopsKilled.getFullName());
             }
             box.add();
             textGenerator.toText(stateInitializationCode, box, mainProgram.name, false);
@@ -452,7 +452,7 @@ public class PlcCodeStorage {
                 box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
                 box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
                 box.indent();
-                box.add("%s := %s;", loopsKilled.name, textGenerator.toString(limitedIncrementKilled));
+                box.add("%s := %s;", loopsKilled.getFullName(), textGenerator.toString(limitedIncrementKilled));
                 box.dedent();
                 box.add("END_IF;");
             }
