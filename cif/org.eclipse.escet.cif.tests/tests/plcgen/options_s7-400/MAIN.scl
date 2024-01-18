@@ -11,9 +11,9 @@ ORGANIZATION_BLOCK MAIN
 
 BEGIN
     (* --- Initialize state or update continuous variables. -------------------- *)
-    IF firstRun THEN
-        firstRun := FALSE;
-        loopsKilled := 0;
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
+        "DB".loopsKilled := 0;
 
         (* Initialize the state variables. *)
         "DB".p_x := 5;
@@ -58,6 +58,6 @@ BEGIN
     END_WHILE;
     (* Register the first 9999 aborted loops. *)
     IF loopCount >= 101 THEN
-        loopsKilled := MIN("DB".loopsKilled + 1, 9999);
+        "DB".loopsKilled := MIN("DB".loopsKilled + 1, 9999);
     END_IF;
 END_ORGANIZATION_BLOCK

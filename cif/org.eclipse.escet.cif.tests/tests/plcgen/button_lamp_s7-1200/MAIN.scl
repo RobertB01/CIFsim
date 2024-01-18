@@ -39,8 +39,8 @@ BEGIN
     "DB".hw_button_bit := in_hw_button_bit;
 
     (* --- Initialize state or update continuous variables. -------------------- *)
-    IF firstRun THEN
-        firstRun := FALSE;
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
         "DB".timer_t := 0.0;

@@ -18,8 +18,8 @@ ORGANIZATION_BLOCK MAIN
 
 BEGIN
     (* --- Initialize state. --------------------------------------------------- *)
-    IF firstRun THEN
-        firstRun := FALSE;
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
         "DB".Good_x := 0;

@@ -22,8 +22,8 @@ ORGANIZATION_BLOCK MAIN
 
 BEGIN
     (* --- Initialize state or update continuous variables. -------------------- *)
-    IF firstRun THEN
-        firstRun := FALSE;
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
         "DB".p_b := TRUE;
