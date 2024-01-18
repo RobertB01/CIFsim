@@ -130,7 +130,7 @@ public class S7Writer extends Writer {
         // Use IEC timers if available, else use TON timers.
         boolean hasIecTimers = hasIecTimers();
 
-        // Generate timer data blocks to the data base.
+        // Generate timer data blocks to the database.
         for (PlcVariable timerVar: timerVariables) {
             // Don't let any non-TON block slip through.
             Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
@@ -324,26 +324,29 @@ public class S7Writer extends Writer {
             c.add("END_VAR");
         }
 
+        // Write the output variables.
+        if (!pou.outputVars.isEmpty()) {
+            // In S7 the main program cannot have output variables.
+            Assert.check(pou.pouType == PlcPouType.FUNCTION);
+
+            c.add("VAR_OUTPUT");
+            c.indent();
+            for (PlcVariable var: pou.outputVars) {
+                c.add("%s: %s;", var.name, toBox(var.type));
+            }
+            c.dedent();
+            c.add("END_VAR");
+        }
+
         // Currently user-defined function blocks don't exist, so local variables in functions should be empty. The
         // local variables of the main program are persistent and get written to a DB file elsewhere.
         Assert.check(pou.pouType != PlcPouType.FUNCTION || pou.localVars.isEmpty());
 
         // Write the temporary variables.
-        if (!pou.tempVars.isEmpty() || !pou.outputVars.isEmpty()) {
-            // Functions shouldn't have variables declared as temporary. As all variables are temporary. Function can't
-            // have output variables.
-            Assert.areEqual(pou.pouType, PROGRAM);
-
+        if (!pou.tempVars.isEmpty()) {
             c.add("VAR_TEMP");
             c.indent();
             for (PlcVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.name, toBox(var.type));
-            }
-            for (PlcVariable var: pou.outputVars) {
-                // There should only be two output variables, timerValue0 and timerValue1. These are part of the main
-                // program. In S7 the main program cannot have output variables. Hence, we add them as temporary
-                // variables.
-                Assert.areEqual(pou.outputVars.size(), 2);
                 c.add("%s: %s;", var.name, toBox(var.type));
             }
             c.dedent();
@@ -354,12 +357,13 @@ public class S7Writer extends Writer {
         c.dedent();
         c.add();
         c.add("BEGIN");
-
         c.indent();
-        c.add(pou.body);
+        if (!pou.body.isEmpty()) {
+            c.add(pou.body);
+        }
+        c.dedent();
 
         // Close POU.
-        c.dedent();
         c.add("END_%s", pouTypeText);
 
         return c;
