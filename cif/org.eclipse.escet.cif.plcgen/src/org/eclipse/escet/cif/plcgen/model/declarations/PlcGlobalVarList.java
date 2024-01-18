@@ -50,7 +50,7 @@ public class PlcGlobalVarList {
         /** Global variable list contains input or output variables. */
         INPUT_OUTPUT,
 
-        /** Global variable list contains timeers. */
+        /** Global variable list contains timers. */
         TIMERS
     }
 }
