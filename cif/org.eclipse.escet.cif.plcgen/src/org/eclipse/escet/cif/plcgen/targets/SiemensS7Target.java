@@ -34,6 +34,7 @@ import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
@@ -72,7 +73,7 @@ public class SiemensS7Target extends PlcBaseTarget {
      * @param targetType A Siemens S7 target type.
      */
     public SiemensS7Target(PlcTargetType targetType) {
-        super(targetType);
+        super(targetType, ConvertEnums.CONSTS);
         // TODO Verify settings of the Siemens target.
 
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().
@@ -93,11 +94,6 @@ public class SiemensS7Target extends PlcBaseTarget {
     @Override
     public boolean supportsConstants() {
         return true;
-    }
-
-    @Override
-    public boolean supportsEnumerations() {
-        return false;
     }
 
     @Override

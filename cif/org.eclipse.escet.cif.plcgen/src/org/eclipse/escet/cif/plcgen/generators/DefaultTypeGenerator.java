@@ -60,9 +60,6 @@ public class DefaultTypeGenerator implements TypeGenerator {
     /** Standard real type. */
     private final PlcElementaryType standardRealType;
 
-    /** How to convert enumeration declarations to the PLC. */
-    private final ConvertEnums enumConversion;
-
     /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC type-declaration names. */
     private final Map<TypeEqHashWrap, String> structNames = map();
 
@@ -89,7 +86,6 @@ public class DefaultTypeGenerator implements TypeGenerator {
         this.target = target;
         standardIntType = target.getIntegerType();
         standardRealType = target.getRealType();
-        enumConversion = settings.enumConversion;
     }
 
     @Override
@@ -223,7 +219,8 @@ public class DefaultTypeGenerator implements TypeGenerator {
      * @return The created equivalent PLC type and value information.
      */
     public EnumDeclData makeEnumDeclData(EnumDecl enumDecl) {
-        Assert.check(enumConversion.equals(ConvertEnums.NO)); // Other conversions have been eliminated already.
+        Assert.check(target.getActualEnumerationsConversion().equals(ConvertEnums.KEEP)); // Other conversions have been
+                                                                                          // eliminated already.
 
         // Convert the enumeration literals.
         List<EnumLiteral> cifLiterals = enumDecl.getLiterals();

@@ -61,7 +61,7 @@ import org.junit.jupiter.api.Test;
 public class TransitionGeneratorTest {
     private static class TestPlcTarget extends PlcBaseTarget {
         public TestPlcTarget() {
-            super(PlcTargetType.IEC_61131_3);
+            super(PlcTargetType.IEC_61131_3, ConvertEnums.KEEP);
             // Configure the target.
             String projectName = "projName";
             String configurationName = "confName";
@@ -75,7 +75,7 @@ public class TransitionGeneratorTest {
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
-            ConvertEnums enumConversion = ConvertEnums.NO;
+            ConvertEnums enumConversion = ConvertEnums.KEEP;
             Supplier<Boolean> shouldTerminate = () -> false;
             boolean warnOnRename = false;
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
@@ -102,11 +102,6 @@ public class TransitionGeneratorTest {
 
         @Override
         public boolean supportsConstants() {
-            throw new UnsupportedOperationException("Not needed for the test.");
-        }
-
-        @Override
-        public boolean supportsEnumerations() {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
 

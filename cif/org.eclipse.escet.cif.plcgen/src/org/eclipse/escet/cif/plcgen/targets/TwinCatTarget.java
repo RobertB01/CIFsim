@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.TwinCatWriter;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 
@@ -20,7 +21,7 @@ import org.eclipse.escet.cif.plcgen.writers.Writer;
 public class TwinCatTarget extends PlcBaseTarget {
     /** Constructor of the {@link TwinCatTarget} class. */
     public TwinCatTarget() {
-        super(PlcTargetType.TWINCAT);
+        super(PlcTargetType.TWINCAT, ConvertEnums.KEEP);
     }
 
     @Override
@@ -35,11 +36,6 @@ public class TwinCatTarget extends PlcBaseTarget {
 
     @Override
     public boolean supportsConstants() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsEnumerations() {
         return true;
     }
 
