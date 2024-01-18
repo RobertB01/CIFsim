@@ -62,7 +62,7 @@ public class PlcCodeStorage {
     private final PlcTask task;
 
     /** Main program POU. */
-    private PlcPou mainProgram;
+    private final PlcPou mainProgram;
 
     /** Global variable list for constants, lazily created. */
     private PlcGlobalVarList globalConstants = null;
@@ -155,7 +155,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global constants table.
+     * Add a variable to the constants table.
      *
      * @param plcVar Variable to add. Name is assumed to be unique.
      */
@@ -169,7 +169,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global input variable table.
+     * Add a variable to the input variable table.
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
@@ -181,7 +181,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global output variable table.
+     * Add a variable to the output variable table.
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
@@ -193,9 +193,9 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global persistent state variable table.
+     * Add a variable to the persistent state variable table.
      *
-     * @param name Nam of new variable. Name is assumed to be unique.
+     * @param name Name of new variable. Name is assumed to be unique.
      * @param type Type of the new variable.
      * @return The added new variable.
      */
@@ -204,11 +204,11 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global persistent state variable table.
+     * Add a variable to persistent state variable table.
      *
-     * @param name Nam of new variable. Name is assumed to be unique.
+     * @param name Name of new variable. Name is assumed to be unique.
      * @param type Type of the new variable.
-     * @param address If not {@code null}, the IO address of the new variable.
+     * @param address If not {@code null}, the I/O address of the new variable.
      * @param initValue If not {@code null}, the initial value of the new variable.
      * @return The added new variable.
      */
@@ -228,7 +228,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global timer variables table.
+     * Add a variable to the timer variables table.
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
@@ -243,7 +243,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a type declaration to the global type declarations list.
+     * Add a type declaration to the type declarations list.
      *
      * @param decl Declaration to add. Name is assumed to be unique.
      */
@@ -252,7 +252,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add code to initialize the state of the globally used variables.
+     * Add code to initialize the state of CIF variables.
      *
      * @param stateInitializationCode Code for initializing the globally used variables.
      */
