@@ -18,7 +18,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** PLC variable (or constant). */
 public class PlcVariable {
-    /** Name prefix of the variable. */
+    /** Name prefix of the variable, to use when accessing the variable. */
     public final String prefix;
 
     /** The name of the variable. */
@@ -34,7 +34,7 @@ public class PlcVariable {
     public final PlcExpression value;
 
     /**
-     * Constructor for the {@link PlcVariable} class, without address and initial value.
+     * Constructor for the {@link PlcVariable} class, without address and initial value, and with an empty name prefix.
      *
      * @param name The name of the variable.
      * @param type The type of the variable.
@@ -44,7 +44,7 @@ public class PlcVariable {
     }
 
     /**
-     * Constructor for the {@link PlcVariable} class.
+     * Constructor for the {@link PlcVariable} class, with an empty name prefix.
      *
      * @param name The name of the variable.
      * @param type The type of the variable.
@@ -58,7 +58,7 @@ public class PlcVariable {
     /**
      * Constructor for the {@link PlcVariable} class.
      *
-     * @param prefix Name prefix of the variable.
+     * @param prefix Name prefix of the variable, to use when accessing the variable.
      * @param name The name of the variable.
      * @param type The type of the variable.
      * @param address The address of the variable, or {@code null} if not specified.

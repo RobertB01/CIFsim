@@ -95,7 +95,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
     protected NameGenerator nameGenerator;
 
     /**
-     * Constructor of the {@link PlcBaseTarget} class.
+     * Constructor of the {@link PlcBaseTarget} class, with empty prefix string for state variables.
      *
      * @param targetType PLC target type for code generation.
      */
