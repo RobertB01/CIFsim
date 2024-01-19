@@ -178,6 +178,7 @@ import com.github.javabdd.JFactory;
  * <li>{@link #createFactory}</li>
  * <li>{@link #convert}</li>
  * </ul>
+ * Check their JavaDocs for further details.
  * </p>
  */
 public class CifToBddConverter {
