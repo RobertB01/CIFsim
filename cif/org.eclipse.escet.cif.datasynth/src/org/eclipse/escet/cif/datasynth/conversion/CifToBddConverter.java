@@ -208,6 +208,22 @@ public class CifToBddConverter {
     /**
      * Preprocess the input model prior to {@link #convert conversion}.
      *
+     * <p>
+     * Performs the following preprocessing:
+     * <ul>
+     * <li>{@link RemoveIoDecls Removes all I/O declarations}. Warns in case any CIF/SVG declarations are present and
+     * removed.</li>
+     * <li>{@link ElimComponentDefInst Eliminates component definition/instantiation}.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Furthermore, it checks the following preconditions:
+     * <ul>
+     * <li>{@link PlantsRefsReqsChecker Plants should not refer to requirement state}.</li>
+     * </ul>
+     * </p>
+     *
      * @param spec The CIF specification to preprocess. Is modified in-place.
      * @param warnOutput Callback for warning output.
      * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
