@@ -203,8 +203,8 @@ public class BddUtils {
     }
 
     /**
-     * Prints the BDD factory cache statistics, maximum used BDD nodes statistics, and maximum memory usage statistics,
-     * if enabled in the settings. Also writes the continuous BDD performance statistics to a file, if enabled in the
+     * Prints the BDD cache statistics, maximum used BDD nodes statistics, and maximum memory usage statistics, if
+     * enabled in the settings. Also writes the continuous BDD performance statistics to a file, if enabled in the
      * settings.
      *
      * @param factory The BDD factory.
@@ -245,9 +245,9 @@ public class BddUtils {
     }
 
     /**
-     * Print the BDD factory cache statistics.
+     * Print the BDD cache statistics.
      *
-     * @param stats The BDD factory cache statistics.
+     * @param stats The BDD cache statistics.
      * @param normalOutput Callback for normal output.
      */
     public static void printBddCacheStats(CacheStats stats, DebugNormalOutput normalOutput) {
@@ -278,9 +278,9 @@ public class BddUtils {
     }
 
     /**
-     * Print the BDD factory maximum used BDD nodes statistics.
+     * Print the BDD maximum used BDD nodes statistics.
      *
-     * @param stats The BDD factory maximum used BDD nodes statistics.
+     * @param stats The BDD maximum used BDD nodes statistics.
      * @param normalOutput Callback for normal output.
      */
     public static void printBddMaxUsedBddNodesStats(MaxUsedBddNodesStats stats, DebugNormalOutput normalOutput) {
