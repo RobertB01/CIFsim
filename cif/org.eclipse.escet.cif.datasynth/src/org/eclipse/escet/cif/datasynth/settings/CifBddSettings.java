@@ -50,13 +50,15 @@ public class CifBddSettings {
 
     /**
      * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
-     * output. The value is in the non-negative range [0 .. 2^31-1]. {@code null} indicates no maximum.
+     * output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range [0 ..
+     * 2^31-1].
      */
     public final Integer bddDebugMaxNodes;
 
     /**
      * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
-     * debug output. The value is in the non-negative range [0 .. 1.7e308]. {@code null} indicates no maximum.
+     * debug output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range [0
+     * .. 1.7e308].
      */
     public final Double bddDebugMaxPaths;
 
@@ -74,14 +76,15 @@ public class CifBddSettings {
 
     /**
      * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
-     * The value is in the range [0.01 .. 1000]. This setting has no effect if {@link #bddOpCacheSize} is
-     * non-{@code null}.
+     * The value is in the range [0.01 .. 1000]. This setting only has an effect if {@link #bddOpCacheSize} is
+     * {@code null}.
      */
     public final double bddOpCacheRatio;
 
     /**
-     * The fixed size of the operation cache of the BDD library. The value is in the range [2 .. 2^31-1]. {@code null}
-     * means a fixed cache size is disabled. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
+     * The fixed size of the operation cache of the BDD library. {@code null} means a fixed cache size is disabled. If
+     * not {@code null}, the value is in the range [2 .. 2^31-1]. If enabled, this setting takes priority over
+     * {@link #bddOpCacheRatio}.
      */
     public final Integer bddOpCacheSize;
 
@@ -139,22 +142,22 @@ public class CifBddSettings {
      * @param bddDcshEnabled Whether to apply the DCSH variable ordering algorithm to improve the initial variable
      *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddDebugMaxNodes The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. The value must be in the non-negative range [0 .. 2^31-1]. Use
-     *     {@code null} to not set a maximum.
+     *     representation for the debug output. Use {@code null} to not set a maximum. If not {@code null}, the value
+     *     must be in the non-negative range [0 .. 2^31-1].
      * @param bddDebugMaxPaths The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. The value must be in the non-negative range [0 .. 1.7e308]. Use
-     *     {@code null} to not set a maximum.
+     *     representation for the debug output. Use {@code null} to not set a maximum. If not {@code  null}, the value
+     *     must be in the non-negative range [0 .. 1.7e308].
      * @param bddForceEnabled Whether to apply the FORCE variable ordering algorithm to improve the initial variable
      *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
      * @param bddInitNodeTableSize The initial size of the node table of the BDD library. The value must be in the
      *     positive range [1 .. 2^31-1].
      * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
-     *     table of the BDD library. The value must be in the range [0.01 .. 1000]. This setting has no effect if
-     *     {@code bddOpCacheSize} is non-{@code null}.
-     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. The value must be in the range [2
-     *     .. 2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
-     *     {@code bddOpCacheRatio}.
+     *     table of the BDD library. The value must be in the range [0.01 .. 1000]. This setting only has an effect if
+     *     {@code bddOpCacheSize} is {@code null}.
+     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Use {@code null} to disable a
+     *     fixed cache size. If not {@code null}, the value must be in the range [2 .. 2^31-1]. If enabled, this setting
+     *     takes priority over {@code bddOpCacheRatio}.
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
      * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
      *     initial variable ordering ({@code true}), or not apply it ({@code false}).
