@@ -50,13 +50,13 @@ public class CifBddSettings {
 
     /**
      * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
-     * output. Value is in the range [0 .. 2^31-1]. {@code null} indicates no maximum.
+     * output. The value is in the non-negative range [0 .. 2^31-1]. {@code null} indicates no maximum.
      */
     public final Integer bddDebugMaxNodes;
 
     /**
      * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
-     * debug output. Value is in the range [0 .. 1.7e308]. {@code null} indicates no maximum.
+     * debug output. The value is in the non-negative range [0 .. 1.7e308]. {@code null} indicates no maximum.
      */
     public final Double bddDebugMaxPaths;
 
@@ -69,18 +69,19 @@ public class CifBddSettings {
     /** The algorithm to use to create hyper-edges for BDD variable ordering. */
     public final BddHyperEdgeAlgo bddHyperEdgeAlgo;
 
-    /** The initial size of the node table of the BDD library. Value is in the range [1 .. 2^31-1]. */
+    /** The initial size of the node table of the BDD library. The value is in the positive range [1 .. 2^31-1]. */
     public final int bddInitNodeTableSize;
 
     /**
      * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
-     * Value is in the range [0.01 .. 1000]. This setting has no effect if {@link #bddOpCacheSize} is non-{@code null}.
+     * The value is in the range [0.01 .. 1000]. This setting has no effect if {@link #bddOpCacheSize} is
+     * non-{@code null}.
      */
     public final double bddOpCacheRatio;
 
     /**
-     * The fixed size of the operation cache of the BDD library. Value is in the range [2 .. 2^31-1]. {@code null} means
-     * a fixed cache size is disabled. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
+     * The fixed size of the operation cache of the BDD library. The value is in the range [2 .. 2^31-1]. {@code null}
+     * means a fixed cache size is disabled. If enabled, this setting takes priority over {@link #bddOpCacheRatio}.
      */
     public final Integer bddOpCacheSize;
 
@@ -94,8 +95,8 @@ public class CifBddSettings {
     public final boolean bddSlidingWindowEnabled;
 
     /**
-     * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. Is an integer
-     * number in the range [1 .. 12].
+     * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. The value is in
+     * the range [1 .. 12].
      */
     public final int bddSlidingWindowMaxLen;
 
@@ -138,27 +139,27 @@ public class CifBddSettings {
      * @param bddDcshEnabled Whether to apply the DCSH variable ordering algorithm to improve the initial variable
      *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddDebugMaxNodes The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. Value must be in the range [0 .. 2^31-1]. Use {@code null} to not set a
-     *     maximum.
+     *     representation for the debug output. The value must be in the non-negative range [0 .. 2^31-1]. Use
+     *     {@code null} to not set a maximum.
      * @param bddDebugMaxPaths The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. Value must be in the range [0 .. 1.7e308]. Use {@code null} to not set a
-     *     maximum.
+     *     representation for the debug output. The value must be in the non-negative range [0 .. 1.7e308]. Use
+     *     {@code null} to not set a maximum.
      * @param bddForceEnabled Whether to apply the FORCE variable ordering algorithm to improve the initial variable
      *     ordering ({@code true}), or not apply it ({@code false}).
      * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
-     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. Value must be in the range [1
-     *     .. 2^31-1].
+     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. The value must be in the
+     *     positive range [1 .. 2^31-1].
      * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
-     *     table of the BDD library. Value must be in the range [0.01 .. 1000]. This setting has no effect if
+     *     table of the BDD library. The value must be in the range [0.01 .. 1000]. This setting has no effect if
      *     {@code bddOpCacheSize} is non-{@code null}.
-     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Value must be in the range [2 ..
-     *     2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
+     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. The value must be in the range [2
+     *     .. 2^31-1]. Use {@code null} to disable a fixed cache size. If enabled, this setting takes priority over
      *     {@code bddOpCacheRatio}.
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
      * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
      *     initial variable ordering ({@code true}), or not apply it ({@code false}).
      * @param bddSlidingWindowMaxLen The maximum length of the window to use for the BDD sliding window variable
-     *     ordering algorithm. Must be an integer number in the range [1 .. 12].
+     *     ordering algorithm. The value must be in the range [1 .. 12].
      * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
      * @param edgeGranularity The granularity of edges to use in the BDD representation of the CIF specification.
      * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
