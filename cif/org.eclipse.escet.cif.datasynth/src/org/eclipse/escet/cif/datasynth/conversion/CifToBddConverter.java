@@ -205,7 +205,7 @@ public class CifToBddConverter {
     }
 
     /**
-     * Preprocess the input model, before conversion.
+     * Preprocess the input model prior to {@link #convert conversion}.
      *
      * @param spec The CIF specification to preprocess. Is modified in-place.
      * @param warnOutput Callback for warning output.
@@ -229,7 +229,7 @@ public class CifToBddConverter {
     }
 
     /**
-     * Create a BDD factory.
+     * Create a suitable BDD factory to use for the {@link #convert conversion}.
      *
      * @param settings The settings to use.
      * @param continuousOpMisses The list into which to collect continuous operation misses samples.
@@ -287,9 +287,9 @@ public class CifToBddConverter {
     /**
      * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
-     * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param spec The CIF specification to convert. Must have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
-     * @param factory The BDD factory to use.
+     * @param factory The BDD factory to use. A suitable factory can be created using {@link #createFactory}.
      * @return The CIF/BDD representation of the CIF specification.
      */
     public CifBddSpec convert(Specification spec, CifBddSettings settings, BDDFactory factory) {
@@ -309,7 +309,7 @@ public class CifToBddConverter {
     /**
      * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
-     * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param spec The CIF specification to convert. Is assumed to have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
      * @return The CIF/BDD representation of the CIF specification.
