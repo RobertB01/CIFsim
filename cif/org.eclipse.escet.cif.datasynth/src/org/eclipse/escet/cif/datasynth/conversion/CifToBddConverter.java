@@ -244,7 +244,7 @@ public class CifToBddConverter {
         double bddOpCacheRatio = settings.bddOpCacheRatio;
         Integer bddOpCacheSize = settings.bddOpCacheSize;
         if (bddOpCacheSize == null) {
-            // Initialize BDD cache size using cache ratio.
+            // A non-fixed cache size should be used. Initialize BDD cache size using cache ratio.
             bddOpCacheSize = (int)(settings.bddInitNodeTableSize * bddOpCacheRatio);
             if (bddOpCacheSize < 2) {
                 bddOpCacheSize = 2;
