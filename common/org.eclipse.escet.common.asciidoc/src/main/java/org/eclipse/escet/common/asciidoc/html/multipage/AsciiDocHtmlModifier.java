@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -188,6 +189,9 @@ class AsciiDocHtmlModifier {
                 if (htmlType == HtmlType.WEBSITE && page == htmlPages.homePage) {
                     addLinkToSinglePageHtmlVersion(page);
                 }
+
+                // Upgrade highlight.js version.
+                upgradeHighlightJsVersion(page.doc);
 
                 // Write modified page to disk.
                 Path sourcePath = outputRootPath.resolve(page.sourceFile.relPath);
@@ -1004,6 +1008,33 @@ class AsciiDocHtmlModifier {
         elemPdfTipA.attr("href", homePage.sourceFile.getBaseName() + "-single-page.html");
         elemPdfTipA.text("single-page HTML");
         elemPdfTip.appendText(" version.");
+    }
+
+    /**
+     * Upgrade highlight.js version.
+     *
+     * @param doc The HTML document to modify in-place.
+     */
+    private static void upgradeHighlightJsVersion(Document doc) {
+        // There is only one fixed script element with highlight.js-related code. It contains a call to 'highlightBlock'
+        // that is deprecated in highlight.js version 11. Replace it with 'highlightElement' instead, which is the
+        // recommended replacement.
+        String replaceFrom = "hljs.highlightBlock(";
+        String replaceTo = "hljs.highlightElement(";
+        int count = 0;
+        for (Element elem: doc.body().children()) {
+            if (elem.tagName() != null && elem.tagName().equals("script")) {
+                for (DataNode dataNode: elem.dataNodes()) {
+                    String data = dataNode.getWholeData();
+                    if (data.contains(replaceFrom)) {
+                        count++;
+                        data = data.replace(replaceFrom, replaceTo);
+                        dataNode.setWholeData(data);
+                    }
+                }
+            }
+        }
+        Verify.verify(count == 1, Integer.toString(count));
     }
 
     /**
