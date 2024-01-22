@@ -15,8 +15,8 @@
 @terminals:
   // CIF keywords also in:
   //  - Syntax highlighting files for LaTeX.
-  //  - Syntax highlighting files for AsciiDoctor.
-  //  - Textual syntax description in  CIF documentation.
+  //  - Syntax highlighting files for highlight.js.
+  //  - Textual syntax description in CIF documentation.
   @keywords Keywords = alg
                        alphabet
                        any
