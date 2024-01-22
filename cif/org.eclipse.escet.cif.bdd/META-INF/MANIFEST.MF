@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET CIF BDD Functionality
+Bundle-SymbolicName: org.eclipse.escet.cif.bdd;singleton:=true
+Bundle-Version: 3.0.0.qualifier
+Bundle-Vendor: Eclipse ESCET
+Automatic-Module-Name: org.eclipse.escet.cif.bdd
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Import-Package: org.junit.jupiter.api;version="5.9.2"
