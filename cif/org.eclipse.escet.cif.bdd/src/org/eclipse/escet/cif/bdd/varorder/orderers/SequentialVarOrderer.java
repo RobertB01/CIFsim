@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
 import org.eclipse.escet.common.java.Assert;
 
 /** Variable orderer that applies multiple other orderers sequentially, each to the result of the previous orderer. */

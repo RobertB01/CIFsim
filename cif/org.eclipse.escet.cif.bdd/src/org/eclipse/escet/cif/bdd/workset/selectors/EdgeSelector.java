@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.selectors;
+package org.eclipse.escet.cif.bdd.workset.selectors;
 
 import java.util.BitSet;
 

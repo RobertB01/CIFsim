@@ -14,15 +14,15 @@
 // Disable Eclipse Java formatter for generated code file:
 // @formatter:off
 
-package org.eclipse.escet.cif.datasynth.varorder.parser;
+package org.eclipse.escet.cif.bdd.varorder.parser;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererArg;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.ParserHooksBase;
 import org.eclipse.escet.setext.runtime.Token;

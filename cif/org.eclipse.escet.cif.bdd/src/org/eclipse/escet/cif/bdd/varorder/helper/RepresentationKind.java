@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
 /**
  * The kind of representations of the relations between CIF/BDD variables, derived from the CIF specification, that

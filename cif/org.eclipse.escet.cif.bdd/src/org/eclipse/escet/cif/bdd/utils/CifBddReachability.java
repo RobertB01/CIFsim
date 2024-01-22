@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth;
+package org.eclipse.escet.cif.bdd.utils;
 
-import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.list2set;
@@ -25,15 +25,15 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
-import org.eclipse.escet.cif.datasynth.workset.pruners.MaxCardinalityEdgePruner;
-import org.eclipse.escet.cif.datasynth.workset.pruners.RewardBasedEdgePruner;
-import org.eclipse.escet.cif.datasynth.workset.pruners.SequentialEdgePruner;
-import org.eclipse.escet.cif.datasynth.workset.selectors.EdgeSelector;
-import org.eclipse.escet.cif.datasynth.workset.selectors.FirstEdgeSelector;
-import org.eclipse.escet.cif.datasynth.workset.selectors.PruningEdgeSelector;
+import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.workset.pruners.MaxCardinalityEdgePruner;
+import org.eclipse.escet.cif.bdd.workset.pruners.RewardBasedEdgePruner;
+import org.eclipse.escet.cif.bdd.workset.pruners.SequentialEdgePruner;
+import org.eclipse.escet.cif.bdd.workset.selectors.EdgeSelector;
+import org.eclipse.escet.cif.bdd.workset.selectors.FirstEdgeSelector;
+import org.eclipse.escet.cif.bdd.workset.selectors.PruningEdgeSelector;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Pair;

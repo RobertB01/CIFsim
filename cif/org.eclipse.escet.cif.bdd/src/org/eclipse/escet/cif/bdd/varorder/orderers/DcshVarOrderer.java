@@ -11,15 +11,15 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.VarOrderMetricKind;
+import org.eclipse.escet.cif.bdd.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
+import org.eclipse.escet.cif.bdd.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererEffect;
+import org.eclipse.escet.cif.bdd.varorder.metrics.VarOrderMetricKind;
 
 /**
  * DSM-based Cuthill-McKee/Sloan variable ordering Heuristic (DCSH).

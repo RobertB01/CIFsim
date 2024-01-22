@@ -11,13 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.bdd;
+package org.eclipse.escet.cif.bdd.conversion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDD;

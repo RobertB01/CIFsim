@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
+package org.eclipse.escet.cif.bdd.varorder.graph.algos;
 
-import static org.eclipse.escet.cif.datasynth.varorder.graph.algos.RootedLevelStructureConstructor.constructRootedLevelStructure;
+import static org.eclipse.escet.cif.bdd.varorder.graph.algos.RootedLevelStructureConstructor.constructRootedLevelStructure;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.set;
@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
 import org.junit.jupiter.api.Test;
 
 /** Tests for {@link RootedLevelStructureConstructor}. */

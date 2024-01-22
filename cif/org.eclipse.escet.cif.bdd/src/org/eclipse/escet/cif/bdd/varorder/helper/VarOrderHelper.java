@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -28,14 +28,14 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.cif.datasynth.varorder.hyperedges.HyperEdgeCreator;
-import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LegacyHyperEdgeCreator;
-import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LinearizedHyperEdgeCreator;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.TotalSpanMetric;
-import org.eclipse.escet.cif.datasynth.varorder.metrics.WesMetric;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.hyperedges.HyperEdgeCreator;
+import org.eclipse.escet.cif.bdd.varorder.hyperedges.LegacyHyperEdgeCreator;
+import org.eclipse.escet.cif.bdd.varorder.hyperedges.LinearizedHyperEdgeCreator;
+import org.eclipse.escet.cif.bdd.varorder.metrics.TotalSpanMetric;
+import org.eclipse.escet.cif.bdd.varorder.metrics.WesMetric;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.parser;
+package org.eclipse.escet.cif.bdd.varorder.parser;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
@@ -26,17 +26,17 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
-import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
-import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
-import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
-import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
-import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.bdd.settings.BddHyperEdgeAlgo;
+import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
+import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.varorder.orderers.VarOrderer;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;

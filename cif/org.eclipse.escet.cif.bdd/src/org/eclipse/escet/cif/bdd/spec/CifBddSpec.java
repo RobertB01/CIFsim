@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.spec;
+package org.eclipse.escet.cif.bdd.spec;
 
 import java.util.BitSet;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 import com.github.javabdd.BDD;

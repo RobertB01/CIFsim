@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.conversion;
+package org.eclipse.escet.cif.bdd.conversion;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
@@ -61,6 +61,26 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
+import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.spec.CifBddTypedVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.orderers.VarOrderer;
+import org.eclipse.escet.cif.bdd.varorder.parser.VarOrdererParser;
+import org.eclipse.escet.cif.bdd.varorder.parser.VarOrdererTypeChecker;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.cif2cif.LocationPointerManager;
@@ -77,29 +97,6 @@ import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.datasynth.PlantsRefsReqsChecker;
-import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
-import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
-import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
-import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
-import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
-import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
-import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
-import org.eclipse.escet.cif.datasynth.spec.CifBddTypedVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
-import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererParser;
-import org.eclipse.escet.cif.datasynth.varorder.parser.VarOrdererTypeChecker;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;

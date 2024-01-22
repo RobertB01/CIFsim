@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph;
+package org.eclipse.escet.cif.bdd.varorder.graph;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 

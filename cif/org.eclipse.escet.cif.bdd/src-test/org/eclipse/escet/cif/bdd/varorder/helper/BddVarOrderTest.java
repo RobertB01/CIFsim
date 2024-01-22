@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;

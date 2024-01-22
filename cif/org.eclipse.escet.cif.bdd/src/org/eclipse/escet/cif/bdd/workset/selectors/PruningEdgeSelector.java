@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.selectors;
+package org.eclipse.escet.cif.bdd.workset.selectors;
 
 import java.util.BitSet;
 
-import org.eclipse.escet.cif.datasynth.workset.pruners.EdgePruner;
+import org.eclipse.escet.cif.bdd.workset.pruners.EdgePruner;
 import org.eclipse.escet.common.java.BitSets;
 
 /** Edge selector that first prunes the workset and then chooses an edge from it. */

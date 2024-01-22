@@ -13,13 +13,13 @@
 
 package org.eclipse.escet.cif.datasynth;
 
-import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Map;
 
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.Strings;
 

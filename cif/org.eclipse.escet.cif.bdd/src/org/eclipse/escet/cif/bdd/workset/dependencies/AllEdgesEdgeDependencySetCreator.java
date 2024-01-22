@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.dependencies;
+package org.eclipse.escet.cif.bdd.workset.dependencies;
 
 import static org.eclipse.escet.common.java.Lists.listc;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.common.java.BitSets;
 
 /**

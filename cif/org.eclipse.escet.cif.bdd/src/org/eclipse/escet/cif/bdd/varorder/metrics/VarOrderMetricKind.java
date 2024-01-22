@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.metrics;
+package org.eclipse.escet.cif.bdd.varorder.metrics;
 
 /** Variable order metric kind. */
 public enum VarOrderMetricKind {

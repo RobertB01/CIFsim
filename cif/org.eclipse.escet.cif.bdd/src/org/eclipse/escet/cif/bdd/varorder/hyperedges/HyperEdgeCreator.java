@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.hyperedges;
+package org.eclipse.escet.cif.bdd.varorder.hyperedges;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 
@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 

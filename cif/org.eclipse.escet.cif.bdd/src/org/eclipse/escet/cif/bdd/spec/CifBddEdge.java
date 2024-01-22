@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.spec;
+package org.eclipse.escet.cif.bdd.spec;
 
-import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Strings.fmt;
 

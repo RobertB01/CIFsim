@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 
 /** Data used by variable orderers, being provided as input and produced as result. */
 public class VarOrdererData {

@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererEffect;
 
 /** Variable orderer that orders the variables as in the model, without interleaving. */
 public class ModelVarOrderer extends VarOrderer {

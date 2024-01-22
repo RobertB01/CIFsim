@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
 import java.util.List;
 import java.util.Objects;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 
 /** Variable order. Puts all CIF/BDD variables in a certain order. The variables may optionally be interleaved. */
 public class VarOrder {

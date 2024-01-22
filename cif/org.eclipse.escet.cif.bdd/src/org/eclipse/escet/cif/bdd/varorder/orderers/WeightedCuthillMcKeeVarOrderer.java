@@ -11,22 +11,22 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinder;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
-import org.eclipse.escet.cif.datasynth.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
-import org.eclipse.escet.cif.datasynth.varorder.helper.RelationsKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.RepresentationKind;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.graph.algos.PseudoPeripheralNodeFinder;
+import org.eclipse.escet.cif.bdd.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
+import org.eclipse.escet.cif.bdd.varorder.graph.algos.WeightedCuthillMcKeeNodeOrderer;
+import org.eclipse.escet.cif.bdd.varorder.helper.RelationsKind;
+import org.eclipse.escet.cif.bdd.varorder.helper.RepresentationKind;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererEffect;
 
 /**
  * Weighted Cuthill-McKee bandwidth-reducing variable ordering heuristic.

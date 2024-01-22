@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.hyperedges;
+package org.eclipse.escet.cif.bdd.varorder.hyperedges;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -27,17 +27,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.bdd.conversion.CifBddLocationPointerManager;
+import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.conversion.CifBddLocationPointerManager;
-import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;

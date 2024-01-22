@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
+package org.eclipse.escet.cif.bdd.varorder.graph.algos;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
 import org.eclipse.escet.common.java.Pair;
 
 /** Pseudo-peripheral node pair finder algorithm. */

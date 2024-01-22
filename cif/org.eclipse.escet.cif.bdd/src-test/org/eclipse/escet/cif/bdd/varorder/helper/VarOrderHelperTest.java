@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
@@ -26,11 +26,11 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import java.util.BitSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddLocPtrVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddLocPtrVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;

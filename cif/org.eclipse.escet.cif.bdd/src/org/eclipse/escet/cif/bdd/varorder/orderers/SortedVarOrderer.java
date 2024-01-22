@@ -11,17 +11,17 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererEffect;
 import org.eclipse.escet.common.java.Strings;
 
 /** Variable orderer that sorts the variables based on their name, without interleaving. */

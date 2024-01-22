@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import java.util.Locale;
 
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
 
 /** Variable orderer. May produce a fixed variable order, apply an algorithm, etc. */
 public abstract class VarOrderer {

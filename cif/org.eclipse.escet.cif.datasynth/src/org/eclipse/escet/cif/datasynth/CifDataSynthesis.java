@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth;
 
-import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
+import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.cif.datasynth.settings.FixedPointComputation.CTRL;
 import static org.eclipse.escet.cif.datasynth.settings.FixedPointComputation.REACH;
 import static org.eclipse.escet.common.java.Lists.concat;
@@ -30,19 +30,20 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
+import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
+import org.eclipse.escet.cif.bdd.workset.dependencies.BddBasedEdgeDependencySetCreator;
+import org.eclipse.escet.cif.bdd.workset.dependencies.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
 import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputation;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
-import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
-import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.workset.dependencies.BddBasedEdgeDependencySetCreator;
-import org.eclipse.escet.cif.datasynth.workset.dependencies.EdgeDependencySetCreator;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.pruners;
+package org.eclipse.escet.cif.bdd.workset.pruners;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;

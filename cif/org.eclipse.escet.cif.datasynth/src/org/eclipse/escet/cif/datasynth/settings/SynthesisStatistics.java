@@ -18,6 +18,8 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+
 /**
  * Synthesis statistics.
  *

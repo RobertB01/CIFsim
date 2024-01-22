@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth;
+package org.eclipse.escet.cif.bdd.conversion;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.equationToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;

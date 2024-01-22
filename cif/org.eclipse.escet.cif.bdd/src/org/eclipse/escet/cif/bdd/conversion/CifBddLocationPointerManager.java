@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.conversion;
+package org.eclipse.escet.cif.bdd.conversion;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
@@ -24,10 +24,10 @@ import static org.eclipse.escet.common.java.Maps.mapc;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.cif2cif.LocationPointerManager;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
 import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;

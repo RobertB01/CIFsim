@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 

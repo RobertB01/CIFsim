@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.dependencies;
+package org.eclipse.escet.cif.bdd.workset.dependencies;
 
-import org.eclipse.escet.cif.datasynth.CifBddReachability;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
 
 /** Edge dependency set creator for the {@link CifBddReachability reachability} workset algorithm. */
 public interface EdgeDependencySetCreator {

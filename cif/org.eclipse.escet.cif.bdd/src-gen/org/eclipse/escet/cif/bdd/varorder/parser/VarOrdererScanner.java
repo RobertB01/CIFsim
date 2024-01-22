@@ -14,7 +14,7 @@
 // Disable Eclipse Java formatter for generated code file:
 // @formatter:off
 
-package org.eclipse.escet.cif.datasynth.varorder.parser;
+package org.eclipse.escet.cif.bdd.varorder.parser;
 
 import java.io.IOException;
 

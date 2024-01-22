@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.dependencies;
+package org.eclipse.escet.cif.bdd.workset.dependencies;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,15 +20,15 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.datasynth.conversion.CifToBddConverter;
-import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
-import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
-import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
-import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
-import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
-import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
+import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.BitSets;

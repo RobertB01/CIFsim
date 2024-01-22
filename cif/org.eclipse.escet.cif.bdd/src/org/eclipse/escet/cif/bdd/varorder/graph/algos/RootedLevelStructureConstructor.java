@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
+package org.eclipse.escet.cif.bdd.varorder.graph.algos;
 
 import static org.eclipse.escet.common.java.BitSets.bitset;
 import static org.eclipse.escet.common.java.Lists.last;
@@ -20,8 +20,8 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.BitSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
 
 /** Rooted level structure constructor. */
 public class RootedLevelStructureConstructor {

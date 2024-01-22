@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.bdd;
+package org.eclipse.escet.cif.bdd.utils;
 
-import static org.eclipse.escet.cif.datasynth.bdd.BddToCif.bddToCifPred;
+import static org.eclipse.escet.cif.bdd.conversion.BddToCif.bddToCifPred;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
@@ -26,11 +26,11 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
-import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
-import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.java.Assert;

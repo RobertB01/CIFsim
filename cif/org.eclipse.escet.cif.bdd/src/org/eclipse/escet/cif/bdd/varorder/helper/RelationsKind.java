@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
-import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LegacyHyperEdgeCreator;
-import org.eclipse.escet.cif.datasynth.varorder.hyperedges.LinearizedHyperEdgeCreator;
+import org.eclipse.escet.cif.bdd.varorder.hyperedges.LegacyHyperEdgeCreator;
+import org.eclipse.escet.cif.bdd.varorder.hyperedges.LinearizedHyperEdgeCreator;
 
 /** The kind of relations from the CIF specification to use. */
 public enum RelationsKind {

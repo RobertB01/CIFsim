@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
+package org.eclipse.escet.cif.bdd.varorder.graph.algos;
 
 import static org.eclipse.escet.common.java.Lists.list;
 

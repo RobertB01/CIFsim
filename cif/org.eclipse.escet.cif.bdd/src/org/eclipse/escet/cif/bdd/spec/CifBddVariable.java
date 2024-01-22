@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.spec;
+package org.eclipse.escet.cif.bdd.spec;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;

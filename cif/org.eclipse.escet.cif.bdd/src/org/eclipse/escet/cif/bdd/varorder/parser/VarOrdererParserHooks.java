@@ -11,21 +11,21 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.parser;
+package org.eclipse.escet.cif.bdd.varorder.parser;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererInstance;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererListOrderersArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererMultiInstance;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererNumberArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererOrdererArg;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererSingleInstance;
-import org.eclipse.escet.cif.datasynth.varorder.parser.ast.VarOrdererStringArg;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererArg;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererInstance;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererListOrderersArg;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererMultiInstance;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererNumberArg;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererOrdererArg;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererSingleInstance;
+import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererStringArg;
 import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.Token;
 

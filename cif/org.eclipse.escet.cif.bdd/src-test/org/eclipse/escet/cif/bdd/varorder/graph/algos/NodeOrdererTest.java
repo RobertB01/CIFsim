@@ -11,16 +11,16 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
+package org.eclipse.escet.cif.bdd.varorder.graph.algos;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.varorder.graph.Graph;
-import org.eclipse.escet.cif.datasynth.varorder.graph.GraphTestUtil;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.graph.Graph;
+import org.eclipse.escet.cif.bdd.varorder.graph.GraphTestUtil;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
 import org.junit.jupiter.api.Test;
 
 /** Base class for {@link NodeOrderer} tests. */

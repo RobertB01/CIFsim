@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.workset.pruners;
+package org.eclipse.escet.cif.bdd.workset.pruners;
 
 import java.util.Arrays;
 import java.util.BitSet;

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.graph.algos;
+package org.eclipse.escet.cif.bdd.varorder.graph.algos;
 
 /** Tests for {@link SloanPseudoPeripheralNodeFinder}. */
 public class SloanPseudoPeripheralNodeFinderTest extends PseudoPeripheralNodeFinderTest {

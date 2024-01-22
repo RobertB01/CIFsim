@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.parser.ast;
+package org.eclipse.escet.cif.bdd.varorder.parser.ast;
 
 import org.eclipse.escet.setext.runtime.Token;
 

@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.helper;
+package org.eclipse.escet.cif.bdd.varorder.helper;
 
-import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
+import org.eclipse.escet.cif.bdd.varorder.orderers.VarOrderer;
 
 /** The effect of applying a {@link VarOrderer variable orderer}. */
 public enum VarOrdererEffect {

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.orderers;
+package org.eclipse.escet.cif.bdd.varorder.orderers;
 
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -20,10 +20,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrder;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererData;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrdererEffect;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrder;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererData;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrdererEffect;
 
 /** Variable orderer that orders the variables in a random order, without interleaving. */
 public class RandomVarOrderer extends VarOrderer {

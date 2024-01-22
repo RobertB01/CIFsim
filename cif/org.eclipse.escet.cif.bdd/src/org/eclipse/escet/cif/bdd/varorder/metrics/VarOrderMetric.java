@@ -11,14 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.varorder.metrics;
+package org.eclipse.escet.cif.bdd.varorder.metrics;
 
 import java.util.BitSet;
 import java.util.List;
 
-import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
-import org.eclipse.escet.cif.datasynth.varorder.graph.Node;
-import org.eclipse.escet.cif.datasynth.varorder.helper.VarOrderHelper;
+import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.bdd.varorder.graph.Node;
+import org.eclipse.escet.cif.bdd.varorder.helper.VarOrderHelper;
 
 /** Variable order metric. Lower metric values (heuristically) indicate better variable orders. */
 public interface VarOrderMetric {
