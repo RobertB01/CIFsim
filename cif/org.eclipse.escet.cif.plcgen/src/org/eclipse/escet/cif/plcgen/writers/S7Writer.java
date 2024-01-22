@@ -327,7 +327,7 @@ public class S7Writer extends Writer {
         // Write the output variables.
         if (!pou.outputVars.isEmpty()) {
             // In S7 the main program cannot have output variables.
-            Assert.check(pou.pouType == PlcPouType.FUNCTION);
+            Assert.areEqual(pou.pouType, PlcPouType.FUNCTION);
 
             c.add("VAR_OUTPUT");
             c.indent();
@@ -344,7 +344,10 @@ public class S7Writer extends Writer {
 
         // Write the temporary variables.
         if (!pou.tempVars.isEmpty()) {
+            // In IEC 61131-3, functions use VAR for their temporary variables, while programs and user-defined function
+            // blocks use VAR_TEMP. With S7 however, functions use VAR_TEMP instead.
             c.add("VAR_TEMP");
+
             c.indent();
             for (PlcVariable var: pou.tempVars) {
                 c.add("%s: %s;", var.name, toBox(var.type));
