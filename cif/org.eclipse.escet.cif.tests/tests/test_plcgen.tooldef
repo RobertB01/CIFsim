@@ -135,6 +135,7 @@ for test in tests:
             options = options + ["-t", "plc-open-xml", "-o", plcopen_real];
         elif target == "iec":
             options = options + ["-t", "iec-61131-3", "-o", dir_real];
+            if isdir(dir_real):: rmdir(dir_real);
         elif target == "twincat":
             options = options + ["-t", "twincat", "-o", dir_real];
             if isdir(dir_real):: rmdir(dir_real);
@@ -147,14 +148,19 @@ for test in tests:
             end
         elif target == "s7-1200":
             options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts"] + options;
+            if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-1500":
             options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts"] + options;
+            if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-300":
             options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts"] + options;
+            if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-400":
             options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts"] + options;
+            if isdir(dir_real):: rmdir(dir_real);
         elif target == "abb":
             options = ["-t", "abb", "-o", dir_real, "--convert-enums=consts"] + options;
+            if isdir(dir_real):: rmdir(dir_real);
         end
 
         // Execute.
