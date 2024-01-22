@@ -25,7 +25,7 @@ map(string:list string) test_options = {
     "plcgen/constants_keep.cif":              ["--simplify-values=no"],
     "plcgen/convert_enums_consts.cif":        ["--convert-enums=consts"],
     "plcgen/convert_enums_ints.cif":          ["--convert-enums=ints"],
-    "plcgen/enums_keep.cif":                  ["--convert-enums=no"],
+    "plcgen/enums_keep.cif":                  ["--convert-enums=keep"],
     "plcgen/option_max_iter_inf.cif":         ["-x inf"],
     "plcgen/options.cif":                     ["-i off --int-size=32 --real-size=32 -x 101"],
 };

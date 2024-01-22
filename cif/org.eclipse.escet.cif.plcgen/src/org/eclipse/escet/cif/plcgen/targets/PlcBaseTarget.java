@@ -37,8 +37,11 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcF
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Base class for generating a {@link PlcProject}. */
@@ -60,6 +63,12 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     /** User-defined real type size to use by the PLC. */
     private PlcNumberBits realTypeSize;
+
+    /** How to convert enumerations when the {@link ConvertEnumsOption} is set to {@link ConvertEnums#AUTO}. */
+    private final ConvertEnums autoEnumConversion;
+
+    /** How to convert enumerations. */
+    private ConvertEnums selectedEnumConversion;
 
     /** Absolute base path to which to write the generated code. */
     private String absOutputPath;
@@ -98,20 +107,28 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * Constructor of the {@link PlcBaseTarget} class, with empty prefix string for state variables.
      *
      * @param targetType PLC target type for code generation.
+     * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
+     *     should not be {@link ConvertEnums#AUTO}.
      */
-    public PlcBaseTarget(PlcTargetType targetType) {
-        this(targetType, "");
+    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion) {
+        this(targetType, autoEnumConversion, "");
     }
 
     /**
      * Constructor of the {@link PlcBaseTarget} class.
      *
      * @param targetType PLC target type for code generation.
+     * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
+     *     should not be {@link ConvertEnums#AUTO}.
      * @param stateVariablePrefix The prefix string for state variables.
      */
-    public PlcBaseTarget(PlcTargetType targetType, String stateVariablePrefix) {
+    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String stateVariablePrefix) {
         this.targetType = targetType;
+        this.autoEnumConversion = autoEnumConversion;
         this.stateVariablePrefix = stateVariablePrefix;
+
+        // Selecting "auto" by the user should result in a concrete preference of the target.
+        Assert.check(autoEnumConversion != ConvertEnums.AUTO);
     }
 
     /**
@@ -124,6 +141,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
         realTypeSize = settings.realTypeSize;
         absOutputPath = settings.absOutputPath;
         warnOutput = settings.warnOutput;
+        selectedEnumConversion = (settings.enumConversion == ConvertEnums.AUTO) ? autoEnumConversion
+                : settings.enumConversion;
 
         // Warn the user about getting a possibly too small integer type size.
         if (settings.intTypeSize.getTypeSize(CIF_INTEGER_SIZE) < CIF_INTEGER_SIZE) {
@@ -252,6 +271,11 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public NameGenerator getNameGenerator() {
         return nameGenerator;
+    }
+
+    @Override
+    public ConvertEnums getActualEnumerationsConversion() {
+        return selectedEnumConversion;
     }
 
     @Override

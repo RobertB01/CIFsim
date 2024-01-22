@@ -88,7 +88,7 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Checker that checks for plants referencing requirements. */
-public class CifDataSynthesisPlantsRefsReqsChecker {
+public class PlantsRefsReqsChecker {
     /** Callback for warning output. */
     private final WarnOutput warnOutput;
 
@@ -96,11 +96,11 @@ public class CifDataSynthesisPlantsRefsReqsChecker {
     private final Map<Automaton, Set<Declaration>> assignedVariablesPerAut = map();
 
     /**
-     * Constructor for the {@link CifDataSynthesisPlantsRefsReqsChecker} class.
+     * Constructor for the {@link PlantsRefsReqsChecker} class.
      *
      * @param warnOutput Callback for warning output.
      */
-    public CifDataSynthesisPlantsRefsReqsChecker(WarnOutput warnOutput) {
+    public PlantsRefsReqsChecker(WarnOutput warnOutput) {
         this.warnOutput = warnOutput;
     }
 

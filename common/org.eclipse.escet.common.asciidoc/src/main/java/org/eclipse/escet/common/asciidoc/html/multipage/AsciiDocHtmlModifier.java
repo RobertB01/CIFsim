@@ -156,10 +156,10 @@ class AsciiDocHtmlModifier {
                     markCurrentPageTrailInToc(page, htmlPages);
                 }
 
-                // Renamed defined section ids.
+                // Rename defined section ids.
                 renameDefinedSectionIds(page);
 
-                // Renamed virtual TOC entry targets.
+                // Rename virtual TOC entry targets.
                 renameVirtualTocEntryTargets(page);
 
                 // Rename section ids in TOC.

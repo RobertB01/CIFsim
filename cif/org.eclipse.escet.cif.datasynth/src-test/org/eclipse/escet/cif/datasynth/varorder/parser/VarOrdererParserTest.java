@@ -26,16 +26,13 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.datasynth.settings.BddHyperEdgeAlgo;
-import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
 import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
-import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
-import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
-import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
-import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.CifBddInputVariable;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.datasynth.varorder.orderers.VarOrderer;
@@ -50,25 +47,25 @@ import org.junit.jupiter.api.Test;
 
 /** {@link VarOrdererParser} tests. */
 public class VarOrdererParserTest {
-    /** See {@link CifDataSynthesisSettings#bddVarOrderInit}. */
+    /** See {@link CifBddSettings#bddVarOrderInit}. */
     private String bddVarOrderInit = BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
 
-    /** See {@link CifDataSynthesisSettings#bddDcshEnabled}. */
+    /** See {@link CifBddSettings#bddDcshEnabled}. */
     private boolean bddDcshEnabled = BddSettingsDefaults.DCSH_ENABLED_DEFAULT;
 
-    /** See {@link CifDataSynthesisSettings#bddForceEnabled}. */
+    /** See {@link CifBddSettings#bddForceEnabled}. */
     private boolean bddForceEnabled = BddSettingsDefaults.FORCE_ENABLED_DEFAULT;
 
-    /** See {@link CifDataSynthesisSettings#bddSlidingWindowEnabled}. */
+    /** See {@link CifBddSettings#bddSlidingWindowEnabled}. */
     private boolean bddSlidingWindowEnabled = BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
 
-    /** See {@link CifDataSynthesisSettings#bddSlidingWindowMaxLen}. */
+    /** See {@link CifBddSettings#bddSlidingWindowMaxLen}. */
     private int bddSlidingWindowMaxLen = BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
 
-    /** See {@link CifDataSynthesisSettings#bddVarOrderAdvanced}. */
+    /** See {@link CifBddSettings#bddVarOrderAdvanced}. */
     private String bddVarOrderAdvanced = BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
 
-    /** See {@link CifDataSynthesisSettings#bddHyperEdgeAlgo}. */
+    /** See {@link CifBddSettings#bddHyperEdgeAlgo}. */
     private BddHyperEdgeAlgo bddHyperEdgeAlgo = BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
 
     @Test
@@ -830,7 +827,7 @@ public class VarOrdererParserTest {
      * Test a valid orderer.
      *
      * @param ordererTxt The orderer to test.
-     * @param variables The synthesis variables.
+     * @param variables The CIF/BDD variables.
      * @param expectedOrderer The expected textual representation of the orderer.
      */
     private void testValid(String ordererTxt, List<CifBddVariable> variables, String expectedOrderer) {
@@ -839,7 +836,7 @@ public class VarOrdererParserTest {
         List<VarOrdererInstance> parseResult = parser.parseString(ordererTxt, "/dummy", null, DebugMode.NONE);
 
         // Type check.
-        CifDataSynthesisSettings settings = getSettings();
+        CifBddSettings settings = getSettings();
         VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables, settings);
         VarOrderer orderer = tchecker.typeCheck(parseResult);
         assertFalse(tchecker.hasWarning(), "Type check warnings found.");
@@ -865,7 +862,7 @@ public class VarOrdererParserTest {
      * Test an invalid orderer.
      *
      * @param ordererTxt The orderer to test.
-     * @param variables The synthesis variables.
+     * @param variables The CIF/BDD variables.
      * @param expectedMsg The error message.
      */
     private void testInvalid(String ordererTxt, List<CifBddVariable> variables, String expectedMsg) {
@@ -882,7 +879,7 @@ public class VarOrdererParserTest {
 
         // Type check.
         try {
-            CifDataSynthesisSettings settings = getSettings();
+            CifBddSettings settings = getSettings();
             VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables, settings);
             VarOrderer orderer = tchecker.typeCheck(parseResult);
             assertEquals(orderer, null, "Type checker produced result.");
@@ -900,7 +897,7 @@ public class VarOrdererParserTest {
      *
      * @return The settings to use.
      */
-    private CifDataSynthesisSettings getSettings() {
+    private CifBddSettings getSettings() {
         Supplier<Boolean> shouldTerminate = () -> false;
         BlackHoleOutputProvider outputProvider = new BlackHoleOutputProvider();
         Integer bddDebugMaxNodes = 10;
@@ -908,27 +905,16 @@ public class VarOrdererParserTest {
         int bddInitNodeTableSize = 100_000;
         double bddOpCacheRatio = 1;
         Integer bddOpCacheSize = null;
-        String bddOutputNamePrefix = "bdd";
-        String continuousPerformanceStatisticsFilePath = null;
-        String continuousPerformanceStatisticsFileAbsPath = null;
         String edgeOrderBackward = "model";
         String edgeOrderForward = "model";
         boolean doUseEdgeWorksetAlgo = false;
-        boolean doNeverEnabledEventsWarn = false;
-        boolean doForwardReach = false;
         boolean doPlantsRefReqsWarn = false;
-        String supervisorName = "sup";
-        String supervisorNamespace = null;
-        return new CifDataSynthesisSettings(shouldTerminate, outputProvider.getDebugOutput(),
-                outputProvider.getNormalOutput(), outputProvider.getWarnOutput(), bddDcshEnabled, bddDebugMaxNodes,
+        return new CifBddSettings(shouldTerminate, outputProvider.getDebugOutput(), outputProvider.getNormalOutput(),
+                outputProvider.getWarnOutput(), AllowNonDeterminism.UNCONTROLLABLE, bddDcshEnabled, bddDebugMaxNodes,
                 bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize, bddOpCacheRatio,
-                bddOpCacheSize, bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class),
-                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
-                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
                 EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
-                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
-                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
-                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
-                EnumSet.noneOf(SynthesisStatistics.class));
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
+                EnumSet.noneOf(CifBddStatistics.class));
     }
 }

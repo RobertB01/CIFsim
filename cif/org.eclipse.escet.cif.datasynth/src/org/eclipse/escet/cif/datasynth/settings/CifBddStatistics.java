@@ -11,19 +11,25 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen.options;
+package org.eclipse.escet.cif.datasynth.settings;
 
-/** Available ways to handle enumeration conversion. */
-public enum ConvertEnums {
-    /** Let the target decide what to do. */
-    AUTO,
+/** CIF/BDD-related statistics. */
+public enum CifBddStatistics {
+    /** BDD garbage collection. */
+    BDD_GC_COLLECT,
 
-    /** Keep enumeration data types. */
-    KEEP,
+    /** BDD node table resize. */
+    BDD_GC_RESIZE,
 
-    /** Convert enumerations to integers. */
-    INTS,
+    /** BDD cache. */
+    BDD_PERF_CACHE,
 
-    /** Convert enumerations to constants. */
-    CONSTS;
+    /** Continuous BDD performance. */
+    BDD_PERF_CONT,
+
+    /** Maximum used BDD nodes. */
+    BDD_PERF_MAX_NODES,
+
+    /** Maximum used memory. */
+    MAX_MEMORY,
 }

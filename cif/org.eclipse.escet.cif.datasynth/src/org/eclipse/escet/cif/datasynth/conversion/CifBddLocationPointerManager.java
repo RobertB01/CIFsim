@@ -27,6 +27,7 @@ import java.util.Map;
 import org.eclipse.escet.cif.cif2cif.LocationPointerManager;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -38,8 +39,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 
-/** Location pointer manager for data-based synthesis. */
-public class CifDataSynthesisLocationPointerManager implements LocationPointerManager {
+/** Location pointer manager for a {@link CifBddSpec}. */
+public class CifBddLocationPointerManager implements LocationPointerManager {
     /** Mapping of automata to location pointer variables. */
     private final Map<Automaton, DiscVariable> autToLpMap;
 
@@ -47,11 +48,11 @@ public class CifDataSynthesisLocationPointerManager implements LocationPointerMa
     private final Map<DiscVariable, Automaton> lpToAutMap;
 
     /**
-     * Constructor for the {@link CifDataSynthesisLocationPointerManager} class.
+     * Constructor for the {@link CifBddLocationPointerManager} class.
      *
      * @param automata The automata that need location pointers. They must each have more than one location.
      */
-    public CifDataSynthesisLocationPointerManager(List<Automaton> automata) {
+    public CifBddLocationPointerManager(List<Automaton> automata) {
         // Ensure that the automata actual require location pointer variables.
         Assert.check(automata.stream().allMatch(aut -> aut.getLocations().size() > 1));
 
