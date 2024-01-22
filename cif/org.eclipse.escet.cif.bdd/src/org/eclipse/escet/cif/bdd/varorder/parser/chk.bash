@@ -21,7 +21,7 @@ SCRIPTPATH=`dirname $SCRIPT`
 cd $SCRIPTPATH
 
 HOOKS_BASE=VarOrdererParserHooks
-HOOKS_SKELETON_PATH=../../../../../../../../src-gen/org/eclipse/escet/cif/datasynth/varorder/parser
+HOOKS_SKELETON_PATH=../../../../../../../../src-gen/org/eclipse/escet/cif/bdd/varorder/parser
 
 grep -Pzo "(\n    public [^{]+{|\n    @Override( // [^;]+;)?)" $HOOKS_BASE.java \
     | sed '/^$/d' \
