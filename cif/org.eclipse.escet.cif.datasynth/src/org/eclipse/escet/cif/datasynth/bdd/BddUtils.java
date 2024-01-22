@@ -15,19 +15,37 @@ package org.eclipse.escet.cif.datasynth.bdd;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddToCif.bddToCifPred;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
 import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.datasynth.spec.CifBddVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.box.GridBox;
+import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.FileSizes;
+import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
+import com.github.javabdd.BDDFactory.CacheStats;
 import com.github.javabdd.BDDFactory.GCStats;
+import com.github.javabdd.BDDFactory.MaxMemoryStats;
+import com.github.javabdd.BDDFactory.MaxUsedBddNodesStats;
 
 /** BDD utility methods. */
 public class BddUtils {
@@ -182,5 +200,142 @@ public class BddUtils {
      */
     private static void bddResizeStatsCallback(int oldSize, int newSize, DebugNormalOutput normalOutput) {
         normalOutput.line("BDD node table resize: from %,13d nodes to %,13d nodes", oldSize, newSize);
+    }
+
+    /**
+     * Prints the BDD cache statistics, maximum used BDD nodes statistics, and maximum memory usage statistics, if
+     * enabled in the settings. Also writes the continuous BDD performance statistics to a file, if enabled in the
+     * settings.
+     *
+     * @param factory The BDD factory.
+     * @param settings The settings to use.
+     * @param continuousOpMisses The list into which to collect continuous operation misses samples.
+     * @param continuousUsedBddNodes The list into which to collect continuous used BDD nodes statistics samples.
+     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
+     *     statistics output file.
+     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
+     *     output file.
+     */
+    public static void printStats(BDDFactory factory, CifBddSettings settings, List<Long> continuousOpMisses,
+            List<Integer> continuousUsedBddNodes, String continuousPerformanceStatisticsFilePath,
+            String continuousPerformanceStatisticsFileAbsPath)
+    {
+        // Check what statistics to print.
+        boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
+        boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
+
+        // Print the statistics.
+        if (doCacheStats) {
+            BddUtils.printBddCacheStats(factory.getCacheStats(), settings.normalOutput);
+        }
+        if (doContinuousPerformanceStats) {
+            settings.debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
+                    continuousPerformanceStatisticsFilePath);
+            BddUtils.writeBddContinuousPerformanceStatsFile(continuousOpMisses, continuousUsedBddNodes,
+                    continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath);
+        }
+        if (doMaxBddNodesStats) {
+            BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.normalOutput);
+        }
+        if (doMaxMemoryStats) {
+            BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.normalOutput);
+        }
+    }
+
+    /**
+     * Print the BDD cache statistics.
+     *
+     * @param stats The BDD cache statistics.
+     * @param normalOutput Callback for normal output.
+     */
+    public static void printBddCacheStats(CacheStats stats, DebugNormalOutput normalOutput) {
+        // Create grid.
+        GridBox grid = new GridBox(7, 2, 0, 1);
+
+        grid.set(0, 0, "Node creation requests:");
+        grid.set(1, 0, "Node creation chain accesses:");
+        grid.set(2, 0, "Node creation cache hits:");
+        grid.set(3, 0, "Node creation cache misses:");
+        grid.set(4, 0, "Operation count:");
+        grid.set(5, 0, "Operation cache hits:");
+        grid.set(6, 0, "Operation cache misses:");
+
+        grid.set(0, 1, str(stats.uniqueAccess));
+        grid.set(1, 1, str(stats.uniqueChain));
+        grid.set(2, 1, str(stats.uniqueHit));
+        grid.set(3, 1, str(stats.uniqueMiss));
+        grid.set(4, 1, str(stats.opAccess));
+        grid.set(5, 1, str(stats.opHit));
+        grid.set(6, 1, str(stats.opMiss));
+
+        // Print statistics.
+        normalOutput.line("BDD cache statistics:");
+        for (String line: grid.getLines()) {
+            normalOutput.line("  " + line);
+        }
+    }
+
+    /**
+     * Print the BDD maximum used BDD nodes statistics.
+     *
+     * @param stats The BDD maximum used BDD nodes statistics.
+     * @param normalOutput Callback for normal output.
+     */
+    public static void printBddMaxUsedBddNodesStats(MaxUsedBddNodesStats stats, DebugNormalOutput normalOutput) {
+        normalOutput.line(fmt("Maximum used BDD nodes: %d.", stats.getMaxUsedBddNodes()));
+    }
+
+    /**
+     * Print the maximum memory usage statistics.
+     *
+     * @param stats The maximum memory usage statistics.
+     * @param normalOutput Callback for normal output.
+     */
+    public static void printMaxMemoryStats(MaxMemoryStats stats, DebugNormalOutput normalOutput) {
+        long maxMemoryBytes = stats.getMaxMemoryBytes();
+        normalOutput.line(fmt("Maximum used memory: %d bytes = %s.", maxMemoryBytes,
+                FileSizes.formatFileSize(maxMemoryBytes, false)));
+    }
+
+    /**
+     * Write the continuous BDD performance statistics to a file.
+     *
+     * @param operationsSamples The collected continuous operation misses samples.
+     * @param nodesSamples The collected continuous used BDD nodes statistics samples.
+     * @param filePath The absolute or relative path to the continuous performance statistics output file.
+     * @param absFilePath The absolute path to the continuous performance statistics output file.
+     */
+    public static void writeBddContinuousPerformanceStatsFile(List<Long> operationsSamples, List<Integer> nodesSamples,
+            String filePath, String absFilePath)
+    {
+        // Get number of data points.
+        Assert.areEqual(operationsSamples.size(), nodesSamples.size());
+        int numberOfDataPoints = operationsSamples.size();
+
+        // Write the data to a file.
+        try (OutputStream stream = new BufferedOutputStream(new FileOutputStream(absFilePath));
+             Writer writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8))
+        {
+            writer.write("Operations,Used BBD nodes");
+            writer.write(Strings.NL);
+            long lastOperations = -1;
+            int lastNodes = -1;
+            for (int i = 0; i < numberOfDataPoints; i++) {
+                // Only print new data points.
+                long nextOperations = operationsSamples.get(i);
+                int nextNodes = nodesSamples.get(i);
+                if (nextOperations != lastOperations || nextNodes != lastNodes) {
+                    lastOperations = nextOperations;
+                    lastNodes = nextNodes;
+                    writer.write(fmt("%d,%d", lastOperations, lastNodes));
+                    writer.write(Strings.NL);
+                }
+            }
+        } catch (IOException e) {
+            throw new InputOutputException(
+                    fmt("Failed to write continuous BDD performance statistics file \"%s\".", filePath), e);
+        }
     }
 }

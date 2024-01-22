@@ -61,8 +61,10 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.cif2cif.LocationPointerManager;
+import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.common.CifEnumLiteral;
 import org.eclipse.escet.cif.common.CifEquationUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -75,10 +77,13 @@ import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.datasynth.PlantsRefsReqsChecker;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVector;
 import org.eclipse.escet.cif.datasynth.bdd.CifBddBitVectorAndCarry;
-import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.datasynth.spec.CifBddDiscVariable;
@@ -153,6 +158,7 @@ import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
@@ -160,8 +166,21 @@ import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDDomain;
 import com.github.javabdd.BDDFactory;
+import com.github.javabdd.JFactory;
 
-/** Converter to convert a CIF specification to a CIF/BDD representation. */
+/**
+ * Converter to convert a CIF specification to a CIF/BDD representation.
+ *
+ * <p>
+ * To use, call the following methods, in the given order:
+ * <ul>
+ * <li>{@link #preprocess}</li>
+ * <li>{@link #createFactory}</li>
+ * <li>{@link #convert}</li>
+ * </ul>
+ * Check their JavaDocs for further details.
+ * </p>
+ */
 public class CifToBddConverter {
     /** The human-readable name of the application. Should start with a capital letter. */
     private final String appName;
@@ -187,14 +206,110 @@ public class CifToBddConverter {
     }
 
     /**
+     * Preprocess the input model prior to {@link #convert conversion}.
+     *
+     * <p>
+     * Performs the following preprocessing:
+     * <ul>
+     * <li>{@link RemoveIoDecls Removes all I/O declarations}. Warns in case any CIF/SVG declarations are present and
+     * removed.</li>
+     * <li>{@link ElimComponentDefInst Eliminates component definition/instantiation}.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Furthermore, it checks the following preconditions:
+     * <ul>
+     * <li>{@link PlantsRefsReqsChecker Plants should not refer to requirement state}.</li>
+     * </ul>
+     * </p>
+     *
+     * @param spec The CIF specification to preprocess. Is modified in-place.
+     * @param warnOutput Callback for warning output.
+     * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
+     */
+    public static void preprocess(Specification spec, WarnOutput warnOutput, boolean doPlantsRefReqsWarn) {
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warnOutput.line("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
+        // Eliminate component definition/instantiation, to avoid having to handle them.
+        new ElimComponentDefInst().transform(spec);
+
+        // Check whether plants reference requirements.
+        if (doPlantsRefReqsWarn) {
+            new PlantsRefsReqsChecker(warnOutput).checkPlantRefToRequirement(spec);
+        }
+    }
+
+    /**
+     * Create a suitable BDD factory to use for the {@link #convert conversion}.
+     *
+     * @param settings The settings to use.
+     * @param continuousOpMisses The list into which to collect continuous operation misses samples.
+     * @param continuousUsedBddNodes The list into which to collect continuous used BDD nodes statistics samples.
+     * @return The new BDD factory. The caller is responsible for {@link BDDFactory#done cleaning up} the factory once
+     *     it is no longer needed.
+     */
+    public static BDDFactory createFactory(CifBddSettings settings, List<Long> continuousOpMisses,
+            List<Integer> continuousUsedBddNodes)
+    {
+        // Determine BDD operation cache size and ratio to use.
+        double bddOpCacheRatio = settings.bddOpCacheRatio;
+        Integer bddOpCacheSize = settings.bddOpCacheSize;
+        if (bddOpCacheSize == null) {
+            // A non-fixed cache size should be used. Initialize BDD cache size using cache ratio.
+            bddOpCacheSize = (int)(settings.bddInitNodeTableSize * bddOpCacheRatio);
+            if (bddOpCacheSize < 2) {
+                bddOpCacheSize = 2;
+            }
+        } else {
+            // Disable cache ratio.
+            bddOpCacheRatio = -1;
+        }
+
+        // Create BDD factory, and configure cache settings.
+        BDDFactory factory = JFactory.init(settings.bddInitNodeTableSize, bddOpCacheSize);
+        if (bddOpCacheRatio != -1) {
+            factory.setCacheRatio(bddOpCacheRatio);
+        }
+
+        // Configure statistics.
+        boolean doGcStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_GC_COLLECT);
+        boolean doResizeStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_GC_RESIZE);
+        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
+        BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
+                settings.normalOutput, continuousOpMisses, continuousUsedBddNodes);
+
+        boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
+        if (doCacheStats || doContinuousPerformanceStats) {
+            factory.getCacheStats().enableMeasurements();
+        }
+        if (doMaxBddNodesStats) {
+            factory.getMaxUsedBddNodesStats().enableMeasurements();
+        }
+        if (doMaxMemoryStats) {
+            factory.getMaxMemoryStats().enableMeasurements();
+        }
+
+        // Return BDD factory.
+        return factory;
+    }
+
+    /**
      * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
-     * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param spec The CIF specification to convert. Must have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
-     * @param factory The BDD factory to use.
+     * @param factory The BDD factory to use. A suitable factory can be created using {@link #createFactory}.
      * @return The CIF/BDD representation of the CIF specification.
      */
-    public CifBddSpec convert(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    public CifBddSpec convert(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
         // violations.
         CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);
@@ -211,12 +326,12 @@ public class CifToBddConverter {
     /**
      * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
      *
-     * @param spec The CIF specification to convert. Must not have any component definitions or instantiations.
+     * @param spec The CIF specification to convert. Is assumed to have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
      * @param factory The BDD factory to use.
      * @return The CIF/BDD representation of the CIF specification.
      */
-    private CifBddSpec convertSpec(Specification spec, CifDataSynthesisSettings settings, BDDFactory factory) {
+    private CifBddSpec convertSpec(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Initialize CIF/BDD specification.
         CifBddSpec cifBddSpec = new CifBddSpec(settings);
         cifBddSpec.factory = factory;
@@ -1825,8 +1940,8 @@ public class CifToBddConverter {
                 return;
             }
 
-            // Check for non-determinism of controllable events.
-            checkNonDeterminism(cifBddSpec.edges);
+            // Check for non-determinism.
+            checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.allowNonDeterminism);
         }
     }
 
@@ -1865,25 +1980,24 @@ public class CifToBddConverter {
     }
 
     /**
-     * Check CIF/BDD edges to make sure there is no non-determinism for controllable events. Non-determinism by means of
-     * multiple outgoing edges for the same event, with overlapping guards, is not supported. An external supervisor
-     * can't force the correct edge to be taken, if only the updates (includes location pointer variable assignment for
-     * target location) are different. For uncontrollable events non-determinism is not a problem, as the supervisor
-     * won't restrict edges for uncontrollable events.
+     * Check CIF/BDD edges to make sure there is no non-determinism, i.e., non-determinism by means of multiple outgoing
+     * edges for the same event, with overlapping guards.
      *
      * @param edges The CIF/BDD edges (self loops). May include edges for both controllable and uncontrollable events.
+     * @param allowNonDeterminism Events for which to allow non-determinism.
      */
-    private void checkNonDeterminism(List<CifBddEdge> edges) {
+    private void checkNonDeterminism(List<CifBddEdge> edges, AllowNonDeterminism allowNonDeterminism) {
         // Initialize conflict information.
         Map<Event, BDD> eventGuards = map();
         Set<Event> conflicts = setc(0);
 
         // Check edges for conflicts (non-determinism).
         for (CifBddEdge edge: edges) {
-            // Skip uncontrollable events. Also skip events without controllability (is already previously reported).
+            // Skip events for which non-determinism is allowed. Also skip events without controllability (is already
+            // previously reported).
             Event evt = edge.event;
             Boolean controllable = evt.getControllable();
-            if (controllable == null || !controllable) {
+            if (controllable == null || allowNonDeterminism.allowFor(controllable)) {
                 continue;
             }
 
@@ -1972,8 +2086,14 @@ public class CifToBddConverter {
             }
 
             // Report conflict.
-            String msg = fmt("Unsupported linearized edges: non-determinism detected for edges of controllable "
-                    + "event \"%s\" with overlapping guards:%s", getAbsName(conflict), groupsTxt);
+            String eventKind = switch (allowNonDeterminism) {
+                case ALL -> throw new AssertionError("Should not get here, as non-determinism is allowed.");
+                case NONE -> "";
+                case CONTROLLABLE -> "uncontrollable ";
+                case UNCONTROLLABLE -> "controllable ";
+            };
+            String msg = fmt("Unsupported linearized edges: non-determinism detected for edges of "
+                    + "%sevent \"%s\" with overlapping guards:%s", eventKind, getAbsName(conflict), groupsTxt);
             problems.add(msg);
         }
     }
@@ -2543,7 +2663,7 @@ public class CifToBddConverter {
      *
      * @param settings The settings.
      */
-    private void checkEdgeWorksetAlgorithmSettings(CifDataSynthesisSettings settings) {
+    private void checkEdgeWorksetAlgorithmSettings(CifBddSettings settings) {
         // Skip if workset algorithm is disabled.
         if (!settings.doUseEdgeWorksetAlgo) {
             return;

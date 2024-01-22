@@ -14,18 +14,11 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
-import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
-import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.conversion.CifToBddConverter;
 import org.eclipse.escet.cif.datasynth.conversion.SynthesisToCifConverter;
@@ -68,9 +61,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
-import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
@@ -78,13 +69,8 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.box.GridBox;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.FileSizes;
 
 import com.github.javabdd.BDDFactory;
-import com.github.javabdd.BDDFactory.CacheStats;
-import com.github.javabdd.JFactory;
 
 /** CIF data-based supervisory controller synthesis application. */
 public class CifDataSynthesisApp extends Application<IOutputComponent> {
@@ -124,36 +110,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Initialize timing statistics.
-        Set<SynthesisStatistics> stats = SynthesisStatisticsOption.getStatistics();
-        boolean doTiming = stats.contains(SynthesisStatistics.TIMING);
-        CifDataSynthesisTiming timing = new CifDataSynthesisTiming();
-
-        // Do synthesis.
-        if (doTiming) {
-            timing.total.start();
-        }
-        try {
-            doSynthesis(doTiming, timing);
-        } finally {
-            // Print timing statistics.
-            if (doTiming) {
-                timing.total.stop();
-                timing.print(OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream());
-            }
-        }
-
-        // All done.
-        return 0;
-    }
-
-    /**
-     * Perform synthesis.
-     *
-     * @param doTiming Whether to collect timing statistics.
-     * @param timing The timing statistics data. Is modified in-place.
-     */
-    private void doSynthesis(boolean doTiming, CifDataSynthesisTiming timing) {
         // Construct settings. Do it early, to validate settings early.
         Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
@@ -175,8 +131,38 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
                 SynthesisStatisticsOption.getStatistics());
 
+        // Initialize timing statistics.
+        boolean doTiming = settings.synthesisStatistics.contains(SynthesisStatistics.TIMING);
+        CifDataSynthesisTiming timing = new CifDataSynthesisTiming();
+
+        // Do synthesis.
+        if (doTiming) {
+            timing.total.start();
+        }
+        try {
+            doSynthesis(settings, doTiming, timing);
+        } finally {
+            // Print timing statistics.
+            if (doTiming) {
+                timing.total.stop();
+                timing.print(settings.debugOutput, settings.normalOutput);
+            }
+        }
+
+        // All done.
+        return 0;
+    }
+
+    /**
+     * Perform synthesis.
+     *
+     * @param settings The settings to use.
+     * @param doTiming Whether to collect timing statistics.
+     * @param timing The timing statistics data. Is modified in-place.
+     */
+    private void doSynthesis(CifDataSynthesisSettings settings, boolean doTiming, CifDataSynthesisTiming timing) {
         // Initialize debugging.
-        boolean dbgEnabled = OutputProvider.dodbg();
+        boolean dbgEnabled = settings.debugOutput.isEnabled();
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
@@ -210,20 +196,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             timing.inputPreProcess.start();
         }
         try {
-            // Remove/ignore I/O declarations, to increase the supported subset.
-            RemoveIoDecls removeIoDecls = new RemoveIoDecls();
-            removeIoDecls.transform(spec);
-            if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-                warn("The specification contains CIF/SVG input declarations. These will be ignored.");
-            }
-
-            // Eliminate component definition/instantiation, to avoid having to handle them.
-            new ElimComponentDefInst().transform(spec);
-
-            // Check whether plants reference requirements.
-            if (settings.doPlantsRefReqsWarn) {
-                new PlantsRefsReqsChecker(OutputProvider.getWarningOutputStream()).checkPlantRefToRequirement(spec);
-            }
+            CifToBddConverter.preprocess(spec, settings.warnOutput, settings.doPlantsRefReqsWarn);
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -235,45 +208,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Create BDD factory.
-        int bddTableSize = settings.bddInitNodeTableSize;
-        Integer bddCacheSize = settings.bddOpCacheSize;
-        double bddCacheRatio = settings.bddOpCacheRatio;
-        if (bddCacheSize == null) {
-            // Initialize BDD cache size using cache ratio.
-            bddCacheSize = (int)(bddTableSize * bddCacheRatio);
-            if (bddCacheSize < 2) {
-                bddCacheSize = 2;
-            }
-        } else {
-            // Disable cache ratio.
-            bddCacheRatio = -1;
-        }
-
-        BDDFactory factory = JFactory.init(bddTableSize, bddCacheSize);
-        if (bddCacheRatio != -1) {
-            factory.setCacheRatio(bddCacheRatio);
-        }
-
-        boolean doGcStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_COLLECT);
-        boolean doResizeStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_GC_RESIZE);
-        boolean doContinuousPerformanceStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CONT);
         List<Long> continuousOpMisses = list();
         List<Integer> continuousUsedBddNodes = list();
-        BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
-                OutputProvider.getNormalOutputStream(), continuousOpMisses, continuousUsedBddNodes);
-
-        boolean doCacheStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_CACHE);
-        boolean doMaxBddNodesStats = settings.synthesisStatistics.contains(SynthesisStatistics.BDD_PERF_MAX_NODES);
-        boolean doMaxMemoryStats = settings.synthesisStatistics.contains(SynthesisStatistics.MAX_MEMORY);
-        if (doCacheStats || doContinuousPerformanceStats) {
-            factory.getCacheStats().enableMeasurements();
-        }
-        if (doMaxBddNodesStats) {
-            factory.getMaxUsedBddNodesStats().enableMeasurements();
-        }
-        if (doMaxMemoryStats) {
-            factory.getMaxMemoryStats().enableMeasurements();
-        }
+        BDDFactory factory = CifToBddConverter.createFactory(settings, continuousOpMisses, continuousUsedBddNodes);
 
         // Perform synthesis.
         Specification rslt;
@@ -305,9 +242,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Starting data-based synthesis.");
             }
-            boolean doPrintCtrlSysStates = settings.synthesisStatistics.contains(SynthesisStatistics.CTRL_SYS_STATES);
-            CifDataSynthesisResult synthResult = CifDataSynthesis.synthesize(cifBddSpec, doTiming, timing,
-                    doPrintCtrlSysStates);
+            CifDataSynthesisResult synthResult = CifDataSynthesis.synthesize(cifBddSpec, settings, timing);
             if (isTerminationRequested()) {
                 return;
             }
@@ -334,22 +269,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             }
 
             // Print statistics before we clean up the factory.
-            if (doCacheStats) {
-                printBddCacheStats(factory.getCacheStats());
-            }
-            if (doContinuousPerformanceStats) {
-                printBddContinuousPerformanceStats(continuousOpMisses, continuousUsedBddNodes,
-                        settings.continuousPerformanceStatisticsFilePath,
-                        settings.continuousPerformanceStatisticsFileAbsPath);
-            }
-            if (doMaxBddNodesStats) {
-                out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
-            }
-            if (doMaxMemoryStats) {
-                long maxMemoryBytes = factory.getMaxMemoryStats().getMaxMemoryBytes();
-                out(fmt("Maximum used memory: %d bytes = %s.", maxMemoryBytes,
-                        FileSizes.formatFileSize(maxMemoryBytes, false)));
-            }
+            BddUtils.printStats(factory, settings, continuousOpMisses, continuousUsedBddNodes,
+                    settings.continuousPerformanceStatisticsFilePath,
+                    settings.continuousPerformanceStatisticsFileAbsPath);
 
             if (isTerminationRequested()) {
                 return;
@@ -379,78 +301,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         if (isTerminationRequested()) {
             return;
-        }
-    }
-
-    /**
-     * Print the BDD factory cache statistics.
-     *
-     * @param stats The BDD factory cache statistics.
-     */
-    private void printBddCacheStats(CacheStats stats) {
-        // Create grid.
-        GridBox grid = new GridBox(7, 2, 0, 1);
-
-        grid.set(0, 0, "Node creation requests:");
-        grid.set(1, 0, "Node creation chain accesses:");
-        grid.set(2, 0, "Node creation cache hits:");
-        grid.set(3, 0, "Node creation cache misses:");
-        grid.set(4, 0, "Operation count:");
-        grid.set(5, 0, "Operation cache hits:");
-        grid.set(6, 0, "Operation cache misses:");
-
-        grid.set(0, 1, str(stats.uniqueAccess));
-        grid.set(1, 1, str(stats.uniqueChain));
-        grid.set(2, 1, str(stats.uniqueHit));
-        grid.set(3, 1, str(stats.uniqueMiss));
-        grid.set(4, 1, str(stats.opAccess));
-        grid.set(5, 1, str(stats.opHit));
-        grid.set(6, 1, str(stats.opMiss));
-
-        // Print statistics.
-        out("BDD cache statistics:");
-        for (String line: grid.getLines()) {
-            out("  " + line);
-        }
-    }
-
-    /**
-     * Print the continuous BDD performance statistics to a file.
-     *
-     * @param operationsSamples The collected continuous operation misses samples.
-     * @param nodesSamples The collected continuous used BDD nodes statistics samples.
-     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
-     *     statistics output file.
-     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
-     *     output file.
-     */
-    private void printBddContinuousPerformanceStats(List<Long> operationsSamples, List<Integer> nodesSamples,
-            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath)
-    {
-        // Get number of data points.
-        Assert.areEqual(operationsSamples.size(), nodesSamples.size());
-        int numberOfDataPoints = operationsSamples.size();
-
-        // Debug output.
-        dbg("Writing continuous BDD performance statistics file \"%s\".", continuousPerformanceStatisticsFilePath);
-
-        // Start the actual printing.
-        try (AppStream stream = new FileAppStream(continuousPerformanceStatisticsFilePath,
-                continuousPerformanceStatisticsFileAbsPath))
-        {
-            stream.println("Operations,Used BBD nodes");
-            long lastOperations = -1;
-            int lastNodes = -1;
-            for (int i = 0; i < numberOfDataPoints; i++) {
-                // Only print new data points.
-                long nextOperations = operationsSamples.get(i);
-                int nextNodes = nodesSamples.get(i);
-                if (nextOperations != lastOperations || nextNodes != lastNodes) {
-                    lastOperations = nextOperations;
-                    lastNodes = nextNodes;
-                    stream.printfln("%d,%d", lastOperations, lastNodes);
-                }
-            }
         }
     }
 

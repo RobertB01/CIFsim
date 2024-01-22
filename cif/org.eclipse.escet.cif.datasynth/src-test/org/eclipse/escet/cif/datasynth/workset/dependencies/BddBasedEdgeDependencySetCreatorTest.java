@@ -21,15 +21,12 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.datasynth.conversion.CifToBddConverter;
-import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
+import org.eclipse.escet.cif.datasynth.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.datasynth.settings.BddSettingsDefaults;
-import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
-import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddSettings;
+import org.eclipse.escet.cif.datasynth.settings.CifBddStatistics;
 import org.eclipse.escet.cif.datasynth.settings.EdgeGranularity;
 import org.eclipse.escet.cif.datasynth.settings.EdgeOrderDuplicateEventAllowance;
-import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
-import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
-import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.cif.datasynth.spec.CifBddEdge;
 import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
@@ -538,7 +535,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
      *
      * @param specTxt The CIF specification in textual syntax.
      * @param expectedFwdDeps The expected forward dependencies.
-     * @param reverseEdges Whether to reverse the edges in the synthesis automaton.
+     * @param reverseEdges Whether to reverse the edges in the CIF/BDD specification.
      */
     private void test(String specTxt, String expectedFwdDeps, boolean reverseEdges) {
         // Read the CIF specification.
@@ -557,33 +554,22 @@ public class BddBasedEdgeDependencySetCreatorTest {
         int bddInitNodeTableSize = 100_000;
         double bddOpCacheRatio = 1;
         Integer bddOpCacheSize = null;
-        String bddOutputNamePrefix = "bdd";
         String bddVarOrderInit = BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
         boolean bddSlidingWindowEnabled = BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
         int bddSlidingWindowMaxLen = BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
         String bddVarOrderAdvanced = BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
-        String continuousPerformanceStatisticsFilePath = null;
-        String continuousPerformanceStatisticsFileAbsPath = null;
         String edgeOrderBackward = "sorted";
         String edgeOrderForward = "sorted";
         boolean doUseEdgeWorksetAlgo = true;
-        boolean doNeverEnabledEventsWarn = false;
-        boolean doForwardReach = false;
         boolean doPlantsRefReqsWarn = false;
-        String supervisorName = "sup";
-        String supervisorNamespace = null;
-        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
-                outputProvider.getDebugOutput(), outputProvider.getNormalOutput(), outputProvider.getWarnOutput(),
+        CifBddSettings settings = new CifBddSettings(shouldTerminate, outputProvider.getDebugOutput(),
+                outputProvider.getNormalOutput(), outputProvider.getWarnOutput(), AllowNonDeterminism.UNCONTROLLABLE,
                 bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled,
                 BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize,
-                bddOutputNamePrefix, BddOutputMode.NORMAL, EnumSet.allOf(BddSimplify.class), bddVarOrderInit,
-                bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
-                continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath,
+                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
                 EdgeGranularity.PER_EVENT, edgeOrderBackward, edgeOrderForward,
-                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doNeverEnabledEventsWarn,
-                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH, doForwardReach, doPlantsRefReqsWarn,
-                StateReqInvEnforceMode.ALL_CTRL_BEH, supervisorName, supervisorNamespace,
-                EnumSet.noneOf(SynthesisStatistics.class));
+                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
+                EnumSet.noneOf(CifBddStatistics.class));
 
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);

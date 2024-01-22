@@ -27,6 +27,7 @@ import java.util.Map;
 import org.eclipse.escet.cif.cif2cif.LocationPointerManager;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.datasynth.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -38,7 +39,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 
-/** Location pointer manager for data-based synthesis. */
+/** Location pointer manager for a {@link CifBddSpec}. */
 public class CifBddLocationPointerManager implements LocationPointerManager {
     /** Mapping of automata to location pointer variables. */
     private final Map<Automaton, DiscVariable> autToLpMap;
