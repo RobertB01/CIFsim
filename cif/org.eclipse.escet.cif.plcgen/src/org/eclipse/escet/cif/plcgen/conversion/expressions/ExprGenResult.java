@@ -121,7 +121,7 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
         if (!codeVariables.isEmpty()) {
             sb.append("code-variables:");
             for (PlcVariable v: codeVariables) {
-                sb.append(" " + v.name);
+                sb.append(" " + v.varName);
             }
             sb.append("\n");
         }
@@ -133,7 +133,7 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
         if (!valueVariables.isEmpty()) {
             sb.append("value-variables:");
             for (PlcVariable v: valueVariables) {
-                sb.append(" " + v.name);
+                sb.append(" " + v.varName);
             }
             sb.append("\n");
         }

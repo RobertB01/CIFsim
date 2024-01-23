@@ -216,7 +216,7 @@ public abstract class Writer {
         String addrTxt = (variable.address == null) ? "" : fmt(" AT %s", variable.address);
         String valueTxt = (variable.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(variable.value);
-        String txt = fmt("%s%s: %s%s;", variable.name, addrTxt, toBox(variable.type), valueTxt);
+        String txt = fmt("%s%s: %s%s;", variable.varName, addrTxt, toBox(variable.type), valueTxt);
         return new TextBox(txt);
     }
 

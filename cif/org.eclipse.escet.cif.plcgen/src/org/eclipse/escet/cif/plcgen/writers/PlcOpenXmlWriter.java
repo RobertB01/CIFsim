@@ -288,7 +288,7 @@ public class PlcOpenXmlWriter extends Writer {
         Element varElem = parent.getOwnerDocument().createElement("variable");
         parent.appendChild(varElem);
 
-        varElem.setAttribute("name", var.name);
+        varElem.setAttribute("name", var.varName);
         if (var.address != null) {
             varElem.setAttribute("address", var.address);
         }

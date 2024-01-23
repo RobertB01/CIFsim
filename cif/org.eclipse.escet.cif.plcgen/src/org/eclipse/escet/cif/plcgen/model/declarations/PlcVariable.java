@@ -18,11 +18,14 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** PLC variable (or constant). */
 public class PlcVariable {
-    /** Name prefix of the variable, to use when accessing the variable. */
-    public final String prefix;
+    /** Text to use for accessing the data of the variable non-locally. */
+    public final String valueName;
 
     /** The name of the variable. */
-    public final String name;
+    public final String varName;
+
+    /** The name of the structure field. */
+    public final String fieldName;
 
     /** The type of the variable. */
     public final PlcType type;
@@ -65,23 +68,11 @@ public class PlcVariable {
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
     public PlcVariable(String prefix, String name, PlcType type, String address, PlcExpression value) {
-        this.prefix = prefix;
-        this.name = name;
+        this.valueName = prefix + name;
+        this.varName = name;
+        this.fieldName = name;
         this.type = type;
         this.address = address;
         this.value = value;
-    }
-
-    /**
-     * Get the full name of the variable to access it.
-     *
-     * <p>
-     * The full name of a state variable includes the prefix. This may be used for example to denote where it is stored.
-     * </p>
-     *
-     * @return The full name of the variable.
-     */
-    public String getFullName() {
-        return prefix + name;
     }
 }

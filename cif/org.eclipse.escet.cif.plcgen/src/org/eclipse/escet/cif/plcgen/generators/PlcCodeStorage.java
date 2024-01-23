@@ -385,11 +385,11 @@ public class PlcCodeStorage {
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
             // The variable is added above, before the variable tables are pushed to the output.
             //
-            box.add("IF %s THEN", firstRun.getFullName());
+            box.add("IF %s THEN", firstRun.valueName);
             box.indent();
-            box.add("%s := FALSE;", firstRun.getFullName());
+            box.add("%s := FALSE;", firstRun.valueName);
             if (loopsKilled != null) {
-                box.add("%s := 0;", loopsKilled.getFullName());
+                box.add("%s := 0;", loopsKilled.valueName);
             }
             box.add();
             textGenerator.toText(stateInitializationCode, box, mainProgram.name, false);
@@ -408,13 +408,13 @@ public class PlcCodeStorage {
             generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
 
             PlcVariable progressVar = getIsProgressVariable();
-            box.add("%s := TRUE;", progressVar.name);
+            box.add("%s := TRUE;", progressVar.valueName);
 
             // Start the event processing loop.
             if (loopCount == null) {
                 // Unrestricted looping, no need to count loops.
                 box.add("(* Perform events until none can be done anymore. *)");
-                box.add("WHILE %s DO", progressVar.name);
+                box.add("WHILE %s DO", progressVar.valueName);
                 box.indent();
             } else {
                 // Generate condition "progress AND loopCount < max".
@@ -426,14 +426,14 @@ public class PlcCodeStorage {
                 // Restricted looping code.
                 box.add("(* Perform events until none can be done anymore. *)");
                 box.add("(* Track the number of iterations and abort if there are too many. *)");
-                box.add("%s := 0;", loopCount.name);
+                box.add("%s := 0;", loopCount.valueName);
                 box.add("WHILE %s DO", textGenerator.toString(whileCond));
                 box.indent();
-                box.add("%s := %s + 1;", loopCount.name, loopCount.name);
+                box.add("%s := %s + 1;", loopCount.valueName, loopCount.valueName);
             }
 
             // Construct the while body with event processing.
-            box.add("%s := FALSE;", progressVar.name);
+            box.add("%s := FALSE;", progressVar.valueName);
             box.add();
             textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
             box.dedent();
@@ -452,7 +452,7 @@ public class PlcCodeStorage {
                 box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
                 box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
                 box.indent();
-                box.add("%s := %s;", loopsKilled.getFullName(), textGenerator.toString(limitedIncrementKilled));
+                box.add("%s := %s;", loopsKilled.valueName, textGenerator.toString(limitedIncrementKilled));
                 box.dedent();
                 box.add("END_IF;");
             }

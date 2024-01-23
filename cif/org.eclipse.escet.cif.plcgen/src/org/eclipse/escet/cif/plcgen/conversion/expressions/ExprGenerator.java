@@ -180,7 +180,7 @@ public class ExprGenerator {
         // 1. Attempt to find a temporary variable that can be used.
         for (int idx: new BitSetIterator(variableIsAvailable)) {
             PlcVariable var = variables.get(idx);
-            if (plcType.equals(var.type) && var.name.startsWith(prefix)) {
+            if (plcType.equals(var.type) && var.varName.startsWith(prefix)) {
                 variableIsAvailable.clear(idx);
                 return var;
             }
@@ -232,7 +232,7 @@ public class ExprGenerator {
         PlcVariable newVar = new PlcVariable(name, plcType, address, value);
         int newVarIndex = variables.size();
         variables.add(newVar);
-        varNameToVarIndex.put(newVar.name, newVarIndex);
+        varNameToVarIndex.put(newVar.varName, newVarIndex);
         if (isTempVar) {
             variableIsTemp.set(newVarIndex);
         }
@@ -266,7 +266,7 @@ public class ExprGenerator {
      * @param variable Variable being returned.
      */
     public void releaseTempVariable(PlcVariable variable) {
-        Integer idx = varNameToVarIndex.get(variable.name);
+        Integer idx = varNameToVarIndex.get(variable.varName);
         if (idx == null || !variableIsTemp.get(idx)) {
             return;
         }
@@ -285,7 +285,7 @@ public class ExprGenerator {
         }
 
         // Sort variables on name.
-        Collections.sort(tempVars, (a, b) -> a.name.compareTo(b.name));
+        Collections.sort(tempVars, (a, b) -> a.varName.compareTo(b.varName));
         return tempVars;
     }
 
@@ -948,7 +948,7 @@ public class ExprGenerator {
 
                 PlcType structTypeName = target.getTypeGenerator().convertType(unProjectedType);
                 PlcStructType structType = target.getTypeGenerator().getStructureType(structTypeName);
-                plcProjections.add(new PlcStructProjection(structType.fields.get(fieldIndex).name));
+                plcProjections.add(new PlcStructProjection(structType.fields.get(fieldIndex).fieldName));
             } else {
                 throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
             }
@@ -1275,7 +1275,7 @@ public class ExprGenerator {
             releaseTempVariables(childResult.codeVariables);
 
             // Construct assignment.
-            PlcStructProjection structProj = new PlcStructProjection(structType.fields.get(idx).name);
+            PlcStructProjection structProj = new PlcStructProjection(structType.fields.get(idx).fieldName);
             PlcVarExpression lhs = new PlcVarExpression(structVar, List.of(structProj));
             PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
             idx++;

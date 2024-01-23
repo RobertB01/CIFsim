@@ -906,7 +906,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Make a new projection list "valueProjections.<lhs-field>".
             List<PlcStructProjection> projs = listc(rhsProjections.size() + 1);
             projs.addAll(rhsProjections);
-            projs.add(new PlcStructProjection(lhsStructType.fields.get(idx).name));
+            projs.add(new PlcStructProjection(lhsStructType.fields.get(idx).fieldName));
             genUpdateAssignment(lhsTuple.getFields().get(idx), rhsVariable, projs, statements);
         }
     }
