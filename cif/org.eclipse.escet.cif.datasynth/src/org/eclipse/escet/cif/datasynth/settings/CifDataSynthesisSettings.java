@@ -18,6 +18,11 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.EnumSet;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.bdd.settings.BddHyperEdgeAlgo;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
+import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
