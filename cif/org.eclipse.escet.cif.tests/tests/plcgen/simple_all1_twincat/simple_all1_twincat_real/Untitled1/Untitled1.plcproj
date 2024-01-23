@@ -19,9 +19,6 @@
     <Compile Include="DUTs\p_location.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GVLs\STATE.TcGVL">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GVLs\TIMERS.TcGVL">
       <SubType>Code</SubType>
     </Compile>

@@ -44,6 +44,7 @@ import javax.xml.validation.Validator;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
@@ -444,7 +445,7 @@ public class PlcOpenXmlWriter extends Writer {
         parent.appendChild(gv);
 
         gv.setAttribute("name", varList.name);
-        gv.setAttribute("constant", varList.constants ? "true" : "false");
+        gv.setAttribute("constant", (varList.listKind == PlcVarListKind.CONSTANTS) ? "true" : "false");
         for (PlcVariable var: varList.variables) {
             transVariable(var, gv);
         }

@@ -67,6 +67,56 @@
     <pous>
       <pou name="MAIN" pouType="program">
         <interface>
+          <localVars>
+            <variable name="timer_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="preset_timer_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="timer">
+              <type>
+                <derived name="timer_location"/>
+              </type>
+            </variable>
+            <variable name="sup">
+              <type>
+                <derived name="sup_location"/>
+              </type>
+            </variable>
+            <variable name="hw_button_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="hw_button">
+              <type>
+                <derived name="hw_button_location"/>
+              </type>
+            </variable>
+            <variable name="hw_lamp_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="hw_lamp">
+              <type>
+                <derived name="hw_lamp_location"/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+          </localVars>
           <tempVars>
             <variable name="curValue">
               <type>
@@ -504,61 +554,11 @@ out_hw_lamp_bit := hw_lamp_bit;</xhtml>
               </type>
             </variable>
           </globalVars>
-          <globalVars constant="false" name="STATE">
-            <variable name="timer_t">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="timer">
-              <type>
-                <derived name="timer_location"/>
-              </type>
-            </variable>
-            <variable name="sup">
-              <type>
-                <derived name="sup_location"/>
-              </type>
-            </variable>
-            <variable name="hw_button_bit">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
-            <variable name="hw_button">
-              <type>
-                <derived name="hw_button_location"/>
-              </type>
-            </variable>
-            <variable name="hw_lamp_bit">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
-            <variable name="hw_lamp">
-              <type>
-                <derived name="hw_lamp_location"/>
-              </type>
-            </variable>
-          </globalVars>
           <globalVars constant="false" name="TIMERS">
             <variable name="ton_timer_t">
               <type>
                 <derived name="TON"/>
               </type>
-            </variable>
-            <variable name="preset_timer_t">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
-            <variable name="firstRun">
-              <type>
-                <BOOL/>
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE"/>
-              </initialValue>
             </variable>
           </globalVars>
         </resource>

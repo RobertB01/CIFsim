@@ -18,6 +18,36 @@
     <pous>
       <pou name="MAIN" pouType="program">
         <interface>
+          <localVars>
+            <variable name="p_x">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="p_t">
+              <type>
+                <REAL/>
+              </type>
+            </variable>
+            <variable name="preset_p_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+            <variable name="loopsKilled">
+              <type>
+                <INT/>
+              </type>
+            </variable>
+          </localVars>
           <tempVars>
             <variable name="curValue">
               <type>
@@ -119,45 +149,10 @@ END_IF;</xhtml>
               </documentation>
             </pouInstance>
           </task>
-          <globalVars constant="false" name="STATE">
-            <variable name="p_x">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="p_t">
-              <type>
-                <REAL/>
-              </type>
-            </variable>
-          </globalVars>
           <globalVars constant="false" name="TIMERS">
             <variable name="ton_p_t">
               <type>
                 <derived name="TON"/>
-              </type>
-            </variable>
-            <variable name="preset_p_t">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
-            <variable name="firstRun">
-              <type>
-                <BOOL/>
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE"/>
-              </initialValue>
-            </variable>
-            <variable name="loopCount">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="loopsKilled">
-              <type>
-                <INT/>
               </type>
             </variable>
           </globalVars>

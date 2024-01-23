@@ -330,7 +330,7 @@ public class CifProcessor {
                 case MONITOR:
                 case SYNCER:
                 case SYNCER_OR_MONITOR:
-                    Assert.check(edgeAutRole.equals(AutomatonRole.SYNCER_OR_MONITOR)); // Should not be sender/receiver.
+                    Assert.areEqual(edgeAutRole, AutomatonRole.SYNCER_OR_MONITOR); // Should not be sender/receiver.
                     break;
                 case SENDER:
                 case RECEIVER:
@@ -358,7 +358,7 @@ public class CifProcessor {
 
             // Resolve ambiguity between syncer and monitor.
             AutomatonRole resultRole = isMonitor ? AutomatonRole.MONITOR : AutomatonRole.SYNCER;
-            if (autRole.equals(resultRole)) {
+            if (autRole == resultRole) {
                 return; // Do nothing if the classification is already correct.
                 //
             } else if (EnumSet.of(AutomatonRole.SYNCER_OR_MONITOR, AutomatonRole.UNKNOWN).contains(autRole)) {
@@ -390,7 +390,7 @@ public class CifProcessor {
          */
         public boolean isSenderAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.SENDER);
+            return autRole == AutomatonRole.SENDER;
         }
 
         /**
@@ -400,7 +400,7 @@ public class CifProcessor {
          */
         public boolean isReceiverAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.RECEIVER);
+            return autRole == AutomatonRole.RECEIVER;
         }
 
         /**
@@ -410,7 +410,7 @@ public class CifProcessor {
          */
         public boolean isSyncerAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.SYNCER);
+            return autRole == AutomatonRole.SYNCER;
         }
 
         /**
@@ -420,7 +420,7 @@ public class CifProcessor {
          */
         public boolean isMonitorAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.MONITOR);
+            return autRole == AutomatonRole.MONITOR;
         }
 
         /**

@@ -1,0 +1,22 @@
+DATA_BLOCK "DB"
+{ S7_Optimized_Access := 'true' }
+    VAR
+        g_inp: DINT;
+        p_b: BOOL;
+        p_x: DINT;
+        p_y: LREAL;
+        p_ve: DINT;
+        p_v1: DINT;
+        p_v2: TupleStruct;
+        p_v3: TupleStruct__1;
+        p_tv: TupleStruct__2;
+        p_j: DINT;
+        p_r: LREAL;
+        p_t: LREAL;
+        preset_p_t: TIME;
+        p: DINT;
+        firstRun: BOOL;
+    END_VAR
+BEGIN
+    firstRun := TRUE;
+END_DATA_BLOCK

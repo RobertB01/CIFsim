@@ -55,7 +55,7 @@ public abstract class PlcBasicFuncDescription {
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
             ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
     {
-        Assert.implies(infixFuncName == null, infixBinding.equals(ExprBinding.NO_PRIORITY));
+        Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
 
         // Restrict notation forms based on available function names.
         notations = EnumSet.copyOf(notations); // Make a private copy to avoid changing caller data.

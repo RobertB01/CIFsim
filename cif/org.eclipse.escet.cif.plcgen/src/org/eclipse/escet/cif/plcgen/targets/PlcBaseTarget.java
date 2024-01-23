@@ -55,6 +55,9 @@ public abstract class PlcBaseTarget extends PlcTarget {
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
 
+    /** The prefix string for state variables. */
+    protected final String stateVariablePrefix;
+
     /** User-defined integer type size to use by the PLC. */
     private PlcNumberBits intTypeSize;
 
@@ -101,16 +104,31 @@ public abstract class PlcBaseTarget extends PlcTarget {
     protected NameGenerator nameGenerator;
 
     /**
-     * Constructor of the {@link PlcBaseTarget} class.
+     * Constructor of the {@link PlcBaseTarget} class, with empty prefix string for state variables.
      *
      * @param targetType PLC target type for code generation.
      * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
      *     should not be {@link ConvertEnums#AUTO}.
      */
     public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion) {
+        this(targetType, autoEnumConversion, "");
+    }
+
+    /**
+     * Constructor of the {@link PlcBaseTarget} class.
+     *
+     * @param targetType PLC target type for code generation.
+     * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
+     *     should not be {@link ConvertEnums#AUTO}.
+     * @param stateVariablePrefix The prefix string for state variables.
+     */
+    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String stateVariablePrefix) {
         this.targetType = targetType;
-        Assert.check(autoEnumConversion != ConvertEnums.AUTO);
         this.autoEnumConversion = autoEnumConversion;
+        this.stateVariablePrefix = stateVariablePrefix;
+
+        // Selecting "auto" by the user should result in a concrete preference of the target.
+        Assert.check(autoEnumConversion != ConvertEnums.AUTO);
     }
 
     /**
@@ -258,6 +276,11 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public ConvertEnums getActualEnumerationsConversion() {
         return selectedEnumConversion;
+    }
+
+    @Override
+    public String getStateVariablePrefix() {
+        return stateVariablePrefix;
     }
 
     @Override

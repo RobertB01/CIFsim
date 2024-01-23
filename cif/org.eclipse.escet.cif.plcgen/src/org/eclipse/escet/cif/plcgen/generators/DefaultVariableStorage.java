@@ -68,9 +68,8 @@ public class DefaultVariableStorage implements VariableStorage {
     public void addStateVariable(Declaration decl, CifType type) {
         PlcType varType = target.getTypeGenerator().convertType(type);
         String varName = target.getNameGenerator().generateGlobalName(decl);
-        PlcVariable plcVar = new PlcVariable(varName, varType);
+        PlcVariable plcVar = target.getCodeStorage().addStateVariable(varName, varType);
         variables.put(decl, plcVar);
-        target.getCodeStorage().addStateVariable(plcVar);
     }
 
     @Override

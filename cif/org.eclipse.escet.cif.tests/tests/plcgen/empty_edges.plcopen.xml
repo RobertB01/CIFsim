@@ -18,6 +18,21 @@
     <pous>
       <pou name="MAIN" pouType="program">
         <interface>
+          <localVars>
+            <variable name="Good_x">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+          </localVars>
           <tempVars>
             <variable name="channelValue">
               <type>
@@ -170,23 +185,6 @@ END_WHILE;</xhtml>
               </documentation>
             </pouInstance>
           </task>
-          <globalVars constant="false" name="STATE">
-            <variable name="Good_x">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-          </globalVars>
-          <globalVars constant="false" name="TIMERS">
-            <variable name="firstRun">
-              <type>
-                <BOOL/>
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE"/>
-              </initialValue>
-            </variable>
-          </globalVars>
         </resource>
       </configuration>
     </configurations>

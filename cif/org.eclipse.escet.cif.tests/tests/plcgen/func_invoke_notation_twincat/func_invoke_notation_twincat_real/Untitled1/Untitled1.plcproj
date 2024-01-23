@@ -10,9 +10,6 @@
     <Compile Include="DUTs\aut_location.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GVLs\STATE.TcGVL">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GVLs\TIMERS.TcGVL">
       <SubType>Code</SubType>
     </Compile>

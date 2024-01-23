@@ -1,4 +1,21 @@
 PROGRAM MAIN
+VAR
+    g_inp: DINT;
+    p_b: BOOL;
+    p_x: DINT;
+    p_y: REAL;
+    p_ve: DINT;
+    p_v1: DINT;
+    p_v2: TupleStruct;
+    p_v3: TupleStruct__1;
+    p_tv: TupleStruct__2;
+    p_j: DINT;
+    p_r: REAL;
+    p_t: REAL;
+    preset_p_t: TIME;
+    p: DINT;
+    firstRun: BOOL := TRUE;
+END_VAR
 VAR_TEMP
     curValue: REAL;
     current_p: DINT;

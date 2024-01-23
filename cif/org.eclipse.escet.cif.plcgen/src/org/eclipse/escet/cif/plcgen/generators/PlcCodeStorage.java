@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
@@ -36,7 +37,9 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -58,6 +61,9 @@ public class PlcCodeStorage {
     /** Task running the PLC program. */
     private final PlcTask task;
 
+    /** Main program POU. */
+    private final PlcPou mainProgram;
+
     /** Global variable list for constants, lazily created. */
     private PlcGlobalVarList globalConstants = null;
 
@@ -66,9 +72,6 @@ public class PlcCodeStorage {
 
     /** Global variable list for output variables, lazily created. */
     private PlcGlobalVarList globalOutputs = null;
-
-    /** Global variable list for state variables, lazily created. */
-    private PlcGlobalVarList globalStateVars = null;
 
     /** Global variable list for timer variables, lazily created. */
     private PlcGlobalVarList globalTimerVars = null;
@@ -110,16 +113,21 @@ public class PlcCodeStorage {
         this.target = target;
         this.maxIter = settings.maxIter;
 
-        // Create project, configuration, resource, and task.
+        // Create the project and a configuration.
         project = new PlcProject(settings.projectName);
         PlcConfiguration config = new PlcConfiguration(settings.configurationName);
         project.configurations.add(config);
 
+        // Create a resource and a task for it.
         resource = new PlcResource(settings.resourceName);
         config.resources.add(resource);
-
         task = new PlcTask(settings.taskName, settings.taskCycleTime, settings.taskPriority);
         resource.tasks.add(task);
+
+        // Create the main program POU, and hook it into the task.
+        mainProgram = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
+        project.pous.add(mainProgram);
+        task.pouInstances.add(new PlcPouInstance("MAIN", mainProgram));
     }
 
     /**
@@ -147,7 +155,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a variable to the global constants table.
+     * Add a variable to the constants table.
      *
      * @param plcVar Variable to add. Name is assumed to be unique.
      */
@@ -155,63 +163,87 @@ public class PlcCodeStorage {
         Assert.check(target.supportsConstants());
 
         if (globalConstants == null) {
-            globalConstants = new PlcGlobalVarList("CONSTANTS", true);
+            globalConstants = new PlcGlobalVarList("CONSTANTS", PlcVarListKind.CONSTANTS);
         }
         globalConstants.variables.add(plcVar);
     }
 
     /**
-     * Add a variable to the global input variable table.
+     * Add a variable to the input variable table.
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
     public void addInputVariable(PlcVariable variable) {
         if (globalInputs == null) {
-            globalInputs = new PlcGlobalVarList("INPUTS", false);
+            globalInputs = new PlcGlobalVarList("INPUTS", PlcVarListKind.INPUT_OUTPUT);
         }
         globalInputs.variables.add(variable);
     }
 
     /**
-     * Add a variable to the global output variable table.
+     * Add a variable to the output variable table.
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
     public void addOutputVariable(PlcVariable variable) {
         if (globalOutputs == null) {
-            globalOutputs = new PlcGlobalVarList("OUTPUTS", false);
+            globalOutputs = new PlcGlobalVarList("OUTPUTS", PlcVarListKind.INPUT_OUTPUT);
         }
         globalOutputs.variables.add(variable);
     }
 
     /**
-     * Add a variable to the global state variable table.
+     * Add a variable to the persistent state variable table.
      *
-     * @param variable Variable to add. Name is assumed to be unique.
+     * @param name Name of new variable. Name is assumed to be unique.
+     * @param type Type of the new variable.
+     * @return The added new variable.
      */
-    public void addStateVariable(PlcVariable variable) {
-        if (globalStateVars == null) {
-            globalStateVars = new PlcGlobalVarList("STATE", false);
-        }
-        globalStateVars.variables.add(variable);
+    public PlcVariable addStateVariable(String name, PlcType type) {
+        return addStateVariable(name, type, null, null);
     }
 
     /**
-     * Add a variable to the global timer variables table.
+     * Add a variable to persistent state variable table.
+     *
+     * @param name Name of new variable. Name is assumed to be unique.
+     * @param type Type of the new variable.
+     * @param address If not {@code null}, the I/O address of the new variable.
+     * @param initValue If not {@code null}, the initial value of the new variable.
+     * @return The added new variable.
+     */
+    public PlcVariable addStateVariable(String name, PlcType type, String address, PlcExpression initValue) {
+        PlcVariable plcVar = new PlcVariable(target.getStateVariablePrefix(), name, type, address, initValue);
+        mainProgram.localVars.add(plcVar);
+        return plcVar;
+    }
+
+    /**
+     * Add a temporary variable to the program (valid for a single PLC cycle).
+     *
+     * @param variable Variable to add. Name is assumed to be unique.
+     */
+    public void addTempVariable(PlcVariable variable) {
+        mainProgram.tempVars.add(variable);
+    }
+
+    /**
+     * Add a variable to the timer variables table.
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
     public void addTimerVariable(PlcVariable variable) {
         if (globalTimerVars == null) {
-            // Global variable list of timer-related data of the main program. Note that the Siemens target currently
-            // requires the "TIMERS" name.
-            globalTimerVars = new PlcGlobalVarList("TIMERS", false);
+            globalTimerVars = new PlcGlobalVarList("TIMERS", PlcVarListKind.TIMERS);
         }
+        // S7 needs timer function blocks as a separate list. Other timer related data should be stored in other
+        // variable lists.
+        Assert.check(variable.type instanceof PlcDerivedType der && der.name.equals("TON"));
         globalTimerVars.variables.add(variable);
     }
 
     /**
-     * Add a type declaration to the global type declarations list.
+     * Add a type declaration to the type declarations list.
      *
      * @param decl Declaration to add. Name is assumed to be unique.
      */
@@ -220,7 +252,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add code to initialize the state of the globally used variables.
+     * Add code to initialize the state of CIF variables.
      *
      * @param stateInitializationCode Code for initializing the globally used variables.
      */
@@ -292,14 +324,14 @@ public class PlcCodeStorage {
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
+        NameGenerator nameGen = target.getNameGenerator();
 
         // The "firstRun" boolean is needed in state initialization, but creation has been moved to here before
         // pushing the variable tables to the output.
         PlcVariable firstRun = null;
         if (stateInitializationCode != null) {
-            firstRun = exprGen.makeLocalVariable("firstRun", PlcElementaryType.BOOL_TYPE, null,
-                    new PlcBoolLiteral(true));
-            addTimerVariable(firstRun);
+            String name = nameGen.generateGlobalName("firstRun", false);
+            firstRun = addStateVariable(name, PlcElementaryType.BOOL_TYPE, null, new PlcBoolLiteral(true));
         }
 
         // Construct loop and killed counters.
@@ -307,7 +339,8 @@ public class PlcCodeStorage {
         PlcVariable loopsKilled = null;
         if (maxIter != null) {
             // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
-            loopsKilled = exprGen.makeLocalVariable("loopsKilled", PlcElementaryType.INT_TYPE);
+            String name = nameGen.generateGlobalName("loopsKilled", false);
+            loopsKilled = addStateVariable(name, PlcElementaryType.INT_TYPE);
             Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)".
 
             // Construct a "loopCount" variable, limit the maximum number of iterations to the type.
@@ -320,28 +353,17 @@ public class PlcCodeStorage {
                 case 8 -> Math.min(maxIter, 0x7F);
                 default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
             };
-
-            addTimerVariable(loopCount);
-            addTimerVariable(loopsKilled);
+            addTempVariable(loopCount);
         }
 
         // Add all created variable tables.
         addGlobalVariableTable(globalConstants);
         addGlobalVariableTable(globalInputs);
         addGlobalVariableTable(globalOutputs);
-        addGlobalVariableTable(globalStateVars);
         addGlobalVariableTable(globalTimerVars);
 
-        // Create code file for program, with header etc.
-        PlcPou main = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
-        project.pous.add(main);
-
-        // Global variable list of the main program. Note that the Siemens target currently requires the "TIMERS" name.
-        PlcGlobalVarList mainVariables = new PlcGlobalVarList("TIMERS", false);
-        addGlobalVariableTable(mainVariables);
-
         // Prepare adding code to the program.
-        CodeBox box = main.body;
+        CodeBox box = mainProgram.body;
         boolean boxNeedsEmptyLine = false;
         int commentLength = 79; // Length of a comment header line.
 
@@ -350,7 +372,7 @@ public class PlcCodeStorage {
             generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
-            textGenerator.toText(inputFuncCode, box, main.name, false);
+            textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
         }
 
         // Add initialization code if it exists.
@@ -363,19 +385,19 @@ public class PlcCodeStorage {
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
             // The variable is added above, before the variable tables are pushed to the output.
             //
-            box.add("IF %s THEN", firstRun.name);
+            box.add("IF %s THEN", firstRun.getFullName());
             box.indent();
-            box.add("%s := FALSE;", firstRun.name);
+            box.add("%s := FALSE;", firstRun.getFullName());
             if (loopsKilled != null) {
-                box.add("%s := 0;", loopsKilled.name);
+                box.add("%s := 0;", loopsKilled.getFullName());
             }
             box.add();
-            textGenerator.toText(stateInitializationCode, box, main.name, false);
+            textGenerator.toText(stateInitializationCode, box, mainProgram.name, false);
             box.dedent();
             if (updateContVarsRemainingTimeCode != null) {
                 box.add("ELSE");
                 box.indent();
-                textGenerator.toText(updateContVarsRemainingTimeCode, box, main.name, false);
+                textGenerator.toText(updateContVarsRemainingTimeCode, box, mainProgram.name, false);
                 box.dedent();
             }
             box.add("END_IF;");
@@ -413,7 +435,7 @@ public class PlcCodeStorage {
             // Construct the while body with event processing.
             box.add("%s := FALSE;", progressVar.name);
             box.add();
-            textGenerator.toText(eventTransitionsIterationCode, box, main.name, false);
+            textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
             box.dedent();
             box.add("END_WHILE;");
 
@@ -430,7 +452,7 @@ public class PlcCodeStorage {
                 box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
                 box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
                 box.indent();
-                box.add("%s := %s;", loopsKilled.name, textGenerator.toString(limitedIncrementKilled));
+                box.add("%s := %s;", loopsKilled.getFullName(), textGenerator.toString(limitedIncrementKilled));
                 box.dedent();
                 box.add("END_IF;");
             }
@@ -442,16 +464,13 @@ public class PlcCodeStorage {
             generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
-            textGenerator.toText(outputFuncCode, box, main.name, false);
+            textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
         }
 
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
 
         // Add temporary variables of the main program code.
-        main.tempVars = exprGen.getCreatedTempVariables();
-
-        // Add program to task.
-        task.pouInstances.add(new PlcPouInstance("MAIN", main));
+        mainProgram.tempVars = exprGen.getCreatedTempVariables();
     }
 
     /**

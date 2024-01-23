@@ -97,6 +97,86 @@
     <pous>
       <pou name="MAIN" pouType="program">
         <interface>
+          <localVars>
+            <variable name="g_inp">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="p_b">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="p_x">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="p_y">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="p_ve">
+              <type>
+                <derived name="g_E"/>
+              </type>
+            </variable>
+            <variable name="p_v1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="p_v2">
+              <type>
+                <derived name="TupleStruct"/>
+              </type>
+            </variable>
+            <variable name="p_v3">
+              <type>
+                <derived name="TupleStruct__1"/>
+              </type>
+            </variable>
+            <variable name="p_tv">
+              <type>
+                <derived name="TupleStruct__2"/>
+              </type>
+            </variable>
+            <variable name="p_j">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="p_r">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="p_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="preset_p_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="p">
+              <type>
+                <derived name="p_location"/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+          </localVars>
           <tempVars>
             <variable name="curValue">
               <type>
@@ -329,91 +409,11 @@ END_WHILE;</xhtml>
               </documentation>
             </pouInstance>
           </task>
-          <globalVars constant="false" name="STATE">
-            <variable name="g_inp">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="p_b">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
-            <variable name="p_x">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="p_y">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="p_ve">
-              <type>
-                <derived name="g_E"/>
-              </type>
-            </variable>
-            <variable name="p_v1">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="p_v2">
-              <type>
-                <derived name="TupleStruct"/>
-              </type>
-            </variable>
-            <variable name="p_v3">
-              <type>
-                <derived name="TupleStruct__1"/>
-              </type>
-            </variable>
-            <variable name="p_tv">
-              <type>
-                <derived name="TupleStruct__2"/>
-              </type>
-            </variable>
-            <variable name="p_j">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="p_r">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="p_t">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="p">
-              <type>
-                <derived name="p_location"/>
-              </type>
-            </variable>
-          </globalVars>
           <globalVars constant="false" name="TIMERS">
             <variable name="ton_p_t">
               <type>
                 <derived name="TON"/>
               </type>
-            </variable>
-            <variable name="preset_p_t">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
-            <variable name="firstRun">
-              <type>
-                <BOOL/>
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE"/>
-              </initialValue>
             </variable>
           </globalVars>
         </resource>

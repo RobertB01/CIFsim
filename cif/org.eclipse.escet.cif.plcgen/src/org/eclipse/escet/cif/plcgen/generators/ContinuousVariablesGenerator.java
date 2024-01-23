@@ -43,9 +43,6 @@ public interface ContinuousVariablesGenerator {
 
     /** PLC code generation support for a single continuous variable. */
     public interface PlcTimerCodeGenerator {
-        /** Add the variables of the timer to the provided PLC code storage. */
-        public void addInstanceVariables();
-
         /**
          * Generate code to update the variable that stores the remaining time of the timer in the state.
          *

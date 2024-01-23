@@ -2,6 +2,10 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="MAIN">
     <Declaration><![CDATA[PROGRAM MAIN
+VAR
+    Good_x: DINT;
+    firstRun: BOOL := TRUE;
+END_VAR
 VAR_TEMP
     channelValue: DINT;
     current_Good_x: DINT;

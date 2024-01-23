@@ -73,7 +73,7 @@ public class SiemensS7Target extends PlcBaseTarget {
      * @param targetType A Siemens S7 target type.
      */
     public SiemensS7Target(PlcTargetType targetType) {
-        super(targetType, ConvertEnums.CONSTS);
+        super(targetType, ConvertEnums.CONSTS, "\"DB\".");
         // TODO Verify settings of the Siemens target.
 
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().
@@ -109,14 +109,14 @@ public class SiemensS7Target extends PlcBaseTarget {
     @Override
     public EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
         // S7 doesn't have a function for log10.
-        if (funcOper.equals(STDLIB_LOG)) {
+        if (funcOper == STDLIB_LOG) {
             return PlcFuncNotation.UNSUPPORTED;
         }
 
         EnumSet<PlcFuncNotation> funcSupport = super.getSupportedFuncNotations(funcOper, numArgs);
 
         // S7-300 and S7-400 don't support "**" for pow(a, b).
-        if (S7_300_400.contains(targetType) && funcOper.equals(POWER_OP)) {
+        if (S7_300_400.contains(targetType) && funcOper == POWER_OP) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.remove(PlcFuncNotation.INFIX);
             return funcSupport;

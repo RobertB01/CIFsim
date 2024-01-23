@@ -22,38 +22,38 @@ ORGANIZATION_BLOCK MAIN
 
 BEGIN
     (* --- Initialize state or update continuous variables. -------------------- *)
-    IF firstRun THEN
-        firstRun := FALSE;
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        p_b := TRUE;
-        p_x := 0;
-        p_y := 1.23;
-        p_ve := 0;
-        p_v1 := 0;
+        "DB".p_b := TRUE;
+        "DB".p_x := 0;
+        "DB".p_y := 1.23;
+        "DB".p_ve := 0;
+        "DB".p_v1 := 0;
         litStruct.field1 := 0.0;
         litStruct.field2 := 0.0;
-        p_v2 := litStruct;
+        "DB".p_v2 := litStruct;
         litStruct.field1 := 0.0;
         litStruct.field2 := 0.0;
         litStruct__1.field1 := litStruct;
         litStruct__1.field2 := 0.0;
-        p_v3 := litStruct__1;
+        "DB".p_v3 := litStruct__1;
         litStruct__2.field1 := 0;
         litStruct__2.field2 := 0;
-        p_tv := litStruct__2;
-        p_j := 0;
-        p_r := 1000000.0;
-        p_t := 0.0;
+        "DB".p_tv := litStruct__2;
+        "DB".p_j := 0;
+        "DB".p_r := 1000000.0;
+        "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
-        preset_p_t := p_t;
-        ton_p_t(IN := FALSE, PT := preset_p_t);
-        ton_p_t(IN := TRUE, PT := preset_p_t);
-        p := 0;
+        "DB".preset_p_t := "DB".p_t;
+        ton_p_t(IN := FALSE, PT := "DB".preset_p_t);
+        ton_p_t(IN := TRUE, PT := "DB".preset_p_t);
+        "DB".p := 0;
     ELSE
         (* Update remaining time of "p_t". *)
-        ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
-        p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
+        ton_p_t(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
+        "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
     (* --- Process all events. ------------------------------------------------- *)
@@ -64,86 +64,86 @@ BEGIN
 
         (* Try to perform event "p.evt". *)
         eventEnabled := TRUE;
-        IF p = 0 THEN
+        IF "DB".p = 0 THEN
             syncAutEdge := 1;
-        ELSIF p = 1 THEN
+        ELSIF "DB".p = 1 THEN
             syncAutEdge := 2;
-        ELSIF p = 2 THEN
+        ELSIF "DB".p = 2 THEN
             syncAutEdge := 3;
-        ELSIF p = 3 THEN
+        ELSIF "DB".p = 3 THEN
             syncAutEdge := 4;
-        ELSIF p = 4 THEN
+        ELSIF "DB".p = 4 THEN
             syncAutEdge := 5;
-        ELSIF p = 5 THEN
+        ELSIF "DB".p = 5 THEN
             syncAutEdge := 6;
-        ELSIF p = 6 THEN
+        ELSIF "DB".p = 6 THEN
             syncAutEdge := 7;
-        ELSIF p = 7 THEN
+        ELSIF "DB".p = 7 THEN
             syncAutEdge := 8;
-        ELSIF p = 8 THEN
+        ELSIF "DB".p = 8 THEN
             syncAutEdge := 9;
-        ELSIF p = 9 THEN
+        ELSIF "DB".p = 9 THEN
             syncAutEdge := 10;
-        ELSIF p = 10 THEN
+        ELSIF "DB".p = 10 THEN
             syncAutEdge := 11;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             isProgress := TRUE;
-            current_p := p;
-            current_p_b := p_b;
-            current_p_j := p_j;
-            current_p_r := p_r;
-            current_p_tv := p_tv;
-            current_p_v3 := p_v3;
-            current_p_ve := p_ve;
-            current_p_x := p_x;
+            current_p := "DB".p;
+            current_p_b := "DB".p_b;
+            current_p_j := "DB".p_j;
+            current_p_r := "DB".p_r;
+            current_p_tv := "DB".p_tv;
+            current_p_v3 := "DB".p_v3;
+            current_p_ve := "DB".p_ve;
+            current_p_x := "DB".p_x;
             IF syncAutEdge = 1 THEN
                 litStruct__2.field1 := 1;
                 litStruct__2.field2 := 2;
-                p_tv := litStruct__2;
-                p := 1;
+                "DB".p_tv := litStruct__2;
+                "DB".p := 1;
             ELSIF syncAutEdge = 2 THEN
-                p_x := 3;
-                p_j := 4;
-                p := 2;
+                "DB".p_x := 3;
+                "DB".p_j := 4;
+                "DB".p := 2;
             ELSIF syncAutEdge = 3 THEN
                 rightValue := current_p_tv;
-                p_x := rightValue.field1;
-                p_j := rightValue.field2;
-                p := 3;
+                "DB".p_x := rightValue.field1;
+                "DB".p_j := rightValue.field2;
+                "DB".p := 3;
             ELSIF syncAutEdge = 4 THEN
-                p_tv.field1 := 5;
-                p := 4;
+                "DB".p_tv.field1 := 5;
+                "DB".p := 4;
             ELSIF syncAutEdge = 5 THEN
-                p_tv.field2 := 6;
-                p_j := 7;
-                p := 5;
+                "DB".p_tv.field2 := 6;
+                "DB".p_j := 7;
+                "DB".p := 5;
             ELSIF syncAutEdge = 6 THEN
-                p_v3.field1.field2 := 7.8;
-                p := 6;
+                "DB".p_v3.field1.field2 := 7.8;
+                "DB".p := 6;
             ELSIF syncAutEdge = 7 THEN
                 litStruct.field1 := 1.2;
                 litStruct.field2 := 3.4;
                 litStruct__1.field1 := litStruct;
                 litStruct__1.field2 := 5.6;
-                p_v3 := litStruct__1;
-                p := 7;
+                "DB".p_v3 := litStruct__1;
+                "DB".p := 7;
             ELSIF syncAutEdge = 8 THEN
-                p_j := current_p_j + 1;
-                p := 8;
+                "DB".p_j := current_p_j + 1;
+                "DB".p := 8;
             ELSIF syncAutEdge = 9 THEN
-                p_b := FALSE;
-                p := 9;
+                "DB".p_b := FALSE;
+                "DB".p := 9;
             ELSIF syncAutEdge = 10 THEN
                 IF NOT current_p_b THEN
-                    p_ve := 1;
+                    "DB".p_ve := 1;
                 END_IF;
-                p := 10;
+                "DB".p := 10;
             ELSIF syncAutEdge = 11 THEN
-                p_r := DINT_TO_LREAL(g_inp) + 10.0;
-                p := 11;
+                "DB".p_r := DINT_TO_LREAL("DB".g_inp) + 10.0;
+                "DB".p := 11;
             END_IF;
         END_IF;
     END_WHILE;
