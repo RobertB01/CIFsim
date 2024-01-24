@@ -39,37 +39,11 @@ public class CifBddSettings {
     /** Callback for warning output. */
     public final WarnOutput warnOutput;
 
+    /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
+    public final boolean doPlantsRefReqsWarn;
+
     /** Events for which to allow non-determinism. */
     public final AllowNonDeterminism allowNonDeterminism;
-
-    /**
-     * Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering ({@code true}), or
-     * not apply it ({@code false}).
-     */
-    public final boolean bddDcshEnabled;
-
-    /**
-     * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
-     * output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
-     * {@code [0 .. 2^31-1]}.
-     */
-    public final Integer bddDebugMaxNodes;
-
-    /**
-     * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
-     * debug output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
-     * {@code [0 .. 1.7e308]}.
-     */
-    public final Double bddDebugMaxPaths;
-
-    /**
-     * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
-     * or not apply it ({@code false}).
-     */
-    public final boolean bddForceEnabled;
-
-    /** The algorithm to use to create hyper-edges for BDD variable ordering. */
-    public final BddHyperEdgeAlgo bddHyperEdgeAlgo;
 
     /**
      * The initial size of the node table of the BDD library. The value is in the positive range {@code [1 .. 2^31-1]}.
@@ -94,6 +68,18 @@ public class CifBddSettings {
     public final String bddVarOrderInit;
 
     /**
+     * Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering ({@code true}), or
+     * not apply it ({@code false}).
+     */
+    public final boolean bddDcshEnabled;
+
+    /**
+     * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
+     * or not apply it ({@code false}).
+     */
+    public final boolean bddForceEnabled;
+
+    /**
      * Whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering
      * ({@code true}), or not apply it ({@code false}).
      */
@@ -107,6 +93,23 @@ public class CifBddSettings {
 
     /** The advanced BDD variable ordering and domain interleaving. */
     public final String bddVarOrderAdvanced;
+
+    /** The algorithm to use to create hyper-edges for BDD variable ordering. */
+    public final BddHyperEdgeAlgo bddHyperEdgeAlgo;
+
+    /**
+     * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
+     * output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
+     * {@code [0 .. 2^31-1]}.
+     */
+    public final Integer bddDebugMaxNodes;
+
+    /**
+     * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
+     * debug output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
+     * {@code [0 .. 1.7e308]}.
+     */
+    public final Double bddDebugMaxPaths;
 
     /** The granularity of edges to use in the BDD representation of the CIF specification. */
     public final EdgeGranularity edgeGranularity;
@@ -125,9 +128,6 @@ public class CifBddSettings {
      * computations ({@code true}), or not ({@code false}).
      */
     public final boolean doUseEdgeWorksetAlgo;
-
-    /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
-    public final boolean doPlantsRefReqsWarn;
 
     /** The kinds of statistics to print. */
     public final EnumSet<CifBddStatistics> cifBddStatistics;
