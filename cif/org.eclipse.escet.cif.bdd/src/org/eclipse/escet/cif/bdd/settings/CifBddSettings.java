@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
@@ -28,109 +29,109 @@ public class CifBddSettings {
      * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
      * {@code true} also on subsequent calls.
      */
-    public Supplier<Boolean> shouldTerminate;
+    public Supplier<Boolean> shouldTerminate = () -> false;
 
     /** Callback for debug output. */
-    public DebugNormalOutput debugOutput;
+    public DebugNormalOutput debugOutput = new BlackHoleOutputProvider().getDebugOutput();
 
     /** Callback for normal output. */
-    public DebugNormalOutput normalOutput;
+    public DebugNormalOutput normalOutput = new BlackHoleOutputProvider().getNormalOutput();
 
     /** Callback for warning output. */
-    public WarnOutput warnOutput;
+    public WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
     /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
-    public boolean doPlantsRefReqsWarn;
+    public boolean doPlantsRefReqsWarn = CifBddSettingsDefaults.DO_PLANTS_REF_REQS_WARN_DEFAULT;
 
     /** Events for which to allow non-determinism. */
-    public AllowNonDeterminism allowNonDeterminism;
+    public AllowNonDeterminism allowNonDeterminism = CifBddSettingsDefaults.ALLOW_NON_DETERMINISM_DEFAULT;
 
     /**
      * The initial size of the node table of the BDD library. The value is in the positive range {@code [1 .. 2^31-1]}.
      */
-    public int bddInitNodeTableSize;
+    public int bddInitNodeTableSize = CifBddSettingsDefaults.BDD_INIT_NODE_TABLE_SIZE_DEFAULT;
 
     /**
      * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
      * The value is in the range {@code [0.01 .. 1000]}. This setting only has an effect if {@link #bddOpCacheSize} is
      * {@code null}.
      */
-    public double bddOpCacheRatio;
+    public double bddOpCacheRatio = CifBddSettingsDefaults.BDD_OP_CACHE_RATIO_DEFAULT;
 
     /**
      * The fixed size of the operation cache of the BDD library. {@code null} means a fixed cache size is disabled. If
      * not {@code null}, the value is in the range {@code [2 .. 2^31-1]}. If enabled, this setting takes priority over
      * {@link #bddOpCacheRatio}.
      */
-    public Integer bddOpCacheSize;
+    public Integer bddOpCacheSize = CifBddSettingsDefaults.BDD_OP_CACHE_SIZE_DEFAULT;
 
     /** The initial BDD variable ordering and domain interleaving. */
-    public String bddVarOrderInit;
+    public String bddVarOrderInit = CifBddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
 
     /**
      * Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering ({@code true}), or
      * not apply it ({@code false}).
      */
-    public boolean bddDcshEnabled;
+    public boolean bddDcshEnabled = CifBddSettingsDefaults.DCSH_ENABLED_DEFAULT;
 
     /**
      * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
      * or not apply it ({@code false}).
      */
-    public boolean bddForceEnabled;
+    public boolean bddForceEnabled = CifBddSettingsDefaults.FORCE_ENABLED_DEFAULT;
 
     /**
      * Whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering
      * ({@code true}), or not apply it ({@code false}).
      */
-    public boolean bddSlidingWindowEnabled;
+    public boolean bddSlidingWindowEnabled = CifBddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
 
     /**
      * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. The value is in
      * the range {@code [1 .. 12]}.
      */
-    public int bddSlidingWindowMaxLen;
+    public int bddSlidingWindowMaxLen = CifBddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
 
     /** The advanced BDD variable ordering and domain interleaving. */
-    public String bddVarOrderAdvanced;
+    public String bddVarOrderAdvanced = CifBddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
 
     /** The algorithm to use to create hyper-edges for BDD variable ordering. */
-    public BddHyperEdgeAlgo bddHyperEdgeAlgo;
+    public BddHyperEdgeAlgo bddHyperEdgeAlgo = CifBddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
 
     /**
      * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
      * output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
      * {@code [0 .. 2^31-1]}.
      */
-    public Integer bddDebugMaxNodes;
+    public Integer bddDebugMaxNodes = CifBddSettingsDefaults.BDD_DEBUG_MAX_NODES_DEFAULT;
 
     /**
      * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
      * debug output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
      * {@code [0 .. 1.7e308]}.
      */
-    public Double bddDebugMaxPaths;
+    public Double bddDebugMaxPaths = CifBddSettingsDefaults.BDD_DEBUG_MAX_PATHS_DEFAULT;
 
     /** The granularity of edges to use in the BDD representation of the CIF specification. */
-    public EdgeGranularity edgeGranularity;
+    public EdgeGranularity edgeGranularity = CifBddSettingsDefaults.EDGE_GRANULARITY_DEFAULT;
 
     /** The edge ordering to use for backward reachability computations. */
-    public String edgeOrderBackward;
+    public String edgeOrderBackward = CifBddSettingsDefaults.EDGE_ORDER_BACKWARD_DEFAULT;
 
     /** The edge ordering to use for forward reachability computations. */
-    public String edgeOrderForward;
+    public String edgeOrderForward = CifBddSettingsDefaults.EDGE_ORDER_FORWARD_DEFAULT;
 
     /** Whether duplicate events are allowed for custom edge orders. */
-    public EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents;
+    public EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents = CifBddSettingsDefaults.EDGE_ORDER_ALLOW_DUPLICATES_EVENTS_DEFAULT;
 
     /**
      * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
      * computations ({@code true}), or not ({@code false}).
      */
-    public boolean doUseEdgeWorksetAlgo;
+    public boolean doUseEdgeWorksetAlgo = CifBddSettingsDefaults.DO_USE_WORKSET_ALGO_DEFAULT;
 
     /** The kinds of statistics to print. */
-    public EnumSet<CifBddStatistics> cifBddStatistics;
+    public EnumSet<CifBddStatistics> cifBddStatistics = CifBddSettingsDefaults.CIF_BDD_STATISTICS_DEFAULT.clone();
 
     /**
      * Constructor for the {@link CifBddSettings} class.
