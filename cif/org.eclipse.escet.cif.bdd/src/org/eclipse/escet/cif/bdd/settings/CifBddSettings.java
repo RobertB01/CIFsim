@@ -134,6 +134,14 @@ public class CifBddSettings {
     public EnumSet<CifBddStatistics> cifBddStatistics = CifBddSettingsDefaults.CIF_BDD_STATISTICS_DEFAULT.clone();
 
     /**
+     * Constructor for the {@link CifBddSettings} class. Sets {@link CifBddSettingsDefaults default} values for the
+     * settings.
+     */
+    public CifBddSettings() {
+        checkSettings(); // Make sure the defaults are valid.
+    }
+
+    /**
      * Constructor for the {@link CifBddSettings} class.
      *
      * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
@@ -211,7 +219,10 @@ public class CifBddSettings {
         this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
         this.cifBddStatistics = cifBddStatistics;
+    }
 
+    /** Check that the settings have valid values, for as much as it can be checked locally. */
+    private void checkSettings() {
         // Check BDD debug max nodes.
         if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {
             String msg = fmt("BDD debug max nodes value \"%s\" is not in the range [0 .. 2^31-1].", bddDebugMaxNodes);

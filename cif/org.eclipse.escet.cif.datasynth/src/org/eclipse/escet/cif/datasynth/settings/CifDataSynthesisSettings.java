@@ -81,6 +81,14 @@ public class CifDataSynthesisSettings extends CifBddSettings {
     public String continuousPerformanceStatisticsFileAbsPath = null;
 
     /**
+     * Constructor for the {@link CifDataSynthesisSettings} class. Sets {@link CifDataSynthesisSettingsDefaults default}
+     * values for the settings.
+     */
+    public CifDataSynthesisSettings() {
+        checkSettings(); // Make sure the defaults are valid.
+    }
+
+    /**
      * Constructor for the {@link CifDataSynthesisSettings} class.
      *
      * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
@@ -181,7 +189,10 @@ public class CifDataSynthesisSettings extends CifBddSettings {
         this.supervisorName = supervisorName;
         this.supervisorNamespace = supervisorNamespace;
         this.synthesisStatistics = synthesisStatistics;
+    }
 
+    /** Check that the settings have valid values, for as much as it can be checked locally. */
+    private void checkSettings() {
         // Check BDD output name prefix.
         if (!CifValidationUtils.isValidIdentifier(bddOutputNamePrefix)) {
             String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", bddOutputNamePrefix);
