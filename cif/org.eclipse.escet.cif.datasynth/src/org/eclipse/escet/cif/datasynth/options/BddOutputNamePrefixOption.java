@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.options;
 
 import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
@@ -22,8 +23,8 @@ public class BddOutputNamePrefixOption extends StringOption {
     /** Constructor for the {@link BddOutputNamePrefixOption} class. */
     public BddOutputNamePrefixOption() {
         super("BDD output name prefix", "The prefix to use for BDD related names in the output. [DEFAULT=\"bdd\"]", 'p',
-                "bdd-prefix", "PREFIX", "bdd", false, true, "The prefix to use for BDD related names in the output.",
-                "Prefix:");
+                "bdd-prefix", "PREFIX", CifDataSynthesisSettingsDefaults.BDD_OUTPUT_NAME_PREFIX, false, true,
+                "The prefix to use for BDD related names in the output.", "Prefix:");
     }
 
     /**

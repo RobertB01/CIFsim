@@ -128,7 +128,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 EdgeWorksetAlgoOption.isEnabled(), EventWarnOption.isEnabled(),
                 FixedPointComputationsOrderOption.getOrder(), ForwardReachOption.isEnabled(),
                 PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
-                SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
+                SupervisorNameOption.getSupervisorName(), SupervisorNamespaceOption.getNamespace(),
                 SynthesisStatisticsOption.getStatistics());
 
         // Initialize timing statistics.
