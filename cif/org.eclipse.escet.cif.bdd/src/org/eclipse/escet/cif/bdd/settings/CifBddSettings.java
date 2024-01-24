@@ -138,87 +138,8 @@ public class CifBddSettings {
      * settings.
      */
     public CifBddSettings() {
-        checkSettings(); // Make sure the defaults are valid.
-    }
-
-    /**
-     * Constructor for the {@link CifBddSettings} class.
-     *
-     * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
-     *     {@code true}, it must return {@code true} also on subsequent calls.
-     * @param debugOutput Callback for debug output.
-     * @param normalOutput Callback for normal output.
-     * @param warnOutput Callback for warning output.
-     * @param allowNonDeterminism Events for which to allow non-determinism.
-     * @param bddDcshEnabled Whether to apply the DCSH variable ordering algorithm to improve the initial variable
-     *     ordering ({@code true}), or not apply it ({@code false}).
-     * @param bddDebugMaxNodes The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. Use {@code null} to not set a maximum. If not {@code null}, the value
-     *     must be in the non-negative range {@code [0 .. 2^31-1]}.
-     * @param bddDebugMaxPaths The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. Use {@code null} to not set a maximum. If not {@code  null}, the value
-     *     must be in the non-negative range {@code [0 .. 1.7e308]}.
-     * @param bddForceEnabled Whether to apply the FORCE variable ordering algorithm to improve the initial variable
-     *     ordering ({@code true}), or not apply it ({@code false}).
-     * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
-     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. The value must be in the
-     *     positive range {@code [1 .. 2^31-1]}.
-     * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
-     *     table of the BDD library. The value must be in the range {@code [0.01 .. 1000]}. This setting only has an
-     *     effect if {@code bddOpCacheSize} is {@code null}.
-     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. Use {@code null} to disable a
-     *     fixed cache size. If not {@code null}, the value must be in the range {@code [2 .. 2^31-1]}. If enabled, this
-     *     setting takes priority over {@code bddOpCacheRatio}.
-     * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
-     * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
-     *     initial variable ordering ({@code true}), or not apply it ({@code false}).
-     * @param bddSlidingWindowMaxLen The maximum length of the window to use for the BDD sliding window variable
-     *     ordering algorithm. The value must be in the range {@code [1 .. 12]}.
-     * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
-     * @param edgeGranularity The granularity of edges to use in the BDD representation of the CIF specification.
-     * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
-     * @param edgeOrderForward The edge ordering to use for forward reachability computations.
-     * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
-     * @param doUseEdgeWorksetAlgo Whether to use the edge workset algorithm to dynamically choose the best edge to
-     *     apply during reachability computations ({@code true}), or not ({@code false}).
-     * @param doPlantsRefReqsWarn Whether to warn for plants that reference requirement state ({@code true}) or don't
-     *     warn ({@code false}).
-     * @param cifBddStatistics The kinds of statistics to print.
-     */
-    public CifBddSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, AllowNonDeterminism allowNonDeterminism,
-            boolean bddDcshEnabled, Integer bddDebugMaxNodes, Double bddDebugMaxPaths, boolean bddForceEnabled,
-            BddHyperEdgeAlgo bddHyperEdgeAlgo, int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize,
-            String bddVarOrderInit, boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen,
-            String bddVarOrderAdvanced, EdgeGranularity edgeGranularity, String edgeOrderBackward,
-            String edgeOrderForward, EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents,
-            boolean doUseEdgeWorksetAlgo, boolean doPlantsRefReqsWarn, EnumSet<CifBddStatistics> cifBddStatistics)
-    {
-        // Store settings.
-        this.shouldTerminate = shouldTerminate;
-        this.debugOutput = debugOutput;
-        this.normalOutput = normalOutput;
-        this.warnOutput = warnOutput;
-        this.allowNonDeterminism = allowNonDeterminism;
-        this.bddDcshEnabled = bddDcshEnabled;
-        this.bddDebugMaxNodes = bddDebugMaxNodes;
-        this.bddDebugMaxPaths = bddDebugMaxPaths;
-        this.bddForceEnabled = bddForceEnabled;
-        this.bddHyperEdgeAlgo = bddHyperEdgeAlgo;
-        this.bddInitNodeTableSize = bddInitNodeTableSize;
-        this.bddOpCacheRatio = bddOpCacheRatio;
-        this.bddOpCacheSize = bddOpCacheSize;
-        this.bddVarOrderInit = bddVarOrderInit;
-        this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;
-        this.bddSlidingWindowMaxLen = bddSlidingWindowMaxLen;
-        this.bddVarOrderAdvanced = bddVarOrderAdvanced;
-        this.edgeGranularity = edgeGranularity;
-        this.edgeOrderBackward = edgeOrderBackward;
-        this.edgeOrderForward = edgeOrderForward;
-        this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
-        this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
-        this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
-        this.cifBddStatistics = cifBddStatistics;
+        // Make sure the defaults are valid.
+        checkSettings();
     }
 
     /** Check that the settings have valid values, for as much as it can be checked locally. */
