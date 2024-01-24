@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.bdd.settings;
 
 /** Defaults for BDD-related {@link CifBddSettings settings}. */
-public class BddSettingsDefaults {
+public class CifBddSettingsDefaults {
     /** The default value of the {@link CifBddSettings#bddVarOrderInit} setting. */
     public static final String VAR_ORDER_INIT_DEFAULT = "sorted";
 
@@ -36,8 +36,8 @@ public class BddSettingsDefaults {
     /** The default value of the {@link CifBddSettings#bddHyperEdgeAlgo} setting. */
     public static final BddHyperEdgeAlgo HYPER_EDGE_ALGO_DEFAULT = BddHyperEdgeAlgo.DEFAULT;
 
-    /** Constructor for the {@link BddSettingsDefaults} class. */
-    private BddSettingsDefaults() {
+    /** Constructor for the {@link CifBddSettingsDefaults} class. */
+    private CifBddSettingsDefaults() {
         // Static class.
     }
 }

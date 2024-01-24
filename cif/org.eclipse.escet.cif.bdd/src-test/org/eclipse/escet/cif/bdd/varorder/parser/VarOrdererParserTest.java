@@ -28,8 +28,8 @@ import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.BddHyperEdgeAlgo;
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
 import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
 import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
@@ -48,25 +48,25 @@ import org.junit.jupiter.api.Test;
 /** {@link VarOrdererParser} tests. */
 public class VarOrdererParserTest {
     /** See {@link CifBddSettings#bddVarOrderInit}. */
-    private String bddVarOrderInit = BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
+    private String bddVarOrderInit = CifBddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
 
     /** See {@link CifBddSettings#bddDcshEnabled}. */
-    private boolean bddDcshEnabled = BddSettingsDefaults.DCSH_ENABLED_DEFAULT;
+    private boolean bddDcshEnabled = CifBddSettingsDefaults.DCSH_ENABLED_DEFAULT;
 
     /** See {@link CifBddSettings#bddForceEnabled}. */
-    private boolean bddForceEnabled = BddSettingsDefaults.FORCE_ENABLED_DEFAULT;
+    private boolean bddForceEnabled = CifBddSettingsDefaults.FORCE_ENABLED_DEFAULT;
 
     /** See {@link CifBddSettings#bddSlidingWindowEnabled}. */
-    private boolean bddSlidingWindowEnabled = BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
+    private boolean bddSlidingWindowEnabled = CifBddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
 
     /** See {@link CifBddSettings#bddSlidingWindowMaxLen}. */
-    private int bddSlidingWindowMaxLen = BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
+    private int bddSlidingWindowMaxLen = CifBddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
 
     /** See {@link CifBddSettings#bddVarOrderAdvanced}. */
-    private String bddVarOrderAdvanced = BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
+    private String bddVarOrderAdvanced = CifBddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
 
     /** See {@link CifBddSettings#bddHyperEdgeAlgo}. */
-    private BddHyperEdgeAlgo bddHyperEdgeAlgo = BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
+    private BddHyperEdgeAlgo bddHyperEdgeAlgo = CifBddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
 
     @Test
     @SuppressWarnings("javadoc")

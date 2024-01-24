@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.datasynth.options;
 
 import org.eclipse.escet.cif.bdd.settings.BddHyperEdgeAlgo;
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -44,7 +44,7 @@ public class BddHyperEdgeAlgoOption extends EnumOption<BddHyperEdgeAlgo> {
                 "ALGO",
 
                 // defaultValue
-                BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT,
+                CifBddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT,
 
                 // showInDialog
                 true,

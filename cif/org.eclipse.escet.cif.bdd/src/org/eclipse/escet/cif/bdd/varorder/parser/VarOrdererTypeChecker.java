@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.bdd.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.bdd.varorder.helper.RelationsKind;
@@ -191,13 +191,14 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
      * @throws InvalidOptionException If the settings are mixed.
      */
     private void checkBasicAndAdvancedSettingsMix() {
-        boolean basicDefault = settings.bddVarOrderInit.equals(BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT)
-                && settings.bddDcshEnabled == BddSettingsDefaults.DCSH_ENABLED_DEFAULT
-                && settings.bddForceEnabled == BddSettingsDefaults.FORCE_ENABLED_DEFAULT
-                && settings.bddSlidingWindowEnabled == BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT
-                && settings.bddSlidingWindowMaxLen == BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT
-                && settings.bddHyperEdgeAlgo == BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
-        boolean advancedDefault = settings.bddVarOrderAdvanced.equals(BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT);
+        boolean basicDefault = settings.bddVarOrderInit.equals(CifBddSettingsDefaults.VAR_ORDER_INIT_DEFAULT)
+                && settings.bddDcshEnabled == CifBddSettingsDefaults.DCSH_ENABLED_DEFAULT
+                && settings.bddForceEnabled == CifBddSettingsDefaults.FORCE_ENABLED_DEFAULT
+                && settings.bddSlidingWindowEnabled == CifBddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT
+                && settings.bddSlidingWindowMaxLen == CifBddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT
+                && settings.bddHyperEdgeAlgo == CifBddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
+        boolean advancedDefault = settings.bddVarOrderAdvanced
+                .equals(CifBddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT);
 
         if (!basicDefault && !advancedDefault) {
             throw new InvalidOptionException("The BDD variable ordering has both basic and advanced configuration, "

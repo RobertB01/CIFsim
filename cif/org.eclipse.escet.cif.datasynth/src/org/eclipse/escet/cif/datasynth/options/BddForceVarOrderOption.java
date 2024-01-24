@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -39,7 +39,7 @@ public class BddForceVarOrderOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                BddSettingsDefaults.FORCE_ENABLED_DEFAULT,
+                CifBddSettingsDefaults.FORCE_ENABLED_DEFAULT,
 
                 // showInDialog
                 true,
