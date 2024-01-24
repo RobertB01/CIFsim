@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.DoubleOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -39,7 +40,7 @@ public class BddDebugMaxPathsOption extends DoubleOption {
                 "MAX",
 
                 // defaultValue
-                10.0,
+                CifBddSettingsDefaults.BDD_DEBUG_MAX_PATHS_DEFAULT,
 
                 // minimumValue
                 0.0,

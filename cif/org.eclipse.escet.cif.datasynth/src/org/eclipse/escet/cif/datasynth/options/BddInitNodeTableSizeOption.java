@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.IntegerOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -38,7 +39,7 @@ public class BddInitNodeTableSizeOption extends IntegerOption {
                 "SIZE",
 
                 // defaultValue
-                100000,
+                CifBddSettingsDefaults.BDD_INIT_NODE_TABLE_SIZE_DEFAULT,
 
                 // minimumValue
                 1,

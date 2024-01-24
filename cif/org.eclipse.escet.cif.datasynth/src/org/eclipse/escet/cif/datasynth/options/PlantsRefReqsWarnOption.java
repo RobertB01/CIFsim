@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -38,7 +39,7 @@ public class PlantsRefReqsWarnOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                true,
+                CifBddSettingsDefaults.DO_PLANTS_REF_REQS_WARN_DEFAULT,
 
                 // showInDialog
                 true,
