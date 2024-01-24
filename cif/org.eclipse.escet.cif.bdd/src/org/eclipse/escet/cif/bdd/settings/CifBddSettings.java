@@ -142,6 +142,585 @@ public class CifBddSettings {
         checkSettings();
     }
 
+    /**
+     * Get the function that indicates whether termination has been requested. Once it returns {@code true}, it returns
+     * {@code true} also on subsequent calls.
+     *
+     * <p>
+     * By default, the function always returns {@code false}.
+     * </p>
+     *
+     * @return The function that indicates whether termination has been requested.
+     */
+    public Supplier<Boolean> getShouldTerminate() {
+        return shouldTerminate;
+    }
+
+    /**
+     * Set the function that indicates whether termination has been requested. Once it returns {@code true}, it must
+     * returns {@code true} also on subsequent calls.
+     *
+     * @param shouldTerminate The function that indicates whether termination has been requested..
+     */
+    public void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
+        this.shouldTerminate = shouldTerminate;
+        checkSettings();
+    }
+
+    /**
+     * Get the callback for debug output.
+     *
+     * <p>
+     * By default, the callback ignores all output.
+     * </p>
+     *
+     * @return The callback for debug output.
+     */
+    public DebugNormalOutput getDebugOutput() {
+        return debugOutput;
+    }
+
+    /**
+     * Set the callback for debug output.
+     *
+     * @param debugOutput The callback for debug output.
+     */
+    public void setDebugOutput(DebugNormalOutput debugOutput) {
+        this.debugOutput = debugOutput;
+        checkSettings();
+    }
+
+    /**
+     * Get the callback for normal output.
+     *
+     * <p>
+     * By default, the callback ignores all output.
+     * </p>
+     *
+     * @return The callback for normal output.
+     */
+    public DebugNormalOutput getNormalOutput() {
+        return normalOutput;
+    }
+
+    /**
+     * Set the callback for normal output.
+     *
+     * @param normalOutput The callback for normal output.
+     */
+    public void setNormalOutput(DebugNormalOutput normalOutput) {
+        this.normalOutput = normalOutput;
+        checkSettings();
+    }
+
+    /**
+     * Get the callback for warning output.
+     *
+     * <p>
+     * By default, the callback ignores all output.
+     * </p>
+     *
+     * @return The callback for warning output.
+     */
+    public WarnOutput getWarnOutput() {
+        return warnOutput;
+    }
+
+    /**
+     * Set the callback for warning output.
+     *
+     * @param warnOutput The callback for warning output.
+     */
+    public void setWarnOutput(WarnOutput warnOutput) {
+        this.warnOutput = warnOutput;
+        checkSettings();
+    }
+
+    /**
+     * Get whether to warn for plants that reference requirement state.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#DO_PLANTS_REF_REQS_WARN_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to warn, or {@code false} to not warn.
+     */
+    public boolean getDoPlantsRefReqsWarn() {
+        return doPlantsRefReqsWarn;
+    }
+
+    /**
+     * Set whether to warn for plants that reference requirement state.
+     *
+     * @param doPlantsRefReqsWarn {@code true} to warn, or {@code false} to not warn.
+     */
+    public void setDoPlantsRefReqsWarn(boolean doPlantsRefReqsWarn) {
+        this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
+        checkSettings();
+    }
+
+    /**
+     * Get events for which to allow non-determinism.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#ALLOW_NON_DETERMINISM_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return Events for which to allow non-determinism.
+     */
+    public AllowNonDeterminism getAllowNonDeterminism() {
+        return allowNonDeterminism;
+    }
+
+    /**
+     * Set events for which to allow non-determinism.
+     *
+     * @param allowNonDeterminism Events for which to allow non-determinism.
+     */
+    public void setAllowNonDeterminism(AllowNonDeterminism allowNonDeterminism) {
+        this.allowNonDeterminism = allowNonDeterminism;
+        checkSettings();
+    }
+
+    /**
+     * Get the initial size of the node table of the BDD library. The value is in the positive range
+     * {@code [1 .. 2^31-1]}.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#BDD_INIT_NODE_TABLE_SIZE_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The initial size of the node table of the BDD library.
+     */
+    public int getBddInitNodeTableSize() {
+        return bddInitNodeTableSize;
+    }
+
+    /**
+     * Set the initial size of the node table of the BDD library. The value must be in the positive range
+     * {@code [1 .. 2^31-1]}.
+     *
+     * @param bddInitNodeTableSize The initial size of the node table of the BDD library.
+     */
+    public void setBddInitNodeTableSize(int bddInitNodeTableSize) {
+        this.bddInitNodeTableSize = bddInitNodeTableSize;
+        checkSettings();
+    }
+
+    /**
+     * Get the ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD
+     * library. The value is in the range {@code [0.01 .. 1000]}. This setting only has an effect if
+     * {@link #getBddOpCacheSize} returns {@code null}.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#BDD_OP_CACHE_RATIO_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD
+     *     library.
+     */
+    public double getBddOpCacheRatio() {
+        return bddOpCacheRatio;
+    }
+
+    /**
+     * Set the ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD
+     * library. The value must be in the range {@code [0.01 .. 1000]}. This setting only has an effect if
+     * {@link #getBddOpCacheSize} returns {@code null}.
+     *
+     * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
+     *     table of the BDD library.
+     */
+    public void setBddOpCacheRatio(double bddOpCacheRatio) {
+        this.bddOpCacheRatio = bddOpCacheRatio;
+        checkSettings();
+    }
+
+    /**
+     * Get the fixed size of the operation cache of the BDD library. {@code null} means a fixed cache size is disabled.
+     * If not {@code null}, the value is in the range {@code [2 .. 2^31-1]}. If enabled, this setting takes priority
+     * over {@link #getBddOpCacheRatio}.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#BDD_OP_CACHE_SIZE_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The fixed size of the operation cache of the BDD library, or {@code null}.
+     */
+    public Integer getBddOpCacheSize() {
+        return bddOpCacheSize;
+    }
+
+    /**
+     * Set the fixed size of the operation cache of the BDD library. {@code null} means a fixed cache size is disabled.
+     * If not {@code null}, the value must be in the range {@code [2 .. 2^31-1]}. If enabled, this setting takes
+     * priority over {@link #getBddOpCacheRatio}.
+     *
+     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library, or {@code null}.
+     */
+    public void setBddOpCacheSize(Integer bddOpCacheSize) {
+        this.bddOpCacheSize = bddOpCacheSize;
+        checkSettings();
+    }
+
+    /**
+     * Get the initial BDD variable ordering and domain interleaving.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#VAR_ORDER_INIT_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The initial BDD variable ordering and domain interleaving.
+     */
+    public String getBddVarOrderInit() {
+        return bddVarOrderInit;
+    }
+
+    /**
+     * Set the initial BDD variable ordering and domain interleaving.
+     *
+     * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
+     */
+    public void setBddVarOrderInit(String bddVarOrderInit) {
+        this.bddVarOrderInit = bddVarOrderInit;
+        checkSettings();
+    }
+
+    /**
+     * Get whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#DCSH_ENABLED_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to apply DCSH, or {@code false} to not apply it.
+     */
+    public boolean getBddDcshEnabled() {
+        return bddDcshEnabled;
+    }
+
+    /**
+     * Set whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering.
+     *
+     * @param bddDcshEnabled {@code true} to apply DCSH, or {@code false} to not apply it.
+     */
+    public void setBddDcshEnabled(boolean bddDcshEnabled) {
+        this.bddDcshEnabled = bddDcshEnabled;
+        checkSettings();
+    }
+
+    /**
+     * Get whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#FORCE_ENABLED_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to apply FORCE, or {@code false} to not apply it.
+     */
+    public boolean getBddForceEnabled() {
+        return bddForceEnabled;
+    }
+
+    /**
+     * Set whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering.
+     *
+     * @param bddForceEnabled {@code true} to apply FORCE, or {@code false} to not apply it.
+     */
+    public void setBddForceEnabled(boolean bddForceEnabled) {
+        this.bddForceEnabled = bddForceEnabled;
+        checkSettings();
+    }
+
+    /**
+     * Get whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#SLIDING_WINDOW_ENABLED_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to apply sliding window, or {@code false} to not apply it.
+     */
+    public boolean getBddSlidingWindowEnabled() {
+        return bddSlidingWindowEnabled;
+    }
+
+    /**
+     * Set whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering.
+     *
+     * @param bddSlidingWindowEnabled {@code true} to apply sliding window, or {@code false} to not apply it.
+     */
+    public void setBddSlidingWindowEnabled(boolean bddSlidingWindowEnabled) {
+        this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;
+        checkSettings();
+    }
+
+    /**
+     * Get the maximum length of the window to use for the BDD sliding window variable ordering algorithm. The value is
+     * in the range {@code [1 .. 12]}.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#SLIDING_WINDOW_MAX_LEN_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The maximum length of the window to use for the BDD sliding window variable ordering algorithm.
+     */
+    public int getBddSlidingWindowMaxLen() {
+        return bddSlidingWindowMaxLen;
+    }
+
+    /**
+     * Set the maximum length of the window to use for the BDD sliding window variable ordering algorithm. The value
+     * must be in the range {@code [1 .. 12]}.
+     *
+     * @param bddSlidingWindowMaxLen The maximum length of the window to use for the BDD sliding window variable
+     *     ordering algorithm.
+     */
+    public void setBddSlidingWindowMaxLen(int bddSlidingWindowMaxLen) {
+        this.bddSlidingWindowMaxLen = bddSlidingWindowMaxLen;
+        checkSettings();
+    }
+
+    /**
+     * Get the advanced BDD variable ordering and domain interleaving.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#VAR_ORDER_ADVANCED_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The advanced BDD variable ordering and domain interleaving.
+     */
+    public String getBddVarOrderAdvanced() {
+        return bddVarOrderAdvanced;
+    }
+
+    /**
+     * Set the advanced BDD variable ordering and domain interleaving.
+     *
+     * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
+     */
+    public void setBddVarOrderAdvanced(String bddVarOrderAdvanced) {
+        this.bddVarOrderAdvanced = bddVarOrderAdvanced;
+        checkSettings();
+    }
+
+    /**
+     * Get the algorithm to use to create hyper-edges for BDD variable ordering.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#HYPER_EDGE_ALGO_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The algorithm to use to create hyper-edges for BDD variable ordering.
+     */
+    public BddHyperEdgeAlgo getBddHyperEdgeAlgo() {
+        return bddHyperEdgeAlgo;
+    }
+
+    /**
+     * Set the algorithm to use to create hyper-edges for BDD variable ordering.
+     *
+     * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
+     */
+    public void setBddHyperEdgeAlgo(BddHyperEdgeAlgo bddHyperEdgeAlgo) {
+        this.bddHyperEdgeAlgo = bddHyperEdgeAlgo;
+        checkSettings();
+    }
+
+    /**
+     * Get the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
+     * output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
+     * {@code [0 .. 2^31-1]}.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#BDD_DEBUG_MAX_NODES_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The maximum number of BDD nodes, or {@code null}.
+     */
+    public Integer getBddDebugMaxNodes() {
+        return bddDebugMaxNodes;
+    }
+
+    /**
+     * Set the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
+     * output. {@code null} indicates no maximum. If not {@code null}, the value must be in the non-negative range
+     * {@code [0 .. 2^31-1]}.
+     *
+     * @param bddDebugMaxNodes The maximum number of BDD nodes, or {@code null}.
+     */
+    public void setBddDebugMaxNodes(Integer bddDebugMaxNodes) {
+        this.bddDebugMaxNodes = bddDebugMaxNodes;
+        checkSettings();
+    }
+
+    /**
+     * Get the maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
+     * debug output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
+     * {@code [0 .. 1.7e308]}.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#BDD_DEBUG_MAX_PATHS_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The maximum number of BDD true paths, or {@code null}.
+     */
+    public Double getBddDebugMaxPaths() {
+        return bddDebugMaxPaths;
+    }
+
+    /**
+     * Set the maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
+     * debug output. {@code null} indicates no maximum. If not {@code null}, the value must be in the non-negative range
+     * {@code [0 .. 1.7e308]}.
+     *
+     * @param bddDebugMaxPaths The maximum number of BDD true paths, or {@code null}.
+     */
+    public void setBddDebugMaxPaths(Double bddDebugMaxPaths) {
+        this.bddDebugMaxPaths = bddDebugMaxPaths;
+        checkSettings();
+    }
+
+    /**
+     * Get the granularity of edges to use in the BDD representation of the CIF specification.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#EDGE_GRANULARITY_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The granularity of edges.
+     */
+    public EdgeGranularity getEdgeGranularity() {
+        return edgeGranularity;
+    }
+
+    /**
+     * Set the granularity of edges to use in the BDD representation of the CIF specification.
+     *
+     * @param edgeGranularity The granularity of edges.
+     */
+    public void setEdgeGranularity(EdgeGranularity edgeGranularity) {
+        this.edgeGranularity = edgeGranularity;
+        checkSettings();
+    }
+
+    /**
+     * Get the edge ordering to use for backward reachability computations.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#EDGE_ORDER_BACKWARD_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The edge ordering to use for backward reachability computations.
+     */
+    public String getEdgeOrderBackward() {
+        return edgeOrderBackward;
+    }
+
+    /**
+     * Set the edge ordering to use for backward reachability computations.
+     *
+     * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
+     */
+    public void setEdgeOrderBackward(String edgeOrderBackward) {
+        this.edgeOrderBackward = edgeOrderBackward;
+        checkSettings();
+    }
+
+    /**
+     * Get the edge ordering to use for forward reachability computations.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#EDGE_ORDER_FORWARD_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The edge ordering to use for forward reachability computations.
+     */
+    public String getEdgeOrderForward() {
+        return edgeOrderForward;
+    }
+
+    /**
+     * Set the edge ordering to use for forward reachability computations.
+     *
+     * @param edgeOrderForward The edge ordering to use for forward reachability computations.
+     */
+    public void setEdgeOrderForward(String edgeOrderForward) {
+        this.edgeOrderForward = edgeOrderForward;
+        checkSettings();
+    }
+
+    /**
+     * Get whether duplicate events are allowed for custom edge orders.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#EDGE_ORDER_ALLOW_DUPLICATES_EVENTS_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return Whether duplicate events are allowed for custom edge orders.
+     */
+    public EdgeOrderDuplicateEventAllowance getEdgeOrderAllowDuplicateEvents() {
+        return edgeOrderAllowDuplicateEvents;
+    }
+
+    /**
+     * Set whether duplicate events are allowed for custom edge orders.
+     *
+     * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
+     */
+    public void setEdgeOrderAllowDuplicateEvents(EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents) {
+        this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
+        checkSettings();
+    }
+
+    /**
+     * Get whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
+     * computations.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#DO_USE_WORKSET_ALGO_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to use the edge workset algorithm, {@code false} to not use it.
+     */
+    public boolean getDoUseEdgeWorksetAlgo() {
+        return doUseEdgeWorksetAlgo;
+    }
+
+    /**
+     * Set whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
+     * computations.
+     *
+     * @param doUseEdgeWorksetAlgo {@code true} to use the edge workset algorithm, {@code false} to not use it.
+     */
+    public void setDoUseEdgeWorksetAlgo(boolean doUseEdgeWorksetAlgo) {
+        this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
+        checkSettings();
+    }
+
+    /**
+     * Get the kinds of statistics to print.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#CIF_BDD_STATISTICS_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The kinds of statistics to print.
+     */
+    public EnumSet<CifBddStatistics> getCifBddStatistics() {
+        return cifBddStatistics;
+    }
+
+    /**
+     * Set the kinds of statistics to print.
+     *
+     * @param cifBddStatistics The kinds of statistics to print.
+     */
+    public void setCifBddStatistics(EnumSet<CifBddStatistics> cifBddStatistics) {
+        this.cifBddStatistics = cifBddStatistics;
+        checkSettings();
+    }
+
     /** Check that the settings have valid values, for as much as it can be checked locally. */
     protected void checkSettings() {
         // Check BDD debug max nodes.
