@@ -28,109 +28,109 @@ public class CifBddSettings {
      * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
      * {@code true} also on subsequent calls.
      */
-    public final Supplier<Boolean> shouldTerminate;
+    public Supplier<Boolean> shouldTerminate;
 
     /** Callback for debug output. */
-    public final DebugNormalOutput debugOutput;
+    public DebugNormalOutput debugOutput;
 
     /** Callback for normal output. */
-    public final DebugNormalOutput normalOutput;
+    public DebugNormalOutput normalOutput;
 
     /** Callback for warning output. */
-    public final WarnOutput warnOutput;
+    public WarnOutput warnOutput;
 
     /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
-    public final boolean doPlantsRefReqsWarn;
+    public boolean doPlantsRefReqsWarn;
 
     /** Events for which to allow non-determinism. */
-    public final AllowNonDeterminism allowNonDeterminism;
+    public AllowNonDeterminism allowNonDeterminism;
 
     /**
      * The initial size of the node table of the BDD library. The value is in the positive range {@code [1 .. 2^31-1]}.
      */
-    public final int bddInitNodeTableSize;
+    public int bddInitNodeTableSize;
 
     /**
      * The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
      * The value is in the range {@code [0.01 .. 1000]}. This setting only has an effect if {@link #bddOpCacheSize} is
      * {@code null}.
      */
-    public final double bddOpCacheRatio;
+    public double bddOpCacheRatio;
 
     /**
      * The fixed size of the operation cache of the BDD library. {@code null} means a fixed cache size is disabled. If
      * not {@code null}, the value is in the range {@code [2 .. 2^31-1]}. If enabled, this setting takes priority over
      * {@link #bddOpCacheRatio}.
      */
-    public final Integer bddOpCacheSize;
+    public Integer bddOpCacheSize;
 
     /** The initial BDD variable ordering and domain interleaving. */
-    public final String bddVarOrderInit;
+    public String bddVarOrderInit;
 
     /**
      * Whether to apply the DCSH variable ordering algorithm to improve the initial variable ordering ({@code true}), or
      * not apply it ({@code false}).
      */
-    public final boolean bddDcshEnabled;
+    public boolean bddDcshEnabled;
 
     /**
      * Whether to apply the FORCE variable ordering algorithm to improve the initial variable ordering ({@code true}),
      * or not apply it ({@code false}).
      */
-    public final boolean bddForceEnabled;
+    public boolean bddForceEnabled;
 
     /**
      * Whether to apply the sliding window variable ordering algorithm to improve the initial variable ordering
      * ({@code true}), or not apply it ({@code false}).
      */
-    public final boolean bddSlidingWindowEnabled;
+    public boolean bddSlidingWindowEnabled;
 
     /**
      * The maximum length of the window to use for the BDD sliding window variable ordering algorithm. The value is in
      * the range {@code [1 .. 12]}.
      */
-    public final int bddSlidingWindowMaxLen;
+    public int bddSlidingWindowMaxLen;
 
     /** The advanced BDD variable ordering and domain interleaving. */
-    public final String bddVarOrderAdvanced;
+    public String bddVarOrderAdvanced;
 
     /** The algorithm to use to create hyper-edges for BDD variable ordering. */
-    public final BddHyperEdgeAlgo bddHyperEdgeAlgo;
+    public BddHyperEdgeAlgo bddHyperEdgeAlgo;
 
     /**
      * The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug
      * output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
      * {@code [0 .. 2^31-1]}.
      */
-    public final Integer bddDebugMaxNodes;
+    public Integer bddDebugMaxNodes;
 
     /**
      * The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the
      * debug output. {@code null} indicates no maximum. If not {@code null}, the value is in the non-negative range
      * {@code [0 .. 1.7e308]}.
      */
-    public final Double bddDebugMaxPaths;
+    public Double bddDebugMaxPaths;
 
     /** The granularity of edges to use in the BDD representation of the CIF specification. */
-    public final EdgeGranularity edgeGranularity;
+    public EdgeGranularity edgeGranularity;
 
     /** The edge ordering to use for backward reachability computations. */
-    public final String edgeOrderBackward;
+    public String edgeOrderBackward;
 
     /** The edge ordering to use for forward reachability computations. */
-    public final String edgeOrderForward;
+    public String edgeOrderForward;
 
     /** Whether duplicate events are allowed for custom edge orders. */
-    public final EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents;
+    public EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents;
 
     /**
      * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
      * computations ({@code true}), or not ({@code false}).
      */
-    public final boolean doUseEdgeWorksetAlgo;
+    public boolean doUseEdgeWorksetAlgo;
 
     /** The kinds of statistics to print. */
-    public final EnumSet<CifBddStatistics> cifBddStatistics;
+    public EnumSet<CifBddStatistics> cifBddStatistics;
 
     /**
      * Constructor for the {@link CifBddSettings} class.

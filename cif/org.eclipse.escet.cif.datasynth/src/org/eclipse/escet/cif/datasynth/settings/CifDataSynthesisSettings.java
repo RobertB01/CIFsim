@@ -34,49 +34,49 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * Whether to warn for events that are never enabled in the input specification or always disabled by the
      * synthesized supervisor ({@code true}) or don't warn ({@code false}).
      */
-    public final boolean doNeverEnabledEventsWarn;
+    public boolean doNeverEnabledEventsWarn;
 
     /** The way that state requirement invariants are enforced. */
-    public final StateReqInvEnforceMode stateReqInvEnforceMode;
+    public StateReqInvEnforceMode stateReqInvEnforceMode;
 
     /** The order in which the fixed-point computations are to be performed during synthesis. */
-    public final FixedPointComputationsOrder fixedPointComputationsOrder;
+    public FixedPointComputationsOrder fixedPointComputationsOrder;
 
     /** Whether to perform forward reachability during synthesis ({@code true}) or omit it ({@code false}). */
-    public final boolean doForwardReach;
+    public boolean doForwardReach;
 
     /**
      * The name of the resulting supervisor automaton. It is a valid {@link CifValidationUtils#isValidIdentifier CIF
      * identifier}.
      */
-    public final String supervisorName;
+    public String supervisorName;
 
     /**
      * The namespace of the resulting supervisor, or {@code null} to use the empty namespace. If not {@code null}, it is
      * a valid {@link CifValidationUtils#isValidName CIF name}.
      */
-    public final String supervisorNamespace;
+    public String supervisorNamespace;
 
     /** The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis. */
-    public final BddOutputMode bddOutputMode;
+    public BddOutputMode bddOutputMode;
 
     /**
      * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
      * CIF identifier}.
      */
-    public final String bddOutputNamePrefix;
+    public String bddOutputNamePrefix;
 
     /** The BDD predicate simplifications to perform. */
-    public final EnumSet<BddSimplify> bddSimplifications;
+    public EnumSet<BddSimplify> bddSimplifications;
 
     /** The kinds of statistics to print. */
-    public final EnumSet<SynthesisStatistics> synthesisStatistics;
+    public EnumSet<SynthesisStatistics> synthesisStatistics;
 
     /** The absolute or relative path to the continuous performance statistics output file. */
-    public final String continuousPerformanceStatisticsFilePath;
+    public String continuousPerformanceStatisticsFilePath;
 
     /** The absolute path to the continuous performance statistics output file. */
-    public final String continuousPerformanceStatisticsFileAbsPath;
+    public String continuousPerformanceStatisticsFileAbsPath;
 
     /**
      * Constructor for the {@link CifDataSynthesisSettings} class.
