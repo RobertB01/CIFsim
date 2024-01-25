@@ -19,6 +19,7 @@ import java.util.EnumSet;
 
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** CIF data-based synthesis settings. */
@@ -103,6 +104,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param doNeverEnabledEventsWarn {@code true} to warn, {@code false} to not warn.
      */
     public void setDoNeverEnabledEventsWarn(boolean doNeverEnabledEventsWarn) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
         checkSettings();
     }
@@ -126,6 +128,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param stateReqInvEnforceMode The way that state requirement invariants are enforced.
      */
     public void setStateReqInvEnforceMode(StateReqInvEnforceMode stateReqInvEnforceMode) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.stateReqInvEnforceMode = stateReqInvEnforceMode;
         checkSettings();
     }
@@ -150,6 +153,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      *     synthesis.
      */
     public void setFixedPointComputationsOrder(FixedPointComputationsOrder fixedPointComputationsOrder) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.fixedPointComputationsOrder = fixedPointComputationsOrder;
         checkSettings();
     }
@@ -173,6 +177,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param doForwardReach {@code true} to perform forward reachability, {@code false} to not perform it.
      */
     public void setDoForwardReach(boolean doForwardReach) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.doForwardReach = doForwardReach;
         checkSettings();
     }
@@ -198,6 +203,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param supervisorName The name of the resulting supervisor automaton.
      */
     public void setSupervisorName(String supervisorName) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.supervisorName = supervisorName;
         checkSettings();
     }
@@ -223,6 +229,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param supervisorNamespace The namespace of the resulting supervisor, or {@code null}.
      */
     public void setSupervisorNamespace(String supervisorNamespace) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.supervisorNamespace = supervisorNamespace;
         checkSettings();
     }
@@ -246,6 +253,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param bddOutputMode The BDD output mode.
      */
     public void setBddOutputMode(BddOutputMode bddOutputMode) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddOutputMode = bddOutputMode;
         checkSettings();
     }
@@ -271,6 +279,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param bddOutputNamePrefix The prefix to use for BDD related names in the output.
      */
     public void setBddOutputNamePrefix(String bddOutputNamePrefix) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddOutputNamePrefix = bddOutputNamePrefix;
         checkSettings();
     }
@@ -294,6 +303,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param bddSimplifications The BDD predicate simplifications to perform.
      */
     public void setBddSimplifications(EnumSet<BddSimplify> bddSimplifications) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddSimplifications = bddSimplifications;
         checkSettings();
     }
@@ -318,6 +328,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * @param synthesisStatistics The kinds of statistics to print.
      */
     public void setSynthesisStatistics(EnumSet<SynthesisStatistics> synthesisStatistics) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.synthesisStatistics = synthesisStatistics;
         checkSettings();
     }
@@ -344,6 +355,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      *     statistics output file.
      */
     public void setContinuousPerformanceStatisticsFilePath(String continuousPerformanceStatisticsFilePath) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
         checkSettings();
     }
@@ -370,6 +382,7 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      *     output file.
      */
     public void setContinuousPerformanceStatisticsFileAbsPath(String continuousPerformanceStatisticsFileAbsPath) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;
         checkSettings();
     }

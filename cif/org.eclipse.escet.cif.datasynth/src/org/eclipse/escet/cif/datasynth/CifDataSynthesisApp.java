@@ -157,6 +157,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         settings.setContinuousPerformanceStatisticsFileAbsPath(
                 Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()));
 
+        settings.setModificationAllowed(false);
+
         // Initialize timing statistics.
         boolean doTiming = settings.getSynthesisStatistics().contains(SynthesisStatistics.TIMING);
         CifDataSynthesisTiming timing = new CifDataSynthesisTiming();

@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.EnumSet;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -25,6 +26,9 @@ import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** CIF/BDD-related settings. */
 public class CifBddSettings {
+    /** Whether modification of the settings is allowed. */
+    protected boolean modificationAllowed = true;
+
     /**
      * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
      * {@code true} also on subsequent calls.
@@ -143,6 +147,24 @@ public class CifBddSettings {
     }
 
     /**
+     * Get whether modification of the settings is allowed.
+     *
+     * @return {@code true} if modification is allowed, {@code false} if it is not allowed.
+     */
+    public boolean getModificationAllowed() {
+        return modificationAllowed;
+    }
+
+    /**
+     * Set whether modification of the settings is allowed.
+     *
+     * @param modificationAllowed {@code true} if modification is allowed, {@code false} if it is not allowed.
+     */
+    public void setModificationAllowed(boolean modificationAllowed) {
+        this.modificationAllowed = modificationAllowed;
+    }
+
+    /**
      * Get the function that indicates whether termination has been requested. Once it returns {@code true}, it returns
      * {@code true} also on subsequent calls.
      *
@@ -163,6 +185,7 @@ public class CifBddSettings {
      * @param shouldTerminate The function that indicates whether termination has been requested..
      */
     public void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.shouldTerminate = shouldTerminate;
         checkSettings();
     }
@@ -186,6 +209,7 @@ public class CifBddSettings {
      * @param debugOutput The callback for debug output.
      */
     public void setDebugOutput(DebugNormalOutput debugOutput) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.debugOutput = debugOutput;
         checkSettings();
     }
@@ -209,6 +233,7 @@ public class CifBddSettings {
      * @param normalOutput The callback for normal output.
      */
     public void setNormalOutput(DebugNormalOutput normalOutput) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.normalOutput = normalOutput;
         checkSettings();
     }
@@ -232,6 +257,7 @@ public class CifBddSettings {
      * @param warnOutput The callback for warning output.
      */
     public void setWarnOutput(WarnOutput warnOutput) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.warnOutput = warnOutput;
         checkSettings();
     }
@@ -255,6 +281,7 @@ public class CifBddSettings {
      * @param doPlantsRefReqsWarn {@code true} to warn, or {@code false} to not warn.
      */
     public void setDoPlantsRefReqsWarn(boolean doPlantsRefReqsWarn) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.doPlantsRefReqsWarn = doPlantsRefReqsWarn;
         checkSettings();
     }
@@ -278,6 +305,7 @@ public class CifBddSettings {
      * @param allowNonDeterminism Events for which to allow non-determinism.
      */
     public void setAllowNonDeterminism(AllowNonDeterminism allowNonDeterminism) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.allowNonDeterminism = allowNonDeterminism;
         checkSettings();
     }
@@ -303,6 +331,7 @@ public class CifBddSettings {
      * @param bddInitNodeTableSize The initial size of the node table of the BDD library.
      */
     public void setBddInitNodeTableSize(int bddInitNodeTableSize) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddInitNodeTableSize = bddInitNodeTableSize;
         checkSettings();
     }
@@ -332,6 +361,7 @@ public class CifBddSettings {
      *     table of the BDD library.
      */
     public void setBddOpCacheRatio(double bddOpCacheRatio) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddOpCacheRatio = bddOpCacheRatio;
         checkSettings();
     }
@@ -359,6 +389,7 @@ public class CifBddSettings {
      * @param bddOpCacheSize The fixed size of the operation cache of the BDD library, or {@code null}.
      */
     public void setBddOpCacheSize(Integer bddOpCacheSize) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddOpCacheSize = bddOpCacheSize;
         checkSettings();
     }
@@ -382,6 +413,7 @@ public class CifBddSettings {
      * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
      */
     public void setBddVarOrderInit(String bddVarOrderInit) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddVarOrderInit = bddVarOrderInit;
         checkSettings();
     }
@@ -405,6 +437,7 @@ public class CifBddSettings {
      * @param bddDcshEnabled {@code true} to apply DCSH, or {@code false} to not apply it.
      */
     public void setBddDcshEnabled(boolean bddDcshEnabled) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddDcshEnabled = bddDcshEnabled;
         checkSettings();
     }
@@ -428,6 +461,7 @@ public class CifBddSettings {
      * @param bddForceEnabled {@code true} to apply FORCE, or {@code false} to not apply it.
      */
     public void setBddForceEnabled(boolean bddForceEnabled) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddForceEnabled = bddForceEnabled;
         checkSettings();
     }
@@ -451,6 +485,7 @@ public class CifBddSettings {
      * @param bddSlidingWindowEnabled {@code true} to apply sliding window, or {@code false} to not apply it.
      */
     public void setBddSlidingWindowEnabled(boolean bddSlidingWindowEnabled) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddSlidingWindowEnabled = bddSlidingWindowEnabled;
         checkSettings();
     }
@@ -477,6 +512,7 @@ public class CifBddSettings {
      *     ordering algorithm.
      */
     public void setBddSlidingWindowMaxLen(int bddSlidingWindowMaxLen) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddSlidingWindowMaxLen = bddSlidingWindowMaxLen;
         checkSettings();
     }
@@ -500,6 +536,7 @@ public class CifBddSettings {
      * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
      */
     public void setBddVarOrderAdvanced(String bddVarOrderAdvanced) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddVarOrderAdvanced = bddVarOrderAdvanced;
         checkSettings();
     }
@@ -523,6 +560,7 @@ public class CifBddSettings {
      * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
      */
     public void setBddHyperEdgeAlgo(BddHyperEdgeAlgo bddHyperEdgeAlgo) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddHyperEdgeAlgo = bddHyperEdgeAlgo;
         checkSettings();
     }
@@ -550,6 +588,7 @@ public class CifBddSettings {
      * @param bddDebugMaxNodes The maximum number of BDD nodes, or {@code null}.
      */
     public void setBddDebugMaxNodes(Integer bddDebugMaxNodes) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddDebugMaxNodes = bddDebugMaxNodes;
         checkSettings();
     }
@@ -577,6 +616,7 @@ public class CifBddSettings {
      * @param bddDebugMaxPaths The maximum number of BDD true paths, or {@code null}.
      */
     public void setBddDebugMaxPaths(Double bddDebugMaxPaths) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.bddDebugMaxPaths = bddDebugMaxPaths;
         checkSettings();
     }
@@ -600,6 +640,7 @@ public class CifBddSettings {
      * @param edgeGranularity The granularity of edges.
      */
     public void setEdgeGranularity(EdgeGranularity edgeGranularity) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.edgeGranularity = edgeGranularity;
         checkSettings();
     }
@@ -623,6 +664,7 @@ public class CifBddSettings {
      * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
      */
     public void setEdgeOrderBackward(String edgeOrderBackward) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.edgeOrderBackward = edgeOrderBackward;
         checkSettings();
     }
@@ -646,6 +688,7 @@ public class CifBddSettings {
      * @param edgeOrderForward The edge ordering to use for forward reachability computations.
      */
     public void setEdgeOrderForward(String edgeOrderForward) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.edgeOrderForward = edgeOrderForward;
         checkSettings();
     }
@@ -669,6 +712,7 @@ public class CifBddSettings {
      * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
      */
     public void setEdgeOrderAllowDuplicateEvents(EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
         checkSettings();
     }
@@ -694,6 +738,7 @@ public class CifBddSettings {
      * @param doUseEdgeWorksetAlgo {@code true} to use the edge workset algorithm, {@code false} to not use it.
      */
     public void setDoUseEdgeWorksetAlgo(boolean doUseEdgeWorksetAlgo) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         checkSettings();
     }
@@ -717,6 +762,7 @@ public class CifBddSettings {
      * @param cifBddStatistics The kinds of statistics to print.
      */
     public void setCifBddStatistics(EnumSet<CifBddStatistics> cifBddStatistics) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.cifBddStatistics = cifBddStatistics;
         checkSettings();
     }
