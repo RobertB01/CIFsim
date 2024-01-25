@@ -31,7 +31,7 @@ import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -52,7 +52,7 @@ public class DefaultVariableStorage implements VariableStorage {
     private final PlcFunctionAppls funcAppls;
 
     /** Names of converted declarations. */
-    private final Map<Declaration, PlcVariable> variables = map();
+    private final Map<Declaration, PlcBasicVariable> variables = map();
 
     /**
      * Constructor of the {@link DefaultVariableStorage} class.
@@ -68,7 +68,7 @@ public class DefaultVariableStorage implements VariableStorage {
     public void addStateVariable(Declaration decl, CifType type) {
         PlcType varType = target.getTypeGenerator().convertType(type);
         String varName = target.getNameGenerator().generateGlobalName(decl);
-        PlcVariable plcVar = target.getCodeStorage().addStateVariable(varName, varType);
+        PlcBasicVariable plcVar = target.getCodeStorage().addStateVariable(varName, varType);
         variables.put(decl, plcVar);
     }
 
@@ -123,19 +123,19 @@ public class DefaultVariableStorage implements VariableStorage {
             @Override
             public PlcExpression getValueForConstant(Constant constant) {
                 // TODO Return the proper PLC expression for the requested constant.
-                return new PlcVarExpression(new PlcVariable("someConstantvariable", PlcElementaryType.LREAL_TYPE));
+                return new PlcVarExpression(new PlcBasicVariable("someConstantvariable", PlcElementaryType.LREAL_TYPE));
             }
 
             @Override
             public PlcExpression getValueForDiscVar(DiscVariable variable) {
-                PlcVariable plcDiscvar = variables.get(variable);
+                PlcBasicVariable plcDiscvar = variables.get(variable);
                 Assert.notNull(plcDiscvar);
                 return new PlcVarExpression(plcDiscvar);
             }
 
             @Override
             public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
-                PlcVariable plcDiscvar = variables.get(variable);
+                PlcBasicVariable plcDiscvar = variables.get(variable);
                 Assert.notNull(plcDiscvar);
                 return new PlcVarExpression(plcDiscvar);
             }
@@ -145,7 +145,7 @@ public class DefaultVariableStorage implements VariableStorage {
                 if (getDerivative) {
                     return funcAppls.negateFuncAppl(new PlcRealLiteral("1.0"));
                 }
-                PlcVariable plcContVar = variables.get(variable);
+                PlcBasicVariable plcContVar = variables.get(variable);
                 Assert.notNull(plcContVar);
                 return new PlcVarExpression(plcContVar);
             }
@@ -154,21 +154,21 @@ public class DefaultVariableStorage implements VariableStorage {
             public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
                 Assert.check(!writeDerivative);
 
-                PlcVariable plcContVar = variables.get(variable);
+                PlcBasicVariable plcContVar = variables.get(variable);
                 Assert.notNull(plcContVar);
                 return new PlcVarExpression(plcContVar);
             }
 
             @Override
             public PlcExpression getValueForInputVar(InputVariable variable) {
-                PlcVariable plcInpvar = variables.get(variable);
+                PlcBasicVariable plcInpvar = variables.get(variable);
                 Assert.notNull(plcInpvar);
                 return new PlcVarExpression(plcInpvar);
             }
 
             @Override
             public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
-                PlcVariable plcInpvar = variables.get(variable);
+                PlcBasicVariable plcInpvar = variables.get(variable);
                 Assert.notNull(plcInpvar);
                 return new PlcVarExpression(plcInpvar);
             }

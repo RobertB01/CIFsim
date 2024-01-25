@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
@@ -151,10 +151,10 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         private final PlcFunctionBlockDescription tonFuncBlock;
 
         /** PLC variable representing the TON timer. */
-        private final PlcVariable timerVar;
+        private final PlcBasicVariable timerVar;
 
         /** PLC variable storing the last set preset value. */
-        private final PlcVariable presetVar;
+        private final PlcBasicVariable presetVar;
 
         /**
          * Constructor of the {@link PlcTimerGen} class.
@@ -176,7 +176,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             String cvarName = getAbsName(contVar, false);
             String name = nameGen.generateGlobalName("ton_" + cvarName, false);
             tonFuncBlock = PlcFunctionBlockDescription.makeTonBlock(name);
-            timerVar = new PlcVariable(name, tonFuncBlock.funcBlockType);
+            timerVar = new PlcBasicVariable(name, tonFuncBlock.funcBlockType);
             codeStorage.addTimerVariable(timerVar);
 
             name = nameGen.generateGlobalName("preset_" + cvarName, false);
@@ -186,8 +186,8 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         @Override
         public List<PlcStatement> generateRemainingUpdate() {
             ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
-            PlcVariable v = exprGen.getTempVariable("curValue", target.getRealType());
-            PlcVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
+            PlcBasicVariable v = exprGen.getTempVariable("curValue", target.getRealType());
+            PlcBasicVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
 
             List<PlcStatement> statements = listc(3);
             statements.add(new PlcCommentLine("Update remaining time of \"" + plcContVar.variable.varName + "\"."));

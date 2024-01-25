@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -199,7 +199,7 @@ public abstract class Writer {
         c.add("VAR_GLOBAL%s // %s", (globVarList.listKind == PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
                 globVarList.name);
         c.indent();
-        for (PlcVariable variable: globVarList.variables) {
+        for (PlcBasicVariable variable: globVarList.variables) {
             c.add(toBox(variable));
         }
         c.dedent();
@@ -208,12 +208,12 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcVariable} instance to a {@link Box} text.
+     * Convert a {@link PlcBasicVariable} instance to a {@link Box} text.
      *
      * @param variable Variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcVariable variable) {
+    protected Box toBox(PlcBasicVariable variable) {
         String addrTxt = (variable.address == null) ? "" : fmt(" AT %s", variable.address);
         String valueTxt = (variable.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(variable.value);
@@ -282,7 +282,7 @@ public abstract class Writer {
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
-            for (PlcVariable var: pou.inputVars) {
+            for (PlcBasicVariable var: pou.inputVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -291,7 +291,7 @@ public abstract class Writer {
         if (!pou.outputVars.isEmpty()) {
             c.add("VAR_OUTPUT");
             c.indent();
-            for (PlcVariable var: pou.outputVars) {
+            for (PlcBasicVariable var: pou.outputVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -300,7 +300,7 @@ public abstract class Writer {
         if (!pou.localVars.isEmpty()) {
             c.add("VAR");
             c.indent();
-            for (PlcVariable var: pou.localVars) {
+            for (PlcBasicVariable var: pou.localVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -309,7 +309,7 @@ public abstract class Writer {
         if (!pou.tempVars.isEmpty()) {
             c.add("VAR_TEMP");
             c.indent();
-            for (PlcVariable var: pou.tempVars) {
+            for (PlcBasicVariable var: pou.tempVars) {
                 c.add(toBox(var));
             }
             c.dedent();

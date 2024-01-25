@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** PLC variable (or constant). */
-public class PlcVariable {
+public class PlcBasicVariable {
     /** Text to use for accessing the data of the variable non-locally. */
     public final String valueName;
 
@@ -34,29 +34,29 @@ public class PlcVariable {
     public final PlcExpression value;
 
     /**
-     * Constructor for the {@link PlcVariable} class, without address and initial value, and with an empty name prefix.
+     * Constructor for the {@link PlcBasicVariable} class, without address and initial value, and with an empty name prefix.
      *
      * @param name The name of the variable.
      * @param type The type of the variable.
      */
-    public PlcVariable(String name, PlcType type) {
+    public PlcBasicVariable(String name, PlcType type) {
         this(name, type, null, null);
     }
 
     /**
-     * Constructor for the {@link PlcVariable} class, with an empty name prefix.
+     * Constructor for the {@link PlcBasicVariable} class, with an empty name prefix.
      *
      * @param name The name of the variable.
      * @param type The type of the variable.
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
-    public PlcVariable(String name, PlcType type, String address, PlcExpression value) {
+    public PlcBasicVariable(String name, PlcType type, String address, PlcExpression value) {
         this("", name, type, address, value);
     }
 
     /**
-     * Constructor for the {@link PlcVariable} class.
+     * Constructor for the {@link PlcBasicVariable} class.
      *
      * @param prefix Name prefix of the variable, to use when accessing the variable.
      * @param name The name of the variable.
@@ -64,7 +64,7 @@ public class PlcVariable {
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
-    public PlcVariable(String prefix, String name, PlcType type, String address, PlcExpression value) {
+    public PlcBasicVariable(String prefix, String name, PlcType type, String address, PlcExpression value) {
         this.valueName = prefix + name;
         this.varName = name;
         this.type = type;

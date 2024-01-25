@@ -30,7 +30,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
@@ -125,14 +125,14 @@ public class S7Writer extends Writer {
      * @param timerVariables Timer variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void writeTimers(List<PlcVariable> timerVariables, String outPath) {
+    private void writeTimers(List<PlcBasicVariable> timerVariables, String outPath) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // Use IEC timers if available, else use TON timers.
         boolean hasIecTimers = hasIecTimers();
 
         // Generate timer data blocks to the database.
-        for (PlcVariable timerVar: timerVariables) {
+        for (PlcBasicVariable timerVar: timerVariables) {
             // Don't let any non-TON block slip through.
             Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
 
@@ -198,7 +198,7 @@ public class S7Writer extends Writer {
      * @param variables The variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void writeDatabase(List<PlcVariable> variables, String outPath) {
+    private void writeDatabase(List<PlcBasicVariable> variables, String outPath) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // The header.
@@ -209,7 +209,7 @@ public class S7Writer extends Writer {
         c.indent();
         c.add("VAR");
         c.indent();
-        for (PlcVariable var: variables) {
+        for (PlcBasicVariable var: variables) {
             c.add("%s: %s;", var.varName, toBox(var.type));
         }
         c.dedent();
@@ -220,7 +220,7 @@ public class S7Writer extends Writer {
         c.add("BEGIN");
         c.indent();
         ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
-        for (PlcVariable var: variables) {
+        for (PlcBasicVariable var: variables) {
             if (var.value == null) {
                 continue;
             }
@@ -272,12 +272,12 @@ public class S7Writer extends Writer {
         // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
         if (globVarList.listKind == PlcVarListKind.CONSTANTS) {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
-            for (PlcVariable constant: globVarList.variables) {
+            for (PlcBasicVariable constant: globVarList.variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),
                         modelTextGenerator.toString(constant.value), constant.varName);
             }
         } else {
-            for (PlcVariable var: globVarList.variables) {
+            for (PlcBasicVariable var: globVarList.variables) {
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
                         + "remark='' addr='%s'>%s</Tag>", toBox(var.type), var.address, var.varName);
             }
@@ -318,7 +318,7 @@ public class S7Writer extends Writer {
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
-            for (PlcVariable var: pou.inputVars) {
+            for (PlcBasicVariable var: pou.inputVars) {
                 c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
@@ -332,7 +332,7 @@ public class S7Writer extends Writer {
 
             c.add("VAR_OUTPUT");
             c.indent();
-            for (PlcVariable var: pou.outputVars) {
+            for (PlcBasicVariable var: pou.outputVars) {
                 c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
@@ -350,7 +350,7 @@ public class S7Writer extends Writer {
             c.add("VAR_TEMP");
 
             c.indent();
-            for (PlcVariable var: pou.tempVars) {
+            for (PlcBasicVariable var: pou.tempVars) {
                 c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();

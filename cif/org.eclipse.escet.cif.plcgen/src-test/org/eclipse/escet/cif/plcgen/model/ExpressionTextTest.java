@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcArrayLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
@@ -73,7 +73,7 @@ public class ExpressionTextTest {
                 .of(new PlcNamedValue("a", new PlcIntLiteral(3)), new PlcNamedValue("b", new PlcBoolLiteral(true))))));
 
         // Variables.
-        PlcVariable aVar = new PlcVariable("a", null);
+        PlcBasicVariable aVar = new PlcBasicVariable("a", null);
         PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(7)));
         PlcStructProjection structProj = new PlcStructProjection("abc");
         PlcArrayProjection multiArrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(3), new PlcIntLiteral(5)));

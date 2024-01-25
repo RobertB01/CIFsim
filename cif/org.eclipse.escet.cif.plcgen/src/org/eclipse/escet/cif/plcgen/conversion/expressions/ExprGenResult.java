@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.common.java.Assert;
@@ -85,7 +85,7 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
      * inserting the {@link #code} in its execution context. In that way, the variables will not have important values
      * for other parts in the generated result.
      */
-    public Set<PlcVariable> codeVariables = set();
+    public Set<PlcBasicVariable> codeVariables = set();
 
     /** Code to perform before evaluating the {@link #value}. */
     public List<PlcStatement> code = list();
@@ -95,7 +95,7 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
      * result value}. They should be released for reuse after evaluating the {@link #value} expression in the generated
      * result. In that way, the variables will not have important values for other parts in the generated result.
      */
-    public Set<PlcVariable> valueVariables = set();
+    public Set<PlcBasicVariable> valueVariables = set();
 
     /**
      * Expression to evaluate after running the {@link #code} if it exists. The {@link #valueVariables} should be
@@ -120,7 +120,7 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
         }
         if (!codeVariables.isEmpty()) {
             sb.append("code-variables:");
-            for (PlcVariable v: codeVariables) {
+            for (PlcBasicVariable v: codeVariables) {
                 sb.append(" " + v.varName);
             }
             sb.append("\n");
@@ -132,7 +132,7 @@ public abstract class ExprGenResult<E extends PlcExpression, R extends ExprGenRe
         }
         if (!valueVariables.isEmpty()) {
             sb.append("value-variables:");
-            for (PlcVariable v: valueVariables) {
+            for (PlcBasicVariable v: valueVariables) {
                 sb.append(" " + v.varName);
             }
             sb.append("\n");
