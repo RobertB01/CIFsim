@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -388,7 +389,7 @@ public class S7Writer extends Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("STRUCT");
         c.indent();
-        for (PlcVariable field: structType.fields) {
+        for (PlcStructField field: structType.fields) {
             // Only name and type, not address.
             c.add("%s: %s;", field.fieldName, toBox(field.type));
         }

@@ -100,6 +100,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -374,7 +375,7 @@ public class ExprGeneratorTest {
                 int length = Integer.valueOf(dt.name.charAt(dt.name.length() - 1));
                 PlcStructType structType = new PlcStructType();
                 for (int idx = 1; idx <= length; idx++) {
-                    structType.fields.add(new PlcVariable("field" + idx, PlcElementaryType.LREAL_TYPE));
+                    structType.fields.add(new PlcStructField("field" + idx, PlcElementaryType.LREAL_TYPE));
                 }
                 return structType;
             }

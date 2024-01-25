@@ -33,6 +33,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -221,6 +222,17 @@ public abstract class Writer {
     }
 
     /**
+     * Convert a {@link PlcStructField} instance to a {@link Box} text.
+     *
+     * @param field Variable to convert.
+     * @return The generated box representation.
+     */
+    protected Box toBox(PlcStructField field) {
+        String txt = fmt("%s: %s;", field.fieldName, toBox(field.type));
+        return new TextBox(txt);
+    }
+
+    /**
      * Convert a {@link PlcPouInstance} instance to a {@link Box} text.
      *
      * @param pouInstance POU instance to convert.
@@ -398,7 +410,7 @@ public abstract class Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("STRUCT");
         c.indent();
-        for (PlcVariable field: structType.fields) {
+        for (PlcStructField field: structType.fields) {
             c.add(toBox(field));
         }
         c.dedent();

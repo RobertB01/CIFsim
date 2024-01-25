@@ -24,9 +24,6 @@ public class PlcVariable {
     /** The name of the variable. */
     public final String varName;
 
-    /** The name of the structure field. */
-    public final String fieldName;
-
     /** The type of the variable. */
     public final PlcType type;
 
@@ -70,7 +67,6 @@ public class PlcVariable {
     public PlcVariable(String prefix, String name, PlcType type, String address, PlcExpression value) {
         this.valueName = prefix + name;
         this.varName = name;
-        this.fieldName = name;
         this.type = type;
         this.address = address;
         this.value = value;

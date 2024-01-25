@@ -17,12 +17,10 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
-
 /** PLC struct type. */
 public class PlcStructType extends PlcType {
     /** The fields of the struct type. */
-    public List<PlcVariable> fields = list();
+    public List<PlcStructField> fields = list();
 
     @Override
     public boolean equals(Object other) {
@@ -46,7 +44,7 @@ public class PlcStructType extends PlcType {
     @Override
     public int hashCode() {
         int h = 0;
-        for (PlcVariable field: fields) {
+        for (PlcStructField field: fields) {
             h = h + field.fieldName.hashCode() + field.type.hashCode() * 23;
         }
         return h;

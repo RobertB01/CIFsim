@@ -57,6 +57,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -256,8 +257,8 @@ public class PlcOpenXmlWriter extends Writer {
             parent.appendChild(struct);
 
             PlcStructType stype = (PlcStructType)type;
-            for (PlcVariable field: stype.fields) {
-                transVariable(field, struct);
+            for (PlcStructField field: stype.fields) {
+                transStructField(field, struct);
             }
         } else if (type instanceof PlcArrayType) {
             Element array = parent.getOwnerDocument().createElement("array");
@@ -302,6 +303,23 @@ public class PlcOpenXmlWriter extends Writer {
             varElem.appendChild(value);
             transValue(var.value, value);
         }
+    }
+
+    /**
+     * Transforms a PLC structure field to PLCopen XML.
+     *
+     * @param field The structure field.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private void transStructField(PlcStructField field, Element parent) {
+        Element varElem = parent.getOwnerDocument().createElement("variable");
+        parent.appendChild(varElem);
+
+        varElem.setAttribute("name", field.fieldName);
+
+        Element type = parent.getOwnerDocument().createElement("type");
+        varElem.appendChild(type);
+        transType(field.type, type);
     }
 
     /**
