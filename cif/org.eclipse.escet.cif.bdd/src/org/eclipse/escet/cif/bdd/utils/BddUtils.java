@@ -109,13 +109,15 @@ public class BddUtils {
     public static String bddToStr(BDD bdd, CifBddSpec cifBddSpec) {
         // If one of the specific maximum counts is exceeded, don't actually
         // convert the BDD to a CNF/DNF predicate, for performance reasons.
-        if (cifBddSpec.settings.bddDebugMaxNodes != null || cifBddSpec.settings.bddDebugMaxPaths != null) {
+        if (cifBddSpec.settings.getBddDebugMaxNodes() != null || cifBddSpec.settings.getBddDebugMaxPaths() != null) {
             // Get node count and true path count.
             int nc = bdd.nodeCount();
             double tpc = bdd.pathCount();
 
-            boolean skip = (cifBddSpec.settings.bddDebugMaxNodes != null && nc > cifBddSpec.settings.bddDebugMaxNodes)
-                    || (cifBddSpec.settings.bddDebugMaxPaths != null && tpc > cifBddSpec.settings.bddDebugMaxPaths);
+            boolean skip = (cifBddSpec.settings.getBddDebugMaxNodes() != null
+                    && nc > cifBddSpec.settings.getBddDebugMaxNodes())
+                    || (cifBddSpec.settings.getBddDebugMaxPaths() != null
+                            && tpc > cifBddSpec.settings.getBddDebugMaxPaths());
             if (skip) {
                 return fmt("<bdd %,dn %,.0fp>", nc, tpc);
             }
@@ -221,26 +223,26 @@ public class BddUtils {
             String continuousPerformanceStatisticsFileAbsPath)
     {
         // Check what statistics to print.
-        boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
-        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
-        boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
-        boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
+        boolean doCacheStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doContinuousPerformanceStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_CONT);
+        boolean doMaxBddNodesStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.getCifBddStatistics().contains(CifBddStatistics.MAX_MEMORY);
 
         // Print the statistics.
         if (doCacheStats) {
-            BddUtils.printBddCacheStats(factory.getCacheStats(), settings.normalOutput);
+            BddUtils.printBddCacheStats(factory.getCacheStats(), settings.getNormalOutput());
         }
         if (doContinuousPerformanceStats) {
-            settings.debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
+            settings.getDebugOutput().line("Writing continuous BDD performance statistics file \"%s\".",
                     continuousPerformanceStatisticsFilePath);
             BddUtils.writeBddContinuousPerformanceStatsFile(continuousOpMisses, continuousUsedBddNodes,
                     continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath);
         }
         if (doMaxBddNodesStats) {
-            BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.normalOutput);
+            BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.getNormalOutput());
         }
         if (doMaxMemoryStats) {
-            BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.normalOutput);
+            BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.getNormalOutput());
         }
     }
 

@@ -255,11 +255,11 @@ public class CifToBddConverter {
             List<Integer> continuousUsedBddNodes)
     {
         // Determine BDD operation cache size and ratio to use.
-        double bddOpCacheRatio = settings.bddOpCacheRatio;
-        Integer bddOpCacheSize = settings.bddOpCacheSize;
+        double bddOpCacheRatio = settings.getBddOpCacheRatio();
+        Integer bddOpCacheSize = settings.getBddOpCacheSize();
         if (bddOpCacheSize == null) {
             // A non-fixed cache size should be used. Initialize BDD cache size using cache ratio.
-            bddOpCacheSize = (int)(settings.bddInitNodeTableSize * bddOpCacheRatio);
+            bddOpCacheSize = (int)(settings.getBddInitNodeTableSize() * bddOpCacheRatio);
             if (bddOpCacheSize < 2) {
                 bddOpCacheSize = 2;
             }
@@ -269,21 +269,21 @@ public class CifToBddConverter {
         }
 
         // Create BDD factory, and configure cache settings.
-        BDDFactory factory = JFactory.init(settings.bddInitNodeTableSize, bddOpCacheSize);
+        BDDFactory factory = JFactory.init(settings.getBddInitNodeTableSize(), bddOpCacheSize);
         if (bddOpCacheRatio != -1) {
             factory.setCacheRatio(bddOpCacheRatio);
         }
 
         // Configure statistics.
-        boolean doGcStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_GC_COLLECT);
-        boolean doResizeStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_GC_RESIZE);
-        boolean doContinuousPerformanceStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CONT);
+        boolean doGcStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_GC_COLLECT);
+        boolean doResizeStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_GC_RESIZE);
+        boolean doContinuousPerformanceStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_CONT);
         BddUtils.registerBddCallbacks(factory, doGcStats, doResizeStats, doContinuousPerformanceStats,
-                settings.normalOutput, continuousOpMisses, continuousUsedBddNodes);
+                settings.getNormalOutput(), continuousOpMisses, continuousUsedBddNodes);
 
-        boolean doCacheStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_CACHE);
-        boolean doMaxBddNodesStats = settings.cifBddStatistics.contains(CifBddStatistics.BDD_PERF_MAX_NODES);
-        boolean doMaxMemoryStats = settings.cifBddStatistics.contains(CifBddStatistics.MAX_MEMORY);
+        boolean doCacheStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_CACHE);
+        boolean doMaxBddNodesStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_MAX_NODES);
+        boolean doMaxMemoryStats = settings.getCifBddStatistics().contains(CifBddStatistics.MAX_MEMORY);
         if (doCacheStats || doContinuousPerformanceStats) {
             factory.getCacheStats().enableMeasurements();
         }
@@ -333,7 +333,7 @@ public class CifToBddConverter {
         CifBddSpec cifBddSpec = new CifBddSpec(settings);
         cifBddSpec.factory = factory;
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -348,7 +348,7 @@ public class CifToBddConverter {
             }
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -356,7 +356,7 @@ public class CifToBddConverter {
         List<Automaton> automata = list();
         collectAutomata(spec, automata);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -379,7 +379,7 @@ public class CifToBddConverter {
             }
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -389,14 +389,14 @@ public class CifToBddConverter {
             problems.add(msg);
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Update automata for partitioned ordering.
         automata = concat(plants, requirements);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -420,7 +420,7 @@ public class CifToBddConverter {
             reqAlphabet.addAll(alphabets.recvAlphabet);
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -430,7 +430,7 @@ public class CifToBddConverter {
         // that event, in the uncontrolled system.
         cifBddSpec.alphabet = union(plantAlphabet, reqAlphabet);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -452,7 +452,7 @@ public class CifToBddConverter {
             problems.add(msg);
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -467,7 +467,7 @@ public class CifToBddConverter {
             }
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -476,7 +476,7 @@ public class CifToBddConverter {
         List<PositionObject> cifVarObjs = list();
         collectVariableObjects(spec, cifVarObjs);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -484,7 +484,7 @@ public class CifToBddConverter {
         List<Automaton> lpAuts = filter(cifVarObjs, Automaton.class);
         CifBddLocationPointerManager locPtrManager = new CifBddLocationPointerManager(lpAuts);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -501,24 +501,24 @@ public class CifToBddConverter {
             }
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Order variables and create domains.
         orderVars(cifBddSpec, spec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         createVarDomains(cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Create auxiliary data for updates.
         createUpdateAuxiliaries(cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -537,7 +537,7 @@ public class CifToBddConverter {
         cifBddSpec.initial = cifBddSpec.initialVars.and(initialCompsAndLocs);
         initialCompsAndLocs.free();
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -549,7 +549,7 @@ public class CifToBddConverter {
         convertMarked(spec, cifBddSpec, locPtrManager);
         cifBddSpec.marked = cifBddSpec.markedComps.and(cifBddSpec.markedLocs);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -576,7 +576,7 @@ public class CifToBddConverter {
         // components and the state requirement invariant for the locations of automata.
         cifBddSpec.reqInv = cifBddSpec.reqInvComps.and(cifBddSpec.reqInvLocs);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -588,7 +588,7 @@ public class CifToBddConverter {
         cifBddSpec.markedPlantInv = cifBddSpec.marked.and(cifBddSpec.plantInv);
         cifBddSpec.markedInv = cifBddSpec.markedPlantInv.and(cifBddSpec.reqInv);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -616,25 +616,25 @@ public class CifToBddConverter {
             cifBddSpec.stateEvtExclReqLists.put(event, list());
         }
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Convert state/event exclusion invariants.
         convertStateEvtExclInvs(spec, cifBddSpec, locPtrManager);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Preconvert requirement automata, to enable treating them as plants from here on.
         preconvertReqAuts(requirements, reqAlphabets, cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Convert plant and requirement automata.
         convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -644,31 +644,31 @@ public class CifToBddConverter {
         }
         originalMonitors = null;
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Add events and edges for input variables.
         addInputVariableEdges(cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Merge edges to the desired granularity.
         mergeEdges(cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Order the CIF/BDD edges.
         orderEdges(cifBddSpec);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
         // Check edge workset algorithm settings.
         checkEdgeWorksetAlgorithmSettings(cifBddSpec.settings);
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
         }
 
@@ -778,7 +778,7 @@ public class CifToBddConverter {
         }
 
         // Configure variable orderer.
-        String varOrderTxt = cifBddSpec.settings.bddVarOrderAdvanced;
+        String varOrderTxt = cifBddSpec.settings.getBddVarOrderAdvanced();
         List<VarOrdererInstance> parseResult;
         try {
             parseResult = new VarOrdererParser().parseString(varOrderTxt, "/in-memory.varorder", null, DebugMode.NONE);
@@ -809,7 +809,7 @@ public class CifToBddConverter {
         }
 
         // Print variable debugging information, before ordering.
-        boolean dbgEnabled = cifBddSpec.settings.debugOutput.isEnabled();
+        boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled();
         if (dbgEnabled) {
             debugCifVars(cifBddSpec);
         }
@@ -817,16 +817,16 @@ public class CifToBddConverter {
         // Only apply variable ordering if there are at least two variables (to order).
         if (cifBddSpec.variables.length < 2) {
             if (dbgEnabled) {
-                cifBddSpec.settings.debugOutput.line();
-                cifBddSpec.settings.debugOutput.line("Skipping variable ordering: only one variable present.");
-                cifBddSpec.settings.debugOutput.line();
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Skipping variable ordering: only one variable present.");
+                cifBddSpec.settings.getDebugOutput().line();
             }
             return;
         }
 
         // Create variable order helper, based on model order.
         List<CifBddVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(cifBddSpec.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.debugOutput);
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.getDebugOutput());
 
         // Get current variable order, which is model order.
         VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);
@@ -837,8 +837,8 @@ public class CifToBddConverter {
 
         // Get new variable order.
         if (dbgEnabled) {
-            cifBddSpec.settings.debugOutput.line();
-            cifBddSpec.settings.debugOutput.line("Applying variable ordering:");
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Applying variable ordering:");
         }
         VarOrdererData orderingResult = varOrderer.order(data, dbgEnabled, 1);
         VarOrder newOrder = orderingResult.varOrder;
@@ -864,12 +864,12 @@ public class CifToBddConverter {
         // If the new order differs from the current order, print updated variable debugging information.
         if (dbgEnabled) {
             boolean orderChanged = !curOrder.equals(newOrder);
-            cifBddSpec.settings.debugOutput.line();
-            cifBddSpec.settings.debugOutput.line("Variable order %schanged.", orderChanged ? "" : "un");
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Variable order %schanged.", orderChanged ? "" : "un");
             if (orderChanged) {
                 debugCifVars(cifBddSpec);
             }
-            cifBddSpec.settings.debugOutput.line();
+            cifBddSpec.settings.getDebugOutput().line();
         }
     }
 
@@ -952,10 +952,10 @@ public class CifToBddConverter {
         }
 
         // Print the variable information, for debugging.
-        cifBddSpec.settings.debugOutput.line();
-        cifBddSpec.settings.debugOutput.line("CIF variables and location pointers:");
+        cifBddSpec.settings.getDebugOutput().line();
+        cifBddSpec.settings.getDebugOutput().line("CIF variables and location pointers:");
         for (String line: grid.getLines()) {
-            cifBddSpec.settings.debugOutput.line("  " + line);
+            cifBddSpec.settings.getDebugOutput().line("  " + line);
         }
     }
 
@@ -1095,7 +1095,7 @@ public class CifToBddConverter {
         cifBddSpec.oldToNewVarsPairing.set(oldDomains, newDomains);
         cifBddSpec.newToOldVarsPairing.set(newDomains, oldDomains);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return;
         }
 
@@ -1118,7 +1118,7 @@ public class CifToBddConverter {
         cifBddSpec.varSetOld = cifBddSpec.factory.makeSet(varIdxsOld);
         cifBddSpec.varSetNew = cifBddSpec.factory.makeSet(varIdxsNew);
 
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return;
         }
     }
@@ -1597,7 +1597,7 @@ public class CifToBddConverter {
                                 + "in the alphabet of any automaton.",
                         CifTextUtils.invToStr(inv, false), CifTextUtils.getComponentText2(comp),
                         CifTextUtils.getAbsName(event));
-                cifBddSpec.settings.warnOutput.line(msg);
+                cifBddSpec.settings.getWarnOutput().line(msg);
 
                 // Skip the rest as we won't use this invariant any further.
                 continue;
@@ -1675,7 +1675,7 @@ public class CifToBddConverter {
                                         + "the alphabet of any automaton.",
                                 CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
                                 CifTextUtils.getAbsName(event));
-                        cifBddSpec.settings.warnOutput.line(msg);
+                        cifBddSpec.settings.getWarnOutput().line(msg);
 
                         // Skip the rest as we won't use this invariant any further.
                         continue;
@@ -1885,7 +1885,7 @@ public class CifToBddConverter {
             cifBddSpec.eventEdges = mapc(cifBddSpec.alphabet.size());
             for (Edge cifEdge: cifEdges) {
                 // Check for termination.
-                if (cifBddSpec.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.getShouldTerminate().get()) {
                     break;
                 }
 
@@ -1933,12 +1933,12 @@ public class CifToBddConverter {
                 convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec);
             }
 
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
 
             // Check for non-determinism.
-            checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.allowNonDeterminism);
+            checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.getAllowNonDeterminism());
         }
     }
 
@@ -2170,7 +2170,7 @@ public class CifToBddConverter {
         BDD error = cifBddSpec.factory.zero();
         for (Update update: updates) {
             Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec);
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
 
@@ -2182,7 +2182,7 @@ public class CifToBddConverter {
                 error = error.orWith(updateError);
             }
 
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
         }
@@ -2491,7 +2491,7 @@ public class CifToBddConverter {
         }
 
         // Merge the edges, if needed.
-        switch (cifBddSpec.settings.edgeGranularity) {
+        switch (cifBddSpec.settings.getEdgeGranularity()) {
             case PER_EDGE:
                 // Nothing to do, as already at per-edge granularity.
                 return;
@@ -2507,7 +2507,7 @@ public class CifToBddConverter {
                 return;
             }
         }
-        throw new RuntimeException("Unknown granularity: " + cifBddSpec.settings.edgeGranularity);
+        throw new RuntimeException("Unknown granularity: " + cifBddSpec.settings.getEdgeGranularity());
     }
 
     /**
@@ -2517,9 +2517,11 @@ public class CifToBddConverter {
      */
     private void orderEdges(CifBddSpec cifBddSpec) {
         cifBddSpec.orderedEdgesBackward = orderEdgesForDirection(cifBddSpec.edges,
-                cifBddSpec.settings.edgeOrderBackward, cifBddSpec.settings.edgeOrderAllowDuplicateEvents, false);
-        cifBddSpec.orderedEdgesForward = orderEdgesForDirection(cifBddSpec.edges, cifBddSpec.settings.edgeOrderForward,
-                cifBddSpec.settings.edgeOrderAllowDuplicateEvents, true);
+                cifBddSpec.settings.getEdgeOrderBackward(), cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents(),
+                false);
+        cifBddSpec.orderedEdgesForward = orderEdgesForDirection(cifBddSpec.edges,
+                cifBddSpec.settings.getEdgeOrderForward(), cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents(),
+                true);
     }
 
     /**
@@ -2662,17 +2664,17 @@ public class CifToBddConverter {
      */
     private void checkEdgeWorksetAlgorithmSettings(CifBddSettings settings) {
         // Skip if workset algorithm is disabled.
-        if (!settings.doUseEdgeWorksetAlgo) {
+        if (!settings.getDoUseEdgeWorksetAlgo()) {
             return;
         }
 
         // Edge workset algorithm requires per-event edge granularity, and no duplicate edges in the edge order.
-        if (settings.edgeGranularity != EdgeGranularity.PER_EVENT) {
+        if (settings.getEdgeGranularity() != EdgeGranularity.PER_EVENT) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can only be used with per-event edge granularity. "
                             + "Either disable the edge workset algorithm, or configure per-event edge granularity.");
         }
-        if (settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED) {
+        if (settings.getEdgeOrderAllowDuplicateEvents() == EdgeOrderDuplicateEventAllowance.ALLOWED) {
             throw new InvalidOptionException(
                     "The edge workset algorithm can not be used with duplicate events in the edge order. "
                             + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");

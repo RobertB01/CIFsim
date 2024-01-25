@@ -261,7 +261,7 @@ public class CifBddEdge {
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)
             BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, cifBddSpec.varSetOld);
             pred.free();
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return rslt;
             }
 
@@ -273,14 +273,14 @@ public class CifBddEdge {
         } else {
             // predNew = pred[x+/x, y+/y, z+/z, ...]
             BDD predNew = pred.replaceWith(cifBddSpec.oldToNewVarsPairing);
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return predNew;
             }
 
             // rslt = Exists{x+, y+, z+, ...}(guard && update && predNew)
             BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, cifBddSpec.varSetNew);
             predNew.free();
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return rslt;
             }
 

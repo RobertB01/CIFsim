@@ -158,7 +158,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()));
 
         // Initialize timing statistics.
-        boolean doTiming = settings.synthesisStatistics.contains(SynthesisStatistics.TIMING);
+        boolean doTiming = settings.getSynthesisStatistics().contains(SynthesisStatistics.TIMING);
         CifDataSynthesisTiming timing = new CifDataSynthesisTiming();
 
         // Do synthesis.
@@ -171,7 +171,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             // Print timing statistics.
             if (doTiming) {
                 timing.total.stop();
-                timing.print(settings.debugOutput, settings.normalOutput);
+                timing.print(settings.getDebugOutput(), settings.getNormalOutput());
             }
         }
 
@@ -188,7 +188,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      */
     private void doSynthesis(CifDataSynthesisSettings settings, boolean doTiming, CifDataSynthesisTiming timing) {
         // Initialize debugging.
-        boolean dbgEnabled = settings.debugOutput.isEnabled();
+        boolean dbgEnabled = settings.getDebugOutput().isEnabled();
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
@@ -222,7 +222,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             timing.inputPreProcess.start();
         }
         try {
-            CifToBddConverter.preprocess(spec, settings.warnOutput, settings.doPlantsRefReqsWarn);
+            CifToBddConverter.preprocess(spec, settings.getWarnOutput(), settings.getDoPlantsRefReqsWarn());
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -296,8 +296,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Print statistics before we clean up the factory.
             BddUtils.printStats(factory, settings, continuousOpMisses, continuousUsedBddNodes,
-                    settings.continuousPerformanceStatisticsFilePath,
-                    settings.continuousPerformanceStatisticsFileAbsPath);
+                    settings.getContinuousPerformanceStatisticsFilePath(),
+                    settings.getContinuousPerformanceStatisticsFileAbsPath());
 
             if (isTerminationRequested()) {
                 return;
