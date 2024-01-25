@@ -27,51 +27,51 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * Whether to warn for events that are never enabled in the input specification or always disabled by the
      * synthesized supervisor ({@code true}) or don't warn ({@code false}).
      */
-    public boolean doNeverEnabledEventsWarn = CifDataSynthesisSettingsDefaults.DO_NEVER_ENABLED_EVENTS_WARN_DEFAULT;
+    private boolean doNeverEnabledEventsWarn = CifDataSynthesisSettingsDefaults.DO_NEVER_ENABLED_EVENTS_WARN_DEFAULT;
 
     /** The way that state requirement invariants are enforced. */
-    public StateReqInvEnforceMode stateReqInvEnforceMode = CifDataSynthesisSettingsDefaults.STATE_REQ_INV_ENFORCE_MODE_DEFAULT;
+    private StateReqInvEnforceMode stateReqInvEnforceMode = CifDataSynthesisSettingsDefaults.STATE_REQ_INV_ENFORCE_MODE_DEFAULT;
 
     /** The order in which the fixed-point computations are to be performed during synthesis. */
-    public FixedPointComputationsOrder fixedPointComputationsOrder = CifDataSynthesisSettingsDefaults.FIXED_POINT_COMPUTATIONS_ORDER_DEFAULT;
+    private FixedPointComputationsOrder fixedPointComputationsOrder = CifDataSynthesisSettingsDefaults.FIXED_POINT_COMPUTATIONS_ORDER_DEFAULT;
 
     /** Whether to perform forward reachability during synthesis ({@code true}) or omit it ({@code false}). */
-    public boolean doForwardReach = CifDataSynthesisSettingsDefaults.DO_FORWARD_REACH_DEFAULT;
+    private boolean doForwardReach = CifDataSynthesisSettingsDefaults.DO_FORWARD_REACH_DEFAULT;
 
     /**
      * The name of the resulting supervisor automaton. It is a valid {@link CifValidationUtils#isValidIdentifier CIF
      * identifier}.
      */
-    public String supervisorName = CifDataSynthesisSettingsDefaults.SUPERVISOR_NAME_DEFAULT;
+    private String supervisorName = CifDataSynthesisSettingsDefaults.SUPERVISOR_NAME_DEFAULT;
 
     /**
      * The namespace of the resulting supervisor, or {@code null} to use the empty namespace. If not {@code null}, it is
      * a valid {@link CifValidationUtils#isValidName CIF name}.
      */
-    public String supervisorNamespace = CifDataSynthesisSettingsDefaults.SUPERVISOR_NAMESPACE_DEFAULT;
+    private String supervisorNamespace = CifDataSynthesisSettingsDefaults.SUPERVISOR_NAMESPACE_DEFAULT;
 
     /** The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis. */
-    public BddOutputMode bddOutputMode = CifDataSynthesisSettingsDefaults.BDD_OUTPUT_MODE_DEFAULT;
+    private BddOutputMode bddOutputMode = CifDataSynthesisSettingsDefaults.BDD_OUTPUT_MODE_DEFAULT;
 
     /**
      * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
      * CIF identifier}.
      */
-    public String bddOutputNamePrefix = CifDataSynthesisSettingsDefaults.BDD_OUTPUT_NAME_PREFIX;
+    private String bddOutputNamePrefix = CifDataSynthesisSettingsDefaults.BDD_OUTPUT_NAME_PREFIX;
 
     /** The BDD predicate simplifications to perform. */
-    public EnumSet<BddSimplify> bddSimplifications = CifDataSynthesisSettingsDefaults.BDD_SIMPLIFICATIONS_DEFAULT
+    private EnumSet<BddSimplify> bddSimplifications = CifDataSynthesisSettingsDefaults.BDD_SIMPLIFICATIONS_DEFAULT
             .clone();
 
     /** The kinds of statistics to print. */
-    public EnumSet<SynthesisStatistics> synthesisStatistics = CifDataSynthesisSettingsDefaults.SYNTHESIS_STATISTICS_DEFAULT
+    private EnumSet<SynthesisStatistics> synthesisStatistics = CifDataSynthesisSettingsDefaults.SYNTHESIS_STATISTICS_DEFAULT
             .clone();
 
     /** The absolute or relative path to the continuous performance statistics output file. */
-    public String continuousPerformanceStatisticsFilePath = null;
+    private String continuousPerformanceStatisticsFilePath = null;
 
     /** The absolute path to the continuous performance statistics output file. */
-    public String continuousPerformanceStatisticsFileAbsPath = null;
+    private String continuousPerformanceStatisticsFileAbsPath = null;
 
     /**
      * Constructor for the {@link CifDataSynthesisSettings} class. Sets {@link CifDataSynthesisSettingsDefaults default}
