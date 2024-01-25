@@ -312,6 +312,9 @@ public class BddUtils {
     public static void writeBddContinuousPerformanceStatsFile(List<Long> operationsSamples, List<Integer> nodesSamples,
             String filePath, String absFilePath)
     {
+        Assert.notNull(filePath);
+        Assert.notNull(absFilePath);
+
         // Get number of data points.
         Assert.areEqual(operationsSamples.size(), nodesSamples.size());
         int numberOfDataPoints = operationsSamples.size();
