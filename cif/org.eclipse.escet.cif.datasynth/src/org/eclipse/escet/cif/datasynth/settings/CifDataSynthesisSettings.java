@@ -387,11 +387,8 @@ public class CifDataSynthesisSettings extends CifBddSettings {
         checkSettings();
     }
 
-    @Override
-    protected void checkSettings() {
-        // Check CIF/BDD settings.
-        super.checkSettings();
-
+    /** Check that the settings have valid values, for as much as it can be checked locally. */
+    private void checkSettings() {
         // Check BDD output name prefix.
         if (!CifValidationUtils.isValidIdentifier(bddOutputNamePrefix)) {
             String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", bddOutputNamePrefix);

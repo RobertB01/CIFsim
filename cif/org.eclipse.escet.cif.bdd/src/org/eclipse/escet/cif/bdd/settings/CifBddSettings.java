@@ -768,7 +768,7 @@ public class CifBddSettings {
     }
 
     /** Check that the settings have valid values, for as much as it can be checked locally. */
-    protected void checkSettings() {
+    private void checkSettings() {
         // Check BDD debug max nodes.
         if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {
             String msg = fmt("BDD debug max nodes value \"%s\" is not in the range [0 .. 2^31-1].", bddDebugMaxNodes);
