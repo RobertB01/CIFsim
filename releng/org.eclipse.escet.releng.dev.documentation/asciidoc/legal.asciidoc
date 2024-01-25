@@ -35,3 +35,36 @@ If you did not receive this Content directly from the Eclipse Foundation, the Co
 Check the Redistributor's license that was provided with the Content.
 If no such license exists, contact the Redistributor.
 Unless otherwise indicated below, the terms and conditions of the MIT License still apply to any source code in the Content and such source code may be obtained at link:https://www.eclipse.org[].
+
+*Third Party Content*
+
+The Content includes items that have been sourced from third parties as set out below.
+If you did not receive this Content directly from the Eclipse Foundation, the following is provided for informational purposes only, and you should look to the Redistributor's license for terms and conditions of use.
+
+* _Font Awesome_
++
+The Content includes parts of link:https://fontawesome.com/[Font Awesome].
+Font Awesome is licensed under the link:https://openfontlicense.org/[SIL Open Font License] 1.1.
++
+SPDX-License-Identifier: OFL-1.1
+
+* _Highlight.js_
++
+The Content includes parts of link:https://highlightjs.org/[highlight.js].
+Highlight.js is licensed under the link:https://opensource.org/license/bsd-3-clause/[BSD 3-Clause License].
++
+SPDX-License-Identifier: BSD-3-Clause
+
+* _MathJax_
++
+The Content includes parts of link:https://www.mathjax.org/[MathJax].
+MathJax is licensed under the link:https://www.apache.org/licenses/LICENSE-2.0[Apache License, Version 2].
++
+SPDX-License-Identifier: Apache-2.0
+
+* _Wikipedia external link icon_
++
+The Content includes the link:https://en.m.wikipedia.org/wiki/File:Link-external-small-ltr-progressive.svg[Wikipedia external link icon].
+The external link icon is licensed under the link:https://creativecommons.org/licenses/by/4.0/deed.en[Creative Commons Attribution 4.0 International] license.
++
+SPDX-License-Identifier: CC-BY-4.0
