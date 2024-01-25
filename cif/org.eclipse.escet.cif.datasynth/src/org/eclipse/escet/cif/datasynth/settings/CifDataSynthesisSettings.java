@@ -17,7 +17,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 
-import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
@@ -79,12 +78,6 @@ public class CifDataSynthesisSettings extends CifBddSettings {
      * values for the settings.
      */
     public CifDataSynthesisSettings() {
-        // Do not allow non-determinism for controllable events. An external supervisor can't force the correct edge to
-        // be taken, if only the updates (includes location pointer variable assignment for target location) are
-        // different. For uncontrollable events non-determinism is not a problem, as the supervisor won't restrict edges
-        // for uncontrollable events.
-        this.allowNonDeterminism = AllowNonDeterminism.UNCONTROLLABLE;
-
         // Make sure the defaults are valid.
         checkSettings();
     }

@@ -16,24 +16,17 @@ package org.eclipse.escet.cif.bdd.workset.dependencies;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
-import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
-import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
-import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
 import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
-import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.BitSets;
 import org.eclipse.escet.common.java.Lists;
-import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.junit.jupiter.api.Test;
 
 import com.github.javabdd.BDDFactory;
@@ -545,31 +538,11 @@ public class BddBasedEdgeDependencySetCreatorTest {
         Specification spec = reader.read(specTxt);
 
         // Get settings.
-        Supplier<Boolean> shouldTerminate = () -> false;
-        BlackHoleOutputProvider outputProvider = new BlackHoleOutputProvider();
-        boolean bddDcshEnabled = CifBddSettingsDefaults.DCSH_ENABLED_DEFAULT;
-        Integer bddDebugMaxNodes = 0;
-        Double bddDebugMaxPaths = 0.0;
-        boolean bddForceEnabled = CifBddSettingsDefaults.FORCE_ENABLED_DEFAULT;
-        int bddInitNodeTableSize = 100_000;
-        double bddOpCacheRatio = 1;
-        Integer bddOpCacheSize = null;
-        String bddVarOrderInit = CifBddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
-        boolean bddSlidingWindowEnabled = CifBddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
-        int bddSlidingWindowMaxLen = CifBddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
-        String bddVarOrderAdvanced = CifBddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
-        String edgeOrderBackward = "sorted";
-        String edgeOrderForward = "sorted";
-        boolean doUseEdgeWorksetAlgo = true;
-        boolean doPlantsRefReqsWarn = false;
-        CifBddSettings settings = new CifBddSettings(shouldTerminate, outputProvider.getDebugOutput(),
-                outputProvider.getNormalOutput(), outputProvider.getWarnOutput(), AllowNonDeterminism.UNCONTROLLABLE,
-                bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled,
-                CifBddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT, bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize,
-                bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
-                EdgeGranularity.PER_EVENT, edgeOrderBackward, edgeOrderForward,
-                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
-                EnumSet.noneOf(CifBddStatistics.class));
+        CifBddSettings settings = new CifBddSettings();
+        settings.setEdgeGranularity(EdgeGranularity.PER_EVENT);
+        settings.setDoUseEdgeWorksetAlgo(true);
+        settings.setEdgeOrderBackward("sorted");
+        settings.setEdgeOrderForward("sorted");
 
         // Convert to BDDs.
         BDDFactory factory = JFactory.init(100, 100);
