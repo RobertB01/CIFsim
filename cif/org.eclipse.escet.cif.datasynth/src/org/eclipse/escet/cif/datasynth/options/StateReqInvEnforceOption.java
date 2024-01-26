@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -42,7 +43,7 @@ public class StateReqInvEnforceOption extends EnumOption<StateReqInvEnforceMode>
                 "MODE",
 
                 // defaultValue
-                StateReqInvEnforceMode.ALL_CTRL_BEH,
+                CifDataSynthesisSettingsDefaults.STATE_REQ_INV_ENFORCE_MODE_DEFAULT,
 
                 // showInDialog
                 true,

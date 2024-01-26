@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
@@ -37,7 +38,7 @@ public class SupervisorNamespaceOption extends StringOption {
                 "NS",
 
                 // defaultValue
-                null,
+                CifDataSynthesisSettingsDefaults.SUPERVISOR_NAMESPACE_DEFAULT,
 
                 // emptyAsNull
                 true,

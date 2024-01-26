@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -40,7 +41,7 @@ public class EdgeGranularityOption extends EnumOption<EdgeGranularity> {
                 "GRAN",
 
                 // defaultValue
-                EdgeGranularity.PER_EVENT,
+                CifBddSettingsDefaults.EDGE_GRANULARITY_DEFAULT,
 
                 // showInDialog
                 true,

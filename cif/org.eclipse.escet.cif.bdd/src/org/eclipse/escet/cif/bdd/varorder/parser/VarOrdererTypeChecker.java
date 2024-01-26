@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.bdd.varorder.graph.algos.PseudoPeripheralNodeFinderKind;
 import org.eclipse.escet.cif.bdd.varorder.helper.RelationsKind;
@@ -191,13 +191,14 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
      * @throws InvalidOptionException If the settings are mixed.
      */
     private void checkBasicAndAdvancedSettingsMix() {
-        boolean basicDefault = settings.bddVarOrderInit.equals(BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT)
-                && settings.bddDcshEnabled == BddSettingsDefaults.DCSH_ENABLED_DEFAULT
-                && settings.bddForceEnabled == BddSettingsDefaults.FORCE_ENABLED_DEFAULT
-                && settings.bddSlidingWindowEnabled == BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT
-                && settings.bddSlidingWindowMaxLen == BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT
-                && settings.bddHyperEdgeAlgo == BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
-        boolean advancedDefault = settings.bddVarOrderAdvanced.equals(BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT);
+        boolean basicDefault = settings.getBddVarOrderInit().equals(CifBddSettingsDefaults.VAR_ORDER_INIT_DEFAULT)
+                && settings.getBddDcshEnabled() == CifBddSettingsDefaults.DCSH_ENABLED_DEFAULT
+                && settings.getBddForceEnabled() == CifBddSettingsDefaults.FORCE_ENABLED_DEFAULT
+                && settings.getBddSlidingWindowEnabled() == CifBddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT
+                && settings.getBddSlidingWindowMaxLen() == CifBddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT
+                && settings.getBddHyperEdgeAlgo() == CifBddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
+        boolean advancedDefault = settings.getBddVarOrderAdvanced()
+                .equals(CifBddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT);
 
         if (!basicDefault && !advancedDefault) {
             throw new InvalidOptionException("The BDD variable ordering has both basic and advanced configuration, "
@@ -213,17 +214,18 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
     private VarOrderer getBasicConfiguredOrderer() {
         VarOrderer initialOrderer = getBasicConfiguredInitialOrderer();
         List<VarOrderer> orderers = list(initialOrderer);
-        if (settings.bddDcshEnabled) {
+        if (settings.getBddDcshEnabled()) {
             orderers.add(new DcshVarOrderer(PseudoPeripheralNodeFinderKind.GEORGE_LIU, VarOrderMetricKind.WES,
                     getBasicConfiguredRelationsKind("dcsh"), VarOrdererEffect.VAR_ORDER));
         }
-        if (settings.bddForceEnabled) {
+        if (settings.getBddForceEnabled()) {
             orderers.add(new ForceVarOrderer(VarOrderMetricKind.TOTAL_SPAN, getBasicConfiguredRelationsKind("force"),
                     VarOrdererEffect.VAR_ORDER));
         }
-        if (settings.bddSlidingWindowEnabled) {
-            orderers.add(new SlidingWindowVarOrderer(settings.bddSlidingWindowMaxLen, VarOrderMetricKind.TOTAL_SPAN,
-                    getBasicConfiguredRelationsKind("slidwin"), VarOrdererEffect.VAR_ORDER));
+        if (settings.getBddSlidingWindowEnabled()) {
+            orderers.add(
+                    new SlidingWindowVarOrderer(settings.getBddSlidingWindowMaxLen(), VarOrderMetricKind.TOTAL_SPAN,
+                            getBasicConfiguredRelationsKind("slidwin"), VarOrdererEffect.VAR_ORDER));
         }
         return (orderers.size() == 1) ? first(orderers) : new SequentialVarOrderer(orderers);
     }
@@ -234,7 +236,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
      * @return The initial variable orderer.
      */
     private VarOrderer getBasicConfiguredInitialOrderer() {
-        String orderTxt = settings.bddVarOrderInit.trim();
+        String orderTxt = settings.getBddVarOrderInit().trim();
         String orderTxtLower = orderTxt.toLowerCase(Locale.US);
         if (orderTxtLower.equals("model")) {
             return new ModelVarOrderer(VarOrdererEffect.BOTH);
@@ -275,7 +277,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
      * @return The relations kind.
      */
     private RelationsKind getBasicConfiguredRelationsKind(String ordererName) {
-        switch (settings.bddHyperEdgeAlgo) {
+        switch (settings.getBddHyperEdgeAlgo()) {
             case LEGACY:
                 return RelationsKind.LEGACY;
             case LINEARIZED:
@@ -285,7 +287,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
                 return useLinearized ? RelationsKind.LINEARIZED : RelationsKind.LEGACY;
             }
         }
-        throw new RuntimeException("Unexpected setting value: " + settings.bddHyperEdgeAlgo);
+        throw new RuntimeException("Unexpected setting value: " + settings.getBddHyperEdgeAlgo());
     }
 
     /**
@@ -552,7 +554,7 @@ public class VarOrdererTypeChecker extends TypeChecker<List<VarOrdererInstance>,
             }
         }
         if (size == null) {
-            size = settings.bddSlidingWindowMaxLen;
+            size = settings.getBddSlidingWindowMaxLen();
         }
         if (metric == null) {
             metric = VarOrderMetricKind.TOTAL_SPAN;

@@ -16,170 +16,379 @@ package org.eclipse.escet.cif.datasynth.settings;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
-import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
-import org.eclipse.escet.cif.bdd.settings.BddHyperEdgeAlgo;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
-import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
-import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
-import org.eclipse.escet.common.java.output.DebugNormalOutput;
-import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** CIF data-based synthesis settings. */
 public class CifDataSynthesisSettings extends CifBddSettings {
     /**
-     * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
-     * CIF identifier}.
-     */
-    public final String bddOutputNamePrefix;
-
-    /** The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis. */
-    public final BddOutputMode bddOutputMode;
-
-    /** The BDD predicate simplifications to perform. */
-    public final EnumSet<BddSimplify> bddSimplifications;
-
-    /** The absolute or relative path to the continuous performance statistics output file. */
-    public final String continuousPerformanceStatisticsFilePath;
-
-    /** The absolute path to the continuous performance statistics output file. */
-    public final String continuousPerformanceStatisticsFileAbsPath;
-
-    /**
      * Whether to warn for events that are never enabled in the input specification or always disabled by the
      * synthesized supervisor ({@code true}) or don't warn ({@code false}).
      */
-    public final boolean doNeverEnabledEventsWarn;
-
-    /** The order in which the fixed-point computations are to be performed during synthesis. */
-    public final FixedPointComputationsOrder fixedPointComputationsOrder;
-
-    /** Whether to perform forward reachability during synthesis ({@code true}) or omit it ({@code false}). */
-    public final boolean doForwardReach;
+    private boolean doNeverEnabledEventsWarn = CifDataSynthesisSettingsDefaults.DO_NEVER_ENABLED_EVENTS_WARN_DEFAULT;
 
     /** The way that state requirement invariants are enforced. */
-    public final StateReqInvEnforceMode stateReqInvEnforceMode;
+    private StateReqInvEnforceMode stateReqInvEnforceMode = CifDataSynthesisSettingsDefaults.STATE_REQ_INV_ENFORCE_MODE_DEFAULT;
+
+    /** The order in which the fixed-point computations are to be performed during synthesis. */
+    private FixedPointComputationsOrder fixedPointComputationsOrder = CifDataSynthesisSettingsDefaults.FIXED_POINT_COMPUTATIONS_ORDER_DEFAULT;
+
+    /** Whether to perform forward reachability during synthesis ({@code true}) or omit it ({@code false}). */
+    private boolean doForwardReach = CifDataSynthesisSettingsDefaults.DO_FORWARD_REACH_DEFAULT;
 
     /**
      * The name of the resulting supervisor automaton. It is a valid {@link CifValidationUtils#isValidIdentifier CIF
      * identifier}.
      */
-    public final String supervisorName;
+    private String supervisorName = CifDataSynthesisSettingsDefaults.SUPERVISOR_NAME_DEFAULT;
 
     /**
      * The namespace of the resulting supervisor, or {@code null} to use the empty namespace. If not {@code null}, it is
      * a valid {@link CifValidationUtils#isValidName CIF name}.
      */
-    public final String supervisorNamespace;
+    private String supervisorNamespace = CifDataSynthesisSettingsDefaults.SUPERVISOR_NAMESPACE_DEFAULT;
 
-    /** The kinds of statistics to print. */
-    public final EnumSet<SynthesisStatistics> synthesisStatistics;
+    /** The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis. */
+    private BddOutputMode bddOutputMode = CifDataSynthesisSettingsDefaults.BDD_OUTPUT_MODE_DEFAULT;
 
     /**
-     * Constructor for the {@link CifDataSynthesisSettings} class.
+     * The prefix to use for BDD related names in the output. It is a valid {@link CifValidationUtils#isValidIdentifier
+     * CIF identifier}.
+     */
+    private String bddOutputNamePrefix = CifDataSynthesisSettingsDefaults.BDD_OUTPUT_NAME_PREFIX;
+
+    /** The BDD predicate simplifications to perform. */
+    private EnumSet<BddSimplify> bddSimplifications = CifDataSynthesisSettingsDefaults.BDD_SIMPLIFICATIONS_DEFAULT
+            .clone();
+
+    /** The kinds of statistics to print. */
+    private EnumSet<SynthesisStatistics> synthesisStatistics = CifDataSynthesisSettingsDefaults.SYNTHESIS_STATISTICS_DEFAULT
+            .clone();
+
+    /** The absolute or relative path to the continuous performance statistics output file. */
+    private String continuousPerformanceStatisticsFilePath = null;
+
+    /** The absolute path to the continuous performance statistics output file. */
+    private String continuousPerformanceStatisticsFileAbsPath = null;
+
+    /**
+     * Constructor for the {@link CifDataSynthesisSettings} class. Sets {@link CifDataSynthesisSettingsDefaults default}
+     * values for the settings.
+     */
+    public CifDataSynthesisSettings() {
+        // Make sure the defaults are valid.
+        checkSettings();
+    }
+
+    /**
+     * Get whether to warn for events that are never enabled in the input specification or always disabled by the
+     * synthesized supervisor.
      *
-     * @param shouldTerminate Function that indicates whether termination has been requested. Once it returns
-     *     {@code true}, it must return {@code true} also on subsequent calls.
-     * @param debugOutput Callback for debug output.
-     * @param normalOutput Callback for normal output.
-     * @param warnOutput Callback for warning output.
-     * @param bddDcshEnabled Whether to apply the DCSH variable ordering algorithm to improve the initial variable
-     *     ordering ({@code true}), or not apply it ({@code false}).
-     * @param bddDebugMaxNodes The maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. Use {@code null} to not set a maximum. If not {@code null}, the value
-     *     must be in the non-negative range {@code [0 .. 2^31-1]}.
-     * @param bddDebugMaxPaths The maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF
-     *     representation for the debug output. Use {@code null} to not set a maximum. If not {@code null}, the value
-     *     must be in the non-negative range {@code [0 .. 1.7e308]}.
-     * @param bddForceEnabled Whether to apply the FORCE variable ordering algorithm to improve the initial variable
-     *     ordering ({@code true}), or not apply it ({@code false}).
-     * @param bddHyperEdgeAlgo The algorithm to use to create hyper-edges for BDD variable ordering.
-     * @param bddInitNodeTableSize The initial size of the node table of the BDD library. The value must be in the
-     *     positive range {@code [1 .. 2^31-1]}.
-     * @param bddOpCacheRatio The ratio of the size of the operation cache of the BDD library to the size of the node
-     *     table of the BDD library. The value must be in the range {@code [0.01 .. 1000]}. This setting only has an
-     *     effect if {@code bddOpCacheSize} is {@code null}.
-     * @param bddOpCacheSize The fixed size of the operation cache of the BDD library. The value must be in the range
-     *     {@code [2 .. 2^31-1]}. Use {@code null} to disable a fixed cache size. If enabled, this setting takes
-     *     priority over {@code bddOpCacheRatio}.
-     * @param bddOutputNamePrefix The prefix to use for BDD related names in the output. Must be a valid
-     *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
-     * @param bddOutputMode The BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis.
-     * @param bddSimplifications The BDD predicate simplifications to perform.
-     * @param bddVarOrderInit The initial BDD variable ordering and domain interleaving.
-     * @param bddSlidingWindowEnabled Whether to apply the sliding window variable ordering algorithm to improve the
-     *     initial variable ordering ({@code true}), or not apply it ({@code false}).
-     * @param bddSlidingWindowMaxLen The maximum length of the window to use for the BDD sliding window variable
-     *     ordering algorithm. The value must be in the range {@code [1 .. 12]}.
-     * @param bddVarOrderAdvanced The advanced BDD variable ordering and domain interleaving.
-     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
-     *     statistics output file.
-     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
-     *     output file.
-     * @param edgeGranularity The granularity of edges to use during synthesis.
-     * @param edgeOrderBackward The edge ordering to use for backward reachability computations.
-     * @param edgeOrderForward The edge ordering to use for forward reachability computations.
-     * @param edgeOrderAllowDuplicateEvents Whether duplicate events are allowed for custom edge orders.
-     * @param doUseEdgeWorksetAlgo Whether to use the edge workset algorithm to dynamically choose the best edge to
-     *     apply during reachability computations ({@code true}), or not ({@code false}).
-     * @param doNeverEnabledEventsWarn Whether to warn for events that are never enabled in the input specification or
-     *     always disabled by the synthesized supervisor ({@code true}) or don't warn ({@code false}).
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#DO_NEVER_ENABLED_EVENTS_WARN_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to warn, {@code false} to not warn.
+     */
+    public boolean getDoNeverEnabledEventsWarn() {
+        return doNeverEnabledEventsWarn;
+    }
+
+    /**
+     * Set whether to warn for events that are never enabled in the input specification or always disabled by the
+     * synthesized supervisor.
+     *
+     * @param doNeverEnabledEventsWarn {@code true} to warn, {@code false} to not warn.
+     */
+    public void setDoNeverEnabledEventsWarn(boolean doNeverEnabledEventsWarn) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
+        checkSettings();
+    }
+
+    /**
+     * Get the way that state requirement invariants are enforced.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#STATE_REQ_INV_ENFORCE_MODE_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The way that state requirement invariants are enforced.
+     */
+    public StateReqInvEnforceMode getStateReqInvEnforceMode() {
+        return stateReqInvEnforceMode;
+    }
+
+    /**
+     * Set the way that state requirement invariants are enforced.
+     *
+     * @param stateReqInvEnforceMode The way that state requirement invariants are enforced.
+     */
+    public void setStateReqInvEnforceMode(StateReqInvEnforceMode stateReqInvEnforceMode) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.stateReqInvEnforceMode = stateReqInvEnforceMode;
+        checkSettings();
+    }
+
+    /**
+     * Get the order in which the fixed-point computations are to be performed during synthesis.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#FIXED_POINT_COMPUTATIONS_ORDER_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The order in which the fixed-point computations are to be performed during synthesis.
+     */
+    public FixedPointComputationsOrder getFixedPointComputationsOrder() {
+        return fixedPointComputationsOrder;
+    }
+
+    /**
+     * Set the order in which the fixed-point computations are to be performed during synthesis.
+     *
      * @param fixedPointComputationsOrder The order in which the fixed-point computations are to be performed during
      *     synthesis.
-     * @param doForwardReach Whether to perform forward reachability during synthesis ({@code true}) or omit it
-     *     ({@code false}).
-     * @param doPlantsRefReqsWarn Whether to warn for plants that reference requirement state ({@code true}) or don't
-     *     warn ({@code false}).
-     * @param stateReqInvEnforceMode The way that state requirement invariants are enforced.
-     * @param supervisorName The name of the resulting supervisor automaton. Must be a valid
-     *     {@link CifValidationUtils#isValidIdentifier CIF identifier}.
-     * @param supervisorNamespace The namespace of the resulting supervisor, or {@code null} to use the empty namespace.
-     *     If not {@code null}, it must be a valid {@link CifValidationUtils#isValidName CIF name}.
+     */
+    public void setFixedPointComputationsOrder(FixedPointComputationsOrder fixedPointComputationsOrder) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.fixedPointComputationsOrder = fixedPointComputationsOrder;
+        checkSettings();
+    }
+
+    /**
+     * Get whether to perform forward reachability during synthesis.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#DO_FORWARD_REACH_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return {@code true} to perform forward reachability, {@code false} to not perform it.
+     */
+    public boolean getDoForwardReach() {
+        return doForwardReach;
+    }
+
+    /**
+     * Set whether to perform forward reachability during synthesis.
+     *
+     * @param doForwardReach {@code true} to perform forward reachability, {@code false} to not perform it.
+     */
+    public void setDoForwardReach(boolean doForwardReach) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.doForwardReach = doForwardReach;
+        checkSettings();
+    }
+
+    /**
+     * Get the name of the resulting supervisor automaton. It is a valid {@link CifValidationUtils#isValidIdentifier CIF
+     * identifier}.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#SUPERVISOR_NAME_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The name of the resulting supervisor automaton.
+     */
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    /**
+     * Set the name of the resulting supervisor automaton. It must be a valid
+     * {@link CifValidationUtils#isValidIdentifier CIF identifier}.
+     *
+     * @param supervisorName The name of the resulting supervisor automaton.
+     */
+    public void setSupervisorName(String supervisorName) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.supervisorName = supervisorName;
+        checkSettings();
+    }
+
+    /**
+     * Get the namespace of the resulting supervisor, or {@code null} to use the empty namespace. If not {@code null},
+     * it is a valid {@link CifValidationUtils#isValidName CIF name}.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#SUPERVISOR_NAMESPACE_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The namespace of the resulting supervisor, or {@code null}.
+     */
+    public String getSupervisorNamespace() {
+        return supervisorNamespace;
+    }
+
+    /**
+     * Set the namespace of the resulting supervisor, or {@code null} to use the empty namespace. If not {@code null},
+     * it must be a valid {@link CifValidationUtils#isValidName CIF name}.
+     *
+     * @param supervisorNamespace The namespace of the resulting supervisor, or {@code null}.
+     */
+    public void setSupervisorNamespace(String supervisorNamespace) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.supervisorNamespace = supervisorNamespace;
+        checkSettings();
+    }
+
+    /**
+     * Get the BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#BDD_OUTPUT_MODE_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The BDD output mode.
+     */
+    public BddOutputMode getBddOutputMode() {
+        return bddOutputMode;
+    }
+
+    /**
+     * Set the BDD output mode, indicating how to convert BDDs to CIF for the output of synthesis.
+     *
+     * @param bddOutputMode The BDD output mode.
+     */
+    public void setBddOutputMode(BddOutputMode bddOutputMode) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.bddOutputMode = bddOutputMode;
+        checkSettings();
+    }
+
+    /**
+     * Get the prefix to use for BDD related names in the output. It is a valid
+     * {@link CifValidationUtils#isValidIdentifier CIF identifier}.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#BDD_OUTPUT_NAME_PREFIX} is the default value.
+     * </p>
+     *
+     * @return The prefix to use for BDD related names in the output.
+     */
+    public String getBddOutputNamePrefix() {
+        return bddOutputNamePrefix;
+    }
+
+    /**
+     * Set the prefix to use for BDD related names in the output. It must be a valid
+     * {@link CifValidationUtils#isValidIdentifier CIF identifier}.
+     *
+     * @param bddOutputNamePrefix The prefix to use for BDD related names in the output.
+     */
+    public void setBddOutputNamePrefix(String bddOutputNamePrefix) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.bddOutputNamePrefix = bddOutputNamePrefix;
+        checkSettings();
+    }
+
+    /**
+     * Get the BDD predicate simplifications to perform.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#BDD_SIMPLIFICATIONS_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The BDD predicate simplifications to perform.
+     */
+    public EnumSet<BddSimplify> getBddSimplifications() {
+        return bddSimplifications;
+    }
+
+    /**
+     * Set the BDD predicate simplifications to perform.
+     *
+     * @param bddSimplifications The BDD predicate simplifications to perform.
+     */
+    public void setBddSimplifications(EnumSet<BddSimplify> bddSimplifications) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.bddSimplifications = bddSimplifications;
+        checkSettings();
+    }
+
+    /**
+     * Get the kinds of statistics to print.
+     *
+     * <p>
+     * {@link CifDataSynthesisSettingsDefaults#SYNTHESIS_STATISTICS_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The kinds of statistics to print.
+     */
+    public EnumSet<SynthesisStatistics> getSynthesisStatistics() {
+        return synthesisStatistics;
+    }
+
+    /**
+     * Set the kinds of statistics to print.
+     *
+     *
      * @param synthesisStatistics The kinds of statistics to print.
      */
-    public CifDataSynthesisSettings(Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput,
-            DebugNormalOutput normalOutput, WarnOutput warnOutput, boolean bddDcshEnabled, Integer bddDebugMaxNodes,
-            Double bddDebugMaxPaths, boolean bddForceEnabled, BddHyperEdgeAlgo bddHyperEdgeAlgo,
-            int bddInitNodeTableSize, double bddOpCacheRatio, Integer bddOpCacheSize, String bddOutputNamePrefix,
-            BddOutputMode bddOutputMode, EnumSet<BddSimplify> bddSimplifications, String bddVarOrderInit,
-            boolean bddSlidingWindowEnabled, int bddSlidingWindowMaxLen, String bddVarOrderAdvanced,
-            String continuousPerformanceStatisticsFilePath, String continuousPerformanceStatisticsFileAbsPath,
-            EdgeGranularity edgeGranularity, String edgeOrderBackward, String edgeOrderForward,
-            EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents, boolean doUseEdgeWorksetAlgo,
-            boolean doNeverEnabledEventsWarn, FixedPointComputationsOrder fixedPointComputationsOrder,
-            boolean doForwardReach, boolean doPlantsRefReqsWarn, StateReqInvEnforceMode stateReqInvEnforceMode,
-            String supervisorName, String supervisorNamespace, EnumSet<SynthesisStatistics> synthesisStatistics)
-    {
-        // Pass on the CIF/BDD-related settings.
-        //
-        // Do not allow non-determinism for controllable events. An external supervisor can't force the correct edge to
-        // be taken, if only the updates (includes location pointer variable assignment for target location) are
-        // different. For uncontrollable events non-determinism is not a problem, as the supervisor won't restrict edges
-        // for uncontrollable events.
-        super(shouldTerminate, debugOutput, normalOutput, warnOutput, AllowNonDeterminism.UNCONTROLLABLE,
-                bddDcshEnabled, bddDebugMaxNodes, bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo,
-                bddInitNodeTableSize, bddOpCacheRatio, bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled,
-                bddSlidingWindowMaxLen, bddVarOrderAdvanced, edgeGranularity, edgeOrderBackward, edgeOrderForward,
-                edgeOrderAllowDuplicateEvents, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
-                SynthesisStatistics.toCifBdd(synthesisStatistics));
-
-        // Store settings.
-        this.bddOutputNamePrefix = bddOutputNamePrefix;
-        this.bddOutputMode = bddOutputMode;
-        this.bddSimplifications = bddSimplifications;
-        this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
-        this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;
-        this.doNeverEnabledEventsWarn = doNeverEnabledEventsWarn;
-        this.fixedPointComputationsOrder = fixedPointComputationsOrder;
-        this.doForwardReach = doForwardReach;
-        this.stateReqInvEnforceMode = stateReqInvEnforceMode;
-        this.supervisorName = supervisorName;
-        this.supervisorNamespace = supervisorNamespace;
+    public void setSynthesisStatistics(EnumSet<SynthesisStatistics> synthesisStatistics) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.synthesisStatistics = synthesisStatistics;
+        checkSettings();
+    }
 
+    /**
+     * Get the absolute or relative path to the continuous performance statistics output file.
+     *
+     * <p>
+     * By default, no path is set ({@code null}). If continuous performance statistics are
+     * {@link #getSynthesisStatistics enabled}, this path must be {@link #setContinuousPerformanceStatisticsFilePath
+     * set}.
+     * </p>
+     *
+     * @return The absolute or relative path to the continuous performance statistics output file.
+     */
+    public String getContinuousPerformanceStatisticsFilePath() {
+        return continuousPerformanceStatisticsFilePath;
+    }
+
+    /**
+     * Set the absolute or relative path to the continuous performance statistics output file.
+     *
+     * @param continuousPerformanceStatisticsFilePath The absolute or relative path to the continuous performance
+     *     statistics output file.
+     */
+    public void setContinuousPerformanceStatisticsFilePath(String continuousPerformanceStatisticsFilePath) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.continuousPerformanceStatisticsFilePath = continuousPerformanceStatisticsFilePath;
+        checkSettings();
+    }
+
+    /**
+     * Get the absolute path to the continuous performance statistics output file.
+     *
+     * <p>
+     * By default, no path is set ({@code null}). If continuous performance statistics are
+     * {@link #getSynthesisStatistics enabled}, this path must be {@link #setContinuousPerformanceStatisticsFileAbsPath
+     * set}.
+     * </p>
+     *
+     * @return The absolute or relative path to the continuous performance statistics output file.
+     */
+    public String getContinuousPerformanceStatisticsFileAbsPath() {
+        return continuousPerformanceStatisticsFileAbsPath;
+    }
+
+    /**
+     * Set the absolute path to the continuous performance statistics output file.
+     *
+     * @param continuousPerformanceStatisticsFileAbsPath The absolute path to the continuous performance statistics
+     *     output file.
+     */
+    public void setContinuousPerformanceStatisticsFileAbsPath(String continuousPerformanceStatisticsFileAbsPath) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.continuousPerformanceStatisticsFileAbsPath = continuousPerformanceStatisticsFileAbsPath;
+        checkSettings();
+    }
+
+    /** Check that the settings have valid values, for as much as it can be checked locally. */
+    private void checkSettings() {
         // Check BDD output name prefix.
         if (!CifValidationUtils.isValidIdentifier(bddOutputNamePrefix)) {
             String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", bddOutputNamePrefix);

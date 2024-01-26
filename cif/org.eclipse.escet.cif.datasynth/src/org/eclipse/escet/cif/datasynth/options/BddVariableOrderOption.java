@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
@@ -55,7 +55,7 @@ public class BddVariableOrderOption extends StringOption {
                 "ORDER",
 
                 // defaultValue
-                BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT,
+                CifBddSettingsDefaults.VAR_ORDER_INIT_DEFAULT,
 
                 // emptyAsNull
                 false,

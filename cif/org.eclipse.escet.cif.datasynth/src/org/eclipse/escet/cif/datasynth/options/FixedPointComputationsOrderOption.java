@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.cif.datasynth.settings.FixedPointComputationsOrder;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -43,7 +44,7 @@ public class FixedPointComputationsOrderOption extends EnumOption<FixedPointComp
                 "ORDER",
 
                 // defaultValue
-                FixedPointComputationsOrder.NONBLOCK_CTRL_REACH,
+                CifDataSynthesisSettingsDefaults.FIXED_POINT_COMPUTATIONS_ORDER_DEFAULT,
 
                 // showInDialog
                 true,

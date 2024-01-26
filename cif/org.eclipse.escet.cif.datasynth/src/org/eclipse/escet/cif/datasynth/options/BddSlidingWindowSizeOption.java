@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.IntegerOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -39,7 +39,7 @@ public class BddSlidingWindowSizeOption extends IntegerOption {
                 "SIZE",
 
                 // defaultValue
-                BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT,
+                CifBddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT,
 
                 // minimumValue
                 1,

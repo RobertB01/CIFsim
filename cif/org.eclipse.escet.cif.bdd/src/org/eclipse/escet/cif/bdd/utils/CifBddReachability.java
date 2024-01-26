@@ -126,7 +126,7 @@ public class CifBddReachability {
     public BDD performReachability(BDD pred) {
         // Print debug output.
         if (dbgEnabled) {
-            cifBddSpec.settings.debugOutput.line("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName),
+            cifBddSpec.settings.getDebugOutput().line("%s: %s [%s predicate]", Strings.makeInitialUppercase(predName),
                     bddToStr(pred, cifBddSpec), initName);
         }
 
@@ -136,7 +136,7 @@ public class CifBddReachability {
         // Restrict predicate.
         if (restriction != null) {
             BDD restrictedPred = pred.and(restriction);
-            if (cifBddSpec.settings.shouldTerminate.get()) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return null;
             }
 
@@ -145,7 +145,7 @@ public class CifBddReachability {
             } else {
                 if (dbgEnabled) {
                     Assert.notNull(restrictionName);
-                    cifBddSpec.settings.debugOutput.line("%s: %s -> %s [restricted to %s predicate: %s]",
+                    cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [restricted to %s predicate: %s]",
                             Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
                             bddToStr(restrictedPred, cifBddSpec), restrictionName, bddToStr(restriction, cifBddSpec));
                 }
@@ -156,7 +156,7 @@ public class CifBddReachability {
         }
 
         // Determine the edges to be applied.
-        boolean useWorkSetAlgo = cifBddSpec.settings.doUseEdgeWorksetAlgo;
+        boolean useWorkSetAlgo = cifBddSpec.settings.getDoUseEdgeWorksetAlgo();
         List<CifBddEdge> orderedEdges = forward ? cifBddSpec.orderedEdgesForward : cifBddSpec.orderedEdgesBackward;
         Predicate<CifBddEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
                 || (unctrl && !e.event.getControllable());
@@ -166,12 +166,12 @@ public class CifBddReachability {
 
         // Prepare edges for being applied.
         Collection<CifBddEdge> edgesToPrepare = //
-                (cifBddSpec.settings.edgeOrderAllowDuplicateEvents == EdgeOrderDuplicateEventAllowance.ALLOWED)
+                (cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents() == EdgeOrderDuplicateEventAllowance.ALLOWED)
                         ? list2set(edgesToApply) : edgesToApply;
         for (CifBddEdge edge: edgesToPrepare) {
             edge.preApply(forward, restriction);
         }
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
 
@@ -182,7 +182,7 @@ public class CifBddReachability {
         } else {
             reachabilityResult = performReachabilityFixedOrder(pred, edgesToApply);
         }
-        if (reachabilityResult == null || cifBddSpec.settings.shouldTerminate.get()) {
+        if (reachabilityResult == null || cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
         pred = reachabilityResult.left;
@@ -194,11 +194,11 @@ public class CifBddReachability {
         }
 
         // Fixed point reached. Inform the user.
-        if (cifBddSpec.settings.shouldTerminate.get()) {
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
         if (dbgEnabled && changed) {
-            cifBddSpec.settings.debugOutput.line("%s: %s [fixed point].", Strings.makeInitialUppercase(predName),
+            cifBddSpec.settings.getDebugOutput().line("%s: %s [fixed point].", Strings.makeInitialUppercase(predName),
                     bddToStr(pred, cifBddSpec));
         }
         return pred;
@@ -238,13 +238,13 @@ public class CifBddReachability {
                 // Apply selected edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (cifBddSpec.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (cifBddSpec.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
 
@@ -264,7 +264,7 @@ public class CifBddReachability {
                         restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
                                 bddToStr(restriction, cifBddSpec));
                     }
-                    cifBddSpec.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
+                    cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [%s reach with edge: %s%s]",
                             Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
                             bddToStr(newPred, cifBddSpec), (forward ? "forward" : "backward"), edge.toString(0, ""),
                             restrTxt);
@@ -315,7 +315,7 @@ public class CifBddReachability {
             // Print iteration, for debugging.
             iter++;
             if (dbgEnabled) {
-                cifBddSpec.settings.debugOutput.line("%s reachability: iteration %d.",
+                cifBddSpec.settings.getDebugOutput().line("%s reachability: iteration %d.",
                         (forward ? "Forward" : "Backward"), iter);
             }
 
@@ -324,13 +324,13 @@ public class CifBddReachability {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, bad, forward, restriction, !forward);
-                if (cifBddSpec.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (cifBddSpec.settings.shouldTerminate.get()) {
+                if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
 
@@ -353,7 +353,7 @@ public class CifBddReachability {
                             restrTxt = fmt(", restricted to %s predicate: %s", restrictionName,
                                     bddToStr(restriction, cifBddSpec));
                         }
-                        cifBddSpec.settings.debugOutput.line("%s: %s -> %s [%s reach with edge: %s%s]",
+                        cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [%s reach with edge: %s%s]",
                                 Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
                                 bddToStr(newPred, cifBddSpec), (forward ? "forward" : "backward"), edge.toString(0, ""),
                                 restrTxt);

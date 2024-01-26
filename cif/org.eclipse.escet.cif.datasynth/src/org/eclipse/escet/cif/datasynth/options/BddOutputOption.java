@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth.options;
 
 import org.eclipse.escet.cif.datasynth.settings.BddOutputMode;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -24,7 +25,7 @@ public class BddOutputOption extends EnumOption<BddOutputMode> {
         super("BDD output mode", "Indicates how to convert BDDs to CIF for the output of synthesis. "
                 + "Specify \"normal\" (default) to convert each BDD to a CIF predicate in conjunctive or disjunctive "
                 + "normal form (CNF/DNF) notation, or \"nodes\" to represent the internal BDD nodes directly in CIF.",
-                't', "bdd-output", "OUTMODE", BddOutputMode.NORMAL, true,
+                't', "bdd-output", "OUTMODE", CifDataSynthesisSettingsDefaults.BDD_OUTPUT_MODE_DEFAULT, true,
                 "Indicates how to convert BDDs to CIF for the output of synthesis.");
     }
 

@@ -22,17 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.function.Supplier;
 
-import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.BddHyperEdgeAlgo;
-import org.eclipse.escet.cif.bdd.settings.BddSettingsDefaults;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
-import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
-import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
-import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.bdd.varorder.orderers.VarOrderer;
@@ -40,33 +33,21 @@ import org.eclipse.escet.cif.bdd.varorder.parser.ast.VarOrdererInstance;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
-import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** {@link VarOrdererParser} tests. */
 public class VarOrdererParserTest {
-    /** See {@link CifBddSettings#bddVarOrderInit}. */
-    private String bddVarOrderInit = BddSettingsDefaults.VAR_ORDER_INIT_DEFAULT;
+    /** The settings to use. */
+    private CifBddSettings settings;
 
-    /** See {@link CifBddSettings#bddDcshEnabled}. */
-    private boolean bddDcshEnabled = BddSettingsDefaults.DCSH_ENABLED_DEFAULT;
-
-    /** See {@link CifBddSettings#bddForceEnabled}. */
-    private boolean bddForceEnabled = BddSettingsDefaults.FORCE_ENABLED_DEFAULT;
-
-    /** See {@link CifBddSettings#bddSlidingWindowEnabled}. */
-    private boolean bddSlidingWindowEnabled = BddSettingsDefaults.SLIDING_WINDOW_ENABLED_DEFAULT;
-
-    /** See {@link CifBddSettings#bddSlidingWindowMaxLen}. */
-    private int bddSlidingWindowMaxLen = BddSettingsDefaults.SLIDING_WINDOW_MAX_LEN_DEFAULT;
-
-    /** See {@link CifBddSettings#bddVarOrderAdvanced}. */
-    private String bddVarOrderAdvanced = BddSettingsDefaults.VAR_ORDER_ADVANCED_DEFAULT;
-
-    /** See {@link CifBddSettings#bddHyperEdgeAlgo}. */
-    private BddHyperEdgeAlgo bddHyperEdgeAlgo = BddSettingsDefaults.HYPER_EDGE_ALGO_DEFAULT;
+    /** Initialize default settings before each test, such that each test can override them. */
+    @BeforeEach
+    public void beforeEach() {
+        settings = new CifBddSettings();
+    }
 
     @Test
     @SuppressWarnings("javadoc")
@@ -752,8 +733,8 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsInitialOrder() {
-        bddVarOrderInit = "random";
-        bddVarOrderAdvanced = "random";
+        settings.setBddVarOrderInit("random");
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -761,8 +742,8 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsDcsh() {
-        bddDcshEnabled = false;
-        bddVarOrderAdvanced = "random";
+        settings.setBddDcshEnabled(false);
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -770,8 +751,8 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsForce() {
-        bddForceEnabled = false;
-        bddVarOrderAdvanced = "random";
+        settings.setBddForceEnabled(false);
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -779,8 +760,8 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsSlidWin() {
-        bddSlidingWindowEnabled = false;
-        bddVarOrderAdvanced = "random";
+        settings.setBddSlidingWindowEnabled(false);
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -788,8 +769,8 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsSlidWinSize() {
-        bddSlidingWindowMaxLen = 2;
-        bddVarOrderAdvanced = "random";
+        settings.setBddSlidingWindowMaxLen(2);
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -797,8 +778,8 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsRelations() {
-        bddHyperEdgeAlgo = BddHyperEdgeAlgo.LINEARIZED;
-        bddVarOrderAdvanced = "random";
+        settings.setBddHyperEdgeAlgo(BddHyperEdgeAlgo.LINEARIZED);
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -806,9 +787,9 @@ public class VarOrdererParserTest {
     @Test
     @SuppressWarnings("javadoc")
     public void testMixBasicAdvancedSettingsMultiple() {
-        bddSlidingWindowMaxLen = 2;
-        bddHyperEdgeAlgo = BddHyperEdgeAlgo.LINEARIZED;
-        bddVarOrderAdvanced = "random";
+        settings.setBddSlidingWindowMaxLen(2);
+        settings.setBddHyperEdgeAlgo(BddHyperEdgeAlgo.LINEARIZED);
+        settings.setBddVarOrderAdvanced("random");
         testInvalid("random", "The BDD variable ordering has both basic and advanced configuration, "
                 + "which is not supported. Use only basic or only advanced configuration.");
     }
@@ -836,7 +817,6 @@ public class VarOrdererParserTest {
         List<VarOrdererInstance> parseResult = parser.parseString(ordererTxt, "/dummy", null, DebugMode.NONE);
 
         // Type check.
-        CifBddSettings settings = getSettings();
         VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables, settings);
         VarOrderer orderer = tchecker.typeCheck(parseResult);
         assertFalse(tchecker.hasWarning(), "Type check warnings found.");
@@ -879,7 +859,6 @@ public class VarOrdererParserTest {
 
         // Type check.
         try {
-            CifBddSettings settings = getSettings();
             VarOrdererTypeChecker tchecker = new VarOrdererTypeChecker(variables, settings);
             VarOrderer orderer = tchecker.typeCheck(parseResult);
             assertEquals(orderer, null, "Type checker produced result.");
@@ -890,31 +869,5 @@ public class VarOrdererParserTest {
         } catch (InvalidOptionException e) {
             assertEquals(expectedMsg, e.getMessage());
         }
-    }
-
-    /**
-     * Returns the settings to use.
-     *
-     * @return The settings to use.
-     */
-    private CifBddSettings getSettings() {
-        Supplier<Boolean> shouldTerminate = () -> false;
-        BlackHoleOutputProvider outputProvider = new BlackHoleOutputProvider();
-        Integer bddDebugMaxNodes = 10;
-        Double bddDebugMaxPaths = 10.0;
-        int bddInitNodeTableSize = 100_000;
-        double bddOpCacheRatio = 1;
-        Integer bddOpCacheSize = null;
-        String edgeOrderBackward = "model";
-        String edgeOrderForward = "model";
-        boolean doUseEdgeWorksetAlgo = false;
-        boolean doPlantsRefReqsWarn = false;
-        return new CifBddSettings(shouldTerminate, outputProvider.getDebugOutput(), outputProvider.getNormalOutput(),
-                outputProvider.getWarnOutput(), AllowNonDeterminism.UNCONTROLLABLE, bddDcshEnabled, bddDebugMaxNodes,
-                bddDebugMaxPaths, bddForceEnabled, bddHyperEdgeAlgo, bddInitNodeTableSize, bddOpCacheRatio,
-                bddOpCacheSize, bddVarOrderInit, bddSlidingWindowEnabled, bddSlidingWindowMaxLen, bddVarOrderAdvanced,
-                EdgeGranularity.PER_EDGE, edgeOrderBackward, edgeOrderForward,
-                EdgeOrderDuplicateEventAllowance.DISALLOWED, doUseEdgeWorksetAlgo, doPlantsRefReqsWarn,
-                EnumSet.noneOf(CifBddStatistics.class));
     }
 }

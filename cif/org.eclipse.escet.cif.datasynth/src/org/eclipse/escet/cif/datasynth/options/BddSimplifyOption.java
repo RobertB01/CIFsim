@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.datasynth.options;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.datasynth.settings.BddSimplify;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.EnumSetOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -72,7 +73,7 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
                 "SIMPLIFICATION",
 
                 // defaultValue
-                EnumSet.allOf(BddSimplify.class),
+                CifDataSynthesisSettingsDefaults.BDD_SIMPLIFICATIONS_DEFAULT.clone(),
 
                 // showInDialog
                 true,

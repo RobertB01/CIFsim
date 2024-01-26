@@ -17,9 +17,9 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.datasynth.conversion.SynthesisToCifConverter;
@@ -111,28 +111,56 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     @Override
     protected int runInternal() {
         // Construct settings. Do it early, to validate settings early.
-        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
-        CifDataSynthesisSettings settings = new CifDataSynthesisSettings(shouldTerminate,
-                OutputProvider.getDebugOutputStream(), OutputProvider.getNormalOutputStream(),
-                OutputProvider.getWarningOutputStream(), BddDcshVarOrderOption.isEnabled(),
-                BddDebugMaxNodesOption.getMaximum(), BddDebugMaxPathsOption.getMaximum(),
-                BddForceVarOrderOption.isEnabled(), BddHyperEdgeAlgoOption.getAlgo(),
-                BddInitNodeTableSizeOption.getInitialSize(), BddOpCacheRatioOption.getCacheRatio(),
-                BddOpCacheSizeOption.getCacheSize(), BddOutputNamePrefixOption.getPrefix(), BddOutputOption.getMode(),
-                BddSimplifyOption.getSimplifications(), BddVariableOrderOption.getOrder(),
-                BddSlidingWindowVarOrderOption.isEnabled(), BddSlidingWindowSizeOption.getMaxLen(),
-                BddAdvancedVariableOrderOption.getOrder(), ContinuousPerformanceStatisticsFileOption.getPath(),
-                Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()),
-                EdgeGranularityOption.getGranularity(), EdgeOrderBackwardOption.getOrder(),
-                EdgeOrderForwardOption.getOrder(), EdgeOrderDuplicateEventsOption.getAllowance(),
-                EdgeWorksetAlgoOption.isEnabled(), EventWarnOption.isEnabled(),
-                FixedPointComputationsOrderOption.getOrder(), ForwardReachOption.isEnabled(),
-                PlantsRefReqsWarnOption.isEnabled(), StateReqInvEnforceOption.getMode(),
-                SupervisorNameOption.getSupervisorName("sup"), SupervisorNamespaceOption.getNamespace(),
-                SynthesisStatisticsOption.getStatistics());
+        //
+        // Do not allow non-determinism for controllable events. An external supervisor can't force the correct edge to
+        // be taken, if only the updates (includes location pointer variable assignment for target location) are
+        // different. For uncontrollable events non-determinism is not a problem, as the supervisor won't restrict edges
+        // for uncontrollable events.
+        CifDataSynthesisSettings settings = new CifDataSynthesisSettings();
+
+        settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
+        settings.setDebugOutput(OutputProvider.getDebugOutputStream());
+        settings.setNormalOutput(OutputProvider.getNormalOutputStream());
+        settings.setWarnOutput(OutputProvider.getWarningOutputStream());
+        settings.setDoPlantsRefReqsWarn(PlantsRefReqsWarnOption.isEnabled());
+        settings.setAllowNonDeterminism(AllowNonDeterminism.UNCONTROLLABLE);
+        settings.setBddInitNodeTableSize(BddInitNodeTableSizeOption.getInitialSize());
+        settings.setBddOpCacheRatio(BddOpCacheRatioOption.getCacheRatio());
+        settings.setBddOpCacheSize(BddOpCacheSizeOption.getCacheSize());
+        settings.setBddVarOrderInit(BddVariableOrderOption.getOrder());
+        settings.setBddDcshEnabled(BddDcshVarOrderOption.isEnabled());
+        settings.setBddForceEnabled(BddForceVarOrderOption.isEnabled());
+        settings.setBddSlidingWindowEnabled(BddSlidingWindowVarOrderOption.isEnabled());
+        settings.setBddSlidingWindowMaxLen(BddSlidingWindowSizeOption.getMaxLen());
+        settings.setBddVarOrderAdvanced(BddAdvancedVariableOrderOption.getOrder());
+        settings.setBddHyperEdgeAlgo(BddHyperEdgeAlgoOption.getAlgo());
+        settings.setBddDebugMaxNodes(BddDebugMaxNodesOption.getMaximum());
+        settings.setBddDebugMaxPaths(BddDebugMaxPathsOption.getMaximum());
+        settings.setEdgeGranularity(EdgeGranularityOption.getGranularity());
+        settings.setEdgeOrderBackward(EdgeOrderBackwardOption.getOrder());
+        settings.setEdgeOrderForward(EdgeOrderForwardOption.getOrder());
+        settings.setEdgeOrderAllowDuplicateEvents(EdgeOrderDuplicateEventsOption.getAllowance());
+        settings.setDoUseEdgeWorksetAlgo(EdgeWorksetAlgoOption.isEnabled());
+        settings.setCifBddStatistics(SynthesisStatistics.toCifBdd(SynthesisStatisticsOption.getStatistics()));
+
+        settings.setDoNeverEnabledEventsWarn(EventWarnOption.isEnabled());
+        settings.setStateReqInvEnforceMode(StateReqInvEnforceOption.getMode());
+        settings.setFixedPointComputationsOrder(FixedPointComputationsOrderOption.getOrder());
+        settings.setDoForwardReach(ForwardReachOption.isEnabled());
+        settings.setSupervisorName(SupervisorNameOption.getSupervisorName());
+        settings.setSupervisorNamespace(SupervisorNamespaceOption.getNamespace());
+        settings.setBddOutputMode(BddOutputOption.getMode());
+        settings.setBddOutputNamePrefix(BddOutputNamePrefixOption.getPrefix());
+        settings.setBddSimplifications(BddSimplifyOption.getSimplifications());
+        settings.setSynthesisStatistics(SynthesisStatisticsOption.getStatistics());
+        settings.setContinuousPerformanceStatisticsFilePath(ContinuousPerformanceStatisticsFileOption.getPath());
+        settings.setContinuousPerformanceStatisticsFileAbsPath(
+                Paths.resolve(ContinuousPerformanceStatisticsFileOption.getPath()));
+
+        settings.setModificationAllowed(false);
 
         // Initialize timing statistics.
-        boolean doTiming = settings.synthesisStatistics.contains(SynthesisStatistics.TIMING);
+        boolean doTiming = settings.getSynthesisStatistics().contains(SynthesisStatistics.TIMING);
         CifDataSynthesisTiming timing = new CifDataSynthesisTiming();
 
         // Do synthesis.
@@ -145,7 +173,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             // Print timing statistics.
             if (doTiming) {
                 timing.total.stop();
-                timing.print(settings.debugOutput, settings.normalOutput);
+                timing.print(settings.getDebugOutput(), settings.getNormalOutput());
             }
         }
 
@@ -162,7 +190,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
      */
     private void doSynthesis(CifDataSynthesisSettings settings, boolean doTiming, CifDataSynthesisTiming timing) {
         // Initialize debugging.
-        boolean dbgEnabled = settings.debugOutput.isEnabled();
+        boolean dbgEnabled = settings.getDebugOutput().isEnabled();
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
@@ -196,7 +224,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             timing.inputPreProcess.start();
         }
         try {
-            CifToBddConverter.preprocess(spec, settings.warnOutput, settings.doPlantsRefReqsWarn);
+            CifToBddConverter.preprocess(spec, settings.getWarnOutput(), settings.getDoPlantsRefReqsWarn());
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -270,8 +298,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Print statistics before we clean up the factory.
             BddUtils.printStats(factory, settings, continuousOpMisses, continuousUsedBddNodes,
-                    settings.continuousPerformanceStatisticsFilePath,
-                    settings.continuousPerformanceStatisticsFileAbsPath);
+                    settings.getContinuousPerformanceStatisticsFilePath(),
+                    settings.getContinuousPerformanceStatisticsFileAbsPath());
 
             if (isTerminationRequested()) {
                 return;
