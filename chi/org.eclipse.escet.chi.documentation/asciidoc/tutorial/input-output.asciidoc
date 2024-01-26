@@ -38,7 +38,7 @@ s = read(string);
 Two values, an integer value and a string value are read from the command line.
 On the command line the two values are typed:
 
-[source, console]
+[source, shell]
 ----
 1 "This is a string"
 ----
@@ -80,7 +80,7 @@ Instead, the file is processed sequentially from begin to end, with values separ
 You can read values of different types from the same file, as long as the value in the file matches with the type that you ask.
 For example, the above Chi program could read the following data from `data_file.txt`:
 
-[source, console]
+[source]
 ----
 21
 [("abc", [7,21]),
@@ -104,7 +104,7 @@ These functions can be used to customize reading of more complicated values.
 As an example, you may want to read the same `list row` value as above, but without having all the comma's, quotes, parentheses, and brackets of the literal value `[("abc", [7,21]), ("def", [8,31,47])]`.
 Instead, imagine having a file `clean_data.txt` with the following layout:
 
-[source, console]
+[source]
 ----
 abc 7 21
 def 8 31 47

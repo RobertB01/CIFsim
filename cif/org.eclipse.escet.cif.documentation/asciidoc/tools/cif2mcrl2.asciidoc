@@ -450,7 +450,7 @@ indexterm:[CIF to mCRL2 transformer,result of the transformation]
 A variable process in mCRL2 handles shared access to a variable.
 For variable `P.x` in the above example it looks like:
 
-[source]
+[source, mcrl2]
 ----
 act value_x, vread_x, vwrite_x, sync_x, aread_x, awrite_x : Int;
 
@@ -469,7 +469,7 @@ Like the variables, the name of the automaton is used in the output.
 If there are name conflicts, a number is appended to make it unique.
 The process is the same list of edges of the original CIF automaton, with added read and write actions for synchronizing with the variable processes:
 
-[source]
+[source, mcrl2]
 ----
 sort LocSort_P = struct loc_P_p1 | loc_P_p2;
 
@@ -485,7 +485,7 @@ The instantiation tree is dominated by the action operators needed for synchroni
 The `+value_...+` actions are allowed up the to top level node, to give access to variable values in the verification.
 This leads to:
 
-[source]
+[source, mcrl2]
 ----
 act a, renamed_a, c, renamed_c, b, renamed_b;
 

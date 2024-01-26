@@ -177,7 +177,8 @@ In your own plugin, to register an annotation:
 
 A proper extension to register an annotation will look something like this:
 
-```xml
+[source, xml]
+----
 <extension
      point="org.company.cif.annotations">
   <provider
@@ -186,7 +187,7 @@ A proper extension to register an annotation will look something like this:
         plugin="org.company.cif.annotations">
   </provider>
 </extension>
-```
+----
 
 Some additional constraints must be adhered to:
 

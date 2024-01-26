@@ -25,10 +25,6 @@
             <directory>${project.build.directory}/website</directory>
             <outputDirectory />
         </fileSet>
-        <fileSet>
-            <directory>${basedir}/images</directory>
-            <outputDirectory />
-        </fileSet>
     </fileSets>
 
 </assembly>

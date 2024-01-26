@@ -179,12 +179,13 @@ This is particularly relevant if multiple syntheses are performed one after the 
 Both synthesis and garbage collection may conveniently be executed via a <<tools-scripting-chapter-intro,ToolDef script>>.
 For example, using a ToolDef script like this:
 +
-```tooldef
+[source, tooldef]
+----
 from "lib:cif" import *;
 import java.lang.System.gc;
 gc();
 cifdatasynth(...);
-```
+----
 +
 The maximum used memory statistics obtained in this way are an easy way to get an approximation of the memory used during synthesis.
 For a more comprehensive way to measure memory usage, use a tool like link:https://eclipse.dev/escet/{escet-deploy-folder-name}/performance/tweak-perf-settings.html#monitoring-with-visualvm[VisualVM].

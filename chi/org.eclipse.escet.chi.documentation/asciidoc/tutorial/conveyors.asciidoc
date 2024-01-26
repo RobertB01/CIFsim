@@ -51,7 +51,7 @@ proc P():
     delay 10.0;
     t = timer(5.0); # Get a time-out at time = 15.0
     for i in range(7):
-        write("%f %f %b\n, time, real(t), ready(t));
+        write("%f %f %b\n", time, real(t), ready(t));
         delay 1.0
     end
 end
