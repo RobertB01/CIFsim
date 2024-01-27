@@ -257,7 +257,7 @@ Invariants : Invariant
 Invariant :                Expression
           | Identifier ":" Expression
           |                Name                  "needs"    Expression
-          | Identifier ":" Name                  "needs"    Expression 
+          | Identifier ":" Name                  "needs"    Expression
           |                NonEmptySetExpression "needs"    Expression
           |                Expression            "disables" Name
           | Identifier ":" Expression            "disables" Name
