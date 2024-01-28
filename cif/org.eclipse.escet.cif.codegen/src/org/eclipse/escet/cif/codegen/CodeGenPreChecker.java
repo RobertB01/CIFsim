@@ -15,7 +15,11 @@ package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 
 /**
  * CIF code generator precondition checker. Does not support component definition/instantiation.
@@ -33,7 +37,13 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 
                 // Initialization predicates in components are not supported, except if it can be determined statically
                 // that they are trivially true.
-                new CompNoInitPredsCheck(true)
+                new CompNoInitPredsCheck(true),
+
+                // State invariants (in components as well as locations) are not supported, except if it can be
+                // determined statically that they are trivially true.
+                new InvNoSpecificInvsCheck() //
+                        .ignoreNeverBlockingInvariants() //
+                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.ALL_PLACES)
 
         //
         );
@@ -68,20 +78,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    @Override
-//    protected void preprocessComplexComponent(ComplexComponent comp) {
-//        // State invariants, as state/event exclusion invariants are eliminated.
-//        List<Expression> invPreds = listc(comp.getInvariants().size());
-//        for (Invariant inv: comp.getInvariants()) {
-//            invPreds.add(inv.getPredicate());
-//        }
-//        if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
-//            String msg = fmt("Unsupported %s: state invariants in components are currently not supported.",
-//                    getComponentText1(comp));
-//            problems.add(msg);
-//        }
-//    }
-//
-//    @Override
 //    protected void preprocessDiscVariable(DiscVariable var) {
 //        // Skip all but discrete variables declared in components.
 //        EObject parent = var.eContainer();
@@ -111,17 +107,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //        // Urgency.
 //        if (loc.isUrgent()) {
 //            String msg = fmt("Unsupported %s: urgent locations are currently not supported.", getLocationText1(loc));
-//            problems.add(msg);
-//        }
-//
-//        // State invariants, as state/event exclusion invariants are eliminated.
-//        List<Expression> invPreds = listc(loc.getInvariants().size());
-//        for (Invariant inv: loc.getInvariants()) {
-//            invPreds.add(inv.getPredicate());
-//        }
-//        if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
-//            String msg = fmt("Unsupported %s: state invariants in locations are currently not supported.",
-//                    getLocationText1(loc));
 //            problems.add(msg);
 //        }
 //
