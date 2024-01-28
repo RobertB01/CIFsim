@@ -77,11 +77,32 @@ ${javascript-state-input}
     /** SVG output elements. */
 ${javascript-svg-out-declarations}
 
-    /** SVG event allowed variables. */
-${javascript-event-allowed-declarations}
+    /**
+     * SVG input queue, with the functions for handling clicked SVG
+     * input elements, from first clicked at the head of the array
+     * to last clicked at the tail of the array.
+     */
+    svgInQueue;
 
-    /** SVG input event handlers. */
-${javascript-svg-in-event-handlers-code}
+    /**
+     * The SVG input id corresponding to the SVG input element that
+     * was clicked. Is 'null' if no SVG input element was clicked so
+     * far, or all clicks have already been processed.
+     */
+    svgInId;
+
+    /**
+     * The 0-based index of the event corresponding to the SVG input
+     * element that was clicked. Is '-1' if no SVG input element was
+     * clicked so far, or all clicks have already been processed.
+     */
+    svgInEvent;
+
+    /** SVG input click event handlers. */
+${javascript-svg-in-click-handlers-code}
+
+    /** SVG input event setters. */
+${javascript-svg-in-event-setters-code}
 
     /** Starts the simulation. */
     start() {
@@ -157,7 +178,16 @@ ${javascript-cont-upd-code}
 
         // Execute events as long as they are possible.
         while (true) {
+            // Handle SVG input queue.
+            if (this.svgInQueue.length > 0) {
+                var func = this.svgInQueue.shift(); // Remove head of the queue.
+                func(); // Call function, to set the event to allow.
+            }
+
+            // Try to execute an event.
 ${javascript-event-calls-code}
+
+            // No event executed. We are done.
             break;
         }
 
@@ -253,8 +283,10 @@ ${javascript-event-methods-code}
 ${javascript-const-init-code}
         }
 
-        // SVG input event allowed/clicked variables.
-${javascript-event-allowed-init-code}
+        // Initialize SVG input.
+        this.svgInQueue = [];
+        this.svgInId = null;
+        this.svgInEvent = -1;
 
         // CIF model state variables.
 ${javascript-state-init}
@@ -282,7 +314,7 @@ ${html-svg-move-apply-code}
 ${javascript-svg-out-assignments-code}
 
         // Prepare SVG input.
-${javascript-svg-in-interact-code}
+${javascript-svg-in-setup-code}
     }
 
     /**
