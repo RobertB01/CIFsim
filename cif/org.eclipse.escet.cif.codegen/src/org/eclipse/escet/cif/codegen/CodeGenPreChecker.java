@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
@@ -47,7 +49,10 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.ALL_PLACES),
 
                 // Discrete variables with multiple initial values (including any) are not supported.
-                new VarNoDiscWithMultiInitValuesCheck()
+                new VarNoDiscWithMultiInitValuesCheck(),
+
+                // External user-defined functions are not supported.
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL)
 
         //
         );
@@ -79,13 +84,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //                    + String.join("\n - ", problems);
 //            throw new UnsupportedException(msg);
 //        }
-//    }
-//
-//    @Override
-//    protected void preprocessExternalFunction(ExternalFunction func) {
-//        String msg = fmt("Unsupported function \"%s\": external user-defined functions are currently not supported.",
-//                getAbsName(func));
-//        problems.add(msg);
 //    }
 //
 //    @Override
