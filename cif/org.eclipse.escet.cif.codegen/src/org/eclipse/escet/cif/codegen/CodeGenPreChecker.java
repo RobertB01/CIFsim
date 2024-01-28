@@ -83,6 +83,7 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 new TypeNoSpecificTypesCheck( //
                         NoSpecificType.DICT_TYPES, //
                         NoSpecificType.DIST_TYPES, //
+                        NoSpecificType.FUNC_TYPES_AS_DATA, //
                         NoSpecificType.LIST_TYPES_NON_ARRAY, //
                         NoSpecificType.SET_TYPES),
 
@@ -96,7 +97,13 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY, //
 
                         // Slicing is not supported.
-                        NoSpecificExpr.SLICE_EXPRS),
+                        NoSpecificExpr.SLICE_EXPRS,
+
+                        // Function calls on anything other than standard library functions and internal user-defined
+                        // functions is not supported. Since standard library functions can't be used as data, we only
+                        // need to check user-defined functions used as data. There is no need to check for calls to
+                        // external user-defined function functions, as declaring them is already disallowed.
+                        NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA),
 
                 // Disallow certain unary expressions.
                 new ExprNoSpecificUnaryExprsCheck(
@@ -164,36 +171,10 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    @Override
-//    protected void preprocessFuncType(FuncType type) {
-//        // We support functions directly in function calls, but not as
-//        // data, to be passed around, stored in variables, etc. Note that
-//        // types of expressions are skipped, so the function type of a function
-//        // reference on which a call is performed directly, is allowed.
-//        String msg = fmt("Unsupported type \"%s\": function types are currently not supported. That is, calling "
-//                + "functions is supported, but using them as data is not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void walkCifType(CifType type) {
-//        // Skip checking types of expressions, as the expressions are already
-//        // checked, and we don't transform the types of expressions.
-//        EObject parent = type.eContainer();
-//        if (parent instanceof Expression) {
-//            return;
-//        }
-//
-//        // Not a type of an expression.
-//        super.walkCifType(type);
-//    }
-//
-//    @Override
 //    protected void preprocessFunctionCallExpression(FunctionCallExpression expr) {
 //        // Check supported.
 //        Expression fexpr = expr.getFunction();
-//        if (fexpr instanceof FunctionExpression) {
-//            return;
-//        } else if (fexpr instanceof StdLibFunctionExpression) {
+//        if (fexpr instanceof StdLibFunctionExpression) {
 //            // Check supported stdlib.
 //            StdLibFunctionExpression lExpr = (StdLibFunctionExpression)fexpr;
 //            StdLibFunction stdlib = lExpr.getFunction();
@@ -279,13 +260,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //            problems.add(msg);
 //            return;
 //        }
-//
-//        // Unsupported function call.
-//        String msg = fmt(
-//                "Unsupported expression \"%s\": function calls on anything other than standard library functions "
-//                        + "and internal user-defined functions is currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
 //    }
 //
 //    @Override
@@ -297,23 +271,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    @Override
 //    protected void preprocessDictExpression(DictExpression expr) {
 //        String msg = fmt("Unsupported expression \"%s\": dictionaries are currently not supported.", exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessFunctionExpression(FunctionExpression expr) {
-//        // Function references used as the function to call in function call
-//        // expressions are allowed. All other uses of function references
-//        // (functions as values), are not supported.
-//        if (expr.eContainer() instanceof FunctionCallExpression) {
-//            FunctionCallExpression fcexpr = (FunctionCallExpression)expr.eContainer();
-//            if (fcexpr.getFunction() == expr) {
-//                return;
-//            }
-//        }
-//
-//        String msg = fmt("Unsupported expression \"%s\": the use of functions as values is currently not supported.",
-//                exprToStr(expr));
 //        problems.add(msg);
 //    }
 //
