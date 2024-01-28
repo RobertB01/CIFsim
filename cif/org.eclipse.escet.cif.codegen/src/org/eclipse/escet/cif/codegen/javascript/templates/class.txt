@@ -308,6 +308,12 @@ ${javascript-svg-out-apply-code}
 ${html-log-to-panel-code}
     }
 
+    /** Logs an warning message. */
+    warning(message) {
+        console.log(message);
+${html-warning-to-panel-code}
+    }
+
     /** Logs an error message. */
     error(message) {
         console.log(message);
