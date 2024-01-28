@@ -19,6 +19,6 @@ import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
 public class FuncNoSpecificStdLibCheck1 extends FuncNoSpecificStdLibCheck {
     /** Constructor of the {@link FuncNoSpecificStdLibCheck1} class. */
     public FuncNoSpecificStdLibCheck1() {
-        super(NoSpecificStdLib.STD_LIB_ABS, NoSpecificStdLib.STD_LIB_TRIGONOMETRY_GROUP);
+        super(NoSpecificStdLib.ABS, NoSpecificStdLib.ALL_TRIGONOMETRY);
     }
 }
