@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
@@ -56,7 +57,11 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL),
 
                 // Urgent locations are not supported.
-                new LocNoUrgentCheck()
+                new LocNoUrgentCheck(),
+
+                // Initialization predicates in locations that can not be statically evaluated are not supported.
+                // Automata that do not have exactly one initial location are not supported.
+                new AutOnlyWithOneInitLocCheck()
 
         //
         );
@@ -65,11 +70,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    /** Precondition violations found so far. */
 //    protected List<String> problems = list();
 //
-//    /**
-//     * The number of initial locations found for the automaton being checked. Only valid while checking an automaton. Is
-//     * set to {@code -1} to disable this check due to evaluation errors in initialization predicates.
-//     */
-//    protected int initLocCount;
 //
 //    /**
 //     * Checks the CIF specification to make sure it satisfies the preconditions for the code generator.
@@ -91,54 +91,11 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    @Override
-//    protected void preprocessLocation(Location loc) {
-//        // Initialization.
-//        boolean initial = false;
-//        try {
-//            initial = loc.getInitials().isEmpty() ? false : evalPreds(loc.getInitials(), true, true);
-//        } catch (CifEvalException e) {
-//            // Can only fail if there is at least one predicate.
-//            String msg = fmt("Failed to (statically) evaluate initialization predicate(s): %s.",
-//                    exprsToStr(loc.getInitials()));
-//            problems.add(msg);
-//
-//            // Disable initial location count checking.
-//            initLocCount = -1;
-//        }
-//
-//        if (initial && initLocCount != -1) {
-//            initLocCount++;
-//        }
-//    }
-//
-//    @Override
 //    protected void preprocessEdge(Edge edge) {
 //        // Urgency.
 //        if (edge.isUrgent()) {
 //            Location loc = (Location)edge.eContainer();
 //            String msg = fmt("Unsupported %s: urgent edges are currently not supported.", getLocationText1(loc));
-//            problems.add(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessAutomaton(Automaton aut) {
-//        // Reset initial locations counter.
-//        initLocCount = 0;
-//    }
-//
-//    @Override
-//    protected void postprocessAutomaton(Automaton aut) {
-//        // Exactly one initial location.
-//        if (initLocCount == 0) {
-//            String msg = fmt("Unsupported automaton \"%s\": automata without an initial location are currently "
-//                    + "not supported.", getAbsName(aut));
-//            problems.add(msg);
-//        }
-//
-//        if (initLocCount > 1) {
-//            String msg = fmt("Unsupported automaton \"%s\": automata with multiple initial locations are "
-//                    + "currently not supported.", getAbsName(aut));
 //            problems.add(msg);
 //        }
 //    }
