@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 
 /**
  * CIF code generator precondition checker. Does not support component definition/instantiation.
@@ -26,6 +27,8 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
     /** Constructor for the {@link CodeGenPreChecker} class. */
     public CodeGenPreChecker() {
         super(
+                // Specifications without automata are not supported.
+                new SpecAutomataCountsCheck().setMinMaxAuts(1, Integer.MAX_VALUE)
 
         //
         );
@@ -33,9 +36,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 
 //    /** Precondition violations found so far. */
 //    protected List<String> problems = list();
-//
-//    /** The number of automata encountered. */
-//    protected int autCount;
 //
 //    /**
 //     * The number of initial locations found for the automaton being checked. Only valid while checking an automaton. Is
@@ -59,14 +59,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //            String msg = "CIF code generator failed due to unsatisfied preconditions:\n - "
 //                    + String.join("\n - ", problems);
 //            throw new UnsupportedException(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void postprocessSpecification(Specification spec) {
-//        if (autCount == 0) {
-//            String msg = "Unsupported specification: specifications without automata are currently not supported.";
-//            problems.add(msg);
 //        }
 //    }
 //
@@ -168,9 +160,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    protected void preprocessAutomaton(Automaton aut) {
 //        // Reset initial locations counter.
 //        initLocCount = 0;
-//
-//        // One more automaton encountered.
-//        autCount++;
 //    }
 //
 //    @Override
