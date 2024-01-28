@@ -18,6 +18,6 @@ public enum BddOutputMode {
     /** Use conjunctive or disjunctive normal form. */
     NORMAL,
 
-    /** Represent the internal BDD nodes directly in CI. */
+    /** Represent the internal BDD nodes directly in CIF. */
     NODES;
 }
