@@ -29,6 +29,8 @@ import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.PrintNoSpecificPrintDeclsCheck;
+import org.eclipse.escet.cif.checkers.checks.PrintNoSpecificPrintDeclsCheck.NoSpecificPrintDecl;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -87,7 +89,8 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         NoSpecificType.DIST_TYPES, //
                         NoSpecificType.FUNC_TYPES_AS_DATA, //
                         NoSpecificType.LIST_TYPES_NON_ARRAY, //
-                        NoSpecificType.SET_TYPES),
+                        NoSpecificType.SET_TYPES //
+                ),
 
                 // Disallow certain expressions.
                 new ExprNoSpecificExprsCheck(
@@ -117,12 +120,14 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         // Lists are not disallowed here, as all list literals are arrays, and non-array list types
                         // are already disallowed.
                         NoSpecificExpr.SET_LITS, //
-                        NoSpecificExpr.DICT_LITS),
+                        NoSpecificExpr.DICT_LITS //
+                ),
 
                 // Disallow certain unary expressions.
                 new ExprNoSpecificUnaryExprsCheck(
                         // Sampling of distributions is not supported.
-                        NoSpecificUnaryOp.SAMPLE),
+                        NoSpecificUnaryOp.SAMPLE //
+                ),
 
                 // Disallow certain binary expressions.
                 new ExprNoSpecificBinaryExprsCheck(
@@ -155,7 +160,8 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         // supported.
                         NoSpecificBinaryOp.SUBTRACTION_LISTS, //
                         NoSpecificBinaryOp.SUBTRACTION_SETS, //
-                        NoSpecificBinaryOp.SUBTRACTION_DICTS),
+                        NoSpecificBinaryOp.SUBTRACTION_DICTS //
+                ),
 
                 // Disallow certain standard library functions.
                 new FuncNoSpecificStdLibCheck(
@@ -173,16 +179,23 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         // The empty standard library function on anything other than arrays is not supported.
                         NoSpecificStdLib.EMPTY_DICT, //
                         NoSpecificStdLib.EMPTY_LIST_NON_ARRAY, //
-                        NoSpecificStdLib.EMPTY_SET,
+                        NoSpecificStdLib.EMPTY_SET, //
 
                         // The size standard library function on anything other than strings and arrays is not
                         // supported.
                         NoSpecificStdLib.SIZE_DICT, //
                         NoSpecificStdLib.SIZE_LIST_NON_ARRAY, //
-                        NoSpecificStdLib.SIZE_SET,
+                        NoSpecificStdLib.SIZE_SET, //
 
                         // The distribution standard library functions are not supported.
-                        NoSpecificStdLib.ALL_STOCHASTIC)
+                        NoSpecificStdLib.ALL_STOCHASTIC //
+                ),
+
+                // Disallow certain print declarations.
+                new PrintNoSpecificPrintDeclsCheck( //
+                        NoSpecificPrintDecl.TEXT_POST_FILTER_PRE, //
+                        NoSpecificPrintDecl.TEXT_PRE_FILTER_POST //
+                )
 
         //
         );
@@ -210,19 +223,5 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //            throw new UnsupportedException(msg);
 //        }
 //    }
-//
-//    @Override
-//    protected void preprocessPrint(Print print) {
-//        if (print.getTxtPre() != null && print.getWhenPost() != null) {
-//            String msg = "Unsupported print declaration: print declarations with pre/source state text and "
-//                    + "post/target state filtering (\"when\") are currently not supported.";
-//            problems.add(msg);
-//        }
-//
-//        if (print.getTxtPost() != null && print.getWhenPre() != null) {
-//            String msg = "Unsupported print declaration: print declarations with post/target state text and "
-//                    + "pre/source state filtering (\"when\") are currently not supported.";
-//            problems.add(msg);
-//        }
-//    }
+
 }
