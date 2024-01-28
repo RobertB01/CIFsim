@@ -18,6 +18,7 @@ import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
+import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
@@ -52,7 +53,10 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 new VarNoDiscWithMultiInitValuesCheck(),
 
                 // External user-defined functions are not supported.
-                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL)
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL),
+
+                // Urgent locations are not supported.
+                new LocNoUrgentCheck()
 
         //
         );
@@ -88,12 +92,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //
 //    @Override
 //    protected void preprocessLocation(Location loc) {
-//        // Urgency.
-//        if (loc.isUrgent()) {
-//            String msg = fmt("Unsupported %s: urgent locations are currently not supported.", getLocationText1(loc));
-//            problems.add(msg);
-//        }
-//
 //        // Initialization.
 //        boolean initial = false;
 //        try {
