@@ -101,10 +101,16 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         // Slicing is not supported.
                         NoSpecificExpr.SLICE_EXPRS,
 
+                        // The use of functions as values is not supported. That is, functions may only be used in
+                        // function calls, and may for instance not be stored in variables, or passed to other
+                        // functions.
+                        //
                         // Function calls on anything other than standard library functions and internal user-defined
-                        // functions is not supported. Since standard library functions can't be used as data, we only
-                        // need to check user-defined functions used as data. There is no need to check for calls to
-                        // external user-defined function functions, as declaring them is already disallowed.
+                        // functions is not supported.
+                        //
+                        // Since standard library functions can't be used as data, we only need to check user-defined
+                        // functions used as data. There is no need to check for calls to external user-defined function
+                        // functions, as declaring them is already disallowed.
                         NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA,
 
                         // Lists (except for arrays), sets, and dictionaries are not supported.
