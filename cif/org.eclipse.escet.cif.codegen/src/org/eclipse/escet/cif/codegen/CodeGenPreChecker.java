@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 
 /**
@@ -28,7 +29,11 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
     public CodeGenPreChecker() {
         super(
                 // Specifications without automata are not supported.
-                new SpecAutomataCountsCheck().setMinMaxAuts(1, Integer.MAX_VALUE)
+                new SpecAutomataCountsCheck().setMinMaxAuts(1, Integer.MAX_VALUE),
+
+                // Initialization predicates in components are not supported, except if it can be determined statically
+                // that they are trivially true.
+                new CompNoInitPredsCheck(true)
 
         //
         );
@@ -64,13 +69,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //
 //    @Override
 //    protected void preprocessComplexComponent(ComplexComponent comp) {
-//        // Initialization.
-//        if (!CifValueUtils.isTriviallyTrue(comp.getInitials(), true, true)) {
-//            String msg = fmt("Unsupported %s: initialization predicates in components are currently not supported.",
-//                    getComponentText1(comp));
-//            problems.add(msg);
-//        }
-//
 //        // State invariants, as state/event exclusion invariants are eliminated.
 //        List<Expression> invPreds = listc(comp.getInvariants().size());
 //        for (Invariant inv: comp.getInvariants()) {
