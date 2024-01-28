@@ -11,9 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton X:
-  disc dist int d = binomial(asin(sin(0.5)), 2);
-  disc int n = round(max(abs(cos(12) * 20), 7) + (sample d)[0]);
-  location:
-    initial n < 0;
-end
+package org.eclipse.escet.cif.tests.checkers.checks;
+
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
+
+/** Test class that disallows all standard library stochastic distribution functions. */
+public class FuncNoSpecificStdLibCheckStochastic extends FuncNoSpecificStdLibCheck {
+    /** Constructor of the {@link FuncNoSpecificStdLibCheckStochastic} class. */
+    public FuncNoSpecificStdLibCheckStochastic() {
+        super(NoSpecificStdLib.ALL_STOCHASTIC);
+    }
+}

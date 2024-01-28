@@ -1,0 +1,25 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------------------------------------
+  (1/3) Standard library function "del" is used on a non-array list typed argument.
+  ---------------------------------------------------------------------------------
+   * In invariant "DELETE.LG":
+     - invariant LG: del(li, 0)[0] > 0;
+                     ^
+   * In invariant "DELETE.LI":
+     - invariant LI: del(li, i)[0] > 0;
+                     ^
+
+  -----------------------------------------------------------------------------------
+  (2/3) Standard library function "empty" is used on a non-array list typed argument.
+  -----------------------------------------------------------------------------------
+   * In invariant "EMPTY.LIST":
+     - invariant LIST: empty(li);
+                       ^
+
+  ----------------------------------------------------------------------------------
+  (3/3) Standard library function "size" is used on a non-array list typed argument.
+  ----------------------------------------------------------------------------------
+   * In invariant "SIZE.LIST":
+     - invariant LIST: size(li) > 0;
+                       ^
