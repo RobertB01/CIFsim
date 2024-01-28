@@ -17,6 +17,7 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
@@ -43,7 +44,10 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 // determined statically that they are trivially true.
                 new InvNoSpecificInvsCheck() //
                         .ignoreNeverBlockingInvariants() //
-                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.ALL_PLACES)
+                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE, NoInvariantPlaceKind.ALL_PLACES),
+
+                // Discrete variables with multiple initial values (including any) are not supported.
+                new VarNoDiscWithMultiInitValuesCheck()
 
         //
         );
@@ -74,24 +78,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //            String msg = "CIF code generator failed due to unsatisfied preconditions:\n - "
 //                    + String.join("\n - ", problems);
 //            throw new UnsupportedException(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessDiscVariable(DiscVariable var) {
-//        // Skip all but discrete variables declared in components.
-//        EObject parent = var.eContainer();
-//        if (!(parent instanceof ComplexComponent)) {
-//            return;
-//        }
-//
-//        // Check for no multiple initial values.
-//        VariableValue values = var.getValue();
-//        if (values != null && values.getValues().size() != 1) {
-//            String msg = fmt(
-//                    "Unsupported discrete variable \"%s\": the variable has multiple potential initial values.",
-//                    getAbsName(var));
-//            problems.add(msg);
 //        }
 //    }
 //
