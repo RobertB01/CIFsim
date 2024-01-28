@@ -23,6 +23,8 @@ import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
@@ -141,7 +143,34 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         // supported.
                         NoSpecificBinaryOp.SUBTRACTION_LISTS, //
                         NoSpecificBinaryOp.SUBTRACTION_SETS, //
-                        NoSpecificBinaryOp.SUBTRACTION_DICTS)
+                        NoSpecificBinaryOp.SUBTRACTION_DICTS),
+
+                // Disallow certain standard library functions.
+                new FuncNoSpecificStdLibCheck(
+                        // The del, pop, acosh, asinh, atanh, cosh, sinh, and tanh standard library functions are not
+                        // supported.
+                        NoSpecificStdLib.DELETE, //
+                        NoSpecificStdLib.POP, //
+                        NoSpecificStdLib.ACOSH, //
+                        NoSpecificStdLib.ASINH, //
+                        NoSpecificStdLib.ATANH, //
+                        NoSpecificStdLib.COSH, //
+                        NoSpecificStdLib.SINH, //
+                        NoSpecificStdLib.TANH, //
+
+                        // The empty standard library function on anything other than arrays is not supported.
+                        NoSpecificStdLib.EMPTY_DICT, //
+                        NoSpecificStdLib.EMPTY_LIST_NON_ARRAY, //
+                        NoSpecificStdLib.EMPTY_SET,
+
+                        // The size standard library function on anything other than strings and arrays is not
+                        // supported.
+                        NoSpecificStdLib.SIZE_DICT, //
+                        NoSpecificStdLib.SIZE_LIST_NON_ARRAY, //
+                        NoSpecificStdLib.SIZE_SET,
+
+                        // The distribution standard library functions are not supported.
+                        NoSpecificStdLib.ALL_STOCHASTIC)
 
         //
         );
@@ -167,98 +196,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //            String msg = "CIF code generator failed due to unsatisfied preconditions:\n - "
 //                    + String.join("\n - ", problems);
 //            throw new UnsupportedException(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessFunctionCallExpression(FunctionCallExpression expr) {
-//        // Check supported.
-//        Expression fexpr = expr.getFunction();
-//        if (fexpr instanceof StdLibFunctionExpression) {
-//            // Check supported stdlib.
-//            StdLibFunctionExpression lExpr = (StdLibFunctionExpression)fexpr;
-//            StdLibFunction stdlib = lExpr.getFunction();
-//            switch (stdlib) {
-//                // Supported.
-//                case ABS:
-//                case CBRT:
-//                case CEIL:
-//                case EXP:
-//                case FLOOR:
-//                case FORMAT:
-//                case LN:
-//                case LOG:
-//                case MAXIMUM:
-//                case MINIMUM:
-//                case POWER:
-//                case ROUND:
-//                case SCALE:
-//                case SIGN:
-//                case SQRT:
-//                case ACOS:
-//                case ASIN:
-//                case ATAN:
-//                case COS:
-//                case SIN:
-//                case TAN:
-//                    return;
-//
-//                // Conditionally supported.
-//                case EMPTY: {
-//                    CifType atype = normalizeType(expr.getArguments().get(0).getType());
-//                    if (atype instanceof ListType && isArrayType((ListType)atype)) {
-//                        return;
-//                    }
-//                    break;
-//                }
-//
-//                case SIZE: {
-//                    CifType atype = normalizeType(expr.getArguments().get(0).getType());
-//                    if (atype instanceof StringType) {
-//                        return;
-//                    } else if (atype instanceof ListType && isArrayType((ListType)atype)) {
-//                        return;
-//                    }
-//                    break;
-//                }
-//
-//                // Unsupported.
-//                case DELETE:
-//                case POP:
-//                case ACOSH:
-//                case ASINH:
-//                case ATANH:
-//                case COSH:
-//                case SINH:
-//                case TANH:
-//                    break;
-//
-//                // Distributions (unsupported).
-//                case BERNOULLI:
-//                case BETA:
-//                case BINOMIAL:
-//                case CONSTANT:
-//                case ERLANG:
-//                case EXPONENTIAL:
-//                case GAMMA:
-//                case GEOMETRIC:
-//                case LOG_NORMAL:
-//                case NORMAL:
-//                case POISSON:
-//                case RANDOM:
-//                case TRIANGLE:
-//                case UNIFORM:
-//                case WEIBULL:
-//                    break;
-//            }
-//
-//            // Unsupported stdlib.
-//            String msg = fmt(
-//                    "Unsupported expression \"%s\": standard  library function \"%s\" is currently not "
-//                            + "supported, or is not supported for the arguments that are used.",
-//                    exprToStr(expr), functionToStr(stdlib));
-//            problems.add(msg);
-//            return;
 //        }
 //    }
 //
