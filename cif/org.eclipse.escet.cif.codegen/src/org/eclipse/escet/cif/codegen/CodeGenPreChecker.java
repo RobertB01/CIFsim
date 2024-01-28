@@ -39,13 +39,7 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 
-/**
- * CIF code generator precondition checker. Does not support component definition/instantiation.
- *
- * <p>
- * Derived classes may inherit to add additional preconditions.
- * </p>
- */
+/** CIF code generator precondition checker. Does not support component definition/instantiation. */
 public class CodeGenPreChecker extends CifPreconditionChecker {
     /** Constructor for the {@link CodeGenPreChecker} class. */
     public CodeGenPreChecker() {
@@ -196,32 +190,7 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         NoSpecificPrintDecl.TEXT_POST_FILTER_PRE, //
                         NoSpecificPrintDecl.TEXT_PRE_FILTER_POST //
                 )
-
         //
         );
     }
-
-//    /** Precondition violations found so far. */
-//    protected List<String> problems = list();
-//
-//
-//    /**
-//     * Checks the CIF specification to make sure it satisfies the preconditions for the code generator.
-//     *
-//     * @param spec The CIF specification to check.
-//     * @throws UnsupportedException If a precondition is violated.
-//     */
-//    public void check(Specification spec) {
-//        // Find precondition violations.
-//        walkSpecification(spec);
-//
-//        // If we have any problems, the specification is unsupported.
-//        Collections.sort(problems, Strings.SORTER);
-//        if (!problems.isEmpty()) {
-//            String msg = "CIF code generator failed due to unsatisfied preconditions:\n - "
-//                    + String.join("\n - ", problems);
-//            throw new UnsupportedException(msg);
-//        }
-//    }
-
 }
