@@ -169,7 +169,7 @@ public class PlantsRefsReqsChecker {
 
                 for (Expression value: variableValue.getValues()) {
                     if (referencesReq(value)) {
-                        warnOutput.line("An initial value of plant discrete variables \"%s\" references requirement "
+                        warnOutput.line("An initial value of plant discrete variable \"%s\" references requirement "
                                 + "state.", getAbsName(decl));
                     }
                 }
@@ -200,13 +200,13 @@ public class PlantsRefsReqsChecker {
                 // Check initial value.
                 if (contVariable.getValue() != null && referencesReq(contVariable.getValue())) {
                     warnOutput.line(
-                            "The initial value of plant continuous variables \"%s\" references requirement state.",
+                            "The initial value of plant continuous variable \"%s\" references requirement state.",
                             getAbsName(decl));
                 }
 
                 // Check derivative.
                 if (contVariable.getDerivative() != null && referencesReq(contVariable.getDerivative())) {
-                    warnOutput.line("The derivative of plant continuous variables \"%s\" references requirement state.",
+                    warnOutput.line("The derivative of plant continuous variable \"%s\" references requirement state.",
                             getAbsName(decl));
                 }
             }
