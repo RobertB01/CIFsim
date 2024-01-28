@@ -17,6 +17,8 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
@@ -82,10 +84,43 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         NoSpecificType.LIST_TYPES_NON_ARRAY, //
                         NoSpecificType.SET_TYPES),
 
-                // Disallow certain unary expressions:
-                // - Sampling of distributions is not supported.
-                new ExprNoSpecificUnaryExprsCheck( //
-                        NoSpecificUnaryOp.SAMPLE)
+                // Disallow certain unary expressions.
+                new ExprNoSpecificUnaryExprsCheck(
+                        // Sampling of distributions is not supported.
+                        NoSpecificUnaryOp.SAMPLE),
+
+                // Disallow certain binary expressions.
+                new ExprNoSpecificBinaryExprsCheck(
+                        // The use of the addition binary operators on anything other than numeric or string values is
+                        // not supported.
+                        NoSpecificBinaryOp.ADDITION_LISTS, //
+                        NoSpecificBinaryOp.ADDITION_DICTS, //
+
+                        // The use of the conjunction and disjunction binary operators on anything other than boolean
+                        // values is not supported.
+                        NoSpecificBinaryOp.CONJUNCTION_SETS, //
+                        NoSpecificBinaryOp.DISJUNCTION_SETS, //
+
+                        // The use of the element test and subset binary operators is not supported.
+                        NoSpecificBinaryOp.ELEMENT_OF, //
+                        NoSpecificBinaryOp.SUBSET, //
+
+                        // The use of the equality and inequality binary operators on anything other than boolean,
+                        // integer, real, string, or enumeration values is not supported.
+                        NoSpecificBinaryOp.EQUAL_DICT, //
+                        NoSpecificBinaryOp.EQUAL_LIST, //
+                        NoSpecificBinaryOp.EQUAL_SET, //
+                        NoSpecificBinaryOp.EQUAL_TUPLE, //
+                        NoSpecificBinaryOp.UNEQUAL_DICT, //
+                        NoSpecificBinaryOp.UNEQUAL_LIST, //
+                        NoSpecificBinaryOp.UNEQUAL_SET, //
+                        NoSpecificBinaryOp.UNEQUAL_TUPLE, //
+
+                        // The use of the subtraction binary operators on anything other than numeric values is not
+                        // supported.
+                        NoSpecificBinaryOp.SUBTRACTION_LISTS, //
+                        NoSpecificBinaryOp.SUBTRACTION_SETS, //
+                        NoSpecificBinaryOp.SUBTRACTION_DICTS)
 
         //
         );
@@ -136,70 +171,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //
 //        // Not a type of an expression.
 //        super.walkCifType(type);
-//    }
-//
-//    @Override
-//    protected void preprocessBinaryExpression(BinaryExpression expr) {
-//        // Check supported.
-//        BinaryOperator op = expr.getOperator();
-//        switch (op) {
-//            case IMPLICATION:
-//            case BI_CONDITIONAL:
-//            case LESS_THAN:
-//            case LESS_EQUAL:
-//            case GREATER_THAN:
-//            case GREATER_EQUAL:
-//            case MULTIPLICATION:
-//            case DIVISION:
-//            case INTEGER_DIVISION:
-//            case MODULUS:
-//                return;
-//
-//            case DISJUNCTION:
-//            case CONJUNCTION: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                if (ltype instanceof BoolType) {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            case EQUAL:
-//            case UNEQUAL: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                if (ltype instanceof BoolType || ltype instanceof IntType || ltype instanceof RealType
-//                        || ltype instanceof EnumType || ltype instanceof StringType)
-//                {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            case ADDITION: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                if (ltype instanceof IntType || ltype instanceof RealType || ltype instanceof StringType) {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            case SUBTRACTION: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                if (ltype instanceof IntType || ltype instanceof RealType) {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            case ELEMENT_OF:
-//            case SUBSET:
-//                break;
-//        }
-//
-//        // Unsupported.
-//        String msg = fmt("Unsupported expression \"%s\": binary operator \"%s\" is currently not supported, "
-//                + "or is not supported for the operands that are used.", exprToStr(expr), operatorToStr(op));
-//        problems.add(msg);
 //    }
 //
 //    @Override
