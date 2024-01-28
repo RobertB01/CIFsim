@@ -22,6 +22,8 @@ import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecif
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
@@ -65,7 +67,18 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 new AutOnlyWithOneInitLocCheck(),
 
                 // Urgent edges are not supported.
-                new EdgeNoUrgentCheck()
+                new EdgeNoUrgentCheck(),
+
+                // Data types other than bool, int (with or without range), real, string, enumerations, tuples, and
+                // arrays, are not supported. This applies to the data types of variables, parameters of functions,
+                // return types of functions, etc.
+                //
+                // Void types are supported as well, as we do linearization, which eliminates them.
+                new TypeNoSpecificTypesCheck( //
+                        NoSpecificType.DICT_TYPES, //
+                        NoSpecificType.DIST_TYPES, //
+                        NoSpecificType.LIST_TYPES_NON_ARRAY, //
+                        NoSpecificType.SET_TYPES)
 
         //
         );
@@ -95,18 +108,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    @Override
-//    protected void preprocessDictType(DictType type) {
-//        String msg = fmt("Unsupported type \"%s\": dictionary types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessDistType(DistType type) {
-//        String msg = fmt("Unsupported type \"%s\": distribution types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
 //    protected void preprocessFuncType(FuncType type) {
 //        // We support functions directly in function calls, but not as
 //        // data, to be passed around, stored in variables, etc. Note that
@@ -114,24 +115,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //        // reference on which a call is performed directly, is allowed.
 //        String msg = fmt("Unsupported type \"%s\": function types are currently not supported. That is, calling "
 //                + "functions is supported, but using them as data is not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessListType(ListType type) {
-//        // We support arrays.
-//        if (isArrayType(type)) {
-//            return;
-//        }
-//
-//        // All other list types are not supported.
-//        String msg = fmt("Unsupported type \"%s\": non-array list types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessSetType(SetType type) {
-//        String msg = fmt("Unsupported type \"%s\": set types are currently not supported.", typeToStr(type));
 //        problems.add(msg);
 //    }
 //
