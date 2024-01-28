@@ -19,6 +19,8 @@ import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
@@ -83,6 +85,18 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         NoSpecificType.DIST_TYPES, //
                         NoSpecificType.LIST_TYPES_NON_ARRAY, //
                         NoSpecificType.SET_TYPES),
+
+                // Disallow certain expressions.
+                new ExprNoSpecificExprsCheck(
+                        // Projection on anything other than tuples, arrays, and strings is not supported. This applies
+                        // to expressions as well as addressables (the left hand sides of assignments). For arrays,
+                        // both 0-based indices (counting from the left) as well as negative indices (counting from the
+                        // right) are supported.
+                        NoSpecificExpr.PROJECTION_EXPRS_DICTS, //
+                        NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY, //
+
+                        // Slicing is not supported.
+                        NoSpecificExpr.SLICE_EXPRS),
 
                 // Disallow certain unary expressions.
                 new ExprNoSpecificUnaryExprsCheck(
@@ -171,30 +185,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //
 //        // Not a type of an expression.
 //        super.walkCifType(type);
-//    }
-//
-//    @Override
-//    protected void preprocessProjectionExpression(ProjectionExpression expr) {
-//        // Check supported.
-//        CifType ctype = normalizeType(expr.getChild().getType());
-//        if (ctype instanceof TupleType) {
-//            return;
-//        } else if (ctype instanceof StringType) {
-//            return;
-//        } else if (ctype instanceof ListType && isArrayType((ListType)ctype)) {
-//            return;
-//        }
-//
-//        // Unsupported.
-//        String msg = fmt("Unsupported expression \"%s\": projections on anything other than tuples, arrays, and "
-//                + "strings is currently not supported.", exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessSliceExpression(SliceExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": slicing is currently not supported.", exprToStr(expr));
-//        problems.add(msg);
 //    }
 //
 //    @Override
