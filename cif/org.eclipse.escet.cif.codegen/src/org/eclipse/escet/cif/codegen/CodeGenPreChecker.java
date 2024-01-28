@@ -13,65 +13,7 @@
 
 package org.eclipse.escet.cif.codegen;
 
-import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
-import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.functionToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
-import static org.eclipse.escet.cif.common.CifTypeUtils.isArrayType;
-import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifValueUtils;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SetExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.functions.ExternalFunction;
-import org.eclipse.escet.cif.metamodel.cif.print.Print;
-import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.DictType;
-import org.eclipse.escet.cif.metamodel.cif.types.DistType;
-import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
-import org.eclipse.escet.cif.metamodel.cif.types.FuncType;
-import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.eclipse.escet.cif.metamodel.cif.types.ListType;
-import org.eclipse.escet.cif.metamodel.cif.types.RealType;
-import org.eclipse.escet.cif.metamodel.cif.types.SetType;
-import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 
 /**
  * CIF code generator precondition checker. Does not support component definition/instantiation.
@@ -80,7 +22,15 @@ import org.eclipse.escet.common.java.exceptions.UnsupportedException;
  * Derived classes may inherit to add additional preconditions.
  * </p>
  */
-public class CodeGenPreChecker extends CifWalker {
+public class CodeGenPreChecker extends CifPreconditionChecker {
+    /** Constructor for the {@link CodeGenPreChecker} class. */
+    public CodeGenPreChecker() {
+        super(
+
+        //
+        );
+    }
+
 //    /** Precondition violations found so far. */
 //    protected List<String> problems = list();
 //

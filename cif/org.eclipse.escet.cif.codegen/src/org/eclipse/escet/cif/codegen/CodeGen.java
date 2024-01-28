@@ -41,6 +41,7 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
@@ -407,16 +408,17 @@ public abstract class CodeGen {
      * Generate and write code.
      *
      * @param spec The CIF specification for which to generate code.
-     * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
+     * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF file.
+     * @param absSpecPath The absolute local file system path to the CIF file.
      * @param outputPath The absolute or relative local file system path to the output directory to which the code files
      *     will be written.
      */
-    public void generate(Specification spec, String cifSpecFileDir, String outputPath) {
+    public void generate(Specification spec, String cifSpecFileDir, String absSpecPath, String outputPath) {
         // Initialization.
         init();
 
         // Prepare for code generation.
-        prepare(spec);
+        prepare(spec, absSpecPath);
 
         // Create code context.
         CodeContext ctxt = new CodeContext(this);
@@ -715,8 +717,9 @@ public abstract class CodeGen {
      * </ul>
      *
      * @param spec The CIF specification to preprocess.
+     * @param absSpecPath The absolute local file system path to the CIF file.
      */
-    private void prepare(Specification spec) {
+    private void prepare(Specification spec, String absSpecPath) {
         // Remove position information, for performance.
         new RemovePositionInfo().transform(spec);
 
@@ -756,22 +759,11 @@ public abstract class CodeGen {
         // after elimination of component definition/instantiation, to make it
         // easier to check. Do this after some simplification, to support more
         // specifications.
-        switch (language) {
-            case JAVA:
-            case JAVASCRIPT:
-            case HTML:
-            case C89:
-            case C99:
-                new CodeGenPreChecker().check(spec);
-                break;
-
-            case SIMULINK:
-                new SimulinkCodeGenPreChecker().check(spec);
-                break;
-
-            default:
-                throw new RuntimeException("Unknown language: " + str(language));
-        }
+        CifPreconditionChecker checker = switch (language) {
+            case JAVA, JAVASCRIPT, HTML, C89, C99 -> new CodeGenPreChecker();
+            case SIMULINK -> new SimulinkCodeGenPreChecker();
+        };
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF code generator");
 
         // Linearize, to get rid of parallelism.
         //
