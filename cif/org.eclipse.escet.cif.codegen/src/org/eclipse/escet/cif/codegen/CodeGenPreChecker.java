@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.codegen;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
@@ -61,7 +62,10 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 
                 // Initialization predicates in locations that can not be statically evaluated are not supported.
                 // Automata that do not have exactly one initial location are not supported.
-                new AutOnlyWithOneInitLocCheck()
+                new AutOnlyWithOneInitLocCheck(),
+
+                // Urgent edges are not supported.
+                new EdgeNoUrgentCheck()
 
         //
         );
@@ -87,16 +91,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //            String msg = "CIF code generator failed due to unsatisfied preconditions:\n - "
 //                    + String.join("\n - ", problems);
 //            throw new UnsupportedException(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessEdge(Edge edge) {
-//        // Urgency.
-//        if (edge.isUrgent()) {
-//            Location loc = (Location)edge.eContainer();
-//            String msg = fmt("Unsupported %s: urgent edges are currently not supported.", getLocationText1(loc));
-//            problems.add(msg);
 //        }
 //    }
 //
