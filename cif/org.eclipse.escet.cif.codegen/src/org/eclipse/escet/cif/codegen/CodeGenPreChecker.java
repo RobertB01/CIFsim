@@ -105,7 +105,13 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         // functions is not supported. Since standard library functions can't be used as data, we only
                         // need to check user-defined functions used as data. There is no need to check for calls to
                         // external user-defined function functions, as declaring them is already disallowed.
-                        NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA),
+                        NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA,
+
+                        // Lists (except for arrays), sets, and dictionaries are not supported.
+                        // Lists are not disallowed here, as all list literals are arrays, and non-array list types
+                        // are already disallowed.
+                        NoSpecificExpr.SET_LITS, //
+                        NoSpecificExpr.DICT_LITS),
 
                 // Disallow certain unary expressions.
                 new ExprNoSpecificUnaryExprsCheck(
@@ -197,18 +203,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //                    + String.join("\n - ", problems);
 //            throw new UnsupportedException(msg);
 //        }
-//    }
-//
-//    @Override
-//    protected void preprocessSetExpression(SetExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": sets are currently not supported.", exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessDictExpression(DictExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": dictionaries are currently not supported.", exprToStr(expr));
-//        problems.add(msg);
 //    }
 //
 //    @Override
