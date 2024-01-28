@@ -17,6 +17,8 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
@@ -78,7 +80,12 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                         NoSpecificType.DICT_TYPES, //
                         NoSpecificType.DIST_TYPES, //
                         NoSpecificType.LIST_TYPES_NON_ARRAY, //
-                        NoSpecificType.SET_TYPES)
+                        NoSpecificType.SET_TYPES),
+
+                // Disallow certain unary expressions:
+                // - Sampling of distributions is not supported.
+                new ExprNoSpecificUnaryExprsCheck( //
+                        NoSpecificUnaryOp.SAMPLE)
 
         //
         );
@@ -129,26 +136,6 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 //
 //        // Not a type of an expression.
 //        super.walkCifType(type);
-//    }
-//
-//    @Override
-//    protected void preprocessUnaryExpression(UnaryExpression expr) {
-//        // Check supported.
-//        UnaryOperator op = expr.getOperator();
-//        switch (op) {
-//            case INVERSE:
-//            case NEGATE:
-//            case PLUS:
-//                return;
-//
-//            case SAMPLE:
-//                break;
-//        }
-//
-//        // Unsupported.
-//        String msg = fmt("Unsupported expression \"%s\": unary operator \"%s\" is currently not supported.",
-//                exprToStr(expr), operatorToStr(op));
-//        problems.add(msg);
 //    }
 //
 //    @Override
