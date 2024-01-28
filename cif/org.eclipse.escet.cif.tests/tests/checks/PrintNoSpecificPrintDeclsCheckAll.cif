@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e1, e2;
+
+print "b"; // Post.
+print pre "a";
+print post "b";
+print pre "a" post "b";
+
+print "a" when true; // Post.
+print "a" when pre true;
+print "a" when post true;
+print "a" when pre true post true;
+
+print pre "a" when pre true;
+print pre "a" when post true;
+print post "a" when pre true;
+print post "a" when post true;
+
+print "a"; // All but final.
+print "a" for event;
+print "a" for time;
+print "a" for initial;
+print "a" for final;
+print "a" for e1;
+print "a" for e2;
+print "a" for event, e1, final;

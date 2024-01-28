@@ -1,0 +1,150 @@
+WARNING: File "checks/PrintNoSpecificPrintDeclsCheckAll.cif": Semantic warning at line 38, column 22: Duplicate print declaration "for" filter: "event" (all events) and "e1" (specific event).
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -------------------------------------------------------
+  (1/12) Print declaration has a final transition filter.
+  -------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" for final;
+       ^
+     - print "a" for event, e1, final;
+       ^
+
+  --------------------------------------------------------
+  (2/12) Print declaration has a post/target state filter.
+  --------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" when true;
+       ^
+     - print "a" when true;
+       ^
+     - print "a" when pre true post true;
+       ^
+     - print pre "a" when true;
+       ^
+     - print "a" when true;
+       ^
+
+  ------------------------------------------------------
+  (3/12) Print declaration has a post/target state text.
+  ------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "b";
+       ^
+     - print "b";
+       ^
+     - print pre "a" post "b";
+       ^
+     - print "a" when true;
+       ^
+     - print "a" when pre true;
+       ^
+     - print "a" when true;
+       ^
+     - print "a" when pre true post true;
+       ^
+     - print "a" when pre true;
+       ^
+     - print "a" when true;
+       ^
+     - print "a";
+       ^
+     - print "a" for event;
+       ^
+     - print "a" for time;
+       ^
+     - print "a" for initial;
+       ^
+     - print "a" for final;
+       ^
+     - print "a" for e1;
+       ^
+     - print "a" for e2;
+       ^
+     - print "a" for event, e1, final;
+       ^
+
+  -------------------------------------------------------
+  (4/12) Print declaration has a pre/source state filter.
+  -------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" when pre true;
+       ^
+     - print "a" when pre true post true;
+       ^
+     - print pre "a" when pre true;
+       ^
+     - print "a" when pre true;
+       ^
+
+  -----------------------------------------------------
+  (5/12) Print declaration has a pre/source state text.
+  -----------------------------------------------------
+   * In the top-level scope of the specification:
+     - print pre "a";
+       ^
+     - print pre "a" post "b";
+       ^
+     - print pre "a" when pre true;
+       ^
+     - print pre "a" when true;
+       ^
+
+  ------------------------------------------------------
+  (6/12) Print declaration has a time transition filter.
+  ------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" for time;
+       ^
+
+  --------------------------------------------------------
+  (7/12) Print declaration has an event transition filter.
+  --------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" for event;
+       ^
+     - print "a" for e1;
+       ^
+     - print "a" for e2;
+       ^
+     - print "a" for event, e1, final;
+       ^
+
+  ------------------------------------------------------------------
+  (8/12) Print declaration has an initial virtual transition filter.
+  ------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" for initial;
+       ^
+
+  -----------------------------------------------------------------------------------------
+  (9/12) Print declaration has both a post/target state text and a pre/source state filter.
+  -----------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" when pre true;
+       ^
+     - print "a" when pre true post true;
+       ^
+     - print "a" when pre true;
+       ^
+
+  --------------------------------------------------------------------------------------------
+  (10/12) Print declaration has both a pre/source state filter and a post/target state filter.
+  --------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" when pre true post true;
+       ^
+
+  ------------------------------------------------------------------------------------------
+  (11/12) Print declaration has both a pre/source state text and a post/target state filter.
+  ------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print pre "a" when true;
+       ^
+
+  ----------------------------------------------------------------------------------------
+  (12/12) Print declaration has both a pre/source state text and a post/target state text.
+  ----------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print pre "a" post "b";
+       ^
