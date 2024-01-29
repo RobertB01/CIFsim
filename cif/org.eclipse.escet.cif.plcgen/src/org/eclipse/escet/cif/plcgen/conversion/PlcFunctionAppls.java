@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
@@ -250,7 +250,7 @@ public class PlcFunctionAppls {
         PlcFuncOperation operation = PlcFuncOperation.CAST_OP;
         Assert.check(target.supportsOperation(operation, 1));
 
-        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType);
+        PlcBasicFuncDescription func = new PlcCastFunctionDescription(inType, outType);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 

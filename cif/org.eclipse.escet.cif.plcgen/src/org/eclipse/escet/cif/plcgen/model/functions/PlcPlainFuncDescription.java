@@ -75,5 +75,4 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
         }
         return notations;
     }
-
 }

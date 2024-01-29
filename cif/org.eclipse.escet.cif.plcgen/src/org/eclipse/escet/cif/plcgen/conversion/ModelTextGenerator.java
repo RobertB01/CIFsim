@@ -34,7 +34,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.Expr
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcPlainFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -239,7 +239,9 @@ public class ModelTextGenerator {
         if (basicDescr instanceof PlcPlainFuncDescription plainFunc) {
             infixBinding = plainFunc.infixBinding;
             infixFuncName = plainFunc.infixFuncName;
-        } else if (basicDescr instanceof PlcFunctionBlockDescription || basicDescr instanceof PlcCastFunction) {
+        } else if (basicDescr instanceof PlcFunctionBlockDescription
+                || basicDescr instanceof PlcCastFunctionDescription)
+        {
             infixBinding = ExprBinding.NO_PRIORITY;
             infixFuncName = null;
         } else {
@@ -262,8 +264,7 @@ public class ModelTextGenerator {
         if (infixNotationAllowed) {
             Assert.notNull(infixFuncName);
 
-            boolean needsParentheses = infixBinding.needsParentheses(parentBinding, atParentLeft,
-                    atParentRight);
+            boolean needsParentheses = infixBinding.needsParentheses(parentBinding, atParentLeft, atParentRight);
             textBuilder.append(needsParentheses ? "(" : "");
 
             int lastArgumentIndex = arguments.size() - 1;
@@ -280,8 +281,8 @@ public class ModelTextGenerator {
                 Assert.notNull(argNamedValue);
 
                 textBuilder.append(argNumber > 0 ? infixString : "");
-                toText(argNamedValue.value, textBuilder, infixBinding, argNumber == 0,
-                        argNumber == lastArgumentIndex, FuncApplPreference.PREFER_INFIX);
+                toText(argNamedValue.value, textBuilder, infixBinding, argNumber == 0, argNumber == lastArgumentIndex,
+                        FuncApplPreference.PREFER_INFIX);
                 argNumber++;
             }
             textBuilder.append(needsParentheses ? ")" : "");

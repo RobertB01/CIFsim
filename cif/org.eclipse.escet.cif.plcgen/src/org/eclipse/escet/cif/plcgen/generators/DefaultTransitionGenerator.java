@@ -342,7 +342,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         for (Declaration assignedVar: assignedVarList) {
             // TODO If the variable is only written, a copy is not needed.
             if (assignedVar instanceof DiscVariable dv) {
-                PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(dv, false), dv.getType());
+                PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(dv, false),
+                        dv.getType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(dv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
@@ -375,7 +376,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
          * @param redirectedDecls The collection of redirected PLC variable values.
          * @param cifDataProvider Original CIF data provider.
          */
-        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls, CifDataProvider cifDataProvider) {
+        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls,
+                CifDataProvider cifDataProvider)
+        {
             this.redirectedDecls = redirectedDecls;
             this.cifDataProvider = cifDataProvider;
         }
@@ -395,7 +398,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             if (getDerivative) { // Derivatives can't be assigned.
                 return cifDataProvider.getValueForContvar(variable, getDerivative);
             } else {
-                return redirectedDecls.getOrDefault(variable, cifDataProvider.getValueForContvar(variable, getDerivative));
+                return redirectedDecls.getOrDefault(variable,
+                        cifDataProvider.getValueForContvar(variable, getDerivative));
             }
         }
 
@@ -478,8 +482,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private void generateSendReceiveCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode, String varPrefix,
-            List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar, PlcBasicVariable channelValueVar,
-            boolean eventEnabledAlwaysHolds)
+            List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
+            PlcBasicVariable channelValueVar, boolean eventEnabledAlwaysHolds)
     {
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
@@ -571,8 +575,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param eventEnabledAlwaysHolds Whether it is known that 'eventEnabled' in tests is always true at runtime.
      */
     private void generateSyncCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
-            CifDataProvider performProvider, List<PlcStatement> performCode, List<PlcBasicVariable> createdTempVariables,
-            PlcBasicVariable eventEnabledVar, boolean eventEnabledAlwaysHolds)
+            CifDataProvider performProvider, List<PlcStatement> performCode,
+            List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
+            boolean eventEnabledAlwaysHolds)
     {
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
@@ -676,8 +681,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @return The generated code.
      */
-    private List<PlcStatement> generateEdgesTestCode(TransitionAutomaton transAut, int autIndex, PlcBasicVariable autVar,
-            PlcBasicVariable edgeVar, PlcBasicVariable eventEnabledVar)
+    private List<PlcStatement> generateEdgesTestCode(TransitionAutomaton transAut, int autIndex,
+            PlcBasicVariable autVar, PlcBasicVariable edgeVar, PlcBasicVariable eventEnabledVar)
     {
         List<PlcStatement> testCode = list();
         PlcSelectionStatement selStat = null;
@@ -867,8 +872,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param rhsProjections Projection sequence to apply to the {@code rhs} value before assigning to {@code lhs}.
      * @param statements Generated PLC statements. Is extended in-place.
      */
-    private void genUpdateAssignment(Expression lhs, PlcBasicVariable rhsVariable, List<PlcStructProjection> rhsProjections,
-            List<PlcStatement> statements)
+    private void genUpdateAssignment(Expression lhs, PlcBasicVariable rhsVariable,
+            List<PlcStructProjection> rhsProjections, List<PlcStatement> statements)
     {
         // Conceptually: "lhs := rhs.rhsProjections" where lhs may be a tuple literal.
 
