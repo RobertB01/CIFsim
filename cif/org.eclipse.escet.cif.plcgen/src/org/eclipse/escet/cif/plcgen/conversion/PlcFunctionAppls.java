@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
@@ -419,6 +420,25 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl tanFuncAppl(PlcExpression in) {
         return funcAppl(PlcFuncOperation.STDLIB_TAN, "TAN", in);
+    }
+
+    /**
+     * Instantiate a TON function block.
+     *
+     * @param prefixFuncName Name of the function.
+     * @return The function block instance description.
+     */
+    public PlcFunctionBlockDescription makeTonBlock(String prefixFuncName) {
+        PlcParameterDescription[] params = { //
+                new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY), // Boolean, false resets the timer,
+                                                                                 // true allows measuring time.
+                new PlcParameterDescription("PT", PlcParamDirection.INPUT_ONLY), // Real, end-time, should be positive.
+                new PlcParameterDescription("Q", PlcParamDirection.OUTPUT_ONLY), // Boolean whether end-time has been
+                                                                                 // reached.
+                new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY)}; // Real, amount of measured time
+                                                                                   // since last reset, caps at PT.
+        return new PlcFunctionBlockDescription(prefixFuncName + target.getTonFuncBlockCallSuffix(),
+                new PlcDerivedType("TON"), params);
     }
 
     /**

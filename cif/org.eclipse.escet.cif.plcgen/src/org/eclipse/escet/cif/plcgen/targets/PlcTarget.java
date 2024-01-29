@@ -109,6 +109,13 @@ public abstract class PlcTarget {
     public abstract String getStateVariablePrefix();
 
     /**
+     * Get the suffix text to call an instantiated TON block.
+     *
+     * @return Text to append after the instance value name to call the instantiated TON function.
+     */
+    public abstract String getTonFuncBlockCallSuffix();
+
+    /**
      * Returns whether the target supports arrays.
      *
      * @return Whether arrays are supported.

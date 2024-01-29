@@ -25,7 +25,6 @@ import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
@@ -151,9 +150,6 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         /** Parameter description of the TON function block. */
         private final PlcFunctionBlockDescription tonFuncBlock;
 
-        /** PLC variable representing the TON timer. */
-        private final PlcBasicVariable timerVar;
-
         /** PLC variable storing the last set preset value. */
         private final PlcBasicVariable presetVar;
 
@@ -175,13 +171,10 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
             String cvarName = getAbsName(contVar, false);
-            String name = nameGen.generateGlobalName("ton_" + cvarName, false);
-            tonFuncBlock = PlcFunctionBlockDescription.makeTonBlock(name);
-            timerVar = new PlcFuncBlockInstanceVar(target.getStateVariablePrefix(), name, tonFuncBlock);
-            codeStorage.addTimerVariable(timerVar);
-
-            name = nameGen.generateGlobalName("preset_" + cvarName, false);
-            presetVar = codeStorage.addStateVariable(name, PlcElementaryType.TIME_TYPE);
+            String tonName = nameGen.generateGlobalName("ton_" + cvarName, false);
+            String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
+            tonFuncBlock = codeStorage.addTimerVariable(tonName).funcBlockDescription;
+            presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
         }
 
         @Override
