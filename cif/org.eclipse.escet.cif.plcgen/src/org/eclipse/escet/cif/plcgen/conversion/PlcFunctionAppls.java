@@ -250,8 +250,7 @@ public class PlcFunctionAppls {
         PlcFuncOperation operation = PlcFuncOperation.CAST_OP;
         Assert.check(target.supportsOperation(operation, 1));
 
-        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType,
-                target.getSupportedFuncNotations(operation, 1));
+        PlcBasicFuncDescription func = new PlcCastFunction(inType, outType);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 

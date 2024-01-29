@@ -34,6 +34,9 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.Expr
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunction;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcPlainFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
@@ -229,50 +232,68 @@ public class ModelTextGenerator {
     private void toText(PlcFuncAppl funcAppl, StringBuilder textBuilder, ExprBinding parentBinding,
             boolean atParentLeft, boolean atParentRight, FuncApplPreference funcApplPreference)
     {
-        PlcBasicFuncDescription function = funcAppl.function;
-        PlcParameterDescription[] parameters = function.parameters;
+        PlcBasicFuncDescription basicDescr = funcAppl.function;
+
+        PlcBasicFuncDescription.ExprBinding infixBinding;
+        String infixFuncName;
+        if (basicDescr instanceof PlcPlainFuncDescription plainFunc) {
+            infixBinding = plainFunc.infixBinding;
+            infixFuncName = plainFunc.infixFuncName;
+        } else if (basicDescr instanceof PlcFunctionBlockDescription || basicDescr instanceof PlcCastFunction) {
+            infixBinding = ExprBinding.NO_PRIORITY;
+            infixFuncName = null;
+        } else {
+            throw new AssertionError("Unexpected kind of function description found: \"" + basicDescr + "\".");
+        }
+
+        PlcParameterDescription[] parameters = basicDescr.parameters;
         Map<String, PlcNamedValue> arguments = funcAppl.arguments;
         boolean allArgumentsSupplied = parameters.length == arguments.size();
 
         // Decide what notation forms are allowed. Check there is at least one form available.
-        boolean infixNotationAllowed = function.notations.contains(PlcFuncNotation.INFIX)
+        boolean infixNotationAllowed = basicDescr.notations.contains(PlcFuncNotation.INFIX)
                 && (funcApplPreference != FuncApplPreference.OUTER_PREFIX) && allArgumentsSupplied;
-        boolean informalNotationAllowed = function.notations.contains(PlcFuncNotation.INFORMAL) && allArgumentsSupplied;
-        boolean formalNotationAllowed = function.notations.contains(PlcFuncNotation.FORMAL);
+        boolean informalNotationAllowed = basicDescr.notations.contains(PlcFuncNotation.INFORMAL)
+                && allArgumentsSupplied;
+        boolean formalNotationAllowed = basicDescr.notations.contains(PlcFuncNotation.FORMAL);
         Assert.check(infixNotationAllowed || informalNotationAllowed || formalNotationAllowed);
 
         // Prefer infix.
         if (infixNotationAllowed) {
-            boolean needsParentheses = function.infixBinding.needsParentheses(parentBinding, atParentLeft,
+            Assert.notNull(infixFuncName);
+
+            boolean needsParentheses = infixBinding.needsParentheses(parentBinding, atParentLeft,
                     atParentRight);
             textBuilder.append(needsParentheses ? "(" : "");
 
             int lastArgumentIndex = arguments.size() - 1;
             if (lastArgumentIndex == 0) {
                 // Single parameter infix notation is literally pre-pended to make it a prefix.
-                textBuilder.append(function.infixFuncName);
+                textBuilder.append(infixFuncName);
             }
 
             // Write the expressions.
-            String infixString = " " + function.infixFuncName + " ";
+            String infixString = " " + infixFuncName + " ";
             int argNumber = 0;
-            for (PlcParameterDescription param: function.parameters) {
+            for (PlcParameterDescription param: basicDescr.parameters) {
                 PlcNamedValue argNamedValue = arguments.get(param.name);
                 Assert.notNull(argNamedValue);
 
                 textBuilder.append(argNumber > 0 ? infixString : "");
-                toText(argNamedValue.value, textBuilder, function.infixBinding, argNumber == 0,
+                toText(argNamedValue.value, textBuilder, infixBinding, argNumber == 0,
                         argNumber == lastArgumentIndex, FuncApplPreference.PREFER_INFIX);
                 argNumber++;
             }
             textBuilder.append(needsParentheses ? ")" : "");
         } else if (informalNotationAllowed || formalNotationAllowed) {
-            textBuilder.append(function.prefixFuncName);
+            Assert.notNull(basicDescr.prefixFuncName);
+
+            textBuilder.append(basicDescr.prefixFuncName);
             textBuilder.append("(");
 
             int argNumber = 0;
             boolean useFormalSyntax = !informalNotationAllowed; // Prefer informal syntax above formal syntax.
-            for (PlcParameterDescription param: function.parameters) {
+            for (PlcParameterDescription param: basicDescr.parameters) {
                 PlcNamedValue argNamedValue = arguments.get(param.name);
                 if (argNamedValue == null) {
                     continue;
