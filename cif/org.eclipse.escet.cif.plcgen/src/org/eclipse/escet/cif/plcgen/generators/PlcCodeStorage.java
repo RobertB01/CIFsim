@@ -249,7 +249,7 @@ public class PlcCodeStorage {
         }
 
         PlcFunctionBlockDescription tonFuncDescr = plcFuncAppls.makeTonBlock(varName);
-        PlcFuncBlockInstanceVar timerVar = new PlcFuncBlockInstanceVar(target.getStateVariablePrefix(), varName,
+        PlcFuncBlockInstanceVar timerVar = new PlcFuncBlockInstanceVar(varName,
                 tonFuncDescr);
         globalTimerVars.variables.add(timerVar);
         return new PlcInstantiatedFunctionBlockData(tonFuncDescr, timerVar);
