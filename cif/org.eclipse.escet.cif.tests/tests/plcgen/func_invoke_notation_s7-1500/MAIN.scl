@@ -25,8 +25,8 @@ BEGIN
         "DB".c := 0.0;
         (* Reset timer of "c". *)
         "DB".preset_c := "DB".c;
-        ton_c(IN := FALSE, PT := "DB".preset_c);
-        ton_c(IN := TRUE, PT := "DB".preset_c);
+        ton_c.TON(IN := FALSE, PT := "DB".preset_c);
+        ton_c.TON(IN := TRUE, PT := "DB".preset_c);
         "DB".aut_r := 0.0;
         "DB".aut_b := FALSE;
         "DB".aut_i := 0;
@@ -38,7 +38,7 @@ BEGIN
         "DB".aut := 0;
     ELSE
         (* Update remaining time of "c". *)
-        ton_c(IN := TRUE, PT := "DB".preset_c, Q => timeOut, ET => curValue);
+        ton_c.TON(IN := TRUE, PT := "DB".preset_c, Q => timeOut, ET => curValue);
         "DB".c := SEL(timeOut, "DB".preset_c - curValue, 0.0);
     END_IF;
 

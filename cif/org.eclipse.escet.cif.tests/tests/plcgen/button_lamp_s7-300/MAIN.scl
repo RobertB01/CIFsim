@@ -46,8 +46,8 @@ BEGIN
         "DB".timer_t := 0.0;
         (* Reset timer of "timer_t". *)
         "DB".preset_timer_t := "DB".timer_t;
-        ton_timer_t(IN := FALSE, PT := "DB".preset_timer_t);
-        ton_timer_t(IN := TRUE, PT := "DB".preset_timer_t);
+        ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
         "DB".timer := 0;
         "DB".sup := 0;
         "DB".hw_button := 0;
@@ -55,7 +55,7 @@ BEGIN
         "DB".hw_lamp := 0;
     ELSE
         (* Update remaining time of "timer_t". *)
-        ton_timer_t(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
         "DB".timer_t := SEL(timeOut, "DB".preset_timer_t - curValue, 0.0);
     END_IF;
 
@@ -90,8 +90,8 @@ BEGIN
                 "DB".timer_t := 3.0;
                 (* Reset timer of "timer_t". *)
                 "DB".preset_timer_t := "DB".timer_t;
-                ton_timer_t(IN := FALSE, PT := "DB".preset_timer_t);
-                ton_timer_t(IN := TRUE, PT := "DB".preset_timer_t);
+                ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
+                ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
                 "DB".timer := 1;
             END_IF;
             IF syncAutEdge__1 = 1 THEN

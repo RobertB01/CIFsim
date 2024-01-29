@@ -47,12 +47,12 @@ BEGIN
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
         "DB".preset_p_t := "DB".p_t;
-        ton_p_t(IN := FALSE, PT := "DB".preset_p_t);
-        ton_p_t(IN := TRUE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
         "DB".p := 0;
     ELSE
         (* Update remaining time of "p_t". *)
-        ton_p_t(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
