@@ -19,11 +19,14 @@ import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.DESCR
 import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.IDENTIFIER;
 import static org.eclipse.escet.setext.texteditor.SeTextTextEditorStylable.KEYWORD;
 
+import java.util.Arrays;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.eclipse.escet.setext.parser.SeTextScanner;
 import org.eclipse.escet.setext.texteditorbase.ColorManager;
 import org.eclipse.escet.setext.texteditorbase.RuleBasedScannerEx;
 import org.eclipse.escet.setext.texteditorbase.detectors.GenericWhitespaceDetector;
-import org.eclipse.escet.setext.texteditorbase.rules.KeywordsRule;
 import org.eclipse.escet.setext.texteditorbase.rules.RegExRule;
 import org.eclipse.escet.setext.texteditorbase.themes.TextEditorTheme;
 import org.eclipse.jface.text.rules.IRule;
@@ -41,18 +44,18 @@ public class SeTextTextEditorScanner extends RuleBasedScannerEx {
         // Get keywords.
         String[] keywords = SeTextScanner.getKeywords("Keywords");
 
-        // Regular expression patterns for identifiers, names, and
-        // descriptions.
+        // Regular expression patterns for keywords, identifiers/names, and descriptions.
+        String keywordsPat = Arrays.stream(keywords)
+                .map(k -> "(?<![A-Za-z0-9_.\\$])" + Pattern.quote(k) + "(?![A-Za-z0-9_.])")
+                .collect(Collectors.joining("|"));
         String idPat = "[$]?[A-Za-z_][A-Za-z0-9_]*";
-        String namePat = fmt("%s([.]%s)*", idPat, idPat);
+        String idOrNamePat = fmt("%s([.]%s)*", idPat, idPat);
         String descrPat = "\\[[^\\]]+\\]";
 
-        // Construct and set predicate rules. Make sure we also have a default
-        // token.
+        // Construct and set predicate rules. Make sure we also have a default token.
         IRule[] rules = new IRule[] { //
-                new KeywordsRule(keywords, theme.getStyle(KEYWORD).createToken(manager)),
-                new RegExRule(idPat, theme.getStyle(IDENTIFIER).createToken(manager)),
-                new RegExRule(namePat, theme.getStyle(IDENTIFIER).createToken(manager)),
+                new RegExRule(keywordsPat, theme.getStyle(KEYWORD).createToken(manager)),
+                new RegExRule(idOrNamePat, theme.getStyle(IDENTIFIER).createToken(manager)),
                 new RegExRule(descrPat, theme.getStyle(DESCRIPTION).createToken(manager)),
                 new WhitespaceRule(new GenericWhitespaceDetector()),
                 //
