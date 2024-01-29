@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -123,7 +124,7 @@ public class DefaultVariableStorage implements VariableStorage {
             @Override
             public PlcExpression getValueForConstant(Constant constant) {
                 // TODO Return the proper PLC expression for the requested constant.
-                return new PlcVarExpression(new PlcBasicVariable("someConstantvariable", PlcElementaryType.LREAL_TYPE));
+                return new PlcVarExpression(new PlcDataVariable("someConstantvariable", PlcElementaryType.LREAL_TYPE));
             }
 
             @Override

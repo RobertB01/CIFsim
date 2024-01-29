@@ -43,6 +43,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -290,18 +291,18 @@ public class PlcOpenXmlWriter extends Writer {
         parent.appendChild(varElem);
 
         varElem.setAttribute("name", var.varName);
-        if (var.address != null) {
-            varElem.setAttribute("address", var.address);
+        if (var instanceof PlcDataVariable dataVar && dataVar.address != null) {
+            varElem.setAttribute("address", dataVar.address);
         }
 
         Element type = parent.getOwnerDocument().createElement("type");
         varElem.appendChild(type);
         transType(var.type, type);
 
-        if (var.value != null) {
+        if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
             Element value = parent.getOwnerDocument().createElement("initialValue");
             varElem.appendChild(value);
-            transValue(var.value, value);
+            transValue(dataVar.value, value);
         }
     }
 

@@ -19,7 +19,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -28,7 +31,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -214,10 +216,37 @@ public abstract class Writer {
      * @return The generated box representation.
      */
     protected Box toBox(PlcBasicVariable variable) {
-        String addrTxt = (variable.address == null) ? "" : fmt(" AT %s", variable.address);
-        String valueTxt = (variable.value == null) ? ""
-                : " := " + target.getModelTextGenerator().toString(variable.value);
-        String txt = fmt("%s%s: %s%s;", variable.varName, addrTxt, toBox(variable.type), valueTxt);
+        if (variable instanceof PlcDataVariable dataVar) {
+            return toBox(dataVar);
+        } else if (variable instanceof PlcFuncBlockInstanceVar funBlockVar) {
+            return toBox(funBlockVar);
+        } else {
+            throw new AssertionError("Unexpected kind of variable \"" + variable + "\".");
+        }
+    }
+
+    /**
+     * Convert a {@link PlcDataVariable} instance to a {@link Box} text.
+     *
+     * @param dataVar Variable to convert.
+     * @return The generated box representation.
+     */
+    protected Box toBox(PlcDataVariable dataVar) {
+        String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
+        String valueTxt = (dataVar.value == null) ? ""
+                : " := " + target.getModelTextGenerator().toString(dataVar.value);
+        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toBox(dataVar.type), valueTxt);
+        return new TextBox(txt);
+    }
+
+    /**
+     * Convert a {@link PlcBasicVariable} instance to a {@link Box} text.
+     *
+     * @param fnBlockVar Function block instance variable to convert.
+     * @return The generated box representation.
+     */
+    protected Box toBox(PlcFuncBlockInstanceVar fnBlockVar) {
+        String txt = fmt("%s: %s;", fnBlockVar.varName, toBox(fnBlockVar.type));
         return new TextBox(txt);
     }
 

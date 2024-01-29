@@ -22,7 +22,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -30,7 +32,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
@@ -221,10 +222,9 @@ public class S7Writer extends Writer {
         c.indent();
         ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
         for (PlcBasicVariable var: variables) {
-            if (var.value == null) {
-                continue;
+            if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
+                c.add("%s := %s;", var.varName, modelTextGenerator.toString(dataVar.value));
             }
-            c.add("%s := %s;", var.varName, modelTextGenerator.toString(var.value));
         }
         c.dedent();
         c.add("END_DATA_BLOCK");
@@ -273,13 +273,15 @@ public class S7Writer extends Writer {
         if (globVarList.listKind == PlcVarListKind.CONSTANTS) {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcBasicVariable constant: globVarList.variables) {
-                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),
-                        modelTextGenerator.toString(constant.value), constant.varName);
+                PlcDataVariable dataConstant = (PlcDataVariable)constant;
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(dataConstant.type),
+                        modelTextGenerator.toString(dataConstant.value), dataConstant.varName);
             }
         } else {
             for (PlcBasicVariable var: globVarList.variables) {
+                PlcDataVariable dataVar = (PlcDataVariable)var;
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
-                        + "remark='' addr='%s'>%s</Tag>", toBox(var.type), var.address, var.varName);
+                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.varName);
             }
         }
         c.dedent();

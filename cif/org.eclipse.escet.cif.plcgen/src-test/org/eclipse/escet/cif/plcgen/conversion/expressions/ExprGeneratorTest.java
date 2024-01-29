@@ -90,6 +90,7 @@ import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -283,43 +284,43 @@ public class ExprGeneratorTest {
     private static class TestCifDataProvider extends CifDataProvider {
         @Override
         public PlcExpression getValueForConstant(Constant constant) {
-            return new PlcVarExpression(new PlcBasicVariable(constant.getName(), PlcElementaryType.BOOL_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(constant.getName(), PlcElementaryType.BOOL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForDiscVar(DiscVariable variable) {
             // state.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
-            return new PlcVarExpression(new PlcBasicVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
+            return new PlcVarExpression(new PlcDataVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
         public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
             // newState.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
-            return new PlcVarExpression(new PlcBasicVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
+            return new PlcVarExpression(new PlcDataVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
         public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
             String name = variable.getName() + (getDerivative ? "_der" : "");
-            return new PlcVarExpression(new PlcBasicVariable(name, PlcElementaryType.LREAL_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
             String name = "new_" + variable.getName() + (writeDerivative ? "_der" : "");
-            return new PlcVarExpression(new PlcBasicVariable(name, PlcElementaryType.LREAL_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForInputVar(InputVariable variable) {
-            return new PlcVarExpression(new PlcBasicVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
 
         @Override
         public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
-            return new PlcVarExpression(new PlcBasicVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
 
