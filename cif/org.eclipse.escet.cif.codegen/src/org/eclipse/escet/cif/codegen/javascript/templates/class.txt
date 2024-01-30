@@ -178,8 +178,8 @@ ${javascript-cont-upd-code}
 
         // Execute events as long as they are possible.
         while (true) {
-            // Handle SVG input queue.
-            if (this.svgInQueue.length > 0) {
+            // Handle next element from SVG input queue, if not already already processing one.
+            if (this.svgInEvent == -1 && this.svgInQueue.length > 0) {
                 var func = this.svgInQueue.shift(); // Remove head of the queue.
                 func(); // Call function, to set the event to allow.
             }
@@ -190,6 +190,9 @@ ${javascript-event-calls-code}
             // No event executed. We are done.
             break;
         }
+
+        // Make sure all outstanding SVG input clicks have been processed.
+        console.assert(this.svgInEvent == -1);
 
         // Apply print declarations for 'pre' of time transition.
         if (this.doInfoPrintOutput) this.printOutput(-2, true);
