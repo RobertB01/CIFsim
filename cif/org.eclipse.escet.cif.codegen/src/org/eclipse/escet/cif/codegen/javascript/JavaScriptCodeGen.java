@@ -683,8 +683,9 @@ public class JavaScriptCodeGen extends CodeGen {
             Assert.check(guards.size() <= 1);
             Expression guard = guards.isEmpty() ? null : first(guards);
 
-            // Add guard evaluation code.
+            // Add guard code.
             if (guard != null) {
+                // Add guard computation code.
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());
                 codeMethods.add("var guard = %s;", guardCode.getData());
