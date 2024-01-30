@@ -78,7 +78,7 @@ ${javascript-state-input}
 ${javascript-svg-out-declarations}
 
     /**
-     * SVG input queue, with the functions for handling clicked SVG
+     * SVG input queue with functions for handling clicked SVG
      * input elements, from first clicked at the head of the array
      * to last clicked at the tail of the array.
      */
