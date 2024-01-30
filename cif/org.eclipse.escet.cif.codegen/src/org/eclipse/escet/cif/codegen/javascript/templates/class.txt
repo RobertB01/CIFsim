@@ -184,7 +184,7 @@ ${javascript-cont-upd-code}
                 func(); // Call function, to set the event to allow.
             }
 
-            // Try to execute an event.
+            // Try to execute an event. If one is executed, start from the top again.
 ${javascript-event-calls-code}
 
             // No event executed. We are done.
