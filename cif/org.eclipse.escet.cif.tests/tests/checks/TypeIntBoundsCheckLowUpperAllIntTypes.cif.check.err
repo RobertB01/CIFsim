@@ -1,8 +1,8 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
-  ---------------------------------------------------
-  (1/1) Highest allowed integer value is less than 0.
-  ---------------------------------------------------
+  ----------------------------------------------
+  (1/1) Integer type upper bound is less than 0.
+  ----------------------------------------------
    * In location "A.A":
      - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
                ^           ^

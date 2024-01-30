@@ -1,22 +1,46 @@
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
-  ---------------------------------------------------
-  (1/4) Highest allowed integer value is less than 0.
-  ---------------------------------------------------
+  --------------------------------------------------
+  (1/4) Integer type lower bound is greater than 10.
+  --------------------------------------------------
    * In location "A.A":
      - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
-               ^           ^
+                                                                                                                 ^
+     - edge when 15 > 0;
+                 ^
+   * In discrete variable "A.fully_above":
+     - disc int[15..60] fully_above;
+            ^
+   * In discrete variable "A.plain":
+     - disc int plain = 500;
+                        ^
+
+  ----------------------------------------------
+  (2/4) Integer type lower bound is less than 0.
+  ----------------------------------------------
+   * In location "A.A":
+     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
+               ^           ^ ^               ^ ^             ^       ^        ^               ^                              ^ ^
      - edge when -1 > 0;
                  ^
      - edge when 3 - 4 > 0;
                    ^
+   * In discrete variable "A.below_and_above":
+     - disc int[-10..100] below_and_above;
+            ^
    * In discrete variable "A.fully_below":
      - disc int[-10..-1] fully_below;
             ^
+   * In discrete variable "A.highest_allowed":
+     - disc int[-10..0] highest_allowed;
+            ^
+   * In discrete variable "A.partial_below":
+     - disc int[-10..6] partial_below;
+            ^
 
-  ----------------------------------------------------
-  (2/4) Highest allowed integer value is more than 10.
-  ----------------------------------------------------
+  --------------------------------------------------
+  (3/4) Integer type upper bound is greater than 10.
+  --------------------------------------------------
    * In location "A.A":
      - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
                                                              ^       ^        ^ ^             ^ ^              ^ ^           ^ ^
@@ -38,40 +62,16 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - disc int plain = 500;
                         ^
 
-  --------------------------------------------------
-  (3/4) Lowest allowed integer value is less than 0.
-  --------------------------------------------------
+  ----------------------------------------------
+  (4/4) Integer type upper bound is less than 0.
+  ----------------------------------------------
    * In location "A.A":
      - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
-               ^           ^ ^               ^ ^             ^       ^        ^               ^                              ^ ^
+               ^           ^
      - edge when -1 > 0;
                  ^
      - edge when 3 - 4 > 0;
                    ^
-   * In discrete variable "A.below_and_above":
-     - disc int[-10..100] below_and_above;
-            ^
    * In discrete variable "A.fully_below":
      - disc int[-10..-1] fully_below;
             ^
-   * In discrete variable "A.highest_allowed":
-     - disc int[-10..0] highest_allowed;
-            ^
-   * In discrete variable "A.partial_below":
-     - disc int[-10..6] partial_below;
-            ^
-
-  ---------------------------------------------------
-  (4/4) Lowest allowed integer value is more than 10.
-  ---------------------------------------------------
-   * In location "A.A":
-     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
-                                                                                                                 ^
-     - edge when 15 > 0;
-                 ^
-   * In discrete variable "A.fully_above":
-     - disc int[15..60] fully_above;
-            ^
-   * In discrete variable "A.plain":
-     - disc int plain = 500;
-                        ^

@@ -28,5 +28,5 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - marked 6 = 6;
                 ^
    * In automaton "g_trivial.a":
-     - marked 4 = 4;
+     - marked 3 = 3;
                 ^
