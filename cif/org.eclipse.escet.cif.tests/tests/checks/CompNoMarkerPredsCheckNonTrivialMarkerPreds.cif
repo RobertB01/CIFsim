@@ -19,7 +19,7 @@ group g_trivial:
   marked 2 = 2;
 
   automaton a:
-    marked 4 = 4;
+    marked 3 = 3;
     location:
       initial;
       marked;

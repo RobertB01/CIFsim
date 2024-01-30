@@ -42,7 +42,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
-import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.common.emf.EMFHelper;
@@ -200,8 +199,7 @@ public class PartialSpecsBuilder {
 
         // Some objects can simply be cloned. Currently, they are all declarations.
         if (dangling instanceof AlgVariable || dangling instanceof Constant || dangling instanceof EnumDecl
-                || dangling instanceof Event || dangling instanceof Function || dangling instanceof InputVariable
-                || dangling instanceof TypeDecl)
+                || dangling instanceof Event || dangling instanceof InputVariable || dangling instanceof TypeDecl)
         {
             Declaration clonedDecl = (Declaration)partialMgr.deepcloneAndAdd(dangling);
             partialMgr.directlyAttachAddedToComponent(dangling, clonedDecl);

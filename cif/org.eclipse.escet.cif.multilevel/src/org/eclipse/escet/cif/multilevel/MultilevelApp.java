@@ -407,21 +407,11 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // No user-defined functions.
                     new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL, NoSpecificUserDefFunc.INTERNAL),
 
-                    // new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT),  ALREADY INCLUDED.
-
-                    // new SpecHasPlantCheck(),  ALREADY INCLUDED.
-
                     // Only allow events that are either controllable or uncontrollable.
                     new EventOnlyWithControllabilityCheck(),
 
                     // Don't allow channels.
                     new EventNoChannelsCheck(),
-
-                    // new InvNoSpecificInvsCheck()  ALREADY INCLUDED.
-                    //   .disallow(SUPERVISOR, NoInvariantKind.ALL_KINDS, ALL_PLACES)
-                    //   .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES),
-
-                    // new VarNoContinuousCheck(),  ALREADY INCLUDED.
 
                     // Only allow non-negative integer values in expressions.
                     new TypeIntBoundsCheck(true, 0, null, null, null),
@@ -465,7 +455,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Only allow inversion unary operator.
                     new ExprNoSpecificUnaryExprsCheck( //
                             NoSpecificUnaryOp.NEGATE, //
-                            NoSpecificUnaryOp.PLUS),
+                            NoSpecificUnaryOp.SAMPLE),
 
                     // Disallow all non-supported binary operators.
                     new ExprNoSpecificBinaryExprsCheck( //
@@ -504,7 +494,6 @@ public class MultilevelApp extends Application<IOutputComponent> {
                             NoSpecificBinaryOp.SUBTRACTION_SETS, //
                             NoSpecificBinaryOp.SUBTRACTION_DICTS, //
                             NoSpecificBinaryOp.UNEQUAL_DICT, //
-                            NoSpecificBinaryOp.UNEQUAL_ENUM, //
                             NoSpecificBinaryOp.UNEQUAL_INT_RANGELESS, //
                             NoSpecificBinaryOp.UNEQUAL_LIST, //
                             NoSpecificBinaryOp.UNEQUAL_REAL, //
@@ -515,6 +504,16 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Conditional updates (if updates), multi-assignments, and partial variable assignments are not
                     // supported.
                     new EdgeOnlySimpleAssignmentsCheck()
+
+                    // Omitted data-based synthesis checks, as they are already covered by the CIF to DMM conversion
+                    // checks:
+                    // - Disallow supervisor and kind-less invariants.
+                    // - Disallow supervisor and kind-less automata.
+                    // - Disallow continuous variables.
+                    // - Have at least one plant automaton.
+
+                    // Some missing checks exist in data-based synthesis, but they can only be checked as part of
+                    // performing data-based synthesis.
             );
         }
     }

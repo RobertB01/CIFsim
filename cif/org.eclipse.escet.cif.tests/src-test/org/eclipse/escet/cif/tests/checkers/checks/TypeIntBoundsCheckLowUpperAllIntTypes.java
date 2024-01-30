@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.checkers.checks;
 
 import org.eclipse.escet.cif.checkers.checks.TypeIntBoundsCheck;
 
-/** {@link TypeIntBoundsCheck} that checks all integer types. */
+/** {@link TypeIntBoundsCheck} that checks all integer types for having an upper bound in range [0..MAX_INT]. */
 public class TypeIntBoundsCheckLowUpperAllIntTypes extends TypeIntBoundsCheck {
     /** Constructor of the {@link TypeIntBoundsCheckLowUpperAllIntTypes} class. */
     public TypeIntBoundsCheckLowUpperAllIntTypes() {

@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.checkers.checks;
 
 import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 
-/** {@link CompNoMarkerPredsCheck} class that checks all marker predicates. */
+/** {@link CompNoMarkerPredsCheck} class that checks all non-trivial marker predicates. */
 public class CompNoMarkerPredsCheckNonTrivialMarkerPreds extends CompNoMarkerPredsCheck {
     /** Constructor of the {@link CompNoMarkerPredsCheckNonTrivialMarkerPreds} class. */
     public CompNoMarkerPredsCheckNonTrivialMarkerPreds() {

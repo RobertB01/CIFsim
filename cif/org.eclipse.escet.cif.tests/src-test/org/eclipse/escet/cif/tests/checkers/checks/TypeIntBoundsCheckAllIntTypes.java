@@ -15,7 +15,10 @@ package org.eclipse.escet.cif.tests.checkers.checks;
 
 import org.eclipse.escet.cif.checkers.checks.TypeIntBoundsCheck;
 
-/** {@link TypeIntBoundsCheck} that checks all integer types. */
+/**
+ * {@link TypeIntBoundsCheck} that checks all integer types for having a lower bound in range [0..10] and an upper bound
+ * in range [0..10].
+ */
 public class TypeIntBoundsCheckAllIntTypes extends TypeIntBoundsCheck {
     /** Constructor of the {@link TypeIntBoundsCheckAllIntTypes} class. */
     public TypeIntBoundsCheckAllIntTypes() {

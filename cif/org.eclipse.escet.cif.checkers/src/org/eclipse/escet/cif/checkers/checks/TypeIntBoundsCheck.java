@@ -23,16 +23,16 @@ public class TypeIntBoundsCheck extends CifCheck {
     /** Whether to check all integer types, including integer types without limits. */
     private final boolean checkRangeless;
 
-    /** Smallest allowed value of the lower bound of an integer type. */
+    /** Smallest allowed value of the lower bound of an integer type, {@code null} means {@link Integer#MIN_VALUE}. */
     private final int minLower;
 
-    /** Largest allowed value of the lower bound of an integer type. */
+    /** Largest allowed value of the lower bound of an integer type, {@code null} means {@link Integer#MAX_VALUE}. */
     private final int maxLower;
 
-    /** Smallest allowed value of the upper bound of an integer type. */
+    /** Smallest allowed value of the upper bound of an integer type, {@code null} means {@link Integer#MIN_VALUE}. */
     private final int minUpper;
 
-    /** Largest allowed value of the upper bound of an integer type. */
+    /** Largest allowed value of the upper bound of an integer type {@code null} means {@link Integer#MAX_VALUE}. */
     private final int maxUpper;
 
     /**
@@ -62,18 +62,18 @@ public class TypeIntBoundsCheck extends CifCheck {
 
         int lower = CifTypeUtils.getLowerBound(intType);
         if (lower < minLower) {
-            violations.add(intType, "Lowest allowed integer value is less than %d", minLower);
+            violations.add(intType, "Integer type lower bound is less than %d", minLower);
         }
         if (lower > maxLower) {
-            violations.add(intType, "Lowest allowed integer value is more than %d", maxLower);
+            violations.add(intType, "Integer type lower bound is greater than %d", maxLower);
         }
 
         int upper = CifTypeUtils.getUpperBound(intType);
         if (upper < minUpper) {
-            violations.add(intType, "Highest allowed integer value is less than %d", minUpper);
+            violations.add(intType, "Integer type upper bound is less than %d", minUpper);
         }
         if (upper > maxUpper) {
-            violations.add(intType, "Highest allowed integer value is more than %d", maxUpper);
+            violations.add(intType, "Integer type upper bound is greater than %d", maxUpper);
         }
     }
 }
