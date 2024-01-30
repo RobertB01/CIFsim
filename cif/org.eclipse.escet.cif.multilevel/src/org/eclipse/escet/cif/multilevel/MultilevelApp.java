@@ -384,10 +384,6 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Both requirement automata and state/event exclusion invariants count as requirement.
                     new SpecHasRequirementCheck(),
 
-                    // Disallow initialization and marker predicates outside locations.
-                    new CompNoInitPredsCheck(true), //
-                    new CompNoMarkerPredsCheck(true),
-
                     // Only requirement state/event exclusion invariants in components are supported.
                     new InvNoSpecificInvsCheck() //
                             .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
