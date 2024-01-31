@@ -90,6 +90,9 @@
                 white-space: pre;
                 color: black;
             }
+            #log-pane .div-txt-area #log-output .warning {
+                color: rgb(150, 125, 0);
+            }
             #log-pane .div-txt-area #log-output .error {
                 color: red;
             }
