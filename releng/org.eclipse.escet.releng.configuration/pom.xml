@@ -69,7 +69,7 @@ SPDX-License-Identifier: MIT
         <jruby.version>9.2.15.0</jruby.version>
 
         <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
-        <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
+        <maven.checkstyle.version>3.3.1</maven.checkstyle.version>
         <checkstyle.version>8.41</checkstyle.version>
 
         <!-- Eclipse Common Build Infrastructure version. -->
