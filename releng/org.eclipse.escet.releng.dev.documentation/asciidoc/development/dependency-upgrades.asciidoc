@@ -177,6 +177,7 @@ To upgrade to a new Tycho version:
 * Update `maven.minimal.version` in `org.eclipse.escet.releng.configuration/pom.xml`, if the new Tycho version requires a higher Maven version.
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<development-building-and-testing-chapter-index,Maven build>>.
+* Perform a license check (`misc/license-check-dependencies/license-check-dependencies.sh`).
 * Ensure no errors or warnings during Maven build.
 
 [[development-dependency-upgrades-java]]
