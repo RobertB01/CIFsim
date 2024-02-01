@@ -16,20 +16,20 @@ package org.eclipse.escet.cif.plcgen.conversion;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 
-/** Results of a instantiated function block. */
+/** Data of an instantiated function block. */
 public class PlcInstantiatedFunctionBlockData {
-    /** The created function block description, useful for calling the function block. */
+    /** The function block description, useful for calling the function block. */
     public final PlcFunctionBlockDescription funcBlockDescription;
 
-    /** The created function block instance variable, useful for accessing the data fields of the function block. */
+    /** The function block instance variable, useful for accessing the data fields of the function block. */
     public final PlcFuncBlockInstanceVar blockFunctionVariable;
 
     /**
      * Constructor of the {@link PlcInstantiatedFunctionBlockData} class.
      *
-     * @param funcBlockDescription The created function block description, useful for calling the function block.
-     * @param blockFunctionVariable The created function block instance variable, useful for accessing the data fields
-     *     of the function block.
+     * @param funcBlockDescription The function block description, useful for calling the function block.
+     * @param blockFunctionVariable The function block instance variable, useful for accessing the data fields of the
+     *     function block.
      */
     public PlcInstantiatedFunctionBlockData(PlcFunctionBlockDescription funcBlockDescription,
             PlcFuncBlockInstanceVar blockFunctionVariable)

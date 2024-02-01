@@ -240,7 +240,7 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcBasicVariable} instance to a {@link Box} text.
+     * Convert a {@link PlcFuncBlockInstanceVar} instance to a {@link Box} text.
      *
      * @param fnBlockVar Function block instance variable to convert.
      * @return The generated box representation.
@@ -253,7 +253,7 @@ public abstract class Writer {
     /**
      * Convert a {@link PlcStructField} instance to a {@link Box} text.
      *
-     * @param field Variable to convert.
+     * @param field Field to convert.
      * @return The generated box representation.
      */
     protected Box toBox(PlcStructField field) {

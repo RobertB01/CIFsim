@@ -248,9 +248,8 @@ public class ModelTextGenerator {
             throw new AssertionError("Unexpected kind of function description found: \"" + basicDescr + "\".");
         }
 
-        PlcParameterDescription[] parameters = basicDescr.parameters;
         Map<String, PlcNamedValue> arguments = funcAppl.arguments;
-        boolean allArgumentsSupplied = parameters.length == arguments.size();
+        boolean allArgumentsSupplied = basicDescr.parameters.length == arguments.size();
 
         // Decide what notation forms are allowed. Check there is at least one form available.
         boolean infixNotationAllowed = basicDescr.notations.contains(PlcFuncNotation.INFIX)
@@ -322,7 +321,7 @@ public class ModelTextGenerator {
      * @param funcApplPreference Notation preference for function application.
      */
     private void toText(PlcVarExpression varExpr, StringBuilder textBuilder, FuncApplPreference funcApplPreference) {
-        textBuilder.append(varExpr.variable.valueName);
+        textBuilder.append(varExpr.variable.valueText);
         for (PlcProjection proj: varExpr.projections) {
             toText(proj, textBuilder, funcApplPreference);
         }

@@ -237,9 +237,9 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the timer variables table.
      *
-     * @param varName Name of the variable instance containing the data of the TON block function. Name is assumed to be
-     *     unique.
-     * @return The created TON block function application description.
+     * @param varName Name of the variable instance containing the instantiated TON block function. Name is assumed to
+     *     be unique.
+     * @return The instantiated function TON function block.
      */
     public PlcInstantiatedFunctionBlockData addTimerVariable(String varName) {
         if (globalTimerVars == null) {
@@ -249,8 +249,7 @@ public class PlcCodeStorage {
         }
 
         PlcFunctionBlockDescription tonFuncDescr = plcFuncAppls.makeTonBlock(varName);
-        PlcFuncBlockInstanceVar timerVar = new PlcFuncBlockInstanceVar(varName,
-                tonFuncDescr);
+        PlcFuncBlockInstanceVar timerVar = new PlcFuncBlockInstanceVar(varName, tonFuncDescr);
         globalTimerVars.variables.add(timerVar);
         return new PlcInstantiatedFunctionBlockData(tonFuncDescr, timerVar);
     }
@@ -398,11 +397,11 @@ public class PlcCodeStorage {
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
             // The variable is added above, before the variable tables are pushed to the output.
             //
-            box.add("IF %s THEN", firstRun.valueName);
+            box.add("IF %s THEN", firstRun.valueText);
             box.indent();
-            box.add("%s := FALSE;", firstRun.valueName);
+            box.add("%s := FALSE;", firstRun.valueText);
             if (loopsKilled != null) {
-                box.add("%s := 0;", loopsKilled.valueName);
+                box.add("%s := 0;", loopsKilled.valueText);
             }
             box.add();
             textGenerator.toText(stateInitializationCode, box, mainProgram.name, false);
@@ -421,13 +420,13 @@ public class PlcCodeStorage {
             generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
 
             PlcBasicVariable progressVar = getIsProgressVariable();
-            box.add("%s := TRUE;", progressVar.valueName);
+            box.add("%s := TRUE;", progressVar.valueText);
 
             // Start the event processing loop.
             if (loopCount == null) {
                 // Unrestricted looping, no need to count loops.
                 box.add("(* Perform events until none can be done anymore. *)");
-                box.add("WHILE %s DO", progressVar.valueName);
+                box.add("WHILE %s DO", progressVar.valueText);
                 box.indent();
             } else {
                 // Generate condition "progress AND loopCount < max".
@@ -439,14 +438,14 @@ public class PlcCodeStorage {
                 // Restricted looping code.
                 box.add("(* Perform events until none can be done anymore. *)");
                 box.add("(* Track the number of iterations and abort if there are too many. *)");
-                box.add("%s := 0;", loopCount.valueName);
+                box.add("%s := 0;", loopCount.valueText);
                 box.add("WHILE %s DO", textGenerator.toString(whileCond));
                 box.indent();
-                box.add("%s := %s + 1;", loopCount.valueName, loopCount.valueName);
+                box.add("%s := %s + 1;", loopCount.valueText, loopCount.valueText);
             }
 
             // Construct the while body with event processing.
-            box.add("%s := FALSE;", progressVar.valueName);
+            box.add("%s := FALSE;", progressVar.valueText);
             box.add();
             textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
             box.dedent();
@@ -465,7 +464,7 @@ public class PlcCodeStorage {
                 box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
                 box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
                 box.indent();
-                box.add("%s := %s;", loopsKilled.valueName, textGenerator.toString(limitedIncrementKilled));
+                box.add("%s := %s;", loopsKilled.valueText, textGenerator.toString(limitedIncrementKilled));
                 box.dedent();
                 box.add("END_IF;");
             }

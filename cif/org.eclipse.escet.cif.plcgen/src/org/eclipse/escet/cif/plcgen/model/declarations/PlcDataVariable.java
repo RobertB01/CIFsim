@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.declarations;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
-/** Concrete variable storing a plain old data type (POD). */
+/** Concrete variable storing plain old data (POD). */
 public class PlcDataVariable extends PlcBasicVariable {
     /** The address of the variable, or {@code null} if not specified. */
     public final String address;
@@ -25,7 +25,7 @@ public class PlcDataVariable extends PlcBasicVariable {
     public final PlcExpression value;
 
     /**
-     * Constructor for the {@link PlcBasicVariable} class, without address and initial value, and with an empty name
+     * Constructor for the {@link PlcDataVariable} class, without address and initial value, and with an empty name
      * prefix.
      *
      * @param varName The name of the variable.
@@ -36,7 +36,7 @@ public class PlcDataVariable extends PlcBasicVariable {
     }
 
     /**
-     * Constructor for the {@link PlcBasicVariable} class, with an empty name prefix.
+     * Constructor for the {@link PlcDataVariable} class, with an empty name prefix.
      *
      * @param varName The name of the variable.
      * @param type The type of the variable.
@@ -48,7 +48,7 @@ public class PlcDataVariable extends PlcBasicVariable {
     }
 
     /**
-     * Constructor for the {@link PlcBasicVariable} class.
+     * Constructor for the {@link PlcDataVariable} class.
      *
      * @param storagePrefix Name prefix of the variable, to use when accessing the variable.
      * @param varName The name of the variable.

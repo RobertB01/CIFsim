@@ -30,7 +30,7 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
     public final ExprBinding infixBinding;
 
     /**
-     * Constructor of the {@link PlcBasicFuncDescription} class.
+     * Constructor of the {@link PlcPlainFuncDescription} class.
      *
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function.
@@ -45,10 +45,6 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
     {
         super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations));
         Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
-
-        // Verify that parameter names are unique.
-        long numUnique = Arrays.stream(this.parameters).map(param -> param.name).distinct().count();
-        Assert.areEqual(Math.toIntExact(numUnique), this.parameters.length);
 
         this.infixFuncName = infixFuncName;
         this.infixBinding = infixBinding;

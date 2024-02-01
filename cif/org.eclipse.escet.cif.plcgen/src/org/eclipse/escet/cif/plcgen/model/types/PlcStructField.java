@@ -26,7 +26,6 @@ public class PlcStructField {
      *
      * @param fieldName The name of the field.
      * @param type The type of the field.
-     *
      */
     public PlcStructField(String fieldName, PlcType type) {
         this.fieldName = fieldName;
