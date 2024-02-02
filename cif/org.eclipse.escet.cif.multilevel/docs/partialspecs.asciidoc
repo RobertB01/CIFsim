@@ -15,7 +15,7 @@
 
 Splitting a specification into a collection of partial specifications.
 
-Multi-level synthesis is a way to split a single original specification in multiple partial specifications, such that behavior of the supervisor synthesized from the original specification is the same as the combined behavior of all synthesized supervisors one for each partial specifications.
+Multi-level synthesis is a way to split a single original specification in multiple partial specifications, such that behavior of the supervisor synthesized from the original specification is the same as the combined behavior of all synthesized supervisors (one for each partial specification).
 Each supervisor created from a partial specification covers a part of the system behavior.
 With some exchange of data with neighboring supervisors, together they cover all behavior of the system.
 The advantage of creating several partial supervisors, instead of one supervisor for the entire system, lies in a reduced effort to compute the supervisors.
@@ -23,7 +23,7 @@ One large supervisor is harder to compute than several smaller supervisors, espe
 
 Splitting the original specification in parts starts in the CIF to DMM transformation where plant groups and requirement groups are established.
 We will refer to the latter groups as _DMM groups_ to avoid confusion with groups in the CIF language.
-All CIF elements in a DMM group are considered so closely connected with each other that splitting should not never be attempted.
+All CIF elements in a DMM group are considered so closely connected with each other that splitting should not be attempted.
 Now, one way to split the original specification is to see each DMM group as representing a partial specification.
 That may however result in having too many partial specifications.
 Also, two DMM groups may share a lot of data between them, which makes them tightly connected to each other.
@@ -46,7 +46,7 @@ A DMM group is a highly abstracted way to indicate a part of a CIF specification
 It contains automata, invariants, and discrete and input variables.
 It does for example not contain used types, constants, or algebraic variables.
 Also, the expressed relations in a DMM group are about usage and not so much about point of definition.
-In particular, if an automaton in a DMM group defines for example an event or an input variable but it does not use them, the event or input variable are not part of the DMM group, even though the automaton itself (that is, its predicates, locations and edges) is part of the DMM group.
+In particular, if an automaton in a DMM group defines for example an event or an input variable but it does not use them, the event or input variable is not part of the DMM group, even though the automaton itself (including amongst others its locations and edges) is part of the DMM group.
 In other words, DMM group boundaries match often but not always with group boundaries in CIF specifications.
 
 Another point not yet discussed is that all partial synthesized specifications combined should behave the same as the original specification.
@@ -89,7 +89,7 @@ The objects that these references point at are not included in the copy.
 To get a valid copy, the pointed-at objects must be resolved, and also become a part of the copied tree hierarchy.
 There are several ways to do that:
 
-* One possibility is that the pointed at object has been copied already in the past.
+* One possibility is that the pointed-at object has been copied already in the past.
 In that case, just redirecting the cross-reference is sufficient.
 This is expressed as "`pointing at existing`" in the tables below.
 * If the pointed-at object has not been copied and it is allowed to copy it, that can be done now and get added that to the copied tree.
@@ -130,7 +130,7 @@ This is expressed as "`never happens due to pre-condition`" in the tables below.
 | `CompParamWrapExpression` | `ComponentParameter` | Never happens due to pre-condition.
 | `ConstantExpression` | `Constant` | `Constant` is also copied.
 | `ContVariableExpression` | `ContVariable` | Never happens due to pre-condition.
-| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class in the partial specification is an `Automaton`, else a conversion to an `InputVariable` with the same domain is done.
+| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class in the partial specification is an `Automaton`, else it is converted to an `InputVariable` with the same domain is done.
 | `EnumLiteralExpression` | `EnumLiteral` | Containing `EnumDecl` is also copied.
 | `EventExpression` | `Event` | `Event` is also copied.
 | `FieldExpression` | `Field` | Pointing at existing `Field`, possibly after resolving all other non-containing references.
