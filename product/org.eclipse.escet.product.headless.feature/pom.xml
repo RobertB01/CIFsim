@@ -27,7 +27,7 @@
 
     <!-- Execute Groovy script to generate headless execution scripts for product. -->
     <properties>
-        <gmavenplus.version>1.12.1</gmavenplus.version>
+        <gmavenplus.version>3.0.2</gmavenplus.version>
         <groovy.version>3.0.8</groovy.version>
     </properties>
     <build>
