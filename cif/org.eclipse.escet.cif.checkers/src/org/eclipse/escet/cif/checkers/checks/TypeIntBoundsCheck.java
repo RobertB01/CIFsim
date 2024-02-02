@@ -39,10 +39,14 @@ public class TypeIntBoundsCheck extends CifCheck {
      * Constructor of the {@link TypeIntBoundsCheck} class.
      *
      * @param checkRangeless Whether to check all integer types, including integer types without limits.
-     * @param minLowerBound Smallest allowed value of the lower bound of an integer type.
-     * @param maxLowerBound Largest allowed value of the lower bound of an integer type.
-     * @param minUpperBound Smallest allowed value of the upper bound of an integer type.
-     * @param maxUpperBound Largest allowed value of the upper bound of an integer type.
+     * @param minLowerBound Smallest allowed value of the lower bound of an integer type, {@code null} means
+     *     {@link Integer#MIN_VALUE}.
+     * @param maxLowerBound Largest allowed value of the lower bound of an integer type, {@code null} means
+     *     {@link Integer#MAX_VALUE}.
+     * @param minUpperBound Smallest allowed value of the upper bound of an integer type, {@code null} means
+     *     {@link Integer#MIN_VALUE}.
+     * @param maxUpperBound Largest allowed value of the upper bound of an integer type {@code null} means
+     *     {@link Integer#MAX_VALUE}.
      */
     public TypeIntBoundsCheck(boolean checkRangeless, Integer minLowerBound, Integer maxLowerBound,
             Integer minUpperBound, Integer maxUpperBound)
