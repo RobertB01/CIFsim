@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.common.java.Assert;
