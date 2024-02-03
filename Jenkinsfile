@@ -21,7 +21,7 @@ pipeline {
 
     tools {
         jdk 'openjdk-jdk17-latest'
-        maven 'apache-maven-3.9.2'
+        maven 'apache-maven-3.9.0'
     }
 
     options {
