@@ -269,6 +269,7 @@
             <!-- Assemble website ZIP file. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>assemble-website</id>
