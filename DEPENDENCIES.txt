@@ -181,7 +181,7 @@ p2/orbit/p2.eclipse.plugin/org.apache.batik.i18n.source/1.16.0.v20221027-0840, A
 p2/orbit/p2.eclipse.plugin/org.apache.batik.i18n/1.16.0.v20221027-0840, Apache-2.0, approved, #4849
 p2/orbit/p2.eclipse.plugin/org.apache.batik.parser/1.16.0.v20221027-0840, Apache-2.0, approved, #5365
 p2/orbit/p2.eclipse.plugin/org.apache.batik.script/1.16.0.v20221027-0840, Apache-2.0, approved, #5327
-p2/orbit/p2.eclipse.plugin/org.apache.batik.shared.resources/1.16.0.v20221027-0840, unknown, restricted, none
+p2/orbit/p2.eclipse.plugin/org.apache.batik.shared.resources/1.16.0.v20221027-0840, Apache-2.0, approved, #13131
 p2/orbit/p2.eclipse.plugin/org.apache.batik.svggen/1.16.0.v20221027-0840, Apache-2.0, approved, #5347
 p2/orbit/p2.eclipse.plugin/org.apache.batik.transcoder/1.16.0.v20221027-0840, Apache-2.0, approved, #5362
 p2/orbit/p2.eclipse.plugin/org.apache.batik.util.source/1.16.0.v20221027-0840, Apache-2.0, approved, #4850
