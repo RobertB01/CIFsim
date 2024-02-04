@@ -1,4 +1,4 @@
-= Welcome to the Eclipse ESCET(TM) repository
+= Welcome to the Eclipse ESCET(TM) main repository
 
 The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project provides a toolkit for the development of supervisory controllers.
 The toolkit has a strong focus on industrial applicability, e.g. to cyber-physical systems.
