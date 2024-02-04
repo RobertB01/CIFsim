@@ -1,0 +1,14 @@
+WARNING: Discrete variable "a.d1" has non-Simulink-compatible type "tuple(int x; int y)", and will therefore be omitted from the output.
+WARNING: Discrete variable "a.d2" has non-Simulink-compatible type "string", and will therefore be omitted from the output.
+WARNING: Discrete variable "a.d3" has non-Simulink-compatible type "list[1] tuple(int x; int y)", and will therefore be omitted from the output.
+WARNING: Discrete variable "a.d4" has non-Simulink-compatible type "list[1] string", and will therefore be omitted from the output.
+WARNING: Discrete variable "a.d5" has non-Simulink-compatible type "list[1] list[1] tuple(int x; int y)", and will therefore be omitted from the output.
+WARNING: Discrete variable "a.d6" has non-Simulink-compatible type "list[1] list[1] string", and will therefore be omitted from the output.
+WARNING: Discrete variable "a.d7" has non-Simulink-compatible type "list[1] list[1] list[1] bool", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a1" has non-Simulink-compatible type "tuple(int x; int y)", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a2" has non-Simulink-compatible type "string", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a3" has non-Simulink-compatible type "list[1] tuple(int x; int y)", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a4" has non-Simulink-compatible type "list[1] string", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a5" has non-Simulink-compatible type "list[1] list[1] tuple(int x; int y)", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a6" has non-Simulink-compatible type "list[1] list[1] string", and will therefore be omitted from the output.
+WARNING: Algebraic variable "a7" has non-Simulink-compatible type "list[1] list[1] list[1] bool", and will therefore be omitted from the output.
