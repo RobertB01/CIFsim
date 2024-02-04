@@ -43,20 +43,27 @@ import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
+import org.eclipse.escet.cif.codegen.options.TargetLanguage;
+import org.eclipse.escet.cif.codegen.simulink.VarInputOnlySimulinkCompatibleTypesCheck;
 
 /** CIF code generator precondition checker. Does not support component definition/instantiation. */
 public class CodeGenPreChecker extends CifPreconditionChecker {
-    /** Constructor for the {@link CodeGenPreChecker} class. */
-    public CodeGenPreChecker() {
-        super(getChecks());
+    /**
+     * Constructor for the {@link CodeGenPreChecker} class.
+     *
+     * @param language The target language.
+     */
+    public CodeGenPreChecker(TargetLanguage language) {
+        super(getChecks(language));
     }
 
     /**
      * Get the checks to use.
      *
+     * @param language The target language.
      * @return The checks to use.
      */
-    private static List<CifCheck> getChecks() {
+    private static List<CifCheck> getChecks(TargetLanguage language) {
         List<CifCheck> checks = list();
 
         // Specifications without automata are not supported.
@@ -200,6 +207,13 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 NoSpecificPrintDecl.TEXT_POST_FILTER_PRE, //
                 NoSpecificPrintDecl.TEXT_PRE_FILTER_POST //
         ));
+
+        // For Simulink code generation, disallow input variables that do not have a Simulink-compatible type: a
+        // boolean, enumeration, integer, or real type, or an array with such an element type (a vector), or an array
+        // of an array with such an element type (a matrix).
+        if (language == TargetLanguage.SIMULINK) {
+            checks.add(new VarInputOnlySimulinkCompatibleTypesCheck());
+        }
 
         // Return all the checks.
         return checks;

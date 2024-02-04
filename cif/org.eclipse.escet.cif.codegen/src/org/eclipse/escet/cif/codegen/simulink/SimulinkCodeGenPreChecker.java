@@ -25,16 +25,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
 /** Checker to check that the given CIF specification can be used for code generation with Simulink. */
 public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
-    @Override
-    protected void walkInputVariable(InputVariable var) {
-        if (!isGoodType(var.getType())) {
-            String msg = fmt("Unsupported type \"%s\" found with input variable \"%s\".", typeToStr(var.getType()),
-                    getAbsName(var));
-            problems.add(msg);
-            return;
-        }
-        super.walkInputVariable(var);
-    }
+
 
     @Override
     protected void walkDiscVariable(DiscVariable var) {

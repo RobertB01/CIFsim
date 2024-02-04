@@ -58,7 +58,6 @@ import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
 import org.eclipse.escet.cif.codegen.options.CodePrefixOption;
 import org.eclipse.escet.cif.codegen.options.OutputDirOption;
 import org.eclipse.escet.cif.codegen.options.TargetLanguage;
-import org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker;
 import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
 import org.eclipse.escet.cif.codegen.updates.AlgDerInvalidations;
 import org.eclipse.escet.cif.codegen.updates.VariableWrapper;
@@ -759,10 +758,7 @@ public abstract class CodeGen {
         // after elimination of component definition/instantiation, to make it
         // easier to check. Do this after some simplification, to support more
         // specifications.
-        CifPreconditionChecker checker = switch (language) {
-            case JAVA, JAVASCRIPT, HTML, C89, C99 -> new CodeGenPreChecker();
-            case SIMULINK -> new SimulinkCodeGenPreChecker();
-        };
+        CifPreconditionChecker checker = new CodeGenPreChecker(language);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF code generator");
 
         // Linearize, to get rid of parallelism.
