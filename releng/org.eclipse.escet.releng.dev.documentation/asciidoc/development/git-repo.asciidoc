@@ -28,8 +28,8 @@ These can also be accessed via a web interface of the Eclipse Foundation GitLab:
 * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET main repository]
 * link:https://gitlab.eclipse.org/eclipse/escet/escet-website[Eclipse ESCET website repository]
 
-New website versions are generally deployed from the build of the main repository.
-Changes should therefore typically be made to the main repository, rather than directly to the website repository.
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
 Since the website repository does not have its own <<development-issue-tracking-chapter-index,issue tracker>>, issues for the website should be made on the main repository as well.
 
 indexterm:[EMF]

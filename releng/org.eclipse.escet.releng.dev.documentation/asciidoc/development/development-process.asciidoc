@@ -170,8 +170,8 @@ If you fully understand rebasing and employ it carefully, it can be a powerful t
 Rebasing local commits that have not yet been pushed to the remote public repository is always at your own discretion.
 
 The website repository has only a single branch named `master`.
-New website versions are generally deployed from the build of the main repository.
-Changes should therefore typically be made to the main repository, rather than directly to the website repository.
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
 
 indexterm:[commit]
 

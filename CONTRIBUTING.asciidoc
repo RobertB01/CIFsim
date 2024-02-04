@@ -31,8 +31,8 @@ These can also be accessed via a web interface:
 * Website repository: https://gitlab.eclipse.org/eclipse/escet/escet-website
 
 The main repository has released content in its `master` branch, and current developments go into the `develop` branch.
-New website versions are generally deployed from the build of the main repository.
-Changes should therefore typically be made to the main repository, rather than directly to the website repository.
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
 
 This project uses GitLab to track ongoing development and issues:
 
