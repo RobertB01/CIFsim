@@ -25,7 +25,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 public class VarInputOnlySimulinkCompatibleTypesCheck extends CifCheck {
     @Override
     protected void preprocessInputVariable(InputVariable var, CifCheckViolations violations) {
-        if (!SimulinkTypeUtils.isGoodType(var.getType())) {
+        if (!SimulinkTypeUtils.isSimulinkCompatibleType(var.getType())) {
             violations.add(var.getType(),
                     "Input variable has a type that is not a boolean, enumeration, integer, or real type, or an array "
                             + "with such an element type, or an array of an array with such an element type");

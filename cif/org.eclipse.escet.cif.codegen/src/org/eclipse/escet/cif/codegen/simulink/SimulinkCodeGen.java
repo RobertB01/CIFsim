@@ -220,14 +220,14 @@ public class SimulinkCodeGen extends CodeGen {
 
             DiscVariable dv = (DiscVariable)d;
             simulinkTargetRefMap.put(d, fmt("work->%s", super.getTargetRef(d)));
-            if (SimulinkTypeUtils.isGoodType(dv.getType())) {
+            if (SimulinkTypeUtils.isSimulinkCompatibleType(dv.getType())) {
                 addDeclarationToSection(outputVarMatcher, dv, reportSection);
             }
         }
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
 
         for (AlgVariable aVar: algVars) {
-            if (SimulinkTypeUtils.isGoodType(aVar.getType())) {
+            if (SimulinkTypeUtils.isSimulinkCompatibleType(aVar.getType())) {
                 addDeclarationToSection(outputVarMatcher, aVar, reportSection);
             }
         }

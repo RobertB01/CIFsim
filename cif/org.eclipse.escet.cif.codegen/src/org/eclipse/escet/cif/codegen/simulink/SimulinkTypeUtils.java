@@ -32,16 +32,15 @@ public class SimulinkTypeUtils {
     }
 
     /**
-     * Test whether the given type is acceptable as type in simulink code generation.
+     * Check whether the given type is compatible with Simulink types, for Simulink code generation.
      *
-     * @param type Type to test.
-     * @return Whether the type is supported.
+     * @param type Type to check.
+     * @return {@code true} if the type if compatible, {@code false} if it is incompatible.
      */
-    public static boolean isGoodType(CifType type) {
+    public static boolean isSimulinkCompatibleType(CifType type) {
         type = normalizeType(type);
 
-        // Optionally, peel off up to two layers of 'list type' (for vector or
-        // matrix of the element type).
+        // Optionally, peel off up to two layers of 'list type' (for vector or matrix of the element type).
         if (type instanceof ListType) {
             ListType ltype = (ListType)type;
             type = normalizeType(ltype.getElementType());
@@ -68,7 +67,7 @@ public class SimulinkTypeUtils {
      * of a Matlab vector.
      *
      * <p>
-     * {@link #isGoodType} should hold.
+     * {@link #isSimulinkCompatibleType} should hold.
      * </p>
      *
      * @param type Type to test.
@@ -77,7 +76,7 @@ public class SimulinkTypeUtils {
     public static int getRowCount(CifType type) {
         type = normalizeType(type);
 
-        Assert.check(isGoodType(type));
+        Assert.check(isSimulinkCompatibleType(type));
         if (type instanceof ListType) {
             ListType ltype = (ListType)type;
             if (isArrayType(ltype)) {
@@ -91,8 +90,8 @@ public class SimulinkTypeUtils {
      * Get the number of columns from the given type, or {@code 0} if there is no column list.
      *
      * <p>
-     * {@link #isGoodType} should hold. Also, for useful results, the {@link #getRowCount} method should not return
-     * {@code 0}.
+     * {@link #isSimulinkCompatibleType} should hold. Also, for useful results, the {@link #getRowCount} method should
+     * not return {@code 0}.
      * </p>
      *
      * @param type Type to test.
@@ -101,7 +100,7 @@ public class SimulinkTypeUtils {
     public static int getColumnCount(CifType type) {
         type = normalizeType(type);
 
-        Assert.check(isGoodType(type));
+        Assert.check(isSimulinkCompatibleType(type));
         if (type instanceof ListType) { // Peel off the rows if available.
             ListType ltype = (ListType)type;
             type = normalizeType(ltype.getElementType());
