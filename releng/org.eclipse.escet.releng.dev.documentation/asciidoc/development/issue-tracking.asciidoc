@@ -25,6 +25,8 @@ The Eclipse ESCET project uses GitLab to track ongoing development and issues:
 * link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET milestones]
 * link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[Eclipse ESCET issues]
 
+Since the website repository does not have its own issue tracker, issues for the website should be made on the main repository (using the links above).
+
 Be sure to search for existing issues before you create another one.
 Remember that contributions are always welcome!
 

@@ -32,10 +32,12 @@ SPDX-License-Identifier: MIT
 The project maintains the following source code repositories:
 
 * https://gitlab.eclipse.org/eclipse/escet/escet.git
+* https://gitlab.eclipse.org/eclipse/escet/escet-website.git
 
 These can also be accessed via a web interface:
 
 * https://gitlab.eclipse.org/eclipse/escet/escet
+* https://gitlab.eclipse.org/eclipse/escet/escet-website
 
 == Third-party Content
 
