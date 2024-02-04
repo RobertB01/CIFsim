@@ -25,18 +25,15 @@ The Eclipse ESCET project primarily uses GitLab for its development:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
 
-=== Discussion
-
-It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e. the project committers and the project community.
-Discussions can take place on the project's <<development-dev-list-chapter-index,'dev' list>>, especially for radical new ideas and new features that have not been discussed before.
-
 indexterm:[issue]
 
 === Issue tracking
 
-If the project committers and the community agree that it is a good idea to have the new feature, an issue should be created in the <<development-issue-tracking-chapter-index,issue tracker>>.
-For improvements where extensive discussion is not expected, as well as for obvious bugs, an issue can be created directly, without first discussing it on the 'dev' list.
-The discussion can also continue in the issue itself, once the issue is created.
+It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e., the project committers and the project community.
+Discussions can take place via GitLab <<development-issue-tracking-chapter-index,issues>>.
+This is especially important for radical new ideas and new features that have not been discussed before.
+But even if extensive discussion is not expected, as well as for obvious bugs, it is recommended to always create the issue before starting to implement a solution.
+This way, the community knows you are working on the issue.
 
 When creating an issue, take the following into account:
 
