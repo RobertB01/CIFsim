@@ -1,60 +1,424 @@
 WARNING: File "codegen/unsupported1.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
 ERROR: Code generation to C89 failed for CIF file "codegen/unsupported1.cif".
 CAUSE: CIF code generator failed due to unsatisfied preconditions:
- - Unsupported automaton "p": initialization predicates in components are currently not supported.
- - Unsupported automaton "p": state invariants in components are currently not supported.
- - Unsupported automaton "p2": automata without an initial location are currently not supported.
- - Unsupported automaton "p3": automata with multiple initial locations are currently not supported.
- - Unsupported discrete variable "p.x": the variable has multiple potential initial values.
- - Unsupported discrete variable "p.y": the variable has multiple potential initial values.
- - Unsupported discrete variable "q.v7": the variable has multiple potential initial values.
- - Unsupported expression "1 in q.v6": binary operator "in" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "[f2][q.i]()": function calls on anything other than standard library functions and internal user-defined functions is currently not supported.
- - Unsupported expression "acosh(q.r)": standard  library function "acosh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "asinh(q.r)": standard  library function "asinh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "atanh(q.r)": standard  library function "atanh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "constant(true)": standard  library function "constant" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "cosh(q.r)": standard  library function "cosh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "del(q.v7, 0)": standard  library function "del" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v5 + [1])": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v6 - {1})": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v6 and q.v6)": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "empty(q.v6 or q.v6)": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "f1": the use of functions as values is currently not supported.
- - Unsupported expression "f2": the use of functions as values is currently not supported.
- - Unsupported expression "pop(q.v5)": standard  library function "pop" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "q.v4(1)": function calls on anything other than standard library functions and internal user-defined functions is currently not supported.
- - Unsupported expression "q.v5 + [1]": binary operator "+" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v5 = q.v5": binary operator "=" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v5[:]": slicing is currently not supported.
- - Unsupported expression "q.v5[:][0]": projections on anything other than tuples, arrays, and strings is currently not supported.
- - Unsupported expression "q.v6 != q.v6": binary operator "!=" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v6 - {1}": binary operator "-" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v6 and q.v6": binary operator "and" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "q.v6 or q.v6": binary operator "or" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "sample q.v3": unary operator "sample" is currently not supported.
- - Unsupported expression "sinh(q.r)": standard  library function "sinh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v2)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v5)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "size(q.v6)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "tanh(q.r)": standard  library function "tanh" is currently not supported, or is not supported for the arguments that are used.
- - Unsupported expression "{1: true}": dictionaries are currently not supported.
- - Unsupported expression "{1} sub q.v6": binary operator "sub" is currently not supported, or is not supported for the operands that are used.
- - Unsupported expression "{1}": sets are currently not supported.
- - Unsupported expression "{1}": sets are currently not supported.
- - Unsupported expression "{1}": sets are currently not supported.
- - Unsupported function "f1": external user-defined functions are currently not supported.
- - Unsupported group "g": initialization predicates in components are currently not supported.
- - Unsupported group "g": state invariants in components are currently not supported.
- - Unsupported location "a" of automaton "p": state invariants in locations are currently not supported.
- - Unsupported location "a" of automaton "p": urgent locations are currently not supported.
- - Unsupported location "b" of automaton "p": urgent edges are currently not supported.
- - Unsupported print declaration: print declarations with post/target state text and pre/source state filtering ("when") are currently not supported.
- - Unsupported print declaration: print declarations with pre/source state text and post/target state filtering ("when") are currently not supported.
- - Unsupported specification: initialization predicates in components are currently not supported.
- - Unsupported specification: state invariants in components are currently not supported.
- - Unsupported type "dict(int:bool)": dictionary types are currently not supported.
- - Unsupported type "dist bool": distribution types are currently not supported.
- - Unsupported type "func int(int)": function types are currently not supported. That is, calling functions is supported, but using them as data is not supported.
- - Unsupported type "list int": non-array list types are currently not supported.
- - Unsupported type "set int": set types are currently not supported.
+
+  ------------------------------------
+  (1/44) A dictionary literal is used.
+  ------------------------------------
+   * In discrete variable "q.v2":
+     - disc dict(int:bool) v2 = {1: true};
+                                ^
+
+  ---------------------------------
+  (2/44) A dictionary type is used.
+  ---------------------------------
+   * In the top-level scope of the specification:
+     - invariant size(q.v1) + size(q.v2) > 0;
+                              ^    ^
+   * In discrete variable "q.v2":
+     - disc dict(int:bool) v2 = {1: true};
+            ^                   ^
+
+  -----------------------------------
+  (3/44) A distribution type is used.
+  -----------------------------------
+   * In the top-level scope of the specification:
+     - invariant (sample q.v3)[0];
+                  ^      ^
+   * In discrete variable "q.v3":
+     - disc dist bool v3 = constant(true);
+            ^              ^       ^
+
+  ----------------------------------------------------------------------------------
+  (4/44) A function type is used to store functions or use functions as data values.
+  ----------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant q.v4(1) > 0;
+                 ^
+     - invariant [f2][q.i]() > 0;
+                 ^^  ^
+   * In discrete variable "q.v4":
+     - disc func int(int) v4 = f1;
+            ^                  ^
+
+  ------------------------------------------------------
+  (5/44) A non-array list projection expression is used.
+  ------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant q.v5[:][0] > 0;
+                        ^
+
+  -------------------------------------
+  (6/44) A non-array list type is used.
+  -------------------------------------
+   * In the top-level scope of the specification:
+     - invariant size(q.v5) + size(q.v6) > 0;
+                 ^    ^
+     - invariant q.v5 = q.v5;
+                 ^      ^
+     - invariant empty(q.v5 + [1]);
+                 ^     ^    ^
+     - invariant q.v5[:][0] > 0;
+                 ^   ^
+     - invariant pop(q.v5)[0] > 0;
+                 ^  ^^
+   * In discrete variable "q.v5":
+     - disc list int v5 = [1];
+            ^
+
+  -----------------------------
+  (7/44) A set literal is used.
+  -----------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v6 - {1});
+                              ^
+     - invariant {1} sub q.v6;
+                 ^
+   * In discrete variable "q.v6":
+     - disc set int v6 = {1};
+                         ^
+
+  --------------------------
+  (8/44) A set type is used.
+  --------------------------
+   * In the top-level scope of the specification:
+     - invariant size(q.v5) + size(q.v6) > 0;
+                              ^    ^
+     - invariant empty(q.v6 or q.v6);
+                 ^     ^    ^  ^
+     - invariant empty(q.v6 and q.v6);
+                 ^     ^    ^   ^
+     - invariant q.v6 != q.v6;
+                 ^       ^
+     - invariant empty(q.v6 - {1});
+                 ^     ^    ^ ^
+     - invariant 1 in q.v6;
+                      ^
+     - invariant {1} sub q.v6;
+                 ^       ^
+   * In discrete variable "q.v6":
+     - disc set int v6 = {1};
+            ^            ^
+
+  ----------------------------------
+  (9/44) A slice expression is used.
+  ----------------------------------
+   * In the top-level scope of the specification:
+     - invariant q.v5[:][0] > 0;
+                     ^
+
+  ------------------------------------------------------------------
+  (10/44) A user-defined function reference is used as a data value.
+  ------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant [f2][q.i]() > 0;
+                  ^
+   * In discrete variable "q.v4":
+     - disc func int(int) v4 = f1;
+                               ^
+
+  -------------------------------------------------
+  (11/44) Automaton has multiple initial locations.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
+     - plant automaton p3:
+                       ^
+
+  ------------------------------------------
+  (12/44) Automaton has no initial location.
+  ------------------------------------------
+   * In the top-level scope of the specification:
+     - plant automaton p2:
+                       ^
+
+  ------------------------------------------------------------
+  (13/44) Binary operator "!=" is used on a set typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant q.v6 != q.v6;
+                      ^
+
+  ------------------------------------------------------------
+  (14/44) Binary operator "+" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v5 + [1]);
+                            ^
+
+  -----------------------------------------------------------
+  (15/44) Binary operator "-" is used on a set typed operand.
+  -----------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v6 - {1});
+                            ^
+
+  ------------------------------------------------------------
+  (16/44) Binary operator "=" is used on a list typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant q.v5 = q.v5;
+                      ^
+
+  -------------------------------------------------------------
+  (17/44) Binary operator "and" is used on a set typed operand.
+  -------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v6 and q.v6);
+                            ^
+
+  -------------------------------------
+  (18/44) Binary operator "in" is used.
+  -------------------------------------
+   * In the top-level scope of the specification:
+     - invariant 1 in q.v6;
+                   ^
+
+  ------------------------------------------------------------
+  (19/44) Binary operator "or" is used on a set typed operand.
+  ------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v6 or q.v6);
+                            ^
+
+  --------------------------------------
+  (20/44) Binary operator "sub" is used.
+  --------------------------------------
+   * In the top-level scope of the specification:
+     - invariant {1} sub q.v6;
+                     ^
+
+  --------------------------------------------------
+  (21/44) Component has an initialization predicate.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
+     - initial p.x > 0;
+                   ^
+   * In group "g":
+     - initial p.x > 1;
+                   ^
+   * In automaton "p":
+     - initial x > 2;
+                 ^
+
+  ----------------------------------------------------------------
+  (22/44) Discrete variable has multiple potential initial values.
+  ----------------------------------------------------------------
+   * In automaton "p":
+     - disc int y in {1, 2};
+                ^
+
+  ------------------------------------------------------------------------------------------
+  (23/44) Discrete variable has multiple potential initial values (any value in its domain).
+  ------------------------------------------------------------------------------------------
+   * In automaton "p":
+     - disc int x in any;
+                ^
+   * In automaton "q":
+     - disc list[2] int v7 in any;
+                        ^
+
+  -----------------------
+  (24/44) Edge is urgent.
+  -----------------------
+   * In location "p.b":
+     - edge now;
+       ^
+
+  ------------------------------------------------------
+  (25/44) Function is an external user-defined function.
+  ------------------------------------------------------
+   * In the top-level scope of the specification:
+     - func int f1(int b): "java:A.b";
+                ^
+
+  ---------------------------------------
+  (26/44) Invariant is a state invariant.
+  ---------------------------------------
+   * In the top-level scope of the specification:
+     - invariant p.y > 0;
+       ^
+     - invariant size(q.v1) + size(q.v2) > 0;
+       ^
+     - invariant size(q.v5) + size(q.v6) > 0;
+       ^
+     - invariant (sample q.v3)[0];
+       ^
+     - invariant q.v4(1) > 0;
+       ^
+     - invariant size(q.v7) > 0;
+       ^
+     - invariant empty(q.v6 or q.v6);
+       ^
+     - invariant empty(q.v6 and q.v6);
+       ^
+     - invariant q.v5 = q.v5;
+       ^
+     - invariant q.v6 != q.v6;
+       ^
+     - invariant empty(q.v5 + [1]);
+       ^
+     - invariant empty(q.v6 - {1});
+       ^
+     - invariant 1 in q.v6;
+       ^
+     - invariant {1} sub q.v6;
+       ^
+     - invariant q.v5[:][0] > 0;
+       ^
+     - invariant del(q.v7, 0)[0] > 0;
+       ^
+     - invariant pop(q.v5)[0] > 0;
+       ^
+     - invariant acosh(q.r) > 0;
+       ^
+     - invariant asinh(q.r) > 0;
+       ^
+     - invariant atanh(q.r) > 0;
+       ^
+     - invariant cosh(q.r) > 0;
+       ^
+     - invariant sinh(q.r) > 0;
+       ^
+     - invariant tanh(q.r) > 0;
+       ^
+     - invariant [f2][q.i]() > 0;
+       ^
+   * In group "g":
+     - invariant p.y > 1;
+       ^
+   * In automaton "p":
+     - plant invariant y > 2;
+             ^
+   * In location "p.a":
+     - plant invariant x > 3;
+             ^
+
+  ---------------------------
+  (27/44) Location is urgent.
+  ---------------------------
+   * In automaton "p":
+     - location a:
+                ^
+
+  ------------------------------------------------------------------------------------------
+  (28/44) Print declaration has both a post/target state text and a pre/source state filter.
+  ------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print "a" when pre time > 2;
+       ^
+
+  ------------------------------------------------------------------------------------------
+  (29/44) Print declaration has both a pre/source state text and a post/target state filter.
+  ------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - print pre "a" when time > 1;
+       ^
+
+  --------------------------------------------------
+  (30/44) Standard library function "acosh" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant acosh(q.r) > 0;
+                 ^
+
+  --------------------------------------------------
+  (31/44) Standard library function "asinh" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant asinh(q.r) > 0;
+                 ^
+
+  --------------------------------------------------
+  (32/44) Standard library function "atanh" is used.
+  --------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant atanh(q.r) > 0;
+                 ^
+
+  -----------------------------------------------------
+  (33/44) Standard library function "constant" is used.
+  -----------------------------------------------------
+   * In discrete variable "q.v3":
+     - disc dist bool v3 = constant(true);
+                           ^
+
+  -------------------------------------------------
+  (34/44) Standard library function "cosh" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant cosh(q.r) > 0;
+                 ^
+
+  ------------------------------------------------
+  (35/44) Standard library function "del" is used.
+  ------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant del(q.v7, 0)[0] > 0;
+                 ^
+
+  -------------------------------------------------------------------------------------
+  (36/44) Standard library function "empty" is used on a non-array list typed argument.
+  -------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v5 + [1]);
+                 ^
+
+  --------------------------------------------------------------------------
+  (37/44) Standard library function "empty" is used on a set typed argument.
+  --------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant empty(q.v6 or q.v6);
+                 ^
+     - invariant empty(q.v6 and q.v6);
+                 ^
+     - invariant empty(q.v6 - {1});
+                 ^
+
+  ------------------------------------------------
+  (38/44) Standard library function "pop" is used.
+  ------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant pop(q.v5)[0] > 0;
+                 ^
+
+  -------------------------------------------------
+  (39/44) Standard library function "sinh" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant sinh(q.r) > 0;
+                 ^
+
+  --------------------------------------------------------------------------------
+  (40/44) Standard library function "size" is used on a dictionary typed argument.
+  --------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant size(q.v1) + size(q.v2) > 0;
+                              ^
+
+  ------------------------------------------------------------------------------------
+  (41/44) Standard library function "size" is used on a non-array list typed argument.
+  ------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant size(q.v5) + size(q.v6) > 0;
+                 ^
+
+  -------------------------------------------------------------------------
+  (42/44) Standard library function "size" is used on a set typed argument.
+  -------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant size(q.v5) + size(q.v6) > 0;
+                              ^
+
+  -------------------------------------------------
+  (43/44) Standard library function "tanh" is used.
+  -------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant tanh(q.r) > 0;
+                 ^
+
+  ----------------------------------------
+  (44/44) Unary operator "sample" is used.
+  ----------------------------------------
+   * In the top-level scope of the specification:
+     - invariant (sample q.v3)[0];
+                  ^

@@ -1,3 +1,9 @@
 ERROR: Code generation to Simulink failed for CIF file "codegen/declarations.cif".
 CAUSE: CIF code generator failed due to unsatisfied preconditions:
- - Unsupported type "tuple(int a; int b; real c)" found with input variable "i3".
+
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (1/1) Input variable has a type that is not a boolean, enumeration, integer, or real type, or an array with such an element type, or an array of an array with such an element type.
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   * In input variable "i3":
+     - input tuple(int a; int b; real c) i3;
+             ^

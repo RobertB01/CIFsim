@@ -1,1 +1,0 @@
-WARNING: Unsupported output type "tuple(int var; int low; int high)" found in discrete variable "bdd_eval.node", variable will be omitted from the output.
