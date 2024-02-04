@@ -17,7 +17,6 @@ import static org.eclipse.escet.cif.codegen.c89.C89DataValue.constructReference;
 import static org.eclipse.escet.cif.codegen.c89.C89DataValue.makeComputed;
 import static org.eclipse.escet.cif.codegen.c89.C89DataValue.makeValue;
 import static org.eclipse.escet.cif.codegen.c89.typeinfos.C89TypeInfoHelper.typeUsesValues;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.getRowCount;
 import static org.eclipse.escet.cif.codegen.simulink.typeinfos.SimulinkArrayTypeInfo.getElementConversionFromSimulinkVector;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -147,7 +146,7 @@ public class SimulinkExprCodeGen extends C89ExprCodeGen {
         InputVariable decl = expr.getVariable();
         VariableWrapper var = new VariableWrapper(decl, false);
         VariableInformation varInfo = ctxt.getReadVarInfo(var);
-        int rows = getRowCount(decl.getType());
+        int rows = SimulinkTypeUtils.getRowCount(decl.getType());
 
         ExprCode result = new ExprCode();
 
