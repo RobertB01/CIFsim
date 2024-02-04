@@ -39,6 +39,8 @@ These can also be accessed via a web interface:
 * https://gitlab.eclipse.org/eclipse/escet/escet
 * https://gitlab.eclipse.org/eclipse/escet/escet-website
 
+See `CONTRIBUTING.asciidoc` for more information.
+
 == Third-party Content
 
 For a complete list of all dependencies, see the `DEPENDENCIES.txt` file.
