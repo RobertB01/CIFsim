@@ -58,7 +58,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
     /** The prefix string for state variables. */
     protected final String stateVariablePrefix;
 
-    /** Suffix text to call the TON function. */
+    /** Suffix text to append after the block instance variable name to call the TON function block. */
     protected final String tonFuncBlockCallSuffix;
 
     /** User-defined integer type size to use by the PLC. */
@@ -125,7 +125,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
      *     should not be {@link ConvertEnums#AUTO}.
      * @param stateVariablePrefix The prefix string for state variables.
      * @param tonFuncBlockCallSuffix Suffix text to append after the block instance variable name to call the TON
-     *     function.
+     *     function block.
      */
     public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String stateVariablePrefix,
             String tonFuncBlockCallSuffix)

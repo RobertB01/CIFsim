@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.declarations;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 
-/** Variable holding the data of an instantiated block function. */
+/** Variable holding the data of an instantiated function block. */
 public class PlcFuncBlockInstanceVar extends PlcBasicVariable {
     /** Description of the function block. */
     public final PlcFunctionBlockDescription funcBlockDesc;

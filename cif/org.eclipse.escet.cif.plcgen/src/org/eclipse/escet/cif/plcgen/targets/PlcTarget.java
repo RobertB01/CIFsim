@@ -109,9 +109,9 @@ public abstract class PlcTarget {
     public abstract String getStateVariablePrefix();
 
     /**
-     * Get the suffix text to call an instantiated TON block.
+     * Get the suffix text to append after the block instance variable name to call the TON function block.
      *
-     * @return Text to append after the instance value name to call the instantiated TON function.
+     * @return The suffix text.
      */
     public abstract String getTonFuncBlockCallSuffix();
 
