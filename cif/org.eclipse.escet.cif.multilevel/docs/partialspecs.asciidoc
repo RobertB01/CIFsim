@@ -130,7 +130,7 @@ This is expressed as "`never happens due to pre-condition`" in the tables below.
 | `CompParamWrapExpression` | `ComponentParameter` | Never happens due to pre-condition.
 | `ConstantExpression` | `Constant` | `Constant` is also copied.
 | `ContVariableExpression` | `ContVariable` | Never happens due to pre-condition.
-| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class in the partial specification is an `Automaton`, else it is converted to an `InputVariable` with the same domain is done.
+| `DiscVariableExpression` | `DiscVariable` | `DiscVariable` is also copied if its containing class in the partial specification is an `Automaton`, else it is converted to an `InputVariable` with the same domain.
 | `EnumLiteralExpression` | `EnumLiteral` | Containing `EnumDecl` is also copied.
 | `EventExpression` | `Event` | `Event` is also copied.
 | `FieldExpression` | `Field` | Pointing at existing `Field`, possibly after resolving all other non-containing references.
