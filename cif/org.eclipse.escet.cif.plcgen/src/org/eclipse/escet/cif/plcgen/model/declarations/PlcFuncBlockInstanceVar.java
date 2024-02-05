@@ -37,7 +37,6 @@ public class PlcFuncBlockInstanceVar extends PlcBasicVariable {
      * @param storagePrefix Name prefix of the variable, to use when accessing the variable.
      * @param varName The name of the variable.
      * @param funcBlockDesc Description of the function block.
-     *
      */
     public PlcFuncBlockInstanceVar(String storagePrefix, String varName, PlcFunctionBlockDescription funcBlockDesc) {
         super(storagePrefix, varName, funcBlockDesc.funcBlockType);
