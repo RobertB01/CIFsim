@@ -16,15 +16,21 @@ include::_part_attributes.asciidoc[]
 indexterm:[Git, repository]
 
 [[development-git-repo-chapter-index]]
-== Git repository
+== Git repositories
 
 The Eclipse ESCET project maintains the following source code repositories:
 
-* `+https://gitlab.eclipse.org/eclipse/escet/escet.git+`
+* Main repository: `+https://gitlab.eclipse.org/eclipse/escet/escet.git+`
+* Website repository: `+https://gitlab.eclipse.org/eclipse/escet/escet-website.git+`
 
-These can also be accessed via a web interface:
+These can also be accessed via a web interface of the Eclipse Foundation GitLab:
 
-* link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET main repository]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet-website[Eclipse ESCET website repository]
+
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
+Since the website repository does not have its own <<development-issue-tracking-chapter-index,issue tracker>>, issues for the website should be made on the main repository as well.
 
 indexterm:[EMF]
 indexterm:[Java]
@@ -40,7 +46,7 @@ The way we work with our Git repository is explained as part of our <<developmen
 
 === Repository structure
 
-In the Eclipse ESCET source code repository (Git repository), three layers are distinguished:
+In the Eclipse ESCET main source code repository (Git repository), three layers are distinguished:
 
 * The top layer contains user-oriented languages for designing controllers.
 Currently there are two modeling languages in this layer, link:https://eclipse.dev/escet/{escet-deploy-folder-name}/cif[CIF] and link:https://eclipse.dev/escet/{escet-deploy-folder-name}/chi[Chi].

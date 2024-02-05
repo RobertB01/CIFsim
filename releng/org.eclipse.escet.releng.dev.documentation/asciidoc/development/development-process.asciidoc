@@ -25,20 +25,19 @@ The Eclipse ESCET project primarily uses GitLab for its development:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
 
-=== Discussion
-
-It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e. the project committers and the project community.
-Discussions can take place on the project's <<development-dev-list-chapter-index,'dev' list>>, especially for radical new ideas and new features that have not been discussed before.
-
 indexterm:[issue]
 
 === Issue tracking
 
-If the project committers and the community agree that it is a good idea to have the new feature, an issue should be created in the <<development-issue-tracking-chapter-index,issue tracker>>.
-For improvements where extensive discussion is not expected, as well as for obvious bugs, an issue can be created directly, without first discussing it on the 'dev' list.
-The discussion can also continue in the issue itself, once the issue is created.
+It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e., the project committers and the project community.
+Discussions can take place via GitLab <<development-issue-tracking-chapter-index,issues>>.
+This is especially important for radical new ideas and new features that have not been discussed before.
+But even if extensive discussion is not expected, as well as for obvious bugs, it is recommended to always create the issue before starting to implement a solution.
+This way, the community knows you are working on the issue.
 
 When creating an issue, take the following into account:
+
+* Since the website repository does not have its own issue tracker, issues for the website should be made on the main repository.
 
 * An issue must be created in the issue tracker for all development, however small.
 This ensures we can link issues can commits to keep track of everything.
@@ -62,7 +61,7 @@ Removal of deprecated and obsolete functionality, code, documentation, etc is al
 
 ** Add all relevant component labels (e.g. 'Chi' and 'CIF' labels).
 Typically at least one such label should be present, but it is also possible to add multiple labels if the issue involves multiple components.
-The components correspond to the directories in the root of our <<development-git-repo-chapter-index,Git repository>>.
+The components correspond to the directories in the root of our main <<development-git-repo-chapter-index,Git repository>>.
 
 ** The Eclipse ESCET project committers can add the 'Help Wanted' label to an issue to indicate that they don't have the time to work on the issue, and that help from the community is wanted.
 
@@ -112,7 +111,7 @@ indexterm:[GitFlow]
 
 === Working with branches
 
-The Eclipse ESCET project roughly follows the link:https://nvie.com/posts/a-successful-git-branching-model/[GitFlow branching model].
+The Eclipse ESCET project's main repository roughly follows the link:https://nvie.com/posts/a-successful-git-branching-model/[GitFlow branching model].
 The `master` branch is thus for released content only, and the current development status is captured in the `develop` branch.
 
 If possible, we approach the somewhat heavy GitFlow branching model in a practical way, reducing overhead.
@@ -170,6 +169,10 @@ A safer alternative to rebasing is merging, which leads to an extra merge commit
 If you fully understand rebasing and employ it carefully, it can be a powerful to maintain a simpler and cleaner history.
 Rebasing local commits that have not yet been pushed to the remote public repository is always at your own discretion.
 
+The website repository has only a single branch named `master`.
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
+
 indexterm:[commit]
 
 === Commits
@@ -206,6 +209,8 @@ indexterm:[merge request]
 
 Once the work on an issue is done and pushed to a branch, it must be reviewed before it is merged back.
 Reviews are done via merge requests.
+Merge requests are only accepted for the main repository, not for the website repository.
+
 The process is as follows:
 
 * Create a merge request for merging the branch.

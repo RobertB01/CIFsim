@@ -22,17 +22,24 @@ For more information regarding source code management, builds, setting up a deve
 
 The project maintains the following source code repositories:
 
-* https://gitlab.eclipse.org/eclipse/escet/escet.git
+* Main repository: https://gitlab.eclipse.org/eclipse/escet/escet.git
+* Website repository: https://gitlab.eclipse.org/eclipse/escet/escet-website.git
 
 These can also be accessed via a web interface:
 
-* https://gitlab.eclipse.org/eclipse/escet/escet
+* Main repository: https://gitlab.eclipse.org/eclipse/escet/escet
+* Website repository: https://gitlab.eclipse.org/eclipse/escet/escet-website
+
+The main repository has released content in its `master` branch, and current developments go into the `develop` branch.
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
 
 This project uses GitLab to track ongoing development and issues:
 
 * https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones
 * https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
 
+Since the website repository does not have its own issue tracker, issues for the website should be made on the main repository as well.
 Be sure to search for existing issues before you create another one.
 Remember that contributions are always welcome!
 
@@ -44,6 +51,8 @@ To create issues, reply to issues, contribute patches and merge requests, etc, y
 It can easily be created at https://accounts.eclipse.org/user/register.
 
 Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
+
+The main repository can be built using the `build.sh` or `build.cmd` script located in the root of that repository.
 
 == Eclipse Contributor Agreement
 

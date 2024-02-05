@@ -1,0 +1,5 @@
+= Security Policy
+
+See the `SECURITY.asciidoc` file in the Eclipse ESCET main repository:
+
+* https://gitlab.eclipse.org/eclipse/escet/escet
