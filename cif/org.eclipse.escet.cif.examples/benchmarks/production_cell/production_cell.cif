@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// A production cell consists of a stock, a feed, a belt, an elevating rotary table, a robot, a press, a deposit belt,
+// A production cell consists of a stock, a feed belt, an elevating rotary table, a robot, a press, a deposit belt,
 // and a crane. While they each execute asynchronously and independently, they synchronization for cooperation and
 // safety.
 
