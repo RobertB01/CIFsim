@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,17 +13,9 @@
 
 package org.eclipse.escet.cif.codegen.simulink;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isArrayType;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
-import org.eclipse.escet.cif.codegen.CodeGenPreChecker;
-import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -32,19 +24,23 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.common.java.Assert;
 
-/** Checker to check that the given CIF specification can be used for code generation with Simulink. */
-public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
+/** Utility methods related to compatibility of CIF and Simulink types. */
+public class SimulinkTypeUtils {
+    /** Constructor for the {@link SimulinkTypeUtils} class. */
+    private SimulinkTypeUtils() {
+        // Static class.
+    }
+
     /**
-     * Test whether the given type is acceptable as type in simulink code generation.
+     * Check whether the given type is compatible with Simulink types, for Simulink code generation.
      *
-     * @param type Type to test.
-     * @return Whether the type is supported.
+     * @param type Type to check.
+     * @return {@code true} if the type if compatible, {@code false} if it is incompatible.
      */
-    public static boolean isGoodType(CifType type) {
+    public static boolean isSimulinkCompatibleType(CifType type) {
         type = normalizeType(type);
 
-        // Optionally, peel off up to two layers of 'list type' (for vector or
-        // matrix of the element type).
+        // Optionally, peel off up to two layers of 'list type' (for vector or matrix of the element type).
         if (type instanceof ListType) {
             ListType ltype = (ListType)type;
             type = normalizeType(ltype.getElementType());
@@ -71,7 +67,7 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
      * of a Matlab vector.
      *
      * <p>
-     * {@link #isGoodType} should hold.
+     * {@link #isSimulinkCompatibleType} should hold.
      * </p>
      *
      * @param type Type to test.
@@ -80,7 +76,7 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
     public static int getRowCount(CifType type) {
         type = normalizeType(type);
 
-        Assert.check(isGoodType(type));
+        Assert.check(isSimulinkCompatibleType(type));
         if (type instanceof ListType) {
             ListType ltype = (ListType)type;
             if (isArrayType(ltype)) {
@@ -94,8 +90,8 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
      * Get the number of columns from the given type, or {@code 0} if there is no column list.
      *
      * <p>
-     * {@link #isGoodType} should hold. Also, for useful results, the {@link #getRowCount} method should not return
-     * {@code 0}.
+     * {@link #isSimulinkCompatibleType} should hold. Also, for useful results, the {@link #getRowCount} method should
+     * not return {@code 0}.
      * </p>
      *
      * @param type Type to test.
@@ -104,7 +100,7 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
     public static int getColumnCount(CifType type) {
         type = normalizeType(type);
 
-        Assert.check(isGoodType(type));
+        Assert.check(isSimulinkCompatibleType(type));
         if (type instanceof ListType) { // Peel off the rows if available.
             ListType ltype = (ListType)type;
             type = normalizeType(ltype.getElementType());
@@ -117,40 +113,5 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
             }
         }
         return 0;
-    }
-
-    @Override
-    protected void walkInputVariable(InputVariable var) {
-        if (!isGoodType(var.getType())) {
-            String msg = fmt("Unsupported type \"%s\" found with input variable \"%s\".", typeToStr(var.getType()),
-                    getAbsName(var));
-            problems.add(msg);
-            return;
-        }
-        super.walkInputVariable(var);
-    }
-
-    @Override
-    protected void walkDiscVariable(DiscVariable var) {
-        // A bad type will drop the discrete variable from the output.
-        if (!isGoodType(var.getType())) {
-            String msg = fmt("Unsupported output type \"%s\" found in discrete variable \"%s\", "
-                    + "variable will be omitted from the output.", typeToStr(var.getType()), getAbsName(var));
-            warn(msg);
-        }
-
-        super.walkDiscVariable(var);
-    }
-
-    @Override
-    protected void walkAlgVariable(AlgVariable var) {
-        // A bad type will drop the algebraic variable from the output.
-        if (!isGoodType(var.getType())) {
-            String msg = fmt("Unsupported output type \"%s\" found in algebraic variable \"%s\", "
-                    + "variable will be omitted from the output.", typeToStr(var.getType()), getAbsName(var));
-            warn(msg);
-        }
-
-        super.walkAlgVariable(var);
     }
 }

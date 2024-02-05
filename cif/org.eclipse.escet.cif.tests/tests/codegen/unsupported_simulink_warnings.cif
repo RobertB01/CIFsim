@@ -1,0 +1,46 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Simulink-specific warnings.
+
+// Warnings for algebraic variables.
+alg tuple(int x, y) a1 = (1, 2);                      // Algebraic variable with tuple type.
+alg string a2 = "a";                                  // Algebraic variable with string type.
+alg list[1] tuple(int x, y) a3 = [(1, 2)];            // Algebraic variable with tuple type in array type.
+alg list[1] string a4 = ["a"];                        // Algebraic variable with string type in array type.
+alg list[1] list[1] tuple(int x, y) a5 = [[(1, 2)]];  // Algebraic variable with tuple type in array of array type.
+alg list[1] list[1] string a6 = [["a"]];              // Algebraic variable with string type in array of array type.
+alg list[1] list[1] list[1] bool a7 = [[[true]]];     // Algebraic variable with 3-level array type.
+
+// Warnings for discrete variables.
+automaton a:
+  event e;
+
+  disc tuple(int x, y) d1;                            // Discrete variable with tuple type.
+  disc string d2;                                     // Discrete variable with string type.
+  disc list[1] tuple(int x, y) d3;                    // Discrete variable with tuple type in array type.
+  disc list[1] string d4;                             // Discrete variable with string type in array type.
+  disc list[1] list[1] tuple(int x, y) d5;            // Discrete variable with tuple type in array of array type.
+  disc list[1] list[1] string d6;                     // Discrete variable with string type in array of array type.
+  disc list[1] list[1] list[1] bool d7;               // Discrete variable with 3-level array type.
+
+  location:
+    initial;
+    edge e when d1[x] > 0;
+    edge e when size(d2) > 0;
+    edge e when d3[0][x] > 0;
+    edge e when size(d4[0]) > 0;
+    edge e when d5[0][0][x] > 0;
+    edge e when size(d6[0][0]) > 0;
+    edge e when d7[0][0][0];
+end

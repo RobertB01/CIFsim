@@ -643,23 +643,23 @@ public class CifProcessor {
 
                     // Limit standard library functions.
                     new FuncNoSpecificStdLibCheck( //
-                            NoSpecificStdLib.STD_LIB_STOCHASTIC_GROUP, //
-                            NoSpecificStdLib.STD_LIB_ACOSH, //
-                            NoSpecificStdLib.STD_LIB_ASINH, //
-                            NoSpecificStdLib.STD_LIB_ATANH, //
-                            NoSpecificStdLib.STD_LIB_COSH, //
-                            NoSpecificStdLib.STD_LIB_SINH, //
-                            NoSpecificStdLib.STD_LIB_TANH, //
-                            NoSpecificStdLib.STD_LIB_CEIL, //
-                            NoSpecificStdLib.STD_LIB_DELETE, //
-                            NoSpecificStdLib.STD_LIB_EMPTY, //
-                            NoSpecificStdLib.STD_LIB_FLOOR, //
-                            NoSpecificStdLib.STD_LIB_FORMAT, //
-                            NoSpecificStdLib.STD_LIB_POP, //
-                            NoSpecificStdLib.STD_LIB_ROUND, //
-                            NoSpecificStdLib.STD_LIB_SCALE, //
-                            NoSpecificStdLib.STD_LIB_SIGN, //
-                            NoSpecificStdLib.STD_LIB_SIZE),
+                            NoSpecificStdLib.ALL_STOCHASTIC, //
+                            NoSpecificStdLib.ACOSH, //
+                            NoSpecificStdLib.ASINH, //
+                            NoSpecificStdLib.ATANH, //
+                            NoSpecificStdLib.COSH, //
+                            NoSpecificStdLib.SINH, //
+                            NoSpecificStdLib.TANH, //
+                            NoSpecificStdLib.CEIL, //
+                            NoSpecificStdLib.DELETE, //
+                            NoSpecificStdLib.EMPTY, //
+                            NoSpecificStdLib.FLOOR, //
+                            NoSpecificStdLib.FORMAT, //
+                            NoSpecificStdLib.POP, //
+                            NoSpecificStdLib.ROUND, //
+                            NoSpecificStdLib.SCALE, //
+                            NoSpecificStdLib.SIGN, //
+                            NoSpecificStdLib.SIZE),
 
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()

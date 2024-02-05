@@ -34,7 +34,7 @@ For an example of how to use this code generation in practice, read <<tools-code
 === Supported specifications
 
 The CIF code generator supports a subset of CIF specifications.
- See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
+See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
 Generation of Simulink S-Function C code adds a restriction to the type of CIF input variables caused by limitations in Simulink input ports.
 
 Simulink input ports can only handle real and complex signals.
@@ -45,7 +45,7 @@ Finally, arrays of arrays of the elementary types are converted to a matrix of r
 
 Data types of all other CIF variables have no additional constraints.
 However, Simulink poses similar restrictions to its other data vectors, in particular the output ports.
-The CIF to Simulink code generator toool only makes variables available for output that are compatible with real number, vectors of real numbers, or matrices of real numbers.
+The CIF to Simulink code generator tool only makes variables available for output that are compatible with real number, vectors of real numbers, or matrices of real numbers.
 That means that use of the CIF string type, the tuple type, or arrays with a deeper nesting than two levels will not be available at the output.
 
 === Differences in output
@@ -68,20 +68,20 @@ The CIF to Simulink code generator uses the <<tools-codegen-options,common optio
 It also has the additional options:
 
 * _Simulink Outputs_: This option takes a list of CIF variables that should be made available as output of the generated S-Function.
-Only location varaiables (automata), discrete variables, continuous variables, and algebraic variables can be selected.
+Only location variables (automata), discrete variables, continuous variables, and algebraic variables can be selected.
 The option also allows to use the wildcard character `+*+`, which represents zero or more characters from the name.
 You can use it to match several variables at once, for example `+*out+` matches all variables that end with `out`.
 The special name `nothing` means that no output should be produced at all.
 
 * _Simulink sample time_: This option controls how Simulink samples the generated block.
 Allowed values are `continuous`, `inherited`, `variable`, or a sample period.
-Check the Mathworks `ssSetSampleTime` function documentation for details which to use.
+Check the MathWorks `ssSetSampleTime` function documentation for details which to use.
 By default, sample time is set to `continuous`.
 
 * _Simulink sample offset_: This option controls the offset of sampling.
 Its allowed values depend on the value of the _Simulink sample time_ option.
 Possible values are `fixed`, `0.0`, or a positive non-zero value.
-Check the Mathworks `ssSetSampleOffset` function documentation for details which to use.
+Check the MathWorks `ssSetSampleOffset` function documentation for details which to use.
 By default, this options is set to `0.0`.
 
 The code prefix that can be configured using a common option is used as name for the generated S-Function.

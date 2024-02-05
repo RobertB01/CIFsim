@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int zero():
+  return 0;
+end
+
+automaton a:
+  location loc1:
+    initial;
+  location loc2:
+    initial true;
+  location loc3:
+    initial false;
+  location loc4:
+    initial;
+  location loc5:
+    initial;
+    initial 1/0 = 1; // Evaluation failure.
+  location loc6:
+    initial;
+    initial zero() = 0; // Not statically evaluable.
+end
+
+automaton nameless_loc:
+  location:
+    initial;
+    initial 1/0 = 1; // Evaluation failure.
+    initial zero() = 0; // Not statically evaluable.
+end
+
+automaton def loc_param(location l):
+  location:
+    initial;
+end

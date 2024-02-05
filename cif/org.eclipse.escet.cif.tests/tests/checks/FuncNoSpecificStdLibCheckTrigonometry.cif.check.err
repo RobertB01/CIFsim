@@ -1,0 +1,85 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ------------------------------------------------
+  (1/12) Standard library function "acos" is used.
+  ------------------------------------------------
+   * In group "ACOS":
+     - invariant acos(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (2/12) Standard library function "acosh" is used.
+  -------------------------------------------------
+   * In group "ACOSH":
+     - invariant acosh(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (3/12) Standard library function "asin" is used.
+  ------------------------------------------------
+   * In group "ASIN":
+     - invariant asin(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (4/12) Standard library function "asinh" is used.
+  -------------------------------------------------
+   * In group "ASINH":
+     - invariant asinh(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (5/12) Standard library function "atan" is used.
+  ------------------------------------------------
+   * In group "ATAN":
+     - invariant atan(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (6/12) Standard library function "atanh" is used.
+  -------------------------------------------------
+   * In group "ATANH":
+     - invariant atanh(1.0) > 0;
+                 ^
+
+  -----------------------------------------------
+  (7/12) Standard library function "cos" is used.
+  -----------------------------------------------
+   * In group "COS":
+     - invariant cos(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (8/12) Standard library function "cosh" is used.
+  ------------------------------------------------
+   * In group "COSH":
+     - invariant cosh(1.0) > 0;
+                 ^
+
+  -----------------------------------------------
+  (9/12) Standard library function "sin" is used.
+  -----------------------------------------------
+   * In group "SIN":
+     - invariant sin(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (10/12) Standard library function "sinh" is used.
+  -------------------------------------------------
+   * In group "SINH":
+     - invariant sinh(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (11/12) Standard library function "tan" is used.
+  ------------------------------------------------
+   * In group "TAN":
+     - invariant tan(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (12/12) Standard library function "tanh" is used.
+  -------------------------------------------------
+   * In group "TANH":
+     - invariant tanh(1.0) > 0;
+                 ^

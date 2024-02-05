@@ -101,5 +101,18 @@ invariant tanh(q.r) > 0;                // 'tanh' stdlib func.
 
 invariant [f2][q.i]() > 0;              // func call non simple.
 
-print pre  "a" when post time > 1;       // Print pre text post when.
-print post "a" when pre  time > 2;       // Print post text pre when.
+print pre  "a" when post time > 1;      // Print pre text post when.
+print post "a" when pre  time > 2;      // Print post text pre when.
+
+// Simulink-specific preconditions.
+
+group simulink:
+  // Preconditions for input variables.
+  input tuple(int x, y) i1;                 // Input variable with tuple type.
+  input string i2;                          // Input variable with string type.
+  input list[1] tuple(int x, y) i3;         // Input variable with tuple type in array type.
+  input list[1] string i4;                  // Input variable with string type in array type.
+  input list[1] list[1] tuple(int x, y) i5; // Input variable with tuple type in array of array type.
+  input list[1] list[1] string i6;          // Input variable with string type in array of array type.
+  input list[1] list[1] list[1] bool i7;    // Input variable with 3-level array type.
+end

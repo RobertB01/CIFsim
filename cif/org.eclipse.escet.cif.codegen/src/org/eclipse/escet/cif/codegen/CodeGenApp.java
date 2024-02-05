@@ -84,6 +84,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Read CIF specification.
         Specification spec = new CifReader().init().read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -93,31 +94,14 @@ public class CodeGenApp extends Application<IOutputComponent> {
         String outputPath = OutputDirOption.getPath();
         TargetLanguage lang = TargetLanguageOption.getLanguage();
         try {
-            switch (lang) {
-                case JAVA:
-                    new JavaCodeGen().generate(spec, absCifSpecDir, outputPath);
-                    break;
-
-                case JAVASCRIPT:
-                case HTML:
-                    new JavaScriptCodeGen(lang).generate(spec, absCifSpecDir, outputPath);
-                    break;
-
-                case C89:
-                    new C89CodeGen().generate(spec, absCifSpecDir, outputPath);
-                    break;
-
-                case C99:
-                    new C99CodeGen().generate(spec, absCifSpecDir, outputPath);
-                    break;
-
-                case SIMULINK:
-                    new SimulinkCodeGen().generate(spec, absCifSpecDir, outputPath);
-                    break;
-
-                default:
-                    throw new RuntimeException("Unknown target language");
-            }
+            CodeGen codegen = switch (lang) {
+                case JAVA -> new JavaCodeGen();
+                case JAVASCRIPT, HTML -> new JavaScriptCodeGen(lang);
+                case C89 -> new C89CodeGen();
+                case C99 -> new C99CodeGen();
+                case SIMULINK -> new SimulinkCodeGen();
+            };
+            codegen.generate(spec, absCifSpecDir, absSpecPath, outputPath);
         } catch (UnsupportedException ex) {
             String msg = fmt("Code generation to %s failed for CIF file \"%s\".", lang.readableName,
                     InputFileOption.getPath());

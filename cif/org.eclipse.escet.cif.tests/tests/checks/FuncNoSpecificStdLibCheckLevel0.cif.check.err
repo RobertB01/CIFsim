@@ -1,0 +1,460 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -----------------------------------------------
+  (1/45) Standard library function "abs" is used.
+  -----------------------------------------------
+   * In invariant "ABS.G":
+     - invariant G: abs(1) > 0;
+                    ^
+   * In invariant "ABS.I":
+     - invariant I: abs(i) > 0;
+                    ^
+   * In invariant "ABS.R":
+     - invariant R: abs(1.0) > 0;
+                    ^
+
+  ------------------------------------------------
+  (2/45) Standard library function "acos" is used.
+  ------------------------------------------------
+   * In group "ACOS":
+     - invariant acos(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (3/45) Standard library function "acosh" is used.
+  -------------------------------------------------
+   * In group "ACOSH":
+     - invariant acosh(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (4/45) Standard library function "asin" is used.
+  ------------------------------------------------
+   * In group "ASIN":
+     - invariant asin(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (5/45) Standard library function "asinh" is used.
+  -------------------------------------------------
+   * In group "ASINH":
+     - invariant asinh(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (6/45) Standard library function "atan" is used.
+  ------------------------------------------------
+   * In group "ATAN":
+     - invariant atan(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (7/45) Standard library function "atanh" is used.
+  -------------------------------------------------
+   * In group "ATANH":
+     - invariant atanh(1.0) > 0;
+                 ^
+
+  -----------------------------------------------------
+  (8/45) Standard library function "bernoulli" is used.
+  -----------------------------------------------------
+   * In discrete variable "BERNOULLI.x":
+     - disc dist bool x = bernoulli(1.0);
+                          ^
+
+  ------------------------------------------------
+  (9/45) Standard library function "beta" is used.
+  ------------------------------------------------
+   * In discrete variable "BETA.x":
+     - disc dist real x = beta(1.0, 2.0);
+                          ^
+
+  -----------------------------------------------------
+  (10/45) Standard library function "binomial" is used.
+  -----------------------------------------------------
+   * In discrete variable "BINOMIAL.x":
+     - disc dist int x = binomial(1.0, 2);
+                         ^
+
+  -------------------------------------------------
+  (11/45) Standard library function "cbrt" is used.
+  -------------------------------------------------
+   * In group "CBRT":
+     - invariant cbrt(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (12/45) Standard library function "ceil" is used.
+  -------------------------------------------------
+   * In group "CEIL":
+     - invariant ceil(1.0) > 0;
+                 ^
+
+  -----------------------------------------------------
+  (13/45) Standard library function "constant" is used.
+  -----------------------------------------------------
+   * In discrete variable "CONSTANT.B":
+     - disc dist bool B = constant(true);
+                          ^
+   * In discrete variable "CONSTANT.I":
+     - disc dist int I = constant(1);
+                         ^
+   * In discrete variable "CONSTANT.R":
+     - disc dist real R = constant(1.0);
+                          ^
+
+  ------------------------------------------------
+  (14/45) Standard library function "cos" is used.
+  ------------------------------------------------
+   * In group "COS":
+     - invariant cos(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (15/45) Standard library function "cosh" is used.
+  -------------------------------------------------
+   * In group "COSH":
+     - invariant cosh(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (16/45) Standard library function "del" is used.
+  ------------------------------------------------
+   * In invariant "DELETE.AG":
+     - invariant AG: del([1, 2], 0)[0] > 0;
+                     ^
+   * In invariant "DELETE.AI":
+     - invariant AI: del([1, 2], i)[0] > 0;
+                     ^
+   * In invariant "DELETE.LG":
+     - invariant LG: del(li, 0)[0] > 0;
+                     ^
+   * In invariant "DELETE.LI":
+     - invariant LI: del(li, i)[0] > 0;
+                     ^
+
+  --------------------------------------------------
+  (17/45) Standard library function "empty" is used.
+  --------------------------------------------------
+   * In invariant "EMPTY.ARRAY":
+     - invariant ARRAY: empty([1, 2]);
+                        ^
+   * In invariant "EMPTY.DICT":
+     - invariant DICT: empty({1: 2});
+                       ^
+   * In invariant "EMPTY.LIST":
+     - invariant LIST: empty(li);
+                       ^
+   * In invariant "EMPTY.SET":
+     - invariant SET: empty({1, 2});
+                      ^
+
+  ---------------------------------------------------
+  (18/45) Standard library function "erlang" is used.
+  ---------------------------------------------------
+   * In discrete variable "ERLANG.x":
+     - disc dist real x = erlang(1, 2.0);
+                          ^
+
+  ------------------------------------------------
+  (19/45) Standard library function "exp" is used.
+  ------------------------------------------------
+   * In group "EXP":
+     - invariant exp(1.0) > 0;
+                 ^
+
+  --------------------------------------------------------
+  (20/45) Standard library function "exponential" is used.
+  --------------------------------------------------------
+   * In discrete variable "EXPONENTIAL.x":
+     - disc dist real x = exponential(1.0);
+                          ^
+
+  --------------------------------------------------
+  (21/45) Standard library function "floor" is used.
+  --------------------------------------------------
+   * In group "FLOOR":
+     - invariant floor(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (22/45) Standard library function "fmt" is used.
+  ------------------------------------------------
+   * In group "FORMAT":
+     - invariant fmt("a") = "a";
+                 ^
+
+  --------------------------------------------------
+  (23/45) Standard library function "gamma" is used.
+  --------------------------------------------------
+   * In discrete variable "GAMMA.x":
+     - disc dist real x = gamma(1.0, 2.0);
+                          ^
+
+  ------------------------------------------------------
+  (24/45) Standard library function "geometric" is used.
+  ------------------------------------------------------
+   * In discrete variable "GEOMETRIC.x":
+     - disc dist int x = geometric(1.0);
+                         ^
+
+  -----------------------------------------------
+  (25/45) Standard library function "ln" is used.
+  -----------------------------------------------
+   * In group "LN":
+     - invariant ln(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (26/45) Standard library function "log" is used.
+  ------------------------------------------------
+   * In group "LOG":
+     - invariant log(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (27/45) Standard library function "max" is used.
+  ------------------------------------------------
+   * In invariant "MAXIMUM.GG":
+     - invariant GG: max(1, 1) > 0;
+                     ^
+   * In invariant "MAXIMUM.GI":
+     - invariant GI: max(1, i) > 0;
+                     ^
+   * In invariant "MAXIMUM.GR":
+     - invariant GR: max(1, 1.0) > 0;
+                     ^
+   * In invariant "MAXIMUM.IG":
+     - invariant IG: max(i, 1) > 0;
+                     ^
+   * In invariant "MAXIMUM.II":
+     - invariant II: max(i, i) > 0;
+                     ^
+   * In invariant "MAXIMUM.RG":
+     - invariant RG: max(1.0, 1) > 0;
+                     ^
+   * In invariant "MAXIMUM.RR":
+     - invariant RR: max(1.0, 1.0) > 0;
+                     ^
+
+  ------------------------------------------------
+  (28/45) Standard library function "min" is used.
+  ------------------------------------------------
+   * In invariant "MINIMUM.GG":
+     - invariant GG: min(1, 1) > 0;
+                     ^
+   * In invariant "MINIMUM.GI":
+     - invariant GI: min(1, i) > 0;
+                     ^
+   * In invariant "MINIMUM.GR":
+     - invariant GR: min(1, 1.0) > 0;
+                     ^
+   * In invariant "MINIMUM.IG":
+     - invariant IG: min(i, 1) > 0;
+                     ^
+   * In invariant "MINIMUM.II":
+     - invariant II: min(i, i) > 0;
+                     ^
+   * In invariant "MINIMUM.RG":
+     - invariant RG: min(1.0, 1) > 0;
+                     ^
+   * In invariant "MINIMUM.RR":
+     - invariant RR: min(1.0, 1.0) > 0;
+                     ^
+
+  ---------------------------------------------------
+  (29/45) Standard library function "normal" is used.
+  ---------------------------------------------------
+   * In discrete variable "NORMAL.x":
+     - disc dist real x = normal(1.0, 2.0);
+                          ^
+
+  ----------------------------------------------------
+  (30/45) Standard library function "poisson" is used.
+  ----------------------------------------------------
+   * In discrete variable "POISSON.x":
+     - disc dist int x = poisson(1.0);
+                         ^
+
+  ------------------------------------------------
+  (31/45) Standard library function "pop" is used.
+  ------------------------------------------------
+   * In invariant "POP.A":
+     - invariant A: pop([1, 2])[0] > 0;
+                    ^
+   * In invariant "POP.L":
+     - invariant L: pop(li)[0] > 0;
+                    ^
+
+  ------------------------------------------------
+  (32/45) Standard library function "pow" is used.
+  ------------------------------------------------
+   * In invariant "POWER.GG":
+     - invariant GG: pow(1, 1) > 0;
+                     ^
+   * In invariant "POWER.GI":
+     - invariant GI: pow(1, i) > 0;
+                     ^
+   * In invariant "POWER.GR":
+     - invariant GR: pow(1, 1.0) > 0;
+                     ^
+   * In invariant "POWER.IG":
+     - invariant IG: pow(i, 1) > 0;
+                     ^
+   * In invariant "POWER.II":
+     - invariant II: pow(i, i) > 0;
+                     ^
+   * In invariant "POWER.RG":
+     - invariant RG: pow(1.0, 1) > 0;
+                     ^
+   * In invariant "POWER.RR":
+     - invariant RR: pow(1.0, 1.0) > 0;
+                     ^
+
+  ---------------------------------------------------
+  (33/45) Standard library function "random" is used.
+  ---------------------------------------------------
+   * In discrete variable "RANDOM.x":
+     - disc dist real x = random();
+                          ^
+
+  --------------------------------------------------
+  (34/45) Standard library function "round" is used.
+  --------------------------------------------------
+   * In group "ROUND":
+     - invariant round(1.0) > 0;
+                 ^
+
+  --------------------------------------------------
+  (35/45) Standard library function "scale" is used.
+  --------------------------------------------------
+   * In invariant "SCALE.G":
+     - invariant G: scale(1, 1, 1, 1, 1) > 0;
+                    ^
+   * In invariant "SCALE.I":
+     - invariant I: scale(i, i, i, i, i) > 0;
+                    ^
+   * In invariant "SCALE.I1":
+     - invariant I1: scale(i, 1, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.I2":
+     - invariant I2: scale(1, i, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.I3":
+     - invariant I3: scale(1, 1, i, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.I4":
+     - invariant I4: scale(1, 1, 1, i, 1) > 0;
+                     ^
+   * In invariant "SCALE.I5":
+     - invariant I5: scale(1, 1, 1, 1, i) > 0;
+                     ^
+   * In invariant "SCALE.R":
+     - invariant R: scale(1.0, 1.0, 1.0, 1.0, 1.0) > 0;
+                    ^
+   * In invariant "SCALE.R1":
+     - invariant R1: scale(1.0, 1, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R2":
+     - invariant R2: scale(1, 1.0, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R3":
+     - invariant R3: scale(1, 1, 1.0, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R4":
+     - invariant R4: scale(1, 1, 1, 1.0, 1) > 0;
+                     ^
+   * In invariant "SCALE.R5":
+     - invariant R5: scale(1, 1, 1, 1, 1.0) > 0;
+                     ^
+
+  -------------------------------------------------
+  (36/45) Standard library function "sign" is used.
+  -------------------------------------------------
+   * In invariant "SIGN.G":
+     - invariant G: sign(1) > 0;
+                    ^
+   * In invariant "SIGN.I":
+     - invariant I: sign(i) > 0;
+                    ^
+   * In invariant "SIGN.R":
+     - invariant R: sign(1.0) > 0;
+                    ^
+
+  ------------------------------------------------
+  (37/45) Standard library function "sin" is used.
+  ------------------------------------------------
+   * In group "SIN":
+     - invariant sin(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (38/45) Standard library function "sinh" is used.
+  -------------------------------------------------
+   * In group "SINH":
+     - invariant sinh(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (39/45) Standard library function "size" is used.
+  -------------------------------------------------
+   * In invariant "SIZE.ARRAY":
+     - invariant ARRAY: size([1, 2]) > 0;
+                        ^
+   * In invariant "SIZE.DICT":
+     - invariant DICT: size({1: 2}) > 0;
+                       ^
+   * In invariant "SIZE.LIST":
+     - invariant LIST: size(li) > 0;
+                       ^
+   * In invariant "SIZE.SET":
+     - invariant SET: size({1, 2}) > 0;
+                      ^
+   * In invariant "SIZE.STRING":
+     - invariant STRING: size("a") > 0;
+                         ^
+
+  -------------------------------------------------
+  (40/45) Standard library function "sqrt" is used.
+  -------------------------------------------------
+   * In group "SQRT":
+     - invariant sqrt(1.0) > 0;
+                 ^
+
+  ------------------------------------------------
+  (41/45) Standard library function "tan" is used.
+  ------------------------------------------------
+   * In group "TAN":
+     - invariant tan(1.0) > 0;
+                 ^
+
+  -------------------------------------------------
+  (42/45) Standard library function "tanh" is used.
+  -------------------------------------------------
+   * In group "TANH":
+     - invariant tanh(1.0) > 0;
+                 ^
+
+  -----------------------------------------------------
+  (43/45) Standard library function "triangle" is used.
+  -----------------------------------------------------
+   * In discrete variable "TRIANGLE.x":
+     - disc dist real x = triangle(1.0, 2.0, 3.0);
+                          ^
+
+  ----------------------------------------------------
+  (44/45) Standard library function "uniform" is used.
+  ----------------------------------------------------
+   * In discrete variable "UNIFORM.I":
+     - disc dist int I = uniform(1, 2);
+                         ^
+   * In discrete variable "UNIFORM.R":
+     - disc dist real R = uniform(1.0, 2.0);
+                          ^
+
+  ----------------------------------------------------
+  (45/45) Standard library function "weibull" is used.
+  ----------------------------------------------------
+   * In discrete variable "WEIBULL.x":
+     - disc dist real x = weibull(1.0, 2.0);
+                          ^

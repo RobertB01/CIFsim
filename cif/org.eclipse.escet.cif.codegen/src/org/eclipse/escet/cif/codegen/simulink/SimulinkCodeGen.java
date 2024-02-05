@@ -28,9 +28,6 @@ import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.get
 import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.offsetMayBeFixed;
 import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.offsetMayBeNonzero;
 import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.sampleGetValue;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.getColumnCount;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.getRowCount;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.isGoodType;
 import static org.eclipse.escet.cif.codegen.simulink.typeinfos.SimulinkArrayTypeInfo.getElementConversionToSimulinkVector;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getName;
@@ -77,6 +74,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -98,6 +96,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.app.framework.options.processing.PatternMatchingOptionProcessing.OptionMatcher;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
@@ -213,25 +212,38 @@ public class SimulinkCodeGen extends CodeGen {
             simulinkTargetRefMap.put(inpVar, fmt("work->%s", super.getTargetRef(inpVar)));
         }
 
-        for (Declaration d: stateVars) {
-            if (!(d instanceof DiscVariable)) {
+        for (Declaration stateVar: stateVars) {
+            if (!(stateVar instanceof DiscVariable discVar)) {
                 continue;
             }
-            if (simulinkTargetRefMap.containsKey(d)) {
+            if (simulinkTargetRefMap.containsKey(discVar)) {
                 continue; // Modes have already been added.
             }
 
-            DiscVariable dv = (DiscVariable)d;
-            simulinkTargetRefMap.put(d, fmt("work->%s", super.getTargetRef(d)));
-            if (isGoodType(dv.getType())) {
-                addDeclarationToSection(outputVarMatcher, dv, reportSection);
+            simulinkTargetRefMap.put(discVar, fmt("work->%s", super.getTargetRef(discVar)));
+            CifType type = discVar.getType();
+            if (SimulinkTypeUtils.isSimulinkCompatibleType(type)) {
+                addDeclarationToSection(outputVarMatcher, discVar, reportSection);
+            } else {
+                String origName = origDeclNames.get(discVar);
+                Assert.notNull(origName);
+                String msg = fmt("Discrete variable \"%s\" has non-Simulink-compatible type \"%s\", and will therefore "
+                        + "be omitted from the output.", origName, CifTextUtils.typeToStr(type));
+                OutputProvider.warn(msg);
             }
         }
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
 
-        for (AlgVariable aVar: algVars) {
-            if (isGoodType(aVar.getType())) {
-                addDeclarationToSection(outputVarMatcher, aVar, reportSection);
+        for (AlgVariable algVar: algVars) {
+            CifType type = algVar.getType();
+            if (SimulinkTypeUtils.isSimulinkCompatibleType(type)) {
+                addDeclarationToSection(outputVarMatcher, algVar, reportSection);
+            } else {
+                String origName = origDeclNames.get(algVar);
+                Assert.notNull(origName);
+                String msg = fmt("Algebraic variable \"%s\" has non-Simulink-compatible type \"%s\", and will "
+                        + "therefore be omitted from the output.", origName, CifTextUtils.typeToStr(type));
+                OutputProvider.warn(msg);
             }
         }
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
@@ -838,12 +850,12 @@ public class SimulinkCodeGen extends CodeGen {
         for (int i = 0; i < inputVars.size(); i++) {
             InputVariable decl = inputVars.get(i);
             int rows, columns;
-            rows = getRowCount(decl.getType());
+            rows = SimulinkTypeUtils.getRowCount(decl.getType());
             if (rows == 0) {
                 rows = 1; // Singular type is a 1-length vector.
                 columns = 0;
             } else {
-                columns = getColumnCount(decl.getType());
+                columns = SimulinkTypeUtils.getColumnCount(decl.getType());
             }
 
             if (columns > 0) {
@@ -913,22 +925,22 @@ public class SimulinkCodeGen extends CodeGen {
                 columns = 0;
             } else if (d instanceof AlgVariable) {
                 AlgVariable aVar = (AlgVariable)d;
-                rows = getRowCount(aVar.getType());
+                rows = SimulinkTypeUtils.getRowCount(aVar.getType());
                 if (rows == 0) {
                     rows = 1; // Singular type is a 1-length vector.
                     columns = 0;
                 } else {
-                    columns = getColumnCount(aVar.getType());
+                    columns = SimulinkTypeUtils.getColumnCount(aVar.getType());
                 }
             } else {
                 Assert.check(d instanceof DiscVariable);
                 DiscVariable dVar = (DiscVariable)d;
-                rows = getRowCount(dVar.getType());
+                rows = SimulinkTypeUtils.getRowCount(dVar.getType());
                 if (rows == 0) {
                     rows = 1; // Singular type is a 1-length vector.
                     columns = 0;
                 } else {
-                    columns = getColumnCount(dVar.getType());
+                    columns = SimulinkTypeUtils.getColumnCount(dVar.getType());
                 }
             }
 

@@ -167,6 +167,9 @@ That is, functions may only be used in function calls, and may for instance not 
 If the specification connects to an SVG image, but no CIF/SVG input or output mappings apply to that image, a warning is printed.
 For the other target languages, a warning is printed if any CIF/SVG declarations are encountered, and these declarations are then ignored.
 
+Specific target languages may add additional restrictions.
+Check their specific information for the details.
+
 indexterm:[CIF code generator,preprocessing]
 
 [[tools-codegen-preprocessing]]

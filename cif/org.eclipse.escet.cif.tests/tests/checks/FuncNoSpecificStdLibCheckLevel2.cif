@@ -1,0 +1,349 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// ABS.
+group ABS:
+  input int i;
+  invariant G: abs(1) > 0;
+  invariant I: abs(i) > 0;
+  invariant R: abs(1.0) > 0;
+end
+
+// ACOS.
+group ACOS:
+  invariant acos(1.0) > 0;
+end
+
+// ACOSH.
+group ACOSH:
+  invariant acosh(1.0) > 0;
+end
+
+// ASIN.
+group ASIN:
+  invariant asin(1.0) > 0;
+end
+
+// ASINH.
+group ASINH:
+  invariant asinh(1.0) > 0;
+end
+
+// ATAN.
+group ATAN:
+  invariant atan(1.0) > 0;
+end
+
+// ATANH.
+group ATANH:
+  invariant atanh(1.0) > 0;
+end
+
+// BERNOULLI.
+automaton BERNOULLI:
+  disc dist bool x = bernoulli(1.0);
+  invariant (sample x)[0];
+  location:
+    initial;
+end
+
+// BETA.
+automaton BETA:
+  disc dist real x = beta(1.0, 2.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// BINOMIAL.
+automaton BINOMIAL:
+  disc dist int x = binomial(1.0, 2);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// CBRT.
+group CBRT:
+  invariant cbrt(1.0) > 0;
+end
+
+// CEIL.
+group CEIL:
+  invariant ceil(1.0) > 0;
+end
+
+// CONSTANT.
+automaton CONSTANT:
+  disc dist bool B = constant(true);
+  disc dist int I = constant(1);
+  disc dist real R = constant(1.0);
+  invariant (sample B)[0];
+  invariant (sample I)[0] > 0;
+  invariant (sample R)[0] > 0;
+  location:
+    initial;
+end
+
+// COS.
+group COS:
+  invariant cos(1.0) > 0;
+end
+
+// COSH.
+group COSH:
+  invariant cosh(1.0) > 0;
+end
+
+// DELETE.
+group DELETE:
+  input list int li;
+  input int i;
+  invariant AG: del([1, 2], 0)[0] > 0;
+  invariant AI: del([1, 2], i)[0] > 0;
+  invariant LG: del(li,     0)[0] > 0;
+  invariant LI: del(li,     i)[0] > 0;
+end
+
+// EMPTY.
+group EMPTY:
+  input list int li;
+  invariant ARRAY: empty([1, 2]);
+  invariant LIST:  empty(li);
+  invariant SET:   empty({1, 2});
+  invariant DICT:  empty({1: 2});
+end
+
+// ERLANG.
+automaton ERLANG:
+  disc dist real x = erlang(1, 2.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// EXP.
+group EXP:
+  invariant exp(1.0) > 0;
+end
+
+// EXPONENTIAL.
+automaton EXPONENTIAL:
+  disc dist real x = exponential(1.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// FLOOR.
+group FLOOR:
+  invariant floor(1.0) > 0;
+end
+
+// FORMAT.
+group FORMAT:
+  invariant fmt("a") = "a";
+end
+
+// GAMMA.
+automaton GAMMA:
+  disc dist real x = gamma(1.0, 2.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// GEOMETRIC.
+automaton GEOMETRIC:
+  disc dist int x = geometric(1.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// LN.
+group LN:
+  invariant ln(1.0) > 0;
+end
+
+// LOG.
+group LOG:
+  invariant log(1.0) > 0;
+end
+
+// LOG_NORMAL.
+automaton LOG_NORMAL:
+  disc dist real x = lognormal(1.0, 2.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// MAXIMUM.
+group MAXIMUM:
+  input int i;
+  invariant GG: max(1, 1) > 0;
+  invariant IG: max(i, 1) > 0;
+  invariant GI: max(1, i) > 0;
+  invariant II: max(i, i) > 0;
+  invariant GR: max(1, 1.0) > 0;
+  invariant RG: max(1.0, 1) > 0;
+  invariant RR: max(1.0, 1.0) > 0;
+end
+
+// MINIMUM.
+group MINIMUM:
+  input int i;
+  invariant GG: min(1, 1) > 0;
+  invariant IG: min(i, 1) > 0;
+  invariant GI: min(1, i) > 0;
+  invariant II: min(i, i) > 0;
+  invariant GR: min(1, 1.0) > 0;
+  invariant RG: min(1.0, 1) > 0;
+  invariant RR: min(1.0, 1.0) > 0;
+end
+
+// NORMAL.
+automaton NORMAL:
+  disc dist real x = normal(1.0, 2.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// POISSON.
+automaton POISSON:
+  disc dist int x = poisson(1.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// POP.
+group POP:
+  input list int li;
+  invariant A: pop([1, 2])[0] > 0;
+  invariant L: pop(li)[0] > 0;
+end
+
+// POWER.
+group POWER:
+  input int i;
+  invariant GG: pow(1, 1) > 0;
+  invariant IG: pow(i, 1) > 0;
+  invariant GI: pow(1, i) > 0;
+  invariant II: pow(i, i) > 0;
+  invariant GR: pow(1, 1.0) > 0;
+  invariant RG: pow(1.0, 1) > 0;
+  invariant RR: pow(1.0, 1.0) > 0;
+end
+
+// RANDOM.
+automaton RANDOM:
+  disc dist real x = random();
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// ROUND.
+group ROUND:
+  invariant round(1.0) > 0;
+end
+
+// SCALE.
+group SCALE:
+  input int i;
+  invariant G: scale(1, 1, 1, 1, 1) > 0;
+  invariant I1: scale(i, 1, 1, 1, 1) > 0;
+  invariant I2: scale(1, i, 1, 1, 1) > 0;
+  invariant I3: scale(1, 1, i, 1, 1) > 0;
+  invariant I4: scale(1, 1, 1, i, 1) > 0;
+  invariant I5: scale(1, 1, 1, 1, i) > 0;
+  invariant I: scale(i, i, i, i, i) > 0;
+  invariant R1: scale(1.0, 1, 1, 1, 1) > 0;
+  invariant R2: scale(1, 1.0, 1, 1, 1) > 0;
+  invariant R3: scale(1, 1, 1.0, 1, 1) > 0;
+  invariant R4: scale(1, 1, 1, 1.0, 1) > 0;
+  invariant R5: scale(1, 1, 1, 1, 1.0) > 0;
+  invariant R: scale(1.0, 1.0, 1.0, 1.0, 1.0) > 0;
+end
+
+// SIGN.
+group SIGN:
+  input int i;
+  invariant G: sign(1) > 0;
+  invariant I: sign(i) > 0;
+  invariant R: sign(1.0) > 0;
+end
+
+// SIN.
+group SIN:
+  invariant sin(1.0) > 0;
+end
+
+// SINH.
+group SINH:
+  invariant sinh(1.0) > 0;
+end
+
+// SIZE.
+group SIZE:
+  input list int li;
+  invariant STRING: size("a") > 0;
+  invariant ARRAY:  size([1, 2]) > 0;
+  invariant LIST:   size(li) > 0;
+  invariant SET:    size({1, 2}) > 0;
+  invariant DICT:   size({1: 2}) > 0;
+end
+
+// SQRT.
+group SQRT:
+  invariant sqrt(1.0) > 0;
+end
+
+// TAN.
+group TAN:
+  invariant tan(1.0) > 0;
+end
+
+// TANH.
+group TANH:
+  invariant tanh(1.0) > 0;
+end
+
+// TRIANGLE.
+automaton TRIANGLE:
+  disc dist real x = triangle(1.0, 2.0, 3.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
+
+// UNIFORM.
+automaton UNIFORM:
+  disc dist int I = uniform(1, 2);
+  disc dist real R = uniform(1.0, 2.0);
+  invariant (sample I)[0] > 0;
+  invariant (sample R)[0] > 0;
+  location:
+    initial;
+end
+
+// WEIBULL.
+automaton WEIBULL:
+  disc dist real x = weibull(1.0, 2.0);
+  invariant (sample x)[0] > 0;
+  location:
+    initial;
+end
