@@ -34,16 +34,16 @@ public class PlcPou {
     public final PlcType retType;
 
     /** The input variables of the POU. */
-    public List<PlcVariable> inputVars = list();
+    public List<PlcBasicVariable> inputVars = list();
 
     /** The output variables of the POU. */
-    public List<PlcVariable> outputVars = list();
+    public List<PlcBasicVariable> outputVars = list();
 
     /** The local persistent variables of the POU. */
-    public List<PlcVariable> localVars = list();
+    public List<PlcBasicVariable> localVars = list();
 
     /** The local temporary (non-persistent) variables of the POU. */
-    public List<PlcVariable> tempVars = list();
+    public List<PlcBasicVariable> tempVars = list();
 
     /** Body of the POU in IEC 61131-3 Structured Text syntax. */
     public CodeBox body = new MemoryCodeBox(INDENT);

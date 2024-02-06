@@ -89,7 +89,8 @@ import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -100,6 +101,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -282,43 +284,43 @@ public class ExprGeneratorTest {
     private static class TestCifDataProvider extends CifDataProvider {
         @Override
         public PlcExpression getValueForConstant(Constant constant) {
-            return new PlcVarExpression(new PlcVariable(constant.getName(), PlcElementaryType.BOOL_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(constant.getName(), PlcElementaryType.BOOL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForDiscVar(DiscVariable variable) {
             // state.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
-            return new PlcVarExpression(new PlcVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
+            return new PlcVarExpression(new PlcDataVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
         public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
             // newState.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
-            return new PlcVarExpression(new PlcVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
+            return new PlcVarExpression(new PlcDataVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
         }
 
         @Override
         public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
             String name = variable.getName() + (getDerivative ? "_der" : "");
-            return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcVarExpression getAddressableForContvar(ContVariable variable, boolean writeDerivative) {
             String name = "new_" + variable.getName() + (writeDerivative ? "_der" : "");
-            return new PlcVarExpression(new PlcVariable(name, PlcElementaryType.LREAL_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(name, PlcElementaryType.LREAL_TYPE));
         }
 
         @Override
         public PlcExpression getValueForInputVar(InputVariable variable) {
-            return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
 
         @Override
         public PlcVarExpression getAddressableForInputVar(InputVariable variable) {
-            return new PlcVarExpression(new PlcVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
+            return new PlcVarExpression(new PlcDataVariable(variable.getName(), PlcElementaryType.DINT_TYPE));
         }
     }
 
@@ -374,7 +376,7 @@ public class ExprGeneratorTest {
                 int length = Integer.valueOf(dt.name.charAt(dt.name.length() - 1));
                 PlcStructType structType = new PlcStructType();
                 for (int idx = 1; idx <= length; idx++) {
-                    structType.fields.add(new PlcVariable("field" + idx, PlcElementaryType.LREAL_TYPE));
+                    structType.fields.add(new PlcStructField("field" + idx, PlcElementaryType.LREAL_TYPE));
                 }
                 return structType;
             }
@@ -393,8 +395,8 @@ public class ExprGeneratorTest {
     }
 
     /** Convert a variable to simple text. */
-    private static String varToText(PlcVariable var) {
-        return fmt("%s %s", typeToText(var.type), var.name);
+    private static String varToText(PlcBasicVariable var) {
+        return fmt("%s %s", typeToText(var.type), var.varName);
     }
 
     private static String typeToText(PlcType type) {
@@ -452,7 +454,7 @@ public class ExprGeneratorTest {
         StringBuilder sb = new StringBuilder();
         if (result.hasCodeVariables()) {
             sb.append("Code variables:\n");
-            for (PlcVariable pcVar: result.codeVariables) {
+            for (PlcBasicVariable pcVar: result.codeVariables) {
                 sb.append(" - " + varToText(pcVar) + ";");
                 sb.append('\n');
             }
@@ -476,7 +478,7 @@ public class ExprGeneratorTest {
             }
 
             sb.append("Value variables:\n");
-            for (PlcVariable pcVar: result.valueVariables) {
+            for (PlcBasicVariable pcVar: result.valueVariables) {
                 sb.append(" - " + varToText(pcVar) + ";");
                 sb.append('\n');
             }

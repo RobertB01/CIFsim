@@ -42,7 +42,9 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -51,12 +53,12 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -256,8 +258,8 @@ public class PlcOpenXmlWriter extends Writer {
             parent.appendChild(struct);
 
             PlcStructType stype = (PlcStructType)type;
-            for (PlcVariable field: stype.fields) {
-                transVariable(field, struct);
+            for (PlcStructField field: stype.fields) {
+                transStructField(field, struct);
             }
         } else if (type instanceof PlcArrayType) {
             Element array = parent.getOwnerDocument().createElement("array");
@@ -284,24 +286,41 @@ public class PlcOpenXmlWriter extends Writer {
      * @param var The variable.
      * @param parent The parent element in which to generate new elements.
      */
-    private void transVariable(PlcVariable var, Element parent) {
+    private void transVariable(PlcBasicVariable var, Element parent) {
         Element varElem = parent.getOwnerDocument().createElement("variable");
         parent.appendChild(varElem);
 
-        varElem.setAttribute("name", var.name);
-        if (var.address != null) {
-            varElem.setAttribute("address", var.address);
+        varElem.setAttribute("name", var.varName);
+        if (var instanceof PlcDataVariable dataVar && dataVar.address != null) {
+            varElem.setAttribute("address", dataVar.address);
         }
 
         Element type = parent.getOwnerDocument().createElement("type");
         varElem.appendChild(type);
         transType(var.type, type);
 
-        if (var.value != null) {
+        if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
             Element value = parent.getOwnerDocument().createElement("initialValue");
             varElem.appendChild(value);
-            transValue(var.value, value);
+            transValue(dataVar.value, value);
         }
+    }
+
+    /**
+     * Transforms a PLC structure field to PLCopen XML.
+     *
+     * @param field The structure field.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private void transStructField(PlcStructField field, Element parent) {
+        Element varElem = parent.getOwnerDocument().createElement("variable");
+        parent.appendChild(varElem);
+
+        varElem.setAttribute("name", field.fieldName);
+
+        Element type = parent.getOwnerDocument().createElement("type");
+        varElem.appendChild(type);
+        transType(field.type, type);
     }
 
     /**
@@ -353,7 +372,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("inputVars");
             iface.appendChild(e);
 
-            for (PlcVariable var: pou.inputVars) {
+            for (PlcBasicVariable var: pou.inputVars) {
                 transVariable(var, e);
             }
         }
@@ -362,7 +381,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("outputVars");
             iface.appendChild(e);
 
-            for (PlcVariable var: pou.outputVars) {
+            for (PlcBasicVariable var: pou.outputVars) {
                 transVariable(var, e);
             }
         }
@@ -371,7 +390,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("localVars");
             iface.appendChild(e);
 
-            for (PlcVariable var: pou.localVars) {
+            for (PlcBasicVariable var: pou.localVars) {
                 transVariable(var, e);
             }
         }
@@ -380,7 +399,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("tempVars");
             iface.appendChild(e);
 
-            for (PlcVariable var: pou.tempVars) {
+            for (PlcBasicVariable var: pou.tempVars) {
                 transVariable(var, e);
             }
         }
@@ -446,7 +465,7 @@ public class PlcOpenXmlWriter extends Writer {
 
         gv.setAttribute("name", varList.name);
         gv.setAttribute("constant", (varList.listKind == PlcVarListKind.CONSTANTS) ? "true" : "false");
-        for (PlcVariable var: varList.variables) {
+        for (PlcBasicVariable var: varList.variables) {
             transVariable(var, gv);
         }
     }

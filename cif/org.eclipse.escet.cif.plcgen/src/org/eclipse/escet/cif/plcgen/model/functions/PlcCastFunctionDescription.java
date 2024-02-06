@@ -13,12 +13,10 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import java.util.EnumSet;
-
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 
 /** Cast function with the semantic type conversion performed in a function application. */
-public class PlcCastFunction extends PlcBasicFuncDescription {
+public class PlcCastFunctionDescription extends PlcBasicFuncDescription {
     /** Parameters of the function. */
     private static final PlcParameterDescription[] FUNCTION_PARAMETERS = {
             new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
@@ -30,16 +28,14 @@ public class PlcCastFunction extends PlcBasicFuncDescription {
     public final PlcElementaryType resultType;
 
     /**
-     * Constructor of the {@link PlcCastFunction} class.
+     * Constructor of the {@link PlcCastFunctionDescription} class.
      *
      * @param childType Type of the function application child expression.
      * @param resultType Type of the function application result.
-     * @param notations Notations of the function that are supported by the target.
      */
-    public PlcCastFunction(PlcElementaryType childType, PlcElementaryType resultType,
-            EnumSet<PlcFuncNotation> notations)
-    {
-        super(childType.name + "_TO_" + resultType.name, FUNCTION_PARAMETERS, null, ExprBinding.NO_PRIORITY, notations);
+    public PlcCastFunctionDescription(PlcElementaryType childType, PlcElementaryType resultType) {
+        super(childType.name + "_TO_" + resultType.name, FUNCTION_PARAMETERS,
+                PlcBasicFuncDescription.PlcFuncNotation.NOT_INFIX);
         this.childType = childType;
         this.resultType = resultType;
     }

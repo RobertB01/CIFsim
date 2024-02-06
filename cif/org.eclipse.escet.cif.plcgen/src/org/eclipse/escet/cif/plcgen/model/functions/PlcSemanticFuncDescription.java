@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.functions;
 import java.util.EnumSet;
 
 /** Function description extended with the semantic operation being performed in a function application. */
-public class PlcSemanticFuncDescription extends PlcBasicFuncDescription {
+public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
     /** The semantic operation performed by the function application. */
     public final PlcFuncOperation operation;
 
