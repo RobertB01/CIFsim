@@ -17,8 +17,8 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** Basic PLC variable or constant. */
 public abstract class PlcBasicVariable {
-    /** Name of the variable. */
-    public final String varName;
+    /** Text to use for accessing the data of the variable non-locally. */
+    public final String valueText;
 
     /** The name of the variable declaration. */
     public final String declName;
@@ -34,7 +34,7 @@ public abstract class PlcBasicVariable {
      * @param type The type of the variable.
      */
     public PlcBasicVariable(String stateVariablePrefix, String declName, PlcType type) {
-        this.varName = stateVariablePrefix + declName;
+        this.valueText = stateVariablePrefix + declName;
         this.declName = declName;
         this.type = type;
     }
