@@ -59,9 +59,6 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             return;
         }
 
-        // Check use of the value of the continuous variable.
-        boolean reportViolation = false;
-
         EObject exprParent = cvExpr.eContainer();
         if (exprParent instanceof Assignment asg) {
             // Handle simple assignment to the continuous variable.
@@ -71,28 +68,27 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
                 checkValue(asg.getValue(), violations); // We allow 0. Useless but fine if the user wants that.
             } else {
                 // Using continuous variable as value in assignment is not allowed.
-                reportViolation = true;
+                violations.add(cvExpr, "Continuous variable is not compared as \"variable <= ...\" or \"... >= "
+                        + "variable\", nor assigned in a single-variable assignment");
             }
         } else if (exprParent instanceof BinaryExpression binExpr) {
             // Continuous variable comparison is the only way to read a continuous variable.
             boolean varAtLeft = (binExpr.getLeft() == cvExpr);
-            Expression valueExpr;
             if (varAtLeft) {
                 // Allow only 'var <= ...'.
-                reportViolation |= (binExpr.getOperator() != BinaryOperator.LESS_EQUAL);
-                valueExpr = binExpr.getRight();
+                if (binExpr.getOperator() != BinaryOperator.LESS_EQUAL) {
+                    violations.add(binExpr, "Continuous variable value is not compared as \"variable <= ...\"");
+                }
+                checkValue(binExpr.getRight(), violations);
             } else {
                 // Allow only '... >= var'.
-                reportViolation |= (binExpr.getOperator() != BinaryOperator.GREATER_EQUAL);
-                valueExpr = binExpr.getLeft();
+                if (binExpr.getOperator() != BinaryOperator.GREATER_EQUAL) {
+                    violations.add(binExpr, "Continuous variable value is not compared as \"... >= variable\"");
+                }
+                checkValue(binExpr.getLeft(), violations);
             }
-            checkValue(valueExpr, violations);
         } else {
             // Don't allow a continuous variable in other expressions.
-            reportViolation = true;
-        }
-
-        if (reportViolation) {
             violations.add(cvExpr, "Continuous variable value is not compared as \"variable <= ...\" or \"... >= "
                     + "variable\", nor assigned in a single-variable assignment");
         }
