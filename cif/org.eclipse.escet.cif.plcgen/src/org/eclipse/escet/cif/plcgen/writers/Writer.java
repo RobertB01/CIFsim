@@ -235,7 +235,7 @@ public abstract class Writer {
         String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
         String valueTxt = (dataVar.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(dataVar.value);
-        String txt = fmt("%s%s: %s%s;", dataVar.declName, addrTxt, toBox(dataVar.type), valueTxt);
+        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toBox(dataVar.type), valueTxt);
         return new TextBox(txt);
     }
 
@@ -246,7 +246,7 @@ public abstract class Writer {
      * @return The generated box representation.
      */
     protected Box toBox(PlcFuncBlockInstanceVar fnBlockVar) {
-        String txt = fmt("%s: %s;", fnBlockVar.declName, toBox(fnBlockVar.type));
+        String txt = fmt("%s: %s;", fnBlockVar.varName, toBox(fnBlockVar.type));
         return new TextBox(txt);
     }
 

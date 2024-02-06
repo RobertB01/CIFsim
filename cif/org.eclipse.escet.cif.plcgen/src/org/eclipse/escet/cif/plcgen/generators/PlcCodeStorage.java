@@ -237,7 +237,7 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the timer variables table.
      *
-     * @param declName Name of the variable instance containing the instantiated TON function block. Name is assumed to
+     * @param varName Name of the variable instance containing the instantiated TON function block. Name is assumed to
      *     be unique.
      * @return The instantiated function TON function block.
      */
