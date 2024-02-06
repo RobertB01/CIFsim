@@ -253,8 +253,12 @@ public final class CifPrettyPrinter {
      * @param spec The specification.
      */
     public void add(Specification spec) {
-        addCompBody(spec.getDeclarations(), spec.getDefinitions(), spec.getComponents(), spec.getInitials(),
-                spec.getInvariants(), spec.getEquations(), spec.getMarkeds(), spec.getIoDecls());
+        boolean anythingAdded = addCompBody(spec.getDeclarations(), spec.getDefinitions(), spec.getComponents(),
+                spec.getInitials(), spec.getInvariants(), spec.getEquations(), spec.getMarkeds(), spec.getIoDecls());
+
+        if (!anythingAdded) {
+            code.add("// Empty CIF specification.");
+        }
     }
 
     /**
@@ -268,28 +272,37 @@ public final class CifPrettyPrinter {
      * @param eqns The equations of the body.
      * @param markeds The marker predicates of the body.
      * @param ioDecls The I/O declarations of the body.
+     * @return {@code true} if anything was added, {@code false} otherwise.
      */
-    public void addCompBody(List<Declaration> decls, List<ComponentDef> cdefs, List<Component> comps,
+    public boolean addCompBody(List<Declaration> decls, List<ComponentDef> cdefs, List<Component> comps,
             List<Expression> initials, List<Invariant> invs, List<Equation> eqns, List<Expression> markeds,
             List<IoDecl> ioDecls)
     {
+        boolean anythingAdded = false;
+
         for (Declaration decl: decls) {
+            anythingAdded = true;
             add(decl);
         }
 
         for (ComponentDef cdef: cdefs) {
+            anythingAdded = true;
             add(cdef);
         }
 
         for (Component comp: comps) {
+            anythingAdded = true;
             add(comp);
         }
 
-        addInitInvEqnsMarked(initials, invs, eqns, markeds, false);
+        anythingAdded |= addInitInvEqnsMarked(initials, invs, eqns, markeds, false);
 
         for (IoDecl ioDecl: ioDecls) {
+            anythingAdded = true;
             add(ioDecl);
         }
+
+        return anythingAdded;
     }
 
     /**
@@ -301,11 +314,15 @@ public final class CifPrettyPrinter {
      * @param markeds The marker predicates.
      * @param optInitMarked {@code true} if initials and markeds may be specified without predicates, and are thus
      *     optional.
+     * @return {@code true} if anything was added, {@code false} otherwise.
      */
-    public void addInitInvEqnsMarked(List<Expression> initials, List<Invariant> invs, List<Equation> eqns,
+    public boolean addInitInvEqnsMarked(List<Expression> initials, List<Invariant> invs, List<Equation> eqns,
             List<Expression> markeds, boolean optInitMarked)
     {
+        boolean anythingAdded = false;
+
         if (!initials.isEmpty()) {
+            anythingAdded = true;
             if (optInitMarked && initials.size() == 1 && CifValueUtils.isTriviallyTrue(initials.get(0), false, false)) {
                 // The check for trivially true does not optimize for
                 // declarations and initial state, to keep as much of the
@@ -322,6 +339,7 @@ public final class CifPrettyPrinter {
         }
 
         if (!markeds.isEmpty()) {
+            anythingAdded = true;
             if (optInitMarked && markeds.size() == 1 && CifValueUtils.isTriviallyTrue(markeds.get(0), false, false)) {
                 // The check for trivially true does not optimize for
                 // declarations, to keep as much of the specification intact
@@ -338,6 +356,7 @@ public final class CifPrettyPrinter {
         }
 
         if (!invs.isEmpty()) {
+            anythingAdded = true;
             for (Invariant inv: invs) {
                 StringBuilder line = new StringBuilder();
                 if (inv.getSupKind() != SupKind.NONE) {
@@ -370,6 +389,7 @@ public final class CifPrettyPrinter {
         }
 
         if (!eqns.isEmpty()) {
+            anythingAdded = true;
             for (int i = 0; i < eqns.size(); i++) {
                 Equation eqn = eqns.get(i);
                 StringBuilder line = new StringBuilder();
@@ -384,6 +404,8 @@ public final class CifPrettyPrinter {
                 code.add(line.toString());
             }
         }
+
+        return anythingAdded;
     }
 
     /**
