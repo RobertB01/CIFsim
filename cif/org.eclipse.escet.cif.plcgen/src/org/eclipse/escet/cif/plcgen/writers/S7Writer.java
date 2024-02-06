@@ -138,7 +138,7 @@ public class S7Writer extends Writer {
             Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
 
             // Generate the data block for the TON timer.
-            c.add("DATA_BLOCK \"%s\"", timerVar.varName);
+            c.add("DATA_BLOCK \"%s\"", timerVar.declName);
             c.add("{InstructionName := '%s';", hasIecTimers ? "IEC_TIMER" : "TON");
             c.add("LibVersion := '1.0';");
             c.add("S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
@@ -211,7 +211,7 @@ public class S7Writer extends Writer {
         c.add("VAR");
         c.indent();
         for (PlcBasicVariable var: variables) {
-            c.add("%s: %s;", var.varName, toBox(var.type));
+            c.add("%s: %s;", var.declName, toBox(var.type));
         }
         c.dedent();
         c.add("END_VAR");
@@ -223,7 +223,7 @@ public class S7Writer extends Writer {
         ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
         for (PlcBasicVariable var: variables) {
             if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
-                c.add("%s := %s;", var.varName, modelTextGenerator.toString(dataVar.value));
+                c.add("%s := %s;", var.declName, modelTextGenerator.toString(dataVar.value));
             }
         }
         c.dedent();
@@ -275,13 +275,13 @@ public class S7Writer extends Writer {
             for (PlcBasicVariable constant: globVarList.variables) {
                 PlcDataVariable dataConstant = (PlcDataVariable)constant;
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(dataConstant.type),
-                        modelTextGenerator.toString(dataConstant.value), dataConstant.varName);
+                        modelTextGenerator.toString(dataConstant.value), dataConstant.declName);
             }
         } else {
             for (PlcBasicVariable var: globVarList.variables) {
                 PlcDataVariable dataVar = (PlcDataVariable)var;
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
-                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.varName);
+                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.declName);
             }
         }
         c.dedent();
@@ -321,7 +321,7 @@ public class S7Writer extends Writer {
             c.add("VAR_INPUT");
             c.indent();
             for (PlcBasicVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.declName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -335,7 +335,7 @@ public class S7Writer extends Writer {
             c.add("VAR_OUTPUT");
             c.indent();
             for (PlcBasicVariable var: pou.outputVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.declName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -353,7 +353,7 @@ public class S7Writer extends Writer {
 
             c.indent();
             for (PlcBasicVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.declName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");

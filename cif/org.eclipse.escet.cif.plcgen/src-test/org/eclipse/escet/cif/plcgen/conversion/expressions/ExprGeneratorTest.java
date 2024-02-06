@@ -396,7 +396,7 @@ public class ExprGeneratorTest {
 
     /** Convert a variable to simple text. */
     private static String varToText(PlcBasicVariable var) {
-        return fmt("%s %s", typeToText(var.type), var.varName);
+        return fmt("%s %s", typeToText(var.type), var.declName);
     }
 
     private static String typeToText(PlcType type) {

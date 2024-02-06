@@ -28,7 +28,7 @@ public class PlcDataVariable extends PlcBasicVariable {
      * Constructor for the {@link PlcDataVariable} class, without address and initial value, and with an empty name
      * prefix.
      *
-     * @param varName The name of the variable.
+     * @param declName The name of the variable.
      * @param type The type of the variable.
      */
     public PlcDataVariable(String varName, PlcType type) {
@@ -38,7 +38,7 @@ public class PlcDataVariable extends PlcBasicVariable {
     /**
      * Constructor for the {@link PlcDataVariable} class, with an empty name prefix.
      *
-     * @param varName The name of the variable.
+     * @param declName The name of the variable.
      * @param type The type of the variable.
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
@@ -51,7 +51,7 @@ public class PlcDataVariable extends PlcBasicVariable {
      * Constructor for the {@link PlcDataVariable} class.
      *
      * @param storagePrefix Name prefix of the variable, to use when accessing the variable.
-     * @param varName The name of the variable.
+     * @param declName The name of the variable.
      * @param type The type of the variable.
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.

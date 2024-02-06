@@ -23,11 +23,11 @@ public class PlcFuncBlockInstanceVar extends PlcBasicVariable {
     /**
      * Constructor of the {@link PlcFuncBlockInstanceVar} class.
      *
-     * @param varName The name of the variable.
+     * @param declName The name of the variable declaration.
      * @param funcBlockDesc Description of the function block.
      */
-    public PlcFuncBlockInstanceVar(String varName, PlcFunctionBlockDescription funcBlockDesc) {
-        super("", varName, funcBlockDesc.funcBlockType);
+    public PlcFuncBlockInstanceVar(String declName, PlcFunctionBlockDescription funcBlockDesc) {
+        super("", declName, funcBlockDesc.funcBlockType);
         this.funcBlockDesc = funcBlockDesc;
     }
 
@@ -35,11 +35,11 @@ public class PlcFuncBlockInstanceVar extends PlcBasicVariable {
      * Constructor of the {@link PlcFuncBlockInstanceVar} class.
      *
      * @param storagePrefix Name prefix of the variable, to use when accessing the variable.
-     * @param varName The name of the variable.
+     * @param declName The name of the variable declaration.
      * @param funcBlockDesc Description of the function block.
      */
-    public PlcFuncBlockInstanceVar(String storagePrefix, String varName, PlcFunctionBlockDescription funcBlockDesc) {
-        super(storagePrefix, varName, funcBlockDesc.funcBlockType);
+    public PlcFuncBlockInstanceVar(String storagePrefix, String declName, PlcFunctionBlockDescription funcBlockDesc) {
+        super(storagePrefix, declName, funcBlockDesc.funcBlockType);
         this.funcBlockDesc = funcBlockDesc;
     }
 }

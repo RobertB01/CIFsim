@@ -20,8 +20,8 @@ public abstract class PlcBasicVariable {
     /** Text to use for accessing the data of the variable non-locally. */
     public final String valueText;
 
-    /** The name of the variable. */
-    public final String varName;
+    /** The name of the variable declaration. */
+    public final String declName;
 
     /** The type of the variable. */
     public final PlcType type;
@@ -30,12 +30,12 @@ public abstract class PlcBasicVariable {
      * Constructor for the {@link PlcBasicVariable} class.
      *
      * @param stateVariablePrefix Name prefix of the variable, to use when accessing the variable.
-     * @param varName The name of the variable.
+     * @param declName The name of the variable declaration.
      * @param type The type of the variable.
      */
-    public PlcBasicVariable(String stateVariablePrefix, String varName, PlcType type) {
-        this.valueText = stateVariablePrefix + varName;
-        this.varName = varName;
+    public PlcBasicVariable(String stateVariablePrefix, String declName, PlcType type) {
+        this.valueText = stateVariablePrefix + declName;
+        this.declName = declName;
         this.type = type;
     }
 }

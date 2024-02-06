@@ -184,7 +184,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcBasicVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
 
             List<PlcStatement> statements = listc(3);
-            statements.add(new PlcCommentLine("Update remaining time of \"" + plcContVar.variable.varName + "\"."));
+            statements.add(new PlcCommentLine("Update remaining time of \"" + plcContVar.variable.declName + "\"."));
 
             // Get the current timer state information by calling TON(PT := P, IN := TRUE, Q => B, ET => V);
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
@@ -205,7 +205,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         public List<PlcStatement> generateAssignPreset() {
             // Assign new value to P and R;
             List<PlcStatement> statements = listc(4);
-            statements.add(new PlcCommentLine("Reset timer of \"" + plcContVar.variable.varName + "\"."));
+            statements.add(new PlcCommentLine("Reset timer of \"" + plcContVar.variable.declName + "\"."));
             statements.add(new PlcAssignmentStatement(presetVar, plcContVar));
 
             // Reset the timer with TON(PT := P, IN := FALSE);

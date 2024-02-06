@@ -181,7 +181,7 @@ public class ExprGenerator {
         // 1. Attempt to find a temporary variable that can be used.
         for (int idx: new BitSetIterator(variableIsAvailable)) {
             PlcBasicVariable var = variables.get(idx);
-            if (plcType.equals(var.type) && var.varName.startsWith(prefix)) {
+            if (plcType.equals(var.type) && var.declName.startsWith(prefix)) {
                 variableIsAvailable.clear(idx);
                 return var;
             }
@@ -233,7 +233,7 @@ public class ExprGenerator {
         PlcBasicVariable newVar = new PlcDataVariable(name, plcType, address, value);
         int newVarIndex = variables.size();
         variables.add(newVar);
-        varNameToVarIndex.put(newVar.varName, newVarIndex);
+        varNameToVarIndex.put(newVar.declName, newVarIndex);
         if (isTempVar) {
             variableIsTemp.set(newVarIndex);
         }
@@ -267,7 +267,7 @@ public class ExprGenerator {
      * @param variable Variable being returned.
      */
     public void releaseTempVariable(PlcBasicVariable variable) {
-        Integer idx = varNameToVarIndex.get(variable.varName);
+        Integer idx = varNameToVarIndex.get(variable.declName);
         if (idx == null || !variableIsTemp.get(idx)) {
             return;
         }
@@ -286,7 +286,7 @@ public class ExprGenerator {
         }
 
         // Sort variables on name.
-        Collections.sort(tempVars, (a, b) -> a.varName.compareTo(b.varName));
+        Collections.sort(tempVars, (a, b) -> a.declName.compareTo(b.declName));
         return tempVars;
     }
 
