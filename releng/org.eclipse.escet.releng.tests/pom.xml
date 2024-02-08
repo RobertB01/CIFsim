@@ -44,6 +44,7 @@
             <!-- Assemble code coverage ZIP. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>assemble-code-coverage-zip</id>
