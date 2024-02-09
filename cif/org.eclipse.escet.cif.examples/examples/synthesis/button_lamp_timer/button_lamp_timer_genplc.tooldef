@@ -20,6 +20,7 @@ mkdir("generated_files", force=true);
 cifsupsynth(
     "button_lamp_timer_plants_reqs.cif",
     "-o generated_files/button_lamp_timer_sup.cif",
+    "--add-state-annos=no",
 );
 
 // Merge supervisor with hardware mappings and software timer plant.
