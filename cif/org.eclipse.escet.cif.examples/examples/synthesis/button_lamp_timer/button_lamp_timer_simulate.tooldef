@@ -17,17 +17,23 @@ from "lib:cif" import *;
 mkdir("generated_files", force=true);
 
 // Synthesize supervisor.
-cifsupsynth("button_lamp_timer_plants_reqs.cif",
-             "-o generated_files/button_lamp_timer_sup.cif");
+cifsupsynth(
+    "button_lamp_timer_plants_reqs.cif",
+    "-o generated_files/button_lamp_timer_sup.cif",
+);
 
 // Merge supervisor with timed plants.
-cifmerge("generated_files/button_lamp_timer_sup.cif",
-          "button_lamp_timer_sim.cif",
-          "-o generated_files/button_lamp_timer_merged_sim.cif");
+cifmerge(
+    "generated_files/button_lamp_timer_sup.cif",
+    "button_lamp_timer_sim.cif",
+    "-o generated_files/button_lamp_timer_merged_sim.cif",
+);
 
 // Simulate supervisor and timed plants, for validation of the supervisor.
-cifsim("generated_files/button_lamp_timer_merged_sim.cif",
-        "-i svg",
-        "-a first",
-        "--frame-rate=50",
-        "--option-dialog=yes");
+cifsim(
+    "generated_files/button_lamp_timer_merged_sim.cif",
+    "-i svg",
+    "-a first",
+    "--frame-rate=50",
+    "--option-dialog=yes",
+);
