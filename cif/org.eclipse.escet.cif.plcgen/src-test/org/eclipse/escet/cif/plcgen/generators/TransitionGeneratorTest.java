@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -167,7 +169,9 @@ public class TransitionGeneratorTest {
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
 
         // Create sender automaton.
-        TransitionAutomaton sender1 = new TransitionAutomaton(null, transSendEdges);
+        Automaton aut1 = newAutomaton();
+        aut1.setName("aut1");
+        TransitionAutomaton sender1 = new TransitionAutomaton(aut1, transSendEdges);
         CifEventTransition transition = new CifEventTransition(event, List.of(sender1), List.of(), List.of(),
                 List.of());
 
@@ -183,7 +187,7 @@ public class TransitionGeneratorTest {
                 IF senderAut = 0 THEN
                     IF TRUE THEN
                         senderAut := 1;
-                        senderEdge := 1;
+                        edge_aut1__1 := 1;
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
@@ -198,7 +202,7 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     IF senderAut = 1 THEN
-                        IF senderEdge = 1 THEN
+                        IF edge_aut1__1 = 1 THEN
                             channelValue := 1;
                         END_IF;
                     END_IF;
@@ -215,7 +219,9 @@ public class TransitionGeneratorTest {
         TransitionEdge sendEdge1 = new TransitionEdge(null, null, newIntExpression(null, newIntType(), 1), List.of(),
                 List.of());
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
-        TransitionAutomaton sender1 = new TransitionAutomaton(null, transSendEdges);
+        Automaton aut1 = newAutomaton();
+        aut1.setName("sender1");
+        TransitionAutomaton sender1 = new TransitionAutomaton(aut1, transSendEdges);
 
         // automaton receiver1: edge channelEvent do recvVar := recvVar + ?;
         Expression leftAdd = newDiscVariableExpression(null, newIntType(), recVar);
@@ -223,13 +229,17 @@ public class TransitionGeneratorTest {
         Expression addExpr = newBinaryExpression(leftAdd, BinaryOperator.ADDITION, null, rightAdd, newIntType());
         Update recvUpd1 = newAssignment(newDiscVariableExpression(null, newIntType(), recVar), null, addExpr);
         TransitionEdge recvEdge1 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd1));
-        TransitionAutomaton receiver1 = new TransitionAutomaton(null, List.of(recvEdge1));
+        Automaton aut2 = newAutomaton();
+        aut2.setName("receiver1");
+        TransitionAutomaton receiver1 = new TransitionAutomaton(aut2, List.of(recvEdge1));
 
         // automaton receiver2: edge channelEvent do recvVar := ?;
         Update recvUpd2 = newAssignment(newDiscVariableExpression(null, newIntType(), otherVar), null,
                 newReceivedExpression());
         TransitionEdge recvEdge2 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd2));
-        TransitionAutomaton receiver2 = new TransitionAutomaton(null, List.of(recvEdge2));
+        Automaton aut3 = newAutomaton();
+        aut3.setName("receiver2");
+        TransitionAutomaton receiver2 = new TransitionAutomaton(aut3, List.of(recvEdge2));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(sender1), List.of(receiver1, receiver2),
                 List.of(), List.of());
@@ -246,7 +256,7 @@ public class TransitionGeneratorTest {
                 IF senderAut = 0 THEN
                     IF TRUE THEN
                         senderAut := 1;
-                        senderEdge := 1;
+                        edge_sender1__1 := 1;
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
@@ -257,13 +267,13 @@ public class TransitionGeneratorTest {
                     IF receiverAut = 0 THEN
                         IF TRUE THEN
                             receiverAut := 1;
-                            receiverEdge := 1;
+                            edge_receiver1__1 := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
                         IF TRUE THEN
                             receiverAut := 2;
-                            receiverEdge := 1;
+                            edge_receiver2__1 := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
@@ -275,16 +285,16 @@ public class TransitionGeneratorTest {
                     current_otherVar := otherVar;
                     current_recVar := recVar;
                     IF senderAut = 1 THEN
-                        IF senderEdge = 1 THEN
+                        IF edge_sender1__1 = 1 THEN
                             channelValue := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 1 THEN
-                        IF receiverEdge = 1 THEN
+                        IF edge_receiver1__1 = 1 THEN
                             recVar := current_recVar + channelValue;
                         END_IF;
                     ELSIF receiverAut = 2 THEN
-                        IF receiverEdge = 1 THEN
+                        IF edge_receiver2__1 = 1 THEN
                             otherVar := channelValue;
                         END_IF;
                     END_IF;
@@ -314,7 +324,9 @@ public class TransitionGeneratorTest {
         rightSide = newIntExpression(null, newIntType(), 3);
         Update update2 = newAssignment(leftSide, null, rightSide);
         TransitionEdge edge21 = new TransitionEdge(null, null, null, List.of(guard2), List.of(update2));
-        TransitionAutomaton syncer1 = new TransitionAutomaton(null, List.of(edge11, edge21));
+        Automaton aut1 = newAutomaton();
+        aut1.setName("syncer1");
+        TransitionAutomaton syncer1 = new TransitionAutomaton(aut1, List.of(edge11, edge21));
 
         // automaton syncer2: edge event when otherVar = 3 do otherVar := 4;
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
@@ -324,7 +336,9 @@ public class TransitionGeneratorTest {
         rightSide = newIntExpression(null, newIntType(), 4);
         Update update3 = newAssignment(leftSide, null, rightSide);
         TransitionEdge edge12 = new TransitionEdge(null, null, null, List.of(guard3), List.of(update3));
-        TransitionAutomaton syncer2 = new TransitionAutomaton(null, List.of(edge12));
+        Automaton aut2 = newAutomaton();
+        aut2.setName("syncer2");
+        TransitionAutomaton syncer2 = new TransitionAutomaton(aut2, List.of(edge12));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(syncer1, syncer2),
                 List.of());
@@ -338,15 +352,15 @@ public class TransitionGeneratorTest {
                 (* Try to perform event "event". *)
                 eventEnabled := TRUE;
                 IF otherVar = 1 THEN
-                    syncAutEdge := 1;
+                    edge_syncer1__1 := 1;
                 ELSIF otherVar = 2 THEN
-                    syncAutEdge := 2;
+                    edge_syncer1__1 := 2;
                 ELSE
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     IF otherVar = 3 THEN
-                        syncAutEdge__1 := 1;
+                        edge_syncer2__1 := 1;
                     ELSE
                         eventEnabled := FALSE;
                     END_IF;
@@ -354,12 +368,12 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
-                    IF syncAutEdge = 1 THEN
+                    IF edge_syncer1__1 = 1 THEN
                         otherVar := 2;
-                    ELSIF syncAutEdge = 2 THEN
+                    ELSIF edge_syncer1__1 = 2 THEN
                         otherVar := 3;
                     END_IF;
-                    IF syncAutEdge__1 = 1 THEN
+                    IF edge_syncer2__1 = 1 THEN
                         otherVar := 4;
                     END_IF;
                 END_IF;""";
@@ -379,7 +393,9 @@ public class TransitionGeneratorTest {
         rightSide = newIntExpression(null, newIntType(), 2);
         Update update1 = newAssignment(leftSide, null, rightSide);
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(guard1), List.of(update1));
-        TransitionAutomaton monitor = new TransitionAutomaton(null, List.of(edge));
+        Automaton aut2 = newAutomaton();
+        aut2.setName("monitor");
+        TransitionAutomaton monitor = new TransitionAutomaton(aut2, List.of(edge));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(),
                 List.of(monitor));
@@ -426,7 +442,9 @@ public class TransitionGeneratorTest {
         // Build the transition.
         Update update = newAssignment(leftSide, null, rightSide);
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
-        TransitionAutomaton aut = new TransitionAutomaton(null, List.of(edge));
+        Automaton aut2 = newAutomaton();
+        aut2.setName("aut");
+        TransitionAutomaton aut = new TransitionAutomaton(aut2, List.of(edge));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
@@ -439,14 +457,14 @@ public class TransitionGeneratorTest {
                 (* Try to perform event "event". *)
                 eventEnabled := TRUE;
                 IF TRUE THEN
-                    syncAutEdge := 1;
+                    edge_aut__1 := 1;
                 ELSE
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
-                    IF syncAutEdge = 1 THEN
+                    IF edge_aut__1 = 1 THEN
                         otherVar := 1;
                         otherVar := 2;
                     END_IF;
@@ -469,7 +487,9 @@ public class TransitionGeneratorTest {
         Expression rightSide = newBoolExpression(null, newBoolType(), true);
         Update update = newAssignment(leftSide, null, rightSide);
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
-        TransitionAutomaton aut = new TransitionAutomaton(null, List.of(edge));
+        Automaton aut2 = newAutomaton();
+        aut2.setName("aut");
+        TransitionAutomaton aut = new TransitionAutomaton(aut2, List.of(edge));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
@@ -482,14 +502,14 @@ public class TransitionGeneratorTest {
                 (* Try to perform event "event". *)
                 eventEnabled := TRUE;
                 IF TRUE THEN
-                    syncAutEdge := 1;
+                    edge_aut__1 := 1;
                 ELSE
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
-                    IF syncAutEdge = 1 THEN
+                    IF edge_aut__1 = 1 THEN
                         rightValue := TRUE;
                         otherVar := rightValue.field1;
                         otherVar := rightValue.field2;
