@@ -15,6 +15,7 @@ let ESCET_DEBUG = false;
 function onLoad() {
     var versions = getVersions();
     initVersionDropdown(versions);
+    initAllVersionsList(versions);
 }
 
 function getVersions() {
@@ -58,20 +59,26 @@ function getVersions() {
 
 function initVersionDropdown(versions) {
     // Get 'this' version, the version currently being shown.
-    // For technical reasons (see 'pom.xml'), the version number starts with a '/', so we remove it here.
-    var versionsDropdownElem = document.getElementById('versions-dropdown');
-    var thisVersion = versionsDropdownElem.dataset.thisVersion;
-    while (thisVersion.startsWith('/')) thisVersion = thisVersion.substring(1);
+    var thisVersion = getThisVersion();
 
     // Add items to the versions dropdown.
     var previewsElem = document.getElementById('versions-previews');
     var latestElem = document.getElementById('versions-latest-releases');
-    getPreviewVersions(versions, thisVersion).forEach(v => {
-        addVersion(v, thisVersion, previewsElem);
+    getPreviewVersions(versions, thisVersion).forEach(version => {
+        addVersionToDropDown(version, thisVersion, previewsElem);
     });
-    getLatestReleasesVersions(versions).forEach(v => {
-        addVersion(v, thisVersion, latestElem);
+    getLatestReleasesVersions(versions).forEach(version => {
+        addVersionToDropDown(version, thisVersion, latestElem);
     });
+}
+
+function getThisVersion() {
+    // Get 'this' version, the version currently being shown.
+    // For technical reasons (see 'pom.xml'), the version number starts with a '/', so we remove it here.
+    var versionsDropdownElem = document.getElementById('versions-dropdown');
+    var thisVersion = versionsDropdownElem.dataset.thisVersion;
+    while (thisVersion.startsWith('/')) thisVersion = thisVersion.substring(1);
+    return thisVersion;
 }
 
 function compareVersions(v1, v2) {
@@ -122,7 +129,7 @@ function getLatestReleasesVersions(versions) {
     return releaseVersions.slice(-3);
 }
 
-function addVersion(version, thisVersion, afterElem) {
+function addVersionToDropDown(version, thisVersion, afterElem) {
     var liElem = document.createElement('li');
     afterElem.after(liElem);
 
@@ -136,4 +143,31 @@ function addVersion(version, thisVersion, afterElem) {
         aElem.classList.add('disabled');
         aElem.textContent += ' (this version)';
     }
+}
+
+function initAllVersionsList(versions) {
+    // Nothing to do if the all versions list is not on this page.
+    var allVersionsListElem = document.getElementById('all-versions-list');
+    if (allVersionsListElem === null) {
+        return;
+    }
+
+    // Get 'this' version, the version currently being shown.
+    var thisVersion = getThisVersion();
+
+    // Add items to all versions list.
+    versions.forEach(version => {
+        var liElem = document.createElement('li');
+        allVersionsListElem.appendChild(liElem);
+
+        var aElem = document.createElement('a');
+        liElem.appendChild(aElem);
+
+        aElem.setAttribute('href', '/escet/' + version);
+        aElem.textContent = version;
+
+        if (version == thisVersion) {
+            aElem.after(' (this version)');
+        }
+    });
 }
