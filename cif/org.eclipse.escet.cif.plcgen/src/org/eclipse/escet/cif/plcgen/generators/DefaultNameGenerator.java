@@ -47,10 +47,10 @@ public class DefaultNameGenerator implements NameGenerator {
      * All names in the PLC language standard, as an unmodifiable set. These are to be avoided for generated names.
      *
      * <p>
-     * The keywords in the PLC language are case insensitive. This set only contains the names in lower-case ASCII.
+     * The PLC language is case insensitive. This set only contains the names in lower-case ASCII.
      * </p>
      */
-    private static final Set<String> PLC_LANGUAGE_KEYWORDS;
+    private static final Set<String> PLC_RESERVED_WORDS;
 
     /** If the value holds the user should be warned about changing the name, else the user should not be warned. */
     private final boolean warnOnRename;
@@ -71,7 +71,7 @@ public class DefaultNameGenerator implements NameGenerator {
         warnOutput = settings.warnOutput;
 
         globalSuffixes = map();
-        for (String name: PLC_LANGUAGE_KEYWORDS) {
+        for (String name: PLC_RESERVED_WORDS) {
             globalSuffixes.put(name, 0);
         }
     }
@@ -277,14 +277,14 @@ public class DefaultNameGenerator implements NameGenerator {
         int numTypes = genericTypeKeywords.length;
         int keywordCount = languageKeywords.length + typeKeywords.length + genericTypeKeywords.length
                 + numTypes * (numTypes - 1);
-        Set<String> keywords = setc(keywordCount);
+        Set<String> reservedWords = setc(keywordCount);
 
         // Add everything.
-        keywords.addAll(Arrays.asList(languageKeywords));
-        keywords.addAll(Arrays.asList(functionNames));
-        keywords.addAll(Arrays.asList(functionBlockNames));
-        keywords.addAll(Arrays.asList(typeKeywords));
-        keywords.addAll(Arrays.asList(genericTypeKeywords));
+        reservedWords.addAll(Arrays.asList(languageKeywords));
+        reservedWords.addAll(Arrays.asList(functionNames));
+        reservedWords.addAll(Arrays.asList(functionBlockNames));
+        reservedWords.addAll(Arrays.asList(typeKeywords));
+        reservedWords.addAll(Arrays.asList(genericTypeKeywords));
 
         // Casts (X_TO_Y functions).
         for (int i = 0; i < typeKeywords.length; i++) {
@@ -292,10 +292,10 @@ public class DefaultNameGenerator implements NameGenerator {
                 if (i == j) {
                     continue;
                 }
-                keywords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
+                reservedWords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
             }
         }
 
-        PLC_LANGUAGE_KEYWORDS = Collections.unmodifiableSet(keywords);
+        PLC_RESERVED_WORDS = Collections.unmodifiableSet(reservedWords);
     }
 }
