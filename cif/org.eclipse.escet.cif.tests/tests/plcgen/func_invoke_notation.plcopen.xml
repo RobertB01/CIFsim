@@ -161,7 +161,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="syncAutEdge__1">
+            <variable name="syncAutEdge_1">
               <type>
                 <DINT/>
               </type>
@@ -373,9 +373,9 @@ WHILE isProgress DO
     (* Try to perform event "aut.f". *)
     eventEnabled := TRUE;
     IF aut = aut_l1 AND (aut_b OR aut_b) THEN
-        syncAutEdge__1 := 1;
+        syncAutEdge_1 := 1;
     ELSIF aut = aut_l1 AND aut_b THEN
-        syncAutEdge__1 := 2;
+        syncAutEdge_1 := 2;
     ELSE
         eventEnabled := FALSE;
     END_IF;

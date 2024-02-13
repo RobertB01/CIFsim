@@ -44,7 +44,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="current_Good_x__1">
+            <variable name="current_Good_x_1">
               <type>
                 <DINT/>
               </type>
@@ -84,17 +84,17 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="syncAutEdge__1">
+            <variable name="syncAutEdge_1">
               <type>
                 <DINT/>
               </type>
             </variable>
-            <variable name="syncAutEdge__2">
+            <variable name="syncAutEdge_2">
               <type>
                 <DINT/>
               </type>
             </variable>
-            <variable name="syncAutEdge__3">
+            <variable name="syncAutEdge_3">
               <type>
                 <DINT/>
               </type>
@@ -138,15 +138,15 @@ WHILE isProgress DO
     (* Try to perform event "noMonitor". *)
     eventEnabled := TRUE;
     IF TRUE THEN
-        syncAutEdge__2 := 1;
+        syncAutEdge_2 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
-        current_Good_x__1 := Good_x;
-        IF syncAutEdge__2 = 1 THEN
-            Good_x := (current_Good_x__1 + 5) MOD 6;
+        current_Good_x_1 := Good_x;
+        IF syncAutEdge_2 = 1 THEN
+            Good_x := (current_Good_x_1 + 5) MOD 6;
         END_IF;
     END_IF;
 
