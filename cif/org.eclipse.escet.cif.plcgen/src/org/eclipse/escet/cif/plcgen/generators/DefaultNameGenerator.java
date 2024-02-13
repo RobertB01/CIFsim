@@ -314,10 +314,35 @@ public class DefaultNameGenerator implements NameGenerator {
 };
 
         String[] functionNames = new String[] {
+"abs",
+"acos",
+"add",
 "and",
+"asin",
+"atan",
+"cos",
+"div",
+"eq",
+"exp",
+"expt",
+"ge",
+"gt",
+"le",
+"ln",
+"log",
+"lt",
+"max",
+"min",
 "mod",
+"mul",
+"ne",
 "not",
 "or",
+"sel",
+"sin",
+"sqrt",
+"sub",
+"tan",
 "xor"
         };
 
