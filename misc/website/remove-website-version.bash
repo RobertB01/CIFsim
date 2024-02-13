@@ -51,6 +51,9 @@ fi
 echo "Removing website directory..."
 rm -rf ${VERSION_TO_REMOVE}/
 
+# Remove website version from '.versions' file.
+sed -i "/^${VERSION_TO_REMOVE}$/d" .versions
+
 # Stage all changes.
 git add -A
 
