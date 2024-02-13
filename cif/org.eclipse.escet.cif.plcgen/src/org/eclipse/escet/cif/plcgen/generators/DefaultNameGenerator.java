@@ -245,7 +245,6 @@ public class DefaultNameGenerator implements NameGenerator {
         // Keywords of the language, note that "en" and "eno" special parameter names have been left out.
         String[] languageKeywords = new String[] {
 "action",
-"and",
 "array",
 "at",
 "by",
@@ -282,11 +281,8 @@ public class DefaultNameGenerator implements NameGenerator {
 "function_block",
 "if",
 "initial_step",
-"mod",
-"not",
 "of",
 "on",
-"or",
 "program",
 "read_only",
 "read_write",
@@ -314,9 +310,16 @@ public class DefaultNameGenerator implements NameGenerator {
 "var_output",
 "var_temp",
 "while",
-"with",
-"xor"
+"with"
 };
+
+        String[] functionNames = new String[] {
+"and",
+"mod",
+"not",
+"or",
+"xor"
+        };
 
         String[] typeKeywords = new String[] {"bool", "sint", "int", "dint", "lint", "usint", "uint", "ulint", "udint",
                 "real", "lreal", "time", "date", "time_of_day", "tod", "date_and_time", "dt", "string", "byte", "word",
