@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -76,6 +77,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * {@link #setTransitions}.
      */
     private List<CifEventTransition> eventTransitions = null;
+
+    /**
+     * For each automaton, the variable that tracks the selected edge to perform for its automaton.
+     *
+     * <p>
+     * Use the {@link #getAutomatonEdgeVariable} method to query this map.
+     * </p>
+     */
+    private final Map<Automaton, PlcBasicVariable> edgeSelectionVariables = map();
+
+    /** Generator for obtaining clash-free names in the generated code. */
+    private NameGenerator nameGen;
 
     /** Expression generator for the main program. */
     private ExprGenerator mainExprGen;
@@ -134,9 +147,26 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
+        nameGen = target.getNameGenerator();
         mainExprGen = target.getCodeStorage().getExprGenerator();
         funcAppls = new PlcFunctionAppls(target);
 
+        // Set up selected edge tracking variables for the automata.
+        edgeSelectionVariables.clear();
+        for (CifEventTransition evtTrans: eventTransitions) {
+            for (TransitionAutomaton transAut: evtTrans.senders) {
+                ensureEdgeVariable(transAut.aut);
+            }
+            for (TransitionAutomaton transAut: evtTrans.receivers) {
+                ensureEdgeVariable(transAut.aut);
+            }
+            for (TransitionAutomaton transAut: evtTrans.syncers) {
+                ensureEdgeVariable(transAut.aut);
+            }
+            // Monitors do not need edge tracking since the first enabled edge is immediately taken.
+        }
+
+        // Variable that tracks whether at least one event was performed in the current event loop cycle.
         PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
 
         // As all transition code is generated in main program context, only one generated statements list exists and
@@ -147,8 +177,30 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             statements.addAll(generateEventTransitionCode(eventTransition, addEmptyLineBefore, isProgressVar));
             addEmptyLineBefore = true;
         }
+
+        // Release all temporary variables, and return the generated event transition code.
         mainExprGen.releaseTempVariable(isProgressVar);
+        mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
+        edgeSelectionVariables.clear();
+
         return statements;
+    }
+
+    /**
+     * Ensure that a variable for tracking the selected edge for the 'aut' automaton exists in
+     * {@link #edgeSelectionVariables} after the call.
+     *
+     * @param aut Automaton that must have or get a variable for tracking the selected edge of the automaton.
+     */
+    private void ensureEdgeVariable(Automaton aut) {
+        if (edgeSelectionVariables.containsKey(aut)) {
+            return;
+        }
+        String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), true);
+
+        // TODO: Use a smaller integer for edge indexing.
+        PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
+        edgeSelectionVariables.put(aut, autVar);
     }
 
     /**
@@ -719,6 +771,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
             return testCode;
         }
+    }
+
+    /**
+     * Get the variable that tracks the selected edge of the provided automaton.
+     *
+     * @param aut Automaton to use for finding the edge variable.
+     * @return The edge variable.
+     */
+    private PlcBasicVariable getAutomatonEdgeVariable(Automaton aut) {
+        PlcBasicVariable edgeVariable = edgeSelectionVariables.get(aut);
+        Assert.notNull(edgeVariable);
+        return edgeVariable;
     }
 
     /**
