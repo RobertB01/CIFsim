@@ -161,8 +161,6 @@ for test in tests:
 
     // Get paths.
     string test2          = file1_out_real;
-    string test2_out_real = chfileext(test, "cif", "check.out.real");
-    string test2_err_real = chfileext(test, "cif", "check.err.real");
     string file2_out_real = chfileext(test, "cif", "check.out.real.cif");
 
     // Do check, if applicable.
@@ -171,8 +169,8 @@ for test in tests:
         outln("Testing \"%s\" (check)...", test);
 
         // Execute.
-        list string options2 = ["--devmode=1", "-o", file2_out_real];
-        int exit_code2 = cif2cif([test2] + options2, stdout=test2_out_real, stderr=test2_err_real, ignoreNonZeroExitCode=true);
+        list string options2 = ["--devmode=1", "--output-mode=error", "-o", file2_out_real];
+        int exit_code2 = cif2cif([test2] + options2, ignoreNonZeroExitCode=true);
 
         // Check output.
         bool exit_code2_ok = (exit_code2 == 0);
@@ -180,11 +178,7 @@ for test in tests:
         bool check_ok = exit_code2_ok and file2_written;
 
         // Cleanup.
-        if check_ok:
-            rmfile(test2_out_real);
-            rmfile(test2_err_real);
-            if exists(file2_out_real):: rmfile(file2_out_real);
-        end
+        if check_ok and exists(file2_out_real):: rmfile(file2_out_real);
 
         // Update counts.
         check_count = check_count + 1;
