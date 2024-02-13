@@ -108,31 +108,7 @@ public class DefaultNameGenerator implements NameGenerator {
      */
     private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {
         // Cleanup the name.
-        StringBuilder cleanedName = new StringBuilder(initialName.length() + 1 + 2 + 8);
-        boolean needsUnderscore = false;
-        for (int index = 0; index < initialName.length(); index++) {
-            char c = initialName.charAt(index);
-            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
-                if (needsUnderscore) {
-                    cleanedName.append('_');
-                    needsUnderscore = false;
-                }
-                cleanedName.append(c);
-            } else if (c >= '0' && c <= '9') {
-                if (cleanedName.isEmpty()) {
-                    cleanedName.append(DEFAULT_CHAR);
-                } else if (needsUnderscore) {
-                    cleanedName.append('_');
-                }
-                cleanedName.append(c);
-                needsUnderscore = false;
-            } else {
-                needsUnderscore = !cleanedName.isEmpty();
-            }
-        }
-        if (cleanedName.isEmpty()) {
-            cleanedName.append(DEFAULT_CHAR);
-        }
+        StringBuilder cleanedName = cleanString(initialName);
 
         // Make the name unique.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
@@ -144,7 +120,7 @@ public class DefaultNameGenerator implements NameGenerator {
         if (maxUsedNumber < 0) {
             // First use of a name without numeric suffix -> use as-is.
             //
-            // Store it as 0 suffix, next use will get "__1" appended.
+            // Store it as 0 suffix, next use will get "_1" appended.
             if (localSuffixes != null) {
                 localSuffixes.put(lowerCleanedName, 0);
             } else {
@@ -160,7 +136,7 @@ public class DefaultNameGenerator implements NameGenerator {
                 globalSuffixes.put(lowerCleanedName, maxUsedNumber);
             }
 
-            cleanedName.append("__");
+            cleanedName.append("_");
             cleanedName.append(maxUsedNumber);
             String newName = cleanedName.toString();
             if (initialIsCifName && warnOnRename) {
@@ -168,6 +144,101 @@ public class DefaultNameGenerator implements NameGenerator {
             }
             return newName;
         }
+    }
+
+    /**
+     * Cleanup the name.
+     *
+     * <p>
+     * A name consists of alternating good and bad parts, where a good part is a sequence of letters and digits, and a
+     * bad part is a sequence of non-letter and non-digit characters. Each good part is forced to start with a letter.
+     * </p>
+     * <p>
+     * The good parts ore copied, and get separated with an underscore character.
+     * </p>
+     *
+     * @param text Input text to clean up.
+     * @return The cleaned-up name, wrapped in a string builder to assist in further manipulation of the name.
+     */
+    private StringBuilder cleanString(String text) {
+        // Construct the destination string builder. Likely sufficient length is all text, 4 inserted default
+        // characters, an underscore, and an assumed 3 digit number.
+        StringBuilder sb = new StringBuilder(text.length() + 4 + 1 + 3);
+
+        // Copy the good parts of the input text separated by an underscore character.
+        char[] data = text.toCharArray();
+        int inputIndex = 0;
+        while (inputIndex < data.length) {
+            // Find a good characters sequence. Possibly except for the first iteration, this is always non-empty.
+            int length = matchGoodChars(data, inputIndex);
+
+            // Force starting with a non-digit character.
+            // At the start of the name, that ensures the result to be an identifier. After an '_', it ensures the
+            // sequence '_[0-9]' never happens.
+            if (length > 0 && Character.isDigit(data[inputIndex])) {
+                sb.append(DEFAULT_CHAR);
+            }
+
+            // Copy the good characters, update the read index, and bail out of the end has been reached.
+            sb.append(data, inputIndex, length); // May do nothing in the first iteration.
+            inputIndex += length;
+            if (inputIndex == data.length) {
+                break;
+            }
+
+            // Find a bad characters sequence. Is always non-empty.
+            length = matchBadChars(data, inputIndex);
+            inputIndex += length;
+            if (!sb.isEmpty() && inputIndex < data.length) { // If a good part is before and after it, insert an '_'.
+                sb.append('_');
+            }
+        }
+
+        // Force a non-empty result identifier.
+        if (sb.isEmpty()) {
+            sb.append(DEFAULT_CHAR);
+        }
+        return sb;
+    }
+
+    /**
+     * Find a sequence of good characters (letters or digits) in the 'data' array at 'index'.
+     *
+     * @param data Characters to explore.
+     * @param index Index to start the search.
+     * @return Number of found good characters starting from 'data[index]'.
+     */
+    private int matchGoodChars(char[] data, int index) {
+        int endIndex = index;
+        while (endIndex < data.length) {
+            char c = data[endIndex];
+            if (Character.isLetter(c) || Character.isDigit(c)) {
+                endIndex++;
+            } else {
+                break;
+            }
+        }
+        return endIndex - index;
+    }
+
+    /**
+     * Find a sequence of bad characters (anything else but letters or digits) in the 'data' array at 'index'.
+     *
+     * @param data Characters to explore.
+     * @param index Index to start the search.
+     * @return Number of found bad characters starting from 'data[index]'.
+     */
+    private int matchBadChars(char[] data, int index) {
+        int endIndex = index;
+        while (endIndex < data.length) {
+            char c = data[endIndex];
+            if (Character.isLetter(c) || Character.isDigit(c)) {
+                break;
+            } else {
+                endIndex++;
+            }
+        }
+        return endIndex - index;
     }
 
     static {
