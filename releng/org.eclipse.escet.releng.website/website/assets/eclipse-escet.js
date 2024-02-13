@@ -13,10 +13,11 @@
 let ESCET_DEBUG = false;
 
 function onLoad() {
-    initVersionDropdown();
+    var versions = getVersions();
+    initVersionDropdown(versions);
 }
 
-function initVersionDropdown() {
+function getVersions() {
     // Get versions text.
     var versionsText = null;
     if (ESCET_DEBUG) {
@@ -52,7 +53,10 @@ function initVersionDropdown() {
     if (ESCET_DEBUG) {
         console.log('Versions: ' + versions.join(' '));
     }
+    return versions;
+}
 
+function initVersionDropdown(versions) {
     // Get 'this' version, the version currently being shown.
     // For technical reasons (see 'pom.xml'), the version number starts with a '/', so we remove it here.
     var versionsDropdownElem = document.getElementById('versions-dropdown');
