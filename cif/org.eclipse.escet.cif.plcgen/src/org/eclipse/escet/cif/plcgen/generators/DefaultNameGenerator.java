@@ -256,6 +256,16 @@ public class DefaultNameGenerator implements NameGenerator {
                 "expt", "ge", "gt", "le", "ln", "log", "lt", "max", "min", "mod", "mul", "ne", "not", "or", "sel",
                 "sin", "sqrt", "sub", "tan", "xor"};
 
+        String[] functionBlockNames = new String[] { //
+                "rs", "sr", // Set/reset.
+                "tp", "ton", "tof", // Timers.
+                "iec_timer", // Timers S7.
+                "f_trig", "r_trig", // Edge detection.
+                "ctu", "ctu_dint", "ctu_lint", "ctu_udint", "ctu_ulint", // Up counters.
+                "ctd", "ctd_dint", "ctd_lint", "ctd_udint", "ctd_ulint", // Down counters.
+                "ctud", "ctud_dint", "ctud_lint", "ctud_udint", "ctud_ulint", // Up-down counters.
+        };
+
         String[] typeKeywords = new String[] {"bool", "sint", "int", "dint", "lint", "usint", "uint", "ulint", "udint",
                 "real", "lreal", "time", "date", "time_of_day", "tod", "date_and_time", "dt", "string", "byte", "word",
                 "dword", "lword", "wstring"};
@@ -271,6 +281,8 @@ public class DefaultNameGenerator implements NameGenerator {
 
         // Add everything.
         keywords.addAll(Arrays.asList(languageKeywords));
+        keywords.addAll(Arrays.asList(functionNames));
+        keywords.addAll(Arrays.asList(functionBlockNames));
         keywords.addAll(Arrays.asList(typeKeywords));
         keywords.addAll(Arrays.asList(genericTypeKeywords));
 
@@ -283,9 +295,6 @@ public class DefaultNameGenerator implements NameGenerator {
                 keywords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
             }
         }
-
-        // TODO: Add standard library function names.
-        // TODO: Add standard function block names.
 
         PLC_LANGUAGE_KEYWORDS = Collections.unmodifiableSet(keywords);
     }
