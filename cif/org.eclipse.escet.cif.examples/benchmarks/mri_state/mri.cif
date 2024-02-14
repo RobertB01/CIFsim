@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Model for a Patient Support System (PCS) of a Magnetic Resonance Imaging (MRI) scanner from Philips Medical Systems.
-// The Patient Support System is used to position a patient in the MRI scanner. It consists primarily of the patient
-// table, on which the patient lies. The table is moved into a hole in the scanner, called the 'bore'. A user interface
-// allows medical personnel to operate the patient table. The table can be positioned manually, but there is also a
-// 'light-visor' for automatic positioning. The synthesized supervisor must both ensure that the PCS operates safely,
-// such that the MRI scanner is not damaged and the patient remains safe.
+// Model for a Patient Support System of a Magnetic Resonance Imaging (MRI) scanner from Philips Medical Systems. The
+// Patient Support System is used to position a patient in the MRI scanner. It consists primarily of the patient table,
+// on which the patient lies. The table is moved into a hole in the scanner, called the 'bore'. A user interface allows
+// medical personnel to operate the patient table. The table can be positioned manually, but there is also a
+// 'light-visor' for automatic positioning. The synthesized supervisor must both ensure that the Patient Support System
+// operates safely, such that the MRI scanner is not damaged and the patient remains safe.
 //
 // This version of the model is a 'state-based' variant, in which note only automata that synchronize on events are
 // used, but also plant and requirement invariants. No variables, guards, and updates are used.
