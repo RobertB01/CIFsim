@@ -15,15 +15,15 @@
 // Patient Support System is used to position a patient in the MRI scanner. It consists primarily of the patient table,
 // on which the patient lies. The table is moved into a hole in the scanner, called the 'bore'. A user interface allows
 // medical personnel to operate the patient table. The table can be positioned manually, but there is also a
-// 'light-visor' for automatic positioning. The synthesized supervisor must both ensure that the Patient Support System
-// operates safely, such that the MRI scanner is not damaged and the patient remains safe.
+// 'light-visor' for automatic positioning. The synthesized supervisor must ensure that the Patient Support System
+// operates safely, such that the MRI scanner is not damaged, and that the patient remains safe.
 //
 // This version of the model is a 'state-based' variant, in which note only automata that synchronize on events are
 // used, but also plant and requirement invariants. No variables, guards, and updates are used.
 
-// =================================
-// 6.2.1 Vertical Axis
-// =================================
+// ====================
+// 6.2.1 Vertical Axis.
+// ====================
 
 controllable c_vMoveUp, c_vMoveDown;
 controllable c_vStop;
@@ -54,7 +54,7 @@ plant VMotor:
     edge u_vStopped  goto Stopped;
 end
 
-// Figure 6.1a.
+// Figure 6.2a.
 plant VUpSensor:
   location Off:
     initial;
@@ -67,7 +67,7 @@ plant VUpSensor:
     edge u_vUpOff goto Off;
 end
 
-// Figure 6.1b.
+// Figure 6.2b.
 plant VDownSensor:
   location Off:
     initial;
@@ -89,9 +89,9 @@ plant invariant {u_vDownOff, u_vUpOn} needs VMotor.MovingUp or VMotor.StoppingUp
 // Equation 6.3.
 plant invariant {u_vDownOn, u_vUpOff} needs VMotor.MovingDown or VMotor.StoppingDown;
 
-// =================================
-// 6.2.2 Horizontal axis
-// =================================
+// ======================
+// 6.2.2 Horizontal axis.
+// ======================
 
 controllable c_hMoveIn, c_hMoveOut;
 controllable c_hStop;
@@ -243,9 +243,9 @@ plant invariant {u_hOutOff, u_hInOn} needs HClutch.Off or
                                            HTTRSwitch.On or
                                            HMotor.MovingIn or HMotor.StoppingIn;
 
-// =================================
-// 6.2.3 Tumble switch
-// =================================
+// ====================
+// 6.2.3 Tumble switch.
+// ====================
 
 uncontrollable u_uTumbleDown, u_uTumbleUp, u_uTumbleNeutral;
 
@@ -263,9 +263,9 @@ plant UITumbleSwitch:
     edge u_uTumbleNeutral goto Neutral;
 end
 
-// ===========================================
-// 6.3.1 Normal and restricted operating modes
-// ===========================================
+// ============================================
+// 6.3.1 Normal and restricted operating modes.
+// ============================================
 
 controllable c_nnormal;
 
@@ -285,9 +285,9 @@ end
 requirement invariant HVMode.Normal => HTTRSwitch.Off and
                                        (VUpSensor.On or HOutSensor.On);
 
-// =================================
-// 6.3.2 Vertical axis control
-// =================================
+// ============================
+// 6.3.2 Vertical axis control.
+// ============================
 
 // Equation 6.9.
 requirement invariant c_vMoveUp   needs VUpSensor.Off and
@@ -303,9 +303,9 @@ requirement invariant c_vStop     needs (VUpSensor.On and VMotor.MovingUp) or
                                         UITumbleSwitch.Neutral or
                                         HVMode.Restricted;
 
-// =================================
-// Horizontal axis control
-// =================================
+// ========================
+// Horizontal axis control.
+// ========================
 
 // Motor control.
 
@@ -361,9 +361,9 @@ requirement invariant c_mLedBlinkSlow needs HVMode.Restricted and HClutch.On;
 // Equation 6.20.
 requirement invariant c_mLedBlinkFast needs HVMode.Restricted and HClutch.Off;
 
-// =================================
-// Tumble switch horizontal-vertical model
-// =================================
+// ========================================
+// Tumble switch horizontal-vertical model.
+// ========================================
 
 // Figure 6.10.
 requirement UIHVSwitch:
