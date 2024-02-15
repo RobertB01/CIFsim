@@ -125,7 +125,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
      * Check that the given continuous variable value is a non-negative number.
      *
      * @param value Value to check.
-     * @param reportPos Position to report.
+     * @param reportPos Object with position on which to report violations.
      * @param violations Already found violations, may be extended in-place.
      */
     private void checkValue(Expression value, PositionObject reportPos, CifCheckViolations violations) {
@@ -146,7 +146,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
      * @param value Value to evaluate.
      * @param isValue If {@code true}, the given expression is assumed to be the value of a continuous variable, else it
      *     is assumed to be the value of a derivative of a continuous variable.
-     * @param reportPos Position to report.
+     * @param reportPos Object with position on which to report violations.
      * @param violations Already found violations, may be extended in-place.
      * @return {@code null} if the given expression could not be evaluated or does not represent a static single value,
      *     else the found value is returned as Java value. See {@link CifEvalUtils} class description for details.
