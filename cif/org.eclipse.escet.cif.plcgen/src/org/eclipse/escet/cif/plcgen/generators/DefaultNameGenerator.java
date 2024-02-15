@@ -108,7 +108,7 @@ public class DefaultNameGenerator implements NameGenerator {
      */
     private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {
         // Cleanup the name.
-        StringBuilder cleanedName = cleanString(initialName);
+        StringBuilder cleanedName = cleanName(initialName);
 
         // Make the name unique.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
@@ -160,7 +160,7 @@ public class DefaultNameGenerator implements NameGenerator {
      * @param text Input text to clean up.
      * @return The cleaned-up name, wrapped in a string builder to assist in further manipulation of the name.
      */
-    private StringBuilder cleanString(String text) {
+    private StringBuilder cleanName(String text) {
         // Construct the destination string builder. Likely sufficient length is all text, 4 inserted default
         // characters, an underscore, and an assumed 3 digit number.
         StringBuilder sb = new StringBuilder(text.length() + 4 + 1 + 3);
@@ -222,7 +222,8 @@ public class DefaultNameGenerator implements NameGenerator {
     }
 
     /**
-     * Find a sequence of bad characters (anything else but letters or digits) in the {@code data} array at {@code index}.
+     * Find a sequence of bad characters (anything else but letters or digits) in the {@code data} array at
+     * {@code index}.
      *
      * @param data Characters to explore.
      * @param index Index to start the search.
@@ -246,10 +247,10 @@ public class DefaultNameGenerator implements NameGenerator {
         String[] languageKeywords = new String[] {"action", "array", "at", "by", "case", "configuration", "constant",
                 "do", "else", "elsif", "end_action", "end_case", "end_configuration", "end_for", "end_function",
                 "end_function_block", "end_if", "end_program", "end_repeat", "end_resource", "end_retain", "end_step",
-                "end_step", "end_struct", "end_transition", "end_type", "end_var", "end_while", "exit", "false",
-                "f_edge", "for", "from", "function", "function_block", "if", "initial_step", "of", "on", "program",
-                "read_only", "read_write", "r_edge", "repeat", "resource", "retain", "return", "step", "struct", "task",
-                "then", "to", "transition", "true", "type", "until", "var", "var_access", "var_config", "var_external",
+                "end_struct", "end_transition", "end_type", "end_var", "end_while", "exit", "false", "f_edge", "for",
+                "from", "function", "function_block", "if", "initial_step", "of", "on", "program", "read_only",
+                "read_write", "r_edge", "repeat", "resource", "retain", "return", "step", "struct", "task", "then",
+                "to", "transition", "true", "type", "until", "var", "var_access", "var_config", "var_external",
                 "var_global", "var_in_out", "var_input", "var_output", "var_temp", "while", "with"};
 
         String[] functionNames = new String[] {"abs", "acos", "add", "and", "asin", "atan", "cos", "div", "eq", "exp",
@@ -275,9 +276,9 @@ public class DefaultNameGenerator implements NameGenerator {
 
         // Construct a set container of appropriate size.
         int numTypes = genericTypeKeywords.length;
-        int keywordCount = languageKeywords.length + typeKeywords.length + genericTypeKeywords.length
-                + numTypes * (numTypes - 1);
-        Set<String> reservedWords = setc(keywordCount);
+        int reservedWordCount = languageKeywords.length + functionNames.length + functionBlockNames.length
+                + typeKeywords.length + genericTypeKeywords.length + numTypes * (numTypes - 1);
+        Set<String> reservedWords = setc(reservedWordCount);
 
         // Add everything.
         reservedWords.addAll(Arrays.asList(languageKeywords));
