@@ -483,7 +483,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * The objective of test code for both senders and receivers is to find an automaton with an enabled edge. In the
      * perform code the enabled edge is then taken. For communication from test code to perform code, a
      * {@code senderAut} respectively {@code receiverAut} variable exists to capture the found automata. To capture the
-     * selected edge for both the sender and the receiver automaton, the {@code edgeVar} of the selected automata is
+     * selected edge for both the sender and the receiver automaton, the {@code edgeVar} of the selected automaton is
      * used.
      * </p>
      * <p>
@@ -614,7 +614,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * END_IF;
      *
      * // Test code for other syncer automata omitted.
-     * </pre> Performing the chosen edge is implemented by selection of the value of an {@code edgeVar} variable of the
+     * </pre> Performing the chosen edge is implemented by selection on the value of an {@code edgeVar} variable of the
      * automaton. Within that branch, the updates of the chosen edge are then performed.
      * </p>
      *
@@ -637,7 +637,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Get the variable that stores the selected edge index for the automaton.
             PlcBasicVariable autEdgeVar = getAutomatonEdgeVariable(transAut.aut);
 
-            List<PlcStatement> autTestCode = list(); // Intermediate Storage for test code of the automaton.
+            // Initialize intermediate storage for test code of the automaton.
+            List<PlcStatement> autTestCode = list();
 
             // Generate edge testing code.
             autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, eventEnabledVar));
