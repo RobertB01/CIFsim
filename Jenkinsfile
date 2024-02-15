@@ -212,6 +212,9 @@ pipeline {
                         mkdir -p deploy/www/${RELEASE_VERSION}
                         unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/
 
+                        # Go to website repo checkout.
+                        cd deploy/www
+
                         # Add website to '.versions' file, if not already present.
                         grep -Fxq "${RELEASE_VERSION}" .versions
                         if [ $? -ne 0 ]; then
@@ -219,14 +222,12 @@ pipeline {
                         fi
 
                         # Commit and push changes to website Git repo.
-                        cd deploy/www
                         git config user.email "escet-bot@eclipse.org"
                         git config user.name "genie.escet"
                         git config push.default simple # Required to silence Git push warning.
                         git add -A
                         git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}."
                         git push
-                        cd ../..
                     '''
                 }
             }
