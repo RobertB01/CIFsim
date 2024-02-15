@@ -154,7 +154,7 @@ public class DefaultNameGenerator implements NameGenerator {
      * bad part is a sequence of non-letter and non-digit characters. Each good part is forced to start with a letter.
      * </p>
      * <p>
-     * The good parts ore copied, and get separated with an underscore character.
+     * The good parts are copied, and get separated with an underscore character.
      * </p>
      *
      * @param text Input text to clean up.
@@ -179,7 +179,7 @@ public class DefaultNameGenerator implements NameGenerator {
                 sb.append(DEFAULT_CHAR);
             }
 
-            // Copy the good characters, update the read index, and bail out of the end has been reached.
+            // Copy the good characters, update the read index, and bail out if the end has been reached.
             sb.append(data, inputIndex, length); // May do nothing in the first iteration.
             inputIndex += length;
             if (inputIndex == data.length) {
@@ -202,11 +202,11 @@ public class DefaultNameGenerator implements NameGenerator {
     }
 
     /**
-     * Find a sequence of good characters (letters or digits) in the 'data' array at 'index'.
+     * Find a sequence of good characters (letters or digits) in the {@code data} array at {@code index}.
      *
      * @param data Characters to explore.
      * @param index Index to start the search.
-     * @return Number of found good characters starting from 'data[index]'.
+     * @return Number of found good characters starting from {@code data[index]}.
      */
     private int matchGoodChars(char[] data, int index) {
         int endIndex = index;
@@ -222,11 +222,11 @@ public class DefaultNameGenerator implements NameGenerator {
     }
 
     /**
-     * Find a sequence of bad characters (anything else but letters or digits) in the 'data' array at 'index'.
+     * Find a sequence of bad characters (anything else but letters or digits) in the {@code data} array at {@code index}.
      *
      * @param data Characters to explore.
      * @param index Index to start the search.
-     * @return Number of found bad characters starting from 'data[index]'.
+     * @return Number of found bad characters starting from {@code data[index]}.
      */
     private int matchBadChars(char[] data, int index) {
         int endIndex = index;
@@ -258,7 +258,7 @@ public class DefaultNameGenerator implements NameGenerator {
 
         String[] functionBlockNames = new String[] { //
                 "rs", "sr", // Set/reset.
-                "tp", "ton", "tof", // Timers.
+                "ton", "tof", "tp", // Timers.
                 "iec_timer", // Timers S7.
                 "f_trig", "r_trig", // Edge detection.
                 "ctu", "ctu_dint", "ctu_lint", "ctu_udint", "ctu_ulint", // Up counters.
