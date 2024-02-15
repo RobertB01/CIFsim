@@ -101,6 +101,38 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: none;
 }
 
+/* Dropdown menus. */
+
+.dropdown-menu {
+  padding: 0;
+  border-color: #ddd;
+}
+
+.dropdown-header {
+  background: #f0f0f0;
+  border-style: solid;
+  border-width: 0;
+  border-left-width: 1px;
+  border-color: #ddd;
+}
+
+.dropdown-menu {
+  border-radius: .25rem;
+}
+
+.dropdown-menu li:first-child * {
+  border-radius: .25rem .25rem 0 0;
+}
+
+ul.dropdown-menu li:last-child * {
+  border-radius: 0 0 .25rem .25rem;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: rgba(var(--escet-color-rgb),0.33);
+}
+
 /* Links. */
 
 a {
@@ -211,6 +243,7 @@ ul.escet-arrow-icon-list {
 }
 
 /* Boxes. */
+
 .escet-box {
   /* Combine this with '.shadow'. */
   border-style: solid;

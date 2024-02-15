@@ -212,6 +212,12 @@ pipeline {
                         mkdir -p deploy/www/${RELEASE_VERSION}
                         unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/
 
+                        # Add website to '.versions' file, if not already present.
+                        grep -Fxq "${RELEASE_VERSION}" .versions
+                        if [ $? -ne 0 ]; then
+                            echo "${RELEASE_VERSION}" >> .versions
+                        fi
+
                         # Commit and push changes to website Git repo.
                         cd deploy/www
                         git config user.email "escet-bot@eclipse.org"
