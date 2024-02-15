@@ -196,7 +196,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (edgeSelectionVariables.containsKey(aut)) {
             return;
         }
-        String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), true);
+        String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
 
         // TODO: Use a smaller integer for edge indexing.
         PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
