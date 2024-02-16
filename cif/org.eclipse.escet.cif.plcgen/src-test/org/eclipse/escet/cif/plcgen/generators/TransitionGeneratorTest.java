@@ -346,7 +346,7 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF eventEnabled THEN
                     IF otherVar = 3 THEN
-                        syncAutEdge__1 := 1;
+                        syncAutEdge_1 := 1;
                     ELSE
                         eventEnabled := FALSE;
                     END_IF;
@@ -359,7 +359,7 @@ public class TransitionGeneratorTest {
                     ELSIF syncAutEdge = 2 THEN
                         otherVar := 3;
                     END_IF;
-                    IF syncAutEdge__1 = 1 THEN
+                    IF syncAutEdge_1 = 1 THEN
                         otherVar := 4;
                     END_IF;
                 END_IF;""";

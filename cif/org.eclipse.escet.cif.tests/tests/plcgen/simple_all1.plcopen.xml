@@ -41,7 +41,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct__1">
+      <dataType name="TupleStruct_1">
         <baseType>
           <struct>
             <variable name="field1">
@@ -57,7 +57,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct__2">
+      <dataType name="TupleStruct_2">
         <baseType>
           <struct>
             <variable name="field1">
@@ -135,12 +135,12 @@
             </variable>
             <variable name="p_v3">
               <type>
-                <derived name="TupleStruct__1"/>
+                <derived name="TupleStruct_1"/>
               </type>
             </variable>
             <variable name="p_tv">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="p_j">
@@ -205,12 +205,12 @@
             </variable>
             <variable name="current_p_tv">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="current_p_v3">
               <type>
-                <derived name="TupleStruct__1"/>
+                <derived name="TupleStruct_1"/>
               </type>
             </variable>
             <variable name="current_p_ve">
@@ -238,19 +238,19 @@
                 <derived name="TupleStruct"/>
               </type>
             </variable>
-            <variable name="litStruct__1">
+            <variable name="litStruct_1">
               <type>
-                <derived name="TupleStruct__1"/>
+                <derived name="TupleStruct_1"/>
               </type>
             </variable>
-            <variable name="litStruct__2">
+            <variable name="litStruct_2">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="rightValue">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="syncAutEdge">
@@ -282,12 +282,12 @@ IF firstRun THEN
     p_v2 := litStruct;
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
-    litStruct__1.field1 := litStruct;
-    litStruct__1.field2 := 0.0;
-    p_v3 := litStruct__1;
-    litStruct__2.field1 := 0;
-    litStruct__2.field2 := 0;
-    p_tv := litStruct__2;
+    litStruct_1.field1 := litStruct;
+    litStruct_1.field2 := 0.0;
+    p_v3 := litStruct_1;
+    litStruct_2.field1 := 0;
+    litStruct_2.field2 := 0;
+    p_tv := litStruct_2;
     p_j := 0;
     p_r := 1000000.0;
     p_t := 0.0;
@@ -346,9 +346,9 @@ WHILE isProgress DO
         current_p_ve := p_ve;
         current_p_x := p_x;
         IF syncAutEdge = 1 THEN
-            litStruct__2.field1 := 1;
-            litStruct__2.field2 := 2;
-            p_tv := litStruct__2;
+            litStruct_2.field1 := 1;
+            litStruct_2.field2 := 2;
+            p_tv := litStruct_2;
             p := p_l6;
         ELSIF syncAutEdge = 2 THEN
             p_x := 3;
@@ -372,9 +372,9 @@ WHILE isProgress DO
         ELSIF syncAutEdge = 7 THEN
             litStruct.field1 := 1.2;
             litStruct.field2 := 3.4;
-            litStruct__1.field1 := litStruct;
-            litStruct__1.field2 := 5.6;
-            p_v3 := litStruct__1;
+            litStruct_1.field1 := litStruct;
+            litStruct_1.field2 := 5.6;
+            p_v3 := litStruct_1;
             p := p_l12;
         ELSIF syncAutEdge = 8 THEN
             p_j := current_p_j + 1;

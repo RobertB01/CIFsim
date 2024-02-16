@@ -12,7 +12,7 @@ ORGANIZATION_BLOCK MAIN
         isProgress: BOOL;
         litStruct: TupleStruct;
         syncAutEdge: DINT;
-        syncAutEdge__1: DINT;
+        syncAutEdge_1: DINT;
         timeOut: BOOL;
     END_VAR
 
@@ -215,9 +215,9 @@ BEGIN
         (* Try to perform event "aut.f". *)
         eventEnabled := TRUE;
         IF "DB".aut = 0 AND ("DB".aut_b OR "DB".aut_b) THEN
-            syncAutEdge__1 := 1;
+            syncAutEdge_1 := 1;
         ELSIF "DB".aut = 0 AND "DB".aut_b THEN
-            syncAutEdge__1 := 2;
+            syncAutEdge_1 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;

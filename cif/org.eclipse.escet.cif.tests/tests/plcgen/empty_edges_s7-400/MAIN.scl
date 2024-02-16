@@ -3,7 +3,7 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         channelValue: DINT;
         current_Good_x: DINT;
-        current_Good_x__1: DINT;
+        current_Good_x_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;
@@ -11,9 +11,9 @@ ORGANIZATION_BLOCK MAIN
         senderAut: DINT;
         senderEdge: DINT;
         syncAutEdge: DINT;
-        syncAutEdge__1: DINT;
-        syncAutEdge__2: DINT;
-        syncAutEdge__3: DINT;
+        syncAutEdge_1: DINT;
+        syncAutEdge_2: DINT;
+        syncAutEdge_3: DINT;
     END_VAR
 
 BEGIN
@@ -52,15 +52,15 @@ BEGIN
         (* Try to perform event "noMonitor". *)
         eventEnabled := TRUE;
         IF TRUE THEN
-            syncAutEdge__2 := 1;
+            syncAutEdge_2 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             isProgress := TRUE;
-            current_Good_x__1 := "DB".Good_x;
-            IF syncAutEdge__2 = 1 THEN
-                "DB".Good_x := (current_Good_x__1 + 5) MOD 6;
+            current_Good_x_1 := "DB".Good_x;
+            IF syncAutEdge_2 = 1 THEN
+                "DB".Good_x := (current_Good_x_1 + 5) MOD 6;
             END_IF;
         END_IF;
 
