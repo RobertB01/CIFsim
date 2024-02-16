@@ -50,6 +50,7 @@ function getVersions() {
     // Get trimmed sorted versions.
     var versions = versionsText.split(/\r?\n/);
     versions = versions.map(v => v.trim());
+    versions = versions.filter(v => v.length > 0);
     versions.sort(compareVersions);
     if (ESCET_DEBUG) {
         console.log('Versions: ' + versions.join(' '));
