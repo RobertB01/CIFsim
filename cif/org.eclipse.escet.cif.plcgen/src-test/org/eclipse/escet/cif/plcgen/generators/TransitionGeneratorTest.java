@@ -187,7 +187,7 @@ public class TransitionGeneratorTest {
                 IF senderAut = 0 THEN
                     IF TRUE THEN
                         senderAut := 1;
-                        edge_aut1__1 := 1;
+                        edge_aut1_1 := 1;
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
@@ -202,7 +202,7 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     IF senderAut = 1 THEN
-                        IF edge_aut1__1 = 1 THEN
+                        IF edge_aut1_1 = 1 THEN
                             channelValue := 1;
                         END_IF;
                     END_IF;
@@ -256,7 +256,7 @@ public class TransitionGeneratorTest {
                 IF senderAut = 0 THEN
                     IF TRUE THEN
                         senderAut := 1;
-                        edge_sender1__1 := 1;
+                        edge_sender1_1 := 1;
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
@@ -267,13 +267,13 @@ public class TransitionGeneratorTest {
                     IF receiverAut = 0 THEN
                         IF TRUE THEN
                             receiverAut := 1;
-                            edge_receiver1__1 := 1;
+                            edge_receiver1_1 := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
                         IF TRUE THEN
                             receiverAut := 2;
-                            edge_receiver2__1 := 1;
+                            edge_receiver2_1 := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
@@ -285,16 +285,16 @@ public class TransitionGeneratorTest {
                     current_otherVar := otherVar;
                     current_recVar := recVar;
                     IF senderAut = 1 THEN
-                        IF edge_sender1__1 = 1 THEN
+                        IF edge_sender1_1 = 1 THEN
                             channelValue := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 1 THEN
-                        IF edge_receiver1__1 = 1 THEN
+                        IF edge_receiver1_1 = 1 THEN
                             recVar := current_recVar + channelValue;
                         END_IF;
                     ELSIF receiverAut = 2 THEN
-                        IF edge_receiver2__1 = 1 THEN
+                        IF edge_receiver2_1 = 1 THEN
                             otherVar := channelValue;
                         END_IF;
                     END_IF;
@@ -352,15 +352,15 @@ public class TransitionGeneratorTest {
                 (* Try to perform event "event". *)
                 eventEnabled := TRUE;
                 IF otherVar = 1 THEN
-                    edge_syncer1__1 := 1;
+                    edge_syncer1_1 := 1;
                 ELSIF otherVar = 2 THEN
-                    edge_syncer1__1 := 2;
+                    edge_syncer1_1 := 2;
                 ELSE
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     IF otherVar = 3 THEN
-                        edge_syncer2__1 := 1;
+                        edge_syncer2_1 := 1;
                     ELSE
                         eventEnabled := FALSE;
                     END_IF;
@@ -368,12 +368,12 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
-                    IF edge_syncer1__1 = 1 THEN
+                    IF edge_syncer1_1 = 1 THEN
                         otherVar := 2;
-                    ELSIF edge_syncer1__1 = 2 THEN
+                    ELSIF edge_syncer1_1 = 2 THEN
                         otherVar := 3;
                     END_IF;
-                    IF edge_syncer2__1 = 1 THEN
+                    IF edge_syncer2_1 = 1 THEN
                         otherVar := 4;
                     END_IF;
                 END_IF;""";
@@ -457,14 +457,14 @@ public class TransitionGeneratorTest {
                 (* Try to perform event "event". *)
                 eventEnabled := TRUE;
                 IF TRUE THEN
-                    edge_aut__1 := 1;
+                    edge_aut_1 := 1;
                 ELSE
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
-                    IF edge_aut__1 = 1 THEN
+                    IF edge_aut_1 = 1 THEN
                         otherVar := 1;
                         otherVar := 2;
                     END_IF;
@@ -502,14 +502,14 @@ public class TransitionGeneratorTest {
                 (* Try to perform event "event". *)
                 eventEnabled := TRUE;
                 IF TRUE THEN
-                    edge_aut__1 := 1;
+                    edge_aut_1 := 1;
                 ELSE
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
-                    IF edge_aut__1 = 1 THEN
+                    IF edge_aut_1 = 1 THEN
                         rightValue := TRUE;
                         otherVar := rightValue.field1;
                         otherVar := rightValue.field2;

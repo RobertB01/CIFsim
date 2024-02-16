@@ -1,0 +1,386 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Model for a Patient Support System of a Magnetic Resonance Imaging (MRI) scanner from Philips Medical Systems. The
+// Patient Support System is used to position a patient in the MRI scanner. It consists primarily of the patient table,
+// on which the patient lies. The table is moved into a hole in the scanner, called the 'bore'. A user interface allows
+// medical personnel to operate the patient table. The table can be positioned manually, but there is also a
+// 'light-visor' for automatic positioning. The synthesized supervisor must ensure that the Patient Support System
+// operates safely, such that the MRI scanner is not damaged, and that the patient remains safe.
+//
+// This version of the model is a 'state-based' variant, in which note only automata that synchronize on events are
+// used, but also plant and requirement invariants. No variables, guards, and updates are used.
+
+// ====================
+// 6.2.1 Vertical Axis.
+// ====================
+
+controllable c_vMoveUp, c_vMoveDown;
+controllable c_vStop;
+uncontrollable u_vStopped;
+uncontrollable u_vDownOn, u_vDownOff;
+uncontrollable u_vUpOn, u_vUpOff;
+
+// Figure 6.1.
+plant VMotor:
+  location Stopped:
+    initial;
+    marked;
+    edge c_vMoveUp   goto MovingUp;
+    edge c_vMoveDown goto MovingDown;
+
+  location MovingUp:
+    edge c_vStop     goto StoppingUp;
+    edge c_vMoveDown goto MovingDown;
+
+  location MovingDown:
+    edge c_vStop     goto StoppingDown;
+    edge c_vMoveUp   goto MovingUp;
+
+  location StoppingUp:
+    edge u_vStopped  goto Stopped;
+
+  location StoppingDown:
+    edge u_vStopped  goto Stopped;
+end
+
+// Figure 6.2a.
+plant VUpSensor:
+  location Off:
+    initial;
+    marked;
+    edge u_vUpOn goto On;
+
+  location On:
+    initial;
+    marked;
+    edge u_vUpOff goto Off;
+end
+
+// Figure 6.2b.
+plant VDownSensor:
+  location Off:
+    initial;
+    marked;
+    edge u_vDownOn goto On;
+
+  location On:
+    initial;
+    marked;
+    edge u_vDownOff goto Off;
+end
+
+// Equation 6.1.
+plant invariant not(VUpSensor.On and VDownSensor.On);
+
+// Equation 6.2.
+plant invariant {u_vDownOff, u_vUpOn} needs VMotor.MovingUp or VMotor.StoppingUp;
+
+// Equation 6.3.
+plant invariant {u_vDownOn, u_vUpOff} needs VMotor.MovingDown or VMotor.StoppingDown;
+
+// ======================
+// 6.2.2 Horizontal axis.
+// ======================
+
+controllable c_hMoveIn, c_hMoveOut;
+controllable c_hStop;
+uncontrollable u_hStopped;
+controllable c_hClutchOn, c_hClutchOff;
+uncontrollable u_hTTROn, u_hTTROff;
+uncontrollable u_hOutOff, u_hOutOn;
+uncontrollable u_hInOn, u_hInOff;
+uncontrollable u_hTabletopOn, u_hTabletopOff;
+controllable c_mLedOn, c_mLedOff, c_mLedBlinkFast, c_mLedBlinkSlow;
+uncontrollable u_uManualPushed, u_uManualTimeout;
+
+// Figure 6.3.
+plant HMotor:
+  location Stopped:
+    initial;
+    marked;
+    edge c_hMoveIn  goto MovingIn;
+    edge c_hMoveOut goto MovingOut;
+
+  location MovingIn:
+    edge c_hStop    goto StoppingIn;
+    edge c_hMoveOut goto MovingOut;
+
+  location MovingOut:
+    edge c_hStop    goto StoppingOut;
+    edge c_hMoveIn  goto MovingIn;
+
+  location StoppingIn:
+    edge u_hStopped goto Stopped;
+
+  location StoppingOut:
+    edge u_hStopped goto Stopped;
+end
+
+// Figure 6.4a.
+plant HInSensor:
+  location Off:
+    initial;
+    marked;
+    edge u_hInOn goto On;
+
+  location On:
+    initial;
+    marked;
+    edge u_hInOff goto Off;
+end
+
+// Figure 6.4b.
+plant HOutSensor:
+  location On:
+    initial;
+    marked;
+    edge u_hOutOff goto Off;
+
+  location Off:
+    initial;
+    marked;
+    edge u_hOutOn goto On;
+end
+
+// Figure 6.4c.
+plant HTabletopSensor:
+  location Off:
+    initial;
+    marked;
+    edge u_hTabletopOn goto On;
+
+  location On:
+    initial;
+    marked;
+    edge u_hTabletopOff goto Off;
+end
+
+// Figure 6.5a.
+plant HClutch:
+  location Off:
+    initial;
+    marked;
+    edge c_hClutchOn goto On;
+
+  location On:
+    marked;
+    edge c_hClutchOff goto Off;
+end
+
+// Figure 6.5b.
+plant UIManualButton:
+  location Manual:
+    initial;
+    marked;
+    edge u_uManualPushed, u_uManualTimeout;
+end
+
+// Figure 6.5c.
+plant HTTRSwitch:
+  location Off:
+    initial;
+    marked;
+    edge u_hTTROn goto On;
+
+  location On:
+    initial;
+    marked;
+    edge u_hTTROff goto Off;
+end
+
+// Figure 6.6.
+plant UIManualLed:
+  location Off:
+    initial;
+    marked;
+    edge c_mLedOn goto On;
+    edge c_mLedBlinkFast goto BlinkFast;
+    edge c_mLedBlinkSlow goto BlinkSlow;
+
+  location On:
+    marked;
+    edge c_mLedOff goto Off;
+    edge c_mLedBlinkFast goto BlinkFast;
+    edge c_mLedBlinkSlow goto BlinkSlow;
+
+  location BlinkFast:
+    marked;
+    edge c_mLedOn goto On;
+    edge c_mLedOff goto Off;
+    edge c_mLedBlinkSlow goto BlinkSlow;
+
+  location BlinkSlow:
+    marked;
+    edge c_mLedOff goto Off;
+    edge c_mLedOn goto On;
+    edge c_mLedBlinkFast goto BlinkFast;
+end
+
+// Equation 6.4.
+plant invariant not(HInSensor.On and HOutSensor.On);
+
+// Equation 6.5.
+plant invariant HTabletopSensor.Off => HOutSensor.On;
+
+// Equation 6.6.
+plant invariant {u_hOutOn, u_hInOff} needs HClutch.Off or
+                                           HTTRSwitch.On or
+                                           HMotor.MovingOut or HMotor.StoppingOut;
+
+// Equation 6.7.
+plant invariant {u_hOutOff, u_hInOn} needs HClutch.Off or
+                                           HTTRSwitch.On or
+                                           HMotor.MovingIn or HMotor.StoppingIn;
+
+// ====================
+// 6.2.3 Tumble switch.
+// ====================
+
+uncontrollable u_uTumbleDown, u_uTumbleUp, u_uTumbleNeutral;
+
+plant UITumbleSwitch:
+  location Neutral:
+    initial;
+    marked;
+    edge u_uTumbleDown goto Down;
+    edge u_uTumbleUp   goto Up;
+
+  location Down:
+    edge u_uTumbleNeutral goto Neutral;
+
+  location Up:
+    edge u_uTumbleNeutral goto Neutral;
+end
+
+// ============================================
+// 6.3.1 Normal and restricted operating modes.
+// ============================================
+
+controllable c_nnormal;
+
+// Figure 6.8.
+requirement HVMode:
+  location Restricted:
+    initial;
+    edge u_hTTROn;
+    edge c_nnormal goto Normal;
+
+  location Normal:
+    marked;
+    edge u_hTTROn goto Restricted;
+end
+
+// Equation 6.8.
+requirement invariant HVMode.Normal => HTTRSwitch.Off and
+                                       (VUpSensor.On or HOutSensor.On);
+
+// ============================
+// 6.3.2 Vertical axis control.
+// ============================
+
+// Equation 6.9.
+requirement invariant c_vMoveUp   needs VUpSensor.Off and
+                                        UITumbleSwitch.Up and
+                                        HVMode.Normal;
+// Equation 6.10.
+requirement invariant c_vMoveDown needs VDownSensor.Off and
+                                        UITumbleSwitch.Down and
+                                        HVMode.Normal;
+// Equation 6.11.
+requirement invariant c_vStop     needs (VUpSensor.On and VMotor.MovingUp) or
+                                        (VDownSensor.On and VMotor.MovingDown) or
+                                        UITumbleSwitch.Neutral or
+                                        HVMode.Restricted;
+
+// ========================
+// Horizontal axis control.
+// ========================
+
+// Motor control.
+
+// Equation 6.12.
+requirement invariant c_hMoveIn needs HInSensor.Off and
+                                      UITumbleSwitch.Up and
+                                      HTabletopSensor.On and
+                                      HVMode.Normal;
+// Equation 6.13.
+requirement invariant c_hMoveOut needs HOutSensor.Off and
+                                       UITumbleSwitch.Down and
+                                       HTabletopSensor.On;
+// Equation 6.14.
+requirement invariant c_hStop needs (HInSensor.On and HMotor.MovingIn) or
+                                    (HOutSensor.On and HMotor.MovingOut) or
+                                    UITumbleSwitch.Neutral or
+                                    HTabletopSensor.Off or
+                                    HTTRSwitch.On;
+
+// Clutch control.
+
+// Figure 6.9.
+requirement UIManualClutch:
+  location Reset:
+    initial;
+    marked;
+    edge u_uManualTimeout;
+    edge u_uManualPushed goto Pushed;
+
+  location Pushed:
+    edge u_uManualPushed;
+    edge u_uManualTimeout goto Reset;
+    edge c_hClutchOn, c_hClutchOff goto Reset;
+end
+
+// Equation 6.15.
+requirement invariant not HMotor.Stopped => HClutch.On;
+
+// Equation 6.16.
+requirement invariant {c_hClutchOn, c_hClutchOff} needs HTTRSwitch.Off;
+
+// Led control.
+
+// Equation 6.17.
+requirement invariant c_mLedOn        needs HVMode.Normal     and HClutch.Off;
+
+// Equation 6.18.
+requirement invariant c_mLedOff       needs HVMode.Normal     and HClutch.On;
+
+// Equation 6.19
+requirement invariant c_mLedBlinkSlow needs HVMode.Restricted and HClutch.On;
+
+// Equation 6.20.
+requirement invariant c_mLedBlinkFast needs HVMode.Restricted and HClutch.Off;
+
+// ========================================
+// Tumble switch horizontal-vertical model.
+// ========================================
+
+// Figure 6.10.
+requirement UIHVSwitch:
+  location Neutral:
+    initial;
+    marked;
+    edge u_uTumbleNeutral;
+    edge c_hMoveIn, c_hMoveOut goto Horizontal;
+    edge c_vMoveUp, c_vMoveDown goto Vertical;
+
+  location Horizontal:
+    marked;
+    edge c_hMoveIn, c_hMoveOut;
+    edge u_uTumbleNeutral goto Neutral;
+
+  location Vertical:
+    marked;
+    edge c_vMoveUp, c_vMoveDown;
+    edge u_uTumbleNeutral goto Neutral;
+end

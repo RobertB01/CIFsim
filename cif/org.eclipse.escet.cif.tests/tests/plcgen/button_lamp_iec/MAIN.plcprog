@@ -13,24 +13,24 @@ END_VAR
 VAR_TEMP
     curValue: LREAL;
     current_hw_button: hw_button_location;
-    current_hw_button__1: hw_button_location;
+    current_hw_button_1: hw_button_location;
     current_hw_lamp: hw_lamp_location;
-    current_hw_lamp__1: hw_lamp_location;
+    current_hw_lamp_1: hw_lamp_location;
     current_hw_lamp_bit: BOOL;
-    current_hw_lamp_bit__1: BOOL;
+    current_hw_lamp_bit_1: BOOL;
     current_sup: sup_location;
-    current_sup__1: sup_location;
-    current_sup__2: sup_location;
-    current_sup__3: sup_location;
-    current_sup__4: sup_location;
-    current_sup__5: sup_location;
+    current_sup_1: sup_location;
+    current_sup_2: sup_location;
+    current_sup_3: sup_location;
+    current_sup_4: sup_location;
+    current_sup_5: sup_location;
     current_timer: timer_location;
-    current_timer__1: timer_location;
+    current_timer_1: timer_location;
     current_timer_t: LREAL;
-    edge_hw_button__1: DINT;
-    edge_hw_lamp__1: DINT;
-    edge_sup__1: DINT;
-    edge_timer__1: DINT;
+    edge_hw_button_1: DINT;
+    edge_hw_lamp_1: DINT;
+    edge_sup_1: DINT;
+    edge_timer_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
     timeOut: BOOL;
@@ -69,15 +69,15 @@ WHILE isProgress DO
     (* Try to perform event "timer.start". *)
     eventEnabled := TRUE;
     IF timer = timer_Idle THEN
-        edge_timer__1 := 1;
+        edge_timer_1 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         IF sup = sup_s3 THEN
-            edge_sup__1 := 1;
+            edge_sup_1 := 1;
         ELSIF sup = sup_s5 THEN
-            edge_sup__1 := 2;
+            edge_sup_1 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;
@@ -87,7 +87,7 @@ WHILE isProgress DO
         current_sup := sup;
         current_timer := timer;
         current_timer_t := timer_t;
-        IF edge_timer__1 = 1 THEN
+        IF edge_timer_1 = 1 THEN
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
             preset_timer_t := timer_t;
@@ -95,9 +95,9 @@ WHILE isProgress DO
             ton_timer_t(IN := TRUE, PT := preset_timer_t);
             timer := timer_Running;
         END_IF;
-        IF edge_sup__1 = 1 THEN
+        IF edge_sup_1 = 1 THEN
             sup := sup_s6;
-        ELSIF edge_sup__1 = 2 THEN
+        ELSIF edge_sup_1 = 2 THEN
             sup := sup_s7;
         END_IF;
     END_IF;
@@ -105,29 +105,29 @@ WHILE isProgress DO
     (* Try to perform event "timer.timeout". *)
     eventEnabled := TRUE;
     IF timer = timer_Running AND timer_t <= 0.0 THEN
-        edge_timer__1 := 1;
+        edge_timer_1 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         IF sup = sup_s6 THEN
-            edge_sup__1 := 1;
+            edge_sup_1 := 1;
         ELSIF sup = sup_s7 THEN
-            edge_sup__1 := 2;
+            edge_sup_1 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
-        current_sup__1 := sup;
-        current_timer__1 := timer;
-        IF edge_timer__1 = 1 THEN
+        current_sup_1 := sup;
+        current_timer_1 := timer;
+        IF edge_timer_1 = 1 THEN
             timer := timer_Idle;
         END_IF;
-        IF edge_sup__1 = 1 THEN
+        IF edge_sup_1 = 1 THEN
             sup := sup_s8;
-        ELSIF edge_sup__1 = 2 THEN
+        ELSIF edge_sup_1 = 2 THEN
             sup := sup_s9;
         END_IF;
     END_IF;
@@ -135,21 +135,21 @@ WHILE isProgress DO
     (* Try to perform event "button.push". *)
     eventEnabled := TRUE;
     IF sup = sup_s1 THEN
-        edge_sup__1 := 1;
+        edge_sup_1 := 1;
     ELSIF sup = sup_s4 THEN
-        edge_sup__1 := 2;
+        edge_sup_1 := 2;
     ELSIF sup = sup_s5 THEN
-        edge_sup__1 := 3;
+        edge_sup_1 := 3;
     ELSIF sup = sup_s7 THEN
-        edge_sup__1 := 4;
+        edge_sup_1 := 4;
     ELSIF sup = sup_s9 THEN
-        edge_sup__1 := 5;
+        edge_sup_1 := 5;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         IF hw_button = hw_button_Released AND hw_button_bit THEN
-            edge_hw_button__1 := 1;
+            edge_hw_button_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
@@ -157,19 +157,19 @@ WHILE isProgress DO
     IF eventEnabled THEN
         isProgress := TRUE;
         current_hw_button := hw_button;
-        current_sup__2 := sup;
-        IF edge_sup__1 = 1 THEN
+        current_sup_2 := sup;
+        IF edge_sup_1 = 1 THEN
             sup := sup_s2;
-        ELSIF edge_sup__1 = 2 THEN
+        ELSIF edge_sup_1 = 2 THEN
             sup := sup_s2;
-        ELSIF edge_sup__1 = 3 THEN
+        ELSIF edge_sup_1 = 3 THEN
             sup := sup_s3;
-        ELSIF edge_sup__1 = 4 THEN
+        ELSIF edge_sup_1 = 4 THEN
             sup := sup_s6;
-        ELSIF edge_sup__1 = 5 THEN
+        ELSIF edge_sup_1 = 5 THEN
             sup := sup_s8;
         END_IF;
-        IF edge_hw_button__1 = 1 THEN
+        IF edge_hw_button_1 = 1 THEN
             hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
@@ -177,41 +177,41 @@ WHILE isProgress DO
     (* Try to perform event "button.release". *)
     eventEnabled := TRUE;
     IF sup = sup_s2 THEN
-        edge_sup__1 := 1;
+        edge_sup_1 := 1;
     ELSIF sup = sup_s3 THEN
-        edge_sup__1 := 2;
+        edge_sup_1 := 2;
     ELSIF sup = sup_s6 THEN
-        edge_sup__1 := 3;
+        edge_sup_1 := 3;
     ELSIF sup = sup_s8 THEN
-        edge_sup__1 := 4;
+        edge_sup_1 := 4;
     ELSIF sup = sup_s10 THEN
-        edge_sup__1 := 5;
+        edge_sup_1 := 5;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         IF hw_button = hw_button_Pushed AND NOT hw_button_bit THEN
-            edge_hw_button__1 := 1;
+            edge_hw_button_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
-        current_hw_button__1 := hw_button;
-        current_sup__3 := sup;
-        IF edge_sup__1 = 1 THEN
+        current_hw_button_1 := hw_button;
+        current_sup_3 := sup;
+        IF edge_sup_1 = 1 THEN
             sup := sup_s4;
-        ELSIF edge_sup__1 = 2 THEN
+        ELSIF edge_sup_1 = 2 THEN
             sup := sup_s5;
-        ELSIF edge_sup__1 = 3 THEN
+        ELSIF edge_sup_1 = 3 THEN
             sup := sup_s7;
-        ELSIF edge_sup__1 = 4 THEN
+        ELSIF edge_sup_1 = 4 THEN
             sup := sup_s9;
-        ELSIF edge_sup__1 = 5 THEN
+        ELSIF edge_sup_1 = 5 THEN
             sup := sup_s1;
         END_IF;
-        IF edge_hw_button__1 = 1 THEN
+        IF edge_hw_button_1 = 1 THEN
             hw_button := hw_button_Released;
         END_IF;
     END_IF;
@@ -219,15 +219,15 @@ WHILE isProgress DO
     (* Try to perform event "lamp.on". *)
     eventEnabled := TRUE;
     IF sup = sup_s2 THEN
-        edge_sup__1 := 1;
+        edge_sup_1 := 1;
     ELSIF sup = sup_s4 THEN
-        edge_sup__1 := 2;
+        edge_sup_1 := 2;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         IF hw_lamp = hw_lamp_Off THEN
-            edge_hw_lamp__1 := 1;
+            edge_hw_lamp_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
@@ -236,13 +236,13 @@ WHILE isProgress DO
         isProgress := TRUE;
         current_hw_lamp := hw_lamp;
         current_hw_lamp_bit := hw_lamp_bit;
-        current_sup__4 := sup;
-        IF edge_sup__1 = 1 THEN
+        current_sup_4 := sup;
+        IF edge_sup_1 = 1 THEN
             sup := sup_s3;
-        ELSIF edge_sup__1 = 2 THEN
+        ELSIF edge_sup_1 = 2 THEN
             sup := sup_s5;
         END_IF;
-        IF edge_hw_lamp__1 = 1 THEN
+        IF edge_hw_lamp_1 = 1 THEN
             hw_lamp_bit := TRUE;
             hw_lamp := hw_lamp_On;
         END_IF;
@@ -251,30 +251,30 @@ WHILE isProgress DO
     (* Try to perform event "lamp.off". *)
     eventEnabled := TRUE;
     IF sup = sup_s8 THEN
-        edge_sup__1 := 1;
+        edge_sup_1 := 1;
     ELSIF sup = sup_s9 THEN
-        edge_sup__1 := 2;
+        edge_sup_1 := 2;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         IF hw_lamp = hw_lamp_On THEN
-            edge_hw_lamp__1 := 1;
+            edge_hw_lamp_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
-        current_hw_lamp__1 := hw_lamp;
-        current_hw_lamp_bit__1 := hw_lamp_bit;
-        current_sup__5 := sup;
-        IF edge_sup__1 = 1 THEN
+        current_hw_lamp_1 := hw_lamp;
+        current_hw_lamp_bit_1 := hw_lamp_bit;
+        current_sup_5 := sup;
+        IF edge_sup_1 = 1 THEN
             sup := sup_s10;
-        ELSIF edge_sup__1 = 2 THEN
+        ELSIF edge_sup_1 = 2 THEN
             sup := sup_s1;
         END_IF;
-        IF edge_hw_lamp__1 = 1 THEN
+        IF edge_hw_lamp_1 = 1 THEN
             hw_lamp_bit := FALSE;
             hw_lamp := hw_lamp_Off;
         END_IF;

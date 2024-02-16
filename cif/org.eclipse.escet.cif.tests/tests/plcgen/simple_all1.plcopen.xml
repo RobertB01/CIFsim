@@ -41,7 +41,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct__1">
+      <dataType name="TupleStruct_1">
         <baseType>
           <struct>
             <variable name="field1">
@@ -57,7 +57,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct__2">
+      <dataType name="TupleStruct_2">
         <baseType>
           <struct>
             <variable name="field1">
@@ -135,12 +135,12 @@
             </variable>
             <variable name="p_v3">
               <type>
-                <derived name="TupleStruct__1"/>
+                <derived name="TupleStruct_1"/>
               </type>
             </variable>
             <variable name="p_tv">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="p_j">
@@ -205,12 +205,12 @@
             </variable>
             <variable name="current_p_tv">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="current_p_v3">
               <type>
-                <derived name="TupleStruct__1"/>
+                <derived name="TupleStruct_1"/>
               </type>
             </variable>
             <variable name="current_p_ve">
@@ -223,7 +223,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="edge_p__1">
+            <variable name="edge_p_1">
               <type>
                 <DINT/>
               </type>
@@ -243,19 +243,19 @@
                 <derived name="TupleStruct"/>
               </type>
             </variable>
-            <variable name="litStruct__1">
+            <variable name="litStruct_1">
               <type>
-                <derived name="TupleStruct__1"/>
+                <derived name="TupleStruct_1"/>
               </type>
             </variable>
-            <variable name="litStruct__2">
+            <variable name="litStruct_2">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="rightValue">
               <type>
-                <derived name="TupleStruct__2"/>
+                <derived name="TupleStruct_2"/>
               </type>
             </variable>
             <variable name="timeOut">
@@ -282,12 +282,12 @@ IF firstRun THEN
     p_v2 := litStruct;
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
-    litStruct__1.field1 := litStruct;
-    litStruct__1.field2 := 0.0;
-    p_v3 := litStruct__1;
-    litStruct__2.field1 := 0;
-    litStruct__2.field2 := 0;
-    p_tv := litStruct__2;
+    litStruct_1.field1 := litStruct;
+    litStruct_1.field2 := 0.0;
+    p_v3 := litStruct_1;
+    litStruct_2.field1 := 0;
+    litStruct_2.field2 := 0;
+    p_tv := litStruct_2;
     p_j := 0;
     p_r := 1000000.0;
     p_t := 0.0;
@@ -311,27 +311,27 @@ WHILE isProgress DO
     (* Try to perform event "p.evt". *)
     eventEnabled := TRUE;
     IF p = p_l1 THEN
-        edge_p__1 := 1;
+        edge_p_1 := 1;
     ELSIF p = p_l6 THEN
-        edge_p__1 := 2;
+        edge_p_1 := 2;
     ELSIF p = p_l7 THEN
-        edge_p__1 := 3;
+        edge_p_1 := 3;
     ELSIF p = p_l8 THEN
-        edge_p__1 := 4;
+        edge_p_1 := 4;
     ELSIF p = p_l9 THEN
-        edge_p__1 := 5;
+        edge_p_1 := 5;
     ELSIF p = p_l10 THEN
-        edge_p__1 := 6;
+        edge_p_1 := 6;
     ELSIF p = p_l11 THEN
-        edge_p__1 := 7;
+        edge_p_1 := 7;
     ELSIF p = p_l12 THEN
-        edge_p__1 := 8;
+        edge_p_1 := 8;
     ELSIF p = p_l13 THEN
-        edge_p__1 := 9;
+        edge_p_1 := 9;
     ELSIF p = p_l14 THEN
-        edge_p__1 := 10;
+        edge_p_1 := 10;
     ELSIF p = p_l15 THEN
-        edge_p__1 := 11;
+        edge_p_1 := 11;
     ELSE
         eventEnabled := FALSE;
     END_IF;
@@ -345,49 +345,49 @@ WHILE isProgress DO
         current_p_v3 := p_v3;
         current_p_ve := p_ve;
         current_p_x := p_x;
-        IF edge_p__1 = 1 THEN
-            litStruct__2.field1 := 1;
-            litStruct__2.field2 := 2;
-            p_tv := litStruct__2;
+        IF edge_p_1 = 1 THEN
+            litStruct_2.field1 := 1;
+            litStruct_2.field2 := 2;
+            p_tv := litStruct_2;
             p := p_l6;
-        ELSIF edge_p__1 = 2 THEN
+        ELSIF edge_p_1 = 2 THEN
             p_x := 3;
             p_j := 4;
             p := p_l7;
-        ELSIF edge_p__1 = 3 THEN
+        ELSIF edge_p_1 = 3 THEN
             rightValue := current_p_tv;
             p_x := rightValue.field1;
             p_j := rightValue.field2;
             p := p_l8;
-        ELSIF edge_p__1 = 4 THEN
+        ELSIF edge_p_1 = 4 THEN
             p_tv.field1 := 5;
             p := p_l9;
-        ELSIF edge_p__1 = 5 THEN
+        ELSIF edge_p_1 = 5 THEN
             p_tv.field2 := 6;
             p_j := 7;
             p := p_l10;
-        ELSIF edge_p__1 = 6 THEN
+        ELSIF edge_p_1 = 6 THEN
             p_v3.field1.field2 := 7.8;
             p := p_l11;
-        ELSIF edge_p__1 = 7 THEN
+        ELSIF edge_p_1 = 7 THEN
             litStruct.field1 := 1.2;
             litStruct.field2 := 3.4;
-            litStruct__1.field1 := litStruct;
-            litStruct__1.field2 := 5.6;
-            p_v3 := litStruct__1;
+            litStruct_1.field1 := litStruct;
+            litStruct_1.field2 := 5.6;
+            p_v3 := litStruct_1;
             p := p_l12;
-        ELSIF edge_p__1 = 8 THEN
+        ELSIF edge_p_1 = 8 THEN
             p_j := current_p_j + 1;
             p := p_l13;
-        ELSIF edge_p__1 = 9 THEN
+        ELSIF edge_p_1 = 9 THEN
             p_b := FALSE;
             p := p_l14;
-        ELSIF edge_p__1 = 10 THEN
+        ELSIF edge_p_1 = 10 THEN
             IF NOT current_p_b THEN
                 p_ve := g_LIT2;
             END_IF;
             p := p_l15;
-        ELSIF edge_p__1 = 11 THEN
+        ELSIF edge_p_1 = 11 THEN
             p_r := DINT_TO_LREAL(g_inp) + 10.0;
             p := p_l16;
         END_IF;

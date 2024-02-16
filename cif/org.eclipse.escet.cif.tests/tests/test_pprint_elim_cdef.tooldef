@@ -77,7 +77,7 @@ for test in tests:
 
     // Pretty print (1st test).
     list string options1 = [test] + options + ["-o", file1_out_real];
-    outln("Testing \"%s\" (1/3)...", test);
+    outln("Testing \"%s\" (1/4)...", test);
     cif2cif(options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
 
     // Compare stdout/stderr.
@@ -112,8 +112,8 @@ for test in tests:
         string file2_out_real = file1_out_real;
 
         // Pretty print (second time).
-        list string options2 = [file1_out_exp] + options + ["-o", file2_out_real];
-        outln("Testing \"%s\" (2/3)...", test);
+        list string options2 = [file1_out_exp] + default_options + ["-o", file2_out_real];
+        outln("Testing \"%s\" (2/4)...", test);
         cif2cif(options2, stdout=test2_out_real, stderr=test2_err_real, ignoreNonZeroExitCode=true);
 
         // Compare stdout/stderr.
@@ -145,7 +145,7 @@ for test in tests:
 
     // Eliminate component definition/instantiation (3rd test).
     list string options3 = [test] + options + ["-o", file3_out_real, "-t elim-comp-def-inst"];
-    outln("Testing \"%s\" (3/3)...", test);
+    outln("Testing \"%s\" (3/4)...", test);
     cif2cif(options3, stdout=test3_out_real, stderr=test3_err_real, ignoreNonZeroExitCode=true);
 
     // Compare stdout/stderr.
@@ -154,7 +154,7 @@ for test in tests:
     bool file3_diff   = diff(file3_out_exp, file3_out_real, missingAsEmpty=true, warnOnDiff=true);
     if not stderr3_diff:: rmfile(test3_err_real);
     if not stdout3_diff:: rmfile(test3_out_real);
-    if not file3_diff::   rmfile(file3_out_real);
+    // Don't remove 'file3_out_real', as we need to check it still.
 
     // Update counts.
     diff_count = 0;
@@ -165,6 +165,31 @@ for test in tests:
     count = count + 1;
     if diff_count == 0:: successes = successes + 1;
     if diff_count > 0:: failures = failures + 1;
+
+    // Check elim result (4th test).
+    if diff_count == 0:
+        // Get paths.
+        string file4_out_real = chfileext(test, "cif", "elim2.out.real.cif");
+
+        // Run check.
+        list string options4 = [file3_out_real] + default_options + ["--output-mode=error", "-o", file4_out_real];
+        outln("Testing \"%s\" (4/4)...", test);
+        int exit_code4 = cif2cif(options4, ignoreNonZeroExitCode=true);
+
+        // Check output.
+        bool exit_code4_ok = (exit_code4 == 0);
+        bool file4_written = isfile(file4_out_real) and filesize(file4_out_real) > 0;
+        bool check_ok = exit_code4_ok and file4_written;
+
+        // Cleanup.
+        if not file3_diff:: if exists(file3_out_real):: rmfile(file3_out_real);
+        if check_ok and exists(file4_out_real):: rmfile(file4_out_real);
+
+        // Update counts.
+        count = count + 1;
+        if     check_ok:: successes = successes + 1;
+        if not check_ok:: failures = failures + 1;
+    end
 end
 
 // Get result message.

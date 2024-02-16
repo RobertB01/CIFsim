@@ -8,7 +8,7 @@ END_VAR
 VAR_TEMP
     curValue: LREAL;
     current_p_t: LREAL;
-    edge_p__1: DINT;
+    edge_p_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
     timeOut: BOOL;
@@ -40,14 +40,14 @@ WHILE isProgress DO
     (* Try to perform event "e". *)
     eventEnabled := TRUE;
     IF p_t <= 1.0 AND p_x = 5 THEN
-        edge_p__1 := 1;
+        edge_p_1 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
         current_p_t := p_t;
-        IF edge_p__1 = 1 THEN
+        IF edge_p_1 = 1 THEN
             p_t := 7.0;
             (* Reset timer of "p_t". *)
             preset_p_t := p_t;

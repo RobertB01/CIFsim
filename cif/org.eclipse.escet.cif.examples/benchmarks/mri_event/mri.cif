@@ -1,0 +1,665 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2014, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Model for a Patient Support System of a Magnetic Resonance Imaging (MRI) scanner from Philips Medical Systems. The
+// Patient Support System is used to position a patient in the MRI scanner. It consists primarily of the patient table,
+// on which the patient lies. The table is moved into a hole in the scanner, called the 'bore'. A user interface allows
+// medical personnel to operate the patient table. The table can be positioned manually, but there is also a
+// 'light-visor' for automatic positioning. The synthesized supervisor must ensure that the Patient Support System
+// operates safely, such that the MRI scanner is not damaged, and that the patient remains safe.
+//
+// This version of the model is a traditional 'event-based' variant, in which only automata that synchronize on events
+// are used. No variables, guards, updates, or invariants are used.
+
+// =================================
+// VAxis plants
+// =================================
+
+controllable c_vMoveUp, c_vMoveDown; // vMove
+controllable c_vStopUp, c_vStopDown, c_vStopTTR, c_vStopTumble; // vStop
+uncontrollable u_vStopped;
+uncontrollable u_vDownOn, u_vDownOff;
+uncontrollable u_vUpOn, u_vUpOff;
+
+plant VActuators:
+  location VertStopped:
+    initial;
+    marked;
+    edge c_vMoveUp, c_vMoveDown goto VertMoving;
+
+  location VertMoving:
+    edge c_vMoveUp, c_vMoveDown;
+    edge c_vStopUp, c_vStopDown, c_vStopTTR, c_vStopTumble goto VertStopping;
+
+  location VertStopping:
+    edge u_vStopped goto VertStopped;
+end
+
+plant VDownSensor:
+  location VertDownOff:
+    initial;
+    marked;
+    edge u_vDownOn goto VertDownOn;
+
+  location VertDownOn:
+    marked;
+    edge u_vDownOff goto VertDownOff;
+end
+
+plant VUpSensor:
+  location VertUpOff:
+    initial;
+    marked;
+    edge u_vUpOn goto VertUpOn;
+
+  location VertUpOn:
+    marked;
+    edge u_vUpOff goto VertUpOff;
+end
+
+plant VSensorRelation:
+  location VertMid:
+    initial;
+    marked;
+    edge u_vDownOn goto VertDown;
+    edge u_vUpOn goto VertUp;
+
+  location VertDown:
+    marked;
+    edge u_vDownOff goto VertMid;
+
+  location VertUp:
+    marked;
+    edge u_vUpOff goto VertMid;
+end
+
+plant VMotorSensorRelation:
+  location VertStopped:
+    initial;
+    marked;
+    edge c_vMoveDown goto VertMoveDown;
+    edge c_vMoveUp goto VertMoveUp;
+
+  location VertMoveDown:
+    marked;
+    edge u_vDownOn, u_vUpOff;
+    edge c_vMoveUp goto VertMoveUp;
+    edge u_vStopped goto VertStopped;
+
+  location VertMoveUp:
+    marked;
+    edge u_vDownOff, u_vUpOn;
+    edge c_vMoveDown goto VertMoveDown;
+    edge u_vStopped goto VertStopped;
+end
+
+// =================================
+// HAxis plants
+// =================================
+
+controllable c_hMoveIn, c_hMoveOut; // hMove
+controllable c_hStopIn, c_hStopOut, c_hStopTTR, c_hStopTabletop, c_hStopTumble; // hStop
+uncontrollable u_hStopped;
+controllable c_hClutchOn, c_hClutchOff; // hClutch
+uncontrollable u_hTTROn, u_hTTROff;
+uncontrollable u_hOutOff, u_hOutOn;
+uncontrollable u_hInOn, u_hInOff;
+uncontrollable u_hTabletopOn, u_hTabletopOff;
+
+plant HMotor:
+  location HorStopped:
+    initial;
+    marked;
+    edge c_hMoveIn, c_hMoveOut goto HorMoving;
+
+  location HorMoving:
+    edge c_hMoveIn, c_hMoveOut;
+    edge c_hStopIn, c_hStopOut, c_hStopTTR, c_hStopTabletop, c_hStopTumble goto HorStopping;
+
+  location HorStopping:
+    edge u_hStopped goto HorStopped;
+end
+
+plant HClutch:
+  location Clutch:
+    initial;
+    marked;
+    edge c_hClutchOn, c_hClutchOff;
+end
+
+plant HTTRSwitch:
+  location TTROff:
+    initial;
+    marked;
+    edge u_hTTROn goto TTROn;
+
+  location TTROn:
+    marked;
+    edge u_hTTROff goto TTROff;
+end
+
+plant HOutSensor:
+  location HorOutOn:
+    initial;
+    marked;
+    edge u_hOutOff goto HorOutOff;
+
+  location HorOutOff:
+    marked;
+    edge u_hOutOn goto HorOutOn;
+end
+
+plant HInSensor:
+  location HorInOff:
+    initial;
+    marked;
+    edge u_hInOn goto HorInOn;
+
+  location HorInOn:
+    marked;
+    edge u_hInOff goto HorInOff;
+end
+
+plant HTabletopSensor:
+  location TTOff:
+    initial;
+    marked;
+    edge u_hTabletopOn goto TTOn;
+
+  location TTOn:
+    marked;
+    edge u_hTabletopOff goto TTOff;
+end
+
+plant HSensorRelation:
+  location TTOff:
+    initial;
+    marked;
+    edge u_hTabletopOn goto HOutTTOn;
+
+  location HOutTTOn:
+    marked;
+    edge u_hTabletopOff goto TTOff;
+    edge u_hOutOff goto HorMid;
+
+  location HorMid:
+    marked;
+    edge u_hOutOn goto HOutTTOn;
+    edge u_hInOn goto HorIn;
+
+  location HorIn:
+    marked;
+    edge u_hInOff goto HorMid;
+end
+
+plant HActuatorSensorRelations:
+  location OffOffStopped:
+    initial;
+    marked;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge c_hClutchOn goto OnOffStopped;
+    edge u_hTTROn goto OffOnStopped;
+    edge c_hMoveOut goto OffOffOut;
+    edge c_hMoveIn goto OffOffIn;
+
+  location OnOffStopped:
+    marked;
+    edge c_hClutchOff goto OffOffStopped;
+    edge u_hTTROn goto OnOnStopped;
+    edge c_hMoveOut goto OnOffOut;
+    edge c_hMoveIn goto OnOffIn;
+
+  location OffOnStopped:
+    marked;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge c_hClutchOn goto OnOnStopped;
+    edge u_hTTROff goto OffOffStopped;
+    edge c_hMoveOut goto OffOnOut;
+    edge c_hMoveIn goto OffOnIn;
+
+  location OnOnStopped:
+    marked;
+    edge c_hClutchOff goto OffOnStopped;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge u_hTTROff goto OnOffStopped;
+    edge c_hMoveOut goto OnOnOut;
+    edge c_hMoveIn goto OnOnIn;
+
+  location OffOffOut:
+    marked;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge c_hClutchOn goto OnOffOut;
+    edge u_hTTROn goto OffOnOut;
+    edge c_hMoveIn goto OffOffIn;
+    edge u_hStopped goto OffOffStopped;
+
+  location OnOffOut:
+    marked;
+    edge c_hClutchOff goto OffOffOut;
+    edge u_hTTROn goto OnOnOut;
+    edge c_hMoveIn goto OnOffIn;
+    edge u_hOutOn, u_hInOff;
+    edge u_hStopped goto OnOffStopped;
+
+  location OffOnOut:
+    marked;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge c_hClutchOn goto OnOnOut;
+    edge u_hTTROff goto OffOffOut;
+    edge c_hMoveIn goto OffOnIn;
+    edge u_hStopped goto OffOnStopped;
+
+  location OnOnOut:
+    marked;
+    edge c_hClutchOff goto OffOnOut;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge u_hTTROff goto OnOffOut;
+    edge c_hMoveIn goto OnOnIn;
+    edge u_hStopped goto OnOnStopped;
+
+  location OffOffIn:
+    marked;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge c_hClutchOn goto OnOffIn;
+    edge u_hTTROn goto OffOnIn;
+    edge c_hMoveOut goto OffOffOut;
+    edge u_hStopped goto OffOffStopped;
+
+  location OnOffIn:
+    marked;
+    edge c_hClutchOff goto OffOffIn;
+    edge u_hTTROn goto OnOnIn;
+    edge c_hMoveOut goto OnOffOut;
+    edge u_hOutOff, u_hInOn;
+    edge u_hStopped goto OnOffStopped;
+
+  location OffOnIn:
+    marked;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge c_hClutchOn goto OnOnIn;
+    edge u_hTTROff goto OffOffIn;
+    edge c_hMoveOut goto OffOnOut;
+    edge u_hStopped goto OffOnStopped;
+
+  location OnOnIn:
+    marked;
+    edge c_hClutchOff goto OffOnIn;
+    edge u_hInOn, u_hInOff, u_hOutOn, u_hOutOff;
+    edge u_hTTROff goto OnOffIn;
+    edge c_hMoveOut goto OffOnOut;
+    edge u_hStopped goto OnOnStopped;
+end
+
+// =================================
+// HVNormal plant
+// =================================
+
+controllable c_nnormal;
+
+plant HVNormal:
+  location Normal:
+    initial;
+    marked;
+    edge c_nnormal;
+end
+
+// =================================
+// UI plants
+// =================================
+
+uncontrollable u_uTumbleDown, u_uTumbleUp, u_uTumbleNeutral;
+controllable c_mLedOn, c_mLedOff, c_mLedBlinkFast, c_mLedBlinkSlow;
+uncontrollable u_uManualPushed, u_uManualTimeout;
+
+plant UITumbleSwitch:
+  location TumbNeutral:
+    initial;
+    marked;
+    edge u_uTumbleDown goto TumbDown;
+    edge u_uTumbleUp goto TumbUp;
+
+  location TumbDown:
+    edge u_uTumbleNeutral goto TumbNeutral;
+
+  location TumbUp:
+    edge u_uTumbleNeutral goto TumbNeutral;
+end
+
+plant UIManualButton:
+  location:
+    initial;
+    marked;
+    edge u_uManualPushed, u_uManualTimeout;
+end
+
+plant UIManualLED:
+  location:
+    initial;
+    marked;
+    edge c_mLedOn, c_mLedOff, c_mLedBlinkFast, c_mLedBlinkSlow;
+end
+
+// =================================
+// VAxis requirements
+// =================================
+
+requirement vStopDown:
+  location VertDownOff:
+    initial;
+    marked;
+    edge c_vMoveDown;
+    edge u_vDownOn goto VertDownOn;
+
+  location VertDownOn:
+    marked;
+    edge c_vStopDown;
+    edge u_vDownOff goto VertDownOff;
+end
+
+requirement vStopUp:
+  location VertUpOff:
+    initial;
+    marked;
+    edge c_vMoveUp;
+    edge u_vUpOn goto VertUpOn;
+
+  location VertUpOn:
+    marked;
+    edge c_vStopUp;
+    edge u_vUpOff goto VertUpOff;
+end
+
+requirement vStopUpDown:
+  location VertStopped:
+    initial;
+    marked;
+    edge c_vMoveDown goto VertMoveDown;
+    edge c_vMoveUp goto VertMoveUp;
+
+  location VertMoveDown:
+    marked;
+    edge c_vStopDown;
+    edge c_vMoveUp goto VertMoveUp;
+    edge u_vStopped goto VertStopped;
+
+  location VertMoveUp:
+    marked;
+    edge c_vStopUp;
+    edge c_vMoveDown goto VertMoveDown;
+    edge u_vStopped goto VertStopped;
+end
+
+// =================================
+// HAxis requirements
+// =================================
+
+requirement hStopOut:
+  location HorOutOn:
+    initial;
+    marked;
+    edge c_hStopOut;
+    edge u_hOutOff goto HorOutOff;
+
+  location HorOutOff:
+    marked;
+    edge c_hMoveOut;
+    edge u_hOutOn goto HorOutOn;
+end
+
+requirement hStopIn:
+  location HorInOff:
+    initial;
+    marked;
+    edge c_hMoveIn;
+    edge u_hInOn goto HorInOn;
+
+  location HorInOn:
+    marked;
+    edge c_hStopIn;
+    edge u_hInOff goto HorInOff;
+end
+
+requirement hStopInOut:
+  location HorStopped:
+    initial;
+    marked;
+    edge c_hMoveOut goto HorMoveOut;
+    edge c_hMoveIn goto HorMoveIn;
+
+  location HorMoveOut:
+    marked;
+    edge c_hStopOut;
+    edge c_hMoveIn goto HorMoveIn;
+    edge u_hStopped goto HorStopped;
+
+  location HorMoveIn:
+    marked;
+    edge c_hStopIn;
+    edge c_hMoveOut goto HorMoveOut;
+    edge u_hStopped goto HorStopped;
+end
+
+requirement hStopTabletop:
+  location TTOff:
+    initial; 
+    marked;
+    edge c_hStopTabletop;
+    edge u_hTabletopOn goto TTOn;
+
+  location TTOn:
+    marked;
+    edge c_hMoveIn, c_hMoveOut;
+    edge u_hTabletopOff goto TTOff;
+end
+
+requirement hStopTTR:
+  location TTROff:
+    initial;
+    marked;
+    edge c_hMoveIn, c_hMoveOut;
+    edge c_hClutchOn, c_hClutchOff;
+    edge u_hTTROn goto TTROn;
+
+  location TTROn:
+    marked;
+    edge c_hStopTTR;
+    edge u_hTTROff goto TTROff;
+end
+
+requirement HClutchMove:
+  location ClutchOff:
+    initial;
+    marked;
+    edge c_hClutchOn goto HStopCOn;
+
+  location HStopCOn:
+    marked;
+    edge c_hClutchOff goto ClutchOff;
+    edge c_hMoveIn, c_hMoveOut goto HMoving;
+
+  location HMoving:
+    marked;
+    edge c_hMoveIn, c_hMoveOut;
+    edge u_hStopped goto HStopCOn;
+end
+
+// =================================
+// HV requirements
+// =================================
+
+requirement HVMode:
+  location Restricted:
+    initial;
+    edge c_vStopTTR;
+    edge u_hTTROn;
+    edge c_nnormal goto Normal;
+
+  location Normal:
+    marked;
+    edge c_vMoveUp, c_vMoveDown, c_hMoveIn;
+    edge u_hTTROn goto Restricted;
+end
+
+requirement HVSafe:
+  location nVHnN:
+    initial;
+    marked;
+    edge u_hTTROn;
+    edge c_nnormal goto nVHN;
+    edge u_vUpOn goto VHnN;
+    edge u_hOutOff goto nVnHnN;
+
+  location nVHN:
+    marked;
+    edge u_hTTROn goto nVHnN;
+    edge u_vUpOn goto VHN;
+
+  location VHN:
+    marked;
+    edge u_vUpOff goto nVHN;
+    edge u_hTTROn goto VHnN;
+    edge u_hOutOff goto VnHN;
+
+  location VnHN:
+    marked;
+    edge u_hOutOn goto VHN;
+    edge u_hTTROn goto VnHnN;
+
+  location VnHnN:
+    marked;
+    edge u_hTTROn;
+    edge c_nnormal goto VnHN;
+    edge u_hOutOn goto VHnN;
+    edge u_vUpOff goto nVnHnN;
+
+  location nVnHnN:
+    marked;
+    edge u_hTTROn;
+    edge u_vUpOn goto VnHnN;
+    edge u_hOutOn goto nVHnN;
+
+  location VHnN:
+    marked;
+    edge u_hTTROn;
+    edge c_nnormal goto VHN;
+    edge u_hOutOff goto VnHnN;
+    edge u_vUpOff goto nVHnN;
+end
+
+// =================================
+// UI requirements
+// =================================
+
+requirement UITumbleMove:
+  location TumbNeutral:
+    initial;
+    marked;
+    edge c_hStopTumble, c_vStopTumble;
+    edge u_uTumbleDown goto TumbDown;
+    edge u_uTumbleUp goto TumbUp;
+
+  location TumbDown:
+    marked;
+    edge c_hMoveOut, c_vMoveDown;
+    edge u_uTumbleNeutral goto TumbNeutral;
+
+  location TumbUp:
+    marked;
+    edge c_hMoveIn, c_vMoveUp;
+    edge u_uTumbleNeutral goto TumbNeutral;
+end
+
+requirement UIHVSwitch:
+  location Neutral:
+    initial;
+    marked;
+    edge u_uTumbleNeutral;
+    edge c_vMoveUp, c_vMoveDown goto Vertical;
+    edge c_hMoveIn, c_hMoveOut goto Horizontal;
+
+  location Vertical:
+    marked;
+    edge c_vMoveUp, c_vMoveDown;
+    edge u_uTumbleNeutral goto Neutral;
+
+  location Horizontal:
+    marked;
+    edge c_hMoveIn, c_hMoveOut;
+    edge u_uTumbleNeutral goto Neutral;
+end
+
+requirement UIManualClutch:
+  location NotPushed:
+    initial;
+    marked;
+    edge u_uManualTimeout;
+    edge u_uManualPushed goto Pushed;
+
+  location Pushed:
+    edge u_uManualPushed;
+    edge u_uManualTimeout goto NotPushed;
+    edge c_hClutchOn, c_hClutchOff goto NotPushed;
+end
+
+requirement UILedModes:
+  location Restricted:
+    initial;
+    marked;
+    edge c_mLedBlinkFast, c_mLedBlinkSlow, u_hTTROn;
+    edge c_nnormal goto Normal;
+
+  location Normal:
+    marked;
+    edge c_mLedOff, c_mLedOn;
+    edge u_hTTROn goto Restricted;
+end
+
+requirement UILedClutch:
+  location ClutchOff:
+    initial;
+    marked;
+    edge c_mLedOn, c_mLedBlinkFast;
+    edge c_hClutchOn goto ClutchOn;
+
+  location ClutchOn:
+    marked;
+    edge c_mLedOff, c_mLedBlinkSlow;
+    edge c_hClutchOff goto ClutchOff;
+end
+
+requirement UILedSequence:
+  location Off:
+    initial;
+    marked;
+    edge c_mLedOn goto On;
+    edge c_mLedBlinkFast goto BlinkFast;
+    edge c_mLedBlinkSlow goto BlinkSlow;
+
+  location On:
+    marked;
+    edge c_mLedOff goto Off;
+    edge c_mLedBlinkFast goto BlinkFast;
+    edge c_mLedBlinkSlow goto BlinkSlow;
+
+  location BlinkFast:
+    marked;
+    edge c_mLedOn goto On;
+    edge c_mLedOff goto Off;
+    edge c_mLedBlinkSlow goto BlinkSlow;
+
+  location BlinkSlow:
+    marked;
+    edge c_mLedOff goto Off;
+    edge c_mLedOn goto On;
+    edge c_mLedBlinkFast goto BlinkFast;
+end
