@@ -122,7 +122,11 @@ function compareVersions(v1, v2) {
 function getPreviewVersions(versions, thisVersion) {
     var thisVersionIdx = versions.indexOf(thisVersion);
     var newerVersions = versions.slice(thisVersionIdx + 1);
-    return newerVersions.filter(v => v == 'nightly' || v.includes('-'));
+    var previewVersions = newerVersions.filter(v => v == 'nightly' || v.includes('-'));
+    if (!previewVersions.includes('nightly')) { // Make sure 'nightly' is present even on 'nightly' website.
+        previewVersions.push('nightly');
+    }
+    return previewVersions;
 }
 
 function getLatestReleasesVersions(versions) {
