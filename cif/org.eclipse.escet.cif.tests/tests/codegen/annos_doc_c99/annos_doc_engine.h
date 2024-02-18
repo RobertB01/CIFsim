@@ -113,11 +113,73 @@ extern BoolType a_i4_;
  */
 extern BoolType a_i5_;
 
+/** Continuous variable "real contvars.c1". */
+extern RealType contvars_c1_;
+
+/**
+ * Continuous variable "real contvars.c2".
+ *
+ * single line doc
+ */
+extern RealType contvars_c2_;
+
+/**
+ * Continuous variable "real contvars.c3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern RealType contvars_c3_;
+
+/**
+ * Continuous variable "real contvars.c4".
+ *
+ * some doc
+ */
+extern RealType contvars_c4_;
+
+/**
+ * Continuous variable "real contvars.c5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern RealType contvars_c5_;
+
 /* Algebraic and derivative functions (use for output only). */
+static inline RealType contvars_c1_deriv(void);
+static inline RealType contvars_c2_deriv(void);
+static inline RealType contvars_c3_deriv(void);
+static inline RealType contvars_c4_deriv(void);
+static inline RealType contvars_c5_deriv(void);
 
 
+/** Derivative of "contvars.c1". */
+static inline RealType contvars_c1_deriv(void) {
+    return 1.0;
+}
 
+/** Derivative of "contvars.c2". */
+static inline RealType contvars_c2_deriv(void) {
+    return 2.0;
+}
 
+/** Derivative of "contvars.c3". */
+static inline RealType contvars_c3_deriv(void) {
+    return 3.0;
+}
+
+/** Derivative of "contvars.c4". */
+static inline RealType contvars_c4_deriv(void) {
+    return 4.0;
+}
+
+/** Derivative of "contvars.c5". */
+static inline RealType contvars_c5_deriv(void) {
+    return 5.0;
+}
 
 
 /* Code entry points. */

@@ -1236,7 +1236,11 @@ struct WorkStruct {
 /* {{{ algvar, derivative, function declarations. */
 
 
-
+static real_T deriv01(SimStruct *sim_struct);
+static real_T deriv02(SimStruct *sim_struct);
+static real_T deriv03(SimStruct *sim_struct);
+static real_T deriv04(SimStruct *sim_struct);
+static real_T deriv05(SimStruct *sim_struct);
 
 
 /* }}} */
@@ -1247,7 +1251,50 @@ struct WorkStruct {
 /* }}} */
 
 /* {{{ Derivative definitions. */
+/** Derivative of "contvars.c1". */
+static real_T deriv01(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
 
+    return 1.0;
+}
+
+/** Derivative of "contvars.c2". */
+static real_T deriv02(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 2.0;
+}
+
+/** Derivative of "contvars.c3". */
+static real_T deriv03(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 3.0;
+}
+
+/** Derivative of "contvars.c4". */
+static real_T deriv04(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 4.0;
+}
+
+/** Derivative of "contvars.c5". */
+static real_T deriv05(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 5.0;
+}
 /* }}} */
 
 /* {{{ Function definitions. */
@@ -1286,7 +1333,13 @@ static void ClearInputFlags(struct WorkStruct *work) {
 }
 
 /* Time-dependent guards. */
+static BoolType GuardEval01(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
 
+    return (((((cstate[1]) > (0)) || ((cstate[2]) > (0))) || ((cstate[3]) > (0))) || ((cstate[4]) > (0))) || ((cstate[5]) > (0));
+}
 
 /* Event execution. */
 
@@ -1301,6 +1354,23 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
     real_T *cstate = ssGetContStates(sim_struct);
 
     BoolType guard = ((((work->a_i1_) || (work->a_i2_)) || (work->a_i3_)) || (work->a_i4_)) || (work->a_i5_);
+    if (!guard) return FALSE;
+
+
+    return TRUE;
+}
+
+/**
+ * Execute code for event "tau".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent1(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    BoolType guard = GuardEval01(sim_struct);
     if (!guard) return FALSE;
 
 
@@ -1335,21 +1405,26 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 5)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 10)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
     ssSetOutputPortWidth(sim_struct, 2, 1);
     ssSetOutputPortWidth(sim_struct, 3, 1);
     ssSetOutputPortWidth(sim_struct, 4, 1);
+    ssSetOutputPortWidth(sim_struct, 5, 1);
+    ssSetOutputPortWidth(sim_struct, 6, 1);
+    ssSetOutputPortWidth(sim_struct, 7, 1);
+    ssSetOutputPortWidth(sim_struct, 8, 1);
+    ssSetOutputPortWidth(sim_struct, 9, 1);
 
-    for (idx = 0; idx < 5; idx++) {
+    for (idx = 0; idx < 10; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
 
     /* Disc state and cont state. */
-    ssSetNumContStates(sim_struct, 1); /* CState[0] is time. */
+    ssSetNumContStates(sim_struct, 6); /* CState[0] is time. */
     ssSetNumDiscStates(sim_struct, 0);
 
     /* Work vectors. */
@@ -1361,7 +1436,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumModes(sim_struct, 0);
 
     ssSetNumSampleTimes(sim_struct, 1);
-    ssSetNumNonsampledZCs(sim_struct, 0);
+    ssSetNumNonsampledZCs(sim_struct, 1);
 
     ssSetOptions(sim_struct, 0);
 }
@@ -1406,12 +1481,17 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     work->a_i3_ = FALSE;
     work->a_i4_ = FALSE;
     work->a_i5_ = FALSE;
+    cstate[1] = 0.0;
+    cstate[2] = 0.0;
+    cstate[3] = 0.0;
+    cstate[4] = 0.0;
+    cstate[5] = 0.0;
 }
 #endif
 /* }}} */
 
 /* {{{ mdlZeroCrossings */
-#undef MDL_ZERO_CROSSINGS
+#define MDL_ZERO_CROSSINGS
 #if defined(MDL_ZERO_CROSSINGS) && (defined(MATLAB_MEX_FILE) || defined(NRT))
 static void mdlZeroCrossings(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1420,7 +1500,7 @@ static void mdlZeroCrossings(SimStruct *sim_struct) {
     ClearInputFlags(work);
     real_T *zcSignals = ssGetNonsampledZCs(sim_struct);
 
-
+    zcSignals[0] = GuardEval01(sim_struct);
 }
 #endif
 /* }}} */
@@ -1436,6 +1516,11 @@ static void mdlDerivatives(SimStruct *sim_struct) {
     real_T *derivs = ssGetdX(sim_struct);
 
     derivs[0] = 1.0;
+    derivs[1] = deriv01(sim_struct);
+    derivs[2] = deriv02(sim_struct);
+    derivs[3] = deriv03(sim_struct);
+    derivs[4] = deriv04(sim_struct);
+    derivs[5] = deriv05(sim_struct);
 }
 #endif
 /* }}} */
@@ -1450,18 +1535,33 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
 
     real_T *y;
     y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = BoolToSimulink(work->a_i1_);
+    *y = RealToSimulink(cstate[1]);
 
     y = ssGetOutputPortSignal(sim_struct, 1);
-    *y = BoolToSimulink(work->a_i2_);
+    *y = RealToSimulink(cstate[2]);
 
     y = ssGetOutputPortSignal(sim_struct, 2);
-    *y = BoolToSimulink(work->a_i3_);
+    *y = RealToSimulink(cstate[3]);
 
     y = ssGetOutputPortSignal(sim_struct, 3);
-    *y = BoolToSimulink(work->a_i4_);
+    *y = RealToSimulink(cstate[4]);
 
     y = ssGetOutputPortSignal(sim_struct, 4);
+    *y = RealToSimulink(cstate[5]);
+
+    y = ssGetOutputPortSignal(sim_struct, 5);
+    *y = BoolToSimulink(work->a_i1_);
+
+    y = ssGetOutputPortSignal(sim_struct, 6);
+    *y = BoolToSimulink(work->a_i2_);
+
+    y = ssGetOutputPortSignal(sim_struct, 7);
+    *y = BoolToSimulink(work->a_i3_);
+
+    y = ssGetOutputPortSignal(sim_struct, 8);
+    *y = BoolToSimulink(work->a_i4_);
+
+    y = ssGetOutputPortSignal(sim_struct, 9);
     *y = BoolToSimulink(work->a_i5_);
 }
 /* }}} */
@@ -1492,6 +1592,7 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
 
     for (;;) {
         if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "tau". */
+        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "tau". */
 
         break; /* None of the events triggered. */
     }

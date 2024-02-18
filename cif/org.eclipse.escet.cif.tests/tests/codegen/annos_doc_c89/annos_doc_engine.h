@@ -113,8 +113,47 @@ extern BoolType a_i4_;
  */
 extern BoolType a_i5_;
 
-/* Algebraic and derivative functions (use for output only). */
+/** Continuous variable "real contvars.c1". */
+extern RealType contvars_c1_;
 
+/**
+ * Continuous variable "real contvars.c2".
+ *
+ * single line doc
+ */
+extern RealType contvars_c2_;
+
+/**
+ * Continuous variable "real contvars.c3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern RealType contvars_c3_;
+
+/**
+ * Continuous variable "real contvars.c4".
+ *
+ * some doc
+ */
+extern RealType contvars_c4_;
+
+/**
+ * Continuous variable "real contvars.c5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern RealType contvars_c5_;
+
+/* Algebraic and derivative functions (use for output only). */
+RealType contvars_c1_deriv(void);
+RealType contvars_c2_deriv(void);
+RealType contvars_c3_deriv(void);
+RealType contvars_c4_deriv(void);
+RealType contvars_c5_deriv(void);
 
 
 /* Code entry points. */

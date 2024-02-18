@@ -76,6 +76,51 @@ public abstract class annos_doc {
      */
     public boolean a_i5_;
 
+    /** Continuous variable "contvars.c1". */
+    public double contvars_c1_;
+
+    /**
+     * Continuous variable "contvars.c2".
+     *
+     * <p>
+     * single line doc
+     * </p>
+     */
+    public double contvars_c2_;
+
+    /**
+     * Continuous variable "contvars.c3".
+     *
+     * <p>
+     * doc with multiple
+     * lines of
+     *  text
+     * </p>
+     */
+    public double contvars_c3_;
+
+    /**
+     * Continuous variable "contvars.c4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     */
+    public double contvars_c4_;
+
+    /**
+     * Continuous variable "contvars.c5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc.
+     * </p>
+     */
+    public double contvars_c5_;
+
     /** Input variable "i1". */
     public boolean i1_;
 
@@ -153,7 +198,27 @@ public abstract class annos_doc {
 
         // Update values of continuous variables.
         if (!firstExec) {
-            // No continuous variables, except variable 'time'.
+            double deriv0 = contvars_c1_deriv();
+            double deriv1 = contvars_c2_deriv();
+            double deriv2 = contvars_c3_deriv();
+            double deriv3 = contvars_c4_deriv();
+            double deriv4 = contvars_c5_deriv();
+
+            contvars_c1_ = contvars_c1_ + delta * deriv0;
+            checkDouble(contvars_c1_, "contvars.c1");
+            if (contvars_c1_ == -0.0) contvars_c1_ = 0.0;
+            contvars_c2_ = contvars_c2_ + delta * deriv1;
+            checkDouble(contvars_c2_, "contvars.c2");
+            if (contvars_c2_ == -0.0) contvars_c2_ = 0.0;
+            contvars_c3_ = contvars_c3_ + delta * deriv2;
+            checkDouble(contvars_c3_, "contvars.c3");
+            if (contvars_c3_ == -0.0) contvars_c3_ = 0.0;
+            contvars_c4_ = contvars_c4_ + delta * deriv3;
+            checkDouble(contvars_c4_, "contvars.c4");
+            if (contvars_c4_ == -0.0) contvars_c4_ = 0.0;
+            contvars_c5_ = contvars_c5_ + delta * deriv4;
+            checkDouble(contvars_c5_, "contvars.c5");
+            if (contvars_c5_ == -0.0) contvars_c5_ = 0.0;
         }
 
         // Update time.
@@ -174,6 +239,9 @@ public abstract class annos_doc {
         while (true) {
             // Event "tau".
             if (execEvent0()) continue;
+
+            // Event "tau".
+            if (execEvent1()) continue;
 
             break;
         }
@@ -255,6 +323,24 @@ public abstract class annos_doc {
         return true;
     }
 
+    /**
+     * Execute code for event "tau".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent1() {
+        boolean guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
+        if (!guard) return false;
+
+        if (doInfoPrintOutput) printOutput(-1, true);
+        if (doInfoEvent) infoEvent(-1, true);
+
+
+        if (doInfoEvent) infoEvent(-1, false);
+        if (doInfoPrintOutput) printOutput(-1, false);
+        return true;
+    }
+
     /** Initializes the state. */
     private void initState() {
         a_i1_ = false;
@@ -262,6 +348,11 @@ public abstract class annos_doc {
         a_i3_ = false;
         a_i4_ = false;
         a_i5_ = false;
+        contvars_c1_ = 0.0;
+        contvars_c2_ = 0.0;
+        contvars_c3_ = 0.0;
+        contvars_c4_ = 0.0;
+        contvars_c5_ = 0.0;
     }
 
     /**
@@ -310,6 +401,50 @@ public abstract class annos_doc {
     }
 
 
+    /**
+     * Evaluates derivative of continuous variable "contvars.c1".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c1_deriv() {
+        return 1.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c2".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c2_deriv() {
+        return 2.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c3".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c3_deriv() {
+        return 3.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c4".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c4_deriv() {
+        return 4.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c5".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c5_deriv() {
+        return 5.0;
+    }
 
 
     /**
