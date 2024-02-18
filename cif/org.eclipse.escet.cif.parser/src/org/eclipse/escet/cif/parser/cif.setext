@@ -304,7 +304,7 @@ Decl : @TYPEKW TypeDefs SEMICOLTK
      | @CONSTKW Type ConstantDefs SEMICOLTK
      | @ALGKW Type AlgVarsDefs SEMICOLTK
      | OptAnnos @INPUTKW Type Identifiers SEMICOLTK
-     | @CONTKW ContDecls SEMICOLTK
+     | OptAnnos @CONTKW ContDecls SEMICOLTK
      | @EQUATIONKW Equations SEMICOLTK
      | @INITIALKW Expressions SEMICOLTK
      | InvariantDecls
