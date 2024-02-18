@@ -31,8 +31,8 @@ contvars.c2 2
 contvars.c3 3
 contvars.c4 4
 contvars.c5 5
-a.i1        6
-a.i2        7
-a.i3        8
-a.i4        9
-a.i5        10
+discvars.d1 6
+discvars.d2 7
+discvars.d3 8
+discvars.d4 9
+discvars.d5 10

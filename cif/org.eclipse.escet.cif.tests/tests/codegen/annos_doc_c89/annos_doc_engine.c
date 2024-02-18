@@ -88,41 +88,6 @@ BoolType i5_;
 
 /* State variables. */
 
-/** Discrete variable "bool a.i1". */
-BoolType a_i1_;
-
-/**
- * Discrete variable "bool a.i2".
- *
- * single line doc
- */
-BoolType a_i2_;
-
-/**
- * Discrete variable "bool a.i3".
- *
- * doc with multiple
- * lines of
- *  text
- */
-BoolType a_i3_;
-
-/**
- * Discrete variable "bool a.i4".
- *
- * some doc
- */
-BoolType a_i4_;
-
-/**
- * Discrete variable "bool a.i5".
- *
- * First doc.
- *
- * Second doc.
- */
-BoolType a_i5_;
-
 /** Continuous variable "real contvars.c1". */
 RealType contvars_c1_;
 
@@ -157,6 +122,41 @@ RealType contvars_c4_;
  * Second doc.
  */
 RealType contvars_c5_;
+
+/** Discrete variable "bool discvars.d1". */
+BoolType discvars_d1_;
+
+/**
+ * Discrete variable "bool discvars.d2".
+ *
+ * single line doc
+ */
+BoolType discvars_d2_;
+
+/**
+ * Discrete variable "bool discvars.d3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+BoolType discvars_d3_;
+
+/**
+ * Discrete variable "bool discvars.d4".
+ *
+ * some doc
+ */
+BoolType discvars_d4_;
+
+/**
+ * Discrete variable "bool discvars.d5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+BoolType discvars_d5_;
 
 /* Derivative and algebraic variable functions. */
 /** Derivative of "contvars.c1". */
@@ -206,7 +206,7 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
-    BoolType guard = ((((a_i1_) || (a_i2_)) || (a_i3_)) || (a_i4_)) || (a_i5_);
+    BoolType guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -225,7 +225,7 @@ static BoolType execEvent0(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent1(void) {
-    BoolType guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
+    BoolType guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -279,16 +279,16 @@ void annos_doc_EngineFirstStep(void) {
 
     model_time = 0.0;
     annos_doc_AssignInputVariables();
-    a_i1_ = FALSE;
-    a_i2_ = FALSE;
-    a_i3_ = FALSE;
-    a_i4_ = FALSE;
-    a_i5_ = FALSE;
     contvars_c1_ = 0.0;
     contvars_c2_ = 0.0;
     contvars_c3_ = 0.0;
     contvars_c4_ = 0.0;
     contvars_c5_ = 0.0;
+    discvars_d1_ = FALSE;
+    discvars_d2_ = FALSE;
+    discvars_d3_ = FALSE;
+    discvars_d4_ = FALSE;
+    discvars_d5_ = FALSE;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

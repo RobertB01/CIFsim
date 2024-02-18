@@ -1155,40 +1155,40 @@ static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
 struct WorkStruct {
 
 
-    /** Discrete variable "bool a.i1". */
-    BoolType a_i1_;
+    /** Discrete variable "bool discvars.d1". */
+    BoolType discvars_d1_;
 
     /**
-     * Discrete variable "bool a.i2".
+     * Discrete variable "bool discvars.d2".
      *
      * single line doc
      */
-    BoolType a_i2_;
+    BoolType discvars_d2_;
 
     /**
-     * Discrete variable "bool a.i3".
+     * Discrete variable "bool discvars.d3".
      *
      * doc with multiple
      * lines of
      *  text
      */
-    BoolType a_i3_;
+    BoolType discvars_d3_;
 
     /**
-     * Discrete variable "bool a.i4".
+     * Discrete variable "bool discvars.d4".
      *
      * some doc
      */
-    BoolType a_i4_;
+    BoolType discvars_d4_;
 
     /**
-     * Discrete variable "bool a.i5".
+     * Discrete variable "bool discvars.d5".
      *
      * First doc.
      *
      * Second doc.
      */
-    BoolType a_i5_;
+    BoolType discvars_d5_;
 
     /** Input variable "bool i1". */
     BoolType i1_;
@@ -1333,7 +1333,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
 }
 
 /* Time-dependent guards. */
-static BoolType GuardEval01(SimStruct *sim_struct) {
+static BoolType GuardEval00(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1353,7 +1353,7 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = ((((work->a_i1_) || (work->a_i2_)) || (work->a_i3_)) || (work->a_i4_)) || (work->a_i5_);
+    BoolType guard = GuardEval00(sim_struct);
     if (!guard) return FALSE;
 
 
@@ -1370,7 +1370,7 @@ static BoolType ExecEvent1(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = GuardEval01(sim_struct);
+    BoolType guard = ((((work->discvars_d1_) || (work->discvars_d2_)) || (work->discvars_d3_)) || (work->discvars_d4_)) || (work->discvars_d5_);
     if (!guard) return FALSE;
 
 
@@ -1476,16 +1476,16 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 
     /* Initialize discrete, continuous, and location pointer variables. */
     cstate[0] = 0.0; /* time = 0.0 */
-    work->a_i1_ = FALSE;
-    work->a_i2_ = FALSE;
-    work->a_i3_ = FALSE;
-    work->a_i4_ = FALSE;
-    work->a_i5_ = FALSE;
     cstate[1] = 0.0;
     cstate[2] = 0.0;
     cstate[3] = 0.0;
     cstate[4] = 0.0;
     cstate[5] = 0.0;
+    work->discvars_d1_ = FALSE;
+    work->discvars_d2_ = FALSE;
+    work->discvars_d3_ = FALSE;
+    work->discvars_d4_ = FALSE;
+    work->discvars_d5_ = FALSE;
 }
 #endif
 /* }}} */
@@ -1500,7 +1500,7 @@ static void mdlZeroCrossings(SimStruct *sim_struct) {
     ClearInputFlags(work);
     real_T *zcSignals = ssGetNonsampledZCs(sim_struct);
 
-    zcSignals[0] = GuardEval01(sim_struct);
+    zcSignals[0] = GuardEval00(sim_struct);
 }
 #endif
 /* }}} */
@@ -1550,19 +1550,19 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     *y = RealToSimulink(cstate[5]);
 
     y = ssGetOutputPortSignal(sim_struct, 5);
-    *y = BoolToSimulink(work->a_i1_);
+    *y = BoolToSimulink(work->discvars_d1_);
 
     y = ssGetOutputPortSignal(sim_struct, 6);
-    *y = BoolToSimulink(work->a_i2_);
+    *y = BoolToSimulink(work->discvars_d2_);
 
     y = ssGetOutputPortSignal(sim_struct, 7);
-    *y = BoolToSimulink(work->a_i3_);
+    *y = BoolToSimulink(work->discvars_d3_);
 
     y = ssGetOutputPortSignal(sim_struct, 8);
-    *y = BoolToSimulink(work->a_i4_);
+    *y = BoolToSimulink(work->discvars_d4_);
 
     y = ssGetOutputPortSignal(sim_struct, 9);
-    *y = BoolToSimulink(work->a_i5_);
+    *y = BoolToSimulink(work->discvars_d5_);
 }
 /* }}} */
 

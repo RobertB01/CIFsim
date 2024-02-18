@@ -31,51 +31,6 @@ public abstract class annos_doc {
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "a.i1". */
-    public boolean a_i1_;
-
-    /**
-     * Discrete variable "a.i2".
-     *
-     * <p>
-     * single line doc
-     * </p>
-     */
-    public boolean a_i2_;
-
-    /**
-     * Discrete variable "a.i3".
-     *
-     * <p>
-     * doc with multiple
-     * lines of
-     *  text
-     * </p>
-     */
-    public boolean a_i3_;
-
-    /**
-     * Discrete variable "a.i4".
-     *
-     * <p>
-     * some doc
-     * </p>
-     */
-    public boolean a_i4_;
-
-    /**
-     * Discrete variable "a.i5".
-     *
-     * <p>
-     * First doc.
-     * </p>
-     *
-     * <p>
-     * Second doc.
-     * </p>
-     */
-    public boolean a_i5_;
-
     /** Continuous variable "contvars.c1". */
     public double contvars_c1_;
 
@@ -120,6 +75,51 @@ public abstract class annos_doc {
      * </p>
      */
     public double contvars_c5_;
+
+    /** Discrete variable "discvars.d1". */
+    public boolean discvars_d1_;
+
+    /**
+     * Discrete variable "discvars.d2".
+     *
+     * <p>
+     * single line doc
+     * </p>
+     */
+    public boolean discvars_d2_;
+
+    /**
+     * Discrete variable "discvars.d3".
+     *
+     * <p>
+     * doc with multiple
+     * lines of
+     *  text
+     * </p>
+     */
+    public boolean discvars_d3_;
+
+    /**
+     * Discrete variable "discvars.d4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     */
+    public boolean discvars_d4_;
+
+    /**
+     * Discrete variable "discvars.d5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc.
+     * </p>
+     */
+    public boolean discvars_d5_;
 
     /** Input variable "i1". */
     public boolean i1_;
@@ -311,7 +311,7 @@ public abstract class annos_doc {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = ((((a_i1_) || (a_i2_)) || (a_i3_)) || (a_i4_)) || (a_i5_);
+        boolean guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(-1, true);
@@ -329,7 +329,7 @@ public abstract class annos_doc {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        boolean guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
+        boolean guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(-1, true);
@@ -343,16 +343,16 @@ public abstract class annos_doc {
 
     /** Initializes the state. */
     private void initState() {
-        a_i1_ = false;
-        a_i2_ = false;
-        a_i3_ = false;
-        a_i4_ = false;
-        a_i5_ = false;
         contvars_c1_ = 0.0;
         contvars_c2_ = 0.0;
         contvars_c3_ = 0.0;
         contvars_c4_ = 0.0;
         contvars_c5_ = 0.0;
+        discvars_d1_ = false;
+        discvars_d2_ = false;
+        discvars_d3_ = false;
+        discvars_d4_ = false;
+        discvars_d5_ = false;
     }
 
     /**

@@ -78,41 +78,6 @@ extern void annos_doc_AssignInputVariables();
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
 
-/** Discrete variable "bool a.i1". */
-extern BoolType a_i1_;
-
-/**
- * Discrete variable "bool a.i2".
- *
- * single line doc
- */
-extern BoolType a_i2_;
-
-/**
- * Discrete variable "bool a.i3".
- *
- * doc with multiple
- * lines of
- *  text
- */
-extern BoolType a_i3_;
-
-/**
- * Discrete variable "bool a.i4".
- *
- * some doc
- */
-extern BoolType a_i4_;
-
-/**
- * Discrete variable "bool a.i5".
- *
- * First doc.
- *
- * Second doc.
- */
-extern BoolType a_i5_;
-
 /** Continuous variable "real contvars.c1". */
 extern RealType contvars_c1_;
 
@@ -147,6 +112,41 @@ extern RealType contvars_c4_;
  * Second doc.
  */
 extern RealType contvars_c5_;
+
+/** Discrete variable "bool discvars.d1". */
+extern BoolType discvars_d1_;
+
+/**
+ * Discrete variable "bool discvars.d2".
+ *
+ * single line doc
+ */
+extern BoolType discvars_d2_;
+
+/**
+ * Discrete variable "bool discvars.d3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern BoolType discvars_d3_;
+
+/**
+ * Discrete variable "bool discvars.d4".
+ *
+ * some doc
+ */
+extern BoolType discvars_d4_;
+
+/**
+ * Discrete variable "bool discvars.d5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern BoolType discvars_d5_;
 
 /* Algebraic and derivative functions (use for output only). */
 RealType contvars_c1_deriv(void);
