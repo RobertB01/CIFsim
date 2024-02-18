@@ -501,8 +501,8 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Decl : @CONTKW ContDecls SEMICOLTK;
-    public ADecl parseDecl10(Token t1, List<AContVariable> l2) {
+    @Override // Decl : OptAnnos @CONTKW ContDecls SEMICOLTK;
+    public ADecl parseDecl10(List<AAnnotation> l1, Token t2, List<AContVariable> l3) {
         // return null;
     }
 
