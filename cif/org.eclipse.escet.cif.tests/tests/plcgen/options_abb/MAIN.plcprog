@@ -9,9 +9,9 @@ END_VAR
 VAR_TEMP
     curValue: REAL;
     current_p_t: REAL;
+    edge_p_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
-    syncAutEdge: DINT;
     timeOut: BOOL;
 END_VAR
 
@@ -45,14 +45,14 @@ WHILE isProgress AND loopCount < 101 DO
     (* Try to perform event "e". *)
     eventEnabled := TRUE;
     IF p_t <= 1.0 AND p_x = 5 THEN
-        syncAutEdge := 1;
+        edge_p_1 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
         current_p_t := p_t;
-        IF syncAutEdge = 1 THEN
+        IF edge_p_1 = 1 THEN
             p_t := 7.0;
             (* Reset timer of "p_t". *)
             preset_p_t := p_t;
