@@ -8,4 +8,5 @@ ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 46, column 
 ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 52, column 3: Annotation "doc": missing mandatory "text" argument.
 ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 56, column 3: Annotation "doc": missing mandatory "text" argument.
 ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 62, column 3: Annotation "doc": missing mandatory "text" argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 66, column 3: Annotation "doc": missing mandatory "text" argument.
 ERROR: Failed to load CIF file "tchecker/annos_builtin_doc.cif": the file has errors.

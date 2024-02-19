@@ -88,43 +88,101 @@ BoolType i5_;
 
 /* State variables. */
 
-/** Discrete variable "bool a.i1". */
-BoolType a_i1_;
+/** Continuous variable "real contvars.c1". */
+RealType contvars_c1_;
 
 /**
- * Discrete variable "bool a.i2".
+ * Continuous variable "real contvars.c2".
  *
  * single line doc
  */
-BoolType a_i2_;
+RealType contvars_c2_;
 
 /**
- * Discrete variable "bool a.i3".
+ * Continuous variable "real contvars.c3".
  *
  * doc with multiple
  * lines of
  *  text
  */
-BoolType a_i3_;
+RealType contvars_c3_;
 
 /**
- * Discrete variable "bool a.i4".
+ * Continuous variable "real contvars.c4".
  *
  * some doc
  */
-BoolType a_i4_;
+RealType contvars_c4_;
 
 /**
- * Discrete variable "bool a.i5".
+ * Continuous variable "real contvars.c5".
  *
  * First doc.
  *
  * Second doc.
  */
-BoolType a_i5_;
+RealType contvars_c5_;
+
+/** Discrete variable "bool discvars.d1". */
+BoolType discvars_d1_;
+
+/**
+ * Discrete variable "bool discvars.d2".
+ *
+ * single line doc
+ */
+BoolType discvars_d2_;
+
+/**
+ * Discrete variable "bool discvars.d3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+BoolType discvars_d3_;
+
+/**
+ * Discrete variable "bool discvars.d4".
+ *
+ * some doc
+ */
+BoolType discvars_d4_;
+
+/**
+ * Discrete variable "bool discvars.d5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+BoolType discvars_d5_;
 
 /* Derivative and algebraic variable functions. */
+/** Derivative of "contvars.c1". */
+RealType contvars_c1_deriv(void) {
+    return 1.0;
+}
 
+/** Derivative of "contvars.c2". */
+RealType contvars_c2_deriv(void) {
+    return 2.0;
+}
+
+/** Derivative of "contvars.c3". */
+RealType contvars_c3_deriv(void) {
+    return 3.0;
+}
+
+/** Derivative of "contvars.c4". */
+RealType contvars_c4_deriv(void) {
+    return 4.0;
+}
+
+/** Derivative of "contvars.c5". */
+RealType contvars_c5_deriv(void) {
+    return 5.0;
+}
 
 
 RealType model_time; /**< Current model time. */
@@ -148,7 +206,26 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
-    BoolType guard = ((((a_i1_) || (a_i2_)) || (a_i3_)) || (a_i4_)) || (a_i5_);
+    BoolType guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
+    if (!guard) return FALSE;
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(EVT_TAU_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(EVT_TAU_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "tau".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent1(void) {
+    BoolType guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -191,6 +268,7 @@ static void PerformEvents(void) {
         }
 
         if (execEvent0()) continue;  /* (Try to) perform event "tau". */
+        if (execEvent1()) continue;  /* (Try to) perform event "tau". */
         break; /* No event fired, done with discrete steps. */
     }
 }
@@ -201,11 +279,16 @@ void annos_doc_EngineFirstStep(void) {
 
     model_time = 0.0;
     annos_doc_AssignInputVariables();
-    a_i1_ = FALSE;
-    a_i2_ = FALSE;
-    a_i3_ = FALSE;
-    a_i4_ = FALSE;
-    a_i5_ = FALSE;
+    contvars_c1_ = 0.0;
+    contvars_c2_ = 0.0;
+    contvars_c3_ = 0.0;
+    contvars_c4_ = 0.0;
+    contvars_c5_ = 0.0;
+    discvars_d1_ = FALSE;
+    discvars_d2_ = FALSE;
+    discvars_d3_ = FALSE;
+    discvars_d4_ = FALSE;
+    discvars_d5_ = FALSE;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */
@@ -230,7 +313,22 @@ void annos_doc_EngineTimeStep(double delta) {
 
     /* Update continuous variables. */
     if (delta > 0.0) {
+        RealType deriv0 = contvars_c1_deriv();
+        RealType deriv1 = contvars_c2_deriv();
+        RealType deriv2 = contvars_c3_deriv();
+        RealType deriv3 = contvars_c4_deriv();
+        RealType deriv4 = contvars_c5_deriv();
 
+        errno = 0;
+        contvars_c1_ = UpdateContValue(contvars_c1_ + delta * deriv0, "contvars.c1", errno == 0);
+        errno = 0;
+        contvars_c2_ = UpdateContValue(contvars_c2_ + delta * deriv1, "contvars.c2", errno == 0);
+        errno = 0;
+        contvars_c3_ = UpdateContValue(contvars_c3_ + delta * deriv2, "contvars.c3", errno == 0);
+        errno = 0;
+        contvars_c4_ = UpdateContValue(contvars_c4_ + delta * deriv3, "contvars.c4", errno == 0);
+        errno = 0;
+        contvars_c5_ = UpdateContValue(contvars_c5_ + delta * deriv4, "contvars.c5", errno == 0);
         model_time += delta;
     }
 

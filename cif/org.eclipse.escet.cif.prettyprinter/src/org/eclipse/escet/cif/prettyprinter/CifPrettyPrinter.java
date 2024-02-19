@@ -473,6 +473,10 @@ public final class CifPrettyPrinter {
      * @param var The variable.
      */
     public void add(ContVariable var) {
+        // Add annotations.
+        add(var.getAnnotations());
+
+        // Add declaration.
         StringBuilder txt = new StringBuilder();
         txt.append("cont ");
         txt.append(escapeIdentifier(var.getName()));

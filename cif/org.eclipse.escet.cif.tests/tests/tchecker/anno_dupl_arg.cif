@@ -34,6 +34,9 @@ automaton a3:
   @a(x = 1, x = 2)
   disc int x = 1;
 
+  @a(x = 3, x = 4)
+  cont c = 1 der 2;
+
   location:
     initial;
 end

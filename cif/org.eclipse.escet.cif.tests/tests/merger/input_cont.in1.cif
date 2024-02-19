@@ -35,3 +35,10 @@ plant q:
   location:
     initial;
 end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  input real x;
+  invariant x > 0;
+end

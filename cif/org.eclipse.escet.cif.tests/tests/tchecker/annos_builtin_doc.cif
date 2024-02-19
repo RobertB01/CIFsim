@@ -63,6 +63,10 @@ automaton a3:
   disc int x = 1;
   invariant x > 0;
 
+  @doc
+  cont c = 1 der 2;
+  invariant c > 0;
+
   location:
     initial;
 end
