@@ -31,7 +31,7 @@ Language changes:
 * SVG input mappings can now either assign values to input variables (new feature), or map to an event to take (existing feature).
 This new feature is currently work-in-progress, undocumented, and not yet supported by all CIF tools (issue {escet-issue}227[#227]).
 * The syntax for addressables (the left hand side of an assignment) has changed to allow names like `group.variable`, but this is only accepted for SVG input mappings, not for assignments in functions or on edges (issue {escet-issue}227[#227]).
-* Annotations may now be added to discrete variables.
+* Annotations may now be added to discrete and continuous variables.
 Annotations are still an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner (issue {escet-issue}593[#593]).
 
@@ -78,7 +78,7 @@ The warning messages have also been improved (issue {escet-issue}424[#424]).
 * The CIF code generator documentation has some fixes, improvements and extensions (issues {escet-issue}424[#424] and {escet-issue}715[#715]).
 * The (still experimental) new CIF PLC code generator now has an option to let the generator decide the best way to handle enumerations, based on the configured target PLC model (issue {escet-issue}679[#679]).
 * The (still experimental) new CIF PLC code generator has various fixes related to code generated for variables, timers and functions (issue {escet-issue}679[#679]).
-* The (still experimental) new CIF PLC code generator has various improvements and fixes related to names in the generated code, including among others better handling of keywords, and not generating names with multiple consecutive underscores (issue {escet-issue}679[#679]).
+* The (still experimental) new CIF PLC code generator has various improvements and fixes related to names in the generated code, including among others better handling of keywords, not generating names with multiple consecutive underscores, and improved naming of edge selection variables (issue {escet-issue}679[#679]).
 * The CIF button/lamp/timer example has been fixed such that code can once more be generated (issue {escet-issue}772[#772]).
 * The CIF button/lamp/timer and FIFO examples have formatting improvements for their ToolDef scripts (issue {escet-issue}773[#773]).
 * The CIF ball sorting benchmark model source information had a typo that has been fixed (issue {escet-issue}751[#751]).
