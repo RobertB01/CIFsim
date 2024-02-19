@@ -50,6 +50,7 @@ function getVersions() {
     // Get trimmed sorted versions.
     var versions = versionsText.split(/\r?\n/);
     versions = versions.map(v => v.trim());
+    versions = versions.filter(v => v.length > 0);
     versions.sort(compareVersions);
     if (ESCET_DEBUG) {
         console.log('Versions: ' + versions.join(' '));
@@ -121,7 +122,11 @@ function compareVersions(v1, v2) {
 function getPreviewVersions(versions, thisVersion) {
     var thisVersionIdx = versions.indexOf(thisVersion);
     var newerVersions = versions.slice(thisVersionIdx + 1);
-    return newerVersions.filter(v => v == 'nightly' || v.includes('-'));
+    var previewVersions = newerVersions.filter(v => v == 'nightly' || v.includes('-'));
+    if (!previewVersions.includes('nightly')) { // Make sure 'nightly' is present even on 'nightly' website.
+        previewVersions.push('nightly');
+    }
+    return previewVersions;
 }
 
 function getLatestReleasesVersions(versions) {
