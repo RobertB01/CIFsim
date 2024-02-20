@@ -30,6 +30,20 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+New features:
+
+* The Eclipse ESCET website now features a version switcher, to allow switching to websites for earlier versions of ESCET.
+The download page now also includes a link to a new page with links to all the websites of earlier versions of ESCET (issue {escet-issue}437[#437]).
+
+Improvements and fixes:
+
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation now feature syntax highlighting for all languages, on the website and in the Eclipse ESCET IDE help (issue {escet-issue}740[#740]).
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation now have improved styling, on the website and in the Eclipse ESCET IDE help (issue {escet-issue}38[#38]).
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation on the website now have interactive tables of contents in their left sidebars, supporting collapsing and expanding (issue {escet-issue}38[#38]).
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation on the website now include all levels in their tables of contents in the left sidebars (issue {escet-issue}38[#38]).
+* The Eclipse ESCET website has improved styling of dropdown menus (issue {escet-issue}437[#437]).
+* The Eclipse ESCET IDE now ships with the 'linked resources' feature of the Eclipse IDE disabled by default (issue {escet-issue}754[#754]).
+
 === Version 2.0 (2023-12-22)
 
 New features:
