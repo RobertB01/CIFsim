@@ -3497,7 +3497,7 @@ public class CifToBddConverter {
     }
 
     /** Exception to indicate an unsupported predicate. */
-    private static class UnsupportedPredicateException extends Exception {
+    public static class UnsupportedPredicateException extends Exception {
         /**
          * The (part of the) predicate that is not supported. May be {@code null} to indicate that the predicate is not
          * supported due to earlier precondition violations.
