@@ -65,7 +65,7 @@ function initVersionDropdown(versions) {
     // Add items to the versions dropdown.
     var previewsElem = document.getElementById('versions-previews');
     var latestElem = document.getElementById('versions-latest-releases');
-    getPreviewVersions(versions, thisVersion).forEach(version => {
+    getPreviewVersions(versions).forEach(version => {
         addVersionToDropDown(version, thisVersion, previewsElem);
     });
     getLatestReleasesVersions(versions).forEach(version => {
@@ -119,13 +119,12 @@ function compareVersions(v1, v2) {
     return postfix1.localeCompare(postfix2, 'en-US');
 }
 
-function getPreviewVersions(versions, thisVersion) {
-    var thisVersionIdx = versions.indexOf(thisVersion);
-    var newerVersions = versions.slice(thisVersionIdx + 1);
+function getPreviewVersions(versions) {
+    var latestReleaseVersions = getLatestReleasesVersions(versions);
+    var latestReleaseVersion = latestReleaseVersions[latestReleaseVersions.length - 1];
+    var latestReleaseVersionIdx = versions.indexOf(latestReleaseVersion);
+    var newerVersions = versions.slice(latestReleaseVersionIdx + 1);
     var previewVersions = newerVersions.filter(v => v == 'nightly' || v.includes('-'));
-    if (!previewVersions.includes('nightly')) { // Make sure 'nightly' is present even on 'nightly' website.
-        previewVersions.push('nightly');
-    }
     return previewVersions;
 }
 
