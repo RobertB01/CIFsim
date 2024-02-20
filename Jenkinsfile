@@ -216,8 +216,7 @@ pipeline {
                         cd deploy/www
 
                         # Add website to '.versions' file, if not already present.
-                        grep -Fxq "${RELEASE_VERSION}" .versions
-                        if [ $? -ne 0 ]; then
+                        if ! grep -Fxq "${RELEASE_VERSION}" .versions; then
                             echo "${RELEASE_VERSION}" >> .versions
                         fi
 
