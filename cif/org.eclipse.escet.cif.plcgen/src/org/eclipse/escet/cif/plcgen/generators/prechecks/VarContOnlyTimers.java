@@ -44,10 +44,6 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </ul>
  */
 public class VarContOnlyTimers extends CifCheckNoCompDefInst {
-    /** General message to report. */
-    private static final String GENERAL_MESSAGE = "Continuous variable value is not compared as \"variable <= ...\" or "
-                + "\"... >= variable\", nor assigned in a single-variable assignment";
-
     @Override
     protected void preprocessContVariable(ContVariable contVar, CifCheckViolations violations) {
         if (contVar.getValue() != null) {
@@ -70,7 +66,8 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             // TODO Allow multi-assignments like (cv1, cv2) := (1, 2);
             if (cvExpr == asg.getAddressable()) {
                 // Continuous variable gets assigned, check the value.
-                checkValue(asg.getValue(), true, cvExpr, violations); // We allow 0. Useless but fine if the user wants that.
+                checkValue(asg.getValue(), true, cvExpr, violations); // We allow 0. Useless but fine if the user wants
+                                                                      // that.
                 return;
             }
         } else if (exprParent instanceof BinaryExpression binExpr) {
@@ -89,8 +86,24 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
                     return;
                 }
             }
+
+            // If it is a disallowed comparison, report that specifically.
+            if (binExpr.getOperator() == BinaryOperator.EQUAL || binExpr.getOperator() == BinaryOperator.UNEQUAL
+                    || binExpr.getOperator() == BinaryOperator.GREATER_EQUAL
+                    || binExpr.getOperator() == BinaryOperator.GREATER_THAN
+                    || binExpr.getOperator() == BinaryOperator.LESS_EQUAL
+                    || binExpr.getOperator() == BinaryOperator.LESS_THAN)
+            {
+                violations.add(cvExpr,
+                        "Continuous variable is not compared as \"variable <= ...\" or " + "\"... >= variable\"");
+                return;
+            }
+
+            // Not a comparison at all.
         }
-        violations.add(cvExpr, GENERAL_MESSAGE);
+
+        // Indicate that continuous variable is used in a way that it is not one of the allowed ones.
+        violations.add(cvExpr, "Continuous variable is not assigned or compared");
     }
 
     /**
