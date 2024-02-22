@@ -66,8 +66,8 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             // TODO Allow multi-assignments like (cv1, cv2) := (1, 2);
             if (cvExpr == asg.getAddressable()) {
                 // Continuous variable gets assigned, check the value.
-                checkValue(asg.getValue(), true, cvExpr, violations); // We allow 0. Useless but fine if the user wants
-                                                                      // that.
+                // We allow 0. Useless but fine if the user wants that.
+                checkValue(asg.getValue(), true, cvExpr, violations);
                 return;
             }
         } else if (exprParent instanceof BinaryExpression binExpr) {
