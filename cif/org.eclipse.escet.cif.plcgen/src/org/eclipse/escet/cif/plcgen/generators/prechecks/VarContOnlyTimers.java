@@ -49,7 +49,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
         if (contVar.getValue() != null) {
             checkValue(contVar.getValue(), false, contVar, violations);
         }
-        checkDerivative(contVar, false, violations);
+        checkDerivative(contVar, violations);
     }
 
     @Override
@@ -110,10 +110,9 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
      * Check that the derivative of the given continuous variable is {@code -1} or {@code -1.0}.
      *
      * @param contVar Continuous variable to check.
-     * @param isAssigned Whether the value gets assigned.
      * @param violations Already found violations, may be extended in-place.
      */
-    private void checkDerivative(ContVariable contVar, boolean isAssigned, CifCheckViolations violations) {
+    private void checkDerivative(ContVariable contVar, CifCheckViolations violations) {
         Expression derivative = contVar.getDerivative();
         if (derivative == null) {
             violations.add(contVar, "Continuous variable has its derivative declared through one or more equations, "
@@ -121,7 +120,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             return;
         }
 
-        Object evalValue = getStaticEvaluableValue(derivative, isAssigned, false, contVar, violations);
+        Object evalValue = getStaticEvaluableValue(derivative, false, false, contVar, violations);
         if (evalValue == null || evalValue instanceof Integer i && i == -1
                 || evalValue instanceof Double d && d == -1.0)
         {
