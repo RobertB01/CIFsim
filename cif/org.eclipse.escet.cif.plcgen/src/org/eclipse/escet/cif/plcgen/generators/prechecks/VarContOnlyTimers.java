@@ -102,6 +102,25 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             // Not a comparison at all.
         }
 
+        // Code generation supports multi-assignments, but this check does not yet support it (see above). Check for it.
+        PositionObject ancestor = cvExpr;
+        while (true) {
+            // Move up until as long as we're still in an expression, which includes addressables.
+            PositionObject newAncestor = (PositionObject)ancestor.eContainer();
+            if (newAncestor != null && newAncestor instanceof Expression) {
+                ancestor = newAncestor;
+                continue;
+            }
+
+            // If it is at the left-hand side of an assignment, it is a multi-assignment, since simple assignments have
+            // been handled above, and projected assignments are not possible for continuous variables.
+            if (newAncestor instanceof Assignment asgn && asgn.getAddressable() == ancestor) {
+                violations.add(cvExpr, "Continuous variable is assigned in a multi-assignment");
+                return;
+            }
+            break;
+        }
+
         // Indicate that continuous variable is used in a way that it is not one of the allowed ones.
         violations.add(cvExpr, "Continuous variable is not assigned or compared");
     }
