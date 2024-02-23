@@ -2,21 +2,21 @@ WARNING: Maximum real type size supported by the PLC is less than the CIF real t
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 
   ---------------------------
-  (1/13) An equation is used.
+  (1/12) An equation is used.
   ---------------------------
    * In automaton "derivative":
      - equation contWithEqnForDeriv' = -1.0;
                                      ^
 
   --------------------------------------------------------------------------------
-  (2/13) Continuous variable has a derivative that cannot be evaluated statically.
+  (2/12) Continuous variable has a derivative that cannot be evaluated statically.
   --------------------------------------------------------------------------------
    * In automaton "derivative":
      - cont derivNotStatic der d;
             ^
 
   -------------------------------------------------------------------
-  (3/13) Continuous variable has a derivative that is not -1 or -1.0.
+  (3/12) Continuous variable has a derivative that is not -1 or -1.0.
   -------------------------------------------------------------------
    * In automaton "derivative":
      - cont derivNotNegOne_1 der 0.0;
@@ -31,21 +31,21 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
             ^
 
   -----------------------------------------------------------------
-  (4/13) Continuous variable has an initial value that is negative.
+  (4/12) Continuous variable has an initial value that is negative.
   -----------------------------------------------------------------
    * In automaton "initValue":
      - cont initNegative = -1.0 der -1.0;
             ^
 
   --------------------------------------------------------------------------------------------------------------------------------
-  (5/13) Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration.
+  (5/12) Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration.
   --------------------------------------------------------------------------------------------------------------------------------
    * In automaton "derivative":
      - cont contWithEqnForDeriv;
             ^
 
   -----------------------------------------------------------------------------------
-  (6/13) Continuous variable is assigned a value that cannot be evaluated statically.
+  (6/12) Continuous variable is assigned a value that cannot be evaluated statically.
   -----------------------------------------------------------------------------------
    * In automaton "assign":
      - edge evt do c1 := d1;
@@ -54,14 +54,14 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
                    ^
 
   ----------------------------------------------------------------
-  (7/13) Continuous variable is assigned a value that is negative.
+  (7/12) Continuous variable is assigned a value that is negative.
   ----------------------------------------------------------------
    * In automaton "assign":
      - edge evt do c1 := -25.0;
                    ^
 
   -------------------------------------------------------------
-  (8/13) Continuous variable is assigned in a multi-assignment.
+  (8/12) Continuous variable is assigned in a multi-assignment.
   -------------------------------------------------------------
    * In automaton "assign":
      - edge evt do (c1, c2) := (3.0, 4.0);
@@ -72,14 +72,14 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
                      ^   ^           ^
 
   --------------------------------------------------------------------------------------
-  (9/13) Continuous variable is compared to a value that cannot be evaluated statically.
+  (9/12) Continuous variable is compared to a value that cannot be evaluated statically.
   --------------------------------------------------------------------------------------
    * In automaton "contUseValue":
      - edge evt when c <= d1;
                      ^
 
   --------------------------------------------------------------------
-  (10/13) Continuous variable is compared to a value that is negative.
+  (10/12) Continuous variable is compared to a value that is negative.
   --------------------------------------------------------------------
    * In automaton "contUseValue":
      - edge evt when c <= -1;
@@ -100,7 +100,7 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
                                  ^
 
   -------------------------------------------------------------------------------------------
-  (11/13) Continuous variable is compared, but not as "variable <= ..." or "... >= variable".
+  (11/12) Continuous variable is compared, but not as "variable <= ..." or "... >= variable".
   -------------------------------------------------------------------------------------------
    * In automaton "contUseValue":
      - edge evt when c >= 0;
@@ -125,7 +125,7 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
                            ^
 
   --------------------------------------------------------
-  (12/13) Continuous variable is not assigned or compared.
+  (12/12) Continuous variable is not assigned or compared.
   --------------------------------------------------------
    * In automaton "contUseValue":
      - edge evt when max(c + 5.0, 17.4) <= 28;
@@ -140,10 +140,3 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
                              ^
      - edge evt do d2 := abs(c) > 0;
                              ^
-
-  -----------------------------------------
-  (13/13) Edge has an explicit 'tau' event.
-  -----------------------------------------
-   * In automaton "tauEdge":
-     - edge tau;
-            ^
