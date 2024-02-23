@@ -50,8 +50,6 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
    * In automaton "assign":
      - edge evt do c1 := d1;
                    ^
-     - edge evt do c1 := 1.0 / d1;
-                   ^
 
   ----------------------------------------------------------------
   (7/12) Continuous variable is assigned a value that is negative.
@@ -135,8 +133,4 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
      - edge evt do d1 := max(c + 5.0, 17.4);
                              ^
      - edge evt do d1 := abs(c);
-                             ^
-     - edge evt do d2 := max(c + 5.0, 17.4) <= 28;
-                             ^
-     - edge evt do d2 := abs(c) > 0;
                              ^
