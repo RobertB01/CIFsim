@@ -176,11 +176,3 @@ automaton allowed:
     initial;
     edge evt do d := d + 1;
 end
-
-// Tau edge.
-
-automaton tauEdge:
-  location:
-    initial;
-    edge tau when true;
-end
