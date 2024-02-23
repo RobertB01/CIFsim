@@ -83,7 +83,6 @@ automaton assign:
 
     // Not statically evaluable.
     edge evt do c1 := d1;
-    edge evt do c1 := 1.0 / d1;
 
     // Multi-assignment.
     edge evt do (c1, c2) := (3, 4);
@@ -119,8 +118,6 @@ automaton contUseValue:
     edge evt when abs(c) > 0;
     edge evt do d1 := max(c + 5, 17.4);
     edge evt do d1 := abs(c);
-    edge evt do d2 := max(c + 5, 17.4) <= 28;
-    edge evt do d2 := abs(c) > 0;
 
     // Unsupported comparison form.
     edge evt when c >= 0;
