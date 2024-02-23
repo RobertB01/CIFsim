@@ -95,7 +95,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
                     || binExpr.getOperator() == BinaryOperator.LESS_THAN)
             {
                 violations.add(cvExpr,
-                        "Continuous variable is compared, but not as \"variable <= ...\" or " + "\"... >= variable\"");
+                        "Continuous variable is compared, but not as \"variable <= ...\" or \"... >= variable\"");
                 return;
             }
 
@@ -150,7 +150,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
     }
 
     /**
-     * Check that the given continuous variable value (or derivative) is a non-negative number.
+     * Check that the given continuous variable value is a non-negative number.
      *
      * @param value Value to check.
      * @param valueDescr The description of the value, to use in violation messages.
