@@ -175,6 +175,9 @@ public class CifEventTransition {
 
     /** An edge of an automaton that may be executed with the event. */
     public static class TransitionEdge {
+        /** One-based index number to identify an edge within a location. */
+        public final int edgeNumber;
+
         /** Source location of the edge. */
         public final Location sourceLoc;
 
@@ -193,15 +196,17 @@ public class CifEventTransition {
         /**
          * Constructor of the {@link TransitionEdge} class.
          *
+         * @param edgeNumber One-based index number to identify an edge within a location.
          * @param sourceLoc Source location of the edge.
          * @param targetLoc Target location of the edge.
          * @param sendValue Value being sent by the send automaton in the edge, {@code null} otherwise.
          * @param guards Guards of the edge.
          * @param updates Updates of the edge.
          */
-        public TransitionEdge(Location sourceLoc, Location targetLoc, Expression sendValue, List<Expression> guards,
-                List<Update> updates)
+        public TransitionEdge(int edgeNumber, Location sourceLoc, Location targetLoc, Expression sendValue,
+                List<Expression> guards, List<Update> updates)
         {
+            this.edgeNumber = edgeNumber;
             this.sourceLoc = sourceLoc;
             this.targetLoc = targetLoc;
             this.sendValue = sendValue;

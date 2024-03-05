@@ -224,6 +224,7 @@ public class CifProcessor {
 
         // Consider all the edges of the automaton for the classification.
         for (Location loc: aut.getLocations()) {
+            int edgeNum = 1;
             for (Edge edge: loc.getEdges()) {
                 Location destLoc = CifEdgeUtils.getTarget(edge);
 
@@ -235,18 +236,21 @@ public class CifProcessor {
                     AutomatonRoleInfo autRoleInfo = getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent());
 
                     if (ee instanceof EdgeSend es) {
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, es.getValue(), edge.getGuards(),
                                 edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SENDER);
                     } else if (ee instanceof EdgeReceive) {
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
+                                edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.RECEIVER);
                     } else {
                         // Automaton synchronizes on the event. Whether it is a monitor is decided below.
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
+                                edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
                     }
                 }
+                edgeNum++;
             }
         }
 

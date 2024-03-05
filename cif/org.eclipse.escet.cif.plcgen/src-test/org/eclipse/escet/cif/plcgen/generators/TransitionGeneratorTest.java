@@ -165,7 +165,7 @@ public class TransitionGeneratorTest {
 
         // Create sender edge.
         // edge sendEvent!1;
-        TransitionEdge sendEdge1 = new TransitionEdge(null, null, newIntExpression(null, newIntType(), 1), List.of(),
+        TransitionEdge sendEdge1 = new TransitionEdge(1, null, null, newIntExpression(null, newIntType(), 1), List.of(),
                 List.of());
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
 
@@ -224,7 +224,7 @@ public class TransitionGeneratorTest {
         spec.getDeclarations().add(event);
 
         // automaton sender1: edge channelEvent!1;
-        TransitionEdge sendEdge1 = new TransitionEdge(null, null, newIntExpression(null, newIntType(), 1), List.of(),
+        TransitionEdge sendEdge1 = new TransitionEdge(2, null, null, newIntExpression(null, newIntType(), 1), List.of(),
                 List.of());
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
         Automaton aut1 = newAutomaton();
@@ -236,7 +236,7 @@ public class TransitionGeneratorTest {
         Expression rightAdd = newReceivedExpression();
         Expression addExpr = newBinaryExpression(leftAdd, BinaryOperator.ADDITION, null, rightAdd, newIntType());
         Update recvUpd1 = newAssignment(newDiscVariableExpression(null, newIntType(), recVar), null, addExpr);
-        TransitionEdge recvEdge1 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd1));
+        TransitionEdge recvEdge1 = new TransitionEdge(3, null, null, null, List.of(), List.of(recvUpd1));
         Automaton aut2 = newAutomaton();
         aut2.setName("receiver1");
         TransitionAutomaton receiver1 = new TransitionAutomaton(aut2, TransAutPurpose.RECEIVER, List.of(recvEdge1));
@@ -244,7 +244,7 @@ public class TransitionGeneratorTest {
         // automaton receiver2: edge channelEvent do recvVar := ?;
         Update recvUpd2 = newAssignment(newDiscVariableExpression(null, newIntType(), otherVar), null,
                 newReceivedExpression());
-        TransitionEdge recvEdge2 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd2));
+        TransitionEdge recvEdge2 = new TransitionEdge(4, null, null, null, List.of(), List.of(recvUpd2));
         Automaton aut3 = newAutomaton();
         aut3.setName("receiver2");
         TransitionAutomaton receiver2 = new TransitionAutomaton(aut3, TransAutPurpose.RECEIVER, List.of(recvEdge2));
@@ -331,7 +331,7 @@ public class TransitionGeneratorTest {
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
         rightSide = newIntExpression(null, newIntType(), 2);
         Update update1 = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge11 = new TransitionEdge(null, null, null, List.of(guard1), List.of(update1));
+        TransitionEdge edge11 = new TransitionEdge(5, null, null, null, List.of(guard1), List.of(update1));
 
         // automaton syncer1: edge event when otherVar = 2 do otherVar := 3;
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
@@ -340,7 +340,7 @@ public class TransitionGeneratorTest {
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
         rightSide = newIntExpression(null, newIntType(), 3);
         Update update2 = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge21 = new TransitionEdge(null, null, null, List.of(guard2), List.of(update2));
+        TransitionEdge edge21 = new TransitionEdge(6, null, null, null, List.of(guard2), List.of(update2));
         Automaton aut1 = newAutomaton();
         aut1.setName("syncer1");
         TransitionAutomaton syncer1 = new TransitionAutomaton(aut1, TransAutPurpose.SYNCER, List.of(edge11, edge21));
@@ -352,7 +352,7 @@ public class TransitionGeneratorTest {
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
         rightSide = newIntExpression(null, newIntType(), 4);
         Update update3 = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge12 = new TransitionEdge(null, null, null, List.of(guard3), List.of(update3));
+        TransitionEdge edge12 = new TransitionEdge(7, null, null, null, List.of(guard3), List.of(update3));
         Automaton aut2 = newAutomaton();
         aut2.setName("syncer2");
         TransitionAutomaton syncer2 = new TransitionAutomaton(aut2, TransAutPurpose.SYNCER, List.of(edge12));
@@ -414,7 +414,7 @@ public class TransitionGeneratorTest {
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
         rightSide = newIntExpression(null, newIntType(), 2);
         Update update1 = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge = new TransitionEdge(null, null, null, List.of(guard1), List.of(update1));
+        TransitionEdge edge = new TransitionEdge(8, null, null, null, List.of(guard1), List.of(update1));
         Automaton aut2 = newAutomaton();
         aut2.setName("monitor");
         TransitionAutomaton monitor = new TransitionAutomaton(aut2, TransAutPurpose.MONITOR, List.of(edge));
@@ -467,7 +467,7 @@ public class TransitionGeneratorTest {
 
         // Build the transition.
         Update update = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
+        TransitionEdge edge = new TransitionEdge(9, null, null, null, List.of(), List.of(update));
         Automaton aut2 = newAutomaton();
         aut2.setName("aut");
         TransitionAutomaton aut = new TransitionAutomaton(aut2, TransAutPurpose.SYNCER, List.of(edge));
@@ -516,7 +516,7 @@ public class TransitionGeneratorTest {
                 newDiscVariableExpression(null, newIntType(), otherVar)), null, tupleType1);
         Expression rightSide = newBoolExpression(null, newBoolType(), true);
         Update update = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
+        TransitionEdge edge = new TransitionEdge(10, null, null, null, List.of(), List.of(update));
         Automaton aut2 = newAutomaton();
         aut2.setName("aut");
         TransitionAutomaton aut = new TransitionAutomaton(aut2, TransAutPurpose.SYNCER, List.of(edge));
