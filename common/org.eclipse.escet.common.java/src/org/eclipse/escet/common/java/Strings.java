@@ -16,6 +16,7 @@ package org.eclipse.escet.common.java;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Formatter;
@@ -669,5 +670,18 @@ public final class Strings {
         }
         String head = slice(input, 0, maxLength - 3);
         return head + "...";
+    }
+
+    /**
+     * Construct a string consisting of {@code count} times {code c}.
+     *
+     * @param c Character to use.
+     * @param count Desired length of the string.
+     * @return The created string.
+     */
+    public static String makeString(char c, int count) {
+        char[] text = new char[(count > 0) ? count : 0];
+        Arrays.fill(text, c);
+        return new String(text);
     }
 }

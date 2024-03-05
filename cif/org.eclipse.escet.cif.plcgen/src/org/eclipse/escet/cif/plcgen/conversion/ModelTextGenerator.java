@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.conversion;
 
+import static org.eclipse.escet.common.java.Strings.makeString;
+
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +40,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcPlainFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentBlock;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
@@ -423,6 +426,8 @@ public class ModelTextGenerator {
             toText(asgStat, boxBuilder, pouName);
         } else if (plcStat instanceof PlcCommentLine cmtLine) {
             toText(cmtLine, boxBuilder, pouName);
+        } else if (plcStat instanceof PlcCommentBlock cmtBlock) {
+            toText(cmtBlock, boxBuilder, pouName);
         } else if (plcStat instanceof PlcReturnStatement retStat) {
             toText(retStat, boxBuilder, pouName);
         } else if (plcStat instanceof PlcSelectionStatement selStat) {
@@ -458,6 +463,21 @@ public class ModelTextGenerator {
         } else {
             boxBuilder.add("(* %s *)%s", cmtLine.commentText, cmtLine.isEmptyStatement ? " ;" : "");
         }
+    }
+
+    /**
+     * Convert a PLC comment block to text.
+     *
+     * @param cmtBlock Comment block to convert.
+     * @param boxBuilder Storage of produced text, extended in-place.
+     * @param pouName Name of the surrounding POU.
+     */
+    private void toText(PlcCommentBlock cmtBlock, CodeBox boxBuilder, String pouName) {
+        boxBuilder.add("(*" + makeString('*', cmtBlock.starCount));
+        for (String line: cmtBlock.lines) {
+            boxBuilder.add(" * " + line);
+        }
+        boxBuilder.add(" *" + makeString('*', cmtBlock.starCount) + ")");
     }
 
     /**
