@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
@@ -171,7 +172,7 @@ public class TransitionGeneratorTest {
         // Create sender automaton.
         Automaton aut1 = newAutomaton();
         aut1.setName("aut1");
-        TransitionAutomaton sender1 = new TransitionAutomaton(aut1, transSendEdges);
+        TransitionAutomaton sender1 = new TransitionAutomaton(aut1, TransAutPurpose.SENDER, transSendEdges);
         CifEventTransition transition = new CifEventTransition(event, List.of(sender1), List.of(), List.of(),
                 List.of());
 
@@ -228,7 +229,7 @@ public class TransitionGeneratorTest {
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
         Automaton aut1 = newAutomaton();
         aut1.setName("sender1");
-        TransitionAutomaton sender1 = new TransitionAutomaton(aut1, transSendEdges);
+        TransitionAutomaton sender1 = new TransitionAutomaton(aut1, TransAutPurpose.SENDER, transSendEdges);
 
         // automaton receiver1: edge channelEvent do recvVar := recvVar + ?;
         Expression leftAdd = newDiscVariableExpression(null, newIntType(), recVar);
@@ -238,7 +239,7 @@ public class TransitionGeneratorTest {
         TransitionEdge recvEdge1 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd1));
         Automaton aut2 = newAutomaton();
         aut2.setName("receiver1");
-        TransitionAutomaton receiver1 = new TransitionAutomaton(aut2, List.of(recvEdge1));
+        TransitionAutomaton receiver1 = new TransitionAutomaton(aut2, TransAutPurpose.RECEIVER, List.of(recvEdge1));
 
         // automaton receiver2: edge channelEvent do recvVar := ?;
         Update recvUpd2 = newAssignment(newDiscVariableExpression(null, newIntType(), otherVar), null,
@@ -246,7 +247,7 @@ public class TransitionGeneratorTest {
         TransitionEdge recvEdge2 = new TransitionEdge(null, null, null, List.of(), List.of(recvUpd2));
         Automaton aut3 = newAutomaton();
         aut3.setName("receiver2");
-        TransitionAutomaton receiver2 = new TransitionAutomaton(aut3, List.of(recvEdge2));
+        TransitionAutomaton receiver2 = new TransitionAutomaton(aut3, TransAutPurpose.RECEIVER, List.of(recvEdge2));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(sender1), List.of(receiver1, receiver2),
                 List.of(), List.of());
@@ -342,7 +343,7 @@ public class TransitionGeneratorTest {
         TransitionEdge edge21 = new TransitionEdge(null, null, null, List.of(guard2), List.of(update2));
         Automaton aut1 = newAutomaton();
         aut1.setName("syncer1");
-        TransitionAutomaton syncer1 = new TransitionAutomaton(aut1, List.of(edge11, edge21));
+        TransitionAutomaton syncer1 = new TransitionAutomaton(aut1, TransAutPurpose.SYNCER, List.of(edge11, edge21));
 
         // automaton syncer2: edge event when otherVar = 3 do otherVar := 4;
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
@@ -354,7 +355,7 @@ public class TransitionGeneratorTest {
         TransitionEdge edge12 = new TransitionEdge(null, null, null, List.of(guard3), List.of(update3));
         Automaton aut2 = newAutomaton();
         aut2.setName("syncer2");
-        TransitionAutomaton syncer2 = new TransitionAutomaton(aut2, List.of(edge12));
+        TransitionAutomaton syncer2 = new TransitionAutomaton(aut2, TransAutPurpose.SYNCER, List.of(edge12));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(syncer1, syncer2),
                 List.of());
@@ -416,7 +417,7 @@ public class TransitionGeneratorTest {
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(guard1), List.of(update1));
         Automaton aut2 = newAutomaton();
         aut2.setName("monitor");
-        TransitionAutomaton monitor = new TransitionAutomaton(aut2, List.of(edge));
+        TransitionAutomaton monitor = new TransitionAutomaton(aut2, TransAutPurpose.MONITOR, List.of(edge));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(),
                 List.of(monitor));
@@ -469,7 +470,7 @@ public class TransitionGeneratorTest {
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
         Automaton aut2 = newAutomaton();
         aut2.setName("aut");
-        TransitionAutomaton aut = new TransitionAutomaton(aut2, List.of(edge));
+        TransitionAutomaton aut = new TransitionAutomaton(aut2, TransAutPurpose.SYNCER, List.of(edge));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
@@ -518,7 +519,7 @@ public class TransitionGeneratorTest {
         TransitionEdge edge = new TransitionEdge(null, null, null, List.of(), List.of(update));
         Automaton aut2 = newAutomaton();
         aut2.setName("aut");
-        TransitionAutomaton aut = new TransitionAutomaton(aut2, List.of(edge));
+        TransitionAutomaton aut = new TransitionAutomaton(aut2, TransAutPurpose.SYNCER, List.of(edge));
 
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
