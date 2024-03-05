@@ -31,6 +31,11 @@ map(string:list string) test_options = {
 };
 set string test_skip = {};
 
+// Targets to use for each test. If the test is in 'test_targets', its value is used, else 'all_targets' are used.
+list string all_targets = ["plcopen", "iec", "twincat", "s7-1500", "s7-1200", "s7-400", "s7-300", "abb"];
+map(string:list string) test_targets = {
+};
+
 /* Creates an empty TwinCAT solution directory. That is, it contains the minimum files and file contents to generate
 TwinCAT PLC code with the CIF to PLC tool. A solution directory is created at the `slnDirPath`. The solution directory
 contains an empty TwinCAT solution file (.sln file) and a TwinCAT XAE project directory. The TwinCAT XAE project
@@ -105,7 +110,12 @@ end
 
 // Test all tests.
 for test in tests:
-    for target in ["plcopen", "iec", "twincat", "s7-1500", "s7-1200", "s7-400", "s7-300", "abb"]:
+    // Get the targets for this test.
+    list string targets_to_use = all_targets;
+    if contains(test_targets, test):: targets_to_use = test_targets[test];
+
+    // Run the tests.
+    for target in targets_to_use:
         // Get test specific options.
         list string options = default_options;
         list string extra_options;
