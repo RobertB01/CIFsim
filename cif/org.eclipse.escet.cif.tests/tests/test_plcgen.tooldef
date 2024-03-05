@@ -164,19 +164,19 @@ for test in tests:
                 createEmptyTwincat(dir_real, "Untitled1", "PlcTask");
             end
         elif target == "s7-1200":
-            options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_1200", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-1500":
-            options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_1500", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-300":
-            options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_300", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-400":
-            options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_400", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "abb":
-            options = ["-t", "abb", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "abb", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         end
 
