@@ -57,6 +57,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentBlock;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
@@ -65,6 +66,8 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Generator for creating PLC code to perform CIF event transitions in the PLC. */
@@ -311,8 +314,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (prependEmptyLine) {
             testCode.add(new PlcCommentLine(null));
         }
-        String absEventName = getAbsName(eventTransition.event, false);
-        testCode.add(new PlcCommentLine("Try to perform event \"" + absEventName + "\"."));
+
+        // Announce that the event is tried in the PLC code, and start with assuming that the event is enabled.
+        testCode.add(genAnnounceEventBeingTried(eventTransition));
         testCode.add(new PlcAssignmentStatement(eventEnabledVar, new PlcBoolLiteral(true)));
 
         // Performing the event implies progress is made.
@@ -362,6 +366,70 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         mainExprGen.releaseTempVariables(createdTempVariables);
         return resultCode;
+    }
+
+    /**
+     * Construct a comment block stating the event being tried, together with the automata involved in the attempt.
+     *
+     * @param eventTrans Event transition being tried.
+     * @return Comment block stating the event, and listing what is needed for the event to occur.
+     */
+    private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
+        CodeBox box = new MemoryCodeBox();
+        box.add("Try to perform event \"%s\".", getAbsName(eventTrans.event, false));
+
+        CifType eventType = eventTrans.event.getType();
+        if (eventType != null) {
+            boolean transferValue = !(eventType instanceof VoidType);
+
+            // List senders.
+            box.add();
+            if (eventTrans.senders.isEmpty()) {
+                box.add("- An automaton that must send a value is missing, event cannot occur.");
+            } else {
+                if (transferValue) {
+                    box.add("- One automaton must send a value.");
+                } else {
+                    box.add("- One automaton must send a value (although no data is actually transferred).");
+                }
+                for (TransitionAutomaton transAut: eventTrans.senders) {
+                    box.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
+                }
+            }
+
+            // List receivers.
+            box.add();
+            if (eventTrans.receivers.isEmpty()) {
+                box.add("- An automaton that must accept a value is missing, event cannot occur.");
+            } else {
+                if (transferValue) {
+                    box.add("- One automaton must accept a value.");
+                } else {
+                    box.add("- One automaton must accept a value (although no data is actually transferred).");
+                }
+                for (TransitionAutomaton transAut: eventTrans.receivers) {
+                    box.add("   - Automaton \"%s\" may accept a value.", getAbsName(transAut.aut, false));
+                }
+            }
+        }
+
+        // List syncers,
+        if (!eventTrans.syncers.isEmpty()) {
+            box.add();
+            for (TransitionAutomaton transAut: eventTrans.syncers) {
+                box.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
+            }
+        }
+
+        // List monitors,
+        if (!eventTrans.monitors.isEmpty()) {
+            box.add();
+            for (TransitionAutomaton transAut: eventTrans.monitors) {
+                box.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
+            }
+        }
+
+        return new PlcCommentBlock(60, box.getLines());
     }
 
     /**

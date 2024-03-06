@@ -181,7 +181,14 @@ public class TransitionGeneratorTest {
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
-                (* Try to perform event "sendEvent". *)
+                (*************************************************************
+                 * Try to perform event "sendEvent".
+                 *
+                 * - One automaton must send a value.
+                 *    - Automaton "aut1" may send a value.
+                 *
+                 * - An automaton that must accept a value is missing, event cannot occur.
+                 *************************************************************)
                 eventEnabled := TRUE;
                 senderAut := 0;
                 IF senderAut = 0 THEN
@@ -250,7 +257,16 @@ public class TransitionGeneratorTest {
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
-                (* Try to perform event "channelEvent". *)
+                (*************************************************************
+                 * Try to perform event "channelEvent".
+                 *
+                 * - One automaton must send a value.
+                 *    - Automaton "sender1" may send a value.
+                 *
+                 * - One automaton must accept a value.
+                 *    - Automaton "receiver1" may accept a value.
+                 *    - Automaton "receiver2" may accept a value.
+                 *************************************************************)
                 eventEnabled := TRUE;
                 senderAut := 0;
                 IF senderAut = 0 THEN
@@ -349,7 +365,12 @@ public class TransitionGeneratorTest {
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
-                (* Try to perform event "event". *)
+                (*************************************************************
+                 * Try to perform event "event".
+                 *
+                 * - Automaton "syncer1" must always synchronize.
+                 * - Automaton "syncer2" must always synchronize.
+                 *************************************************************)
                 eventEnabled := TRUE;
                 IF otherVar = 1 THEN
                     edge_syncer1_1 := 1;
@@ -406,7 +427,11 @@ public class TransitionGeneratorTest {
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
-                (* Try to perform event "event". *)
+                (*************************************************************
+                 * Try to perform event "event".
+                 *
+                 * - Automaton "monitor" may synchronize.
+                 *************************************************************)
                 eventEnabled := TRUE;
                 IF eventEnabled THEN
                     isProgress := TRUE;
@@ -454,7 +479,11 @@ public class TransitionGeneratorTest {
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
-                (* Try to perform event "event". *)
+                (*************************************************************
+                 * Try to perform event "event".
+                 *
+                 * - Automaton "aut" must always synchronize.
+                 *************************************************************)
                 eventEnabled := TRUE;
                 IF TRUE THEN
                     edge_aut_1 := 1;
@@ -499,7 +528,11 @@ public class TransitionGeneratorTest {
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
-                (* Try to perform event "event". *)
+                (*************************************************************
+                 * Try to perform event "event".
+                 *
+                 * - Automaton "aut" must always synchronize.
+                 *************************************************************)
                 eventEnabled := TRUE;
                 IF TRUE THEN
                     edge_aut_1 := 1;
