@@ -160,17 +160,29 @@ public class CifEventTransition {
 
     /** Reason for having the transition automaton. */
     public static enum TransAutPurpose {
-        /** The automaton is a sender automaton, that sends values over the channel. */
-        SENDER,
+        /** The automaton is a sender automaton, that provides values for the channel. */
+        SENDER("provide a value for the channel"),
 
-        /** The automaton is a receiver automaton, that receives values from the channel. */
-        RECEIVER,
+        /** The automaton is a receiver automaton, that accepts values from the channel. */
+        RECEIVER("accept a value from the channel"),
 
         /** The automaton is a syncer automaton, that synchronizes on the event, but does not monitor it. */
-        SYNCER,
+        SYNCER("synchronize"),
 
         /** The automaton is a monitor automaton, that synchronizes on the event, and monitors it. */
-        MONITOR;
+        MONITOR("optionally synchronize");
+
+        /** Description of the purpose of the automaton in the transition. */
+        public final String purposeText;
+
+        /**
+         * Constructor of the {@link TransAutPurpose} enum.
+         *
+         * @param purposeText Description of the purpose of the automaton in the transition.
+         */
+        private TransAutPurpose(String purposeText) {
+            this.purposeText = purposeText;
+        }
     }
 
     /** An edge of an automaton that may be executed with the event. */
