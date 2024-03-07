@@ -344,21 +344,23 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
 
             // Handle senders.
-            generateSendReceiveCode(eventTransition.event, eventTransition.senders, testCode, performProvider, performCode, "sender",
-                    createdTempVariables, eventEnabledVar, channelValueVar, eventEnabledAlwaysHolds);
+            generateSendReceiveCode(eventTransition.event, eventTransition.senders, testCode, performProvider,
+                    performCode, TransAutPurpose.SENDER, createdTempVariables, eventEnabledVar, channelValueVar,
+                    eventEnabledAlwaysHolds);
 
             eventEnabledAlwaysHolds = false; // At least one sender tested; event is no longer guaranteed to be enabled.
 
             // Handle receivers.
             mainExprGen.setChannelValueVariable(channelValueVar);
-            generateSendReceiveCode(eventTransition.event, eventTransition.receivers, testCode, performProvider, performCode, "receiver",
-                    createdTempVariables, eventEnabledVar, null, eventEnabledAlwaysHolds);
+            generateSendReceiveCode(eventTransition.event, eventTransition.receivers, testCode, performProvider,
+                    performCode, TransAutPurpose.RECEIVER, createdTempVariables, eventEnabledVar, null,
+                    eventEnabledAlwaysHolds);
             mainExprGen.setChannelValueVariable(null);
         }
 
         // Handle syncers.
-        generateSyncCode(eventTransition.event, eventTransition.syncers, testCode, performProvider, performCode, createdTempVariables,
-                eventEnabledVar, eventEnabledAlwaysHolds);
+        generateSyncCode(eventTransition.event, eventTransition.syncers, testCode, performProvider, performCode,
+                createdTempVariables, eventEnabledVar, eventEnabledAlwaysHolds);
 
         // Handle monitors. Only generates perform code since it doesn't influence enabledness of the event transition.
         generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
@@ -598,7 +600,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
      *     during perform code execution. Can be {@code null} to disable redirection.
      * @param performCode Storage for generated perform code. Is updated in-place.
-     * @param varPrefix Prefix of locally created temporary variables.
+     * @param purpose Purposes of the given automaton.
      * @param createdTempVariables Tracking storage of created temporary variables.
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @param channelValueVar PLC variable storing the channel value. Is {@code null} when not sending a value (either
@@ -607,12 +609,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private void generateSendReceiveCode(Event event, List<TransitionAutomaton> autTransitions,
             List<PlcStatement> testCode, CifDataProvider performProvider, List<PlcStatement> performCode,
-            String varPrefix, List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
+            TransAutPurpose purpose, List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
             PlcBasicVariable channelValueVar, boolean eventEnabledAlwaysHolds)
     {
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
         // TODO: Use a smaller integer for automaton indexing.
+        String varPrefix = purpose == TransAutPurpose.SENDER ? "sender" : "receiver";
         PlcBasicVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
         createdTempVariables.add(autVar);
         autTestCode.add(generatePlcIntAssignment(autVar, 0));
