@@ -199,6 +199,14 @@ public class TransitionGeneratorTest {
                 eventEnabled := TRUE;
                 senderAut := 0;
                 IF senderAut = 0 THEN
+                    (***********
+                     * Testing edge of automaton "aut1" to provide a value for the channel at event "sendEvent".
+                     * One sending automaton must have an edge with a true guard to allow the event.
+                     *
+                     * Edge being tested:
+                     *   - Location "aut1Loc":
+                     *      - 1st edge in the location
+                     ***********)
                     IF TRUE THEN
                         senderAut := 1;
                         edge_aut1_1 := 1;
@@ -289,6 +297,14 @@ public class TransitionGeneratorTest {
                 eventEnabled := TRUE;
                 senderAut := 0;
                 IF senderAut = 0 THEN
+                    (***********
+                     * Testing edge of automaton "sender1" to provide a value for the channel at event "channelEvent".
+                     * One sending automaton must have an edge with a true guard to allow the event.
+                     *
+                     * Edge being tested:
+                     *   - Location "sender1Loc":
+                     *      - 2nd edge in the location
+                     ***********)
                     IF TRUE THEN
                         senderAut := 1;
                         edge_sender1_1 := 1;
@@ -300,12 +316,28 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
+                        (***********
+                         * Testing edge of automaton "receiver1" to accept a value from the channel at event "channelEvent".
+                         * One receiving automaton must have an edge with a true guard to allow the event.
+                         *
+                         * Edge being tested:
+                         *   - Location "receiver1Loc":
+                         *      - 3rd edge in the location
+                         ***********)
                         IF TRUE THEN
                             receiverAut := 1;
                             edge_receiver1_1 := 1;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
+                        (***********
+                         * Testing edge of automaton "receiver2" to accept a value from the channel at event "channelEvent".
+                         * One receiving automaton must have an edge with a true guard to allow the event.
+                         *
+                         * Edge being tested:
+                         *   - Location "receiver2Loc":
+                         *      - 4th edge in the location
+                         ***********)
                         IF TRUE THEN
                             receiverAut := 2;
                             edge_receiver2_1 := 1;
@@ -399,6 +431,15 @@ public class TransitionGeneratorTest {
                  * - Automaton "syncer2" must always synchronize.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (***********
+                 * Testing edges of automaton "syncer1" to synchronize at event "event".
+                 * This automaton must have an edge with a true guard to allow the event.
+                 *
+                 * Edges being tested:
+                 *   - Location "syncer1Loc":
+                 *      - 5th edge in the location
+                 *      - 6th edge in the location
+                 ***********)
                 IF otherVar = 1 THEN
                     edge_syncer1_1 := 1;
                 ELSIF otherVar = 2 THEN
@@ -407,6 +448,14 @@ public class TransitionGeneratorTest {
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
+                    (***********
+                     * Testing edge of automaton "syncer2" to synchronize at event "event".
+                     * This automaton must have an edge with a true guard to allow the event.
+                     *
+                     * Edge being tested:
+                     *   - Location "syncer2Loc":
+                     *      - 7th edge in the location
+                     ***********)
                     IF otherVar = 3 THEN
                         edge_syncer2_1 := 1;
                     ELSE
@@ -520,6 +569,14 @@ public class TransitionGeneratorTest {
                  * - Automaton "aut" must always synchronize.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (***********
+                 * Testing edge of automaton "aut" to synchronize at event "event".
+                 * This automaton must have an edge with a true guard to allow the event.
+                 *
+                 * Edge being tested:
+                 *   - Location "aut2Loc":
+                 *      - 9th edge in the location
+                 ***********)
                 IF TRUE THEN
                     edge_aut_1 := 1;
                 ELSE
@@ -573,6 +630,14 @@ public class TransitionGeneratorTest {
                  * - Automaton "aut" must always synchronize.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (***********
+                 * Testing edge of automaton "aut" to synchronize at event "event".
+                 * This automaton must have an edge with a true guard to allow the event.
+                 *
+                 * Edge being tested:
+                 *   - Location "autLoc":
+                 *      - 10th edge in the location
+                 ***********)
                 IF TRUE THEN
                     edge_aut_1 := 1;
                 ELSE

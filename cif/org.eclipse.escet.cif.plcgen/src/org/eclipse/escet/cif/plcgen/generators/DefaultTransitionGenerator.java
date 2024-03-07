@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Numbers.toOrdinal;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,11 +32,13 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
@@ -48,6 +51,7 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprAddressableResult;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
@@ -340,20 +344,20 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
 
             // Handle senders.
-            generateSendReceiveCode(eventTransition.senders, testCode, performProvider, performCode, "sender",
+            generateSendReceiveCode(eventTransition.event, eventTransition.senders, testCode, performProvider, performCode, "sender",
                     createdTempVariables, eventEnabledVar, channelValueVar, eventEnabledAlwaysHolds);
 
             eventEnabledAlwaysHolds = false; // At least one sender tested; event is no longer guaranteed to be enabled.
 
             // Handle receivers.
             mainExprGen.setChannelValueVariable(channelValueVar);
-            generateSendReceiveCode(eventTransition.receivers, testCode, performProvider, performCode, "receiver",
+            generateSendReceiveCode(eventTransition.event, eventTransition.receivers, testCode, performProvider, performCode, "receiver",
                     createdTempVariables, eventEnabledVar, null, eventEnabledAlwaysHolds);
             mainExprGen.setChannelValueVariable(null);
         }
 
         // Handle syncers.
-        generateSyncCode(eventTransition.syncers, testCode, performProvider, performCode, createdTempVariables,
+        generateSyncCode(eventTransition.event, eventTransition.syncers, testCode, performProvider, performCode, createdTempVariables,
                 eventEnabledVar, eventEnabledAlwaysHolds);
 
         // Handle monitors. Only generates perform code since it doesn't influence enabledness of the event transition.
@@ -588,6 +592,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * in them.
      * </p>
      *
+     * @param event Event being dealt with.
      * @param autTransitions Automaton transitions to convert.
      * @param testCode Storage for generated test code. Is updated in-place.
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
@@ -600,9 +605,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     receiving a value or it is a void channel).
      * @param eventEnabledAlwaysHolds Whether it is known that 'eventEnabled' in tests is always true at runtime.
      */
-    private void generateSendReceiveCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
-            CifDataProvider performProvider, List<PlcStatement> performCode, String varPrefix,
-            List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
+    private void generateSendReceiveCode(Event event, List<TransitionAutomaton> autTransitions,
+            List<PlcStatement> testCode, CifDataProvider performProvider, List<PlcStatement> performCode,
+            String varPrefix, List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
             PlcBasicVariable channelValueVar, boolean eventEnabledAlwaysHolds)
     {
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
@@ -623,7 +628,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcBasicVariable edgeVar = getAutomatonEdgeVariable(transAut.aut);
 
             // Generate edge testing code.
-            autTestCode.addAll(generateEdgesTestCode(transAut, autIndex, autVar, edgeVar, eventEnabledVar));
+            autTestCode.addAll(generateEdgesTestCode(event, transAut, autIndex, autVar, edgeVar, eventEnabledVar));
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
@@ -686,6 +691,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * automaton. Within that branch, the updates of the chosen edge are then performed.
      * </p>
      *
+     * @param event Event being dealt with.
      * @param autTransitions Automaton transitions to convert.
      * @param testCode Storage for generated test code. Is updated in-place.
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
@@ -695,7 +701,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @param eventEnabledAlwaysHolds Whether it is known that 'eventEnabled' in tests is always true at runtime.
      */
-    private void generateSyncCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
+    private void generateSyncCode(Event event, List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode,
             List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
             boolean eventEnabledAlwaysHolds)
@@ -709,7 +715,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             List<PlcStatement> autTestCode = list();
 
             // Generate edge testing code.
-            autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, eventEnabledVar));
+            autTestCode.addAll(generateEdgesTestCode(event, transAut, -1, null, autEdgeVar, eventEnabledVar));
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
@@ -792,6 +798,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * not {@code null}, and sets {@code edgeVar} to the 1-based index of the edge that is found to be enabled.
      * </p>
      *
+     * @param event Event being tried.
      * @param transAut Automaton to generate test code for.
      * @param autIndex Automaton index that indicates the given automaton. Has negative value if not used.
      * @param autVar PLC variable that stores the automaton found while testing for enabled edges. Is {@code null} if
@@ -802,12 +809,16 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @return The generated code.
      */
-    private List<PlcStatement> generateEdgesTestCode(TransitionAutomaton transAut, int autIndex,
+    private List<PlcStatement> generateEdgesTestCode(Event event, TransitionAutomaton transAut, int autIndex,
             PlcBasicVariable autVar, PlcBasicVariable edgeVar, PlcBasicVariable eventEnabledVar)
     {
         List<PlcStatement> testCode = list();
         PlcSelectionStatement selStat = null;
 
+        // Explain the goal of testing the edges.
+        testCode.add(genEdgeTestsDocumentation(event, transAut));
+
+        // Generate the checks and assign their findings to edge and/or automaton variables.
         int edgeIndex = 1;
         for (TransitionEdge edge: transAut.transitionEdges) {
             final int finalEdgeIndex = edgeIndex; // Java wants a copy.
@@ -852,6 +863,50 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         PlcBasicVariable edgeVariable = edgeSelectionVariables.get(aut);
         Assert.notNull(edgeVariable);
         return edgeVariable;
+    }
+
+    /**
+     * Generate a comment block explaining the test performed at an automaton.
+     *
+     * @param event Event being tried.
+     * @param transAut Automation transition information to show.
+     * @return The generated comment block.
+     */
+    private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
+        CodeBox box = new MemoryCodeBox();
+        String edgePluralText = (transAut.transitionEdges.size() > 1) ? "s" : "";
+        box.add("Testing edge%s of automaton \"%s\" to %s at event \"%s\".", edgePluralText,
+                getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
+
+        switch (transAut.purpose) {
+            case MONITOR:
+                throw new AssertionError("Unexpected test-doc request from a monitor.");
+            case RECEIVER:
+            case SENDER: {
+                String kindText = (transAut.purpose == TransAutPurpose.SENDER) ? "sending" : "receiving";
+                box.add("One %s automaton must have an edge with a true guard to allow the event.", kindText);
+                break;
+            }
+            case SYNCER:
+                box.add("This automaton must have an edge with a true guard to allow the event.");
+                break;
+            default:
+                throw new AssertionError("Unknown purpose \"" + transAut.purpose + "\" encountered.");
+        }
+        box.add();
+        box.add("Edge%s being tested:", edgePluralText);
+        Location lastLoc = null;
+        for (TransitionEdge transEdge: transAut.transitionEdges) {
+            if (transEdge.sourceLoc != lastLoc) {
+                lastLoc = transEdge.sourceLoc;
+                box.add("  - Location \"%s\":", (lastLoc.getName() == null ? "*" : lastLoc.getName()));
+            }
+            box.add("     - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+        }
+        if (lastLoc == null) {
+            box.add("  - No edges found, event \"%s\" will never occur!:", getAbsName(event, false));
+        }
+        return new PlcCommentBlock(box.getLines());
     }
 
     /**
