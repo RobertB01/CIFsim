@@ -76,6 +76,12 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Generator for creating PLC code to perform CIF event transitions in the PLC. */
 public class DefaultTransitionGenerator implements TransitionGenerator {
+    /** Number of leading and trailing {@code *} characters for the event level comment. */
+    private static final int TOP_COMMENT_STARCOUNT = 60;
+
+    /** Number of leading and trailing {@code *} characters for automata kind level comment. */
+    private static final int MID_COMMENT_STARCOUNT = 30;
+
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
@@ -336,14 +342,27 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // A void channel does not transport data, 'channelValueVar' is 'null' in that case.
             channelType = normalizeType(channelType);
             PlcBasicVariable channelValueVar;
+            String performProvideText, performAcceptText;
             if (channelType instanceof VoidType) {
                 channelValueVar = null;
+
+                performProvideText = "perform updates of the selected providing automaton.";
+                performAcceptText = "perform updates of the selected accepting automaton.";
             } else {
                 channelValueVar = mainExprGen.getTempVariable("channelValue", channelType);
                 createdTempVariables.add(channelValueVar);
+
+                performProvideText = "Store the provided value and perform updates of the selected providing "
+                        + "automaton.";
+                performAcceptText = "Deliver the provided value and perform updates of the selected accepting "
+                        + "automaton.";
             }
 
             // Handle senders.
+            testCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+                    List.of("Try to find an automaton that provides a value.")));
+            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT, List.of(performProvideText)));
+
             generateSendReceiveCode(eventTransition.event, eventTransition.senders, testCode, performProvider,
                     performCode, TransAutPurpose.SENDER, createdTempVariables, eventEnabledVar, channelValueVar,
                     eventEnabledAlwaysHolds);
@@ -351,6 +370,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             eventEnabledAlwaysHolds = false; // At least one sender tested; event is no longer guaranteed to be enabled.
 
             // Handle receivers.
+            testCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+                    List.of("Try to find an automaton that accepts a value.")));
+            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT, List.of(performAcceptText)));
+
             mainExprGen.setChannelValueVariable(channelValueVar);
             generateSendReceiveCode(eventTransition.event, eventTransition.receivers, testCode, performProvider,
                     performCode, TransAutPurpose.RECEIVER, createdTempVariables, eventEnabledVar, null,
@@ -359,11 +382,21 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         }
 
         // Handle syncers.
-        generateSyncCode(eventTransition.event, eventTransition.syncers, testCode, performProvider, performCode,
-                createdTempVariables, eventEnabledVar, eventEnabledAlwaysHolds);
+        if (!eventTransition.syncers.isEmpty()) {
+            testCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+                    List.of("Check each synchronizing automaton for having an edge with a true guard.")));
+            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+                    List.of("Perform the assignments of each synchronizing automaton.")));
+            generateSyncCode(eventTransition.event, eventTransition.syncers, testCode, performProvider, performCode,
+                    createdTempVariables, eventEnabledVar, eventEnabledAlwaysHolds);
+        }
 
         // Handle monitors. Only generates perform code since it doesn't influence enabledness of the event transition.
-        generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
+        if (!eventTransition.monitors.isEmpty()) {
+            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+                    List.of("Perform the assignments of each optionally synchronizing automaton.")));
+            generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
+        }
 
         // Construct the complete PLC code for the event transition by concatenating test and conditional perform code.
         List<PlcStatement> resultCode = testCode;
@@ -435,7 +468,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
-        return new PlcCommentBlock(60, box.getLines());
+        return new PlcCommentBlock(TOP_COMMENT_STARCOUNT, box.getLines());
     }
 
     /**
@@ -725,7 +758,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             performCode.addAll(generateAutPerformCode(transAut, autEdgeVar, null));
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
-            // If enablendess is known to hold, the generated test code can be used as-is. Otherwise, running the
+            // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the
             // generated test code only makes sense after verifying that the event is indeed enabled.
             if (eventEnabledAlwaysHolds) {
                 testCode.addAll(autTestCode);

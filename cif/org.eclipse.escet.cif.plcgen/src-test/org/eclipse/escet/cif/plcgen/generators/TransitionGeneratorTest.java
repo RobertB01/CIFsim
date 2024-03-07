@@ -197,6 +197,9 @@ public class TransitionGeneratorTest {
                  * - An automaton that must accept a value is missing, event cannot occur.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (*******************************
+                 * Try to find an automaton that provides a value.
+                 *******************************)
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     (***********
@@ -215,6 +218,9 @@ public class TransitionGeneratorTest {
                 IF senderAut = 0 THEN
                     eventEnabled := FALSE;
                 END_IF;
+                (*******************************
+                 * Try to find an automaton that accepts a value.
+                 *******************************)
                 IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
@@ -223,11 +229,17 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF eventEnabled THEN
                     isProgress := TRUE;
+                    (*******************************
+                     * Store the provided value and perform updates of the selected providing automaton.
+                     *******************************)
                     IF senderAut = 1 THEN
                         IF edge_aut1_1 = 1 THEN
                             channelValue := 1;
                         END_IF;
                     END_IF;
+                    (*******************************
+                     * Deliver the provided value and perform updates of the selected accepting automaton.
+                     *******************************)
                 END_IF;""";
         assertEquals(expectedText, actualText);
     }
@@ -295,6 +307,9 @@ public class TransitionGeneratorTest {
                  *    - Automaton "receiver2" may accept a value.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (*******************************
+                 * Try to find an automaton that provides a value.
+                 *******************************)
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     (***********
@@ -313,6 +328,9 @@ public class TransitionGeneratorTest {
                 IF senderAut = 0 THEN
                     eventEnabled := FALSE;
                 END_IF;
+                (*******************************
+                 * Try to find an automaton that accepts a value.
+                 *******************************)
                 IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
@@ -351,11 +369,17 @@ public class TransitionGeneratorTest {
                     isProgress := TRUE;
                     current_otherVar := otherVar;
                     current_recVar := recVar;
+                    (*******************************
+                     * Store the provided value and perform updates of the selected providing automaton.
+                     *******************************)
                     IF senderAut = 1 THEN
                         IF edge_sender1_1 = 1 THEN
                             channelValue := 1;
                         END_IF;
                     END_IF;
+                    (*******************************
+                     * Deliver the provided value and perform updates of the selected accepting automaton.
+                     *******************************)
                     IF receiverAut = 1 THEN
                         IF edge_receiver1_1 = 1 THEN
                             recVar := current_recVar + channelValue;
@@ -431,6 +455,9 @@ public class TransitionGeneratorTest {
                  * - Automaton "syncer2" must always synchronize.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (*******************************
+                 * Check each synchronizing automaton for having an edge with a true guard.
+                 *******************************)
                 (***********
                  * Testing edges of automaton "syncer1" to synchronize at event "event".
                  * This automaton must have an edge with a true guard to allow the event.
@@ -465,6 +492,9 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
+                    (*******************************
+                     * Perform the assignments of each synchronizing automaton.
+                     *******************************)
                     IF edge_syncer1_1 = 1 THEN
                         otherVar := 2;
                     ELSIF edge_syncer1_1 = 2 THEN
@@ -516,6 +546,9 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
+                    (*******************************
+                     * Perform the assignments of each optionally synchronizing automaton.
+                     *******************************)
                     IF current_otherVar = 1 THEN
                         otherVar := 2;
                     END_IF;
@@ -569,6 +602,9 @@ public class TransitionGeneratorTest {
                  * - Automaton "aut" must always synchronize.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (*******************************
+                 * Check each synchronizing automaton for having an edge with a true guard.
+                 *******************************)
                 (***********
                  * Testing edge of automaton "aut" to synchronize at event "event".
                  * This automaton must have an edge with a true guard to allow the event.
@@ -585,6 +621,9 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
+                    (*******************************
+                     * Perform the assignments of each synchronizing automaton.
+                     *******************************)
                     IF edge_aut_1 = 1 THEN
                         otherVar := 1;
                         otherVar := 2;
@@ -630,6 +669,9 @@ public class TransitionGeneratorTest {
                  * - Automaton "aut" must always synchronize.
                  *************************************************************)
                 eventEnabled := TRUE;
+                (*******************************
+                 * Check each synchronizing automaton for having an edge with a true guard.
+                 *******************************)
                 (***********
                  * Testing edge of automaton "aut" to synchronize at event "event".
                  * This automaton must have an edge with a true guard to allow the event.
@@ -646,6 +688,9 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     current_otherVar := otherVar;
+                    (*******************************
+                     * Perform the assignments of each synchronizing automaton.
+                     *******************************)
                     IF edge_aut_1 = 1 THEN
                         rightValue := TRUE;
                         otherVar := rightValue.field1;
