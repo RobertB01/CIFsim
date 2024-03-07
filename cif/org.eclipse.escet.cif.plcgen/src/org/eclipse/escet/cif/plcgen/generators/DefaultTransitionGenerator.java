@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Numbers.toOrdinal;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
 import java.util.List;
@@ -401,6 +402,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Construct the complete PLC code for the event transition by concatenating test and conditional perform code.
         List<PlcStatement> resultCode = testCode;
         PlcExpression guard = new PlcVarExpression(eventEnabledVar);
+
+        resultCode.add(new PlcCommentLine(
+                fmt("All checks have been done. If variable \"%s\" still holds, event \"%s\" can occur.",
+                        eventEnabledVar.varName, getAbsName(eventTransition.event, false))));
         resultCode.add(generateIfGuardThenCode(guard, performCode));
 
         mainExprGen.releaseTempVariables(createdTempVariables);
@@ -492,6 +497,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Sort declarations on absolute name.
         List<Declaration> assignedVarList = set2list(assignedVariables);
         Collections.sort(assignedVarList, (a, b) -> getAbsName(a, false).compareTo(getAbsName(b, false)));
+
+        if (!assignedVariables.isEmpty()) {
+            codeStorage.add(new PlcCommentLine("Make temporary copies of assigned variables to preserve the old "
+                    + "values while assigning new values."));
+        }
 
         // Generate code to copy the old value of assigned variables so they survive assignment with a new value, and
         // setup a redirect map for a new data provider, to make the expression generator use the copied state for
@@ -645,10 +655,19 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             TransAutPurpose purpose, List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
             PlcBasicVariable channelValueVar, boolean eventEnabledAlwaysHolds)
     {
+        // Setup comment texts.
+        String varPrefix, failResultText;
+        if (purpose == TransAutPurpose.SENDER) {
+            varPrefix = "sender";
+            failResultText = "Failed to find an automaton that provides a value, skip to next event.";
+        } else {
+            varPrefix = "receiver";
+            failResultText = "Failed to find an automaton that accepts a value, skip to next event.";
+        }
+
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
         // TODO: Use a smaller integer for automaton indexing.
-        String varPrefix = purpose == TransAutPurpose.SENDER ? "sender" : "receiver";
         PlcBasicVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
         createdTempVariables.add(autVar);
         autTestCode.add(generatePlcIntAssignment(autVar, 0));
@@ -656,6 +675,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Outer dispatch selection statement that selects on the chosen automaton, and performs selection performing of
         // the edges within each dispatched branch. The latter is generated below.
         PlcSelectionStatement performSelectStat = new PlcSelectionStatement();
+        List<PlcStatement> collectedNoUpdates = list(); // Comment lines about automata that have no updates to perform.
 
         // Generate code that tests and performs sending or receiving a value to the channel.
         int autIndex = 1; // Index 0 is used to denote no automaton has been selected.
@@ -669,8 +689,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            List<PlcStatement> innerPerformCode = generateAutPerformCode(transAut, edgeVar, channelValueVar);
-            if (!innerPerformCode.isEmpty()) {
+            List<PlcStatement> innerPerformCode = list(
+                    new PlcCommentLine(fmt("Automaton \"%s\" was selected.", getAbsName(transAut.aut, false))));
+            innerPerformCode.addAll(generateAutPerformCode(transAut, edgeVar, channelValueVar));
+
+            if (innerPerformCode.size() == 1) { // No updates need to be done.
+                collectedNoUpdates.add(new PlcCommentLine(
+                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+            } else {
                 performSelectStat.condChoices
                         .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), innerPerformCode));
             }
@@ -688,8 +714,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // IF autVar = 0 THEN eventEnabled := FALSE; END_IF;
         {
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
+            PlcCommentLine epxlanation = new PlcCommentLine(failResultText);
             PlcAssignmentStatement assignment = generatePlcBoolAssignment(eventEnabledVar, false);
-            autTestCode.add(generateIfGuardThenCode(guard, assignment));
+            autTestCode.add(generateIfGuardThenCode(guard, list(epxlanation, assignment)));
         }
 
         // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the generated
@@ -742,6 +769,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
             boolean eventEnabledAlwaysHolds)
     {
+        List<PlcStatement> collectedNoUpdates = list();
+        List<PlcStatement> collectedUpdates = list();
+
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
             // Get the variable that stores the selected edge index for the automaton.
@@ -755,7 +785,15 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            performCode.addAll(generateAutPerformCode(transAut, autEdgeVar, null));
+            List<PlcStatement> updates = generateAutPerformCode(transAut, autEdgeVar, null);
+            if (updates.isEmpty()) {
+                collectedNoUpdates.add(new PlcCommentLine(
+                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+            } else {
+                collectedUpdates.add(new PlcCommentLine(
+                        fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false))));
+                collectedUpdates.addAll(updates);
+            }
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
             // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the
@@ -768,6 +806,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
             eventEnabledAlwaysHolds = false;
         }
+
+        if (collectedUpdates.isEmpty()) {
+            performCode.add(new PlcCommentLine(
+                    "There are no assignments to perform for automata that must always synchronize."));
+        }
+        performCode.addAll(collectedUpdates);
+        performCode.addAll(collectedNoUpdates);
     }
 
     /**
@@ -799,19 +844,36 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     {
         // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
 
+        List<PlcStatement> collectedNoUpdates = list(); // Comments about automata without updates.
+        List<PlcStatement> collectedUpdates = list(); // Edge selections of automata with updates.
+
         mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
         for (TransitionAutomaton transAut: autTransitions) {
+            List<PlcStatement> updates = list();
             PlcSelectionStatement selStat = null;
 
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
                     Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(edge.updates); };
                     // Add an "IF <guards> THEN <perform-updates>" branch.
-                    selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, testAndPerformCode);
+                    selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
                 }
+            }
+
+            collectedUpdates.addAll(updates);
+            if (updates.isEmpty()) {
+                collectedNoUpdates.add(new PlcCommentLine(
+                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
             }
         }
         mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
+
+        if (collectedUpdates.isEmpty()) {
+            testAndPerformCode.add(new PlcCommentLine(
+                    "There are no assignments to perform for automata that must always synchronize."));
+        }
+        testAndPerformCode.addAll(collectedUpdates);
+        testAndPerformCode.addAll(collectedNoUpdates);
     }
 
     /**
@@ -880,9 +942,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             return List.of(generateIfGuardThenCode(guard, testCode));
         } else {
             // If no enabled edge was found for this automaton, the event is immediately not enabled.
+            PlcCommentLine explainFail = new PlcCommentLine(
+                    "The automaton has no edge with a true guard, skip to the next event.");
             if (selStat == null) {
+                testCode.add(explainFail);
                 testCode.add(generatePlcBoolAssignment(eventEnabledVar, false));
             } else {
+                selStat.elseStats.add(explainFail);
                 selStat.elseStats.add(generatePlcBoolAssignment(eventEnabledVar, false));
             }
             return testCode;
@@ -962,6 +1028,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<PlcStatement> performCode = list();
         PlcSelectionStatement selStat = null;
 
+        // Perform the selected edge, if not empty.
         int edgeIndex = 1;
         for (TransitionEdge edge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
@@ -1138,17 +1205,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             projs.add(new PlcStructProjection(lhsStructType.fields.get(idx).fieldName));
             genUpdateAssignment(lhsTuple.getFields().get(idx), rhsVariable, projs, statements);
         }
-    }
-
-    /**
-     * Construct a selection statement with one alternative.
-     *
-     * @param guard Condition that must hold to perform the statement.
-     * @param statement Statement to conditionally execute.
-     * @return The generated selection statement.
-     */
-    private PlcSelectionStatement generateIfGuardThenCode(PlcExpression guard, PlcStatement statement) {
-        return generateIfGuardThenCode(guard, list(statement));
     }
 
     /**
