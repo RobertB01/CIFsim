@@ -1234,6 +1234,11 @@ struct WorkStruct {
 /* }}} */
 
 /* {{{ algvar, derivative, function declarations. */
+static int_T algvars_a1_(SimStruct *sim_struct);
+static int_T algvars_a2_(SimStruct *sim_struct);
+static int_T algvars_a3_(SimStruct *sim_struct);
+static int_T algvars_a4_(SimStruct *sim_struct);
+static int_T algvars_a5_(SimStruct *sim_struct);
 
 
 static real_T deriv01(SimStruct *sim_struct);
@@ -1247,7 +1252,70 @@ static real_T deriv05(SimStruct *sim_struct);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
+/** Algebraic variable algvars.a1 = 1. */
+static int_T algvars_a1_(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
 
+    return 1;
+}
+
+/**
+ * Algebraic variable algvars.a2 = 2.
+ *
+ * single line doc
+ */
+static int_T algvars_a2_(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 2;
+}
+
+/**
+ * Algebraic variable algvars.a3 = 3.
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+static int_T algvars_a3_(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 3;
+}
+
+/**
+ * Algebraic variable algvars.a4 = 4.
+ *
+ * some doc
+ */
+static int_T algvars_a4_(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 4;
+}
+
+/**
+ * Algebraic variable algvars.a5 = 5.
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+static int_T algvars_a5_(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    return 5;
+}
 /* }}} */
 
 /* {{{ Derivative definitions. */
@@ -1405,7 +1473,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 10)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 15)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
@@ -1417,8 +1485,13 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 7, 1);
     ssSetOutputPortWidth(sim_struct, 8, 1);
     ssSetOutputPortWidth(sim_struct, 9, 1);
+    ssSetOutputPortWidth(sim_struct, 10, 1);
+    ssSetOutputPortWidth(sim_struct, 11, 1);
+    ssSetOutputPortWidth(sim_struct, 12, 1);
+    ssSetOutputPortWidth(sim_struct, 13, 1);
+    ssSetOutputPortWidth(sim_struct, 14, 1);
 
-    for (idx = 0; idx < 10; idx++) {
+    for (idx = 0; idx < 15; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1563,6 +1636,21 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
 
     y = ssGetOutputPortSignal(sim_struct, 9);
     *y = BoolToSimulink(work->discvars_d5_);
+
+    y = ssGetOutputPortSignal(sim_struct, 10);
+    *y = IntToSimulink(algvars_a1_(sim_struct));
+
+    y = ssGetOutputPortSignal(sim_struct, 11);
+    *y = IntToSimulink(algvars_a2_(sim_struct));
+
+    y = ssGetOutputPortSignal(sim_struct, 12);
+    *y = IntToSimulink(algvars_a3_(sim_struct));
+
+    y = ssGetOutputPortSignal(sim_struct, 13);
+    *y = IntToSimulink(algvars_a4_(sim_struct));
+
+    y = ssGetOutputPortSignal(sim_struct, 14);
+    *y = IntToSimulink(algvars_a5_(sim_struct));
 }
 /* }}} */
 

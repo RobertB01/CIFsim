@@ -154,6 +154,11 @@ RealType contvars_c2_deriv(void);
 RealType contvars_c3_deriv(void);
 RealType contvars_c4_deriv(void);
 RealType contvars_c5_deriv(void);
+IntType algvars_a1_(void);
+IntType algvars_a2_(void);
+IntType algvars_a3_(void);
+IntType algvars_a4_(void);
+IntType algvars_a5_(void);
 
 
 /* Code entry points. */

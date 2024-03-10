@@ -36,3 +36,8 @@ discvars.d2 7
 discvars.d3 8
 discvars.d4 9
 discvars.d5 10
+algvars.a1  11
+algvars.a2  12
+algvars.a3  13
+algvars.a4  14
+algvars.a5  15
