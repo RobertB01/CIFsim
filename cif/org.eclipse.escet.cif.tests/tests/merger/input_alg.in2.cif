@@ -39,3 +39,9 @@ group q:
   equation inp5 = 3.45;
   plant invariant inp5 > 0;
 end
+
+group annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  alg bool a = true;
+end
