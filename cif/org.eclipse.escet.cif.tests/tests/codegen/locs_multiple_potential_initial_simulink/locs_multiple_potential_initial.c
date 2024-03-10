@@ -1173,7 +1173,7 @@ static BoolType a_x_(SimStruct *sim_struct);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable a.x = true; */
+/** Algebraic variable a.x = true. */
 static BoolType a_x_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);

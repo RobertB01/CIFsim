@@ -294,98 +294,74 @@ RealType r_;
 
 /* Derivative and algebraic variable functions. */
 
-/**
- * Algebraic variable s = "a\nb\tc\\d\"e";
- */
+/** Algebraic variable s = "a\nb\tc\\d\"e". */
 StringType s_(void) {
     StringType str_tmp1;
     StringTypeCopyText(&str_tmp1, "a\nb\tc\\d\"e");
     return str_tmp1;
 }
 
-/**
- * Algebraic variable ls = [s];
- */
+/** Algebraic variable ls = [s]. */
 A1SType ls_(void) {
     A1SType array_tmp2;
     (array_tmp2).data[0] = s_();
     return array_tmp2;
 }
 
-/**
- * Algebraic variable s1 = "a";
- */
+/** Algebraic variable s1 = "a". */
 StringType s1_(void) {
     StringType str_tmp3;
     StringTypeCopyText(&str_tmp3, "a");
     return str_tmp3;
 }
 
-/**
- * Algebraic variable s2 = "a\nb\tc\\d\"e f%g%%h%si%fj";
- */
+/** Algebraic variable s2 = "a\nb\tc\\d\"e f%g%%h%si%fj". */
 StringType s2_(void) {
     StringType str_tmp4;
     StringTypeCopyText(&str_tmp4, "a\nb\tc\\d\"e f%g%%h%si%fj");
     return str_tmp4;
 }
 
-/**
- * Algebraic variable s3 = "a\nb\tc\\d\"e f%g%%h%si%fj";
- */
+/** Algebraic variable s3 = "a\nb\tc\\d\"e f%g%%h%si%fj". */
 StringType s3_(void) {
     StringType str_tmp5;
     StringTypeCopyText(&str_tmp5, "a\nb\tc\\d\"e f%g%%h%si%fj");
     return str_tmp5;
 }
 
-/**
- * Algebraic variable neg12345 = -12345;
- */
+/** Algebraic variable neg12345 = -12345. */
 IntType neg12345_(void) {
     return -(12345);
 }
 
-/**
- * Algebraic variable r456 = 4.56;
- */
+/** Algebraic variable r456 = 4.56. */
 RealType r456_(void) {
     return 4.56;
 }
 
-/**
- * Algebraic variable r_zero = 0.0;
- */
+/** Algebraic variable r_zero = 0.0. */
 RealType r_zero_(void) {
     return 0.0;
 }
 
-/**
- * Algebraic variable s0 = "a";
- */
+/** Algebraic variable s0 = "a". */
 StringType s0_(void) {
     StringType str_tmp6;
     StringTypeCopyText(&str_tmp6, "a");
     return str_tmp6;
 }
 
-/**
- * Algebraic variable i0 = 1;
- */
+/** Algebraic variable i0 = 1. */
 IntType i0_(void) {
     return 1;
 }
 
-/**
- * Algebraic variable b0 = true;
- */
+/** Algebraic variable b0 = true. */
 BoolType b0_(void) {
     return TRUE;
 }
 
-/**
- * Algebraic variable t0 = (1, [2]);
- */
+/** Algebraic variable t0 = (1, [2]). */
 T2IA1IType t0_(void) {
     T2IA1IType tuple_tmp7;
     (tuple_tmp7)._field0 = 1;
@@ -393,25 +369,19 @@ T2IA1IType t0_(void) {
     return tuple_tmp7;
 }
 
-/**
- * Algebraic variable r0 = 1.23456e7;
- */
+/** Algebraic variable r0 = 1.23456e7. */
 RealType r0_(void) {
     return 1.23456E7;
 }
 
-/**
- * Algebraic variable s00 = "1.23456e7";
- */
+/** Algebraic variable s00 = "1.23456e7". */
 StringType s00_(void) {
     StringType str_tmp8;
     StringTypeCopyText(&str_tmp8, "1.23456e7");
     return str_tmp8;
 }
 
-/**
- * Algebraic variable l0 = ["a", "b"];
- */
+/** Algebraic variable l0 = ["a", "b"]. */
 A2SType l0_(void) {
     A2SType array_tmp9;
     StringTypeCopyText(&((array_tmp9).data[0]), "a");
@@ -419,58 +389,42 @@ A2SType l0_(void) {
     return array_tmp9;
 }
 
-/**
- * Algebraic variable e0 = A;
- */
+/** Algebraic variable e0 = A. */
 fmtEnum e0_(void) {
     return _fmt_A;
 }
 
-/**
- * Algebraic variable ii1 = 1;
- */
+/** Algebraic variable ii1 = 1. */
 IntType ii1_(void) {
     return 1;
 }
 
-/**
- * Algebraic variable ii2 = 2;
- */
+/** Algebraic variable ii2 = 2. */
 IntType ii2_(void) {
     return 2;
 }
 
-/**
- * Algebraic variable ii3 = 3;
- */
+/** Algebraic variable ii3 = 3. */
 IntType ii3_(void) {
     return 3;
 }
 
-/**
- * Algebraic variable ii4 = 4;
- */
+/** Algebraic variable ii4 = 4. */
 IntType ii4_(void) {
     return 4;
 }
 
-/**
- * Algebraic variable ii5 = 5;
- */
+/** Algebraic variable ii5 = 5. */
 IntType ii5_(void) {
     return 5;
 }
 
-/**
- * Algebraic variable rr6 = 6.0;
- */
+/** Algebraic variable rr6 = 6.0. */
 RealType rr6_(void) {
     return 6.0;
 }
 
-/**
- * Algebraic variable ii7 = 7;
- */
+/** Algebraic variable ii7 = 7. */
 IntType ii7_(void) {
     return 7;
 }

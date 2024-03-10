@@ -54,9 +54,7 @@ static inline BoolType a_x_(void);
 
 
 
-/**
- * Algebraic variable a.x = true;
- */
+/** Algebraic variable a.x = true. */
 static inline BoolType a_x_(void) {
     return TRUE;
 }

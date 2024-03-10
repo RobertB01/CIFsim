@@ -1501,7 +1501,7 @@ static int_T ii7_(SimStruct *sim_struct);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable s = "a\nb\tc\\d\"e"; */
+/** Algebraic variable s = "a\nb\tc\\d\"e". */
 static StringType s_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1512,7 +1512,7 @@ static StringType s_(SimStruct *sim_struct) {
     return str_tmp1;
 }
 
-/** Algebraic variable ls = [s]; */
+/** Algebraic variable ls = [s]. */
 static A1SType ls_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1523,7 +1523,7 @@ static A1SType ls_(SimStruct *sim_struct) {
     return array_tmp2;
 }
 
-/** Algebraic variable s1 = "a"; */
+/** Algebraic variable s1 = "a". */
 static StringType s1_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1534,7 +1534,7 @@ static StringType s1_(SimStruct *sim_struct) {
     return str_tmp3;
 }
 
-/** Algebraic variable s2 = "a\nb\tc\\d\"e f%g%%h%si%fj"; */
+/** Algebraic variable s2 = "a\nb\tc\\d\"e f%g%%h%si%fj". */
 static StringType s2_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1545,7 +1545,7 @@ static StringType s2_(SimStruct *sim_struct) {
     return str_tmp4;
 }
 
-/** Algebraic variable s3 = "a\nb\tc\\d\"e f%g%%h%si%fj"; */
+/** Algebraic variable s3 = "a\nb\tc\\d\"e f%g%%h%si%fj". */
 static StringType s3_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1556,7 +1556,7 @@ static StringType s3_(SimStruct *sim_struct) {
     return str_tmp5;
 }
 
-/** Algebraic variable neg12345 = -12345; */
+/** Algebraic variable neg12345 = -12345. */
 static int_T neg12345_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1565,7 +1565,7 @@ static int_T neg12345_(SimStruct *sim_struct) {
     return -(12345);
 }
 
-/** Algebraic variable r456 = 4.56; */
+/** Algebraic variable r456 = 4.56. */
 static real_T r456_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1574,7 +1574,7 @@ static real_T r456_(SimStruct *sim_struct) {
     return 4.56;
 }
 
-/** Algebraic variable r_zero = 0.0; */
+/** Algebraic variable r_zero = 0.0. */
 static real_T r_zero_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1583,7 +1583,7 @@ static real_T r_zero_(SimStruct *sim_struct) {
     return 0.0;
 }
 
-/** Algebraic variable s0 = "a"; */
+/** Algebraic variable s0 = "a". */
 static StringType s0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1594,7 +1594,7 @@ static StringType s0_(SimStruct *sim_struct) {
     return str_tmp6;
 }
 
-/** Algebraic variable i0 = 1; */
+/** Algebraic variable i0 = 1. */
 static int_T i0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1603,7 +1603,7 @@ static int_T i0_(SimStruct *sim_struct) {
     return 1;
 }
 
-/** Algebraic variable b0 = true; */
+/** Algebraic variable b0 = true. */
 static BoolType b0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1612,7 +1612,7 @@ static BoolType b0_(SimStruct *sim_struct) {
     return TRUE;
 }
 
-/** Algebraic variable t0 = (1, [2]); */
+/** Algebraic variable t0 = (1, [2]). */
 static T2IA1IType t0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1624,7 +1624,7 @@ static T2IA1IType t0_(SimStruct *sim_struct) {
     return tuple_tmp7;
 }
 
-/** Algebraic variable r0 = 1.23456e7; */
+/** Algebraic variable r0 = 1.23456e7. */
 static real_T r0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1633,7 +1633,7 @@ static real_T r0_(SimStruct *sim_struct) {
     return 1.23456E7;
 }
 
-/** Algebraic variable s00 = "1.23456e7"; */
+/** Algebraic variable s00 = "1.23456e7". */
 static StringType s00_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1644,7 +1644,7 @@ static StringType s00_(SimStruct *sim_struct) {
     return str_tmp8;
 }
 
-/** Algebraic variable l0 = ["a", "b"]; */
+/** Algebraic variable l0 = ["a", "b"]. */
 static A2SType l0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1656,7 +1656,7 @@ static A2SType l0_(SimStruct *sim_struct) {
     return array_tmp9;
 }
 
-/** Algebraic variable e0 = A; */
+/** Algebraic variable e0 = A. */
 static fmtEnum e0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1665,7 +1665,7 @@ static fmtEnum e0_(SimStruct *sim_struct) {
     return _fmt_A;
 }
 
-/** Algebraic variable ii1 = 1; */
+/** Algebraic variable ii1 = 1. */
 static int_T ii1_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1674,7 +1674,7 @@ static int_T ii1_(SimStruct *sim_struct) {
     return 1;
 }
 
-/** Algebraic variable ii2 = 2; */
+/** Algebraic variable ii2 = 2. */
 static int_T ii2_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1683,7 +1683,7 @@ static int_T ii2_(SimStruct *sim_struct) {
     return 2;
 }
 
-/** Algebraic variable ii3 = 3; */
+/** Algebraic variable ii3 = 3. */
 static int_T ii3_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1692,7 +1692,7 @@ static int_T ii3_(SimStruct *sim_struct) {
     return 3;
 }
 
-/** Algebraic variable ii4 = 4; */
+/** Algebraic variable ii4 = 4. */
 static int_T ii4_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1701,7 +1701,7 @@ static int_T ii4_(SimStruct *sim_struct) {
     return 4;
 }
 
-/** Algebraic variable ii5 = 5; */
+/** Algebraic variable ii5 = 5. */
 static int_T ii5_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1710,7 +1710,7 @@ static int_T ii5_(SimStruct *sim_struct) {
     return 5;
 }
 
-/** Algebraic variable rr6 = 6.0; */
+/** Algebraic variable rr6 = 6.0. */
 static real_T rr6_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1719,7 +1719,7 @@ static real_T rr6_(SimStruct *sim_struct) {
     return 6.0;
 }
 
-/** Algebraic variable ii7 = 7; */
+/** Algebraic variable ii7 = 7. */
 static int_T ii7_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
