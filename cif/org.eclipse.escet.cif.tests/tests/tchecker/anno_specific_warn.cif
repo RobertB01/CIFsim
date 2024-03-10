@@ -57,3 +57,8 @@ automaton a3:
   location:
     initial;
 end
+
+group g1:
+  @cif:typechecker:tests:anno1(x = true)
+  alg int a = 5;
+end

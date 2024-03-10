@@ -48,3 +48,8 @@ automaton a3:
   location:
     initial;
 end
+
+group g1:
+  @cif:typechecker:tests:anno1
+  alg int x = 1;
+end
