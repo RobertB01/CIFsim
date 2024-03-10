@@ -578,9 +578,21 @@ public class C99CodeGen extends CodeGen {
             String header = fmt("static inline %s %s(void)", ti.getTargetType(), algVarInfo.targetRef);
             declCode.add("%s;", header);
 
-            defCode.add("/**");
-            defCode.add(" * Algebraic variable %s = %s;\n", algVarInfo.name, exprToStr(algVar.getValue()));
-            defCode.add(" */");
+            List<String> docs = DocAnnotationProvider.getDocs(algVar);
+            if (docs.isEmpty()) {
+                defCode.add("/** Algebraic variable %s = %s. */", algVarInfo.name, exprToStr(algVar.getValue()));
+            } else {
+                defCode.add("/**");
+                defCode.add(" * Algebraic variable %s = %s.", algVarInfo.name, exprToStr(algVar.getValue()));
+                for (String doc: docs) {
+                    defCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        defCode.add(" * %s", line);
+                    }
+                }
+                defCode.add(" */");
+            }
+
             defCode.add("%s {", header);
             defCode.indent();
             ExprCode valueCode = ctxt.exprToTarget(algVar.getValue(), null);
