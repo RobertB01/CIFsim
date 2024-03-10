@@ -302,7 +302,7 @@ Decl : @TYPEKW TypeDefs SEMICOLTK
      |    Controllability                    Identifiers SEMICOLTK
      |    Controllability          EventType Identifiers SEMICOLTK
      | @CONSTKW Type ConstantDefs SEMICOLTK
-     | @ALGKW Type AlgVarsDefs SEMICOLTK
+     | OptAnnos @ALGKW Type AlgVarsDefs SEMICOLTK
      | OptAnnos @INPUTKW Type Identifiers SEMICOLTK
      | OptAnnos @CONTKW ContDecls SEMICOLTK
      | @EQUATIONKW Equations SEMICOLTK
