@@ -5,8 +5,8 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
   (1/8) A list type is used.
   --------------------------
    * In location "X.a":
-     - edge when c >= 0 do v := 0.0 + w[5];
-                                      ^
+     - edge evt when c >= 0 do v := 0.0 + w[5];
+                                          ^
    * In discrete variable "X.w":
      - disc list[18] int w;
             ^
@@ -21,74 +21,66 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
   ------------------------------------------------------------------
   (3/8) Continuous variable has a derivative that is not -1 or -1.0.
   ------------------------------------------------------------------
-   * In continuous variable "X.c":
+   * In automaton "X":
      - cont c = 3.0 der 0.0;
-                        ^
-
-  --------------------------------------------------------------------------
-  (4/8) Continuous variable has a value that cannot be evaluated statically.
-  --------------------------------------------------------------------------
-   * In location "X.a":
-     - edge when c != 0.0 do c := 1.0 / v;
-                                      ^
+            ^
 
   -------------------------------------------------------------------------------------------------------------------------------
-  (5/8) Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration.
+  (4/8) Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration.
   -------------------------------------------------------------------------------------------------------------------------------
    * In automaton "X":
      - cont q = 0.0;
             ^
 
+  ----------------------------------------------------------------------------------
+  (5/8) Continuous variable is assigned a value that cannot be evaluated statically.
+  ----------------------------------------------------------------------------------
+   * In location "X.a":
+     - edge evt when c != 0.0 do c := 1.0 / v;
+                                 ^
+
   ----------------------------------------------------------------------------------------
   (6/8) Continuous variable is initialized to, assigned, or compared to, a negative value.
   ----------------------------------------------------------------------------------------
-   * In location "X.a":
-     - edge when c < 0 do c := -25.0;
-                               ^
-     - edge when c <= -17;
-                      ^
-   * In continuous variable "X.e":
+   * In automaton "X":
      - cont e = -1.0 der -1.0;
-                ^
+            ^
+   * In location "X.a":
+     - edge evt when c < 0 do c := -25.0;
+                              ^
+     - edge evt when 0 < c do c := -25.0;
+                              ^
+     - edge evt when c <= -17;
+                     ^
 
   ----------------------------------------------------------------------------------------------------------------------------------------
   (7/8) Continuous variable value is not compared as "variable <= ..." or "... >= variable", nor assigned in a single-variable assignment.
   ----------------------------------------------------------------------------------------------------------------------------------------
    * In location "X.a":
-     - edge when c >= 0 do v := 0.0 + w[5];
-                 ^
-     - edge when c > 0;
-                 ^
-     - edge when c < 0 do c := -25.0;
-                 ^
-     - edge when c != 0.0 do c := 1.0 / v;
-                 ^
-     - edge when c = 0.0 do c := 3.0;
-                 ^
-     - edge when max(c + 5.0, 17.4) <= 28;
+     - edge evt when c >= 0 do v := 0.0 + w[5];
                      ^
-     - edge when abs(c) > 0;
+     - edge evt when c > 0;
                      ^
+     - edge evt when c < 0 do c := -25.0;
+                     ^
+     - edge evt when 0 > c;
+                         ^
+     - edge evt when 0 < c do c := -25.0;
+                         ^
+     - edge evt when 0 <= c;
+                          ^
+     - edge evt when c != 0.0 do c := 1.0 / v;
+                     ^
+     - edge evt when c = 0.0 do c := 3.0;
+                     ^
+     - edge evt when max(c + 5.0, 17.4) <= 28;
+                         ^
+     - edge evt when abs(c) > 0;
+                         ^
 
   ---------------------------------------
   (8/8) Edge has an implicit 'tau' event.
   ---------------------------------------
    * In location "X.a":
-     - edge when c >= 0 do v := 0.0 + w[5];
-       ^
-     - edge when c > 0;
-       ^
-     - edge when c < 0 do c := -25.0;
-       ^
-     - edge when c <= 0;
-       ^
-     - edge when c <= -17;
-       ^
-     - edge when c != 0.0 do c := 1.0 / v;
-       ^
-     - edge when c = 0.0 do c := 3.0;
-       ^
-     - edge when max(c + 5.0, 17.4) <= 28;
-       ^
-     - edge when abs(c) > 0;
+     - edge do v := v + 1.0;
        ^

@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 automaton X:
+  event evt;
+
   cont c = 3 der 0;
   cont d der -1;
   cont e = -1 der -1.0;
@@ -24,13 +26,21 @@ automaton X:
     equation q' = -1;
 
     initial;
-    edge when c >= 0 do v := c' + w[5];
-    edge when c > 0;
-    edge when c < 0 do c := -25;
-    edge when c <= 0;
-    edge when c <= -17;
-    edge when c != 0 do c := 1.0 / v;
-    edge when c = 0 do c := 3;
-    edge when max(c + 5, 17.4) <= 28;
-    edge when abs(c) > 0;
+    edge evt when c >= 0 do v := c' + w[5];
+    edge evt when c > 0;
+    edge evt when c < 0 do c := -25;
+    edge evt when c <= 0;
+
+    edge evt when 0 >= c do v := c';
+    edge evt when 0 > c;
+    edge evt when 0 < c do c := -25;
+    edge evt when 0 <= c;
+
+    edge evt when c <= -17;
+    edge evt when c != 0 do c := 1.0 / v;
+    edge evt when c = 0 do c := 3;
+    edge evt when max(c + 5, 17.4) <= 28;
+    edge evt when abs(c) > 0;
+
+    edge do v := v + 1;
 end
