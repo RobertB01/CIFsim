@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="Eclipse Foundation" creationDateTime="1970-01-01T00:00:00Z" productName="CIF to Structured Text" productVersion="0.0"/>
+  <contentHeader name="Untitled1">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1"/>
+      </fbd>
+      <ld>
+        <scaling x="1" y="1"/>
+      </ld>
+      <sfc>
+        <scaling x="1" y="1"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes>
+      <dataType name="S2_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="S2_A"/>
+              <value name="S2_B"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+    </dataTypes>
+    <pous>
+      <pou name="MAIN" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="S1_vs1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="S2_vs2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="S2">
+              <type>
+                <derived name="S2_location"/>
+              </type>
+            </variable>
+            <variable name="R1_vr1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="R2_vr2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="R2">
+              <type>
+                <derived name="S2_location"/>
+              </type>
+            </variable>
+            <variable name="Y1_vy1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="Y2_vy2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="Y2">
+              <type>
+                <derived name="S2_location"/>
+              </type>
+            </variable>
+            <variable name="M1_vm1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="M2_vm2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="M2">
+              <type>
+                <derived name="S2_location"/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+          </localVars>
+          <tempVars>
+            <variable name="channelValue">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="current_M1_vm1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="current_R1_vr1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="current_R2_vr2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="current_S2_vs2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="edge_R1_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="edge_R2_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="edge_S1_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="edge_S2_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="edge_Y1_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="edge_Y2_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="eventEnabled">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="isProgress">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="receiverAut">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="senderAut">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </tempVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Initialize state. --------------------------------------------------- *)
+IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    S1_vs1 := 0;
+    S2_vs2 := 0;
+    S2 := S2_A;
+    R1_vr1 := 0;
+    R2_vr2 := 0;
+    R2 := S2_A;
+    Y1_vy1 := 0;
+    Y2_vy2 := 0;
+    Y2 := S2_A;
+    M1_vm1 := 0;
+    M2_vm2 := 0;
+    M2 := S2_A;
+END_IF;
+
+(* --- Process all events. ------------------------------------------------- *)
+isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (*************************************************************
+     * Try to perform event "c".
+     *
+     * - One automaton must send a value.
+     *    - Automaton "S1" may send a value.
+     *    - Automaton "S2" may send a value.
+     *
+     * - One automaton must accept a value.
+     *    - Automaton "R1" may accept a value.
+     *    - Automaton "R2" may accept a value.
+     *
+     * - Automaton "Y1" must always synchronize.
+     * - Automaton "Y2" must always synchronize.
+     *
+     * - Automaton "M1" may synchronize.
+     * - Automaton "M2" may synchronize.
+     *************************************************************)
+    eventEnabled := TRUE;
+    (*******************************
+     * Try to find an automaton that provides a value.
+     *******************************)
+    senderAut := 0;
+    IF senderAut = 0 THEN
+        (***********
+         * Testing edge of automaton "S1" to provide a value for the channel at event "c".
+         * One sending automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         *   - Location "*":
+         *      - 1st edge in the location
+         ***********)
+        IF S1_vs1 = 1 THEN
+            senderAut := 1;
+            edge_S1_1 := 1;
+        END_IF;
+    END_IF;
+    IF senderAut = 0 THEN
+        (***********
+         * Testing edges of automaton "S2" to provide a value for the channel at event "c".
+         * One sending automaton must have an edge with a true guard to allow the event.
+         *
+         * Edges being tested:
+         *   - Location "A":
+         *      - 1st edge in the location
+         *   - Location "B":
+         *      - 1st edge in the location
+         ***********)
+        IF S2 = S2_A AND S2_vs2 = 2 THEN
+            senderAut := 2;
+            edge_S2_1 := 1;
+        ELSIF S2 = S2_B AND S2_vs2 = 3 THEN
+            senderAut := 2;
+            edge_S2_1 := 2;
+        END_IF;
+    END_IF;
+    IF senderAut = 0 THEN
+        (* Failed to find an automaton that provides a value, skip to next event. *)
+        eventEnabled := FALSE;
+    END_IF;
+    (*******************************
+     * Try to find an automaton that accepts a value.
+     *******************************)
+    IF eventEnabled THEN
+        receiverAut := 0;
+        IF receiverAut = 0 THEN
+            (***********
+             * Testing edge of automaton "R1" to accept a value from the channel at event "c".
+             * One receiving automaton must have an edge with a true guard to allow the event.
+             *
+             * Edge being tested:
+             *   - Location "*":
+             *      - 1st edge in the location
+             ***********)
+            IF TRUE THEN
+                receiverAut := 1;
+                edge_R1_1 := 1;
+            END_IF;
+        END_IF;
+        IF receiverAut = 0 THEN
+            (***********
+             * Testing edges of automaton "R2" to accept a value from the channel at event "c".
+             * One receiving automaton must have an edge with a true guard to allow the event.
+             *
+             * Edges being tested:
+             *   - Location "A":
+             *      - 1st edge in the location
+             *   - Location "B":
+             *      - 1st edge in the location
+             ***********)
+            IF R2 = S2_A THEN
+                receiverAut := 2;
+                edge_R2_1 := 1;
+            ELSIF R2 = S2_B THEN
+                receiverAut := 2;
+                edge_R2_1 := 2;
+            END_IF;
+        END_IF;
+        IF receiverAut = 0 THEN
+            (* Failed to find an automaton that accepts a value, skip to next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    IF eventEnabled THEN
+        (***********
+         * Testing edge of automaton "Y1" to synchronize at event "c".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         *   - Location "*":
+         *      - 1st edge in the location
+         ***********)
+        IF Y1_vy1 = 1 THEN
+            edge_Y1_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard, skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    IF eventEnabled THEN
+        (***********
+         * Testing edges of automaton "Y2" to synchronize at event "c".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edges being tested:
+         *   - Location "A":
+         *      - 1st edge in the location
+         *   - Location "B":
+         *      - 1st edge in the location
+         ***********)
+        IF Y2 = S2_A AND Y2_vy2 = 2 THEN
+            edge_Y2_1 := 1;
+        ELSIF Y2 = S2_B AND Y2_vy2 = 3 THEN
+            edge_Y2_1 := 2;
+        ELSE
+            (* The automaton has no edge with a true guard, skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "c" can occur. *)
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_M1_vm1 := M1_vm1;
+        current_R1_vr1 := R1_vr1;
+        current_R2_vr2 := R2_vr2;
+        current_S2_vs2 := S2_vs2;
+        (*******************************
+         * Store the provided value and perform updates of the selected providing automaton.
+         *******************************)
+        IF senderAut = 1 THEN
+            (* Automaton "S1" was selected. *)
+            IF edge_S1_1 = 1 THEN
+                channelValue := 1;
+            END_IF;
+        ELSIF senderAut = 2 THEN
+            (* Automaton "S2" was selected. *)
+            IF edge_S2_1 = 1 THEN
+                channelValue := 2;
+                S2_vs2 := 2;
+            ELSIF edge_S2_1 = 2 THEN
+                channelValue := 3;
+            END_IF;
+        END_IF;
+        (*******************************
+         * Deliver the provided value and perform updates of the selected accepting automaton.
+         *******************************)
+        IF receiverAut = 1 THEN
+            (* Automaton "R1" was selected. *)
+            IF edge_R1_1 = 1 THEN
+                R1_vr1 := channelValue;
+            END_IF;
+        ELSIF receiverAut = 2 THEN
+            (* Automaton "R2" was selected. *)
+            IF edge_R2_1 = 1 THEN
+                R2_vr2 := channelValue;
+            ELSIF edge_R2_1 = 2 THEN
+                R2_vr2 := channelValue;
+            END_IF;
+        END_IF;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* There are no assignments to perform for automata that must always synchronize. *)
+        (* Automaton "Y1" has no assignments to perform. *)
+        (* Automaton "Y2" has no assignments to perform. *)
+        (*******************************
+         * Perform the assignments of each optionally synchronizing automaton.
+         *******************************)
+        IF current_M1_vm1 = 1 THEN
+            M1_vm1 := 1;
+        END_IF;
+        (* Automaton "M2" has no assignments to perform. *)
+    END_IF;
+END_WHILE;</xhtml>
+          </ST>
+        </body>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Untitled1">
+        <resource name="Untitled1">
+          <task interval="PT0.010S" name="PlcTask" priority="20">
+            <pouInstance name="MAIN" typeName="MAIN">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"/>
+              </documentation>
+            </pouInstance>
+          </task>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>

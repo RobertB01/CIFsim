@@ -1,0 +1,66 @@
+controllable int c;
+
+automaton S1:
+  disc int vs1;
+  location:
+    initial;
+    edge c!1 when vs1 = 1;
+end
+
+automaton S2:
+  disc int vs2;
+  location A:
+    initial;
+    edge c!2 when vs2 = 2 do vs2 := 2;
+  location B:
+    edge c!3 when vs2 = 3;
+end
+
+automaton R1:
+  disc int vr1;
+  location:
+    initial;
+    edge c? do vr1 := ?;
+end
+
+automaton R2:
+  disc int vr2;
+  location A:
+    initial;
+    edge c? do vr2 := ?;
+  location B:
+    edge c? do vr2 := ?;
+end
+
+automaton Y1:
+  disc int vy1;
+  location:
+    initial;
+    edge c when vy1 = 1;
+end
+
+automaton Y2:
+  disc int vy2;
+  location A:
+    initial;
+    edge c when vy2 = 2;
+  location B:
+    edge c when vy2 = 3;
+end
+
+automaton M1:
+  monitor c;
+  disc int vm1;
+  location A:
+    initial;
+    edge c when vm1 = 1 do vm1 := 1;
+end
+
+automaton M2:
+  monitor c;
+  disc int vm2;
+  location A:
+    initial;
+    edge c when vm2 = 2;
+  location B;
+end
