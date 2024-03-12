@@ -1411,7 +1411,7 @@ static BoolType bdd_eval_(SimStruct *sim_struct, int_T bdd_eval_idx_, A6BType* b
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable bdd_value0 = M.Button = Pushed; */
+/** Algebraic variable bdd_value0 = M.Button = Pushed. */
 static BoolType bdd_value0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1420,7 +1420,7 @@ static BoolType bdd_value0_(SimStruct *sim_struct) {
     return (modes[0]) == (_databased_supervisor_Pushed);
 }
 
-/** Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout; */
+/** Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout. */
 static BoolType bdd_value1_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1429,7 +1429,7 @@ static BoolType bdd_value1_(SimStruct *sim_struct) {
     return ((modes[3]) == (_databased_supervisor_TurnLampOn)) || ((modes[3]) == (_databased_supervisor_WaitForTimeout));
 }
 
-/** Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout; */
+/** Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout. */
 static BoolType bdd_value2_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1438,7 +1438,7 @@ static BoolType bdd_value2_(SimStruct *sim_struct) {
     return ((modes[3]) == (_databased_supervisor_StartTimer)) || ((modes[3]) == (_databased_supervisor_WaitForTimeout));
 }
 
-/** Algebraic variable bdd_value3 = M.Cycle = TurnLampOff; */
+/** Algebraic variable bdd_value3 = M.Cycle = TurnLampOff. */
 static BoolType bdd_value3_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1447,7 +1447,7 @@ static BoolType bdd_value3_(SimStruct *sim_struct) {
     return (modes[3]) == (_databased_supervisor_TurnLampOff);
 }
 
-/** Algebraic variable bdd_value4 = M.Lamp = On; */
+/** Algebraic variable bdd_value4 = M.Lamp = On. */
 static BoolType bdd_value4_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1456,7 +1456,7 @@ static BoolType bdd_value4_(SimStruct *sim_struct) {
     return (modes[1]) == (_databased_supervisor_On);
 }
 
-/** Algebraic variable bdd_value5 = M.Timer = Running; */
+/** Algebraic variable bdd_value5 = M.Timer = Running. */
 static BoolType bdd_value5_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1465,7 +1465,7 @@ static BoolType bdd_value5_(SimStruct *sim_struct) {
     return (modes[2]) == (_databased_supervisor_Running);
 }
 
-/** Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5]; */
+/** Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5]. */
 static A6BType bdd_values_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);

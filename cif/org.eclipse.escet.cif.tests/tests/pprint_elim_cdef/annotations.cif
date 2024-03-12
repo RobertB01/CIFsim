@@ -97,3 +97,8 @@ automaton a3:
   location:
     initial;
 end
+
+group g1:
+  @a(b = 3)
+  alg bool alg1 = true;
+end

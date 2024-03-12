@@ -154,6 +154,11 @@ static inline RealType contvars_c2_deriv(void);
 static inline RealType contvars_c3_deriv(void);
 static inline RealType contvars_c4_deriv(void);
 static inline RealType contvars_c5_deriv(void);
+static inline IntType algvars_a1_(void);
+static inline IntType algvars_a2_(void);
+static inline IntType algvars_a3_(void);
+static inline IntType algvars_a4_(void);
+static inline IntType algvars_a5_(void);
 
 
 /** Derivative of "contvars.c1". */
@@ -180,7 +185,50 @@ static inline RealType contvars_c4_deriv(void) {
 static inline RealType contvars_c5_deriv(void) {
     return 5.0;
 }
+/** Algebraic variable algvars.a1 = 1. */
+static inline IntType algvars_a1_(void) {
+    return 1;
+}
 
+/**
+ * Algebraic variable algvars.a2 = 2.
+ *
+ * single line doc
+ */
+static inline IntType algvars_a2_(void) {
+    return 2;
+}
+
+/**
+ * Algebraic variable algvars.a3 = 3.
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+static inline IntType algvars_a3_(void) {
+    return 3;
+}
+
+/**
+ * Algebraic variable algvars.a4 = 4.
+ *
+ * some doc
+ */
+static inline IntType algvars_a4_(void) {
+    return 4;
+}
+
+/**
+ * Algebraic variable algvars.a5 = 5.
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+static inline IntType algvars_a5_(void) {
+    return 5;
+}
 
 /* Code entry points. */
 void annos_doc_EngineFirstStep(void);

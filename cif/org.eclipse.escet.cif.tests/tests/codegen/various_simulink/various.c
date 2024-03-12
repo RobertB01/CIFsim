@@ -1391,7 +1391,7 @@ static int_T inc_(SimStruct *sim_struct, int_T inc_x_);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable z = x + y; */
+/** Algebraic variable z = x + y. */
 static int_T z_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);

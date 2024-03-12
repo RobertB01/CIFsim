@@ -444,6 +444,10 @@ public final class CifPrettyPrinter {
      * @param var The variable.
      */
     public void add(AlgVariable var) {
+        // Add annotations.
+        add(var.getAnnotations());
+
+        // Add declaration.
         StringBuilder line = new StringBuilder();
         line.append("alg ");
         line.append(pprint(var.getType()));

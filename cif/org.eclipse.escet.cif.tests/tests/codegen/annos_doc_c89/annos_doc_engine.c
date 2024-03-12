@@ -183,7 +183,50 @@ RealType contvars_c4_deriv(void) {
 RealType contvars_c5_deriv(void) {
     return 5.0;
 }
+/** Algebraic variable algvars.a1 = 1. */
+IntType algvars_a1_(void) {
+    return 1;
+}
 
+/**
+ * Algebraic variable algvars.a2 = 2.
+ *
+ * single line doc
+ */
+IntType algvars_a2_(void) {
+    return 2;
+}
+
+/**
+ * Algebraic variable algvars.a3 = 3.
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+IntType algvars_a3_(void) {
+    return 3;
+}
+
+/**
+ * Algebraic variable algvars.a4 = 4.
+ *
+ * some doc
+ */
+IntType algvars_a4_(void) {
+    return 4;
+}
+
+/**
+ * Algebraic variable algvars.a5 = 5.
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+IntType algvars_a5_(void) {
+    return 5;
+}
 
 RealType model_time; /**< Current model time. */
 

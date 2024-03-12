@@ -40,3 +40,8 @@ automaton a3:
   location:
     initial;
 end
+
+group g1:
+  @a(x = 5, x = 6)
+  alg int a = 1;
+end

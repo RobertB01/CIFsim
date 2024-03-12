@@ -400,6 +400,62 @@ public abstract class annos_doc {
         return EVENT_NAMES[idx];
     }
 
+    /**
+     * Evaluates algebraic variable "algvars.a1".
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a1_() {
+        return 1;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a2".
+     *
+     * single line doc
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a2_() {
+        return 2;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a3_() {
+        return 3;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a4".
+     *
+     * some doc
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a4_() {
+        return 4;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a5_() {
+        return 5;
+    }
 
     /**
      * Evaluates derivative of continuous variable "contvars.c1".
