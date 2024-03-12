@@ -61,8 +61,57 @@ isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
 
-    (* Try to perform event "aut.e". *)
+    (*************************************************************
+     * Try to perform event "aut.e".
+     *
+     * - Automaton "aut" must always synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edges of automaton "aut" to synchronize at event "aut.e".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edges being tested:
+     *   - Location "l1":
+     *      - 1st edge in the location
+     *      - 2nd edge in the location
+     *      - 3rd edge in the location
+     *      - 4th edge in the location
+     *      - 5th edge in the location
+     *      - 6th edge in the location
+     *      - 7th edge in the location
+     *      - 8th edge in the location
+     *      - 9th edge in the location
+     *      - 10th edge in the location
+     *      - 11th edge in the location
+     *      - 12th edge in the location
+     *      - 13th edge in the location
+     *      - 14th edge in the location
+     *      - 15th edge in the location
+     *      - 16th edge in the location
+     *      - 17th edge in the location
+     *      - 18th edge in the location
+     *      - 19th edge in the location
+     *      - 20th edge in the location
+     *      - 21st edge in the location
+     *      - 22nd edge in the location
+     *      - 23rd edge in the location
+     *      - 24th edge in the location
+     *      - 25th edge in the location
+     *      - 26th edge in the location
+     *      - 27th edge in the location
+     *      - 28th edge in the location
+     *      - 29th edge in the location
+     *      - 30th edge in the location
+     *      - 31st edge in the location
+     *      - 32nd edge in the location
+     *      - 33rd edge in the location
+     *      - 34th edge in the location
+     *      - 35th edge in the location
+     ***********)
     IF aut = aut_l1 THEN
         edge_aut_1 := 1;
     ELSIF aut = aut_l1 THEN
@@ -134,15 +183,22 @@ WHILE isProgress DO
     ELSIF aut = aut_l1 THEN
         edge_aut_1 := 35;
     ELSE
+        (* The automaton has no edge with a true guard, skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "aut.e" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_aut := aut;
         current_aut_b := aut_b;
         current_aut_i := aut_i;
         current_aut_r := aut_r;
         current_aut_tii := aut_tii;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "aut". *)
         IF edge_aut_1 = 1 THEN
             aut_r := inp;
         ELSIF edge_aut_1 = 2 THEN
@@ -225,17 +281,40 @@ WHILE isProgress DO
         END_IF;
     END_IF;
 
-    (* Try to perform event "aut.f". *)
+    (*************************************************************
+     * Try to perform event "aut.f".
+     *
+     * - Automaton "aut" must always synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edges of automaton "aut" to synchronize at event "aut.f".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edges being tested:
+     *   - Location "l1":
+     *      - 36th edge in the location
+     *      - 37th edge in the location
+     ***********)
     IF aut = aut_l1 AND (aut_b OR aut_b) THEN
         edge_aut_1 := 1;
     ELSIF aut = aut_l1 AND aut_b THEN
         edge_aut_1 := 2;
     ELSE
+        (* The automaton has no edge with a true guard, skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "aut.f" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* There are no assignments to perform for automata that must always synchronize. *)
+        (* Automaton "aut" has no assignments to perform. *)
     END_IF;
 END_WHILE;]]></ST>
     </Implementation>
