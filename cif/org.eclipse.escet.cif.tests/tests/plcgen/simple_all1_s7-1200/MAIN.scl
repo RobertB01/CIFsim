@@ -6,17 +6,17 @@ ORGANIZATION_BLOCK MAIN
         current_p_b: BOOL;
         current_p_j: DINT;
         current_p_r: LREAL;
-        current_p_tv: TupleStruct__2;
-        current_p_v3: TupleStruct__1;
+        current_p_tv: TupleStruct_2;
+        current_p_v3: TupleStruct_1;
         current_p_ve: DINT;
         current_p_x: DINT;
+        edge_p_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
         litStruct: TupleStruct;
-        litStruct__1: TupleStruct__1;
-        litStruct__2: TupleStruct__2;
-        rightValue: TupleStruct__2;
-        syncAutEdge: DINT;
+        litStruct_1: TupleStruct_1;
+        litStruct_2: TupleStruct_2;
+        rightValue: TupleStruct_2;
         timeOut: BOOL;
     END_VAR
 
@@ -36,23 +36,23 @@ BEGIN
         "DB".p_v2 := litStruct;
         litStruct.field1 := 0.0;
         litStruct.field2 := 0.0;
-        litStruct__1.field1 := litStruct;
-        litStruct__1.field2 := 0.0;
-        "DB".p_v3 := litStruct__1;
-        litStruct__2.field1 := 0;
-        litStruct__2.field2 := 0;
-        "DB".p_tv := litStruct__2;
+        litStruct_1.field1 := litStruct;
+        litStruct_1.field2 := 0.0;
+        "DB".p_v3 := litStruct_1;
+        litStruct_2.field1 := 0;
+        litStruct_2.field2 := 0;
+        "DB".p_tv := litStruct_2;
         "DB".p_j := 0;
         "DB".p_r := 1000000.0;
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
         "DB".preset_p_t := "DB".p_t;
-        ton_p_t(IN := FALSE, PT := "DB".preset_p_t);
-        ton_p_t(IN := TRUE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
         "DB".p := 0;
     ELSE
         (* Update remaining time of "p_t". *)
-        ton_p_t(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
@@ -65,27 +65,27 @@ BEGIN
         (* Try to perform event "p.evt". *)
         eventEnabled := TRUE;
         IF "DB".p = 0 THEN
-            syncAutEdge := 1;
+            edge_p_1 := 1;
         ELSIF "DB".p = 1 THEN
-            syncAutEdge := 2;
+            edge_p_1 := 2;
         ELSIF "DB".p = 2 THEN
-            syncAutEdge := 3;
+            edge_p_1 := 3;
         ELSIF "DB".p = 3 THEN
-            syncAutEdge := 4;
+            edge_p_1 := 4;
         ELSIF "DB".p = 4 THEN
-            syncAutEdge := 5;
+            edge_p_1 := 5;
         ELSIF "DB".p = 5 THEN
-            syncAutEdge := 6;
+            edge_p_1 := 6;
         ELSIF "DB".p = 6 THEN
-            syncAutEdge := 7;
+            edge_p_1 := 7;
         ELSIF "DB".p = 7 THEN
-            syncAutEdge := 8;
+            edge_p_1 := 8;
         ELSIF "DB".p = 8 THEN
-            syncAutEdge := 9;
+            edge_p_1 := 9;
         ELSIF "DB".p = 9 THEN
-            syncAutEdge := 10;
+            edge_p_1 := 10;
         ELSIF "DB".p = 10 THEN
-            syncAutEdge := 11;
+            edge_p_1 := 11;
         ELSE
             eventEnabled := FALSE;
         END_IF;
@@ -99,49 +99,49 @@ BEGIN
             current_p_v3 := "DB".p_v3;
             current_p_ve := "DB".p_ve;
             current_p_x := "DB".p_x;
-            IF syncAutEdge = 1 THEN
-                litStruct__2.field1 := 1;
-                litStruct__2.field2 := 2;
-                "DB".p_tv := litStruct__2;
+            IF edge_p_1 = 1 THEN
+                litStruct_2.field1 := 1;
+                litStruct_2.field2 := 2;
+                "DB".p_tv := litStruct_2;
                 "DB".p := 1;
-            ELSIF syncAutEdge = 2 THEN
+            ELSIF edge_p_1 = 2 THEN
                 "DB".p_x := 3;
                 "DB".p_j := 4;
                 "DB".p := 2;
-            ELSIF syncAutEdge = 3 THEN
+            ELSIF edge_p_1 = 3 THEN
                 rightValue := current_p_tv;
                 "DB".p_x := rightValue.field1;
                 "DB".p_j := rightValue.field2;
                 "DB".p := 3;
-            ELSIF syncAutEdge = 4 THEN
+            ELSIF edge_p_1 = 4 THEN
                 "DB".p_tv.field1 := 5;
                 "DB".p := 4;
-            ELSIF syncAutEdge = 5 THEN
+            ELSIF edge_p_1 = 5 THEN
                 "DB".p_tv.field2 := 6;
                 "DB".p_j := 7;
                 "DB".p := 5;
-            ELSIF syncAutEdge = 6 THEN
+            ELSIF edge_p_1 = 6 THEN
                 "DB".p_v3.field1.field2 := 7.8;
                 "DB".p := 6;
-            ELSIF syncAutEdge = 7 THEN
+            ELSIF edge_p_1 = 7 THEN
                 litStruct.field1 := 1.2;
                 litStruct.field2 := 3.4;
-                litStruct__1.field1 := litStruct;
-                litStruct__1.field2 := 5.6;
-                "DB".p_v3 := litStruct__1;
+                litStruct_1.field1 := litStruct;
+                litStruct_1.field2 := 5.6;
+                "DB".p_v3 := litStruct_1;
                 "DB".p := 7;
-            ELSIF syncAutEdge = 8 THEN
+            ELSIF edge_p_1 = 8 THEN
                 "DB".p_j := current_p_j + 1;
                 "DB".p := 8;
-            ELSIF syncAutEdge = 9 THEN
+            ELSIF edge_p_1 = 9 THEN
                 "DB".p_b := FALSE;
                 "DB".p := 9;
-            ELSIF syncAutEdge = 10 THEN
+            ELSIF edge_p_1 = 10 THEN
                 IF NOT current_p_b THEN
                     "DB".p_ve := 1;
                 END_IF;
                 "DB".p := 10;
-            ELSIF syncAutEdge = 11 THEN
+            ELSIF edge_p_1 = 11 THEN
                 "DB".p_r := DINT_TO_LREAL("DB".g_inp) + 10.0;
                 "DB".p := 11;
             END_IF;

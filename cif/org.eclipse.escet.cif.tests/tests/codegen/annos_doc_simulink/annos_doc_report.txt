@@ -9,7 +9,12 @@ No variables are available here.
 
 Continuous states
 -----------------
-time 1
+time        1
+contvars.c1 2
+contvars.c2 3
+contvars.c3 4
+contvars.c4 5
+contvars.c5 6
 
 Inputs
 ------
@@ -21,8 +26,18 @@ i5 5
 
 Outputs
 -------
-a.i1 1
-a.i2 2
-a.i3 3
-a.i4 4
-a.i5 5
+contvars.c1 1
+contvars.c2 2
+contvars.c3 3
+contvars.c4 4
+contvars.c5 5
+discvars.d1 6
+discvars.d2 7
+discvars.d3 8
+discvars.d4 9
+discvars.d5 10
+algvars.a1  11
+algvars.a2  12
+algvars.a3  13
+algvars.a4  14
+algvars.a5  15

@@ -3,34 +3,26 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         curValue: LREAL;
         current_hw_button: DINT;
-        current_hw_button__1: DINT;
+        current_hw_button_1: DINT;
         current_hw_lamp: DINT;
-        current_hw_lamp__1: DINT;
+        current_hw_lamp_1: DINT;
         current_hw_lamp_bit: BOOL;
-        current_hw_lamp_bit__1: BOOL;
+        current_hw_lamp_bit_1: BOOL;
         current_sup: DINT;
-        current_sup__1: DINT;
-        current_sup__2: DINT;
-        current_sup__3: DINT;
-        current_sup__4: DINT;
-        current_sup__5: DINT;
+        current_sup_1: DINT;
+        current_sup_2: DINT;
+        current_sup_3: DINT;
+        current_sup_4: DINT;
+        current_sup_5: DINT;
         current_timer: DINT;
-        current_timer__1: DINT;
+        current_timer_1: DINT;
         current_timer_t: LREAL;
+        edge_hw_button_1: DINT;
+        edge_hw_lamp_1: DINT;
+        edge_sup_1: DINT;
+        edge_timer_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
-        syncAutEdge: DINT;
-        syncAutEdge__1: DINT;
-        syncAutEdge__10: DINT;
-        syncAutEdge__11: DINT;
-        syncAutEdge__2: DINT;
-        syncAutEdge__3: DINT;
-        syncAutEdge__4: DINT;
-        syncAutEdge__5: DINT;
-        syncAutEdge__6: DINT;
-        syncAutEdge__7: DINT;
-        syncAutEdge__8: DINT;
-        syncAutEdge__9: DINT;
         timeOut: BOOL;
     END_VAR
 
@@ -46,8 +38,8 @@ BEGIN
         "DB".timer_t := 0.0;
         (* Reset timer of "timer_t". *)
         "DB".preset_timer_t := "DB".timer_t;
-        ton_timer_t(IN := FALSE, PT := "DB".preset_timer_t);
-        ton_timer_t(IN := TRUE, PT := "DB".preset_timer_t);
+        ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
         "DB".timer := 0;
         "DB".sup := 0;
         "DB".hw_button := 0;
@@ -55,7 +47,7 @@ BEGIN
         "DB".hw_lamp := 0;
     ELSE
         (* Update remaining time of "timer_t". *)
-        ton_timer_t(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
         "DB".timer_t := SEL(timeOut, "DB".preset_timer_t - curValue, 0.0);
     END_IF;
 
@@ -68,15 +60,15 @@ BEGIN
         (* Try to perform event "timer.start". *)
         eventEnabled := TRUE;
         IF "DB".timer = 0 THEN
-            syncAutEdge := 1;
+            edge_timer_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             IF "DB".sup = 2 THEN
-                syncAutEdge__1 := 1;
+                edge_sup_1 := 1;
             ELSIF "DB".sup = 4 THEN
-                syncAutEdge__1 := 2;
+                edge_sup_1 := 2;
             ELSE
                 eventEnabled := FALSE;
             END_IF;
@@ -86,17 +78,17 @@ BEGIN
             current_sup := "DB".sup;
             current_timer := "DB".timer;
             current_timer_t := "DB".timer_t;
-            IF syncAutEdge = 1 THEN
+            IF edge_timer_1 = 1 THEN
                 "DB".timer_t := 3.0;
                 (* Reset timer of "timer_t". *)
                 "DB".preset_timer_t := "DB".timer_t;
-                ton_timer_t(IN := FALSE, PT := "DB".preset_timer_t);
-                ton_timer_t(IN := TRUE, PT := "DB".preset_timer_t);
+                ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
+                ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
                 "DB".timer := 1;
             END_IF;
-            IF syncAutEdge__1 = 1 THEN
+            IF edge_sup_1 = 1 THEN
                 "DB".sup := 5;
-            ELSIF syncAutEdge__1 = 2 THEN
+            ELSIF edge_sup_1 = 2 THEN
                 "DB".sup := 6;
             END_IF;
         END_IF;
@@ -104,29 +96,29 @@ BEGIN
         (* Try to perform event "timer.timeout". *)
         eventEnabled := TRUE;
         IF "DB".timer = 1 AND "DB".timer_t <= 0.0 THEN
-            syncAutEdge__2 := 1;
+            edge_timer_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             IF "DB".sup = 5 THEN
-                syncAutEdge__3 := 1;
+                edge_sup_1 := 1;
             ELSIF "DB".sup = 6 THEN
-                syncAutEdge__3 := 2;
+                edge_sup_1 := 2;
             ELSE
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
         IF eventEnabled THEN
             isProgress := TRUE;
-            current_sup__1 := "DB".sup;
-            current_timer__1 := "DB".timer;
-            IF syncAutEdge__2 = 1 THEN
+            current_sup_1 := "DB".sup;
+            current_timer_1 := "DB".timer;
+            IF edge_timer_1 = 1 THEN
                 "DB".timer := 0;
             END_IF;
-            IF syncAutEdge__3 = 1 THEN
+            IF edge_sup_1 = 1 THEN
                 "DB".sup := 7;
-            ELSIF syncAutEdge__3 = 2 THEN
+            ELSIF edge_sup_1 = 2 THEN
                 "DB".sup := 8;
             END_IF;
         END_IF;
@@ -134,21 +126,21 @@ BEGIN
         (* Try to perform event "button.push". *)
         eventEnabled := TRUE;
         IF "DB".sup = 0 THEN
-            syncAutEdge__4 := 1;
+            edge_sup_1 := 1;
         ELSIF "DB".sup = 3 THEN
-            syncAutEdge__4 := 2;
+            edge_sup_1 := 2;
         ELSIF "DB".sup = 4 THEN
-            syncAutEdge__4 := 3;
+            edge_sup_1 := 3;
         ELSIF "DB".sup = 6 THEN
-            syncAutEdge__4 := 4;
+            edge_sup_1 := 4;
         ELSIF "DB".sup = 8 THEN
-            syncAutEdge__4 := 5;
+            edge_sup_1 := 5;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             IF "DB".hw_button = 0 AND "DB".hw_button_bit THEN
-                syncAutEdge__5 := 1;
+                edge_hw_button_1 := 1;
             ELSE
                 eventEnabled := FALSE;
             END_IF;
@@ -156,19 +148,19 @@ BEGIN
         IF eventEnabled THEN
             isProgress := TRUE;
             current_hw_button := "DB".hw_button;
-            current_sup__2 := "DB".sup;
-            IF syncAutEdge__4 = 1 THEN
+            current_sup_2 := "DB".sup;
+            IF edge_sup_1 = 1 THEN
                 "DB".sup := 1;
-            ELSIF syncAutEdge__4 = 2 THEN
+            ELSIF edge_sup_1 = 2 THEN
                 "DB".sup := 1;
-            ELSIF syncAutEdge__4 = 3 THEN
+            ELSIF edge_sup_1 = 3 THEN
                 "DB".sup := 2;
-            ELSIF syncAutEdge__4 = 4 THEN
+            ELSIF edge_sup_1 = 4 THEN
                 "DB".sup := 5;
-            ELSIF syncAutEdge__4 = 5 THEN
+            ELSIF edge_sup_1 = 5 THEN
                 "DB".sup := 7;
             END_IF;
-            IF syncAutEdge__5 = 1 THEN
+            IF edge_hw_button_1 = 1 THEN
                 "DB".hw_button := 1;
             END_IF;
         END_IF;
@@ -176,41 +168,41 @@ BEGIN
         (* Try to perform event "button.release". *)
         eventEnabled := TRUE;
         IF "DB".sup = 1 THEN
-            syncAutEdge__6 := 1;
+            edge_sup_1 := 1;
         ELSIF "DB".sup = 2 THEN
-            syncAutEdge__6 := 2;
+            edge_sup_1 := 2;
         ELSIF "DB".sup = 5 THEN
-            syncAutEdge__6 := 3;
+            edge_sup_1 := 3;
         ELSIF "DB".sup = 7 THEN
-            syncAutEdge__6 := 4;
+            edge_sup_1 := 4;
         ELSIF "DB".sup = 9 THEN
-            syncAutEdge__6 := 5;
+            edge_sup_1 := 5;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             IF "DB".hw_button = 1 AND NOT "DB".hw_button_bit THEN
-                syncAutEdge__7 := 1;
+                edge_hw_button_1 := 1;
             ELSE
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
         IF eventEnabled THEN
             isProgress := TRUE;
-            current_hw_button__1 := "DB".hw_button;
-            current_sup__3 := "DB".sup;
-            IF syncAutEdge__6 = 1 THEN
+            current_hw_button_1 := "DB".hw_button;
+            current_sup_3 := "DB".sup;
+            IF edge_sup_1 = 1 THEN
                 "DB".sup := 3;
-            ELSIF syncAutEdge__6 = 2 THEN
+            ELSIF edge_sup_1 = 2 THEN
                 "DB".sup := 4;
-            ELSIF syncAutEdge__6 = 3 THEN
+            ELSIF edge_sup_1 = 3 THEN
                 "DB".sup := 6;
-            ELSIF syncAutEdge__6 = 4 THEN
+            ELSIF edge_sup_1 = 4 THEN
                 "DB".sup := 8;
-            ELSIF syncAutEdge__6 = 5 THEN
+            ELSIF edge_sup_1 = 5 THEN
                 "DB".sup := 0;
             END_IF;
-            IF syncAutEdge__7 = 1 THEN
+            IF edge_hw_button_1 = 1 THEN
                 "DB".hw_button := 0;
             END_IF;
         END_IF;
@@ -218,15 +210,15 @@ BEGIN
         (* Try to perform event "lamp.on". *)
         eventEnabled := TRUE;
         IF "DB".sup = 1 THEN
-            syncAutEdge__8 := 1;
+            edge_sup_1 := 1;
         ELSIF "DB".sup = 3 THEN
-            syncAutEdge__8 := 2;
+            edge_sup_1 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             IF "DB".hw_lamp = 0 THEN
-                syncAutEdge__9 := 1;
+                edge_hw_lamp_1 := 1;
             ELSE
                 eventEnabled := FALSE;
             END_IF;
@@ -235,13 +227,13 @@ BEGIN
             isProgress := TRUE;
             current_hw_lamp := "DB".hw_lamp;
             current_hw_lamp_bit := "DB".hw_lamp_bit;
-            current_sup__4 := "DB".sup;
-            IF syncAutEdge__8 = 1 THEN
+            current_sup_4 := "DB".sup;
+            IF edge_sup_1 = 1 THEN
                 "DB".sup := 2;
-            ELSIF syncAutEdge__8 = 2 THEN
+            ELSIF edge_sup_1 = 2 THEN
                 "DB".sup := 4;
             END_IF;
-            IF syncAutEdge__9 = 1 THEN
+            IF edge_hw_lamp_1 = 1 THEN
                 "DB".hw_lamp_bit := TRUE;
                 "DB".hw_lamp := 1;
             END_IF;
@@ -250,30 +242,30 @@ BEGIN
         (* Try to perform event "lamp.off". *)
         eventEnabled := TRUE;
         IF "DB".sup = 7 THEN
-            syncAutEdge__10 := 1;
+            edge_sup_1 := 1;
         ELSIF "DB".sup = 8 THEN
-            syncAutEdge__10 := 2;
+            edge_sup_1 := 2;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             IF "DB".hw_lamp = 1 THEN
-                syncAutEdge__11 := 1;
+                edge_hw_lamp_1 := 1;
             ELSE
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
         IF eventEnabled THEN
             isProgress := TRUE;
-            current_hw_lamp__1 := "DB".hw_lamp;
-            current_hw_lamp_bit__1 := "DB".hw_lamp_bit;
-            current_sup__5 := "DB".sup;
-            IF syncAutEdge__10 = 1 THEN
+            current_hw_lamp_1 := "DB".hw_lamp;
+            current_hw_lamp_bit_1 := "DB".hw_lamp_bit;
+            current_sup_5 := "DB".sup;
+            IF edge_sup_1 = 1 THEN
                 "DB".sup := 9;
-            ELSIF syncAutEdge__10 = 2 THEN
+            ELSIF edge_sup_1 = 2 THEN
                 "DB".sup := 0;
             END_IF;
-            IF syncAutEdge__11 = 1 THEN
+            IF edge_hw_lamp_1 = 1 THEN
                 "DB".hw_lamp_bit := FALSE;
                 "DB".hw_lamp := 0;
             END_IF;

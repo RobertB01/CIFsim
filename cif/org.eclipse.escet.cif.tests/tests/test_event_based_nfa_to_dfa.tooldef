@@ -14,7 +14,7 @@
 // NFA to DFA uses projection internally, so most tests have been covered by
 // the projection tests.
 
-from "lib:cif" import cifnfadfa;
+from "lib:cif" import cifnfadfa, cif2cif;
 
 // Configuration.
 string test_path = "event_based/nfa_to_dfa";
@@ -24,10 +24,14 @@ map(string:list string) test_options = {};
 set string test_skip = {};
 
 // Initialize counts.
-int count = 0;
-int successes = 0;
-int failures = 0;
-int skipped = 0;
+int run_count = 0;
+int run_successes = 0;
+int run_failures = 0;
+int run_skipped = 0;
+
+int check_count = 0;
+int check_successes = 0;
+int check_failures = 0;
 
 // Find tests.
 list string tests = find(test_path, test_pattern);
@@ -39,13 +43,17 @@ for i in reverse(range(tests)):
     end
     if contains(test_skip, tests[i]):
         tests = delidx(tests, i);
-        count = count + 1;
-        skipped = skipped + 1;
+        run_count = run_count + 1;
+        run_skipped = run_skipped + 1;
     end
 end
 
 // Test all tests.
 for test in tests:
+    // ====
+    // Run.
+    // ====
+
     // Get test specific options.
     list string options = default_options;
     list string extra_options;
@@ -53,54 +61,100 @@ for test in tests:
     options = options + extra_options;
 
     // Print what we are testing.
-    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+    outln("Testing \"%s\" (run) using options \"%s\"...", test, join(extra_options, " "));
 
     // Get paths.
-    string test_out_exp  = chfileext(test, oldext="cif", newext="out");
-    string test_err_exp  = chfileext(test, oldext="cif", newext="err");
-    string test_out_real = chfileext(test, oldext="cif", newext="out.real");
-    string test_err_real = chfileext(test, oldext="cif", newext="err.real");
-
-    string rslt_exp  = chfileext(test, oldext="cif", newext="expected.cif");
-    string rslt_real = chfileext(test, oldext="cif", newext="real.cif");
+    string test1_out_exp  = chfileext(test, "cif", "run.out");
+    string test1_err_exp  = chfileext(test, "cif", "run.err");
+    string test1_out_real = chfileext(test, "cif", "run.out.real");
+    string test1_err_real = chfileext(test, "cif", "run.err.real");
+    string rslt1_exp      = chfileext(test, "cif", "run.expected.cif");
+    string rslt1_real     = chfileext(test, "cif", "run.real.cif");
 
     // Execute.
-    options = options + ["-o", rslt_real];
-    cifnfadfa([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+    list string options1 = options + ["-o", rslt1_real];
+    int exit_code1 = cifnfadfa([test] + options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
-    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
-    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
-    bool rslt_diff   = diff(rslt_exp, rslt_real, missingAsEmpty=true, warnOnDiff=true);
-    if not stderr_diff:: rmfile(test_err_real);
-    if not stdout_diff:: rmfile(test_out_real);
-    if not rslt_diff::   if exists(rslt_real):: rmfile(rslt_real);
+    bool stderr1_diff = diff(test1_err_exp, test1_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout1_diff = diff(test1_out_exp, test1_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool rslt1_diff   = diff(rslt1_exp, rslt1_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr1_diff:: rmfile(test1_err_real);
+    if not stdout1_diff:: rmfile(test1_out_real);
+    // Don't remove 'rslt1_real' here, as we need to check it still.
 
     // Update counts.
-    int diff_count = 0;
-    if stderr_diff:: diff_count = diff_count + 1;
-    if stdout_diff:: diff_count = diff_count + 1;
-    if rslt_diff::   diff_count = diff_count + 1;
+    int run_diff_count = 0;
+    if stderr1_diff:: run_diff_count = run_diff_count + 1;
+    if stdout1_diff:: run_diff_count = run_diff_count + 1;
+    if rslt1_diff::   run_diff_count = run_diff_count + 1;
 
-    count = count + 1;
-    if diff_count == 0:: successes = successes + 1;
-    if diff_count > 0:: failures = failures + 1;
+    run_count = run_count + 1;
+    if run_diff_count == 0:: run_successes = run_successes + 1;
+    if run_diff_count > 0:: run_failures = run_failures + 1;
+
+    // =========================
+    // Check produced CIF model.
+    // =========================
+
+    // Get paths.
+    string test2          = rslt1_real;
+    string file2_out_real = chfileext(test, "cif", "check.out.real.cif");
+
+    // Do check, if applicable.
+    if exit_code1 == 0 or isfile(rslt1_exp) or isfile(rslt1_real):
+        // Print what we are testing.
+        outln("Testing \"%s\" (check)...", test);
+
+        // Execute.
+        list string options2 = ["--devmode=1", "--output-mode=error", "-o", file2_out_real];
+        int exit_code2 = cif2cif([test2] + options2, ignoreNonZeroExitCode=true);
+
+        // Check output.
+        bool exit_code2_ok = (exit_code2 == 0);
+        bool file2_written = isfile(file2_out_real) and filesize(file2_out_real) > 0;
+        bool check_ok = exit_code2_ok and file2_written;
+
+        // Cleanup.
+        if check_ok and exists(file2_out_real):: rmfile(file2_out_real);
+
+        // Update counts.
+        check_count = check_count + 1;
+        if     check_ok:: check_successes = check_successes + 1;
+        if not check_ok:: check_failures  = check_failures  + 1;
+    end
+
+    // ========
+    // Cleanup.
+    // ========
+
+    if not rslt1_diff:: if exists(rslt1_real):: rmfile(rslt1_real);
 end
 
-// Get result message.
-string rslt;
-if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+// Get result messages.
+string run_rslt;
+string check_rslt;
+if run_failures   == 0: run_rslt   = "SUCCESS"; else run_rslt   = "FAILURE"; end
+if check_failures == 0: check_rslt = "SUCCESS"; else check_rslt = "FAILURE"; end
 
-string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
-                 rslt, test_path, count, successes, failures, skipped);
+string run_msg   = fmt("Test %s (%s, run):   %d tests, %d successes, %d failures, %d skipped.",
+                       run_rslt, test_path, run_count, run_successes, run_failures, run_skipped);
+string check_msg = fmt("Test %s (%s, check): %d tests, %d successes, %d failures.",
+                       check_rslt, test_path, check_count, check_successes, check_failures);
 
-// Output result message.
-if failures == 0:
-    outln(msg);
+// Output result messages.
+if run_failures == 0:
+    outln(run_msg);
 else
-    errln(msg);
+    errln(run_msg);
+end
+
+if check_failures == 0:
+    outln(check_msg);
+else
+    errln(check_msg);
 end
 
 // Return number of failures as exit code. No failures means zero exit code,
 // any failures means non-zero exit code.
-exit failures;
+exit run_failures + check_failures;

@@ -26,6 +26,11 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 TBD
 
+Improvements and fixes:
+
+* The Chi documentation has some small fixes (issue {escet-issue}740[#740]).
+* The Chi website has an improved link color (issue {escet-issue}38[#38]).
+
 === Version 2.0 (2023-12-22)
 
 This release contains no specific changes for Chi.

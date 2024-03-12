@@ -20,7 +20,8 @@ import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -103,7 +104,7 @@ public class StatementTextTest {
     @Test
     @SuppressWarnings("javadoc")
     public void assignmentStatementTest() {
-        PlcVarExpression lhs = new PlcVarExpression(new PlcVariable("my_var", null));
+        PlcVarExpression lhs = new PlcVarExpression(new PlcDataVariable("my_var", null));
         PlcExpression trueValue = new PlcBoolLiteral(true);
         assertEquals("my_var := TRUE;", toStr(new PlcAssignmentStatement(lhs, trueValue)));
     }
@@ -127,7 +128,7 @@ public class StatementTextTest {
     @SuppressWarnings("javadoc")
     public void elseSelectionStatementTest() {
         // Selection statement with only an ELSE block.
-        PlcVariable v = new PlcVariable("v", PlcElementaryType.DINT_TYPE);
+        PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcStatement selStat = new PlcSelectionStatement(List.of(),
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0)),
                         new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
@@ -139,7 +140,7 @@ public class StatementTextTest {
     @Test
     @SuppressWarnings("javadoc")
     public void ifSelectionStatementTest() {
-        PlcVariable v = new PlcVariable("v", PlcElementaryType.DINT_TYPE);
+        PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcSelectChoice ifChoice = new PlcSelectChoice(new PlcBoolLiteral(false),
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0)),
                         new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
@@ -154,7 +155,7 @@ public class StatementTextTest {
     @Test
     @SuppressWarnings("javadoc")
     public void ifElifElseSelectionStatementTest() {
-        PlcVariable v = new PlcVariable("v", PlcElementaryType.DINT_TYPE);
+        PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcSelectChoice ifChoice = new PlcSelectChoice(new PlcBoolLiteral(false),
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0))));
         PlcSelectChoice elifChoice = new PlcSelectChoice(new PlcBoolLiteral(true),
@@ -174,7 +175,7 @@ public class StatementTextTest {
     @Test
     @SuppressWarnings("javadoc")
     public void ifEmptyElifElseSelectionStatementTest() {
-        PlcVariable v = new PlcVariable("v", PlcElementaryType.DINT_TYPE);
+        PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcSelectChoice ifChoice = new PlcSelectChoice(new PlcBoolLiteral(false),
                 List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0))));
         PlcSelectChoice elifChoice = new PlcSelectChoice(new PlcBoolLiteral(true), List.of());

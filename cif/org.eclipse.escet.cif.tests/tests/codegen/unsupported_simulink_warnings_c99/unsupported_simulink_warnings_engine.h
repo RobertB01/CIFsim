@@ -165,9 +165,7 @@ static inline A1A1A1BType a7_(void);
 
 
 
-/**
- * Algebraic variable a1 = (1, 2);
- */
+/** Algebraic variable a1 = (1, 2). */
 static inline T2IIType a1_(void) {
     T2IIType tuple_tmp1;
     (tuple_tmp1)._field0 = 1;
@@ -175,18 +173,14 @@ static inline T2IIType a1_(void) {
     return tuple_tmp1;
 }
 
-/**
- * Algebraic variable a2 = "a";
- */
+/** Algebraic variable a2 = "a". */
 static inline StringType a2_(void) {
     StringType str_tmp2;
     StringTypeCopyText(&str_tmp2, "a");
     return str_tmp2;
 }
 
-/**
- * Algebraic variable a3 = [(1, 2)];
- */
+/** Algebraic variable a3 = [(1, 2)]. */
 static inline A1T2IIType a3_(void) {
     A1T2IIType array_tmp3;
     ((array_tmp3).data[0])._field0 = 1;
@@ -194,18 +188,14 @@ static inline A1T2IIType a3_(void) {
     return array_tmp3;
 }
 
-/**
- * Algebraic variable a4 = ["a"];
- */
+/** Algebraic variable a4 = ["a"]. */
 static inline A1SType a4_(void) {
     A1SType array_tmp4;
     StringTypeCopyText(&((array_tmp4).data[0]), "a");
     return array_tmp4;
 }
 
-/**
- * Algebraic variable a5 = [[(1, 2)]];
- */
+/** Algebraic variable a5 = [[(1, 2)]]. */
 static inline A1A1T2IIType a5_(void) {
     A1A1T2IIType array_tmp5;
     (((array_tmp5).data[0]).data[0])._field0 = 1;
@@ -213,18 +203,14 @@ static inline A1A1T2IIType a5_(void) {
     return array_tmp5;
 }
 
-/**
- * Algebraic variable a6 = [["a"]];
- */
+/** Algebraic variable a6 = [["a"]]. */
 static inline A1A1SType a6_(void) {
     A1A1SType array_tmp6;
     StringTypeCopyText(&(((array_tmp6).data[0]).data[0]), "a");
     return array_tmp6;
 }
 
-/**
- * Algebraic variable a7 = [[[true]]];
- */
+/** Algebraic variable a7 = [[[true]]]. */
 static inline A1A1A1BType a7_(void) {
     A1A1A1BType array_tmp7;
     (((array_tmp7).data[0]).data[0]).data[0] = TRUE;

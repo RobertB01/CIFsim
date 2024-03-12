@@ -114,4 +114,5 @@ To eliminate such location references, apply the <<tools-cif2cif-chapter-elim-lo
 
 === Annotations
 
-This transformation does not process, add, or remove any annotations.
+This transformation does not process or add any annotations.
+As this transformation removes all algebraic variables from the specification, their annotations are removed as well.

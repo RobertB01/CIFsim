@@ -37,12 +37,12 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -130,7 +130,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
             for (Field field: tupleType.getFields()) {
                 String fieldName = "field" + String.valueOf(fieldNumber);
                 PlcType ftype = convertType(field.getType());
-                structType.fields.add(new PlcVariable(fieldName, ftype));
+                structType.fields.add(new PlcStructField(fieldName, ftype));
                 fieldNumber++;
             }
 

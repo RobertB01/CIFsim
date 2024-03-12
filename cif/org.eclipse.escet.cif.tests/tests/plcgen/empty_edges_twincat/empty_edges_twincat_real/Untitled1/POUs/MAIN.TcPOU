@@ -9,17 +9,14 @@ END_VAR
 VAR_TEMP
     channelValue: DINT;
     current_Good_x: DINT;
-    current_Good_x__1: DINT;
+    current_Good_x_1: DINT;
+    edge_Block_1: DINT;
+    edge_Good_1: DINT;
+    edge_UseChannel_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
     receiverAut: DINT;
-    receiverEdge: DINT;
     senderAut: DINT;
-    senderEdge: DINT;
-    syncAutEdge: DINT;
-    syncAutEdge__1: DINT;
-    syncAutEdge__2: DINT;
-    syncAutEdge__3: DINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* --- Initialize state. --------------------------------------------------- *)
@@ -39,7 +36,7 @@ WHILE isProgress DO
     (* Try to perform event "noSync". *)
     eventEnabled := TRUE;
     IF TRUE THEN
-        syncAutEdge := 1;
+        edge_Good_1 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
@@ -49,7 +46,7 @@ WHILE isProgress DO
     IF eventEnabled THEN
         isProgress := TRUE;
         current_Good_x := Good_x;
-        IF syncAutEdge = 1 THEN
+        IF edge_Good_1 = 1 THEN
             Good_x := (current_Good_x + 1) MOD 6;
         END_IF;
     END_IF;
@@ -57,15 +54,15 @@ WHILE isProgress DO
     (* Try to perform event "noMonitor". *)
     eventEnabled := TRUE;
     IF TRUE THEN
-        syncAutEdge__2 := 1;
+        edge_Good_1 := 1;
     ELSE
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
         isProgress := TRUE;
-        current_Good_x__1 := Good_x;
-        IF syncAutEdge__2 = 1 THEN
-            Good_x := (current_Good_x__1 + 5) MOD 6;
+        current_Good_x_1 := Good_x;
+        IF edge_Good_1 = 1 THEN
+            Good_x := (current_Good_x_1 + 5) MOD 6;
         END_IF;
     END_IF;
 

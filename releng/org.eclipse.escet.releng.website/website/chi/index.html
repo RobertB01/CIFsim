@@ -20,10 +20,11 @@
     <link rel="stylesheet" href="../assets/eclipse-escet.css">
     <link rel="stylesheet" href="../assets/eclipse-escet-chi.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../assets/eclipse-escet.js"></script>
     <title>Home | Chi</title>
   </head>
 
-  <body class="escet-dark">
+  <body class="escet-dark" onload="onLoad()">
 
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
@@ -67,9 +68,21 @@
     </nav>
 
     <!-- Intro -->
-    <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
+    <div id="intro" class="position-relative p-3 text-center escet-bg escet-bg-opacity-125">
       <div class="clearfix mb-4 mb-md-0">
-        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION-ENDUSER@@</a></span>
+        <span class="float-end">
+          Version:
+          <div class="dropdown d-inline-block">
+            <a class="dropdown-toggle" href="#" role="button" id="versionDropdown" data-bs-toggle="dropdown" aria-expanded="false">@@ESCET-VERSION-ENDUSER@@</a>
+            <ul id="versions-dropdown" class="dropdown-menu dropdown-menu-end" aria-labelledby="versionDropdown" data-this-version="/@@ESCET-DEPLOY-FOLDER-NAME@@">
+              <li><h6 id="versions-previews" class="dropdown-header">Previews</h6></li>
+              <li><h6 id="versions-latest-releases" class="dropdown-header">Latest releases</h6></li>
+              <li><h6 class="dropdown-header">Other</h6></li>
+              <li><a class="dropdown-item" href="../versions.html">All versions...</a></li>
+            </ul>
+          </div>
+          <a class="text-nowrap ms-3" href="release-notes.html">[release notes]</a>
+        </span>
       </div>
       <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
         <h1 class="display-4 fw-bold">Chi</h1>

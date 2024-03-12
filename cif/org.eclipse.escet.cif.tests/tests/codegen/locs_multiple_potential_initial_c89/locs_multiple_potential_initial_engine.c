@@ -60,9 +60,7 @@ locs_multiple_potential_initialEnum a_;
 
 /* Derivative and algebraic variable functions. */
 
-/**
- * Algebraic variable a.x = true;
- */
+/** Algebraic variable a.x = true. */
 BoolType a_x_(void) {
     return TRUE;
 }

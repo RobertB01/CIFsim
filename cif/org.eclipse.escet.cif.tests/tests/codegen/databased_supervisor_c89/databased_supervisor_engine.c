@@ -277,51 +277,37 @@ databased_supervisorEnum Timer_;
 
 /* Derivative and algebraic variable functions. */
 
-/**
- * Algebraic variable bdd_value0 = M.Button = Pushed;
- */
+/** Algebraic variable bdd_value0 = M.Button = Pushed. */
 BoolType bdd_value0_(void) {
     return (Button_) == (_databased_supervisor_Pushed);
 }
 
-/**
- * Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout;
- */
+/** Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout. */
 BoolType bdd_value1_(void) {
     return ((Cycle_) == (_databased_supervisor_TurnLampOn)) || ((Cycle_) == (_databased_supervisor_WaitForTimeout));
 }
 
-/**
- * Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout;
- */
+/** Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout. */
 BoolType bdd_value2_(void) {
     return ((Cycle_) == (_databased_supervisor_StartTimer)) || ((Cycle_) == (_databased_supervisor_WaitForTimeout));
 }
 
-/**
- * Algebraic variable bdd_value3 = M.Cycle = TurnLampOff;
- */
+/** Algebraic variable bdd_value3 = M.Cycle = TurnLampOff. */
 BoolType bdd_value3_(void) {
     return (Cycle_) == (_databased_supervisor_TurnLampOff);
 }
 
-/**
- * Algebraic variable bdd_value4 = M.Lamp = On;
- */
+/** Algebraic variable bdd_value4 = M.Lamp = On. */
 BoolType bdd_value4_(void) {
     return (Lamp_) == (_databased_supervisor_On);
 }
 
-/**
- * Algebraic variable bdd_value5 = M.Timer = Running;
- */
+/** Algebraic variable bdd_value5 = M.Timer = Running. */
 BoolType bdd_value5_(void) {
     return (Timer_) == (_databased_supervisor_Running);
 }
 
-/**
- * Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5];
- */
+/** Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5]. */
 A6BType bdd_values_(void) {
     A6BType array_tmp1;
     (array_tmp1).data[0] = bdd_value0_();

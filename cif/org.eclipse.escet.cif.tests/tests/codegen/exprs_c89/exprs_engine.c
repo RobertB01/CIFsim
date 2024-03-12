@@ -735,9 +735,7 @@ RealType AA_f_sqrt_;
 RealType x5_deriv(void) {
     return 1.0;
 }
-/**
- * Algebraic variable v1 = if M.a1_x > 0, M.a1_x < 5: 0 elif M.a1_x > 6, M.a1_x < 9: 1 else 2 end;
- */
+/** Algebraic variable v1 = if M.a1_x > 0, M.a1_x < 5: 0 elif M.a1_x > 6, M.a1_x < 9: 1 else 2 end. */
 IntType v1_(void) {
     IntType if_dest1;
     if (((a1_x_) > (0)) && ((a1_x_) < (5))) {
@@ -750,9 +748,7 @@ IntType v1_(void) {
     return if_dest1;
 }
 
-/**
- * Algebraic variable if1 = if time > 1: 1 else 0 end;
- */
+/** Algebraic variable if1 = if time > 1: 1 else 0 end. */
 IntType if1_(void) {
     IntType if_dest2;
     if ((model_time) > (1)) {
@@ -763,9 +759,7 @@ IntType if1_(void) {
     return if_dest2;
 }
 
-/**
- * Algebraic variable if2 = if time > 1: 1 elif time > 0.5: 2 else 0 end + 1;
- */
+/** Algebraic variable if2 = if time > 1: 1 elif time > 0.5: 2 else 0 end + 1. */
 IntType if2_(void) {
     IntType if_dest3;
     if ((model_time) > (1)) {
@@ -778,9 +772,7 @@ IntType if2_(void) {
     return (if_dest3) + (1);
 }
 
-/**
- * Algebraic variable if3 = if time > 1: 1 elif time > 0.5: 2 elif time > 0.25: 3 else 0 end + 2;
- */
+/** Algebraic variable if3 = if time > 1: 1 elif time > 0.5: 2 elif time > 0.25: 3 else 0 end + 2. */
 IntType if3_(void) {
     IntType if_dest4;
     if ((model_time) > (1)) {
@@ -795,65 +787,47 @@ IntType if3_(void) {
     return (if_dest4) + (2);
 }
 
-/**
- * Algebraic variable fcall1 = inc(0);
- */
+/** Algebraic variable fcall1 = inc(0). */
 IntType fcall1_(void) {
     return inc_(0);
 }
 
-/**
- * Algebraic variable fcall2 = inc(inc(0));
- */
+/** Algebraic variable fcall2 = inc(inc(0)). */
 IntType fcall2_(void) {
     return inc_(inc_(0));
 }
 
-/**
- * Algebraic variable vea = A;
- */
+/** Algebraic variable vea = A. */
 exprsEnum vea_(void) {
     return _exprs_A;
 }
 
-/**
- * Algebraic variable x2 = x1;
- */
+/** Algebraic variable x2 = x1. */
 IntType x2_(void) {
     return x1_;
 }
 
-/**
- * Algebraic variable x3 = x2;
- */
+/** Algebraic variable x3 = x2. */
 IntType x3_(void) {
     return x2_();
 }
 
-/**
- * Algebraic variable x4 = M.a1_x;
- */
+/** Algebraic variable x4 = M.a1_x. */
 IntType x4_(void) {
     return a1_x_;
 }
 
-/**
- * Algebraic variable x6 = x5 + x5';
- */
+/** Algebraic variable x6 = x5 + x5'. */
 RealType x6_(void) {
     return RealAdd(x5_, x5_deriv());
 }
 
-/**
- * Algebraic variable x7 = vea = B;
- */
+/** Algebraic variable x7 = vea = B. */
 BoolType x7_(void) {
     return (vea_()) == (_exprs_B);
 }
 
-/**
- * Algebraic variable x9 = x8 + 1;
- */
+/** Algebraic variable x9 = x8 + 1. */
 IntType x9_(void) {
     return IntegerAdd(x8_, 1);
 }

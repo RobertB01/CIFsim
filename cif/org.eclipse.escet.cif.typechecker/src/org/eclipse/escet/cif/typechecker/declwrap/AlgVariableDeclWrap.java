@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -39,6 +40,7 @@ import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.parser.ast.declarations.AAlgVariable;
 import org.eclipse.escet.cif.parser.ast.declarations.AAlgVariableDecl;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -150,8 +152,8 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
             mmDecl.setType(EMFHelper.deepclone(vtype));
         }
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked 'for use'.
+        status = CheckStatus.USE;
     }
 
     @Override
@@ -160,8 +162,21 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
         // bounds can be determined from the value/equations, we need to
         // include the checking of the values/equations to determine the type
         // of the variable 'for use'. As such, the 'for use' checking already
-        // fully checks the algebraic variable.
+        // nearly fully checks the algebraic variable.
+
+        // First, check 'for use', and make sure we haven't checked it before.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
+                tchecker);
+        mmDecl.getAnnotations().addAll(annos);
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 
     /**

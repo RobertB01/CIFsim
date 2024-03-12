@@ -27,7 +27,7 @@ public class ConvertEnumsOption extends EnumOption<ConvertEnums> {
                         + "\"consts\" for conversion to constants, or " //
                         + "\"ints\" for conversion to integers. " //
                         + "[DEFAULT=auto]", //
-                null, "convert-enums", "CONVERT", ConvertEnums.AUTO, true,  //
+                null, "convert-enums", "CONVERT", ConvertEnums.AUTO, true, //
                 "Specify how enumerations should be treated.");
     }
 

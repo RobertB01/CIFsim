@@ -352,7 +352,7 @@ public class CodeGeneratorContext {
                     return name;
                 }
             }
-            //$FALL-THROUGH$
+            // $FALL-THROUGH$
             case DEFINITION: {
                 String name = defScope.get(def);
                 if (name != null) {
@@ -362,7 +362,7 @@ public class CodeGeneratorContext {
                     return name;
                 }
             }
-            //$FALL-THROUGH$
+            // $FALL-THROUGH$
             case GLOBALS: {
                 String name = globalScope.get(def);
                 return name;

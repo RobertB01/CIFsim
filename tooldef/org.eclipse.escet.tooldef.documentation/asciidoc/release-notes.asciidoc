@@ -26,6 +26,16 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 TBD
 
+New features:
+
+* The ToolDef interpreter now supports reading `.tooldefx` files, ToolDef files in an XML format (issues {escet-issue}701[#701] and {escet-issue}731[#731]).
+
+Improvements and fixes:
+
+* The ToolDef documentation breadcrumbs are now consistent with the table of contents (issue {escet-issue}38[#38]).
+* The ToolDef documentation table of contents now has proper links for items that link to sections on pages rather than to entire pages (issue {escet-issue}38[#38]).
+* The ToolDef website has an improved link color (issue {escet-issue}38[#38]).
+
 === Version 2.0 (2023-12-22)
 
 This release contains no specific changes for ToolDef.

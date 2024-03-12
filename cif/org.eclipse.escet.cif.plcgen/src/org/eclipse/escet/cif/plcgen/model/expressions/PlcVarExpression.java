@@ -17,13 +17,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.common.java.Assert;
 
 /** Expression referencing a variable, includes optional projections on the variable. */
 public class PlcVarExpression extends PlcExpression {
     /** Referenced variable. */
-    public final PlcVariable variable;
+    public final PlcBasicVariable variable;
 
     /** Projections to select a part of the variable. */
     public final List<PlcProjection> projections;
@@ -34,7 +34,7 @@ public class PlcVarExpression extends PlcExpression {
      * @param variable Referenced variable.
      * @param projections Projections to select a part of the variable.
      */
-    public PlcVarExpression(PlcVariable variable, PlcProjection... projections) {
+    public PlcVarExpression(PlcBasicVariable variable, PlcProjection... projections) {
         this(variable, Arrays.asList(projections));
     }
 
@@ -44,7 +44,7 @@ public class PlcVarExpression extends PlcExpression {
      * @param variable Referenced variable.
      * @param projections Projections to select a part of the variable.
      */
-    public PlcVarExpression(PlcVariable variable, List<PlcProjection> projections) {
+    public PlcVarExpression(PlcBasicVariable variable, List<PlcProjection> projections) {
         this.variable = variable;
         this.projections = Collections.unmodifiableList(projections);
     }

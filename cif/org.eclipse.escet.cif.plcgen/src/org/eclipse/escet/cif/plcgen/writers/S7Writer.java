@@ -22,7 +22,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -30,8 +32,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -124,19 +126,19 @@ public class S7Writer extends Writer {
      * @param timerVariables Timer variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void writeTimers(List<PlcVariable> timerVariables, String outPath) {
+    private void writeTimers(List<PlcBasicVariable> timerVariables, String outPath) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // Use IEC timers if available, else use TON timers.
         boolean hasIecTimers = hasIecTimers();
 
         // Generate timer data blocks to the database.
-        for (PlcVariable timerVar: timerVariables) {
+        for (PlcBasicVariable timerVar: timerVariables) {
             // Don't let any non-TON block slip through.
             Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
 
             // Generate the data block for the TON timer.
-            c.add("DATA_BLOCK \"%s\"", timerVar.name);
+            c.add("DATA_BLOCK \"%s\"", timerVar.varName);
             c.add("{InstructionName := '%s';", hasIecTimers ? "IEC_TIMER" : "TON");
             c.add("LibVersion := '1.0';");
             c.add("S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
@@ -197,7 +199,7 @@ public class S7Writer extends Writer {
      * @param variables The variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void writeDatabase(List<PlcVariable> variables, String outPath) {
+    private void writeDatabase(List<PlcBasicVariable> variables, String outPath) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // The header.
@@ -208,8 +210,8 @@ public class S7Writer extends Writer {
         c.indent();
         c.add("VAR");
         c.indent();
-        for (PlcVariable var: variables) {
-            c.add("%s: %s;", var.name, toBox(var.type));
+        for (PlcBasicVariable var: variables) {
+            c.add("%s: %s;", var.varName, toBox(var.type));
         }
         c.dedent();
         c.add("END_VAR");
@@ -219,11 +221,10 @@ public class S7Writer extends Writer {
         c.add("BEGIN");
         c.indent();
         ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
-        for (PlcVariable var: variables) {
-            if (var.value == null) {
-                continue;
+        for (PlcBasicVariable var: variables) {
+            if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
+                c.add("%s := %s;", var.varName, modelTextGenerator.toString(dataVar.value));
             }
-            c.add("%s := %s;", var.name, modelTextGenerator.toString(var.value));
         }
         c.dedent();
         c.add("END_DATA_BLOCK");
@@ -271,14 +272,16 @@ public class S7Writer extends Writer {
         // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
         if (globVarList.listKind == PlcVarListKind.CONSTANTS) {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
-            for (PlcVariable constant: globVarList.variables) {
-                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),
-                        modelTextGenerator.toString(constant.value), constant.name);
+            for (PlcBasicVariable constant: globVarList.variables) {
+                PlcDataVariable dataConstant = (PlcDataVariable)constant;
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(dataConstant.type),
+                        modelTextGenerator.toString(dataConstant.value), dataConstant.varName);
             }
         } else {
-            for (PlcVariable var: globVarList.variables) {
+            for (PlcBasicVariable var: globVarList.variables) {
+                PlcDataVariable dataVar = (PlcDataVariable)var;
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
-                        + "remark='' addr='%s'>%s</Tag>", toBox(var.type), var.address, var.name);
+                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.varName);
             }
         }
         c.dedent();
@@ -317,8 +320,8 @@ public class S7Writer extends Writer {
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
-            for (PlcVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.name, toBox(var.type));
+            for (PlcBasicVariable var: pou.inputVars) {
+                c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -331,8 +334,8 @@ public class S7Writer extends Writer {
 
             c.add("VAR_OUTPUT");
             c.indent();
-            for (PlcVariable var: pou.outputVars) {
-                c.add("%s: %s;", var.name, toBox(var.type));
+            for (PlcBasicVariable var: pou.outputVars) {
+                c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -349,8 +352,8 @@ public class S7Writer extends Writer {
             c.add("VAR_TEMP");
 
             c.indent();
-            for (PlcVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.name, toBox(var.type));
+            for (PlcBasicVariable var: pou.tempVars) {
+                c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -388,9 +391,9 @@ public class S7Writer extends Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("STRUCT");
         c.indent();
-        for (PlcVariable field: structType.fields) {
+        for (PlcStructField field: structType.fields) {
             // Only name and type, not address.
-            c.add("%s: %s;", field.name, toBox(field.type));
+            c.add("%s: %s;", field.fieldName, toBox(field.type));
         }
         c.dedent();
         c.add("END_STRUCT");

@@ -19,8 +19,8 @@ import java.util.EnumSet;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Base class describing the parameters of a function application, as well as providing information to convert it to
- * text.
+ * Base class describing the prefix function notation, and the parameters of such a function application. It also
+ * contains allowed notation forms of the function application.
  */
 public abstract class PlcBasicFuncDescription {
     /** Name of the function in prefix notation, or {@code null} if the prefix form does not exist. */
@@ -28,15 +28,6 @@ public abstract class PlcBasicFuncDescription {
 
     /** Parameters of the function. */
     public final PlcParameterDescription[] parameters;
-
-    /** Name of the function in infix notation, {@code null} if infix form does not exist. */
-    public final String infixFuncName;
-
-    /**
-     * Binding of the function application for laying out the infix notation. Use {@link ExprBinding#NO_PRIORITY} for
-     * functions that have no infix notation.
-     */
-    public final ExprBinding infixBinding;
 
     /** Notations of the function that are supported by the target. */
     public final EnumSet<PlcFuncNotation> notations;
@@ -46,25 +37,12 @@ public abstract class PlcBasicFuncDescription {
      *
      * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function.
-     * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
-     * @param infixBinding Binding of the function application for laying out the infix notation. Use
-     *     {@link ExprBinding#NO_PRIORITY} for functions that have no infix notation.
-     * @param notations Notations of the function that are supported by the target. May get restricted based on available infix
-     *     and prefix function names.
+     * @param notations Notations of the function that are supported by the target. May get restricted based on
+     *     available infix and prefix function names.
      */
-    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
-            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
+    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
+            EnumSet<PlcFuncNotation> notations)
     {
-        Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
-
-        // Restrict notation forms based on available function names.
-        notations = EnumSet.copyOf(notations); // Make a private copy to avoid changing caller data.
-        if (infixFuncName == null) {
-            notations.retainAll(PlcFuncNotation.NOT_INFIX);
-        }
-        if (prefixFuncName == null) {
-            notations.retainAll(PlcFuncNotation.INFIX_ONLY);
-        }
         Assert.check(!notations.isEmpty());
 
         // Verify that parameter names are unique.
@@ -73,8 +51,6 @@ public abstract class PlcBasicFuncDescription {
 
         this.prefixFuncName = prefixFuncName;
         this.parameters = parameters;
-        this.infixFuncName = infixFuncName;
-        this.infixBinding = infixBinding;
         this.notations = notations;
     }
 

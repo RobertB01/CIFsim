@@ -31,6 +31,19 @@ map(string:list string) test_options = {
 };
 set string test_skip = {};
 
+// Available targets, organized as a number of subsets for easier targets subset selection.
+list string non_s7 = ["plcopen", "iec", "twincat", "abb"]; // Non-S7 targets.
+list string s7_a = ["s7-1200", "s7-400"]; // One 1/2 of the S7 targets.
+list string s7_b = ["s7-1500", "s7-300"]; // The other 1/2 the S7 targets.
+list string all_targets = non_s7 + s7_a + s7_b;
+
+// Targets to try for each test. If the test is in 'test_targets', its value is used, else 'all_targets' are used.
+map(string:list string) test_targets = {
+    "plcgen/option_max_iter_inf.cif":         non_s7 + s7_a,
+    "plcgen/options.cif":                     non_s7 + s7_b,
+    "plcgen/prechecker.cif":                  ["iec", "s7-300"],
+};
+
 /* Creates an empty TwinCAT solution directory. That is, it contains the minimum files and file contents to generate
 TwinCAT PLC code with the CIF to PLC tool. A solution directory is created at the `slnDirPath`. The solution directory
 contains an empty TwinCAT solution file (.sln file) and a TwinCAT XAE project directory. The TwinCAT XAE project
@@ -105,7 +118,12 @@ end
 
 // Test all tests.
 for test in tests:
-    for target in ["plcopen", "iec", "twincat", "s7-1500", "s7-1200", "s7-400", "s7-300", "abb"]:
+    // Get the targets for this test.
+    list string targets_to_test = all_targets;
+    if contains(test_targets, test):: targets_to_test = test_targets[test];
+
+    // Run the tests.
+    for target in targets_to_test:
         // Get test specific options.
         list string options = default_options;
         list string extra_options;
@@ -147,19 +165,19 @@ for test in tests:
                 createEmptyTwincat(dir_real, "Untitled1", "PlcTask");
             end
         elif target == "s7-1200":
-            options = ["-t", "s7_1200", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_1200", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-1500":
-            options = ["-t", "s7_1500", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_1500", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-300":
-            options = ["-t", "s7_300", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_300", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "s7-400":
-            options = ["-t", "s7_400", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "s7_400", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         elif target == "abb":
-            options = ["-t", "abb", "-o", dir_real, "--convert-enums=consts"] + options;
+            options = ["-t", "abb", "-o", dir_real] + options;
             if isdir(dir_real):: rmdir(dir_real);
         end
 

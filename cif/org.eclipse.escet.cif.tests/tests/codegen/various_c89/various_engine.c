@@ -218,9 +218,7 @@ variousEnum g_sync_;
 RealType g_sync_c_deriv(void) {
     return 1.0;
 }
-/**
- * Algebraic variable z = x + y;
- */
+/** Algebraic variable z = x + y. */
 IntType z_(void) {
     return IntegerAdd(x_, y_);
 }

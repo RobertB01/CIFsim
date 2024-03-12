@@ -47,10 +47,10 @@ public class DefaultNameGenerator implements NameGenerator {
      * All names in the PLC language standard, as an unmodifiable set. These are to be avoided for generated names.
      *
      * <p>
-     * The keywords in the PLC language are case insensitive. This set only contains the names in lower-case ASCII.
+     * The PLC language is case insensitive. This set only contains the names in lower-case ASCII.
      * </p>
      */
-    private static final Set<String> PLC_LANGUAGE_KEYWORDS;
+    private static final Set<String> PLC_RESERVED_WORDS;
 
     /** If the value holds the user should be warned about changing the name, else the user should not be warned. */
     private final boolean warnOnRename;
@@ -71,7 +71,7 @@ public class DefaultNameGenerator implements NameGenerator {
         warnOutput = settings.warnOutput;
 
         globalSuffixes = map();
-        for (String name: PLC_LANGUAGE_KEYWORDS) {
+        for (String name: PLC_RESERVED_WORDS) {
             globalSuffixes.put(name, 0);
         }
     }
@@ -108,31 +108,7 @@ public class DefaultNameGenerator implements NameGenerator {
      */
     private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {
         // Cleanup the name.
-        StringBuilder cleanedName = new StringBuilder(initialName.length() + 1 + 2 + 8);
-        boolean needsUnderscore = false;
-        for (int index = 0; index < initialName.length(); index++) {
-            char c = initialName.charAt(index);
-            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
-                if (needsUnderscore) {
-                    cleanedName.append('_');
-                    needsUnderscore = false;
-                }
-                cleanedName.append(c);
-            } else if (c >= '0' && c <= '9') {
-                if (cleanedName.isEmpty()) {
-                    cleanedName.append(DEFAULT_CHAR);
-                } else if (needsUnderscore) {
-                    cleanedName.append('_');
-                }
-                cleanedName.append(c);
-                needsUnderscore = false;
-            } else {
-                needsUnderscore = !cleanedName.isEmpty();
-            }
-        }
-        if (cleanedName.isEmpty()) {
-            cleanedName.append(DEFAULT_CHAR);
-        }
+        StringBuilder cleanedName = cleanName(initialName);
 
         // Make the name unique.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
@@ -144,7 +120,7 @@ public class DefaultNameGenerator implements NameGenerator {
         if (maxUsedNumber < 0) {
             // First use of a name without numeric suffix -> use as-is.
             //
-            // Store it as 0 suffix, next use will get "__1" appended.
+            // Store it as 0 suffix, next use will get "_1" appended.
             if (localSuffixes != null) {
                 localSuffixes.put(lowerCleanedName, 0);
             } else {
@@ -160,7 +136,7 @@ public class DefaultNameGenerator implements NameGenerator {
                 globalSuffixes.put(lowerCleanedName, maxUsedNumber);
             }
 
-            cleanedName.append("__");
+            cleanedName.append("_");
             cleanedName.append(maxUsedNumber);
             String newName = cleanedName.toString();
             if (initialIsCifName && warnOnRename) {
@@ -170,17 +146,126 @@ public class DefaultNameGenerator implements NameGenerator {
         }
     }
 
+    /**
+     * Cleanup the name.
+     *
+     * <p>
+     * A name consists of alternating good and bad parts, where a good part is a sequence of letters and digits, and a
+     * bad part is a sequence of non-letter and non-digit characters. Each good part is forced to start with a letter.
+     * </p>
+     * <p>
+     * The good parts are copied, and get separated with an underscore character.
+     * </p>
+     *
+     * @param text Input text to clean up.
+     * @return The cleaned-up name, wrapped in a string builder to assist in further manipulation of the name.
+     */
+    private StringBuilder cleanName(String text) {
+        // Construct the destination string builder. Likely sufficient length is all text, 4 inserted default
+        // characters, an underscore, and an assumed 3 digit number.
+        StringBuilder sb = new StringBuilder(text.length() + 4 + 1 + 3);
+
+        // Copy the good parts of the input text separated by an underscore character.
+        char[] data = text.toCharArray();
+        int inputIndex = 0;
+        while (inputIndex < data.length) {
+            // Find a good characters sequence. Possibly except for the first iteration, this is always non-empty.
+            int length = matchGoodChars(data, inputIndex);
+
+            // Force starting with a non-digit character.
+            // At the start of the name, that ensures the result to be an identifier. After an '_', it ensures the
+            // sequence '_[0-9]' never happens.
+            if (length > 0 && Character.isDigit(data[inputIndex])) {
+                sb.append(DEFAULT_CHAR);
+            }
+
+            // Copy the good characters, update the read index, and bail out if the end has been reached.
+            sb.append(data, inputIndex, length); // May do nothing in the first iteration.
+            inputIndex += length;
+            if (inputIndex == data.length) {
+                break;
+            }
+
+            // Find a bad characters sequence. Is always non-empty.
+            length = matchBadChars(data, inputIndex);
+            inputIndex += length;
+            if (!sb.isEmpty() && inputIndex < data.length) { // If a good part is before and after it, insert an '_'.
+                sb.append('_');
+            }
+        }
+
+        // Force a non-empty result identifier.
+        if (sb.isEmpty()) {
+            sb.append(DEFAULT_CHAR);
+        }
+        return sb;
+    }
+
+    /**
+     * Find a sequence of good characters (letters or digits) in the {@code data} array at {@code index}.
+     *
+     * @param data Characters to explore.
+     * @param index Index to start the search.
+     * @return Number of found good characters starting from {@code data[index]}.
+     */
+    private int matchGoodChars(char[] data, int index) {
+        int endIndex = index;
+        while (endIndex < data.length) {
+            char c = data[endIndex];
+            if (Character.isLetter(c) || Character.isDigit(c)) {
+                endIndex++;
+            } else {
+                break;
+            }
+        }
+        return endIndex - index;
+    }
+
+    /**
+     * Find a sequence of bad characters (anything else but letters or digits) in the {@code data} array at
+     * {@code index}.
+     *
+     * @param data Characters to explore.
+     * @param index Index to start the search.
+     * @return Number of found bad characters starting from {@code data[index]}.
+     */
+    private int matchBadChars(char[] data, int index) {
+        int endIndex = index;
+        while (endIndex < data.length) {
+            char c = data[endIndex];
+            if (Character.isLetter(c) || Character.isDigit(c)) {
+                break;
+            } else {
+                endIndex++;
+            }
+        }
+        return endIndex - index;
+    }
+
     static {
         // Keywords of the language, note that "en" and "eno" special parameter names have been left out.
-        String[] languageKeywords = new String[] {"action", "end_action", "array", "of", "at", "case", "of", "else",
-                "end_case", "configuration", "end_configuration", "constant", "exit", "false", "f_edge", "for", "to",
-                "by", "do", "end_for", "function", "end_function", "function_block", "end_function_block", "if", "then",
-                "elsif", "else", "end_if", "initial_step", "end_step", "not", "mod", "and", "xor", "or", "program",
-                "with", "program", "end_program", "r_edge", "read_only", "read_write", "repeat", "until", "end_repeat",
-                "resource", "on", "end_resource", "retain", "end_retain", "return", "step", "end_step", "struct",
-                "end_struct", "task", "transition", "from", "to", "end_transition", "true", "type", "end_type", "var",
-                "end_var", "var_input", "var_output", "var_in_out", "var_temp", "var_external", "var_access",
-                "var_config", "var_gloval", "while", "do", "end_while", "with"};
+        String[] languageKeywords = new String[] {"action", "array", "at", "by", "case", "configuration", "constant",
+                "do", "else", "elsif", "end_action", "end_case", "end_configuration", "end_for", "end_function",
+                "end_function_block", "end_if", "end_program", "end_repeat", "end_resource", "end_retain", "end_step",
+                "end_struct", "end_transition", "end_type", "end_var", "end_while", "exit", "false", "f_edge", "for",
+                "from", "function", "function_block", "if", "initial_step", "of", "on", "program", "read_only",
+                "read_write", "r_edge", "repeat", "resource", "retain", "return", "step", "struct", "task", "then",
+                "to", "transition", "true", "type", "until", "var", "var_access", "var_config", "var_external",
+                "var_global", "var_in_out", "var_input", "var_output", "var_temp", "while", "with"};
+
+        String[] functionNames = new String[] {"abs", "acos", "add", "and", "asin", "atan", "cos", "div", "eq", "exp",
+                "expt", "ge", "gt", "le", "ln", "log", "lt", "max", "min", "mod", "mul", "ne", "not", "or", "sel",
+                "sin", "sqrt", "sub", "tan", "xor"};
+
+        String[] functionBlockNames = new String[] { //
+                "rs", "sr", // Set/reset.
+                "ton", "tof", "tp", // Timers.
+                "iec_timer", // Timers S7.
+                "f_trig", "r_trig", // Edge detection.
+                "ctu", "ctu_dint", "ctu_lint", "ctu_udint", "ctu_ulint", // Up counters.
+                "ctd", "ctd_dint", "ctd_lint", "ctd_udint", "ctd_ulint", // Down counters.
+                "ctud", "ctud_dint", "ctud_lint", "ctud_udint", "ctud_ulint", // Up-down counters.
+        };
 
         String[] typeKeywords = new String[] {"bool", "sint", "int", "dint", "lint", "usint", "uint", "ulint", "udint",
                 "real", "lreal", "time", "date", "time_of_day", "tod", "date_and_time", "dt", "string", "byte", "word",
@@ -191,14 +276,16 @@ public class DefaultNameGenerator implements NameGenerator {
 
         // Construct a set container of appropriate size.
         int numTypes = genericTypeKeywords.length;
-        int keywordCount = languageKeywords.length + typeKeywords.length + genericTypeKeywords.length
-                + numTypes * (numTypes - 1);
-        Set<String> keywords = setc(keywordCount);
+        int reservedWordCount = languageKeywords.length + functionNames.length + functionBlockNames.length
+                + typeKeywords.length + genericTypeKeywords.length + numTypes * (numTypes - 1);
+        Set<String> reservedWords = setc(reservedWordCount);
 
         // Add everything.
-        keywords.addAll(Arrays.asList(languageKeywords));
-        keywords.addAll(Arrays.asList(typeKeywords));
-        keywords.addAll(Arrays.asList(genericTypeKeywords));
+        reservedWords.addAll(Arrays.asList(languageKeywords));
+        reservedWords.addAll(Arrays.asList(functionNames));
+        reservedWords.addAll(Arrays.asList(functionBlockNames));
+        reservedWords.addAll(Arrays.asList(typeKeywords));
+        reservedWords.addAll(Arrays.asList(genericTypeKeywords));
 
         // Casts (X_TO_Y functions).
         for (int i = 0; i < typeKeywords.length; i++) {
@@ -206,13 +293,10 @@ public class DefaultNameGenerator implements NameGenerator {
                 if (i == j) {
                     continue;
                 }
-                keywords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
+                reservedWords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
             }
         }
 
-        // TODO: Add standard library function names.
-        // TODO: Add standard function block names.
-
-        PLC_LANGUAGE_KEYWORDS = Collections.unmodifiableSet(keywords);
+        PLC_RESERVED_WORDS = Collections.unmodifiableSet(reservedWords);
     }
 }

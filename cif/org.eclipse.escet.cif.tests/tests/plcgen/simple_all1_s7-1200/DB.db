@@ -8,8 +8,8 @@ DATA_BLOCK "DB"
         p_ve: DINT;
         p_v1: DINT;
         p_v2: TupleStruct;
-        p_v3: TupleStruct__1;
-        p_tv: TupleStruct__2;
+        p_v3: TupleStruct_1;
+        p_tv: TupleStruct_2;
         p_j: DINT;
         p_r: LREAL;
         p_t: LREAL;

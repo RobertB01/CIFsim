@@ -392,9 +392,16 @@ public class JavaScriptCodeGen extends CodeGen {
             String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
             code.add();
             code.add("/**");
             code.add(" * Evaluates algebraic variable \"%s\".", origName);
+            for (String doc: docs) {
+                code.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add(" * %s", line);
+                }
+            }
             code.add(" *");
             code.add(" * @return The evaluation result.");
             code.add(" */");

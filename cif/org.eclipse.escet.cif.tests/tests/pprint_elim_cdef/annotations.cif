@@ -88,8 +88,17 @@ end
 automaton a3:
   @a(b = 1)
   disc int x = 1, y = 2;
-  invariant x > 0 and y > 0;
+
+  @a(b = 2)
+  cont c1 = 1 der 2, c2 = 3 der 4;
+
+  invariant x > 0 and y > 0 and c1 > 0 and c2 > 0;
 
   location:
     initial;
+end
+
+group g1:
+  @a(b = 3)
+  alg bool alg1 = true;
 end

@@ -1930,7 +1930,7 @@ public class CifToBddConverter {
 
                 // Convert and set assignments.
                 List<Update> updates = cifEdge.getUpdates();
-                convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec);
+                convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec, this.problems);
             }
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
@@ -2157,9 +2157,10 @@ public class CifToBddConverter {
      * @param cifBddEdge The CIF/BDD edge in which to store the CIF/BDD updates. Is modified in-place.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
+     * @param problems Precondition violations found so far.
      */
-    private void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge, CifBddLocationPointerManager locPtrManager,
-            CifBddSpec cifBddSpec)
+    public static void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
@@ -2169,7 +2170,7 @@ public class CifToBddConverter {
         BDD relation = cifBddSpec.factory.one();
         BDD error = cifBddSpec.factory.zero();
         for (Update update: updates) {
-            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec);
+            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec, problems);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
@@ -2227,11 +2228,12 @@ public class CifToBddConverter {
      * @param assigned Per CIF/BDD variable, whether it has been assigned on this edge. Is modified in-place.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
+     * @param problems Precondition violations found so far.
      * @return The update relation and runtime error predicate. May be {@code null} if the update can't be converted due
      *     to a precondition violation.
      */
-    private Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
+    public static Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
     {
         // Make sure it is not a conditional update ('if' update).
         if (update instanceof IfUpdate) {
@@ -2691,7 +2693,7 @@ public class CifToBddConverter {
      * @return The BDD predicate.
      * @throws UnsupportedPredicateException If one of the predicates is not supported.
      */
-    private static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec cifBddSpec)
+    public static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec cifBddSpec)
             throws UnsupportedPredicateException
     {
         BDD rslt = cifBddSpec.factory.one();
@@ -2711,7 +2713,7 @@ public class CifToBddConverter {
      * @return The BDD predicate.
      * @throws UnsupportedPredicateException If the predicate is not supported.
      */
-    private static BDD convertPred(Expression pred, boolean initial, CifBddSpec cifBddSpec)
+    public static BDD convertPred(Expression pred, boolean initial, CifBddSpec cifBddSpec)
             throws UnsupportedPredicateException
     {
         if (pred instanceof BoolExpression) {
@@ -2948,7 +2950,7 @@ public class CifToBddConverter {
      * @return The BDD predicate.
      * @throws UnsupportedPredicateException If the predicate is not supported.
      */
-    private static BDD convertCmpPred(Expression lhs, Expression rhs, BinaryOperator op, Expression pred,
+    public static BDD convertCmpPred(Expression lhs, Expression rhs, BinaryOperator op, Expression pred,
             BinaryExpression bpred, boolean initial, CifBddSpec cifBddSpec) throws UnsupportedPredicateException
     {
         // Check lhs and rhs types.
@@ -3048,7 +3050,7 @@ public class CifToBddConverter {
      * @throws UnsupportedPredicateException If the predicate is not supported.
      * @throws InvalidInputException If a static part of the given expression can't be evaluated.
      */
-    private static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddSpec cifBddSpec,
+    public static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddSpec cifBddSpec,
             boolean allowSubtract, Supplier<String> partMsg) throws UnsupportedPredicateException
     {
         // Variable references.
@@ -3420,7 +3422,7 @@ public class CifToBddConverter {
      * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
      *     available, due to a precondition violation.
      */
-    private static int getDiscVarIdx(CifBddVariable[] vars, DiscVariable var) {
+    public static int getDiscVarIdx(CifBddVariable[] vars, DiscVariable var) {
         // Make sure the given discrete variable is an actual discrete variable, and not a dummy one created for a
         // location pointer of an automaton.
         Assert.check(var.getType() != null);
@@ -3437,7 +3439,7 @@ public class CifToBddConverter {
      * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
      *     available, due to a precondition violation.
      */
-    private static int getInputVarIdx(CifBddVariable[] vars, InputVariable var) {
+    public static int getInputVarIdx(CifBddVariable[] vars, InputVariable var) {
         return getTypedVarIdx(vars, var);
     }
 
@@ -3450,7 +3452,7 @@ public class CifToBddConverter {
      * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
      *     available, due to a precondition violation.
      */
-    private static int getTypedVarIdx(CifBddVariable[] vars, Declaration var) {
+    public static int getTypedVarIdx(CifBddVariable[] vars, Declaration var) {
         for (int i = 0; i < vars.length; i++) {
             CifBddVariable cifBddVar = vars[i];
             if (cifBddVar == null) {
@@ -3477,7 +3479,7 @@ public class CifToBddConverter {
      *     pointer was created for the automaton, or the location pointer is not available, due to a precondition
      *     violation.
      */
-    private static int getLpVarIdx(CifBddVariable[] vars, Automaton aut) {
+    public static int getLpVarIdx(CifBddVariable[] vars, Automaton aut) {
         for (int i = 0; i < vars.length; i++) {
             CifBddVariable cifBddVar = vars[i];
             if (cifBddVar == null) {
@@ -3495,7 +3497,7 @@ public class CifToBddConverter {
     }
 
     /** Exception to indicate an unsupported predicate. */
-    private static class UnsupportedPredicateException extends Exception {
+    public static class UnsupportedPredicateException extends Exception {
         /**
          * The (part of the) predicate that is not supported. May be {@code null} to indicate that the predicate is not
          * supported due to earlier precondition violations.

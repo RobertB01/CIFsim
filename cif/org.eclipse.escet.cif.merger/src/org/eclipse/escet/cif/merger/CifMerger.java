@@ -370,6 +370,9 @@ public class CifMerger {
         varRef.setType(deepclone(contType));
         refExprReplacements.put(inputVar, varRef);
 
+        // Move annotations.
+        contVar.getAnnotations().addAll(inputVar.getAnnotations());
+
         // Return merged continuous variable.
         return contVar;
     }
@@ -401,6 +404,9 @@ public class CifMerger {
         varRef.setVariable(algVar);
         varRef.setType(deepclone(algType));
         refExprReplacements.put(inputVar, varRef);
+
+        // Move annotations.
+        algVar.getAnnotations().addAll(inputVar.getAnnotations());
 
         // Return merged algebraic variable.
         return algVar;

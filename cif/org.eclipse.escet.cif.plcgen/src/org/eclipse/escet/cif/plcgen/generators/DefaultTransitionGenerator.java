@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -49,7 +50,7 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -76,6 +77,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * {@link #setTransitions}.
      */
     private List<CifEventTransition> eventTransitions = null;
+
+    /**
+     * For each automaton, the variable that tracks the selected edge to perform for its automaton.
+     *
+     * <p>
+     * Use the {@link #getAutomatonEdgeVariable} method to query this map.
+     * </p>
+     */
+    private final Map<Automaton, PlcBasicVariable> edgeSelectionVariables = map();
+
+    /** Generator for obtaining clash-free names in the generated code. */
+    private NameGenerator nameGen;
 
     /** Expression generator for the main program. */
     private ExprGenerator mainExprGen;
@@ -134,10 +147,27 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
+        nameGen = target.getNameGenerator();
         mainExprGen = target.getCodeStorage().getExprGenerator();
         funcAppls = new PlcFunctionAppls(target);
 
-        PlcVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
+        // Set up selected edge tracking variables for the automata.
+        edgeSelectionVariables.clear();
+        for (CifEventTransition evtTrans: eventTransitions) {
+            for (TransitionAutomaton transAut: evtTrans.senders) {
+                ensureEdgeVariable(transAut.aut);
+            }
+            for (TransitionAutomaton transAut: evtTrans.receivers) {
+                ensureEdgeVariable(transAut.aut);
+            }
+            for (TransitionAutomaton transAut: evtTrans.syncers) {
+                ensureEdgeVariable(transAut.aut);
+            }
+            // Monitors do not need edge tracking since the first enabled edge is immediately taken.
+        }
+
+        // Variable that tracks whether at least one event was performed in the current event loop cycle.
+        PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
 
         // As all transition code is generated in main program context, only one generated statements list exists and
         // various variables that store decisions in the process can be re-used between different events.
@@ -147,8 +177,30 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             statements.addAll(generateEventTransitionCode(eventTransition, addEmptyLineBefore, isProgressVar));
             addEmptyLineBefore = true;
         }
+
+        // Release all temporary variables, and return the generated event transition code.
         mainExprGen.releaseTempVariable(isProgressVar);
+        mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
+        edgeSelectionVariables.clear();
+
         return statements;
+    }
+
+    /**
+     * Ensure that a variable for tracking the selected edge for the 'aut' automaton exists in
+     * {@link #edgeSelectionVariables} after the call.
+     *
+     * @param aut Automaton that must have or get a variable for tracking the selected edge of the automaton.
+     */
+    private void ensureEdgeVariable(Automaton aut) {
+        if (edgeSelectionVariables.containsKey(aut)) {
+            return;
+        }
+        String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
+
+        // TODO: Use a smaller integer for edge indexing.
+        PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
+        edgeSelectionVariables.put(aut, autVar);
     }
 
     /**
@@ -239,17 +291,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated code for testing and performing the event in the PLC.
      */
     private List<PlcStatement> generateEventTransitionCode(CifEventTransition eventTransition, boolean prependEmptyLine,
-            PlcVariable isProgressVar)
+            PlcBasicVariable isProgressVar)
     {
         // Both code parts visit the same automata and the check or perform the same edges. For this reason it makes
         // sense to generate both test-code and perform-code at the same time for each automaton.
         // At the end of this method both parts are combined.
         List<PlcStatement> testCode = list(); // Code that decides whether the event is enabled.
         List<PlcStatement> performCode = list(); // Code that performs the event assuming the event is enabled.
-        List<PlcVariable> createdTempVariables = list();
+        List<PlcBasicVariable> createdTempVariables = list();
 
         // Obtain the 'event is enabled' variable.
-        PlcVariable eventEnabledVar = mainExprGen.getTempVariable("eventEnabled", PlcElementaryType.BOOL_TYPE);
+        PlcBasicVariable eventEnabledVar = mainExprGen.getTempVariable("eventEnabled", PlcElementaryType.BOOL_TYPE);
         createdTempVariables.add(eventEnabledVar);
 
         // So far, no test code has been generated that may set 'eventEnabled' to false.
@@ -275,7 +327,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // A void channel does not transport data, 'channelValueVar' is 'null' in that case.
             channelType = normalizeType(channelType);
-            PlcVariable channelValueVar;
+            PlcBasicVariable channelValueVar;
             if (channelType instanceof VoidType) {
                 channelValueVar = null;
             } else {
@@ -324,7 +376,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     Is {@code null} if nothing needs to be copied.
      */
     private CifDataProvider generateCopiedState(Set<Declaration> assignedVariables, List<PlcStatement> codeStorage,
-            List<PlcVariable> createdTempVariables)
+            List<PlcBasicVariable> createdTempVariables)
     {
         if (assignedVariables.isEmpty()) {
             return null;
@@ -342,13 +394,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         for (Declaration assignedVar: assignedVarList) {
             // TODO If the variable is only written, a copy is not needed.
             if (assignedVar instanceof DiscVariable dv) {
-                PlcVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(dv, false), dv.getType());
+                PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(dv, false),
+                        dv.getType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(dv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
                         cifDataProvider.getValueForDiscVar(dv)));
             } else if (assignedVar instanceof ContVariable cv) {
-                PlcVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
+                PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
                         target.getRealType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(cv, new PlcVarExpression(currentVar));
@@ -375,7 +428,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
          * @param redirectedDecls The collection of redirected PLC variable values.
          * @param cifDataProvider Original CIF data provider.
          */
-        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls, CifDataProvider cifDataProvider) {
+        public TransitionDataProvider(Map<Declaration, PlcExpression> redirectedDecls,
+                CifDataProvider cifDataProvider)
+        {
             this.redirectedDecls = redirectedDecls;
             this.cifDataProvider = cifDataProvider;
         }
@@ -395,7 +450,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             if (getDerivative) { // Derivatives can't be assigned.
                 return cifDataProvider.getValueForContvar(variable, getDerivative);
             } else {
-                return redirectedDecls.getOrDefault(variable, cifDataProvider.getValueForContvar(variable, getDerivative));
+                return redirectedDecls.getOrDefault(variable,
+                        cifDataProvider.getValueForContvar(variable, getDerivative));
             }
         }
 
@@ -426,23 +482,23 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * <p>
      * The objective of test code for both senders and receivers is to find an automaton with an enabled edge. In the
      * perform code the enabled edge is then taken. For communication from test code to perform code, a
-     * {@code senderAut} respectively {@code receiverAut} variable exists to capture the found automata, and a
-     * {@code senderEdge} respectively {@code receiverEdge} variable exists to capture the found edge within the found
-     * automata.
+     * {@code senderAut} respectively {@code receiverAut} variable exists to capture the found automata. To capture the
+     * selected edge for both the sender and the receiver automaton, the {@code edgeVar} of the selected automaton is
+     * used.
      * </p>
      * <p>
      * For the senders automata the generated test code looks like: <pre>
      * senderAut := 0;
      *
      * IF senderAut = 0 THEN
-     *     IF &lt;edge-1-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 1;
-     *     ELSE IF &lt;edge-2-of-sender-1-is-enabled&gt; THEN senderAut := 1; senderEdge := 2;
+     *     IF &lt;edge-1-of-sender-1-is-enabled&gt; THEN senderAut := 1; edgeVar_of_sender_1 := 1;
+     *     ELSE IF &lt;edge-2-of-sender-1-is-enabled&gt; THEN senderAut := 1; edgeVar_of_sender_1 := 2;
      *     ... // Other edge tests of sender-1 omitted.
      * END_IF;
      *
      * IF senderAut = 0 THEN
-     *     IF &lt;edge-1-of-sender-2-is-enabled&gt; THEN senderAut := 2; senderEdge := 1;
-     *     ELSE IF &lt;edge-2-of-sender-2-is-enabled&gt; THEN senderAut := 2; senderEdge := 2;
+     *     IF &lt;edge-1-of-sender-2-is-enabled&gt; THEN senderAut := 2; edgeVar_of_sender_2 := 1;
+     *     ELSE IF &lt;edge-2-of-sender-2-is-enabled&gt; THEN senderAut := 2; edgeVar_of_sender_2 := 2;
      *     ... // Other edge tests of sender-2 omitted.
      * END_IF;
      *
@@ -451,17 +507,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * IF senderAut = 0 THEN
      *     eventEnabled := FALSE;
      * END_IF;
-     * </pre> The receivers test code uses the {@code receiverAut} and {@code receiverEdge} variables and tests for
+     * </pre> The receivers test code uses the {@code receiverAut} and their {@code edgeVar} variables. It tests for
      * enabledness first, but looks the same otherwise.
      * </p>
      *
      * <p>
      * The perform code is a selection statement to select on the value of the {@code senderAut} respectively
-     * {@code receiverAut} variable. Within each branch, a selection is done on the value of the {@code senderEdge}
-     * respectively {@code receiverEdge} variable. Once arrived at the chosen edge of the chosen automaton, the sender
-     * computes the sent value and stores it into a (type-specific) {@code channelValue} variable and then performs the
-     * updates of its selected edge. The chosen edge of the receiver only performs its updates, as usage of the sent
-     * value is "hidden" in them.
+     * {@code receiverAut} variable. Within each branch, a selection is done on the value of the {@code edgeVar}
+     * variable of the automaton. Once arrived at the chosen edge of the chosen automaton, the sender computes the sent
+     * value and stores it into a (type-specific) {@code channelValue} variable and then performs the updates of its
+     * selected edge. The chosen edge of the receiver only performs its updates, as usage of the sent value is "hidden"
+     * in them.
      * </p>
      *
      * @param autTransitions Automaton transitions to convert.
@@ -478,16 +534,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private void generateSendReceiveCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
             CifDataProvider performProvider, List<PlcStatement> performCode, String varPrefix,
-            List<PlcVariable> createdTempVariables, PlcVariable eventEnabledVar, PlcVariable channelValueVar,
-            boolean eventEnabledAlwaysHolds)
+            List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
+            PlcBasicVariable channelValueVar, boolean eventEnabledAlwaysHolds)
     {
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
-        // TODO: Use a smaller integer for automaton and edge indexing.
-        PlcVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
-        PlcVariable edgeVar = mainExprGen.getTempVariable(varPrefix + "Edge", PlcElementaryType.DINT_TYPE);
+        // TODO: Use a smaller integer for automaton indexing.
+        PlcBasicVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
         createdTempVariables.add(autVar);
-        createdTempVariables.add(edgeVar);
         autTestCode.add(generatePlcIntAssignment(autVar, 0));
 
         // Outer dispatch selection statement that selects on the chosen automaton, and performs selection performing of
@@ -495,8 +549,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         PlcSelectionStatement performSelectStat = new PlcSelectionStatement();
 
         // Generate code that tests and performs sending or receiving a value to the channel.
-        int autIndex = 1;
+        int autIndex = 1; // Index 0 is used to denote no automaton has been selected.
         for (TransitionAutomaton transAut: autTransitions) {
+            // Get the variable that stores the selected edge index for the automaton.
+            PlcBasicVariable edgeVar = getAutomatonEdgeVariable(transAut.aut);
+
             // Generate edge testing code.
             autTestCode.addAll(generateEdgesTestCode(transAut, autIndex, autVar, edgeVar, eventEnabledVar));
 
@@ -540,25 +597,25 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Generate code to test and perform a transition for syncer automata.
      *
      * <p>
-     * Each syncer automaton of the event must have an enabled edge, thus each syncer automaton has its own
-     * {@code autEdge} variable for storing its selected edge. Also, failing to find an enabled edge for a syncer
-     * automaton immediately blocks the entire event from happening and thus immediately modifies {@code eventEnabled}
-     * as the last {@code ELSE} block in finding an enabled edge.
+     * Each syncer automaton of the event must have an enabled edge. Each syncer automaton uses its own {@code edgeVar}
+     * variable for storing its selected edge. Also, failing to find an enabled edge for a syncer automaton immediately
+     * blocks the entire event from happening and thus immediately modifies {@code eventEnabled} as the last
+     * {@code ELSE} block in finding an enabled edge.
      * </p>
      *
      * <p>
      * This leads to test code like <pre>
      * IF eventEnabled THEN
-     *     IF &lt;edge-1-of-syncer-1-is-enabled&gt; THEN aut1Edge := 1;
-     *     ELSE IF &lt;edge-2-of-syncer-1-is-enabled&gt; THEN aut1Edge := 2;
+     *     IF &lt;edge-1-of-syncer-1-is-enabled&gt; THEN edgeVar_of_syncer-1 := 1;
+     *     ELSE IF &lt;edge-2-of-syncer-1-is-enabled&gt; THEN edgeVar_of_syncer-1 := 2;
      *     ... // Other edge tests of syncer-1 omitted.
      *     ELSE eventEnabled := FALSE
      *     END_IF;
      * END_IF;
      *
      * // Test code for other syncer automata omitted.
-     * </pre> Performing the chosen edge is implemented by first selecting on the value of an {@code autEdge} variable.
-     * Within that branch, the updates of the chosen edge are then performed.
+     * </pre> Performing the chosen edge is implemented by selection on the value of an {@code edgeVar} variable of the
+     * automaton. Within that branch, the updates of the chosen edge are then performed.
      * </p>
      *
      * @param autTransitions Automaton transitions to convert.
@@ -571,16 +628,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param eventEnabledAlwaysHolds Whether it is known that 'eventEnabled' in tests is always true at runtime.
      */
     private void generateSyncCode(List<TransitionAutomaton> autTransitions, List<PlcStatement> testCode,
-            CifDataProvider performProvider, List<PlcStatement> performCode, List<PlcVariable> createdTempVariables,
-            PlcVariable eventEnabledVar, boolean eventEnabledAlwaysHolds)
+            CifDataProvider performProvider, List<PlcStatement> performCode,
+            List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
+            boolean eventEnabledAlwaysHolds)
     {
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
-            List<PlcStatement> autTestCode = list(); // Intermediate Storage for test code of the automaton.
+            // Get the variable that stores the selected edge index for the automaton.
+            PlcBasicVariable autEdgeVar = getAutomatonEdgeVariable(transAut.aut);
 
-            // Each automaton has an edge variable storing the selected edge of that automaton during testing.
-            // TODO: Use a smaller integer type for automaton and edge indexing.
-            PlcVariable autEdgeVar = mainExprGen.getTempVariable("syncAutEdge", PlcElementaryType.DINT_TYPE);
+            // Initialize intermediate storage for test code of the automaton.
+            List<PlcStatement> autTestCode = list();
 
             // Generate edge testing code.
             autTestCode.addAll(generateEdgesTestCode(transAut, -1, null, autEdgeVar, eventEnabledVar));
@@ -627,7 +685,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param createdTempVariables Tracking storage of created temporary variables.
      */
     private void generateMonitorCode(List<TransitionAutomaton> autTransitions, CifDataProvider performProvider,
-            List<PlcStatement> testAndPerformCode, List<PlcVariable> createdTempVariables)
+            List<PlcStatement> testAndPerformCode, List<PlcBasicVariable> createdTempVariables)
     {
         // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
 
@@ -676,8 +734,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @return The generated code.
      */
-    private List<PlcStatement> generateEdgesTestCode(TransitionAutomaton transAut, int autIndex, PlcVariable autVar,
-            PlcVariable edgeVar, PlcVariable eventEnabledVar)
+    private List<PlcStatement> generateEdgesTestCode(TransitionAutomaton transAut, int autIndex,
+            PlcBasicVariable autVar, PlcBasicVariable edgeVar, PlcBasicVariable eventEnabledVar)
     {
         List<PlcStatement> testCode = list();
         PlcSelectionStatement selStat = null;
@@ -717,6 +775,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
+     * Get the variable that tracks the selected edge of the provided automaton.
+     *
+     * @param aut Automaton to use for finding the edge variable.
+     * @return The edge variable.
+     */
+    private PlcBasicVariable getAutomatonEdgeVariable(Automaton aut) {
+        PlcBasicVariable edgeVariable = edgeSelectionVariables.get(aut);
+        Assert.notNull(edgeVariable);
+        return edgeVariable;
+    }
+
+    /**
      * Generate PLC code that selects the edge stored in {@code edgeVar} and 'performs' the edge. If needed, compute the
      * sent value and store it into {@code channelValueVar}. Finally, perform the updates if they exist.
      *
@@ -727,8 +797,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
      *     to perform the edge.
      */
-    private List<PlcStatement> generateAutPerformCode(TransitionAutomaton transAut, PlcVariable edgeVar,
-            PlcVariable channelValueVar)
+    private List<PlcStatement> generateAutPerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
+            PlcBasicVariable channelValueVar)
     {
         List<PlcStatement> performCode = list();
         PlcSelectionStatement selStat = null;
@@ -846,7 +916,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Left side is a tuple literal, right side is not. Compute the right side, then store it in a variable for
         // allowing to project on its parts.
-        PlcVariable rhsVariable = mainExprGen.getTempVariable("rightValue", rhs.getType());
+        PlcBasicVariable rhsVariable = mainExprGen.getTempVariable("rightValue", rhs.getType());
 
         ExprValueResult rhsValueResult = mainExprGen.convertValue(rhs);
         statements.addAll(rhsValueResult.code);
@@ -867,8 +937,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param rhsProjections Projection sequence to apply to the {@code rhs} value before assigning to {@code lhs}.
      * @param statements Generated PLC statements. Is extended in-place.
      */
-    private void genUpdateAssignment(Expression lhs, PlcVariable rhsVariable, List<PlcStructProjection> rhsProjections,
-            List<PlcStatement> statements)
+    private void genUpdateAssignment(Expression lhs, PlcBasicVariable rhsVariable,
+            List<PlcStructProjection> rhsProjections, List<PlcStatement> statements)
     {
         // Conceptually: "lhs := rhs.rhsProjections" where lhs may be a tuple literal.
 
@@ -906,7 +976,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Make a new projection list "valueProjections.<lhs-field>".
             List<PlcStructProjection> projs = listc(rhsProjections.size() + 1);
             projs.addAll(rhsProjections);
-            projs.add(new PlcStructProjection(lhsStructType.fields.get(idx).name));
+            projs.add(new PlcStructProjection(lhsStructType.fields.get(idx).fieldName));
             genUpdateAssignment(lhsTuple.getFields().get(idx), rhsVariable, projs, statements);
         }
     }
@@ -964,7 +1034,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param value Literal value to compare against.
      * @return The generated expression.
      */
-    private PlcExpression generateCompareVarWithVal(PlcVariable variable, int value) {
+    private PlcExpression generateCompareVarWithVal(PlcBasicVariable variable, int value) {
         PlcExpression varExpr = new PlcVarExpression(variable);
         PlcExpression valExpr = new PlcIntLiteral(value);
         return funcAppls.equalFuncAppl(varExpr, valExpr);
@@ -977,7 +1047,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param value Value to assign to the variable.
      * @return The generated statement.
      */
-    private PlcAssignmentStatement generatePlcIntAssignment(PlcVariable variable, int value) {
+    private PlcAssignmentStatement generatePlcIntAssignment(PlcBasicVariable variable, int value) {
         return new PlcAssignmentStatement(variable, new PlcIntLiteral(value));
     }
 
@@ -988,7 +1058,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param value Value to assign to the variable.
      * @return The generated statement.
      */
-    private PlcAssignmentStatement generatePlcBoolAssignment(PlcVariable variable, boolean value) {
+    private PlcAssignmentStatement generatePlcBoolAssignment(PlcBasicVariable variable, boolean value) {
         return new PlcAssignmentStatement(variable, new PlcBoolLiteral(value));
     }
 }

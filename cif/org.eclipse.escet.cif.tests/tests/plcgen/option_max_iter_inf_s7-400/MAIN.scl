@@ -3,9 +3,9 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         curValue: REAL;
         current_p_t: REAL;
+        edge_p_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
-        syncAutEdge: DINT;
         timeOut: BOOL;
     END_VAR
 
@@ -19,11 +19,11 @@ BEGIN
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
         "DB".preset_p_t := "DB".p_t;
-        ton_p_t(IN := FALSE, PT := "DB".preset_p_t);
-        ton_p_t(IN := TRUE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
     ELSE
         (* Update remaining time of "p_t". *)
-        ton_p_t(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
@@ -36,19 +36,19 @@ BEGIN
         (* Try to perform event "e". *)
         eventEnabled := TRUE;
         IF "DB".p_t <= 1.0 AND "DB".p_x = 5 THEN
-            syncAutEdge := 1;
+            edge_p_1 := 1;
         ELSE
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             isProgress := TRUE;
             current_p_t := "DB".p_t;
-            IF syncAutEdge = 1 THEN
+            IF edge_p_1 = 1 THEN
                 "DB".p_t := 7.0;
                 (* Reset timer of "p_t". *)
                 "DB".preset_p_t := "DB".p_t;
-                ton_p_t(IN := FALSE, PT := "DB".preset_p_t);
-                ton_p_t(IN := TRUE, PT := "DB".preset_p_t);
+                ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
+                ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
             END_IF;
         END_IF;
     END_WHILE;

@@ -204,7 +204,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>copy-to-final</id>
@@ -269,6 +269,7 @@
             <!-- Assemble website ZIP file. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>assemble-website</id>

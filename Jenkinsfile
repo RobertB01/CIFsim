@@ -21,7 +21,7 @@ pipeline {
 
     tools {
         jdk 'openjdk-jdk17-latest'
-        maven 'apache-maven-3.9.0'
+        maven 'apache-maven-3.9.1'
     }
 
     options {
@@ -212,15 +212,21 @@ pipeline {
                         mkdir -p deploy/www/${RELEASE_VERSION}
                         unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/
 
-                        # Commit and push changes to website Git repo.
+                        # Go to website repo checkout.
                         cd deploy/www
+
+                        # Add website to '.versions' file, if not already present.
+                        if ! grep -Fxq "${RELEASE_VERSION}" .versions; then
+                            echo "${RELEASE_VERSION}" >> .versions
+                        fi
+
+                        # Commit and push changes to website Git repo.
                         git config user.email "escet-bot@eclipse.org"
                         git config user.name "genie.escet"
                         git config push.default simple # Required to silence Git push warning.
                         git add -A
                         git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}."
                         git push
-                        cd ../..
                     '''
                 }
             }

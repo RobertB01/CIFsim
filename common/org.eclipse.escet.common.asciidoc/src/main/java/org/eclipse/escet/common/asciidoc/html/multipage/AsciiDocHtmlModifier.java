@@ -15,7 +15,10 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import static org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocHtmlUtil.single;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -1043,66 +1046,19 @@ class AsciiDocHtmlModifier {
      * @param filePath The path to the JavaScript file.
      */
     private static void writeJsFile(Path filePath) {
-        String code = """
-                /** The page has loaded. */
-                function onLoad() {
-                    tocAddCurrentSection();
-                    window.onhashchange = onHashChange;
-                }
+        // Read JS file.
+        ClassLoader classLoader = AsciiDocHtmlModifier.class.getClassLoader();
+        String websiteJsPath = AsciiDocHtmlModifier.class.getPackageName().replace(".", "/") + "/website.js";
+        String code;
+        try (InputStream stream = classLoader.getResourceAsStream(websiteJsPath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)))
+        {
+            code = reader.lines().collect(Collectors.joining("\n")) + "\n";
+        } catch (IOException e) {
+            throw new RuntimeException("Unexpected I/O error while reading resource: " + websiteJsPath, e);
+        }
 
-                /** The hash part ('#...') of the windows's location has changed. */
-                function onHashChange(event) {
-                    tocClearCurrentSection();
-                    tocAddCurrentSection();
-                }
-
-                /** Add current section class markers. */
-                function tocAddCurrentSection() {
-                    if (window.location.hash) {
-                        var aElem = document.querySelector('#toc a[href="' + window.location.hash + '"]');
-                        if (aElem) {
-                            // Mark TOC item as the current section.
-                            var liElem = aElem.parentElement;
-                            liElem.classList.add('toc-cur-section');
-                            liElem.classList.add('expanded');
-
-                            // Mark ancestors. Don't give TOC items a duplicate marking though.
-                            var elem = liElem.parentElement;
-                            while (true) {
-                                if (elem === null) break;
-                                if (elem.id === 'toc') break;
-                                if (elem.classList.contains('toc-cur-page')) break;
-                                if (elem.classList.contains('toc-cur-page-ancestor')) break;
-                                if (elem.tagName === 'LI') {
-                                    elem.classList.add('toc-cur-section-ancestor');
-                                    elem.classList.add('expanded');
-                                }
-                                elem = elem.parentElement;
-                            }
-                        }
-                    }
-                }
-
-                /** Clear all current section class markers. */
-                function tocClearCurrentSection() {
-                    var elems = document.querySelectorAll('#toc li.toc-cur-section, #toc li.toc-cur-section-ancestor');
-                    for (let i = 0; i < elems.length; i++) {
-                        var elem = elems.item(i);
-                        elem.classList.remove('toc-cur-section', 'toc-cur-section-ancestor');
-                    }
-                }
-
-                /**
-                 * Toggle a TOC item.
-                 *
-                 * @param {object} divElem - The TOC item's 'div' element.
-                 */
-                function tocToggle(divElem) {
-                    var liElem = divElem.parentElement;
-                    liElem.classList.toggle('expanded');
-                }
-                """;
-
+        // Write JS file.
         try {
             Files.writeString(filePath, code, StandardCharsets.UTF_8);
         } catch (IOException e) {

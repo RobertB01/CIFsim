@@ -491,8 +491,8 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Decl : @ALGKW Type AlgVarsDefs SEMICOLTK;
-    public ADecl parseDecl08(Token t1, ACifType a2, List<AAlgVariable> l3) {
+    @Override // Decl : OptAnnos @ALGKW Type AlgVarsDefs SEMICOLTK;
+    public ADecl parseDecl08(List<AAnnotation> l1, Token t2, ACifType a3, List<AAlgVariable> l4) {
         // return null;
     }
 
@@ -501,8 +501,8 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Decl : @CONTKW ContDecls SEMICOLTK;
-    public ADecl parseDecl10(Token t1, List<AContVariable> l2) {
+    @Override // Decl : OptAnnos @CONTKW ContDecls SEMICOLTK;
+    public ADecl parseDecl10(List<AAnnotation> l1, Token t2, List<AContVariable> l3) {
         // return null;
     }
 
