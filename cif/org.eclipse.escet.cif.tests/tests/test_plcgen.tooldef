@@ -42,6 +42,7 @@ map(string:list string) test_targets = {
     "plcgen/option_max_iter_inf.cif":             non_s7 + s7_a,
     "plcgen/options.cif":                         non_s7 + s7_b,
     "plcgen/prechecker_var_cont_only_timers.cif": ["iec"],
+    "plcgen/prechecker.cif":                      ["iec", "s7-300"],
 };
 
 /* Creates an empty TwinCAT solution directory. That is, it contains the minimum files and file contents to generate

@@ -1,0 +1,8 @@
+ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
+
+  ------------------------------------
+  (1/1) A non-array list type is used.
+  ------------------------------------
+   * In algebraic variable "l":
+     - alg list int l = [1, 2];
+           ^
