@@ -46,7 +46,7 @@ ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
   (6/7) Continuous variable value is not compared as "variable <= ..." or "... >= variable", nor assigned in a single-variable assignment.
   ----------------------------------------------------------------------------------------------------------------------------------------
    * In location "X.a":
-     - edge evt when c >= 0 do v := 0.0;
+     - edge evt when c >= 0 do v := 0.0 + w[5];
                      ^
      - edge evt when c > 0;
                      ^

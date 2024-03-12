@@ -20,12 +20,13 @@ automaton X:
   cont q = v;
 
   disc real v = 0;
+  disc list[18] int w;
 
   location a:
     equation q' = -1;
 
     initial;
-    edge evt when c >= 0 do v := c';
+    edge evt when c >= 0 do v := c' + w[5];
     edge evt when c > 0;
     edge evt when c < 0 do c := -25;
     edge evt when c <= 0;
