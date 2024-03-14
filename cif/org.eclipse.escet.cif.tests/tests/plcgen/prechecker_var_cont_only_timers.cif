@@ -53,7 +53,6 @@ automaton initValue:
 
   // Not statically evaluable. Can't happen due to preprocessing.
 
-  // Discrete variable may only be defined in an automaton.
   location:
     initial;
 end
