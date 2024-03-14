@@ -27,7 +27,7 @@ map(string:list string) test_options = {
     "plcgen/convert_enums_ints.cif":          ["--convert-enums=ints"],
     "plcgen/enums_keep.cif":                  ["--convert-enums=keep"],
     "plcgen/option_max_iter_inf.cif":         ["-x inf"],
-    "plcgen/options.cif":                     ["-i off --int-size=32 --real-size=32 -x 101"],
+    "plcgen/options_various.cif":             ["-i off --int-size=32 --real-size=32 -x 101"],
 };
 set string test_skip = {};
 
@@ -39,9 +39,10 @@ list string all_targets = non_s7 + s7_a + s7_b;
 
 // Targets to try for each test. If the test is in 'test_targets', its value is used, else 'all_targets' are used.
 map(string:list string) test_targets = {
-    "plcgen/option_max_iter_inf.cif":         non_s7 + s7_a,
-    "plcgen/options.cif":                     non_s7 + s7_b,
-    "plcgen/prechecker.cif":                  ["iec", "s7-300"],
+    "plcgen/option_max_iter_inf.cif":             non_s7 + s7_a,
+    "plcgen/options_various.cif":                 non_s7 + s7_b,
+    "plcgen/prechecker_array_vs_list.cif":        ["iec", "s7-300"],
+    "plcgen/prechecker_var_cont_only_timers.cif": ["iec"],
 };
 
 /* Creates an empty TwinCAT solution directory. That is, it contains the minimum files and file contents to generate

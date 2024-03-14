@@ -44,16 +44,12 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </ul>
  */
 public class VarContOnlyTimers extends CifCheckNoCompDefInst {
-    /** General message to report. */
-    private static final String GENERAL_MESSAGE = "Continuous variable value is not compared as \"variable <= ...\" or "
-                + "\"... >= variable\", nor assigned in a single-variable assignment";
-
     @Override
     protected void preprocessContVariable(ContVariable contVar, CifCheckViolations violations) {
         if (contVar.getValue() != null) {
-            checkValue(contVar.getValue(), false, contVar, violations);
+            checkValue(contVar.getValue(), "has an initial value", contVar, violations);
         }
-        checkDerivative(contVar, false, violations);
+        checkDerivative(contVar, violations);
     }
 
     @Override
@@ -70,7 +66,8 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             // TODO Allow multi-assignments like (cv1, cv2) := (1, 2);
             if (cvExpr == asg.getAddressable()) {
                 // Continuous variable gets assigned, check the value.
-                checkValue(asg.getValue(), true, cvExpr, violations); // We allow 0. Useless but fine if the user wants that.
+                // We allow 0. Useless but fine if the user wants that.
+                checkValue(asg.getValue(), "is assigned a value", cvExpr, violations);
                 return;
             }
         } else if (exprParent instanceof BinaryExpression binExpr) {
@@ -79,28 +76,62 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             if (varAtLeft) {
                 // Allow only 'var <= ...'.
                 if (binExpr.getOperator() == BinaryOperator.LESS_EQUAL) {
-                    checkValue(binExpr.getRight(), false, cvExpr, violations);
+                    checkValue(binExpr.getRight(), "is compared to a value", cvExpr, violations);
                     return;
                 }
             } else {
                 // Allow only '... >= var'.
                 if (binExpr.getOperator() == BinaryOperator.GREATER_EQUAL) {
-                    checkValue(binExpr.getLeft(), false, cvExpr, violations);
+                    checkValue(binExpr.getLeft(), "is compared to a value", cvExpr, violations);
                     return;
                 }
             }
+
+            // If it is a disallowed comparison, report that specifically.
+            if (binExpr.getOperator() == BinaryOperator.EQUAL || binExpr.getOperator() == BinaryOperator.UNEQUAL
+                    || binExpr.getOperator() == BinaryOperator.GREATER_EQUAL
+                    || binExpr.getOperator() == BinaryOperator.GREATER_THAN
+                    || binExpr.getOperator() == BinaryOperator.LESS_EQUAL
+                    || binExpr.getOperator() == BinaryOperator.LESS_THAN)
+            {
+                violations.add(cvExpr,
+                        "Continuous variable is compared, but not as \"variable <= ...\" or \"... >= variable\"");
+                return;
+            }
+
+            // Not a comparison at all.
         }
-        violations.add(cvExpr, GENERAL_MESSAGE);
+
+        // Code generation supports multi-assignments, but this check does not yet support it (see above). Check for it.
+        PositionObject ancestor = cvExpr;
+        while (true) {
+            // Move up as long as we're still in an expression, which includes addressables.
+            PositionObject newAncestor = (PositionObject)ancestor.eContainer();
+            if (newAncestor != null && newAncestor instanceof Expression) {
+                ancestor = newAncestor;
+                continue;
+            }
+
+            // If it is at the left-hand side of an assignment, it is a multi-assignment, since simple assignments have
+            // been handled above, and projected assignments are not possible for continuous variables.
+            if (newAncestor instanceof Assignment asgn && asgn.getAddressable() == ancestor) {
+                violations.add(cvExpr, "Continuous variable is assigned in a multi-assignment");
+                return;
+            }
+            break;
+        }
+
+        // Indicate that the continuous variable is used in a way that is not one of the allowed ones.
+        violations.add(cvExpr, "Continuous variable is not assigned or compared");
     }
 
     /**
      * Check that the derivative of the given continuous variable is {@code -1} or {@code -1.0}.
      *
      * @param contVar Continuous variable to check.
-     * @param isAssigned Whether the value gets assigned.
      * @param violations Already found violations, may be extended in-place.
      */
-    private void checkDerivative(ContVariable contVar, boolean isAssigned, CifCheckViolations violations) {
+    private void checkDerivative(ContVariable contVar, CifCheckViolations violations) {
         Expression derivative = contVar.getDerivative();
         if (derivative == null) {
             violations.add(contVar, "Continuous variable has its derivative declared through one or more equations, "
@@ -108,7 +139,7 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             return;
         }
 
-        Object evalValue = getStaticEvaluableValue(derivative, isAssigned, false, contVar, violations);
+        Object evalValue = getStaticEvaluableValue(derivative, "has a derivative", contVar, violations);
         if (evalValue == null || evalValue instanceof Integer i && i == -1
                 || evalValue instanceof Double d && d == -1.0)
         {
@@ -122,51 +153,44 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
      * Check that the given continuous variable value is a non-negative number.
      *
      * @param value Value to check.
-     * @param isAssigned Whether the value gets assigned.
+     * @param valueDescr The description of the value, to use in violation messages.
      * @param reportObj Object with position on which to report violations.
      * @param violations Already found violations, may be extended in-place.
      */
-    private void checkValue(Expression value, boolean isAssigned, PositionObject reportObj,
+    private void checkValue(Expression value, String valueDescr, PositionObject reportObj,
             CifCheckViolations violations)
     {
-        Object evalValue = getStaticEvaluableValue(value, isAssigned, true, reportObj, violations);
+        Object evalValue = getStaticEvaluableValue(value, valueDescr, reportObj, violations);
         if (evalValue == null || (evalValue instanceof Integer i && i >= 0)
                 || (evalValue instanceof Double d && d >= 0.0))
         {
             return;
         }
-        violations.add(reportObj, "Continuous variable is initialized to, assigned, or compared to, a negative value");
+        violations.add(reportObj, "Continuous variable " + valueDescr + " that is negative");
     }
 
     /**
-     * Try to evaluate the given expression as an initial value, assigned value, or derivative of a continuous variable,
-     * or a value against which a continuous variable is compared. If the evaluation fails, the violation is reported
-     * and {@code null} is returned. Otherwise the evaluated value is returned.
+     * Try to evaluate the given expression as a continuous variable value or derivative. If the evaluation fails, the
+     * violation is reported and {@code null} is returned. Otherwise the evaluated value is returned.
      *
      * @param value Value to evaluate.
-     * @param isAssigned Whether the value gets assigned.
-     * @param isValue If {@code true}, the given expression is assumed to be the value of a continuous variable, else it
-     *     is assumed to be the value of a derivative of a continuous variable.
+     * @param valueDescr The description of the value, to use in violation messages.
      * @param reportObj Object with position on which to report violations.
      * @param violations Already found violations, may be extended in-place.
      * @return {@code null} if the given expression could not be evaluated or does not represent a static single value,
      *     else the found value is returned as Java value. See {@link CifEvalUtils} class description for details.
      */
-    private Object getStaticEvaluableValue(Expression value, boolean isValue, boolean isAssigned,
-            PositionObject reportObj, CifCheckViolations violations)
+    private Object getStaticEvaluableValue(Expression value, String valueDescr, PositionObject reportObj,
+            CifCheckViolations violations)
     {
-        String valueText = isValue ? "value" : "derivative";
-        String assignText = isAssigned ? "is assigned" : "has";
-
         if (!CifValueUtils.hasSingleValue(value, CifValueUtils.isInitialExpr(value), true)) {
-            violations.add(reportObj,
-                    "Continuous variable " + assignText + " a " + valueText + " that cannot be evaluated statically");
+            violations.add(reportObj, "Continuous variable " + valueDescr + " that cannot be evaluated statically");
             return null;
         } else {
             try {
                 return CifEvalUtils.eval(value, CifValueUtils.isInitialExpr(value));
             } catch (CifEvalException ex) {
-                violations.add(reportObj, "Continuous variable " + assignText + " a " + valueText + " that cannot be "
+                violations.add(reportObj, "Continuous variable " + valueDescr + " that cannot be "
                         + "evaluated statically, as evaluating it results in an evaluation error");
                 return null;
             }
