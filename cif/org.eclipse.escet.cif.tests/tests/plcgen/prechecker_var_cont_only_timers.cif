@@ -162,13 +162,3 @@ automaton useDeriv:
     edge evt do d1 := c' + c';
     edge evt do d2 := c' > 0;
 end
-
-// Other allowed forms.
-
-automaton allowed:
-  event evt;
-  disc real d;
-  location:
-    initial;
-    edge evt do d := d + 1;
-end
