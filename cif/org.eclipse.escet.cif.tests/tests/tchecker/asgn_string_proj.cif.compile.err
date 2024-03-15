@@ -1,7 +1,7 @@
 ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 18, column 14: Cannot assign a part of variable "p.x", as partial updates of "string" typed variables are not allowed.
-ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 23, column 4: Cannot assign a part of variable "f.x", as partial updates of "string" typed variables are not allowed.
-ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 33, column 17: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
-ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 33, column 20: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
-ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 33, column 23: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
-ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 37, column 17: Cannot assign a part of variable "i", as partial updates of "string" typed variables are not allowed.
+ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 25, column 17: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
+ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 25, column 20: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
+ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 25, column 23: Cannot assign a part of variable "q.x", as partial updates of "string" typed variables are not allowed.
+ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 29, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
+ERROR: File "tchecker/asgn_string_proj.cif": Semantic error at line 29, column 17: Cannot assign a part of variable "i", as partial updates of "string" typed variables are not allowed.
 ERROR: Failed to load CIF file "tchecker/asgn_string_proj.cif": the file has errors.

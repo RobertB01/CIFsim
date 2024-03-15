@@ -56,12 +56,6 @@ group a:
   svgin id "" do z := (5, 6), z[0] := 5, z[1] := 6;
 end
 
-// Index evaluation failure.
-group b:
-  input tuple(int a, b) x;
-  svgin id "" do x[floor(sqrt(-1))] := 5;
-end
-
 // Multiple variables, multiple times, part/whole variable.
 group c:
   input list int x;

@@ -66,15 +66,6 @@ plant a:
     edge do z := (5, 6), z[0] := 5, z[1] := 6;
 end
 
-// Index evaluation failure.
-plant b:
-  disc tuple(int a, b) x;
-
-  location:
-    initial;
-      edge do x[floor(sqrt(-1))] := 5;
-end
-
 // Multiple variables, multiple times, part/whole variable.
 plant c:
   disc list int x;

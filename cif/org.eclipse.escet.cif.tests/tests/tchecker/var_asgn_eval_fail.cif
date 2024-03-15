@@ -11,19 +11,17 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton p:
-  disc string x;
+// Index evaluation failure.
+plant a:
+  disc tuple(int a, b) x;
+
   location:
     initial;
-    edge do x[1] := "a";
+      edge do x[floor(sqrt(-1))] := 5;
 end
 
-automaton q:
-  disc list string x;
-  location:
-    initial;
-    edge do x[0][1][2][3] := "a";
+// Index evaluation failure.
+group b:
+  input tuple(int a, b) x;
+  svgin id "" do x[floor(sqrt(-1))] := 5;
 end
-
-input string i;
-svgin id "" do i[1] := "a";
