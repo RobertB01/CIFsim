@@ -73,11 +73,12 @@ public class AssignmentUniquenessChecker {
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
      *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
      *     they can not be statically computed or normalized. May be modified in-place.
-     * @param tchecker The CIF type checker to use.
+     * @param problemReporter The problem reporter to use.
      * @param errMsg The error message to use.
      */
     public static void checkUniqueAsgns(List<Update> updates,
-            Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap, CifTypeChecker tchecker, ErrMsg errMsg)
+            Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap, CifTypeCheckerProblemReporter problemReporter,
+            ErrMsg errMsg)
     {
         // Process the updates in order.
         for (Update update: updates) {
@@ -85,7 +86,7 @@ public class AssignmentUniquenessChecker {
             if (update instanceof Assignment) {
                 Assignment asgn = (Assignment)update;
 
-                checkUniqueAsgns(asgn.getAddressable(), asgnMap, tchecker, errMsg);
+                checkUniqueAsgns(asgn.getAddressable(), asgnMap, problemReporter, errMsg);
             } else if (update instanceof IfUpdate) {
                 IfUpdate ifUpd = (IfUpdate)update;
                 Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMapNew;
@@ -93,18 +94,18 @@ public class AssignmentUniquenessChecker {
 
                 Map<Declaration, Set<Pair<Position, List<Object>>>> thensMap;
                 thensMap = Maps.copy(asgnMap);
-                checkUniqueAsgns(ifUpd.getThens(), thensMap, tchecker, errMsg);
+                checkUniqueAsgns(ifUpd.getThens(), thensMap, problemReporter, errMsg);
                 mergeUniqueAsgnInfos(asgnMapNew, thensMap);
 
                 Map<Declaration, Set<Pair<Position, List<Object>>>> elsesMap;
                 elsesMap = Maps.copy(asgnMap);
-                checkUniqueAsgns(ifUpd.getElses(), elsesMap, tchecker, errMsg);
+                checkUniqueAsgns(ifUpd.getElses(), elsesMap, problemReporter, errMsg);
                 mergeUniqueAsgnInfos(asgnMapNew, elsesMap);
 
                 for (ElifUpdate elifUpd: ifUpd.getElifs()) {
                     Map<Declaration, Set<Pair<Position, List<Object>>>> elifMap;
                     elifMap = Maps.copy(asgnMap);
-                    checkUniqueAsgns(elifUpd.getThens(), elifMap, tchecker, errMsg);
+                    checkUniqueAsgns(elifUpd.getThens(), elifMap, problemReporter, errMsg);
                     mergeUniqueAsgnInfos(asgnMapNew, elifMap);
                 }
 
@@ -120,7 +121,7 @@ public class AssignmentUniquenessChecker {
      *
      * @param first The first mapping. Is modified in-place.
      * @param second The second mapping. Is merged into the first.
-     * @see #checkUniqueAsgns(List, Map, CifTypeChecker, ErrMsg)
+     * @see #checkUniqueAsgns(List, Map, CifTypeCheckerProblemReporter, ErrMsg)
      */
     private static void mergeUniqueAsgnInfos(Map<Declaration, Set<Pair<Position, List<Object>>>> first,
             Map<Declaration, Set<Pair<Position, List<Object>>>> second)
@@ -147,23 +148,23 @@ public class AssignmentUniquenessChecker {
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
      *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
      *     they can not be statically computed or normalized. May be modified in-place.
-     * @param tchecker The CIF type checker to use.
+     * @param problemReporter The problemReporter to use.
      * @param errMsg The error message to use.
      */
     public static void checkUniqueAsgns(Expression addr, Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap,
-            CifTypeChecker tchecker, ErrMsg errMsg)
+            CifTypeCheckerProblemReporter problemReporter, ErrMsg errMsg)
     {
         // Multi-assignment.
         if (addr instanceof TupleExpression) {
             TupleExpression taddr = (TupleExpression)addr;
             for (Expression elem: taddr.getFields()) {
-                checkUniqueAsgns(elem, asgnMap, tchecker, errMsg);
+                checkUniqueAsgns(elem, asgnMap, problemReporter, errMsg);
             }
             return;
         }
 
         // (Partial) variable assignment.
-        checkUniqueAsgn(addr, asgnMap, tchecker, errMsg);
+        checkUniqueAsgn(addr, asgnMap, problemReporter, errMsg);
     }
 
     /**
@@ -177,12 +178,12 @@ public class AssignmentUniquenessChecker {
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
      *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
      *     they can not be statically computed or normalized. May be modified in-place.
-     * @param tchecker The CIF type checker to use.
+     * @param problemReporter The problem reporter to use.
      * @param errMsg The error message to use.
      * @see FunctionScope#typeCheckStatement
      */
     private static void checkUniqueAsgn(Expression addr, Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap,
-            CifTypeChecker tchecker, ErrMsg errMsg)
+            CifTypeCheckerProblemReporter problemReporter, ErrMsg errMsg)
     {
         // Get variable.
         Expression varRef = CifAddressableUtils.stripProjs(addr);
@@ -226,7 +227,7 @@ public class AssignmentUniquenessChecker {
                     try {
                         index = CifEvalUtils.eval(idxExpr, false);
                     } catch (CifEvalException e) {
-                        tchecker.addProblem(ErrMsg.EVAL_FAILURE, e.expr.getPosition(), e.getMessage());
+                        problemReporter.addProblem(ErrMsg.EVAL_FAILURE, e.expr.getPosition(), e.getMessage());
                         throw new SemanticException();
                     }
                 }
@@ -310,8 +311,8 @@ public class AssignmentUniquenessChecker {
                 String varName = CifTextUtils.getAbsName(var);
                 String curTxt = varProjsToStr(varName, indices);
                 String otherTxt = varProjsToStr(varName, otherIndices);
-                tchecker.addProblem(errMsg, other.left, varName, otherTxt, curTxt);
-                tchecker.addProblem(errMsg, varRef.getPosition(), varName, curTxt, otherTxt);
+                problemReporter.addProblem(errMsg, other.left, varName, otherTxt, curTxt);
+                problemReporter.addProblem(errMsg, varRef.getPosition(), varName, curTxt, otherTxt);
                 // Non-fatal error.
 
                 break;
