@@ -216,7 +216,7 @@ public class AssignmentPostChecker {
      * @param scope The scope to resolve update in.
      * @param env The post check environment to use.
      */
-    public void checkEdgeAddressable(Expression addr, ComplexComponent scope, CifPostCheckEnv env) {
+    private void checkEdgeAddressable(Expression addr, ComplexComponent scope, CifPostCheckEnv env) {
         // Make sure we refer to local discrete and/or continuous variables.
         for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
             // Get variable.
