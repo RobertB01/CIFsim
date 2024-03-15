@@ -297,4 +297,7 @@ ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 221, column
 ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 222, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "f".
 ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 222, column 18: Variable "f.x", or a part of it, may have been assigned twice in a single SVG input mapping, for assignments to "f.x[...][...]" and "f.x[...][...]"
 ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 222, column 33: Variable "f.x", or a part of it, may have been assigned twice in a single SVG input mapping, for assignments to "f.x[...][...]" and "f.x[...][...]"
+ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 229, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "a1".
+ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 229, column 18: Variable "a1.b", or a part of it, may have been assigned twice in a single SVG input mapping, for assignments to "a1.b" and "a1.b"
+ERROR: File "tchecker/dupl_var_asgn_svg.cif": Semantic error at line 229, column 32: Variable "a1.b", or a part of it, may have been assigned twice in a single SVG input mapping, for assignments to "a1.b" and "a1.b"
 ERROR: Failed to load CIF file "tchecker/dupl_var_asgn_svg.cif": the file has errors.

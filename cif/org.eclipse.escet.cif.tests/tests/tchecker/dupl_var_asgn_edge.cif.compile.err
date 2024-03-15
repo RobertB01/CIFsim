@@ -178,4 +178,7 @@ ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 244, colum
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 244, column 28: Variable "f.x", or a part of it, may have been assigned twice on a single edge, for assignments to "f.x[...][...]" and "f.x[...][...]".
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 261, column 17: Variable "g_rcv.x", or a part of it, may have been assigned twice on a single edge, for assignments to "g_rcv.x[0]" and "g_rcv.x[...]".
 ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 261, column 28: Variable "g_rcv.x", or a part of it, may have been assigned twice on a single edge, for assignments to "g_rcv.x[...]" and "g_rcv.x[0]".
+ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 270, column 15: Variable "a1.b", or a part of it, may have been assigned twice on a single edge, for assignments to "a1.b" and "a1.b".
+ERROR: File "tchecker/dupl_var_asgn_edge.cif": Semantic error at line 270, column 29: Variable "a1.b", or a part of it, may have been assigned twice on a single edge, for assignments to "a1.b" and "a1.b".
+WARNING: File "tchecker/dupl_var_asgn_edge.cif": Semantic warning at line 265, column 15: Automaton "A" has no initial location.
 ERROR: Failed to load CIF file "tchecker/dupl_var_asgn_edge.cif": the file has errors.

@@ -31,3 +31,15 @@ group g:
       initial;
     end
 end
+
+automaton def A():
+    event e;
+    disc bool b;
+
+    location:
+      edge e do a1.b := true;
+end
+
+a1 : A();
+a2 : A();
+

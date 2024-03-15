@@ -221,3 +221,12 @@ group f:
   svgin id "" do x[i][0] := [], x[i][i] := [];
   svgin id "" do x[i][i] := [], x[i][i] := [];
 end
+
+// Instantiations
+group def A():
+  input bool b;
+
+  svgin id "" do a1.b := true, b := false;
+end
+
+a1 : A();
