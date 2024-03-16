@@ -19,7 +19,7 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,eliminate if updates]
 indexterm:[eliminate if updates]
 indexterm:[if update,eliminate]
-This CIF to CIF transformation eliminates 'if' updates on edges.
+This CIF to CIF transformation eliminates 'if' updates on edges and in SVG input mappings.
 
 indexterm:[eliminate if updates,supported specifications]
 
@@ -29,7 +29,7 @@ This transformation supports a subset of CIF specifications.
 The following restrictions apply:
 
 * Multi-assignments and partial variable assignments are not supported.
-That is, the left hand sides of the assignments on edges (the addressables) must be single variables without projections.
+That is, the left hand sides of the assignments (the addressables) must be single variables without projections.
 
 indexterm:[eliminate if updates,preprocessing]
 
@@ -44,7 +44,7 @@ indexterm:[eliminate if updates,implementation]
 
 This transformation ensures that each variable that is assigned, gets a single explicit assignment.
 Simply put, the 'if' update structure is replicated by an 'if' expression.
-For instance, the following edge updates:
+For instance, the following updates:
 
 [source, cif]
 ----
@@ -58,7 +58,7 @@ end,
 z := 7
 ----
 
-are transformed to the following edge updates:
+are transformed to the following updates:
 
 [source, cif]
 ----
