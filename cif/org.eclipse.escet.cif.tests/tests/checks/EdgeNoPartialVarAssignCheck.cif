@@ -27,7 +27,13 @@ automaton a:
   location l4:
     edge e do li[0] := 1 goto l5; // Partial assignment.
   location l5:
-    edge e do if true: va := 1 end goto l1; // 'if' update.
+    edge e do if true: va := 1 end goto l6; // 'if' update.
+  location l6:
+    edge e do if true: (va, vb) := (1, 2) end goto l7; // Multi-assignment in 'if' update.
+  location l7:
+    edge e do if true: li[0] := 1 end goto l8; // Partial assignment in 'if' update.
+  location l8:
+    edge e do if true: if true: va := 1 end end goto l1; // 'if' update in 'if' update.
 end
 
 automaton multi_asgn:
@@ -36,6 +42,7 @@ automaton multi_asgn:
   location:
     initial;
     edge e do (va, vb) := (1, 2); // Multi-assignment.
+    edge e do if true: (va, vb) := (1, 2) end; // Multi-assignment in 'if' update.
 end
 
 automaton partial_asgn:
@@ -44,6 +51,7 @@ automaton partial_asgn:
   location:
     initial;
     edge e do li[0] := 1; // Partial assignment.
+    edge e do if true: li[0] := 1 end; // Partial assignment in 'if' update.
 end
 
 automaton if_upd:
@@ -52,6 +60,7 @@ automaton if_upd:
   location:
     initial;
     edge e do if true: v := 1 end; // 'if' update.
+    edge e do if true: if true: v := 1 end end; // 'if' update in 'if' update.
 end
 
 group g:
@@ -92,4 +101,16 @@ automaton all:
 
     edge e do if true: va := 1 end; // 'if' update.
     edge e do if true: va := 1 end; // 'if' update.
+end
+
+group svgUpdates:
+  svgfile "SvgFileReferenceTestCheck.svg";
+  input int va, vb, vc, vd, ve, vf;
+  input list[3] int li1, li2;
+  svgin id "abc" do (va, vb) := (1, 2), // Multi-assignment.
+                    if true: (vc, vd) := (1, 2) end, // Multi-assignment in 'if' update.
+                    li1[0] := 1, // Partial assignment.
+                    if true: li2[0] := 1 end, // Partial assignment in 'if' update.
+                    if true: ve := 1 end, // 'if' update.
+                    if true: if true: vf := 1 end end; // 'if' update in 'if' update.
 end
