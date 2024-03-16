@@ -214,6 +214,10 @@ public class EventDisabler {
             }
 
             SvgInEvent svgInEvt = ((SvgIn)decl).getEvent();
+            if (svgInEvt == null) {
+                continue;
+            }
+
             if (svgInEvt instanceof SvgInEventSingle) {
                 Expression evtRef = ((SvgInEventSingle)svgInEvt).getEvent();
                 Event evt = ((EventExpression)evtRef).getEvent();
