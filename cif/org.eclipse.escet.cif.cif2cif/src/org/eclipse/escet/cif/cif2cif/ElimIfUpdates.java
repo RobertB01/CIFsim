@@ -221,7 +221,7 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
             iaddr.setType(deepclone(ivar.getType()));
             return iaddr;
         } else {
-            throw new RuntimeException("Precondition violated.");
+            throw new RuntimeException("Unknown variable: " + var);
         }
     }
 
