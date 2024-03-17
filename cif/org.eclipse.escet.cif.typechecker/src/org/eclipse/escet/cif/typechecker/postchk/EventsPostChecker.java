@@ -54,7 +54,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * <li>'Automaton.monitorsUniqueEvents' constraint.</li>
  * <li>'Automaton.validAlphabet' constraint.</li>
  * <li>'Edge.uniqueEvents' constraint.</li>
- * <li>'Invariant.unique' constant.</li>
+ * <li>'Invariant.unique' constraint.</li>
  * </ul>
  * Also warns about the following dubious situations:
  * <ul>
