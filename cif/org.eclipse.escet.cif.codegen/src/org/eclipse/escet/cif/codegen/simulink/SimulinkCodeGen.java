@@ -579,8 +579,24 @@ public class SimulinkCodeGen extends CodeGen {
             String typeName = constInfo.typeInfo.getTargetType();
             String varName = getTargetVariableName(constant);
 
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
+
             // Generate definition and declaration.
-            defCode.add("%s %s; /**< Constant \"%s\". */", typeName, varName, constInfo.name);
+            defCode.add();
+            if (docs.isEmpty()) {
+                defCode.add("/** Constant \"%s\". */", constInfo.name);
+            } else {
+                defCode.add("/**");
+                defCode.add(" * Constant \"%s\".", constInfo.name);
+                for (String doc: docs) {
+                    defCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        defCode.add(" * %s", line);
+                    }
+                }
+                defCode.add(" */");
+            }
+            defCode.add("%s %s;", typeName, varName);
 
             // Generate initialization.
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), ctxt.makeDestination(constant));
