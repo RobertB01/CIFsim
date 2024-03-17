@@ -15,15 +15,15 @@ package org.eclipse.escet.cif.checkers.checks;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 
-/** CIF check that does not allow SVG input mappings without events. */
-public class SvgInMustHaveEventCheck extends CifCheck {
+/** CIF check that does not allow SVG input mappings with updates. */
+public class SvgInNoUpdatesCheck extends CifCheck {
     @Override
     protected void preprocessSvgIn(SvgIn svgIn, CifCheckViolations violations) {
-        if (svgIn.getEvent() == null) {
-            violations.add(svgIn, "SVG input mapping does not have an event");
+        for (Update update: svgIn.getUpdates()) {
+            violations.add(update, "SVG input mapping has an update");
         }
     }
-
 }

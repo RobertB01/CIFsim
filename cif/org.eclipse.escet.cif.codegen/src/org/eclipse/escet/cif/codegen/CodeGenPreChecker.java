@@ -37,7 +37,7 @@ import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.PrintNoSpecificPrintDeclsCheck;
 import org.eclipse.escet.cif.checkers.checks.PrintNoSpecificPrintDeclsCheck.NoSpecificPrintDecl;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
-import org.eclipse.escet.cif.checkers.checks.SvgInMustHaveEventCheck;
+import org.eclipse.escet.cif.checkers.checks.SvgInNoUpdatesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
@@ -96,8 +96,8 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
         // Urgent edges are not supported.
         checks.add(new EdgeNoUrgentCheck());
 
-        // SVG input mappings without events are not supported.
-        checks.add(new SvgInMustHaveEventCheck());
+        // SVG input mappings with updates are not supported.
+        checks.add(new SvgInNoUpdatesCheck());
 
         // Data types other than bool, int (with or without range), real, string, enumerations, tuples, and arrays, are
         // not supported. This applies to the data types of variables, parameters of functions, return types of
