@@ -29,3 +29,6 @@ group g:
     svgin id "svg2" event if true: $plant elif true: $automaton else $requirement end;
   end
 end
+
+input bool i;
+svgin id "layer1" do i := true;
