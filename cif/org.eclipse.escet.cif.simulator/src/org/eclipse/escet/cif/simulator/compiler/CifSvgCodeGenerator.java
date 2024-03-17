@@ -554,8 +554,7 @@ public class CifSvgCodeGenerator {
                     throw new RuntimeException("Unknown svgin event: " + event);
                 }
             } else {
-                String msg = fmt(
-                        "SVG input declarations without events are currently not supported by the CIF simulator.");
+                String msg = fmt("SVG input mappings with updates are currently not supported by the CIF simulator.");
                 throw new UnsupportedException(msg);
             }
         }
