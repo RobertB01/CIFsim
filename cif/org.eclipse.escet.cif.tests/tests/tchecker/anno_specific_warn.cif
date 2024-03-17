@@ -60,5 +60,8 @@ end
 
 group g1:
   @cif:typechecker:tests:anno1(x = true)
-  alg int a = 5;
+  alg int alg1 = 5;
+
+  @cif:typechecker:tests:anno1(x = true)
+  const int const1 = 6;
 end

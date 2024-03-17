@@ -73,5 +73,8 @@ end
 
 group g1:
   @doc
-  alg bool a = false;
+  alg bool alg1 = false;
+
+  @doc
+  const bool const1 = true;
 end
