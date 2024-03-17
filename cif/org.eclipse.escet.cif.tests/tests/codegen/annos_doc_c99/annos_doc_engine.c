@@ -44,6 +44,40 @@ const char *enum_names[] = {
 
 /* Constants. */
 
+/** Constant "constants.c1". */
+IntType constants_c1_;
+
+/**
+ * Constant "constants.c2".
+ *
+ * single line doc
+ */
+IntType constants_c2_;
+
+/**
+ * Constant "constants.c3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+IntType constants_c3_;
+
+/**
+ * Constant "constants.c4".
+ *
+ * some doc
+ */
+IntType constants_c4_;
+
+/**
+ * Constant "constants.c5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+IntType constants_c5_;
 
 /* Functions. */
 
@@ -161,7 +195,11 @@ RealType model_time; /**< Current model time. */
 
 /** Initialize constants. */
 static void InitConstants(void) {
-
+    constants_c1_ = 1;
+    constants_c2_ = 2;
+    constants_c3_ = 3;
+    constants_c4_ = 4;
+    constants_c5_ = 5;
 }
 
 /** Print function. */

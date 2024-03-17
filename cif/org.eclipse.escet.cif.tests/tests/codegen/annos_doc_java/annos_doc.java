@@ -27,6 +27,40 @@ public abstract class annos_doc {
 
     };
 
+    /** Constant "constants.c1". */
+    public static final int constants_c1_ = 1;
+
+    /**
+     * Constant "constants.c2".
+     *
+     * single line doc
+     */
+    public static final int constants_c2_ = 2;
+
+    /**
+     * Constant "constants.c3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    public static final int constants_c3_ = 3;
+
+    /**
+     * Constant "constants.c4".
+     *
+     * some doc
+     */
+    public static final int constants_c4_ = 4;
+
+    /**
+     * Constant "constants.c5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    public static final int constants_c5_ = 5;
 
     /** Variable 'time'. */
     public double time;

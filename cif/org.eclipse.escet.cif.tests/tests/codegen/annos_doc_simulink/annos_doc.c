@@ -1154,6 +1154,40 @@ static int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
 /* {{{ work data structure. */
 struct WorkStruct {
 
+    /** Constant "constants.c1". */
+    int_T constants_c1_;
+
+    /**
+     * Constant "constants.c2".
+     *
+     * single line doc
+     */
+    int_T constants_c2_;
+
+    /**
+     * Constant "constants.c3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    int_T constants_c3_;
+
+    /**
+     * Constant "constants.c4".
+     *
+     * some doc
+     */
+    int_T constants_c4_;
+
+    /**
+     * Constant "constants.c5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    int_T constants_c5_;
 
     /** Discrete variable "bool discvars.d1". */
     BoolType discvars_d1_;
@@ -1533,7 +1567,11 @@ static void mdlStart(SimStruct *sim_struct) {
     ssSetPWorkValue(sim_struct, 0, work);
 
     /* Initialize all constants. */
-
+    work->constants_c1_ = 1;
+    work->constants_c2_ = 2;
+    work->constants_c3_ = 3;
+    work->constants_c4_ = 4;
+    work->constants_c5_ = 5;
 }
 #endif
 /* }}} */
