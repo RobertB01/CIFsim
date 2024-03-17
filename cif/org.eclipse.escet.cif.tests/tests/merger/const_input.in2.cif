@@ -20,3 +20,9 @@ group g:
   input t1 inp2;
   invariant inp2 > 0;
 end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  input bool a;
+end
