@@ -6,6 +6,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "a.l3":
      - edge e do (va, vb) := (1, 2) goto l4;
                           ^
+   * In location "a.l6":
+     - edge e do if true: (va, vb) := (1, 2) end goto l7;
+                                   ^
    * In automaton "all":
      - edge e do (va, vb) := (1, 2);
                           ^
@@ -17,6 +20,8 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "multi_asgn":
      - edge e do (va, vb) := (1, 2);
                           ^
+     - edge e do if true: (va, vb) := (1, 2) end;
+                                   ^
 
   ---------------------------------------------
   (2/3) Edge has a partial variable assignment.
@@ -24,6 +29,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "a.l4":
      - edge e do li[0] := 1 goto l5;
                        ^
+   * In location "a.l7":
+     - edge e do if true: li[0] := 1 end goto l8;
+                                ^
    * In automaton "all":
      - edge e do li[0] := 1;
                        ^
@@ -35,13 +43,24 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "partial_asgn":
      - edge e do li[0] := 1;
                        ^
+     - edge e do if true: li[0] := 1 end;
+                                ^
 
   ------------------------------
   (3/3) Edge has an 'if' update.
   ------------------------------
    * In location "a.l5":
-     - edge e do if true: va := 1 end goto l1;
+     - edge e do if true: va := 1 end goto l6;
                  ^
+   * In location "a.l6":
+     - edge e do if true: (va, vb) := (1, 2) end goto l7;
+                 ^
+   * In location "a.l7":
+     - edge e do if true: li[0] := 1 end goto l8;
+                 ^
+   * In location "a.l8":
+     - edge e do if true: if true: va := 1 end end goto l1;
+                 ^        ^
    * In automaton "all":
      - edge e do if true: va := 1 end;
                  ^
@@ -52,4 +71,12 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
    * In automaton "if_upd":
      - edge e do if true: v := 1 end;
+                 ^
+     - edge e do if true: if true: v := 1 end end;
+                 ^        ^
+   * In automaton "multi_asgn":
+     - edge e do if true: (va, vb) := (1, 2) end;
+                 ^
+   * In automaton "partial_asgn":
+     - edge e do if true: li[0] := 1 end;
                  ^
