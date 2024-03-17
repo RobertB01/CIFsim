@@ -84,4 +84,5 @@ To further simplify the result, apply additional CIF to CIF transformations, suc
 
 === Annotations
 
-This transformation does not process, add, or remove any annotations.
+This transformation does not process or add any annotations.
+As this transformation removes all constants from the specification, their annotations are removed as well.
