@@ -49,11 +49,21 @@ typedef enum declarationsEventEnum_ declarations_Event_;
 extern const char *declarations_event_names[];
 
 /* Constants. */
-extern RealType c1_; /**< Constant "c1". */
-extern RealType c4_; /**< Constant "c4". */
-extern RealType c5_; /**< Constant "c5". */
-extern RealType c3_; /**< Constant "c3". */
-extern RealType c2_; /**< Constant "c2". */
+
+/** Constant "c1". */
+extern RealType c1_;
+
+/** Constant "c4". */
+extern RealType c4_;
+
+/** Constant "c5". */
+extern RealType c5_;
+
+/** Constant "c3". */
+extern RealType c3_;
+
+/** Constant "c2". */
+extern RealType c2_;
 
 /* Input variables. */
 

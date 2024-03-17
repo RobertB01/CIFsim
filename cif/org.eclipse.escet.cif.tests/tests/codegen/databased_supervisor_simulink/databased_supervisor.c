@@ -1386,7 +1386,9 @@ static void A6BTypeToSimulink(real_T *vec, A6BType *arr) {
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
-    A12T3IIIType bdd_nodes_; /**< Constant "bdd_nodes". */
+
+    /** Constant "bdd_nodes". */
+    A12T3IIIType bdd_nodes_;
 
 
 

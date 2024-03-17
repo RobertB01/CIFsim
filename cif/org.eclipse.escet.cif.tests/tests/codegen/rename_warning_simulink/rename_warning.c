@@ -1153,8 +1153,12 @@ static int EnumTypePrint(rename_warningEnum value, char *dest, int start, int en
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
-    int_T a_b_; /**< Constant "a_b". */
-    int_T a_b_2; /**< Constant "a.b". */
+
+    /** Constant "a_b". */
+    int_T a_b_;
+
+    /** Constant "a.b". */
+    int_T a_b_2;
 
 
 

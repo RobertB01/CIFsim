@@ -226,7 +226,9 @@ const char *enum_names[] = {
 };
 
 /* Constants. */
-A12T3IIIType bdd_nodes_; /**< Constant "bdd_nodes". */
+
+/** Constant "bdd_nodes". */
+A12T3IIIType bdd_nodes_;
 
 /* Functions. */
 BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {

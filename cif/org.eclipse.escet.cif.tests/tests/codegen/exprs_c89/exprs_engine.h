@@ -75,7 +75,9 @@ typedef enum exprsEventEnum_ exprs_Event_;
 extern const char *exprs_event_names[];
 
 /* Constants. */
-extern IntType x1_; /**< Constant "x1". */
+
+/** Constant "x1". */
+extern IntType x1_;
 
 /* Input variables. */
 

@@ -1489,7 +1489,9 @@ static int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end) {
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
-    int_T x1_; /**< Constant "x1". */
+
+    /** Constant "x1". */
+    int_T x1_;
 
     /** Discrete variable "int a1.x". */
     int_T a1_x_;
