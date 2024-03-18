@@ -387,9 +387,7 @@ public class ModelTextGenerator {
         for (PlcStatement plcStat: plcStats) {
             toText(plcStat, boxBuilder, pouName);
 
-            if (!(plcStat instanceof PlcCommentLine cmtLine) || cmtLine.isEmptyStatement) {
-                foundStat = true;
-            }
+            foundStat |= plcStat.isProperPlcStatement();
         }
 
         if (!foundStat) {

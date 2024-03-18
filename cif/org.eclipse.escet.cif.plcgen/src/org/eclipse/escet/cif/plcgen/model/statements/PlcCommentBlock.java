@@ -78,4 +78,9 @@ public class PlcCommentBlock extends PlcStatement {
     public PlcStatement copy() {
         return new PlcCommentBlock(starCount, lines);
     }
+
+    @Override
+    public boolean isProperPlcStatement() {
+        return false;
+    }
 }

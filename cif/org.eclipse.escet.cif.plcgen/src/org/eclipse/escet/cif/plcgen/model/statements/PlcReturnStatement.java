@@ -39,4 +39,9 @@ public class PlcReturnStatement extends PlcStatement {
     public PlcReturnStatement copy() {
         return new PlcReturnStatement(returnValue);
     }
+
+    @Override
+    public boolean isProperPlcStatement() {
+        return true;
+    }
 }

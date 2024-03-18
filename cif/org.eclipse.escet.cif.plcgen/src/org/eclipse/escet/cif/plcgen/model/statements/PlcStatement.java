@@ -28,6 +28,13 @@ public abstract class PlcStatement {
     public abstract PlcStatement copy();
 
     /**
+     * Is the statement a proper PLC statement? That is, can it be the only statement in a statement block?
+     *
+     * @return Whether the statement is a proper PLC statement.
+     */
+    public abstract boolean isProperPlcStatement();
+
+    /**
      * Copy a sequence of statements.
      *
      * @param statements Statements to copy.
