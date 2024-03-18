@@ -717,7 +717,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
             PlcCommentLine explanation = new PlcCommentLine(failResultText);
             PlcAssignmentStatement assignment = generatePlcBoolAssignment(eventEnabledVar, false);
-            autTestCode.add(generateIfGuardThenCode(guard, list(epxlanation, assignment)));
+            autTestCode.add(generateIfGuardThenCode(guard, list(explanation, assignment)));
         }
 
         // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the generated
