@@ -56,12 +56,6 @@ group a:
   svgin id "" do z := (5, 6), z[0] := 5, z[1] := 6;
 end
 
-// Index evaluation failure.
-group b:
-  input tuple(int a, b) x;
-  svgin id "" do x[floor(sqrt(-1))] := 5;
-end
-
 // Multiple variables, multiple times, part/whole variable.
 group c:
   input list int x;
@@ -227,3 +221,12 @@ group f:
   svgin id "" do x[i][0] := [], x[i][i] := [];
   svgin id "" do x[i][i] := [], x[i][i] := [];
 end
+
+// Instantiations.
+group def A():
+  input bool b;
+
+  svgin id "" do a1.b := true, b := false;
+end
+
+a1 : A();

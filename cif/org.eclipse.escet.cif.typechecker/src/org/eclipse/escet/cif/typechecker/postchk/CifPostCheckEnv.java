@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.typechecker.postchk;
 
+import org.eclipse.escet.cif.typechecker.CifTypeCheckerProblemReporter;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.SourceFile;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
@@ -23,14 +24,8 @@ import org.eclipse.escet.common.position.metamodel.position.Position;
  * reporting, etc. Allows the post checks to be performed by the type checker, as well as other tools, such as the
  * merger tool.
  */
-public abstract class CifPostCheckEnv {
-    /**
-     * Adds a semantic problem to the list of problems found so far.
-     *
-     * @param message The CIF type checker problem message describing the semantic problem.
-     * @param position Position information of the problem. Should only be used by the type checker environment.
-     * @param args The arguments to use when formatting the problem message.
-     */
+public abstract class CifPostCheckEnv implements CifTypeCheckerProblemReporter {
+    @Override
     public abstract void addProblem(ErrMsg message, Position position, String... args);
 
     /**

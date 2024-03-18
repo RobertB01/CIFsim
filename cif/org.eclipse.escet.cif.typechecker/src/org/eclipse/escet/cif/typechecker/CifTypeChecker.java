@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.parser.ast.ASpecification;
+import org.eclipse.escet.cif.typechecker.postchk.AssignmentPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifPostCheckEnv;
 import org.eclipse.escet.cif.typechecker.postchk.CifPrintPostChecker;
@@ -51,7 +52,9 @@ import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 
 /** Type checker for the CIF language. */
-public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specification> {
+public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specification>
+        implements CifTypeCheckerProblemReporter
+{
     /** Whether to enable debugging output for the CIF type checker. */
     public static final boolean DEBUG = false;
 
@@ -235,6 +238,10 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
             // Check 'Automaton.uniqueUsagePerEvent' constraint.
             SingleEventUsePerAutPostChecker.check(specNoCompDef, env);
 
+            // Checks various constraints related to assignments on edges and in SVG input mappings that are difficult
+            // to check when component definition/instantiation is not yet eliminated.
+            new AssignmentPostChecker().check(specNoCompDef, env);
+
             // Check 'Invariant.unique' constraint for state invariants.
             new UniqueStateInvariantsPostChecker().check(specNoCompDef, env);
 
@@ -275,13 +282,7 @@ public class CifTypeChecker extends EcoreTypeChecker<ASpecification, Specificati
         return mainFile.resolve(path);
     }
 
-    /**
-     * Adds a semantic problem to the list of problems found so far.
-     *
-     * @param message The CIF type checker problem message describing the semantic problem.
-     * @param position Position information of the problem.
-     * @param args The arguments to use when formatting the problem message.
-     */
+    @Override
     public void addProblem(ErrMsg message, Position position, String... args) {
         addProblem(message, toTextPosition(position), args);
     }

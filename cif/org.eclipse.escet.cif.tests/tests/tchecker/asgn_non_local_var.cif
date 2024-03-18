@@ -21,13 +21,25 @@ group g:
     location:
       initial;
       edge do (x1, x2, .g.x3,   ^g.x4, q.x5) := (1.0, 2.0, 3.0, 4.0, 5.0);
-      edge do (        .g.q.x1, ^g.x2, q.x3) := (1.0, 2.0, 3.0);
+      edge do (        .g.q.x1, ^g.x2, q.x2) := (1.0, 2.0, 3.0);
   end
 
   automaton q:
     cont x5 = 9.0 der 10.0;
-    disc real x1, x2, x3;
+    disc real x1, x2;
     location:
       initial;
     end
 end
+
+automaton def A():
+  event e;
+  disc bool b;
+
+  location:
+    initial;
+    edge e do a1.b := true;
+end
+
+a1 : A();
+a2 : A();

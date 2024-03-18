@@ -11,19 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton p:
-  disc string x;
-  location:
-    initial;
-    edge do x[1] := "a";
+func bool f():
+  string x;
+  x[1] := "a";
+  return true;
 end
 
-automaton q:
-  disc list string x;
-  location:
-    initial;
-    edge do x[0][1][2][3] := "a";
-end
-
-input string i;
-svgin id "" do i[1] := "a";
+invariant f();

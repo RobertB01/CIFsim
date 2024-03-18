@@ -26,16 +26,13 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HI
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.cif.typechecker.ExprContext.DEFAULT_CTXT;
 import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.ALLOW_EVENT;
-import static org.eclipse.escet.cif.typechecker.ExprContext.Condition.EDGE_UPDATE;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -61,7 +58,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
@@ -89,7 +85,6 @@ import org.eclipse.escet.cif.parser.ast.automata.AUpdate;
 import org.eclipse.escet.cif.parser.ast.automata.AUrgentLocationElement;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
-import org.eclipse.escet.cif.typechecker.AssignmentUniquenessChecker;
 import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifUpdateTypeChecker;
@@ -101,7 +96,6 @@ import org.eclipse.escet.cif.typechecker.declwrap.EventParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.LocationParamDeclWrap;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -734,7 +728,7 @@ public class AutScope extends ParentScope<Automaton> {
         }
 
         // Get update expression type checking context.
-        ExprContext context = DEFAULT_CTXT.add(EDGE_UPDATE);
+        ExprContext context = DEFAULT_CTXT;
         if (hasReceive) {
             context = context.setReceiveType(channelType);
         }
@@ -746,9 +740,8 @@ public class AutScope extends ParentScope<Automaton> {
             updates.add(update2);
         }
 
-        // Check for assignments to unique parts of variables, in the updates.
-        Map<Declaration, Set<Pair<Position, List<Object>>>> asgnMap = map();
-        AssignmentUniquenessChecker.checkUniqueAsgns(updates, asgnMap, tchecker, ErrMsg.DUPL_VAR_ASGN_EDGE);
+        // Do not check for assignments to unique parts of variables in the updates. Do this during post checking to
+        // avoid false positives and false negatives.
     }
 
     /**

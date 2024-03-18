@@ -1,6 +1,10 @@
 ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 19, column 13: "x.i" is not a discrete or continuous variable.
 ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 26, column 15: "y.c" is not a discrete or continuous variable.
+ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 30, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
 ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 30, column 16: "x.d" is not an input variable.
+ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 31, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
 ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 31, column 16: "y.c" is not an input variable.
+ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 32, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
 ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 32, column 16: "z" is not an input variable.
+WARNING: File "tchecker/resolve_non_asgn_var.cif": Semantic warning at line 22, column 7: Automaton "y" has no initial location.
 ERROR: Failed to load CIF file "tchecker/resolve_non_asgn_var.cif": the file has errors.
