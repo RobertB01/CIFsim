@@ -325,8 +325,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (prependEmptyLine) {
             testCode.add(new PlcCommentLine(null));
         }
-
-        // Announce that the event is tried in the PLC code, and start with assuming that the event is enabled.
         testCode.add(genAnnounceEventBeingTried(eventTransition));
         testCode.add(new PlcAssignmentStatement(eventEnabledVar, new PlcBoolLiteral(true)));
 
