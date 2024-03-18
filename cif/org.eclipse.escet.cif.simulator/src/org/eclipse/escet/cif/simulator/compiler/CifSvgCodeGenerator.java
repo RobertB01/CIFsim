@@ -59,6 +59,7 @@ import org.eclipse.escet.cif.simulator.runtime.CifSimulatorMath;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** CIF/SVG declarations code generator. */
 public class CifSvgCodeGenerator {
@@ -552,6 +553,9 @@ public class CifSvgCodeGenerator {
                 } else {
                     throw new RuntimeException("Unknown svgin event: " + event);
                 }
+            } else {
+                String msg = fmt("SVG input mappings with updates are currently not supported by the CIF simulator.");
+                throw new UnsupportedException(msg);
             }
         }
 
