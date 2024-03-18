@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * A larger amount of comment text in the PLC code. It gets formatted like
+ * A larger amount of comment text in the PLC code. It gets formatted like:
  * <p>
  * <pre>
  * (*&lt;N times '*'&gt;

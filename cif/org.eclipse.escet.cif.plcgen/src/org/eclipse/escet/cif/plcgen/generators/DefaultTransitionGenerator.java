@@ -457,7 +457,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
-        // List syncers,
+        // List syncers.
         if (!eventTrans.syncers.isEmpty()) {
             box.add();
             for (TransitionAutomaton transAut: eventTrans.syncers) {
@@ -465,7 +465,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
-        // List monitors,
+        // List monitors.
         if (!eventTrans.monitors.isEmpty()) {
             box.add();
             for (TransitionAutomaton transAut: eventTrans.monitors) {
@@ -498,6 +498,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<Declaration> assignedVarList = set2list(assignedVariables);
         Collections.sort(assignedVarList, (a, b) -> getAbsName(a, false).compareTo(getAbsName(b, false)));
 
+        // Add comment to the generated code to explain the partial state copy.
         if (!assignedVariables.isEmpty()) {
             codeStorage.add(new PlcCommentLine("Make temporary copies of assigned variables to preserve the old "
                     + "values while assigning new values."));
@@ -643,7 +644,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param performProvider CIF data provider that redirects reads of possibly modified variables to safe copies
      *     during perform code execution. Can be {@code null} to disable redirection.
      * @param performCode Storage for generated perform code. Is updated in-place.
-     * @param purpose Purposes of the given automaton.
+     * @param purpose Purpose of the given automaton.
      * @param createdTempVariables Tracking storage of created temporary variables.
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @param channelValueVar PLC variable storing the channel value. Is {@code null} when not sending a value (either
@@ -714,7 +715,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // IF autVar = 0 THEN eventEnabled := FALSE; END_IF;
         {
             PlcExpression guard = generateCompareVarWithVal(autVar, 0);
-            PlcCommentLine epxlanation = new PlcCommentLine(failResultText);
+            PlcCommentLine explanation = new PlcCommentLine(failResultText);
             PlcAssignmentStatement assignment = generatePlcBoolAssignment(eventEnabledVar, false);
             autTestCode.add(generateIfGuardThenCode(guard, list(epxlanation, assignment)));
         }
@@ -971,13 +972,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Generate a comment block explaining the test performed at an automaton.
      *
      * @param event Event being tried.
-     * @param transAut Automation transition information to show.
+     * @param transAut Automaton transition information to show.
      * @return The generated comment block.
      */
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
         CodeBox box = new MemoryCodeBox();
         String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
-        box.add("Testing edge%s of automaton \"%s\" to %s at event \"%s\".", edgePluralText,
+        box.add("Testing edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
                 getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
 
         switch (transAut.purpose) {
@@ -986,7 +987,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             case RECEIVER:
             case SENDER: {
                 String kindText = (transAut.purpose == TransAutPurpose.SENDER) ? "sending" : "receiving";
-                box.add("One %s automaton must have an edge with a true guard to allow the event.", kindText);
+                box.add("At least one %s automaton must have an edge with a true guard to allow the event.", kindText);
                 break;
             }
             case SYNCER:
@@ -1010,7 +1011,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             box.add("    - %s edge in the location", toOrdinal(transEdge.edgeNumber));
         }
         if (lastLoc == null) {
-            box.add("  - No edges found, event \"%s\" will never occur!:", getAbsName(event, false));
+            box.add("  - No edges found, event \"%s\" will never occur!", getAbsName(event, false));
         }
         return new PlcCommentBlock(box.getLines());
     }

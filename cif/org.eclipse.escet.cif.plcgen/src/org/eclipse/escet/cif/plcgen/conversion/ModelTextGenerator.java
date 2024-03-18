@@ -475,7 +475,7 @@ public class ModelTextGenerator {
         for (String line: cmtBlock.lines) {
             boxBuilder.add(" * " + line);
         }
-        boxBuilder.add(" *" + makeString('*', cmtBlock.starCount) + ")");
+        boxBuilder.add(" " + makeString('*', cmtBlock.starCount) + "*)");
     }
 
     /**
