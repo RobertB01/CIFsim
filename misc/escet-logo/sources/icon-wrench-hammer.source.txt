@@ -1,0 +1,21 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+Source: https://iconduck.com/icons/193252/wrench-hammer
+Original license: MIT
+
+Information from the Iconduck website (accessed 2024-03-18):
+- This open source icon is named "wrench hammer" and is licensed under the open source MIT license.
+- It's part of the icon set "Nimble Design System Icons", which has 150 icons in it.
+  See https://iconduck.com/sets/nimble-design-system-icons.
+- It was published to Iconduck on: 03 December, 2022.
