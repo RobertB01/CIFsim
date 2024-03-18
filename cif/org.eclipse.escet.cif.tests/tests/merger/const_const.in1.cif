@@ -23,3 +23,9 @@ group g:
   const t1 c3 = 2.34;
   invariant c3 > 0;
 end
+
+group annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  const bool a = true;
+end

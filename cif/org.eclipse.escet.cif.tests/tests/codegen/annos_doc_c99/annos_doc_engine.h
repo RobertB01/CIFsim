@@ -32,6 +32,40 @@ extern const char *annos_doc_event_names[];
 
 /* Constants. */
 
+/** Constant "constants.c1". */
+extern IntType constants_c1_;
+
+/**
+ * Constant "constants.c2".
+ *
+ * single line doc
+ */
+extern IntType constants_c2_;
+
+/**
+ * Constant "constants.c3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern IntType constants_c3_;
+
+/**
+ * Constant "constants.c4".
+ *
+ * some doc
+ */
+extern IntType constants_c4_;
+
+/**
+ * Constant "constants.c5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern IntType constants_c5_;
 
 /* Input variables. */
 

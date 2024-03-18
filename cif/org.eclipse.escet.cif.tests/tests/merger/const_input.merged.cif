@@ -6,5 +6,12 @@ group g:
   invariant inp2 > 1;
   invariant inp2 > 0;
 end
+group annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  const bool a = true;
+end
 invariant inp1 > 1;
 invariant inp1 > 0;

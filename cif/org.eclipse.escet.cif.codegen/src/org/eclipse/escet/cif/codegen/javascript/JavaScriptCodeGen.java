@@ -235,8 +235,22 @@ public class JavaScriptCodeGen extends CodeGen {
             String origName = origDeclNames.get(constant);
             Assert.notNull(origName);
 
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
+
             declCode.add();
-            declCode.add("/** Constant \"%s\". */", origName);
+            if (docs.isEmpty()) {
+                declCode.add("/** Constant \"%s\". */", origName);
+            } else {
+                declCode.add("/**");
+                declCode.add(" * Constant \"%s\".", origName);
+                for (String doc: docs) {
+                    declCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        declCode.add(" * %s", line);
+                    }
+                }
+                declCode.add(" */");
+            }
             declCode.add("%s;", getTargetVariableName(constant));
 
             ExprCode valueCode = ctxt.exprToTarget(constant.getValue(), null);

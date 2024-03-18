@@ -264,7 +264,9 @@ const char *enum_names[] = {
 };
 
 /* Constants. */
-IntType x1_; /**< Constant "x1". */
+
+/** Constant "x1". */
+IntType x1_;
 
 /* Functions. */
 IntType f1_(IntType f1_x_) {

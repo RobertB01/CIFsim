@@ -502,6 +502,10 @@ public final class CifPrettyPrinter {
      * @param constant The constant.
      */
     public void add(Constant constant) {
+        // Add annotations.
+        add(constant.getAnnotations());
+
+        // Add declaration.
         StringBuilder txt = new StringBuilder();
         txt.append("const ");
         txt.append(pprint(constant.getType()));

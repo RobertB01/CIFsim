@@ -31,8 +31,12 @@ typedef enum rename_warningEventEnum_ rename_warning_Event_;
 extern const char *rename_warning_event_names[];
 
 /* Constants. */
-extern IntType a_b_; /**< Constant "a_b". */
-extern IntType a_b_2; /**< Constant "a.b". */
+
+/** Constant "a_b". */
+extern IntType a_b_;
+
+/** Constant "a.b". */
+extern IntType a_b_2;
 
 /* Input variables. */
 

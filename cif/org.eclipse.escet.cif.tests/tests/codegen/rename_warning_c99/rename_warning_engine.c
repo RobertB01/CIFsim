@@ -43,8 +43,12 @@ const char *enum_names[] = {
 };
 
 /* Constants. */
-IntType a_b_; /**< Constant "a_b". */
-IntType a_b_2; /**< Constant "a.b". */
+
+/** Constant "a_b". */
+IntType a_b_;
+
+/** Constant "a.b". */
+IntType a_b_2;
 
 /* Functions. */
 

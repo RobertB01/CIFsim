@@ -120,11 +120,25 @@ public class JavaCodeGen extends CodeGen {
             String origName = origDeclNames.get(constant);
             Assert.notNull(origName);
 
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
+
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
             Assert.check(!constantCode.hasCode()); // Java code generator never generates pre-execute code.
 
             code.add();
-            code.add("/** Constant \"%s\". */", origName);
+            if (docs.isEmpty()) {
+                code.add("/** Constant \"%s\". */", origName);
+            } else {
+                code.add("/**");
+                code.add(" * Constant \"%s\".", origName);
+                for (String doc: docs) {
+                    code.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                }
+                code.add(" */");
+            }
             code.add("public static final %s %s = %s;", typeToJava(constant.getType(), ctxt), getTargetRef(constant),
                     constantCode.getData());
         }

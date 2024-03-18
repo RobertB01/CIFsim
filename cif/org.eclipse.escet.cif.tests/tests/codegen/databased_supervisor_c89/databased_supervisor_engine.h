@@ -80,7 +80,9 @@ typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 extern const char *databased_supervisor_event_names[];
 
 /* Constants. */
-extern A12T3IIIType bdd_nodes_; /**< Constant "bdd_nodes". */
+
+/** Constant "bdd_nodes". */
+extern A12T3IIIType bdd_nodes_;
 
 /* Input variables. */
 

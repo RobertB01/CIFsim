@@ -89,11 +89,21 @@ const char *enum_names[] = {
 };
 
 /* Constants. */
-RealType c1_; /**< Constant "c1". */
-RealType c4_; /**< Constant "c4". */
-RealType c5_; /**< Constant "c5". */
-RealType c3_; /**< Constant "c3". */
-RealType c2_; /**< Constant "c2". */
+
+/** Constant "c1". */
+RealType c1_;
+
+/** Constant "c4". */
+RealType c4_;
+
+/** Constant "c5". */
+RealType c5_;
+
+/** Constant "c3". */
+RealType c3_;
+
+/** Constant "c2". */
+RealType c2_;
 
 /* Functions. */
 IntType inc_(IntType inc_x_) {

@@ -71,4 +71,6 @@ end
 group g1:
   @a(b = 3)
   alg bool alg1 = true;
+  @a(b = 4)
+  const bool const1 = false;
 end

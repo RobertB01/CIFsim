@@ -84,3 +84,20 @@ group algvars:
   @doc($text = "Second doc.")
   alg int a5 = 5;
 end
+
+group constants:
+  const int c1 = 1;
+
+  @doc($text = "single line doc")
+  const int c2 = 2;
+
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  const int c3 = 3;
+
+  @doc($text = fmt("%s", "some doc"))
+  const int c4 = 4;
+
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  const int c5 = 5;
+end

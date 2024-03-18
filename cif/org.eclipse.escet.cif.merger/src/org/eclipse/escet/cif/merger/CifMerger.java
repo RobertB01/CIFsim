@@ -438,6 +438,9 @@ public class CifMerger {
         constRef.setType(deepclone(constType));
         refExprReplacements.put(inputVar, constRef);
 
+        // Move annotations.
+        constant.getAnnotations().addAll(inputVar.getAnnotations());
+
         // Return merged constant.
         return constant;
     }
@@ -492,6 +495,9 @@ public class CifMerger {
         const1Ref.setConstant(constant1);
         const1Ref.setType(deepclone(type1));
         refExprReplacements.put(constant2, const1Ref);
+
+        // Move annotations.
+        constant1.getAnnotations().addAll(constant2.getAnnotations());
 
         // Return merged constant.
         return constant1;
