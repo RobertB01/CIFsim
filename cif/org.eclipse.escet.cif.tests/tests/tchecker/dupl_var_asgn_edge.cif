@@ -261,12 +261,13 @@ plant g_rcv:
     edge ei? do x[0] := 5, x[?] := 5;
 end
 
-// Instantiations
+// Instantiations.
 automaton def A():
   event e;
   disc bool b;
 
   location:
+    initial;
     edge e do a1.b := true, b := false;
 end
 

@@ -33,13 +33,13 @@ group g:
 end
 
 automaton def A():
-    event e;
-    disc bool b;
+  event e;
+  disc bool b;
 
-    location:
-      edge e do a1.b := true;
+  location:
+    initial;
+    edge e do a1.b := true;
 end
 
 a1 : A();
 a2 : A();
-

@@ -68,11 +68,11 @@ public class AssignmentUniquenessChecker {
      * Checks the given updates for uniqueness with respect to the (parts of the) variables that are assigned.
      *
      * @param updates The updates to check.
-     * @param asgnMap Mapping from the (discrete, continuous, input, and function local) variables that have already
-     *     been assigned so far, to all assignments that they were assigned in, with information about both the position
-     *     information for the addressable variable reference (no projections), and the statically evaluated, normalized
-     *     projection values that were used to address parts of the variables. Projection values may be {@code null} if
-     *     they can not be statically computed or normalized. May be modified in-place.
+     * @param asgnMap Mapping from the (discrete, continuous and input) variables that have already been assigned so
+     *     far, to all assignments that they were assigned in, with information about both the position information for
+     *     the addressable variable reference (no projections), and the statically evaluated, normalized projection
+     *     values that were used to address parts of the variables. Projection values may be {@code null} if they can
+     *     not be statically computed or normalized. May be modified in-place.
      * @param problemReporter The problem reporter to use.
      * @param errMsg The error message to use.
      */
@@ -171,8 +171,9 @@ public class AssignmentUniquenessChecker {
      * Checks the given addressable expression for uniqueness with respect to the (parts of the) variables that are
      * assigned.
      *
-     * @param addr The addressable expression to check. Must not be a {@link DiscVariableExpression},
-     *     {@link ContVariableExpression}, or {@link ProjectionExpression}, but not a {@link TupleExpression}.
+     * @param addr The addressable expression to check. Must be a {@link DiscVariableExpression},
+     *     {@link ContVariableExpression}, {@link InputVariableExpression}, or {@link ProjectionExpression}, but not a
+     *     {@link TupleExpression}.
      * @param asgnMap Mapping from the (discrete, continuous, input, and function local) variables that have already
      *     been assigned so far, to all assignments that they were assigned in, with information about both the position
      *     information for the addressable variable reference (no projections), and the statically evaluated, normalized

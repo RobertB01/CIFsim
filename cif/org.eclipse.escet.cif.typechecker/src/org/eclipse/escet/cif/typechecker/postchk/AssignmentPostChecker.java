@@ -76,7 +76,7 @@ public class AssignmentPostChecker {
      * @param env The post check environment to use.
      */
     public void check(ComplexComponent comp, CifPostCheckEnv env) {
-        // Check IO declarations.
+        // Check I/O declarations.
         check(comp.getIoDecls(), env);
 
         if (comp instanceof Group group) {
@@ -111,7 +111,8 @@ public class AssignmentPostChecker {
                     AssignmentUniquenessChecker.checkUniqueAsgns(edge.getUpdates(), asgnMap, env,
                             ErrMsg.DUPL_VAR_ASGN_EDGE);
                 } catch (SemanticException ex) {
-                    // Exception is thrown for reference to wrong kind of object. Continue with the next.
+                    // Exception is thrown for reference to wrong kind of object or in case a projection index cannot be
+                    // statically evaluated. Continue with the next.
                     continue;
                 }
             }
@@ -119,10 +120,10 @@ public class AssignmentPostChecker {
     }
 
     /**
-     * Checks the IO declarations for various constraints related to assignments in SVG input mappings (see
+     * Checks the I/O declarations for various constraints related to assignments in SVG input mappings (see
      * {@link AssignmentPostChecker}).
      *
-     * @param ioDecls The IO declarations to check.
+     * @param ioDecls The I/O declarations to check.
      * @param env The post check environment to use.
      */
     private void check(List<IoDecl> ioDecls, CifPostCheckEnv env) {
@@ -148,7 +149,8 @@ public class AssignmentPostChecker {
                 AssignmentUniquenessChecker.checkUniqueAsgns(svgIn.getUpdates(), asgnMap, env,
                         ErrMsg.DUPL_VAR_ASGN_SVG);
             } catch (SemanticException ex) {
-                // Exception is thrown for reference to wrong kind of object. Continue with the next.
+                // Exception is thrown for reference to wrong kind of object or in case a projection index cannot be
+                // statically evaluated. Continue with the next.
                 continue;
             }
         }
@@ -158,13 +160,13 @@ public class AssignmentPostChecker {
      * Checks an update for assigning to wrong kind of object.
      *
      * @param update The update to check.
-     * @param scope The scope to resolve update in.
+     * @param scope The scope in which the update is located.
      * @param context The update context to use.
      * @param env The post check environment to use.
      */
     private void check(Update update, ComplexComponent scope, UpdateContext context, CifPostCheckEnv env) {
-        if (update instanceof Assignment) {
-            Expression addr = ((Assignment)update).getAddressable();
+        if (update instanceof Assignment assignment) {
+            Expression addr = assignment.getAddressable();
 
             // Check based on update context.
             if (context == UpdateContext.EDGE_UPDATE) {
@@ -174,18 +176,18 @@ public class AssignmentPostChecker {
             } else {
                 throw new RuntimeException("Update needs either edge context or SVG context.");
             }
-        } else if (update instanceof IfUpdate) {
-            checkIfUpdate((IfUpdate)update, scope, context, env);
+        } else if (update instanceof IfUpdate ifUpdate) {
+            checkIfUpdate(ifUpdate, scope, context, env);
         } else {
             throw new RuntimeException("Unknown update: " + update);
         }
     }
 
     /**
-     * Checks and 'if' update for assigning to wrong kind of object.
+     * Checks an 'if' update for assigning to wrong kind of object.
      *
      * @param update The 'if' update to check.
-     * @param scope The scope to resolve update in.
+     * @param scope The scope in which the update is located.
      * @param context The update context to use.
      * @param env The post check environment to use.
      */
@@ -196,8 +198,8 @@ public class AssignmentPostChecker {
         }
 
         // Elses.
-        for (Update else1: update.getElses()) {
-            check(else1, scope, context, env);
+        for (Update els: update.getElses()) {
+            check(els, scope, context, env);
         }
 
         // Elifs.
@@ -210,27 +212,28 @@ public class AssignmentPostChecker {
     }
 
     /**
-     * Checks and addressable on an edge for reference to wrong kind of object.
+     * Checks an addressable on an edge for reference to wrong kind of object.
      *
      * @param addr The addressable.
-     * @param scope The scope to resolve update in.
+     * @param scope The scope in which the update is located.
      * @param env The post check environment to use.
      */
     private void checkEdgeAddressable(Expression addr, ComplexComponent scope, CifPostCheckEnv env) {
+        Assert.check(scope instanceof Automaton);
+
         // Make sure we refer to local discrete and/or continuous variables.
         for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
             // Get variable.
-            Expression uexpr = CifTypeUtils.unwrapExpression(expr);
             Declaration var;
-            if (uexpr instanceof DiscVariableExpression) {
-                var = ((DiscVariableExpression)uexpr).getVariable();
-            } else if (uexpr instanceof ContVariableExpression) {
-                var = ((ContVariableExpression)uexpr).getVariable();
-            } else if (uexpr instanceof ReceivedExpression) {
+            if (expr instanceof DiscVariableExpression dvarExpr) {
+                var = dvarExpr.getVariable();
+            } else if (expr instanceof ContVariableExpression cvarExpr) {
+                var = cvarExpr.getVariable();
+            } else if (expr instanceof ReceivedExpression) {
                 throw new RuntimeException("Parser doesn't allow this.");
             } else {
                 // Reference to wrong kind of object.
-                PositionObject obj = CifScopeUtils.getRefObjFromRef(uexpr);
+                PositionObject obj = CifScopeUtils.getRefObjFromRef(expr);
                 env.addProblem(ErrMsg.RESOLVE_NON_ASGN_VAR, expr.getPosition(), CifTextUtils.getAbsName(obj));
                 throw new SemanticException();
             }
@@ -253,7 +256,7 @@ public class AssignmentPostChecker {
     }
 
     /**
-     * Checks and addressable in an SVG input mapping for reference to wrong kind of object.
+     * Checks an addressable in an SVG input mapping for reference to wrong kind of object.
      *
      * @param addr The addressable.
      * @param env The post check environment to use.
@@ -262,13 +265,12 @@ public class AssignmentPostChecker {
         // Make sure we refer to input variables.
         for (Expression expr: CifAddressableUtils.getRefExprs(addr)) {
             // Get variable.
-            Expression uexpr = CifTypeUtils.unwrapExpression(expr);
             Declaration var;
-            if (uexpr instanceof InputVariableExpression ivexpr) {
+            if (expr instanceof InputVariableExpression ivexpr) {
                 var = ivexpr.getVariable();
             } else {
                 // Reference to wrong kind of object.
-                PositionObject obj = CifScopeUtils.getRefObjFromRef(uexpr);
+                PositionObject obj = CifScopeUtils.getRefObjFromRef(expr);
                 env.addProblem(ErrMsg.RESOLVE_NON_SVG_ASGN_VAR, expr.getPosition(), CifTextUtils.getAbsName(obj));
                 throw new SemanticException();
             }
@@ -301,10 +303,10 @@ public class AssignmentPostChecker {
 
     /** Context of the update. */
     enum UpdateContext {
-        /** Expression is part of an SVG input update. Allow assignments to input variables. */
+        /** SVG input update. Allow assignments to input variables. */
         SVG_UPDATE,
 
-        /** Expression is part of an edge update. Allow assignments to continuous and discrete variables. */
+        /** Edge update. Allow assignments to continuous and discrete variables. */
         EDGE_UPDATE;
     }
 }

@@ -222,7 +222,7 @@ group f:
   svgin id "" do x[i][i] := [], x[i][i] := [];
 end
 
-// Instantiations
+// Instantiations.
 group def A():
   input bool b;
 

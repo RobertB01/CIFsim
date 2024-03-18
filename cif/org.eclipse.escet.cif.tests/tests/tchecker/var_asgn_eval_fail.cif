@@ -17,7 +17,7 @@ plant a:
 
   location:
     initial;
-      edge do x[floor(sqrt(-1))] := 5;
+    edge do x[floor(sqrt(-1))] := 5;
 end
 
 // Index evaluation failure.
