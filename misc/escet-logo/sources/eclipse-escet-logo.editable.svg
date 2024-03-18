@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+
+<svg
+   viewBox="0 0 391.92999 154.27499"
+   version="1.1"
+   id="eclipse-escet-logo"
+   sodipodi:docname="eclipse-escet-logo.editable.svg"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   width="391.92999"
+   height="154.27499"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs" />
+  <sodipodi:namedview
+     id="curview"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="2"
+     inkscape:cx="171.75"
+     inkscape:cy="65.5"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="1072"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="eclipse-escet-logo"
+     width="470px" />
+  <path
+     id="gear"
+     style="fill:#ffd700;fill-opacity:1;stroke:none;stroke-width:10.0001;stroke-opacity:1"
+     d="m 69.93035,2 a 5.8600572,5.8600572 0 0 0 -5.56646,4.687546 l -2.03127,11.816522 a 4.3300422,4.3300422 0 0 0 -0.0586,1.132823 59.030576,59.030576 0 0 0 -15.273586,6.347719 4.4400433,4.4400433 0 0 0 -0.859383,-0.781257 l -9.804779,-6.914131 a 5.8700573,5.8700573 0 0 0 -7.246163,0.625006 L 18.894696,29.109641 a 5.8700573,5.8700573 0 0 0 -0.605476,7.246163 l 6.914131,9.804784 a 4.6600455,4.6600455 0 0 0 0.761727,0.839848 59.120577,59.120577 0 0 0 -6.328188,15.293118 4.3700426,4.3700426 0 0 0 -1.132823,0.0391 L 6.668014,64.383422 A 5.8600572,5.8600572 0 0 0 2,69.930351 v 14.414201 a 5.8600572,5.8600572 0 0 0 4.668014,5.546934 l 11.836053,2.0508 a 4.6600455,4.6600455 0 0 0 1.132823,0.059 59.010576,59.010576 0 0 0 6.328188,15.273584 4.5400443,4.5400443 0 0 0 -0.761727,0.85941 l -6.914131,9.78525 a 5.8600572,5.8600572 0 0 0 0.605476,7.24616 l 10.195413,10.19542 a 5.8600572,5.8600572 0 0 0 7.246163,0.625 l 9.804784,-6.91413 a 4.4400433,4.4400433 0 0 0 0.859378,-0.7813 59.080576,59.080576 0 0 0 15.429838,6.36725 4.9500483,4.9500483 0 0 0 0,1.75783 l 1.816425,10.52745 a 6.6700651,6.6700651 0 0 0 6.347717,5.33208 h 13.086065 a 6.6700651,6.6700651 0 0 0 6.328187,-5.33208 l 1.835949,-10.52745 a 5.020049,5.020049 0 0 0 0,-1.75783 59.080576,59.080576 0 0 0 15.429845,-6.36725 4.4400433,4.4400433 0 0 0 0.8594,0.7813 l 9.78525,6.91413 a 5.8600572,5.8600572 0 0 0 7.24617,-0.625 l 10.19541,-10.19542 a 5.8600572,5.8600572 0 0 0 0.62501,-7.24616 l -6.91413,-9.80479 a 4.5500444,4.5500444 0 0 0 -0.78131,-0.83981 59.020576,59.020576 0 0 0 6.34771,-15.273584 4.6300452,4.6300452 0 0 0 1.13282,-0.059 l 11.81653,-2.0508 a 5.8700573,5.8700573 0 0 0 4.68755,-5.546934 V 69.930351 a 5.8700573,5.8700573 0 0 0 -4.68751,-5.546929 l -11.81653,-2.050801 a 4.3400423,4.3400423 0 0 0 -1.13282,-0.0391 59.020576,59.020576 0 0 0 -6.34771,-15.293118 4.6700456,4.6700456 0 0 0 0.78131,-0.839848 l 6.91413,-9.804784 a 5.8600572,5.8600572 0 0 0 -0.62501,-7.246163 l -10.19546,-10.19538 a 5.8600572,5.8600572 0 0 0 -7.24617,-0.625006 l -9.78525,6.914131 a 4.4400433,4.4400433 0 0 0 -0.8594,0.781257 59.080576,59.080576 0 0 0 -15.27359,-6.347719 4.4800437,4.4800437 0 0 0 -0.059,-1.132823 L 89.911014,6.687546 A 5.8600572,5.8600572 0 0 0 84.344554,2 Z" />
+  <path
+     d="M 87.193402,106.94127 H 49.81029 V 48.69951 H 87.193402 V 59.958578 H 62.564478 v 12.23919 H 82.198233 V 83.458509 H 62.564478 v 12.217732 h 24.628924 z"
+     style="font-weight:bold;stroke-width:8.58288"
+     id="e"
+     sodipodi:nodetypes="ccccccccccccc" />
+  <path
+     d="M 106.04064,67.097364 H 94.14406 l -0.271477,-8.26842 -9.083083,3.4e-5 v -8.984287 l 9.05839,-0.02403 -1.54e-4,-10.662609 4.788449,-0.296195 5.923685,8.88571 z"
+     id="hammer"
+     sodipodi:nodetypes="cccccccccc"
+     style="stroke-width:4.65002" />
+  <path
+     d="m 82.103633,106.94127 c 0.618396,1.42551 1.454275,2.7463 2.478032,3.91514 1.076474,1.25424 2.384333,2.28951 3.852169,3.0493 1.891976,1.01447 4.010206,1.53288 6.156819,1.50679 3.943113,0.0129 7.707337,-1.64427 10.361207,-4.56065 l 0.19028,-0.19028 c 1.00661,-1.0837 1.81469,-2.33608 2.38728,-3.69983 l -9.349621,-0.007 -2.707487,-0.002 -2.073126,-0.002 c -1.247814,-1.27962 -2.170345,-2.84001 -2.690107,-4.5501 -0.07467,-0.36219 -0.117843,-0.73031 -0.127628,-1.10011 0.295595,-2.14831 1.290067,-4.139624 2.829845,-5.666613 l 10.322514,0.0085 3.80772,0.0031 c -0.44597,-1.033637 -1.03016,-2.001889 -1.73676,-2.878192 l -0.38108,-0.508107 c -2.05432,-2.482796 -4.90213,-4.181039 -8.063032,-4.808225 -0.913228,-0.177923 -1.841011,-0.27079 -2.771413,-0.277227 -3.542979,-0.0085 -6.940848,1.406717 -9.431111,3.926918 -1.297182,1.309679 -2.336475,2.851645 -3.063702,4.545477 0.0085,11.295409 0,0 0.0085,11.295409 z"
+     id="wrench"
+     sodipodi:nodetypes="cccccccccccccccccccccc"
+     style="stroke-width:5.99239" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56.0005px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:10.0001"
+     x="169.6387"
+     y="63.938389"
+     id="text-eclipse"><tspan
+       sodipodi:role="line"
+       id="text-eclipse-tspan"
+       x="169.6387"
+       y="63.938389"
+       style="font-size:56.0005px;stroke-width:10.0001">Eclipse</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56.0005px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:10.0001"
+     x="169.91214"
+     y="132.09122"
+     id="text-escet"><tspan
+       sodipodi:role="line"
+       id="text-escet-tspan"
+       x="169.91214"
+       y="132.09122"
+       style="font-weight:bold;font-size:56.0005px;stroke-width:10.0001">ESCET</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3785px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:7.1893"
+     x="367.83566"
+     y="101.83015"
+     id="text-tm"><tspan
+       sodipodi:role="line"
+       id="text-tm-tspan"
+       x="367.83566"
+       y="101.83015"
+       style="font-weight:bold;font-size:14.3785px;stroke-width:7.1893">TM</tspan></text>
+</svg>
