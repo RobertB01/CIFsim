@@ -78,10 +78,10 @@ import org.eclipse.escet.common.java.Assert;
 /** Generator for creating PLC code to perform CIF event transitions in the PLC. */
 public class DefaultTransitionGenerator implements TransitionGenerator {
     /** Number of leading and trailing {@code *} characters for the event level comment. */
-    private static final int TOP_COMMENT_STARCOUNT = 60;
+    private static final int EVENT_COMMENT_STARCOUNT = 60;
 
     /** Number of leading and trailing {@code *} characters for automata kind level comment. */
-    private static final int MID_COMMENT_STARCOUNT = 30;
+    private static final int AUTOMATA_COMMENT_STARCOUNT = 30;
 
     /** PLC target to generate code for. */
     private final PlcTarget target;
@@ -360,9 +360,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
 
             // Handle senders.
-            testCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+            testCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
                     List.of("Try to find an automaton that provides a value.")));
-            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT, List.of(performProvideText)));
+            performCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT, List.of(performProvideText)));
 
             generateSendReceiveCode(eventTransition.event, eventTransition.senders, testCode, performProvider,
                     performCode, TransAutPurpose.SENDER, createdTempVariables, eventEnabledVar, channelValueVar,
@@ -371,9 +371,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             eventEnabledAlwaysHolds = false; // At least one sender tested; event is no longer guaranteed to be enabled.
 
             // Handle receivers.
-            testCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+            testCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
                     List.of("Try to find an automaton that accepts a value.")));
-            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT, List.of(performAcceptText)));
+            performCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT, List.of(performAcceptText)));
 
             mainExprGen.setChannelValueVariable(channelValueVar);
             generateSendReceiveCode(eventTransition.event, eventTransition.receivers, testCode, performProvider,
@@ -384,9 +384,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Handle syncers.
         if (!eventTransition.syncers.isEmpty()) {
-            testCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+            testCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
                     List.of("Check each synchronizing automaton for having an edge with a true guard.")));
-            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+            performCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
                     List.of("Perform the assignments of each synchronizing automaton.")));
             generateSyncCode(eventTransition.event, eventTransition.syncers, testCode, performProvider, performCode,
                     createdTempVariables, eventEnabledVar, eventEnabledAlwaysHolds);
@@ -394,7 +394,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Handle monitors. Only generates perform code since it doesn't influence enabledness of the event transition.
         if (!eventTransition.monitors.isEmpty()) {
-            performCode.add(new PlcCommentBlock(MID_COMMENT_STARCOUNT,
+            performCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
                     List.of("Perform the assignments of each optionally synchronizing automaton.")));
             generateMonitorCode(eventTransition.monitors, performProvider, performCode, createdTempVariables);
         }
@@ -473,7 +473,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
-        return new PlcCommentBlock(TOP_COMMENT_STARCOUNT, box.getLines());
+        return new PlcCommentBlock(EVENT_COMMENT_STARCOUNT, box.getLines());
     }
 
     /**
