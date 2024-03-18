@@ -13,9 +13,12 @@
 
 package org.eclipse.escet.cif.checkers.checks;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 
 /**
  * CIF check that does not allow 'if' updates on edges.
@@ -25,6 +28,14 @@ import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 public class EdgeNoIfUpdatesCheck extends CifCheck {
     @Override
     protected void preprocessIfUpdate(IfUpdate update, CifCheckViolations violations) {
-        violations.add(update, "Edge has an 'if' update");
+        // Determine whether this assignment is part of an edge update.
+        EObject parent = update.eContainer();
+        while (!(parent instanceof Edge) && !(parent instanceof SvgIn)) {
+            parent = parent.eContainer();
+        }
+
+        if (parent instanceof Edge) {
+            violations.add(update, "Edge has an 'if' update");
+        }
     }
 }
