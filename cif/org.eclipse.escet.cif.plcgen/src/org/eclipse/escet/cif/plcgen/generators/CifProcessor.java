@@ -79,6 +79,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -166,10 +167,13 @@ public class CifProcessor {
                 compData.variables.add(decl);
                 target.getVarStorage().addStateVariable(contVar, newRealType());
                 target.getContinuousVariablesGenerator().addVariable(contVar);
+            } else if (decl instanceof Constant constant) {
+                if (target.supportsConstant(constant)) {
+                    target.getVarStorage().addConstant(constant);
+                }
+                // Else ignore it, the expression generator will eliminate it when used.
             }
 
-            // TODO Constants.
-            // TODO Initial value -> precheckers restrict to constant initial value.
             // TODO Extend allowed initial values by computing at runtime.
         }
 

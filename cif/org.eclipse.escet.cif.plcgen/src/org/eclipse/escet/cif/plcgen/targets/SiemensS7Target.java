@@ -32,6 +32,7 @@ import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDL
 import java.util.EnumSet;
 import java.util.Map;
 
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -92,8 +93,8 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public boolean supportsConstants() {
-        return true;
+    public boolean supportsConstant(Constant constant) {
+        return commonSupportedConstants(constant);
     }
 
     @Override

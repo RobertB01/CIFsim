@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.declarations;
 
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
-/** Basic PLC variable or constant. */
+/** Basic PLC variable (only name and type). */
 public abstract class PlcBasicVariable {
     /** Text to use for using the variable. */
     public final String varRefText;

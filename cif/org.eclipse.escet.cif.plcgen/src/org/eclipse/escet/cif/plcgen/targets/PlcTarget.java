@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
@@ -125,11 +126,12 @@ public abstract class PlcTarget {
     public abstract boolean supportsArrays();
 
     /**
-     * Returns whether or not the PLC target type supports named constants.
+     * Returns whether or not the PLC target type supports the given constant.
      *
-     * @return Whether named constants are supported.
+     * @param constant The constant to consider.
+     * @return Whether the constant is supported.
      */
-    public abstract boolean supportsConstants();
+    public abstract boolean supportsConstant(Constant constant);
 
     /**
      * Return how to convert enumerations.

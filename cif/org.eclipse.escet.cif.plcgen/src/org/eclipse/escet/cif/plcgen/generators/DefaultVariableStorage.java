@@ -21,12 +21,15 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.common.CifEvalException;
+import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
@@ -39,7 +42,6 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
-import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
@@ -71,6 +73,27 @@ public class DefaultVariableStorage implements VariableStorage {
         String varName = target.getNameGenerator().generateGlobalName(decl);
         PlcBasicVariable plcVar = target.getCodeStorage().addStateVariable(varName, varType);
         variables.put(decl, plcVar);
+    }
+
+    @Override
+    public void addConstant(Constant constant) {
+        Expression expr;
+        try {
+            Object rslt = CifEvalUtils.eval(constant.getValue(), true);
+            expr = CifEvalUtils.valueToExpr(rslt, constant.getType());
+        } catch (CifEvalException ex) {
+            throw new AssertionError("Constant cannot be statically evaluated.", ex);
+        }
+        PlcType varType = target.getTypeGenerator().convertType(constant.getType());
+        String varName = target.getNameGenerator().generateGlobalName(constant);
+
+        ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
+        ExprValueResult exprResult = exprGen.convertValue(expr);
+        Assert.check(!exprResult.hasCode() && !exprResult.hasCodeVariables() && !exprResult.hasValueVariables());
+
+        PlcDataVariable plcVar = new PlcDataVariable(varName, varType, null, exprResult.value);
+        target.getCodeStorage().addConstant(plcVar);
+        variables.put(constant, plcVar);
     }
 
     @Override
@@ -128,8 +151,9 @@ public class DefaultVariableStorage implements VariableStorage {
         return new CifDataProvider() {
             @Override
             public PlcExpression getValueForConstant(Constant constant) {
-                // TODO Return the proper PLC expression for the requested constant.
-                return new PlcVarExpression(new PlcDataVariable("someConstantvariable", PlcElementaryType.LREAL_TYPE));
+                PlcBasicVariable plcConstantVar = variables.get(constant);
+                Assert.notNull(plcConstantVar); // Expression generator already verified target support for it.
+                return new PlcVarExpression(plcConstantVar);
             }
 
             @Override
