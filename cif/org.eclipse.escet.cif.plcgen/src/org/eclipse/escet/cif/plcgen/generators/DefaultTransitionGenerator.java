@@ -976,7 +976,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
         CodeBox box = new MemoryCodeBox();
-        String edgePluralText = (transAut.transitionEdges.size() > 1) ? "s" : "";
+        String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
         box.add("Testing edge%s of automaton \"%s\" to %s at event \"%s\".", edgePluralText,
                 getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
 
