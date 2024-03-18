@@ -6,3 +6,5 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In the top-level scope of the specification:
      - svgin id "abc" do i := true;
                            ^
+     - svgin id "svg" do z := 3;
+                           ^
