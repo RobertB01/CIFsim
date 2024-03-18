@@ -1001,7 +1001,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         for (TransitionEdge transEdge: transAut.transitionEdges) {
             if (transEdge.sourceLoc != lastLoc) {
                 lastLoc = transEdge.sourceLoc;
-                box.add("  - Location \"%s\":", (lastLoc.getName() == null ? "*" : lastLoc.getName()));
+                if (lastLoc.getName() == null) {
+                    box.add("  - Location:");
+                } else {
+                    box.add("  - Location \"%s\":", lastLoc.getName());
+                }
             }
             box.add("     - %s edge in the location", toOrdinal(transEdge.edgeNumber));
         }
