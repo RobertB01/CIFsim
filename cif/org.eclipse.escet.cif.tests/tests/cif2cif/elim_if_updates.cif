@@ -168,3 +168,14 @@ automaton p:
 //
 //    edge do (t[0], t[1]) := (4, 5);
 end
+
+// 'If' update in SVG input mapping.
+svgfile "../tchecker/small.svg";
+
+input int x, y, z;
+
+svgin id "box"
+do if   p.z > 0: x := 5
+   elif   z > 1: y := 6
+   else          z := 7
+   end;

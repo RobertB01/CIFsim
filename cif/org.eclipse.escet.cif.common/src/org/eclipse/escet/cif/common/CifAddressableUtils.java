@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.common.java.Assert;
@@ -75,11 +76,12 @@ public class CifAddressableUtils {
      * projection expressions, and obtaining the variables from the variable reference expressions.
      *
      * <p>
-     * In the CIF language, it is allowed to assign different parts of the same variable, on a single edge, or even in a
-     * single (multi-)assignment. This is allowed in CIF, as long as it can be statically checked that there is never a
-     * possibility for overlap (assigning the same part of the variable more than once). This method however, assumes
-     * that each variable that is fully or partially assigned in a single (multi-)assignment, is for a different
-     * variable altogether.
+     * In the CIF language, it is allowed to assign different parts of the same variable, in different assignments on a
+     * single edge, or even in a single (multi-)assignment. Similarly, this applies to multiple updates in an SVG input
+     * mapping, and multi-assignments in functions. This is allowed in CIF, as long as it can be statically checked that
+     * there is never a possibility for overlap (assigning the same part of the variable more than once). This method
+     * however, assumes that each variable that is fully or partially assigned in a single (multi-)assignment, is for a
+     * different variable altogether.
      * </p>
      *
      * <p>
@@ -111,6 +113,8 @@ public class CifAddressableUtils {
                 rslt.add(((DiscVariableExpression)refExpr).getVariable());
             } else if (refExpr instanceof ContVariableExpression) {
                 rslt.add(((ContVariableExpression)refExpr).getVariable());
+            } else if (refExpr instanceof InputVariableExpression) {
+                rslt.add(((InputVariableExpression)refExpr).getVariable());
             } else {
                 throw new RuntimeException("Unknown addressable: " + addr);
             }
@@ -221,6 +225,8 @@ public class CifAddressableUtils {
             vars.add(((DiscVariableExpression)addr).getVariable());
         } else if (addr instanceof ContVariableExpression) {
             vars.add(((ContVariableExpression)addr).getVariable());
+        } else if (addr instanceof InputVariableExpression) {
+            vars.add(((InputVariableExpression)addr).getVariable());
         } else {
             throw new RuntimeException("Unknown addr: " + addr);
         }
