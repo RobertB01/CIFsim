@@ -658,10 +658,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         String varPrefix, failResultText;
         if (purpose == TransAutPurpose.SENDER) {
             varPrefix = "sender";
-            failResultText = "Failed to find an automaton that provides a value, skip to next event.";
+            failResultText = "Failed to find an automaton that provides a value. Skip code to the next event.";
         } else {
             varPrefix = "receiver";
-            failResultText = "Failed to find an automaton that accepts a value, skip to next event.";
+            failResultText = "Failed to find an automaton that accepts a value. Skip code to the next event.";
         }
 
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
@@ -942,7 +942,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         } else {
             // If no enabled edge was found for this automaton, the event is immediately not enabled.
             PlcCommentLine explainFail = new PlcCommentLine(
-                    "The automaton has no edge with a true guard, skip to the next event.");
+                    "The automaton has no edge with a true guard. Skip code to the next event.");
             if (selStat == null) {
                 testCode.add(explainFail);
                 testCode.add(generatePlcBoolAssignment(eventEnabledVar, false));
