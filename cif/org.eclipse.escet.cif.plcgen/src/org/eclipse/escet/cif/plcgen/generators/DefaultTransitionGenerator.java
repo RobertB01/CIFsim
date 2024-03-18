@@ -1007,7 +1007,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     box.add("  - Location \"%s\":", lastLoc.getName());
                 }
             }
-            box.add("     - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+            box.add("    - %s edge in the location", toOrdinal(transEdge.edgeNumber));
         }
         if (lastLoc == null) {
             box.add("  - No edges found, event \"%s\" will never occur!:", getAbsName(event, false));
