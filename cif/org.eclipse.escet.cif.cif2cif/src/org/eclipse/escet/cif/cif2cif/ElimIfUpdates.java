@@ -202,20 +202,17 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
      * @return The newly created addressable expression for the variable.
      */
     private Expression varToAddr(Declaration var) {
-        if (var instanceof DiscVariable) {
-            DiscVariable dvar = (DiscVariable)var;
+        if (var instanceof DiscVariable dvar) {
             DiscVariableExpression daddr = newDiscVariableExpression();
             daddr.setVariable(dvar);
             daddr.setType(deepclone(dvar.getType()));
             return daddr;
-        } else if (var instanceof ContVariable) {
-            ContVariable cvar = (ContVariable)var;
+        } else if (var instanceof ContVariable cvar) {
             ContVariableExpression caddr = newContVariableExpression();
             caddr.setVariable(cvar);
             caddr.setType(newRealType());
             return caddr;
-        } else if (var instanceof InputVariable) {
-            InputVariable ivar = (InputVariable)var;
+        } else if (var instanceof InputVariable ivar) {
             InputVariableExpression iaddr = newInputVariableExpression();
             iaddr.setVariable(ivar);
             iaddr.setType(deepclone(ivar.getType()));
@@ -226,7 +223,7 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
     }
 
     /**
-     * Transforms an sequence of updates to a value for the given variable as a result of the updates.
+     * Transforms a sequence of updates to a value for the given variable as a result of the updates.
      *
      * @param updates The sequence of updates.
      * @param var The variable.
@@ -234,8 +231,9 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
      */
     private Expression updatesToValue(List<Update> updates, Declaration var) {
         // Note that for a sequence of updates, at most one of them can assign
-        // any given variable. This is due to the 'Edge.uniqueVariables'
-        // constraint, which can be found in the CIF metamodel documentation,
+        // any given variable. This is due to the 'Edge.uniqueVariables',
+        // 'SvgIn.uniqueVariables', and 'AssignmentFuncStatement.uniqueVariables'
+        // constraints, which can be found in the CIF metamodel documentation,
         // together with not supporting partial variable assignments in this
         // transformation.
         for (Update update: updates) {

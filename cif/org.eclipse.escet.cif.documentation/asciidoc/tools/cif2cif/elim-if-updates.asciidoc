@@ -29,7 +29,7 @@ This transformation supports a subset of CIF specifications.
 The following restrictions apply:
 
 * Multi-assignments and partial variable assignments are not supported.
-That is, the left hand sides of the assignments (the addressables) must be single variables without projections.
+That is, the left hand sides of the assignments on edges and in SVG input mappings (the addressables) must be single variables without projections.
 
 indexterm:[eliminate if updates,preprocessing]
 
