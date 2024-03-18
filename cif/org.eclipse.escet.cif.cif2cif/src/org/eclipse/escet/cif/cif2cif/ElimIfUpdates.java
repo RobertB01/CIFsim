@@ -231,11 +231,10 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
      */
     private Expression updatesToValue(List<Update> updates, Declaration var) {
         // Note that for a sequence of updates, at most one of them can assign
-        // any given variable. This is due to the 'Edge.uniqueVariables',
-        // 'SvgIn.uniqueVariables', and 'AssignmentFuncStatement.uniqueVariables'
-        // constraints, which can be found in the CIF metamodel documentation,
-        // together with not supporting partial variable assignments in this
-        // transformation.
+        // any given variable. This is due to the 'Edge.uniqueVariables' and
+        // 'SvgIn.uniqueVariables' constraints, which can be found in the CIF
+        // metamodel documentation, together with not supporting partial variable
+        // assignments in this transformation.
         for (Update update: updates) {
             if (getVariables(update).contains(var)) {
                 return updateToValue(update, var);

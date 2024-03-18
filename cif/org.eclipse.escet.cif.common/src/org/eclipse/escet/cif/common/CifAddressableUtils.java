@@ -76,11 +76,12 @@ public class CifAddressableUtils {
      * projection expressions, and obtaining the variables from the variable reference expressions.
      *
      * <p>
-     * In the CIF language, it is allowed to assign different parts of the same variable, on a single edge, with an svg
-     * input mapping, an assignment in a function, or even in a single (multi-)assignment. This is allowed in CIF, as
-     * long as it can be statically checked that there is never a possibility for overlap (assigning the same part of
-     * the variable more than once). This method however, assumes that each variable that is fully or partially assigned
-     * in a single (multi-)assignment, is for a different variable altogether.
+     * n the CIF language, it is allowed to assign different parts of the same variable, in different assignments on a
+     * single edge, or even in a single (multi-)assignment. Similarly, this applies to multiple updates in an SVG input
+     * mapping, and multi-assignments in functions. This is allowed in CIF, as long as it can be statically checked that
+     * there is never a possibility for overlap (assigning the same part of the variable more than once). This method
+     * however, assumes that each variable that is fully or partially assigned in a single (multi-)assignment, is for a
+     * different variable altogether.
      * </p>
      *
      * <p>
