@@ -15,4 +15,4 @@ svgfile "svg_input.svg";
 
 input bool i;
 
-svgin id "x1" do i:= true;
+svgin id "x1" do i := true;
