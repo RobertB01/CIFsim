@@ -345,8 +345,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             if (channelType instanceof VoidType) {
                 channelValueVar = null;
 
-                performProvideText = "perform updates of the selected providing automaton.";
-                performAcceptText = "perform updates of the selected accepting automaton.";
+                performProvideText = "Perform updates of the selected providing automaton.";
+                performAcceptText = "Perform updates of the selected accepting automaton.";
             } else {
                 channelValueVar = mainExprGen.getTempVariable("channelValue", channelType);
                 createdTempVariables.add(channelValueVar);
