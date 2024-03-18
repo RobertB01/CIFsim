@@ -16,5 +16,5 @@ svgfile "SvgFileReferenceTestCheck.svg";
 input bool i;
 input int z;
 
-svgin id "abc" do i := true;
+svgin id "abc" do i := true, z := 6;
 svgin id "svg" do z := 3;

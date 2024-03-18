@@ -4,7 +4,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (1/1) SVG input mapping has an update.
   --------------------------------------
    * In the top-level scope of the specification:
-     - svgin id "abc" do i := true;
-                           ^
+     - svgin id "abc" do i := true, z := 6;
+                           ^          ^
      - svgin id "svg" do z := 3;
                            ^
