@@ -427,7 +427,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // List senders.
             box.add();
             if (eventTrans.senders.isEmpty()) {
-                box.add("- An automaton that must send a value is missing, event cannot occur.");
+                box.add("- An automaton that must send a value is missing, so event cannot occur.");
             } else {
                 if (transferValue) {
                     box.add("- One automaton must send a value.");
@@ -442,15 +442,15 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // List receivers.
             box.add();
             if (eventTrans.receivers.isEmpty()) {
-                box.add("- An automaton that must accept a value is missing, event cannot occur.");
+                box.add("- An automaton that must receive a value is missing, so event cannot occur.");
             } else {
                 if (transferValue) {
-                    box.add("- One automaton must accept a value.");
+                    box.add("- One automaton must receive a value.");
                 } else {
-                    box.add("- One automaton must accept a value (although no data is actually transferred).");
+                    box.add("- One automaton must receive a value (although no data is actually transferred).");
                 }
                 for (TransitionAutomaton transAut: eventTrans.receivers) {
-                    box.add("   - Automaton \"%s\" may accept a value.", getAbsName(transAut.aut, false));
+                    box.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
                 }
             }
         }
