@@ -576,7 +576,7 @@ tool list string generateSystem(int nrProdWafers, int nrTotalWafers):
 end
 
 // Generate system plants model.
-tool list string generateSystemPlants(int nrProdWafers):
+tool list string generateSystemPlants(int nrProdWafers, int nrTotalWafers):
     // Wafer operations on CH0.
     list string listCH0_Measure;
     list string listCH0_Expose;
@@ -604,6 +604,21 @@ tool list string generateSystemPlants(int nrProdWafers):
     for i in range(nrProdWafers + 2):: listCH1_Moves = listCH1_Moves + [fmt("CH1toLR_%s_s", i)];
     for i in range(nrProdWafers + 2):: listCH1_Moves = listCH1_Moves + [fmt("LRtoCH1_%s_s", i)];
     for i in range(nrProdWafers + 2):: listCH1_Moves = listCH1_Moves + [fmt("CH1toUR_%s_s", i)];
+
+    // Get wafer occupied/free moves.
+    list string occupiedListCH0, freeListCH0;
+    list string occupiedListCH1, freeListCH1;
+
+    for waferId in range(nrTotalWafers):
+        string startSuffix = "_" + str(waferId) + "_s";
+        string endSuffix = "_" + str(waferId) + "_e";
+        occupiedListCH0 = occupiedListCH0 + ["LRtoCH0" + startSuffix];
+        occupiedListCH1 = occupiedListCH1 + ["LRtoCH1" + startSuffix];
+        for target in ["LR", "UR"]:
+            freeListCH0 = freeListCH0 + ["CH0to" + target + startSuffix];
+            freeListCH1 = freeListCH1 + ["CH1to" + target + startSuffix];
+        end
+    end
 
     // Generate model.
     list string lines = [
@@ -660,12 +675,36 @@ tool list string generateSystemPlants(int nrProdWafers):
         fmt("    edge %s when PositionCH1.atMeasure;", join(listCH1_Moves, ", ")),
         "end",
         "",
+        "// Occupied_CH0: occupancy of chuck 0.",
+        "plant Occupied_CH0:",
+        "  monitor;",
+        "",
+        "  location free:",
+        fmt("    edge %s goto occupied;", join(occupiedListCH0, ", ")),
+        "  location occupied:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge %s goto free;", join(freeListCH0, ", ")),
+        "end",
+        "",
+        "// Occupied_CH0: occupancy of chuck 1.",
+        "plant Occupied_CH1:",
+        "  monitor;",
+        "",
+        "  location free:",
+        fmt("    edge %s goto occupied;", join(occupiedListCH1, ", ")),
+        "  location occupied:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge %s goto free;", join(freeListCH1, ", ")),
+        "end",
+        "",
         "// BreakWater: breaking of the water layer below the lens.",
         "plant BreakWater:",
         "  location:",
         "    initial;",
         "    marked;",
-        "    edge breakWater when (PositionCH0.atExpose and ReqOccupied_CH0.free) or (PositionCH1.atExpose and ReqOccupied_CH1.free);",
+        "    edge breakWater when (PositionCH0.atExpose and Occupied_CH0.free) or (PositionCH1.atExpose and Occupied_CH1.free);",
         "end",
         "",
         "// ChuckDedAssignment: chuck dedication assignment is only done for the next wafer to be sent to the system.",
@@ -799,30 +838,26 @@ tool list string generateSystemRequirements(int nrProdWafers, int nrTotalWafers)
             lines = lines + [""];
         end
 
-        lines = lines + [
-            fmt("requirement ReqOccupied_%s:", resource),
-            "  location free:",
-        ];
-        if resource != "CH0" and resource != "CH1":
-            lines = lines + [
-                "    initial;",
-                "    marked;"
-            ];
-        end
-        lines = lines + [
-            fmt("    edge %s goto occupied;", join(occupiedList, ", ")),
-            "  location occupied:",
-        ];
+        lines = lines + [fmt("requirement ReqOccupied_%s:", resource)];
         if resource == "CH0" or resource == "CH1":
             lines = lines + [
+                "  location:",
                 "    initial;",
-                "    marked;"
+                "    marked;",
+                fmt("    edge %s when Occupied_%s.free;", join(occupiedList, ", "), resource),
+                fmt("    edge %s when Occupied_%s.occupied;", join(freeList, ", "), resource),
+            ];
+        else
+            lines = lines + [
+                "  location free:",
+                "    initial;",
+                "    marked;",
+                fmt("    edge %s goto occupied;", join(occupiedList, ", ")),
+                "  location occupied:",
+                fmt("    edge %s goto free;", join(freeList, ", ")),
             ];
         end
-        lines = lines + [
-            fmt("    edge %s goto free;", join(freeList, ", ")),
-            "end",
-        ];
+        lines = lines + ["end"];
     end
 
     return lines;
@@ -874,7 +909,7 @@ tool generate(int nrProdWafers):
     // Generate other models.
     writeBenchmarkFile(dirpath + "Resources.cif",   generateResources(nrProdWafers));
     writeBenchmarkFile(dirpath + "System.cif",      generateSystem(nrProdWafers, nrTotalWafers));
-    writeBenchmarkFile(dirpath + "SystemPlant.cif", generateSystemPlants(nrProdWafers));
+    writeBenchmarkFile(dirpath + "SystemPlant.cif", generateSystemPlants(nrProdWafers, nrTotalWafers));
     writeBenchmarkFile(dirpath + "SystemReq.cif",   generateSystemRequirements(nrProdWafers, nrTotalWafers));
     writeBenchmarkFile(dirpath + "Types.cif",       generateTypes());
 end

@@ -64,12 +64,36 @@ plant ActionsCH1:
     edge CH1toLR_0_s, CH1toLR_1_s, CH1toLR_2_s, CH1toLR_3_s, LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, LRtoCH1_3_s, CH1toUR_0_s, CH1toUR_1_s, CH1toUR_2_s, CH1toUR_3_s when PositionCH1.atMeasure;
 end
 
+// Occupied_CH0: occupancy of chuck 0.
+plant Occupied_CH0:
+  monitor;
+
+  location free:
+    edge LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s, LRtoCH0_3_s goto occupied;
+  location occupied:
+    initial;
+    marked;
+    edge CH0toLR_0_s, CH0toUR_0_s, CH0toLR_1_s, CH0toUR_1_s, CH0toLR_2_s, CH0toUR_2_s, CH0toLR_3_s, CH0toUR_3_s goto free;
+end
+
+// Occupied_CH0: occupancy of chuck 1.
+plant Occupied_CH1:
+  monitor;
+
+  location free:
+    edge LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, LRtoCH1_3_s goto occupied;
+  location occupied:
+    initial;
+    marked;
+    edge CH1toLR_0_s, CH1toUR_0_s, CH1toLR_1_s, CH1toUR_1_s, CH1toLR_2_s, CH1toUR_2_s, CH1toLR_3_s, CH1toUR_3_s goto free;
+end
+
 // BreakWater: breaking of the water layer below the lens.
 plant BreakWater:
   location:
     initial;
     marked;
-    edge breakWater when (PositionCH0.atExpose and ReqOccupied_CH0.free) or (PositionCH1.atExpose and ReqOccupied_CH1.free);
+    edge breakWater when (PositionCH0.atExpose and Occupied_CH0.free) or (PositionCH1.atExpose and Occupied_CH1.free);
 end
 
 // ChuckDedAssignment: chuck dedication assignment is only done for the next wafer to be sent to the system.

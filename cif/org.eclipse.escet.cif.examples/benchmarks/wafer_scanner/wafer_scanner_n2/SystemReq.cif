@@ -97,21 +97,19 @@ requirement ReqOccupied_LR:
 end
 
 requirement ReqOccupied_CH0:
-  location free:
-    edge LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s, LRtoCH0_3_s goto occupied;
-  location occupied:
+  location:
     initial;
     marked;
-    edge CH0toLR_0_s, CH0toUR_0_s, CH0toLR_1_s, CH0toUR_1_s, CH0toLR_2_s, CH0toUR_2_s, CH0toLR_3_s, CH0toUR_3_s goto free;
+    edge LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s, LRtoCH0_3_s when Occupied_CH0.free;
+    edge CH0toLR_0_s, CH0toUR_0_s, CH0toLR_1_s, CH0toUR_1_s, CH0toLR_2_s, CH0toUR_2_s, CH0toLR_3_s, CH0toUR_3_s when Occupied_CH0.occupied;
 end
 
 requirement ReqOccupied_CH1:
-  location free:
-    edge LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, LRtoCH1_3_s goto occupied;
-  location occupied:
+  location:
     initial;
     marked;
-    edge CH1toLR_0_s, CH1toUR_0_s, CH1toLR_1_s, CH1toUR_1_s, CH1toLR_2_s, CH1toUR_2_s, CH1toLR_3_s, CH1toUR_3_s goto free;
+    edge LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, LRtoCH1_3_s when Occupied_CH1.free;
+    edge CH1toLR_0_s, CH1toUR_0_s, CH1toLR_1_s, CH1toUR_1_s, CH1toLR_2_s, CH1toUR_2_s, CH1toLR_3_s, CH1toUR_3_s when Occupied_CH1.occupied;
 end
 
 requirement ReqOccupied_CTC0:
