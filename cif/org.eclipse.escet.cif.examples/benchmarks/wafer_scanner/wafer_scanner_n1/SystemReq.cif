@@ -1,0 +1,120 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "System.cif";
+
+// ReqBreakingWater: avoid breaking the water.
+requirement ReqBreakingWater:
+  location:
+    initial;
+    marked;
+    edge breakWater when false;
+end
+
+// ReqFIFO_in: FIFO in-order.
+requirement ReqFIFO_in:
+  location l0:
+    initial;
+    marked;
+    edge TRtoSUB_0_s goto l0;
+end
+
+// ReqFIFO_out: FIFO out-order.
+requirement ReqFIFO_out:
+  location l0:
+    initial;
+    marked;
+    edge DUtoTR_0_s goto l0;
+end
+
+// ReqOccupied_*: wafer place status for each resource.
+requirement ReqOccupied_SUB:
+  location free:
+    initial;
+    marked;
+    edge TRtoSUB_0_s, URtoSUB_0_s, TRtoSUB_1_s, URtoSUB_1_s, TRtoSUB_2_s, URtoSUB_2_s goto occupied;
+  location occupied:
+    edge SUBtoUR_0_s, SUBtoUR_1_s, SUBtoUR_2_s goto free;
+end
+
+requirement ReqOccupied_UR:
+  location free:
+    initial;
+    marked;
+    edge SUBtoUR_0_s, PAtoUR_0_s, DUtoUR_0_s, CH0toUR_0_s, CH1toUR_0_s, CTC1toUR_0_s, SUBtoUR_1_s, PAtoUR_1_s, DUtoUR_1_s, CH0toUR_1_s, CH1toUR_1_s, CTC1toUR_1_s, SUBtoUR_2_s, PAtoUR_2_s, DUtoUR_2_s, CH0toUR_2_s, CH1toUR_2_s, CTC1toUR_2_s goto occupied;
+  location occupied:
+    edge URtoSUB_0_s, URtoDU_0_s, URtoPA_0_s, URtoCTC1_0_s, URtoSUB_1_s, URtoDU_1_s, URtoPA_1_s, URtoCTC1_1_s, URtoSUB_2_s, URtoDU_2_s, URtoPA_2_s, URtoCTC1_2_s goto free;
+end
+
+requirement ReqOccupied_DU:
+  location free:
+    initial;
+    marked;
+    edge URtoDU_0_s, LRtoDU_0_s, URtoDU_1_s, LRtoDU_1_s, URtoDU_2_s, LRtoDU_2_s goto occupied;
+  location occupied:
+    edge DUtoUR_0_s, DUtoLR_0_s, DUtoTR_0_s, DUtoUR_1_s, DUtoLR_1_s, DUtoTR_1_s, DUtoUR_2_s, DUtoLR_2_s, DUtoTR_2_s goto free;
+end
+
+requirement ReqOccupied_PA:
+  location free:
+    initial;
+    marked;
+    edge URtoPA_0_s, LRtoPA_0_s, URtoPA_1_s, LRtoPA_1_s, URtoPA_2_s, LRtoPA_2_s goto occupied;
+  location occupied:
+    edge PAtoUR_0_s, PAtoLR_0_s, PAtoUR_1_s, PAtoLR_1_s, PAtoUR_2_s, PAtoLR_2_s goto free;
+end
+
+requirement ReqOccupied_CTC1:
+  location free:
+    initial;
+    marked;
+    edge URtoCTC1_0_s, URtoCTC1_1_s, URtoCTC1_2_s goto occupied;
+  location occupied:
+    edge CTC1toUR_0_s, CTC1toUR_1_s, CTC1toUR_2_s goto free;
+end
+
+requirement ReqOccupied_LR:
+  location free:
+    initial;
+    marked;
+    edge PAtoLR_0_s, DUtoLR_0_s, CH0toLR_0_s, CH1toLR_0_s, CTC0toLR_0_s, PAtoLR_1_s, DUtoLR_1_s, CH0toLR_1_s, CH1toLR_1_s, CTC0toLR_1_s, PAtoLR_2_s, DUtoLR_2_s, CH0toLR_2_s, CH1toLR_2_s, CTC0toLR_2_s goto occupied;
+  location occupied:
+    edge LRtoDU_0_s, LRtoPA_0_s, LRtoCH0_0_s, LRtoCH1_0_s, LRtoCTC0_0_s, LRtoDU_1_s, LRtoPA_1_s, LRtoCH0_1_s, LRtoCH1_1_s, LRtoCTC0_1_s, LRtoDU_2_s, LRtoPA_2_s, LRtoCH0_2_s, LRtoCH1_2_s, LRtoCTC0_2_s goto free;
+end
+
+requirement ReqOccupied_CH0:
+  location free:
+    edge LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s goto occupied;
+  location occupied:
+    initial;
+    marked;
+    edge CH0toLR_0_s, CH0toUR_0_s, CH0toLR_1_s, CH0toUR_1_s, CH0toLR_2_s, CH0toUR_2_s goto free;
+end
+
+requirement ReqOccupied_CH1:
+  location free:
+    edge LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s goto occupied;
+  location occupied:
+    initial;
+    marked;
+    edge CH1toLR_0_s, CH1toUR_0_s, CH1toLR_1_s, CH1toUR_1_s, CH1toLR_2_s, CH1toUR_2_s goto free;
+end
+
+requirement ReqOccupied_CTC0:
+  location free:
+    initial;
+    marked;
+    edge LRtoCTC0_0_s, LRtoCTC0_1_s, LRtoCTC0_2_s goto occupied;
+  location occupied:
+    edge CTC0toLR_0_s, CTC0toLR_1_s, CTC0toLR_2_s goto free;
+end

@@ -1,0 +1,82 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "System.cif";
+
+controllable chuckSwap_s;
+uncontrollable chuckSwap_e, breakWater;
+
+// PositionCH*: physical positions of the chucks.
+plant PositionCH0:
+  location atExpose:
+    initial;
+    marked;
+    edge chuckSwap_s goto ExposeToMeasure;
+  location atMeasure:
+    edge chuckSwap_s goto MeasureToExpose;
+
+  location ExposeToMeasure:
+    edge chuckSwap_e goto atMeasure;
+  location MeasureToExpose:
+    edge chuckSwap_e goto atExpose;
+end
+
+plant PositionCH1:
+  location atExpose:
+    edge chuckSwap_s goto ExposeToMeasure;
+  location atMeasure:
+    initial;
+    marked;
+    edge chuckSwap_s goto MeasureToExpose;
+
+  location ExposeToMeasure:
+    edge chuckSwap_e goto atMeasure;
+  location MeasureToExpose:
+    edge chuckSwap_e goto atExpose;
+end
+
+// ActionCH*: actions allowed on the chucks.
+plant ActionsCH0:
+  location:
+    initial;
+    marked;
+    edge CH0_Expose_0_s when PositionCH0.atExpose;
+    edge CH0_Measure_0_s when PositionCH0.atMeasure;
+    edge CH0toLR_0_s, CH0toLR_1_s, CH0toLR_2_s, LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s, CH0toUR_0_s, CH0toUR_1_s, CH0toUR_2_s when PositionCH0.atMeasure;
+end
+
+plant ActionsCH1:
+  location:
+    initial;
+    marked;
+    edge CH1_Expose_0_s when PositionCH1.atExpose;
+    edge CH1_Measure_0_s when PositionCH1.atMeasure;
+    edge CH1toLR_0_s, CH1toLR_1_s, CH1toLR_2_s, LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, CH1toUR_0_s, CH1toUR_1_s, CH1toUR_2_s when PositionCH1.atMeasure;
+end
+
+// BreakWater: breaking of the water layer below the lens.
+plant BreakWater:
+  location:
+    initial;
+    marked;
+    edge breakWater when (PositionCH0.atExpose and ReqOccupied_CH0.free) or (PositionCH1.atExpose and ReqOccupied_CH1.free);
+end
+
+// ChuckDedAssignment: chuck dedication assignment is only done for the next wafer to be sent to the system.
+plant ChuckDedAssignment:
+  location l0:
+    initial;
+    marked;
+    edge assignCH0_0, assignCH1_0, assignCH0orCH1_0;
+    edge TRtoSUB_0_s goto l0;
+end
