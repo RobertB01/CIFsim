@@ -1,0 +1,880 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Generates wafer scanner models, for a chosen number of production wafers (n = 1..7).
+
+import java.lang.System.currentTimeMillis;
+import org.eclipse.escet.common.java:org.eclipse.escet.common.java.Strings.fmt as format;
+
+// Generate production wafer model.
+tool list string generateProductionWafer(int waferId):
+    // Get wafer routing information.
+    map(string: list string) routing = {
+        "TR":   ["SUB"],
+        "SUB":  ["UR"],
+        "UR":   ["SUB", "DU", "PA", "CTC1"],
+        "PA":   ["UR", "LR"],
+        "LR":   ["DU", "PA", "CH0", "CH1", "CTC0"],
+        "DU":   ["UR", "LR", "TR"],
+        "CH0":  ["LR", "UR"],
+        "CH1":  ["LR", "UR"],
+        "CTC0": ["LR"],
+        "CTC1": ["UR"],
+    };
+
+    string initState = "TR";
+
+    map(string: list string) actions = {
+        "SUB": ["SUB_Condition"],
+        "PA":  ["PA_Align"],
+        "CH0": ["CH0_Measure", "CH0_Expose"],
+        "CH1": ["CH1_Measure", "CH1_Expose"],
+    };
+
+    // Add types.
+    list string lines = [
+        fmt("// Wafer %d (production wafer).", waferId),
+        "",
+        "import \"Types.cif\";",
+    ];
+
+    // Add events.
+    list string controllableActions;
+    list string uncontrollableActions;
+
+    string startSuffix = "_" + str(waferId) + "_s";
+    string endSuffix = "_" + str(waferId) + "_e";
+
+    for source in keys(routing):
+        for target in routing[source]:
+            controllableActions = controllableActions + [source + "to" + target + startSuffix];
+            uncontrollableActions = uncontrollableActions + [source + "to" + target + endSuffix];
+        end
+    end
+
+    for acts in values(actions):
+        for act in acts:
+            controllableActions = controllableActions + [act + startSuffix];
+            uncontrollableActions = uncontrollableActions + [act + endSuffix];
+        end
+    end
+
+    uncontrollableActions = uncontrollableActions + ["assignCH0_" + str(waferId)];
+    uncontrollableActions = uncontrollableActions + ["assignCH1_" + str(waferId)];
+    uncontrollableActions = uncontrollableActions + ["assignCH0orCH1_" + str(waferId)];
+
+    lines = lines + [
+        "",
+        fmt("controllable %s;", join(controllableActions, ", ")),
+        fmt("uncontrollable %s;", join(uncontrollableActions, ", ")),
+    ];
+
+    // Plant: basics.
+    lines = lines + [
+        "",
+        fmt("// WaferPlant_%d: wafer plant for production wafer %d.", waferId, waferId),
+        fmt("plant WaferPlant_%d:", waferId),
+    ];
+
+    for source in keys(routing):
+        lines = lines + [fmt("  location %s:", source)];
+        if source == initState:
+            lines = lines + ["    initial;"];
+        end
+        lines = lines + ["    marked;"];
+        for target in routing[source]:
+            lines = lines + [fmt("    edge %s%s goto %s;", source + "to" + target, startSuffix, source + "to" + target)];
+        end
+        if contains(actions, source):
+            for cap in actions[source]:
+                lines = lines + [fmt("    edge %s%s goto %s;", cap, startSuffix, cap + "Running")];
+            end
+        end
+        if source == "TR":
+            lines = lines + [fmt("    edge assignCH0_%d, assignCH1_%d, assignCH0orCH1_%d;", waferId, waferId, waferId)];
+        end
+    end
+
+    lines = lines + [""];
+
+    // Plant: actions at specific resources.
+    for source in keys(routing):
+        if contains(actions, source):
+            for cap in actions[source]:
+                lines = lines + [
+                    fmt("  location %sRunning:", cap),
+                    fmt("    edge %s%s goto %s;", cap, endSuffix, source),
+                ];
+            end
+        end
+    end
+
+    // Plant: transition locations.
+    lines = lines + [""];
+    for source in keys(routing):
+        for target in routing[source]:
+            lines = lines + [
+                fmt("  location %s:", source + "to" + target),
+                fmt("    edge %s%s goto %s;", source + "to" + target, endSuffix, target),
+            ];
+        end
+    end
+
+    // Plant: end of the plant.
+    lines = lines + ["end"];
+
+    // Requirements: wafer life cycle.
+    lines = lines + [
+        "",
+        fmt("// ReqLifeCycle_%d: production wafer life cycle requirement.", waferId),
+        fmt("requirement ReqLifeCycle_%d:", waferId),
+        "  location l0:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge TRtoSUB_%d_e goto l1;", waferId),
+        "  location l1:",
+        fmt("    edge SUB_Condition_%d_s goto l2;", waferId),
+        "  location l2:",
+        fmt("    edge SUB_Condition_%d_e goto l3;", waferId),
+        "  location l3:",
+        fmt("    edge PA_Align_%d_s goto l4;", waferId),
+        "  location l4:",
+        fmt("    edge PA_Align_%d_e goto l5;", waferId),
+        "  location l5:",
+        fmt("    edge PA_Align_%d_s goto l4;", waferId),
+        fmt("    edge CH0_Measure_%d_s, CH1_Measure_%d_s goto l6;", waferId, waferId),
+        "  location l6:",
+        fmt("    edge CH0_Measure_%d_e, CH1_Measure_%d_e goto l7;", waferId, waferId),
+        "  location l7:",
+        fmt("    edge CH0_Expose_%d_s, CH1_Expose_%d_s goto l8;", waferId, waferId),
+        "  location l8:",
+        fmt("    edge CH0_Expose_%d_e, CH1_Expose_%d_e goto l9;", waferId, waferId),
+        "  location l9:",
+        fmt("    edge DUtoTR_%d_s goto l0;", waferId),
+        "end",
+    ];
+
+    // Requirements: wafer alignment.
+    lines = lines + [
+        "",
+        fmt("// ObsAligned_%d: alignment status of wafer %d.", waferId, waferId),
+        fmt("plant ObsAligned_%d:", waferId),
+        fmt("  monitor LRtoDU_%d_s, LRtoPA_%d_s, LRtoCTC0_%d_s, CH0toUR_%d_s, CH1toUR_%d_s, PAtoUR_%d_s, SUBtoUR_%d_s, CTC1toUR_%d_s, PA_Align_%d_e;",
+            waferId, waferId, waferId, waferId, waferId, waferId, waferId, waferId, waferId),
+        "",
+        "  location not_aligned:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge PA_Align_%d_e goto aligned;", waferId),
+        "  location aligned:",
+        "    marked;",
+        fmt("    edge LRtoDU_%d_s, LRtoPA_%d_s, LRtoCTC0_%d_s, CH0toUR_%d_s, CH1toUR_%d_s, PAtoUR_%d_s, SUBtoUR_%d_s, CTC1toUR_%d_s goto not_aligned;",
+            waferId, waferId, waferId, waferId, waferId, waferId, waferId, waferId),
+        "end",
+    ];
+
+    lines = lines + [
+        "",
+        fmt("// ReqAligned_%d: only aligned wafers can be sent to the wafer stage.", waferId),
+        fmt("requirement ReqAligned_%d:", waferId),
+        "  location:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge LRtoCH0_%d_s, LRtoCH1_%d_s when ObsAligned_%d.aligned;", waferId, waferId, waferId),
+        "end",
+    ];
+
+    // Requirements: chuck dedication.
+    lines = lines + [
+        "",
+        fmt("// ObsChuckDed_%d: chuck dedication status of wafer %d.", waferId, waferId),
+        fmt("plant ObsChuckDed_%d:", waferId),
+        "  disc ChuckDedicationType dedication = Unknown;",
+        fmt("  monitor assignCH0_%d, assignCH1_%d, assignCH0orCH1_%d;", waferId, waferId, waferId),
+        "",
+        "  location assignedNo:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge assignCH0_%d do dedication := DedicatedToCH0 goto assignedYes;", waferId),
+        fmt("    edge assignCH1_%d do dedication := DedicatedToCH1 goto assignedYes;", waferId),
+        fmt("    edge assignCH0orCH1_%d do dedication := NoChuckDedication goto assignedYes;", waferId),
+        "  location assignedYes:",
+        "    marked;",
+        fmt("    edge DUtoTR_%d_s do dedication := Unknown goto assignedNo;", waferId),
+        "end",
+    ];
+
+    lines = lines + [
+        "",
+        fmt("// ReqChuckDed_%d: measurement and exposure are only allowed on a dedicated chuck.", waferId),
+        fmt("requirement ReqChuckDed_%d:", waferId),
+        "  location:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge CH0_Measure_%d_s, CH0_Expose_%d_s when ObsChuckDed_%d.dedication = DedicatedToCH0 or ObsChuckDed_%d.dedication = NoChuckDedication;",
+            waferId, waferId, waferId, waferId),
+        fmt("    edge CH1_Measure_%d_s, CH1_Expose_%d_s when ObsChuckDed_%d.dedication = DedicatedToCH1 or ObsChuckDed_%d.dedication = NoChuckDedication;",
+            waferId, waferId, waferId, waferId),
+        "end",
+    ];
+
+    lines = lines + [
+        "",
+        fmt("// AssignChuckDed_%d: chuck assignment is done before entering the system.", waferId),
+        fmt("plant AssignChuckDed_%d:", waferId),
+        "  location l0:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge assignCH0_%d, assignCH1_%d, assignCH0orCH1_%d goto l1;", waferId, waferId, waferId),
+        "  location l1:",
+        fmt("    edge TRtoSUB_%d_s goto l0;", waferId),
+        "end",
+    ];
+
+    return lines;
+end
+
+// Generate dummy wafer model.
+tool list string generateDummyWafer(int waferId, string initState):
+    // Wafer routing information.
+    map(string: list string) routing = {
+      "TR":   ["SUB"],
+      "SUB":  ["UR"],
+      "UR":   ["SUB", "DU", "PA", "CTC1"],
+      "PA":   ["UR", "LR"],
+      "LR":   ["DU", "PA", "CH0", "CH1", "CTC0"],
+      "DU":   ["UR", "LR", "TR"],
+      "CH0":  ["LR", "UR"],
+      "CH1":  ["LR", "UR"],
+      "CTC0": ["LR"],
+      "CTC1": ["UR"],
+    };
+
+    map(string: list string) actions = {
+      "PA": ["PA_Align"],
+    };
+
+    // Add events.
+    list string controllableActions;
+    list string uncontrollableActions;
+
+    string startSuffix = "_" + str(waferId) + "_s";
+    string endSuffix = "_" + str(waferId) + "_e";
+
+    for source in keys(routing):
+        for target in routing[source]:
+            controllableActions = controllableActions + [source + "to" + target + startSuffix];
+            uncontrollableActions = uncontrollableActions + [source + "to" + target + endSuffix];
+        end
+    end
+
+    for acts in values(actions):
+        for act in acts:
+            controllableActions = controllableActions + [act + startSuffix];
+            uncontrollableActions = uncontrollableActions + [act + endSuffix];
+        end
+    end
+
+    list string lines = [
+        fmt("// Wafer %d (dummy wafer).", waferId),
+        "",
+        fmt("controllable %s;", join(controllableActions, ", ")),
+        fmt("uncontrollable %s;", join(uncontrollableActions, ", ")),
+    ];
+
+    // Plant: basics.
+    lines = lines + [
+        "",
+        fmt("// WaferPlant_%d: wafer plant for dummy wafer %d.", waferId, waferId),
+        fmt("plant WaferPlant_%d:", waferId),
+    ];
+
+    for source in keys(routing):
+        lines = lines + [fmt("  location %s:", source)];
+        if source == initState:
+            lines = lines + ["    initial;"];
+        end
+        lines = lines + ["    marked;"];
+        for target in routing[source]:
+            lines = lines + [fmt("    edge %s%s goto %s;", source + "to" + target, startSuffix, source + "to" + target)];
+        end
+        if contains(actions, source):
+            for cap in actions[source]:
+                lines = lines + [fmt("    edge %s%s goto %s;", cap, startSuffix, cap + "Running")];
+            end
+        end
+    end
+
+    // Plant: actions at specific resources.
+    lines = lines + [""];
+
+    for source in keys(routing):
+        if contains(actions, source):
+            for cap in actions[source]:
+                lines = lines + [
+                    fmt("  location %sRunning:", cap),
+                    fmt("    edge %s%s goto %s;", cap, endSuffix, source),
+                ];
+            end
+        end
+    end
+
+    // Plant: transition locations.
+    lines = lines + [""];
+    for source in keys(routing):
+        for target in routing[source]:
+            lines = lines + [
+                fmt("  location %s:", source + "to" + target),
+                fmt("    edge %s%s goto %s;", source + "to" + target, endSuffix, target),
+            ];
+        end
+    end
+
+    // Plant: end of the plant.
+    lines = lines + ["end"];
+
+    // Requirements.
+    lines = lines + [
+        "",
+        fmt("// ObsAligned_%d: alignment status of wafer %d.", waferId, waferId),
+        fmt("plant ObsAligned_%d:", waferId),
+        fmt("  monitor LRtoDU_%d_s, LRtoPA_%d_s, LRtoCTC0_%d_s, CH0toUR_%d_s, CH1toUR_%d_s, PAtoUR_%d_s, SUBtoUR_%d_s, CTC1toUR_%d_s, PA_Align_%d_e;",
+            waferId, waferId, waferId, waferId, waferId, waferId, waferId, waferId, waferId),
+        "",
+        "  location not_aligned:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge PA_Align_%d_e goto aligned;", waferId),
+        "  location aligned:",
+        "    marked;",
+        fmt("    edge LRtoDU_%d_s, LRtoPA_%d_s, LRtoCTC0_%d_s, CH0toUR_%d_s, CH1toUR_%d_s, PAtoUR_%d_s, SUBtoUR_%d_s, CTC1toUR_%d_s goto not_aligned;",
+            waferId, waferId, waferId, waferId, waferId, waferId, waferId, waferId),
+        "end",
+
+        "",
+        fmt("// ReqAligned_%d: only aligned wafers can be sent to the wafer stage.", waferId),
+        fmt("requirement ReqAligned_%d:", waferId),
+        "  location:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge LRtoCH0_%d_s, LRtoCH1_%d_s when ObsAligned_%d.aligned;", waferId, waferId, waferId),
+        "end",
+
+        "",
+        fmt("// ReqStayInSystem_%d: dummy wafers are never send to the track.", waferId),
+        fmt("requirement ReqStayInSystem_%d:", waferId),
+        "  location:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge DUtoTR_%d_s when false;", waferId),
+        "end",
+    ];
+
+    return lines;
+end
+
+// Create a list of events, where each event consists of 'event', a number in the range [0..n-1], and a 'suffix'.
+tool list string createEventList(string event, string suffix, int n):
+    list string eventList;
+    for i in range(n):
+        eventList = eventList + [event + "_" + str(i) + suffix];
+    end
+    return eventList;
+end
+
+// Update a dictionary. If the given key does not exist, add a singleton list with the value for that key. If the key
+// does exist, add the value to the existing list for that key.
+tool map(K: list V) updateDict<K, V>(map(K: list V) dic, K key, V val):
+    if contains(dic, key):
+        dic[key] = dic[key] + [val];
+    else
+        dic[key] = [val];
+    end
+    return dic;
+end
+
+// Generate resources model.
+tool list string generateResources(int nrProdWafers):
+    // Get wafer routing information.
+    list string resources = ["TR", "SUB", "UR", "PA", "LR", "DU", "CH0", "CH1", "CTC0", "CTC1"];
+
+    map(string: list string) routing = {
+        "TR":   ["SUB"],
+        "SUB":  ["UR"],
+        "UR":   ["SUB", "DU", "PA", "CTC1"],
+        "PA":   ["UR", "LR"],
+        "LR":   ["DU", "PA", "CH0", "CH1", "CTC0"],
+        "DU":   ["UR", "LR", "TR"],
+        "CH0":  ["LR", "UR"],
+        "CH1":  ["LR", "UR"],
+        "CTC0": ["LR"],
+        "CTC1": ["UR"],
+    };
+
+    map(string: list string) actions = {
+        "SUB": ["SUB_Condition"],
+        "PA":  ["PA_Align"],
+        "CH0": ["CH0_Measure", "CH0_Expose"],
+        "CH1": ["CH1_Measure", "CH1_Expose"],
+    };
+
+    set string routingValues = {};
+    for b in values(routing):
+        for a in b:: routingValues = routingValues or {a};
+    end
+
+    map(string: list string) reverseRouting = {};
+    for new_key in routingValues:
+        list string new_values;
+        for key, value in routing:
+            if contains(value, new_key):: new_values = new_values + [key];
+        end
+        reverseRouting[new_key] = new_values;
+    end
+
+    // Add imports.
+    list string lines = [
+        "// System resources.",
+        "",
+        "import \"System.cif\";",
+    ];
+
+    // Add resources.
+    string startSuffix = "_s";
+    string endSuffix = "_e";
+
+    for r in resources:
+        map(string: list tuple(list string, string)) edgeMap = {};
+
+        // Outgoing edges.
+        for target in routing[r]:
+            string event = r + "to" + target;
+            list string edgeList = createEventList(event, startSuffix, nrProdWafers + 2);
+            string targetState = event;
+            edgeMap = updateDict(edgeMap, "l0", (edgeList, targetState));
+
+            list string edgeEndList = createEventList(event, endSuffix, nrProdWafers + 2);
+            string sourceState = event;
+            edgeMap = updateDict(edgeMap, sourceState, (edgeEndList, "l0"));
+        end
+
+        // Incoming edges.
+        for source in reverseRouting[r]:
+            string event = source + "to" + r;
+            list string edgeList = createEventList(event, startSuffix, nrProdWafers + 2);
+            string targetState = event;
+            edgeMap = updateDict(edgeMap, "l0", (edgeList, targetState));
+
+            list string edgeEndList = createEventList(event, endSuffix, nrProdWafers + 2);
+            string sourceState = event;
+            edgeMap = updateDict(edgeMap, sourceState, (edgeEndList, "l0"));
+        end
+
+        // Actions.
+        if contains(actions, r):
+            for act in actions[r]:
+                int n;
+                if act == "PA_Align":
+                    n = nrProdWafers + 2;
+                else
+                    n = nrProdWafers;
+                end
+                list string edgeList = createEventList(act, startSuffix, n);
+                string targetState = act;
+                edgeMap = updateDict(edgeMap, "l0", (edgeList, targetState));
+
+                list string edgeEndList = createEventList(act, endSuffix, n);
+                edgeMap = updateDict(edgeMap, targetState, (edgeEndList, "l0"));
+            end
+        end
+
+        // Chuck dedication.
+        if r == "TR":
+            list string edgeList;
+            edgeList = edgeList + createEventList("assignCH0", "", nrProdWafers);
+            edgeList = edgeList + createEventList("assignCH1", "", nrProdWafers);
+            edgeList = edgeList + createEventList("assignCH0orCH1", "", nrProdWafers);
+            string targetState = "l0";
+            edgeMap = updateDict(edgeMap, "l0", (edgeList, targetState));
+        end
+
+        // Chuck swaps.
+        if r == "CH0" or r == "CH1":
+            string targetState = "ChuckSwap";
+            list string edgeList = ["chuckSwap_s"];
+            edgeMap = updateDict(edgeMap, "l0", (edgeList, targetState));
+            list string edgeEndList = ["chuckSwap_e"];
+            edgeMap = updateDict(edgeMap, targetState, (edgeEndList, "l0"));
+        end
+
+        // Add lines.
+        lines = lines + [
+            "",
+            fmt("// Plant for resource %s.", r),
+            fmt("plant P_%s:", r)
+        ];
+        for loc in keys(edgeMap):
+            lines = lines + [fmt("  location %s:", loc)];
+            if loc == "l0":
+                lines = lines + [
+                    "    initial;",
+                    "    marked;"
+                ];
+            end
+            for (edge, target) in edgeMap[loc]:
+                lines = lines + [fmt("    edge %s goto %s;", join(edge, ", "), target)];
+            end
+        end
+        lines = lines + ["end"];
+    end
+
+    // Return the model.
+    return lines;
+end
+
+// Generate system model.
+tool list string generateSystem(int nrProdWafers, int nrTotalWafers):
+    string plural;
+    if nrProdWafers > 1:: plural = "s";
+    list string lines = [
+        fmt("// Wafer scanner model for n = %d. Has %d wafers in total (n = %d production wafer%s, and 2 dummy wafers).",
+            nrProdWafers, nrTotalWafers, nrProdWafers, plural),
+        "",
+        "// Lithography machines are used in the production process of integrated circuits or chips. This model concerns the",
+        "// wafer logistics in a lithography machine. The wafer handler takes wafers from the track, performs a number of",
+        "// pre-exposure steps (such as conditioning and alignment), and routes wafers to the wafer stage and back. At the stage,",
+        "// wafers are put on one of the two chucks, and subsequently they are measured and exposed. Since immersion lithography",
+        "// is used, a wafer must always be present on the exposure check to avoid disruption of the film of water below the",
+        "// lens; dummy wafers are inserted into the system for this. The supervisor ensures a correct and safe wafer flow",
+        "// through the system.",
+        "",
+        "// Resources models.",
+        "import \"Resources.cif\";",
+        "",
+        "// System plant and requirement models.",
+        "import \"SystemPlant.cif\";",
+        "import \"SystemReq.cif\";",
+        "",
+        "// Wafer plant and requirement models.",
+    ];
+
+    for i in range(nrTotalWafers):
+        lines = lines + [fmt("import \"Wafer%s.cif\";", i)];
+    end
+
+    return lines;
+end
+
+// Generate system plants model.
+tool list string generateSystemPlants(int nrProdWafers):
+    // Wafer operations on CH0.
+    list string listCH0_Measure;
+    list string listCH0_Expose;
+    for i in range(nrProdWafers):
+        listCH0_Measure = listCH0_Measure + [fmt("CH0_Measure_%d_s", i)];
+        listCH0_Expose = listCH0_Expose + [fmt("CH0_Expose_%d_s", i)];
+    end
+
+    // Wafer operations on CH1.
+    list string listCH1_Measure;
+    list string listCH1_Expose;
+    for i in range(nrProdWafers):
+        listCH1_Measure = listCH1_Measure + [fmt("CH1_Measure_%d_s", i)];
+        listCH1_Expose = listCH1_Expose + [fmt("CH1_Expose_%d_s", i)];
+    end
+
+    // Wafer moves from and to CH0.
+    list string listCH0_Moves;
+    for i in range(nrProdWafers + 2):: listCH0_Moves = listCH0_Moves + [fmt("CH0toLR_%s_s", i)];
+    for i in range(nrProdWafers + 2):: listCH0_Moves = listCH0_Moves + [fmt("LRtoCH0_%s_s", i)];
+    for i in range(nrProdWafers + 2):: listCH0_Moves = listCH0_Moves + [fmt("CH0toUR_%s_s", i)];
+
+    // Wafer moves from and to CH1.
+    list string listCH1_Moves;
+    for i in range(nrProdWafers + 2):: listCH1_Moves = listCH1_Moves + [fmt("CH1toLR_%s_s", i)];
+    for i in range(nrProdWafers + 2):: listCH1_Moves = listCH1_Moves + [fmt("LRtoCH1_%s_s", i)];
+    for i in range(nrProdWafers + 2):: listCH1_Moves = listCH1_Moves + [fmt("CH1toUR_%s_s", i)];
+
+    // Generate model.
+    list string lines = [
+        "import \"System.cif\";",
+        "",
+        "controllable chuckSwap_s;",
+        "uncontrollable chuckSwap_e, breakWater;",
+        "",
+        "// PositionCH*: physical positions of the chucks.",
+        "plant PositionCH0:",
+        "  location atExpose:",
+        "    initial;",
+        "    marked;",
+        "    edge chuckSwap_s goto ExposeToMeasure;",
+        "  location atMeasure:",
+        "    edge chuckSwap_s goto MeasureToExpose;",
+        "",
+        "  location ExposeToMeasure:",
+        "    edge chuckSwap_e goto atMeasure;",
+        "  location MeasureToExpose:",
+        "    edge chuckSwap_e goto atExpose;",
+        "end",
+        "",
+        "plant PositionCH1:",
+        "  location atExpose:",
+        "    edge chuckSwap_s goto ExposeToMeasure;",
+        "  location atMeasure:",
+        "    initial;",
+        "    marked;",
+        "    edge chuckSwap_s goto MeasureToExpose;",
+        "",
+        "  location ExposeToMeasure:",
+        "    edge chuckSwap_e goto atMeasure;",
+        "  location MeasureToExpose:",
+        "    edge chuckSwap_e goto atExpose;",
+        "end",
+        "",
+        "// ActionCH*: actions allowed on the chucks.",
+        "plant ActionsCH0:",
+        "  location:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge %s when PositionCH0.atExpose;", join(listCH0_Expose, ", ")),
+        fmt("    edge %s when PositionCH0.atMeasure;", join(listCH0_Measure, ", ")),
+        fmt("    edge %s when PositionCH0.atMeasure;", join(listCH0_Moves, ", ")),
+        "end",
+        "",
+        "plant ActionsCH1:",
+        "  location:",
+        "    initial;",
+        "    marked;",
+        fmt("    edge %s when PositionCH1.atExpose;", join(listCH1_Expose, ", ")),
+        fmt("    edge %s when PositionCH1.atMeasure;", join(listCH1_Measure, ", ")),
+        fmt("    edge %s when PositionCH1.atMeasure;", join(listCH1_Moves, ", ")),
+        "end",
+        "",
+        "// BreakWater: breaking of the water layer below the lens.",
+        "plant BreakWater:",
+        "  location:",
+        "    initial;",
+        "    marked;",
+        "    edge breakWater when (PositionCH0.atExpose and ReqOccupied_CH0.free) or (PositionCH1.atExpose and ReqOccupied_CH1.free);",
+        "end",
+        "",
+        "// ChuckDedAssignment: chuck dedication assignment is only done for the next wafer to be sent to the system.",
+        "plant ChuckDedAssignment:",
+    ];
+
+    for i in range(nrProdWafers):
+        lines = lines + [fmt("  location l%d:", i)];
+        if i == 0:
+            lines = lines + [
+                "    initial;",
+                "    marked;"
+            ];
+        end
+        lines = lines + [fmt("    edge assignCH0_%d, assignCH1_%d, assignCH0orCH1_%d;", i, i, i)];
+        lines = lines + [fmt("    edge TRtoSUB_%d_s goto l%d;", i, (i + 1) mod nrProdWafers)];
+    end
+    lines = lines + ["end"];
+
+    return lines;
+end
+
+// Generate system requirements model.
+tool list string generateSystemRequirements(int nrProdWafers, int nrTotalWafers):
+    // Get wafer routing information.
+    map(string: list string) routing = {
+        "TR":   ["SUB"],
+        "SUB":  ["UR"],
+        "UR":   ["SUB", "DU", "PA", "CTC1"],
+        "PA":   ["UR", "LR"],
+        "LR":   ["DU", "PA", "CH0", "CH1", "CTC0"],
+        "DU":   ["UR", "LR", "TR"],
+        "CH0":  ["LR", "UR"],
+        "CH1":  ["LR", "UR"],
+        "CTC0": ["LR"],
+        "CTC1": ["UR"],
+    };
+
+    set string routingValues = {};
+    for b in values(routing):
+        for a in b:: routingValues = routingValues or {a};
+    end
+
+    map(string: list string) reverseRouting = {};
+    for new_key in routingValues:
+        list string new_values;
+        for key, value in routing:
+            if contains(value, new_key):: new_values = new_values + [key];
+        end
+        reverseRouting[new_key] = new_values;
+    end
+
+    // Add imports.
+    list string lines = [
+        "import \"System.cif\";",
+    ];
+
+    // Requirements: avoid breaking the water.
+    lines = lines + [
+        "",
+        "// ReqBreakingWater: avoid breaking the water.",
+        "requirement ReqBreakingWater:",
+        "  location:",
+        "    initial;",
+        "    marked;",
+        "    edge breakWater when false;",
+        "end",
+    ];
+
+    // Requirements: FIFO.
+    lines = lines + [
+        "",
+        "// ReqFIFO_in: FIFO in-order.",
+        "requirement ReqFIFO_in:",
+    ];
+    for i in range(nrProdWafers):
+        lines = lines + [fmt("  location l%d:", i)];
+        if i == 0:
+            lines = lines + [
+                "    initial;",
+                "    marked;"
+            ];
+        end
+        lines = lines + [fmt("    edge TRtoSUB_%d_s goto l%d;", i, (i + 1) mod nrProdWafers)];
+    end
+    lines = lines + ["end"];
+
+    lines = lines + [
+        "",
+        "// ReqFIFO_out: FIFO out-order.",
+        "requirement ReqFIFO_out:",
+    ];
+    for i in range(nrProdWafers):
+        lines = lines + [fmt("  location l%d:", i)];
+        if i == 0:
+            lines = lines + [
+                "    initial;",
+                "    marked;"
+            ];
+        end
+        lines = lines + [fmt("    edge DUtoTR_%d_s goto l%d;", i, (i + 1) mod nrProdWafers)];
+    end
+    lines = lines + ["end"];
+
+    // Requirements: occupied.
+    lines = lines + [
+        "",
+        "// ReqOccupied_*: wafer place status for each resource.",
+    ];
+    bool first = true;
+    for resource in keys(reverseRouting):
+        if resource == "TR":: continue;
+
+        list string occupiedList;
+        list string freeList;
+
+        for waferId in range(nrTotalWafers):
+            string startSuffix = "_" + str(waferId) + "_s";
+            string endSuffix = "_" + str(waferId) + "_e";
+            for source in reverseRouting[resource]:
+                occupiedList = occupiedList + [source + "to" + resource + startSuffix];
+            end
+            for target in routing[resource]:
+                freeList = freeList + [resource + "to" + target + startSuffix];
+            end
+        end
+
+        if first:
+            first = false;
+        else
+            lines = lines + [""];
+        end
+
+        lines = lines + [
+            fmt("requirement ReqOccupied_%s:", resource),
+            "  location free:",
+        ];
+        if resource != "CH0" and resource != "CH1":
+            lines = lines + [
+                "    initial;",
+                "    marked;"
+            ];
+        end
+        lines = lines + [
+            fmt("    edge %s goto occupied;", join(occupiedList, ", ")),
+            "  location occupied:",
+        ];
+        if resource == "CH0" or resource == "CH1":
+            lines = lines + [
+                "    initial;",
+                "    marked;"
+            ];
+        end
+        lines = lines + [
+            fmt("    edge %s goto free;", join(freeList, ", ")),
+            "end",
+        ];
+    end
+
+    return lines;
+end
+
+// Generate types model.
+tool list string generateTypes():
+    list string lines = [
+        "// Chuck dedication type.",
+        "enum ChuckDedicationType = NoChuckDedication, DedicatedToCH0, DedicatedToCH1, Unknown;",
+    ];
+    return lines;
+end
+
+tool writeBenchmarkFile(string path, list string lines):
+    // Add license header.
+    list string header;
+    for line in readlines(scriptpath()):
+        if startswith(line, "//"):
+            header = header + [line];
+        else
+            break;
+        end
+    end
+    lines = header + [""] + lines;
+
+    // Write file.
+    writefile(path, lines);
+end
+
+// Generate models for a certain number of production wafers (for nrProdWafers >= 1).
+tool generate(int nrProdWafers):
+    // Account for two dummy wafers.
+    int nrTotalWafers = nrProdWafers + 2;
+
+    // Make directory.
+    string dirpath = fmt("wafer_scanner_n%d/", nrProdWafers);
+    mkdir(dirpath, force=true);
+
+    // Generate production wafer models.
+    for i in range(nrProdWafers):
+        writeBenchmarkFile(dirpath + fmt("Wafer%d.cif", i), generateProductionWafer(i));
+    end
+
+    // Generate dummy wafer models.
+    writeBenchmarkFile(dirpath + fmt("Wafer%d.cif", nrProdWafers),     generateDummyWafer(nrProdWafers,     "CH0"));
+    writeBenchmarkFile(dirpath + fmt("Wafer%d.cif", nrProdWafers + 1), generateDummyWafer(nrProdWafers + 1, "CH1"));
+
+    // Generate other models.
+    writeBenchmarkFile(dirpath + "Resources.cif",   generateResources(nrProdWafers));
+    writeBenchmarkFile(dirpath + "System.cif",      generateSystem(nrProdWafers, nrTotalWafers));
+    writeBenchmarkFile(dirpath + "SystemPlant.cif", generateSystemPlants(nrProdWafers));
+    writeBenchmarkFile(dirpath + "SystemReq.cif",   generateSystemRequirements(nrProdWafers, nrTotalWafers));
+    writeBenchmarkFile(dirpath + "Types.cif",       generateTypes());
+end
