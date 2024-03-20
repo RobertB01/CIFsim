@@ -162,8 +162,8 @@ public class CifMergerApp extends Application<IOutputComponent> {
             // Same checks as CIF type checker, in same order.
             CyclePostChecker.check(mergedSpec, env);
             new CifSvgPostChecker(env).check(mergedSpec);
-            new CifAnnotationsPostChecker(env).check(mergedSpec);
             new AssignmentPostChecker().check(mergedSpec, env);
+            new CifAnnotationsPostChecker(env).check(mergedSpec);
             // CifPrintPostChecker skipped (warnings only, no new problems).
             // SingleEventUsePerAutPostChecker skipped (no new problems).
             // UniqueStateInvariantsPostChecker skipped (warnings only, no new problems).
