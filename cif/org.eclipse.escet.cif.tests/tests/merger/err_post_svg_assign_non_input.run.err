@@ -1,0 +1,3 @@
+Problems detected in merged CIF specification:
+ - ERROR: "i" is not an input variable.
+ERROR: Merging CIF specifications "merger/err_post_svg_assign_non_input.in1.cif", "merger/err_post_svg_assign_non_input.in2.cif" failed.
