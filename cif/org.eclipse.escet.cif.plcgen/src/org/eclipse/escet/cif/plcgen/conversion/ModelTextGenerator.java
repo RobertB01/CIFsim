@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.conversion;
 
-import static org.eclipse.escet.common.java.Strings.makeString;
+import static org.eclipse.escet.common.java.Strings.duplicate;
 
 import java.util.List;
 import java.util.Map;
@@ -471,11 +471,11 @@ public class ModelTextGenerator {
      * @param pouName Name of the surrounding POU.
      */
     private void toText(PlcCommentBlock cmtBlock, CodeBox boxBuilder, String pouName) {
-        boxBuilder.add("(*" + makeString('*', cmtBlock.starCount));
+        boxBuilder.add("(*" + duplicate("*", cmtBlock.starCount));
         for (String line: cmtBlock.lines) {
             boxBuilder.add(" * " + line);
         }
-        boxBuilder.add(" " + makeString('*', cmtBlock.starCount) + "*)");
+        boxBuilder.add(" " + duplicate("*", cmtBlock.starCount) + "*)");
     }
 
     /**
