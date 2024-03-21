@@ -14,7 +14,7 @@
 // Generates wafer scanner models, for different numbers of production wafers (n = 1..7).
 
 // In the real system, there are at most 7 production wafers in the system at any time. We also generate models with a
-// reduced number of production wafers, to produce easier to synthesize models for benchmarking.
+// reduced number of production wafers. These models are easier to synthesize, which is useful for benchmarking.
 
 from "generator.tooldef" import generate;
 
