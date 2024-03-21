@@ -359,7 +359,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Handle senders.
             testCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
-                    List.of("Try to find an automaton that provides a value.")));
+                    List.of("Try to find a sender automaton that provides a value.")));
             performCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT, List.of(performProvideText)));
 
             generateSendReceiveCode(eventTransition.event, eventTransition.senders, testCode, performProvider,
@@ -370,7 +370,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Handle receivers.
             testCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT,
-                    List.of("Try to find an automaton that accepts a value.")));
+                    List.of("Try to find a receiver automaton that accepts a value.")));
             performCode.add(new PlcCommentBlock(AUTOMATA_COMMENT_STARCOUNT, List.of(performAcceptText)));
 
             mainExprGen.setChannelValueVariable(channelValueVar);
@@ -427,7 +427,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // List senders.
             box.add();
             if (eventTrans.senders.isEmpty()) {
-                box.add("- An automaton that must send a value is missing, so event cannot occur.");
+                box.add("- An automaton that must send a value is missing, so the event cannot occur.");
             } else {
                 if (transferValue) {
                     box.add("- One automaton must send a value.");
@@ -442,7 +442,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // List receivers.
             box.add();
             if (eventTrans.receivers.isEmpty()) {
-                box.add("- An automaton that must receive a value is missing, so event cannot occur.");
+                box.add("- An automaton that must receive a value is missing, so the event cannot occur.");
             } else {
                 if (transferValue) {
                     box.add("- One automaton must receive a value.");
@@ -1001,12 +1001,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             if (transEdge.sourceLoc != lastLoc) {
                 lastLoc = transEdge.sourceLoc;
                 if (lastLoc.getName() == null) {
-                    box.add("  - Location:");
+                    box.add("- Location:");
                 } else {
-                    box.add("  - Location \"%s\":", lastLoc.getName());
+                    box.add("- Location \"%s\":", lastLoc.getName());
                 }
             }
-            box.add("    - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+            box.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
         }
         if (lastLoc == null) {
             switch (transAut.purpose) {

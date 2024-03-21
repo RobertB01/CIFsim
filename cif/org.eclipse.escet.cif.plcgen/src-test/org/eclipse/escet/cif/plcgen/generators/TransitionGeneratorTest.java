@@ -194,21 +194,21 @@ public class TransitionGeneratorTest {
                  * - One automaton must send a value.
                  *    - Automaton "aut1" may send a value.
                  *
-                 * - An automaton that must accept a value is missing, event cannot occur.
+                 * - An automaton that must receive a value is missing, so the event cannot occur.
                  *************************************************************)
                 eventEnabled := TRUE;
                 (*******************************
-                 * Try to find an automaton that provides a value.
+                 * Try to find a sender automaton that provides a value.
                  *******************************)
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     (***********
-                     * Testing edge of automaton "aut1" to provide a value for the channel at event "sendEvent".
-                     * One sending automaton must have an edge with a true guard to allow the event.
+                     * Testing edge of automaton "aut1" to provide a value for the channel for event "sendEvent".
+                     * At least one sending automaton must have an edge with a true guard to allow the event.
                      *
                      * Edge being tested:
-                     *   - Location "aut1Loc":
-                     *      - 1st edge in the location
+                     * - Location "aut1Loc":
+                     *   - 1st edge in the location
                      ***********)
                     IF TRUE THEN
                         senderAut := 1;
@@ -216,16 +216,16 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
-                    (* Failed to find an automaton that provides a value, skip to next event. *)
+                    (* Failed to find an automaton that provides a value. Skip code to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (*******************************
-                 * Try to find an automaton that accepts a value.
+                 * Try to find a receiver automaton that accepts a value.
                  *******************************)
                 IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
-                        (* Failed to find an automaton that accepts a value, skip to next event. *)
+                        (* Failed to find an automaton that accepts a value. Skip code to the next event. *)
                         eventEnabled := FALSE;
                     END_IF;
                 END_IF;
@@ -306,23 +306,23 @@ public class TransitionGeneratorTest {
                  * - One automaton must send a value.
                  *    - Automaton "sender1" may send a value.
                  *
-                 * - One automaton must accept a value.
-                 *    - Automaton "receiver1" may accept a value.
-                 *    - Automaton "receiver2" may accept a value.
+                 * - One automaton must receive a value.
+                 *    - Automaton "receiver1" may receive a value.
+                 *    - Automaton "receiver2" may receive a value.
                  *************************************************************)
                 eventEnabled := TRUE;
                 (*******************************
-                 * Try to find an automaton that provides a value.
+                 * Try to find a sender automaton that provides a value.
                  *******************************)
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     (***********
-                     * Testing edge of automaton "sender1" to provide a value for the channel at event "channelEvent".
-                     * One sending automaton must have an edge with a true guard to allow the event.
+                     * Testing edge of automaton "sender1" to provide a value for the channel for event "channelEvent".
+                     * At least one sending automaton must have an edge with a true guard to allow the event.
                      *
                      * Edge being tested:
-                     *   - Location "sender1Loc":
-                     *      - 2nd edge in the location
+                     * - Location "sender1Loc":
+                     *   - 2nd edge in the location
                      ***********)
                     IF TRUE THEN
                         senderAut := 1;
@@ -330,22 +330,22 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
-                    (* Failed to find an automaton that provides a value, skip to next event. *)
+                    (* Failed to find an automaton that provides a value. Skip code to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (*******************************
-                 * Try to find an automaton that accepts a value.
+                 * Try to find a receiver automaton that accepts a value.
                  *******************************)
                 IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
                         (***********
-                         * Testing edge of automaton "receiver1" to accept a value from the channel at event "channelEvent".
-                         * One receiving automaton must have an edge with a true guard to allow the event.
+                         * Testing edge of automaton "receiver1" to accept a value from the channel for event "channelEvent".
+                         * At least one receiving automaton must have an edge with a true guard to allow the event.
                          *
                          * Edge being tested:
-                         *   - Location "receiver1Loc":
-                         *      - 3rd edge in the location
+                         * - Location "receiver1Loc":
+                         *   - 3rd edge in the location
                          ***********)
                         IF TRUE THEN
                             receiverAut := 1;
@@ -354,12 +354,12 @@ public class TransitionGeneratorTest {
                     END_IF;
                     IF receiverAut = 0 THEN
                         (***********
-                         * Testing edge of automaton "receiver2" to accept a value from the channel at event "channelEvent".
-                         * One receiving automaton must have an edge with a true guard to allow the event.
+                         * Testing edge of automaton "receiver2" to accept a value from the channel for event "channelEvent".
+                         * At least one receiving automaton must have an edge with a true guard to allow the event.
                          *
                          * Edge being tested:
-                         *   - Location "receiver2Loc":
-                         *      - 4th edge in the location
+                         * - Location "receiver2Loc":
+                         *   - 4th edge in the location
                          ***********)
                         IF TRUE THEN
                             receiverAut := 2;
@@ -367,7 +367,7 @@ public class TransitionGeneratorTest {
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
-                        (* Failed to find an automaton that accepts a value, skip to next event. *)
+                        (* Failed to find an automaton that accepts a value. Skip code to the next event. *)
                         eventEnabled := FALSE;
                     END_IF;
                 END_IF;
@@ -470,35 +470,35 @@ public class TransitionGeneratorTest {
                  * Check each synchronizing automaton for having an edge with a true guard.
                  *******************************)
                 (***********
-                 * Testing edges of automaton "syncer1" to synchronize at event "event".
+                 * Testing edges of automaton "syncer1" to synchronize for event "event".
                  * This automaton must have an edge with a true guard to allow the event.
                  *
                  * Edges being tested:
-                 *   - Location "syncer1Loc":
-                 *      - 5th edge in the location
-                 *      - 6th edge in the location
+                 * - Location "syncer1Loc":
+                 *   - 5th edge in the location
+                 *   - 6th edge in the location
                  ***********)
                 IF otherVar = 1 THEN
                     edge_syncer1_1 := 1;
                 ELSIF otherVar = 2 THEN
                     edge_syncer1_1 := 2;
                 ELSE
-                    (* The automaton has no edge with a true guard, skip to the next event. *)
+                    (* The automaton has no edge with a true guard. Skip code to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
                     (***********
-                     * Testing edge of automaton "syncer2" to synchronize at event "event".
+                     * Testing edge of automaton "syncer2" to synchronize for event "event".
                      * This automaton must have an edge with a true guard to allow the event.
                      *
                      * Edge being tested:
-                     *   - Location "syncer2Loc":
-                     *      - 7th edge in the location
+                     * - Location "syncer2Loc":
+                     *   - 7th edge in the location
                      ***********)
                     IF otherVar = 3 THEN
                         edge_syncer2_1 := 1;
                     ELSE
-                        (* The automaton has no edge with a true guard, skip to the next event. *)
+                        (* The automaton has no edge with a true guard. Skip code to the next event. *)
                         eventEnabled := FALSE;
                     END_IF;
                 END_IF;
@@ -625,17 +625,17 @@ public class TransitionGeneratorTest {
                  * Check each synchronizing automaton for having an edge with a true guard.
                  *******************************)
                 (***********
-                 * Testing edge of automaton "aut" to synchronize at event "event".
+                 * Testing edge of automaton "aut" to synchronize for event "event".
                  * This automaton must have an edge with a true guard to allow the event.
                  *
                  * Edge being tested:
-                 *   - Location "aut2Loc":
-                 *      - 9th edge in the location
+                 * - Location "aut2Loc":
+                 *   - 9th edge in the location
                  ***********)
                 IF TRUE THEN
                     edge_aut_1 := 1;
                 ELSE
-                    (* The automaton has no edge with a true guard, skip to the next event. *)
+                    (* The automaton has no edge with a true guard. Skip code to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (* All checks have been done. If variable "eventEnabled" still holds, event "event" can occur. *)
@@ -696,17 +696,17 @@ public class TransitionGeneratorTest {
                  * Check each synchronizing automaton for having an edge with a true guard.
                  *******************************)
                 (***********
-                 * Testing edge of automaton "aut" to synchronize at event "event".
+                 * Testing edge of automaton "aut" to synchronize for event "event".
                  * This automaton must have an edge with a true guard to allow the event.
                  *
                  * Edge being tested:
-                 *   - Location "autLoc":
-                 *      - 10th edge in the location
+                 * - Location "autLoc":
+                 *   - 10th edge in the location
                  ***********)
                 IF TRUE THEN
                     edge_aut_1 := 1;
                 ELSE
-                    (* The automaton has no edge with a true guard, skip to the next event. *)
+                    (* The automaton has no edge with a true guard. Skip code to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (* All checks have been done. If variable "eventEnabled" still holds, event "event" can occur. *)
