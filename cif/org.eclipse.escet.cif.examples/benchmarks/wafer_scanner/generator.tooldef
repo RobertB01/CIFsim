@@ -136,7 +136,7 @@ tool list string generateProductionWafer(int waferId):
     // Requirements: wafer life cycle.
     lines = lines + [
         "",
-        fmt("// ReqLifeCycle_%d: production wafer life cycle requirement.", waferId),
+        fmt("// ReqLifeCycle_%d: life cycle requirement for production wafer %d.", waferId, waferId),
         fmt("requirement ReqLifeCycle_%d:", waferId),
         "  location l0:",
         "    initial;",

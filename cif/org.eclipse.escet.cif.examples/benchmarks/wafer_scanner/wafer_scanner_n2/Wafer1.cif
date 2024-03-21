@@ -130,7 +130,7 @@ plant WaferPlant_1:
     edge CTC1toUR_1_e goto UR;
 end
 
-// ReqLifeCycle_1: production wafer life cycle requirement.
+// ReqLifeCycle_1: life cycle requirement for production wafer 1.
 requirement ReqLifeCycle_1:
   location l0:
     initial;
