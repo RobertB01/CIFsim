@@ -768,8 +768,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             List<PlcBasicVariable> createdTempVariables, PlcBasicVariable eventEnabledVar,
             boolean eventEnabledAlwaysHolds)
     {
-        List<PlcStatement> collectedNoUpdates = list();
-        List<PlcStatement> collectedUpdates = list();
+        List<PlcStatement> collectedNoUpdates = list(); // Comments about automata without updates.
+        List<PlcStatement> collectedUpdates = list(); // Update-code of automata with updates.
 
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
@@ -844,7 +844,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
 
         List<PlcStatement> collectedNoUpdates = list(); // Comments about automata without updates.
-        List<PlcStatement> collectedUpdates = list(); // Edge selections of automata with updates.
+        List<PlcStatement> collectedUpdates = list(); // Update-code of automata with updates.
 
         mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
         for (TransitionAutomaton transAut: autTransitions) {
