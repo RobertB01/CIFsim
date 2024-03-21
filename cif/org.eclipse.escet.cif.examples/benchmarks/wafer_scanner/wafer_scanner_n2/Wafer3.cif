@@ -126,17 +126,7 @@ plant ObsAligned_3:
 end
 
 // ReqAligned_3: only aligned wafers can be sent to the wafer stage.
-requirement ReqAligned_3:
-  location:
-    initial;
-    marked;
-    edge LRtoCH0_3_s, LRtoCH1_3_s when ObsAligned_3.aligned;
-end
+requirement {LRtoCH0_3_s, LRtoCH1_3_s} needs ObsAligned_3.aligned;
 
 // ReqStayInSystem_3: dummy wafers are never send to the track.
-requirement ReqStayInSystem_3:
-  location:
-    initial;
-    marked;
-    edge DUtoTR_3_s when false;
-end
+requirement DUtoTR_3_s needs false;

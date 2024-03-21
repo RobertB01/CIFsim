@@ -14,12 +14,7 @@
 import "System.cif";
 
 // ReqBreakingWater: avoid breaking the water.
-requirement ReqBreakingWater:
-  location:
-    initial;
-    marked;
-    edge breakWater when false;
-end
+requirement breakWater needs false;
 
 // ReqFIFO_in: FIFO in-order.
 requirement ReqFIFO_in:
@@ -96,21 +91,11 @@ requirement ReqOccupied_LR:
     edge LRtoDU_0_s, LRtoPA_0_s, LRtoCH0_0_s, LRtoCH1_0_s, LRtoCTC0_0_s, LRtoDU_1_s, LRtoPA_1_s, LRtoCH0_1_s, LRtoCH1_1_s, LRtoCTC0_1_s, LRtoDU_2_s, LRtoPA_2_s, LRtoCH0_2_s, LRtoCH1_2_s, LRtoCTC0_2_s, LRtoDU_3_s, LRtoPA_3_s, LRtoCH0_3_s, LRtoCH1_3_s, LRtoCTC0_3_s goto free;
 end
 
-requirement ReqOccupied_CH0:
-  location:
-    initial;
-    marked;
-    edge LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s, LRtoCH0_3_s when Occupied_CH0.free;
-    edge CH0toLR_0_s, CH0toUR_0_s, CH0toLR_1_s, CH0toUR_1_s, CH0toLR_2_s, CH0toUR_2_s, CH0toLR_3_s, CH0toUR_3_s when Occupied_CH0.occupied;
-end
+requirement {LRtoCH0_0_s, LRtoCH0_1_s, LRtoCH0_2_s, LRtoCH0_3_s} needs Occupied_CH0.free;
+requirement {CH0toLR_0_s, CH0toUR_0_s, CH0toLR_1_s, CH0toUR_1_s, CH0toLR_2_s, CH0toUR_2_s, CH0toLR_3_s, CH0toUR_3_s} needs Occupied_CH0.occupied;
 
-requirement ReqOccupied_CH1:
-  location:
-    initial;
-    marked;
-    edge LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, LRtoCH1_3_s when Occupied_CH1.free;
-    edge CH1toLR_0_s, CH1toUR_0_s, CH1toLR_1_s, CH1toUR_1_s, CH1toLR_2_s, CH1toUR_2_s, CH1toLR_3_s, CH1toUR_3_s when Occupied_CH1.occupied;
-end
+requirement {LRtoCH1_0_s, LRtoCH1_1_s, LRtoCH1_2_s, LRtoCH1_3_s} needs Occupied_CH1.free;
+requirement {CH1toLR_0_s, CH1toUR_0_s, CH1toLR_1_s, CH1toUR_1_s, CH1toLR_2_s, CH1toUR_2_s, CH1toLR_3_s, CH1toUR_3_s} needs Occupied_CH1.occupied;
 
 requirement ReqOccupied_CTC0:
   location free:

@@ -186,12 +186,8 @@ tool list string generateProductionWafer(int waferId):
     lines = lines + [
         "",
         fmt("// ReqAligned_%d: only aligned wafers can be sent to the wafer stage.", waferId),
-        fmt("requirement ReqAligned_%d:", waferId),
-        "  location:",
-        "    initial;",
-        "    marked;",
-        fmt("    edge LRtoCH0_%d_s, LRtoCH1_%d_s when ObsAligned_%d.aligned;", waferId, waferId, waferId),
-        "end",
+        fmt("requirement {LRtoCH0_%d_s, LRtoCH1_%d_s} needs ObsAligned_%d.aligned;",
+            waferId, waferId, waferId),
     ];
 
     // Requirements: chuck dedication.
@@ -217,15 +213,12 @@ tool list string generateProductionWafer(int waferId):
     lines = lines + [
         "",
         fmt("// ReqChuckDed_%d: measurement and exposure are only allowed on a dedicated chuck.", waferId),
-        fmt("requirement ReqChuckDed_%d:", waferId),
-        "  location:",
-        "    initial;",
-        "    marked;",
-        fmt("    edge CH0_Measure_%d_s, CH0_Expose_%d_s when ObsChuckDed_%d.dedication = DedicatedToCH0 or ObsChuckDed_%d.dedication = NoChuckDedication;",
+        fmt("requirement {CH0_Measure_%d_s, CH0_Expose_%d_s} " +
+            "needs ObsChuckDed_%d.dedication = DedicatedToCH0 or ObsChuckDed_%d.dedication = NoChuckDedication;",
             waferId, waferId, waferId, waferId),
-        fmt("    edge CH1_Measure_%d_s, CH1_Expose_%d_s when ObsChuckDed_%d.dedication = DedicatedToCH1 or ObsChuckDed_%d.dedication = NoChuckDedication;",
+        fmt("requirement {CH1_Measure_%d_s, CH1_Expose_%d_s} " +
+            "needs ObsChuckDed_%d.dedication = DedicatedToCH1 or ObsChuckDed_%d.dedication = NoChuckDedication;",
             waferId, waferId, waferId, waferId),
-        "end",
     ];
 
     lines = lines + [
@@ -363,21 +356,11 @@ tool list string generateDummyWafer(int waferId, string initState):
 
         "",
         fmt("// ReqAligned_%d: only aligned wafers can be sent to the wafer stage.", waferId),
-        fmt("requirement ReqAligned_%d:", waferId),
-        "  location:",
-        "    initial;",
-        "    marked;",
-        fmt("    edge LRtoCH0_%d_s, LRtoCH1_%d_s when ObsAligned_%d.aligned;", waferId, waferId, waferId),
-        "end",
+        fmt("requirement {LRtoCH0_%d_s, LRtoCH1_%d_s} needs ObsAligned_%d.aligned;", waferId, waferId, waferId),
 
         "",
         fmt("// ReqStayInSystem_%d: dummy wafers are never send to the track.", waferId),
-        fmt("requirement ReqStayInSystem_%d:", waferId),
-        "  location:",
-        "    initial;",
-        "    marked;",
-        fmt("    edge DUtoTR_%d_s when false;", waferId),
-        "end",
+        fmt("requirement DUtoTR_%d_s needs false;", waferId),
     ];
 
     return lines;
@@ -766,12 +749,7 @@ tool list string generateSystemRequirements(int nrProdWafers, int nrTotalWafers)
     lines = lines + [
         "",
         "// ReqBreakingWater: avoid breaking the water.",
-        "requirement ReqBreakingWater:",
-        "  location:",
-        "    initial;",
-        "    marked;",
-        "    edge breakWater when false;",
-        "end",
+        "requirement breakWater needs false;",
     ];
 
     // Requirements: FIFO.
@@ -838,26 +816,23 @@ tool list string generateSystemRequirements(int nrProdWafers, int nrTotalWafers)
             lines = lines + [""];
         end
 
-        lines = lines + [fmt("requirement ReqOccupied_%s:", resource)];
         if resource == "CH0" or resource == "CH1":
             lines = lines + [
-                "  location:",
-                "    initial;",
-                "    marked;",
-                fmt("    edge %s when Occupied_%s.free;", join(occupiedList, ", "), resource),
-                fmt("    edge %s when Occupied_%s.occupied;", join(freeList, ", "), resource),
+                fmt("requirement {%s} needs Occupied_%s.free;", join(occupiedList, ", "), resource),
+                fmt("requirement {%s} needs Occupied_%s.occupied;", join(freeList, ", "), resource),
             ];
         else
             lines = lines + [
+                fmt("requirement ReqOccupied_%s:", resource),
                 "  location free:",
                 "    initial;",
                 "    marked;",
                 fmt("    edge %s goto occupied;", join(occupiedList, ", ")),
                 "  location occupied:",
                 fmt("    edge %s goto free;", join(freeList, ", ")),
+                "end",
             ];
         end
-        lines = lines + ["end"];
     end
 
     return lines;

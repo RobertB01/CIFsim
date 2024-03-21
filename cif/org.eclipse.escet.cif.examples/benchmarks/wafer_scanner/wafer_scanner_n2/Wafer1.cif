@@ -171,12 +171,7 @@ plant ObsAligned_1:
 end
 
 // ReqAligned_1: only aligned wafers can be sent to the wafer stage.
-requirement ReqAligned_1:
-  location:
-    initial;
-    marked;
-    edge LRtoCH0_1_s, LRtoCH1_1_s when ObsAligned_1.aligned;
-end
+requirement {LRtoCH0_1_s, LRtoCH1_1_s} needs ObsAligned_1.aligned;
 
 // ObsChuckDed_1: chuck dedication status of wafer 1.
 plant ObsChuckDed_1:
@@ -195,13 +190,8 @@ plant ObsChuckDed_1:
 end
 
 // ReqChuckDed_1: measurement and exposure are only allowed on a dedicated chuck.
-requirement ReqChuckDed_1:
-  location:
-    initial;
-    marked;
-    edge CH0_Measure_1_s, CH0_Expose_1_s when ObsChuckDed_1.dedication = DedicatedToCH0 or ObsChuckDed_1.dedication = NoChuckDedication;
-    edge CH1_Measure_1_s, CH1_Expose_1_s when ObsChuckDed_1.dedication = DedicatedToCH1 or ObsChuckDed_1.dedication = NoChuckDedication;
-end
+requirement {CH0_Measure_1_s, CH0_Expose_1_s} needs ObsChuckDed_1.dedication = DedicatedToCH0 or ObsChuckDed_1.dedication = NoChuckDedication;
+requirement {CH1_Measure_1_s, CH1_Expose_1_s} needs ObsChuckDed_1.dedication = DedicatedToCH1 or ObsChuckDed_1.dedication = NoChuckDedication;
 
 // AssignChuckDed_1: chuck assignment is done before entering the system.
 plant AssignChuckDed_1:
