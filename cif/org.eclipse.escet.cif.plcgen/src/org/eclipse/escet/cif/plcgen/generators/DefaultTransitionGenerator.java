@@ -967,7 +967,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     /**
-     * Generate a comment block explaining the test performed at an automaton.
+     * Generate a comment block explaining the test performed for an automaton.
      *
      * @param event Event being tried.
      * @param transAut Automaton transition information to show.
@@ -1009,7 +1009,21 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             box.add("    - %s edge in the location", toOrdinal(transEdge.edgeNumber));
         }
         if (lastLoc == null) {
-            box.add("  - No edges found, event \"%s\" will never occur!", getAbsName(event, false));
+            switch (transAut.purpose) {
+                case RECEIVER:
+                    box.add("  - No edges found. Value cannot be accepted by this automaton.");
+                    break;
+                case SENDER:
+                    box.add("  - No edges found. Value cannot be provided by this automaton.");
+                    break;
+                case SYNCER:
+                    box.add("  - No edges found. Event \"%s\" will never occur!", getAbsName(event, false));
+                    break;
+
+                case MONITOR: // Never happens, as code above throws an exception already.
+                default:
+                    throw new AssertionError("Unknown purpose \"" + transAut.purpose + "\" encountered.");
+            }
         }
         return new PlcCommentBlock(box.getLines());
     }
