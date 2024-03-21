@@ -869,7 +869,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         if (collectedUpdates.isEmpty()) {
             testAndPerformCode.add(new PlcCommentLine(
-                    "There are no assignments to perform for automata that must always synchronize."));
+                    "There are no assignments to perform for automata that may synchronize."));
         }
         testAndPerformCode.addAll(collectedUpdates);
         testAndPerformCode.addAll(collectedNoUpdates);
