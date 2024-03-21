@@ -120,17 +120,17 @@ WHILE isProgress AND loopCount &lt; 101 DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edge of automaton "p" to synchronize at event "e".
+     * Testing edge of automaton "p" to synchronize for event "e".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edge being tested:
-     *   - Location "*":
-     *      - 1st edge in the location
+     * - Location:
+     *   - 1st edge in the location
      ***********)
     IF p_t &lt;= 1.0 AND p_x = 5 THEN
         edge_p_1 := 1;
     ELSE
-        (* The automaton has no edge with a true guard, skip to the next event. *)
+        (* The automaton has no edge with a true guard. Skip code to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (* All checks have been done. If variable "eventEnabled" still holds, event "e" can occur. *)

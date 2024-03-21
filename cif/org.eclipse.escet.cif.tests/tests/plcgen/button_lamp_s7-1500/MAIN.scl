@@ -68,36 +68,36 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "timer" to synchronize at event "timer.start".
+         * Testing edge of automaton "timer" to synchronize for event "timer.start".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
-         *   - Location "Idle":
-         *      - 1st edge in the location
+         * - Location "Idle":
+         *   - 1st edge in the location
          ***********)
         IF "DB".timer = 0 THEN
             edge_timer_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edges of automaton "sup" to synchronize at event "timer.start".
+             * Testing edges of automaton "sup" to synchronize for event "timer.start".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:
-             *   - Location "s3":
-             *      - 1st edge in the location
-             *   - Location "s5":
-             *      - 1st edge in the location
+             * - Location "s3":
+             *   - 1st edge in the location
+             * - Location "s5":
+             *   - 1st edge in the location
              ***********)
             IF "DB".sup = 2 THEN
                 edge_sup_1 := 1;
             ELSIF "DB".sup = 4 THEN
                 edge_sup_1 := 2;
             ELSE
-                (* The automaton has no edge with a true guard, skip to the next event. *)
+                (* The automaton has no edge with a true guard. Skip code to the next event. *)
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
@@ -139,36 +139,36 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "timer" to synchronize at event "timer.timeout".
+         * Testing edge of automaton "timer" to synchronize for event "timer.timeout".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
-         *   - Location "Running":
-         *      - 1st edge in the location
+         * - Location "Running":
+         *   - 1st edge in the location
          ***********)
         IF "DB".timer = 1 AND "DB".timer_t <= 0.0 THEN
             edge_timer_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edges of automaton "sup" to synchronize at event "timer.timeout".
+             * Testing edges of automaton "sup" to synchronize for event "timer.timeout".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:
-             *   - Location "s6":
-             *      - 1st edge in the location
-             *   - Location "s7":
-             *      - 1st edge in the location
+             * - Location "s6":
+             *   - 1st edge in the location
+             * - Location "s7":
+             *   - 1st edge in the location
              ***********)
             IF "DB".sup = 5 THEN
                 edge_sup_1 := 1;
             ELSIF "DB".sup = 6 THEN
                 edge_sup_1 := 2;
             ELSE
-                (* The automaton has no edge with a true guard, skip to the next event. *)
+                (* The automaton has no edge with a true guard. Skip code to the next event. *)
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
@@ -204,20 +204,20 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edges of automaton "sup" to synchronize at event "button.push".
+         * Testing edges of automaton "sup" to synchronize for event "button.push".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
-         *   - Location "s1":
-         *      - 1st edge in the location
-         *   - Location "s4":
-         *      - 2nd edge in the location
-         *   - Location "s5":
-         *      - 2nd edge in the location
-         *   - Location "s7":
-         *      - 2nd edge in the location
-         *   - Location "s9":
-         *      - 2nd edge in the location
+         * - Location "s1":
+         *   - 1st edge in the location
+         * - Location "s4":
+         *   - 2nd edge in the location
+         * - Location "s5":
+         *   - 2nd edge in the location
+         * - Location "s7":
+         *   - 2nd edge in the location
+         * - Location "s9":
+         *   - 2nd edge in the location
          ***********)
         IF "DB".sup = 0 THEN
             edge_sup_1 := 1;
@@ -230,22 +230,22 @@ BEGIN
         ELSIF "DB".sup = 8 THEN
             edge_sup_1 := 5;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edge of automaton "hw_button" to synchronize at event "button.push".
+             * Testing edge of automaton "hw_button" to synchronize for event "button.push".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edge being tested:
-             *   - Location "Released":
-             *      - 1st edge in the location
+             * - Location "Released":
+             *   - 1st edge in the location
              ***********)
             IF "DB".hw_button = 0 AND "DB".hw_button_bit THEN
                 edge_hw_button_1 := 1;
             ELSE
-                (* The automaton has no edge with a true guard, skip to the next event. *)
+                (* The automaton has no edge with a true guard. Skip code to the next event. *)
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
@@ -287,20 +287,20 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edges of automaton "sup" to synchronize at event "button.release".
+         * Testing edges of automaton "sup" to synchronize for event "button.release".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
-         *   - Location "s2":
-         *      - 2nd edge in the location
-         *   - Location "s3":
-         *      - 2nd edge in the location
-         *   - Location "s6":
-         *      - 2nd edge in the location
-         *   - Location "s8":
-         *      - 2nd edge in the location
-         *   - Location "s10":
-         *      - 1st edge in the location
+         * - Location "s2":
+         *   - 2nd edge in the location
+         * - Location "s3":
+         *   - 2nd edge in the location
+         * - Location "s6":
+         *   - 2nd edge in the location
+         * - Location "s8":
+         *   - 2nd edge in the location
+         * - Location "s10":
+         *   - 1st edge in the location
          ***********)
         IF "DB".sup = 1 THEN
             edge_sup_1 := 1;
@@ -313,22 +313,22 @@ BEGIN
         ELSIF "DB".sup = 9 THEN
             edge_sup_1 := 5;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edge of automaton "hw_button" to synchronize at event "button.release".
+             * Testing edge of automaton "hw_button" to synchronize for event "button.release".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edge being tested:
-             *   - Location "Pushed":
-             *      - 1st edge in the location
+             * - Location "Pushed":
+             *   - 1st edge in the location
              ***********)
             IF "DB".hw_button = 1 AND NOT "DB".hw_button_bit THEN
                 edge_hw_button_1 := 1;
             ELSE
-                (* The automaton has no edge with a true guard, skip to the next event. *)
+                (* The automaton has no edge with a true guard. Skip code to the next event. *)
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
@@ -370,36 +370,36 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edges of automaton "sup" to synchronize at event "lamp.on".
+         * Testing edges of automaton "sup" to synchronize for event "lamp.on".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
-         *   - Location "s2":
-         *      - 1st edge in the location
-         *   - Location "s4":
-         *      - 1st edge in the location
+         * - Location "s2":
+         *   - 1st edge in the location
+         * - Location "s4":
+         *   - 1st edge in the location
          ***********)
         IF "DB".sup = 1 THEN
             edge_sup_1 := 1;
         ELSIF "DB".sup = 3 THEN
             edge_sup_1 := 2;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edge of automaton "hw_lamp" to synchronize at event "lamp.on".
+             * Testing edge of automaton "hw_lamp" to synchronize for event "lamp.on".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edge being tested:
-             *   - Location "Off":
-             *      - 1st edge in the location
+             * - Location "Off":
+             *   - 1st edge in the location
              ***********)
             IF "DB".hw_lamp = 0 THEN
                 edge_hw_lamp_1 := 1;
             ELSE
-                (* The automaton has no edge with a true guard, skip to the next event. *)
+                (* The automaton has no edge with a true guard. Skip code to the next event. *)
                 eventEnabled := FALSE;
             END_IF;
         END_IF;
@@ -437,36 +437,36 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edges of automaton "sup" to synchronize at event "lamp.off".
+         * Testing edges of automaton "sup" to synchronize for event "lamp.off".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
-         *   - Location "s8":
-         *      - 1st edge in the location
-         *   - Location "s9":
-         *      - 1st edge in the location
+         * - Location "s8":
+         *   - 1st edge in the location
+         * - Location "s9":
+         *   - 1st edge in the location
          ***********)
         IF "DB".sup = 7 THEN
             edge_sup_1 := 1;
         ELSIF "DB".sup = 8 THEN
             edge_sup_1 := 2;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edge of automaton "hw_lamp" to synchronize at event "lamp.off".
+             * Testing edge of automaton "hw_lamp" to synchronize for event "lamp.off".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edge being tested:
-             *   - Location "On":
-             *      - 1st edge in the location
+             * - Location "On":
+             *   - 1st edge in the location
              ***********)
             IF "DB".hw_lamp = 1 THEN
                 edge_hw_lamp_1 := 1;
             ELSE
-                (* The automaton has no edge with a true guard, skip to the next event. *)
+                (* The automaton has no edge with a true guard. Skip code to the next event. *)
                 eventEnabled := FALSE;
             END_IF;
         END_IF;

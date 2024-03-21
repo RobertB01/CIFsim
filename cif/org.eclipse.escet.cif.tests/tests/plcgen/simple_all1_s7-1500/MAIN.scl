@@ -72,32 +72,32 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edges of automaton "p" to synchronize at event "p.evt".
+         * Testing edges of automaton "p" to synchronize for event "p.evt".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
-         *   - Location "l1":
-         *      - 1st edge in the location
-         *   - Location "l6":
-         *      - 1st edge in the location
-         *   - Location "l7":
-         *      - 1st edge in the location
-         *   - Location "l8":
-         *      - 1st edge in the location
-         *   - Location "l9":
-         *      - 1st edge in the location
-         *   - Location "l10":
-         *      - 1st edge in the location
-         *   - Location "l11":
-         *      - 1st edge in the location
-         *   - Location "l12":
-         *      - 1st edge in the location
-         *   - Location "l13":
-         *      - 1st edge in the location
-         *   - Location "l14":
-         *      - 1st edge in the location
-         *   - Location "l15":
-         *      - 1st edge in the location
+         * - Location "l1":
+         *   - 1st edge in the location
+         * - Location "l6":
+         *   - 1st edge in the location
+         * - Location "l7":
+         *   - 1st edge in the location
+         * - Location "l8":
+         *   - 1st edge in the location
+         * - Location "l9":
+         *   - 1st edge in the location
+         * - Location "l10":
+         *   - 1st edge in the location
+         * - Location "l11":
+         *   - 1st edge in the location
+         * - Location "l12":
+         *   - 1st edge in the location
+         * - Location "l13":
+         *   - 1st edge in the location
+         * - Location "l14":
+         *   - 1st edge in the location
+         * - Location "l15":
+         *   - 1st edge in the location
          ***********)
         IF "DB".p = 0 THEN
             edge_p_1 := 1;
@@ -122,7 +122,7 @@ BEGIN
         ELSIF "DB".p = 10 THEN
             edge_p_1 := 11;
         ELSE
-            (* The automaton has no edge with a true guard, skip to the next event. *)
+            (* The automaton has no edge with a true guard. Skip code to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         (* All checks have been done. If variable "eventEnabled" still holds, event "p.evt" can occur. *)
