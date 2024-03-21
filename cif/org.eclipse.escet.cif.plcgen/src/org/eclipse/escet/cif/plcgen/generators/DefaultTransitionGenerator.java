@@ -688,14 +688,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            List<PlcStatement> innerPerformCode = list(
-                    new PlcCommentLine(fmt("Automaton \"%s\" was selected.", getAbsName(transAut.aut, false))));
-            innerPerformCode.addAll(generateAutPerformCode(transAut, edgeVar, channelValueVar));
-
-            if (innerPerformCode.size() == 1) { // No updates need to be done.
+            List<PlcStatement> updateCode = generateAutPerformCode(transAut, edgeVar, channelValueVar);
+            if (updateCode.isEmpty()) { // No updates need to be done.
                 collectedNoUpdates.add(new PlcCommentLine(
                         fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
             } else {
+                List<PlcStatement> innerPerformCode = list(
+                        new PlcCommentLine(fmt("Automaton \"%s\" was selected.", getAbsName(transAut.aut, false))));
+                innerPerformCode.addAll(updateCode);
                 performSelectStat.condChoices
                         .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), innerPerformCode));
             }
