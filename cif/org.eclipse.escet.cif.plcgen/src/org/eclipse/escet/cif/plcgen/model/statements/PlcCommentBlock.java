@@ -42,6 +42,9 @@ public class PlcCommentBlock extends PlcStatement {
     /** Number of {@code *} characters to add above the first and after the last line. */
     public final int starCount;
 
+    /** The lines with text. Lines are taken as-is, they may not contain {@code (*} or {@code *)}. */
+    public final List<String> lines;
+
     /**
      * Constructor of the {@link PlcCommentBlock} class.
      *
@@ -55,11 +58,12 @@ public class PlcCommentBlock extends PlcStatement {
         this(10, lines);
     }
 
-    /** The lines with text. Lines are taken as-is, they may not contain {@code (*} or {@code *)}. */
-    public final List<String> lines;
-
     /**
      * Constructor of the {@link PlcCommentBlock} class.
+     *
+     * <p>
+     * Produces a comment block with lines of {@code *} characters above and below the provided text.
+     * </p>
      *
      * @param starCount Number of {@code *} characters to add above the first and after the last line.
      * @param lines The lines with text. Lines are taken as-is, they may not contain {@code (*} or {@code *)}.
