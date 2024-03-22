@@ -1,0 +1,8 @@
+ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
+
+  --------------------------------------------
+  (1/1) Event is only used as a monitor event.
+  --------------------------------------------
+   * In automaton "Mon":
+     - event mon;
+             ^
