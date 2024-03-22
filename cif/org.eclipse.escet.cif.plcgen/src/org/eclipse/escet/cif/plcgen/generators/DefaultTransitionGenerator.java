@@ -688,11 +688,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            List<PlcStatement> updateCode = generateSelectedEdgePerformCode(transAut, edgeVar, channelValueVar);
-            if (updateCode.isEmpty()) { // No updates need to be done.
-                collectedNoUpdates.add(new PlcCommentLine(
-                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
-            } else {
+            List<PlcStatement> updateCode = generateSelectedEdgePerformCode(transAut, edgeVar, channelValueVar,
+                    collectedNoUpdates);
+            if (!updateCode.isEmpty()) {
                 List<PlcStatement> innerPerformCode = list(
                         new PlcCommentLine(fmt("Automaton \"%s\" was selected.", getAbsName(transAut.aut, false))));
                 innerPerformCode.addAll(updateCode);
@@ -784,13 +782,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            List<PlcStatement> updates = generateSelectedEdgePerformCode(transAut, autEdgeVar, null);
-            if (updates.isEmpty()) {
-                collectedNoUpdates.add(new PlcCommentLine(
-                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
-            } else {
-                collectedUpdates.addAll(updates);
-            }
+            collectedUpdates.addAll(generateSelectedEdgePerformCode(transAut, autEdgeVar, null, collectedNoUpdates));
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
             // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the
@@ -1034,20 +1026,26 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
+     * @param collectedNoUpdates Comments about automata that do not have updates to perform.
      * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
      *     to perform the edge.
      */
     private List<PlcStatement> generateSelectedEdgePerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
-            PlcBasicVariable channelValueVar)
+            PlcBasicVariable channelValueVar, List<PlcStatement> collectedNoUpdates)
     {
         List<PlcStatement> performCode = list();
         PlcSelectionStatement selStat = null;
+        boolean mustCompute = false; // Collect whether any computation must be done to perform the edges.
 
         // Perform the selected edge, if not empty.
         int edgeIndex = 1;
         for (TransitionEdge edge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
             if (channelValueVar != null || !edge.updates.isEmpty()) {
+                mustCompute = true;
+
+                // Construct a local function to compute the update statements to perform. This includes computing a
+                // channel value if appropriate.
                 Supplier<List<PlcStatement>> thenStats = () -> {
                     List<PlcStatement> thenStatements = list();
 
@@ -1069,6 +1067,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
             edgeIndex++;
         }
+
+        // If none of the edges has an update, the entire automaton has nothing to compute. Tell the reviewer not to
+        // expect assignments.
+        if (!mustCompute) {
+            collectedNoUpdates.add(new PlcCommentLine(
+                    fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+        }
+
         return performCode;
     }
 
