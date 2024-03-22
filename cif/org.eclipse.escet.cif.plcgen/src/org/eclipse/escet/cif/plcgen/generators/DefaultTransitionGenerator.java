@@ -853,7 +853,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
-                    Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(edge.updates); };
+                    Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(edge); };
                     // Add an "IF <guards> THEN <perform-updates>" branch.
                     selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
                 }
@@ -1059,7 +1059,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     }
 
                     // Perform the updates.
-                    thenStatements.addAll(generateUpdates(edge.updates));
+                    thenStatements.addAll(generateUpdates(edge));
                     return thenStatements;
                 };
                 // Add "IF edgeVar = edgeIndex THEN <compute channelValue if needed, and perform updates>" branch.
@@ -1075,10 +1075,20 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     /**
      * Generate PLC code that performs the provided updates.
      *
+     * @param transEdge Edge with the updates to convert.
+     * @return The generated statements.
+     */
+    private List<PlcStatement> generateUpdates(TransitionEdge transEdge) {
+        return generateUpdatesRecursively(transEdge.updates);
+    }
+
+    /**
+     * Recursively convert the supplied updates to PLC code.
+     *
      * @param updates Updates to convert to PLC code.
      * @return The generated statements.
      */
-    private List<PlcStatement> generateUpdates(List<Update> updates) {
+    private List<PlcStatement> generateUpdatesRecursively(List<Update> updates) {
         List<PlcStatement> statements = list();
 
         for (Update upd: updates) {
@@ -1101,13 +1111,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private void genIfUpdate(IfUpdate ifUpd, List<PlcStatement> statements) {
         PlcSelectionStatement selStat = null;
-        selStat = mainExprGen.addBranch(ifUpd.getGuards(), () -> generateUpdates(ifUpd.getThens()), selStat,
+        selStat = mainExprGen.addBranch(ifUpd.getGuards(), () -> generateUpdatesRecursively(ifUpd.getThens()), selStat,
                 statements);
         for (ElifUpdate elifUpd: ifUpd.getElifs()) {
-            selStat = mainExprGen.addBranch(elifUpd.getGuards(), () -> generateUpdates(elifUpd.getThens()), selStat,
-                    statements);
+            selStat = mainExprGen.addBranch(elifUpd.getGuards(), () -> generateUpdatesRecursively(elifUpd.getThens()),
+                    selStat, statements);
         }
-        mainExprGen.addBranch(null, () -> generateUpdates(ifUpd.getElses()), selStat, statements);
+        mainExprGen.addBranch(null, () -> generateUpdatesRecursively(ifUpd.getElses()), selStat, statements);
     }
 
     /**
