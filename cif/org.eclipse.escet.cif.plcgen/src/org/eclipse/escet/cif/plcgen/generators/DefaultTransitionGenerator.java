@@ -846,8 +846,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
                     if (!addedAutomatonHeaderText) {
-                        updates.add(new PlcCommentLine(fmt("Perform assignments of automaton \"%s\".",
-                                getAbsName(transAut.aut, false))));
+                        updates.add(new PlcCommentLine(
+                                fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false))));
                         addedAutomatonHeaderText = true;
                     }
                     Supplier<List<PlcStatement>> thenStats = () -> { return generateEdgeUpdates(transAut.aut, edge); };
@@ -1153,8 +1153,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         selStat = mainExprGen.addBranch(ifUpd.getGuards(), () -> generateUpdates(ifUpd.getThens()), selStat,
                 statements);
         for (ElifUpdate elifUpd: ifUpd.getElifs()) {
-            selStat = mainExprGen.addBranch(elifUpd.getGuards(), () -> generateUpdates(elifUpd.getThens()),
-                    selStat, statements);
+            selStat = mainExprGen.addBranch(elifUpd.getGuards(), () -> generateUpdates(elifUpd.getThens()), selStat,
+                    statements);
         }
         mainExprGen.addBranch(null, () -> generateUpdates(ifUpd.getElses()), selStat, statements);
     }
