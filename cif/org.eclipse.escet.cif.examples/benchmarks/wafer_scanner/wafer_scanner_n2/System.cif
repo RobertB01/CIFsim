@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Wafer scanner model for n = 2. Has 4 wafers in total (n = 2 production wafers, and 2 dummy wafers).
+
+// Lithography machines are used in the production process of integrated circuits or chips. This model concerns the
+// wafer logistics in a lithography machine. The wafer handler takes wafers from the track, performs a number of
+// pre-exposure steps (such as conditioning and alignment), and routes wafers to the wafer stage and back. At the stage,
+// wafers are put on one of the two chucks, and subsequently they are measured and exposed. Since immersion lithography
+// is used, a wafer must always be present on the exposure check to avoid disruption of the film of water below the
+// lens; dummy wafers are inserted into the system for this. The supervisor ensures a correct and safe wafer flow
+// through the system.
+
+// Resources models.
+import "Resources.cif";
+
+// System plant and requirement models.
+import "SystemPlant.cif";
+import "SystemReq.cif";
+
+// Wafer plant and requirement models.
+import "Wafer0.cif";
+import "Wafer1.cif";
+import "Wafer2.cif";
+import "Wafer3.cif";
