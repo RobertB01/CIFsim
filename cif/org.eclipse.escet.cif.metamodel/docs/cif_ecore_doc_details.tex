@@ -1110,9 +1110,9 @@ The indices of the projections of the addressables are evaluated in the
 
 \begin{constraints}
 \citem{Assignment.addressableSyntax}
-  Adressables on edges may be discrete and continuous variable references 
-  with projections, and addressables in CIF/SVG input mappings may be input
-  variable references with projections. The variable references may optionally
+  Addressables on edges may be discrete and continuous variable references 
+  (possibly wrapped) with projections, and addressables in CIF/SVG input mappings may
+  be input variable references with projections. The variable references may optionally
   be wrapped in tuples (possibly multiple times). Projected string typed variables
   are not allowed.
 \citem{Assignment.variablesInScope}
@@ -3749,7 +3749,7 @@ pair, if the key of one of the other projections does not exist.
 
 \begin{constraints}
 \citem{AssignmentFuncStatement.addressableSyntax}
-  Adressables may be discrete variable references (non-wrapped), with
+  Addressables may be discrete variable references (non-wrapped), with
   projections, and may optionally be wrapped in tuples (possibly multiple
   times). Projected string typed variables are not allowed.
 \citem{AssignmentFuncStatement.variablesInScope}
