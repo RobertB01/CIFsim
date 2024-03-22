@@ -688,7 +688,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            List<PlcStatement> updateCode = generateAutPerformCode(transAut, edgeVar, channelValueVar);
+            List<PlcStatement> updateCode = generateSelectedEdgePerformCode(transAut, edgeVar, channelValueVar);
             if (updateCode.isEmpty()) { // No updates need to be done.
                 collectedNoUpdates.add(new PlcCommentLine(
                         fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
@@ -784,13 +784,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            List<PlcStatement> updates = generateAutPerformCode(transAut, autEdgeVar, null);
+            List<PlcStatement> updates = generateSelectedEdgePerformCode(transAut, autEdgeVar, null);
             if (updates.isEmpty()) {
                 collectedNoUpdates.add(new PlcCommentLine(
                         fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
             } else {
-                collectedUpdates.add(new PlcCommentLine(
-                        fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false))));
                 collectedUpdates.addAll(updates);
             }
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
@@ -853,7 +851,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
-                    Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(edge); };
+                    Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(transAut.aut, edge); };
                     // Add an "IF <guards> THEN <perform-updates>" branch.
                     selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
                 }
@@ -868,8 +866,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
         if (collectedUpdates.isEmpty()) {
-            testAndPerformCode.add(new PlcCommentLine(
-                    "There are no assignments to perform for automata that may synchronize."));
+            testAndPerformCode
+                    .add(new PlcCommentLine("There are no assignments to perform for automata that may synchronize."));
         }
         testAndPerformCode.addAll(collectedUpdates);
         testAndPerformCode.addAll(collectedNoUpdates);
@@ -1039,7 +1037,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
      *     to perform the edge.
      */
-    private List<PlcStatement> generateAutPerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
+    private List<PlcStatement> generateSelectedEdgePerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
             PlcBasicVariable channelValueVar)
     {
         List<PlcStatement> performCode = list();
@@ -1058,8 +1056,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                         genAssignExpr(new PlcVarExpression(channelValueVar), edge.sendValue, thenStatements);
                     }
 
-                    // Perform the updates.
-                    thenStatements.addAll(generateUpdates(edge));
+                    // Perform the updates if they exist.
+                    if (!edge.updates.isEmpty()) {
+                        thenStatements.addAll(generateUpdates(transAut.aut, edge));
+                    }
                     return thenStatements;
                 };
                 // Add "IF edgeVar = edgeIndex THEN <compute channelValue if needed, and perform updates>" branch.
@@ -1075,11 +1075,28 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     /**
      * Generate PLC code that performs the provided updates.
      *
-     * @param transEdge Edge with the updates to convert.
+     * @param aut Automaton owning the given edge.
+     * @param transEdge Edge with the updates to convert. Edge must have updates.
      * @return The generated statements.
      */
-    private List<PlcStatement> generateUpdates(TransitionEdge transEdge) {
-        return generateUpdatesRecursively(transEdge.updates);
+    private List<PlcStatement> generateUpdates(Automaton aut, TransitionEdge transEdge) {
+        Assert.check(!transEdge.updates.isEmpty());
+
+        // Construct a comment line what edge is being performed.
+        String text;
+        if (transEdge.sourceLoc.getName() == null) {
+            text = fmt("Perform assignments of the %s edge of automaton \"%s\".", toOrdinal(transEdge.edgeNumber),
+                    getAbsName(aut, false));
+        } else {
+            text = fmt("Perform assignments of the %s edge of automaton \"%s\" in location \"%s\".",
+                    toOrdinal(transEdge.edgeNumber), getAbsName(aut, false), getAbsName(transEdge.sourceLoc, false));
+        }
+
+        // Construct the PLC code and return it.
+        List<PlcStatement> stats = list();
+        stats.add(new PlcCommentLine(text));
+        stats.addAll(generateUpdatesRecursively(transEdge.updates));
+        return stats;
     }
 
     /**
