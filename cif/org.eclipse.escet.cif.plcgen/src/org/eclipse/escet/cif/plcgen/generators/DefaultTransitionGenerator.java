@@ -850,7 +850,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                                 getAbsName(transAut.aut, false))));
                         addedAutomatonHeaderText = true;
                     }
-                    Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(transAut.aut, edge); };
+                    Supplier<List<PlcStatement>> thenStats = () -> { return generateEdgeUpdates(transAut.aut, edge); };
                     // Add an "IF <guards> THEN <perform-updates>" branch.
                     selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
                 }
@@ -1033,9 +1033,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
-     * @param collectedNoUpdates Comments about automata that do not have updates to perform.
      * @param autCommentUpdateText Text of a header comment line above the edge selection code that states the automaton
      *     being handled in the code.
+     * @param collectedNoUpdates Comments about automata that do not have updates to perform. Is extended in-place.
      * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
      *     to perform the edge.
      */
@@ -1071,10 +1071,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
                     // Perform the updates if they exist.
                     if (!edge.updates.isEmpty()) {
-                        thenStatements.addAll(generateUpdates(transAut.aut, edge));
+                        thenStatements.addAll(generateEdgeUpdates(transAut.aut, edge));
                     }
                     return thenStatements;
                 };
+
                 // Add "IF edgeVar = edgeIndex THEN <compute channelValue if needed, and perform updates>" branch.
                 PlcExpression guard = generateCompareVarWithVal(edgeVar, edgeIndex);
                 selStat = mainExprGen.addPlcBranch(List.of(new ExprValueResult(mainExprGen).setValue(guard)), thenStats,
@@ -1100,10 +1101,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param transEdge Edge with the updates to convert. Edge must have updates.
      * @return The generated statements.
      */
-    private List<PlcStatement> generateUpdates(Automaton aut, TransitionEdge transEdge) {
+    private List<PlcStatement> generateEdgeUpdates(Automaton aut, TransitionEdge transEdge) {
         Assert.check(!transEdge.updates.isEmpty());
 
-        // Construct a comment line what edge is being performed.
+        // Construct a comment line that indicates what edge is being performed.
         String text;
         if (transEdge.sourceLoc.getName() == null) {
             text = fmt("Perform assignments of the %s edge of automaton \"%s\".", toOrdinal(transEdge.edgeNumber),
@@ -1116,7 +1117,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Construct the PLC code and return it.
         List<PlcStatement> stats = list();
         stats.add(new PlcCommentLine(text));
-        stats.addAll(generateUpdatesRecursively(transEdge.updates));
+        stats.addAll(generateUpdates(transEdge.updates));
         return stats;
     }
 
@@ -1126,7 +1127,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param updates Updates to convert to PLC code.
      * @return The generated statements.
      */
-    private List<PlcStatement> generateUpdatesRecursively(List<Update> updates) {
+    private List<PlcStatement> generateUpdates(List<Update> updates) {
         List<PlcStatement> statements = list();
 
         for (Update upd: updates) {
@@ -1149,13 +1150,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private void genIfUpdate(IfUpdate ifUpd, List<PlcStatement> statements) {
         PlcSelectionStatement selStat = null;
-        selStat = mainExprGen.addBranch(ifUpd.getGuards(), () -> generateUpdatesRecursively(ifUpd.getThens()), selStat,
+        selStat = mainExprGen.addBranch(ifUpd.getGuards(), () -> generateUpdates(ifUpd.getThens()), selStat,
                 statements);
         for (ElifUpdate elifUpd: ifUpd.getElifs()) {
-            selStat = mainExprGen.addBranch(elifUpd.getGuards(), () -> generateUpdatesRecursively(elifUpd.getThens()),
+            selStat = mainExprGen.addBranch(elifUpd.getGuards(), () -> generateUpdates(elifUpd.getThens()),
                     selStat, statements);
         }
-        mainExprGen.addBranch(null, () -> generateUpdatesRecursively(ifUpd.getElses()), selStat, statements);
+        mainExprGen.addBranch(null, () -> generateUpdates(ifUpd.getElses()), selStat, statements);
     }
 
     /**
