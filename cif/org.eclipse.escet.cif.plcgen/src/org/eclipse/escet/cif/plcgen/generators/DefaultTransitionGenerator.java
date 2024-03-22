@@ -688,14 +688,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate the edge selection and performing code, and add it as a branch on the automaton to
             // 'performSelectStat'.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
+            String autCommentUpdateText = fmt("Automaton \"%s\" was selected.", getAbsName(transAut.aut, false));
             List<PlcStatement> updateCode = generateSelectedEdgePerformCode(transAut, edgeVar, channelValueVar,
-                    collectedNoUpdates);
+                    autCommentUpdateText, collectedNoUpdates);
             if (!updateCode.isEmpty()) {
-                List<PlcStatement> innerPerformCode = list(
-                        new PlcCommentLine(fmt("Automaton \"%s\" was selected.", getAbsName(transAut.aut, false))));
-                innerPerformCode.addAll(updateCode);
                 performSelectStat.condChoices
-                        .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), innerPerformCode));
+                        .add(new PlcSelectChoice(generateCompareVarWithVal(autVar, autIndex), updateCode));
             }
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
@@ -782,7 +780,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             // Generate the edge selection and performing code, and add it as a branch on the automaton.
             mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
-            collectedUpdates.addAll(generateSelectedEdgePerformCode(transAut, autEdgeVar, null, collectedNoUpdates));
+            String autCommentUpdateText = fmt("Perform assignments of automaton \"%s\".",
+                    getAbsName(transAut.aut, false));
+            collectedUpdates.addAll(generateSelectedEdgePerformCode(transAut, autEdgeVar, null, autCommentUpdateText,
+                    collectedNoUpdates));
             mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
             // If enabledness is known to hold, the generated test code can be used as-is. Otherwise, running the
@@ -841,8 +842,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             List<PlcStatement> updates = list();
             PlcSelectionStatement selStat = null;
 
+            boolean addedAutomatonHeaderText = false;
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
+                    if (!addedAutomatonHeaderText) {
+                        updates.add(new PlcCommentLine(fmt("Perform assignments of automaton \"%s\".",
+                                getAbsName(transAut.aut, false))));
+                        addedAutomatonHeaderText = true;
+                    }
                     Supplier<List<PlcStatement>> thenStats = () -> { return generateUpdates(transAut.aut, edge); };
                     // Add an "IF <guards> THEN <perform-updates>" branch.
                     selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
@@ -1027,11 +1034,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
      * @param collectedNoUpdates Comments about automata that do not have updates to perform.
+     * @param autCommentUpdateText Text of a header comment line above the edge selection code that states the automaton
+     *     being handled in the code.
      * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
      *     to perform the edge.
      */
     private List<PlcStatement> generateSelectedEdgePerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
-            PlcBasicVariable channelValueVar, List<PlcStatement> collectedNoUpdates)
+            PlcBasicVariable channelValueVar, String autCommentUpdateText, List<PlcStatement> collectedNoUpdates)
     {
         List<PlcStatement> performCode = list();
         PlcSelectionStatement selStat = null;
@@ -1043,6 +1052,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Generate code that performs the edge if something needs to be done.
             if (channelValueVar != null || !edge.updates.isEmpty()) {
                 mustCompute = true;
+
+                // State that automaton being updated or selected.
+                if (autCommentUpdateText != null) {
+                    performCode.add(new PlcCommentLine(autCommentUpdateText));
+                    autCommentUpdateText = null;
+                }
 
                 // Construct a local function to compute the update statements to perform. This includes computing a
                 // channel value if appropriate.
@@ -1094,8 +1109,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             text = fmt("Perform assignments of the %s edge of automaton \"%s\".", toOrdinal(transEdge.edgeNumber),
                     getAbsName(aut, false));
         } else {
-            text = fmt("Perform assignments of the %s edge of automaton \"%s\" in location \"%s\".",
-                    toOrdinal(transEdge.edgeNumber), getAbsName(aut, false), getAbsName(transEdge.sourceLoc, false));
+            text = fmt("Perform assignments of the %s edge in location \"%s\".", toOrdinal(transEdge.edgeNumber),
+                    getAbsName(transEdge.sourceLoc, false));
         }
 
         // Construct the PLC code and return it.

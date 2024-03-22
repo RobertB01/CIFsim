@@ -216,7 +216,7 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
-                    (* Failed to find an automaton that provides a value. Skip code to the next event. *)
+                    (* Failed to find an automaton that provides a value. Skip to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (*******************************
@@ -225,7 +225,7 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
-                        (* Failed to find an automaton that accepts a value. Skip code to the next event. *)
+                        (* Failed to find an automaton that accepts a value. Skip to the next event. *)
                         eventEnabled := FALSE;
                     END_IF;
                 END_IF;
@@ -233,7 +233,7 @@ public class TransitionGeneratorTest {
                 IF eventEnabled THEN
                     isProgress := TRUE;
                     (*******************************
-                     * Store the provided value and perform updates of the selected providing automaton.
+                     * Store the provided value and perform assignments of the selected providing automaton.
                      *******************************)
                     IF senderAut = 1 THEN
                         (* Automaton "aut1" was selected. *)
@@ -242,7 +242,7 @@ public class TransitionGeneratorTest {
                         END_IF;
                     END_IF;
                     (*******************************
-                     * Deliver the provided value and perform updates of the selected accepting automaton.
+                     * Deliver the provided value and perform assignments of the selected accepting automaton.
                      *******************************)
                 END_IF;""";
         assertEquals(expectedText, actualText);
@@ -330,7 +330,7 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
-                    (* Failed to find an automaton that provides a value. Skip code to the next event. *)
+                    (* Failed to find an automaton that provides a value. Skip to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (*******************************
@@ -367,7 +367,7 @@ public class TransitionGeneratorTest {
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
-                        (* Failed to find an automaton that accepts a value. Skip code to the next event. *)
+                        (* Failed to find an automaton that accepts a value. Skip to the next event. *)
                         eventEnabled := FALSE;
                     END_IF;
                 END_IF;
@@ -378,7 +378,7 @@ public class TransitionGeneratorTest {
                     current_otherVar := otherVar;
                     current_recVar := recVar;
                     (*******************************
-                     * Store the provided value and perform updates of the selected providing automaton.
+                     * Store the provided value and perform assignments of the selected providing automaton.
                      *******************************)
                     IF senderAut = 1 THEN
                         (* Automaton "sender1" was selected. *)
@@ -387,16 +387,18 @@ public class TransitionGeneratorTest {
                         END_IF;
                     END_IF;
                     (*******************************
-                     * Deliver the provided value and perform updates of the selected accepting automaton.
+                     * Deliver the provided value and perform assignments of the selected accepting automaton.
                      *******************************)
                     IF receiverAut = 1 THEN
                         (* Automaton "receiver1" was selected. *)
                         IF edge_receiver1_1 = 1 THEN
+                            (* Perform assignments of the 3rd edge in location "receiver1.receiver1Loc". *)
                             recVar := current_recVar + channelValue;
                         END_IF;
                     ELSIF receiverAut = 2 THEN
                         (* Automaton "receiver2" was selected. *)
                         IF edge_receiver2_1 = 1 THEN
+                            (* Perform assignments of the 4th edge in location "receiver2.receiver2Loc". *)
                             otherVar := channelValue;
                         END_IF;
                     END_IF;
@@ -483,7 +485,7 @@ public class TransitionGeneratorTest {
                 ELSIF otherVar = 2 THEN
                     edge_syncer1_1 := 2;
                 ELSE
-                    (* The automaton has no edge with a true guard. Skip code to the next event. *)
+                    (* The automaton has no edge with a true guard. Skip to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 IF eventEnabled THEN
@@ -498,7 +500,7 @@ public class TransitionGeneratorTest {
                     IF otherVar = 3 THEN
                         edge_syncer2_1 := 1;
                     ELSE
-                        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+                        (* The automaton has no edge with a true guard. Skip to the next event. *)
                         eventEnabled := FALSE;
                     END_IF;
                 END_IF;
@@ -512,12 +514,15 @@ public class TransitionGeneratorTest {
                      *******************************)
                     (* Perform assignments of automaton "syncer1". *)
                     IF edge_syncer1_1 = 1 THEN
+                        (* Perform assignments of the 5th edge in location "syncer1.syncer1Loc". *)
                         otherVar := 2;
                     ELSIF edge_syncer1_1 = 2 THEN
+                        (* Perform assignments of the 6th edge in location "syncer1.syncer1Loc". *)
                         otherVar := 3;
                     END_IF;
                     (* Perform assignments of automaton "syncer2". *)
                     IF edge_syncer2_1 = 1 THEN
+                        (* Perform assignments of the 7th edge in location "syncer2.syncer2Loc". *)
                         otherVar := 4;
                     END_IF;
                 END_IF;""";
@@ -568,7 +573,9 @@ public class TransitionGeneratorTest {
                     (*******************************
                      * Perform the assignments of each optionally synchronizing automaton.
                      *******************************)
+                    (* Perform assignments of automaton "monitor". *)
                     IF current_otherVar = 1 THEN
+                        (* Perform assignments of the 8th edge in location "monitor.aut2Loc". *)
                         otherVar := 2;
                     END_IF;
                 END_IF;""";
@@ -635,7 +642,7 @@ public class TransitionGeneratorTest {
                 IF TRUE THEN
                     edge_aut_1 := 1;
                 ELSE
-                    (* The automaton has no edge with a true guard. Skip code to the next event. *)
+                    (* The automaton has no edge with a true guard. Skip to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (* All checks have been done. If variable "eventEnabled" still holds, event "event" can occur. *)
@@ -648,6 +655,7 @@ public class TransitionGeneratorTest {
                      *******************************)
                     (* Perform assignments of automaton "aut". *)
                     IF edge_aut_1 = 1 THEN
+                        (* Perform assignments of the 9th edge in location "aut.aut2Loc". *)
                         otherVar := 1;
                         otherVar := 2;
                     END_IF;
@@ -706,7 +714,7 @@ public class TransitionGeneratorTest {
                 IF TRUE THEN
                     edge_aut_1 := 1;
                 ELSE
-                    (* The automaton has no edge with a true guard. Skip code to the next event. *)
+                    (* The automaton has no edge with a true guard. Skip to the next event. *)
                     eventEnabled := FALSE;
                 END_IF;
                 (* All checks have been done. If variable "eventEnabled" still holds, event "event" can occur. *)
@@ -719,6 +727,7 @@ public class TransitionGeneratorTest {
                      *******************************)
                     (* Perform assignments of automaton "aut". *)
                     IF edge_aut_1 = 1 THEN
+                        (* Perform assignments of the 10th edge in location "aut.autLoc". *)
                         rightValue := TRUE;
                         otherVar := rightValue.field1;
                         otherVar := rightValue.field2;
