@@ -260,7 +260,7 @@ WHILE isProgress DO
         END_IF;
     END_IF;
     IF senderAut = 0 THEN
-        (* Failed to find an automaton that provides a value. Skip code to the next event. *)
+        (* Failed to find an automaton that provides a value. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (*******************************
@@ -302,7 +302,7 @@ WHILE isProgress DO
             END_IF;
         END_IF;
         IF receiverAut = 0 THEN
-            (* Failed to find an automaton that accepts a value. Skip code to the next event. *)
+            (* Failed to find an automaton that accepts a value. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -321,7 +321,7 @@ WHILE isProgress DO
         IF Y1_vy1 = 1 THEN
             edge_Y1_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -341,7 +341,7 @@ WHILE isProgress DO
         ELSIF Y2 = S2_B AND Y2_vy2 = 3 THEN
             edge_Y2_1 := 2;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -354,7 +354,7 @@ WHILE isProgress DO
         current_R2_vr2 := R2_vr2;
         current_S2_vs2 := S2_vs2;
         (*******************************
-         * Store the provided value and perform updates of the selected providing automaton.
+         * Store the provided value and perform assignments of the selected providing automaton.
          *******************************)
         IF senderAut = 1 THEN
             (* Automaton "S1" was selected. *)
@@ -365,24 +365,28 @@ WHILE isProgress DO
             (* Automaton "S2" was selected. *)
             IF edge_S2_1 = 1 THEN
                 channelValue := 2;
+                (* Perform assignments of the 1st edge in location "S2.A". *)
                 S2_vs2 := 2;
             ELSIF edge_S2_1 = 2 THEN
                 channelValue := 3;
             END_IF;
         END_IF;
         (*******************************
-         * Deliver the provided value and perform updates of the selected accepting automaton.
+         * Deliver the provided value and perform assignments of the selected accepting automaton.
          *******************************)
         IF receiverAut = 1 THEN
             (* Automaton "R1" was selected. *)
             IF edge_R1_1 = 1 THEN
+                (* Perform assignments of the 1st edge of automaton "R1". *)
                 R1_vr1 := channelValue;
             END_IF;
         ELSIF receiverAut = 2 THEN
             (* Automaton "R2" was selected. *)
             IF edge_R2_1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "R2.A". *)
                 R2_vr2 := channelValue;
             ELSIF edge_R2_1 = 2 THEN
+                (* Perform assignments of the 1st edge in location "R2.B". *)
                 R2_vr2 := channelValue;
             END_IF;
         END_IF;
@@ -395,7 +399,9 @@ WHILE isProgress DO
         (*******************************
          * Perform the assignments of each optionally synchronizing automaton.
          *******************************)
+        (* Perform assignments of automaton "M1". *)
         IF current_M1_vm1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "M1.A". *)
             M1_vm1 := 1;
         END_IF;
         (* Automaton "M2" has no assignments to perform. *)

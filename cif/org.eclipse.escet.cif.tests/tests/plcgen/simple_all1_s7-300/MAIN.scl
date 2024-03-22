@@ -122,7 +122,7 @@ BEGIN
         ELSIF "DB".p = 10 THEN
             edge_p_1 := 11;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         (* All checks have been done. If variable "eventEnabled" still holds, event "p.evt" can occur. *)
@@ -142,30 +142,37 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "p". *)
             IF edge_p_1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "p.l1". *)
                 litStruct_2.field1 := 1;
                 litStruct_2.field2 := 2;
                 "DB".p_tv := litStruct_2;
                 "DB".p := 1;
             ELSIF edge_p_1 = 2 THEN
+                (* Perform assignments of the 1st edge in location "p.l6". *)
                 "DB".p_x := 3;
                 "DB".p_j := 4;
                 "DB".p := 2;
             ELSIF edge_p_1 = 3 THEN
+                (* Perform assignments of the 1st edge in location "p.l7". *)
                 rightValue := current_p_tv;
                 "DB".p_x := rightValue.field1;
                 "DB".p_j := rightValue.field2;
                 "DB".p := 3;
             ELSIF edge_p_1 = 4 THEN
+                (* Perform assignments of the 1st edge in location "p.l8". *)
                 "DB".p_tv.field1 := 5;
                 "DB".p := 4;
             ELSIF edge_p_1 = 5 THEN
+                (* Perform assignments of the 1st edge in location "p.l9". *)
                 "DB".p_tv.field2 := 6;
                 "DB".p_j := 7;
                 "DB".p := 5;
             ELSIF edge_p_1 = 6 THEN
+                (* Perform assignments of the 1st edge in location "p.l10". *)
                 "DB".p_v3.field1.field2 := 7.8;
                 "DB".p := 6;
             ELSIF edge_p_1 = 7 THEN
+                (* Perform assignments of the 1st edge in location "p.l11". *)
                 litStruct.field1 := 1.2;
                 litStruct.field2 := 3.4;
                 litStruct_1.field1 := litStruct;
@@ -173,17 +180,21 @@ BEGIN
                 "DB".p_v3 := litStruct_1;
                 "DB".p := 7;
             ELSIF edge_p_1 = 8 THEN
+                (* Perform assignments of the 1st edge in location "p.l12". *)
                 "DB".p_j := current_p_j + 1;
                 "DB".p := 8;
             ELSIF edge_p_1 = 9 THEN
+                (* Perform assignments of the 1st edge in location "p.l13". *)
                 "DB".p_b := FALSE;
                 "DB".p := 9;
             ELSIF edge_p_1 = 10 THEN
+                (* Perform assignments of the 1st edge in location "p.l14". *)
                 IF NOT current_p_b THEN
                     "DB".p_ve := 1;
                 END_IF;
                 "DB".p := 10;
             ELSIF edge_p_1 = 11 THEN
+                (* Perform assignments of the 1st edge in location "p.l15". *)
                 "DB".p_r := DINT_TO_REAL("DB".g_inp) + 10.0;
                 "DB".p := 11;
             END_IF;

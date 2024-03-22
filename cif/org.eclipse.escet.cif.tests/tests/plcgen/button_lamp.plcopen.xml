@@ -288,7 +288,7 @@ WHILE isProgress DO
     IF timer = timer_Idle THEN
         edge_timer_1 := 1;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -307,7 +307,7 @@ WHILE isProgress DO
         ELSIF sup = sup_s5 THEN
             edge_sup_1 := 2;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -323,6 +323,7 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "timer". *)
         IF edge_timer_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "timer.Idle". *)
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
             preset_timer_t := timer_t;
@@ -332,8 +333,10 @@ WHILE isProgress DO
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s3". *)
             sup := sup_s6;
         ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "sup.s5". *)
             sup := sup_s7;
         END_IF;
     END_IF;
@@ -359,7 +362,7 @@ WHILE isProgress DO
     IF timer = timer_Running AND timer_t &lt;= 0.0 THEN
         edge_timer_1 := 1;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -378,7 +381,7 @@ WHILE isProgress DO
         ELSIF sup = sup_s7 THEN
             edge_sup_1 := 2;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -393,12 +396,15 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "timer". *)
         IF edge_timer_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "timer.Running". *)
             timer := timer_Idle;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s6". *)
             sup := sup_s8;
         ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "sup.s7". *)
             sup := sup_s9;
         END_IF;
     END_IF;
@@ -440,7 +446,7 @@ WHILE isProgress DO
     ELSIF sup = sup_s9 THEN
         edge_sup_1 := 5;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -455,7 +461,7 @@ WHILE isProgress DO
         IF hw_button = hw_button_Released AND hw_button_bit THEN
             edge_hw_button_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -470,18 +476,24 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s1". *)
             sup := sup_s2;
         ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s4". *)
             sup := sup_s2;
         ELSIF edge_sup_1 = 3 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s5". *)
             sup := sup_s3;
         ELSIF edge_sup_1 = 4 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s7". *)
             sup := sup_s6;
         ELSIF edge_sup_1 = 5 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s9". *)
             sup := sup_s8;
         END_IF;
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "hw_button.Released". *)
             hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
@@ -523,7 +535,7 @@ WHILE isProgress DO
     ELSIF sup = sup_s10 THEN
         edge_sup_1 := 5;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -538,7 +550,7 @@ WHILE isProgress DO
         IF hw_button = hw_button_Pushed AND NOT hw_button_bit THEN
             edge_hw_button_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -553,18 +565,24 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s2". *)
             sup := sup_s4;
         ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s3". *)
             sup := sup_s5;
         ELSIF edge_sup_1 = 3 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s6". *)
             sup := sup_s7;
         ELSIF edge_sup_1 = 4 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s8". *)
             sup := sup_s9;
         ELSIF edge_sup_1 = 5 THEN
+            (* Perform assignments of the 1st edge in location "sup.s10". *)
             sup := sup_s1;
         END_IF;
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "hw_button.Pushed". *)
             hw_button := hw_button_Released;
         END_IF;
     END_IF;
@@ -594,7 +612,7 @@ WHILE isProgress DO
     ELSIF sup = sup_s4 THEN
         edge_sup_1 := 2;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -609,7 +627,7 @@ WHILE isProgress DO
         IF hw_lamp = hw_lamp_Off THEN
             edge_hw_lamp_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -625,12 +643,15 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s2". *)
             sup := sup_s3;
         ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "sup.s4". *)
             sup := sup_s5;
         END_IF;
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "hw_lamp.Off". *)
             hw_lamp_bit := TRUE;
             hw_lamp := hw_lamp_On;
         END_IF;
@@ -661,7 +682,7 @@ WHILE isProgress DO
     ELSIF sup = sup_s9 THEN
         edge_sup_1 := 2;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -676,7 +697,7 @@ WHILE isProgress DO
         IF hw_lamp = hw_lamp_On THEN
             edge_hw_lamp_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -692,12 +713,15 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s8". *)
             sup := sup_s10;
         ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "sup.s9". *)
             sup := sup_s1;
         END_IF;
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "hw_lamp.On". *)
             hw_lamp_bit := FALSE;
             hw_lamp := hw_lamp_Off;
         END_IF;

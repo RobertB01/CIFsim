@@ -54,7 +54,7 @@ WHILE isProgress DO
     IF TRUE THEN
         edge_Good_1 := 1;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
@@ -65,7 +65,7 @@ WHILE isProgress DO
          * Edges being tested:
          *   - No edges found. Event "noSync" will never occur!
          ***********)
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (* All checks have been done. If variable "eventEnabled" still holds, event "noSync" can occur. *)
@@ -78,6 +78,7 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "Good". *)
         IF edge_Good_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "Good.G". *)
             Good_x := (current_Good_x + 1) MOD 6;
         END_IF;
         (* Automaton "Block" has no assignments to perform. *)
@@ -105,7 +106,7 @@ WHILE isProgress DO
     IF TRUE THEN
         edge_Good_1 := 1;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (* All checks have been done. If variable "eventEnabled" still holds, event "noMonitor" can occur. *)
@@ -118,6 +119,7 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "Good". *)
         IF edge_Good_1 = 1 THEN
+            (* Perform assignments of the 2nd edge in location "Good.G". *)
             Good_x := (current_Good_x_1 + 5) MOD 6;
         END_IF;
         (*******************************
@@ -142,7 +144,7 @@ WHILE isProgress DO
      *******************************)
     senderAut := 0;
     IF senderAut = 0 THEN
-        (* Failed to find an automaton that provides a value. Skip code to the next event. *)
+        (* Failed to find an automaton that provides a value. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (*******************************
@@ -151,7 +153,7 @@ WHILE isProgress DO
     IF eventEnabled THEN
         receiverAut := 0;
         IF receiverAut = 0 THEN
-            (* Failed to find an automaton that accepts a value. Skip code to the next event. *)
+            (* Failed to find an automaton that accepts a value. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
@@ -166,17 +168,17 @@ WHILE isProgress DO
          * Edges being tested:
          *   - No edges found. Event "channel" will never occur!
          ***********)
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (* All checks have been done. If variable "eventEnabled" still holds, event "channel" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
         (*******************************
-         * Store the provided value and perform updates of the selected providing automaton.
+         * Store the provided value and perform assignments of the selected providing automaton.
          *******************************)
         (*******************************
-         * Deliver the provided value and perform updates of the selected accepting automaton.
+         * Deliver the provided value and perform assignments of the selected accepting automaton.
          *******************************)
         (*******************************
          * Perform the assignments of each synchronizing automaton.

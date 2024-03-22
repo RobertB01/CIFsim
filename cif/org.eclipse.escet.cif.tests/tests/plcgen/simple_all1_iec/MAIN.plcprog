@@ -137,7 +137,7 @@ WHILE isProgress DO
     ELSIF p = p_l15 THEN
         edge_p_1 := 11;
     ELSE
-        (* The automaton has no edge with a true guard. Skip code to the next event. *)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     (* All checks have been done. If variable "eventEnabled" still holds, event "p.evt" can occur. *)
@@ -157,30 +157,37 @@ WHILE isProgress DO
          *******************************)
         (* Perform assignments of automaton "p". *)
         IF edge_p_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "p.l1". *)
             litStruct_2.field1 := 1;
             litStruct_2.field2 := 2;
             p_tv := litStruct_2;
             p := p_l6;
         ELSIF edge_p_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "p.l6". *)
             p_x := 3;
             p_j := 4;
             p := p_l7;
         ELSIF edge_p_1 = 3 THEN
+            (* Perform assignments of the 1st edge in location "p.l7". *)
             rightValue := current_p_tv;
             p_x := rightValue.field1;
             p_j := rightValue.field2;
             p := p_l8;
         ELSIF edge_p_1 = 4 THEN
+            (* Perform assignments of the 1st edge in location "p.l8". *)
             p_tv.field1 := 5;
             p := p_l9;
         ELSIF edge_p_1 = 5 THEN
+            (* Perform assignments of the 1st edge in location "p.l9". *)
             p_tv.field2 := 6;
             p_j := 7;
             p := p_l10;
         ELSIF edge_p_1 = 6 THEN
+            (* Perform assignments of the 1st edge in location "p.l10". *)
             p_v3.field1.field2 := 7.8;
             p := p_l11;
         ELSIF edge_p_1 = 7 THEN
+            (* Perform assignments of the 1st edge in location "p.l11". *)
             litStruct.field1 := 1.2;
             litStruct.field2 := 3.4;
             litStruct_1.field1 := litStruct;
@@ -188,17 +195,21 @@ WHILE isProgress DO
             p_v3 := litStruct_1;
             p := p_l12;
         ELSIF edge_p_1 = 8 THEN
+            (* Perform assignments of the 1st edge in location "p.l12". *)
             p_j := current_p_j + 1;
             p := p_l13;
         ELSIF edge_p_1 = 9 THEN
+            (* Perform assignments of the 1st edge in location "p.l13". *)
             p_b := FALSE;
             p := p_l14;
         ELSIF edge_p_1 = 10 THEN
+            (* Perform assignments of the 1st edge in location "p.l14". *)
             IF NOT current_p_b THEN
                 p_ve := g_LIT2;
             END_IF;
             p := p_l15;
         ELSIF edge_p_1 = 11 THEN
+            (* Perform assignments of the 1st edge in location "p.l15". *)
             p_r := DINT_TO_LREAL(g_inp) + 10.0;
             p := p_l16;
         END_IF;

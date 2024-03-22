@@ -57,7 +57,7 @@ BEGIN
         IF "DB".p_t <= 1.0 AND "DB".p_x = 5 THEN
             edge_p_1 := 1;
         ELSE
-            (* The automaton has no edge with a true guard. Skip code to the next event. *)
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
         (* All checks have been done. If variable "eventEnabled" still holds, event "e" can occur. *)
@@ -70,6 +70,7 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "p". *)
             IF edge_p_1 = 1 THEN
+                (* Perform assignments of the 1st edge of automaton "p". *)
                 "DB".p_t := 7.0;
                 (* Reset timer of "p_t". *)
                 "DB".preset_p_t := "DB".p_t;
