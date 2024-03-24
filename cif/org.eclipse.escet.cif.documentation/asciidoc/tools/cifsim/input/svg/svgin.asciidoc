@@ -108,7 +108,7 @@ svgin id "decrease" do counter = counter - 1;
 ----
 
 In this example, by clicking the SVG element with id `increase` the value of `counter` is increases by one.
-Opposite, clicking the SVG element with id `decrease` decreases the value of `counter` by one.
+Similarly, clicking the SVG element with id `decrease` decreases the value of `counter` by one.
 
 Be aware that the initial value of an input variable cannot be set in the specification.
 Instead, the initial value must be set via the <<tools-cifsim-chapter-init,initialization>> option of the simulator.
@@ -123,7 +123,7 @@ indexterm:[SVG input mapping,completeness]
 
 === Completeness
 
-Input mappings for events **must be complete.
+Input mappings for events must be complete.
 Single event input mappings are always complete, as are `if` event input mappings with an `else`.
 For `if` event input mappings without an `else`, at least one of the guards must hold.
 If none of the guards holds, the mapping results in a runtime error during simulation.
