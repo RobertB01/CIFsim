@@ -29,7 +29,8 @@
    <splash
       location="org.eclipse.escet.product.branding" />
    <launcher name="eclipse-escet">
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/org.eclipse.escet.product.branding/images/escet.ico"/>
          <bmp/>
       </win>
    </launcher>
