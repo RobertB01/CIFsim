@@ -77,18 +77,24 @@
             }
             #log-pane .div-txt-area #log-output {
                 resize: none;
-                border: 0;
                 height: 100%;
                 width: 100%;
+                overflow: auto;
+            }
+            #log-pane .div-txt-area #log-output,
+            #log-pane .div-txt-area #log-output * {
+                border: 0;
                 margin: 0;
                 padding: 0;
                 background: white;
                 font-family: monospace;
                 text-align: left;
                 text-wrap: nowrap;
-                overflow: auto;
                 white-space: pre;
                 color: black;
+            }
+            #log-pane .div-txt-area #log-output * {
+                height: auto;
             }
             #log-pane .div-txt-area #log-output .warning {
                 color: rgb(150, 125, 0);
