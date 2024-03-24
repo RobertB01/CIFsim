@@ -105,3 +105,17 @@ Once it is hidden, it can be shown again by clicking the _Show_ button.
 
 The log can be downloaded as a text file by pressing the _Download log_ button.
 The filename of the downloaded log includes the model name, and a timestamp, such that different logs can be easily distinguished.
+
+==== Settings
+
+The settings menu can be shown by pressing the _Settings_ button.
+Pressing the button again hides the settings menu.
+The following settings can be configured in the settings menu:
+
+* _Log states_:
+Whether to log all states that are reached.
+Is disabled by default.
+
+* _Log transitions_:
+Whether to log event transitions that are executed.
+Is enabled by default.
