@@ -25,6 +25,7 @@ include::_root_attributes.asciidoc[]
 
 = Eclipse ESCET(TM) development documentation
 :author: Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+:favicon: favicon.png
 
 This documentation concerns the development of the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) open-source project.
 
