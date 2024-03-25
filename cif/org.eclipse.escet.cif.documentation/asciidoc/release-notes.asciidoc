@@ -29,9 +29,10 @@ TBD
 Language changes:
 
 * SVG input mappings can now either assign values to input variables (new feature), or map to an event to take (existing feature).
-This new feature is currently work-in-progress, undocumented, and not yet supported by all CIF tools (issue {escet-issue}227[#227]).
-* The syntax for addressables (the left hand side of an assignment) has changed to allow names like `group.variable`, but this is only accepted for SVG input mappings, not for assignments in functions or on edges (issue {escet-issue}227[#227]).
-* Annotations may now be added to discrete and continuous variables.
+This new feature is currently an experimental work-in-progress language feature, and is not yet supported by all CIF tools (issues {escet-issue}227[#227] and {escet-issue}787[#787]).
+* The syntax for addressables (the left hand side of an assignment) has changed to allow names like `automaton.variable`, but this is only meant to be used for SVG input mappings.
+It should be avoided for assignments in functions or on edges (issue {escet-issue}227[#227]).
+* Annotations may now be added to constants, as well as discrete, continuous and algebraic variables.
 Annotations are still an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner (issue {escet-issue}593[#593]).
 
@@ -41,7 +42,7 @@ New features:
 CIF tools that write CIF specifications also support writing `.cifx` files.
 See the CIF reference manual for more information (issues {escet-issue}701[#701] and {escet-issue}731[#731]).
 * The CIF to CIF transformer now features a new _Remove annotations_ transformation (issue {escet-issue}735[#735]).
-* The CIF benchmark models have been extended with the `mri_event` and `mri_state` benchmark models (issue {escet-issue}364[#364]).
+* The CIF benchmark models have been extended with the `mri_event`, `mri_state` and `wafer_scanner` benchmark models (issue {escet-issue}364[#364]).
 
 Improvements and fixes:
 
@@ -53,8 +54,10 @@ As a result of this, the tool has some changes in error messages for invalid opt
 The default of the option is still `sup`, but setting the option value to empty now gives an error (issue {escet-issue}269[#269]).
 * The CIF data-based synthesis tool's warnings for plants that reference requirement state had typos that have been fixed (issue {escet-issue}750[#750]).
 * The CIF code generator now has more readable output in case of precondition violations, as it has been migrated to the new precondition checking framework introduced earlier already for some of the other CIF tools (issue {escet-issue}424[#424]).
-* The CIF code generator now supports `doc` annotations on discrete variables.
-The comments in the generated C, Java, JavaScript, HTML, and Simulink code for `doc`-annotated discrete variables now include the documentation from their documentation annotations (issue {escet-issue}593[#593]).
+* The CIF code generator now supports `doc` annotations on constants, as well as discrete, continuous and algebraic variables.
+The comments in the generated C, Java, JavaScript, HTML, and Simulink code for `doc`-annotated constants, as well as discrete and algebraic variables now include the documentation from their documentation annotations.
+The comments in the generated C, Java, JavaScript, and HTML code for `doc`-annotated continuous variables now include the documentation from their documentation annotations (issue {escet-issue}593[#593]).
+* The CIF code generator now has improved comments for algebraic variables in generated C and Simulink code (issue {escet-issue}593[#593]).
 * The CIF code generator now generates correct JavaScript and HTML code for tuples (issue {escet-issue}715[#715]).
 * The CIF code generator now generates correct JavaScript and HTML code for references to parameters and local variables of internal user-defined functions (issue {escet-issue}715[#715]).
 * The CIF code generator now generates correct JavaScript and HTML code for the `acos`, `asin`, `atan`, `cos`, `exp`, `ln`, `log`, `sin`, and `tan` standard library functions (issue {escet-issue}715[#715]).
@@ -79,6 +82,9 @@ The warning messages have also been improved (issue {escet-issue}424[#424]).
 * The (still experimental) new CIF PLC code generator now has an option to let the generator decide the best way to handle enumerations, based on the configured target PLC model (issue {escet-issue}679[#679]).
 * The (still experimental) new CIF PLC code generator has various fixes related to code generated for variables, timers and functions (issue {escet-issue}679[#679]).
 * The (still experimental) new CIF PLC code generator has various improvements and fixes related to names in the generated code, including among others better handling of keywords, not generating names with multiple consecutive underscores, and improved naming of edge selection variables (issue {escet-issue}679[#679]).
+* The (still experimental) new CIF PLC code generator has improved precondition checking for continuous variables, with better messages in case of unsupported specifications (issue {escet-issue}681[#681]).
+* The CIF to CIF transformation to eliminate 'if' updates now not only eliminates 'if' updates on edges, but also for SVG input mappings with updates (issue {escet-issue}227[#227]).
+* The CIF to CIF transformation to simplify values now not only simplifies the guards of 'if' and 'elif' updates on edges, but also for SVG input mappings with updates (issue {escet-issue}227[#227]).
 * The CIF button/lamp/timer example has been fixed such that code can once more be generated (issue {escet-issue}772[#772]).
 * The CIF button/lamp/timer and FIFO examples have formatting improvements for their ToolDef scripts (issue {escet-issue}773[#773]).
 * The CIF ball sorting benchmark model source information had a typo that has been fixed (issue {escet-issue}751[#751]).
