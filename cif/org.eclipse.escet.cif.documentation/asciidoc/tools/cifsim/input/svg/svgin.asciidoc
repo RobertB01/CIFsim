@@ -21,7 +21,7 @@ indexterm:[SVG,input mapping]
 indexterm:[SVG declaration,SVG input mapping]
 indexterm:[I/O declaration,SVG input mapping]
 indexterm:[see: svgin,SVG input mapping]
-CIF/SVG input mappings couple <<tools-cifsim-output-svgviz-svg-id,ids>> of <<tools-cifsim-output-svgviz-chapter-svg,SVG>> elements to events from the CIF specification.
+CIF/SVG input mappings couple <<tools-cifsim-output-svgviz-svg-id,ids>> of <<tools-cifsim-output-svgviz-chapter-svg,SVG>> elements to events or updates in the CIF specification.
 CIF/SVG input mappings are <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declarations>>, similar to <<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>>.
 If the CIF specification contains input mappings, and SVG input mode is not used, the input mappings are simply ignored.
 
@@ -89,6 +89,31 @@ The entries are processed in the order they are specified: if the first guard (o
 The last part of the `if` is allowed to be an `else`, to indicate that if none of the previous guards hold, the event of the `else` is to be chosen.
 Using an `else` entry is optional, but if used, there may only be one such entry, and it must be the last entry of the input mapping.
 
+indexterm:[SVG input mapping,update input mapping]
+
+[[tools-cifsim-input-svg-chapter-svgin-update]]
+=== Update input mapping
+
+WARNING: SVG input mappings with updates are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner.
+
+With SVG input mappings the values of <<lang-tut-reuse2-chapter-input-variables,input variables>> can be updated.
+For instance:
+
+[source, cif]
+----
+input int counter;
+
+svgin id "increase" do counter = counter + 1;
+svgin id "decrease" do counter = counter - 1;
+----
+
+In this example, by clicking the SVG element with id `increase` the value of `counter` is increases by one.
+Similarly, clicking the SVG element with id `decrease` decreases the value of `counter` by one.
+
+Be aware that the initial value of an input variable cannot be set in the specification.
+Instead, the initial value must be set via the <<tools-cifsim-chapter-init,initialization>> option of the simulator.
+
 indexterm:[SVG input mapping,uniqueness]
 
 === Uniqueness
@@ -101,7 +126,7 @@ indexterm:[SVG input mapping,completeness]
 
 === Completeness
 
-Input mappings must be complete.
-Single event input mappings are always complete, as are `if` event input mappings with an `else`.
+Input mappings for events must be complete.
+Single event input mappings are always complete, as are `if` event input mappings with an `else`, and update input mappings.
 For `if` event input mappings without an `else`, at least one of the guards must hold.
 If none of the guards holds, the mapping results in a runtime error during simulation.
