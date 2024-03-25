@@ -82,7 +82,7 @@ indexterm:[performance,SVG input]
 
 SVG input is usually combined with <<tools-cifsim-output-chapter-realtime,real-time simulation>>.
 Clicking an interactive SVG element results in the application of an input mapping, which results in an event or update.
-That event or update is put in the queue.
+That mapping is put in the queue.
 If a time transition is being taken by the simulator, the simulator will continue to take that time transition until the input component interrupts it.
 However, an input component can only interrupt a time transition during <<tools-cifsim-output-realtime-frames,intermediate frames>>.
 As such, choosing a low <<tools-cifsim-output-realtime-framerate,frame rate>> (typically less than 10 frames per second) can significantly reduce the responsiveness of the SVG input.
@@ -103,7 +103,7 @@ In SVG, this requires the use of a rectangle and a text label.
 To ensure that clicking either one of them results in the same event, group the rectangle and text label together in a group.
 Then assign an <<tools-cifsim-output-svgviz-svg-id,id>> to the group and use that id in an <<tools-cifsim-input-svg-chapter-svgin,input mapping>>.
 During simulation, when hovering over either the rectangle or the text label, both will be highlighted.
-Clicking on either of them results in the corresponding input mapping being applied, and the resulting event being chosen by the SVG input component.
+Clicking on either of them results in the corresponding input mapping being applied, and the resulting event or update being chosen by the SVG input component.
 
 In general, if an SVG image is clicked, the simulator will figure out on which graphical element the user clicked.
 If that element is itself an interactive SVG element, then the corresponding mapping is applied.

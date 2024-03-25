@@ -89,8 +89,9 @@ The entries are processed in the order they are specified: if the first guard (o
 The last part of the `if` is allowed to be an `else`, to indicate that if none of the previous guards hold, the event of the `else` is to be chosen.
 Using an `else` entry is optional, but if used, there may only be one such entry, and it must be the last entry of the input mapping.
 
-indexterm:[SVG input mapping,uniqueness]
+indexterm:[SVG input mapping,update input mapping]
 
+[[tools-cifsim-input-svg-chapter-svgin-update]]
 === Update input mapping
 
 WARNING: SVG input mappings with updates are currently an experimental work-in-progress language feature.
@@ -113,6 +114,8 @@ Similarly, clicking the SVG element with id `decrease` decreases the value of `c
 Be aware that the initial value of an input variable cannot be set in the specification.
 Instead, the initial value must be set via the <<tools-cifsim-chapter-init,initialization>> option of the simulator.
 
+indexterm:[SVG input mapping,uniqueness]
+
 === Uniqueness
 
 Similar to output mappings, all input mappings must be unique, per SVG image.
@@ -124,6 +127,6 @@ indexterm:[SVG input mapping,completeness]
 === Completeness
 
 Input mappings for events must be complete.
-Single event input mappings are always complete, as are `if` event input mappings with an `else`.
+Single event input mappings are always complete, as are `if` event input mappings with an `else`, and update input mappings.
 For `if` event input mappings without an `else`, at least one of the guards must hold.
 If none of the guards holds, the mapping results in a runtime error during simulation.
