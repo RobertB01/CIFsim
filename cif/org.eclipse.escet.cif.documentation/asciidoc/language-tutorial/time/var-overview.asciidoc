@@ -66,5 +66,5 @@ If the computations that result in their values depend on a variable that can ch
 
 Input variables are introduced in <<lang-tut-reuse2-chapter-input-variables,a later lesson>>.
 Different tools may use different approaches to connect input variables to the environment of the specification, which impacts how values are provided for the input variables.
-Whether input variables can change value by assignment or can change as time progresses therefore also depend on how tools work with them.
+Whether input variables can change value by assignment or can change as time progresses therefore also depends on how tools work with them.
 The CIF language allows assigning them via <<tools-cifsim-input-svg-chapter-svgin-update,SVG input mappings with updates>>.
