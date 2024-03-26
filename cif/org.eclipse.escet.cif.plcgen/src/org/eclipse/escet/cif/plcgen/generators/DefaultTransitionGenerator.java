@@ -1033,7 +1033,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
-     * @param autCommentUpdateText Text of a header comment line above the edge selection code that states the automaton
+     * @param autCommentUpdateText Text of a header comment line above the edge perform code that states the automaton
      *     being handled in the code.
      * @param collectedNoUpdates Comments about automata that do not have updates to perform. Is extended in-place.
      * @return Generated PLC code that selects and performs the selected edge. Is empty if there is no PLC code needed
