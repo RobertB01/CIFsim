@@ -167,19 +167,23 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox errorToPanelCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
             logToPanelCode.add("var elem = document.getElementById('log-output');");
-            logToPanelCode.add("elem.innerHTML += %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            logToPanelCode.add("var newEntry = document.createElement('div');");
+            logToPanelCode.add("newEntry.innerHTML = %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            logToPanelCode.add("elem.appendChild(newEntry);");
             logToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
 
             warningToPanelCode.add("var elem = document.getElementById('log-output');");
-            warningToPanelCode.add(
-                    "elem.innerHTML += '<span class=\"warning\">' + %sUtils.escapeHtml(message) + '</span>\\n';",
-                    ctxt.getPrefix());
+            warningToPanelCode.add("var newEntry = document.createElement('div');");
+            warningToPanelCode.add("newEntry.innerHTML = %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            warningToPanelCode.add("newEntry.classList.add('warning');");
+            warningToPanelCode.add("elem.appendChild(newEntry);");
             warningToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
 
             errorToPanelCode.add("var elem = document.getElementById('log-output');");
-            errorToPanelCode.add(
-                    "elem.innerHTML += '<span class=\"error\">' + %sUtils.escapeHtml(message) + '</span>\\n';",
-                    ctxt.getPrefix());
+            errorToPanelCode.add("var newEntry = document.createElement('div');");
+            errorToPanelCode.add("newEntry.innerHTML = %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            errorToPanelCode.add("newEntry.classList.add('error');");
+            errorToPanelCode.add("elem.appendChild(newEntry);");
             errorToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
         }
         replacements.put("html-log-to-panel-code", logToPanelCode.toString());

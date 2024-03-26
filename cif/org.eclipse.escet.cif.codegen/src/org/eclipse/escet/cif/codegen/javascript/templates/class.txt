@@ -18,7 +18,7 @@ ${javascript-enum-lits-code}
     doInfoPrintOutput = true;
 
     /** Should state output be provided? */
-    doStateOutput = true;
+    doStateOutput = false;
 
     /** Should transition output be provided? */
     doTransitionOutput = true;
