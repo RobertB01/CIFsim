@@ -320,16 +320,12 @@ ${html-javascript-class-placeholder}
                 }
             }
 
-            function toggleLogStates(btn) {
-                var elem = document.getElementById('log-states');
-                elem.checked = !elem.checked;
-                ${prefix}.doStateOutput = elem.checked;
+            function toggleLogStates(menuItem) {
+                ${prefix}.doStateOutput = menuItem.checked;
             }
 
-            function toggleLogTransitions(btn) {
-                var elem = document.getElementById('log-transitions');
-                elem.checked = !elem.checked;
-                ${prefix}.doTransitionOutput = elem.checked;
+            function toggleLogTransitions(menuItem) {
+                ${prefix}.doTransitionOutput = menuItem.checked;
             }
 
             function showHide(btn) {
@@ -405,14 +401,16 @@ ${html-svg-toggles}
                             <input value="Settings" type="button" onclick="toggleSettings(); return false;"/>
                             <div class="dropdown-content">
                                 <div class="dropdown-item dropdown-item-checked">
-                                    <label for="log-states" onclick="toggleLogStates(); return false;">
-                                      <input type="checkbox" id="log-states" name="log-states"/>
-                                      <span class="dropdown-item-checked-text">Log states</span>
+                                    <label for="log-states">
+                                        <input type="checkbox" id="log-states" name="log-states"
+                                                onchange="toggleLogStates(this)"/>
+                                        <span class="dropdown-item-checked-text">Log states</span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item dropdown-item-checked">
-                                    <label for="log-transitions" onclick="toggleLogTransitions(); return false;">
-                                        <input type="checkbox" id="log-transitions" name="log-transitions" checked/>
+                                    <label for="log-transitions">
+                                        <input type="checkbox" id="log-transitions" name="log-transitions"
+                                                onchange="toggleLogTransitions(this)" checked/>
                                         <span class="dropdown-item-checked-text">Log transitions</span>
                                     </label>
                                 </div>
