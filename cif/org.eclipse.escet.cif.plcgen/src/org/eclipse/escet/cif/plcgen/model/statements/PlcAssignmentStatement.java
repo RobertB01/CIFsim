@@ -50,4 +50,9 @@ public class PlcAssignmentStatement extends PlcStatement {
     public PlcAssignmentStatement copy() {
         return new PlcAssignmentStatement(lhs, value);
     }
+
+    @Override
+    public boolean isProperPlcStatement() {
+        return true;
+    }
 }

@@ -42,4 +42,9 @@ public class PlcFuncApplStatement extends PlcStatement {
     public PlcStatement copy() {
         return new PlcFuncApplStatement(funcApplExpr);
     }
+
+    @Override
+    public boolean isProperPlcStatement() {
+        return true;
+    }
 }

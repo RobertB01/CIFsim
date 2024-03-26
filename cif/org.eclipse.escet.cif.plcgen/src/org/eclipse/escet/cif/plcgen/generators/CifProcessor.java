@@ -83,6 +83,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
@@ -165,16 +166,17 @@ public class CifProcessor {
                         evt -> new CifEventTransition(evt));
 
                 if (autRoleInfo.isSenderAutomaton()) {
-                    eventTrans.senders.add(new TransitionAutomaton(aut, autRoleInfo.getSenderEdges()));
-                    //
+                    eventTrans.senders
+                            .add(new TransitionAutomaton(aut, TransAutPurpose.SENDER, autRoleInfo.getSenderEdges()));
                 } else if (autRoleInfo.isReceiverAutomaton()) {
-                    eventTrans.receivers.add(new TransitionAutomaton(aut, autRoleInfo.getReceiverEdges()));
-                    //
+                    eventTrans.receivers.add(
+                            new TransitionAutomaton(aut, TransAutPurpose.RECEIVER, autRoleInfo.getReceiverEdges()));
                 } else if (autRoleInfo.isSyncerAutomaton()) {
-                    eventTrans.syncers.add(new TransitionAutomaton(aut, autRoleInfo.getSyncerEdges()));
-                    //
+                    eventTrans.syncers
+                            .add(new TransitionAutomaton(aut, TransAutPurpose.SYNCER, autRoleInfo.getSyncerEdges()));
                 } else if (autRoleInfo.isMonitorAutomaton()) {
-                    eventTrans.monitors.add(new TransitionAutomaton(aut, autRoleInfo.getMonitorEdges()));
+                    eventTrans.monitors
+                            .add(new TransitionAutomaton(aut, TransAutPurpose.MONITOR, autRoleInfo.getMonitorEdges()));
                 } else {
                     throw new AssertionError("Undecided automaton role.");
                 }
@@ -222,6 +224,7 @@ public class CifProcessor {
 
         // Consider all the edges of the automaton for the classification.
         for (Location loc: aut.getLocations()) {
+            int edgeNum = 1;
             for (Edge edge: loc.getEdges()) {
                 Location destLoc = CifEdgeUtils.getTarget(edge);
 
@@ -233,18 +236,21 @@ public class CifProcessor {
                     AutomatonRoleInfo autRoleInfo = getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent());
 
                     if (ee instanceof EdgeSend es) {
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, es.getValue(), edge.getGuards(),
                                 edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SENDER);
                     } else if (ee instanceof EdgeReceive) {
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
+                                edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.RECEIVER);
                     } else {
                         // Automaton synchronizes on the event. Whether it is a monitor is decided below.
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
+                                edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
                     }
                 }
+                edgeNum++;
             }
         }
 

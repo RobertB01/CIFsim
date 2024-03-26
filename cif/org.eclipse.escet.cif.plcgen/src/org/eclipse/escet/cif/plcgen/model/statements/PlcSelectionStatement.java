@@ -108,4 +108,9 @@ public class PlcSelectionStatement extends PlcStatement {
         condChoices.stream().map(PlcSelectChoice::copy).collect(Collectors.toCollection(() -> choices));
         return new PlcSelectionStatement(choices, PlcStatement.copy(elseStats));
     }
+
+    @Override
+    public boolean isProperPlcStatement() {
+        return true;
+    }
 }

@@ -1,0 +1,250 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        channelValue: DINT;
+        current_M1_vm1: DINT;
+        current_R1_vr1: DINT;
+        current_R2_vr2: DINT;
+        current_S2_vs2: DINT;
+        edge_R1_1: DINT;
+        edge_R2_1: DINT;
+        edge_S1_1: DINT;
+        edge_S2_1: DINT;
+        edge_Y1_1: DINT;
+        edge_Y2_1: DINT;
+        eventEnabled: BOOL;
+        isProgress: BOOL;
+        receiverAut: DINT;
+        senderAut: DINT;
+    END_VAR
+
+BEGIN
+    (* --- Initialize state. --------------------------------------------------- *)
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        "DB".S1_vs1 := 0;
+        "DB".S2_vs2 := 0;
+        "DB".S2 := 0;
+        "DB".R1_vr1 := 0;
+        "DB".R2_vr2 := 0;
+        "DB".R2 := 0;
+        "DB".Y1_vy1 := 0;
+        "DB".Y2_vy2 := 0;
+        "DB".Y2 := 0;
+        "DB".M1_vm1 := 0;
+        "DB".M2_vm2 := 0;
+        "DB".M2 := 0;
+    END_IF;
+
+    (* --- Process all events. ------------------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (*************************************************************
+         * Try to perform event "c".
+         *
+         * - One automaton must send a value.
+         *    - Automaton "S1" may send a value.
+         *    - Automaton "S2" may send a value.
+         *
+         * - One automaton must receive a value.
+         *    - Automaton "R1" may receive a value.
+         *    - Automaton "R2" may receive a value.
+         *
+         * - Automaton "Y1" must always synchronize.
+         * - Automaton "Y2" must always synchronize.
+         *
+         * - Automaton "M1" may synchronize.
+         * - Automaton "M2" may synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Try to find a sender automaton that provides a value.
+         *******************************)
+        senderAut := 0;
+        IF senderAut = 0 THEN
+            (***********
+             * Testing edge of automaton "S1" to provide a value for the channel for event "c".
+             * At least one sending automaton must have an edge with a true guard to allow the event.
+             *
+             * Edge being tested:
+             * - Location:
+             *   - 1st edge in the location
+             ***********)
+            IF "DB".S1_vs1 = 1 THEN
+                senderAut := 1;
+                edge_S1_1 := 1;
+            END_IF;
+        END_IF;
+        IF senderAut = 0 THEN
+            (***********
+             * Testing edges of automaton "S2" to provide a value for the channel for event "c".
+             * At least one sending automaton must have an edge with a true guard to allow the event.
+             *
+             * Edges being tested:
+             * - Location "A":
+             *   - 1st edge in the location
+             * - Location "B":
+             *   - 1st edge in the location
+             ***********)
+            IF "DB".S2 = 0 AND "DB".S2_vs2 = 2 THEN
+                senderAut := 2;
+                edge_S2_1 := 1;
+            ELSIF "DB".S2 = 1 AND "DB".S2_vs2 = 3 THEN
+                senderAut := 2;
+                edge_S2_1 := 2;
+            END_IF;
+        END_IF;
+        IF senderAut = 0 THEN
+            (* Failed to find an automaton that provides a value. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (*******************************
+         * Try to find a receiver automaton that accepts a value.
+         *******************************)
+        IF eventEnabled THEN
+            receiverAut := 0;
+            IF receiverAut = 0 THEN
+                (***********
+                 * Testing edge of automaton "R1" to accept a value from the channel for event "c".
+                 * At least one receiving automaton must have an edge with a true guard to allow the event.
+                 *
+                 * Edge being tested:
+                 * - Location:
+                 *   - 1st edge in the location
+                 ***********)
+                IF TRUE THEN
+                    receiverAut := 1;
+                    edge_R1_1 := 1;
+                END_IF;
+            END_IF;
+            IF receiverAut = 0 THEN
+                (***********
+                 * Testing edges of automaton "R2" to accept a value from the channel for event "c".
+                 * At least one receiving automaton must have an edge with a true guard to allow the event.
+                 *
+                 * Edges being tested:
+                 * - Location "A":
+                 *   - 1st edge in the location
+                 * - Location "B":
+                 *   - 1st edge in the location
+                 ***********)
+                IF "DB".R2 = 0 THEN
+                    receiverAut := 2;
+                    edge_R2_1 := 1;
+                ELSIF "DB".R2 = 1 THEN
+                    receiverAut := 2;
+                    edge_R2_1 := 2;
+                END_IF;
+            END_IF;
+            IF receiverAut = 0 THEN
+                (* Failed to find an automaton that accepts a value. Skip to the next event. *)
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        IF eventEnabled THEN
+            (***********
+             * Testing edge of automaton "Y1" to synchronize for event "c".
+             * This automaton must have an edge with a true guard to allow the event.
+             *
+             * Edge being tested:
+             * - Location:
+             *   - 1st edge in the location
+             ***********)
+            IF "DB".Y1_vy1 = 1 THEN
+                edge_Y1_1 := 1;
+            ELSE
+                (* The automaton has no edge with a true guard. Skip to the next event. *)
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        IF eventEnabled THEN
+            (***********
+             * Testing edges of automaton "Y2" to synchronize for event "c".
+             * This automaton must have an edge with a true guard to allow the event.
+             *
+             * Edges being tested:
+             * - Location "A":
+             *   - 1st edge in the location
+             * - Location "B":
+             *   - 1st edge in the location
+             ***********)
+            IF "DB".Y2 = 0 AND "DB".Y2_vy2 = 2 THEN
+                edge_Y2_1 := 1;
+            ELSIF "DB".Y2 = 1 AND "DB".Y2_vy2 = 3 THEN
+                edge_Y2_1 := 2;
+            ELSE
+                (* The automaton has no edge with a true guard. Skip to the next event. *)
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "c" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_M1_vm1 := "DB".M1_vm1;
+            current_R1_vr1 := "DB".R1_vr1;
+            current_R2_vr2 := "DB".R2_vr2;
+            current_S2_vs2 := "DB".S2_vs2;
+            (*******************************
+             * Store the provided value and perform assignments of the selected providing automaton.
+             *******************************)
+            IF senderAut = 1 THEN
+                (* Automaton "S1" was selected. *)
+                IF edge_S1_1 = 1 THEN
+                    channelValue := 1;
+                END_IF;
+            ELSIF senderAut = 2 THEN
+                (* Automaton "S2" was selected. *)
+                IF edge_S2_1 = 1 THEN
+                    channelValue := 2;
+                    (* Perform assignments of the 1st edge in location "S2.A". *)
+                    "DB".S2_vs2 := 2;
+                ELSIF edge_S2_1 = 2 THEN
+                    channelValue := 3;
+                END_IF;
+            END_IF;
+            (*******************************
+             * Deliver the provided value and perform assignments of the selected accepting automaton.
+             *******************************)
+            IF receiverAut = 1 THEN
+                (* Automaton "R1" was selected. *)
+                IF edge_R1_1 = 1 THEN
+                    (* Perform assignments of the 1st edge of automaton "R1". *)
+                    "DB".R1_vr1 := channelValue;
+                END_IF;
+            ELSIF receiverAut = 2 THEN
+                (* Automaton "R2" was selected. *)
+                IF edge_R2_1 = 1 THEN
+                    (* Perform assignments of the 1st edge in location "R2.A". *)
+                    "DB".R2_vr2 := channelValue;
+                ELSIF edge_R2_1 = 2 THEN
+                    (* Perform assignments of the 1st edge in location "R2.B". *)
+                    "DB".R2_vr2 := channelValue;
+                END_IF;
+            END_IF;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* There are no assignments to perform for automata that must always synchronize. *)
+            (* Automaton "Y1" has no assignments to perform. *)
+            (* Automaton "Y2" has no assignments to perform. *)
+            (*******************************
+             * Perform the assignments of each optionally synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "M1". *)
+            IF current_M1_vm1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "M1.A". *)
+                "DB".M1_vm1 := 1;
+            END_IF;
+            (* Automaton "M2" has no assignments to perform. *)
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK
