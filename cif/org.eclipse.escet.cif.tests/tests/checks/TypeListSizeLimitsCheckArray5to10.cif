@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type unusedLongArray = list[100] int; // Too long.
+type unusedLongList = list[100..101] int; // Too long.
+
+type usedLongArray = list[13] int; // Too long.
+type usedLongList = list[15..17] int; // Too long.
+
+type goodSubArray = list[7] int;
+type GoodMatrixArray = list[7] goodSubArray;
+
+type goodSubList = list[7..9] int;
+type badSubArray = list[15] int; // Too long.
+type badSubList = list[17..18] int; // Too long.
+
+type BadMatrixSubList = list[6..8] badSubList;
+type BadMatrixSubArray = list[7..8] badSubArray;
+
+type BadMatrixList = list[3..19] goodSubList; // Too short and too long.
+
+
+automaton X:
+  alg list[5..8] int goodAlgList = [1, 2, 3, 4, 5];
+
+  alg list[5] int minGoodAlgArray = [1, 2, 3, 4, 5];
+  alg list[10] int maxGoodAlgArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  alg list[4] int oneTooShortAlgArray = [1, 2, 3, 4]; // Bad array, too short.
+  alg list[11] int oneTooLongAlgArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1]; // Bad array, too long.
+
+  disc list[2] bool tooShortDiscArray; // Bad array, too short.
+  disc list[22] bool tooLongDiscArray; // Bad array, too long.
+  disc list[2..5] bool possiblyTooShortDiscList; // Bad list, too short.
+  disc list[7..22] bool possiblyTooLongDiscList; // Bad list, too long.
+  disc list[2..4] bool alwaysTooShortDiscList; // Bad list, too short.
+  disc list[11..22] bool alwaysTooLongDiscList; // Bad list, too long.
+  disc list[1..22] bool tooShortTooLongDiscList; // Bad list, too short and too long.
+
+  disc GoodMatrixArray goodMatrixArray;
+  disc BadMatrixSubList badMatrixSubList; // Bad sub-list, too long.
+  disc BadMatrixSubArray badMatrixSubArray; // Bad sub-array, too long.
+  disc BadMatrixList badMatrixList; // Bad list, too short and too long.
+
+  const usedLongArray declArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3]; // Bad array, too long.
+  input usedLongList declList; // Bad list, too long.
+
+  // Avoid warnings about missing location or unused variables.
+  location:
+    initial tooShortDiscArray[0] or tooLongDiscArray[0] or possiblyTooShortDiscList[0]
+         or possiblyTooLongDiscList[0] or alwaysTooShortDiscList[0]
+         or alwaysTooLongDiscList[0]or tooShortTooLongDiscList[0]
+         or goodMatrixArray[0][0] + badMatrixSubList[0][0]
+            + badMatrixSubArray[0][0] + badMatrixList[0][0] >= 0;
+end

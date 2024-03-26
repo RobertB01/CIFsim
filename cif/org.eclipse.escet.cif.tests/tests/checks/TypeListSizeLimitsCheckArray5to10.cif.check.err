@@ -1,0 +1,43 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  --------------------------------------------------------------------------------------------------------------
+  (1/6) Array type of algebraic variable"X.oneTooLongAlgArray" is longer than the maximum length of 10 elements.
+  --------------------------------------------------------------------------------------------------------------
+   * In algebraic variable "X.oneTooLongAlgArray":
+     - alg list[11] int oneTooLongAlgArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1];
+           ^
+
+  ---------------------------------------------------------------------------------------------------------------
+  (2/6) Array type of algebraic variable"X.oneTooShortAlgArray" is shorter than the minimum length of 5 elements.
+  ---------------------------------------------------------------------------------------------------------------
+   * In algebraic variable "X.oneTooShortAlgArray":
+     - alg list[4] int oneTooShortAlgArray = [1, 2, 3, 4];
+           ^
+
+  -------------------------------------------------------------------------------------------
+  (3/6) Array type of constant"X.declArray" is longer than the maximum length of 10 elements.
+  -------------------------------------------------------------------------------------------
+   * In type declaration "usedLongArray":
+     - type usedLongArray = list[13] int;
+                            ^
+
+  ------------------------------------------------------------------------------------------------------------
+  (4/6) Array type of discrete variable"X.badMatrixSubArray" is longer than the maximum length of 10 elements.
+  ------------------------------------------------------------------------------------------------------------
+   * In type declaration "badSubArray":
+     - type badSubArray = list[15] int;
+                          ^
+
+  -----------------------------------------------------------------------------------------------------------
+  (5/6) Array type of discrete variable"X.tooLongDiscArray" is longer than the maximum length of 10 elements.
+  -----------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.tooLongDiscArray":
+     - disc list[22] bool tooLongDiscArray;
+            ^
+
+  ------------------------------------------------------------------------------------------------------------
+  (6/6) Array type of discrete variable"X.tooShortDiscArray" is shorter than the minimum length of 5 elements.
+  ------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.tooShortDiscArray":
+     - disc list[2] bool tooShortDiscArray;
+            ^

@@ -1,0 +1,71 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  --------------------------------------------------------------------------------------------------------------------
+  (1/10) List type of discrete variable"X.alwaysTooLongDiscList" can be longer than the maximum length of 10 elements.
+  --------------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.alwaysTooLongDiscList":
+     - disc list[11..22] bool alwaysTooLongDiscList;
+            ^
+
+  ---------------------------------------------------------------------------------------------------------------------
+  (2/10) List type of discrete variable"X.alwaysTooShortDiscList" can be shorter than the minimum length of 5 elements.
+  ---------------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.alwaysTooShortDiscList":
+     - disc list[2..4] bool alwaysTooShortDiscList;
+            ^
+
+  ------------------------------------------------------------------------------------------------------------
+  (3/10) List type of discrete variable"X.badMatrixList" can be longer than the maximum length of 10 elements.
+  ------------------------------------------------------------------------------------------------------------
+   * In type declaration "BadMatrixList":
+     - type BadMatrixList = list[3..19] goodSubList;
+                            ^
+
+  ------------------------------------------------------------------------------------------------------------
+  (4/10) List type of discrete variable"X.badMatrixList" can be shorter than the minimum length of 5 elements.
+  ------------------------------------------------------------------------------------------------------------
+   * In type declaration "BadMatrixList":
+     - type BadMatrixList = list[3..19] goodSubList;
+                            ^
+
+  ---------------------------------------------------------------------------------------------------------------
+  (5/10) List type of discrete variable"X.badMatrixSubList" can be longer than the maximum length of 10 elements.
+  ---------------------------------------------------------------------------------------------------------------
+   * In type declaration "badSubList":
+     - type badSubList = list[17..18] int;
+                         ^
+
+  ----------------------------------------------------------------------------------------------------------------------
+  (6/10) List type of discrete variable"X.possiblyTooLongDiscList" can be longer than the maximum length of 10 elements.
+  ----------------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.possiblyTooLongDiscList":
+     - disc list[7..22] bool possiblyTooLongDiscList;
+            ^
+
+  -----------------------------------------------------------------------------------------------------------------------
+  (7/10) List type of discrete variable"X.possiblyTooShortDiscList" can be shorter than the minimum length of 5 elements.
+  -----------------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.possiblyTooShortDiscList":
+     - disc list[2..5] bool possiblyTooShortDiscList;
+            ^
+
+  ----------------------------------------------------------------------------------------------------------------------
+  (8/10) List type of discrete variable"X.tooShortTooLongDiscList" can be longer than the maximum length of 10 elements.
+  ----------------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.tooShortTooLongDiscList":
+     - disc list[1..22] bool tooShortTooLongDiscList;
+            ^
+
+  ----------------------------------------------------------------------------------------------------------------------
+  (9/10) List type of discrete variable"X.tooShortTooLongDiscList" can be shorter than the minimum length of 5 elements.
+  ----------------------------------------------------------------------------------------------------------------------
+   * In discrete variable "X.tooShortTooLongDiscList":
+     - disc list[1..22] bool tooShortTooLongDiscList;
+            ^
+
+  -----------------------------------------------------------------------------------------------------
+  (10/10) List type of input variable"X.declList" can be longer than the maximum length of 10 elements.
+  -----------------------------------------------------------------------------------------------------
+   * In type declaration "usedLongList":
+     - type usedLongList = list[15..17] int;
+                           ^
