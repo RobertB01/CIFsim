@@ -65,9 +65,12 @@ The comments in the generated C, Java, JavaScript, and HTML code for `doc`-annot
 * The CIF code generator now generates correct JavaScript and HTML code for string escaping, for instance for log output, certain runtime errors, and state printing (issue {escet-issue}715[#715]).
 * The CIF code generator now generates correct JavaScript and HTML code for constants whose value is defined using other constants (issue {escet-issue}715[#715]).
 * The CIF code generator now generates JavaScript and HTML code for SVG copy and move declarations (issue {escet-issue}715[#715]).
-* The CIF code generator now generates JavaScript and HTML code that logs the initial state and states reached after event transitions (issue {escet-issue}715[#715]).
+* The CIF code generator now generates JavaScript and HTML code that can log the initial state and states reached after event transitions.
+This additional logging is disabled by default (issue {escet-issue}715[#715]).
 * The CIF code generator now generates JavaScript and HTML code that include variables to enable or disable state and transition logging (issue {escet-issue}715[#715]).
 * The CIF code generator now generates JavaScript and HTML code that takes into account the target of print declarations (issue {escet-issue}715[#715]).
+* The CIF code generator now generates HTML pages with a 'Settings' menu, in which state logging (new feature) and transition logging (existing feature) can be enabled or disabled (issue {escet-issue}715[#715]).
+* The CIF code generator now generates HTML pages with a log panel that has improved performance (issue {escet-issue}715[#715]).
 * The CIF code generator now generates HTML pages with a log panel that has a horizontal scrollbar, rather than wrapping long lines (issue {escet-issue}715[#715]).
 * The CIF code generator now generates HTML pages with less horizontal margin (issue {escet-issue}715[#715]).
 * The CIF code generator now generates HTML pages that apply proper HTML escaping for the log panel (issue {escet-issue}715[#715]).
@@ -82,6 +85,7 @@ The warning messages have also been improved (issue {escet-issue}424[#424]).
 * The (still experimental) new CIF PLC code generator now has an option to let the generator decide the best way to handle enumerations, based on the configured target PLC model (issue {escet-issue}679[#679]).
 * The (still experimental) new CIF PLC code generator has various fixes related to code generated for variables, timers and functions (issue {escet-issue}679[#679]).
 * The (still experimental) new CIF PLC code generator has various improvements and fixes related to names in the generated code, including among others better handling of keywords, not generating names with multiple consecutive underscores, and improved naming of edge selection variables (issue {escet-issue}679[#679]).
+* The (still experimental) new CIF PLC code generator now generates improved and extended comments in the generated PLC code, for the part of the code related to executing transitions (issue {escet-issue}782[#782]).
 * The (still experimental) new CIF PLC code generator has improved precondition checking for continuous variables, with better messages in case of unsupported specifications (issue {escet-issue}681[#681]).
 * The CIF to CIF transformation to eliminate 'if' updates now not only eliminates 'if' updates on edges, but also for SVG input mappings with updates (issue {escet-issue}227[#227]).
 * The CIF to CIF transformation to simplify values now not only simplifies the guards of 'if' and 'elif' updates on edges, but also for SVG input mappings with updates (issue {escet-issue}227[#227]).
@@ -89,9 +93,10 @@ The warning messages have also been improved (issue {escet-issue}424[#424]).
 * The CIF button/lamp/timer and FIFO examples have formatting improvements for their ToolDef scripts (issue {escet-issue}773[#773]).
 * The CIF ball sorting benchmark model source information had a typo that has been fixed (issue {escet-issue}751[#751]).
 * The CIF production cell benchmark model has a fixed comment (issue {escet-issue}767[#767]).
+* The CIF language tutorial 'Variable overview' lesson now also includes input variables (issue {escet-issue}792[#792]).
 * The CIF documentation breadcrumbs are now consistent with the table of contents (issue {escet-issue}38[#38]).
 * The CIF documentation table of contents now has proper links for items that link to sections on pages rather than to entire pages (issue {escet-issue}38[#38]).
-* The CIF website and documentation have various small improvements and extensions (issues {escet-issue}38[#38], {escet-issue}727[#727], {escet-issue}752[#752], {escet-issue}756[#756], {escet-issue}764[#764] and {escet-issue}766[#766]).
+* The CIF website and documentation have various small improvements and extensions (issues {escet-issue}38[#38], {escet-issue}227[#227], {escet-issue}715[#715], {escet-issue}727[#727], {escet-issue}752[#752], {escet-issue}756[#756], {escet-issue}764[#764] and {escet-issue}766[#766]).
 
 === Version 2.0 (2023-12-22)
 
