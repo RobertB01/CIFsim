@@ -13,5 +13,6 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.20.0",
  org.eclipse.escet.common.emf.ecore.xmi;bundle-version="4.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2",
  org.junit.jupiter.api.function;version="5.9.2"
-Export-Package: org.eclipse.escet.common.emf
+Export-Package: org.eclipse.escet.common.emf,
+ org.eclipse.escet.common.emf.prettyprint
 Automatic-Module-Name: org.eclipse.escet.common.emf
