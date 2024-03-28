@@ -199,6 +199,9 @@ After pre-processing, a check is performed whether the CIF file meets all the re
 * For components, the following conditions must be met:
 ** No initialization predicates outside locations that restrict initialization.
 ** No equations outside locations.
+** No events that can occur infinitely many times.
+The CIF PLC code generator only contains a crude check.
+A more sophisticated check can be done by checking the finite response property of the input specification with the <<tools-chapter-controller-checker,controller checker>> tool.
 
 * For automata and invariants, the following conditions must be met:
 ** At least one automaton.
