@@ -60,6 +60,7 @@ public class ExtFuncs {
      * @return The resolved static Java method.
      * @throws CifSimulatorException If loading fails.
      */
+    @SuppressWarnings("resource")
     public static Method loadJavaMethod(String cifFuncName, String className, String methodName, String classPath,
             String workingDir, Class<?>[] paramTypes, Class<?> expReturnType)
     {

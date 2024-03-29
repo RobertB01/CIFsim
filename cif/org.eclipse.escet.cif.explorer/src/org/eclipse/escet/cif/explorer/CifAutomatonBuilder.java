@@ -349,7 +349,7 @@ public class CifAutomatonBuilder {
      * @return The type.
      */
     private static CifType getVarType(PositionObject var) {
-        if (var instanceof ContVariable cvar) {
+        if (var instanceof ContVariable) {
             return newRealType();
         } else if (var instanceof DiscVariable dvar) {
             return dvar.getType();

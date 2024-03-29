@@ -1946,7 +1946,7 @@ public class CifValueUtils {
             return rExpr.getValue().hashCode();
         } else if (expr instanceof StringExpression sExpr) {
             return sExpr.getValue().hashCode();
-        } else if (expr instanceof TimeExpression tExpr) {
+        } else if (expr instanceof TimeExpression) {
             return 1 << 0;
         } else if (expr instanceof CastExpression cExpr) {
             return hashType(cExpr.getType()) + hashExpr(cExpr.getChild());

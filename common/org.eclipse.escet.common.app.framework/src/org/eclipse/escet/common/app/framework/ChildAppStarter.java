@@ -140,7 +140,6 @@ public class ChildAppStarter {
      * @throws InputOutputException If the use of a stdin/stdout/stderr stream, that is redirected to a file, causes an
      *     I/O error.
      */
-    @SuppressWarnings("resource")
     public static <T extends Application<?>> int exec(Class<T> appClass, final String[] args, String stdinPath,
             String stdoutPath, String stderrPath, boolean appendOut, boolean appendErr, boolean errToOut,
             boolean ignoreExitCode)

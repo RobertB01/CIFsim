@@ -397,7 +397,7 @@ public class ExprGenerator {
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprValueResult(this)
                     .setValue(currentCifDataProvider.getValueForContvar(ce.getVariable(), ce.isDerivative()));
-        } else if (expr instanceof LocationExpression le) {
+        } else if (expr instanceof LocationExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLit) {
             return new ExprValueResult(this).setValue(target.getTypeGenerator().getPlcEnumLiteral(eLit.getLiteral()));
@@ -944,7 +944,7 @@ public class ExprGenerator {
 
                 PlcExpression normalizedIndex = funcAppls.normalizeArrayIndex(indexResult.value, lt.getUpper());
                 plcProjections.add(new PlcArrayProjection(normalizedIndex));
-            } else if (unProjectedType instanceof TupleType tt) {
+            } else if (unProjectedType instanceof TupleType) {
                 int fieldIndex = getTupleProjIndex(cifProjection);
 
                 PlcType structTypeName = target.getTypeGenerator().convertType(unProjectedType);
@@ -972,7 +972,7 @@ public class ExprGenerator {
 
         // Dispatch call construction based on the function being called.
         Expression fexpr = funcCallExpr.getFunction();
-        if (fexpr instanceof StdLibFunctionExpression stdlibExpr) {
+        if (fexpr instanceof StdLibFunctionExpression) {
             return convertStdlibExpr(funcCallExpr, argumentResults);
         }
         // TODO: Implement function calls to internal user-defined functions.
