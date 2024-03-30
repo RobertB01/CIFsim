@@ -29,6 +29,41 @@ enum annos_docEventEnum_ {
 
     /** Tau step. */
     EVT_TAU_,
+
+    /** Event "events.e1". */
+    events_e1_,
+
+    /**
+     * Event "events.e2".
+     *
+     * single line doc
+     */
+    events_e2_,
+
+    /**
+     * Event "events.e3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    events_e3_,
+
+    /**
+     * Event "events.e4".
+     *
+     * some doc
+     */
+    events_e4_,
+
+    /**
+     * Event "events.e5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    events_e5_,
 };
 typedef enum annos_docEventEnum_ annos_doc_Event_;
 

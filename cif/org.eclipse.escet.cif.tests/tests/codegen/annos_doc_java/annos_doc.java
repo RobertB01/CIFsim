@@ -24,7 +24,11 @@ public abstract class annos_doc {
 
     /** The names of all the events, except for event 'tau'. */
     private final String[] EVENT_NAMES = {
-
+        "events.e1",
+        "events.e2",
+        "events.e3",
+        "events.e4",
+        "events.e5",
     };
 
     /** Constant "constants.c1". */
@@ -271,11 +275,26 @@ public abstract class annos_doc {
 
         // Execute events as long as they are possible.
         while (true) {
-            // Event "tau".
+            // Event "events.e1".
             if (execEvent0()) continue;
 
-            // Event "tau".
+            // Event "events.e2".
             if (execEvent1()) continue;
+
+            // Event "events.e3".
+            if (execEvent2()) continue;
+
+            // Event "events.e4".
+            if (execEvent3()) continue;
+
+            // Event "events.e5".
+            if (execEvent4()) continue;
+
+            // Event "tau".
+            if (execEvent5()) continue;
+
+            // Event "tau".
+            if (execEvent6()) continue;
 
             break;
         }
@@ -340,11 +359,98 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "tau".
+     * Execute code for event "events.e1".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
+        if (doInfoPrintOutput) printOutput(0, true);
+        if (doInfoEvent) infoEvent(0, true);
+
+
+        if (doInfoEvent) infoEvent(0, false);
+        if (doInfoPrintOutput) printOutput(0, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e2".
+     *
+     * single line doc
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent1() {
+        if (doInfoPrintOutput) printOutput(1, true);
+        if (doInfoEvent) infoEvent(1, true);
+
+
+        if (doInfoEvent) infoEvent(1, false);
+        if (doInfoPrintOutput) printOutput(1, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent2() {
+        if (doInfoPrintOutput) printOutput(2, true);
+        if (doInfoEvent) infoEvent(2, true);
+
+
+        if (doInfoEvent) infoEvent(2, false);
+        if (doInfoPrintOutput) printOutput(2, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e4".
+     *
+     * some doc
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent3() {
+        if (doInfoPrintOutput) printOutput(3, true);
+        if (doInfoEvent) infoEvent(3, true);
+
+
+        if (doInfoEvent) infoEvent(3, false);
+        if (doInfoPrintOutput) printOutput(3, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent4() {
+        if (doInfoPrintOutput) printOutput(4, true);
+        if (doInfoEvent) infoEvent(4, true);
+
+
+        if (doInfoEvent) infoEvent(4, false);
+        if (doInfoPrintOutput) printOutput(4, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "tau".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent5() {
         boolean guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
         if (!guard) return false;
 
@@ -362,7 +468,7 @@ public abstract class annos_doc {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEvent6() {
         boolean guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
         if (!guard) return false;
 

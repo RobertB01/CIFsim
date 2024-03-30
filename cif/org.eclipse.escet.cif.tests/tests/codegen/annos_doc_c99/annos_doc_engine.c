@@ -35,6 +35,11 @@ const char *annos_doc_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
+    "events.e1",    /**< Event "events.e1". */
+    "events.e2",    /**< Event "events.e2". */
+    "events.e3",    /**< Event "events.e3". */
+    "events.e4",    /**< Event "events.e4". */
+    "events.e5",    /**< Event "events.e5". */
 };
 
 /** Enumeration names. */
@@ -211,11 +216,103 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
 /* Event execution code. */
 
 /**
- * Execute code for event "tau".
+ * Execute code for event "events.e1".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e1_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e1_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e2".
+ *
+ * single line doc
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent1(void) {
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e2_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e2_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent2(void) {
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e3_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e3_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e4".
+ *
+ * some doc
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent3(void) {
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e4_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e4_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent4(void) {
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e5_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(events_e5_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "tau".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent5(void) {
     BoolType guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
     if (!guard) return FALSE;
 
@@ -234,7 +331,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEvent6(void) {
     BoolType guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
     if (!guard) return FALSE;
 
@@ -286,8 +383,13 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "tau". */
-        if (execEvent1()) continue;  /* (Try to) perform event "tau". */
+        if (execEvent0()) continue;  /* (Try to) perform event "events.e1". */
+        if (execEvent1()) continue;  /* (Try to) perform event "events.e2". */
+        if (execEvent2()) continue;  /* (Try to) perform event "events.e3". */
+        if (execEvent3()) continue;  /* (Try to) perform event "events.e4". */
+        if (execEvent4()) continue;  /* (Try to) perform event "events.e5". */
+        if (execEvent5()) continue;  /* (Try to) perform event "tau". */
+        if (execEvent6()) continue;  /* (Try to) perform event "tau". */
         break; /* No event fired, done with discrete steps. */
     }
 }
