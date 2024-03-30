@@ -2150,9 +2150,14 @@ static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
 /* }}} */
 
 enum exprsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum exprsEventEnum_ exprs_Event_;
 

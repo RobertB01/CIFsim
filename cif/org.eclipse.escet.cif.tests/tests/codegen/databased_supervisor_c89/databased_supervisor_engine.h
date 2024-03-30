@@ -64,15 +64,32 @@ extern int A6BTypePrint(A6BType *array, char *dest, int start, int end);
 
 /* Event declarations. */
 enum databased_supervisorEventEnum_ {
-    EVT_INITIAL_,       /**< Initial step. */
-    EVT_DELAY_,         /**< Delay step. */
-    EVT_TAU_,           /**< Tau step. */
-    Button_u_pushed_,   /**< Event Button.u_pushed. */
-    Button_u_released_, /**< Event Button.u_released. */
-    Lamp_c_on_,         /**< Event Lamp.c_on. */
-    Lamp_c_off_,        /**< Event Lamp.c_off. */
-    Timer_c_start_,     /**< Event Timer.c_start. */
-    Timer_u_timeout_,   /**< Event Timer.u_timeout. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "Button.u_pushed". */
+    Button_u_pushed_,
+
+    /** Event "Button.u_released". */
+    Button_u_released_,
+
+    /** Event "Lamp.c_on". */
+    Lamp_c_on_,
+
+    /** Event "Lamp.c_off". */
+    Lamp_c_off_,
+
+    /** Event "Timer.c_start". */
+    Timer_c_start_,
+
+    /** Event "Timer.u_timeout". */
+    Timer_u_timeout_,
 };
 typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 
