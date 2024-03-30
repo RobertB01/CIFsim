@@ -569,24 +569,24 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new AEnumDecl(a2.id, l4, a2.position);
     }
 
-    @Override // Decl : OptControllability @EVENTKW Identifiers SEMICOLTK;
-    public ADecl parseDecl03(Token t1, Token t2, List<AIdentifier> l3) {
-        return new AEventDecl(t1, l3, null, t2.position);
+    @Override // Decl : OptAnnos OptControllability @EVENTKW Identifiers SEMICOLTK;
+    public ADecl parseDecl03(List<AAnnotation> l1, Token t2, Token t3, List<AIdentifier> l4) {
+        return new AEventDecl(l1, t2, l4, null, t3.position);
     }
 
-    @Override // Decl : OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl04(Token t1, Token t2, ACifType a3, List<AIdentifier> l4) {
-        return new AEventDecl(t1, l4, a3, t2.position);
+    @Override // Decl : OptAnnos OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl04(List<AAnnotation> l1, Token t2, Token t3, ACifType a4, List<AIdentifier> l5) {
+        return new AEventDecl(l1, t2, l5, a4, t3.position);
     }
 
-    @Override // Decl : Controllability Identifiers SEMICOLTK;
-    public ADecl parseDecl05(Token t1, List<AIdentifier> l2) {
-        return new AEventDecl(t1, l2, null, t1.position);
+    @Override // Decl : OptAnnos Controllability Identifiers SEMICOLTK;
+    public ADecl parseDecl05(List<AAnnotation> l1, Token t2, List<AIdentifier> l3) {
+        return new AEventDecl(l1, t2, l3, null, t2.position);
     }
 
-    @Override // Decl : Controllability EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl06(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AEventDecl(t1, l3, a2, t1.position);
+    @Override // Decl : OptAnnos Controllability EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl06(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+        return new AEventDecl(l1, t2, l4, a3, t2.position);
     }
 
     @Override // Decl : OptAnnos @CONSTKW Type ConstantDefs SEMICOLTK;
