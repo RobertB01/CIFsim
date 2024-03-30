@@ -35,7 +35,7 @@
       <import feature="org.eclipse.escet.common.feature" version="3.0.0" match="compatible"/>
       <import feature="org.eclipse.escet.setext.feature" version="3.0.0" match="compatible"/>
       <import plugin="io.github.java-diff-utils"/>
-      <import plugin="org.apache.commons.exec"/>
+      <import plugin="org.apache.commons.commons-exec"/>
    </requires>
 
    <plugin
