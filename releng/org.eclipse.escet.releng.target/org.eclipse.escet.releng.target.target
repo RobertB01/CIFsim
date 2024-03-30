@@ -29,6 +29,7 @@
             <unit id="org.apache.commons.lang3" version="0.0.0"/>
             <unit id="org.apache.commons.math3" version="0.0.0"/>
             <unit id="org.jsoup" version="0.0.0"/>
+            <unit id="org.eclipse.orbit.xml-apis-ext" version="0.0.0"/>
             <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
         </location>
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -72,17 +73,6 @@
                     <artifactId>xchart</artifactId>
                     <version>3.6.5</version>
                     <type>jar</type>
-                </dependency>
-                <dependency>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                    <artifactId>org.w3c.dom.svg</artifactId>
-                    <version>1.1.0</version>
-                    <type>jar</type>
-                </dependency>
-                <dependency>
-                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-                    <artifactId>org.w3c.css.sac</artifactId>
-                    <version>1.3.0</version>
                 </dependency>
             </dependencies>
         </location>
