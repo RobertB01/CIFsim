@@ -1,0 +1,12 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  --------------------------------------------
+  (1/1) Event is only used as a monitor event.
+  --------------------------------------------
+   * In the top-level scope of the specification:
+     - event monEvery_norm;
+             ^
+     - event monEverySome_norm;
+             ^
+     - event monSome_norm;
+             ^
