@@ -96,7 +96,7 @@ There click _New branch_ to create a new branch from `develop`.
 See our <<development-development-process-chapter-index,development process>> for more information.
 
 ** To push a commit, you'll be asked for your credentials.
-Assuming you have 2-factor authentication (2FA) enabled for your Eclipse Foundation GitLab account, use your GitLab username and a GitLab access token (not your password).
+Assuming you have 2-factor authentication (2FA) enabled for your Eclipse Foundation GitLab account, use your GitLab username and a link:https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#create-a-personal-access-token[GitLab access token] (not your password).
 
 * Once you've finished work on your contribution, create a merge request for it:
 
