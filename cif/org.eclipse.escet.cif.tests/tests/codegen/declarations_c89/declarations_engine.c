@@ -74,12 +74,12 @@ const char *declarations_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e_e1",         /**< Event e_e1. */
-    "e_e2",         /**< Event e_e2. */
-    "c_e1",         /**< Event c_e1. */
-    "c_e2",         /**< Event c_e2. */
-    "u_e1",         /**< Event u_e1. */
-    "u_e2",         /**< Event u_e2. */
+    "e_e1",         /**< Event "e_e1". */
+    "e_e2",         /**< Event "e_e2". */
+    "c_e1",         /**< Event "c_e1". */
+    "c_e2",         /**< Event "c_e2". */
+    "u_e1",         /**< Event "u_e1". */
+    "u_e2",         /**< Event "u_e2". */
 };
 
 /** Enumeration names. */

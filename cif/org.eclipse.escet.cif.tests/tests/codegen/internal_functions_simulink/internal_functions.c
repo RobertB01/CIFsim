@@ -1929,9 +1929,14 @@ static int_T fr_(SimStruct *sim_struct) {
 /* }}} */
 
 enum internal_functionsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum internal_functionsEventEnum_ internal_functions_Event_;
 

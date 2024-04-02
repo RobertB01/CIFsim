@@ -519,7 +519,7 @@ const char *unsupported_simulink_warnings_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "a.e",          /**< Event a.e. */
+    "a.e",          /**< Event "a.e". */
 };
 
 /** Enumeration names. */

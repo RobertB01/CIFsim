@@ -101,3 +101,24 @@ group constants:
   @doc($text = "Second doc.")
   const int c5 = 5;
 end
+
+automaton events:
+  event e1;
+
+  @doc($text = "single line doc")
+  event e2;
+
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  event e3;
+
+  @doc($text = fmt("%s", "some doc"))
+  event e4;
+
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  event e5;
+
+  location:
+    initial;
+    edge e1, e2, e3, e4, e5;
+end

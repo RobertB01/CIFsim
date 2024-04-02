@@ -1405,9 +1405,49 @@ static real_T deriv05(SimStruct *sim_struct) {
 /* }}} */
 
 enum annos_docEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "events.e1". */
+    events_e1_,
+
+    /**
+     * Event "events.e2".
+     *
+     * single line doc
+     */
+    events_e2_,
+
+    /**
+     * Event "events.e3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    events_e3_,
+
+    /**
+     * Event "events.e4".
+     *
+     * some doc
+     */
+    events_e4_,
+
+    /**
+     * Event "events.e5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    events_e5_,
 };
 typedef enum annos_docEventEnum_ annos_doc_Event_;
 
@@ -1415,6 +1455,11 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
+    "events.e1",    /**< Event "events.e1". */
+    "events.e2",    /**< Event "events.e2". */
+    "events.e3",    /**< Event "events.e3". */
+    "events.e4",    /**< Event "events.e4". */
+    "events.e5",    /**< Event "events.e5". */
 };
 
 /** Enum names. */
@@ -1435,7 +1480,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
 }
 
 /* Time-dependent guards. */
-static BoolType GuardEval00(SimStruct *sim_struct) {
+static BoolType GuardEval05(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1446,7 +1491,7 @@ static BoolType GuardEval00(SimStruct *sim_struct) {
 /* Event execution. */
 
 /**
- * Execute code for event "tau".
+ * Execute code for event "events.e1".
  *
  * @return Whether the event was performed.
  */
@@ -1455,7 +1500,89 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = GuardEval00(sim_struct);
+
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e2".
+ *
+ * single line doc
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent1(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent2(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e4".
+ *
+ * some doc
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent3(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent4(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+
+    return TRUE;
+}
+
+/**
+ * Execute code for event "tau".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent5(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    BoolType guard = GuardEval05(sim_struct);
     if (!guard) return FALSE;
 
 
@@ -1467,7 +1594,7 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
  *
  * @return Whether the event was performed.
  */
-static BoolType ExecEvent1(SimStruct *sim_struct) {
+static BoolType ExecEvent6(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1611,7 +1738,7 @@ static void mdlZeroCrossings(SimStruct *sim_struct) {
     ClearInputFlags(work);
     real_T *zcSignals = ssGetNonsampledZCs(sim_struct);
 
-    zcSignals[0] = GuardEval00(sim_struct);
+    zcSignals[0] = GuardEval05(sim_struct);
 }
 #endif
 /* }}} */
@@ -1717,8 +1844,13 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
     }
 
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "tau". */
-        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "tau". */
+        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "events.e1". */
+        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "events.e2". */
+        if (ExecEvent2(sim_struct)) continue;  /* (Try to) perform event "events.e3". */
+        if (ExecEvent3(sim_struct)) continue;  /* (Try to) perform event "events.e4". */
+        if (ExecEvent4(sim_struct)) continue;  /* (Try to) perform event "events.e5". */
+        if (ExecEvent5(sim_struct)) continue;  /* (Try to) perform event "tau". */
+        if (ExecEvent6(sim_struct)) continue;  /* (Try to) perform event "tau". */
 
         break; /* None of the events triggered. */
     }

@@ -547,6 +547,9 @@ public class CifMerger {
         eventRef.setType(newBoolType());
         refExprReplacements.put(event2, eventRef);
 
+        // Move annotations.
+        event1.getAnnotations().addAll(event2.getAnnotations());
+
         // Return merged event.
         return event1;
     }

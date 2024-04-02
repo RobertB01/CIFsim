@@ -37,8 +37,12 @@ automaton a3:
   @a(x = 3, x = 4)
   cont c = 1 der 2;
 
+  @a(x = 5, x = 6)
+  event evt;
+
   location:
     initial;
+    edge evt;
 end
 
 group g1:

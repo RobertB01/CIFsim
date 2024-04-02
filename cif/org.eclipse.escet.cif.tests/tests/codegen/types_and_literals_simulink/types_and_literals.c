@@ -2516,9 +2516,14 @@ struct WorkStruct {
 /* }}} */
 
 enum types_and_literalsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum types_and_literalsEventEnum_ types_and_literals_Event_;
 

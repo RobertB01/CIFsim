@@ -21,9 +21,14 @@ extern int EnumTypePrint(rename_warningEnum value, char *dest, int start, int en
 
 /* Event declarations. */
 enum rename_warningEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum rename_warningEventEnum_ rename_warning_Event_;
 

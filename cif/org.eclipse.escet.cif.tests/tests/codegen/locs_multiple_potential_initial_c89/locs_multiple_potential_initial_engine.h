@@ -22,9 +22,14 @@ extern int EnumTypePrint(locs_multiple_potential_initialEnum value, char *dest, 
 
 /* Event declarations. */
 enum locs_multiple_potential_initialEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum locs_multiple_potential_initialEventEnum_ locs_multiple_potential_initial_Event_;
 
