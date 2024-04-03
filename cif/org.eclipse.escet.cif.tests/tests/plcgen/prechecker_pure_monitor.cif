@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,9 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Executes a benchmark for the 'ball_sorting_adapted' model.
-// Configure the settings to benchmark in 'benchmark__settings.tooldef'.
+automaton Mon:
+  event mon;
+  monitor;
 
-from "benchmark__base.tooldef" import *;
-
-benchmark("ball_sorting", "ball_sorting", "ball_sorting_adapted.cif");
+  location A:
+    initial;
+    edge mon goto B;
+  location B;
+end

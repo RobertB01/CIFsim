@@ -28,3 +28,11 @@ plant q2:
     initial;
     edge e3!;
 end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  event e;
+
+  invariant e needs true;
+end

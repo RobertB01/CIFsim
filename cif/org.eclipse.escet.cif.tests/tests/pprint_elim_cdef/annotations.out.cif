@@ -64,9 +64,26 @@ automaton a3:
   cont c1 = 1.0 der 2.0;
   @a(b = 2)
   cont c2 = 3.0 der 4.0;
+  @a(b = 5)
+  event event1a;
+  @a(b = 5)
+  event event1b;
+  @a(b = 6)
+  event bool event2a;
+  @a(b = 6)
+  event bool event2b;
+  @a(b = 7)
+  controllable event3a;
+  @a(b = 7)
+  controllable event3b;
+  @a(b = 8)
+  uncontrollable bool event4a;
+  @a(b = 8)
+  uncontrollable bool event4b;
   invariant x > 0 and y > 0 and c1 > 0 and c2 > 0;
   location:
     initial;
+    edge event1a, event1b, event2a, event2b, event3a, event3b, event4a, event4b;
 end
 group g1:
   @a(b = 3)

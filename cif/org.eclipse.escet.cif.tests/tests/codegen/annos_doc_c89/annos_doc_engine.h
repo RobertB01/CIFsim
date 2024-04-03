@@ -21,9 +21,49 @@ extern int EnumTypePrint(annos_docEnum value, char *dest, int start, int end);
 
 /* Event declarations. */
 enum annos_docEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "events.e1". */
+    events_e1_,
+
+    /**
+     * Event "events.e2".
+     *
+     * single line doc
+     */
+    events_e2_,
+
+    /**
+     * Event "events.e3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    events_e3_,
+
+    /**
+     * Event "events.e4".
+     *
+     * some doc
+     */
+    events_e4_,
+
+    /**
+     * Event "events.e5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    events_e5_,
 };
 typedef enum annos_docEventEnum_ annos_doc_Event_;
 

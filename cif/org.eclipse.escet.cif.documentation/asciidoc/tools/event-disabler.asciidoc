@@ -195,6 +195,7 @@ For events that are disabled by the tool, but did not exist in the input specifi
 If the option is disabled, the output specification starts empty.
 For all events are disabled, an event declaration is added.
 Event declarations are added in their proper scopes, based on their absolute names, by adding groups around them as needed.
+The added event declarations do not have any annotations.
 
 indexterm:[performance,CIF event disabler]
 indexterm:[CIF event disabler,performance]

@@ -14,6 +14,15 @@ plant automaton q1:
     initial;
     edge e1? do x := ?;
 end
+group annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  event e;
+  invariant e needs true;
+  invariant e needs true;
+end
 plant automaton p2:
   location:
     initial;

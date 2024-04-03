@@ -55,11 +55,20 @@ extern int T3IBSTypePrint(T3IBSType *tuple, char *dest, int start, int end);
 
 /* Event declarations. */
 enum printsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e1_,          /**< Event e1. */
-    e2_,          /**< Event e2. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e1". */
+    e1_,
+
+    /** Event "e2". */
+    e2_,
 };
 typedef enum printsEventEnum_ prints_Event_;
 

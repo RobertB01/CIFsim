@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTauExpression;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Sets.copy;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Sets.sortedgeneric;
@@ -407,7 +408,7 @@ public class CifEventUtils {
         // Handle monitors implicitly equal to alphabet.
         List<Expression> eventRefs = monitors.getEvents();
         if (eventRefs.isEmpty()) {
-            return (alphabet != null) ? alphabet : getAlphabet(automaton);
+            return (alphabet != null) ? copy(alphabet) : getAlphabet(automaton);
         }
 
         // Handle explicitly specified monitors.

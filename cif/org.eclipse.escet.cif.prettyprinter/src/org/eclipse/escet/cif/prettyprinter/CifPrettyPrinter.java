@@ -672,6 +672,10 @@ public final class CifPrettyPrinter {
      * @param event The event.
      */
     public void add(Event event) {
+        // Add annotations.
+        add(event.getAnnotations());
+
+        // Add declaration.
         String typeTxt = (event.getType() == null) ? "" : pprint(event.getType()) + " ";
         code.add("%s %s%s;", controllabilityToStr(event.getControllable()), typeTxt, escapeIdentifier(event.getName()));
     }

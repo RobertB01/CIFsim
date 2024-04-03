@@ -1913,10 +1913,17 @@ static A1A1A1BType a7_(SimStruct *sim_struct) {
 /* }}} */
 
 enum unsupported_simulink_warningsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    a_e_,         /**< Event a.e. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "a.e". */
+    a_e_,
 };
 typedef enum unsupported_simulink_warningsEventEnum_ unsupported_simulink_warnings_Event_;
 
@@ -1924,7 +1931,7 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "a.e",          /**< Event a.e. */
+    "a.e",          /**< Event "a.e". */
 };
 
 /** Enum names. */

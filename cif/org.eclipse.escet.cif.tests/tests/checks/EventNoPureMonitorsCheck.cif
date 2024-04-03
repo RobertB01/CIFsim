@@ -1,0 +1,75 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Event names have the form "mon" <auts> "_norm" <auts>
+// where "auts" is a subset of "Every", "None", and/or "Some".
+//
+// First <auts> are the automata suffixes that use the event as monitor event, second <auts> are the
+// automata suffixes that use the event as normal (non-monitor) event.
+event monEvery_norm; // <-- Pure monitor event.
+event monEvery_normNone;
+event monEvery_normNoneSome;
+event monEvery_normSome;
+event monEverySome_norm; // <-- Pure monitor event.
+event monEverySome_normNone;
+event monSome_norm; // <-- Pure monitor event.
+event monSome_normNone;
+event mon_normNone;
+event mon_normNoneSome;
+event mon_normSome;
+
+// Automaton that has no monitor events.
+automaton MonitorNone:
+  location:
+    initial;
+    edge monEvery_normNone;
+    edge monEvery_normNoneSome;
+    edge monEverySome_normNone;
+    edge monSome_normNone;
+    edge mon_normNone;
+    edge mon_normNoneSome;
+end
+
+// Automaton that only has monitor events.
+automaton MonitorEvery:
+  monitor;
+
+  location:
+    initial;
+    edge monEvery_norm;
+    edge monEvery_normNone;
+    edge monEvery_normNoneSome;
+    edge monEvery_normSome;
+    edge monEverySome_norm;
+    edge monEverySome_normNone;
+end
+
+// Automaton that has a subset as monitor events.
+automaton MonitorSome:
+  monitor monEverySome_norm,
+          monEverySome_normNone,
+          monSome_norm,
+          monSome_normNone;
+
+  location:
+    initial;
+    edge monEverySome_norm;
+    edge monEverySome_normNone;
+    edge monSome_norm;
+    edge monSome_normNone;
+
+    edge monEvery_normNoneSome;
+    edge monEvery_normSome;
+    edge mon_normNoneSome;
+    edge mon_normSome;
+end

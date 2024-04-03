@@ -94,8 +94,21 @@ automaton a3:
 
   invariant x > 0 and y > 0 and c1 > 0 and c2 > 0;
 
+  @a(b = 5)
+  event event1a, event1b;
+
+  @a(b = 6)
+  event bool event2a, event2b;
+
+  @a(b = 7)
+  controllable event3a, event3b;
+
+  @a(b = 8)
+  uncontrollable bool event4a, event4b;
+
   location:
     initial;
+    edge event1a, event1b, event2a, event2b, event3a, event3b, event4a, event4b;
 end
 
 group g1:

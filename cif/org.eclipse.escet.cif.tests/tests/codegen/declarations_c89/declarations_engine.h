@@ -33,15 +33,32 @@ extern int T3IIRTypePrint(T3IIRType *tuple, char *dest, int start, int end);
 
 /* Event declarations. */
 enum declarationsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e_e1_,        /**< Event e_e1. */
-    e_e2_,        /**< Event e_e2. */
-    c_e1_,        /**< Event c_e1. */
-    c_e2_,        /**< Event c_e2. */
-    u_e1_,        /**< Event u_e1. */
-    u_e2_,        /**< Event u_e2. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e_e1". */
+    e_e1_,
+
+    /** Event "e_e2". */
+    e_e2_,
+
+    /** Event "c_e1". */
+    c_e1_,
+
+    /** Event "c_e2". */
+    c_e2_,
+
+    /** Event "u_e1". */
+    u_e1_,
+
+    /** Event "u_e2". */
+    u_e2_,
 };
 typedef enum declarationsEventEnum_ declarations_Event_;
 

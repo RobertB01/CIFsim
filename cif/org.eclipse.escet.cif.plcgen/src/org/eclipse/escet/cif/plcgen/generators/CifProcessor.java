@@ -29,6 +29,7 @@ import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoPureMonitorsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
@@ -572,8 +573,9 @@ public class CifProcessor {
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
 
-                    // Disallow tau events.
-                    new EventNoTauCheck(),
+                    // Disallow tau events and pure monitors.
+                    new EventNoTauCheck(), //
+                    new EventNoPureMonitorsCheck(),
 
                     // Disallow equations.
                     // TODO This may be too strict. Consider what equations should be allowed more closely.

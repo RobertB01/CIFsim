@@ -22,9 +22,11 @@ The release notes for the versions of Chi and the associated tools, as part of t
 
 See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-name}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-=== Version 3.0
+=== Version 4.0
 
 TBD
+
+=== Version 3.0 (2024-03-31)
 
 Improvements and fixes:
 
