@@ -46,6 +46,8 @@ import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
@@ -381,6 +383,10 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Need at least one requirement element, to prevent empty DMMs.
                     // Both requirement automata and state/event exclusion invariants count as requirement.
                     new SpecHasRequirementCheck(),
+
+                    // Disallow initialization and marker predicates outside locations.
+                    new CompNoInitPredsCheck(true), //
+                    new CompNoMarkerPredsCheck(true),
 
                     // Only requirement state/event exclusion invariants in components are supported.
                     new InvNoSpecificInvsCheck() //
