@@ -52,4 +52,9 @@ public class PrettyFeatEReference extends PrettyEFeat {
         }
         return Arrays.stream(idNumbers).mapToObj(id -> (id < 0) ? "?" : "<<" + id + ">>").collect(Lists.toList());
     }
+
+    @Override
+    public boolean isEmpty() {
+        return data == null || idNumbers.length == 0;
+    }
 }

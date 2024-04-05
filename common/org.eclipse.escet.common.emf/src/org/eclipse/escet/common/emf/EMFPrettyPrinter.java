@@ -58,14 +58,26 @@ public class EMFPrettyPrinter {
     private static final String INDENT_TEXT = "       ";
 
     /**
-     * Pretty-print an EMF contained tree.
+     * Pretty-print an EMF contained tree while not printing the empty or null features.
      *
      * @param rootObject Root of the tree to pretty-print.
      * @return The created text.
+     * @see #printPrettyTree(EObject, boolean)
      */
     public static String printPrettyTree(EObject rootObject) {
+        return printPrettyTree(rootObject, true);
+    }
+
+    /**
+     * Pretty-print an EMF contained tree.
+     *
+     * @param rootObject Root of the tree to pretty-print.
+     * @param skipEmptyFeatures Don't output features that are {@code null} or empty.
+     * @return The created text.
+     */
+    public static String printPrettyTree(EObject rootObject, boolean skipEmptyFeatures) {
         List<PrettyEObject> prettyEObjects = sequenceEObjects(rootObject);
-        return printPrettyEObjects(prettyEObjects);
+        return printPrettyEObjects(prettyEObjects, skipEmptyFeatures);
     }
 
     /**
@@ -179,9 +191,10 @@ public class EMFPrettyPrinter {
      * Convert the sequence pretty EObjects to text.
      *
      * @param prettyEObjects EObjects to convert.
+     * @param skipEmptyFeatures Don't output features that are {@code null} or empty.
      * @return The created text.
      */
-    private static String printPrettyEObjects(List<PrettyEObject> prettyEObjects) {
+    private static String printPrettyEObjects(List<PrettyEObject> prettyEObjects, boolean skipEmptyFeatures) {
         StringBuilder sb = new StringBuilder();
         boolean isFirst = true;
         for (PrettyEObject prettyEObject: prettyEObjects) {
@@ -198,8 +211,14 @@ public class EMFPrettyPrinter {
                 // Construct the initial text of the feature.
                 String featKind;
                 if (prettyFeat instanceof PrettyFeatEAttribute attr) {
+                    if (skipEmptyFeatures && attr.isEmpty()) {
+                        continue;
+                    }
                     featKind = "Attribute";
                 } else if (prettyFeat instanceof PrettyFeatEReference ref) {
+                    if (skipEmptyFeatures && ref.isEmpty()) {
+                        continue;
+                    }
                     featKind = "Reference";
                 } else {
                     throw new AssertionError("Unexpected pretty feature found: \"" + prettyFeat + "\".");
@@ -213,7 +232,7 @@ public class EMFPrettyPrinter {
                 // And add the values to the text.
                 List<String> texts = prettyFeat.getValues();
                 if (texts.isEmpty()) {
-                    // Empty list, since a null values is returned as "null".
+                    // Empty list, since a null value is returned as list("null").
                     sb.append("[ ]");
                 } else if (prettyFeat.isMany()) {
                     colNum = addText("[", sb, colNum, false);

@@ -52,4 +52,10 @@ public class PrettyFeatEAttribute extends PrettyEFeat {
             return List.of(data.toString());
         }
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean isEmpty() {
+        return data == null || (isMany() && ((List<Object>)data).isEmpty());
+    }
 }

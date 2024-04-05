@@ -75,6 +75,13 @@ public abstract class PrettyEFeat {
     public abstract void resolveId(int idNumber, int index);
 
     /**
+     * Return whether the feature has no data.
+     *
+     * @return Whether the feature has no data.
+     */
+    public abstract boolean isEmpty();
+
+    /**
      * Provide a textual description of the value.
      *
      * @return {@code List.of("null")} if there is no value, else a text for each object in the value.
