@@ -13,8 +13,17 @@
 
 package org.eclipse.escet.cif.multilevel.partialspecs;
 
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newGroup;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInvariant;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
+import static org.eclipse.escet.common.emf.EMFPrettyPrinter.printPrettyTree;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,8 +31,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.junit.jupiter.api.Test;
 
 /** Tests for creating partial specifications. */
@@ -188,5 +203,95 @@ public class PartialSpecsTest {
         doTest(List.of(varC, varD, varA), true);
         doTest(List.of(varD, varA, varC), true);
         doTest(List.of(varD, varC, varA), true);
+    }
+
+    @Test
+    /** Requirement linking a discrete variable to a location, forcing both to be replaced by an input variable. */
+    public void testToInputVar() {
+        // automaton x:
+        //   location Y:
+        // group Z:
+        //   disc bool b;
+        // invariant Y = b;  <-- Element to copy to the partial specification.
+        Specification spec = newSpecification();
+
+        Automaton x = newAutomaton();
+        spec.getComponents().add(x);
+        x.setName("X");
+        Location y = newLocation();
+        y.setName("Y");
+        x.getLocations().add(y);
+
+        Group z = newGroup();
+        spec.getComponents().add(z);
+        z.setName("Z");
+        DiscVariable b = newDiscVariable();
+        b.setName("b");
+        b.setType(newBoolType());
+        z.getDeclarations().add(b);
+
+        Invariant i = newInvariant();
+        spec.getInvariants().add(i);
+        Expression yRef = newLocationExpression(y, null, newBoolType());
+        Expression bRef = newDiscVariableExpression(null, newBoolType(), b);
+        i.setPredicate(newBinaryExpression(yRef, BinaryOperator.EQUAL, null, bRef, newBoolType()));
+
+        // Construct partial specification.
+        PartialSpecsBuilder partialBuilder = new PartialSpecsBuilder(spec);
+        Specification partialSpec = partialBuilder.createPartialSpecification(List.of(i));
+
+        // Dump the copied tree and compare.
+        String actual = printPrettyTree(partialSpec);
+        String expected = """
+                [1] Specification:
+                  - Reference List<Component> components = [<<2>>, <<3>>]
+                  - Reference List<Invariant> invariants = [<<4>>]
+
+                [2] Group:
+                  - Reference List<Declaration> declarations = [<<5>>]
+                  - Attribute CifIdentifier name = X
+
+                [3] Group:
+                  - Reference List<Declaration> declarations = [<<6>>]
+                  - Attribute CifIdentifier name = Z
+
+                [4] Invariant:
+                  - Attribute InvKind invKind = State
+                  - Reference Expression predicate = <<7>>
+                  - Attribute SupKind supKind = None
+
+                [5] InputVariable:
+                  - Attribute CifIdentifier name = Y
+                  - Reference CifType type = <<8>>
+
+                [6] InputVariable:
+                  - Attribute CifIdentifier name = b
+                  - Reference CifType type = <<9>>
+
+                [7] BinaryExpression:
+                  - Reference Expression left = <<10>>
+                  - Attribute BinaryOperator operator = Equal
+                  - Reference Expression right = <<11>>
+                  - Reference CifType type = <<12>>
+
+                [8] BoolType:
+
+                [9] BoolType:
+
+                [10] InputVariableExpression:
+                  - Reference CifType type = <<13>>
+                  - Reference InputVariable variable = <<5>>
+
+                [11] InputVariableExpression:
+                  - Reference CifType type = <<14>>
+                  - Reference InputVariable variable = <<6>>
+
+                [12] BoolType:
+
+                [13] BoolType:
+
+                [14] BoolType:
+                """;
+        assertEquals(expected, actual);
     }
 }
