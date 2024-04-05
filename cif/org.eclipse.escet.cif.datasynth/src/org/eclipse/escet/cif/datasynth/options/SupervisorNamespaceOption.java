@@ -13,12 +13,9 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
-import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Supervisor namespace option. */
 public class SupervisorNamespaceOption extends StringOption {
@@ -41,7 +38,7 @@ public class SupervisorNamespaceOption extends StringOption {
                 "NS",
 
                 // defaultValue
-                null,
+                CifDataSynthesisSettingsDefaults.SUPERVISOR_NAMESPACE_DEFAULT,
 
                 // emptyAsNull
                 true,
@@ -62,11 +59,6 @@ public class SupervisorNamespaceOption extends StringOption {
      * @return The namespace of the resulting supervisor.
      */
     public static String getNamespace() {
-        String ns = Options.get(SupervisorNamespaceOption.class);
-        if (ns != null && !CifValidationUtils.isValidName(ns)) {
-            String msg = fmt("Supervisor namespace \"%s\" is invalid.", ns);
-            throw new InvalidOptionException(msg);
-        }
-        return ns;
+        return Options.get(SupervisorNamespaceOption.class);
     }
 }

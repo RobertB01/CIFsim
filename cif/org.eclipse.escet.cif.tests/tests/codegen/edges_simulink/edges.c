@@ -2125,7 +2125,7 @@ static real_T deriv05(SimStruct *sim_struct);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable aut12.v = M.aut12_x + M.aut12_y; */
+/** Algebraic variable aut12.v = M.aut12_x + M.aut12_y. */
 static real_T aut12_v_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2134,7 +2134,7 @@ static real_T aut12_v_(SimStruct *sim_struct) {
     return RealAdd(work->aut12_x_, work->aut12_y_);
 }
 
-/** Algebraic variable aut12.w = aut12.v + M.aut12_z; */
+/** Algebraic variable aut12.w = aut12.v + M.aut12_z. */
 static real_T aut12_w_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2143,7 +2143,7 @@ static real_T aut12_w_(SimStruct *sim_struct) {
     return RealAdd(aut12_v_(sim_struct), work->aut12_z_);
 }
 
-/** Algebraic variable aut13.v = M.aut13_x + M.aut13_y; */
+/** Algebraic variable aut13.v = M.aut13_x + M.aut13_y. */
 static real_T aut13_v_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2152,7 +2152,7 @@ static real_T aut13_v_(SimStruct *sim_struct) {
     return RealAdd(work->aut13_x_, work->aut13_y_);
 }
 
-/** Algebraic variable aut13.w = aut13.v + M.aut13_z; */
+/** Algebraic variable aut13.w = aut13.v + M.aut13_z. */
 static real_T aut13_w_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2215,74 +2215,209 @@ static real_T deriv05(SimStruct *sim_struct) {
 /* }}} */
 
 enum edgesEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e02a_,        /**< Event e02a. */
-    e02b_,        /**< Event e02b. */
-    e03a_,        /**< Event e03a. */
-    e03b_,        /**< Event e03b. */
-    e04a_,        /**< Event e04a. */
-    e04b_,        /**< Event e04b. */
-    e04c_,        /**< Event e04c. */
-    e04d_,        /**< Event e04d. */
-    e04e_,        /**< Event e04e. */
-    e04f_,        /**< Event e04f. */
-    e05a_,        /**< Event e05a. */
-    e05b_,        /**< Event e05b. */
-    e05c_,        /**< Event e05c. */
-    e05d_,        /**< Event e05d. */
-    e05e_,        /**< Event e05e. */
-    e06a_,        /**< Event e06a. */
-    e06b_,        /**< Event e06b. */
-    e06c_,        /**< Event e06c. */
-    e06d_,        /**< Event e06d. */
-    e06e_,        /**< Event e06e. */
-    e07a_,        /**< Event e07a. */
-    e07b_,        /**< Event e07b. */
-    e08a_,        /**< Event e08a. */
-    e08b_,        /**< Event e08b. */
-    e08c_,        /**< Event e08c. */
-    e08d_,        /**< Event e08d. */
-    e08e_,        /**< Event e08e. */
-    e08f_,        /**< Event e08f. */
-    e08g_,        /**< Event e08g. */
-    e08h_,        /**< Event e08h. */
-    e09a_,        /**< Event e09a. */
-    e09b_,        /**< Event e09b. */
-    e09c_,        /**< Event e09c. */
-    e09d_,        /**< Event e09d. */
-    e09e_,        /**< Event e09e. */
-    e09f_,        /**< Event e09f. */
-    e09g_,        /**< Event e09g. */
-    e10a_,        /**< Event e10a. */
-    e10b_,        /**< Event e10b. */
-    e10c_,        /**< Event e10c. */
-    e10d_,        /**< Event e10d. */
-    e10e_,        /**< Event e10e. */
-    e10f_,        /**< Event e10f. */
-    e10g_,        /**< Event e10g. */
-    e10h_,        /**< Event e10h. */
-    e10i_,        /**< Event e10i. */
-    e11a_,        /**< Event e11a. */
-    e12a_,        /**< Event e12a. */
-    e12b_,        /**< Event e12b. */
-    e12c_,        /**< Event e12c. */
-    e12d_,        /**< Event e12d. */
-    e12e_,        /**< Event e12e. */
-    e13a_,        /**< Event e13a. */
-    e13b_,        /**< Event e13b. */
-    e13c_,        /**< Event e13c. */
-    e13d_,        /**< Event e13d. */
-    e13e_,        /**< Event e13e. */
-    e14a_,        /**< Event e14a. */
-    e14b_,        /**< Event e14b. */
-    e14c_,        /**< Event e14c. */
-    e14d_,        /**< Event e14d. */
-    e14e_,        /**< Event e14e. */
-    e14f_,        /**< Event e14f. */
-    e14g_,        /**< Event e14g. */
-    e14h_,        /**< Event e14h. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e02a". */
+    e02a_,
+
+    /** Event "e02b". */
+    e02b_,
+
+    /** Event "e03a". */
+    e03a_,
+
+    /** Event "e03b". */
+    e03b_,
+
+    /** Event "e04a". */
+    e04a_,
+
+    /** Event "e04b". */
+    e04b_,
+
+    /** Event "e04c". */
+    e04c_,
+
+    /** Event "e04d". */
+    e04d_,
+
+    /** Event "e04e". */
+    e04e_,
+
+    /** Event "e04f". */
+    e04f_,
+
+    /** Event "e05a". */
+    e05a_,
+
+    /** Event "e05b". */
+    e05b_,
+
+    /** Event "e05c". */
+    e05c_,
+
+    /** Event "e05d". */
+    e05d_,
+
+    /** Event "e05e". */
+    e05e_,
+
+    /** Event "e06a". */
+    e06a_,
+
+    /** Event "e06b". */
+    e06b_,
+
+    /** Event "e06c". */
+    e06c_,
+
+    /** Event "e06d". */
+    e06d_,
+
+    /** Event "e06e". */
+    e06e_,
+
+    /** Event "e07a". */
+    e07a_,
+
+    /** Event "e07b". */
+    e07b_,
+
+    /** Event "e08a". */
+    e08a_,
+
+    /** Event "e08b". */
+    e08b_,
+
+    /** Event "e08c". */
+    e08c_,
+
+    /** Event "e08d". */
+    e08d_,
+
+    /** Event "e08e". */
+    e08e_,
+
+    /** Event "e08f". */
+    e08f_,
+
+    /** Event "e08g". */
+    e08g_,
+
+    /** Event "e08h". */
+    e08h_,
+
+    /** Event "e09a". */
+    e09a_,
+
+    /** Event "e09b". */
+    e09b_,
+
+    /** Event "e09c". */
+    e09c_,
+
+    /** Event "e09d". */
+    e09d_,
+
+    /** Event "e09e". */
+    e09e_,
+
+    /** Event "e09f". */
+    e09f_,
+
+    /** Event "e09g". */
+    e09g_,
+
+    /** Event "e10a". */
+    e10a_,
+
+    /** Event "e10b". */
+    e10b_,
+
+    /** Event "e10c". */
+    e10c_,
+
+    /** Event "e10d". */
+    e10d_,
+
+    /** Event "e10e". */
+    e10e_,
+
+    /** Event "e10f". */
+    e10f_,
+
+    /** Event "e10g". */
+    e10g_,
+
+    /** Event "e10h". */
+    e10h_,
+
+    /** Event "e10i". */
+    e10i_,
+
+    /** Event "e11a". */
+    e11a_,
+
+    /** Event "e12a". */
+    e12a_,
+
+    /** Event "e12b". */
+    e12b_,
+
+    /** Event "e12c". */
+    e12c_,
+
+    /** Event "e12d". */
+    e12d_,
+
+    /** Event "e12e". */
+    e12e_,
+
+    /** Event "e13a". */
+    e13a_,
+
+    /** Event "e13b". */
+    e13b_,
+
+    /** Event "e13c". */
+    e13c_,
+
+    /** Event "e13d". */
+    e13d_,
+
+    /** Event "e13e". */
+    e13e_,
+
+    /** Event "e14a". */
+    e14a_,
+
+    /** Event "e14b". */
+    e14b_,
+
+    /** Event "e14c". */
+    e14c_,
+
+    /** Event "e14d". */
+    e14d_,
+
+    /** Event "e14e". */
+    e14e_,
+
+    /** Event "e14f". */
+    e14f_,
+
+    /** Event "e14g". */
+    e14g_,
+
+    /** Event "e14h". */
+    e14h_,
 };
 typedef enum edgesEventEnum_ edges_Event_;
 
@@ -2290,71 +2425,71 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e02a",         /**< Event e02a. */
-    "e02b",         /**< Event e02b. */
-    "e03a",         /**< Event e03a. */
-    "e03b",         /**< Event e03b. */
-    "e04a",         /**< Event e04a. */
-    "e04b",         /**< Event e04b. */
-    "e04c",         /**< Event e04c. */
-    "e04d",         /**< Event e04d. */
-    "e04e",         /**< Event e04e. */
-    "e04f",         /**< Event e04f. */
-    "e05a",         /**< Event e05a. */
-    "e05b",         /**< Event e05b. */
-    "e05c",         /**< Event e05c. */
-    "e05d",         /**< Event e05d. */
-    "e05e",         /**< Event e05e. */
-    "e06a",         /**< Event e06a. */
-    "e06b",         /**< Event e06b. */
-    "e06c",         /**< Event e06c. */
-    "e06d",         /**< Event e06d. */
-    "e06e",         /**< Event e06e. */
-    "e07a",         /**< Event e07a. */
-    "e07b",         /**< Event e07b. */
-    "e08a",         /**< Event e08a. */
-    "e08b",         /**< Event e08b. */
-    "e08c",         /**< Event e08c. */
-    "e08d",         /**< Event e08d. */
-    "e08e",         /**< Event e08e. */
-    "e08f",         /**< Event e08f. */
-    "e08g",         /**< Event e08g. */
-    "e08h",         /**< Event e08h. */
-    "e09a",         /**< Event e09a. */
-    "e09b",         /**< Event e09b. */
-    "e09c",         /**< Event e09c. */
-    "e09d",         /**< Event e09d. */
-    "e09e",         /**< Event e09e. */
-    "e09f",         /**< Event e09f. */
-    "e09g",         /**< Event e09g. */
-    "e10a",         /**< Event e10a. */
-    "e10b",         /**< Event e10b. */
-    "e10c",         /**< Event e10c. */
-    "e10d",         /**< Event e10d. */
-    "e10e",         /**< Event e10e. */
-    "e10f",         /**< Event e10f. */
-    "e10g",         /**< Event e10g. */
-    "e10h",         /**< Event e10h. */
-    "e10i",         /**< Event e10i. */
-    "e11a",         /**< Event e11a. */
-    "e12a",         /**< Event e12a. */
-    "e12b",         /**< Event e12b. */
-    "e12c",         /**< Event e12c. */
-    "e12d",         /**< Event e12d. */
-    "e12e",         /**< Event e12e. */
-    "e13a",         /**< Event e13a. */
-    "e13b",         /**< Event e13b. */
-    "e13c",         /**< Event e13c. */
-    "e13d",         /**< Event e13d. */
-    "e13e",         /**< Event e13e. */
-    "e14a",         /**< Event e14a. */
-    "e14b",         /**< Event e14b. */
-    "e14c",         /**< Event e14c. */
-    "e14d",         /**< Event e14d. */
-    "e14e",         /**< Event e14e. */
-    "e14f",         /**< Event e14f. */
-    "e14g",         /**< Event e14g. */
-    "e14h",         /**< Event e14h. */
+    "e02a",         /**< Event "e02a". */
+    "e02b",         /**< Event "e02b". */
+    "e03a",         /**< Event "e03a". */
+    "e03b",         /**< Event "e03b". */
+    "e04a",         /**< Event "e04a". */
+    "e04b",         /**< Event "e04b". */
+    "e04c",         /**< Event "e04c". */
+    "e04d",         /**< Event "e04d". */
+    "e04e",         /**< Event "e04e". */
+    "e04f",         /**< Event "e04f". */
+    "e05a",         /**< Event "e05a". */
+    "e05b",         /**< Event "e05b". */
+    "e05c",         /**< Event "e05c". */
+    "e05d",         /**< Event "e05d". */
+    "e05e",         /**< Event "e05e". */
+    "e06a",         /**< Event "e06a". */
+    "e06b",         /**< Event "e06b". */
+    "e06c",         /**< Event "e06c". */
+    "e06d",         /**< Event "e06d". */
+    "e06e",         /**< Event "e06e". */
+    "e07a",         /**< Event "e07a". */
+    "e07b",         /**< Event "e07b". */
+    "e08a",         /**< Event "e08a". */
+    "e08b",         /**< Event "e08b". */
+    "e08c",         /**< Event "e08c". */
+    "e08d",         /**< Event "e08d". */
+    "e08e",         /**< Event "e08e". */
+    "e08f",         /**< Event "e08f". */
+    "e08g",         /**< Event "e08g". */
+    "e08h",         /**< Event "e08h". */
+    "e09a",         /**< Event "e09a". */
+    "e09b",         /**< Event "e09b". */
+    "e09c",         /**< Event "e09c". */
+    "e09d",         /**< Event "e09d". */
+    "e09e",         /**< Event "e09e". */
+    "e09f",         /**< Event "e09f". */
+    "e09g",         /**< Event "e09g". */
+    "e10a",         /**< Event "e10a". */
+    "e10b",         /**< Event "e10b". */
+    "e10c",         /**< Event "e10c". */
+    "e10d",         /**< Event "e10d". */
+    "e10e",         /**< Event "e10e". */
+    "e10f",         /**< Event "e10f". */
+    "e10g",         /**< Event "e10g". */
+    "e10h",         /**< Event "e10h". */
+    "e10i",         /**< Event "e10i". */
+    "e11a",         /**< Event "e11a". */
+    "e12a",         /**< Event "e12a". */
+    "e12b",         /**< Event "e12b". */
+    "e12c",         /**< Event "e12c". */
+    "e12d",         /**< Event "e12d". */
+    "e12e",         /**< Event "e12e". */
+    "e13a",         /**< Event "e13a". */
+    "e13b",         /**< Event "e13b". */
+    "e13c",         /**< Event "e13c". */
+    "e13d",         /**< Event "e13d". */
+    "e13e",         /**< Event "e13e". */
+    "e14a",         /**< Event "e14a". */
+    "e14b",         /**< Event "e14b". */
+    "e14c",         /**< Event "e14c". */
+    "e14d",         /**< Event "e14d". */
+    "e14e",         /**< Event "e14e". */
+    "e14f",         /**< Event "e14f". */
+    "e14g",         /**< Event "e14g". */
+    "e14h",         /**< Event "e14h". */
 };
 
 /** Enum names. */

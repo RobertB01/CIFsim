@@ -25,16 +25,19 @@ indexterm:[tools,overview]
 The CIF toolset consists of applications that cover a wide range of functionality.
 The available applications are listed below.
 
+[[virtual-toc-target--tools-specification]]
 _Specification_
 
 * <<tools-chapter-text-editor>>
 
+[[virtual-toc-target--tools-synthesis]]
 _Supervisory controller synthesis_
 
 * <<tools-chapter-datasynth>>
 * <<tools-eventbased-chapter-index>>
 * <<tools-chapter-cif2supremica>>
 
+[[virtual-toc-target--tools-v-and-v]]
 _Simulation, validation, and verification_
 
 * <<tools-cifsim-chapter-index>>
@@ -42,12 +45,14 @@ _Simulation, validation, and verification_
 * <<tools-chapter-cif2uppaal>>
 * <<tools-chapter-controller-checker>>
 
+[[virtual-toc-target--tools-implementation]]
 _Real-time testing, code generation, and implementation_
 
 * <<tools-codegen-chapter-index>>
 * <<tools-cif2plc-chapter-index>>
 * <<tools-plcgen-chapter-index>>
 
+[[virtual-toc-target--tools-misc]]
 _Miscellaneous_
 
 * <<tools-cif2cif-chapter-index>>
@@ -59,6 +64,7 @@ _Miscellaneous_
 indexterm:[scripting]
 indexterm:[tools,scripting]
 
+[[virtual-toc-target--tools-scripting]]
 *Scripting*
 
 The CIF tools can be used on the command line, as well as in the Eclipse IDE.

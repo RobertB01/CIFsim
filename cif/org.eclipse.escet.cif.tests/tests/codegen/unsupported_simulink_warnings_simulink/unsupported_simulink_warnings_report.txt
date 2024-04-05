@@ -1,0 +1,20 @@
+Input/output report of the unsupported_simulink_warnings.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+No variables are available here.
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+No variables are available here.
+
+Outputs
+-------
+No variables are available here.

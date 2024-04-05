@@ -24,6 +24,17 @@ plant automaton q:
   location:
     initial;
 end
+automaton annos:
+  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno3
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  cont x der 1.0;
+  invariant x > 0;
+  invariant x > 0;
+  location:
+    initial;
+end
 invariant inp1 > 0;
 invariant inp2 > 0;
 invariant inp1 > 1;

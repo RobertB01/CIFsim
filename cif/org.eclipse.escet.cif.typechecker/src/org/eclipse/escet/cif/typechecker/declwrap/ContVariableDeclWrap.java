@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -36,8 +37,10 @@ import org.eclipse.escet.cif.parser.ast.AEquation;
 import org.eclipse.escet.cif.parser.ast.AEquationDecl;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.parser.ast.declarations.AContVariable;
+import org.eclipse.escet.cif.parser.ast.declarations.AContVariableDecl;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -45,6 +48,9 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Continuous variable declaration wrapper. */
 public class ContVariableDeclWrap extends DeclWrap<ContVariable> {
+    /** The CIF AST representation of the continuous variables. */
+    private final AContVariableDecl astDecls;
+
     /** The CIF AST representation of the continuous variable. */
     private final AContVariable astDecl;
 
@@ -53,13 +59,15 @@ public class ContVariableDeclWrap extends DeclWrap<ContVariable> {
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
+     * @param astDecls The CIF AST representation of the continuous variables.
      * @param astDecl The CIF AST representation of the continuous variable.
      * @param mmDecl The CIF metamodel representation of the continuous variable.
      */
-    public ContVariableDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AContVariable astDecl,
-            ContVariable mmDecl)
+    public ContVariableDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, AContVariableDecl astDecls,
+            AContVariable astDecl, ContVariable mmDecl)
     {
         super(tchecker, scope, mmDecl);
+        this.astDecls = astDecls;
         this.astDecl = astDecl;
     }
 
@@ -90,6 +98,11 @@ public class ContVariableDeclWrap extends DeclWrap<ContVariable> {
         if (isCheckedFull()) {
             return;
         }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
+                tchecker);
+        mmDecl.getAnnotations().addAll(annos);
 
         // Determine the type of the initial value, if any.
         AExpression avalue = astDecl.value;

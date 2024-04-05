@@ -15,6 +15,10 @@ package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import static org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocHtmlUtil.single;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,12 +33,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -52,6 +58,15 @@ class AsciiDocHtmlModifier {
     /** Whether to print debug output. */
     private static final boolean DEBUG = false;
 
+    /** Prefix for ids of virtual TOC entries and their targets. */
+    private static final String VIRTUAL_TOC_PREFIX = "virtual-toc-";
+
+    /** Prefix for ids of virtual TOC entries. */
+    private static final String VIRTUAL_TOC_ENTRY_PREFIX = VIRTUAL_TOC_PREFIX + "entry--";
+
+    /** Prefix for ids of virtual TOC entry targets. */
+    private static final String VIRTUAL_TOC_TARGET_PREFIX = VIRTUAL_TOC_PREFIX + "target--";
+
     /** Constructor for the {@link AsciiDocHtmlModifier} class. */
     private AsciiDocHtmlModifier() {
         // Static class.
@@ -59,7 +74,7 @@ class AsciiDocHtmlModifier {
 
     /**
      * Modify the AsciiDoc-generated single-page HTML file for each multi-page HTML page, and write the modified pages
-     * to disk.
+     * to disk. Also writes a JavaScript file, if applicable.
      *
      * @param singlePageDoc The AsciiDoc-generated single-page HTML document.
      * @param htmlPages The multi-page HTML pages.
@@ -71,14 +86,20 @@ class AsciiDocHtmlModifier {
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param jsFilePath The path to the JavaScript file to write, if {@code htmlType} is {@link HtmlType#WEBSITE},
+     *     {@code null} otherwise.
      * @param logger The logger to use.
      */
     static void generateAndWriteModifiedPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink,
+            Path outputRootPath, HtmlType htmlType, String parentWebsiteName, String parentWebsiteLink, Path jsFilePath,
             Consumer<String> logger)
     {
         // Determine new section ids.
         determineNewSectionIds(htmlPages);
+
+        // Determine TOC entries for the pages.
+        Map<AsciiDocHtmlPage, AsciiDocTocEntry> pageToTocEntry = new LinkedHashMap<>();
+        fillPageToTocEntryMap(htmlPages.toc, pageToTocEntry);
 
         // Modify the pages, per page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
@@ -95,6 +116,11 @@ class AsciiDocHtmlModifier {
                 // any modifications to the document itself.
                 for (AsciiDocHtmlPage somePage: htmlPages.pages) {
                     somePage.multiPageNodes = determineClonedNodes(singlePageDoc, page.doc, somePage.singlePageNodes);
+                }
+
+                // Add JavaScript file link.
+                if (htmlType == HtmlType.WEBSITE) {
+                    addJsLink(page.doc, outputRootPath, jsFilePath);
                 }
 
                 // Modify page title.
@@ -134,8 +160,11 @@ class AsciiDocHtmlModifier {
                     markCurrentPageTrailInToc(page, htmlPages);
                 }
 
-                // Renamed defined section ids.
+                // Rename defined section ids.
                 renameDefinedSectionIds(page);
+
+                // Rename virtual TOC entry targets.
+                renameVirtualTocEntryTargets(page);
 
                 // Rename section ids in TOC.
                 renameSectionIdsInToc(page, htmlPages.toc);
@@ -156,13 +185,16 @@ class AsciiDocHtmlModifier {
                 // Add breadcrumbs. Not added for Eclipse help, as Eclipse help already has breadcrumbs built-in. Not
                 // added for the home page as it has no ancestors.
                 if (htmlType != HtmlType.ECLIPSE_HELP && page != htmlPages.homePage) {
-                    addBreadcrumbs(page, htmlPages.homePage, docOriginalTitle);
+                    addBreadcrumbs(page, htmlPages.homePage, docOriginalTitle, pageToTocEntry);
                 }
 
                 // Add link to single-page HTML version.
                 if (htmlType == HtmlType.WEBSITE && page == htmlPages.homePage) {
                     addLinkToSinglePageHtmlVersion(page);
                 }
+
+                // Upgrade highlight.js version.
+                upgradeHighlightJsVersion(page.doc);
 
                 // Write modified page to disk.
                 Path sourcePath = outputRootPath.resolve(page.sourceFile.relPath);
@@ -174,6 +206,11 @@ class AsciiDocHtmlModifier {
                 throw new RuntimeException(
                         "Failed to modify HTML document for AsciiDoc multi-html page: " + page.sourceFile.relPath, e);
             }
+        }
+
+        // Write JavaScript file.
+        if (htmlType == HtmlType.WEBSITE) {
+            writeJsFile(jsFilePath);
         }
     }
 
@@ -266,8 +303,34 @@ class AsciiDocHtmlModifier {
                 ListMultimap<String, String> inversePageRenames = Multimaps.invertFrom(Multimaps.forMap(pageRenames),
                         ArrayListMultimap.create());
                 for (Entry<String, Collection<String>> entry: inversePageRenames.asMap().entrySet()) {
-                    Collection<String> oldIds = entry.getValue();
+                    List<String> oldIds = new ArrayList<>(entry.getValue());
                     if (oldIds.size() > 1) {
+                        // It is OK for a virtual TOC entry and its target to be mapped to the same name.
+                        if (oldIds.size() == 2) {
+                            String oldId1 = oldIds.get(0);
+                            String oldId2 = oldIds.get(1);
+                            if (oldId1.startsWith(VIRTUAL_TOC_ENTRY_PREFIX)
+                                    && oldId2.startsWith(VIRTUAL_TOC_TARGET_PREFIX))
+                            {
+                                String oldIdPost1 = oldId1.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                                String oldIdPost2 = oldId2.substring(VIRTUAL_TOC_TARGET_PREFIX.length());
+                                Verify.verify(oldIdPost1.equals(oldIdPost2), oldId1 + " / " + oldId2);
+                                continue;
+                            } else if (oldId1.startsWith(VIRTUAL_TOC_TARGET_PREFIX)
+                                    && oldId2.startsWith(VIRTUAL_TOC_ENTRY_PREFIX))
+                            {
+                                String oldIdPost1 = oldId1.substring(VIRTUAL_TOC_TARGET_PREFIX.length());
+                                String oldIdPost2 = oldId2.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                                Verify.verify(oldIdPost1.equals(oldIdPost2), oldId1 + " / " + oldId2);
+                                continue;
+                            }
+                        }
+
+                        // Should not have any duplicates for virtual TOC entry ids or their targets.
+                        for (String oldId: oldIds) {
+                            Verify.verify(!oldId.startsWith(VIRTUAL_TOC_PREFIX), oldId);
+                        }
+
                         // Duplicate new id, as new id is used for multiple old ids.
                         duplicateFound = true;
                         String newId = entry.getKey();
@@ -324,10 +387,60 @@ class AsciiDocHtmlModifier {
         String previous = renames.put(tocEntry.refId, newId);
         Verify.verify(previous == null);
 
+        // Handle virtual TOC entries:
+        // - The TOC entry itself has id '<VIRTUAL_TOC_ENTRY_PREFIX><some_name>'.
+        // - The target on the page has id '<VIRTUAL_TOC_TARGET_PREFIX><some_name>'.
+        // - We map both to the same new name, such that the virtual TOC entry links to its target.
+        if (tocEntry.refId != null && tocEntry.refId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX)) {
+            String targetRefId = VIRTUAL_TOC_TARGET_PREFIX
+                    + tocEntry.refId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+            previous = renames.put(targetRefId, newId);
+            Verify.verify(previous == null);
+        }
+
         // Process children.
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
             fillSectionIdRenameMap(childEntry, renames);
         }
+    }
+
+    /**
+     * Fill a mapping from pages to TOC entries.
+     *
+     * @param tocEntry The TOC entry to process.
+     * @param pageToTocEntry The mapping from pages to TOC entries. Is modified in-place.
+     */
+    private static void fillPageToTocEntryMap(AsciiDocTocEntry tocEntry,
+            Map<AsciiDocHtmlPage, AsciiDocTocEntry> pageToTocEntry)
+    {
+        // We perform a depth-first search. The first time a page is encountered, we add it to the mapping.
+        // Section on pages are thus not considered, as they are encountered later in the depth-first search.
+        // This ensures we only include TOC entries for pages, not page sections or virtual TOC entries.
+        pageToTocEntry.computeIfAbsent(tocEntry.page, page -> tocEntry);
+
+        // Process children.
+        for (AsciiDocTocEntry childTocEntry: tocEntry.children) {
+            fillPageToTocEntryMap(childTocEntry, pageToTocEntry);
+        }
+    }
+
+    /**
+     * Add JavaScript file link.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param outputRootPath The path to the directory in which to write output.
+     * @param jsFilePath The path to the JavaScript file to write.
+     */
+    private static void addJsLink(Document doc, Path outputRootPath, Path jsFilePath) {
+        // Get relative URL to JavaScript file.
+        String relPath = outputRootPath.relativize(jsFilePath).toString().replace("\\", "/");
+
+        // Add JavaScript file link.
+        Element headElem = single(doc.select("head"));
+        Element jsLinkElem = doc.createElement("script");
+        headElem.appendChild(jsLinkElem);
+        jsLinkElem.attr("type", "text/javascript");
+        jsLinkElem.attr("src", relPath);
     }
 
     /**
@@ -609,6 +722,22 @@ class AsciiDocHtmlModifier {
     }
 
     /**
+     * Rename virtual TOC entry targets.
+     *
+     * @param page The multi-page HTML page to modify in-place.
+     */
+    private static void renameVirtualTocEntryTargets(AsciiDocHtmlPage page) {
+        Elements elements = page.doc.select("[id^=" + VIRTUAL_TOC_TARGET_PREFIX + "]");
+        for (Element element: elements) {
+            String oldId = element.id();
+            String newId = page.sectionIdRenames.get(oldId);
+            Verify.verifyNotNull(newId, oldId);
+            Verify.verify(page.multiPageIds.contains(newId));
+            element.id(newId);
+        }
+    }
+
+    /**
      * Rename section ids in TOC.
      *
      * @param page The multi-page HTML page to modify in-place.
@@ -616,11 +745,23 @@ class AsciiDocHtmlModifier {
      */
     private static void renameSectionIdsInToc(AsciiDocHtmlPage page, AsciiDocTocEntry tocEntry) {
         // Rename this TOC entry.
-        if (tocEntry.page == page && tocEntry.refId != null) {
+        if (tocEntry.page == page && tocEntry.parent != null) {
+            // Sanity check: TOC entry must have a reference ID.
+            Verify.verifyNotNull(tocEntry.refId);
+
+            // Get new reference ID.
             String newRefId = page.sectionIdRenames.get(tocEntry.refId);
             Verify.verifyNotNull(newRefId, tocEntry.refId);
+
+            // Set new reference ID.
             tocEntry.refId = newRefId;
+
+            // Check that the new reference ID is one of the registered IDs of the page.
             Verify.verify(tocEntry.page.multiPageIds.contains(newRefId), newRefId);
+
+            // Check that the new reference ID exists on the page.
+            Elements foundElemsWithNewRefId = page.doc.select("#" + newRefId);
+            Verify.verify(foundElemsWithNewRefId.size() == 1, newRefId);
         }
 
         // Rename children.
@@ -638,9 +779,10 @@ class AsciiDocHtmlModifier {
      *     the root AsciiDoc file.
      */
     private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath) {
-        updateReferences(page, htmlPages, sourceRootPath, "a", "href", true, true);
-        updateReferences(page, htmlPages, sourceRootPath, "img", "src", false, false);
-        updateReferences(page, htmlPages, sourceRootPath, "link", "href", false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "a", "href", false, true, true);
+        updateReferences(page, htmlPages, sourceRootPath, "img", "src", false, false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "link", "href", false, false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "script", "src", true, false, false);
     }
 
     /**
@@ -652,20 +794,31 @@ class AsciiDocHtmlModifier {
      *     the root AsciiDoc file.
      * @param tagName The tag name of elements for which to update references.
      * @param attrName The attribute name that contains the reference.
-     * @param allowEmptyRefIfNoChildren Whether to allow empty references (attribute values) if the element has no child
-     *     nodes ({@code true}), or disallow empty references altogether ({@code false}).
+     * @param allowEmptyRef Whether to allow no references and empty references, i.e., no attribute values and empty
+     *     attribute values. Must not be {@code true} if {@code allowEmptyRefIfNoChildren} is {@code true}.
+     * @param allowEmptyRefIfNoChildren Whether to allow no references and empty references, i.e., no attribute values
+     *     and empty attribute values, if the element has no child nodes. Must not be {@code true} if
+     *     {@code allowEmptyRef} is {@code true}.
      * @param allowSectionRefs Whether to allow section references ({@code #...}) as references ({@code true}) or not
      *     ({@code false}).
      */
     private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            String tagName, String attrName, boolean allowEmptyRefIfNoChildren, boolean allowSectionRefs)
+            String tagName, String attrName, boolean allowEmptyRef, boolean allowEmptyRefIfNoChildren,
+            boolean allowSectionRefs)
     {
+        // Check preconditions.
+        Verify.verify(!(allowEmptyRef && allowEmptyRefIfNoChildren));
+
+        // Update references.
         ELEMS_LOOP:
         for (Element elem: page.doc.select(tagName)) {
             // Get attribute value.
             String ref = elem.attr(attrName);
             if (ref == null || ref.isBlank()) {
-                if (allowEmptyRefIfNoChildren) {
+                if (allowEmptyRef) {
+                    // Occurs for 'script.src' when it is an inline script.
+                    continue;
+                } else if (allowEmptyRefIfNoChildren) {
                     // Occurs for 'a.href' for bibliography entries.
                     // But then they have no child nodes, and are thus not clickable.
                     Verify.verify(elem.childNodeSize() == 0);
@@ -698,15 +851,15 @@ class AsciiDocHtmlModifier {
             }
 
             // Ensure it is a relative path to an entire file.
-            Verify.verify(uriScheme == null);
-            Verify.verify(uri.getUserInfo() == null);
-            Verify.verify(uri.getHost() == null);
-            Verify.verify(uri.getPort() == -1);
-            Verify.verify(uri.getAuthority() == null);
-            Verify.verify(uri.getQuery() == null);
-            Verify.verify(uri.getFragment() == null);
-            Verify.verifyNotNull(uri.getPath());
-            Verify.verify(ref.equals(uri.getPath()));
+            Verify.verify(uriScheme == null, uri.toString());
+            Verify.verify(uri.getUserInfo() == null, uri.toString());
+            Verify.verify(uri.getHost() == null, uri.toString());
+            Verify.verify(uri.getPort() == -1, uri.toString());
+            Verify.verify(uri.getAuthority() == null, uri.toString());
+            Verify.verify(uri.getQuery() == null, uri.toString());
+            Verify.verify(uri.getFragment() == null, uri.toString());
+            Verify.verifyNotNull(uri.getPath(), uri.toString());
+            Verify.verify(ref.equals(uri.getPath()), uri.toString());
 
             // Get absolute path of file referred to by href.
             Path hrefAbsTarget = sourceRootPath.resolve(ref);
@@ -740,7 +893,7 @@ class AsciiDocHtmlModifier {
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
         elemTocHomeA.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, homePage, null));
         if (page == homePage) {
-            elemTocHomeA.addClass("toc-cur-page");
+            elemTocHomeLi.addClass("toc-cur-page");
         }
         elemTocHomeA.appendText(homePage.sourceFile.title);
     }
@@ -751,16 +904,9 @@ class AsciiDocHtmlModifier {
      * @param doc The HTML document to modify in-place.
      */
     private static void addTocInteractivity(Document doc) {
-        // Add JavaScript to page header.
-        Element headElem = single(doc.select("html > head"));
-        Element scriptElem = doc.createElement("script");
-        headElem.appendChild(scriptElem);
-        scriptElem.attr("type", "text/javascript");
-        scriptElem.text("""
-                function tocToggle(elem) {
-                    elem.parentElement.classList.toggle('expanded');
-                }
-                """);
+        // Initialize TOC on page load.
+        Element bodyElem = single(doc.select("body"));
+        bodyElem.attr("onload", "onLoad()");
 
         // Update TOC items.
         for (Element tocItemElem: doc.select("#toc li")) {
@@ -792,25 +938,64 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      * @param homePage The multi-page HTML home page.
      * @param docOriginalTitle The original HTML page title.
+     * @param pageToTocEntry The mapping from pages to TOC entries.
      */
-    private static void addBreadcrumbs(AsciiDocHtmlPage page, AsciiDocHtmlPage homePage, String docOriginalTitle) {
+    private static void addBreadcrumbs(AsciiDocHtmlPage page, AsciiDocHtmlPage homePage, String docOriginalTitle,
+            Map<AsciiDocHtmlPage, AsciiDocTocEntry> pageToTocEntry)
+    {
         // Prepare breadcrumbs element.
         Element elemContent = single(page.doc.select("#content"));
         Element elemBreadcrumbsDiv = elemContent.prependElement("div");
         elemBreadcrumbsDiv.attr("id", "breadcrumbs");
 
+        // Get TOC entry for page.
+        AsciiDocTocEntry pageTocEntry = pageToTocEntry.get(page);
+        Verify.verifyNotNull(pageTocEntry, page.sourceFile.sourceId);
+
         // Add breadcrumbs.
-        for (AsciiDocHtmlPage breadcrumb: page.breadcrumbs) {
+        List<AsciiDocTocEntry> breadcrumbs = pageTocEntry.getTrail();
+        for (AsciiDocTocEntry breadcrumb: breadcrumbs) {
+            // Add separator between breadcrumbs.
             if (elemBreadcrumbsDiv.childNodeSize() > 0) {
                 elemBreadcrumbsDiv.appendText(" > ");
             }
-            boolean isSelfBreadcrumb = breadcrumb == page;
+
+            // Add a new HTML element for the breadcrumb.
+            boolean isSelfBreadcrumb = breadcrumb.page == page;
             Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
             elemBreadcrumb.addClass("breadcrumb");
+
+            // Link the breadcrumb, if not for the page itself.
             if (!isSelfBreadcrumb) {
-                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb, null));
+                // Get the id on the HTML page to refer to, or 'null' for the entire page.
+                String singlePageId;
+                String breadcrumbRefId = breadcrumb.origRefId;
+                String pageSourceId = breadcrumb.page.sourceFile.sourceId;
+                if (breadcrumb.parent == null) {
+                    // Breadcrumb is for the root TOC entry. Link to the entire HTML file.
+                    Verify.verify(breadcrumbRefId == null, breadcrumbRefId);
+                    Verify.verify(pageSourceId == null, pageSourceId);
+                    singlePageId = null;
+                } else if (Objects.equals(breadcrumbRefId, pageSourceId)) {
+                    // Breadcrumb is for the whole non-root page. Link to the entire HTML file.
+                    singlePageId = null;
+                } else {
+                    // Breadcrumb is for a virtual TOC entry target on the page. Link to the relevant id within the HTML
+                    // file. Note that the page source ID may be 'null' if this virtual TOC entry is a virtual TOC entry
+                    // with a target on the root page.
+                    Verify.verifyNotNull(breadcrumbRefId);
+                    Verify.verify(breadcrumbRefId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX), breadcrumbRefId);
+                    singlePageId = VIRTUAL_TOC_TARGET_PREFIX
+                            + breadcrumbRefId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
+                }
+
+                // Add the link.
+                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb.page, singlePageId));
             }
-            elemBreadcrumb.text(breadcrumb == homePage ? docOriginalTitle : breadcrumb.sourceFile.title);
+
+            // Set the text of the breadcrumb.
+            boolean isRootBreadcrumb = breadcrumb.parent == null;
+            elemBreadcrumb.text(isRootBreadcrumb ? docOriginalTitle : breadcrumb.title);
         }
     }
 
@@ -826,5 +1011,58 @@ class AsciiDocHtmlModifier {
         elemPdfTipA.attr("href", homePage.sourceFile.getBaseName() + "-single-page.html");
         elemPdfTipA.text("single-page HTML");
         elemPdfTip.appendText(" version.");
+    }
+
+    /**
+     * Upgrade highlight.js version.
+     *
+     * @param doc The HTML document to modify in-place.
+     */
+    private static void upgradeHighlightJsVersion(Document doc) {
+        // There is only one fixed script element with highlight.js-related code. It contains a call to 'highlightBlock'
+        // that is deprecated in highlight.js version 11. Replace it with 'highlightElement' instead, which is the
+        // recommended replacement.
+        String replaceFrom = "hljs.highlightBlock(";
+        String replaceTo = "hljs.highlightElement(";
+        int count = 0;
+        for (Element elem: doc.body().children()) {
+            if (elem.tagName() != null && elem.tagName().equals("script")) {
+                for (DataNode dataNode: elem.dataNodes()) {
+                    String data = dataNode.getWholeData();
+                    if (data.contains(replaceFrom)) {
+                        count++;
+                        data = data.replace(replaceFrom, replaceTo);
+                        dataNode.setWholeData(data);
+                    }
+                }
+            }
+        }
+        Verify.verify(count == 1, Integer.toString(count));
+    }
+
+    /**
+     * Write JavaScript file.
+     *
+     * @param filePath The path to the JavaScript file.
+     */
+    private static void writeJsFile(Path filePath) {
+        // Read JS file.
+        ClassLoader classLoader = AsciiDocHtmlModifier.class.getClassLoader();
+        String websiteJsPath = AsciiDocHtmlModifier.class.getPackageName().replace(".", "/") + "/website.js";
+        String code;
+        try (InputStream stream = classLoader.getResourceAsStream(websiteJsPath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)))
+        {
+            code = reader.lines().collect(Collectors.joining("\n")) + "\n";
+        } catch (IOException e) {
+            throw new RuntimeException("Unexpected I/O error while reading resource: " + websiteJsPath, e);
+        }
+
+        // Write JS file.
+        try {
+            Files.writeString(filePath, code, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write JavaScript file: " + filePath, e);
+        }
     }
 }

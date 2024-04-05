@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -120,11 +121,25 @@ public class JavaCodeGen extends CodeGen {
             String origName = origDeclNames.get(constant);
             Assert.notNull(origName);
 
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
+
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
             Assert.check(!constantCode.hasCode()); // Java code generator never generates pre-execute code.
 
             code.add();
-            code.add("/** Constant \"%s\". */", origName);
+            if (docs.isEmpty()) {
+                code.add("/** Constant \"%s\". */", origName);
+            } else {
+                code.add("/**");
+                code.add(" * Constant \"%s\".", origName);
+                for (String doc: docs) {
+                    code.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                }
+                code.add(" */");
+            }
             code.add("public static final %s %s = %s;", typeToJava(constant.getType(), ctxt), getTargetRef(constant),
                     constantCode.getData());
         }
@@ -279,9 +294,16 @@ public class JavaCodeGen extends CodeGen {
             String name = getTargetRef(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
             code.add();
             code.add("/**");
             code.add(" * Evaluates algebraic variable \"%s\".", origName);
+            for (String doc: docs) {
+                code.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add(" * %s", line);
+                }
+            }
             code.add(" *");
             code.add(" * @return The evaluation result.");
             code.add(" */");
@@ -531,9 +553,16 @@ public class JavaCodeGen extends CodeGen {
             // Add method code.
 
             // Header.
+            List<String> docs = (event == null) ? Collections.emptyList() : DocAnnotationProvider.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+            }
             codeMethods.add(" *");
             codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
             codeMethods.add(" */");

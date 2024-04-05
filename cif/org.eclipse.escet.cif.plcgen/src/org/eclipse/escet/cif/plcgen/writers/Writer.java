@@ -19,19 +19,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -194,9 +198,10 @@ public abstract class Writer {
     protected Box toBox(PlcGlobalVarList globVarList) {
         Assert.check(!globVarList.variables.isEmpty()); // Empty VAR_GLOBAL is illegal.
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("VAR_GLOBAL%s // %s", globVarList.constants ? " CONSTANT" : "", globVarList.name);
+        c.add("VAR_GLOBAL%s // %s", (globVarList.listKind == PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
+                globVarList.name);
         c.indent();
-        for (PlcVariable variable: globVarList.variables) {
+        for (PlcBasicVariable variable: globVarList.variables) {
             c.add(toBox(variable));
         }
         c.dedent();
@@ -205,16 +210,54 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcVariable} instance to a {@link Box} text.
+     * Convert a {@link PlcBasicVariable} instance to a {@link Box} text.
      *
      * @param variable Variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcVariable variable) {
-        String addrTxt = (variable.address == null) ? "" : fmt(" AT %s", variable.address);
-        String valueTxt = (variable.value == null) ? ""
-                : " := " + target.getModelTextGenerator().toString(variable.value);
-        String txt = fmt("%s%s: %s%s;", variable.name, addrTxt, toBox(variable.type), valueTxt);
+    protected Box toBox(PlcBasicVariable variable) {
+        if (variable instanceof PlcDataVariable dataVar) {
+            return toBox(dataVar);
+        } else if (variable instanceof PlcFuncBlockInstanceVar funBlockVar) {
+            return toBox(funBlockVar);
+        } else {
+            throw new AssertionError("Unexpected kind of variable \"" + variable + "\".");
+        }
+    }
+
+    /**
+     * Convert a {@link PlcDataVariable} instance to a {@link Box} text.
+     *
+     * @param dataVar Variable to convert.
+     * @return The generated box representation.
+     */
+    protected Box toBox(PlcDataVariable dataVar) {
+        String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
+        String valueTxt = (dataVar.value == null) ? ""
+                : " := " + target.getModelTextGenerator().toString(dataVar.value);
+        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toBox(dataVar.type), valueTxt);
+        return new TextBox(txt);
+    }
+
+    /**
+     * Convert a {@link PlcFuncBlockInstanceVar} instance to a {@link Box} text.
+     *
+     * @param fnBlockVar Function block instance variable to convert.
+     * @return The generated box representation.
+     */
+    protected Box toBox(PlcFuncBlockInstanceVar fnBlockVar) {
+        String txt = fmt("%s: %s;", fnBlockVar.varName, toBox(fnBlockVar.type));
+        return new TextBox(txt);
+    }
+
+    /**
+     * Convert a {@link PlcStructField} instance to a {@link Box} text.
+     *
+     * @param field Field to convert.
+     * @return The generated box representation.
+     */
+    protected Box toBox(PlcStructField field) {
+        String txt = fmt("%s: %s;", field.fieldName, toBox(field.type));
         return new TextBox(txt);
     }
 
@@ -268,7 +311,7 @@ public abstract class Writer {
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
-            for (PlcVariable var: pou.inputVars) {
+            for (PlcBasicVariable var: pou.inputVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -277,7 +320,7 @@ public abstract class Writer {
         if (!pou.outputVars.isEmpty()) {
             c.add("VAR_OUTPUT");
             c.indent();
-            for (PlcVariable var: pou.outputVars) {
+            for (PlcBasicVariable var: pou.outputVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -286,7 +329,7 @@ public abstract class Writer {
         if (!pou.localVars.isEmpty()) {
             c.add("VAR");
             c.indent();
-            for (PlcVariable var: pou.localVars) {
+            for (PlcBasicVariable var: pou.localVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -295,7 +338,7 @@ public abstract class Writer {
         if (!pou.tempVars.isEmpty()) {
             c.add("VAR_TEMP");
             c.indent();
-            for (PlcVariable var: pou.tempVars) {
+            for (PlcBasicVariable var: pou.tempVars) {
                 c.add(toBox(var));
             }
             c.dedent();
@@ -396,7 +439,7 @@ public abstract class Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("STRUCT");
         c.indent();
-        for (PlcVariable field: structType.fields) {
+        for (PlcStructField field: structType.fields) {
             c.add(toBox(field));
         }
         c.dedent();

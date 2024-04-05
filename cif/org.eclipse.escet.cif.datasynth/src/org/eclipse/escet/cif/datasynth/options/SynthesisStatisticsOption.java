@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.datasynth.options;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
+import org.eclipse.escet.cif.datasynth.settings.SynthesisStatistics;
 import org.eclipse.escet.common.app.framework.options.EnumSetOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -52,7 +54,7 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                 "STATS",
 
                 // defaultValue
-                EnumSet.noneOf(SynthesisStatistics.class),
+                CifDataSynthesisSettingsDefaults.SYNTHESIS_STATISTICS_DEFAULT.clone(),
 
                 // showInDialog
                 true,

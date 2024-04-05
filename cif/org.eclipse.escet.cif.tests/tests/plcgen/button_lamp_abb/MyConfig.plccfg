@@ -5,19 +5,8 @@ CONFIGURATION MyConfig
     VAR_GLOBAL // OUTPUTS
         out_hw_lamp_bit AT %Q16.6: BOOL;
     END_VAR
-    VAR_GLOBAL // STATE
-        timer_t: REAL;
-        timer: DINT;
-        sup: DINT;
-        hw_button_bit: BOOL;
-        hw_button: DINT;
-        hw_lamp_bit: BOOL;
-        hw_lamp: DINT;
-    END_VAR
     VAR_GLOBAL // TIMERS
         ton_timer_t: TON;
-        preset_timer_t: TIME;
-        firstRun: BOOL := TRUE;
     END_VAR
     TASK MyTask(INTERVAL := t#7ms, PRIORITY := 123);
     PROGRAM MAIN WITH MyTask: MAIN;

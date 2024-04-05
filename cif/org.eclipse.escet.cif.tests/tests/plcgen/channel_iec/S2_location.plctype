@@ -1,0 +1,3 @@
+TYPE S2_location:
+    (S2_A, S2_B);
+END_TYPE

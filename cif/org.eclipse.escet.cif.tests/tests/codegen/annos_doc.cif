@@ -26,23 +26,99 @@ input bool i4;
 @doc($text = "Second doc.")
 input bool i5;
 
-automaton a:
-    disc bool i1;
+automaton discvars:
+  disc bool d1;
 
-    @doc($text = "single line doc")
-    disc bool i2;
+  @doc($text = "single line doc")
+  disc bool d2;
 
-    @doc($text = "doc with multiple\nlines " + "of\n text")
-    disc bool i3;
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  disc bool d3;
 
-    @doc($text = fmt("%s", "some doc"))
-    disc bool i4;
+  @doc($text = fmt("%s", "some doc"))
+  disc bool d4;
 
-    @doc($text = "First doc.")
-    @doc($text = "Second doc.")
-    disc bool i5;
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  disc bool d5;
 
   location:
     initial;
-    edge when i1 or i2 or i3 or i4 or i5;
+    edge when d1 or d2 or d3 or d4 or d5;
+end
+
+automaton contvars:
+  cont c1 der 1;
+
+  @doc($text = "single line doc")
+  cont c2 der 2;
+
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  cont c3 der 3;
+
+  @doc($text = fmt("%s", "some doc"))
+  cont c4 der 4;
+
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  cont c5 der 5;
+
+  location:
+    initial;
+    edge when c1 > 0 or c2 > 0 or c3 > 0 or c4 > 0 or c5 > 0;
+end
+
+group algvars:
+  alg int a1 = 1;
+
+  @doc($text = "single line doc")
+  alg int a2 = 2;
+
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  alg int a3 = 3;
+
+  @doc($text = fmt("%s", "some doc"))
+  alg int a4 = 4;
+
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  alg int a5 = 5;
+end
+
+group constants:
+  const int c1 = 1;
+
+  @doc($text = "single line doc")
+  const int c2 = 2;
+
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  const int c3 = 3;
+
+  @doc($text = fmt("%s", "some doc"))
+  const int c4 = 4;
+
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  const int c5 = 5;
+end
+
+automaton events:
+  event e1;
+
+  @doc($text = "single line doc")
+  event e2;
+
+  @doc($text = "doc with multiple\nlines " + "of\n text")
+  event e3;
+
+  @doc($text = fmt("%s", "some doc"))
+  event e4;
+
+  @doc($text = "First doc.")
+  @doc($text = "Second doc.")
+  event e5;
+
+  location:
+    initial;
+    edge e1, e2, e3, e4, e5;
 end

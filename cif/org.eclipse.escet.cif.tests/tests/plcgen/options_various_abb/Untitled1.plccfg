@@ -1,0 +1,7 @@
+CONFIGURATION Untitled1
+    VAR_GLOBAL // TIMERS
+        ton_p_t: TON;
+    END_VAR
+    TASK PlcTask(INTERVAL := t#0ms, PRIORITY := 20);
+    PROGRAM MAIN WITH PlcTask: MAIN;
+END_CONFIGURATION

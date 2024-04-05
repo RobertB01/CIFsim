@@ -1,0 +1,6 @@
+WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
+WARNING: File "plcgen/channel.cif": Semantic warning at line 28, column 12: Location "B" is not reachable from any of the initial locations of automaton "S2".
+WARNING: File "plcgen/channel.cif": Semantic warning at line 44, column 12: Location "B" is not reachable from any of the initial locations of automaton "R2".
+WARNING: File "plcgen/channel.cif": Semantic warning at line 60, column 12: Location "B" is not reachable from any of the initial locations of automaton "Y2".
+WARNING: File "plcgen/channel.cif": Semantic warning at line 78, column 12: Location "B" is not reachable from any of the initial locations of automaton "M2".
+WARNING: I/O table file "plcgen/channel.csv" not found. The PLC code will not perform any I/O with the environment.

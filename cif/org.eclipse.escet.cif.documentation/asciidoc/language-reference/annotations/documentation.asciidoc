@@ -25,7 +25,11 @@ Here we discuss further details.
 
 Documentation annotations (`@doc`) can be added to the following elements in CIF specifications:
 
+* Algebraic variables.
+* Constants.
+* Continuous variables.
 * Discrete variables.
+* Events.
 * Input variables.
 * Locations of automata.
 

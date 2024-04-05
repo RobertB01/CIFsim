@@ -1324,34 +1324,89 @@ struct WorkStruct {
 /* }}} */
 
 enum rangesEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e11_,         /**< Event e11. */
-    e12_,         /**< Event e12. */
-    e13_,         /**< Event e13. */
-    e14_,         /**< Event e14. */
-    e15_,         /**< Event e15. */
-    e16_,         /**< Event e16. */
-    e17_,         /**< Event e17. */
-    e18_,         /**< Event e18. */
-    e21_,         /**< Event e21. */
-    e22_,         /**< Event e22. */
-    e23_,         /**< Event e23. */
-    e24_,         /**< Event e24. */
-    e25_,         /**< Event e25. */
-    e26_,         /**< Event e26. */
-    e27_,         /**< Event e27. */
-    e28_,         /**< Event e28. */
-    e31_,         /**< Event e31. */
-    e32_,         /**< Event e32. */
-    e33_,         /**< Event e33. */
-    e34_,         /**< Event e34. */
-    e35_,         /**< Event e35. */
-    e36_,         /**< Event e36. */
-    e37_,         /**< Event e37. */
-    e38_,         /**< Event e38. */
-    e41_,         /**< Event e41. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e11". */
+    e11_,
+
+    /** Event "e12". */
+    e12_,
+
+    /** Event "e13". */
+    e13_,
+
+    /** Event "e14". */
+    e14_,
+
+    /** Event "e15". */
+    e15_,
+
+    /** Event "e16". */
+    e16_,
+
+    /** Event "e17". */
+    e17_,
+
+    /** Event "e18". */
+    e18_,
+
+    /** Event "e21". */
+    e21_,
+
+    /** Event "e22". */
+    e22_,
+
+    /** Event "e23". */
+    e23_,
+
+    /** Event "e24". */
+    e24_,
+
+    /** Event "e25". */
+    e25_,
+
+    /** Event "e26". */
+    e26_,
+
+    /** Event "e27". */
+    e27_,
+
+    /** Event "e28". */
+    e28_,
+
+    /** Event "e31". */
+    e31_,
+
+    /** Event "e32". */
+    e32_,
+
+    /** Event "e33". */
+    e33_,
+
+    /** Event "e34". */
+    e34_,
+
+    /** Event "e35". */
+    e35_,
+
+    /** Event "e36". */
+    e36_,
+
+    /** Event "e37". */
+    e37_,
+
+    /** Event "e38". */
+    e38_,
+
+    /** Event "e41". */
+    e41_,
 };
 typedef enum rangesEventEnum_ ranges_Event_;
 
@@ -1359,31 +1414,31 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e11",          /**< Event e11. */
-    "e12",          /**< Event e12. */
-    "e13",          /**< Event e13. */
-    "e14",          /**< Event e14. */
-    "e15",          /**< Event e15. */
-    "e16",          /**< Event e16. */
-    "e17",          /**< Event e17. */
-    "e18",          /**< Event e18. */
-    "e21",          /**< Event e21. */
-    "e22",          /**< Event e22. */
-    "e23",          /**< Event e23. */
-    "e24",          /**< Event e24. */
-    "e25",          /**< Event e25. */
-    "e26",          /**< Event e26. */
-    "e27",          /**< Event e27. */
-    "e28",          /**< Event e28. */
-    "e31",          /**< Event e31. */
-    "e32",          /**< Event e32. */
-    "e33",          /**< Event e33. */
-    "e34",          /**< Event e34. */
-    "e35",          /**< Event e35. */
-    "e36",          /**< Event e36. */
-    "e37",          /**< Event e37. */
-    "e38",          /**< Event e38. */
-    "e41",          /**< Event e41. */
+    "e11",          /**< Event "e11". */
+    "e12",          /**< Event "e12". */
+    "e13",          /**< Event "e13". */
+    "e14",          /**< Event "e14". */
+    "e15",          /**< Event "e15". */
+    "e16",          /**< Event "e16". */
+    "e17",          /**< Event "e17". */
+    "e18",          /**< Event "e18". */
+    "e21",          /**< Event "e21". */
+    "e22",          /**< Event "e22". */
+    "e23",          /**< Event "e23". */
+    "e24",          /**< Event "e24". */
+    "e25",          /**< Event "e25". */
+    "e26",          /**< Event "e26". */
+    "e27",          /**< Event "e27". */
+    "e28",          /**< Event "e28". */
+    "e31",          /**< Event "e31". */
+    "e32",          /**< Event "e32". */
+    "e33",          /**< Event "e33". */
+    "e34",          /**< Event "e34". */
+    "e35",          /**< Event "e35". */
+    "e36",          /**< Event "e36". */
+    "e37",          /**< Event "e37". */
+    "e38",          /**< Event "e38". */
+    "e41",          /**< Event "e41". */
 };
 
 /** Enum names. */

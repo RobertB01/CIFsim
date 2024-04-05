@@ -1,0 +1,164 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Derivative of continuous variable.
+
+automaton derivative:
+  // OK.
+  cont c1 der -1;
+  cont c2 der -1.0;
+
+  // Defined with equation.
+  cont contWithEqnForDeriv;
+
+  // Not negative one.
+  cont derivNotNegOne_1 der 0;
+  cont derivNotNegOne_2 der 0.0;
+  cont derivNotNegOne_3 der 1;
+  cont derivNotNegOne_4 der 1.0;
+  cont derivNotNegOne_5 der -0.01;
+
+  // Not statically evaluable.
+  cont derivNotStatic der d;
+  disc real d = 0;
+
+  // The equation for 'contWithEqnForDeriv'.
+  location:
+    initial;
+    equation contWithEqnForDeriv' = -1;
+end
+
+// Initial value of continuous variable.
+
+automaton initValue:
+  // OK.
+  const real twelve = 12;
+  cont c1 der -1;
+  cont c2 = 0 der -1;
+  cont c3 = 1 der -1;
+  cont c4 = twelve der -1;
+
+  // Negative value.
+  cont initNegative = -1 der -1;
+
+  // Not statically evaluable. Can't happen due to preprocessing.
+
+  location:
+    initial;
+end
+
+// Assignments to continuous variable.
+
+automaton assign:
+  event evt;
+  cont c1 der -1;
+  cont c2 der -1;
+  cont c3 der -1;
+  disc real d1;
+  disc tuple(real a, b) d2;
+  const real twelve = 12;
+
+  location:
+    initial;
+
+    // OK.
+    edge evt do c1 := 0;
+    edge evt do c1 := 1;
+    edge evt do c1 := 3;
+    edge evt do c1 := twelve * 2;
+
+    // Negative value.
+    edge evt do c1 := -25;
+
+    // Not statically evaluable.
+    edge evt do c1 := d1;
+
+    // Multi-assignment.
+    edge evt do (c1, c2) := (3, 4);
+    edge evt do ((c1, c2), c3) := ((3, 4), 5);
+    edge evt do ((c1, c2, d2[a]), c3) := ((3, 4, 6), 5);
+end
+
+// Using value of continuous variable.
+
+automaton contUseValue:
+  event evt;
+  cont c der -1;
+  disc real d1;
+  disc bool d2 = c <= 5;
+  const real twelve = 12;
+
+  location:
+    initial;
+
+    // OK.
+    edge evt when c <= 5;
+    edge evt when 5 >= c;
+    edge evt when c <= (twelve + 5);
+    edge evt when (twelve + 5) >= c;
+
+    edge evt do d2 := c <= 5;
+    edge evt do d2 := 5 >= c;
+    edge evt do d2 := c <= (twelve + 5);
+    edge evt do d2 := (twelve + 5) >= c;
+
+    // Not a comparison.
+    edge evt when max(c + 5, 17.4) <= 28;
+    edge evt when abs(c) > 0;
+    edge evt do d1 := max(c + 5, 17.4);
+    edge evt do d1 := abs(c);
+
+    // Unsupported comparison form.
+    edge evt when c >= 0;
+    edge evt when c > 0;
+    edge evt when c < 0;
+    edge evt when 0 > c;
+    edge evt when 0 < c;
+    edge evt when 0 <= c;
+    edge evt when c != 0;
+    edge evt when c = 0;
+    edge evt when 0 != c;
+    edge evt when 0 = c;
+
+    // Comparison against a negative value.
+    edge evt when c <= -1;
+    edge evt when -1 >= c;
+    edge evt when c <= (twelve - 15);
+    edge evt when (twelve - 15) >= c;
+    edge evt do d2 := c <= -1;
+    edge evt do d2 := -1 >= c;
+    edge evt do d2 := c <= (twelve - 15);
+    edge evt do d2 := (twelve - 15) >= c;
+
+    // Compare against non-statically evaluable value.
+    edge evt when c <= d1;
+end
+
+// Using derivative of continuous variable.
+
+automaton useDeriv:
+  event evt;
+  cont c der -1;
+  disc real d1 = c';
+  disc bool d2 = c' > 0;
+
+  location:
+    initial;
+
+    // OK.
+    edge evt when c' > 0;
+    edge evt do c := c' + 12;
+    edge evt do d1 := c';
+    edge evt do d1 := c' + c';
+    edge evt do d2 := c' > 0;
+end

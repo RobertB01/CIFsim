@@ -14,23 +14,30 @@
 package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.functionToStr;
-import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunctionExpression;
+import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
+import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.DictType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
+import org.eclipse.escet.cif.metamodel.cif.types.ListType;
+import org.eclipse.escet.cif.metamodel.cif.types.RealType;
+import org.eclipse.escet.cif.metamodel.cif.types.SetType;
+import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * CIF check that disallows usage of a specified collection of standard library functions.
+ * CIF check that does not allow certain standard library functions.
  *
  * <p>
  * To disallow all standard library functions, use {@link ExprNoSpecificExprsCheck} with
@@ -38,16 +45,13 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  */
 public class FuncNoSpecificStdLibCheck extends CifCheck {
-    /** For each standard library function the collection of values to check in {@link #disalloweds}. */
-    private static final Map<StdLibFunction, EnumSet<NoSpecificStdLib>> FUNCTION_VALUES;
-
-    /** The collection of disallowed standard library functions. */
+    /** The standard library functions, or groups of standard library functions, to disallow. */
     private final EnumSet<NoSpecificStdLib> disalloweds;
 
     /**
      * Constructor of the {@link FuncNoSpecificStdLibCheck} class.
      *
-     * @param disalloweds The collection of disallowed standard library functions.
+     * @param disalloweds The standard library functions, or groups of standard library functions, to disallow.
      */
     public FuncNoSpecificStdLibCheck(EnumSet<NoSpecificStdLib> disalloweds) {
         this.disalloweds = disalloweds;
@@ -56,10 +60,10 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
     /**
      * Constructor of the {@link FuncNoSpecificStdLibCheck} class.
      *
-     * @param disalloweds The collection of disallowed standard library functions.
+     * @param disalloweds The standard library functions, or groups of standard library functions, to disallow.
      */
     public FuncNoSpecificStdLibCheck(NoSpecificStdLib... disalloweds) {
-        this(Arrays.stream(disalloweds).collect(Collectors.toCollection(() -> EnumSet.noneOf(NoSpecificStdLib.class))));
+        this(EnumSet.copyOf(Arrays.asList(disalloweds)));
     }
 
     @Override
@@ -67,304 +71,926 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
             CifCheckViolations violations)
     {
         StdLibFunction func = stdLibRef.getFunction();
-        EnumSet<NoSpecificStdLib> funcValues = FUNCTION_VALUES.get(func);
-        Assert.notNull(funcValues);
-        if (!isEmptyIntersection(disalloweds, funcValues)) {
-            violations.add(stdLibRef, "Standard library function \"%s\" is used", functionToStr(func));
+        FunctionCallExpression funcCallExpr = (FunctionCallExpression)stdLibRef.eContainer();
+        List<CifType> argTypes = funcCallExpr.getArguments().stream()
+                .map(arg -> CifTypeUtils.normalizeType(arg.getType())).toList();
+        switch (func) {
+            case ABS:
+                if (disalloweds.contains(NoSpecificStdLib.ABS)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 1);
+                    if (disalloweds.contains(NoSpecificStdLib.ABS_INT)) {
+                        if (argTypes.get(0) instanceof IntType) {
+                            addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.ABS_INT_RANGED)
+                                && argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
+                        {
+                            addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.ABS_INT_RANGELESS)
+                                && argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
+                        {
+                            addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.ABS_REAL) && argTypes.get(0) instanceof RealType) {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case ACOS:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.ACOS))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case ACOSH:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.ACOSH))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case ASIN:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.ASIN))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case ASINH:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.ASINH))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case ATAN:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.ATAN))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case ATANH:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.ATANH))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case BERNOULLI:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.BERNOULLI))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case BETA:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.BETA))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case BINOMIAL:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.BINOMIAL))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case CBRT:
+                if (disalloweds.contains(NoSpecificStdLib.CBRT)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case CEIL:
+                if (disalloweds.contains(NoSpecificStdLib.CEIL)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case CONSTANT:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.CONSTANT))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 1);
+                    if (disalloweds.contains(NoSpecificStdLib.CONSTANT_BOOL) && argTypes.get(0) instanceof BoolType) {
+                        addExprViolationArgument(stdLibRef, "a boolean typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.CONSTANT_INT) && argTypes.get(0) instanceof IntType) {
+                        addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.CONSTANT_REAL) && argTypes.get(0) instanceof RealType) {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case COS:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.COS))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case COSH:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.COSH))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case DELETE:
+                if (disalloweds.contains(NoSpecificStdLib.DELETE)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 2);
+                    if (disalloweds.contains(NoSpecificStdLib.DELETE_LIST_ARRAY)
+                            && (argTypes.get(0) instanceof ListType ltype && CifTypeUtils.isArrayType(ltype)))
+                    {
+                        addExprViolationArgument(stdLibRef, "an array list typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.DELETE_LIST_NON_ARRAY)
+                            && (argTypes.get(0) instanceof ListType ltype && !CifTypeUtils.isArrayType(ltype)))
+                    {
+                        addExprViolationArgument(stdLibRef, "a non-array list typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.DELETE_INT_RANGED)
+                            && argTypes.get(1) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
+                    {
+                        addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.DELETE_INT_RANGELESS)
+                            && argTypes.get(1) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
+                    {
+                        addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                    }
+                }
+                return;
+
+            case EMPTY:
+                if (disalloweds.contains(NoSpecificStdLib.EMPTY)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 1);
+                    if (disalloweds.contains(NoSpecificStdLib.EMPTY_LIST)) {
+                        if (argTypes.get(0) instanceof ListType) {
+                            addExprViolationArgument(stdLibRef, "a list typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.EMPTY_LIST_ARRAY)
+                                && argTypes.get(0) instanceof ListType ltype && CifTypeUtils.isArrayType(ltype))
+                        {
+                            addExprViolationArgument(stdLibRef, "an array list typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.EMPTY_LIST_NON_ARRAY)
+                                && argTypes.get(0) instanceof ListType ltype && !CifTypeUtils.isArrayType(ltype))
+                        {
+                            addExprViolationArgument(stdLibRef, "a non-array list typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.EMPTY_SET) && argTypes.get(0) instanceof SetType) {
+                        addExprViolationArgument(stdLibRef, "a set typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.EMPTY_DICT) && argTypes.get(0) instanceof DictType) {
+                        addExprViolationArgument(stdLibRef, "a dictionary typed", violations);
+                    }
+                }
+                return;
+
+            case ERLANG:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.ERLANG))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case EXP:
+                if (disalloweds.contains(NoSpecificStdLib.EXP)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case EXPONENTIAL:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.EXPONENTIAL))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case FLOOR:
+                if (disalloweds.contains(NoSpecificStdLib.FLOOR)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case FORMAT:
+                if (disalloweds.contains(NoSpecificStdLib.FORMAT)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case GAMMA:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.GAMMA))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case GEOMETRIC:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.GEOMETRIC))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case LN:
+                if (disalloweds.contains(NoSpecificStdLib.LN)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case LOG:
+                if (disalloweds.contains(NoSpecificStdLib.LOG)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case LOG_NORMAL:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.LOG_NORMAL))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case MAXIMUM:
+                if (disalloweds.contains(NoSpecificStdLib.MAXIMUM)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 2);
+                    if (disalloweds.contains(NoSpecificStdLib.MAXIMUM_INT)) {
+                        if (argTypes.get(0) instanceof IntType || argTypes.get(1) instanceof IntType) {
+                            addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.MAXIMUM_INT_RANGED)
+                                && ((argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
+                                        || (argTypes.get(1) instanceof IntType itype
+                                                && !CifTypeUtils.isRangeless(itype))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.MAXIMUM_INT_RANGELESS)
+                                && ((argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
+                                        || (argTypes.get(1) instanceof IntType itype
+                                                && CifTypeUtils.isRangeless(itype))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.MAXIMUM_REAL)
+                            && (argTypes.get(0) instanceof RealType || argTypes.get(1) instanceof RealType))
+                    {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case MINIMUM:
+                if (disalloweds.contains(NoSpecificStdLib.MINIMUM)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 2);
+                    if (disalloweds.contains(NoSpecificStdLib.MINIMUM_INT)) {
+                        if (argTypes.get(0) instanceof IntType || argTypes.get(1) instanceof IntType) {
+                            addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.MINIMUM_INT_RANGED)
+                                && ((argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
+                                        || (argTypes.get(1) instanceof IntType itype
+                                                && !CifTypeUtils.isRangeless(itype))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.MINIMUM_INT_RANGELESS)
+                                && ((argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
+                                        || (argTypes.get(1) instanceof IntType itype
+                                                && CifTypeUtils.isRangeless(itype))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.MINIMUM_REAL)
+                            && (argTypes.get(0) instanceof RealType || argTypes.get(1) instanceof RealType))
+                    {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case NORMAL:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.NORMAL))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case POISSON:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.POISSON))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case POP:
+                if (disalloweds.contains(NoSpecificStdLib.POP)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 1);
+                    if (disalloweds.contains(NoSpecificStdLib.POP_ARRAY) && argTypes.get(0) instanceof ListType ltype
+                            && CifTypeUtils.isArrayType(ltype))
+                    {
+                        addExprViolationArgument(stdLibRef, "an array list typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.POP_NON_ARRAY)
+                            && argTypes.get(0) instanceof ListType ltype && !CifTypeUtils.isArrayType(ltype))
+                    {
+                        addExprViolationArgument(stdLibRef, "a non-array list typed", violations);
+                    }
+                }
+                return;
+
+            case POWER:
+                if (disalloweds.contains(NoSpecificStdLib.POWER)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 2);
+                    if (disalloweds.contains(NoSpecificStdLib.POWER_INT)) {
+                        if (argTypes.get(0) instanceof IntType || argTypes.get(1) instanceof IntType) {
+                            addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.POWER_INT_RANGED)
+                                && ((argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
+                                        || (argTypes.get(1) instanceof IntType itype
+                                                && !CifTypeUtils.isRangeless(itype))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.POWER_INT_RANGELESS)
+                                && ((argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
+                                        || (argTypes.get(1) instanceof IntType itype
+                                                && CifTypeUtils.isRangeless(itype))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.POWER_REAL)
+                            && ((argTypes.get(0) instanceof RealType) || (argTypes.get(1) instanceof RealType)))
+                    {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case RANDOM:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.RANDOM))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case ROUND:
+                if (disalloweds.contains(NoSpecificStdLib.ROUND)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case SCALE:
+                if (disalloweds.contains(NoSpecificStdLib.SCALE)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 5);
+                    if (disalloweds.contains(NoSpecificStdLib.SCALE_INT)) {
+                        if (argTypes.get(0) instanceof IntType || argTypes.get(1) instanceof IntType
+                                || argTypes.get(2) instanceof IntType || argTypes.get(3) instanceof IntType
+                                || argTypes.get(4) instanceof IntType)
+                        {
+                            addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.SCALE_INT_RANGED)
+                                && ((argTypes.get(0) instanceof IntType itype0 && !CifTypeUtils.isRangeless(itype0))
+                                        || (argTypes.get(1) instanceof IntType itype1
+                                                && !CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(2) instanceof IntType itype2
+                                                && !CifTypeUtils.isRangeless(itype2))
+                                        || (argTypes.get(3) instanceof IntType itype3
+                                                && !CifTypeUtils.isRangeless(itype3))
+                                        || (argTypes.get(4) instanceof IntType itype4
+                                                && !CifTypeUtils.isRangeless(itype4))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.SCALE_INT_RANGELESS)
+                                && ((argTypes.get(0) instanceof IntType itype0 && CifTypeUtils.isRangeless(itype0))
+                                        || (argTypes.get(1) instanceof IntType itype1
+                                                && CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(2) instanceof IntType itype2
+                                                && CifTypeUtils.isRangeless(itype2))
+                                        || (argTypes.get(3) instanceof IntType itype3
+                                                && CifTypeUtils.isRangeless(itype3))
+                                        || (argTypes.get(4) instanceof IntType itype4
+                                                && CifTypeUtils.isRangeless(itype4))))
+                        {
+                            addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.SCALE_REAL) && (argTypes.get(0) instanceof RealType
+                            || argTypes.get(1) instanceof RealType || argTypes.get(2) instanceof RealType
+                            || argTypes.get(3) instanceof RealType || argTypes.get(4) instanceof RealType))
+                    {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case SIGN:
+                if (disalloweds.contains(NoSpecificStdLib.SIGN)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 1);
+                    if (disalloweds.contains(NoSpecificStdLib.SIGN_INT)) {
+                        if (argTypes.get(0) instanceof IntType) {
+                            addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.SIGN_INT_RANGED)
+                                && argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
+                        {
+                            addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.SIGN_INT_RANGELESS)
+                                && argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
+                        {
+                            addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.SIGN_REAL) && argTypes.get(0) instanceof RealType) {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case SIN:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.SIN))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case SINH:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.SINH))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case SIZE:
+                if (disalloweds.contains(NoSpecificStdLib.SIZE)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 1);
+                    if (disalloweds.contains(NoSpecificStdLib.SIZE_STRING) && argTypes.get(0) instanceof StringType) {
+                        addExprViolationArgument(stdLibRef, "a string typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.SIZE_LIST)) {
+                        if (argTypes.get(0) instanceof ListType) {
+                            addExprViolationArgument(stdLibRef, "a list typed", violations);
+                        }
+                    } else {
+                        if (disalloweds.contains(NoSpecificStdLib.SIZE_LIST_ARRAY)
+                                && argTypes.get(0) instanceof ListType ltype && CifTypeUtils.isArrayType(ltype))
+                        {
+                            addExprViolationArgument(stdLibRef, "an array list typed", violations);
+                        }
+                        if (disalloweds.contains(NoSpecificStdLib.SIZE_LIST_NON_ARRAY)
+                                && argTypes.get(0) instanceof ListType ltype && !CifTypeUtils.isArrayType(ltype))
+                        {
+                            addExprViolationArgument(stdLibRef, "a non-array list typed", violations);
+                        }
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.SIZE_SET) && argTypes.get(0) instanceof SetType) {
+                        addExprViolationArgument(stdLibRef, "a set typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.SIZE_DICT) && argTypes.get(0) instanceof DictType) {
+                        addExprViolationArgument(stdLibRef, "a dictionary typed", violations);
+                    }
+                }
+                return;
+
+            case SQRT:
+                if (disalloweds.contains(NoSpecificStdLib.SQRT)) {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case TAN:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.TAN))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case TANH:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_TRIGONOMETRY)
+                        || disalloweds.contains(NoSpecificStdLib.TANH))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case TRIANGLE:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.TRIANGLE))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
+
+            case UNIFORM:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.UNIFORM))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                } else {
+                    Assert.areEqual(argTypes.size(), 2);
+                    if (disalloweds.contains(NoSpecificStdLib.UNIFORM_INT)
+                            && ((argTypes.get(0) instanceof IntType) || argTypes.get(1) instanceof IntType))
+                    {
+                        addExprViolationArgument(stdLibRef, "an integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificStdLib.UNIFORM_REAL)
+                            && ((argTypes.get(0) instanceof RealType) || argTypes.get(1) instanceof RealType))
+                    {
+                        addExprViolationArgument(stdLibRef, "a real typed", violations);
+                    }
+                }
+                return;
+
+            case WEIBULL:
+                if (disalloweds.contains(NoSpecificStdLib.ALL_STOCHASTIC)
+                        || disalloweds.contains(NoSpecificStdLib.WEIBULL))
+                {
+                    addExprViolationFunction(stdLibRef, violations);
+                }
+                return;
         }
+
+        throw new AssertionError("Unknown std lib function: " + func);
     }
 
-    /** Values to specify the disallowed CIF standard library functions. */
+    /**
+     * Add a violation for a standard library function.
+     *
+     * @param stdLibExpr The standard library function expression.
+     * @param violations The violations collected so far. Is modified in-place.
+     */
+    private void addExprViolationFunction(StdLibFunctionExpression stdLibExpr, CifCheckViolations violations) {
+        violations.add(stdLibExpr, "Standard library function \"%s\" is used", functionToStr(stdLibExpr.getFunction()));
+    }
+
+    /**
+     * Add a violation for a standard library function on a certain kind of argument.
+     *
+     * @param stdLibExpr The standard library function expression.
+     * @param argTxt A text describing the kind of argument that is a violation.
+     * @param violations The violations collected so far. Is modified in-place.
+     */
+    private void addExprViolationArgument(StdLibFunctionExpression stdLibExpr, String argTxt,
+            CifCheckViolations violations)
+    {
+        violations.add(stdLibExpr, "Standard library function \"%s\" is used on %s argument",
+                functionToStr(stdLibExpr.getFunction()), argTxt);
+    }
+
+    /**
+     * The standard library function, or group of standard library functions, to disallow.
+     */
     public static enum NoSpecificStdLib {
-        // Groups of functions.
-        //
         /** Disallow all standard library trigonometry functions. */
-        STD_LIB_TRIGONOMETRY_GROUP(),
+        ALL_TRIGONOMETRY,
 
         /** Disallow all standard library stochastic distribution functions. */
-        STD_LIB_STOCHASTIC_GROUP(),
+        ALL_STOCHASTIC,
 
-        // Standard library functions in the trigonometry group.
-        //
-        /** Disallow the standard library function {@link StdLibFunction#ACOS}. */
-        STD_LIB_ACOS(true, true, false),
+        /** Disallow {@link StdLibFunction#ABS}. */
+        ABS,
 
-        /** Disallow the standard library function {@link StdLibFunction#ASIN}. */
-        STD_LIB_ASIN(true, true, false),
+        /** Disallow {@link StdLibFunction#ABS} on integer numbers. */
+        ABS_INT,
 
-        /** Disallow the standard library function {@link StdLibFunction#ATAN}. */
-        STD_LIB_ATAN(true, true, false),
+        /** Disallow {@link StdLibFunction#ABS} on ranged integer numbers. */
+        ABS_INT_RANGED,
 
-        /** Disallow the standard library function {@link StdLibFunction#COS}. */
-        STD_LIB_COS(true, true, false),
+        /** Disallow {@link StdLibFunction#ABS} on rangeless integer numbers. */
+        ABS_INT_RANGELESS,
 
-        /** Disallow the standard library function {@link StdLibFunction#SIN}. */
-        STD_LIB_SIN(true, true, false),
+        /** Disallow {@link StdLibFunction#ABS} on real numbers. */
+        ABS_REAL,
 
-        /** Disallow the standard library function {@link StdLibFunction#TAN}. */
-        STD_LIB_TAN(true, true, false),
+        /** Disallow {@link StdLibFunction#ACOS}. */
+        ACOS,
 
-        /** Disallow the standard library function {@link StdLibFunction#ACOSH}. */
-        STD_LIB_ACOSH(true, true, false),
+        /** Disallow {@link StdLibFunction#ACOSH}. */
+        ACOSH,
 
-        /** Disallow the standard library function {@link StdLibFunction#ASINH}. */
-        STD_LIB_ASINH(true, true, false),
+        /** Disallow {@link StdLibFunction#ASIN}. */
+        ASIN,
 
-        /** Disallow the standard library function {@link StdLibFunction#ATANH}. */
-        STD_LIB_ATANH(true, true, false),
+        /** Disallow {@link StdLibFunction#ASINH}. */
+        ASINH,
 
-        /** Disallow the standard library function {@link StdLibFunction#COSH}. */
-        STD_LIB_COSH(true, true, false),
+        /** Disallow {@link StdLibFunction#ATAN}. */
+        ATAN,
 
-        /** Disallow the standard library function {@link StdLibFunction#SINH}. */
-        STD_LIB_SINH(true, true, false),
+        /** Disallow {@link StdLibFunction#ATANH}. */
+        ATANH,
 
-        /** Disallow the standard library function {@link StdLibFunction#TANH}. */
-        STD_LIB_TANH(true, true, false),
+        /** Disallow {@link StdLibFunction#BERNOULLI}. */
+        BERNOULLI,
 
-        // Standard library functions in the stochastic group.
-        //
-        /** Disallow the standard library function {@link StdLibFunction#BERNOULLI}. */
-        STD_LIB_BERNOULLI(true, false, true),
+        /** Disallow {@link StdLibFunction#BETA}. */
+        BETA,
 
-        /** Disallow the standard library function {@link StdLibFunction#BETA}. */
-        STD_LIB_BETA(true, false, true),
+        /** Disallow {@link StdLibFunction#BINOMIAL}. */
+        BINOMIAL,
 
-        /** Disallow the standard library function {@link StdLibFunction#BINOMIAL}. */
-        STD_LIB_BINOMIAL(true, false, true),
+        /** Disallow {@link StdLibFunction#CBRT}. */
+        CBRT,
 
-        /** Disallow the standard library function {@link StdLibFunction#CONSTANT}. */
-        STD_LIB_CONSTANT(true, false, true),
+        /** Disallow {@link StdLibFunction#CEIL}. */
+        CEIL,
 
-        /** Disallow the standard library function {@link StdLibFunction#ERLANG}. */
-        STD_LIB_ERLANG(true, false, true),
+        /** Disallow {@link StdLibFunction#CONSTANT}. */
+        CONSTANT,
 
-        /** Disallow the standard library function {@link StdLibFunction#EXPONENTIAL}. */
-        STD_LIB_EXPONENTIAL(true, false, true),
+        /** Disallow {@link StdLibFunction#CONSTANT} on booleans. */
+        CONSTANT_BOOL,
 
-        /** Disallow the standard library function {@link StdLibFunction#GAMMA}. */
-        STD_LIB_GAMMA(true, false, true),
+        /** Disallow {@link StdLibFunction#CONSTANT} on integers. */
+        CONSTANT_INT,
 
-        /** Disallow the standard library function {@link StdLibFunction#GEOMETRIC}. */
-        STD_LIB_GEOMETRIC(true, false, true),
+        /** Disallow {@link StdLibFunction#CONSTANT} on reals. */
+        CONSTANT_REAL,
 
-        /** Disallow the standard library function {@link StdLibFunction#LOG_NORMAL}. */
-        STD_LIB_LOG_NORMAL(true, false, true),
+        /** Disallow {@link StdLibFunction#COS}. */
+        COS,
 
-        /** Disallow the standard library function {@link StdLibFunction#NORMAL}. */
-        STD_LIB_NORMAL(true, false, true),
+        /** Disallow {@link StdLibFunction#COSH}. */
+        COSH,
 
-        /** Disallow the standard library function {@link StdLibFunction#POISSON}. */
-        STD_LIB_POISSON(true, false, true),
+        /** Disallow {@link StdLibFunction#DELETE}. */
+        DELETE,
 
-        /** Disallow the standard library function {@link StdLibFunction#RANDOM}. */
-        STD_LIB_RANDOM(true, false, true),
+        /** Disallow {@link StdLibFunction#DELETE} on array lists. */
+        DELETE_LIST_ARRAY,
 
-        /** Disallow the standard library function {@link StdLibFunction#TRIANGLE}. */
-        STD_LIB_TRIANGLE(true, false, true),
+        /** Disallow {@link StdLibFunction#DELETE} on non-array lists. */
+        DELETE_LIST_NON_ARRAY,
 
-        /** Disallow the standard library function {@link StdLibFunction#UNIFORM}. */
-        STD_LIB_UNIFORM(true, false, true),
+        /** Disallow {@link StdLibFunction#DELETE} on ranged integer numbers. */
+        DELETE_INT_RANGED,
 
-        /** Disallow the standard library function {@link StdLibFunction#WEIBULL}. */
-        STD_LIB_WEIBULL(true, false, true),
+        /** Disallow {@link StdLibFunction#DELETE} on rangeless integer numbers. */
+        DELETE_INT_RANGELESS,
 
-        // Standard library functions without group.
-        //
-        /** Disallow the standard library function {@link StdLibFunction#ABS}. */
-        STD_LIB_ABS(true),
+        /** Disallow {@link StdLibFunction#EMPTY}. */
+        EMPTY,
 
-        /** Disallow the standard library function {@link StdLibFunction#CBRT}. */
-        STD_LIB_CBRT(true),
+        /** Disallow {@link StdLibFunction#EMPTY} on lists. */
+        EMPTY_LIST,
 
-        /** Disallow the standard library function {@link StdLibFunction#EXP}. */
-        STD_LIB_EXP(true),
+        /** Disallow {@link StdLibFunction#EMPTY} on array lists. */
+        EMPTY_LIST_ARRAY,
 
-        /** Disallow the standard library function {@link StdLibFunction#LN}. */
-        STD_LIB_LN(true),
+        /** Disallow {@link StdLibFunction#EMPTY} on non-array lists. */
+        EMPTY_LIST_NON_ARRAY,
 
-        /** Disallow the standard library function {@link StdLibFunction#LOG}. */
-        STD_LIB_LOG(true),
+        /** Disallow {@link StdLibFunction#EMPTY} on sets. */
+        EMPTY_SET,
 
-        /** Disallow the standard library function {@link StdLibFunction#MAXIMUM}. */
-        STD_LIB_MAXIMUM(true),
+        /** Disallow {@link StdLibFunction#EMPTY} on dictionaries. */
+        EMPTY_DICT,
 
-        /** Disallow the standard library function {@link StdLibFunction#MINIMUM}. */
-        STD_LIB_MINIMUM(true),
+        /** Disallow {@link StdLibFunction#ERLANG}. */
+        ERLANG,
 
-        /** Disallow the standard library function {@link StdLibFunction#POWER}. */
-        STD_LIB_POWER(true),
+        /** Disallow {@link StdLibFunction#EXP}. */
+        EXP,
 
-        /** Disallow the standard library function {@link StdLibFunction#SQRT}. */
-        STD_LIB_SQRT(true),
+        /** Disallow {@link StdLibFunction#EXPONENTIAL}. */
+        EXPONENTIAL,
 
-        /** Disallow the standard library function {@link StdLibFunction#CEIL}. */
-        STD_LIB_CEIL(true),
+        /** Disallow {@link StdLibFunction#FLOOR}. */
+        FLOOR,
 
-        /** Disallow the standard library function {@link StdLibFunction#DELETE}. */
-        STD_LIB_DELETE(true),
+        /** Disallow {@link StdLibFunction#FORMAT}. */
+        FORMAT,
 
-        /** Disallow the standard library function {@link StdLibFunction#EMPTY}. */
-        STD_LIB_EMPTY(true),
+        /** Disallow {@link StdLibFunction#GAMMA}. */
+        GAMMA,
 
-        /** Disallow the standard library function {@link StdLibFunction#FLOOR}. */
-        STD_LIB_FLOOR(true),
+        /** Disallow {@link StdLibFunction#GEOMETRIC}. */
+        GEOMETRIC,
 
-        /** Disallow the standard library function {@link StdLibFunction#FORMAT}. */
-        STD_LIB_FORMAT(true),
+        /** Disallow {@link StdLibFunction#LN}. */
+        LN,
 
-        /** Disallow the standard library function {@link StdLibFunction#POP}. */
-        STD_LIB_POP(true),
+        /** Disallow {@link StdLibFunction#LOG}. */
+        LOG,
 
-        /** Disallow the standard library function {@link StdLibFunction#ROUND}. */
-        STD_LIB_ROUND(true),
+        /** Disallow {@link StdLibFunction#LOG_NORMAL}. */
+        LOG_NORMAL,
 
-        /** Disallow the standard library function {@link StdLibFunction#SCALE}. */
-        STD_LIB_SCALE(true),
+        /** Disallow {@link StdLibFunction#MAXIMUM}. */
+        MAXIMUM,
 
-        /** Disallow the standard library function {@link StdLibFunction#SIGN}. */
-        STD_LIB_SIGN(true),
+        /** Disallow {@link StdLibFunction#MAXIMUM} on integer numbers. */
+        MAXIMUM_INT,
 
-        /** Disallow the standard library function {@link StdLibFunction#SIZE}. */
-        STD_LIB_SIZE(true);
+        /** Disallow {@link StdLibFunction#MAXIMUM} on ranged integer numbers. */
+        MAXIMUM_INT_RANGED,
 
-        /** Whether the enum value is an actual CIF standard library function (and not a group of them). */
-        private boolean isFunc;
+        /** Disallow {@link StdLibFunction#MAXIMUM} on rangeless integer numbers. */
+        MAXIMUM_INT_RANGELESS,
 
-        /** Whether the enum value is part of the group of trigonometry functions. */
-        private boolean isTrigonometry;
+        /** Disallow {@link StdLibFunction#MAXIMUM} on real numbers. */
+        MAXIMUM_REAL,
 
-        /** Whether the enum value is part of the group of stochastic distribution functions. */
-        private boolean isStochastic;
+        /** Disallow {@link StdLibFunction#MINIMUM}. */
+        MINIMUM,
 
-        /**
-         * Constructor of the {@link NoSpecificStdLib} class.
-         *
-         * <p>
-         * Use this constructor for entries that represent a group of functions, for example the
-         * {@link #STD_LIB_STOCHASTIC_GROUP} group.
-         * </p>
-         */
-        private NoSpecificStdLib() {
-            this(false);
-        }
+        /** Disallow {@link StdLibFunction#MINIMUM} on integer numbers. */
+        MINIMUM_INT,
 
-        /**
-         * Constructor of the {@link NoSpecificStdLib} class.
-         *
-         * <p>
-         * Use this constructor for entries that represent singular CIF standard library functions that are not part of
-         * a group of functions.
-         * </p>
-         *
-         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of
-         *     them).
-         */
-        private NoSpecificStdLib(boolean isFunc) {
-            this(isFunc, false, false);
-        }
+        /** Disallow {@link StdLibFunction#MINIMUM} on ranged integer numbers. */
+        MINIMUM_INT_RANGED,
 
-        /**
-         * Constructor of the {@link NoSpecificStdLib} class.
-         *
-         * <p>
-         * Use this constructor for entries that represent existing CIF standard library functions that are part of one
-         * or more groups.
-         * </p>
-         *
-         * @param isFunc Whether the enum value represents an actual CIF standard library function (and not a group of
-         *     them).
-         * @param isTrigonometry Whether the enum value is part of the group of trigonometry functions.
-         * @param isStochastic Whether the enum value is part of the group of stochastic distribution functions.
-         *
-         */
-        private NoSpecificStdLib(boolean isFunc, boolean isTrigonometry, boolean isStochastic) {
-            this.isFunc = isFunc;
-            this.isTrigonometry = isTrigonometry;
-            this.isStochastic = isStochastic;
-        }
+        /** Disallow {@link StdLibFunction#MINIMUM} on rangeless integer numbers. */
+        MINIMUM_INT_RANGELESS,
 
-        /**
-         * Construct the set of enum values that can be used to indicate disallowing the function.
-         *
-         * <p>
-         * Method must be used with enum values that represent an existing standard library function (and not a group of
-         * them).
-         * </p>
-         *
-         * @return The entire set of enum values covering the function.
-         */
-        public EnumSet<NoSpecificStdLib> computeValues() {
-            Assert.check(this.isFunc);
+        /** Disallow {@link StdLibFunction#MINIMUM} on real numbers. */
+        MINIMUM_REAL,
 
-            EnumSet<NoSpecificStdLib> values = EnumSet.of(this);
-            if (this.isTrigonometry) {
-                values.add(STD_LIB_TRIGONOMETRY_GROUP);
-            }
-            if (this.isStochastic) {
-                values.add(STD_LIB_STOCHASTIC_GROUP);
-            }
-            return values;
-        }
-    }
+        /** Disallow {@link StdLibFunction#NORMAL}. */
+        NORMAL,
 
-    static {
-        // Construct the set of function values for each standard library function.
-        FUNCTION_VALUES = mapc(StdLibFunction.values().length);
+        /** Disallow {@link StdLibFunction#POISSON}. */
+        POISSON,
 
-        // Trigonometry function.
-        FUNCTION_VALUES.put(StdLibFunction.ACOS, NoSpecificStdLib.STD_LIB_ACOS.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ASIN, NoSpecificStdLib.STD_LIB_ASIN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ATAN, NoSpecificStdLib.STD_LIB_ATAN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.COS, NoSpecificStdLib.STD_LIB_COS.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SIN, NoSpecificStdLib.STD_LIB_SIN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.TAN, NoSpecificStdLib.STD_LIB_TAN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ACOSH, NoSpecificStdLib.STD_LIB_ACOSH.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ASINH, NoSpecificStdLib.STD_LIB_ASINH.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ATANH, NoSpecificStdLib.STD_LIB_ATANH.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.COSH, NoSpecificStdLib.STD_LIB_COSH.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SINH, NoSpecificStdLib.STD_LIB_SINH.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.TANH, NoSpecificStdLib.STD_LIB_TANH.computeValues());
+        /** Disallow {@link StdLibFunction#POP}. */
+        POP,
 
-        // Stochastic functions.
-        FUNCTION_VALUES.put(StdLibFunction.BERNOULLI, NoSpecificStdLib.STD_LIB_BERNOULLI.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.BETA, NoSpecificStdLib.STD_LIB_BETA.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.BINOMIAL, NoSpecificStdLib.STD_LIB_BINOMIAL.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.CONSTANT, NoSpecificStdLib.STD_LIB_CONSTANT.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ERLANG, NoSpecificStdLib.STD_LIB_ERLANG.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.EXPONENTIAL, NoSpecificStdLib.STD_LIB_EXPONENTIAL.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.GAMMA, NoSpecificStdLib.STD_LIB_GAMMA.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.GEOMETRIC, NoSpecificStdLib.STD_LIB_GEOMETRIC.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.LOG_NORMAL, NoSpecificStdLib.STD_LIB_LOG_NORMAL.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.NORMAL, NoSpecificStdLib.STD_LIB_NORMAL.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.POISSON, NoSpecificStdLib.STD_LIB_POISSON.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.RANDOM, NoSpecificStdLib.STD_LIB_RANDOM.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.TRIANGLE, NoSpecificStdLib.STD_LIB_TRIANGLE.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.UNIFORM, NoSpecificStdLib.STD_LIB_UNIFORM.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.WEIBULL, NoSpecificStdLib.STD_LIB_WEIBULL.computeValues());
+        /** Disallow {@link StdLibFunction#POP} on array lists. */
+        POP_ARRAY,
 
-        // Functions without group.
-        FUNCTION_VALUES.put(StdLibFunction.ABS, NoSpecificStdLib.STD_LIB_ABS.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.CBRT, NoSpecificStdLib.STD_LIB_CBRT.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.EXP, NoSpecificStdLib.STD_LIB_EXP.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.LN, NoSpecificStdLib.STD_LIB_LN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.LOG, NoSpecificStdLib.STD_LIB_LOG.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.MAXIMUM, NoSpecificStdLib.STD_LIB_MAXIMUM.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.MINIMUM, NoSpecificStdLib.STD_LIB_MINIMUM.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.POWER, NoSpecificStdLib.STD_LIB_POWER.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SQRT, NoSpecificStdLib.STD_LIB_SQRT.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.CEIL, NoSpecificStdLib.STD_LIB_CEIL.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.DELETE, NoSpecificStdLib.STD_LIB_DELETE.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.EMPTY, NoSpecificStdLib.STD_LIB_EMPTY.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.FLOOR, NoSpecificStdLib.STD_LIB_FLOOR.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.FORMAT, NoSpecificStdLib.STD_LIB_FORMAT.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.POP, NoSpecificStdLib.STD_LIB_POP.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.ROUND, NoSpecificStdLib.STD_LIB_ROUND.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SCALE, NoSpecificStdLib.STD_LIB_SCALE.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SIGN, NoSpecificStdLib.STD_LIB_SIGN.computeValues());
-        FUNCTION_VALUES.put(StdLibFunction.SIZE, NoSpecificStdLib.STD_LIB_SIZE.computeValues());
+        /** Disallow {@link StdLibFunction#POP} on non-array lists. */
+        POP_NON_ARRAY,
 
-        // Ensure all standard library functions have been added.
-        Assert.areEqual(StdLibFunction.values().length, FUNCTION_VALUES.size());
+        /** Disallow {@link StdLibFunction#POWER}. */
+        POWER,
+
+        /** Disallow {@link StdLibFunction#POWER} on integer numbers. */
+        POWER_INT,
+
+        /** Disallow {@link StdLibFunction#POWER} on ranged integer numbers. */
+        POWER_INT_RANGED,
+
+        /** Disallow {@link StdLibFunction#POWER} on rangeless integer numbers. */
+        POWER_INT_RANGELESS,
+
+        /** Disallow {@link StdLibFunction#POWER} on real numbers. */
+        POWER_REAL,
+
+        /** Disallow {@link StdLibFunction#RANDOM}. */
+        RANDOM,
+
+        /** Disallow {@link StdLibFunction#ROUND}. */
+        ROUND,
+
+        /** Disallow {@link StdLibFunction#SCALE}. */
+        SCALE,
+
+        /** Disallow {@link StdLibFunction#SCALE} on integer numbers. */
+        SCALE_INT,
+
+        /** Disallow {@link StdLibFunction#SCALE} on ranged integer numbers. */
+        SCALE_INT_RANGED,
+
+        /** Disallow {@link StdLibFunction#SCALE} on rangeless integer numbers. */
+        SCALE_INT_RANGELESS,
+
+        /** Disallow {@link StdLibFunction#SCALE} on real numbers. */
+        SCALE_REAL,
+
+        /** Disallow {@link StdLibFunction#SIGN}. */
+        SIGN,
+
+        /** Disallow {@link StdLibFunction#SIGN} on integer numbers. */
+        SIGN_INT,
+
+        /** Disallow {@link StdLibFunction#SIGN} on ranged integer numbers. */
+        SIGN_INT_RANGED,
+
+        /** Disallow {@link StdLibFunction#SIGN} on rangeless integer numbers. */
+        SIGN_INT_RANGELESS,
+
+        /** Disallow {@link StdLibFunction#SIGN} on real numbers. */
+        SIGN_REAL,
+
+        /** Disallow {@link StdLibFunction#SIN}. */
+        SIN,
+
+        /** Disallow {@link StdLibFunction#SINH}. */
+        SINH,
+
+        /** Disallow {@link StdLibFunction#SIZE}. */
+        SIZE,
+
+        /** Disallow {@link StdLibFunction#SIZE} on strings. */
+        SIZE_STRING,
+
+        /** Disallow {@link StdLibFunction#SIZE} on lists. */
+        SIZE_LIST,
+
+        /** Disallow {@link StdLibFunction#SIZE} on array lists. */
+        SIZE_LIST_ARRAY,
+
+        /** Disallow {@link StdLibFunction#SIZE} on non-array lists. */
+        SIZE_LIST_NON_ARRAY,
+
+        /** Disallow {@link StdLibFunction#SIZE} on sets. */
+        SIZE_SET,
+
+        /** Disallow {@link StdLibFunction#SIZE} on dictionaries. */
+        SIZE_DICT,
+
+        /** Disallow {@link StdLibFunction#SQRT}. */
+        SQRT,
+
+        /** Disallow {@link StdLibFunction#TAN}. */
+        TAN,
+
+        /** Disallow {@link StdLibFunction#TANH}. */
+        TANH,
+
+        /** Disallow {@link StdLibFunction#TRIANGLE}. */
+        TRIANGLE,
+
+        /** Disallow {@link StdLibFunction#UNIFORM}. */
+        UNIFORM,
+
+        /** Disallow {@link StdLibFunction#UNIFORM} on integers. */
+        UNIFORM_INT,
+
+        /** Disallow {@link StdLibFunction#UNIFORM} on reals. */
+        UNIFORM_REAL,
+
+        /** Disallow {@link StdLibFunction#WEIBULL}. */
+        WEIBULL,
     }
 }

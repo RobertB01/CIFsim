@@ -1,0 +1,306 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ------------------------------------------------------------------------
+  (1/26) Standard library function "abs" is used on a real typed argument.
+  ------------------------------------------------------------------------
+   * In invariant "ABS.R":
+     - invariant R: abs(1.0) > 0;
+                    ^
+
+  ----------------------------------------------------------------------------
+  (2/26) Standard library function "abs" is used on an integer typed argument.
+  ----------------------------------------------------------------------------
+   * In invariant "ABS.G":
+     - invariant G: abs(1) > 0;
+                    ^
+   * In invariant "ABS.I":
+     - invariant I: abs(i) > 0;
+                    ^
+
+  --------------------------------------------------------------------------------
+  (3/26) Standard library function "constant" is used on a boolean typed argument.
+  --------------------------------------------------------------------------------
+   * In discrete variable "CONSTANT.B":
+     - disc dist bool B = constant(true);
+                          ^
+
+  -----------------------------------------------------------------------------
+  (4/26) Standard library function "constant" is used on a real typed argument.
+  -----------------------------------------------------------------------------
+   * In discrete variable "CONSTANT.R":
+     - disc dist real R = constant(1.0);
+                          ^
+
+  ---------------------------------------------------------------------------------
+  (5/26) Standard library function "constant" is used on an integer typed argument.
+  ---------------------------------------------------------------------------------
+   * In discrete variable "CONSTANT.I":
+     - disc dist int I = constant(1);
+                         ^
+
+  --------------------------------------------------------------------------------
+  (6/26) Standard library function "empty" is used on a dictionary typed argument.
+  --------------------------------------------------------------------------------
+   * In invariant "EMPTY.DICT":
+     - invariant DICT: empty({1: 2});
+                       ^
+
+  --------------------------------------------------------------------------
+  (7/26) Standard library function "empty" is used on a list typed argument.
+  --------------------------------------------------------------------------
+   * In invariant "EMPTY.ARRAY":
+     - invariant ARRAY: empty([1, 2]);
+                        ^
+   * In invariant "EMPTY.LIST":
+     - invariant LIST: empty(li);
+                       ^
+
+  -------------------------------------------------------------------------
+  (8/26) Standard library function "empty" is used on a set typed argument.
+  -------------------------------------------------------------------------
+   * In invariant "EMPTY.SET":
+     - invariant SET: empty({1, 2});
+                      ^
+
+  -----------------------------------------------------
+  (9/26) Standard library function "lognormal" is used.
+  -----------------------------------------------------
+   * In discrete variable "LOG_NORMAL.x":
+     - disc dist real x = lognormal(1.0, 2.0);
+                          ^
+
+  -------------------------------------------------------------------------
+  (10/26) Standard library function "max" is used on a real typed argument.
+  -------------------------------------------------------------------------
+   * In invariant "MAXIMUM.GR":
+     - invariant GR: max(1, 1.0) > 0;
+                     ^
+   * In invariant "MAXIMUM.RG":
+     - invariant RG: max(1.0, 1) > 0;
+                     ^
+   * In invariant "MAXIMUM.RR":
+     - invariant RR: max(1.0, 1.0) > 0;
+                     ^
+
+  -----------------------------------------------------------------------------
+  (11/26) Standard library function "max" is used on an integer typed argument.
+  -----------------------------------------------------------------------------
+   * In invariant "MAXIMUM.GG":
+     - invariant GG: max(1, 1) > 0;
+                     ^
+   * In invariant "MAXIMUM.GI":
+     - invariant GI: max(1, i) > 0;
+                     ^
+   * In invariant "MAXIMUM.GR":
+     - invariant GR: max(1, 1.0) > 0;
+                     ^
+   * In invariant "MAXIMUM.IG":
+     - invariant IG: max(i, 1) > 0;
+                     ^
+   * In invariant "MAXIMUM.II":
+     - invariant II: max(i, i) > 0;
+                     ^
+   * In invariant "MAXIMUM.RG":
+     - invariant RG: max(1.0, 1) > 0;
+                     ^
+
+  -------------------------------------------------------------------------
+  (12/26) Standard library function "min" is used on a real typed argument.
+  -------------------------------------------------------------------------
+   * In invariant "MINIMUM.GR":
+     - invariant GR: min(1, 1.0) > 0;
+                     ^
+   * In invariant "MINIMUM.RG":
+     - invariant RG: min(1.0, 1) > 0;
+                     ^
+   * In invariant "MINIMUM.RR":
+     - invariant RR: min(1.0, 1.0) > 0;
+                     ^
+
+  -----------------------------------------------------------------------------
+  (13/26) Standard library function "min" is used on an integer typed argument.
+  -----------------------------------------------------------------------------
+   * In invariant "MINIMUM.GG":
+     - invariant GG: min(1, 1) > 0;
+                     ^
+   * In invariant "MINIMUM.GI":
+     - invariant GI: min(1, i) > 0;
+                     ^
+   * In invariant "MINIMUM.GR":
+     - invariant GR: min(1, 1.0) > 0;
+                     ^
+   * In invariant "MINIMUM.IG":
+     - invariant IG: min(i, 1) > 0;
+                     ^
+   * In invariant "MINIMUM.II":
+     - invariant II: min(i, i) > 0;
+                     ^
+   * In invariant "MINIMUM.RG":
+     - invariant RG: min(1.0, 1) > 0;
+                     ^
+
+  --------------------------------------------------------------------------------
+  (14/26) Standard library function "pop" is used on an array list typed argument.
+  --------------------------------------------------------------------------------
+   * In invariant "POP.A":
+     - invariant A: pop([1, 2])[0] > 0;
+                    ^
+
+  -------------------------------------------------------------------------
+  (15/26) Standard library function "pow" is used on a real typed argument.
+  -------------------------------------------------------------------------
+   * In invariant "POWER.GR":
+     - invariant GR: pow(1, 1.0) > 0;
+                     ^
+   * In invariant "POWER.RG":
+     - invariant RG: pow(1.0, 1) > 0;
+                     ^
+   * In invariant "POWER.RR":
+     - invariant RR: pow(1.0, 1.0) > 0;
+                     ^
+
+  -----------------------------------------------------------------------------
+  (16/26) Standard library function "pow" is used on an integer typed argument.
+  -----------------------------------------------------------------------------
+   * In invariant "POWER.GG":
+     - invariant GG: pow(1, 1) > 0;
+                     ^
+   * In invariant "POWER.GI":
+     - invariant GI: pow(1, i) > 0;
+                     ^
+   * In invariant "POWER.GR":
+     - invariant GR: pow(1, 1.0) > 0;
+                     ^
+   * In invariant "POWER.IG":
+     - invariant IG: pow(i, 1) > 0;
+                     ^
+   * In invariant "POWER.II":
+     - invariant II: pow(i, i) > 0;
+                     ^
+   * In invariant "POWER.RG":
+     - invariant RG: pow(1.0, 1) > 0;
+                     ^
+
+  ---------------------------------------------------------------------------
+  (17/26) Standard library function "scale" is used on a real typed argument.
+  ---------------------------------------------------------------------------
+   * In invariant "SCALE.R":
+     - invariant R: scale(1.0, 1.0, 1.0, 1.0, 1.0) > 0;
+                    ^
+   * In invariant "SCALE.R1":
+     - invariant R1: scale(1.0, 1, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R2":
+     - invariant R2: scale(1, 1.0, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R3":
+     - invariant R3: scale(1, 1, 1.0, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R4":
+     - invariant R4: scale(1, 1, 1, 1.0, 1) > 0;
+                     ^
+   * In invariant "SCALE.R5":
+     - invariant R5: scale(1, 1, 1, 1, 1.0) > 0;
+                     ^
+
+  -------------------------------------------------------------------------------
+  (18/26) Standard library function "scale" is used on an integer typed argument.
+  -------------------------------------------------------------------------------
+   * In invariant "SCALE.G":
+     - invariant G: scale(1, 1, 1, 1, 1) > 0;
+                    ^
+   * In invariant "SCALE.I":
+     - invariant I: scale(i, i, i, i, i) > 0;
+                    ^
+   * In invariant "SCALE.I1":
+     - invariant I1: scale(i, 1, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.I2":
+     - invariant I2: scale(1, i, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.I3":
+     - invariant I3: scale(1, 1, i, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.I4":
+     - invariant I4: scale(1, 1, 1, i, 1) > 0;
+                     ^
+   * In invariant "SCALE.I5":
+     - invariant I5: scale(1, 1, 1, 1, i) > 0;
+                     ^
+   * In invariant "SCALE.R1":
+     - invariant R1: scale(1.0, 1, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R2":
+     - invariant R2: scale(1, 1.0, 1, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R3":
+     - invariant R3: scale(1, 1, 1.0, 1, 1) > 0;
+                     ^
+   * In invariant "SCALE.R4":
+     - invariant R4: scale(1, 1, 1, 1.0, 1) > 0;
+                     ^
+   * In invariant "SCALE.R5":
+     - invariant R5: scale(1, 1, 1, 1, 1.0) > 0;
+                     ^
+
+  --------------------------------------------------------------------------
+  (19/26) Standard library function "sign" is used on a real typed argument.
+  --------------------------------------------------------------------------
+   * In invariant "SIGN.R":
+     - invariant R: sign(1.0) > 0;
+                    ^
+
+  ------------------------------------------------------------------------------
+  (20/26) Standard library function "sign" is used on an integer typed argument.
+  ------------------------------------------------------------------------------
+   * In invariant "SIGN.G":
+     - invariant G: sign(1) > 0;
+                    ^
+   * In invariant "SIGN.I":
+     - invariant I: sign(i) > 0;
+                    ^
+
+  --------------------------------------------------------------------------------
+  (21/26) Standard library function "size" is used on a dictionary typed argument.
+  --------------------------------------------------------------------------------
+   * In invariant "SIZE.DICT":
+     - invariant DICT: size({1: 2}) > 0;
+                       ^
+
+  --------------------------------------------------------------------------
+  (22/26) Standard library function "size" is used on a list typed argument.
+  --------------------------------------------------------------------------
+   * In invariant "SIZE.ARRAY":
+     - invariant ARRAY: size([1, 2]) > 0;
+                        ^
+   * In invariant "SIZE.LIST":
+     - invariant LIST: size(li) > 0;
+                       ^
+
+  -------------------------------------------------------------------------
+  (23/26) Standard library function "size" is used on a set typed argument.
+  -------------------------------------------------------------------------
+   * In invariant "SIZE.SET":
+     - invariant SET: size({1, 2}) > 0;
+                      ^
+
+  ----------------------------------------------------------------------------
+  (24/26) Standard library function "size" is used on a string typed argument.
+  ----------------------------------------------------------------------------
+   * In invariant "SIZE.STRING":
+     - invariant STRING: size("a") > 0;
+                         ^
+
+  -----------------------------------------------------------------------------
+  (25/26) Standard library function "uniform" is used on a real typed argument.
+  -----------------------------------------------------------------------------
+   * In discrete variable "UNIFORM.R":
+     - disc dist real R = uniform(1.0, 2.0);
+                          ^
+
+  ---------------------------------------------------------------------------------
+  (26/26) Standard library function "uniform" is used on an integer typed argument.
+  ---------------------------------------------------------------------------------
+   * In discrete variable "UNIFORM.I":
+     - disc dist int I = uniform(1, 2);
+                         ^

@@ -135,31 +135,31 @@ const char *ranges_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e11",          /**< Event e11. */
-    "e12",          /**< Event e12. */
-    "e13",          /**< Event e13. */
-    "e14",          /**< Event e14. */
-    "e15",          /**< Event e15. */
-    "e16",          /**< Event e16. */
-    "e17",          /**< Event e17. */
-    "e18",          /**< Event e18. */
-    "e21",          /**< Event e21. */
-    "e22",          /**< Event e22. */
-    "e23",          /**< Event e23. */
-    "e24",          /**< Event e24. */
-    "e25",          /**< Event e25. */
-    "e26",          /**< Event e26. */
-    "e27",          /**< Event e27. */
-    "e28",          /**< Event e28. */
-    "e31",          /**< Event e31. */
-    "e32",          /**< Event e32. */
-    "e33",          /**< Event e33. */
-    "e34",          /**< Event e34. */
-    "e35",          /**< Event e35. */
-    "e36",          /**< Event e36. */
-    "e37",          /**< Event e37. */
-    "e38",          /**< Event e38. */
-    "e41",          /**< Event e41. */
+    "e11",          /**< Event "e11". */
+    "e12",          /**< Event "e12". */
+    "e13",          /**< Event "e13". */
+    "e14",          /**< Event "e14". */
+    "e15",          /**< Event "e15". */
+    "e16",          /**< Event "e16". */
+    "e17",          /**< Event "e17". */
+    "e18",          /**< Event "e18". */
+    "e21",          /**< Event "e21". */
+    "e22",          /**< Event "e22". */
+    "e23",          /**< Event "e23". */
+    "e24",          /**< Event "e24". */
+    "e25",          /**< Event "e25". */
+    "e26",          /**< Event "e26". */
+    "e27",          /**< Event "e27". */
+    "e28",          /**< Event "e28". */
+    "e31",          /**< Event "e31". */
+    "e32",          /**< Event "e32". */
+    "e33",          /**< Event "e33". */
+    "e34",          /**< Event "e34". */
+    "e35",          /**< Event "e35". */
+    "e36",          /**< Event "e36". */
+    "e37",          /**< Event "e37". */
+    "e38",          /**< Event "e38". */
+    "e41",          /**< Event "e41". */
 };
 
 /** Enumeration names. */

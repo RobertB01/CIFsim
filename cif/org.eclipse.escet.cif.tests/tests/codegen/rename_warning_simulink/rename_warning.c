@@ -1153,8 +1153,12 @@ static int EnumTypePrint(rename_warningEnum value, char *dest, int start, int en
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
-    int_T a_b_; /**< Constant "a_b". */
-    int_T a_b_2; /**< Constant "a.b". */
+
+    /** Constant "a_b". */
+    int_T a_b_;
+
+    /** Constant "a.b". */
+    int_T a_b_2;
 
 
 
@@ -1185,9 +1189,14 @@ struct WorkStruct {
 /* }}} */
 
 enum rename_warningEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum rename_warningEventEnum_ rename_warning_Event_;
 

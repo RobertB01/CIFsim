@@ -39,7 +39,8 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.generators.io.IoEntry;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -157,7 +158,7 @@ public class InputOutputGenerator {
                 IoDirection directionFromCif = decideIoDirectionFromCif(cifObj);
 
                 // Don't allow 2 uses for input with the same CIF object.
-                if (directionFromCif.equals(IoDirection.IO_READ)) {
+                if (directionFromCif == IoDirection.IO_READ) {
                     if (connectedInputCifObjects.contains(cifObj)) {
                         String message = fmt(
                                 "The CIF variable for entry %s is already in use for receiving a value from an input, "
@@ -185,7 +186,7 @@ public class InputOutputGenerator {
                 }
 
                 // Check for output conflicts (multiple uses of a PLC output).
-                if (directionFromCif.equals(IoDirection.IO_WRITE)) {
+                if (directionFromCif == IoDirection.IO_WRITE) {
                     if (connectedPlcAddresses.contains(plcAddress)) {
                         String message = fmt(
                                 "The PLC address for the entry %s is already in use for outputting a value, as "
@@ -341,14 +342,14 @@ public class InputOutputGenerator {
         for (IoEntry entry: entries) {
             // Preliminaries (check I/O direction, construct links to the correct local data structures).
             Assert.check(EnumSet.of(IoDirection.IO_READ, IoDirection.IO_WRITE).contains(entry.ioDirection));
-            boolean isInput = entry.ioDirection.equals(IoDirection.IO_READ);
+            boolean isInput = (entry.ioDirection == IoDirection.IO_READ);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;
 
             // Construct a variable with the I/O address.
             String varPrefix = isInput ? "in_" : "out_";
             String ioVarName = varPrefix + getAbsName(entry.cifObject, false);
             ioVarName = nameGenerator.generateGlobalName(ioVarName, false);
-            PlcVariable ioVar = new PlcVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
+            PlcBasicVariable ioVar = new PlcDataVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
             if (isInput) {
                 codeStorage.addInputVariable(ioVar);
             } else {

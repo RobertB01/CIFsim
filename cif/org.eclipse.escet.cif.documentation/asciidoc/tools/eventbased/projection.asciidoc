@@ -27,6 +27,7 @@ The algorithm produces a deterministic automaton with the subset as its alphabet
 The tool takes a `.cif` file containing a single automaton, and the names of the events that should be preserved.
 The output is a `.cif` file containing a deterministic automaton that is language equivalent with the input automaton with respect to the set of preserved events.
 The resulting automaton has the same kind as the input automaton.
+The resulting automaton is a DFA that it is not necessarily link:https://en.wikipedia.org/wiki/DFA_minimization[minimal], but can be minimized using the <<tools-eventbased-chapter-dfa-minimization,DFA minimizer>>.
 
 indexterm:[event-based automaton projection,start]
 

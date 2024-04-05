@@ -140,74 +140,209 @@ extern int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
 /* Event declarations. */
 enum edgesEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e02a_,        /**< Event e02a. */
-    e02b_,        /**< Event e02b. */
-    e03a_,        /**< Event e03a. */
-    e03b_,        /**< Event e03b. */
-    e04a_,        /**< Event e04a. */
-    e04b_,        /**< Event e04b. */
-    e04c_,        /**< Event e04c. */
-    e04d_,        /**< Event e04d. */
-    e04e_,        /**< Event e04e. */
-    e04f_,        /**< Event e04f. */
-    e05a_,        /**< Event e05a. */
-    e05b_,        /**< Event e05b. */
-    e05c_,        /**< Event e05c. */
-    e05d_,        /**< Event e05d. */
-    e05e_,        /**< Event e05e. */
-    e06a_,        /**< Event e06a. */
-    e06b_,        /**< Event e06b. */
-    e06c_,        /**< Event e06c. */
-    e06d_,        /**< Event e06d. */
-    e06e_,        /**< Event e06e. */
-    e07a_,        /**< Event e07a. */
-    e07b_,        /**< Event e07b. */
-    e08a_,        /**< Event e08a. */
-    e08b_,        /**< Event e08b. */
-    e08c_,        /**< Event e08c. */
-    e08d_,        /**< Event e08d. */
-    e08e_,        /**< Event e08e. */
-    e08f_,        /**< Event e08f. */
-    e08g_,        /**< Event e08g. */
-    e08h_,        /**< Event e08h. */
-    e09a_,        /**< Event e09a. */
-    e09b_,        /**< Event e09b. */
-    e09c_,        /**< Event e09c. */
-    e09d_,        /**< Event e09d. */
-    e09e_,        /**< Event e09e. */
-    e09f_,        /**< Event e09f. */
-    e09g_,        /**< Event e09g. */
-    e10a_,        /**< Event e10a. */
-    e10b_,        /**< Event e10b. */
-    e10c_,        /**< Event e10c. */
-    e10d_,        /**< Event e10d. */
-    e10e_,        /**< Event e10e. */
-    e10f_,        /**< Event e10f. */
-    e10g_,        /**< Event e10g. */
-    e10h_,        /**< Event e10h. */
-    e10i_,        /**< Event e10i. */
-    e11a_,        /**< Event e11a. */
-    e12a_,        /**< Event e12a. */
-    e12b_,        /**< Event e12b. */
-    e12c_,        /**< Event e12c. */
-    e12d_,        /**< Event e12d. */
-    e12e_,        /**< Event e12e. */
-    e13a_,        /**< Event e13a. */
-    e13b_,        /**< Event e13b. */
-    e13c_,        /**< Event e13c. */
-    e13d_,        /**< Event e13d. */
-    e13e_,        /**< Event e13e. */
-    e14a_,        /**< Event e14a. */
-    e14b_,        /**< Event e14b. */
-    e14c_,        /**< Event e14c. */
-    e14d_,        /**< Event e14d. */
-    e14e_,        /**< Event e14e. */
-    e14f_,        /**< Event e14f. */
-    e14g_,        /**< Event e14g. */
-    e14h_,        /**< Event e14h. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e02a". */
+    e02a_,
+
+    /** Event "e02b". */
+    e02b_,
+
+    /** Event "e03a". */
+    e03a_,
+
+    /** Event "e03b". */
+    e03b_,
+
+    /** Event "e04a". */
+    e04a_,
+
+    /** Event "e04b". */
+    e04b_,
+
+    /** Event "e04c". */
+    e04c_,
+
+    /** Event "e04d". */
+    e04d_,
+
+    /** Event "e04e". */
+    e04e_,
+
+    /** Event "e04f". */
+    e04f_,
+
+    /** Event "e05a". */
+    e05a_,
+
+    /** Event "e05b". */
+    e05b_,
+
+    /** Event "e05c". */
+    e05c_,
+
+    /** Event "e05d". */
+    e05d_,
+
+    /** Event "e05e". */
+    e05e_,
+
+    /** Event "e06a". */
+    e06a_,
+
+    /** Event "e06b". */
+    e06b_,
+
+    /** Event "e06c". */
+    e06c_,
+
+    /** Event "e06d". */
+    e06d_,
+
+    /** Event "e06e". */
+    e06e_,
+
+    /** Event "e07a". */
+    e07a_,
+
+    /** Event "e07b". */
+    e07b_,
+
+    /** Event "e08a". */
+    e08a_,
+
+    /** Event "e08b". */
+    e08b_,
+
+    /** Event "e08c". */
+    e08c_,
+
+    /** Event "e08d". */
+    e08d_,
+
+    /** Event "e08e". */
+    e08e_,
+
+    /** Event "e08f". */
+    e08f_,
+
+    /** Event "e08g". */
+    e08g_,
+
+    /** Event "e08h". */
+    e08h_,
+
+    /** Event "e09a". */
+    e09a_,
+
+    /** Event "e09b". */
+    e09b_,
+
+    /** Event "e09c". */
+    e09c_,
+
+    /** Event "e09d". */
+    e09d_,
+
+    /** Event "e09e". */
+    e09e_,
+
+    /** Event "e09f". */
+    e09f_,
+
+    /** Event "e09g". */
+    e09g_,
+
+    /** Event "e10a". */
+    e10a_,
+
+    /** Event "e10b". */
+    e10b_,
+
+    /** Event "e10c". */
+    e10c_,
+
+    /** Event "e10d". */
+    e10d_,
+
+    /** Event "e10e". */
+    e10e_,
+
+    /** Event "e10f". */
+    e10f_,
+
+    /** Event "e10g". */
+    e10g_,
+
+    /** Event "e10h". */
+    e10h_,
+
+    /** Event "e10i". */
+    e10i_,
+
+    /** Event "e11a". */
+    e11a_,
+
+    /** Event "e12a". */
+    e12a_,
+
+    /** Event "e12b". */
+    e12b_,
+
+    /** Event "e12c". */
+    e12c_,
+
+    /** Event "e12d". */
+    e12d_,
+
+    /** Event "e12e". */
+    e12e_,
+
+    /** Event "e13a". */
+    e13a_,
+
+    /** Event "e13b". */
+    e13b_,
+
+    /** Event "e13c". */
+    e13c_,
+
+    /** Event "e13d". */
+    e13d_,
+
+    /** Event "e13e". */
+    e13e_,
+
+    /** Event "e14a". */
+    e14a_,
+
+    /** Event "e14b". */
+    e14b_,
+
+    /** Event "e14c". */
+    e14c_,
+
+    /** Event "e14d". */
+    e14d_,
+
+    /** Event "e14e". */
+    e14e_,
+
+    /** Event "e14f". */
+    e14f_,
+
+    /** Event "e14g". */
+    e14g_,
+
+    /** Event "e14h". */
+    e14h_,
 };
 typedef enum edgesEventEnum_ edges_Event_;
 
@@ -404,30 +539,22 @@ static inline RealType aut12_t_deriv(void) {
 static inline RealType aut12_u_deriv(void) {
     return RealAdd(aut12_t_deriv(), aut12_z_);
 }
-/**
- * Algebraic variable aut12.v = M.aut12_x + M.aut12_y;
- */
+/** Algebraic variable aut12.v = M.aut12_x + M.aut12_y. */
 static inline RealType aut12_v_(void) {
     return RealAdd(aut12_x_, aut12_y_);
 }
 
-/**
- * Algebraic variable aut12.w = aut12.v + M.aut12_z;
- */
+/** Algebraic variable aut12.w = aut12.v + M.aut12_z. */
 static inline RealType aut12_w_(void) {
     return RealAdd(aut12_v_(), aut12_z_);
 }
 
-/**
- * Algebraic variable aut13.v = M.aut13_x + M.aut13_y;
- */
+/** Algebraic variable aut13.v = M.aut13_x + M.aut13_y. */
 static inline RealType aut13_v_(void) {
     return RealAdd(aut13_x_, aut13_y_);
 }
 
-/**
- * Algebraic variable aut13.w = aut13.v + M.aut13_z;
- */
+/** Algebraic variable aut13.w = aut13.v + M.aut13_z. */
 static inline RealType aut13_w_(void) {
     return RealAdd(aut13_v_(), aut13_z_);
 }

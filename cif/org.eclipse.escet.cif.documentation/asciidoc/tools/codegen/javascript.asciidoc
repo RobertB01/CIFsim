@@ -32,7 +32,7 @@ See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index
 
 === Options
 
-The C89 code generator only uses the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>.
+The JavaScript code generator only uses the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>.
 It has no specific options of its own.
 
 The code prefix that can be configured using a common option, is used in the generated JavaScript code as prefix for class names.
@@ -215,10 +215,13 @@ You could for instance log that for debugging.
 The `doInfoEvent` field of the class can be used to configure whether this method is invoked during execution.
 This is enabled (`true`) by default.
 +
-By default, this methods prints information about event transitions that are executed, and states that are reached.
-The `doTransitionPrint` and `doStatePrint` fields of the class can be used to configure whether transition and state output, respectively, are printed.
-They are enabled (`true`) by default.
-If `doStatePrint` is enabled, information is also printed for the initial state.
+This method can print information about event transitions that are executed.
+The `doTransitionPrint` field of the class can be configured to enable or disable printing of transition output.
+By default, transition printing is enabled (`true`).
++
+This method can print information about states that are reached.
+The `doStatePrint` field of the class can be configured to enable or disable printing of state output.
+By default, state printing is disabled (`false`).
 
 * `infoPrintOutput` method
 +

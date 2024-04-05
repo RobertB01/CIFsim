@@ -63,6 +63,22 @@ automaton a3:
   disc int x = 1;
   invariant x > 0;
 
+  @doc
+  cont c = 1 der 2;
+  invariant c > 0;
+
+  @doc
+  event evt;
+
   location:
     initial;
+    edge evt;
+end
+
+group g1:
+  @doc
+  alg bool alg1 = false;
+
+  @doc
+  const bool const1 = true;
 end

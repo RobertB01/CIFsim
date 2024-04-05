@@ -113,9 +113,12 @@ When using these options, always make sure the intended PLC model supports the c
 In addition, the PLC code generator introduces enumerations in its conversion of automata.
 This option controls how all enumerations are converted to PLC code:
 
-** Use _Keep enumerations_ (`--convert-enums=no`) if the target PLC supports enumerations.
+** Use _Automatically decide how to handle enumerations_ (`--convert-enums=auto`) to let the code generator decide based on the configured target PLC model.
 This is the default value of the option.
-It is also the preferred value because using enumeration names improves readability of the generated PLC code.
+It will either preserve enumerations if the PLC model supports them, or it will convert the enumerations by one of the alternatives described below.
+
+** Use _Preserve enumerations_ (`--convert-enums=keep`) if the target PLC supports enumerations.
+It is generally the preferred value because using enumeration names improves readability of the generated PLC code.
 
 ** Use _Convert enumerations to constants_ (`--convert-enums=consts`) if the target PLC does not support enumerations but does support constants.
 This option value also causes generation of names in the PLC code, but information about which names belong together is lost.
@@ -196,6 +199,9 @@ After pre-processing, a check is performed whether the CIF file meets all the re
 * For components, the following conditions must be met:
 ** No initialization predicates outside locations that restrict initialization.
 ** No equations outside locations.
+** No events that can occur infinitely many times.
+The CIF PLC code generator only contains a partial check.
+A more complete check can be done by checking the finite response property of the input specification with the <<tools-chapter-controller-checker,controller checker>> tool.
 
 * For automata and invariants, the following conditions must be met:
 ** At least one automaton.

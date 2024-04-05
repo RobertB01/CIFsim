@@ -18,14 +18,6 @@ automaton p:
     edge do x[1] := "a";
 end
 
-func bool f():
-  string x;
-  x[1] := "a";
-  return true;
-end
-
-invariant f();
-
 automaton q:
   disc list string x;
   location:

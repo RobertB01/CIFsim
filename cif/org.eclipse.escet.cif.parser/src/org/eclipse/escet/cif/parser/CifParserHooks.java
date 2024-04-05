@@ -569,34 +569,34 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new AEnumDecl(a2.id, l4, a2.position);
     }
 
-    @Override // Decl : OptControllability @EVENTKW Identifiers SEMICOLTK;
-    public ADecl parseDecl03(Token t1, Token t2, List<AIdentifier> l3) {
-        return new AEventDecl(t1, l3, null, t2.position);
+    @Override // Decl : OptAnnos OptControllability @EVENTKW Identifiers SEMICOLTK;
+    public ADecl parseDecl03(List<AAnnotation> l1, Token t2, Token t3, List<AIdentifier> l4) {
+        return new AEventDecl(l1, t2, l4, null, t3.position);
     }
 
-    @Override // Decl : OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl04(Token t1, Token t2, ACifType a3, List<AIdentifier> l4) {
-        return new AEventDecl(t1, l4, a3, t2.position);
+    @Override // Decl : OptAnnos OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl04(List<AAnnotation> l1, Token t2, Token t3, ACifType a4, List<AIdentifier> l5) {
+        return new AEventDecl(l1, t2, l5, a4, t3.position);
     }
 
-    @Override // Decl : Controllability Identifiers SEMICOLTK;
-    public ADecl parseDecl05(Token t1, List<AIdentifier> l2) {
-        return new AEventDecl(t1, l2, null, t1.position);
+    @Override // Decl : OptAnnos Controllability Identifiers SEMICOLTK;
+    public ADecl parseDecl05(List<AAnnotation> l1, Token t2, List<AIdentifier> l3) {
+        return new AEventDecl(l1, t2, l3, null, t2.position);
     }
 
-    @Override // Decl : Controllability EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl06(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AEventDecl(t1, l3, a2, t1.position);
+    @Override // Decl : OptAnnos Controllability EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl06(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+        return new AEventDecl(l1, t2, l4, a3, t2.position);
     }
 
-    @Override // Decl : @CONSTKW Type ConstantDefs SEMICOLTK;
-    public ADecl parseDecl07(Token t1, ACifType a2, List<AConstant> l3) {
-        return new AConstDecl(a2, l3, t1.position);
+    @Override // Decl : OptAnnos @CONSTKW Type ConstantDefs SEMICOLTK;
+    public ADecl parseDecl07(List<AAnnotation> l1, Token t2, ACifType a3, List<AConstant> l4) {
+        return new AConstDecl(l1, a3, l4, t2.position);
     }
 
-    @Override // Decl : @ALGKW Type AlgVarsDefs SEMICOLTK;
-    public ADecl parseDecl08(Token t1, ACifType a2, List<AAlgVariable> l3) {
-        return new AAlgVariableDecl(a2, l3, t1.position);
+    @Override // Decl : OptAnnos @ALGKW Type AlgVarsDefs SEMICOLTK;
+    public ADecl parseDecl08(List<AAnnotation> l1, Token t2, ACifType a3, List<AAlgVariable> l4) {
+        return new AAlgVariableDecl(l1, a3, l4, t2.position);
     }
 
     @Override // Decl : OptAnnos @INPUTKW Type Identifiers SEMICOLTK;
@@ -604,9 +604,9 @@ public final class CifParserHooks implements CifParser.Hooks {
         return new AInputVariableDecl(l1, a3, l4, t2.position);
     }
 
-    @Override // Decl : @CONTKW ContDecls SEMICOLTK;
-    public ADecl parseDecl10(Token t1, List<AContVariable> l2) {
-        return new AContVariableDecl(l2, t1.position);
+    @Override // Decl : OptAnnos @CONTKW ContDecls SEMICOLTK;
+    public ADecl parseDecl10(List<AAnnotation> l1, Token t2, List<AContVariable> l3) {
+        return new AContVariableDecl(l1, l3, t2.position);
     }
 
     @Override // Decl : @EQUATIONKW Equations SEMICOLTK;

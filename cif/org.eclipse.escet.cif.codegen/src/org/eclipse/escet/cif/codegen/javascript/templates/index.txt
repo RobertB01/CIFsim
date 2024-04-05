@@ -77,18 +77,27 @@
             }
             #log-pane .div-txt-area #log-output {
                 resize: none;
-                border: 0;
                 height: 100%;
                 width: 100%;
+                overflow: auto;
+            }
+            #log-pane .div-txt-area #log-output,
+            #log-pane .div-txt-area #log-output * {
+                border: 0;
                 margin: 0;
                 padding: 0;
                 background: white;
                 font-family: monospace;
                 text-align: left;
                 text-wrap: nowrap;
-                overflow: auto;
                 white-space: pre;
                 color: black;
+            }
+            #log-pane .div-txt-area #log-output * {
+                height: auto;
+            }
+            #log-pane .div-txt-area #log-output .warning {
+                color: rgb(150, 125, 0);
             }
             #log-pane .div-txt-area #log-output .error {
                 color: red;
@@ -96,6 +105,45 @@
             #log-pane #div-log-pane-footer {
                 background: #fafafa;
                 border-top: 1px solid #ddd;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #fafafa;
+                border: solid 1px #ddd;
+                box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+            .dropdown-content .dropdown-item {
+                color: black;
+                text-align: left;
+                text-wrap: nowrap;
+                margin: 0;
+                padding: 0;
+                display: flex;
+            }
+            .dropdown-content .dropdown-item.dropdown-item-checked label {
+                padding: 10px 16px;
+                display: inline-flex;
+                flex-grow: 1;
+            }
+            .dropdown-content .dropdown-item.dropdown-item-checked input {
+                margin: 0;
+                padding: 0;
+            }
+            .dropdown-content .dropdown-item.dropdown-item-checked .dropdown-item-checked-text {
+                padding-left: 8px;
+            }
+            .dropdown-content .dropdown-item:hover {
+                background-color: #eee;
+            }
+            .dropdown.expanded .dropdown-content {
+                display: block;
             }
 
             .collapsed #log-pane {
@@ -261,6 +309,25 @@ ${html-javascript-class-placeholder}
                 document.getElementById('log-output').innerHTML = '';
             }
 
+            function toggleSettings(btn) {
+                var elem = document.getElementById('settings-dropdown');
+                if (elem.classList.contains('expanded')) {
+                    elem.classList.remove('expanded');
+                    elem.classList.add('collapsed');
+                } else {
+                    elem.classList.remove('collapsed');
+                    elem.classList.add('expanded');
+                }
+            }
+
+            function toggleLogStates(menuItem) {
+                ${prefix}.doStateOutput = menuItem.checked;
+            }
+
+            function toggleLogTransitions(menuItem) {
+                ${prefix}.doTransitionOutput = menuItem.checked;
+            }
+
             function showHide(btn) {
                 var elem = document.getElementById('flex-container');
                 if (elem.classList.contains('expanded')) {
@@ -330,6 +397,25 @@ ${html-svg-toggles}
                             <option value="90"/>
                             <option value="120"/>
                         </datalist>
+                        <div class="dropdown" id="settings-dropdown" class="collapsed">
+                            <input value="Settings" type="button" onclick="toggleSettings(); return false;"/>
+                            <div class="dropdown-content">
+                                <div class="dropdown-item dropdown-item-checked">
+                                    <label for="log-states">
+                                        <input type="checkbox" id="log-states" name="log-states"
+                                                onchange="toggleLogStates(this)"/>
+                                        <span class="dropdown-item-checked-text">Log states</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item dropdown-item-checked">
+                                    <label for="log-transitions">
+                                        <input type="checkbox" id="log-transitions" name="log-transitions"
+                                                onchange="toggleLogTransitions(this)" checked/>
+                                        <span class="dropdown-item-checked-text">Log transitions</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <input id="start-stop-toggle" value="Stop" type="button"
                                 onclick="toggleStartStop(); return false;"/>
                         <input value="Reset" type="button" onclick="reset(); return false;"/>

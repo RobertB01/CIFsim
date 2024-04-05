@@ -440,7 +440,7 @@ close(f);
 +
 where "data.txt" contains:
 +
-[source, console]
+[source]
 ----
 123 345
 789

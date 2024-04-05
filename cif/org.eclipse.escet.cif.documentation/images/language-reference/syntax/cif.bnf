@@ -39,14 +39,14 @@ AutDecl : Decl
 
 Decl : "type" TypeDefs ";"
      | "enum" Identifier "=" Identifiers ";"
-     | OptControllability "event"           Identifiers ";"
-     | OptControllability "event" EventType Identifiers ";"
-     |    Controllability                   Identifiers ";"
-     |    Controllability         EventType Identifiers ";"
-     | "const" Type ConstantDefs ";"
-     | "alg" Type AlgVarsDefs ";"
+     | OptAnnos OptControllability "event"           Identifiers ";"
+     | OptAnnos OptControllability "event" EventType Identifiers ";"
+     | OptAnnos    Controllability                   Identifiers ";"
+     | OptAnnos    Controllability         EventType Identifiers ";"
+     | OptAnnos "const" Type ConstantDefs ";"
+     | OptAnnos "alg" Type AlgVarsDefs ";"
      | OptAnnos "input" Type Identifiers ";"
-     | "cont" ContDecls ";"
+     | OptAnnos "cont" ContDecls ";"
      | "equation" Equations ";"
      | "initial" Expressions ";"
      | InvariantDecls
@@ -257,7 +257,7 @@ Invariants : Invariant
 Invariant :                Expression
           | Identifier ":" Expression
           |                Name                  "needs"    Expression
-          | Identifier ":" Name                  "needs"    Expression 
+          | Identifier ":" Name                  "needs"    Expression
           |                NonEmptySetExpression "needs"    Expression
           |                Expression            "disables" Name
           | Identifier ":" Expression            "disables" Name

@@ -2393,37 +2393,99 @@ static int A1T2A1IA2T2RSTypePrint(A1T2A1IA2T2RSType *array, char *dest, int star
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
-    BoolType c1_; /**< Constant "c1". */
-    BoolType c2_; /**< Constant "c2". */
-    A3BType c3_; /**< Constant "c3". */
-    int_T c4_; /**< Constant "c4". */
-    int_T c5_; /**< Constant "c5". */
-    A3IType c6_; /**< Constant "c6". */
-    A3BType c7_; /**< Constant "c7". */
-    A3IType c8_; /**< Constant "c8". */
-    A3IType c9_; /**< Constant "c9". */
-    types_and_literalsEnum c10_; /**< Constant "c10". */
-    types_and_literalsEnum c11_; /**< Constant "c11". */
-    types_and_literalsEnum c12_; /**< Constant "c12". */
-    real_T c13_; /**< Constant "c13". */
-    real_T c14_; /**< Constant "c14". */
-    A10RType c15_; /**< Constant "c15". */
-    StringType c16_; /**< Constant "c16". */
-    StringType c17_; /**< Constant "c17". */
-    StringType c18_; /**< Constant "c18". */
-    StringType c19_; /**< Constant "c19". */
-    A3SType c20_; /**< Constant "c20". */
-    A0IType c21_; /**< Constant "c21". */
-    A1IType c22_; /**< Constant "c22". */
-    A2BType c23_; /**< Constant "c23". */
-    A2BType c24_; /**< Constant "c24". */
-    A3A2RType c25_; /**< Constant "c25". */
-    T2IIType c26_; /**< Constant "c26". */
-    T2IIType c27_; /**< Constant "c27". */
-    T3IISType c28_; /**< Constant "c28". */
-    T2T2IISType c29_; /**< Constant "c29". */
-    A1T2A1IA2T2RSType c31_; /**< Constant "c31". */
-    A1T2A1IA2T2RSType c30_; /**< Constant "c30". */
+
+    /** Constant "c1". */
+    BoolType c1_;
+
+    /** Constant "c2". */
+    BoolType c2_;
+
+    /** Constant "c3". */
+    A3BType c3_;
+
+    /** Constant "c4". */
+    int_T c4_;
+
+    /** Constant "c5". */
+    int_T c5_;
+
+    /** Constant "c6". */
+    A3IType c6_;
+
+    /** Constant "c7". */
+    A3BType c7_;
+
+    /** Constant "c8". */
+    A3IType c8_;
+
+    /** Constant "c9". */
+    A3IType c9_;
+
+    /** Constant "c10". */
+    types_and_literalsEnum c10_;
+
+    /** Constant "c11". */
+    types_and_literalsEnum c11_;
+
+    /** Constant "c12". */
+    types_and_literalsEnum c12_;
+
+    /** Constant "c13". */
+    real_T c13_;
+
+    /** Constant "c14". */
+    real_T c14_;
+
+    /** Constant "c15". */
+    A10RType c15_;
+
+    /** Constant "c16". */
+    StringType c16_;
+
+    /** Constant "c17". */
+    StringType c17_;
+
+    /** Constant "c18". */
+    StringType c18_;
+
+    /** Constant "c19". */
+    StringType c19_;
+
+    /** Constant "c20". */
+    A3SType c20_;
+
+    /** Constant "c21". */
+    A0IType c21_;
+
+    /** Constant "c22". */
+    A1IType c22_;
+
+    /** Constant "c23". */
+    A2BType c23_;
+
+    /** Constant "c24". */
+    A2BType c24_;
+
+    /** Constant "c25". */
+    A3A2RType c25_;
+
+    /** Constant "c26". */
+    T2IIType c26_;
+
+    /** Constant "c27". */
+    T2IIType c27_;
+
+    /** Constant "c28". */
+    T3IISType c28_;
+
+    /** Constant "c29". */
+    T2T2IISType c29_;
+
+    /** Constant "c31". */
+    A1T2A1IA2T2RSType c31_;
+
+    /** Constant "c30". */
+    A1T2A1IA2T2RSType c30_;
 
 
 
@@ -2454,9 +2516,14 @@ struct WorkStruct {
 /* }}} */
 
 enum types_and_literalsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum types_and_literalsEventEnum_ types_and_literals_Event_;
 

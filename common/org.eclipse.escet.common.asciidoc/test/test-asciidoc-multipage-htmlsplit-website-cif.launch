@@ -12,7 +12,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.escet.common.asciidoc.html.multipage.AsciiDocMultiPageHtmlSplitter"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="org.eclipse.escet.common.asciidoc"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../../cif/org.eclipse.escet.cif.documentation/asciidoc ../../cif/org.eclipse.escet.cif.documentation/target/website-intermediate/documentation.html test/output-website-cif --website &quot;CIF website&quot; ."/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../../cif/org.eclipse.escet.cif.documentation/asciidoc ../../cif/org.eclipse.escet.cif.documentation/target/website-intermediate/documentation.html test/output-website-cif --website &quot;CIF website&quot; . assets/asciidoctor-escet-cif.js"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.escet.common.asciidoc"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>

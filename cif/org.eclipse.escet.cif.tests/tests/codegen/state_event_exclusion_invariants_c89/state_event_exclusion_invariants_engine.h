@@ -21,10 +21,17 @@ extern int EnumTypePrint(state_event_exclusion_invariantsEnum value, char *dest,
 
 /* Event declarations. */
 enum state_event_exclusion_invariantsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e_,           /**< Event e. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e". */
+    e_,
 };
 typedef enum state_event_exclusion_invariantsEventEnum_ state_event_exclusion_invariants_Event_;
 

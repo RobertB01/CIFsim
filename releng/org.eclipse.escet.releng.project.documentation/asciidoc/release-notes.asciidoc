@@ -26,9 +26,29 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.dev/escet/{escet-deploy-folder-name}/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.dev/escet/{escet-deploy-folder-name}/tooldef/release-notes.html[ToolDef release notes]
 
-=== Version 3.0
+=== Version 4.0
 
 TBD
+
+=== Version 3.0 (2024-03-31)
+
+New features:
+
+* The Eclipse ESCET project now has a logo.
+You can find the logo on the ESCET website, as well as in the ESCET IDE (issues {escet-issue}777[#777] and {escet-issue}791[#791]).
+* The Eclipse ESCET website now features a version switcher, to allow switching to websites for earlier versions of ESCET.
+The download page now also includes a link to a new page with links to all the websites of earlier versions of ESCET (issues {escet-issue}437[#437], {escet-issue}775[#775] and {escet-issue}776[#776]).
+
+Improvements and fixes:
+
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation now feature syntax highlighting for all languages, on the website and in the Eclipse ESCET IDE help (issue {escet-issue}740[#740]).
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation now have improved styling, on the website and in the Eclipse ESCET IDE help (issue {escet-issue}38[#38]).
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation on the website now have interactive tables of contents in their left sidebars, supporting collapsing and expanding (issue {escet-issue}38[#38]).
+* The Eclipse ESCET, Chi, CIF and ToolDef documentation on the website now include all levels in their tables of contents in the left sidebars (issue {escet-issue}38[#38]).
+* The Eclipse ESCET website has improved styling of dropdown menus (issue {escet-issue}437[#437]).
+* The Eclipse ESCET IDE now ships with the 'linked resources' feature of the Eclipse IDE disabled by default (issue {escet-issue}754[#754]).
+* The Eclipse ESCET IDE has a new splash screen, featuring the ESCET logo (issue {escet-issue}791[#791]).
+* The Eclipse ESCET IDE launcher for Windows now has an ESCET-specific icon (issue {escet-issue}791[#791]).
 
 === Version 2.0 (2023-12-22)
 

@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
  * CIF check that only allows continuous variables that are decreasing timers. A continuous variable is a decreasing
@@ -46,9 +47,8 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
     @Override
     protected void preprocessContVariable(ContVariable contVar, CifCheckViolations violations) {
         if (contVar.getValue() != null) {
-            checkValue(contVar.getValue(), violations);
+            checkValue(contVar.getValue(), "has an initial value", contVar, violations);
         }
-
         checkDerivative(contVar, violations);
     }
 
@@ -60,42 +60,69 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
         }
 
         // Check use of the value of the continuous variable.
-        boolean reportViolation = false;
-
         EObject exprParent = cvExpr.eContainer();
         if (exprParent instanceof Assignment asg) {
             // Handle simple assignment to the continuous variable.
             // TODO Allow multi-assignments like (cv1, cv2) := (1, 2);
             if (cvExpr == asg.getAddressable()) {
                 // Continuous variable gets assigned, check the value.
-                checkValue(asg.getValue(), violations); // We allow 0. Useless but fine if the user wants that.
-            } else {
-                // Using continuous variable as value in assignment is not allowed.
-                reportViolation = true;
+                // We allow 0. Useless but fine if the user wants that.
+                checkValue(asg.getValue(), "is assigned a value", cvExpr, violations);
+                return;
             }
         } else if (exprParent instanceof BinaryExpression binExpr) {
             // Continuous variable comparison is the only way to read a continuous variable.
             boolean varAtLeft = (binExpr.getLeft() == cvExpr);
-            Expression valueExpr;
             if (varAtLeft) {
                 // Allow only 'var <= ...'.
-                reportViolation |= (binExpr.getOperator() != BinaryOperator.LESS_EQUAL);
-                valueExpr = binExpr.getRight();
+                if (binExpr.getOperator() == BinaryOperator.LESS_EQUAL) {
+                    checkValue(binExpr.getRight(), "is compared to a value", cvExpr, violations);
+                    return;
+                }
             } else {
                 // Allow only '... >= var'.
-                reportViolation |= (binExpr.getOperator() != BinaryOperator.GREATER_EQUAL);
-                valueExpr = binExpr.getLeft();
+                if (binExpr.getOperator() == BinaryOperator.GREATER_EQUAL) {
+                    checkValue(binExpr.getLeft(), "is compared to a value", cvExpr, violations);
+                    return;
+                }
             }
-            checkValue(valueExpr, violations);
-        } else {
-            // Don't allow a continuous variable in other expressions.
-            reportViolation = true;
+
+            // If it is a disallowed comparison, report that specifically.
+            if (binExpr.getOperator() == BinaryOperator.EQUAL || binExpr.getOperator() == BinaryOperator.UNEQUAL
+                    || binExpr.getOperator() == BinaryOperator.GREATER_EQUAL
+                    || binExpr.getOperator() == BinaryOperator.GREATER_THAN
+                    || binExpr.getOperator() == BinaryOperator.LESS_EQUAL
+                    || binExpr.getOperator() == BinaryOperator.LESS_THAN)
+            {
+                violations.add(cvExpr,
+                        "Continuous variable is compared, but not as \"variable <= ...\" or \"... >= variable\"");
+                return;
+            }
+
+            // Not a comparison at all.
         }
 
-        if (reportViolation) {
-            violations.add(cvExpr, "Continuous variable value is not compared as \"variable <= ...\" or \"... >= "
-                    + "variable\", nor assigned in a single-variable assignment");
+        // Code generation supports multi-assignments, but this check does not yet support it (see above). Check for it.
+        PositionObject ancestor = cvExpr;
+        while (true) {
+            // Move up as long as we're still in an expression, which includes addressables.
+            PositionObject newAncestor = (PositionObject)ancestor.eContainer();
+            if (newAncestor != null && newAncestor instanceof Expression) {
+                ancestor = newAncestor;
+                continue;
+            }
+
+            // If it is at the left-hand side of an assignment, it is a multi-assignment, since simple assignments have
+            // been handled above, and projected assignments are not possible for continuous variables.
+            if (newAncestor instanceof Assignment asgn && asgn.getAddressable() == ancestor) {
+                violations.add(cvExpr, "Continuous variable is assigned in a multi-assignment");
+                return;
+            }
+            break;
         }
+
+        // Indicate that the continuous variable is used in a way that is not one of the allowed ones.
+        violations.add(cvExpr, "Continuous variable is not assigned or compared");
     }
 
     /**
@@ -112,13 +139,13 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
             return;
         }
 
-        Object evalValue = getStaticEvaluableValue(derivative, false, violations);
+        Object evalValue = getStaticEvaluableValue(derivative, "has a derivative", contVar, violations);
         if (evalValue == null || evalValue instanceof Integer i && i == -1
                 || evalValue instanceof Double d && d == -1.0)
         {
             return;
         } else {
-            violations.add(derivative, "Continuous variable has a derivative that is not -1 or -1.0");
+            violations.add(contVar, "Continuous variable has a derivative that is not -1 or -1.0");
         }
     }
 
@@ -126,43 +153,45 @@ public class VarContOnlyTimers extends CifCheckNoCompDefInst {
      * Check that the given continuous variable value is a non-negative number.
      *
      * @param value Value to check.
+     * @param valueDescr The description of the value, to use in violation messages.
+     * @param reportObj Object with position on which to report violations.
      * @param violations Already found violations, may be extended in-place.
      */
-    private void checkValue(Expression value, CifCheckViolations violations) {
-        Object evalValue = getStaticEvaluableValue(value, true, violations);
+    private void checkValue(Expression value, String valueDescr, PositionObject reportObj,
+            CifCheckViolations violations)
+    {
+        Object evalValue = getStaticEvaluableValue(value, valueDescr, reportObj, violations);
         if (evalValue == null || (evalValue instanceof Integer i && i >= 0)
                 || (evalValue instanceof Double d && d >= 0.0))
         {
             return;
         }
-        violations.add(value, "Continuous variable is initialized to, assigned, or compared to, a negative value");
+        violations.add(reportObj, "Continuous variable " + valueDescr + " that is negative");
     }
 
     /**
-     * Try to evaluate the given expression as an initial value, assigned value, or derivative of a continuous variable,
-     * or a value against which a continuous variable is compared. If the evaluation fails, the violation is reported
-     * and {@code null} is returned. Otherwise the evaluated value is returned.
+     * Try to evaluate the given expression as a continuous variable value or derivative. If the evaluation fails, the
+     * violation is reported and {@code null} is returned. Otherwise the evaluated value is returned.
      *
      * @param value Value to evaluate.
-     * @param isValue If {@code true}, the given expression is assumed to be the value of a continuous variable, else it
-     *     is assumed to be the value of a derivative of a continuous variable.
+     * @param valueDescr The description of the value, to use in violation messages.
+     * @param reportObj Object with position on which to report violations.
      * @param violations Already found violations, may be extended in-place.
      * @return {@code null} if the given expression could not be evaluated or does not represent a static single value,
      *     else the found value is returned as Java value. See {@link CifEvalUtils} class description for details.
      */
-    private Object getStaticEvaluableValue(Expression value, boolean isValue, CifCheckViolations violations) {
-        String valueText = isValue ? "value" : "derivative";
-
+    private Object getStaticEvaluableValue(Expression value, String valueDescr, PositionObject reportObj,
+            CifCheckViolations violations)
+    {
         if (!CifValueUtils.hasSingleValue(value, CifValueUtils.isInitialExpr(value), true)) {
-            violations.add(value, "Continuous variable has a " + valueText + " that cannot be evaluated statically");
+            violations.add(reportObj, "Continuous variable " + valueDescr + " that cannot be evaluated statically");
             return null;
         } else {
             try {
                 return CifEvalUtils.eval(value, CifValueUtils.isInitialExpr(value));
             } catch (CifEvalException ex) {
-                Expression reportExpr = (ex.expr != null) ? ex.expr : value;
-                violations.add(reportExpr, "Continuous variable has a " + valueText + " that cannot be evaluated "
-                        + "statically, as evaluating it results in an evaluation error");
+                violations.add(reportObj, "Continuous variable " + valueDescr + " that cannot be "
+                        + "evaluated statically, as evaluating it results in an evaluation error");
                 return null;
             }
         }

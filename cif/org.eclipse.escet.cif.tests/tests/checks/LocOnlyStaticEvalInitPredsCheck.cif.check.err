@@ -1,0 +1,23 @@
+WARNING: File "checks/LocOnlyStaticEvalInitPredsCheck.cif": Semantic warning at line 23, column 12: Location "loc3" is not reachable from any of the initial locations of automaton "a".
+WARNING: File "checks/LocOnlyStaticEvalInitPredsCheck.cif": Semantic warning at line 42, column 34: Location parameter "loc_param.l" is not used anywhere in the specification.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -----------------------------------------------------------------------------------
+  (1/2) Location has an initialization predicate that cannot be evaluated statically.
+  -----------------------------------------------------------------------------------
+   * In location "a.loc6":
+     - zero() = 0;
+              ^
+   * In automaton "nameless_loc":
+     - zero() = 0;
+              ^
+
+  ------------------------------------------------------------------------------------------------------------------------------------
+  (2/2) Location has an initialization predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.
+  ------------------------------------------------------------------------------------------------------------------------------------
+   * In location "a.loc5":
+     - 1 / 0 = 1.0;
+         ^
+   * In automaton "nameless_loc":
+     - 1 / 0 = 1.0,
+         ^

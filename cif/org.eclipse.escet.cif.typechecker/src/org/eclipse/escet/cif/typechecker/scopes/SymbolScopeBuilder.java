@@ -706,7 +706,7 @@ public class SymbolScopeBuilder {
             var2.setName(var1.name.id);
             var2.setPosition(var1.createPosition());
 
-            ContVariableDeclWrap wrapper = new ContVariableDeclWrap(tchecker, parent, var1, var2);
+            ContVariableDeclWrap wrapper = new ContVariableDeclWrap(tchecker, parent, decls, var1, var2);
             parent.addDeclaration(wrapper);
 
             parent.getComplexComponent().getDeclarations().add(var2);

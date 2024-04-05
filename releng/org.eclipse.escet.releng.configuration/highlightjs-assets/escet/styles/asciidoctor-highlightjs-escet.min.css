@@ -1,0 +1,214 @@
+/******************************************************************************
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the terms
+ * of the MIT License which is available at https://opensource.org/licenses/MIT
+ *
+ *  SPDX-License-Identifier: MIT
+ *****************************************************************************/
+
+/* Mandatory styles. */
+
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+}
+
+code.hljs {
+    padding: 3px 5px;
+}
+
+/* Basic styling. */
+
+.hljs {
+    background: #f7f7f8;
+    color: inherit;
+}
+
+/* Style each scope. */
+/* See https://highlightjs.readthedocs.io/en/latest/css-classes-reference.html for the list of stylable scopes. */
+
+.hljs-attr,
+.hljs-formula,
+.hljs-operator,
+.hljs-params,
+.hljs-property,
+.hljs-punctuation,
+.hljs-tag,
+.hljs-variable {
+    /* Default. */
+}
+
+.hljs-doctag {
+    color: #666;
+}
+
+.hljs-bullet {
+    font-weight: bold;
+}
+
+.hljs-code,
+.hljs-meta,
+.hljs-quote {
+    color: #aaa;
+}
+
+.hljs-comment {
+    color: #aaa;
+    font-style: italic;
+}
+
+.hljs-attribute,
+.hljs-keyword,
+.hljs-literal,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-tag .hljs-attr,
+.hljs-tag .hljs-name,
+.hljs-type {
+    color: #0000e8;
+}
+
+.hljs-string,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-template-tag {
+    color: #dd0000;
+}
+
+.hljs-meta .hljs-keyword {
+    color: #666;
+}
+
+.hljs-meta .hljs-string {
+    color: #a66;
+}
+
+.hljs-number {
+    color: #00c000;
+}
+
+.hljs-title,
+.hljs-section {
+    font-weight: bold;
+}
+
+.hljs-title.class_,
+.hljs-title.function_ {
+    font-weight: inherit;
+}
+
+.hljs-char.escape_,
+.hljs-regex,
+.hljs-regexp,
+.hljs-subst {
+    color: #ff9000;
+}
+
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-symbol,
+.hljs-template-variable {
+    color: #ff9000;
+}
+
+.hljs-addition {
+    color: #22863a;
+    background-color: #f0fff4;
+}
+
+.hljs-deletion {
+    color: #b31d28;
+    background-color: #ffeef0;
+}
+
+.hljs-built_in {
+    color: #c000f0;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: bold;
+}
+
+/* BNF language style. */
+
+.language-bnf .hljs-comment { color: #aaaaaa; font-style: italic; }
+.language-bnf .hljs-string  { color: #dd0000; }
+
+/* Chi language style. */
+
+.language-chi .hljs-comment      { color: #aaaaaa; font-style: italic; }
+.language-chi .hljs-string       { color: #dd0000; }
+.language-chi .hljs-char.escape_ { color: #ff9000; }
+.language-chi .hljs-regex        { color: #ff9000; }
+.language-chi .hljs-keyword      { color: #0000e8; }
+.language-chi .hljs-built_in     { color: #c000f0; }
+.language-chi .hljs-operator     { color: #0097c0; }
+.language-chi .hljs-number       { color: #00c000; }
+
+/* CIF language style. */
+
+.language-cif .hljs-meta         { color: #aaaaaa; }
+.language-cif .hljs-comment      { color: #aaaaaa; font-style: italic; }
+.language-cif .hljs-string       { color: #dd0000; }
+.language-cif .hljs-char.escape_ { color: #ff9000; }
+.language-cif .hljs-regex        { color: #ff9000; }
+.language-cif .hljs-keyword      { color: #0000e8; }
+.language-cif .hljs-built_in     { color: #c000f0; }
+.language-cif .hljs-operator     { color: #0097c0; }
+.language-cif .hljs-number       { color: #00c000; }
+.language-cif .hljs-cevent       { color: #00c000; }
+.language-cif .hljs-uevent       { color: #dd0000; }
+.language-cif .hljs-eevent       { color: #c09700; }
+
+/* Console language style. */
+
+.language-console .hljs-error   { color: #dd0000; }
+.language-console .hljs-warning { color: #cc9700; }
+
+/* DSM language style. */
+
+.language-dsm .hljs-symbol       { color: #000; font-weight: bold; }
+.language-dsm .hljs-string       { color: #dd0000; }
+.language-dsm .hljs-char.escape_ { color: #ff9000; }
+
+/* mCRL2 language style. */
+
+.language-mcrl2 .hljs-keyword { color: #0000e8; }
+.language-mcrl2 .hljs-number  { color: #00c000; }
+.language-mcrl2 .hljs-comment { color: #aaaaaa; font-style: italic; }
+
+/* Rail diagram language style. */
+
+.language-raildiagram .hljs-comment                  { color: #aaaaaa; font-style: italic; }
+.language-raildiagram .hljs-string                   { color: #dd0000; }
+.language-raildiagram .hljs-char.escape_             { color: #ff9000; }
+.language-raildiagram .hljs-title                    { color: #0000e8; font-weight: inherit; }
+.language-raildiagram .hljs-title .hljs-char.escape_ { color: #c000f0; }
+
+/* SeText language style. */
+
+.language-setext .hljs-comment { color: #aaaaaa; font-style: italic; }
+.language-setext .hljs-string  { color: #dd0000; }
+.language-setext .hljs-keyword { color: #0000e8; }
+.language-setext .hljs-title   { color: #0097c0; font-weight: inherit; }
+
+/* ToolDef language style. */
+
+.language-tooldef .hljs-comment      { color: #aaaaaa; font-style: italic; }
+.language-tooldef .hljs-string       { color: #dd0000; }
+.language-tooldef .hljs-char.escape_ { color: #ff9000; }
+.language-tooldef .hljs-regex        { color: #ff9000; }
+.language-tooldef .hljs-keyword      { color: #0000e8; }
+.language-tooldef .hljs-built_in     { color: #c000f0; }
+.language-tooldef .hljs-operator     { color: #0097c0; }
+.language-tooldef .hljs-number       { color: #00c000; }

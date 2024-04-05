@@ -24,7 +24,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
@@ -110,11 +110,6 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
     @Override
     public void process() {
-        // Add the timer PLC variables to the output.
-        for (PlcTimerCodeGenerator timer: timers.values()) {
-            timer.addInstanceVariables();
-        }
-
         // Generate code to update continuous state variables at the start of a PLC cycle.
         //
         // For the first cycle, timers are initialized as part of state initialization. For the non-first cycle however,
@@ -155,11 +150,8 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         /** Parameter description of the TON function block. */
         private final PlcFunctionBlockDescription tonFuncBlock;
 
-        /** PLC variable representing the TON timer. */
-        private final PlcVariable timerVar;
-
         /** PLC variable storing the last set preset value. */
-        private final PlcVariable presetVar;
+        private final PlcBasicVariable presetVar;
 
         /**
          * Constructor of the {@link PlcTimerGen} class.
@@ -176,30 +168,23 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
 
             // Construct the variables needed for the timer. Relate all variables to the continuous variable.
             NameGenerator nameGen = target.getNameGenerator();
-            String cvarName = getAbsName(contVar, false);
-            String name = nameGen.generateGlobalName("ton_" + cvarName, false);
-            tonFuncBlock = PlcFunctionBlockDescription.makeTonBlock(name);
-            timerVar = new PlcVariable(name, tonFuncBlock.funcBlockType);
-
-            name = nameGen.generateGlobalName("preset_" + cvarName, false);
-            presetVar = new PlcVariable(name, PlcElementaryType.TIME_TYPE);
-        }
-
-        @Override
-        public void addInstanceVariables() {
             PlcCodeStorage codeStorage = target.getCodeStorage();
-            codeStorage.addTimerVariable(timerVar);
-            codeStorage.addTimerVariable(presetVar);
+
+            String cvarName = getAbsName(contVar, false);
+            String tonName = nameGen.generateGlobalName("ton_" + cvarName, false);
+            String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
+            tonFuncBlock = codeStorage.addTimerVariable(tonName).funcBlockDescription;
+            presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
         }
 
         @Override
         public List<PlcStatement> generateRemainingUpdate() {
             ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
-            PlcVariable v = exprGen.getTempVariable("curValue", target.getRealType());
-            PlcVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
+            PlcBasicVariable v = exprGen.getTempVariable("curValue", target.getRealType());
+            PlcBasicVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
 
             List<PlcStatement> statements = listc(3);
-            statements.add(new PlcCommentLine("Update remaining time of \"" + plcContVar.variable.name + "\"."));
+            statements.add(new PlcCommentLine("Update remaining time of \"" + plcContVar.variable.varName + "\"."));
 
             // Get the current timer state information by calling TON(PT := P, IN := TRUE, Q => B, ET => V);
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
@@ -220,7 +205,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         public List<PlcStatement> generateAssignPreset() {
             // Assign new value to P and R;
             List<PlcStatement> statements = listc(4);
-            statements.add(new PlcCommentLine("Reset timer of \"" + plcContVar.variable.name + "\"."));
+            statements.add(new PlcCommentLine("Reset timer of \"" + plcContVar.variable.varName + "\"."));
             statements.add(new PlcAssignmentStatement(presetVar, plcContVar));
 
             // Reset the timer with TON(PT := P, IN := FALSE);

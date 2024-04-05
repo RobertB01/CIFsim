@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.statements;
 
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 
@@ -31,7 +31,7 @@ public class PlcAssignmentStatement extends PlcStatement {
      * @param lhsVar Variable to assign to.
      * @param value Value to assign.
      */
-    public PlcAssignmentStatement(PlcVariable lhsVar, PlcExpression value) {
+    public PlcAssignmentStatement(PlcBasicVariable lhsVar, PlcExpression value) {
         this(new PlcVarExpression(lhsVar), value);
     }
 
@@ -49,5 +49,10 @@ public class PlcAssignmentStatement extends PlcStatement {
     @Override
     public PlcAssignmentStatement copy() {
         return new PlcAssignmentStatement(lhs, value);
+    }
+
+    @Override
+    public boolean isProperPlcStatement() {
+        return true;
     }
 }

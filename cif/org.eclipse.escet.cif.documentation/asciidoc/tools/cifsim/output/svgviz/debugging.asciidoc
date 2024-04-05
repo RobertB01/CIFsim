@@ -57,7 +57,7 @@ Due to the asynchronous nature of the SVG visualizer, the simulator will continu
 As such, the debug output and other simulation output are likely to be out of sync and interleaved.
 To ease debugging, you can enable the <<tools-cifsim-chapter-test-mode,test mode option>>, which ensures synchronous execution, and thus synchronous output.
 
-For the input mappings, whenever an interactive SVG element is clicked, and the corresponding mapping is used to determine the event to take, a line of debug output is produced.
+For the input mappings, whenever an interactive SVG element is clicked, and the corresponding mapping is used to determine the event or update to take, a line of debug output is produced.
 Here is an example of what such output looks like:
 
 [source, console]

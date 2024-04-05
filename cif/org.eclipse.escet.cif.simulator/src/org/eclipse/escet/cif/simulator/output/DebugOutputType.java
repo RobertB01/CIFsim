@@ -28,10 +28,9 @@ public enum DebugOutputType {
     ODE("ODE solver");
 
     // TODO: Implement additional debugging output.
-    /// ***/ INIT("initialization"),
-
-    /// ***/ TRANS("transitions (minimal)"),
-    /// ***/ TRANS_FULL("transitions (full)"),
+    // INIT("initialization"),
+    // TRANS("transitions (minimal)"),
+    // TRANS_FULL("transitions (full)"),
 
     /**
      * The description of the type of debug output, for the help texts. They are used as follows:

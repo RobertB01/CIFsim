@@ -2,20 +2,21 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <POU Name="MAIN">
     <Declaration><![CDATA[PROGRAM MAIN
+VAR
+    Good_x: DINT;
+    firstRun: BOOL := TRUE;
+END_VAR
 VAR_TEMP
     channelValue: DINT;
     current_Good_x: DINT;
-    current_Good_x__1: DINT;
+    current_Good_x_1: DINT;
+    edge_Block_1: DINT;
+    edge_Good_1: DINT;
+    edge_UseChannel_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
     receiverAut: DINT;
-    receiverEdge: DINT;
     senderAut: DINT;
-    senderEdge: DINT;
-    syncAutEdge: DINT;
-    syncAutEdge__1: DINT;
-    syncAutEdge__2: DINT;
-    syncAutEdge__3: DINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* --- Initialize state. --------------------------------------------------- *)
@@ -32,56 +33,158 @@ isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
 
-    (* Try to perform event "noSync". *)
+    (*************************************************************
+     * Try to perform event "noSync".
+     *
+     * - Automaton "Good" must always synchronize.
+     * - Automaton "Block" must always synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edge of automaton "Good" to synchronize for event "noSync".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edge being tested:
+     * - Location "G":
+     *   - 1st edge in the location
+     ***********)
     IF TRUE THEN
-        syncAutEdge := 1;
+        edge_Good_1 := 1;
     ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
     IF eventEnabled THEN
+        (***********
+         * Testing edges of automaton "Block" to synchronize for event "noSync".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edges being tested:
+         *   - No edges found. Event "noSync" will never occur!
+         ***********)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "noSync" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_Good_x := Good_x;
-        IF syncAutEdge = 1 THEN
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "Good". *)
+        IF edge_Good_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "Good.G". *)
             Good_x := (current_Good_x + 1) MOD 6;
         END_IF;
+        (* Automaton "Block" has no assignments to perform. *)
     END_IF;
 
-    (* Try to perform event "noMonitor". *)
+    (*************************************************************
+     * Try to perform event "noMonitor".
+     *
+     * - Automaton "Good" must always synchronize.
+     *
+     * - Automaton "Block" may synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edge of automaton "Good" to synchronize for event "noMonitor".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edge being tested:
+     * - Location "G":
+     *   - 2nd edge in the location
+     ***********)
     IF TRUE THEN
-        syncAutEdge__2 := 1;
+        edge_Good_1 := 1;
     ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "noMonitor" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
-        current_Good_x__1 := Good_x;
-        IF syncAutEdge__2 = 1 THEN
-            Good_x := (current_Good_x__1 + 5) MOD 6;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_Good_x_1 := Good_x;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "Good". *)
+        IF edge_Good_1 = 1 THEN
+            (* Perform assignments of the 2nd edge in location "Good.G". *)
+            Good_x := (current_Good_x_1 + 5) MOD 6;
         END_IF;
+        (*******************************
+         * Perform the assignments of each optionally synchronizing automaton.
+         *******************************)
+        (* There are no assignments to perform for automata that may synchronize. *)
+        (* Automaton "Block" has no assignments to perform. *)
     END_IF;
 
-    (* Try to perform event "channel". *)
+    (*************************************************************
+     * Try to perform event "channel".
+     *
+     * - An automaton that must send a value is missing, so the event cannot occur.
+     *
+     * - An automaton that must receive a value is missing, so the event cannot occur.
+     *
+     * - Automaton "UseChannel" must always synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Try to find a sender automaton that provides a value.
+     *******************************)
     senderAut := 0;
     IF senderAut = 0 THEN
+        (* Failed to find an automaton that provides a value. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (*******************************
+     * Try to find a receiver automaton that accepts a value.
+     *******************************)
     IF eventEnabled THEN
         receiverAut := 0;
         IF receiverAut = 0 THEN
+            (* Failed to find an automaton that accepts a value. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
     END_IF;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
     IF eventEnabled THEN
+        (***********
+         * Testing edges of automaton "UseChannel" to synchronize for event "channel".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edges being tested:
+         *   - No edges found. Event "channel" will never occur!
+         ***********)
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "channel" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (*******************************
+         * Store the provided value and perform assignments of the selected providing automaton.
+         *******************************)
+        (*******************************
+         * Deliver the provided value and perform assignments of the selected accepting automaton.
+         *******************************)
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* There are no assignments to perform for automata that must always synchronize. *)
+        (* Automaton "UseChannel" has no assignments to perform. *)
     END_IF;
 END_WHILE;]]></ST>
     </Implementation>

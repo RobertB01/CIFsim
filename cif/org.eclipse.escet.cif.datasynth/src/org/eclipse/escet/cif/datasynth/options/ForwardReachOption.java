@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -38,7 +39,7 @@ public class ForwardReachOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                false,
+                CifDataSynthesisSettingsDefaults.DO_FORWARD_REACH_DEFAULT,
 
                 // showInDialog
                 true,

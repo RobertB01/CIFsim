@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
+import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
@@ -55,7 +56,7 @@ public class EdgeOrderForwardOption extends StringOption {
                 "EDGEORDER",
 
                 // defaultValue
-                "model",
+                CifBddSettingsDefaults.EDGE_ORDER_BACKWARD_DEFAULT,
 
                 // emptyAsNull
                 false,

@@ -21,9 +21,49 @@ extern int EnumTypePrint(annos_docEnum value, char *dest, int start, int end);
 
 /* Event declarations. */
 enum annos_docEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "events.e1". */
+    events_e1_,
+
+    /**
+     * Event "events.e2".
+     *
+     * single line doc
+     */
+    events_e2_,
+
+    /**
+     * Event "events.e3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    events_e3_,
+
+    /**
+     * Event "events.e4".
+     *
+     * some doc
+     */
+    events_e4_,
+
+    /**
+     * Event "events.e5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    events_e5_,
 };
 typedef enum annos_docEventEnum_ annos_doc_Event_;
 
@@ -32,6 +72,40 @@ extern const char *annos_doc_event_names[];
 
 /* Constants. */
 
+/** Constant "constants.c1". */
+extern IntType constants_c1_;
+
+/**
+ * Constant "constants.c2".
+ *
+ * single line doc
+ */
+extern IntType constants_c2_;
+
+/**
+ * Constant "constants.c3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern IntType constants_c3_;
+
+/**
+ * Constant "constants.c4".
+ *
+ * some doc
+ */
+extern IntType constants_c4_;
+
+/**
+ * Constant "constants.c5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern IntType constants_c5_;
 
 /* Input variables. */
 
@@ -78,43 +152,87 @@ extern void annos_doc_AssignInputVariables();
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
 
-/** Discrete variable "bool a.i1". */
-extern BoolType a_i1_;
+/** Continuous variable "real contvars.c1". */
+extern RealType contvars_c1_;
 
 /**
- * Discrete variable "bool a.i2".
+ * Continuous variable "real contvars.c2".
  *
  * single line doc
  */
-extern BoolType a_i2_;
+extern RealType contvars_c2_;
 
 /**
- * Discrete variable "bool a.i3".
+ * Continuous variable "real contvars.c3".
  *
  * doc with multiple
  * lines of
  *  text
  */
-extern BoolType a_i3_;
+extern RealType contvars_c3_;
 
 /**
- * Discrete variable "bool a.i4".
+ * Continuous variable "real contvars.c4".
  *
  * some doc
  */
-extern BoolType a_i4_;
+extern RealType contvars_c4_;
 
 /**
- * Discrete variable "bool a.i5".
+ * Continuous variable "real contvars.c5".
  *
  * First doc.
  *
  * Second doc.
  */
-extern BoolType a_i5_;
+extern RealType contvars_c5_;
+
+/** Discrete variable "bool discvars.d1". */
+extern BoolType discvars_d1_;
+
+/**
+ * Discrete variable "bool discvars.d2".
+ *
+ * single line doc
+ */
+extern BoolType discvars_d2_;
+
+/**
+ * Discrete variable "bool discvars.d3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ */
+extern BoolType discvars_d3_;
+
+/**
+ * Discrete variable "bool discvars.d4".
+ *
+ * some doc
+ */
+extern BoolType discvars_d4_;
+
+/**
+ * Discrete variable "bool discvars.d5".
+ *
+ * First doc.
+ *
+ * Second doc.
+ */
+extern BoolType discvars_d5_;
 
 /* Algebraic and derivative functions (use for output only). */
-
+RealType contvars_c1_deriv(void);
+RealType contvars_c2_deriv(void);
+RealType contvars_c3_deriv(void);
+RealType contvars_c4_deriv(void);
+RealType contvars_c5_deriv(void);
+IntType algvars_a1_(void);
+IntType algvars_a2_(void);
+IntType algvars_a3_(void);
+IntType algvars_a4_(void);
+IntType algvars_a5_(void);
 
 
 /* Code entry points. */

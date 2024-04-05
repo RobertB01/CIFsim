@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -163,19 +164,31 @@ public class JavaScriptCodeGen extends CodeGen {
 
         // For HTML, log not only to the console, but also to the log panel.
         CodeBox logToPanelCode = makeCodeBox(2);
+        CodeBox warningToPanelCode = makeCodeBox(2);
         CodeBox errorToPanelCode = makeCodeBox(2);
         if (language == TargetLanguage.HTML) {
             logToPanelCode.add("var elem = document.getElementById('log-output');");
-            logToPanelCode.add("elem.innerHTML += %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            logToPanelCode.add("var newEntry = document.createElement('div');");
+            logToPanelCode.add("newEntry.innerHTML = %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            logToPanelCode.add("elem.appendChild(newEntry);");
             logToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
 
+            warningToPanelCode.add("var elem = document.getElementById('log-output');");
+            warningToPanelCode.add("var newEntry = document.createElement('div');");
+            warningToPanelCode.add("newEntry.innerHTML = %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            warningToPanelCode.add("newEntry.classList.add('warning');");
+            warningToPanelCode.add("elem.appendChild(newEntry);");
+            warningToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
+
             errorToPanelCode.add("var elem = document.getElementById('log-output');");
-            errorToPanelCode.add(
-                    "elem.innerHTML += '<span class=\"error\">' + %sUtils.escapeHtml(message) + '</span>\\n';",
-                    ctxt.getPrefix());
+            errorToPanelCode.add("var newEntry = document.createElement('div');");
+            errorToPanelCode.add("newEntry.innerHTML = %sUtils.escapeHtml(message) + '\\n';", ctxt.getPrefix());
+            errorToPanelCode.add("newEntry.classList.add('error');");
+            errorToPanelCode.add("elem.appendChild(newEntry);");
             errorToPanelCode.add("elem.scrollTop = elem.scrollHeight;");
         }
         replacements.put("html-log-to-panel-code", logToPanelCode.toString());
+        replacements.put("html-warning-to-panel-code", warningToPanelCode.toString());
         replacements.put("html-error-to-panel-code", errorToPanelCode.toString());
 
         // Add code for the 'getStateText' method.
@@ -219,22 +232,39 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addConstants(CodeContext ctxt) {
-        CodeBox code = makeCodeBox(1);
+        CodeBox declCode = makeCodeBox(1);
+        CodeBox initCode = makeCodeBox(3);
 
         for (int i = 0; i < constants.size(); i++) {
             Constant constant = constants.get(i);
             String origName = origDeclNames.get(constant);
             Assert.notNull(origName);
 
-            ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), null);
-            Assert.check(!constantCode.hasCode()); // JavaScript code generator never generates pre-execute code.
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
 
-            code.add();
-            code.add("/** Constant \"%s\". */", origName);
-            code.add("%s = %s;", getTargetVariableName(constant), constantCode.getData());
+            declCode.add();
+            if (docs.isEmpty()) {
+                declCode.add("/** Constant \"%s\". */", origName);
+            } else {
+                declCode.add("/**");
+                declCode.add(" * Constant \"%s\".", origName);
+                for (String doc: docs) {
+                    declCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        declCode.add(" * %s", line);
+                    }
+                }
+                declCode.add(" */");
+            }
+            declCode.add("%s;", getTargetVariableName(constant));
+
+            ExprCode valueCode = ctxt.exprToTarget(constant.getValue(), null);
+            Assert.check(!valueCode.hasCode()); // JavaScript code generator never generates pre-execute code.
+            initCode.add("%s = %s;", getTargetRef(constant), valueCode.getData());
         }
 
-        replacements.put("javascript-const-decls", code.toString());
+        replacements.put("javascript-const-decls", declCode.toString());
+        replacements.put("javascript-const-init-code", initCode.toString());
     }
 
     @Override
@@ -381,9 +411,16 @@ public class JavaScriptCodeGen extends CodeGen {
             String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
             code.add();
             code.add("/**");
             code.add(" * Evaluates algebraic variable \"%s\".", origName);
+            for (String doc: docs) {
+                code.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add(" * %s", line);
+                }
+            }
             code.add(" *");
             code.add(" * @return The evaluation result.");
             code.add(" */");
@@ -588,8 +625,9 @@ public class JavaScriptCodeGen extends CodeGen {
         svgCodeGen.codeSvgToggles = makeCodeBox(2);
         svgCodeGen.codeCopyApply = makeCodeBox(2);
         svgCodeGen.codeMoveApply = makeCodeBox(2);
-        svgCodeGen.codeInEventHandlers = makeCodeBox(1);
-        svgCodeGen.codeInInteract = makeCodeBox(2);
+        svgCodeGen.codeInClickHandlers = makeCodeBox(1);
+        svgCodeGen.codeInEventSetters = makeCodeBox(1);
+        svgCodeGen.codeInSetup = makeCodeBox(2);
         svgCodeGen.codeInCss = makeCodeBox(3);
         svgCodeGen.codeOutDeclarations = makeCodeBox(1);
         svgCodeGen.codeOutAssignments = makeCodeBox(2);
@@ -609,8 +647,9 @@ public class JavaScriptCodeGen extends CodeGen {
         replacements.put("html-svg-move-apply-code", svgCodeGen.codeMoveApply.toString());
 
         // Fill the replacement patterns with generated code, for SVG input mappings.
-        replacements.put("javascript-svg-in-event-handlers-code", svgCodeGen.codeInEventHandlers.toString());
-        replacements.put("javascript-svg-in-interact-code", svgCodeGen.codeInInteract.toString());
+        replacements.put("javascript-svg-in-click-handlers-code", svgCodeGen.codeInClickHandlers.toString());
+        replacements.put("javascript-svg-in-event-setters-code", svgCodeGen.codeInEventSetters.toString());
+        replacements.put("javascript-svg-in-setup-code", svgCodeGen.codeInSetup.toString());
         replacements.put("html-svg-in-css", svgCodeGen.codeInCss.toString());
 
         // Fill the replacement patterns with generated code, for SVG output mappings.
@@ -624,8 +663,6 @@ public class JavaScriptCodeGen extends CodeGen {
         // Create codeboxes to hold generated code.
         CodeBox codeCalls = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
-        CodeBox codeSvgInputAllowedVarDecls = makeCodeBox(1);
-        CodeBox codeSvgInputAllowedVarInit = makeCodeBox(2);
 
         // Collect the SVG input declarations.
         List<SvgIn> svgIns = svgDecls.stream().filter(decl -> decl instanceof SvgIn).map(decl -> (SvgIn)decl).toList();
@@ -646,15 +683,25 @@ public class JavaScriptCodeGen extends CodeGen {
             String eventName = (event == null) ? "tau" : origDeclNames.get(event);
             Assert.notNull(eventName);
 
+            // Determine whether event is an interactive SVG input event.
+            boolean isSvgInEvent = interactiveEventIndices.contains(eventIdx);
+
             // Add call code.
+            codeCalls.add();
             codeCalls.add("// Event \"%s\".", eventName);
             codeCalls.add("if (this.execEvent%d()) continue;", i);
-            codeCalls.add();
 
             // Add method code, starting with the header.
+            List<String> docs = (event == null) ? Collections.emptyList() : DocAnnotationProvider.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+            }
             codeMethods.add(" *");
             codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
             codeMethods.add(" */");
@@ -671,38 +718,55 @@ public class JavaScriptCodeGen extends CodeGen {
 
             // Add guard code.
             if (guard != null) {
+                // Add guard computation code.
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());
                 codeMethods.add("var guard = %s;", guardCode.getData());
-                codeMethods.add("if (!guard) return false;");
+
+                // Add code for when the event is not enabled. If the event is an interactive SVG input event, display a
+                // warning if the event is not enabled.
                 codeMethods.add();
+                codeMethods.add("if (!guard) {");
+                codeMethods.indent();
+                if (isSvgInEvent) {
+                    codeMethods.add("if (%s.svgInEvent == %d) {", ctxt.getPrefix(), eventIdx);
+                    codeMethods.indent();
+                    codeMethods.add(
+                            "%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the corresponding "
+                                    + "event \"%s\" is not enabled in the current state.', %s.svgInId));",
+                            ctxt.getPrefix(), ctxt.getPrefix(), eventName, ctxt.getPrefix());
+                    codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
+                    codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
+                    codeMethods.dedent();
+                    codeMethods.add("}");
+                }
+                codeMethods.add("return false;");
+                codeMethods.dedent();
+                codeMethods.add("}");
             }
 
             // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur until
             // the corresponding SVG element is clicked.
-            if (interactiveEventIndices.contains(eventIdx)) {
-                // Add variable declaration.
-                codeSvgInputAllowedVarDecls.add("event%d_Allowed; // %s", eventIdx, eventName);
-
-                // Add code to initialize the variable.
-                codeSvgInputAllowedVarInit.add("%s.event%d_Allowed = false; // %s", ctxt.getPrefix(), eventIdx,
-                        eventName);
-
-                // Add code to test whether the event is enabled.
-                codeMethods.add("if (!%s.event%d_Allowed) return false;", ctxt.getPrefix(), eventIdx);
-
-                // Add code to reset the variable in case we perform a transition for the event.
-                codeMethods.add("%s.event%d_Allowed = false;", ctxt.getPrefix(), eventIdx);
+            if (isSvgInEvent) {
+                // Check whether we can take the event.
                 codeMethods.add();
+                codeMethods.add("if (%s.svgInEvent != %d) return false;", ctxt.getPrefix(), eventIdx);
+
+                // We will perform a transition for the event. This event is no longer the current SVG input event to
+                // process.
+                codeMethods.add();
+                codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
+                codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
             }
 
             // Add pre-transition callbacks code.
+            codeMethods.add();
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, true);", eventIdx);
             codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, true);", eventIdx);
-            codeMethods.add();
 
             // Add code for updates.
             if (!edge.getUpdates().isEmpty()) {
+                codeMethods.add();
                 addUpdates(edge.getUpdates(), codeMethods, ctxt);
             }
 
@@ -711,6 +775,8 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, false);", eventIdx);
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
             codeMethods.add("if (this.doStateOutput || this.doTransitionOutput) this.log('');");
+
+            // We executed the event.
             codeMethods.add("return true;");
 
             // Method code done.
@@ -721,8 +787,6 @@ public class JavaScriptCodeGen extends CodeGen {
         // Fill the replacement patterns with generated code.
         replacements.put("javascript-event-calls-code", codeCalls.toString());
         replacements.put("javascript-event-methods-code", codeMethods.toString());
-        replacements.put("javascript-event-allowed-declarations", codeSvgInputAllowedVarDecls.toString());
-        replacements.put("javascript-event-allowed-init-code", codeSvgInputAllowedVarInit.toString());
     }
 
     @Override

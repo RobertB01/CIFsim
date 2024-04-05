@@ -24,27 +24,65 @@ public abstract class annos_doc {
 
     /** The names of all the events, except for event 'tau'. */
     private final String[] EVENT_NAMES = {
-
+        "events.e1",
+        "events.e2",
+        "events.e3",
+        "events.e4",
+        "events.e5",
     };
 
+    /** Constant "constants.c1". */
+    public static final int constants_c1_ = 1;
+
+    /**
+     * Constant "constants.c2".
+     *
+     * single line doc
+     */
+    public static final int constants_c2_ = 2;
+
+    /**
+     * Constant "constants.c3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    public static final int constants_c3_ = 3;
+
+    /**
+     * Constant "constants.c4".
+     *
+     * some doc
+     */
+    public static final int constants_c4_ = 4;
+
+    /**
+     * Constant "constants.c5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     */
+    public static final int constants_c5_ = 5;
 
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "a.i1". */
-    public boolean a_i1_;
+    /** Continuous variable "contvars.c1". */
+    public double contvars_c1_;
 
     /**
-     * Discrete variable "a.i2".
+     * Continuous variable "contvars.c2".
      *
      * <p>
      * single line doc
      * </p>
      */
-    public boolean a_i2_;
+    public double contvars_c2_;
 
     /**
-     * Discrete variable "a.i3".
+     * Continuous variable "contvars.c3".
      *
      * <p>
      * doc with multiple
@@ -52,19 +90,19 @@ public abstract class annos_doc {
      *  text
      * </p>
      */
-    public boolean a_i3_;
+    public double contvars_c3_;
 
     /**
-     * Discrete variable "a.i4".
+     * Continuous variable "contvars.c4".
      *
      * <p>
      * some doc
      * </p>
      */
-    public boolean a_i4_;
+    public double contvars_c4_;
 
     /**
-     * Discrete variable "a.i5".
+     * Continuous variable "contvars.c5".
      *
      * <p>
      * First doc.
@@ -74,7 +112,52 @@ public abstract class annos_doc {
      * Second doc.
      * </p>
      */
-    public boolean a_i5_;
+    public double contvars_c5_;
+
+    /** Discrete variable "discvars.d1". */
+    public boolean discvars_d1_;
+
+    /**
+     * Discrete variable "discvars.d2".
+     *
+     * <p>
+     * single line doc
+     * </p>
+     */
+    public boolean discvars_d2_;
+
+    /**
+     * Discrete variable "discvars.d3".
+     *
+     * <p>
+     * doc with multiple
+     * lines of
+     *  text
+     * </p>
+     */
+    public boolean discvars_d3_;
+
+    /**
+     * Discrete variable "discvars.d4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     */
+    public boolean discvars_d4_;
+
+    /**
+     * Discrete variable "discvars.d5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc.
+     * </p>
+     */
+    public boolean discvars_d5_;
 
     /** Input variable "i1". */
     public boolean i1_;
@@ -153,7 +236,27 @@ public abstract class annos_doc {
 
         // Update values of continuous variables.
         if (!firstExec) {
-            // No continuous variables, except variable 'time'.
+            double deriv0 = contvars_c1_deriv();
+            double deriv1 = contvars_c2_deriv();
+            double deriv2 = contvars_c3_deriv();
+            double deriv3 = contvars_c4_deriv();
+            double deriv4 = contvars_c5_deriv();
+
+            contvars_c1_ = contvars_c1_ + delta * deriv0;
+            checkDouble(contvars_c1_, "contvars.c1");
+            if (contvars_c1_ == -0.0) contvars_c1_ = 0.0;
+            contvars_c2_ = contvars_c2_ + delta * deriv1;
+            checkDouble(contvars_c2_, "contvars.c2");
+            if (contvars_c2_ == -0.0) contvars_c2_ = 0.0;
+            contvars_c3_ = contvars_c3_ + delta * deriv2;
+            checkDouble(contvars_c3_, "contvars.c3");
+            if (contvars_c3_ == -0.0) contvars_c3_ = 0.0;
+            contvars_c4_ = contvars_c4_ + delta * deriv3;
+            checkDouble(contvars_c4_, "contvars.c4");
+            if (contvars_c4_ == -0.0) contvars_c4_ = 0.0;
+            contvars_c5_ = contvars_c5_ + delta * deriv4;
+            checkDouble(contvars_c5_, "contvars.c5");
+            if (contvars_c5_ == -0.0) contvars_c5_ = 0.0;
         }
 
         // Update time.
@@ -172,8 +275,26 @@ public abstract class annos_doc {
 
         // Execute events as long as they are possible.
         while (true) {
-            // Event "tau".
+            // Event "events.e1".
             if (execEvent0()) continue;
+
+            // Event "events.e2".
+            if (execEvent1()) continue;
+
+            // Event "events.e3".
+            if (execEvent2()) continue;
+
+            // Event "events.e4".
+            if (execEvent3()) continue;
+
+            // Event "events.e5".
+            if (execEvent4()) continue;
+
+            // Event "tau".
+            if (execEvent5()) continue;
+
+            // Event "tau".
+            if (execEvent6()) continue;
 
             break;
         }
@@ -238,12 +359,117 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "tau".
+     * Execute code for event "events.e1".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = ((((a_i1_) || (a_i2_)) || (a_i3_)) || (a_i4_)) || (a_i5_);
+        if (doInfoPrintOutput) printOutput(0, true);
+        if (doInfoEvent) infoEvent(0, true);
+
+
+        if (doInfoEvent) infoEvent(0, false);
+        if (doInfoPrintOutput) printOutput(0, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e2".
+     *
+     * single line doc
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent1() {
+        if (doInfoPrintOutput) printOutput(1, true);
+        if (doInfoEvent) infoEvent(1, true);
+
+
+        if (doInfoEvent) infoEvent(1, false);
+        if (doInfoPrintOutput) printOutput(1, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent2() {
+        if (doInfoPrintOutput) printOutput(2, true);
+        if (doInfoEvent) infoEvent(2, true);
+
+
+        if (doInfoEvent) infoEvent(2, false);
+        if (doInfoPrintOutput) printOutput(2, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e4".
+     *
+     * some doc
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent3() {
+        if (doInfoPrintOutput) printOutput(3, true);
+        if (doInfoEvent) infoEvent(3, true);
+
+
+        if (doInfoEvent) infoEvent(3, false);
+        if (doInfoPrintOutput) printOutput(3, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent4() {
+        if (doInfoPrintOutput) printOutput(4, true);
+        if (doInfoEvent) infoEvent(4, true);
+
+
+        if (doInfoEvent) infoEvent(4, false);
+        if (doInfoPrintOutput) printOutput(4, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "tau".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent5() {
+        boolean guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
+        if (!guard) return false;
+
+        if (doInfoPrintOutput) printOutput(-1, true);
+        if (doInfoEvent) infoEvent(-1, true);
+
+
+        if (doInfoEvent) infoEvent(-1, false);
+        if (doInfoPrintOutput) printOutput(-1, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "tau".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent6() {
+        boolean guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(-1, true);
@@ -257,11 +483,16 @@ public abstract class annos_doc {
 
     /** Initializes the state. */
     private void initState() {
-        a_i1_ = false;
-        a_i2_ = false;
-        a_i3_ = false;
-        a_i4_ = false;
-        a_i5_ = false;
+        contvars_c1_ = 0.0;
+        contvars_c2_ = 0.0;
+        contvars_c3_ = 0.0;
+        contvars_c4_ = 0.0;
+        contvars_c5_ = 0.0;
+        discvars_d1_ = false;
+        discvars_d2_ = false;
+        discvars_d3_ = false;
+        discvars_d4_ = false;
+        discvars_d5_ = false;
     }
 
     /**
@@ -309,7 +540,107 @@ public abstract class annos_doc {
         return EVENT_NAMES[idx];
     }
 
+    /**
+     * Evaluates algebraic variable "algvars.a1".
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a1_() {
+        return 1;
+    }
 
+    /**
+     * Evaluates algebraic variable "algvars.a2".
+     *
+     * single line doc
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a2_() {
+        return 2;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a3_() {
+        return 3;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a4".
+     *
+     * some doc
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a4_() {
+        return 4;
+    }
+
+    /**
+     * Evaluates algebraic variable "algvars.a5".
+     *
+     * First doc.
+     *
+     * Second doc.
+     *
+     * @return The evaluation result.
+     */
+    public int algvars_a5_() {
+        return 5;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c1".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c1_deriv() {
+        return 1.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c2".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c2_deriv() {
+        return 2.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c3".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c3_deriv() {
+        return 3.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c4".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c4_deriv() {
+        return 4.0;
+    }
+
+    /**
+     * Evaluates derivative of continuous variable "contvars.c5".
+     *
+     * @return The evaluation result.
+     */
+    public double contvars_c5_deriv() {
+        return 5.0;
+    }
 
 
     /**

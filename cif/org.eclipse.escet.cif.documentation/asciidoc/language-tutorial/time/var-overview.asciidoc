@@ -43,6 +43,10 @@ The following table gives an overview:
 | <<lang-tut-time-continuous-variables-deriv,Derivative of a continuous variable>>
 | no
 | *yes*
+
+| <<lang-tut-reuse2-chapter-input-variables,Input variable>>
+| depends
+| depends
 |===
 
 Discrete variables can only change value when given an explicit new value by means of an assignment.
@@ -59,3 +63,8 @@ They can also be assigned new values, from which they then automatically change 
 The derivatives of the continuous variables can be seen as variables themselves.
 Their values depend on their declaration or equation(s).
 If the computations that result in their values depend on a variable that can change value as time progresses, then so can the values of the derivatives.
+
+Input variables are introduced in <<lang-tut-reuse2-chapter-input-variables,a later lesson>>.
+Different tools may use different approaches to connect input variables to the environment of the specification, which impacts how values are provided for the input variables.
+Whether input variables can change value by assignment or can change as time progresses therefore also depends on how tools work with them.
+The CIF language allows assigning them via <<tools-cifsim-input-svg-chapter-svgin-update,SVG input mappings with updates>>.

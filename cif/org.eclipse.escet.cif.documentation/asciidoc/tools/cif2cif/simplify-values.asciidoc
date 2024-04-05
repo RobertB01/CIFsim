@@ -152,7 +152,7 @@ Default values are removed in the following places:
 
 * Guards of edges.
 
-* Guards of 'if' and 'elif' updates on edges.
+* Guards of 'if' and 'elif' updates on edges and in SVG input mappings.
 
 * Guards of 'if' and 'elif' expressions.
 

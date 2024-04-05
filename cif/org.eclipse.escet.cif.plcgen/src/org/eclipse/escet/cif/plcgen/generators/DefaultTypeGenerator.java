@@ -37,12 +37,12 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -59,9 +59,6 @@ public class DefaultTypeGenerator implements TypeGenerator {
 
     /** Standard real type. */
     private final PlcElementaryType standardRealType;
-
-    /** How to convert enumeration declarations to the PLC. */
-    private final ConvertEnums enumConversion;
 
     /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC type-declaration names. */
     private final Map<TypeEqHashWrap, String> structNames = map();
@@ -89,7 +86,6 @@ public class DefaultTypeGenerator implements TypeGenerator {
         this.target = target;
         standardIntType = target.getIntegerType();
         standardRealType = target.getRealType();
-        enumConversion = settings.enumConversion;
     }
 
     @Override
@@ -134,7 +130,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
             for (Field field: tupleType.getFields()) {
                 String fieldName = "field" + String.valueOf(fieldNumber);
                 PlcType ftype = convertType(field.getType());
-                structType.fields.add(new PlcVariable(fieldName, ftype));
+                structType.fields.add(new PlcStructField(fieldName, ftype));
                 fieldNumber++;
             }
 
@@ -223,7 +219,8 @@ public class DefaultTypeGenerator implements TypeGenerator {
      * @return The created equivalent PLC type and value information.
      */
     public EnumDeclData makeEnumDeclData(EnumDecl enumDecl) {
-        Assert.check(enumConversion.equals(ConvertEnums.NO)); // Other conversions have been eliminated already.
+        Assert.areEqual(target.getActualEnumerationsConversion(), ConvertEnums.KEEP); // Other conversions have been
+                                                                                      // eliminated already.
 
         // Convert the enumeration literals.
         List<EnumLiteral> cifLiterals = enumDecl.getLiterals();

@@ -3,28 +3,28 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         curValue: REAL;
         current_p_t: REAL;
+        edge_p_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
-        syncAutEdge: DINT;
         timeOut: BOOL;
     END_VAR
 
 BEGIN
     (* --- Initialize state or update continuous variables. -------------------- *)
-    IF firstRun THEN
-        firstRun := FALSE;
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        p_x := 5;
-        p_t := 0.0;
+        "DB".p_x := 5;
+        "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
-        preset_p_t := p_t;
-        ton_p_t(IN := FALSE, PT := preset_p_t);
-        ton_p_t(IN := TRUE, PT := preset_p_t);
+        "DB".preset_p_t := "DB".p_t;
+        ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
     ELSE
         (* Update remaining time of "p_t". *)
-        ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
-        p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
+        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
+        "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
     (* --- Process all events. ------------------------------------------------- *)
@@ -33,22 +33,45 @@ BEGIN
     WHILE isProgress DO
         isProgress := FALSE;
 
-        (* Try to perform event "e". *)
+        (*************************************************************
+         * Try to perform event "e".
+         *
+         * - Automaton "p" must always synchronize.
+         *************************************************************)
         eventEnabled := TRUE;
-        IF p_t <= 1.0 AND p_x = 5 THEN
-            syncAutEdge := 1;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Testing edge of automaton "p" to synchronize for event "e".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location:
+         *   - 1st edge in the location
+         ***********)
+        IF "DB".p_t <= 1.0 AND "DB".p_x = 5 THEN
+            edge_p_1 := 1;
         ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
         END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "e" can occur. *)
         IF eventEnabled THEN
             isProgress := TRUE;
-            current_p_t := p_t;
-            IF syncAutEdge = 1 THEN
-                p_t := 7.0;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_p_t := "DB".p_t;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "p". *)
+            IF edge_p_1 = 1 THEN
+                (* Perform assignments of the 1st edge of automaton "p". *)
+                "DB".p_t := 7.0;
                 (* Reset timer of "p_t". *)
-                preset_p_t := p_t;
-                ton_p_t(IN := FALSE, PT := preset_p_t);
-                ton_p_t(IN := TRUE, PT := preset_p_t);
+                "DB".preset_p_t := "DB".p_t;
+                ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
+                ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
             END_IF;
         END_IF;
     END_WHILE;

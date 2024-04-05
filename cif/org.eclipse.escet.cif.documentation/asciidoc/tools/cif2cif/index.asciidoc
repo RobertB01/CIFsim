@@ -125,6 +125,7 @@ The available transformations are listed below, with a link to the information a
 * <<tools-cif2cif-chapter-linearize-product>> (`linearize-product`)
 * <<tools-cif2cif-chapter-merge-enums>> (`merge-enums`)
 * <<tools-cif2cif-chapter-print-file-into-decls>> (`print-file-into-decls`)
+* <<tools-cif2cif-chapter-remove-annos>> (`remove-annos`)
 * <<tools-cif2cif-chapter-remove-cif-svg-decls>> (`remove-cif-svg-decls`)
 * <<tools-cif2cif-chapter-remove-io-decls>> (`remove-io-decls`)
 * <<tools-cif2cif-chapter-remove-print-decls>> (`remove-print-decls`)

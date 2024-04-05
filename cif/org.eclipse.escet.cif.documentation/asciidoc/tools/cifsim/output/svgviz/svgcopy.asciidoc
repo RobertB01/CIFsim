@@ -154,7 +154,7 @@ indexterm:[SVG copy declaration,overlap]
 
 Consider the following SVG file:
 
-[source, cif]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap.svg[]
 ----
@@ -172,14 +172,14 @@ However, the `r` element is a part of the `g` element.
 Therefore, the `r` element is copied twice, once for the copy of that element itself, and once for the copy of its parent (`g`).
 This leads to the following SVG image:
 
-[source, cif]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap_out1.svg[]
 ----
 
 However, if we switch the order of the copies, we get:
 
-[source, cif]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap_out2.svg[]
 ----
@@ -198,7 +198,7 @@ svgcopy id "ra" post "b";
 
 And this results in the following SVG file:
 
-[source, cif]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap_out3.svg[]
 ----

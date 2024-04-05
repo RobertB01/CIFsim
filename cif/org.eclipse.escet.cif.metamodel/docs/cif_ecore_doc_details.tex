@@ -1110,11 +1110,11 @@ The indices of the projections of the addressables are evaluated in the
 
 \begin{constraints}
 \citem{Assignment.addressableSyntax}
-  Adressables on edges may be discrete and continuous variable references 
-  (non-wrapped) with projections, and addressables in CIF/SVG input mappings may
-  be input variable references (non-wrapped) with projections. The variable
-  references may optionally be wrapped in tuples (possibly multiple times).
-  Projected string typed variables are not allowed.
+  Addressables on edges may be discrete and continuous variable references 
+  (possibly wrapped) with projections, and addressables in CIF/SVG input mappings may
+  be input variable references (possibly wrapped) with projections. The variable
+  references may optionally be wrapped in tuples (possibly multiple times). Projected
+  string typed variables are not allowed.
 \citem{Assignment.variablesInScope}
   The variables that are assigned on edges must be discrete or continuous
   variables declared in the automaton that contains the source location of the
@@ -3380,7 +3380,7 @@ Standard library function reference expression.
     Cbrt & real & real \\
     Ceil & real & int \\
     Delete & list t, int & list t \\
-           & list, int[a..b] & list t \\
+           & list t, int[a..b] & list t \\
            & list \range{l}{u} t, int &
              list \range{0 \max l - 1}{0 \max u - 1} t \\
            & list \range{l}{u} t, int[a..b] &
@@ -3749,7 +3749,7 @@ pair, if the key of one of the other projections does not exist.
 
 \begin{constraints}
 \citem{AssignmentFuncStatement.addressableSyntax}
-  Adressables may be discrete variable references (non-wrapped), with
+  Addressables may be discrete variable references (non-wrapped), with
   projections, and may optionally be wrapped in tuples (possibly multiple
   times). Projected string typed variables are not allowed.
 \citem{AssignmentFuncStatement.variablesInScope}
@@ -4630,7 +4630,11 @@ The annotations of the annotated object.
 \citem{AnnotatedObject.onlyForSupportedObjects}
   Currently only the following objects support annotations:
   \begin{itemize}
+    \item Algebraic variables.
+    \item Constants.
+    \item Continuous variables.
     \item Discrete variables. But not parameters and local variables of internal user-defined functions.
+    \item Events.
     \item Input variables.
     \item Locations of automata.
   \end{itemize}

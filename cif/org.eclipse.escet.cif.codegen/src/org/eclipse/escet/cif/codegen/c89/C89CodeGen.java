@@ -34,6 +34,7 @@ import static org.eclipse.escet.common.java.Strings.makeUppercase;
 import static org.eclipse.escet.common.java.Strings.spaces;
 import static org.eclipse.escet.common.java.Strings.stringToJava;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -370,10 +371,37 @@ public class C89CodeGen extends CodeGen {
             VariableInformation constInfo = ctxt.getReadVarInfo(varWrap);
             String typeName = constInfo.typeInfo.getTargetType();
             String varName = constInfo.targetRef;
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
 
             // Generate definition and declaration.
-            defCode.add("%s %s; /**< Constant \"%s\". */", typeName, varName, constInfo.name);
-            declCode.add("extern %s %s; /**< Constant \"%s\". */", typeName, varName, constInfo.name);
+            defCode.add();
+            declCode.add();
+            if (docs.isEmpty()) {
+                defCode.add("/** Constant \"%s\". */", constInfo.name);
+                declCode.add("/** Constant \"%s\". */", constInfo.name);
+            } else {
+                defCode.add("/**");
+                defCode.add(" * Constant \"%s\".", constInfo.name);
+                for (String doc: docs) {
+                    defCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        defCode.add(" * %s", line);
+                    }
+                }
+                defCode.add(" */");
+
+                declCode.add("/**");
+                declCode.add(" * Constant \"%s\".", constInfo.name);
+                for (String doc: docs) {
+                    declCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        declCode.add(" * %s", line);
+                    }
+                }
+                declCode.add(" */");
+            }
+            defCode.add("%s %s;", typeName, varName);
+            declCode.add("extern %s %s;", typeName, varName);
 
             // Generate initialization.
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), ctxt.makeDestination(constant));
@@ -393,22 +421,40 @@ public class C89CodeGen extends CodeGen {
         evtDeclsCode.add("enum %sEventEnum_ {", prefix);
         evtDeclsCode.indent();
 
-        GridBox evtDecls = new GridBox(3 + events.size(), 2, 0, 1);
-        evtDecls.set(0, 0, INITIAL_EVENT_NAME + ",");
-        evtDecls.set(0, 1, "/**< Initial step. */");
-        evtDecls.set(1, 0, DELAY_EVENT_NAME + ",");
-        evtDecls.set(1, 1, "/**< Delay step. */");
-        evtDecls.set(2, 0, TAU_EVENT_NAME + ",");
-        evtDecls.set(2, 1, "/**< Tau step. */");
+        evtDeclsCode.add("/** Initial step. */");
+        evtDeclsCode.add(INITIAL_EVENT_NAME + ",");
+
+        evtDeclsCode.add();
+        evtDeclsCode.add("/** Delay step. */");
+        evtDeclsCode.add(DELAY_EVENT_NAME + ",");
+
+        evtDeclsCode.add();
+        evtDeclsCode.add("/** Tau step. */");
+        evtDeclsCode.add(TAU_EVENT_NAME + ",");
+
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtDecls.set(3 + i, 0, fmt("%s,", getTargetRef(evt)));
-            evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
+            List<String> docs = DocAnnotationProvider.getDocs(evt);
+
+            evtDeclsCode.add();
+            if (docs.isEmpty()) {
+                evtDeclsCode.add(fmt("/** Event \"%s\". */", origName));
+            } else {
+                evtDeclsCode.add("/**");
+                evtDeclsCode.add(" * Event \"%s\".", origName);
+                for (String doc: docs) {
+                    evtDeclsCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        evtDeclsCode.add(" * %s", line);
+                    }
+                }
+                evtDeclsCode.add(" */");
+            }
+            evtDeclsCode.add(fmt("%s,", getTargetRef(evt)));
         }
 
-        evtDeclsCode.add(evtDecls);
         evtDeclsCode.dedent();
         evtDeclsCode.add("};");
         evtDeclsCode.add("typedef enum %sEventEnum_ %s_Event_;", prefix, prefix);
@@ -429,7 +475,7 @@ public class C89CodeGen extends CodeGen {
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
             evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
-            evtNames.set(3 + i, 1, fmt("/**< Event %s. */", origName));
+            evtNames.set(3 + i, 1, fmt("/**< Event \"%s\". */", origName));
         }
 
         evtNamesCode.add(evtNames);
@@ -580,9 +626,21 @@ public class C89CodeGen extends CodeGen {
             String header = fmt("%s %s(void)", ti.getTargetType(), algVarInfo.targetRef);
             declCode.add("%s;", header);
 
-            defCode.add("/**");
-            defCode.add(" * Algebraic variable %s = %s;\n", algVarInfo.name, exprToStr(algVar.getValue()));
-            defCode.add(" */");
+            List<String> docs = DocAnnotationProvider.getDocs(algVar);
+            if (docs.isEmpty()) {
+                defCode.add("/** Algebraic variable %s = %s. */", algVarInfo.name, exprToStr(algVar.getValue()));
+            } else {
+                defCode.add("/**");
+                defCode.add(" * Algebraic variable %s = %s.", algVarInfo.name, exprToStr(algVar.getValue()));
+                for (String doc: docs) {
+                    defCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        defCode.add(" * %s", line);
+                    }
+                }
+                defCode.add(" */");
+            }
+
             defCode.add("%s {", header);
             defCode.indent();
             ExprCode valueCode = ctxt.exprToTarget(algVar.getValue(), null);
@@ -956,9 +1014,16 @@ public class C89CodeGen extends CodeGen {
             // Add method code.
 
             // Header.
+            List<String> docs = (event == null) ? Collections.emptyList() : DocAnnotationProvider.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+            }
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");

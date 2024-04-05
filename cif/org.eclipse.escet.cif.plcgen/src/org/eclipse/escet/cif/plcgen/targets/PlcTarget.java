@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
@@ -101,6 +102,20 @@ public abstract class PlcTarget {
     public abstract NameGenerator getNameGenerator();
 
     /**
+     * Get the prefix string for state variables.
+     *
+     * @return The prefix string for state variables.
+     */
+    public abstract String getStateVariablePrefix();
+
+    /**
+     * Get the suffix text to append after the block instance variable name to call the TON function block.
+     *
+     * @return The suffix text.
+     */
+    public abstract String getTonFuncBlockCallSuffix();
+
+    /**
      * Returns whether the target supports arrays.
      *
      * @return Whether arrays are supported.
@@ -115,11 +130,11 @@ public abstract class PlcTarget {
     public abstract boolean supportsConstants();
 
     /**
-     * Return whether the target supports enumeration types.
+     * Return how to convert enumerations.
      *
-     * @return Whether enumeration types are supported.
+     * @return The desired conversion to enumerations. Never returns {@link ConvertEnums#AUTO}.
      */
-    public abstract boolean supportsEnumerations();
+    public abstract ConvertEnums getActualEnumerationsConversion();
 
     /**
      * Does the target support the given semantic operation?

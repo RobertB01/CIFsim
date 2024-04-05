@@ -47,6 +47,7 @@ import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.cif2cif.MergeEnums;
 import org.eclipse.escet.cif.cif2cif.PrintFileIntoDecls;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveCifSvgDecls;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
@@ -122,6 +123,7 @@ public class CifToCifTransOption extends Option<String> {
         TRANSFORMATIONS.put("linearize-product", LinearizeProduct.class);
         TRANSFORMATIONS.put("merge-enums", MergeEnums.class);
         TRANSFORMATIONS.put("print-file-into-decls", PrintFileIntoDecls.class);
+        TRANSFORMATIONS.put("remove-annos", RemoveAnnotations.class);
         TRANSFORMATIONS.put("remove-cif-svg-decls", RemoveCifSvgDecls.class);
         TRANSFORMATIONS.put("remove-io-decls", RemoveIoDecls.class);
         TRANSFORMATIONS.put("remove-print-decls", RemovePrintDecls.class);

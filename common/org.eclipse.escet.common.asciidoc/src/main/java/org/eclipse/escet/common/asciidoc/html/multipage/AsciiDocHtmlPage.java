@@ -25,12 +25,6 @@ public class AsciiDocHtmlPage {
     /** The AsciiDoc source file matching this page. */
     final AsciiDocSourceFile sourceFile;
 
-    /**
-     * The breadcrumbs for this page, starting from the root/home page (first element) to this page (last element). Is
-     * {@code null} for the {@link AsciiDocSourceFile#isRootAsciiDocFile root/home page}.
-     */
-    List<AsciiDocHtmlPage> breadcrumbs;
-
     /** The unique ids defined in the HTML 'content' for this page, in order, for the single-page HTML file. */
     Set<String> singlePageIds;
 

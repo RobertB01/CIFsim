@@ -13,30 +13,18 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import org.eclipse.escet.cif.common.CifValidationUtils;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
-import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** BDD output name prefix option. */
 public class BddOutputNamePrefixOption extends StringOption {
     /** Constructor for the {@link BddOutputNamePrefixOption} class. */
     public BddOutputNamePrefixOption() {
         super("BDD output name prefix", "The prefix to use for BDD related names in the output. [DEFAULT=\"bdd\"]", 'p',
-                "bdd-prefix", "PREFIX", "bdd", false, true, "The prefix to use for BDD related names in the output.",
-                "Prefix:");
-    }
-
-    @Override
-    public void verifyValue(String value) {
-        if (CifValidationUtils.isValidIdentifier(value)) {
-            return;
-        }
-
-        String msg = fmt("BDD output name prefix \"%s\" is not a valid CIF identifier.", value);
-        throw new InvalidOptionException(msg);
+                "bdd-prefix", "PREFIX", CifDataSynthesisSettingsDefaults.BDD_OUTPUT_NAME_PREFIX, false, true,
+                "The prefix to use for BDD related names in the output.", "Prefix:");
     }
 
     /**

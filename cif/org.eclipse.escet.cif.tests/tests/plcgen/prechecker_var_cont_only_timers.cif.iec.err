@@ -1,0 +1,135 @@
+ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
+
+  ---------------------------
+  (1/12) An equation is used.
+  ---------------------------
+   * In automaton "derivative":
+     - equation contWithEqnForDeriv' = -1.0;
+                                     ^
+
+  --------------------------------------------------------------------------------
+  (2/12) Continuous variable has a derivative that cannot be evaluated statically.
+  --------------------------------------------------------------------------------
+   * In automaton "derivative":
+     - cont derivNotStatic der d;
+            ^
+
+  -------------------------------------------------------------------
+  (3/12) Continuous variable has a derivative that is not -1 or -1.0.
+  -------------------------------------------------------------------
+   * In automaton "derivative":
+     - cont derivNotNegOne_1 der 0.0;
+            ^
+     - cont derivNotNegOne_2 der 0.0;
+            ^
+     - cont derivNotNegOne_3 der 1.0;
+            ^
+     - cont derivNotNegOne_4 der 1.0;
+            ^
+     - cont derivNotNegOne_5 der -0.01;
+            ^
+
+  -----------------------------------------------------------------
+  (4/12) Continuous variable has an initial value that is negative.
+  -----------------------------------------------------------------
+   * In automaton "initValue":
+     - cont initNegative = -1.0 der -1.0;
+            ^
+
+  --------------------------------------------------------------------------------------------------------------------------------
+  (5/12) Continuous variable has its derivative declared through one or more equations, rather than directly with its declaration.
+  --------------------------------------------------------------------------------------------------------------------------------
+   * In automaton "derivative":
+     - cont contWithEqnForDeriv;
+            ^
+
+  -----------------------------------------------------------------------------------
+  (6/12) Continuous variable is assigned a value that cannot be evaluated statically.
+  -----------------------------------------------------------------------------------
+   * In automaton "assign":
+     - edge evt do c1 := d1;
+                   ^
+
+  ----------------------------------------------------------------
+  (7/12) Continuous variable is assigned a value that is negative.
+  ----------------------------------------------------------------
+   * In automaton "assign":
+     - edge evt do c1 := -25.0;
+                   ^
+
+  -------------------------------------------------------------
+  (8/12) Continuous variable is assigned in a multi-assignment.
+  -------------------------------------------------------------
+   * In automaton "assign":
+     - edge evt do (c1, c2) := (3.0, 4.0);
+                    ^   ^
+     - edge evt do ((c1, c2), c3) := ((3.0, 4.0), 5.0);
+                     ^   ^    ^
+     - edge evt do ((c1, c2, d2[a]), c3) := ((3.0, 4.0, 6.0), 5.0);
+                     ^   ^           ^
+
+  --------------------------------------------------------------------------------------
+  (9/12) Continuous variable is compared to a value that cannot be evaluated statically.
+  --------------------------------------------------------------------------------------
+   * In automaton "contUseValue":
+     - edge evt when c <= d1;
+                     ^
+
+  --------------------------------------------------------------------
+  (10/12) Continuous variable is compared to a value that is negative.
+  --------------------------------------------------------------------
+   * In automaton "contUseValue":
+     - edge evt when c <= -1;
+                     ^
+     - edge evt when -1 >= c;
+                           ^
+     - edge evt when c <= -3.0;
+                     ^
+     - edge evt when -3.0 >= c;
+                             ^
+     - edge evt do d2 := c <= -1;
+                         ^
+     - edge evt do d2 := -1 >= c;
+                               ^
+     - edge evt do d2 := c <= -3.0;
+                         ^
+     - edge evt do d2 := -3.0 >= c;
+                                 ^
+
+  -------------------------------------------------------------------------------------------
+  (11/12) Continuous variable is compared, but not as "variable <= ..." or "... >= variable".
+  -------------------------------------------------------------------------------------------
+   * In automaton "contUseValue":
+     - edge evt when c >= 0;
+                     ^
+     - edge evt when c > 0;
+                     ^
+     - edge evt when c < 0;
+                     ^
+     - edge evt when 0 > c;
+                         ^
+     - edge evt when 0 < c;
+                         ^
+     - edge evt when 0 <= c;
+                          ^
+     - edge evt when c != 0.0;
+                     ^
+     - edge evt when c = 0.0;
+                     ^
+     - edge evt when 0.0 != c;
+                            ^
+     - edge evt when 0.0 = c;
+                           ^
+
+  --------------------------------------------------------
+  (12/12) Continuous variable is not assigned or compared.
+  --------------------------------------------------------
+   * In automaton "contUseValue":
+     - edge evt when max(c + 5.0, 17.4) <= 28;
+                         ^
+     - edge evt when abs(c) > 0;
+                         ^
+     - edge evt do d1 := max(c + 5.0, 17.4);
+                             ^
+     - edge evt do d1 := abs(c);
+                             ^

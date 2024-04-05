@@ -127,6 +127,9 @@ public class CifEventTransition {
         /** Automaton described in the instance. */
         public final Automaton aut;
 
+        /** Reason for having the transition automaton. */
+        public final TransAutPurpose purpose;
+
         /** Edges of the automaton that can be executed for the event. */
         public final List<TransitionEdge> transitionEdges;
 
@@ -134,10 +137,12 @@ public class CifEventTransition {
          * Constructor of the {@link TransitionAutomaton} class.
          *
          * @param aut Automaton described in the instance.
+         * @param purpose Reason for having the transition automaton.
          * @param transitionEdges Edges of the automaton that can be executed for the event.
          */
-        public TransitionAutomaton(Automaton aut, List<TransitionEdge> transitionEdges) {
+        public TransitionAutomaton(Automaton aut, TransAutPurpose purpose, List<TransitionEdge> transitionEdges) {
             this.aut = aut;
+            this.purpose = purpose;
             this.transitionEdges = transitionEdges;
         }
 
@@ -153,8 +158,38 @@ public class CifEventTransition {
         }
     }
 
+    /** Reason for having the transition automaton. */
+    public static enum TransAutPurpose {
+        /** The automaton is a sender automaton, that provides values for the channel. */
+        SENDER("provide a value for the channel"),
+
+        /** The automaton is a receiver automaton, that accepts values from the channel. */
+        RECEIVER("accept a value from the channel"),
+
+        /** The automaton is a syncer automaton, that synchronizes on the event, but does not monitor it. */
+        SYNCER("synchronize"),
+
+        /** The automaton is a monitor automaton, that synchronizes on the event, and monitors it. */
+        MONITOR("optionally synchronize");
+
+        /** Description of the purpose of the automaton in the transition. */
+        public final String purposeText;
+
+        /**
+         * Constructor of the {@link TransAutPurpose} enum.
+         *
+         * @param purposeText Description of the purpose of the automaton in the transition.
+         */
+        private TransAutPurpose(String purposeText) {
+            this.purposeText = purposeText;
+        }
+    }
+
     /** An edge of an automaton that may be executed with the event. */
     public static class TransitionEdge {
+        /** One-based index number to identify an edge within a location. */
+        public final int edgeNumber;
+
         /** Source location of the edge. */
         public final Location sourceLoc;
 
@@ -173,15 +208,17 @@ public class CifEventTransition {
         /**
          * Constructor of the {@link TransitionEdge} class.
          *
+         * @param edgeNumber One-based index number to identify an edge within a location.
          * @param sourceLoc Source location of the edge.
          * @param targetLoc Target location of the edge.
          * @param sendValue Value being sent by the send automaton in the edge, {@code null} otherwise.
          * @param guards Guards of the edge.
          * @param updates Updates of the edge.
          */
-        public TransitionEdge(Location sourceLoc, Location targetLoc, Expression sendValue, List<Expression> guards,
-                List<Update> updates)
+        public TransitionEdge(int edgeNumber, Location sourceLoc, Location targetLoc, Expression sendValue,
+                List<Expression> guards, List<Update> updates)
         {
+            this.edgeNumber = edgeNumber;
             this.sourceLoc = sourceLoc;
             this.targetLoc = targetLoc;
             this.sendValue = sendValue;

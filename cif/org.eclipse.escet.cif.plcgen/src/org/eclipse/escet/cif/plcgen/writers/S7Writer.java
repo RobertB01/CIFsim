@@ -22,14 +22,18 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcVariable;
+import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -63,19 +67,18 @@ public class S7Writer extends Writer {
         PlcResource resource = config.resources.get(0);
 
         // Write tag tables for the global variables, treating the TIMERS table as a special case.
-        boolean sawTimers = false;
         for (PlcGlobalVarList globalVarList: resource.globalVarLists) {
-            if (globalVarList.name.equals("TIMERS")) {
-                // Write the timers. S7 timers are imported via a database file.
-                Assert.areEqual(globalVarList.name, "TIMERS");
-                sawTimers = true;
-                writeTimers(outPath);
+            if (globalVarList.variables.isEmpty()) {
+                continue;
+            }
+
+            // Write the non-empty variable list.
+            if (globalVarList.listKind == PlcVarListKind.TIMERS) {
+                writeTimers(globalVarList.variables, outPath);
             } else {
-                // TODO Likely more needs to be done to ensure all global tables are recognized at the target.
-                write(globalVarList, outPath);
+                writeGlobalVarList(globalVarList, outPath);
             }
         }
-        Assert.check(sawTimers);
 
         // Resource task and POU instances are not written as they cannot be imported in S7.
 
@@ -87,16 +90,13 @@ public class S7Writer extends Writer {
         // Write DB for the main program.
         int programCount = 0;
         for (PlcPou pou: project.pous) {
-            if (pou.pouType != PROGRAM) {
-                continue;
-            }
-            programCount++;
+            if (pou.pouType == PROGRAM) {
+                programCount++;
 
-            if (pou.localVars.isEmpty()) {
-                continue;
+                if (!pou.localVars.isEmpty()) {
+                    writeDatabase(pou.localVars, outPath);
+                }
             }
-
-            write(pou.localVars, outPath);
         }
 
         // Ensure exactly one program.
@@ -121,20 +121,24 @@ public class S7Writer extends Writer {
     }
 
     /**
-     * Writes two timers to a database file in S7 syntax.
+     * Writes timers to a database file in S7 syntax.
      *
+     * @param timerVariables Timer variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void writeTimers(String outPath) {
-        String path = Paths.join(outPath, fmt("timers.db"));
+    private void writeTimers(List<PlcBasicVariable> timerVariables, String outPath) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // Use IEC timers if available, else use TON timers.
         boolean hasIecTimers = hasIecTimers();
 
-        // Add timer0 and timer1.
-        for (int timerIdx = 0; timerIdx < 2; timerIdx++) {
-            c.add("DATA_BLOCK \"timer%d\"", timerIdx);
+        // Generate timer data blocks to the database.
+        for (PlcBasicVariable timerVar: timerVariables) {
+            // Don't let any non-TON block slip through.
+            Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
+
+            // Generate the data block for the TON timer.
+            c.add("DATA_BLOCK \"%s\"", timerVar.varName);
             c.add("{InstructionName := '%s';", hasIecTimers ? "IEC_TIMER" : "TON");
             c.add("LibVersion := '1.0';");
             c.add("S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
@@ -152,6 +156,7 @@ public class S7Writer extends Writer {
         }
 
         // Write to file.
+        String path = Paths.join(outPath, "timers.db");
         c.writeToFile(path);
     }
 
@@ -182,7 +187,7 @@ public class S7Writer extends Writer {
      * @param gvl The global variable list to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void write(PlcGlobalVarList gvl, String outPath) {
+    private void writeGlobalVarList(PlcGlobalVarList gvl, String outPath) {
         String path = Paths.join(outPath, gvl.name + ".xml");
         Box code = makeTagTable(gvl);
         code.writeToFile(path);
@@ -194,8 +199,7 @@ public class S7Writer extends Writer {
      * @param variables The variables to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void write(List<PlcVariable> variables, String outPath) {
-        String path = Paths.join(outPath, "DB.db");
+    private void writeDatabase(List<PlcBasicVariable> variables, String outPath) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // The header.
@@ -206,14 +210,9 @@ public class S7Writer extends Writer {
         c.indent();
         c.add("VAR");
         c.indent();
-        for (PlcVariable var: variables) {
-            c.add("%s: %s;", var.name, toBox(var.type));
+        for (PlcBasicVariable var: variables) {
+            c.add("%s: %s;", var.varName, toBox(var.type));
         }
-
-        // For now, we add 'curTimer' manually. Normally this is part of the GlobalVariableList 'Timers'.
-        // TODO: Ideally, we change this, see Issue #281.
-        c.add("curTimer: INT;");
-
         c.dedent();
         c.add("END_VAR");
         c.dedent();
@@ -222,18 +221,16 @@ public class S7Writer extends Writer {
         c.add("BEGIN");
         c.indent();
         ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
-        for (PlcVariable var: variables) {
-            if (var.value == null) {
-                continue;
+        for (PlcBasicVariable var: variables) {
+            if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
+                c.add("%s := %s;", var.varName, modelTextGenerator.toString(dataVar.value));
             }
-            c.add("%s := %s;", var.name, modelTextGenerator.toString(var.value));
         }
         c.dedent();
-
-        // Close database.
         c.add("END_DATA_BLOCK");
 
         // Write to file.
+        String path = Paths.join(outPath, "DB.db");
         c.writeToFile(path);
     }
 
@@ -273,16 +270,18 @@ public class S7Writer extends Writer {
 
         // The variables, either constants or input variables. 'type', 'value', 'name' and 'address' shouldn't contain
         // XML characters that need escaping (&, <, >, ' or "). We also can't have values with string type.
-        if (globVarList.constants) {
+        if (globVarList.listKind == PlcVarListKind.CONSTANTS) {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
-            for (PlcVariable constant: globVarList.variables) {
-                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(constant.type),
-                        modelTextGenerator.toString(constant.value), constant.name);
+            for (PlcBasicVariable constant: globVarList.variables) {
+                PlcDataVariable dataConstant = (PlcDataVariable)constant;
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(dataConstant.type),
+                        modelTextGenerator.toString(dataConstant.value), dataConstant.varName);
             }
         } else {
-            for (PlcVariable var: globVarList.variables) {
+            for (PlcBasicVariable var: globVarList.variables) {
+                PlcDataVariable dataVar = (PlcDataVariable)var;
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
-                        + "remark='' addr='%s'>%s</Tag>", toBox(var.type), var.address, var.name);
+                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.varName);
             }
         }
         c.dedent();
@@ -321,47 +320,40 @@ public class S7Writer extends Writer {
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
-            for (PlcVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.name, toBox(var.type));
+            for (PlcBasicVariable var: pou.inputVars) {
+                c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
         }
 
-        // Write the local variables.
-        if (!pou.localVars.isEmpty()) {
-            if (pou.pouType == PlcPouType.FUNCTION) {
-                // S7 doesn't have local variables in functions. Instead, all variables are temporary. They do the same
-                // but are named differently. That is, after exiting the function, the values are lost. This is similar
-                // to how CIF and TwinCAT handle local variables in functions.
-                c.add("VAR_TEMP");
-                c.indent();
-                for (PlcVariable var: pou.localVars) {
-                    c.add("%s: %s;", var.name, toBox(var.type));
-                }
-                c.dedent();
-                c.add("END_VAR");
+        // Write the output variables.
+        if (!pou.outputVars.isEmpty()) {
+            // In S7 the main program cannot have output variables.
+            Assert.areEqual(pou.pouType, PlcPouType.FUNCTION);
+
+            c.add("VAR_OUTPUT");
+            c.indent();
+            for (PlcBasicVariable var: pou.outputVars) {
+                c.add("%s: %s;", var.varName, toBox(var.type));
             }
-            // else: Different from functions, local variables of programs are persistent and are written to a DB file.
+            c.dedent();
+            c.add("END_VAR");
         }
 
-        // Write the temporary variables.
-        if (!pou.tempVars.isEmpty() || !pou.outputVars.isEmpty()) {
-            // Functions shouldn't have variables declared as temporary. As all variables are temporary. Function can't
-            // have output variables.
-            Assert.areEqual(pou.pouType, PROGRAM);
+        // Currently user-defined function blocks don't exist, so local variables in functions should be empty. The
+        // local variables of the main program are persistent and get written to a DB file elsewhere.
+        Assert.check(pou.pouType != PlcPouType.FUNCTION || pou.localVars.isEmpty());
 
+        // Write the temporary variables.
+        if (!pou.tempVars.isEmpty()) {
+            // In IEC 61131-3, functions use VAR for their temporary variables, while programs and user-defined function
+            // blocks use VAR_TEMP. With S7 however, functions use VAR_TEMP instead.
             c.add("VAR_TEMP");
+
             c.indent();
-            for (PlcVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.name, toBox(var.type));
-            }
-            for (PlcVariable var: pou.outputVars) {
-                // There should only be two output variables, timerValue0 and timerValue1. These are part of the main
-                // program. In S7 the main program cannot have output variables. Hence, we add them as temporary
-                // variables.
-                Assert.areEqual(pou.outputVars.size(), 2);
-                c.add("%s: %s;", var.name, toBox(var.type));
+            for (PlcBasicVariable var: pou.tempVars) {
+                c.add("%s: %s;", var.varName, toBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -371,12 +363,13 @@ public class S7Writer extends Writer {
         c.dedent();
         c.add();
         c.add("BEGIN");
-
         c.indent();
-        c.add(pou.body);
+        if (!pou.body.isEmpty()) {
+            c.add(pou.body);
+        }
+        c.dedent();
 
         // Close POU.
-        c.dedent();
         c.add("END_%s", pouTypeText);
 
         return c;
@@ -398,9 +391,9 @@ public class S7Writer extends Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("STRUCT");
         c.indent();
-        for (PlcVariable field: structType.fields) {
+        for (PlcStructField field: structType.fields) {
             // Only name and type, not address.
-            c.add("%s: %s;", field.name, toBox(field.type));
+            c.add("%s: %s;", field.fieldName, toBox(field.type));
         }
         c.dedent();
         c.add("END_STRUCT");

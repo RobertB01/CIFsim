@@ -33,15 +33,32 @@ extern int T3IIRTypePrint(T3IIRType *tuple, char *dest, int start, int end);
 
 /* Event declarations. */
 enum declarationsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e_e1_,        /**< Event e_e1. */
-    e_e2_,        /**< Event e_e2. */
-    c_e1_,        /**< Event c_e1. */
-    c_e2_,        /**< Event c_e2. */
-    u_e1_,        /**< Event u_e1. */
-    u_e2_,        /**< Event u_e2. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e_e1". */
+    e_e1_,
+
+    /** Event "e_e2". */
+    e_e2_,
+
+    /** Event "c_e1". */
+    c_e1_,
+
+    /** Event "c_e2". */
+    c_e2_,
+
+    /** Event "u_e1". */
+    u_e1_,
+
+    /** Event "u_e2". */
+    u_e2_,
 };
 typedef enum declarationsEventEnum_ declarations_Event_;
 
@@ -49,11 +66,21 @@ typedef enum declarationsEventEnum_ declarations_Event_;
 extern const char *declarations_event_names[];
 
 /* Constants. */
-extern RealType c1_; /**< Constant "c1". */
-extern RealType c4_; /**< Constant "c4". */
-extern RealType c5_; /**< Constant "c5". */
-extern RealType c3_; /**< Constant "c3". */
-extern RealType c2_; /**< Constant "c2". */
+
+/** Constant "c1". */
+extern RealType c1_;
+
+/** Constant "c4". */
+extern RealType c4_;
+
+/** Constant "c5". */
+extern RealType c5_;
+
+/** Constant "c3". */
+extern RealType c3_;
+
+/** Constant "c2". */
+extern RealType c2_;
 
 /* Input variables. */
 
@@ -126,30 +153,22 @@ static inline RealType aut1_v3_deriv(void) {
 static inline RealType aut2_v2_deriv(void) {
     return aut1_v5_;
 }
-/**
- * Algebraic variable a1 = i1 + a3 + c1;
- */
+/** Algebraic variable a1 = i1 + a3 + c1. */
 static inline RealType a1_(void) {
     return RealAdd(RealAdd(i1_, a3_()), c1_);
 }
 
-/**
- * Algebraic variable a2 = floor(a4);
- */
+/** Algebraic variable a2 = floor(a4). */
 static inline IntType a2_(void) {
     return FloorFunction(a4_());
 }
 
-/**
- * Algebraic variable a3 = a2 * 3.0;
- */
+/** Algebraic variable a3 = a2 * 3.0. */
 static inline RealType a3_(void) {
     return RealMultiply(a2_(), 3.0);
 }
 
-/**
- * Algebraic variable a4 = 123.4 + i2;
- */
+/** Algebraic variable a4 = 123.4 + i2. */
 static inline RealType a4_(void) {
     return RealAdd(123.4, i2_);
 }

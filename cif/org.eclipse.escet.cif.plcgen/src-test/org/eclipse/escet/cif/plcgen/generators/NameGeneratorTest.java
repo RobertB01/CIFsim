@@ -46,16 +46,16 @@ public class NameGeneratorTest {
     @SuppressWarnings("javadoc")
     @Test
     public void keywordAvoidanceTest() {
-        assertEquals("sint__1", nameGenerator.generateGlobalName("sint", false)); // PLC keyword.
-        assertEquals("SInt__2", nameGenerator.generateGlobalName("SInt", false)); // Partial upper case.
+        assertEquals("sint_1", nameGenerator.generateGlobalName("sint", false)); // PLC keyword.
+        assertEquals("SInt_2", nameGenerator.generateGlobalName("SInt", false)); // Partial upper case.
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void duplicateNameTest() {
         assertEquals("s", nameGenerator.generateGlobalName("s", false));
-        assertEquals("s__1", nameGenerator.generateGlobalName("s", false));
-        assertEquals("s__2", nameGenerator.generateGlobalName("s", false));
+        assertEquals("s_1", nameGenerator.generateGlobalName("s", false));
+        assertEquals("s_2", nameGenerator.generateGlobalName("s", false));
     }
 
     @SuppressWarnings("javadoc")
@@ -69,7 +69,7 @@ public class NameGeneratorTest {
     @Test
     public void clashingSuffixTest() {
         assertEquals("s1", nameGenerator.generateGlobalName("s1", false)); // Unused suffix.
-        assertEquals("s1__1", nameGenerator.generateGlobalName("s1", false)); // Duplicate, use next higher suffix.
+        assertEquals("s1_1", nameGenerator.generateGlobalName("s1", false)); // Duplicate, use next higher suffix.
     }
 
     @SuppressWarnings("javadoc")
@@ -77,22 +77,23 @@ public class NameGeneratorTest {
     public void garbageTest() {
         // Completely garbage.
         assertEquals("x", nameGenerator.generateGlobalName("", false)); // Empty input.
-        assertEquals("x__1", nameGenerator.generateGlobalName(".", false)); // Garbage input.
-        assertEquals("x__2", nameGenerator.generateGlobalName("_", false)); // Another garbage input produces a new
-                                                                            // name.
+        assertEquals("x_1", nameGenerator.generateGlobalName(".", false)); // Garbage input.
+        assertEquals("x_2", nameGenerator.generateGlobalName("_", false)); // Another garbage input produces a new name.
 
         // Leading garbage.
         assertEquals("t5", nameGenerator.generateGlobalName(".t5", false)); // Skip garbage before identifier.
         assertEquals("x55", nameGenerator.generateGlobalName(".55", false)); // Insert letter to make it an identifier.
 
-        assertEquals("x55__1", nameGenerator.generateGlobalName("x55", false)); // x55 was already generated.
+        assertEquals("x55_1", nameGenerator.generateGlobalName("x55", false)); // x55 was already generated.
 
         // Trailing garbage does not change output.
         assertEquals("t4", nameGenerator.generateGlobalName("t4.", false));
         assertEquals("x44", nameGenerator.generateGlobalName("44.", false));
 
         // Internal garbage is compressed to a single underscore.
-        assertEquals("x4_4", nameGenerator.generateGlobalName("4._4", false));
+        assertEquals("x4_x4", nameGenerator.generateGlobalName("4._4", false));
+        assertEquals("x4_x4_1", nameGenerator.generateGlobalName("4._4", false)); // Append an index number the second
+                                                                                  // time.
     }
 
     @SuppressWarnings("javadoc")
@@ -101,7 +102,7 @@ public class NameGeneratorTest {
         // Local names avoid other local names.
         Map<String, Integer> localSuffixes = map();
         assertEquals("s", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s__1", nameGenerator.generateLocalName("s", localSuffixes));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
     }
 
     @SuppressWarnings("javadoc")
@@ -110,12 +111,12 @@ public class NameGeneratorTest {
         // Local names in a scope avoid other local names in the same scope.
         Map<String, Integer> localSuffixes = map();
         assertEquals("s", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s__1", nameGenerator.generateLocalName("s", localSuffixes));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
 
         // Local names between different scopes may be duplicate.
         localSuffixes = map(); // Use a different map for a different scope.
         assertEquals("s", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s__1", nameGenerator.generateLocalName("s", localSuffixes));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
     }
 
     @SuppressWarnings("javadoc")
@@ -124,7 +125,7 @@ public class NameGeneratorTest {
         // Local names avoid pre-existing global names.
         assertEquals("s", nameGenerator.generateGlobalName("s", false));
         Map<String, Integer> localSuffixes = map();
-        assertEquals("s__1", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s__2", nameGenerator.generateLocalName("s", localSuffixes));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
+        assertEquals("s_2", nameGenerator.generateLocalName("s", localSuffixes));
     }
 }

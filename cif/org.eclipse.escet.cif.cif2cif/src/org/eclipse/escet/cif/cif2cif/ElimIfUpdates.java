@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newContVariab
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -34,21 +35,24 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * In-place transformation that eliminates 'if' updates on edges.
+ * In-place transformation that eliminates 'if' updates on edges and in SVG input mappings.
  *
  * <p>
  * For instance:
@@ -95,10 +99,40 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
             return;
         }
 
-        // Get variables assigned on the edge. Also checks the addressables
-        // of assignments, to ensure they are supported.
+        // Transform updates to assignments.
+        List<Assignment> assignments = updatesToAssignmentsPerVar(edge.getUpdates());
+
+        // Replace all updates.
+        edge.getUpdates().clear();
+        edge.getUpdates().addAll(assignments);
+    }
+
+    @Override
+    protected void preprocessSvgIn(SvgIn svgIn) {
+        // Optimization for SVG input mappings without updates.
+        if (svgIn.getUpdates().isEmpty()) {
+            return;
+        }
+
+        // Transform updates to assignments.
+        List<Assignment> assignments = updatesToAssignmentsPerVar(svgIn.getUpdates());
+
+        // Replace all updates.
+        svgIn.getUpdates().clear();
+        svgIn.getUpdates().addAll(assignments);
+    }
+
+    /**
+     * Transforms updates to explicit assignments per variable.
+     *
+     * @param updates The updates to transform.
+     * @return The assignments.
+     */
+    private List<Assignment> updatesToAssignmentsPerVar(List<Update> updates) {
+        // Get variables assigned in the updates. Also checks the addressables of assignments, to ensure they are
+        // supported.
         Set<Declaration> vars = set();
-        for (Update update: edge.getUpdates()) {
+        for (Update update: updates) {
             vars.addAll(getVariables(update));
         }
 
@@ -113,13 +147,11 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
             assignment.setAddressable(varToAddr(var));
 
             // Set value.
-            Expression value = updatesToValue(edge.getUpdates(), var);
+            Expression value = updatesToValue(updates, var);
             assignment.setValue(value);
         }
 
-        // Replace all updates.
-        edge.getUpdates().clear();
-        edge.getUpdates().addAll(assignments);
+        return assignments;
     }
 
     /**
@@ -170,23 +202,28 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
      * @return The newly created addressable expression for the variable.
      */
     private Expression varToAddr(Declaration var) {
-        if (var instanceof DiscVariable) {
-            DiscVariable dvar = (DiscVariable)var;
+        if (var instanceof DiscVariable dvar) {
             DiscVariableExpression daddr = newDiscVariableExpression();
             daddr.setVariable(dvar);
             daddr.setType(deepclone(dvar.getType()));
             return daddr;
-        } else {
-            ContVariable cvar = (ContVariable)var;
+        } else if (var instanceof ContVariable cvar) {
             ContVariableExpression caddr = newContVariableExpression();
             caddr.setVariable(cvar);
             caddr.setType(newRealType());
             return caddr;
+        } else if (var instanceof InputVariable ivar) {
+            InputVariableExpression iaddr = newInputVariableExpression();
+            iaddr.setVariable(ivar);
+            iaddr.setType(deepclone(ivar.getType()));
+            return iaddr;
+        } else {
+            throw new RuntimeException("Unknown variable: " + var);
         }
     }
 
     /**
-     * Transforms an sequence of updates to a value for the given variable as a result of the updates.
+     * Transforms a sequence of updates to a value for the given variable as a result of the updates.
      *
      * @param updates The sequence of updates.
      * @param var The variable.
@@ -194,10 +231,10 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
      */
     private Expression updatesToValue(List<Update> updates, Declaration var) {
         // Note that for a sequence of updates, at most one of them can assign
-        // any given variable. This is due to the 'Edge.uniqueVariables'
-        // constraint, which can be found in the CIF metamodel documentation,
-        // together with not supporting partial variable assignments in this
-        // transformation.
+        // any given variable. This is due to the 'Edge.uniqueVariables' and
+        // 'SvgIn.uniqueVariables' constraints, which can be found in the CIF
+        // metamodel documentation, together with not supporting partial variable
+        // assignments in this transformation.
         for (Update update: updates) {
             if (getVariables(update).contains(var)) {
                 return updateToValue(update, var);
@@ -206,8 +243,7 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
 
         // None of the updates assigned the variable, so the variable keeps
         // its value. Note that this is not possible for the top level sequence
-        // of updates in the edge, but only for sequences of updates part of
-        // an 'if' update.
+        // of updates, but only for sequences of updates part of an 'if' update.
         return varToAddr(var);
     }
 
@@ -282,8 +318,8 @@ public class ElimIfUpdates extends CifWalker implements CifToCifTransformation {
      */
     private void checkAddressable(Expression addr) {
         if (addr instanceof TupleExpression || addr instanceof ProjectionExpression) {
-            String msg = "Eliminating 'if' updates from edges, from a CIF specification with multi-assignments "
-                    + "and/or partial variable assignments (projected addressables), is currently not supported.";
+            String msg = "Eliminating 'if' updates, from a CIF specification with multi-assignments and/or partial "
+                    + "variable assignments (projected addressables), is currently not supported.";
             throw new CifToCifPreconditionException(msg);
         }
     }

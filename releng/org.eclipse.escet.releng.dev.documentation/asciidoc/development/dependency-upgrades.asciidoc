@@ -42,7 +42,7 @@ Upgrading Eclipse may require upgrading Java if the new Eclipse version has a hi
 To upgrade to a new Eclipse Platform/IDE version:
 
 * Check out the information for the new version:
-** Check the link:https://wiki.eclipse.org/Simultaneous_Release[Simultaneous Release] overview page for the link between platform version (e.g. _4.20_) and release name (e.g. _2021-06_).
+** Check the link:https://github.com/eclipse-simrel/.github/blob/main/wiki/Simultaneous_Release.md[Simultaneous Release] overview page for the link between platform version (e.g. _4.20_) and release name (e.g. _2021-06_).
 ** Check `https://www.eclipse.org/projects/project-plan.php?planurl=https://www.eclipse.org/eclipse/development/plans/eclipse_project_plan_N_NN.xml` with `N_NN` replaced by the platform version (e.g. `4_20`), for the project plan of the release, including detailed information about the supported target environments (operating systems, Java versions, etc).
 ** Check `https://www.eclipse.org/eclipse/development/readme_eclipse_N.NN.php` with `N.NN` replaced by the platform version (e.g. `4.20`), for the README of the release.
 ** Check the link:https://eclipseide.org/release/noteworthy/[New & Noteworthy] page for the new release and all intermediate releases since the previous version.
@@ -177,6 +177,7 @@ To upgrade to a new Tycho version:
 * Update `maven.minimal.version` in `org.eclipse.escet.releng.configuration/pom.xml`, if the new Tycho version requires a higher Maven version.
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<development-building-and-testing-chapter-index,Maven build>>.
+* Perform a license check (`misc/license-check-dependencies/license-check-dependencies.sh`).
 * Ensure no errors or warnings during Maven build.
 
 [[development-dependency-upgrades-java]]

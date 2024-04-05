@@ -64,15 +64,32 @@ extern int A6BTypePrint(A6BType *array, char *dest, int start, int end);
 
 /* Event declarations. */
 enum databased_supervisorEventEnum_ {
-    EVT_INITIAL_,       /**< Initial step. */
-    EVT_DELAY_,         /**< Delay step. */
-    EVT_TAU_,           /**< Tau step. */
-    Button_u_pushed_,   /**< Event Button.u_pushed. */
-    Button_u_released_, /**< Event Button.u_released. */
-    Lamp_c_on_,         /**< Event Lamp.c_on. */
-    Lamp_c_off_,        /**< Event Lamp.c_off. */
-    Timer_c_start_,     /**< Event Timer.c_start. */
-    Timer_u_timeout_,   /**< Event Timer.u_timeout. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "Button.u_pushed". */
+    Button_u_pushed_,
+
+    /** Event "Button.u_released". */
+    Button_u_released_,
+
+    /** Event "Lamp.c_on". */
+    Lamp_c_on_,
+
+    /** Event "Lamp.c_off". */
+    Lamp_c_off_,
+
+    /** Event "Timer.c_start". */
+    Timer_c_start_,
+
+    /** Event "Timer.u_timeout". */
+    Timer_u_timeout_,
 };
 typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 
@@ -80,7 +97,9 @@ typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 extern const char *databased_supervisor_event_names[];
 
 /* Constants. */
-extern A12T3IIIType bdd_nodes_; /**< Constant "bdd_nodes". */
+
+/** Constant "bdd_nodes". */
+extern A12T3IIIType bdd_nodes_;
 
 /* Input variables. */
 
@@ -117,51 +136,37 @@ static inline A6BType bdd_values_(void);
 
 
 
-/**
- * Algebraic variable bdd_value0 = M.Button = Pushed;
- */
+/** Algebraic variable bdd_value0 = M.Button = Pushed. */
 static inline BoolType bdd_value0_(void) {
     return (Button_) == (_databased_supervisor_Pushed);
 }
 
-/**
- * Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout;
- */
+/** Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout. */
 static inline BoolType bdd_value1_(void) {
     return ((Cycle_) == (_databased_supervisor_TurnLampOn)) || ((Cycle_) == (_databased_supervisor_WaitForTimeout));
 }
 
-/**
- * Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout;
- */
+/** Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout. */
 static inline BoolType bdd_value2_(void) {
     return ((Cycle_) == (_databased_supervisor_StartTimer)) || ((Cycle_) == (_databased_supervisor_WaitForTimeout));
 }
 
-/**
- * Algebraic variable bdd_value3 = M.Cycle = TurnLampOff;
- */
+/** Algebraic variable bdd_value3 = M.Cycle = TurnLampOff. */
 static inline BoolType bdd_value3_(void) {
     return (Cycle_) == (_databased_supervisor_TurnLampOff);
 }
 
-/**
- * Algebraic variable bdd_value4 = M.Lamp = On;
- */
+/** Algebraic variable bdd_value4 = M.Lamp = On. */
 static inline BoolType bdd_value4_(void) {
     return (Lamp_) == (_databased_supervisor_On);
 }
 
-/**
- * Algebraic variable bdd_value5 = M.Timer = Running;
- */
+/** Algebraic variable bdd_value5 = M.Timer = Running. */
 static inline BoolType bdd_value5_(void) {
     return (Timer_) == (_databased_supervisor_Running);
 }
 
-/**
- * Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5];
- */
+/** Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5]. */
 static inline A6BType bdd_values_(void) {
     A6BType array_tmp1;
     (array_tmp1).data[0] = bdd_value0_();

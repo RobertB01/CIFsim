@@ -1173,7 +1173,7 @@ static BoolType a_x_(SimStruct *sim_struct);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable a.x = true; */
+/** Algebraic variable a.x = true. */
 static BoolType a_x_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1193,9 +1193,14 @@ static BoolType a_x_(SimStruct *sim_struct) {
 /* }}} */
 
 enum locs_multiple_potential_initialEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum locs_multiple_potential_initialEventEnum_ locs_multiple_potential_initial_Event_;
 

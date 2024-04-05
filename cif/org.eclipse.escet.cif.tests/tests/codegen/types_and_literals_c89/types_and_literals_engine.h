@@ -195,9 +195,14 @@ extern int A1T2A1IA2T2RSTypePrint(A1T2A1IA2T2RSType *array, char *dest, int star
 
 /* Event declarations. */
 enum types_and_literalsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
 };
 typedef enum types_and_literalsEventEnum_ types_and_literals_Event_;
 
@@ -205,37 +210,99 @@ typedef enum types_and_literalsEventEnum_ types_and_literals_Event_;
 extern const char *types_and_literals_event_names[];
 
 /* Constants. */
-extern BoolType c1_; /**< Constant "c1". */
-extern BoolType c2_; /**< Constant "c2". */
-extern A3BType c3_; /**< Constant "c3". */
-extern IntType c4_; /**< Constant "c4". */
-extern IntType c5_; /**< Constant "c5". */
-extern A3IType c6_; /**< Constant "c6". */
-extern A3BType c7_; /**< Constant "c7". */
-extern A3IType c8_; /**< Constant "c8". */
-extern A3IType c9_; /**< Constant "c9". */
-extern types_and_literalsEnum c10_; /**< Constant "c10". */
-extern types_and_literalsEnum c11_; /**< Constant "c11". */
-extern types_and_literalsEnum c12_; /**< Constant "c12". */
-extern RealType c13_; /**< Constant "c13". */
-extern RealType c14_; /**< Constant "c14". */
-extern A10RType c15_; /**< Constant "c15". */
-extern StringType c16_; /**< Constant "c16". */
-extern StringType c17_; /**< Constant "c17". */
-extern StringType c18_; /**< Constant "c18". */
-extern StringType c19_; /**< Constant "c19". */
-extern A3SType c20_; /**< Constant "c20". */
-extern A0IType c21_; /**< Constant "c21". */
-extern A1IType c22_; /**< Constant "c22". */
-extern A2BType c23_; /**< Constant "c23". */
-extern A2BType c24_; /**< Constant "c24". */
-extern A3A2RType c25_; /**< Constant "c25". */
-extern T2IIType c26_; /**< Constant "c26". */
-extern T2IIType c27_; /**< Constant "c27". */
-extern T3IISType c28_; /**< Constant "c28". */
-extern T2T2IISType c29_; /**< Constant "c29". */
-extern A1T2A1IA2T2RSType c31_; /**< Constant "c31". */
-extern A1T2A1IA2T2RSType c30_; /**< Constant "c30". */
+
+/** Constant "c1". */
+extern BoolType c1_;
+
+/** Constant "c2". */
+extern BoolType c2_;
+
+/** Constant "c3". */
+extern A3BType c3_;
+
+/** Constant "c4". */
+extern IntType c4_;
+
+/** Constant "c5". */
+extern IntType c5_;
+
+/** Constant "c6". */
+extern A3IType c6_;
+
+/** Constant "c7". */
+extern A3BType c7_;
+
+/** Constant "c8". */
+extern A3IType c8_;
+
+/** Constant "c9". */
+extern A3IType c9_;
+
+/** Constant "c10". */
+extern types_and_literalsEnum c10_;
+
+/** Constant "c11". */
+extern types_and_literalsEnum c11_;
+
+/** Constant "c12". */
+extern types_and_literalsEnum c12_;
+
+/** Constant "c13". */
+extern RealType c13_;
+
+/** Constant "c14". */
+extern RealType c14_;
+
+/** Constant "c15". */
+extern A10RType c15_;
+
+/** Constant "c16". */
+extern StringType c16_;
+
+/** Constant "c17". */
+extern StringType c17_;
+
+/** Constant "c18". */
+extern StringType c18_;
+
+/** Constant "c19". */
+extern StringType c19_;
+
+/** Constant "c20". */
+extern A3SType c20_;
+
+/** Constant "c21". */
+extern A0IType c21_;
+
+/** Constant "c22". */
+extern A1IType c22_;
+
+/** Constant "c23". */
+extern A2BType c23_;
+
+/** Constant "c24". */
+extern A2BType c24_;
+
+/** Constant "c25". */
+extern A3A2RType c25_;
+
+/** Constant "c26". */
+extern T2IIType c26_;
+
+/** Constant "c27". */
+extern T2IIType c27_;
+
+/** Constant "c28". */
+extern T3IISType c28_;
+
+/** Constant "c29". */
+extern T2T2IISType c29_;
+
+/** Constant "c31". */
+extern A1T2A1IA2T2RSType c31_;
+
+/** Constant "c30". */
+extern A1T2A1IA2T2RSType c30_;
 
 /* Input variables. */
 

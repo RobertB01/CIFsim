@@ -18,6 +18,31 @@
     <pous>
       <pou name="MAIN" pouType="program">
         <interface>
+          <localVars>
+            <variable name="p_x">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="p_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="preset_p_t">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="firstRun">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+          </localVars>
           <tempVars>
             <variable name="curValue">
               <type>
@@ -29,6 +54,11 @@
                 <LREAL/>
               </type>
             </variable>
+            <variable name="edge_p_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
             <variable name="eventEnabled">
               <type>
                 <BOOL/>
@@ -37,11 +67,6 @@
             <variable name="isProgress">
               <type>
                 <BOOL/>
-              </type>
-            </variable>
-            <variable name="syncAutEdge">
-              <type>
-                <DINT/>
               </type>
             </variable>
             <variable name="timeOut">
@@ -76,17 +101,40 @@ isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
 
-    (* Try to perform event "e". *)
+    (*************************************************************
+     * Try to perform event "e".
+     *
+     * - Automaton "p" must always synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edge of automaton "p" to synchronize for event "e".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edge being tested:
+     * - Location:
+     *   - 1st edge in the location
+     ***********)
     IF p_t &lt;= 1.0 AND p_x = 5 THEN
-        syncAutEdge := 1;
+        edge_p_1 := 1;
     ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "e" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_p_t := p_t;
-        IF syncAutEdge = 1 THEN
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "p". *)
+        IF edge_p_1 = 1 THEN
+            (* Perform assignments of the 1st edge of automaton "p". *)
             p_t := 7.0;
             (* Reset timer of "p_t". *)
             preset_p_t := p_t;
@@ -111,36 +159,11 @@ END_WHILE;</xhtml>
               </documentation>
             </pouInstance>
           </task>
-          <globalVars constant="false" name="STATE">
-            <variable name="p_x">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="p_t">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-          </globalVars>
           <globalVars constant="false" name="TIMERS">
             <variable name="ton_p_t">
               <type>
                 <derived name="TON"/>
               </type>
-            </variable>
-            <variable name="preset_p_t">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
-            <variable name="firstRun">
-              <type>
-                <BOOL/>
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE"/>
-              </initialValue>
             </variable>
           </globalVars>
         </resource>

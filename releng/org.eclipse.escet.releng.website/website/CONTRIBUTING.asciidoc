@@ -1,0 +1,11 @@
+= Contributing to Eclipse ESCET(TM)
+
+Contributions are always welcome!
+
+New website versions are deployed from the build of the main repository.
+Changes should therefore be made to the main repository, rather than directly to the website repository.
+Since the website repository does not have its own issue tracker, issues for the website should be made on the main repository as well.
+
+For more information, see the Eclipse ESCET main repository:
+
+* https://gitlab.eclipse.org/eclipse/escet/escet

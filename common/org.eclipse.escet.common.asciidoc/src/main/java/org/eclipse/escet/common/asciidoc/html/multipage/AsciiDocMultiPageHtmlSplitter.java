@@ -65,12 +65,13 @@ public class AsciiDocMultiPageHtmlSplitter {
      *     <li>{@code --eclipse-help} for Eclipse help HTML or {@code --website} for website HTML.</li>
      *     <li>Name of the parent website to link to, if generating the website.</li>
      *     <li>Relative path of the parent website to link to, if generating the website.</li>
+     *     <li>Path to the JavaScript file to write, relative to the output directory, if generating the website.</li>
      *     </ul>
      * @throws IOException In case of an I/O error.
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Command line arguments: " + Arrays.toString(args));
-        Verify.verify(args.length == 4 || args.length == 6, Arrays.toString(args));
+        Verify.verify(args.length == 4 || args.length == 7, Arrays.toString(args));
 
         Path sourceRootPath = Paths.get(args[0]);
         Path singleHtmlPagePath = Paths.get(args[1]);
@@ -83,14 +84,16 @@ public class AsciiDocMultiPageHtmlSplitter {
 
         String parentWebsiteName = null;
         String parentWebsiteLink = null;
+        Path jsFilePath = null;
         switch (htmlType) {
             case ECLIPSE_HELP:
                 Verify.verify(args.length == 4, Arrays.toString(args));
                 break;
             case WEBSITE:
-                Verify.verify(args.length == 6, Arrays.toString(args));
+                Verify.verify(args.length == 7, Arrays.toString(args));
                 parentWebsiteName = args[4];
                 parentWebsiteLink = args[5];
+                jsFilePath = Paths.get(args[6]);
                 break;
             default:
                 throw new RuntimeException("Unknown HTML type: " + htmlType);
@@ -102,7 +105,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         rootBaseName = rootBaseName.substring(0, rootBaseName.length() - htmlFileExt.length());
 
         splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType, parentWebsiteName, parentWebsiteLink,
-                rootBaseName, System.out::println);
+                jsFilePath, rootBaseName, System.out::println);
     }
 
     /**
@@ -118,13 +121,15 @@ public class AsciiDocMultiPageHtmlSplitter {
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param parentWebsiteLink The relative path of the parent website to link to, if {@code htmlType} is
      *     {@link HtmlType#WEBSITE}, {@code null} otherwise.
+     * @param jsFilePath The path to the JavaScript file to write, relative to {@code outputRootPath}, if
+     *     {@code htmlType} is {@link HtmlType#WEBSITE}, {@code null} otherwise.
      * @param rootBaseName The base name (file name excluding file extension) of the root AsciiDoc file.
      * @param logger The logger to use.
      * @throws IOException In case of an I/O error.
      */
     public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType,
-            String parentWebsiteName, String parentWebsiteLink, String rootBaseName, Consumer<String> logger)
-            throws IOException
+            String parentWebsiteName, String parentWebsiteLink, Path jsFilePath, String rootBaseName,
+            Consumer<String> logger) throws IOException
     {
         // Check arguments.
         Verify.verify((parentWebsiteName != null) == (htmlType == HtmlType.WEBSITE));
@@ -139,6 +144,12 @@ public class AsciiDocMultiPageHtmlSplitter {
             FileUtils.deleteDirectory(outputRootPath.toFile());
         }
         Files.createDirectories(outputRootPath);
+
+        // Ensure directory for JavaScript file exists.
+        if (jsFilePath != null) {
+            jsFilePath = outputRootPath.resolve(jsFilePath);
+            Files.createDirectories(jsFilePath.getParent());
+        }
 
         // Read and parse AsciiDoc-generated single-page HTML file.
         logger.accept("Reading AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
@@ -173,10 +184,10 @@ public class AsciiDocMultiPageHtmlSplitter {
         Verify.verify(htmlPages.homePage.sourceFile.getBaseName().equals(rootBaseName));
         AsciiDocHtmlAnalyzer.analyze(singlePageDoc, htmlPages);
 
-        // Generate and write multiple HTML files, one per page.
+        // Generate and write multiple HTML files, one per page. Also write a JavaScript file, if applicable.
         logger.accept("Generating multi-page HTML files at: " + outputRootPath.toString());
         AsciiDocHtmlModifier.generateAndWriteModifiedPages(singlePageDoc, htmlPages, sourceRootPath, outputRootPath,
-                htmlType, parentWebsiteName, parentWebsiteLink, logger);
+                htmlType, parentWebsiteName, parentWebsiteLink, jsFilePath, logger);
 
         // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {

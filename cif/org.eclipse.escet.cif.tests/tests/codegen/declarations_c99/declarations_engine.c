@@ -73,12 +73,12 @@ const char *declarations_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e_e1",         /**< Event e_e1. */
-    "e_e2",         /**< Event e_e2. */
-    "c_e1",         /**< Event c_e1. */
-    "c_e2",         /**< Event c_e2. */
-    "u_e1",         /**< Event u_e1. */
-    "u_e2",         /**< Event u_e2. */
+    "e_e1",         /**< Event "e_e1". */
+    "e_e2",         /**< Event "e_e2". */
+    "c_e1",         /**< Event "c_e1". */
+    "c_e2",         /**< Event "c_e2". */
+    "u_e1",         /**< Event "u_e1". */
+    "u_e2",         /**< Event "u_e2". */
 };
 
 /** Enumeration names. */
@@ -88,11 +88,21 @@ const char *enum_names[] = {
 };
 
 /* Constants. */
-RealType c1_; /**< Constant "c1". */
-RealType c4_; /**< Constant "c4". */
-RealType c5_; /**< Constant "c5". */
-RealType c3_; /**< Constant "c3". */
-RealType c2_; /**< Constant "c2". */
+
+/** Constant "c1". */
+RealType c1_;
+
+/** Constant "c4". */
+RealType c4_;
+
+/** Constant "c5". */
+RealType c5_;
+
+/** Constant "c3". */
+RealType c3_;
+
+/** Constant "c2". */
+RealType c2_;
 
 /* Functions. */
 IntType inc_(IntType inc_x_) {

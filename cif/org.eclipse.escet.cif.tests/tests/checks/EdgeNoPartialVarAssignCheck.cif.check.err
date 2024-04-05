@@ -6,6 +6,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "a.l4":
      - edge e do li[0] := 1 goto l5;
                        ^
+   * In location "a.l7":
+     - edge e do if true: li[0] := 1 end goto l8;
+                                ^
    * In automaton "all":
      - edge e do li[0] := 1;
                        ^
@@ -17,3 +20,5 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "partial_asgn":
      - edge e do li[0] := 1;
                        ^
+     - edge e do if true: li[0] := 1 end;
+                                ^

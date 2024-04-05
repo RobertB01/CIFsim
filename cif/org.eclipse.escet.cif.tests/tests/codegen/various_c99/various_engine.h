@@ -44,11 +44,20 @@ extern int A3ITypePrint(A3IType *array, char *dest, int start, int end);
 
 /* Event declarations. */
 enum variousEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e1_,          /**< Event e1. */
-    g_h1_,        /**< Event g.h1. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e1". */
+    e1_,
+
+    /** Event "g.h1". */
+    g_h1_,
 };
 typedef enum variousEventEnum_ various_Event_;
 
@@ -107,9 +116,7 @@ static inline IntType z_(void);
 static inline RealType g_sync_c_deriv(void) {
     return 1.0;
 }
-/**
- * Algebraic variable z = x + y;
- */
+/** Algebraic variable z = x + y. */
 static inline IntType z_(void) {
     return IntegerAdd(x_, y_);
 }

@@ -28,9 +28,6 @@ import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.get
 import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.offsetMayBeFixed;
 import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.offsetMayBeNonzero;
 import static org.eclipse.escet.cif.codegen.options.SimulinkSampleTimeOption.sampleGetValue;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.getColumnCount;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.getRowCount;
-import static org.eclipse.escet.cif.codegen.simulink.SimulinkCodeGenPreChecker.isGoodType;
 import static org.eclipse.escet.cif.codegen.simulink.typeinfos.SimulinkArrayTypeInfo.getElementConversionToSimulinkVector;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getName;
@@ -77,6 +74,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -98,6 +96,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.app.framework.options.processing.PatternMatchingOptionProcessing.OptionMatcher;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
@@ -213,25 +212,38 @@ public class SimulinkCodeGen extends CodeGen {
             simulinkTargetRefMap.put(inpVar, fmt("work->%s", super.getTargetRef(inpVar)));
         }
 
-        for (Declaration d: stateVars) {
-            if (!(d instanceof DiscVariable)) {
+        for (Declaration stateVar: stateVars) {
+            if (!(stateVar instanceof DiscVariable discVar)) {
                 continue;
             }
-            if (simulinkTargetRefMap.containsKey(d)) {
+            if (simulinkTargetRefMap.containsKey(discVar)) {
                 continue; // Modes have already been added.
             }
 
-            DiscVariable dv = (DiscVariable)d;
-            simulinkTargetRefMap.put(d, fmt("work->%s", super.getTargetRef(d)));
-            if (isGoodType(dv.getType())) {
-                addDeclarationToSection(outputVarMatcher, dv, reportSection);
+            simulinkTargetRefMap.put(discVar, fmt("work->%s", super.getTargetRef(discVar)));
+            CifType type = discVar.getType();
+            if (SimulinkTypeUtils.isSimulinkCompatibleType(type)) {
+                addDeclarationToSection(outputVarMatcher, discVar, reportSection);
+            } else {
+                String origName = origDeclNames.get(discVar);
+                Assert.notNull(origName);
+                String msg = fmt("Discrete variable \"%s\" has non-Simulink-compatible type \"%s\", and will therefore "
+                        + "be omitted from the output.", origName, CifTextUtils.typeToStr(type));
+                OutputProvider.warn(msg);
             }
         }
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
 
-        for (AlgVariable aVar: algVars) {
-            if (isGoodType(aVar.getType())) {
-                addDeclarationToSection(outputVarMatcher, aVar, reportSection);
+        for (AlgVariable algVar: algVars) {
+            CifType type = algVar.getType();
+            if (SimulinkTypeUtils.isSimulinkCompatibleType(type)) {
+                addDeclarationToSection(outputVarMatcher, algVar, reportSection);
+            } else {
+                String origName = origDeclNames.get(algVar);
+                Assert.notNull(origName);
+                String msg = fmt("Algebraic variable \"%s\" has non-Simulink-compatible type \"%s\", and will "
+                        + "therefore be omitted from the output.", origName, CifTextUtils.typeToStr(type));
+                OutputProvider.warn(msg);
             }
         }
         outputIndex = moveSection(reportSection, outputIndex, outputMap, outputReport);
@@ -567,8 +579,24 @@ public class SimulinkCodeGen extends CodeGen {
             String typeName = constInfo.typeInfo.getTargetType();
             String varName = getTargetVariableName(constant);
 
+            List<String> docs = DocAnnotationProvider.getDocs(constant);
+
             // Generate definition and declaration.
-            defCode.add("%s %s; /**< Constant \"%s\". */", typeName, varName, constInfo.name);
+            defCode.add();
+            if (docs.isEmpty()) {
+                defCode.add("/** Constant \"%s\". */", constInfo.name);
+            } else {
+                defCode.add("/**");
+                defCode.add(" * Constant \"%s\".", constInfo.name);
+                for (String doc: docs) {
+                    defCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        defCode.add(" * %s", line);
+                    }
+                }
+                defCode.add(" */");
+            }
+            defCode.add("%s %s;", typeName, varName);
 
             // Generate initialization.
             ExprCode constantCode = ctxt.exprToTarget(constant.getValue(), ctxt.makeDestination(constant));
@@ -587,22 +615,40 @@ public class SimulinkCodeGen extends CodeGen {
         evtDeclsCode.add("enum %sEventEnum_ {", prefix);
         evtDeclsCode.indent();
 
-        GridBox evtDecls = new GridBox(3 + events.size(), 2, 0, 1);
-        evtDecls.set(0, 0, INITIAL_EVENT_NAME + ",");
-        evtDecls.set(0, 1, "/**< Initial step. */");
-        evtDecls.set(1, 0, DELAY_EVENT_NAME + ",");
-        evtDecls.set(1, 1, "/**< Delay step. */");
-        evtDecls.set(2, 0, TAU_EVENT_NAME + ",");
-        evtDecls.set(2, 1, "/**< Tau step. */");
+        evtDeclsCode.add("/** Initial step. */");
+        evtDeclsCode.add(INITIAL_EVENT_NAME + ",");
+
+        evtDeclsCode.add();
+        evtDeclsCode.add("/** Delay step. */");
+        evtDeclsCode.add(DELAY_EVENT_NAME + ",");
+
+        evtDeclsCode.add();
+        evtDeclsCode.add("/** Tau step. */");
+        evtDeclsCode.add(TAU_EVENT_NAME + ",");
+
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtDecls.set(3 + i, 0, fmt("%s,", getTargetRef(evt)));
-            evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
+            List<String> docs = DocAnnotationProvider.getDocs(evt);
+
+            evtDeclsCode.add();
+            if (docs.isEmpty()) {
+                evtDeclsCode.add(fmt("/** Event \"%s\". */", origName));
+            } else {
+                evtDeclsCode.add("/**");
+                evtDeclsCode.add(" * Event \"%s\".", origName);
+                for (String doc: docs) {
+                    evtDeclsCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        evtDeclsCode.add(" * %s", line);
+                    }
+                }
+                evtDeclsCode.add(" */");
+            }
+            evtDeclsCode.add(fmt("%s,", getTargetRef(evt)));
         }
 
-        evtDeclsCode.add(evtDecls);
         evtDeclsCode.dedent();
         evtDeclsCode.add("};");
         evtDeclsCode.add("typedef enum %sEventEnum_ %s_Event_;", prefix, prefix);
@@ -623,7 +669,7 @@ public class SimulinkCodeGen extends CodeGen {
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
             evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
-            evtNames.set(3 + i, 1, fmt("/**< Event %s. */", origName));
+            evtNames.set(3 + i, 1, fmt("/**< Event \"%s\". */", origName));
         }
 
         evtNamesCode.add(evtNames);
@@ -765,7 +811,21 @@ public class SimulinkCodeGen extends CodeGen {
             String header = fmt("static %s %s(SimStruct *sim_struct)", ti.getTargetType(), algVarInfo.targetRef);
             declCode.add("%s;", header);
 
-            defCode.add("/** Algebraic variable %s = %s; */\n", algVarInfo.name, exprToStr(algVar.getValue()));
+            List<String> docs = DocAnnotationProvider.getDocs(algVar);
+            if (docs.isEmpty()) {
+                defCode.add("/** Algebraic variable %s = %s. */", algVarInfo.name, exprToStr(algVar.getValue()));
+            } else {
+                defCode.add("/**");
+                defCode.add(" * Algebraic variable %s = %s.", algVarInfo.name, exprToStr(algVar.getValue()));
+                for (String doc: docs) {
+                    defCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        defCode.add(" * %s", line);
+                    }
+                }
+                defCode.add(" */");
+            }
+
             defCode.add("%s {", header);
             defCode.indent();
             addPreamble(defCode, false);
@@ -838,12 +898,12 @@ public class SimulinkCodeGen extends CodeGen {
         for (int i = 0; i < inputVars.size(); i++) {
             InputVariable decl = inputVars.get(i);
             int rows, columns;
-            rows = getRowCount(decl.getType());
+            rows = SimulinkTypeUtils.getRowCount(decl.getType());
             if (rows == 0) {
                 rows = 1; // Singular type is a 1-length vector.
                 columns = 0;
             } else {
-                columns = getColumnCount(decl.getType());
+                columns = SimulinkTypeUtils.getColumnCount(decl.getType());
             }
 
             if (columns > 0) {
@@ -913,22 +973,22 @@ public class SimulinkCodeGen extends CodeGen {
                 columns = 0;
             } else if (d instanceof AlgVariable) {
                 AlgVariable aVar = (AlgVariable)d;
-                rows = getRowCount(aVar.getType());
+                rows = SimulinkTypeUtils.getRowCount(aVar.getType());
                 if (rows == 0) {
                     rows = 1; // Singular type is a 1-length vector.
                     columns = 0;
                 } else {
-                    columns = getColumnCount(aVar.getType());
+                    columns = SimulinkTypeUtils.getColumnCount(aVar.getType());
                 }
             } else {
                 Assert.check(d instanceof DiscVariable);
                 DiscVariable dVar = (DiscVariable)d;
-                rows = getRowCount(dVar.getType());
+                rows = SimulinkTypeUtils.getRowCount(dVar.getType());
                 if (rows == 0) {
                     rows = 1; // Singular type is a 1-length vector.
                     columns = 0;
                 } else {
-                    columns = getColumnCount(dVar.getType());
+                    columns = SimulinkTypeUtils.getColumnCount(dVar.getType());
                 }
             }
 
@@ -1304,9 +1364,16 @@ public class SimulinkCodeGen extends CodeGen {
             // Add method code.
 
             // Header.
+            List<String> docs = (event == null) ? Collections.emptyList() : DocAnnotationProvider.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+            }
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");

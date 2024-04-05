@@ -1386,7 +1386,9 @@ static void A6BTypeToSimulink(real_T *vec, A6BType *arr) {
 /* }}} */
 /* {{{ work data structure. */
 struct WorkStruct {
-    A12T3IIIType bdd_nodes_; /**< Constant "bdd_nodes". */
+
+    /** Constant "bdd_nodes". */
+    A12T3IIIType bdd_nodes_;
 
 
 
@@ -1411,7 +1413,7 @@ static BoolType bdd_eval_(SimStruct *sim_struct, int_T bdd_eval_idx_, A6BType* b
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable bdd_value0 = M.Button = Pushed; */
+/** Algebraic variable bdd_value0 = M.Button = Pushed. */
 static BoolType bdd_value0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1420,7 +1422,7 @@ static BoolType bdd_value0_(SimStruct *sim_struct) {
     return (modes[0]) == (_databased_supervisor_Pushed);
 }
 
-/** Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout; */
+/** Algebraic variable bdd_value1 = M.Cycle = TurnLampOn or M.Cycle = WaitForTimeout. */
 static BoolType bdd_value1_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1429,7 +1431,7 @@ static BoolType bdd_value1_(SimStruct *sim_struct) {
     return ((modes[3]) == (_databased_supervisor_TurnLampOn)) || ((modes[3]) == (_databased_supervisor_WaitForTimeout));
 }
 
-/** Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout; */
+/** Algebraic variable bdd_value2 = M.Cycle = StartTimer or M.Cycle = WaitForTimeout. */
 static BoolType bdd_value2_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1438,7 +1440,7 @@ static BoolType bdd_value2_(SimStruct *sim_struct) {
     return ((modes[3]) == (_databased_supervisor_StartTimer)) || ((modes[3]) == (_databased_supervisor_WaitForTimeout));
 }
 
-/** Algebraic variable bdd_value3 = M.Cycle = TurnLampOff; */
+/** Algebraic variable bdd_value3 = M.Cycle = TurnLampOff. */
 static BoolType bdd_value3_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1447,7 +1449,7 @@ static BoolType bdd_value3_(SimStruct *sim_struct) {
     return (modes[3]) == (_databased_supervisor_TurnLampOff);
 }
 
-/** Algebraic variable bdd_value4 = M.Lamp = On; */
+/** Algebraic variable bdd_value4 = M.Lamp = On. */
 static BoolType bdd_value4_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1456,7 +1458,7 @@ static BoolType bdd_value4_(SimStruct *sim_struct) {
     return (modes[1]) == (_databased_supervisor_On);
 }
 
-/** Algebraic variable bdd_value5 = M.Timer = Running; */
+/** Algebraic variable bdd_value5 = M.Timer = Running. */
 static BoolType bdd_value5_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1465,7 +1467,7 @@ static BoolType bdd_value5_(SimStruct *sim_struct) {
     return (modes[2]) == (_databased_supervisor_Running);
 }
 
-/** Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5]; */
+/** Algebraic variable bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5]. */
 static A6BType bdd_values_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -1521,15 +1523,32 @@ static BoolType bdd_eval_(SimStruct *sim_struct, int_T bdd_eval_idx_, A6BType* b
 /* }}} */
 
 enum databased_supervisorEventEnum_ {
-    EVT_INITIAL_,       /**< Initial step. */
-    EVT_DELAY_,         /**< Delay step. */
-    EVT_TAU_,           /**< Tau step. */
-    Button_u_pushed_,   /**< Event Button.u_pushed. */
-    Button_u_released_, /**< Event Button.u_released. */
-    Lamp_c_on_,         /**< Event Lamp.c_on. */
-    Lamp_c_off_,        /**< Event Lamp.c_off. */
-    Timer_c_start_,     /**< Event Timer.c_start. */
-    Timer_u_timeout_,   /**< Event Timer.u_timeout. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "Button.u_pushed". */
+    Button_u_pushed_,
+
+    /** Event "Button.u_released". */
+    Button_u_released_,
+
+    /** Event "Lamp.c_on". */
+    Lamp_c_on_,
+
+    /** Event "Lamp.c_off". */
+    Lamp_c_off_,
+
+    /** Event "Timer.c_start". */
+    Timer_c_start_,
+
+    /** Event "Timer.u_timeout". */
+    Timer_u_timeout_,
 };
 typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 
@@ -1537,12 +1556,12 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step",      /**< Initial step. */
     "delay-step",        /**< Delay step. */
     "tau",               /**< Tau step. */
-    "Button.u_pushed",   /**< Event Button.u_pushed. */
-    "Button.u_released", /**< Event Button.u_released. */
-    "Lamp.c_on",         /**< Event Lamp.c_on. */
-    "Lamp.c_off",        /**< Event Lamp.c_off. */
-    "Timer.c_start",     /**< Event Timer.c_start. */
-    "Timer.u_timeout",   /**< Event Timer.u_timeout. */
+    "Button.u_pushed",   /**< Event "Button.u_pushed". */
+    "Button.u_released", /**< Event "Button.u_released". */
+    "Lamp.c_on",         /**< Event "Lamp.c_on". */
+    "Lamp.c_off",        /**< Event "Lamp.c_off". */
+    "Timer.c_start",     /**< Event "Timer.c_start". */
+    "Timer.u_timeout",   /**< Event "Timer.u_timeout". */
 };
 
 /** Enum names. */

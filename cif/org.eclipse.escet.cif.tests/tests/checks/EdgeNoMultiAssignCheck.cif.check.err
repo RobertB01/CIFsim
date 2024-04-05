@@ -6,6 +6,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In location "a.l3":
      - edge e do (va, vb) := (1, 2) goto l4;
                           ^
+   * In location "a.l6":
+     - edge e do if true: (va, vb) := (1, 2) end goto l7;
+                                   ^
    * In automaton "all":
      - edge e do (va, vb) := (1, 2);
                           ^
@@ -17,3 +20,5 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "multi_asgn":
      - edge e do (va, vb) := (1, 2);
                           ^
+     - edge e do if true: (va, vb) := (1, 2) end;
+                                   ^

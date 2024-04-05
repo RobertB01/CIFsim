@@ -17,11 +17,14 @@ import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.checkStaticE
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -29,6 +32,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.parser.ast.declarations.AConstDecl;
 import org.eclipse.escet.cif.parser.ast.declarations.AConstant;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -135,8 +139,8 @@ public class ConstDeclWrap extends DeclWrap<Constant> {
             tchecker.removeFromCycle(this);
         }
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked 'for use'.
+        status = CheckStatus.USE;
     }
 
     @Override
@@ -144,7 +148,18 @@ public class ConstDeclWrap extends DeclWrap<Constant> {
         // We need the value of constants for the bounds of integer type
         // ranges. As such, we need to evaluate constants in the type checker,
         // and must thus guarantee the absence of cycles. As such, constants
-        // are fully checked 'for use'.
+        // are nearly fully checked when they are checked for 'for use'.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
+                tchecker);
+        mmDecl.getAnnotations().addAll(annos);
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 }

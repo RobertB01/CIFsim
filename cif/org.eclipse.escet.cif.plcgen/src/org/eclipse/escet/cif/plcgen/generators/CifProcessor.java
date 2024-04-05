@@ -18,7 +18,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -30,6 +29,7 @@ import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoPureMonitorsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
@@ -84,14 +84,13 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
-import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -108,9 +107,6 @@ public class CifProcessor {
 
     /** Whether to simplify values during pre-processing. */
     private final boolean simplifyValues;
-
-    /** How to treat enumerations. */
-    private final ConvertEnums enumConversion;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
@@ -129,7 +125,6 @@ public class CifProcessor {
         inputPath = settings.inputPath;
         absInputPath = settings.absInputPath;
         simplifyValues = settings.simplifyValues;
-        enumConversion = settings.enumConversion;
         warnOutput = settings.warnOutput;
     }
 
@@ -172,16 +167,17 @@ public class CifProcessor {
                         evt -> new CifEventTransition(evt));
 
                 if (autRoleInfo.isSenderAutomaton()) {
-                    eventTrans.senders.add(new TransitionAutomaton(aut, autRoleInfo.getSenderEdges()));
-                    //
+                    eventTrans.senders
+                            .add(new TransitionAutomaton(aut, TransAutPurpose.SENDER, autRoleInfo.getSenderEdges()));
                 } else if (autRoleInfo.isReceiverAutomaton()) {
-                    eventTrans.receivers.add(new TransitionAutomaton(aut, autRoleInfo.getReceiverEdges()));
-                    //
+                    eventTrans.receivers.add(
+                            new TransitionAutomaton(aut, TransAutPurpose.RECEIVER, autRoleInfo.getReceiverEdges()));
                 } else if (autRoleInfo.isSyncerAutomaton()) {
-                    eventTrans.syncers.add(new TransitionAutomaton(aut, autRoleInfo.getSyncerEdges()));
-                    //
+                    eventTrans.syncers
+                            .add(new TransitionAutomaton(aut, TransAutPurpose.SYNCER, autRoleInfo.getSyncerEdges()));
                 } else if (autRoleInfo.isMonitorAutomaton()) {
-                    eventTrans.monitors.add(new TransitionAutomaton(aut, autRoleInfo.getMonitorEdges()));
+                    eventTrans.monitors
+                            .add(new TransitionAutomaton(aut, TransAutPurpose.MONITOR, autRoleInfo.getMonitorEdges()));
                 } else {
                     throw new AssertionError("Undecided automaton role.");
                 }
@@ -229,6 +225,7 @@ public class CifProcessor {
 
         // Consider all the edges of the automaton for the classification.
         for (Location loc: aut.getLocations()) {
+            int edgeNum = 1;
             for (Edge edge: loc.getEdges()) {
                 Location destLoc = CifEdgeUtils.getTarget(edge);
 
@@ -240,18 +237,21 @@ public class CifProcessor {
                     AutomatonRoleInfo autRoleInfo = getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent());
 
                     if (ee instanceof EdgeSend es) {
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, es.getValue(), edge.getGuards(),
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, es.getValue(), edge.getGuards(),
                                 edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SENDER);
                     } else if (ee instanceof EdgeReceive) {
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
+                                edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.RECEIVER);
                     } else {
                         // Automaton synchronizes on the event. Whether it is a monitor is decided below.
-                        TransitionEdge te = new TransitionEdge(loc, destLoc, null, edge.getGuards(), edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
+                                edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
                     }
                 }
+                edgeNum++;
             }
         }
 
@@ -337,7 +337,7 @@ public class CifProcessor {
                 case MONITOR:
                 case SYNCER:
                 case SYNCER_OR_MONITOR:
-                    Assert.check(edgeAutRole.equals(AutomatonRole.SYNCER_OR_MONITOR)); // Should not be sender/receiver.
+                    Assert.areEqual(edgeAutRole, AutomatonRole.SYNCER_OR_MONITOR); // Should not be sender/receiver.
                     break;
                 case SENDER:
                 case RECEIVER:
@@ -365,7 +365,7 @@ public class CifProcessor {
 
             // Resolve ambiguity between syncer and monitor.
             AutomatonRole resultRole = isMonitor ? AutomatonRole.MONITOR : AutomatonRole.SYNCER;
-            if (autRole.equals(resultRole)) {
+            if (autRole == resultRole) {
                 return; // Do nothing if the classification is already correct.
                 //
             } else if (EnumSet.of(AutomatonRole.SYNCER_OR_MONITOR, AutomatonRole.UNKNOWN).contains(autRole)) {
@@ -397,7 +397,7 @@ public class CifProcessor {
          */
         public boolean isSenderAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.SENDER);
+            return autRole == AutomatonRole.SENDER;
         }
 
         /**
@@ -407,7 +407,7 @@ public class CifProcessor {
          */
         public boolean isReceiverAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.RECEIVER);
+            return autRole == AutomatonRole.RECEIVER;
         }
 
         /**
@@ -417,7 +417,7 @@ public class CifProcessor {
          */
         public boolean isSyncerAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.SYNCER);
+            return autRole == AutomatonRole.SYNCER;
         }
 
         /**
@@ -427,7 +427,7 @@ public class CifProcessor {
          */
         public boolean isMonitorAutomaton() {
             checkAutRoleIsDecided();
-            return autRole.equals(AutomatonRole.MONITOR);
+            return autRole == AutomatonRole.MONITOR;
         }
 
         /**
@@ -573,8 +573,9 @@ public class CifProcessor {
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
 
-                    // Disallow tau events.
-                    new EventNoTauCheck(),
+                    // Disallow tau events and pure monitors.
+                    new EventNoTauCheck(), //
+                    new EventNoPureMonitorsCheck(),
 
                     // Disallow equations.
                     // TODO This may be too strict. Consider what equations should be allowed more closely.
@@ -587,7 +588,7 @@ public class CifProcessor {
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
                     // TODO Implement internal user-defined functions with at least one parameter.
-                    new FuncNoSpecificUserDefCheck(
+                    new FuncNoSpecificUserDefCheck( //
                             NoSpecificUserDefFunc.EXTERNAL, //
                             NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
                             NoSpecificUserDefFunc.NO_PARAMETER),
@@ -650,23 +651,23 @@ public class CifProcessor {
 
                     // Limit standard library functions.
                     new FuncNoSpecificStdLibCheck( //
-                            NoSpecificStdLib.STD_LIB_STOCHASTIC_GROUP, //
-                            NoSpecificStdLib.STD_LIB_ACOSH, //
-                            NoSpecificStdLib.STD_LIB_ASINH, //
-                            NoSpecificStdLib.STD_LIB_ATANH, //
-                            NoSpecificStdLib.STD_LIB_COSH, //
-                            NoSpecificStdLib.STD_LIB_SINH, //
-                            NoSpecificStdLib.STD_LIB_TANH, //
-                            NoSpecificStdLib.STD_LIB_CEIL, //
-                            NoSpecificStdLib.STD_LIB_DELETE, //
-                            NoSpecificStdLib.STD_LIB_EMPTY, //
-                            NoSpecificStdLib.STD_LIB_FLOOR, //
-                            NoSpecificStdLib.STD_LIB_FORMAT, //
-                            NoSpecificStdLib.STD_LIB_POP, //
-                            NoSpecificStdLib.STD_LIB_ROUND, //
-                            NoSpecificStdLib.STD_LIB_SCALE, //
-                            NoSpecificStdLib.STD_LIB_SIGN, //
-                            NoSpecificStdLib.STD_LIB_SIZE),
+                            NoSpecificStdLib.ALL_STOCHASTIC, //
+                            NoSpecificStdLib.ACOSH, //
+                            NoSpecificStdLib.ASINH, //
+                            NoSpecificStdLib.ATANH, //
+                            NoSpecificStdLib.COSH, //
+                            NoSpecificStdLib.SINH, //
+                            NoSpecificStdLib.TANH, //
+                            NoSpecificStdLib.CEIL, //
+                            NoSpecificStdLib.DELETE, //
+                            NoSpecificStdLib.EMPTY, //
+                            NoSpecificStdLib.FLOOR, //
+                            NoSpecificStdLib.FORMAT, //
+                            NoSpecificStdLib.POP, //
+                            NoSpecificStdLib.ROUND, //
+                            NoSpecificStdLib.SCALE, //
+                            NoSpecificStdLib.SIGN, //
+                            NoSpecificStdLib.SIZE),
 
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()
@@ -706,17 +707,23 @@ public class CifProcessor {
         }
 
         // If requested, convert enumerations.
-        if (enumConversion == ConvertEnums.INTS) {
-            new EnumsToInts().transform(spec);
-        } else if (enumConversion == ConvertEnums.CONSTS) {
-            // This transformation introduces new constants that are intentionally not removed if simplify values is
-            // enabled.
-            new EnumsToConsts().transform(spec);
-        } else if (!target.supportsEnumerations()) {
-            // Enumerations are not converted.
-            String msg = fmt("Enumerations are not converted, while this is required for %s code. Please set the "
-                    + "\"Convert enumerations\" option accordingly.", target.getTargetType().dialogText);
-            throw new InvalidInputException(msg);
+        switch (target.getActualEnumerationsConversion()) {
+            case CONSTS:
+                // This transformation introduces new constants that are intentionally not removed if simplify values is
+                // enabled.
+                new EnumsToConsts().transform(spec);
+                break;
+            case INTS:
+                new EnumsToInts().transform(spec);
+                break;
+            case KEEP:
+                // Nothing to do.
+                break;
+
+            case AUTO: // The target should not respond with AUTO.
+            default:
+                throw new AssertionError("Unexpected enumeration conversion request \""
+                        + target.getActualEnumerationsConversion() + "\".");
         }
     }
 

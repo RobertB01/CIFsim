@@ -15,9 +15,6 @@ package org.eclipse.escet.cif.plcgen.model.types;
 
 /** PLC derived type (reference to a user-defined data type or POU). */
 public class PlcDerivedType extends PlcType {
-    /** PLC 'STATE' type reference. */
-    public static final PlcDerivedType STATE_TYPE = new PlcDerivedType("STATE");
-
     /** The name of the derived type. */
     public final String name;
 

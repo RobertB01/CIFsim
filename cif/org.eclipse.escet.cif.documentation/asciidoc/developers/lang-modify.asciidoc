@@ -18,8 +18,10 @@ include::_part_attributes.asciidoc[]
 
 For each change to the CIF language, follow these steps:
 
-* Update `cif.setext` syntax (`org.eclipse.escet.cif.parser/src/org/eclipse/escet/cif/parser`).
-* Update `cif.bnf` syntax (`org.eclipse.escet.cif.documentation/images/language-reference/syntax`).
+* Update textual syntax:
+** Update `cif.setext` syntax (`org.eclipse.escet.cif.parser/src/org/eclipse/escet/cif/parser`).
+** Update `cif.bnf` syntax (`org.eclipse.escet.cif.documentation/images/language-reference/syntax`).
+** Update `cif.min.js` syntax (`org.eclipse.escet.releng.configuration/highlightjs-assets/escet/languages/cif.min.js`).
 * Update metamodel (`org.eclipse.escet.cif.metamodel`).
 ** Update Ecore diagrams (open `model/cif.aird` and unfold _Design_ and then _Entities in a Class Diagram_).
 ** Update diagram images.

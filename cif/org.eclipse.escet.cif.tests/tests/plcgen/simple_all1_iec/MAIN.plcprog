@@ -1,21 +1,38 @@
 PROGRAM MAIN
+VAR
+    g_inp: DINT;
+    p_b: BOOL;
+    p_x: DINT;
+    p_y: LREAL;
+    p_ve: g_E;
+    p_v1: DINT;
+    p_v2: TupleStruct;
+    p_v3: TupleStruct_1;
+    p_tv: TupleStruct_2;
+    p_j: DINT;
+    p_r: LREAL;
+    p_t: LREAL;
+    preset_p_t: TIME;
+    p: p_location;
+    firstRun: BOOL := TRUE;
+END_VAR
 VAR_TEMP
     curValue: LREAL;
     current_p: p_location;
     current_p_b: BOOL;
     current_p_j: DINT;
     current_p_r: LREAL;
-    current_p_tv: TupleStruct__2;
-    current_p_v3: TupleStruct__1;
+    current_p_tv: TupleStruct_2;
+    current_p_v3: TupleStruct_1;
     current_p_ve: g_E;
     current_p_x: DINT;
+    edge_p_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
     litStruct: TupleStruct;
-    litStruct__1: TupleStruct__1;
-    litStruct__2: TupleStruct__2;
-    rightValue: TupleStruct__2;
-    syncAutEdge: DINT;
+    litStruct_1: TupleStruct_1;
+    litStruct_2: TupleStruct_2;
+    rightValue: TupleStruct_2;
     timeOut: BOOL;
 END_VAR
 
@@ -34,12 +51,12 @@ IF firstRun THEN
     p_v2 := litStruct;
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
-    litStruct__1.field1 := litStruct;
-    litStruct__1.field2 := 0.0;
-    p_v3 := litStruct__1;
-    litStruct__2.field1 := 0;
-    litStruct__2.field2 := 0;
-    p_tv := litStruct__2;
+    litStruct_1.field1 := litStruct;
+    litStruct_1.field2 := 0.0;
+    p_v3 := litStruct_1;
+    litStruct_2.field1 := 0;
+    litStruct_2.field2 := 0;
+    p_tv := litStruct_2;
     p_j := 0;
     p_r := 1000000.0;
     p_t := 0.0;
@@ -60,35 +77,73 @@ isProgress := TRUE;
 WHILE isProgress DO
     isProgress := FALSE;
 
-    (* Try to perform event "p.evt". *)
+    (*************************************************************
+     * Try to perform event "p.evt".
+     *
+     * - Automaton "p" must always synchronize.
+     *************************************************************)
     eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edges of automaton "p" to synchronize for event "p.evt".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edges being tested:
+     * - Location "l1":
+     *   - 1st edge in the location
+     * - Location "l6":
+     *   - 1st edge in the location
+     * - Location "l7":
+     *   - 1st edge in the location
+     * - Location "l8":
+     *   - 1st edge in the location
+     * - Location "l9":
+     *   - 1st edge in the location
+     * - Location "l10":
+     *   - 1st edge in the location
+     * - Location "l11":
+     *   - 1st edge in the location
+     * - Location "l12":
+     *   - 1st edge in the location
+     * - Location "l13":
+     *   - 1st edge in the location
+     * - Location "l14":
+     *   - 1st edge in the location
+     * - Location "l15":
+     *   - 1st edge in the location
+     ***********)
     IF p = p_l1 THEN
-        syncAutEdge := 1;
+        edge_p_1 := 1;
     ELSIF p = p_l6 THEN
-        syncAutEdge := 2;
+        edge_p_1 := 2;
     ELSIF p = p_l7 THEN
-        syncAutEdge := 3;
+        edge_p_1 := 3;
     ELSIF p = p_l8 THEN
-        syncAutEdge := 4;
+        edge_p_1 := 4;
     ELSIF p = p_l9 THEN
-        syncAutEdge := 5;
+        edge_p_1 := 5;
     ELSIF p = p_l10 THEN
-        syncAutEdge := 6;
+        edge_p_1 := 6;
     ELSIF p = p_l11 THEN
-        syncAutEdge := 7;
+        edge_p_1 := 7;
     ELSIF p = p_l12 THEN
-        syncAutEdge := 8;
+        edge_p_1 := 8;
     ELSIF p = p_l13 THEN
-        syncAutEdge := 9;
+        edge_p_1 := 9;
     ELSIF p = p_l14 THEN
-        syncAutEdge := 10;
+        edge_p_1 := 10;
     ELSIF p = p_l15 THEN
-        syncAutEdge := 11;
+        edge_p_1 := 11;
     ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
     END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "p.evt" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_p := p;
         current_p_b := p_b;
         current_p_j := p_j;
@@ -97,49 +152,64 @@ WHILE isProgress DO
         current_p_v3 := p_v3;
         current_p_ve := p_ve;
         current_p_x := p_x;
-        IF syncAutEdge = 1 THEN
-            litStruct__2.field1 := 1;
-            litStruct__2.field2 := 2;
-            p_tv := litStruct__2;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "p". *)
+        IF edge_p_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "p.l1". *)
+            litStruct_2.field1 := 1;
+            litStruct_2.field2 := 2;
+            p_tv := litStruct_2;
             p := p_l6;
-        ELSIF syncAutEdge = 2 THEN
+        ELSIF edge_p_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "p.l6". *)
             p_x := 3;
             p_j := 4;
             p := p_l7;
-        ELSIF syncAutEdge = 3 THEN
+        ELSIF edge_p_1 = 3 THEN
+            (* Perform assignments of the 1st edge in location "p.l7". *)
             rightValue := current_p_tv;
             p_x := rightValue.field1;
             p_j := rightValue.field2;
             p := p_l8;
-        ELSIF syncAutEdge = 4 THEN
+        ELSIF edge_p_1 = 4 THEN
+            (* Perform assignments of the 1st edge in location "p.l8". *)
             p_tv.field1 := 5;
             p := p_l9;
-        ELSIF syncAutEdge = 5 THEN
+        ELSIF edge_p_1 = 5 THEN
+            (* Perform assignments of the 1st edge in location "p.l9". *)
             p_tv.field2 := 6;
             p_j := 7;
             p := p_l10;
-        ELSIF syncAutEdge = 6 THEN
+        ELSIF edge_p_1 = 6 THEN
+            (* Perform assignments of the 1st edge in location "p.l10". *)
             p_v3.field1.field2 := 7.8;
             p := p_l11;
-        ELSIF syncAutEdge = 7 THEN
+        ELSIF edge_p_1 = 7 THEN
+            (* Perform assignments of the 1st edge in location "p.l11". *)
             litStruct.field1 := 1.2;
             litStruct.field2 := 3.4;
-            litStruct__1.field1 := litStruct;
-            litStruct__1.field2 := 5.6;
-            p_v3 := litStruct__1;
+            litStruct_1.field1 := litStruct;
+            litStruct_1.field2 := 5.6;
+            p_v3 := litStruct_1;
             p := p_l12;
-        ELSIF syncAutEdge = 8 THEN
+        ELSIF edge_p_1 = 8 THEN
+            (* Perform assignments of the 1st edge in location "p.l12". *)
             p_j := current_p_j + 1;
             p := p_l13;
-        ELSIF syncAutEdge = 9 THEN
+        ELSIF edge_p_1 = 9 THEN
+            (* Perform assignments of the 1st edge in location "p.l13". *)
             p_b := FALSE;
             p := p_l14;
-        ELSIF syncAutEdge = 10 THEN
+        ELSIF edge_p_1 = 10 THEN
+            (* Perform assignments of the 1st edge in location "p.l14". *)
             IF NOT current_p_b THEN
                 p_ve := g_LIT2;
             END_IF;
             p := p_l15;
-        ELSIF syncAutEdge = 11 THEN
+        ELSIF edge_p_1 = 11 THEN
+            (* Perform assignments of the 1st edge in location "p.l15". *)
             p_r := DINT_TO_LREAL(g_inp) + 10.0;
             p := p_l16;
         END_IF;

@@ -253,6 +253,11 @@ SPDX-License-Identifier: MIT
       <property name="format" value="(@param \w+|@return) [a-z]"/>
       <property name="message" value="JavaDoc @-tag description should not start with a lower-case letter."/>
     </module>
+    <module name="RegexpSinglelineJava">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Missing space at start of single line comment."/>
+      <property name="format" value=" //[^ \r\n/]"/>
+      <property name="message" value="A single line comment '//' must be followed by a space (unless at the end of the line, or part of a longer '///'-like header)."/>
+    </module>
   </module>
   <module name="RegexpSingleline">
     <metadata name="net.sf.eclipsecs.core.comment" value="XXX -- Could be improved if Checkstyle issue #976 is fixed."/>

@@ -1188,10 +1188,17 @@ struct WorkStruct {
 /* }}} */
 
 enum svg_input_decl_removedEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    p_c_,         /**< Event p.c. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "p.c". */
+    p_c_,
 };
 typedef enum svg_input_decl_removedEventEnum_ svg_input_decl_removed_Event_;
 
@@ -1199,7 +1206,7 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "p.c",          /**< Event p.c. */
+    "p.c",          /**< Event "p.c". */
 };
 
 /** Enum names. */

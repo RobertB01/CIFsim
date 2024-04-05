@@ -17,4 +17,9 @@ from "lib:cif" import *;
 
 mkdir("generated", force=true);
 
-cifdatasynth("fifo.plants_and_requirements.cif --forward-reach=true -mdebug -o generated/fifo.synthesized.cif");
+cifdatasynth(
+    "fifo.plants_and_requirements.cif",
+    "--forward-reach=true",
+    "-m debug",
+    "-o generated/fifo.synthesized.cif",
+);

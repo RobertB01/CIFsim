@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.eclipse.escet</groupId>
         <artifactId>org.eclipse.escet.root</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>4.0.0-SNAPSHOT</version>
         <relativePath>../../</relativePath>
     </parent>
 
@@ -62,7 +62,14 @@
                                 <sectanchors>false</sectanchors>
                                 <html-output>true</html-output>
                                 <eclipse-help-output>true</eclipse-help-output>
-                                <source-highlighter>coderay</source-highlighter>
+                                <source-highlighter>highlight.js</source-highlighter>
+                                <highlightjsdir>assets</highlightjsdir>
+                                <!-- Syntax highlighting languages: 'html' and 'svg' are aliases of 'xml'. -->
+                                <highlightjs-languages>
+                                    asciidoc, bash, bnf, c, chi, cif, console, css, dsm, java, javascript, markdown,
+                                    mcrl2, none, properties, raildiagram, setext, shell, tooldef, xml
+                                </highlightjs-languages>
+                                <highlightjs-theme>asciidoctor-highlightjs-escet</highlightjs-theme>
                             </attributes>
                         </configuration>
                     </execution>
@@ -122,7 +129,14 @@
                                 <stylesdir>assets</stylesdir>
                                 <html-output>true</html-output>
                                 <website-output>true</website-output>
-                                <source-highlighter>coderay</source-highlighter>
+                                <source-highlighter>highlight.js</source-highlighter>
+                                <highlightjsdir>assets</highlightjsdir>
+                                <!-- Syntax highlighting languages: 'html' and 'svg' are aliases of 'xml'. -->
+                                <highlightjs-languages>
+                                    asciidoc, bash, bnf, c, chi, cif, console, css, dsm, java, javascript, markdown,
+                                    mcrl2, none, properties, raildiagram, setext, shell, tooldef, xml
+                                </highlightjs-languages>
+                                <highlightjs-theme>asciidoctor-highlightjs-escet</highlightjs-theme>
                             </attributes>
                         </configuration>
                     </execution>
@@ -180,25 +194,27 @@
                             <htmlType>WEBSITE</htmlType>
                             <parentWebsiteName>CIF website</parentWebsiteName>
                             <parentWebsiteLink>.</parentWebsiteLink>
+                            <jsFilePath>assets/asciidoctor-escet-cif.js</jsFilePath>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-            <!-- Copy non-HTML files from intermediate output folders to final output folders. -->
+            <!-- Copy non-HTML files to Eclipse help and website final output folders. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-intermediate-to-final</id>
+                        <id>copy-to-final</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <target>
+                                <!-- Copy non-HTML files from intermediate output folders to final output folders. -->
                                 <copy todir="${project.build.directory}/eclipse-help" verbose="true">
                                     <fileset dir="${project.build.directory}/eclipse-help-intermediate">
                                         <exclude name="**/*.html" />
@@ -208,6 +224,25 @@
                                     <fileset dir="${project.build.directory}/website-intermediate">
                                         <exclude name="**/*.html" />
                                     </fileset>
+                                </copy>
+
+                                <!-- Copy the AsciiDoctor highlight.js assets to final output folders. -->
+                                <copy todir="${project.build.directory}/eclipse-help/assets" verbose="true">
+                                    <fileset
+                                        dir="${project.basedir}/../../releng/org.eclipse.escet.releng.configuration/highlightjs-assets/third-party/" />
+                                    <fileset
+                                        dir="${project.basedir}/../../releng/org.eclipse.escet.releng.configuration/highlightjs-assets/escet/" />
+                                </copy>
+                                <copy todir="${project.build.directory}/website/assets" verbose="true">
+                                    <fileset
+                                        dir="${project.basedir}/../../releng/org.eclipse.escet.releng.configuration/highlightjs-assets/third-party/" />
+                                    <fileset
+                                        dir="${project.basedir}/../../releng/org.eclipse.escet.releng.configuration/highlightjs-assets/escet/" />
+                                </copy>
+
+                                <!-- Copy the images to the website's final output folder. -->
+                                <copy todir="${project.build.directory}/website" verbose="true">
+                                    <fileset dir="${project.basedir}/images" />
                                 </copy>
                             </target>
                         </configuration>
@@ -234,6 +269,7 @@
             <!-- Assemble website ZIP file. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>assemble-website</id>

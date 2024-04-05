@@ -370,6 +370,9 @@ public class CifMerger {
         varRef.setType(deepclone(contType));
         refExprReplacements.put(inputVar, varRef);
 
+        // Move annotations.
+        contVar.getAnnotations().addAll(inputVar.getAnnotations());
+
         // Return merged continuous variable.
         return contVar;
     }
@@ -402,6 +405,9 @@ public class CifMerger {
         varRef.setType(deepclone(algType));
         refExprReplacements.put(inputVar, varRef);
 
+        // Move annotations.
+        algVar.getAnnotations().addAll(inputVar.getAnnotations());
+
         // Return merged algebraic variable.
         return algVar;
     }
@@ -431,6 +437,9 @@ public class CifMerger {
         constRef.setConstant(constant);
         constRef.setType(deepclone(constType));
         refExprReplacements.put(inputVar, constRef);
+
+        // Move annotations.
+        constant.getAnnotations().addAll(inputVar.getAnnotations());
 
         // Return merged constant.
         return constant;
@@ -487,6 +496,9 @@ public class CifMerger {
         const1Ref.setType(deepclone(type1));
         refExprReplacements.put(constant2, const1Ref);
 
+        // Move annotations.
+        constant1.getAnnotations().addAll(constant2.getAnnotations());
+
         // Return merged constant.
         return constant1;
     }
@@ -534,6 +546,9 @@ public class CifMerger {
         eventRef.setEvent(event1);
         eventRef.setType(newBoolType());
         refExprReplacements.put(event2, eventRef);
+
+        // Move annotations.
+        event1.getAnnotations().addAll(event2.getAnnotations());
 
         // Return merged event.
         return event1;

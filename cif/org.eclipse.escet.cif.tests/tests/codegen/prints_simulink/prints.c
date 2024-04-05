@@ -1185,11 +1185,20 @@ struct WorkStruct {
 /* }}} */
 
 enum printsEventEnum_ {
-    EVT_INITIAL_, /**< Initial step. */
-    EVT_DELAY_,   /**< Delay step. */
-    EVT_TAU_,     /**< Tau step. */
-    e1_,          /**< Event e1. */
-    e2_,          /**< Event e2. */
+    /** Initial step. */
+    EVT_INITIAL_,
+
+    /** Delay step. */
+    EVT_DELAY_,
+
+    /** Tau step. */
+    EVT_TAU_,
+
+    /** Event "e1". */
+    e1_,
+
+    /** Event "e2". */
+    e2_,
 };
 typedef enum printsEventEnum_ prints_Event_;
 
@@ -1197,8 +1206,8 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e1",           /**< Event e1. */
-    "e2",           /**< Event e2. */
+    "e1",           /**< Event "e1". */
+    "e2",           /**< Event "e2". */
 };
 
 /** Enum names. */

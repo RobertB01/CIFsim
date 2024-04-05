@@ -1,0 +1,2 @@
+ERROR: File "tchecker/asgn_string_proj_func.cif": Semantic error at line 16, column 4: Cannot assign a part of variable "f.x", as partial updates of "string" typed variables are not allowed.
+ERROR: Failed to load CIF file "tchecker/asgn_string_proj_func.cif": the file has errors.

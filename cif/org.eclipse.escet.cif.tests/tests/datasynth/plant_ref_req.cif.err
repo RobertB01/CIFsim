@@ -37,9 +37,9 @@ WARNING: Plant invariant "R4.c = 0.0" in the top level scope of the specificatio
 WARNING: Plant invariant "R.l" in the top level scope of the specification references requirement state.
 WARNING: Plant equation "P1.ab2 = R.l" in the location of automaton "P1" references requirement state.
 WARNING: Plant equation "P1.c2' = R.v * 1.0" in the location of automaton "P1" references requirement state.
-WARNING: The initial value of plant continuous variables "P2.c1" references requirement state.
-WARNING: The derivative of plant continuous variables "P2.c3" references requirement state.
-WARNING: An initial value of plant discrete variables "P3.d" references requirement state.
+WARNING: The initial value of plant continuous variable "P2.c1" references requirement state.
+WARNING: The derivative of plant continuous variable "P2.c3" references requirement state.
+WARNING: An initial value of plant discrete variable "P3.d" references requirement state.
 WARNING: Plant initialization predicate "R.l" in the location of automaton "P4" references requirement state.
 WARNING: Plant marker predicate "R.l" in the location of automaton "P5" references requirement state.
 WARNING: Plant invariant "R.l" in automaton "P6" references requirement state.

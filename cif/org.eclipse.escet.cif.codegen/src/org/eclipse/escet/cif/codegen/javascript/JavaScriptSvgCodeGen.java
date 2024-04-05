@@ -71,14 +71,20 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
     /** The generated code for applying SVG move declarations. */
     CodeBox codeMoveApply;
 
-    /** The generated code for event handlers invoked when clicking interactive SVG elements. */
-    CodeBox codeInEventHandlers;
+    /** The generated code for click event handlers invoked when clicking interactive SVG elements. */
+    CodeBox codeInClickHandlers;
 
     /**
-     * The generated code for interaction, to register event listeners, and make sure interactive elements have the
-     * right mouse pointer.
+     * The generated code for setting the current SVG input event to process, for an interactive SVG input element that
+     * was clicked.
      */
-    CodeBox codeInInteract;
+    CodeBox codeInEventSetters;
+
+    /**
+     * The generated code for interaction, to register click event listeners, and make sure interactive elements have
+     * the right mouse pointer.
+     */
+    CodeBox codeInSetup;
 
     /** The generated code with CSS styling for SVG interaction. */
     CodeBox codeInCss;
@@ -328,71 +334,86 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
     private void gencodeSvgIn(SvgIn svgIn, String svgWrapElemId, AtomicInteger nextSvgInId,
             Map<Event, Integer> eventMap, CodeContext ctxt)
     {
+        // Get unique id for the SVG input mapping.
+        int uniqueId = nextSvgInId.getAndIncrement();
+
         // Get the query selector to select the interactive element. The query selector is prefixed with the wrapper id
         // of the SVG image, to ensure that identically named elements from different images are properly selected.
         String inId = evalSvgStringExpr(svgIn.getId());
         String querySelector = fmt("#%s #%s", svgWrapElemId, inId);
 
-        // Get the name of the event handler to generate for the SVG input mapping.
-        String clickEventHandlerName = fmt("cif_svgin_%d_Click", nextSvgInId.getAndIncrement());
+        // Get the name of the JavaScript click event handler function to generate for the SVG input mapping.
+        String clickEventHandlerName = fmt("cif_svgin_%d_Click", uniqueId);
 
-        // Add code to set up the event listener, and make the element behave as a link by changing to a pointer cursor.
-        codeInInteract.add("var elem = document.querySelector(%s);", Strings.stringToJava(querySelector));
-        codeInInteract.add("elem.addEventListener(\"click\", %s.%s);", ctxt.getPrefix(), clickEventHandlerName);
-        codeInInteract.add("elem.style.cursor = \"pointer\";");
+        // Get the name of the JavaScript event setter function to generate for the SVG input mapping.
+        String eventSetterName = fmt("cif_svgin_%d_EventSetter", uniqueId);
+
+        // Add code to set up the click event listener, and make the element behave as a link by changing to a pointer
+        // cursor.
+        codeInSetup.add("var elem = document.querySelector(%s);", Strings.stringToJava(querySelector));
+        codeInSetup.add("elem.addEventListener(\"click\", %s.%s);", ctxt.getPrefix(), clickEventHandlerName);
+        codeInSetup.add("elem.style.cursor = \"pointer\";");
 
         // Add CSS styling to ensure that if an interactive SVG element is hovered, that the element itself and its
         // direct children get highlighted, by giving them a red stroke.
-        codeInCss.add("#%s:hover { stroke-width: 1 !important; stroke: rgb(255, 0, 0) !important; }", inId);
-        codeInCss.add("#%s:hover > * { stroke-width: 1 !important; stroke: rgb(255, 0, 0) !important; }", inId);
+        codeInCss.add("%s:hover { stroke-width: 1 !important; stroke: rgb(255, 0, 0) !important; }", querySelector);
+        codeInCss.add("%s:hover > * { stroke-width: 1 !important; stroke: rgb(255, 0, 0) !important; }", querySelector);
 
-        // Add the event handler function, starting with the header. The body is executed conditionally, such that
-        // clicking while the execution is paused has no effect.
-        codeInEventHandlers.add();
-        codeInEventHandlers.add("%s() { // %s", clickEventHandlerName, inId);
-        codeInEventHandlers.indent();
-        codeInEventHandlers.add("if (%s.playing) {", ctxt.getPrefix());
-        codeInEventHandlers.indent();
+        // Add the click event handler function. The body is executed conditionally, such that clicking while the
+        // execution is paused has no effect.
+        codeInClickHandlers.add();
+        codeInClickHandlers.add("%s() { // %s", clickEventHandlerName, inId);
+        codeInClickHandlers.indent();
+        codeInClickHandlers.add("if (%s.playing) {", ctxt.getPrefix());
+        codeInClickHandlers.indent();
+        codeInClickHandlers.add("%s.svgInQueue.push(%s.%s);", ctxt.getPrefix(), ctxt.getPrefix(), eventSetterName);
+        codeInClickHandlers.dedent();
+        codeInClickHandlers.add("}");
+        codeInClickHandlers.dedent();
+        codeInClickHandlers.add("}");
 
-        // Add the guards.
+        // Add the event setter function.
+        codeInEventSetters.add();
+        codeInEventSetters.add("%s() { // %s", eventSetterName, inId);
+        codeInEventSetters.indent();
+        codeInEventSetters.add("%s.svgInId = '%s';", ctxt.getPrefix(), inId);
+
         SvgInEvent event = svgIn.getEvent();
         if (event != null) {
             if (event instanceof SvgInEventSingle) {
-                // Single event. Get the absolute name of the event, and its 'event allowed' variable.
+                // Single event. Get the event index and its absolute name.
                 SvgInEventSingle singleEvt = (SvgInEventSingle)event;
                 Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
                 int eventIdx = eventMap.get(evt);
                 String absEventName = getAbsName(evt);
-                String eventAllowedVarName = fmt("%s.event%d_Allowed", ctxt.getPrefix(), eventIdx);
 
-                // Enable the event when it is clicked.
-                codeInEventHandlers.add("%s = true; // %s", eventAllowedVarName, absEventName);
+                // Set the current SVG input event to allow.
+                codeInEventSetters.add("%s.svgInEvent = %d; // %s", ctxt.getPrefix(), eventIdx, absEventName);
             } else if (event instanceof SvgInEventIf) {
                 // 'if/then/else' event mapping.
                 SvgInEventIf ifEvent = (SvgInEventIf)event;
 
                 // Generate code for entries.
                 for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
-                    // Get the absolute name of the event, and its 'event allowed' variable.
+                    // Get the event index and its absolute name.
                     Event evt = ((EventExpression)entry.getEvent()).getEvent();
                     int eventIdx = eventMap.get(evt);
                     String absEventName = getAbsName(evt);
-                    String eventAllowedName = fmt("%s.event%d_Allowed", ctxt.getPrefix(), eventIdx);
 
-                    // Add code for the entry, to enable the event when it is clicked.
+                    // Add code for the entry, setting the current SVG input event to allow.
                     if (entry.getGuard() == null) {
-                        codeInEventHandlers.add("else {");
-                        codeInEventHandlers.indent();
-                        codeInEventHandlers.add("%s = true; // %s", eventAllowedName, absEventName);
-                        codeInEventHandlers.dedent();
-                        codeInEventHandlers.add("}");
+                        codeInEventSetters.add("else {");
+                        codeInEventSetters.indent();
+                        codeInEventSetters.add("%s.svgInEvent = %d; // %s", ctxt.getPrefix(), eventIdx, absEventName);
+                        codeInEventSetters.dedent();
+                        codeInEventSetters.add("}");
                     } else {
-                        codeInEventHandlers.add("%s (%s) {", entry == ifEvent.getEntries().get(0) ? "if" : "else if",
+                        codeInEventSetters.add("%s (%s) {", entry == ifEvent.getEntries().get(0) ? "if" : "else if",
                                 ctxt.exprToTarget(entry.getGuard(), null).getData());
-                        codeInEventHandlers.indent();
-                        codeInEventHandlers.add("%s = true; // %s", eventAllowedName, absEventName);
-                        codeInEventHandlers.dedent();
-                        codeInEventHandlers.add("}");
+                        codeInEventSetters.indent();
+                        codeInEventSetters.add("%s.svgInEvent = %d; // %s", ctxt.getPrefix(), eventIdx, absEventName);
+                        codeInEventSetters.dedent();
+                        codeInEventSetters.add("}");
                     }
                 }
             } else {
@@ -400,17 +421,14 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
             }
         }
 
+        codeInEventSetters.dedent();
+        codeInEventSetters.add("}");
+
         // Add the updates.
         List<Update> updates = svgIn.getUpdates();
         if (!updates.isEmpty()) {
             // TODO: Generate code for updates.
         }
-
-        // Complete the event handler function.
-        codeInEventHandlers.dedent();
-        codeInEventHandlers.add("}");
-        codeInEventHandlers.dedent();
-        codeInEventHandlers.add("}");
     }
 
     /**

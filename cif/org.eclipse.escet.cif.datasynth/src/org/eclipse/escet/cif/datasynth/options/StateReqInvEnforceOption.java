@@ -13,7 +13,8 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.datasynth.options.StateReqInvEnforceOption.StateReqInvEnforceMode;
+import org.eclipse.escet.cif.datasynth.settings.CifDataSynthesisSettingsDefaults;
+import org.eclipse.escet.cif.datasynth.settings.StateReqInvEnforceMode;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
@@ -42,7 +43,7 @@ public class StateReqInvEnforceOption extends EnumOption<StateReqInvEnforceMode>
                 "MODE",
 
                 // defaultValue
-                StateReqInvEnforceMode.ALL_CTRL_BEH,
+                CifDataSynthesisSettingsDefaults.STATE_REQ_INV_ENFORCE_MODE_DEFAULT,
 
                 // showInDialog
                 true,
@@ -72,17 +73,5 @@ public class StateReqInvEnforceOption extends EnumOption<StateReqInvEnforceMode>
      */
     public static StateReqInvEnforceMode getMode() {
         return Options.get(StateReqInvEnforceOption.class);
-    }
-
-    /** The way that state requirement invariants are enforced. */
-    public static enum StateReqInvEnforceMode {
-        /** Enforce all of them via the controlled behavior. */
-        ALL_CTRL_BEH,
-
-        /**
-         * Decide per edge how to enforce them, enforcing them via edge guards for edges with controllable events, and
-         * enforcing them via the controlled behavior for edges with uncontrollable events.
-         */
-        PER_EDGE;
     }
 }

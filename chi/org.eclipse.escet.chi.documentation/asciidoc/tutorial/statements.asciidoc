@@ -263,14 +263,16 @@ indexterm:[statement,break]
 indexterm:[break,statement]
 indexterm:[statement,continue]
 indexterm:[continue,statement]
-. Inside loop statements, the _break_ and _continue_ statements are allowed.
+
+* Inside loop statements, the _break_ and _continue_ statements are allowed.
 The `break` statements allows 'breaking out of a loop', that is, abort a while or a for statement.
 The `continue` statement aborts execution of the statements in a loop.
 It 'jumps' to the start of the next iteration.
 
 indexterm:[statement,pass]
 indexterm:[pass,statement]
-. A rarely used statement is the `pass` statement.
+
+* A rarely used statement is the `pass` statement.
 It's like an `x = x` assignment statement, but more clearly expresses 'nothing is done here'.
 
 === Exercises

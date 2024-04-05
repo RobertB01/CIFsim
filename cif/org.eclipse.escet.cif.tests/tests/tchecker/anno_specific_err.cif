@@ -41,6 +41,22 @@ automaton a3:
   disc int x = 1;
   invariant x > 0;
 
+  @cif:typechecker:tests:anno1
+  cont c = 1 der 2;
+  invariant c > 0;
+
+  @cif:typechecker:tests:anno1
+  event evt;
+
   location:
     initial;
+    edge evt;
+end
+
+group g1:
+  @cif:typechecker:tests:anno1
+  alg int alg1 = 1;
+
+  @cif:typechecker:tests:anno1
+  const int const1 = 2;
 end

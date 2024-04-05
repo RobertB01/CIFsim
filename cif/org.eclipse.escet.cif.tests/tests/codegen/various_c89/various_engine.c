@@ -160,8 +160,8 @@ const char *various_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e1",           /**< Event e1. */
-    "g.h1",         /**< Event g.h1. */
+    "e1",           /**< Event "e1". */
+    "g.h1",         /**< Event "g.h1". */
 };
 
 /** Enumeration names. */
@@ -218,9 +218,7 @@ variousEnum g_sync_;
 RealType g_sync_c_deriv(void) {
     return 1.0;
 }
-/**
- * Algebraic variable z = x + y;
- */
+/** Algebraic variable z = x + y. */
 IntType z_(void) {
     return IntegerAdd(x_, y_);
 }

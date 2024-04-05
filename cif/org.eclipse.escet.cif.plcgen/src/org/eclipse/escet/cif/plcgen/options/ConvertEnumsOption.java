@@ -20,17 +20,24 @@ import org.eclipse.escet.common.app.framework.options.Options;
 public class ConvertEnumsOption extends EnumOption<ConvertEnums> {
     /** Constructor for the {@link ConvertEnumsOption} class. */
     public ConvertEnumsOption() {
-        super("Convert enumerations", "Specify whether enumerations should be converted. Specify \"no\" to preserve "
-                + "enumerations, \"ints\" for conversion to integers, or \"consts\" for conversion to constants. "
-                + "[DEFAULT=no]", null, "convert-enums", "CONVERT", ConvertEnums.NO, true,
-                "Should enumerations be converted?");
+        super("Convert enumerations", //
+                "Specify how enumerations should be treated. Specify " //
+                        + "\"auto\" to automatically decide how to treat enumerations, " //
+                        + "\"keep\" to preserve enumerations, " //
+                        + "\"consts\" for conversion to constants, or " //
+                        + "\"ints\" for conversion to integers. " //
+                        + "[DEFAULT=auto]", //
+                null, "convert-enums", "CONVERT", ConvertEnums.AUTO, true, //
+                "Specify how enumerations should be treated.");
     }
 
     @Override
     protected String getDialogText(ConvertEnums value) {
         switch (value) {
-            case NO:
-                return "Keep enumerations";
+            case AUTO:
+                return "Automatically decide how to handle enumerations";
+            case KEEP:
+                return "Preserve enumerations";
             case INTS:
                 return "Convert enumerations to integers";
             case CONSTS:
@@ -41,9 +48,9 @@ public class ConvertEnumsOption extends EnumOption<ConvertEnums> {
     }
 
     /**
-     * Should enumerations be converted?
+     * Get how enumerations should be treated.
      *
-     * @return Value indicating whether enumerations are preserved, converted to integers, or converted to constants.
+     * @return Value indicating how enumerations should be treated.
      */
     public static ConvertEnums getValue() {
         return Options.get(ConvertEnumsOption.class);

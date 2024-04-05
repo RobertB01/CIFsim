@@ -1,0 +1,132 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2015, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Wafer 3 (dummy wafer).
+
+controllable TRtoSUB_3_s, SUBtoUR_3_s, URtoSUB_3_s, URtoDU_3_s, URtoPA_3_s, URtoCTC1_3_s, PAtoUR_3_s, PAtoLR_3_s, LRtoDU_3_s, LRtoPA_3_s, LRtoCH0_3_s, LRtoCH1_3_s, LRtoCTC0_3_s, DUtoUR_3_s, DUtoLR_3_s, DUtoTR_3_s, CH0toLR_3_s, CH0toUR_3_s, CH1toLR_3_s, CH1toUR_3_s, CTC0toLR_3_s, CTC1toUR_3_s, PA_Align_3_s;
+uncontrollable TRtoSUB_3_e, SUBtoUR_3_e, URtoSUB_3_e, URtoDU_3_e, URtoPA_3_e, URtoCTC1_3_e, PAtoUR_3_e, PAtoLR_3_e, LRtoDU_3_e, LRtoPA_3_e, LRtoCH0_3_e, LRtoCH1_3_e, LRtoCTC0_3_e, DUtoUR_3_e, DUtoLR_3_e, DUtoTR_3_e, CH0toLR_3_e, CH0toUR_3_e, CH1toLR_3_e, CH1toUR_3_e, CTC0toLR_3_e, CTC1toUR_3_e, PA_Align_3_e;
+
+// WaferPlant_3: wafer plant for dummy wafer 3.
+plant WaferPlant_3:
+  location TR:
+    marked;
+    edge TRtoSUB_3_s goto TRtoSUB;
+  location SUB:
+    marked;
+    edge SUBtoUR_3_s goto SUBtoUR;
+  location UR:
+    marked;
+    edge URtoSUB_3_s goto URtoSUB;
+    edge URtoDU_3_s goto URtoDU;
+    edge URtoPA_3_s goto URtoPA;
+    edge URtoCTC1_3_s goto URtoCTC1;
+  location PA:
+    marked;
+    edge PAtoUR_3_s goto PAtoUR;
+    edge PAtoLR_3_s goto PAtoLR;
+    edge PA_Align_3_s goto PA_AlignRunning;
+  location LR:
+    marked;
+    edge LRtoDU_3_s goto LRtoDU;
+    edge LRtoPA_3_s goto LRtoPA;
+    edge LRtoCH0_3_s goto LRtoCH0;
+    edge LRtoCH1_3_s goto LRtoCH1;
+    edge LRtoCTC0_3_s goto LRtoCTC0;
+  location DU:
+    marked;
+    edge DUtoUR_3_s goto DUtoUR;
+    edge DUtoLR_3_s goto DUtoLR;
+    edge DUtoTR_3_s goto DUtoTR;
+  location CH0:
+    marked;
+    edge CH0toLR_3_s goto CH0toLR;
+    edge CH0toUR_3_s goto CH0toUR;
+  location CH1:
+    initial;
+    marked;
+    edge CH1toLR_3_s goto CH1toLR;
+    edge CH1toUR_3_s goto CH1toUR;
+  location CTC0:
+    marked;
+    edge CTC0toLR_3_s goto CTC0toLR;
+  location CTC1:
+    marked;
+    edge CTC1toUR_3_s goto CTC1toUR;
+
+  location PA_AlignRunning:
+    edge PA_Align_3_e goto PA;
+
+  location TRtoSUB:
+    edge TRtoSUB_3_e goto SUB;
+  location SUBtoUR:
+    edge SUBtoUR_3_e goto UR;
+  location URtoSUB:
+    edge URtoSUB_3_e goto SUB;
+  location URtoDU:
+    edge URtoDU_3_e goto DU;
+  location URtoPA:
+    edge URtoPA_3_e goto PA;
+  location URtoCTC1:
+    edge URtoCTC1_3_e goto CTC1;
+  location PAtoUR:
+    edge PAtoUR_3_e goto UR;
+  location PAtoLR:
+    edge PAtoLR_3_e goto LR;
+  location LRtoDU:
+    edge LRtoDU_3_e goto DU;
+  location LRtoPA:
+    edge LRtoPA_3_e goto PA;
+  location LRtoCH0:
+    edge LRtoCH0_3_e goto CH0;
+  location LRtoCH1:
+    edge LRtoCH1_3_e goto CH1;
+  location LRtoCTC0:
+    edge LRtoCTC0_3_e goto CTC0;
+  location DUtoUR:
+    edge DUtoUR_3_e goto UR;
+  location DUtoLR:
+    edge DUtoLR_3_e goto LR;
+  location DUtoTR:
+    edge DUtoTR_3_e goto TR;
+  location CH0toLR:
+    edge CH0toLR_3_e goto LR;
+  location CH0toUR:
+    edge CH0toUR_3_e goto UR;
+  location CH1toLR:
+    edge CH1toLR_3_e goto LR;
+  location CH1toUR:
+    edge CH1toUR_3_e goto UR;
+  location CTC0toLR:
+    edge CTC0toLR_3_e goto LR;
+  location CTC1toUR:
+    edge CTC1toUR_3_e goto UR;
+end
+
+// ObsAligned_3: alignment status of wafer 3.
+plant ObsAligned_3:
+  monitor LRtoDU_3_s, LRtoPA_3_s, LRtoCTC0_3_s, CH0toUR_3_s, CH1toUR_3_s, PAtoUR_3_s, SUBtoUR_3_s, CTC1toUR_3_s, PA_Align_3_e;
+
+  location not_aligned:
+    initial;
+    marked;
+    edge PA_Align_3_e goto aligned;
+  location aligned:
+    marked;
+    edge LRtoDU_3_s, LRtoPA_3_s, LRtoCTC0_3_s, CH0toUR_3_s, CH1toUR_3_s, PAtoUR_3_s, SUBtoUR_3_s, CTC1toUR_3_s goto not_aligned;
+end
+
+// ReqAligned_3: only aligned wafers can be sent to the wafer stage.
+requirement {LRtoCH0_3_s, LRtoCH1_3_s} needs ObsAligned_3.aligned;
+
+// ReqStayInSystem_3: dummy wafers are never send to the track.
+requirement DUtoTR_3_s needs false;
