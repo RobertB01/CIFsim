@@ -100,7 +100,7 @@ public class EventDeclWrap extends DeclWrap<Event> {
         }
 
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, this, scope, tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, scope, tchecker);
         mmDecl.getAnnotations().addAll(annos);
 
         // This declaration is now fully checked.

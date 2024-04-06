@@ -34,7 +34,6 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifLocationUtils;
@@ -352,9 +351,7 @@ public class AutScope extends ParentScope<Automaton> {
         // For nameless locations, type check and add the annotations. For named locations, this is done in their symbol
         // table entries.
         if (astLoc.name == null) {
-            Supplier<String> descriptionSupplier = () -> fmt("the location of \"%s\"", autScope.getAbsName());
-            List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astLoc.annotations, descriptionSupplier,
-                    autScope, tchecker);
+            List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astLoc.annotations, autScope, tchecker);
             mmLoc.getAnnotations().addAll(annos);
         }
 

@@ -18,11 +18,9 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotation
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
@@ -42,30 +40,12 @@ public class CifAnnotationsTypeChecker {
      * Transforms annotations and performs type checking on them.
      *
      * @param astAnnos The CIF AST annotations to transform.
-     * @param annotatedObject The symbol table entry for the object that is annotated with the annotations.
      * @param scope The scope in which to resolve references within the annotations, such as in the values of arguments.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel annotations.
      */
-    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, SymbolTableEntry annotatedObject,
-            SymbolScope<?> scope, CifTypeChecker tchecker)
-    {
-        Supplier<String> descriptionSupplier = () -> fmt("\"%s\"", annotatedObject.getAbsName());
-        return transAnnotations(astAnnos, descriptionSupplier, scope, tchecker);
-    }
-
-    /**
-     * Transforms annotations and performs type checking on them.
-     *
-     * @param astAnnos The CIF AST annotations to transform.
-     * @param descriptionSupplier Function to obtain a textual description of the annotated object for reporting type
-     *     check problems.
-     * @param scope The scope in which to resolve references within the annotations, such as in the values of arguments.
-     * @param tchecker The CIF type checker to use.
-     * @return The CIF metamodel annotations.
-     */
-    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, Supplier<String> descriptionSupplier,
-            SymbolScope<?> scope, CifTypeChecker tchecker)
+    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, SymbolScope<?> scope,
+            CifTypeChecker tchecker)
     {
         // Type check each of the annotations separately.
         List<Annotation> mmAnnos = listc(astAnnos.size());

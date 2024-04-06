@@ -101,8 +101,7 @@ public class SpecScope extends ParentScope<Specification> {
     @Override
     protected void tcheckScopeFull() {
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astAnnotations, () -> "the specification",
-                this, tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astAnnotations, this, tchecker);
         obj.getAnnotations().addAll(annos);
     }
 }
