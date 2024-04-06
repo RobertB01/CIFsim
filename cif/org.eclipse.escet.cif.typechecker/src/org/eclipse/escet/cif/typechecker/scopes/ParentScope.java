@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.AEquation;
 import org.eclipse.escet.cif.parser.ast.AInitialDecl;
 import org.eclipse.escet.cif.parser.ast.AMarkedDecl;
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
@@ -89,6 +90,9 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
 
     /** The nameless invariants of this scope. */
     protected final List<InvariantInfo> namelessInvariants = list();
+
+    /** Annotations of this scope. */
+    protected List<AAnnotation> astAnnotations = list();
 
     /** Mapping from variable names to their equations. */
     public Map<String, List<AEquation>> astEquations = map();

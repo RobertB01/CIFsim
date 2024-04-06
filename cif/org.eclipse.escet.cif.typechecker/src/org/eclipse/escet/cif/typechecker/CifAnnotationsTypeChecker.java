@@ -86,9 +86,15 @@ public class CifAnnotationsTypeChecker {
      * @return The CIF metamodel annotation.
      */
     private static Annotation transAnnotation(AAnnotation astAnno, SymbolScope<?> scope, CifTypeChecker tchecker) {
+        // Get annotation name.
+        String annoName = astAnno.name.text;
+        while (annoName.startsWith("@")) {
+            annoName = annoName.substring(1);
+        }
+
         // Create annotation metamodel object.
         Annotation mmAnno = newAnnotation();
-        mmAnno.setName(astAnno.name.text.substring(1)); // Set name, excluding the leading '@'.
+        mmAnno.setName(annoName);
         mmAnno.setPosition(astAnno.createPosition());
 
         // Create annotation argument metamodel objects, and add them to the annotation metamodel object.

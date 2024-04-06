@@ -264,6 +264,9 @@ public class SymbolScopeBuilder {
         // Process namespaces.
         ParentScope<?> bodyScope = processNamespaces(spec, specScope);
 
+        // Add annotations.
+        specScope.astAnnotations.addAll(spec.annotations);
+
         // Fill body scope.
         for (ADecl decl: spec.body.decls) {
             addGroupDecl(decl, specScope, bodyScope);
