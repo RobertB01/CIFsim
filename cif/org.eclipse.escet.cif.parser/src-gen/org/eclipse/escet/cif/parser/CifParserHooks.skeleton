@@ -331,8 +331,8 @@ implements CifParser.Hooks
         // return null;
     }
 
-    @Override // Specification : GroupBody;
-    public ASpecification parseSpecification1(AGroupBody a1) {
+    @Override // Specification : OptSpecAnnos GroupBody;
+    public ASpecification parseSpecification1(List<AAnnotation> l1, AGroupBody a2) {
         // return null;
     }
 
@@ -2008,6 +2008,31 @@ implements CifParser.Hooks
 
     @Override // Name : @ROOTNAMETK;
     public AName parseName4(Token t1) {
+        // return null;
+    }
+
+    @Override // OptSpecAnnos : ;
+    public List<AAnnotation> parseOptSpecAnnos1() {
+        // return null;
+    }
+
+    @Override // OptSpecAnnos : OptSpecAnnos SpecAnnotation;
+    public List<AAnnotation> parseOptSpecAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+        // return null;
+    }
+
+    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK;
+    public AAnnotation parseSpecAnnotation1(Token t1) {
+        // return null;
+    }
+
+    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK PARCLOSETK;
+    public AAnnotation parseSpecAnnotation2(Token t1) {
+        // return null;
+    }
+
+    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    public AAnnotation parseSpecAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
         // return null;
     }
 
