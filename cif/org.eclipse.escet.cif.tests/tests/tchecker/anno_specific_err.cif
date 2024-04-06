@@ -11,6 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@cif:typechecker:tests:anno1
+
 // Error: not exactly one argument.
 @cif:typechecker:tests:anno1
 input bool i1;
