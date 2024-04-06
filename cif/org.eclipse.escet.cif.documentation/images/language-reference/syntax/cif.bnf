@@ -1,4 +1,4 @@
-Specification : GroupBody
+Specification : OptSpecAnnos GroupBody
               ;
 
 GroupBody : OptGroupDecls
@@ -567,6 +567,15 @@ Name : Identifier
      ;
 
 ///////////////////////////////////////////////////////////////////////////////
+
+OptSpecAnnos : /* empty */
+             | OptSpecAnnos SpecAnnotation
+             ;
+
+SpecAnnotation : SPECANNOTATIONNAMETK
+               | SPECANNOTATIONNAMETK "(" ")"
+               | SPECANNOTATIONNAMETK "(" AnnotationArgs OptComma ")"
+               ;
 
 OptAnnos : /* empty */
          | OptAnnos Annotation
