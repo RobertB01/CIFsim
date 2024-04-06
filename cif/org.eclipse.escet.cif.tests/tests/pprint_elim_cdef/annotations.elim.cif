@@ -1,3 +1,4 @@
+@@a(b = 123)
 input bool i0;
 @a
 input bool i1;

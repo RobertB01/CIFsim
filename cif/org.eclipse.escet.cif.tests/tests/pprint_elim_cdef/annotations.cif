@@ -11,6 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@a(b = 123)
+
 // All syntax variations (for annotated input variables).
 
 input bool i0; // No annotations.
