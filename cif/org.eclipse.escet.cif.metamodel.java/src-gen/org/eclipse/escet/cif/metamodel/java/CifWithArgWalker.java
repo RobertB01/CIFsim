@@ -442,6 +442,10 @@ public abstract class CifWithArgWalker<T> {
      * @param arg The extra argument provided to the walking method.
      */
     protected void walkAnnotatedObject(AnnotatedObject obj, T arg) {
+        if (obj instanceof Component) {
+            walkComponent((Component)obj, arg);
+            return;
+        }
         if (obj instanceof Declaration) {
             walkDeclaration((Declaration)obj, arg);
             return;
@@ -749,6 +753,10 @@ public abstract class CifWithArgWalker<T> {
         Alphabet _alphabet = obj.getAlphabet();
         if (_alphabet != null) {
             walkAlphabet(_alphabet, arg);
+        }
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
         }
         List<Declaration> _declarations = obj.getDeclarations();
         for (Declaration x: _declarations) {
@@ -1696,7 +1704,7 @@ public abstract class CifWithArgWalker<T> {
      * @param arg The extra argument provided to the pre-crawling method.
      */
     protected void precrawlComponent(Component obj, T arg) {
-        precrawlPositionObject(obj, arg);
+        precrawlAnnotatedObject(obj, arg);
         preprocessComponent(obj, arg);
     }
 
@@ -1708,7 +1716,7 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void postcrawlComponent(Component obj, T arg) {
         postprocessComponent(obj, arg);
-        postcrawlPositionObject(obj, arg);
+        postcrawlAnnotatedObject(obj, arg);
     }
 
     /**
@@ -1918,6 +1926,10 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkComponentInst(ComponentInst obj, T arg) {
         precrawlComponentInst(obj, arg);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
+        }
         List<Expression> _arguments = obj.getArguments();
         for (Expression x: _arguments) {
             walkExpression(x, arg);
@@ -4562,6 +4574,10 @@ public abstract class CifWithArgWalker<T> {
         }
         Assert.check(obj.getClass() == GroupImpl.class);
         precrawlGroup(obj, arg);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
+        }
         List<Component> _components = obj.getComponents();
         for (Component x: _components) {
             walkComponent(x, arg);
@@ -5848,10 +5864,6 @@ public abstract class CifWithArgWalker<T> {
             walkCifType((CifType)obj, arg);
             return;
         }
-        if (obj instanceof Component) {
-            walkComponent((Component)obj, arg);
-            return;
-        }
         if (obj instanceof ComponentDef) {
             walkComponentDef((ComponentDef)obj, arg);
             return;
@@ -6744,6 +6756,10 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkSpecification(Specification obj, T arg) {
         precrawlSpecification(obj, arg);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
+        }
         List<Component> _components = obj.getComponents();
         for (Component x: _components) {
             walkComponent(x, arg);

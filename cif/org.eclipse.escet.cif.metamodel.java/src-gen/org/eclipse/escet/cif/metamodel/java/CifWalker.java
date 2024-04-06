@@ -418,6 +418,10 @@ public abstract class CifWalker {
      * @param obj The object to walk over.
      */
     protected void walkAnnotatedObject(AnnotatedObject obj) {
+        if (obj instanceof Component) {
+            walkComponent((Component)obj);
+            return;
+        }
         if (obj instanceof Declaration) {
             walkDeclaration((Declaration)obj);
             return;
@@ -700,6 +704,10 @@ public abstract class CifWalker {
         Alphabet _alphabet = obj.getAlphabet();
         if (_alphabet != null) {
             walkAlphabet(_alphabet);
+        }
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
         }
         List<Declaration> _declarations = obj.getDeclarations();
         for (Declaration x: _declarations) {
@@ -1576,7 +1584,7 @@ public abstract class CifWalker {
      * @param obj The object to crawl over.
      */
     protected void precrawlComponent(Component obj) {
-        precrawlPositionObject(obj);
+        precrawlAnnotatedObject(obj);
         preprocessComponent(obj);
     }
 
@@ -1587,7 +1595,7 @@ public abstract class CifWalker {
      */
     protected void postcrawlComponent(Component obj) {
         postprocessComponent(obj);
-        postcrawlPositionObject(obj);
+        postcrawlAnnotatedObject(obj);
     }
 
     /**
@@ -1779,6 +1787,10 @@ public abstract class CifWalker {
      */
     protected void walkComponentInst(ComponentInst obj) {
         precrawlComponentInst(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<Expression> _arguments = obj.getArguments();
         for (Expression x: _arguments) {
             walkExpression(x);
@@ -4223,6 +4235,10 @@ public abstract class CifWalker {
         }
         Assert.check(obj.getClass() == GroupImpl.class);
         precrawlGroup(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<Component> _components = obj.getComponents();
         for (Component x: _components) {
             walkComponent(x);
@@ -5414,10 +5430,6 @@ public abstract class CifWalker {
             walkCifType((CifType)obj);
             return;
         }
-        if (obj instanceof Component) {
-            walkComponent((Component)obj);
-            return;
-        }
         if (obj instanceof ComponentDef) {
             walkComponentDef((ComponentDef)obj);
             return;
@@ -6245,6 +6257,10 @@ public abstract class CifWalker {
      */
     protected void walkSpecification(Specification obj) {
         precrawlSpecification(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<Component> _components = obj.getComponents();
         for (Component x: _components) {
             walkComponent(x);
