@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
@@ -149,7 +150,8 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
         // type of the value. We only do this for algebraic variables that
         // directly have an integer type.
         if (ntype instanceof IntType && CifTypeUtils.isRangeless((IntType)ntype)) {
-            mmDecl.setType(EMFHelper.deepclone(vtype));
+            type = EMFHelper.deepclone(vtype);
+            mmDecl.setType(type);
         }
 
         // This declaration is now checked 'for use'.
@@ -174,6 +176,13 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
         List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
                 tchecker);
         mmDecl.getAnnotations().addAll(annos);
+
+        // Check for single-value type.
+        CifType type = mmDecl.getType();
+        if (CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
+        }
 
         // This declaration is now fully checked.
         status = CheckStatus.FULL;
