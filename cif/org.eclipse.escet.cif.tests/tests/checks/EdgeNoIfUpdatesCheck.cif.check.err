@@ -13,7 +13,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - edge e do if true: li[0] := 1 end goto l8;
                  ^
    * In location "a.l8":
-     - edge e do if true: if true: va := 1 end end goto l1;
+     - edge e do if true: if true: va := 1 end end goto l9;
                  ^        ^
    * In automaton "all":
      - edge e do if true: va := 1 end;
