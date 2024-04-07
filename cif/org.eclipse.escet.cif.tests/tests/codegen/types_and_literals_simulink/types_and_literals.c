@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
