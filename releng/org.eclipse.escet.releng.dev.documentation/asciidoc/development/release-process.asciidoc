@@ -373,7 +373,7 @@ This ensures that a nearby mirror is selected, for faster downloads.
 It also ensures that downloads are counted in the download statistics.
 Furthermore, it transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
 
-** According to the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc], "Once your files are on the `download.eclipse.org` server, they are immediately available to the general public.
+** According to the Eclipse Foundation Wiki page link:https://gitlab.eclipse.org/eclipsefdn/helpdesk/-/wikis/IT_Infrastructure_Doc[IT Infrastructure Doc], "Once your files are on the `download.eclipse.org` server, they are immediately available to the general public.
 However, for release builds, we ask that you wait at least four hours for our mirror sites to fetch the new files before linking to them.
 It typically takes a day or two for all the mirror sites to synchronize with us and get new files."
 Immediately after the downloads being available, downloading them may thus be slower, even if the mirror script is used.
