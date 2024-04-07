@@ -283,7 +283,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
   -----------------------------------------------
    * In location "p.l":
      - edge u do tbb[a] := true;
-                        ^
+                    ^
 
   --------------------------------------------
   (32/33) Function is a user-defined function.

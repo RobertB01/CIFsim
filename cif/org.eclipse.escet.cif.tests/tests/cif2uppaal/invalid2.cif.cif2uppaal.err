@@ -161,7 +161,7 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
   -----------------------------------------------
    * In automaton "g.a5":
      - edge tau_ do li[0] := 3;
-                          ^
+                      ^
 
   --------------------------------
   (19/27) Edge has an 'if' update.
