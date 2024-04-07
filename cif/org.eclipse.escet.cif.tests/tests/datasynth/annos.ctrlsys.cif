@@ -1,0 +1,15 @@
+@@doc($text = "spec doc")
+plant automaton p:
+  controllable c_e;
+  location:
+    initial;
+    marked;
+    edge c_e;
+end
+supervisor automaton sup:
+  alphabet p.c_e;
+  location:
+    initial;
+    marked;
+    edge p.c_e when true;
+end

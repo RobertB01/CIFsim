@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,34 +13,11 @@
 
 @@doc($text = "spec doc")
 
-controllable c;
-
 plant p:
-  uncontrollable u;
-  controllable c2;
+  controllable c_e;
 
   location:
     initial;
     marked;
-
-    edge c;
-    edge u;
-    edge c2;
-end
-
-group g:
-  requirement r:
-    disc int[0..3] x in any;
-    disc int[0..3] y in any;
-
-    location loc1:
-      initial;
-      marked;
-
-      edge p.u do x := (x + 1) mod 4;
-      edge c when x mod 2 = 1;
-      edge p.c2 when y = 0 goto loc2;
-
-    location loc2;
-  end
+    edge c_e;
 end
