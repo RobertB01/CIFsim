@@ -1,0 +1,2 @@
+WARNING: File "cif2yed/data_refs.cif": Semantic warning at line 15, column 19: Type "int[9..9]" allows only one value.
+WARNING: File "cif2yed/data_refs.cif": Semantic warning at line 16, column 13: Type "int[3..3]" allows only one value.

@@ -1,3 +1,9 @@
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 37, column 8: Type "int[-3..-3]" allows only one value.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 38, column 8: Type "int[3..3]" allows only one value.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 39, column 8: Type "int[-5..-5]" allows only one value.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 40, column 8: Type "int[5..5]" allows only one value.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 41, column 8: Type "int[-2,147,483,648..-2,147,483,648]" allows only one value.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 54, column 8: Type "list[0] int" allows only one value.
 WARNING: Function "_f", introduced for the default value of a function type, is renamed to "_f2".
 WARNING: Function "_f", introduced for the default value of a function type, is renamed to "_f3".
 WARNING: Function "_f", introduced for the default value of a function type, is renamed to "_f4".
