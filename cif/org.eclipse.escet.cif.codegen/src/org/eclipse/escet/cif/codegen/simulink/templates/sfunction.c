@@ -1,7 +1,8 @@
 /* Simulink S-Function code for ${prefix} CIF file.
  *
  * GENERATED CODE, DO NOT EDIT
- */
+${spec-comments} */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

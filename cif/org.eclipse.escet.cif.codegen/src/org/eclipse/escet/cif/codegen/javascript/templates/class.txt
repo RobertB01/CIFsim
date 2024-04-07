@@ -1,7 +1,7 @@
 /** Tuples. */
 ${javascript-tuples-code}
 
-/** ${prefix}_class code generated from a CIF specification. */
+${javascript-class-jsdoc}
 class ${prefix}_class {
     /** ${prefix}Enum declaration. It contains the single merged enum from the CIF model. */
     ${prefix}Enum = Object.freeze({
