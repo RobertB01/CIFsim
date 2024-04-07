@@ -1,5 +1,10 @@
 /* CIF to C translation of annos_doc.cif
  * Generated file, DO NOT EDIT
+ *
+ * First doc
+ * with multiple lines.
+ *
+ * Second doc.
  */
 
 #include <stdio.h>
