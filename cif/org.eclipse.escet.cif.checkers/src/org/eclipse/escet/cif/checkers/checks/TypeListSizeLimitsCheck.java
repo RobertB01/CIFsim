@@ -17,6 +17,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.checkers.CifCheckNoCompDefInst;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -141,18 +142,24 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
         }
 
         // Check limits on the found list types.
-        declKind = "of " + declKind + " \"" + CifTextUtils.getAbsName(decl, false) + "\"";
         for (ListType listType: collectedListTypes) {
+            String reportedKind;
+            if (isTypeInTypeDeclaration(listType)) {
+                reportedKind = "of " + declKind + " \"" + CifTextUtils.getAbsName(decl, false) + "\"";
+            } else {
+                reportedKind = "of " + declKind;
+            }
+
             if (CifTypeUtils.isArrayType(listType)) {
                 // Array type.
 
                 // Checking lower limit for 0 isn't needed, as the type checker ensures non-negative lower bound.
                 if (arrayLowestSize > 0 && listType.getLower() < arrayLowestSize) {
-                    violations.add(listType, "Array type " + declKind + " allows arrays with less than "
+                    violations.add(listType, "Array type " + reportedKind + " allows arrays with less than "
                             + arrayLowestSize + " elements");
                 }
                 if (arrayHighestSize >= 0 && listType.getLower() > arrayHighestSize) {
-                    violations.add(listType, "Array type " + declKind + " allows arrays with more than "
+                    violations.add(listType, "Array type " + reportedKind + " allows arrays with more than "
                             + arrayHighestSize + " elements");
                 }
             } else {
@@ -160,15 +167,29 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
 
                 // Checking lower limit for 0 isn't needed, as the type checker ensures non-negative lower bound.
                 if (nonArrayLowestSize > 0 && CifTypeUtils.getLowerBound(listType) < nonArrayLowestSize) {
-                    violations.add(listType, "List type " + declKind + " allows lists with less than "
+                    violations.add(listType, "List type " + reportedKind + " allows lists with less than "
                             + nonArrayLowestSize + " elements");
                 }
                 if (nonArrayHighestSize >= 0 && CifTypeUtils.getUpperBound(listType) > nonArrayHighestSize) {
-                    violations.add(listType, "List type " + declKind + " allows lists with more than "
+                    violations.add(listType, "List type " + reportedKind + " allows lists with more than "
                             + nonArrayHighestSize + " elements");
                 }
             }
         }
+    }
+
+    /**
+     * Compute whether the given type is used as definition of a type declaration.
+     *
+     * @param type Type to examine.
+     * @return Whether the type is part of a type definition.
+     */
+    private boolean isTypeInTypeDeclaration(CifType type) {
+        EObject eObj = type;
+        while (eObj != null && eObj instanceof CifType) {
+            eObj = eObj.eContainer();
+        }
+        return eObj instanceof TypeDecl;
     }
 
     /** Walker class to collect list types. */

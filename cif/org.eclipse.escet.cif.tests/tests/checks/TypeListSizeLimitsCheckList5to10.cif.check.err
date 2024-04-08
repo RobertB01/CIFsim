@@ -7,98 +7,82 @@ WARNING: File "checks/TypeListSizeLimitsCheckList5to10.cif": Semantic warning at
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   ----------------------------------------------------------------------------------------
-  (1/14) List type of channel "X.longListChannel" allows lists with more than 10 elements.
+  (1/10) List type of channel "X.longListChannel" allows lists with more than 10 elements.
   ----------------------------------------------------------------------------------------
    * In type declaration "typeUsedLongList":
      - type typeUsedLongList = list[15..17] int;
                                ^
 
-  --------------------------------------------------------------------------------------------------------
-  (2/14) List type of discrete variable "X.alwaysTooLongDiscList" allows lists with more than 10 elements.
-  --------------------------------------------------------------------------------------------------------
-   * In discrete variable "X.alwaysTooLongDiscList":
-     - disc list[11..22] bool alwaysTooLongDiscList;
-            ^
+  -----------------------------------------------------------------------------------------------
+  (2/10) List type of discrete variable "X.badMatrixList" allows lists with less than 5 elements.
+  -----------------------------------------------------------------------------------------------
+   * In type declaration "typeBadMatrixList":
+     - type typeBadMatrixList = list[3..19] typeGoodSubList;
+                                ^
 
-  --------------------------------------------------------------------------------------------------------
-  (3/14) List type of discrete variable "X.alwaysTooShortDiscList" allows lists with less than 5 elements.
-  --------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------
+  (3/10) List type of discrete variable "X.badMatrixList" allows lists with more than 10 elements.
+  ------------------------------------------------------------------------------------------------
+   * In type declaration "typeBadMatrixList":
+     - type typeBadMatrixList = list[3..19] typeGoodSubList;
+                                ^
+
+  ---------------------------------------------------------------------------------------------------
+  (4/10) List type of discrete variable "X.badMatrixSubList" allows lists with more than 10 elements.
+  ---------------------------------------------------------------------------------------------------
+   * In type declaration "typeBadSubList":
+     - type typeBadSubList = list[17..18] int;
+                             ^
+
+  -----------------------------------------------------------------------------
+  (5/10) List type of discrete variable allows lists with less than 5 elements.
+  -----------------------------------------------------------------------------
    * In discrete variable "X.alwaysTooShortDiscList":
      - disc list[2..4] bool alwaysTooShortDiscList;
             ^
-
-  -----------------------------------------------------------------------------------------------
-  (4/14) List type of discrete variable "X.badMatrixList" allows lists with less than 5 elements.
-  -----------------------------------------------------------------------------------------------
-   * In type declaration "typeBadMatrixList":
-     - type typeBadMatrixList = list[3..19] typeGoodSubList;
-                                ^
-
-  ------------------------------------------------------------------------------------------------
-  (5/14) List type of discrete variable "X.badMatrixList" allows lists with more than 10 elements.
-  ------------------------------------------------------------------------------------------------
-   * In type declaration "typeBadMatrixList":
-     - type typeBadMatrixList = list[3..19] typeGoodSubList;
-                                ^
-
-  ---------------------------------------------------------------------------------------------------
-  (6/14) List type of discrete variable "X.badMatrixSubList" allows lists with more than 10 elements.
-  ---------------------------------------------------------------------------------------------------
-   * In type declaration "typeBadSubList":
-     - type typeBadSubList = list[17..18] int;
-                             ^
-
-  ----------------------------------------------------------------------------------------------------------
-  (7/14) List type of discrete variable "X.possiblyTooLongDiscList" allows lists with more than 10 elements.
-  ----------------------------------------------------------------------------------------------------------
-   * In discrete variable "X.possiblyTooLongDiscList":
-     - disc list[7..22] bool possiblyTooLongDiscList;
-            ^
-
-  ----------------------------------------------------------------------------------------------------------
-  (8/14) List type of discrete variable "X.possiblyTooShortDiscList" allows lists with less than 5 elements.
-  ----------------------------------------------------------------------------------------------------------
    * In discrete variable "X.possiblyTooShortDiscList":
      - disc list[2..5] bool possiblyTooShortDiscList;
             ^
-
-  ---------------------------------------------------------------------------------------------------------
-  (9/14) List type of discrete variable "X.tooShortTooLongDiscList" allows lists with less than 5 elements.
-  ---------------------------------------------------------------------------------------------------------
    * In discrete variable "X.tooShortTooLongDiscList":
      - disc list[1..22] bool tooShortTooLongDiscList;
             ^
 
-  -----------------------------------------------------------------------------------------------------------
-  (10/14) List type of discrete variable "X.tooShortTooLongDiscList" allows lists with more than 10 elements.
-  -----------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+  (6/10) List type of discrete variable allows lists with more than 10 elements.
+  ------------------------------------------------------------------------------
+   * In discrete variable "X.alwaysTooLongDiscList":
+     - disc list[11..22] bool alwaysTooLongDiscList;
+            ^
+   * In discrete variable "X.possiblyTooLongDiscList":
+     - disc list[7..22] bool possiblyTooLongDiscList;
+            ^
    * In discrete variable "X.tooShortTooLongDiscList":
      - disc list[1..22] bool tooShortTooLongDiscList;
             ^
-
-  ----------------------------------------------------------------------------------------------
-  (11/14) List type of function parameter "someFunc.pa" allows lists with more than 10 elements.
-  ----------------------------------------------------------------------------------------------
-   * In type declaration "typeBadSubList":
-     - type typeBadSubList = list[17..18] int;
-                             ^
 
   ---------------------------------------------------------------------------------------------
-  (12/14) List type of function return type "someFunc" allows lists with more than 10 elements.
+  (7/10) List type of function parameter "someFunc.pa" allows lists with more than 10 elements.
   ---------------------------------------------------------------------------------------------
    * In type declaration "typeBadSubList":
      - type typeBadSubList = list[17..18] int;
                              ^
 
-  ---------------------------------------------------------------------------------------------
-  (13/14) List type of function variable "someFunc.va" allows lists with more than 10 elements.
-  ---------------------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------------------
+  (8/10) List type of function return type "someFunc" allows lists with more than 10 elements.
+  --------------------------------------------------------------------------------------------
+   * In type declaration "typeBadSubList":
+     - type typeBadSubList = list[17..18] int;
+                             ^
+
+  --------------------------------------------------------------------------------------------
+  (9/10) List type of function variable "someFunc.va" allows lists with more than 10 elements.
+  --------------------------------------------------------------------------------------------
    * In type declaration "typeBadSubList":
      - type typeBadSubList = list[17..18] int;
                              ^
 
   -----------------------------------------------------------------------------------------
-  (14/14) List type of input variable "X.declList" allows lists with more than 10 elements.
+  (10/10) List type of input variable "X.declList" allows lists with more than 10 elements.
   -----------------------------------------------------------------------------------------
    * In type declaration "typeUsedLongList":
      - type typeUsedLongList = list[15..17] int;
