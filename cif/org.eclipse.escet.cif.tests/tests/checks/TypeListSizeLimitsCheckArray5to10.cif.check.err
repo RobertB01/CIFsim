@@ -1,9 +1,10 @@
 WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 56, column 14: Event "X.voidChannel" is not used anywhere in the specification.
 WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 57, column 27: Event "X.longArrayChannel" is not used anywhere in the specification.
 WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 58, column 26: Event "X.longListChannel" is not used anywhere in the specification.
-WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 70, column 24: Variable "someFunc.va" is not used anywhere in the specification.
-WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 71, column 21: Variable "someFunc.pv" is not used anywhere in the specification.
-WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 72, column 7: Variable "someFunc.vc" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 59, column 18: Event "X.unboundedChannel" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 71, column 24: Variable "someFunc.va" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 72, column 21: Variable "someFunc.pv" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 73, column 7: Variable "someFunc.vc" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   --------------------------------------------------------------------------------
