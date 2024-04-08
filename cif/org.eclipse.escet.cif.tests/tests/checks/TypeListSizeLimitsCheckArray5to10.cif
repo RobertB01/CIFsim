@@ -11,24 +11,23 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-type unusedLongArray = list[100] int; // Too long.
-type unusedLongList = list[100..101] int; // Too long.
+type typeUnusedLongArray = list[100] int; // Too long.
+type typeUnusedLongList = list[100..101] int; // Too long.
 
-type usedLongArray = list[13] int; // Too long.
-type usedLongList = list[15..17] int; // Too long.
+type typeUsedLongArray = list[13] int; // Too long.
+type typeUsedLongList = list[15..17] int; // Too long.
 
-type goodSubArray = list[7] int;
-type GoodMatrixArray = list[7] goodSubArray;
+type typeGoodSubArray = list[7] int;
+type typeGoodMatrixArray = list[7] typeGoodSubArray;
 
-type goodSubList = list[7..9] int;
-type badSubArray = list[15] int; // Too long.
-type badSubList = list[17..18] int; // Too long.
+type typeGoodSubList = list[7..9] int;
+type typeBadSubArray = list[15] int; // Too long.
+type typeBadSubList = list[17..18] int; // Too long.
 
-type BadMatrixSubList = list[6..8] badSubList;
-type BadMatrixSubArray = list[7..8] badSubArray;
+type typeBadMatrixSubList = list[6..8] typeBadSubList;
+type typeBadMatrixSubArray = list[7..8] typeBadSubArray;
 
-type BadMatrixList = list[3..19] goodSubList; // Too short and too long.
-
+type typeBadMatrixList = list[3..19] typeGoodSubList; // Too short and too long.
 
 automaton X:
   alg list[5..8] int goodAlgList = [1, 2, 3, 4, 5];
@@ -46,19 +45,31 @@ automaton X:
   disc list[11..22] bool alwaysTooLongDiscList; // Bad list, too long.
   disc list[1..22] bool tooShortTooLongDiscList; // Bad list, too short and too long.
 
-  disc GoodMatrixArray goodMatrixArray;
-  disc BadMatrixSubList badMatrixSubList; // Bad sub-list, too long.
-  disc BadMatrixSubArray badMatrixSubArray; // Bad sub-array, too long.
-  disc BadMatrixList badMatrixList; // Bad list, too short and too long.
+  disc typeGoodMatrixArray goodMatrixArray;
+  disc typeBadMatrixSubList badMatrixSubList; // Bad sub-list, too long.
+  disc typeBadMatrixSubArray badMatrixSubArray; // Bad sub-array, too long.
+  disc typeBadMatrixList badMatrixList; // Bad list, too short and too long.
 
-  const usedLongArray declArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3]; // Bad array, too long.
-  input usedLongList declList; // Bad list, too long.
+  const typeUsedLongArray declArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3]; // Bad array, too long.
+  input typeUsedLongList declList; // Bad list, too long.
+
+  event void voidChannel;
+  event typeUsedLongArray longArrayChannel;
+  event typeUsedLongList longListChannel;
 
   // Avoid warnings about missing location or unused variables.
   location:
     initial tooShortDiscArray[0] or tooLongDiscArray[0] or possiblyTooShortDiscList[0]
          or possiblyTooLongDiscList[0] or alwaysTooShortDiscList[0]
-         or alwaysTooLongDiscList[0]or tooShortTooLongDiscList[0]
+         or alwaysTooLongDiscList[0] or tooShortTooLongDiscList[0]
          or goodMatrixArray[0][0] + badMatrixSubList[0][0]
             + badMatrixSubArray[0][0] + badMatrixList[0][0] >= 0;
+end
+
+func typeBadMatrixSubList, typeUsedLongArray, int someFunc(typeBadMatrixSubList pa; typeUsedLongArray pb; int pc):
+  typeBadMatrixSubList va;
+  typeUsedLongArray pv;
+  int vc;
+
+  return pa, pb, pc;
 end

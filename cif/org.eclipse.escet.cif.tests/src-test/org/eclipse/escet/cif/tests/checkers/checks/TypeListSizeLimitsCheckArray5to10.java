@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.tests.checkers.checks;
 
 import org.eclipse.escet.cif.checkers.checks.TypeListSizeLimitsCheck;
 
-/** Check that limits array list type sizes of variables between 5 and 10. */
+/** Check that limits array list type sizes of declarations between 5 and 10. */
 public class TypeListSizeLimitsCheckArray5to10 extends TypeListSizeLimitsCheck {
     /** Constructor of the {@link TypeListSizeLimitsCheckArray5to10} class. */
     public TypeListSizeLimitsCheckArray5to10() {
