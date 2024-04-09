@@ -201,8 +201,8 @@ public final class CifScanner extends Scanner {
         false, // 163
         false, // 164
         false, // 165
-        false, // 166
-        false, // 167
+        true, // 166
+        true, // 167
         false, // 168
         true, // 169
         false, // 170
@@ -749,6 +749,9 @@ public final class CifScanner extends Scanner {
         null, // 174
     };
 
+    /** Scanner call back hook methods. */
+    public final CifParserHooks hooks;
+
     /** The current DFA state of the scanner. */
     private int state;
 
@@ -759,6 +762,7 @@ public final class CifScanner extends Scanner {
         terminals = TERMINALS;
         terminalNames = TERMINAL_NAMES;
         terminalDescriptions = TERMINAL_DESCRIPTIONS;
+        hooks = new CifParserHooks();
     }
 
     @Override
@@ -49290,8 +49294,10 @@ public final class CifScanner extends Scanner {
             case 165:
                 return;
             case 166:
+                hooks.scanAnnoName(token);
                 return;
             case 167:
+                hooks.scanSpecAnnoName(token);
                 return;
             case 168:
                 return;
@@ -49477,5 +49483,24 @@ public final class CifScanner extends Scanner {
 
         String msg = "Unknown keyword category: " + keywordCategory;
         throw new IllegalArgumentException(msg);
+    }
+
+    /** Scanner call back hooks for {@link CifScanner}. */
+    public interface Hooks {
+        /**
+         * Call back hook "scanAnnoName" for {@link CifScanner}.
+         * May perform in-place modifications to the scanned text of the token.
+         *
+         * @param token The scanned token.
+         */
+        public void scanAnnoName(Token token);
+
+        /**
+         * Call back hook "scanSpecAnnoName" for {@link CifScanner}.
+         * May perform in-place modifications to the scanned text of the token.
+         *
+         * @param token The scanned token.
+         */
+        public void scanSpecAnnoName(Token token);
     }
 }

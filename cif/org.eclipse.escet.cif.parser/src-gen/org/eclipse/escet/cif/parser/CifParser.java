@@ -1033,7 +1033,7 @@ public final class CifParser extends Parser<ASpecification> {
         firstTerminalsReduced = FirstTerminalsReduced.FIRST_TERMINALS_REDUCED;
         reducibleNonTerminals = ReducibleNonTerminals.REDUCIBLE_NON_TERMINALS;
         reducibleNonTerminalsReduced = ReducibleNonTerminalsReduced.REDUCIBLE_NON_TERMINALS_REDUCED;
-        hooks = new CifParserHooks();
+        hooks = ((CifScanner)scanner).hooks;
     }
 
     @Override

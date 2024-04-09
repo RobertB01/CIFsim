@@ -158,16 +158,30 @@ import org.eclipse.escet.setext.runtime.exceptions.CustomSyntaxException;
 /**
  * Call back hook methods for:
  * <ul>
- * <li>{@link CifParser}</li>
+ *  <li>{@link CifScanner}</li>
+ *  <li>{@link CifParser}</li>
  * </ul>
  */
-public final class CifParserHooks implements CifParser.Hooks {
+public final class CifParserHooks
+implements CifScanner.Hooks,
+           CifParser.Hooks
+{
     /** The parser that owns the call back hooks. */
     private Parser<?> parser;
 
     @Override
     public void setParser(Parser<?> parser) {
         this.parser = parser;
+    }
+
+    @Override
+    public void scanAnnoName(Token token) {
+        token.text = token.originalText.substring(1); // Strip of '@'.
+    }
+
+    @Override
+    public void scanSpecAnnoName(Token token) {
+        token.text = token.originalText.substring(2); // Strip of '@@'.
     }
 
     @Override // SupKind : @PLANTKW;

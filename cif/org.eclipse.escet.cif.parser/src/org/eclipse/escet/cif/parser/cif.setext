@@ -211,8 +211,10 @@ end
   STRINGTK             = "\"([^\\\"\n]|\\[nt\\\"])*\""
                          [a string literal];
   ANNOTATIONNAMETK     = "@{uidentifier}(:{uidentifier})*"
+                         {scanAnnoName}
                          [an annotation name];
   SPECANNOTATIONNAMETK = "@@{uidentifier}(:{uidentifier})*"
+                         {scanSpecAnnoName}
                          [a specification annotation name];
 
   // Comments.

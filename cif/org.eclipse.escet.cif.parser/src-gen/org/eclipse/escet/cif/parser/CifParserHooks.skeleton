@@ -76,14 +76,24 @@ import org.eclipse.escet.setext.runtime.Token;
 /**
  * Call back hook methods for:
  * <ul>
+ *  <li>{@link CifScanner}</li>
  *  <li>{@link CifParser}</li>
  * </ul>
  */
 public final class CifParserHooks
-implements CifParser.Hooks
+implements CifScanner.Hooks,
+           CifParser.Hooks
 {
     @Override
     public void setParser(Parser<?> parser) {
+    }
+
+    @Override
+    public void scanAnnoName(Token token) {
+    }
+
+    @Override
+    public void scanSpecAnnoName(Token token) {
     }
 
     @Override // SupKind : @PLANTKW;
