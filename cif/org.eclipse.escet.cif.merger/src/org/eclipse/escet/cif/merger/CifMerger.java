@@ -169,6 +169,9 @@ public class CifMerger {
             throw new RuntimeException(msg);
         }
 
+        // Merge annotations.
+        mergedComp.getAnnotations().addAll(otherComp.getAnnotations());
+
         // Merge initialization/marker predicates.
         mergedComp.getInitials().addAll(otherComp.getInitials());
         mergedComp.getMarkeds().addAll(otherComp.getMarkeds());

@@ -196,22 +196,26 @@ end
 
 @terminals:
   // Literals.
-  RELATIVENAMETK   = "{identifier}(\.{identifier})+"
-                     [a name];
-  ABSOLUTENAMETK   = "\.{identifier}(\.{identifier})*"
-                     [a name];
-  ROOTNAMETK       = "\^{identifier}(\.{identifier})*"
-                     [a name];
-  IDENTIFIERTK     = "{identifier}"
-                     [an identifier];
-  NUMBERTK         = "(0|[1-9][0-9]*)"
-                     [an integer literal];
-  REALTK           = "(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)"
-                     [a real literal];
-  STRINGTK         = "\"([^\\\"\n]|\\[nt\\\"])*\""
-                     [a string literal];
-  ANNOTATIONNAMETK = "@{uidentifier}(:{uidentifier})*"
-                     [an annotation name];
+  RELATIVENAMETK       = "{identifier}(\.{identifier})+"
+                         [a name];
+  ABSOLUTENAMETK       = "\.{identifier}(\.{identifier})*"
+                         [a name];
+  ROOTNAMETK           = "\^{identifier}(\.{identifier})*"
+                         [a name];
+  IDENTIFIERTK         = "{identifier}"
+                         [an identifier];
+  NUMBERTK             = "(0|[1-9][0-9]*)"
+                         [an integer literal];
+  REALTK               = "(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)"
+                         [a real literal];
+  STRINGTK             = "\"([^\\\"\n]|\\[nt\\\"])*\""
+                         [a string literal];
+  ANNOTATIONNAMETK     = "@{uidentifier}(:{uidentifier})*"
+                         {scanAnnoName}
+                         [an annotation name];
+  SPECANNOTATIONNAMETK = "@@{uidentifier}(:{uidentifier})*"
+                         {scanSpecAnnoName}
+                         [a specification annotation name];
 
   // Comments.
   "//.*";
@@ -249,7 +253,7 @@ end
 @import java.util.List;
 
 {cif.ASpecification}
-Specification : GroupBody
+Specification : OptSpecAnnos GroupBody
               ;
 
 {cif.AGroupBody}
@@ -929,6 +933,17 @@ Name : Identifier
      ;
 
 ///////////////////////////////////////////////////////////////////////////////
+
+{List<annos.AAnnotation>}
+OptSpecAnnos : /* empty */
+             | OptSpecAnnos SpecAnnotation
+             ;
+
+{annos.AAnnotation}
+SpecAnnotation : @SPECANNOTATIONNAMETK
+               | @SPECANNOTATIONNAMETK PAROPENTK PARCLOSETK
+               | @SPECANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK
+               ;
 
 {List<annos.AAnnotation>}
 OptAnnos : /* empty */

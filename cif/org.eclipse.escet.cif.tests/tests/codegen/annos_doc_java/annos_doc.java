@@ -7,7 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-/** annos_doc code generated from a CIF specification. */
+/**
+ * annos_doc code generated from a CIF specification.
+ *
+ * First doc
+ * with multiple lines.
+ *
+ * Second doc.
+ */
 @SuppressWarnings("unused")
 public abstract class annos_doc {
     /** Should execution timing information be provided? */

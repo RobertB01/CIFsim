@@ -428,6 +428,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link Automaton} class.
      *
      * @param alphabet The "alphabet" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "alphabet", or to set it later.
+     * @param annotations The "annotations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param declarations The "declarations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
      * @param equations The "equations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "equations", or to set it later.
      * @param initials The "initials" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "initials", or to set it later.
@@ -441,10 +442,13 @@ public class CifConstructors {
      * @param position The "position" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Automaton} class.
      */
-    public static Automaton newAutomaton(Alphabet alphabet, List<Declaration> declarations, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, SupKind kind, List<Location> locations, List<Expression> markeds, Monitors monitors, String name, Position position) {
+    public static Automaton newAutomaton(Alphabet alphabet, List<Annotation> annotations, List<Declaration> declarations, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, SupKind kind, List<Location> locations, List<Expression> markeds, Monitors monitors, String name, Position position) {
         Automaton rslt_ = newAutomaton();
         if (alphabet != null) {
             rslt_.setAlphabet(alphabet);
+        }
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
         }
         if (declarations != null) {
             rslt_.getDeclarations().addAll(declarations);
@@ -893,14 +897,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ComponentInst} class.
      *
+     * @param annotations The "annotations" of the new "ComponentInst". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param arguments The "arguments" of the new "ComponentInst". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments", or to set it later.
      * @param definition The "definition" of the new "ComponentInst". Multiplicity [1..1]. May be {@code null} to set the "definition" later.
      * @param name The "name" of the new "ComponentInst". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "ComponentInst". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ComponentInst} class.
      */
-    public static ComponentInst newComponentInst(List<Expression> arguments, CifType definition, String name, Position position) {
+    public static ComponentInst newComponentInst(List<Annotation> annotations, List<Expression> arguments, CifType definition, String name, Position position) {
         ComponentInst rslt_ = newComponentInst();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (arguments != null) {
             rslt_.getArguments().addAll(arguments);
         }
@@ -2057,6 +2065,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Group} class.
      *
+     * @param annotations The "annotations" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param components The "components" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "components", or to set it later.
      * @param declarations The "declarations" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
      * @param definitions The "definitions" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "definitions", or to set it later.
@@ -2069,8 +2078,11 @@ public class CifConstructors {
      * @param position The "position" of the new "Group". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Group} class.
      */
-    public static Group newGroup(List<Component> components, List<Declaration> declarations, List<ComponentDef> definitions, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, List<Expression> markeds, String name, Position position) {
+    public static Group newGroup(List<Annotation> annotations, List<Component> components, List<Declaration> declarations, List<ComponentDef> definitions, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, List<Expression> markeds, String name, Position position) {
         Group rslt_ = newGroup();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (components != null) {
             rslt_.getComponents().addAll(components);
         }
@@ -3033,6 +3045,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Specification} class.
      *
+     * @param annotations The "annotations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param components The "components" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "components", or to set it later.
      * @param declarations The "declarations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
      * @param definitions The "definitions" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "definitions", or to set it later.
@@ -3045,8 +3058,11 @@ public class CifConstructors {
      * @param position The "position" of the new "Specification". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Specification} class.
      */
-    public static Specification newSpecification(List<Component> components, List<Declaration> declarations, List<ComponentDef> definitions, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, List<Expression> markeds, String name, Position position) {
+    public static Specification newSpecification(List<Annotation> annotations, List<Component> components, List<Declaration> declarations, List<ComponentDef> definitions, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, List<Expression> markeds, String name, Position position) {
         Specification rslt_ = newSpecification();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (components != null) {
             rslt_.getComponents().addAll(components);
         }

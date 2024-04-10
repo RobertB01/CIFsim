@@ -13,21 +13,29 @@
 
 package org.eclipse.escet.cif.parser.ast;
 
+import java.util.List;
+
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
 import org.eclipse.escet.common.java.TextPosition;
 
 /** Specification. */
 public class ASpecification extends ACifObject {
+    /** The annotations of the specification. */
+    public final List<AAnnotation> annotations;
+
     /** The body of the specification. */
     public final AGroupBody body;
 
     /**
      * Constructor for the {@link ASpecification} class.
      *
+     * @param annotations The annotations of the specification.
      * @param body The body of the specification.
      * @param position Position information.
      */
-    public ASpecification(AGroupBody body, TextPosition position) {
+    public ASpecification(List<AAnnotation> annotations, AGroupBody body, TextPosition position) {
         super(position);
+        this.annotations = annotations;
         this.body = body;
     }
 }

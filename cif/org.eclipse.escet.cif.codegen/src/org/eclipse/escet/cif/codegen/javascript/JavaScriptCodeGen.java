@@ -969,6 +969,26 @@ public class JavaScriptCodeGen extends CodeGen {
     }
 
     @Override
+    protected void addSpec(CodeContext ctxt) {
+        List<String> docs = DocAnnotationProvider.getDocs(spec);
+        CodeBox classJavaDoc = makeCodeBox(0);
+        if (docs.isEmpty()) {
+            classJavaDoc.add("/** ${prefix} code generated from a CIF specification. */");
+        } else {
+            classJavaDoc.add("/**");
+            classJavaDoc.add(" * ${prefix} code generated from a CIF specification.");
+            for (String doc: docs) {
+                classJavaDoc.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    classJavaDoc.add(" * %s", line);
+                }
+            }
+            classJavaDoc.add(" */");
+        }
+        replacements.put("javascript-class-jsdoc", classJavaDoc.toString());
+    }
+
+    @Override
     public Destination makeDestination(VariableInformation varInfo) {
         DataValue dataValue = new JavaScriptDataValue(varInfo.targetRef);
         return new Destination(null, varInfo.typeInfo, dataValue);

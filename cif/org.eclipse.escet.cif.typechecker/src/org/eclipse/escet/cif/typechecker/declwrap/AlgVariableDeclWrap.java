@@ -173,8 +173,7 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
         }
 
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
-                tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, scope, tchecker);
         mmDecl.getAnnotations().addAll(annos);
 
         // Check for single-value type.

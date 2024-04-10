@@ -32,7 +32,7 @@ For a complete list of the annotations that are bundled with CIF, see the <<lang
 === Syntax
 
 Annotations are optional.
-If specified, annotations are indicated by an <<lang-ref-syntax-lexical-annoname,annotation name>>.
+If specified, annotations are indicated by a <<lang-ref-syntax-lexical-specannoname,specification annotation name>> (for specifications) or a regular <<lang-ref-syntax-lexical-annoname,annotation name>> (for all other elements of specifications).
 
 Optionally, the annotation may have arguments.
 If the annotation has arguments, these are put between parentheses, `(` and `)`.
@@ -84,6 +84,18 @@ Here is an example, where an input variable is annotated with an annotation with
 input bool x;
 ----
 
+For a specification, the annotations must be before any other elements of the specification.
+Here is an example, where the specification with the annotated input variable is extended with two annotations on the specification itself:
+
+[source,cif]
+----
+@@anno1(arg1 = 5)
+@@anno2(arg2 = "some text")
+
+@anno
+input bool x;
+----
+
 Currently, annotations are only supported for the following elements in CIF specifications:
 
 * Algebraic variables.
@@ -93,6 +105,7 @@ Currently, annotations are only supported for the following elements in CIF spec
 * Events.
 * Input variables.
 * Locations of automata.
+* Specifications.
 
 This will be extended to other elements of specifications in the future.
 

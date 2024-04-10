@@ -68,7 +68,8 @@ public class CifToDmmTest {
      * @return The created plant automaton.
      */
     private Automaton makeAddPlantAut(String name) {
-        Automaton aut = newAutomaton(null, null, null, null, null, null, SupKind.PLANT, null, null, null, name, null);
+        Automaton aut = newAutomaton(null, null, null, null, null, null, null, SupKind.PLANT, null, null, null, name,
+                null);
         spec.getComponents().add(aut);
         return aut;
     }
@@ -80,8 +81,8 @@ public class CifToDmmTest {
      * @return The created requirement automaton.
      */
     private Automaton makeAddRequirementAut(String name) {
-        Automaton aut = newAutomaton(null, null, null, null, null, null, SupKind.REQUIREMENT, null, null, null, name,
-                null);
+        Automaton aut = newAutomaton(null, null, null, null, null, null, null, SupKind.REQUIREMENT, null, null, null,
+                name, null);
         spec.getComponents().add(aut);
         return aut;
     }

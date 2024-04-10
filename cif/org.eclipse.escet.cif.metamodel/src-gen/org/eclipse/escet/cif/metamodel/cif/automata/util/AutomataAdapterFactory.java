@@ -159,6 +159,11 @@ public class AutomataAdapterFactory extends AdapterFactoryImpl
                 return createPositionObjectAdapter();
             }
             @Override
+            public Adapter caseAnnotatedObject(AnnotatedObject object)
+            {
+                return createAnnotatedObjectAdapter();
+            }
+            @Override
             public Adapter caseComponent(Component object)
             {
                 return createComponentAdapter();
@@ -167,11 +172,6 @@ public class AutomataAdapterFactory extends AdapterFactoryImpl
             public Adapter caseComplexComponent(ComplexComponent object)
             {
                 return createComplexComponentAdapter();
-            }
-            @Override
-            public Adapter caseAnnotatedObject(AnnotatedObject object)
-            {
-                return createAnnotatedObjectAdapter();
             }
             @Override
             public Adapter defaultCase(EObject object)
@@ -391,6 +391,21 @@ public class AutomataAdapterFactory extends AdapterFactoryImpl
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject <em>Annotated Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject
+     * @generated
+     */
+    public Adapter createAnnotatedObjectAdapter()
+    {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link org.eclipse.escet.cif.metamodel.cif.Component <em>Component</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -416,21 +431,6 @@ public class AutomataAdapterFactory extends AdapterFactoryImpl
      * @generated
      */
     public Adapter createComplexComponentAdapter()
-    {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject <em>Annotated Object</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject
-     * @generated
-     */
-    public Adapter createAnnotatedObjectAdapter()
     {
         return null;
     }

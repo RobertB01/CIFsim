@@ -11,6 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@cif:typechecker:tests:anno1(x = true)
+
 // Warning: argument is not named 'arg'.
 @cif:typechecker:tests:anno1(x = true)
 input bool i1;

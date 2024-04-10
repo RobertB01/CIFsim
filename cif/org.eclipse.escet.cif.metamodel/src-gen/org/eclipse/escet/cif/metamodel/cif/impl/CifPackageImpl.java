@@ -969,7 +969,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        componentEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        componentEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
         groupEClass.getESuperTypes().add(this.getComplexComponent());
         componentDefEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         componentInstEClass.getESuperTypes().add(this.getComponent());

@@ -14,7 +14,7 @@
  */
 package org.eclipse.escet.cif.metamodel.cif;
 
-import org.eclipse.escet.common.position.metamodel.position.PositionObject;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +32,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * @model abstract="true"
  * @generated
  */
-public interface Component extends PositionObject
+public interface Component extends AnnotatedObject
 {
     /**
      * Returns the value of the '<em><b>Name</b></em>' attribute.

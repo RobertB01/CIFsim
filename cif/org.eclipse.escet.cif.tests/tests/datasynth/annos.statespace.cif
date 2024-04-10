@@ -1,0 +1,11 @@
+group p:
+  controllable c_e;
+end
+automaton statespace:
+  alphabet p.c_e;
+  @state(p = "*", sup = "*")
+  location loc1:
+    initial;
+    marked;
+    edge p.c_e;
+end

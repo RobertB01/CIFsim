@@ -142,8 +142,8 @@ public class TransitionGeneratorTest {
 
     private DiscVariable otherVar = newDiscVariable(null, "otherVar", null, newIntType(), null);
 
-    private Specification spec = newSpecification(null, List.of(recVar, otherVar), null, null, null, null, null, null,
-            "specification", null);
+    private Specification spec = newSpecification(null, null, List.of(recVar, otherVar), null, null, null, null, null,
+            null, "specification", null);
 
     @BeforeEach
     public void setup() {
