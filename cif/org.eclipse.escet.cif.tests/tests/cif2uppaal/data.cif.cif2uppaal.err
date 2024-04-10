@@ -1,0 +1,1 @@
+WARNING: File "cif2uppaal/data.cif": Semantic warning at line 19, column 7: Type "int[1..1]" allows only one value.

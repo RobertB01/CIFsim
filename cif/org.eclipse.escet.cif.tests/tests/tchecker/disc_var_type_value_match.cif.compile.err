@@ -6,4 +6,5 @@ ERROR: File "tchecker/disc_var_type_value_match.cif": Semantic error at line 19,
 ERROR: File "tchecker/disc_var_type_value_match.cif": Semantic error at line 19, column 41: The type "int[2..3]" of an initial value of discrete variable "p.x5" is incompatible with the type "int[1..2]" of the variable.
 ERROR: File "tchecker/disc_var_type_value_match.cif": Semantic error at line 20, column 28: The type "list[4] int[1..4]" of the initial value of discrete variable "p.x6" is incompatible with the type "list[0..3] int" of the variable.
 ERROR: File "tchecker/disc_var_type_value_match.cif": Semantic error at line 21, column 25: The type "list[4] int[1..4]" of the initial value of discrete variable "p.x7" is incompatible with the type "list[3] int" of the variable.
+WARNING: File "tchecker/disc_var_type_value_match.cif": Semantic warning at line 17, column 8: Type "int[2..2]" allows only one value.
 ERROR: Failed to load CIF file "tchecker/disc_var_type_value_match.cif": the file has errors.

@@ -16,4 +16,6 @@ ERROR: File "tchecker/static_eval.cif": Semantic error at line 92, column 48: Ca
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 101, column 29: Cannot statically evaluate an automaton "self" reference.
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 102, column 29: Cannot statically evaluate automaton "aut_ref" to its active location.
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 114, column 29: Cannot statically evaluate component parameter "comp_param_ref2.p".
+WARNING: File "tchecker/static_eval.cif": Semantic warning at line 15, column 15: Type "int[1..1]" allows only one value.
+WARNING: File "tchecker/static_eval.cif": Semantic warning at line 48, column 9: Type "int[1..1]" allows only one value.
 ERROR: Failed to load CIF file "tchecker/static_eval.cif": the file has errors.

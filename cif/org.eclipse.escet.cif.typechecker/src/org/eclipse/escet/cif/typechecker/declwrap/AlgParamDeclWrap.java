@@ -17,6 +17,7 @@ import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.AlgParameter;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.AAlgParameter;
@@ -85,13 +86,26 @@ public class AlgParamDeclWrap extends DeclWrap<AlgParameter> {
         // Set the type.
         mmDecl.getVariable().setType(type);
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked 'for use'.
+        status = CheckStatus.USE;
     }
 
     @Override
     public void tcheckFull() {
-        // The 'for use' check already fully checks the algebraic parameter.
+        // Check for use first, and make sure not already fully checked.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Check for single-value type.
+        CifType type = mmDecl.getVariable().getType();
+        if (CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
+        }
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 }

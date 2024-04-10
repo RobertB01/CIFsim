@@ -1,3 +1,11 @@
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 180, column 5: Type "int[6..6]" allows only one value.
 WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 180, column 25: The switch expression has only one case, which is deprecated.
 WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 184, column 20: The switch expression has only one case, which is deprecated.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 237, column 5: Type "int[5..5]" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 240, column 5: Type "int[4..4]" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 249, column 5: Type "int[1..1]" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 252, column 5: Type "int[0..0]" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 305, column 5: Type "list[0] int" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 469, column 7: Type "int[123..123]" allows only one value.
 WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 469, column 25: The switch expression has only one case, which is deprecated.
+WARNING: File "pprint_elim_cdef/exprs.out.cif": Semantic warning at line 489, column 8: Type "int[4..4]" allows only one value.

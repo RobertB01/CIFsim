@@ -1,0 +1,1 @@
+WARNING: File "pprint_elim_cdef/import1b.cif": Semantic warning at line 16, column 15: Type "int[2..2]" allows only one value.

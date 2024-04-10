@@ -1,7 +1,7 @@
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 14, column 10: Name of "c_alg" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 16, column 12: Name of "c_const" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 18, column 6: Name of "c_enum" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
-WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 18, column 15: Name of "c_lit" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
+WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 18, column 15: Name of "c_lit1" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 20, column 12: Name of "c_input" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 22, column 6: Name of "c_type" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
 WARNING: File "tchecker/reserved_name_prefix.cif": Semantic warning at line 24, column 11: Name of "c_inv" is invalid, as names starting with "e_", "c_", or "u_" are reserved for events.
