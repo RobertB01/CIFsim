@@ -256,6 +256,13 @@ public class FunctionScope extends ParentScope<Function> {
 
     @Override
     protected void tcheckScopeFull() {
+        // Check return type for single-value type.
+        if (CifValueUtils.getPossibleValueCount(returnType) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, returnType.getPosition(), CifTextUtils.typeToStr(returnType));
+            // Non-fatal problem.
+        }
+
+        // Check body.
         if (astDecl.body instanceof AInternalFuncBody) {
             tcheckIntFuncBody((AInternalFuncBody)astDecl.body);
         } else {

@@ -42,9 +42,9 @@ group g:
 
   // Parameter/argument mismatch: both have type, but not equal types (int range).
 
-  event int[2..2] ei2;
+  event int[2..3] ei2;
 
-  group def Pi12(event int[1..2] e):
+  group def Pi12(event int[1..3] e):
   end
 
   pi12: Pi12(ei2);

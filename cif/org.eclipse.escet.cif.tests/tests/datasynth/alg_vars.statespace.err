@@ -1,0 +1,3 @@
+WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 30, column 26: Type "int[3..3]" allows only one value.
+WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 42, column 26: Type "int[2..2]" allows only one value.
+WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 54, column 26: Type "int[4..4]" allows only one value.

@@ -19,7 +19,9 @@ import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 
 /**
  * CIF check that does not allow partial variable assignments on edges.
@@ -29,16 +31,35 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 public class EdgeNoPartialVarAssignCheck extends CifCheck {
     @Override
     protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
-        if (asgn.getAddressable() instanceof ProjectionExpression) {
-            // Determine whether this assignment is part of an edge update.
-            EObject parent = asgn.eContainer();
-            while (!(parent instanceof Edge) && !(parent instanceof SvgIn)) {
-                parent = parent.eContainer();
-            }
+        // Skip assignments that are not part of an edge update.
+        EObject parent = asgn.eContainer();
+        while (!(parent instanceof Edge) && !(parent instanceof SvgIn)) {
+            parent = parent.eContainer();
+        }
+        if (!(parent instanceof Edge)) {
+            return;
+        }
 
-            if (parent instanceof Edge) {
-                violations.add(asgn, "Edge has a partial variable assignment");
+        // Check addressable of the assignment on an edge.
+        checkAddressable(asgn, asgn.getAddressable(), violations);
+    }
+
+    /**
+     * Check an addressable.
+     *
+     * @param asgn The assignment.
+     * @param addressable The (part of the) addressable of the assignment to check.
+     * @param violations The violations collected so far. Is extended in-place.
+     */
+    private void checkAddressable(Assignment asgn, Expression addressable, CifCheckViolations violations) {
+        if (addressable instanceof TupleExpression tupleAddr) {
+            // Check each part of the multi-assignment.
+            for (Expression field: tupleAddr.getFields()) {
+                checkAddressable(asgn, field, violations);
             }
+        } else if (addressable instanceof ProjectionExpression) {
+            // Report violation for the projection.
+            violations.add(addressable, "Edge has a partial variable assignment");
         }
     }
 }

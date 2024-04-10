@@ -121,3 +121,5 @@ WARNING: File "codegen/exprs.cif": Semantic warning at line 238, column 13: Disc
 WARNING: File "codegen/exprs.cif": Semantic warning at line 239, column 13: Discrete variable "AA.f_size1" is not used anywhere in the specification.
 WARNING: File "codegen/exprs.cif": Semantic warning at line 240, column 13: Discrete variable "AA.f_size2" is not used anywhere in the specification.
 WARNING: File "codegen/exprs.cif": Semantic warning at line 241, column 13: Discrete variable "AA.f_sqrt" is not used anywhere in the specification.
+WARNING: File "codegen/exprs.cif": Semantic warning at line 252, column 14: Type "int[5..5]" allows only one value.
+WARNING: File "codegen/exprs.cif": Semantic warning at line 253, column 14: Type "int[5..5]" allows only one value.

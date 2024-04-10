@@ -15,17 +15,17 @@ alg bool c_alg = true;
 
 const bool c_const = true;
 
-enum c_enum = c_lit;
+enum c_enum = c_lit1, lit2;
 
 input bool c_input;
 
 type c_type = bool;
 
-invariant c_inv: c_alg or c_const or c_input or c_aut.c_var2 or c_aut.c_var1 = c_lit;
+invariant c_inv: c_alg or c_const or c_input or c_aut.c_var2 or c_aut.c_var1 = c_lit1;
 
 plant c_aut:
   plant invariant c_inv1: true;
-  disc c_enum c_var1 = c_lit;
+  disc c_enum c_var1 = c_lit1;
   disc c_type c_var2 = true;
   location:
     initial;
