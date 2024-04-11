@@ -403,10 +403,6 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Both requirement automata and state/event exclusion invariants count as requirement.
                     new SpecHasRequirementCheck(),
 
-                    // Disallow initialization and marker predicates outside locations.
-                    new CompNoInitPredsCheck(true), //
-                    new CompNoMarkerPredsCheck(true),
-
                     // Only requirement state/event exclusion invariants in components are supported.
                     new InvNoSpecificInvsCheck() //
                             .disallow(KINDLESS, NoInvariantKind.ALL_KINDS, ALL_PLACES) //
@@ -522,18 +518,25 @@ public class MultilevelApp extends Application<IOutputComponent> {
 
                     // Conditional updates (if updates), multi-assignments, and partial variable assignments are not
                     // supported.
-                    new EdgeOnlySimpleAssignmentsCheck()
+                    new EdgeOnlySimpleAssignmentsCheck(),
 
-            // Omitted data-based synthesis checks, as they are already covered by the CIF to DMM conversion
-            // checks:
-            // - Disallow supervisor and kind-less invariants.
-            // - Disallow supervisor and kind-less automata.
-            // - Disallow continuous variables.
-            // - Have at least one plant automaton.
+                    // Omitted data-based synthesis checks, as they are already covered by the CIF to DMM conversion
+                    // checks:
+                    // - Disallow supervisor and kind-less invariants.
+                    // - Disallow supervisor and kind-less automata.
+                    // - Disallow continuous variables.
+                    // - Have at least one plant automaton.
 
-            // Some missing checks exist in data-based synthesis, but they can only be checked as part of
-            // performing data-based synthesis.
-            );
+                    // Some missing checks exist in data-based synthesis, but they can only be checked as part of
+                    // performing data-based synthesis.
+
+                    // Constraints of partial specifications.
+
+                    // Disallow initialization and marker predicates outside locations.
+                    new CompNoInitPredsCheck(true), //
+                    new CompNoMarkerPredsCheck(true)
+             //
+             );
         }
     }
 
