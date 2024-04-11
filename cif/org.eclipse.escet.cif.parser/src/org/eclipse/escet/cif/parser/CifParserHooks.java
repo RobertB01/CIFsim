@@ -158,16 +158,30 @@ import org.eclipse.escet.setext.runtime.exceptions.CustomSyntaxException;
 /**
  * Call back hook methods for:
  * <ul>
- * <li>{@link CifParser}</li>
+ *  <li>{@link CifScanner}</li>
+ *  <li>{@link CifParser}</li>
  * </ul>
  */
-public final class CifParserHooks implements CifParser.Hooks {
+public final class CifParserHooks
+implements CifScanner.Hooks,
+           CifParser.Hooks
+{
     /** The parser that owns the call back hooks. */
     private Parser<?> parser;
 
     @Override
     public void setParser(Parser<?> parser) {
         this.parser = parser;
+    }
+
+    @Override
+    public void scanAnnoName(Token token) {
+        token.text = token.originalText.substring(1); // Strip of '@'.
+    }
+
+    @Override
+    public void scanSpecAnnoName(Token token) {
+        token.text = token.originalText.substring(2); // Strip of '@@'.
     }
 
     @Override // SupKind : @PLANTKW;
@@ -415,11 +429,11 @@ public final class CifParserHooks implements CifParser.Hooks {
         return t1;
     }
 
-    @Override // Specification : GroupBody;
-    public ASpecification parseSpecification1(AGroupBody a1) {
+    @Override // Specification : OptSpecAnnos GroupBody;
+    public ASpecification parseSpecification1(List<AAnnotation> l1, AGroupBody a2) {
         String src = parser.getSource();
         String loc = parser.getLocation();
-        return new ASpecification(a1, TextPosition.createDummy(loc, src));
+        return new ASpecification(l1, a2, TextPosition.createDummy(loc, src));
     }
 
     @Override // GroupBody : OptGroupDecls;
@@ -2236,6 +2250,32 @@ public final class CifParserHooks implements CifParser.Hooks {
     @Override // Name : @ROOTNAMETK;
     public AName parseName4(Token t1) {
         return new AName(t1.text, t1.position);
+    }
+
+    @Override // OptSpecAnnos : ;
+    public List<AAnnotation> parseOptSpecAnnos1() {
+        return list();
+    }
+
+    @Override // OptSpecAnnos : OptSpecAnnos SpecAnnotation;
+    public List<AAnnotation> parseOptSpecAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+        l1.add(a2);
+        return l1;
+    }
+
+    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK;
+    public AAnnotation parseSpecAnnotation1(Token t1) {
+        return new AAnnotation(t1, list());
+    }
+
+    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK PARCLOSETK;
+    public AAnnotation parseSpecAnnotation2(Token t1) {
+        return new AAnnotation(t1, list());
+    }
+
+    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    public AAnnotation parseSpecAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
+        return new AAnnotation(t1, l3);
     }
 
     @Override // OptAnnos : ;

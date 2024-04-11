@@ -1,7 +1,13 @@
 /* Simulink S-Function code for annos_doc CIF file.
  *
  * GENERATED CODE, DO NOT EDIT
+ *
+ * First doc
+ * with multiple lines.
+ *
+ * Second doc.
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

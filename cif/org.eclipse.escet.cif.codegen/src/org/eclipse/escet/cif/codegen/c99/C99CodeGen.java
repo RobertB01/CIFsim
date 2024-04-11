@@ -1132,6 +1132,23 @@ public class C99CodeGen extends CodeGen {
     }
 
     @Override
+    protected void addSpec(CodeContext ctxt) {
+        List<String> docs = DocAnnotationProvider.getDocs(spec);
+        CodeBox specCommentsBox = makeCodeBox(0);
+        for (String doc: docs) {
+            specCommentsBox.add(" *");
+            for (String line: doc.split("\\r?\\n")) {
+                specCommentsBox.add(" * %s", line);
+            }
+        }
+        String specCommentsCode = specCommentsBox.toString();
+        if (!specCommentsCode.isEmpty()) {
+            specCommentsCode += "\n";
+        }
+        replacements.put("spec-comments", specCommentsCode);
+    }
+
+    @Override
     protected Map<String, String> getTemplates() {
         Map<String, String> templates = map();
         templates.put("compile.sh", "_compile.sh");

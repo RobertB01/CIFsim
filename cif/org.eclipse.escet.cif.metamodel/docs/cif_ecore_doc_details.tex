@@ -657,6 +657,10 @@ The type of the algebraic variable.
 \citem{AlgVariable.allowedTypes}
   Component and component definition types are not allowed for algebraic
   variables.
+\citemnf{AlgVariable.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead (for algebraic variables), or a parameter is not
+  needed (for algebraic parameters).
 \end{constraints}
 }
 
@@ -846,6 +850,10 @@ The type of the discrete variable.
 \citem{DiscVariable.allowedTypes}
   Component and component definition types are not allowed for discrete
   variables.
+\citemnf{DiscVariable.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead (for discrete variables and local variables of
+  functions), or a parameter is not needed (for function parameters).
 \end{constraints}
 }
 
@@ -984,6 +992,9 @@ The type of the data communicated via this event, if applicable.
 \begin{constraints}
 \citem{Event.allowedTypes}
   Component and component definition types are not allowed for events.
+\citemnf{Event.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead, rather than communicating the value via a channel.
 \end{constraints}
 }
 
@@ -1002,6 +1013,9 @@ The type of the input variable.
 \begin{constraints}
 \citem{InputVariable.allowedTypes}
   Component and component definition types are not allowed for input variables.
+\citemnf{InputVariable.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead.
 \end{constraints}
 }
 
@@ -3883,6 +3897,9 @@ types.
   Component types and component definition types are not allowed in return
   types of functions, as components and component definitions are not meant to
   be used as values.
+\citemnf{Function.returnTypeNotSingleValue}
+  The \emph{returnTypes} should not allow only a single value, as then a
+  constant should be used instead of a function.
 \end{constraints}
 }
 
@@ -4637,6 +4654,7 @@ The annotations of the annotated object.
     \item Events.
     \item Input variables.
     \item Locations of automata.
+    \item Specifications.
   \end{itemize}
 \end{constraints}
 }

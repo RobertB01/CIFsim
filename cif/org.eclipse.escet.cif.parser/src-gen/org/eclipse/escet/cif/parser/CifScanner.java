@@ -201,14 +201,15 @@ public final class CifScanner extends Scanner {
         false, // 163
         false, // 164
         false, // 165
-        false, // 166
-        false, // 167
-        true, // 168
-        false, // 169
+        true, // 166
+        true, // 167
+        false, // 168
+        true, // 169
         false, // 170
-        true, // 171
-        false, // 172
+        false, // 171
+        true, // 172
         false, // 173
+        false, // 174
     };
 
     /** Textual representations of the terminals, for debugging. */
@@ -380,13 +381,14 @@ public final class CifScanner extends Scanner {
         "REALTK=\"(0|[1-9][0-9]*)(.[0-9]+|(.[0-9]+)?[eE][\\-\\+]?[0-9]+)\"", // 164
         "STRINGTK=\"\\\"([^\\\\\"\\n]|\\[nt\\\\\"])*\\\"\"", // 165
         "ANNOTATIONNAMETK=\"@{uidentifier}(:{uidentifier})*\"", // 166
-        "\"//.*\"", // 167
-        "\"/\\*\"", // 168
-        "\"[ \\t\\r\\n]+\"", // 169
-        "\"\u00B6\"", // 170
-        "\"\\*/\"", // 171
-        "\".\"", // 172
-        "\"\\n\"", // 173
+        "SPECANNOTATIONNAMETK=\"@@{uidentifier}(:{uidentifier})*\"", // 167
+        "\"//.*\"", // 168
+        "\"/\\*\"", // 169
+        "\"[ \\t\\r\\n]+\"", // 170
+        "\"\u00B6\"", // 171
+        "\"\\*/\"", // 172
+        "\".\"", // 173
+        "\"\\n\"", // 174
     };
 
     /** Names of the terminals (may be {@code null}), for exceptions. */
@@ -558,13 +560,14 @@ public final class CifScanner extends Scanner {
         "REALTK", // 164
         "STRINGTK", // 165
         "ANNOTATIONNAMETK", // 166
-        null, // 167
+        "SPECANNOTATIONNAMETK", // 167
         null, // 168
         null, // 169
         null, // 170
         null, // 171
         null, // 172
         null, // 173
+        null, // 174
     };
 
     /** Descriptions of the terminals (may be {@code null}), for exceptions. */
@@ -736,14 +739,18 @@ public final class CifScanner extends Scanner {
         "a real literal", // 164
         "a string literal", // 165
         "an annotation name", // 166
-        null, // 167
-        "\"/*\"", // 168
-        null, // 169
-        "end-of-file", // 170
-        "\"*/\"", // 171
-        null, // 172
+        "a specification annotation name", // 167
+        null, // 168
+        "\"/*\"", // 169
+        null, // 170
+        "end-of-file", // 171
+        "\"*/\"", // 172
         null, // 173
+        null, // 174
     };
+
+    /** Scanner call back hook methods. */
+    public final CifParserHooks hooks;
 
     /** The current DFA state of the scanner. */
     private int state;
@@ -755,13 +762,14 @@ public final class CifScanner extends Scanner {
         terminals = TERMINALS;
         terminalNames = TERMINAL_NAMES;
         terminalDescriptions = TERMINAL_DESCRIPTIONS;
+        hooks = new CifParserHooks();
     }
 
     @Override
     public final Token nextTokenInternal() throws IOException {
         switch (scannerState) {
             case 0: state = 0; break;
-            case 1: state = 530; break;
+            case 1: state = 534; break;
             default:
                 String msg = "Unknown scanner state: " + scannerState;
                 throw new RuntimeException(msg);
@@ -1041,7 +1049,11 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 53:
-                    return acceptOrError();
+                    rslt = nextToken53(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
                 case 54:
                     rslt = nextToken54(codePoint);
                     if (rslt != null) {
@@ -1061,11 +1073,7 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 57:
-                    rslt = nextToken57(codePoint);
-                    if (rslt != null) {
-                        return rslt;
-                    }
-                    break;
+                    return acceptOrError();
                 case 58:
                     rslt = nextToken58(codePoint);
                     if (rslt != null) {
@@ -1115,7 +1123,11 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 66:
-                    return acceptOrError();
+                    rslt = nextToken66(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
                 case 67:
                     rslt = nextToken67(codePoint);
                     if (rslt != null) {
@@ -1135,13 +1147,13 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 70:
-                    rslt = nextToken70(codePoint);
+                    return acceptOrError();
+                case 71:
+                    rslt = nextToken71(codePoint);
                     if (rslt != null) {
                         return rslt;
                     }
                     break;
-                case 71:
-                    return acceptOrError();
                 case 72:
                     rslt = nextToken72(codePoint);
                     if (rslt != null) {
@@ -1149,17 +1161,25 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 73:
-                    return acceptOrError();
-                case 74:
-                    return acceptOrError();
-                case 75:
-                    rslt = nextToken75(codePoint);
+                    rslt = nextToken73(codePoint);
                     if (rslt != null) {
                         return rslt;
                     }
                     break;
-                case 76:
+                case 74:
+                    rslt = nextToken74(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
+                case 75:
                     return acceptOrError();
+                case 76:
+                    rslt = nextToken76(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
                 case 77:
                     return acceptOrError();
                 case 78:
@@ -1171,23 +1191,11 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 80:
-                    rslt = nextToken80(codePoint);
-                    if (rslt != null) {
-                        return rslt;
-                    }
-                    break;
+                    return acceptOrError();
                 case 81:
-                    rslt = nextToken81(codePoint);
-                    if (rslt != null) {
-                        return rslt;
-                    }
-                    break;
+                    return acceptOrError();
                 case 82:
-                    rslt = nextToken82(codePoint);
-                    if (rslt != null) {
-                        return rslt;
-                    }
-                    break;
+                    return acceptOrError();
                 case 83:
                     rslt = nextToken83(codePoint);
                     if (rslt != null) {
@@ -3870,7 +3878,6 @@ public final class CifScanner extends Scanner {
                         return rslt;
                     }
                     break;
-                // Scanner state "BLOCK_COMMENT".
                 case 530:
                     rslt = nextToken530(codePoint);
                     if (rslt != null) {
@@ -3884,10 +3891,35 @@ public final class CifScanner extends Scanner {
                     }
                     break;
                 case 532:
-                    return acceptOrError();
+                    rslt = nextToken532(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
                 case 533:
-                    return acceptOrError();
+                    rslt = nextToken533(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
+                // Scanner state "BLOCK_COMMENT".
                 case 534:
+                    rslt = nextToken534(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
+                case 535:
+                    rslt = nextToken535(codePoint);
+                    if (rslt != null) {
+                        return rslt;
+                    }
+                    break;
+                case 536:
+                    return acceptOrError();
+                case 537:
+                    return acceptOrError();
+                case 538:
                     return acceptOrError();
                 default:
                     String msg = "Unknown scanner DFA state: " + state;
@@ -4263,7 +4295,7 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 169;
+                accept = 170;
                 state = 47;
                 break;
             case '@':
@@ -4273,7 +4305,7 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 170;
+                accept = 171;
                 state = 49;
                 break;
             default:
@@ -4351,56 +4383,56 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 495;
+                state = 499;
                 break;
             case 'b':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 496;
+                state = 500;
                 break;
             case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 497;
+                state = 501;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 498;
+                state = 502;
                 break;
             case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 499;
+                state = 503;
                 break;
             case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 500;
+                state = 504;
                 break;
             case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 501;
+                state = 505;
                 break;
             default:
                 return acceptOrError();
@@ -4481,28 +4513,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 98;
-                state = 477;
+                state = 481;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 478;
+                state = 482;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 479;
+                state = 483;
                 break;
             default:
                 return acceptOrError();
@@ -4582,35 +4614,35 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 458;
+                state = 462;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 459;
+                state = 463;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 460;
+                state = 464;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 461;
+                state = 465;
                 break;
             default:
                 return acceptOrError();
@@ -4691,28 +4723,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 435;
+                state = 439;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 436;
+                state = 440;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 437;
+                state = 441;
                 break;
             default:
                 return acceptOrError();
@@ -4795,7 +4827,7 @@ public final class CifScanner extends Scanner {
                 accept = 162;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -4875,35 +4907,35 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 411;
+                state = 415;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 412;
+                state = 416;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 413;
+                state = 417;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 414;
+                state = 418;
                 break;
             default:
                 return acceptOrError();
@@ -4979,63 +5011,63 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 369;
+                state = 373;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 370;
+                state = 374;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 371;
+                state = 375;
                 break;
             case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 372;
+                state = 376;
                 break;
             case 'd':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 373;
+                state = 377;
                 break;
             case 'q':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 374;
+                state = 378;
                 break;
             case 'v':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 375;
+                state = 379;
                 break;
             case 'x':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 376;
+                state = 380;
                 break;
             default:
                 return acceptOrError();
@@ -5112,56 +5144,56 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 342;
+                state = 346;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 343;
+                state = 347;
                 break;
             case 'y':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 344;
+                state = 348;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 345;
+                state = 349;
                 break;
             case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 346;
+                state = 350;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 65;
-                state = 347;
+                state = 351;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 348;
+                state = 352;
                 break;
             default:
                 return acceptOrError();
@@ -5242,28 +5274,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 323;
+                state = 327;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 324;
+                state = 328;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 325;
+                state = 329;
                 break;
             default:
                 return acceptOrError();
@@ -5344,28 +5376,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 298;
+                state = 302;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 299;
+                state = 303;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 300;
+                state = 304;
                 break;
             default:
                 return acceptOrError();
@@ -5447,21 +5479,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 275;
+                state = 279;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 276;
+                state = 280;
                 break;
             default:
                 return acceptOrError();
@@ -5544,14 +5576,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 129;
-                state = 274;
+                state = 278;
                 break;
             default:
                 return acceptOrError();
@@ -5632,28 +5664,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 259;
+                state = 263;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 260;
+                state = 264;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 261;
+                state = 265;
                 break;
             default:
                 return acceptOrError();
@@ -5733,35 +5765,35 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 228;
+                state = 232;
                 break;
             case 'b':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 229;
+                state = 233;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 230;
+                state = 234;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 231;
+                state = 235;
                 break;
             default:
                 return acceptOrError();
@@ -5836,70 +5868,70 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 166;
+                state = 170;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 167;
+                state = 171;
                 break;
             case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 168;
+                state = 172;
                 break;
             case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 169;
+                state = 173;
                 break;
             case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 170;
+                state = 174;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 171;
+                state = 175;
                 break;
             case 'q':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 172;
+                state = 176;
                 break;
             case 'v':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 173;
+                state = 177;
                 break;
             case 'w':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 174;
+                state = 178;
                 break;
             default:
                 return acceptOrError();
@@ -5979,35 +6011,35 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 126;
-                state = 142;
+                state = 146;
                 break;
             case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 143;
+                state = 147;
                 break;
             case 'd':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 33;
-                state = 144;
+                state = 148;
                 break;
             case 'f':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 34;
-                state = 145;
+                state = 149;
                 break;
             default:
                 return acceptOrError();
@@ -6088,28 +6120,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 125;
+                state = 129;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 18;
-                state = 126;
+                state = 130;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 127;
+                state = 131;
                 break;
             default:
                 return acceptOrError();
@@ -6187,49 +6219,49 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 104;
+                state = 108;
                 break;
             case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 105;
+                state = 109;
                 break;
             case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 106;
+                state = 110;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 107;
+                state = 111;
                 break;
             case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 108;
+                state = 112;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 109;
+                state = 113;
                 break;
             default:
                 return acceptOrError();
@@ -6311,21 +6343,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 97;
+                state = 101;
                 break;
             case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 98;
+                state = 102;
                 break;
             default:
                 return acceptOrError();
@@ -6411,17 +6443,17 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 79;
+                state = 83;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 80;
+                state = 84;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -6440,7 +6472,7 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 132;
-                state = 78;
+                state = 82;
                 break;
             default:
                 return acceptOrError();
@@ -6459,7 +6491,7 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 150;
-                state = 77;
+                state = 81;
                 break;
             default:
                 return acceptOrError();
@@ -6478,7 +6510,7 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 145;
-                state = 76;
+                state = 80;
                 break;
             default:
                 return acceptOrError();
@@ -6496,15 +6528,15 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 168;
-                state = 74;
+                accept = 169;
+                state = 78;
                 break;
             case '/':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 167;
-                state = 75;
+                accept = 168;
+                state = 79;
                 break;
             default:
                 return acceptOrError();
@@ -6523,7 +6555,7 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 143;
-                state = 72;
+                state = 76;
                 break;
             default:
                 return acceptOrError();
@@ -6542,7 +6574,7 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 146;
-                state = 71;
+                state = 75;
                 break;
             default:
                 return acceptOrError();
@@ -6613,17 +6645,17 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 160;
-                state = 65;
+                state = 69;
                 break;
             case '.':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 152;
-                state = 66;
+                state = 70;
                 break;
             case '$':
-                state = 67;
+                state = 71;
                 break;
             default:
                 return acceptOrError();
@@ -6710,10 +6742,10 @@ public final class CifScanner extends Scanner {
         switch (codePoint) {
             case 'E':
             case 'e':
-                state = 60;
+                state = 64;
                 break;
             case '.':
-                state = 61;
+                state = 65;
                 break;
             default:
                 return acceptOrError();
@@ -6744,10 +6776,10 @@ public final class CifScanner extends Scanner {
                 break;
             case 'E':
             case 'e':
-                state = 60;
+                state = 64;
                 break;
             case '.':
-                state = 61;
+                state = 65;
                 break;
             default:
                 return acceptOrError();
@@ -6818,10 +6850,10 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 161;
-                state = 55;
+                state = 59;
                 break;
             case '$':
-                state = 56;
+                state = 60;
                 break;
             default:
                 return acceptOrError();
@@ -6966,10 +6998,10 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 165;
-                state = 53;
+                state = 57;
                 break;
             case '\\':
-                state = 54;
+                state = 58;
                 break;
             default:
                 return acceptOrError();
@@ -6990,7 +7022,7 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 169;
+                accept = 170;
                 break;
             default:
                 return acceptOrError();
@@ -7062,6 +7094,9 @@ public final class CifScanner extends Scanner {
                 acceptColumn = curColumn;
                 accept = 166;
                 state = 50;
+                break;
+            case '@':
+                state = 51;
                 break;
             default:
                 return acceptOrError();
@@ -7144,7 +7179,7 @@ public final class CifScanner extends Scanner {
                 accept = 166;
                 break;
             case ':':
-                state = 51;
+                state = 55;
                 break;
             default:
                 return acceptOrError();
@@ -7214,7 +7249,7 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 166;
+                accept = 167;
                 state = 52;
                 break;
             default:
@@ -7229,8 +7264,316 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken52(int codePoint) {
         switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 167;
+                break;
             case ':':
-                state = 51;
+                state = 53;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken53(int codePoint) {
+        switch (codePoint) {
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 167;
+                state = 54;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken54(int codePoint) {
+        switch (codePoint) {
+            case ':':
+                state = 53;
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 167;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken55(int codePoint) {
+        switch (codePoint) {
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 166;
+                state = 56;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken56(int codePoint) {
+        switch (codePoint) {
+            case ':':
+                state = 55;
                 break;
             case '0':
             case '1':
@@ -7310,7 +7653,7 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken54(int codePoint) {
+    private final Token nextToken58(int codePoint) {
         switch (codePoint) {
             case '"':
             case '\\':
@@ -7328,319 +7671,18 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken55(int codePoint) {
-        switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 161;
-                break;
-            case '.':
-                state = 57;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken56(int codePoint) {
-        switch (codePoint) {
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 161;
-                state = 55;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken57(int codePoint) {
-        switch (codePoint) {
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 161;
-                state = 58;
-                break;
-            case '$':
-                state = 59;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken58(int codePoint) {
-        switch (codePoint) {
-            case '.':
-                state = 57;
-                break;
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 161;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
     private final Token nextToken59(int codePoint) {
         switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -7698,7 +7740,9 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 161;
-                state = 58;
+                break;
+            case '.':
+                state = 61;
                 break;
             default:
                 return acceptOrError();
@@ -7712,25 +7756,64 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken60(int codePoint) {
         switch (codePoint) {
-            case '+':
-            case '-':
-                state = 63;
-                break;
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 164;
-                state = 64;
+                accept = 161;
+                state = 59;
                 break;
             default:
                 return acceptOrError();
@@ -7744,21 +7827,67 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken61(int codePoint) {
         switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 164;
+                accept = 161;
                 state = 62;
+                break;
+            case '$':
+                state = 63;
                 break;
             default:
                 return acceptOrError();
@@ -7772,9 +7901,8 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken62(int codePoint) {
         switch (codePoint) {
-            case 'E':
-            case 'e':
-                state = 60;
+            case '.':
+                state = 61;
                 break;
             case '0':
             case '1':
@@ -7786,10 +7914,63 @@ public final class CifScanner extends Scanner {
             case '7':
             case '8':
             case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 164;
+                accept = 161;
                 break;
             default:
                 return acceptOrError();
@@ -7803,21 +7984,64 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken63(int codePoint) {
         switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 164;
-                state = 64;
+                accept = 161;
+                state = 62;
                 break;
             default:
                 return acceptOrError();
@@ -7831,6 +8055,10 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken64(int codePoint) {
         switch (codePoint) {
+            case '+':
+            case '-':
+                state = 67;
+                break;
             case '0':
             case '1':
             case '2':
@@ -7845,6 +8073,7 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 164;
+                state = 68;
                 break;
             default:
                 return acceptOrError();
@@ -7868,66 +8097,42 @@ public final class CifScanner extends Scanner {
             case '7':
             case '8':
             case '9':
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 160;
+                accept = 164;
+                state = 66;
                 break;
-            case '.':
-                state = 68;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken66(int codePoint) {
+        switch (codePoint) {
+            case 'E':
+            case 'e':
+                state = 64;
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 164;
                 break;
             default:
                 return acceptOrError();
@@ -7941,64 +8146,21 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken67(int codePoint) {
         switch (codePoint) {
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 160;
-                state = 65;
+                accept = 164;
+                state = 68;
                 break;
             default:
                 return acceptOrError();
@@ -8012,67 +8174,20 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken68(int codePoint) {
         switch (codePoint) {
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 160;
-                state = 69;
-                break;
-            case '$':
-                state = 70;
+                accept = 164;
                 break;
             default:
                 return acceptOrError();
@@ -8086,9 +8201,6 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken69(int codePoint) {
         switch (codePoint) {
-            case '.':
-                state = 68;
-                break;
             case '0':
             case '1':
             case '2':
@@ -8157,6 +8269,9 @@ public final class CifScanner extends Scanner {
                 acceptColumn = curColumn;
                 accept = 160;
                 break;
+            case '.':
+                state = 72;
+                break;
             default:
                 return acceptOrError();
         }
@@ -8167,7 +8282,7 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken70(int codePoint) {
+    private final Token nextToken71(int codePoint) {
         switch (codePoint) {
             case 'A':
             case 'B':
@@ -8240,11 +8355,220 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken72(int codePoint) {
         switch (codePoint) {
-            case '>':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 151;
+                accept = 160;
+                state = 73;
+                break;
+            case '$':
+                state = 74;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken73(int codePoint) {
+        switch (codePoint) {
+            case '.':
+                state = 72;
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 160;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken74(int codePoint) {
+        switch (codePoint) {
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 160;
                 state = 73;
                 break;
             default:
@@ -8257,7 +8581,26 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken75(int codePoint) {
+    private final Token nextToken76(int codePoint) {
+        switch (codePoint) {
+            case '>':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 151;
+                state = 77;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken79(int codePoint) {
         switch (codePoint) {
             case 0:
             case 1:
@@ -8389,350 +8732,7 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 167;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken79(int codePoint) {
-        switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 5;
-                break;
-            case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 92;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 93;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken80(int codePoint) {
-        switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 5;
-                break;
-            case '.':
-                state = 81;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 87;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken81(int codePoint) {
-        switch (codePoint) {
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 159;
-                state = 82;
-                break;
-            case '$':
-                state = 83;
-                break;
-            default:
-                return acceptOrError();
-        }
-        if (debugScanner) {
-            debugScanner(codePoint, state);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("javadoc")
-    private final Token nextToken82(int codePoint) {
-        switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-            case '_':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 159;
-                break;
-            case '.':
-                state = 84;
+                accept = 168;
                 break;
             default:
                 return acceptOrError();
@@ -8746,6 +8746,16 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken83(int codePoint) {
         switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -8777,11 +8787,9 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -8802,8 +8810,25 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 159;
-                state = 82;
+                accept = 162;
+                state = 5;
+                break;
+            case '.':
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 96;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 97;
                 break;
             default:
                 return acceptOrError();
@@ -8817,6 +8842,16 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken84(int codePoint) {
         switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -8852,7 +8887,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -8873,11 +8907,18 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 159;
+                accept = 162;
+                state = 5;
+                break;
+            case '.':
                 state = 85;
                 break;
-            case '$':
-                state = 86;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 91;
                 break;
             default:
                 return acceptOrError();
@@ -8891,19 +8932,6 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken85(int codePoint) {
         switch (codePoint) {
-            case '.':
-                state = 84;
-                break;
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -8961,6 +8989,10 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 159;
+                state = 86;
+                break;
+            case '$':
+                state = 87;
                 break;
             default:
                 return acceptOrError();
@@ -8974,6 +9006,16 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken86(int codePoint) {
         switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -9031,7 +9073,9 @@ public final class CifScanner extends Scanner {
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 159;
-                state = 85;
+                break;
+            case '.':
+                state = 88;
                 break;
             default:
                 return acceptOrError();
@@ -9045,16 +9089,6 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken87(int codePoint) {
         switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -9083,6 +9117,7 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
+            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -9110,18 +9145,8 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 5;
-                break;
-            case '.':
-                state = 81;
-                break;
-            case 'b':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 88;
+                accept = 159;
+                state = 86;
                 break;
             default:
                 return acceptOrError();
@@ -9135,16 +9160,6 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken88(int codePoint) {
         switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -9192,6 +9207,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -9200,18 +9216,11 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 5;
-                break;
-            case '.':
-                state = 81;
-                break;
-            case 'u':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
+                accept = 159;
                 state = 89;
+                break;
+            case '$':
+                state = 90;
                 break;
             default:
                 return acceptOrError();
@@ -9225,6 +9234,9 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken89(int codePoint) {
         switch (codePoint) {
+            case '.':
+                state = 88;
+                break;
             case '0':
             case '1':
             case '2':
@@ -9273,6 +9285,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -9290,18 +9303,7 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 5;
-                break;
-            case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 90;
+                accept = 159;
                 break;
             default:
                 return acceptOrError();
@@ -9315,16 +9317,6 @@ public final class CifScanner extends Scanner {
     @SuppressWarnings("javadoc")
     private final Token nextToken90(int codePoint) {
         switch (codePoint) {
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
             case 'A':
             case 'B':
             case 'C':
@@ -9363,6 +9355,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -9380,18 +9373,8 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 5;
-                break;
-            case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 123;
-                state = 91;
+                accept = 159;
+                state = 89;
                 break;
             default:
                 return acceptOrError();
@@ -9443,7 +9426,6 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
-            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -9475,7 +9457,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'b':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 92;
                 break;
             default:
                 return acceptOrError();
@@ -9539,13 +9528,13 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -9558,14 +9547,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 73;
-                state = 96;
+                accept = 162;
+                state = 93;
                 break;
             default:
                 return acceptOrError();
@@ -9648,7 +9637,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
@@ -9710,13 +9699,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -9738,13 +9727,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 74;
+                accept = 123;
                 state = 95;
                 break;
             default:
@@ -9829,7 +9818,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -9893,7 +9882,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -9913,7 +9901,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 73;
+                state = 100;
                 break;
             default:
                 return acceptOrError();
@@ -9996,14 +9991,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 101;
+                state = 98;
                 break;
             default:
                 return acceptOrError();
@@ -10058,10 +10053,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -10086,13 +10081,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 74;
                 state = 99;
                 break;
             default:
@@ -10147,6 +10142,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -10176,14 +10172,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'd':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 72;
-                state = 100;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -10267,7 +10256,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -10329,7 +10318,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -10338,6 +10326,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -10350,14 +10339,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 102;
+                state = 105;
                 break;
             default:
                 return acceptOrError();
@@ -10412,10 +10401,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -10440,13 +10429,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 71;
+                accept = 162;
                 state = 103;
                 break;
             default:
@@ -10501,7 +10490,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -10531,7 +10519,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'd':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 72;
+                state = 104;
                 break;
             default:
                 return acceptOrError();
@@ -10593,6 +10588,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -10614,14 +10610,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 122;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -10686,12 +10675,12 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -10704,14 +10693,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 119;
+                state = 106;
                 break;
             default:
                 return acceptOrError();
@@ -10766,7 +10755,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -10775,6 +10763,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -10794,14 +10783,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 117;
+                accept = 71;
+                state = 107;
                 break;
             default:
                 return acceptOrError();
@@ -10869,6 +10858,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -10884,14 +10874,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 29;
-                state = 116;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -10953,7 +10936,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -10961,6 +10943,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -10974,14 +10957,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 97;
-                state = 115;
+                accept = 162;
+                state = 126;
                 break;
             default:
                 return acceptOrError();
@@ -11043,8 +11026,9 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
-            case 'o':
+            case 'n':
             case 'p':
             case 'q':
             case 'r':
@@ -11063,21 +11047,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 110;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 111;
+                state = 123;
                 break;
             default:
                 return acceptOrError();
@@ -11132,6 +11109,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -11140,7 +11118,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -11160,14 +11137,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 27;
-                state = 114;
+                accept = 162;
+                state = 121;
                 break;
             default:
                 return acceptOrError();
@@ -11218,6 +11195,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -11234,7 +11212,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -11250,14 +11227,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 112;
+                accept = 29;
+                state = 120;
                 break;
             default:
                 return acceptOrError();
@@ -11319,6 +11296,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -11326,7 +11304,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -11340,14 +11317,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 28;
-                state = 113;
+                accept = 97;
+                state = 119;
                 break;
             default:
                 return acceptOrError();
@@ -11409,9 +11386,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -11431,7 +11406,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 114;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 115;
                 break;
             default:
                 return acceptOrError();
@@ -11486,7 +11475,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -11515,7 +11503,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 27;
+                state = 118;
                 break;
             default:
                 return acceptOrError();
@@ -11566,7 +11561,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -11599,7 +11593,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 116;
                 break;
             default:
                 return acceptOrError();
@@ -11661,7 +11662,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -11683,7 +11683,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 28;
+                state = 117;
                 break;
             default:
                 return acceptOrError();
@@ -11736,6 +11743,7 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -11766,14 +11774,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'c':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 30;
-                state = 118;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -11857,7 +11858,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -11922,6 +11923,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -11940,14 +11942,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 120;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -12015,6 +12010,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -12030,14 +12026,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 96;
-                state = 121;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -12090,7 +12079,6 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -12121,7 +12109,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'c':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 30;
+                state = 122;
                 break;
             default:
                 return acceptOrError();
@@ -12190,6 +12185,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -12204,14 +12200,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 123;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -12266,6 +12255,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -12275,7 +12265,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -12294,13 +12283,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 26;
+                accept = 162;
                 state = 124;
                 break;
             default:
@@ -12369,7 +12358,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -12385,7 +12373,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'r':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 96;
+                state = 125;
                 break;
             default:
                 return acceptOrError();
@@ -12441,16 +12436,19 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
+            case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -12466,28 +12464,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 93;
-                state = 139;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 13;
-                state = 140;
-                break;
-            case 'f':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 12;
-                state = 141;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -12556,7 +12533,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -12571,7 +12547,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 's':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 127;
                 break;
             default:
                 return acceptOrError();
@@ -12624,8 +12607,8 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -12639,8 +12622,10 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
+            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -12652,28 +12637,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'c':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 26;
                 state = 128;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 129;
-                break;
-            case 'v':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 125;
-                state = 130;
                 break;
             default:
                 return acceptOrError();
@@ -12743,6 +12714,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -12756,14 +12728,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 14;
-                state = 138;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -12814,23 +12779,23 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
+            case 'c':
             case 'd':
             case 'e':
-            case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -12844,28 +12809,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 131;
+                accept = 93;
+                state = 143;
                 break;
-            case 't':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 17;
-                state = 132;
+                accept = 13;
+                state = 144;
                 break;
-            case 'c':
+            case 'f':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 16;
-                state = 133;
+                accept = 12;
+                state = 145;
                 break;
             default:
                 return acceptOrError();
@@ -12949,7 +12914,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -13001,7 +12966,7 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
-            case 'c':
+            case 'b':
             case 'd':
             case 'e':
             case 'f':
@@ -13017,10 +12982,8 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
-            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -13032,13 +12995,27 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'b':
+            case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
+                state = 132;
+                break;
+            case 's':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 133;
+                break;
+            case 'v':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 125;
                 state = 134;
                 break;
             default:
@@ -13109,7 +13086,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -13123,7 +13099,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 14;
+                state = 142;
                 break;
             default:
                 return acceptOrError();
@@ -13174,9 +13157,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -13193,7 +13174,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -13207,7 +13187,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 135;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 17;
+                state = 136;
+                break;
+            case 'c':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 16;
+                state = 137;
                 break;
             default:
                 return acceptOrError();
@@ -13269,6 +13270,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -13290,14 +13292,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 135;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -13349,9 +13344,9 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
-            case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -13380,14 +13375,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'b':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 136;
+                state = 138;
                 break;
             default:
                 return acceptOrError();
@@ -13456,6 +13451,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -13470,14 +13466,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 15;
-                state = 137;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -13561,7 +13550,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -13623,7 +13612,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -13645,7 +13633,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 139;
                 break;
             default:
                 return acceptOrError();
@@ -13700,7 +13695,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -13729,7 +13723,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 140;
                 break;
             default:
                 return acceptOrError();
@@ -13798,7 +13799,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -13813,7 +13813,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 's':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 15;
+                state = 141;
                 break;
             default:
                 return acceptOrError();
@@ -13897,7 +13904,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -13956,16 +13963,20 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
+            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -13977,35 +13988,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'p':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 150;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 38;
-                state = 151;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 152;
-                break;
-            case 'v':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 153;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -14071,6 +14054,7 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -14088,14 +14072,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'p':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 146;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -14179,7 +14156,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -14263,7 +14240,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -14322,19 +14299,16 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
-            case 'p':
+            case 'o':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
-            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -14346,14 +14320,35 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 147;
+                state = 154;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 38;
+                state = 155;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 156;
+                break;
+            case 'v':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 157;
                 break;
             default:
                 return acceptOrError();
@@ -14419,8 +14414,8 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -14436,14 +14431,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 148;
+                state = 150;
                 break;
             default:
                 return acceptOrError();
@@ -14513,6 +14508,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -14526,14 +14522,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 35;
-                state = 149;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -14617,7 +14606,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -14682,12 +14671,12 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -14700,14 +14689,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 164;
+                state = 151;
                 break;
             default:
                 return acceptOrError();
@@ -14775,7 +14764,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -14791,7 +14779,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'r':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 152;
                 break;
             default:
                 return acceptOrError();
@@ -14874,14 +14869,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 160;
+                accept = 35;
+                state = 153;
                 break;
             default:
                 return acceptOrError();
@@ -14932,6 +14927,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -14964,14 +14960,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 154;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -15039,9 +15028,9 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -15054,14 +15043,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 155;
+                state = 168;
                 break;
             default:
                 return acceptOrError();
@@ -15120,6 +15109,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -15144,14 +15134,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 156;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -15202,6 +15185,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -15220,7 +15204,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -15234,14 +15217,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 157;
+                state = 164;
                 break;
             default:
                 return acceptOrError();
@@ -15292,7 +15275,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -15305,6 +15287,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -15324,9 +15307,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -15399,8 +15382,8 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -15414,13 +15397,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 39;
+                accept = 162;
                 state = 159;
                 break;
             default:
@@ -15480,7 +15463,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -15505,7 +15487,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 160;
                 break;
             default:
                 return acceptOrError();
@@ -15556,7 +15545,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -15564,6 +15552,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -15588,9 +15577,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -15646,6 +15635,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -15658,7 +15648,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -15678,9 +15667,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -15747,6 +15736,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -15754,7 +15744,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -15768,13 +15757,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 36;
+                accept = 39;
                 state = 163;
                 break;
             default:
@@ -15859,7 +15848,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -15918,7 +15907,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -15929,6 +15917,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -15942,13 +15931,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 37;
+                accept = 162;
                 state = 165;
                 break;
             default:
@@ -16000,7 +15989,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -16033,7 +16021,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 166;
                 break;
             default:
                 return acceptOrError();
@@ -16095,7 +16090,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -16116,14 +16111,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 224;
+                accept = 36;
+                state = 167;
                 break;
             default:
                 return acceptOrError();
@@ -16185,6 +16180,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -16192,6 +16188,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -16205,21 +16202,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 221;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 54;
-                state = 222;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -16287,8 +16270,8 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -16302,14 +16285,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 217;
+                accept = 37;
+                state = 169;
                 break;
             default:
                 return acceptOrError();
@@ -16361,6 +16344,7 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
+            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -16374,6 +16358,7 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -16391,21 +16376,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'p':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 208;
-                break;
-            case 'b':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 131;
-                state = 209;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -16456,6 +16427,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -16467,7 +16439,6 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -16488,14 +16459,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 205;
+                state = 228;
                 break;
             default:
                 return acceptOrError();
@@ -16552,23 +16523,24 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
             case 'x':
             case 'y':
+            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -16576,28 +16548,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 199;
+                state = 225;
                 break;
-            case 'n':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 87;
-                state = 200;
-                break;
-            case 'z':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 201;
+                accept = 54;
+                state = 226;
                 break;
             default:
                 return acceptOrError();
@@ -16680,14 +16645,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 197;
+                state = 221;
                 break;
             default:
                 return acceptOrError();
@@ -16739,11 +16704,11 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
-            case 'b':
             case 'c':
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -16752,7 +16717,6 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -16770,14 +16734,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 179;
+                state = 212;
+                break;
+            case 'b':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 131;
+                state = 213;
                 break;
             default:
                 return acceptOrError();
@@ -16828,7 +16799,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -16836,6 +16806,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -16860,14 +16831,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 175;
+                state = 209;
                 break;
             default:
                 return acceptOrError();
@@ -16924,25 +16895,23 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
             case 'x':
             case 'y':
-            case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -16950,14 +16919,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'g':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 176;
+                state = 203;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 87;
+                state = 204;
+                break;
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 205;
                 break;
             default:
                 return acceptOrError();
@@ -17010,6 +16993,7 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -17024,7 +17008,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -17040,14 +17023,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'c':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 177;
+                state = 201;
                 break;
             default:
                 return acceptOrError();
@@ -17104,7 +17087,7 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -17130,14 +17113,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'h':
+            case 'g':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 61;
-                state = 178;
+                accept = 162;
+                state = 183;
                 break;
             default:
                 return acceptOrError();
@@ -17196,7 +17179,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -17221,7 +17203,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 179;
                 break;
             default:
                 return acceptOrError();
@@ -17274,19 +17263,23 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
             case 'e':
+            case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -17300,42 +17293,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
                 state = 180;
-                break;
-            case 'm':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 181;
-                break;
-            case 'c':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 182;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 183;
-                break;
-            case 'f':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 184;
                 break;
             default:
                 return acceptOrError();
@@ -17388,7 +17353,6 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -17406,6 +17370,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -17418,14 +17383,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 195;
+                state = 181;
                 break;
             default:
                 return acceptOrError();
@@ -17483,13 +17448,13 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
-            case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -17508,14 +17473,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'h':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 192;
+                accept = 61;
+                state = 182;
                 break;
             default:
                 return acceptOrError();
@@ -17580,6 +17545,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -17598,14 +17564,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 189;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -17658,18 +17617,14 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
-            case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
-            case 'o':
+            case 'n':
             case 'p':
             case 'q':
             case 'r':
@@ -17688,13 +17643,41 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 58;
+                accept = 162;
+                state = 184;
+                break;
+            case 'm':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 185;
+                break;
+            case 'c':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 186;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 187;
+                break;
+            case 'f':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
                 state = 188;
                 break;
             default:
@@ -17754,6 +17737,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -17765,7 +17749,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -17778,14 +17761,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 185;
+                state = 199;
                 break;
             default:
                 return acceptOrError();
@@ -17847,9 +17830,9 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -17868,14 +17851,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 186;
+                state = 196;
                 break;
             default:
                 return acceptOrError();
@@ -17930,6 +17913,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -17939,7 +17923,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -17958,14 +17941,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 57;
-                state = 187;
+                accept = 162;
+                state = 193;
                 break;
             default:
                 return acceptOrError();
@@ -18029,7 +18012,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -18049,7 +18031,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 58;
+                state = 192;
                 break;
             default:
                 return acceptOrError();
@@ -18108,7 +18097,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -18133,7 +18121,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 189;
                 break;
             default:
                 return acceptOrError();
@@ -18195,10 +18190,10 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -18216,9 +18211,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'p':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -18278,7 +18273,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -18298,6 +18292,7 @@ public final class CifScanner extends Scanner {
             case 'v':
             case 'w':
             case 'x':
+            case 'y':
             case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
@@ -18306,13 +18301,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'y':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 56;
+                accept = 57;
                 state = 191;
                 break;
             default:
@@ -18397,7 +18392,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -18469,6 +18464,7 @@ public final class CifScanner extends Scanner {
             case 's':
             case 't':
             case 'u':
+            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -18480,14 +18476,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'v':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 193;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -18542,6 +18531,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -18552,7 +18542,6 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -18570,13 +18559,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 59;
+                accept = 162;
                 state = 194;
                 break;
             default:
@@ -18652,7 +18641,6 @@ public final class CifScanner extends Scanner {
             case 'v':
             case 'w':
             case 'x':
-            case 'y':
             case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
@@ -18661,7 +18649,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'y':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 56;
+                state = 195;
                 break;
             default:
                 return acceptOrError();
@@ -18731,6 +18726,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -18744,14 +18740,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 60;
-                state = 196;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -18823,7 +18812,6 @@ public final class CifScanner extends Scanner {
             case 's':
             case 't':
             case 'u':
-            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -18835,7 +18823,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'v':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 197;
                 break;
             default:
                 return acceptOrError();
@@ -18890,7 +18885,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -18905,6 +18899,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -18918,13 +18913,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 108;
+                accept = 59;
                 state = 198;
                 break;
             default:
@@ -19009,7 +19004,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -19073,12 +19068,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -19092,14 +19087,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 106;
-                state = 204;
+                accept = 60;
+                state = 200;
                 break;
             default:
                 return acceptOrError();
@@ -19157,6 +19152,7 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -19182,14 +19178,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'h':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 86;
-                state = 203;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -19244,6 +19233,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -19258,7 +19248,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -19272,13 +19261,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 107;
+                accept = 108;
                 state = 202;
                 break;
             default:
@@ -19363,7 +19352,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -19427,7 +19416,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -19447,7 +19435,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 106;
+                state = 208;
                 break;
             default:
                 return acceptOrError();
@@ -19505,7 +19500,6 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
-            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -19531,7 +19525,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'h':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 86;
+                state = 207;
                 break;
             default:
                 return acceptOrError();
@@ -19586,13 +19587,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -19614,13 +19615,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 107;
                 state = 206;
                 break;
             default:
@@ -19676,6 +19677,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -19704,14 +19706,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 105;
-                state = 207;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -19795,7 +19790,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -19850,6 +19845,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -19878,14 +19874,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 210;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -19947,7 +19936,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -19969,7 +19957,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 210;
                 break;
             default:
                 return acceptOrError();
@@ -20024,7 +20019,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -20037,6 +20031,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -20052,13 +20047,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 105;
                 state = 211;
                 break;
             default:
@@ -20131,6 +20126,7 @@ public final class CifScanner extends Scanner {
             case 's':
             case 't':
             case 'u':
+            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -20142,14 +20138,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'v':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 212;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -20204,10 +20193,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -20232,14 +20221,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 213;
+                state = 214;
                 break;
             default:
                 return acceptOrError();
@@ -20308,6 +20297,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -20322,14 +20312,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 214;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -20394,9 +20377,9 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -20412,9 +20395,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -20487,10 +20470,10 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
-            case 'v':
             case 'w':
             case 'x':
             case 'y':
@@ -20502,13 +20485,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'v':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 77;
+                accept = 162;
                 state = 216;
                 break;
             default:
@@ -20568,7 +20551,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -20593,7 +20575,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 217;
                 break;
             default:
                 return acceptOrError();
@@ -20652,6 +20641,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -20661,7 +20651,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -20676,9 +20665,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -20747,7 +20736,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'o':
+            case 'n':
             case 'p':
             case 'q':
             case 'r':
@@ -20766,9 +20755,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -20830,6 +20819,7 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -20840,7 +20830,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -20856,13 +20845,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 55;
+                accept = 77;
                 state = 220;
                 break;
             default:
@@ -20947,7 +20936,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -21003,9 +20992,9 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
+            case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -21030,14 +21019,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'f':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 53;
-                state = 223;
+                accept = 162;
+                state = 222;
                 break;
             default:
                 return acceptOrError();
@@ -21101,7 +21090,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -21121,7 +21109,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 223;
                 break;
             default:
                 return acceptOrError();
@@ -21178,7 +21173,6 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -21205,7 +21199,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'g':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 55;
+                state = 224;
                 break;
             default:
                 return acceptOrError();
@@ -21271,6 +21272,7 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -21288,14 +21290,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'p':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 225;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -21351,12 +21346,12 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
-            case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -21378,14 +21373,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'f':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 226;
+                accept = 53;
+                state = 227;
                 break;
             default:
                 return acceptOrError();
@@ -21440,6 +21435,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -21468,14 +21464,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 130;
-                state = 227;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -21559,7 +21548,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -21625,9 +21614,9 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -21642,14 +21631,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 257;
+                state = 229;
                 break;
             default:
                 return acceptOrError();
@@ -21711,12 +21700,12 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -21732,14 +21721,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 255;
+                state = 230;
                 break;
             default:
                 return acceptOrError();
@@ -21794,10 +21783,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -21822,14 +21811,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 253;
+                accept = 130;
+                state = 231;
                 break;
             default:
                 return acceptOrError();
@@ -21893,10 +21882,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -21911,21 +21902,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 232;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 85;
-                state = 233;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -21994,6 +21971,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -22007,21 +21985,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 9;
-                state = 235;
+                state = 85;
                 break;
             case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 236;
+                state = 261;
                 break;
             default:
                 return acceptOrError();
@@ -22079,6 +22050,7 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -22088,7 +22060,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -22104,14 +22075,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'h':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 84;
-                state = 234;
+                accept = 162;
+                state = 259;
                 break;
             default:
                 return acceptOrError();
@@ -22170,7 +22141,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -22195,7 +22165,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 257;
                 break;
             default:
                 return acceptOrError();
@@ -22254,15 +22231,15 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
-            case 's':
+            case 'r':
             case 't':
             case 'u':
             case 'v':
@@ -22277,21 +22254,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 241;
+                state = 236;
                 break;
-            case 'i':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 242;
+                accept = 85;
+                state = 237;
                 break;
             default:
                 return acceptOrError();
@@ -22360,7 +22337,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 'u':
             case 'v':
             case 'w':
@@ -22374,14 +22350,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 8;
-                state = 237;
+                accept = 9;
+                state = 239;
+                break;
+            case 's':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 240;
                 break;
             default:
                 return acceptOrError();
@@ -22432,13 +22415,13 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
             case 'e':
             case 'f':
             case 'g':
-            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -22464,13 +22447,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'h':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 84;
                 state = 238;
                 break;
             default:
@@ -22535,6 +22518,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -22554,14 +22538,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 239;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -22620,7 +22597,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -22629,8 +22605,8 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -22644,14 +22620,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 112;
-                state = 240;
+                accept = 162;
+                state = 245;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 246;
                 break;
             default:
                 return acceptOrError();
@@ -22721,7 +22704,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -22735,7 +22717,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 8;
+                state = 241;
                 break;
             default:
                 return acceptOrError();
@@ -22786,7 +22775,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -22800,6 +22788,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -22818,14 +22807,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 246;
+                state = 242;
                 break;
             default:
                 return acceptOrError();
@@ -22908,7 +22897,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
@@ -22985,7 +22974,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -22998,13 +22987,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 112;
                 state = 244;
                 break;
             default:
@@ -23060,6 +23049,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -23088,14 +23078,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 10;
-                state = 245;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -23160,7 +23143,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -23179,7 +23161,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 250;
                 break;
             default:
                 return acceptOrError();
@@ -23241,8 +23230,8 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -23262,9 +23251,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -23331,6 +23320,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -23339,7 +23329,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -23352,9 +23341,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -23410,10 +23399,10 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -23442,13 +23431,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 10;
                 state = 249;
                 break;
             default:
@@ -23501,6 +23490,7 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
+            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -23532,14 +23522,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'b':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 250;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -23622,7 +23605,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
@@ -23684,13 +23667,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -23712,13 +23695,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 11;
+                accept = 162;
                 state = 252;
                 break;
             default:
@@ -23770,7 +23753,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -23803,7 +23785,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 253;
                 break;
             default:
                 return acceptOrError();
@@ -23855,7 +23844,6 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
-            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -23865,6 +23853,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -23886,13 +23875,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'b':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 92;
+                accept = 162;
                 state = 254;
                 break;
             default:
@@ -23955,7 +23944,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -23977,7 +23965,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 255;
                 break;
             default:
                 return acceptOrError();
@@ -24032,7 +24027,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -24047,6 +24041,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -24060,13 +24055,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 91;
+                accept = 11;
                 state = 256;
                 break;
             default:
@@ -24151,7 +24146,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -24206,13 +24201,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -24234,13 +24229,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 7;
+                accept = 92;
                 state = 258;
                 break;
             default:
@@ -24325,7 +24320,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -24393,11 +24388,12 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
+            case 'x':
             case 'y':
             case 'z':
                 acceptOffset = curOffset;
@@ -24407,21 +24403,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 269;
-                break;
-            case 'x':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 100;
-                state = 270;
+                accept = 91;
+                state = 260;
                 break;
             default:
                 return acceptOrError();
@@ -24475,6 +24464,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -24484,6 +24474,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -24503,21 +24494,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 263;
-                break;
-            case 'd':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 127;
-                state = 264;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -24572,7 +24549,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -24581,6 +24557,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -24600,13 +24577,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 101;
+                accept = 7;
                 state = 262;
                 break;
             default:
@@ -24691,7 +24668,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -24750,6 +24727,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -24758,13 +24736,11 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
             case 'v':
             case 'w':
-            case 'x':
             case 'y':
             case 'z':
                 acceptOffset = curOffset;
@@ -24774,14 +24750,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 265;
+                state = 273;
+                break;
+            case 'x':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 100;
+                state = 274;
                 break;
             default:
                 return acceptOrError();
@@ -24835,7 +24818,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -24845,7 +24827,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -24865,7 +24846,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 267;
+                break;
+            case 'd':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 127;
+                state = 268;
                 break;
             default:
                 return acceptOrError();
@@ -24929,12 +24924,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -24948,13 +24943,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 101;
                 state = 266;
                 break;
             default:
@@ -25020,6 +25015,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -25038,14 +25034,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 267;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -25104,7 +25093,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -25113,6 +25101,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -25128,14 +25117,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 43;
-                state = 268;
+                accept = 162;
+                state = 269;
                 break;
             default:
                 return acceptOrError();
@@ -25219,7 +25208,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -25280,6 +25269,7 @@ public final class CifScanner extends Scanner {
             case 'h':
             case 'i':
             case 'j':
+            case 'k':
             case 'l':
             case 'm':
             case 'n':
@@ -25288,7 +25278,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -25302,14 +25291,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'k':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 271;
+                state = 270;
                 break;
             default:
                 return acceptOrError();
@@ -25374,7 +25363,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -25393,7 +25381,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 271;
                 break;
             default:
                 return acceptOrError();
@@ -25448,6 +25443,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -25460,7 +25456,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -25476,13 +25471,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 43;
                 state = 272;
                 break;
             default:
@@ -25537,6 +25532,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -25566,14 +25562,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'd':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 42;
-                state = 273;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -25634,7 +25623,6 @@ public final class CifScanner extends Scanner {
             case 'h':
             case 'i':
             case 'j':
-            case 'k':
             case 'l':
             case 'm':
             case 'n':
@@ -25657,7 +25645,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'k':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 275;
                 break;
             default:
                 return acceptOrError();
@@ -25741,7 +25736,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -25794,11 +25789,12 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -25823,21 +25819,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'c':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 281;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 282;
+                state = 276;
                 break;
             default:
                 return acceptOrError();
@@ -25891,9 +25880,9 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -25920,13 +25909,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
+            case 'd':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 42;
                 state = 277;
                 break;
             default:
@@ -25982,6 +25971,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -26010,14 +26000,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 278;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -26081,6 +26064,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -26100,14 +26084,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 279;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -26160,13 +26137,11 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -26177,6 +26152,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -26190,14 +26166,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 70;
-                state = 280;
+                accept = 162;
+                state = 285;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 286;
                 break;
             default:
                 return acceptOrError();
@@ -26254,7 +26237,6 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -26281,7 +26263,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'g':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 281;
                 break;
             default:
                 return acceptOrError();
@@ -26336,7 +26325,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -26346,6 +26334,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -26364,14 +26353,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 287;
+                state = 282;
                 break;
             default:
                 return acceptOrError();
@@ -26427,6 +26416,7 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
+            case 'f':
             case 'g':
             case 'h':
             case 'i':
@@ -26434,7 +26424,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -26454,9 +26443,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'f':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -26526,11 +26515,11 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -26544,13 +26533,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 70;
                 state = 284;
                 break;
             default:
@@ -26619,6 +26608,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -26634,14 +26624,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 285;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -26704,8 +26687,8 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -26724,14 +26707,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 122;
-                state = 286;
+                accept = 162;
+                state = 291;
                 break;
             default:
                 return acceptOrError();
@@ -26787,7 +26770,6 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
-            case 'f':
             case 'g':
             case 'h':
             case 'i':
@@ -26815,7 +26797,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'f':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 287;
                 break;
             default:
                 return acceptOrError();
@@ -26879,7 +26868,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'o':
+            case 'n':
             case 'p':
             case 'q':
             case 'r':
@@ -26898,9 +26887,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -26973,8 +26962,8 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -26988,9 +26977,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -27058,11 +27047,11 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -27078,13 +27067,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 122;
                 state = 290;
                 break;
             default:
@@ -27150,6 +27139,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -27168,14 +27158,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 291;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -27237,8 +27220,8 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -27258,9 +27241,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -27327,6 +27310,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -27334,7 +27318,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -27348,9 +27331,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -27406,6 +27389,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -27422,7 +27406,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -27438,9 +27421,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -27497,6 +27480,7 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
+            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -27509,7 +27493,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -27528,9 +27511,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'b':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -27618,7 +27601,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'l':
                 acceptOffset = curOffset;
@@ -27680,13 +27663,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -27708,13 +27691,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 69;
+                accept = 162;
                 state = 297;
                 break;
             default:
@@ -27766,7 +27749,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -27799,7 +27781,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 298;
                 break;
             default:
                 return acceptOrError();
@@ -27851,7 +27840,6 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
-            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -27863,6 +27851,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -27882,14 +27871,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'b':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 319;
+                state = 299;
                 break;
             default:
                 return acceptOrError();
@@ -27940,6 +27929,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -27950,13 +27940,14 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
             case 'p':
+            case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -27970,28 +27961,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 304;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 305;
-                break;
-            case 'q':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 306;
+                state = 300;
                 break;
             default:
                 return acceptOrError();
@@ -28046,7 +28023,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -28062,6 +28038,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -28074,13 +28051,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 69;
                 state = 301;
                 break;
             default:
@@ -28145,6 +28122,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -28164,14 +28142,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 302;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -28225,6 +28196,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -28234,7 +28206,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -28254,14 +28225,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'd':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 104;
-                state = 303;
+                accept = 162;
+                state = 323;
                 break;
             default:
                 return acceptOrError();
@@ -28312,7 +28283,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -28328,10 +28298,8 @@ public final class CifScanner extends Scanner {
             case 'n':
             case 'o':
             case 'p':
-            case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -28345,7 +28313,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 308;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 309;
+                break;
+            case 'q':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 310;
                 break;
             default:
                 return acceptOrError();
@@ -28407,6 +28396,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -28415,7 +28405,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -28428,14 +28417,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 51;
-                state = 318;
+                accept = 162;
+                state = 305;
                 break;
             default:
                 return acceptOrError();
@@ -28499,13 +28488,13 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -28518,14 +28507,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 315;
+                state = 306;
                 break;
             default:
                 return acceptOrError();
@@ -28579,7 +28568,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -28596,6 +28584,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -28608,13 +28597,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'd':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 104;
                 state = 307;
                 break;
             default:
@@ -28674,6 +28663,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -28698,14 +28688,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 308;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -28767,12 +28750,12 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -28788,14 +28771,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 309;
+                accept = 51;
+                state = 322;
                 break;
             default:
                 return acceptOrError();
@@ -28850,6 +28833,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -28865,7 +28849,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -28878,14 +28861,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 310;
+                state = 319;
                 break;
             default:
                 return acceptOrError();
@@ -28948,6 +28931,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -28955,7 +28939,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -28968,9 +28951,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -29030,10 +29013,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -29058,9 +29041,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -29129,10 +29112,10 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -29148,9 +29131,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -29210,7 +29193,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -29225,6 +29207,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -29238,13 +29221,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 76;
+                accept = 162;
                 state = 314;
                 break;
             default:
@@ -29308,7 +29291,6 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -29329,7 +29311,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'm':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 315;
                 break;
             default:
                 return acceptOrError();
@@ -29384,7 +29373,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -29397,6 +29385,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -29412,9 +29401,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -29502,13 +29491,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 52;
+                accept = 162;
                 state = 317;
                 break;
             default:
@@ -29579,7 +29568,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -29593,7 +29581,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 76;
+                state = 318;
                 break;
             default:
                 return acceptOrError();
@@ -29677,7 +29672,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -29731,6 +29726,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -29744,7 +29740,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -29760,9 +29755,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'd':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -29831,7 +29826,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -29850,13 +29845,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 52;
                 state = 321;
                 break;
             default:
@@ -29920,6 +29915,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -29940,14 +29936,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'm':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 120;
-                state = 322;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -30031,7 +30020,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -30085,7 +30074,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -30094,6 +30082,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -30114,14 +30103,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'd':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 335;
+                state = 324;
                 break;
             default:
                 return acceptOrError();
@@ -30176,6 +30165,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -30185,7 +30175,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -30204,14 +30193,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 332;
+                state = 325;
                 break;
             default:
                 return acceptOrError();
@@ -30274,14 +30263,16 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
+            case 'w':
             case 'x':
             case 'y':
             case 'z':
@@ -30292,28 +30283,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 128;
+                accept = 120;
                 state = 326;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 327;
-                break;
-            case 'w':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 46;
-                state = 328;
                 break;
             default:
                 return acceptOrError();
@@ -30397,7 +30374,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -30480,14 +30457,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 329;
+                state = 339;
                 break;
             default:
                 return acceptOrError();
@@ -30542,7 +30519,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -30571,7 +30547,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 336;
                 break;
             default:
                 return acceptOrError();
@@ -30622,6 +30605,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -30638,12 +30622,9 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
-            case 'w':
             case 'x':
             case 'y':
             case 'z':
@@ -30654,14 +30635,28 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 128;
+                state = 330;
+                break;
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 330;
+                state = 331;
+                break;
+            case 'w':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 46;
+                state = 332;
                 break;
             default:
                 return acceptOrError();
@@ -30723,6 +30718,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -30744,14 +30740,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 118;
-                state = 331;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -30814,7 +30803,6 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -30835,7 +30823,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'm':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 333;
                 break;
             default:
                 return acceptOrError();
@@ -30889,6 +30884,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -30918,14 +30914,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'd':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 333;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -30976,7 +30965,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -30994,6 +30982,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -31008,13 +30997,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 45;
+                accept = 162;
                 state = 334;
                 break;
             default:
@@ -31077,7 +31066,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -31099,7 +31087,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 118;
+                state = 335;
                 break;
             default:
                 return acceptOrError();
@@ -31154,6 +31149,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -31182,14 +31178,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 336;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -31243,7 +31232,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -31258,6 +31246,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -31272,9 +31261,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'd':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -31345,9 +31334,9 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -31362,13 +31351,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'p':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 45;
                 state = 338;
                 break;
             default:
@@ -31420,6 +31409,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -31452,14 +31442,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 339;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -31512,8 +31495,8 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -31542,9 +31525,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'c':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -31604,6 +31587,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -31617,7 +31601,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -31632,13 +31615,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 44;
+                accept = 162;
                 state = 341;
                 break;
             default:
@@ -31705,7 +31688,6 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -31723,7 +31705,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'p':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 342;
                 break;
             default:
                 return acceptOrError();
@@ -31774,7 +31763,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -31787,12 +31775,14 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -31805,21 +31795,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 89;
-                state = 366;
-                break;
-            case 'u':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 62;
-                state = 367;
+                accept = 162;
+                state = 343;
                 break;
             default:
                 return acceptOrError();
@@ -31872,7 +31855,6 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -31893,6 +31875,7 @@ public final class CifScanner extends Scanner {
             case 'u':
             case 'v':
             case 'w':
+            case 'x':
             case 'y':
             case 'z':
                 acceptOffset = curOffset;
@@ -31902,14 +31885,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'x':
+            case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 364;
+                state = 344;
                 break;
             default:
                 return acceptOrError();
@@ -31964,7 +31947,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -31975,6 +31957,7 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -31992,14 +31975,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'p':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 362;
+                accept = 44;
+                state = 345;
                 break;
             default:
                 return acceptOrError();
@@ -32058,6 +32041,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -32069,6 +32053,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -32081,21 +32066,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'u':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 354;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 355;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -32159,13 +32130,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -32178,14 +32148,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'p':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 351;
+                accept = 89;
+                state = 370;
+                break;
+            case 'u':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 62;
+                state = 371;
                 break;
             default:
                 return acceptOrError();
@@ -32259,7 +32236,6 @@ public final class CifScanner extends Scanner {
             case 'u':
             case 'v':
             case 'w':
-            case 'x':
             case 'y':
             case 'z':
                 acceptOffset = curOffset;
@@ -32269,7 +32245,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'x':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 368;
                 break;
             default:
                 return acceptOrError();
@@ -32332,9 +32315,9 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -32352,14 +32335,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 349;
+                state = 366;
                 break;
             default:
                 return acceptOrError();
@@ -32414,10 +32397,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -32429,7 +32412,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -32442,14 +32424,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 64;
-                state = 350;
+                accept = 162;
+                state = 358;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 359;
                 break;
             default:
                 return acceptOrError();
@@ -32515,7 +32504,6 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -32533,7 +32521,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'p':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 355;
                 break;
             default:
                 return acceptOrError();
@@ -32595,6 +32590,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -32616,14 +32612,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 352;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -32678,6 +32667,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -32685,7 +32675,6 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -32706,13 +32695,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 67;
+                accept = 162;
                 state = 353;
                 break;
             default:
@@ -32768,7 +32757,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -32797,7 +32785,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 64;
+                state = 354;
                 break;
             default:
                 return acceptOrError();
@@ -32852,6 +32847,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -32880,14 +32876,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 66;
-                state = 361;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -32938,6 +32927,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -32948,7 +32938,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -32970,9 +32959,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -33032,7 +33021,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -33041,6 +33029,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -33060,13 +33049,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 67;
                 state = 357;
                 break;
             default:
@@ -33124,6 +33113,7 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -33150,14 +33140,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'g':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 358;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -33212,13 +33195,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -33240,14 +33223,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 359;
+                accept = 66;
+                state = 365;
                 break;
             default:
                 return acceptOrError();
@@ -33298,10 +33281,10 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -33330,13 +33313,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 121;
+                accept = 162;
                 state = 360;
                 break;
             default:
@@ -33401,7 +33384,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -33421,7 +33403,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 361;
                 break;
             default:
                 return acceptOrError();
@@ -33478,7 +33467,6 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -33505,7 +33493,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'g':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 362;
                 break;
             default:
                 return acceptOrError();
@@ -33560,13 +33555,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -33588,13 +33583,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 68;
+                accept = 162;
                 state = 363;
                 break;
             default:
@@ -33650,7 +33645,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -33679,7 +33673,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 121;
+                state = 364;
                 break;
             default:
                 return acceptOrError();
@@ -33749,6 +33750,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -33762,14 +33764,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 63;
-                state = 365;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -33853,7 +33848,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -33908,9 +33903,9 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -33936,14 +33931,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'h':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 88;
-                state = 368;
+                accept = 68;
+                state = 367;
                 break;
             default:
                 return acceptOrError();
@@ -34027,7 +34022,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -34097,7 +34092,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -34111,7 +34105,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 63;
+                state = 369;
                 break;
             default:
                 return acceptOrError();
@@ -34170,6 +34171,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -34179,6 +34181,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -34193,21 +34196,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 407;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 408;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -34261,10 +34250,10 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
-            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -34277,6 +34266,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -34289,21 +34279,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'h':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 404;
-                break;
-            case 'd':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 22;
-                state = 405;
+                accept = 88;
+                state = 372;
                 break;
             default:
                 return acceptOrError();
@@ -34365,6 +34348,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -34386,14 +34370,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'l':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 400;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -34459,6 +34436,7 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -34476,14 +34454,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'p':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 397;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -34540,8 +34511,8 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -34551,7 +34522,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -34566,14 +34536,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 395;
+                state = 411;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 412;
                 break;
             default:
                 return acceptOrError();
@@ -34627,7 +34604,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -34656,14 +34632,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 389;
+                state = 408;
+                break;
+            case 'd':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 22;
+                state = 409;
                 break;
             default:
                 return acceptOrError();
@@ -34718,13 +34701,13 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -34746,14 +34729,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 386;
+                state = 404;
                 break;
             default:
                 return acceptOrError();
@@ -34836,14 +34819,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 95;
-                state = 377;
+                accept = 162;
+                state = 401;
                 break;
             default:
                 return acceptOrError();
@@ -34900,7 +34883,6 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -34908,6 +34890,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -34926,14 +34909,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'g':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 378;
+                state = 399;
                 break;
             default:
                 return acceptOrError();
@@ -34997,13 +34980,13 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -35016,14 +34999,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 379;
+                state = 393;
                 break;
             default:
                 return acceptOrError();
@@ -35106,14 +35089,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 380;
+                state = 390;
                 break;
             default:
                 return acceptOrError();
@@ -35177,8 +35160,8 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -35196,13 +35179,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 95;
                 state = 381;
                 break;
             default:
@@ -35268,11 +35251,11 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -35286,9 +35269,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -35352,11 +35335,11 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -35376,9 +35359,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -35434,10 +35417,10 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -35466,9 +35449,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -35535,8 +35518,8 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -35556,13 +35539,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 114;
+                accept = 162;
                 state = 385;
                 break;
             default:
@@ -35633,7 +35616,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -35647,7 +35629,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 386;
                 break;
             default:
                 return acceptOrError();
@@ -35706,11 +35695,11 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -35730,9 +35719,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -35788,7 +35777,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -35807,6 +35795,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -35820,13 +35809,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 25;
+                accept = 162;
                 state = 388;
                 break;
             default:
@@ -35889,7 +35878,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -35911,7 +35899,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 114;
+                state = 389;
                 break;
             default:
                 return acceptOrError();
@@ -35962,6 +35957,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -35994,14 +35990,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 390;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -36065,12 +36054,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -36084,9 +36073,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -36150,6 +36139,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -36160,7 +36150,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -36174,13 +36163,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 25;
                 state = 392;
                 break;
             default:
@@ -36246,6 +36235,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -36264,14 +36254,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 393;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -36322,7 +36305,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -36335,6 +36317,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -36354,13 +36337,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 24;
+                accept = 162;
                 state = 394;
                 break;
             default:
@@ -36431,7 +36414,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -36445,7 +36427,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 395;
                 break;
             default:
                 return acceptOrError();
@@ -36500,10 +36489,10 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -36528,13 +36517,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 19;
+                accept = 162;
                 state = 396;
                 break;
             default:
@@ -36600,7 +36589,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -36619,7 +36607,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 397;
                 break;
             default:
                 return acceptOrError();
@@ -36683,12 +36678,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -36702,13 +36697,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 24;
                 state = 398;
                 break;
             default:
@@ -36784,6 +36779,7 @@ public final class CifScanner extends Scanner {
             case 'v':
             case 'w':
             case 'x':
+            case 'y':
             case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
@@ -36792,14 +36788,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'y':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 94;
-                state = 399;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -36854,7 +36843,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -36883,7 +36871,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 19;
+                state = 400;
                 break;
             default:
                 return acceptOrError();
@@ -36934,6 +36929,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -36966,14 +36962,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 401;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -37037,12 +37026,12 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -37056,9 +37045,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -37120,6 +37109,7 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -37137,7 +37127,6 @@ public final class CifScanner extends Scanner {
             case 'v':
             case 'w':
             case 'x':
-            case 'y':
             case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
@@ -37146,13 +37135,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
+            case 'y':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 113;
+                accept = 94;
                 state = 403;
                 break;
             default:
@@ -37237,7 +37226,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -37288,7 +37277,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -37300,6 +37288,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -37320,14 +37309,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 23;
-                state = 406;
+                accept = 162;
+                state = 405;
                 break;
             default:
                 return acceptOrError();
@@ -37391,7 +37380,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -37411,7 +37399,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 406;
                 break;
             default:
                 return acceptOrError();
@@ -37468,7 +37463,6 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -37495,7 +37489,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'g':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 113;
+                state = 407;
                 break;
             default:
                 return acceptOrError();
@@ -37550,6 +37551,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -37578,14 +37580,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 21;
-                state = 410;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -37641,13 +37636,13 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
+            case 'f':
             case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -37668,14 +37663,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'f':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 20;
-                state = 409;
+                accept = 23;
+                state = 410;
                 break;
             default:
                 return acceptOrError();
@@ -37759,7 +37754,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -37843,7 +37838,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -37898,7 +37893,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -37911,7 +37905,9 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -37925,21 +37921,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 426;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 427;
+                accept = 21;
+                state = 414;
                 break;
             default:
                 return acceptOrError();
@@ -37994,7 +37983,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'f':
+            case 'e':
             case 'g':
             case 'h':
             case 'i':
@@ -38022,14 +38011,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'f':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 423;
+                accept = 20;
+                state = 413;
                 break;
             default:
                 return acceptOrError();
@@ -38094,6 +38083,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -38112,14 +38102,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 421;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -38183,6 +38166,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -38202,14 +38186,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'n':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 415;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -38274,11 +38251,10 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -38292,14 +38268,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 416;
+                state = 430;
+                break;
+            case 'r':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 431;
                 break;
             default:
                 return acceptOrError();
@@ -38354,7 +38337,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -38362,6 +38344,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -38382,14 +38365,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 417;
+                state = 427;
                 break;
             default:
                 return acceptOrError();
@@ -38448,12 +38431,12 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -38472,14 +38455,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 418;
+                state = 425;
                 break;
             default:
                 return acceptOrError();
@@ -38530,6 +38513,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -38542,7 +38526,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -38562,9 +38545,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -38631,9 +38614,9 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -38652,13 +38635,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 111;
+                accept = 162;
                 state = 420;
                 break;
             default:
@@ -38722,7 +38705,6 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -38743,7 +38725,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'm':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 421;
                 break;
             default:
                 return acceptOrError();
@@ -38802,9 +38791,9 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -38826,13 +38815,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 5;
+                accept = 162;
                 state = 422;
                 break;
             default:
@@ -38884,7 +38873,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -38917,7 +38905,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 423;
                 break;
             default:
                 return acceptOrError();
@@ -38968,6 +38963,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -38978,7 +38974,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -39000,13 +38995,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 111;
                 state = 424;
                 break;
             default:
@@ -39068,6 +39063,7 @@ public final class CifScanner extends Scanner {
             case 'h':
             case 'i':
             case 'j':
+            case 'k':
             case 'l':
             case 'm':
             case 'n':
@@ -39090,14 +39086,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'k':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 6;
-                state = 425;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -39159,7 +39148,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -39181,7 +39169,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 5;
+                state = 426;
                 break;
             default:
                 return acceptOrError();
@@ -39232,6 +39227,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -39264,14 +39260,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 110;
-                state = 434;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -39322,7 +39311,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -39335,6 +39323,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -39354,9 +39343,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -39422,10 +39411,10 @@ public final class CifScanner extends Scanner {
             case 'h':
             case 'i':
             case 'j':
-            case 'k':
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -39444,13 +39433,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'k':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 6;
                 state = 429;
                 break;
             default:
@@ -39522,6 +39511,7 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -39534,14 +39524,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'u':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 430;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -39592,7 +39575,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -39603,6 +39585,7 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -39624,14 +39607,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 431;
+                accept = 110;
+                state = 438;
                 break;
             default:
                 return acceptOrError();
@@ -39693,8 +39676,8 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -39714,9 +39697,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -39780,12 +39763,12 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -39804,13 +39787,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 109;
+                accept = 162;
                 state = 433;
                 break;
             default:
@@ -39882,7 +39865,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -39895,7 +39877,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'u':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 434;
                 break;
             default:
                 return acceptOrError();
@@ -39957,7 +39946,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -39979,7 +39967,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'l':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 435;
                 break;
             default:
                 return acceptOrError();
@@ -40030,6 +40025,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -40040,7 +40036,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -40062,14 +40057,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 455;
+                state = 436;
                 break;
             default:
                 return acceptOrError();
@@ -40124,6 +40119,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -40151,21 +40147,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 48;
-                state = 447;
+                state = 85;
                 break;
             case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 448;
+                accept = 109;
+                state = 437;
                 break;
             default:
                 return acceptOrError();
@@ -40224,17 +40213,21 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
+            case 'w':
             case 'x':
             case 'y':
             case 'z':
@@ -40245,35 +40238,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'p':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 102;
-                state = 438;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 439;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 440;
-                break;
-            case 'w':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 103;
-                state = 441;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -40357,7 +40322,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -40408,7 +40373,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -40427,6 +40391,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -40440,14 +40405,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 47;
-                state = 446;
+                accept = 162;
+                state = 459;
                 break;
             default:
                 return acceptOrError();
@@ -40502,11 +40467,9 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -40516,6 +40479,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -40530,14 +40494,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 48;
+                state = 451;
+                break;
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 442;
+                state = 452;
                 break;
             default:
                 return acceptOrError();
@@ -40596,21 +40567,17 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
-            case 'w':
             case 'x':
             case 'y':
             case 'z':
@@ -40621,7 +40588,35 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'p':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 102;
+                state = 442;
+                break;
+            case 's':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 443;
+                break;
+            case 'i':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 444;
+                break;
+            case 'w':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 103;
+                state = 445;
                 break;
             default:
                 return acceptOrError();
@@ -40690,6 +40685,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -40704,14 +40700,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 's':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 443;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -40776,11 +40765,11 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -40794,14 +40783,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 444;
+                accept = 47;
+                state = 450;
                 break;
             default:
                 return acceptOrError();
@@ -40865,11 +40854,11 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -40884,14 +40873,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 119;
-                state = 445;
+                accept = 162;
+                state = 446;
                 break;
             default:
                 return acceptOrError();
@@ -40975,7 +40964,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -41044,7 +41033,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -41059,7 +41047,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 's':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 447;
                 break;
             default:
                 return acceptOrError();
@@ -41124,7 +41119,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -41143,7 +41137,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 448;
                 break;
             default:
                 return acceptOrError();
@@ -41226,13 +41227,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 119;
                 state = 449;
                 break;
             default:
@@ -41303,6 +41304,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -41316,14 +41318,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 49;
-                state = 450;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -41379,6 +41374,7 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
+            case 'f':
             case 'g':
             case 'h':
             case 'i':
@@ -41406,14 +41402,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'f':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 451;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -41472,6 +41461,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -41496,14 +41486,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 452;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -41565,8 +41548,8 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -41586,9 +41569,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -41648,6 +41631,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -41662,7 +41646,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -41676,13 +41659,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 50;
+                accept = 49;
                 state = 454;
                 break;
             default:
@@ -41739,7 +41722,6 @@ public final class CifScanner extends Scanner {
             case 'c':
             case 'd':
             case 'e':
-            case 'f':
             case 'g':
             case 'h':
             case 'i':
@@ -41767,7 +41749,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'f':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 455;
                 break;
             default:
                 return acceptOrError();
@@ -41826,11 +41815,11 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -41850,9 +41839,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -41919,7 +41908,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -41927,6 +41915,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -41940,13 +41929,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 75;
+                accept = 162;
                 state = 457;
                 break;
             default:
@@ -42002,7 +41991,6 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -42031,7 +42019,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 50;
+                state = 458;
                 break;
             default:
                 return acceptOrError();
@@ -42094,6 +42089,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -42114,14 +42110,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'm':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 474;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -42185,7 +42174,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -42204,14 +42193,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 467;
+                state = 460;
                 break;
             default:
                 return acceptOrError();
@@ -42276,11 +42265,11 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -42294,14 +42283,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 464;
+                accept = 75;
+                state = 461;
                 break;
             default:
                 return acceptOrError();
@@ -42371,6 +42360,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -42384,14 +42374,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 462;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -42454,8 +42437,8 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -42474,14 +42457,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 31;
-                state = 463;
+                accept = 162;
+                state = 478;
                 break;
             default:
                 return acceptOrError();
@@ -42546,7 +42529,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -42565,7 +42547,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 471;
                 break;
             default:
                 return acceptOrError();
@@ -42630,12 +42619,12 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
             case 's':
             case 't':
+            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -42648,14 +42637,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'u':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 465;
+                state = 468;
                 break;
             default:
                 return acceptOrError();
@@ -42721,10 +42710,10 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -42738,13 +42727,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'p':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 32;
+                accept = 162;
                 state = 466;
                 break;
             default:
@@ -42810,7 +42799,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -42829,7 +42817,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 31;
+                state = 467;
                 break;
             default:
                 return acceptOrError();
@@ -42892,6 +42887,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -42912,14 +42908,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'm':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 468;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -42974,6 +42963,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -42989,7 +42979,6 @@ public final class CifScanner extends Scanner {
             case 'r':
             case 's':
             case 't':
-            case 'u':
             case 'v':
             case 'w':
             case 'x':
@@ -43002,9 +42991,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'e':
+            case 'u':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -43075,10 +43064,10 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -43092,13 +43081,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 32;
                 state = 470;
                 break;
             default:
@@ -43167,6 +43156,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -43182,14 +43172,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 471;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -43248,10 +43231,10 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -43272,9 +43255,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -43332,8 +43315,8 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
-            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -43362,13 +43345,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'c':
+            case 'e':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 116;
+                accept = 162;
                 state = 473;
                 break;
             default:
@@ -43439,7 +43422,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -43453,7 +43435,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 474;
                 break;
             default:
                 return acceptOrError();
@@ -43516,11 +43505,11 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -43536,9 +43525,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'r':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -43594,6 +43583,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -43601,7 +43591,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -43626,13 +43615,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 115;
+                accept = 162;
                 state = 476;
                 break;
             default:
@@ -43686,7 +43675,6 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
@@ -43717,7 +43705,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'c':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 116;
+                state = 477;
                 break;
             default:
                 return acceptOrError();
@@ -43801,7 +43796,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -43854,15 +43849,16 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
+            case 'c':
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
             case 'p':
@@ -43883,21 +43879,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 99;
-                state = 482;
-                break;
-            case 'c':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 483;
+                state = 479;
                 break;
             default:
                 return acceptOrError();
@@ -43948,7 +43937,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -43966,6 +43954,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -43980,13 +43969,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 115;
                 state = 480;
                 break;
             default:
@@ -44057,6 +44046,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -44070,14 +44060,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 40;
-                state = 481;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -44161,7 +44144,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -44214,17 +44197,16 @@ public final class CifScanner extends Scanner {
             case '_':
             case 'a':
             case 'b':
-            case 'c':
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -44244,14 +44226,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'g':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 99;
+                state = 486;
+                break;
+            case 'c':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 489;
+                state = 487;
                 break;
             default:
                 return acceptOrError();
@@ -44302,6 +44291,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -44319,7 +44309,6 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -44334,9 +44323,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -44424,13 +44413,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 40;
                 state = 485;
                 break;
             default:
@@ -44490,6 +44479,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -44514,14 +44504,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'i':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 486;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -44585,7 +44568,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -44604,14 +44587,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 487;
+                state = 493;
                 break;
             default:
                 return acceptOrError();
@@ -44662,7 +44645,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -44675,6 +44657,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -44694,13 +44677,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 41;
+                accept = 162;
                 state = 488;
                 break;
             default:
@@ -44771,7 +44754,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -44785,7 +44767,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 489;
                 break;
             default:
                 return acceptOrError();
@@ -44844,12 +44833,12 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -44868,9 +44857,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -44940,9 +44929,9 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -44958,9 +44947,9 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'r':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
@@ -45028,7 +45017,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'n':
+            case 'm':
             case 'o':
             case 'p':
             case 'q':
@@ -45048,13 +45037,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 41;
                 state = 492;
                 break;
             default:
@@ -45106,6 +45095,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -45138,14 +45128,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 493;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -45207,9 +45190,9 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
+            case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -45228,13 +45211,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'l':
+            case 'o':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 117;
+                accept = 162;
                 state = 494;
                 break;
             default:
@@ -45303,7 +45286,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -45319,7 +45301,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'r':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 495;
                 break;
             default:
                 return acceptOrError();
@@ -45376,14 +45365,15 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
             case 'n':
             case 'o':
+            case 'p':
             case 'q':
             case 'r':
             case 's':
@@ -45401,21 +45391,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'g':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 0;
-                state = 523;
-                break;
-            case 'p':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 524;
+                state = 496;
                 break;
             default:
                 return acceptOrError();
@@ -45466,7 +45449,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -45484,6 +45466,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -45498,14 +45481,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 90;
-                state = 522;
+                accept = 162;
+                state = 497;
                 break;
             default:
                 return acceptOrError();
@@ -45556,6 +45539,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -45566,7 +45550,6 @@ public final class CifScanner extends Scanner {
             case 'i':
             case 'j':
             case 'k':
-            case 'l':
             case 'm':
             case 'n':
             case 'o':
@@ -45574,6 +45557,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -45587,21 +45571,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'l':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 517;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 518;
+                accept = 117;
+                state = 498;
                 break;
             default:
                 return acceptOrError();
@@ -45655,6 +45632,7 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
+            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -45675,6 +45653,7 @@ public final class CifScanner extends Scanner {
             case 'v':
             case 'w':
             case 'x':
+            case 'y':
             case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
@@ -45683,21 +45662,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'y':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 2;
-                state = 515;
-                break;
-            case 'd':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 124;
-                state = 516;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -45754,7 +45719,6 @@ public final class CifScanner extends Scanner {
             case 'd':
             case 'e':
             case 'f':
-            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -45763,10 +45727,10 @@ public final class CifScanner extends Scanner {
             case 'm':
             case 'n':
             case 'o':
-            case 'p':
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -45780,14 +45744,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 't':
+            case 'g':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 0;
+                state = 527;
+                break;
+            case 'p':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 508;
+                state = 528;
                 break;
             default:
                 return acceptOrError();
@@ -45852,10 +45823,10 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -45870,14 +45841,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'o':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
-                state = 505;
+                accept = 90;
+                state = 526;
                 break;
             default:
                 return acceptOrError();
@@ -45928,7 +45899,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -45936,6 +45906,7 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
+            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -45946,7 +45917,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -45960,14 +45930,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'i':
+            case 'a':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 162;
-                state = 502;
+                state = 521;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 522;
                 break;
             default:
                 return acceptOrError();
@@ -46021,7 +45998,6 @@ public final class CifScanner extends Scanner {
             case 'a':
             case 'b':
             case 'c':
-            case 'd':
             case 'e':
             case 'f':
             case 'g':
@@ -46031,6 +46007,7 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -46041,7 +46018,6 @@ public final class CifScanner extends Scanner {
             case 'v':
             case 'w':
             case 'x':
-            case 'y':
             case 'z':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
@@ -46050,14 +46026,21 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'y':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 81;
-                state = 503;
+                accept = 2;
+                state = 519;
+                break;
+            case 'd':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 124;
+                state = 520;
                 break;
             default:
                 return acceptOrError();
@@ -46115,6 +46098,7 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -46126,7 +46110,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -46140,14 +46123,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'h':
+            case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 80;
-                state = 504;
+                accept = 162;
+                state = 512;
                 break;
             default:
                 return acceptOrError();
@@ -46212,7 +46195,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -46231,7 +46213,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 509;
                 break;
             default:
                 return acceptOrError();
@@ -46290,7 +46279,6 @@ public final class CifScanner extends Scanner {
             case 'f':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -46300,6 +46288,7 @@ public final class CifScanner extends Scanner {
             case 'p':
             case 'q':
             case 'r':
+            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -46314,13 +46303,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 's':
+            case 'i':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 79;
+                accept = 162;
                 state = 506;
                 break;
             default:
@@ -46379,12 +46368,12 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -46404,13 +46393,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'h':
+            case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 78;
+                accept = 81;
                 state = 507;
                 break;
             default:
@@ -46469,7 +46458,6 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
-            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -46495,7 +46483,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'h':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 80;
+                state = 508;
                 break;
             default:
                 return acceptOrError();
@@ -46560,6 +46555,7 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
+            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -46578,14 +46574,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'o':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 509;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -46648,12 +46637,12 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
+            case 'm':
             case 'n':
             case 'o':
             case 'p':
             case 'q':
             case 'r':
-            case 's':
             case 't':
             case 'u':
             case 'v':
@@ -46668,13 +46657,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'm':
+            case 's':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 79;
                 state = 510;
                 break;
             default:
@@ -46726,13 +46715,13 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
             case 'e':
             case 'f':
             case 'g':
-            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -46758,13 +46747,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'a':
+            case 'h':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 78;
                 state = 511;
                 break;
             default:
@@ -46835,6 +46824,7 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
+            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -46848,14 +46838,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 't':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 512;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -46938,7 +46921,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'o':
                 acceptOffset = curOffset;
@@ -47008,7 +46991,7 @@ public final class CifScanner extends Scanner {
             case 'j':
             case 'k':
             case 'l':
-            case 'm':
+            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -47028,13 +47011,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
-            case 'n':
+            case 'm':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 4;
+                accept = 162;
                 state = 514;
                 break;
             default:
@@ -47086,7 +47069,6 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
-            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -47119,7 +47101,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 515;
                 break;
             default:
                 return acceptOrError();
@@ -47189,7 +47178,6 @@ public final class CifScanner extends Scanner {
             case 'q':
             case 'r':
             case 's':
-            case 't':
             case 'u':
             case 'v':
             case 'w':
@@ -47203,7 +47191,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 't':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 516;
                 break;
             default:
                 return acceptOrError();
@@ -47268,7 +47263,6 @@ public final class CifScanner extends Scanner {
             case 'l':
             case 'm':
             case 'n':
-            case 'o':
             case 'p':
             case 'q':
             case 'r':
@@ -47287,7 +47281,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'o':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 517;
                 break;
             default:
                 return acceptOrError();
@@ -47370,14 +47371,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 83;
-                state = 520;
+                accept = 4;
+                state = 518;
                 break;
             default:
                 return acceptOrError();
@@ -47445,6 +47446,7 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
+            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -47460,14 +47462,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'r':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 3;
-                state = 519;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -47551,7 +47546,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -47609,6 +47604,7 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
+            case 'h':
             case 'i':
             case 'j':
             case 'k':
@@ -47634,14 +47630,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'h':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 82;
-                state = 521;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -47705,7 +47694,6 @@ public final class CifScanner extends Scanner {
             case 'k':
             case 'l':
             case 'm':
-            case 'n':
             case 'o':
             case 'p':
             case 'q':
@@ -47725,7 +47713,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'n':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 83;
+                state = 524;
                 break;
             default:
                 return acceptOrError();
@@ -47793,7 +47788,6 @@ public final class CifScanner extends Scanner {
             case 'o':
             case 'p':
             case 'q':
-            case 'r':
             case 's':
             case 't':
             case 'u':
@@ -47809,7 +47803,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
+                break;
+            case 'r':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 3;
+                state = 523;
                 break;
             default:
                 return acceptOrError();
@@ -47893,7 +47894,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -47976,13 +47977,13 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 'h':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 162;
+                accept = 82;
                 state = 525;
                 break;
             default:
@@ -48034,6 +48035,7 @@ public final class CifScanner extends Scanner {
             case 'Y':
             case 'Z':
             case '_':
+            case 'a':
             case 'b':
             case 'c':
             case 'd':
@@ -48066,14 +48068,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'a':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 526;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -48125,6 +48120,7 @@ public final class CifScanner extends Scanner {
             case 'Z':
             case '_':
             case 'a':
+            case 'b':
             case 'c':
             case 'd':
             case 'e':
@@ -48156,14 +48152,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'b':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 527;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -48218,6 +48207,7 @@ public final class CifScanner extends Scanner {
             case 'b':
             case 'c':
             case 'd':
+            case 'e':
             case 'f':
             case 'g':
             case 'h':
@@ -48246,14 +48236,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
-                break;
-            case 'e':
-                acceptOffset = curOffset;
-                acceptLine = curLine;
-                acceptColumn = curColumn;
-                accept = 162;
-                state = 528;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -48311,6 +48294,366 @@ public final class CifScanner extends Scanner {
             case 'e':
             case 'f':
             case 'g':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 5;
+                break;
+            case '.':
+                state = 85;
+                break;
+            case 'h':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 529;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken529(int codePoint) {
+        switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 5;
+                break;
+            case '.':
+                state = 85;
+                break;
+            case 'a':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 530;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken530(int codePoint) {
+        switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 5;
+                break;
+            case '.':
+                state = 85;
+                break;
+            case 'b':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 531;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken531(int codePoint) {
+        switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 5;
+                break;
+            case '.':
+                state = 85;
+                break;
+            case 'e':
+                acceptOffset = curOffset;
+                acceptLine = curLine;
+                acceptColumn = curColumn;
+                accept = 162;
+                state = 532;
+                break;
+            default:
+                return acceptOrError();
+        }
+        if (debugScanner) {
+            debugScanner(codePoint, state);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("javadoc")
+    private final Token nextToken532(int codePoint) {
+        switch (codePoint) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
             case 'h':
             case 'i':
             case 'j':
@@ -48336,14 +48679,14 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             case 't':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
                 accept = 1;
-                state = 529;
+                state = 533;
                 break;
             default:
                 return acceptOrError();
@@ -48355,7 +48698,7 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken529(int codePoint) {
+    private final Token nextToken533(int codePoint) {
         switch (codePoint) {
             case '0':
             case '1':
@@ -48427,7 +48770,7 @@ public final class CifScanner extends Scanner {
                 state = 5;
                 break;
             case '.':
-                state = 81;
+                state = 85;
                 break;
             default:
                 return acceptOrError();
@@ -48439,14 +48782,14 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken530(int codePoint) {
+    private final Token nextToken534(int codePoint) {
         switch (codePoint) {
             case '*':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 172;
-                state = 531;
+                accept = 173;
+                state = 535;
                 break;
             case 0:
             case 1:
@@ -48577,15 +48920,15 @@ public final class CifScanner extends Scanner {
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 172;
-                state = 532;
+                accept = 173;
+                state = 536;
                 break;
             case '\n':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 173;
-                state = 533;
+                accept = 174;
+                state = 537;
                 break;
             default:
                 return acceptOrError();
@@ -48597,14 +48940,14 @@ public final class CifScanner extends Scanner {
     }
 
     @SuppressWarnings("javadoc")
-    private final Token nextToken531(int codePoint) {
+    private final Token nextToken535(int codePoint) {
         switch (codePoint) {
             case '/':
                 acceptOffset = curOffset;
                 acceptLine = curLine;
                 acceptColumn = curColumn;
-                accept = 171;
-                state = 534;
+                accept = 172;
+                state = 538;
                 break;
             default:
                 return acceptOrError();
@@ -48951,22 +49294,26 @@ public final class CifScanner extends Scanner {
             case 165:
                 return;
             case 166:
+                hooks.scanAnnoName(token);
                 return;
             case 167:
+                hooks.scanSpecAnnoName(token);
                 return;
             case 168:
-                scannerState = 1;
                 return;
             case 169:
+                scannerState = 1;
                 return;
             case 170:
                 return;
             case 171:
-                scannerState = 0;
                 return;
             case 172:
+                scannerState = 0;
                 return;
             case 173:
+                return;
+            case 174:
                 return;
             default:
                 throw new RuntimeException("Unknown terminal id: " + token.id);
@@ -49136,5 +49483,24 @@ public final class CifScanner extends Scanner {
 
         String msg = "Unknown keyword category: " + keywordCategory;
         throw new IllegalArgumentException(msg);
+    }
+
+    /** Scanner call back hooks for {@link CifScanner}. */
+    public interface Hooks {
+        /**
+         * Call back hook "scanAnnoName" for {@link CifScanner}.
+         * May perform in-place modifications to the scanned text of the token.
+         *
+         * @param token The scanned token.
+         */
+        public void scanAnnoName(Token token);
+
+        /**
+         * Call back hook "scanSpecAnnoName" for {@link CifScanner}.
+         * May perform in-place modifications to the scanned text of the token.
+         *
+         * @param token The scanned token.
+         */
+        public void scanSpecAnnoName(Token token);
     }
 }

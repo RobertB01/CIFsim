@@ -11,6 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@cif:typechecker:tests:anno1(x = true)
+
 // Warning: argument is not named 'arg'.
 @cif:typechecker:tests:anno1(x = true)
 input bool i1;
@@ -64,7 +68,7 @@ end
 
 group g1:
   @cif:typechecker:tests:anno1(x = true)
-  alg int alg1 = 5;
+  alg int alg1 = a3.x;
 
   @cif:typechecker:tests:anno1(x = true)
   const int const1 = 6;

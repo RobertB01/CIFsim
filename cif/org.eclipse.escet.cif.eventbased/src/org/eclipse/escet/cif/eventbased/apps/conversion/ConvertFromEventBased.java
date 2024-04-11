@@ -66,7 +66,9 @@ public class ConvertFromEventBased {
     public Specification convertAutomaton(org.eclipse.escet.cif.eventbased.automata.Automaton aut, String resultName,
             boolean doAddStateAnnos)
     {
+        // Create new specification.
         Specification spec = newSpecification();
+
         // Convert and add events.
         Map<org.eclipse.escet.cif.eventbased.automata.Event, Event> eventMap;
         eventMap = convertEvents(aut.alphabet, spec);

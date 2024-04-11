@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -125,9 +126,15 @@ public class DiscVariableDeclWrap extends DeclWrap<DiscVariable> {
         }
 
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, this, scope,
-                tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, scope, tchecker);
         mmDecl.getAnnotations().addAll(annos);
+
+        // Check for single-value type.
+        CifType type = mmDecl.getType();
+        if (CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
+        }
 
         // Check the initial values.
         typeCheckVarValues();

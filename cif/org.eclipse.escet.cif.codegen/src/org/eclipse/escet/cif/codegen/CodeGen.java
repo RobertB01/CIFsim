@@ -159,6 +159,9 @@ public abstract class CodeGen {
      */
     private Set<String> targetNames;
 
+    /** The original specification. */
+    protected Specification spec;
+
     /** The location pointer variables of the original specification. */
     protected List<DiscVariable> lpVariables;
 
@@ -803,6 +806,9 @@ public abstract class CodeGen {
      * @param cifSpecFileDir The absolute local file system path of the directory that contains the CIF specification.
      */
     private void generateCode(CodeContext ctxt, Specification spec, String cifSpecFileDir) {
+        // Store specification.
+        this.spec = spec;
+
         // For the specification, we ignore the component definitions (have
         // already been eliminated), equations (eliminated due to
         // linearization), initialization predicates (should not exist, or
@@ -931,6 +937,9 @@ public abstract class CodeGen {
             Assert.check(!(edge.getEvents().get(0) instanceof EdgeReceive));
         }
         addEdges(ctxt);
+
+        // Add code for the specification itself.
+        addSpec(ctxt);
     }
 
     /**
@@ -1050,6 +1059,13 @@ public abstract class CodeGen {
      * @param code The code generated so far. Is modified in-place.
      */
     protected abstract void addUpdatesEndScope(CodeBox code);
+
+    /**
+     * Generate code for the specification itself.
+     *
+     * @param ctxt The code generation context.
+     */
+    protected abstract void addSpec(CodeContext ctxt);
 
     /**
      * Returns a mapping from template filenames to output file name postfixes.

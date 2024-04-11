@@ -11,6 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@cif:typechecker:tests:anno1
+
 // Error: not exactly one argument.
 @cif:typechecker:tests:anno1
 input bool i1;
@@ -55,7 +59,7 @@ end
 
 group g1:
   @cif:typechecker:tests:anno1
-  alg int alg1 = 1;
+  alg int alg1 = a3.x;
 
   @cif:typechecker:tests:anno1
   const int const1 = 2;

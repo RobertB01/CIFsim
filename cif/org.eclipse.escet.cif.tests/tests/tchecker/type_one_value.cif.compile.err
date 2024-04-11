@@ -1,0 +1,23 @@
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 16, column 17: Type "int[1..1]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 16, column 43: Type "int[2..2]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 20, column 21: Type "int[1..1]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 20, column 47: Type "int[2..2]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 23, column 8: Type "int[3..3]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 30, column 5: Type "int[4..4]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 31, column 19: Type "int[4..4]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 36, column 7: Type "int[6..6]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 53, column 18: Type "int[15..15]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 53, column 33: Type "int[8..8]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 54, column 3: Type "int[7..7]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 58, column 7: Type "int[9..9]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 83, column 7: Type "int[-1..-1]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 84, column 7: Type "int[33..33]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 88, column 7: Type "E1" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 94, column 7: Type "list[0] bool" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 95, column 7: Type "list[1] int[4..4]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 99, column 7: Type "tuple(int[1..1] a; int[1..1] b)" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 101, column 7: Type "int[50..50]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 102, column 7: Type "int[50..50]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 103, column 7: Type "int[50..50]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 105, column 7: Type "int[9..9]" allows only one value.
+WARNING: File "tchecker/type_one_value.cif": Semantic warning at line 106, column 7: Type "int[9..9]" allows only one value.

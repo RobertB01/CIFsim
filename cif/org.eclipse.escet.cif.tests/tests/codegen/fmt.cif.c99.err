@@ -1,3 +1,11 @@
+WARNING: File "codegen/fmt.cif": Semantic warning at line 57, column 20: Type "int[-12,345..-12,345]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 113, column 14: Type "int[1..1]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 132, column 15: Type "int[1..1]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 133, column 15: Type "int[2..2]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 134, column 15: Type "int[3..3]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 135, column 15: Type "int[4..4]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 136, column 15: Type "int[5..5]" allows only one value.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 138, column 15: Type "int[7..7]" allows only one value.
 WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 50: The 3rd value is not used in the format pattern.
 WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 60: The 5th value is not used in the format pattern.
 WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 70: The 7th value is not used in the format pattern.

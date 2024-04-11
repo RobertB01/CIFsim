@@ -1,0 +1,4 @@
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 46, column 8: Type "int[-3..-3]" allows only one value.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 47, column 8: Type "int[3..3]" allows only one value.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 48, column 8: Type "int[-5..-5]" allows only one value.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 49, column 8: Type "int[5..5]" allows only one value.

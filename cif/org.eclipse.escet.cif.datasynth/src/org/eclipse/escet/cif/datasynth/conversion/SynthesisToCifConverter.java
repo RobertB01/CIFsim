@@ -776,6 +776,7 @@ public class SynthesisToCifConverter {
     private Specification addNamespace(String namespace) {
         // Create new specification.
         Specification newSpec = newSpecification();
+        newSpec.getAnnotations().addAll(spec.getAnnotations());
 
         // Collect the events from original specification.
         List<Event> events = list();

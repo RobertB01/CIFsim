@@ -11,6 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+@@doc($text = "first\nwith multiple lines")
+@@doc($text = "second")
+
 @doc($text="a")
 input bool x;
 

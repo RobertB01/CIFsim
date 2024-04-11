@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
@@ -112,6 +113,13 @@ public class FuncVariableDeclWrap extends DeclWrap<DiscVariable> {
         tcheckForUse();
         if (isCheckedFull()) {
             return;
+        }
+
+        // Check for single-value type.
+        CifType type = mmDecl.getType();
+        if (CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
         }
 
         // Check the initial value.

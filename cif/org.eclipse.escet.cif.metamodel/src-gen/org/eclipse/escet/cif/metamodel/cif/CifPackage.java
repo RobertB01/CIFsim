@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage;
+
 import org.eclipse.escet.common.position.metamodel.position.PositionPackage;
 
 /**
@@ -90,7 +92,16 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int COMPONENT__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+    int COMPONENT__POSITION = AnnotationsPackage.ANNOTATED_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT__ANNOTATIONS = AnnotationsPackage.ANNOTATED_OBJECT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -99,7 +110,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int COMPONENT__NAME = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int COMPONENT__NAME = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Component</em>' class.
@@ -108,7 +119,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int COMPONENT_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int COMPONENT_FEATURE_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The number of operations of the '<em>Component</em>' class.
@@ -117,7 +128,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int COMPONENT_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+    int COMPONENT_OPERATION_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.impl.ComplexComponentImpl <em>Complex Component</em>}' class.
@@ -137,6 +148,15 @@ public interface CifPackage extends EPackage
      * @ordered
      */
     int COMPLEX_COMPONENT__POSITION = COMPONENT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPLEX_COMPONENT__ANNOTATIONS = COMPONENT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -237,6 +257,15 @@ public interface CifPackage extends EPackage
      * @ordered
      */
     int GROUP__POSITION = COMPLEX_COMPONENT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GROUP__ANNOTATIONS = COMPLEX_COMPONENT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -412,6 +441,15 @@ public interface CifPackage extends EPackage
     int COMPONENT_INST__POSITION = COMPONENT__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_INST__ANNOTATIONS = COMPONENT__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -474,6 +512,15 @@ public interface CifPackage extends EPackage
      * @ordered
      */
     int SPECIFICATION__POSITION = GROUP__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIFICATION__ANNOTATIONS = GROUP__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.

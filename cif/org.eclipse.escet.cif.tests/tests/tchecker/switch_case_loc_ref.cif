@@ -14,7 +14,8 @@
 const int c = 1;
 
 automaton a:
-  alg int v = 5;
+  alg int v = v2;
+  disc int v2;
 
   location l1:
     initial;

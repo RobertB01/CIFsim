@@ -68,7 +68,7 @@ public class CifTextEditorScanner extends RuleBasedScannerEx {
         String eNamePat = fmt("[.^]?(%s[.])*%s", idPat, eEvtPat);
 
         // Regular expression pattern for annotation names.
-        String annoNamePat = fmt("@%s(:%s)*", uIdPat, uIdPat);
+        String annoNamePat = fmt("@@?%s(:%s)*", uIdPat, uIdPat);
 
         // Regular expression pattern for reals. Note that for the second line,
         // if we switch the alternatives, we get into trouble, as anything
