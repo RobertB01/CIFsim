@@ -205,11 +205,11 @@ public class PartialSpecsTest {
         doTest(List.of(varD, varC, varA), true);
     }
 
-    @Test
     /** Requirement linking a discrete variable to a location, forcing both to be replaced by an input variable. */
+    @Test
     public void testToInputVar() {
         // automaton x:
-        //   location Y:
+        //   location Y;
         // group Z:
         //   disc bool b;
         // invariant Y = b;  <-- Element to copy to the partial specification.
