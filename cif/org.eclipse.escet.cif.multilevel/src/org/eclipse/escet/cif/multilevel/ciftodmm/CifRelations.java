@@ -13,7 +13,11 @@
 
 package org.eclipse.escet.cif.multilevel.ciftodmm;
 
+import static org.eclipse.escet.common.java.Lists.list;
+
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -73,6 +77,34 @@ public class CifRelations {
     public Collection<PositionObject> getRequirementsOfGroup(int grp) {
         return requirementGroups.getRowLabels(requirementGroups.filterColumn(grp, v -> v != 0)).stream()
                 .map(Labels::unwrapLabel).collect(Lists.toList());
+    }
+
+    /**
+     * Get the requirements of requirement groups that have no direct or indirect relation with any plant group.
+     *
+     * <p>
+     * If a requirement group has a relation with another requirement group, they are merged. Existence of a requirement
+     * group thus means that it is not related to any other requirement group.
+     * </p>
+     * <p>
+     * If a requirement group also has no relation with any plant group, it is not related at all with anything else and
+     * thus does not affect any of the specified plant behavior.
+     * </p>
+     *
+     * @return Requirements of requirement groups that have no direct or indirect relation with any plant group.
+     */
+    public Collection<PositionObject> getUselessRequirements() {
+        List<PositionObject> uselessRequirements = list();
+
+        for (int row = 0; row < relations.adjacencies.getRowDimension(); row++) {
+            final int finalRow = row;
+            boolean isUnrelated = IntStream.range(0, relations.adjacencies.getColumnDimension())
+                    .allMatch(col -> relations.adjacencies.getEntry(finalRow, col) == 0);
+            if (isUnrelated) {
+                uselessRequirements.addAll(getRequirementsOfGroup(row));
+            }
+        }
+        return uselessRequirements;
     }
 
     /**

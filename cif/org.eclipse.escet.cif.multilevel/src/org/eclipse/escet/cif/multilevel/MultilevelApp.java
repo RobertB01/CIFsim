@@ -20,11 +20,14 @@ import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.
 import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.PLANT;
 import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.REQUIREMENT;
 import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.SUPERVISOR;
+import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -76,8 +79,10 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesOptimized;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifRelations;
 import org.eclipse.escet.cif.multilevel.ciftodmm.CifToDmm;
 import org.eclipse.escet.cif.multilevel.ciftodmm.SpecHasPlantCheck;
@@ -213,6 +218,20 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
         if (isTerminationRequested()) {
             return 0;
+        }
+
+        // Warn about requirements of requirement groups that don't do anything useful since they are not related to
+        // any plant group.
+        for (PositionObject posObj: cifRelations.getUselessRequirements()) {
+            if (posObj instanceof Automaton aut) {
+                warn("Requirement automaton \"%s\" has no relation to any plant element and does not affect behavior.",
+                        getAbsName(posObj, false));
+            } else if (posObj instanceof Invariant inv) {
+                warn("Requirement invariant \"%s\" has no relation to any plant element and does not affect behavior.",
+                        invToStr(inv, true));
+            } else {
+                throw new AssertionError("Unexpected kind of requirement found: \"" + posObj + "\".");
+            }
         }
 
         // Figure 1 of Goorden 2020: Transform the relations.
@@ -505,15 +524,15 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // supported.
                     new EdgeOnlySimpleAssignmentsCheck()
 
-                    // Omitted data-based synthesis checks, as they are already covered by the CIF to DMM conversion
-                    // checks:
-                    // - Disallow supervisor and kind-less invariants.
-                    // - Disallow supervisor and kind-less automata.
-                    // - Disallow continuous variables.
-                    // - Have at least one plant automaton.
+            // Omitted data-based synthesis checks, as they are already covered by the CIF to DMM conversion
+            // checks:
+            // - Disallow supervisor and kind-less invariants.
+            // - Disallow supervisor and kind-less automata.
+            // - Disallow continuous variables.
+            // - Have at least one plant automaton.
 
-                    // Some missing checks exist in data-based synthesis, but they can only be checked as part of
-                    // performing data-based synthesis.
+            // Some missing checks exist in data-based synthesis, but they can only be checked as part of
+            // performing data-based synthesis.
             );
         }
     }

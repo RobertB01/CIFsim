@@ -18,8 +18,12 @@ controllable evt2;
 requirement R:
   location R1:
     initial;
-    edge evt2;
+    edge evt2 goto R2;
+  location R2;
 end
+
+requirement R.R1 disables evt2;
+requirement invname: evt2 needs R.R2;
 
 plant P:
   location P1:
