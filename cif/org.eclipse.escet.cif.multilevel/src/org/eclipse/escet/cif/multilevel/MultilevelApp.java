@@ -535,8 +535,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Disallow initialization and marker predicates outside locations.
                     new CompNoInitPredsCheck(true), //
                     new CompNoMarkerPredsCheck(true)
-             //
-             );
+            //
+            );
         }
     }
 
