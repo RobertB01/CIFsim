@@ -149,7 +149,7 @@ public class PartialSpecManager {
         List<Expression> initials = deepcloneAndAdd(origAut.getInitials());
         List<Expression> markeds = deepcloneAndAdd(origAut.getMarkeds());
         Monitors monitors = deepcloneAndAdd(origAut.getMonitors());
-        Automaton partialAut = newAutomaton(alphabet, null, null, initials, null, null, origAut.getKind(), null,
+        Automaton partialAut = newAutomaton(alphabet, null, null, null, initials, null, null, origAut.getKind(), null,
                 markeds, monitors, origAut.getName(), null);
         addCopiedObject(origAut, partialAut);
         directlyAttachAddedToComponent(origAut, partialAut);
