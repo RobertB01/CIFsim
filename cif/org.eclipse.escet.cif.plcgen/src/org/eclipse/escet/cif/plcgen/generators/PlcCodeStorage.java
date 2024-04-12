@@ -101,10 +101,16 @@ public class PlcCodeStorage {
     private List<PlcStatement> updateContVarsRemainingTimeCode = null;
 
     /** If not {@code null}, code to perform one iteration of all events. */
-    private List<PlcStatement> eventTransitionsIterationCode = null;
+    private List<PlcStatement> uncontrollableEventTransitionsCode = null;
 
-    /** Maximum number of iterations for performing events in a single cycle, or {@code null} if unrestricted. */
-    private Integer maxIter;
+    /** If not {@code null}, code to perform one iteration of all events. */
+    private List<PlcStatement> controllableEventTransitionsCode = null;
+
+    /** Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if unrestricted. */
+    private Integer maxUncontrollableLimit;
+
+    /** Maximum number of iterations for performing controllable events in a single cycle, or {@code null} if unrestricted. */
+    private Integer maxControllableLimit;
 
     /** If not {@code null}, code for copying I/O input to CIF state. */
     private List<PlcStatement> inputFuncCode = null;
@@ -121,7 +127,8 @@ public class PlcCodeStorage {
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         this.plcFuncAppls = new PlcFunctionAppls(target);
-        this.maxIter = settings.maxIter;
+        this.maxUncontrollableLimit = settings.maxUncontrollableLimit;
+        this.maxControllableLimit = settings.maxControllableLimit;
 
         // Create the project and a configuration.
         project = new PlcProject(settings.projectName);
@@ -303,11 +310,16 @@ public class PlcCodeStorage {
     public void addEventTransitions(List<PlcStatement> uncontrollableEventTransitionsIterationCode,
             List<PlcStatement> controllableEventTransitionsIterationCode)
     {
-        Assert.check(this.eventTransitionsIterationCode == null);
-        List<PlcStatement> eventTransitionsIterationCode = uncontrollableEventTransitionsIterationCode;
-        eventTransitionsIterationCode.addAll(controllableEventTransitionsIterationCode);
-        if (PlcModelUtils.isNonEmptyCode(eventTransitionsIterationCode)) {
-            this.eventTransitionsIterationCode = eventTransitionsIterationCode;
+        // No code added yet?
+        Assert.areEqual(null, uncontrollableEventTransitionsCode);
+        Assert.areEqual(null, controllableEventTransitionsCode);
+
+        // Add the given code if it has content.
+        if (PlcModelUtils.isNonEmptyCode(uncontrollableEventTransitionsIterationCode)) {
+            uncontrollableEventTransitionsCode = uncontrollableEventTransitionsIterationCode;
+        }
+        if (PlcModelUtils.isNonEmptyCode(controllableEventTransitionsIterationCode)) {
+            controllableEventTransitionsCode = controllableEventTransitionsIterationCode;
         }
     }
 
@@ -358,7 +370,7 @@ public class PlcCodeStorage {
         // Construct loop and killed counters.
         PlcBasicVariable loopCount = null;
         PlcBasicVariable loopsKilled = null;
-        if (maxIter != null) {
+        if (maxUncontrollableLimit != null) {
             // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
             String name = nameGen.generateGlobalName("loopsKilled", false);
             loopsKilled = addStateVariable(name, PlcElementaryType.INT_TYPE);
@@ -368,10 +380,10 @@ public class PlcCodeStorage {
             PlcElementaryType loopCountType = target.getIntegerType();
             loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
             int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
-            maxIter = switch (bitSize) {
-                case 64, 32 -> maxIter; // Java int size is 32 bit, all values of maxIter fit.
-                case 16 -> Math.min(maxIter, 0x7FFF);
-                case 8 -> Math.min(maxIter, 0x7F);
+            maxUncontrollableLimit = switch (bitSize) {
+                case 64, 32 -> maxUncontrollableLimit; // Java int size is 32 bit, all values of maxIter fit.
+                case 16 -> Math.min(maxUncontrollableLimit, 0x7FFF);
+                case 8 -> Math.min(maxUncontrollableLimit, 0x7F);
                 default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
             };
             addTempVariable(loopCount);
@@ -424,7 +436,9 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        boxNeedsEmptyLine = generateEventTransitionsCode(eventTransitionsIterationCode, maxIter, "all", loopCount,
+        boxNeedsEmptyLine = generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit, "uncontrollable", loopCount,
+                loopsKilled, box, boxNeedsEmptyLine);
+        boxNeedsEmptyLine = generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit, "controllable", loopCount,
                 loopsKilled, box, boxNeedsEmptyLine);
 
         // Generate output code if it exists. */
