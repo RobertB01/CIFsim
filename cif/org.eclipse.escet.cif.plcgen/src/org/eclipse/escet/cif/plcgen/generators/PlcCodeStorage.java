@@ -107,10 +107,16 @@ public class PlcCodeStorage {
     /** If not {@code null}, code to perform one iteration of all events. */
     private List<PlcStatement> controllableEventTransitionsCode = null;
 
-    /** Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if unrestricted. */
+    /**
+     * Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if
+     * unrestricted.
+     */
     private Integer maxUncontrollableLimit;
 
-    /** Maximum number of iterations for performing controllable events in a single cycle, or {@code null} if unrestricted. */
+    /**
+     * Maximum number of iterations for performing controllable events in a single cycle, or {@code null} if
+     * unrestricted.
+     */
     private Integer maxControllableLimit;
 
     /** If not {@code null}, code for copying I/O input to CIF state. */
@@ -128,7 +134,8 @@ public class PlcCodeStorage {
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         this.plcFuncAppls = new PlcFunctionAppls(target);
-        this.maxUncontrollableLimit = limitMaxIter(settings.maxUncontrollableLimit, "uncontrollable", settings.warnOutput);
+        this.maxUncontrollableLimit = limitMaxIter(settings.maxUncontrollableLimit, "uncontrollable",
+                settings.warnOutput);
         this.maxControllableLimit = limitMaxIter(settings.maxControllableLimit, "controllable", settings.warnOutput);
 
         // Create the project and a configuration.
@@ -464,10 +471,10 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        boxNeedsEmptyLine = generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit, "uncontrollable", loopCount,
-                loopsKilled, box, boxNeedsEmptyLine);
-        boxNeedsEmptyLine = generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit, "controllable", loopCount,
-                loopsKilled, box, boxNeedsEmptyLine);
+        boxNeedsEmptyLine = generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit,
+                "uncontrollable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
+        boxNeedsEmptyLine = generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit,
+                "controllable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
 
         // Generate output code if it exists. */
         if (outputFuncCode != null) {
@@ -498,9 +505,9 @@ public class PlcCodeStorage {
      * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
      * @return Whether an empty line should be inserted in the box output before generating more code.
      */
-    private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode,
-            Integer maxIter, String context, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled,
-            CodeBox box, boolean boxNeedsEmptyLine)
+    private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode, Integer maxIter,
+            String context, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
+            boolean boxNeedsEmptyLine)
     {
         if (eventTransitionsIterationCode == null) {
             return boxNeedsEmptyLine;

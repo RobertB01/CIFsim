@@ -39,10 +39,16 @@ public class PlcGenSettings {
     /** Priority of the PLC task. Must be in the range [0..65535]. */
     public final int taskPriority;
 
-    /** Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if unrestricted. */
+    /**
+     * Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if
+     * unrestricted.
+     */
     public final Integer maxUncontrollableLimit;
 
-    /** Maximum number of iterations for performing controllable events in a single cycle, or {@code null} if unrestricted. */
+    /**
+     * Maximum number of iterations for performing controllable events in a single cycle, or {@code null} if
+     * unrestricted.
+     */
     public final Integer maxControllableLimit;
 
     /** User-specified path to the CIF specification for which to generate PLC code. */
@@ -109,9 +115,9 @@ public class PlcGenSettings {
      * @param warnOutput Callback to send warnings to the user.
      */
     public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
-            int taskCycleTime, int taskPriority, Integer maxUncontrollableLimit, Integer maxControllableLimit, String inputPath, String absInputPath,
-            String absOutputPath, String ioTablePath, String absIoTablePath, PlcNumberBits intTypeSize,
-            PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
+            int taskCycleTime, int taskPriority, Integer maxUncontrollableLimit, Integer maxControllableLimit,
+            String inputPath, String absInputPath, String absOutputPath, String ioTablePath, String absIoTablePath,
+            PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;

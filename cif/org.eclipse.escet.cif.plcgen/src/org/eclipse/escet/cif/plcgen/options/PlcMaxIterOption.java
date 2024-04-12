@@ -33,13 +33,14 @@ public class PlcMaxIterOption extends StringOption {
 
                 // description
                 """
-                The maximum number of iterations for uncontrollable and controllable events
-                for a single execution of the main program body, given as two values separated by a comma.
-                Each value is either a positive integer number, or "inf" to allow an infinite maximum
-                number of iterations. For example "20,inf" means that in a single execution of the main program body
-                at most 20 uncontrollable events and an unrestricted number of controllable events can be executed.
-                If only one value is given, it is used as maximum for both uncontrollable and controllable events.
-                [DEFAULT=inf,inf]""".replace("\n", " "),
+                        The maximum number of iterations for uncontrollable and controllable events
+                        for a single execution of the main program body, given as two values separated by a comma.
+                        Each value is either a positive integer number, or "inf" to allow an infinite maximum
+                        number of iterations. For example "20,inf" means that in a single execution of the main program body
+                        at most 20 uncontrollable events and an unrestricted number of controllable events can be executed.
+                        If only one value is given, it is used as maximum for both uncontrollable and controllable events.
+                        [DEFAULT=inf,inf]"""
+                        .replace("\n", " "),
 
                 // cmdShort
                 'x',
