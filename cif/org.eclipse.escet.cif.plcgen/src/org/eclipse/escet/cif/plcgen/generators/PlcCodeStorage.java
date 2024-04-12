@@ -46,6 +46,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Class that stores and writes generated PLC code. */
 public class PlcCodeStorage {
@@ -127,8 +128,8 @@ public class PlcCodeStorage {
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         this.plcFuncAppls = new PlcFunctionAppls(target);
-        this.maxUncontrollableLimit = settings.maxUncontrollableLimit;
-        this.maxControllableLimit = settings.maxControllableLimit;
+        this.maxUncontrollableLimit = limitMaxIter(settings.maxUncontrollableLimit, "uncontrollable", settings.warnOutput);
+        this.maxControllableLimit = limitMaxIter(settings.maxControllableLimit, "controllable", settings.warnOutput);
 
         // Create the project and a configuration.
         project = new PlcProject(settings.projectName);
@@ -145,6 +146,39 @@ public class PlcCodeStorage {
         mainProgram = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
         project.pous.add(mainProgram);
         task.pouInstances.add(new PlcPouInstance("MAIN", mainProgram));
+    }
+
+    /**
+     * Limit the given limit to the capabilities of the target. Give a warning if the count gets reduced.
+     *
+     * @param specifiedLimit Limit as given by the user.
+     * @param context User context of a modified limit.
+     * @param warnOutput Callback to send warnings to the user.
+     * @return Limit that is feasible for the target.
+     */
+    private Integer limitMaxIter(Integer specifiedLimit, String context, WarnOutput warnOutput) {
+        if (specifiedLimit == null) {
+            return specifiedLimit; // Infinite limit always works.
+        }
+
+        // Compute the maximum feasible limit that can be checked.
+        PlcElementaryType loopCountType = target.getIntegerType();
+        int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
+        int feasibleLimit = switch (bitSize) {
+            case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of maxIter fit.
+            case 16 -> Math.min(specifiedLimit, 0x7FFF);
+            case 8 -> Math.min(specifiedLimit, 0x7F);
+            default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
+        };
+
+        // Give a warning if the limit was reduced.
+        if (specifiedLimit != feasibleLimit) {
+            warnOutput.line(
+                    "Maximum iteration limit for %s events was reduced from %d to %d due to PLC integer limitations.",
+                    context, specifiedLimit, feasibleLimit);
+        }
+
+        return feasibleLimit;
     }
 
     /**
@@ -370,22 +404,16 @@ public class PlcCodeStorage {
         // Construct loop and killed counters.
         PlcBasicVariable loopCount = null;
         PlcBasicVariable loopsKilled = null;
-        if (maxUncontrollableLimit != null) {
+        if (maxUncontrollableLimit != null || maxControllableLimit != null) {
             // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
             String name = nameGen.generateGlobalName("loopsKilled", false);
             loopsKilled = addStateVariable(name, PlcElementaryType.INT_TYPE);
             Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)".
 
-            // Construct a "loopCount" variable, limit the maximum number of iterations to the type.
+            // Construct a "loopCount" variable, finite upper bounds on the loop have already been limited to fit in the
+            // standard integer PLC type.
             PlcElementaryType loopCountType = target.getIntegerType();
             loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
-            int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
-            maxUncontrollableLimit = switch (bitSize) {
-                case 64, 32 -> maxUncontrollableLimit; // Java int size is 32 bit, all values of maxIter fit.
-                case 16 -> Math.min(maxUncontrollableLimit, 0x7FFF);
-                case 8 -> Math.min(maxUncontrollableLimit, 0x7F);
-                default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
-            };
             addTempVariable(loopCount);
         }
 
