@@ -290,12 +290,19 @@ public class PlcCodeStorage {
      * Add code to (try to) perform one iteration of all event transitions. Code should update the
      * {@link #isProgressVariable} if an event is performed.
      *
-     * @param eventTransitionsIterationCode Code that (tries to) perform one iteration of all event transitions. Code
-     *     should update the {@link #isProgressVariable} if an event is performed.
+     * @param uncontrollableEventTransitionsIterationCode Code that (tries to) perform one iteration of all
+     *     uncontrollable event transitions. Code should update the {@link #isProgressVariable} if an event is
+     *     performed.
+     * @param controllableEventTransitionsIterationCode Code that (tries to) perform one iteration of all controllable
+     *     event transitions. Code should update the {@link #isProgressVariable} if an event is performed.
      * @see #getIsProgressVariable
      */
-    public void addEventTransitions(List<PlcStatement> eventTransitionsIterationCode) {
+    public void addEventTransitions(List<PlcStatement> uncontrollableEventTransitionsIterationCode,
+            List<PlcStatement> controllableEventTransitionsIterationCode)
+    {
         Assert.check(this.eventTransitionsIterationCode == null);
+        List<PlcStatement> eventTransitionsIterationCode = uncontrollableEventTransitionsIterationCode;
+        eventTransitionsIterationCode.addAll(controllableEventTransitionsIterationCode);
         if (PlcModelUtils.isNonEmptyCode(eventTransitionsIterationCode)) {
             this.eventTransitionsIterationCode = eventTransitionsIterationCode;
         }
