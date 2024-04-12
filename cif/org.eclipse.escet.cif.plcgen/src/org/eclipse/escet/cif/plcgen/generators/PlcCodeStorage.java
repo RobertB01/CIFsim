@@ -49,6 +49,9 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Class that stores and writes generated PLC code. */
 public class PlcCodeStorage {
+    /** Length of a comment line that explains what the next code block is aiming to do. */
+    private static final int AIM_COMMENT_LENGTH = 79;
+
     /** Maximum number of registered premature event loop cycle aborts. */
     private static final int MAX_LOOPS_KILLED = 9999;
 
@@ -384,11 +387,10 @@ public class PlcCodeStorage {
         // Prepare adding code to the program.
         CodeBox box = mainProgram.body;
         boolean boxNeedsEmptyLine = false;
-        int commentLength = 79; // Length of a comment header line.
 
         // Add input code if it exists.
         if (inputFuncCode != null) {
-            generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Read input from sensors.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
@@ -398,7 +400,7 @@ public class PlcCodeStorage {
         if (stateInitializationCode != null) {
             String headerText = (updateContVarsRemainingTimeCode == null) ? "Initialize state."
                     : "Initialize state or update continuous variables.";
-            generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader(headerText, '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
@@ -423,13 +425,12 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine, funcAppls, textGenerator,
-                commentLength);
+        generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine, funcAppls, textGenerator);
         boxNeedsEmptyLine = true;
 
         // Generate output code if it exists. */
         if (outputFuncCode != null) {
-            generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Write output to actuators.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
@@ -451,14 +452,13 @@ public class PlcCodeStorage {
      * @param box Destination of the generated code.
      * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
      * @param funcAppls Function application generator.
-     * @param textGenerator Model to text conversion of PLC statements and exoressions.
-     * @param commentLength Length of comment lines explaining what the next code block aims to do.
+     * @param textGenerator Model to text conversion of PLC statements and expressions.
      */
     private void generateEventTransitionsCode(PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
-            boolean boxNeedsEmptyLine, PlcFunctionAppls funcAppls, ModelTextGenerator textGenerator, int commentLength)
+            boolean boxNeedsEmptyLine, PlcFunctionAppls funcAppls, ModelTextGenerator textGenerator)
     {
         if (eventTransitionsIterationCode != null) {
-            generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Process all events.", '-', boxNeedsEmptyLine, box);
 
             PlcBasicVariable progressVar = getIsProgressVariable();
             box.add("%s := TRUE;", progressVar.varRefText);
@@ -517,18 +517,17 @@ public class PlcCodeStorage {
      *
      * @param text Text describing what code lines will come next.
      * @param dashChar The character to use as filler, {@code '-'} or {@code '='} are likely useful.
-     * @param length Expected length of comment line, may get longer if the text is long.
      * @param addEmptyLine Whether to generate an empty line first.
      * @param box Storage for the generated lines.
      */
-    private void generateCommentHeader(String text, char dashChar, int length, boolean addEmptyLine, CodeBox box) {
+    private void generateCommentHeader(String text, char dashChar, boolean addEmptyLine, CodeBox box) {
         // Construct header line. As it is mostly constant data, code will be much more efficient than it seems.
         char[] pre = {'(', '*', ' ', dashChar, dashChar, dashChar, ' '};
         char[] post = {dashChar, dashChar, dashChar, ' ', '*', ')'};
         char[] afterText = {' '};
 
         int layoutLength = pre.length + afterText.length + post.length;
-        length = Math.max(length, layoutLength + text.length());
+        int length = Math.max(AIM_COMMENT_LENGTH, layoutLength + text.length());
 
         char[] line = new char[length];
         Arrays.fill(line, dashChar);
