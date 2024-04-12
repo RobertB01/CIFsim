@@ -423,6 +423,40 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
+        generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine, funcAppls, textGenerator,
+                commentLength);
+        boxNeedsEmptyLine = true;
+
+        // Generate output code if it exists. */
+        if (outputFuncCode != null) {
+            generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
+            boxNeedsEmptyLine = true;
+
+            textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
+        }
+
+        exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
+
+        // Add temporary variables of the main program code.
+        mainProgram.tempVars = exprGen.getCreatedTempVariables();
+    }
+
+    /**
+     * Generate event transitions code.
+     *
+     * @param loopCount PLC variable containing the number of loops performed. If {@code null}, the loop count is not
+     *     recorded.
+     * @param loopsKilled PLC variable containing the number of loops that were aborted due to the loop count limit
+     *     since the start of the PLC. If {@code null}, the loop count is not recorded.
+     * @param box Destination of the generated code.
+     * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
+     * @param funcAppls Function application generator.
+     * @param textGenerator Model to text conversion of PLC statements and exoressions.
+     * @param commentLength Length of comment lines explaining what the next code block aims to do.
+     */
+    private void generateEventTransitionsCode(PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
+            boolean boxNeedsEmptyLine, PlcFunctionAppls funcAppls, ModelTextGenerator textGenerator, int commentLength)
+    {
         if (eventTransitionsIterationCode != null) {
             generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
 
@@ -476,20 +510,6 @@ public class PlcCodeStorage {
                 box.add("END_IF;");
             }
         }
-        boxNeedsEmptyLine = true;
-
-        // Generate output code if it exists. */
-        if (outputFuncCode != null) {
-            generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
-            boxNeedsEmptyLine = true;
-
-            textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
-        }
-
-        exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
-
-        // Add temporary variables of the main program code.
-        mainProgram.tempVars = exprGen.getCreatedTempVariables();
     }
 
     /**
