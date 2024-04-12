@@ -424,8 +424,7 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine);
-        boxNeedsEmptyLine = true;
+        boxNeedsEmptyLine = generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine);
 
         // Generate output code if it exists. */
         if (outputFuncCode != null) {
@@ -450,14 +449,18 @@ public class PlcCodeStorage {
      *     since the start of the PLC. If {@code null}, the loop count is not recorded.
      * @param box Destination of the generated code.
      * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
+     * @return Whether an empty line should be inserted in the box output before generating more code.
      */
-    private void generateEventTransitionsCode(PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
+    private boolean generateEventTransitionsCode(PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
             boolean boxNeedsEmptyLine)
     {
+        if (eventTransitionsIterationCode == null) {
+            return boxNeedsEmptyLine;
+        }
+
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
 
-        if (eventTransitionsIterationCode != null) {
             generateCommentHeader("Process all events.", '-', boxNeedsEmptyLine, box);
 
             PlcBasicVariable progressVar = getIsProgressVariable();
@@ -509,7 +512,7 @@ public class PlcCodeStorage {
                 box.dedent();
                 box.add("END_IF;");
             }
-        }
+        return true;
     }
 
     /**
