@@ -126,7 +126,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
     @Override
     public void generate() {
-        List<PlcStatement> statements = generateCode();
+        List<PlcStatement> statements = generateCode(eventTransitions);
         target.getCodeStorage().addEventTransitions(statements);
     }
 
@@ -155,9 +155,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * {@link #generateEventTransitionCode} method.
      * </p>
      *
+     * @param eventTransitions The event transitions to generate.
      * @return The generated PLC event transition code.
      */
-    List<PlcStatement> generateCode() {
+    List<PlcStatement> generateCode(List<CifEventTransition> eventTransitions) {
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
