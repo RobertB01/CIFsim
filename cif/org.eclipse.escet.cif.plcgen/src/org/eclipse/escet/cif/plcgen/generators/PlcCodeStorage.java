@@ -343,7 +343,6 @@ public class PlcCodeStorage {
         // continuous variables is a subset within having state.
         Assert.implies(updateContVarsRemainingTimeCode != null, stateInitializationCode != null);
 
-        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         NameGenerator nameGen = target.getNameGenerator();
@@ -425,7 +424,7 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine, funcAppls, textGenerator);
+        generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine);
         boxNeedsEmptyLine = true;
 
         // Generate output code if it exists. */
@@ -451,12 +450,13 @@ public class PlcCodeStorage {
      *     since the start of the PLC. If {@code null}, the loop count is not recorded.
      * @param box Destination of the generated code.
      * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
-     * @param funcAppls Function application generator.
-     * @param textGenerator Model to text conversion of PLC statements and expressions.
      */
     private void generateEventTransitionsCode(PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
-            boolean boxNeedsEmptyLine, PlcFunctionAppls funcAppls, ModelTextGenerator textGenerator)
+            boolean boxNeedsEmptyLine)
     {
+        ModelTextGenerator textGenerator = target.getModelTextGenerator();
+        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
+
         if (eventTransitionsIterationCode != null) {
             generateCommentHeader("Process all events.", '-', boxNeedsEmptyLine, box);
 
