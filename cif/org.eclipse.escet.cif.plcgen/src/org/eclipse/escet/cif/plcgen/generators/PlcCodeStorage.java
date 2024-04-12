@@ -424,8 +424,8 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        boxNeedsEmptyLine = generateEventTransitionsCode(eventTransitionsIterationCode, loopCount, loopsKilled, box,
-                boxNeedsEmptyLine);
+        boxNeedsEmptyLine = generateEventTransitionsCode(eventTransitionsIterationCode, maxIter, "all", loopCount,
+                loopsKilled, box, boxNeedsEmptyLine);
 
         // Generate output code if it exists. */
         if (outputFuncCode != null) {
@@ -445,6 +445,9 @@ public class PlcCodeStorage {
      * Generate event transitions code.
      *
      * @param eventTransitionsIterationCode If not {@code null}, code to try to perform each event once.
+     * @param maxIter Maximum number of loop iterations before aborting the loop. The value {@code null} means
+     *     'infinite'.
+     * @param context Event context for the user/reviewer.
      * @param loopCount PLC variable containing the number of loops performed. If {@code null}, the loop count is not
      *     recorded.
      * @param loopsKilled PLC variable containing the number of loops that were aborted due to the loop count limit
@@ -454,7 +457,8 @@ public class PlcCodeStorage {
      * @return Whether an empty line should be inserted in the box output before generating more code.
      */
     private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode,
-            PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box, boolean boxNeedsEmptyLine)
+            Integer maxIter, String context, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled,
+            CodeBox box, boolean boxNeedsEmptyLine)
     {
         if (eventTransitionsIterationCode == null) {
             return boxNeedsEmptyLine;
@@ -463,18 +467,20 @@ public class PlcCodeStorage {
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
 
-        generateCommentHeader("Process all events.", '-', boxNeedsEmptyLine, box);
+        generateCommentHeader("Process " + context + " events.", '-', boxNeedsEmptyLine, box);
 
         PlcBasicVariable progressVar = getIsProgressVariable();
         box.add("%s := TRUE;", progressVar.varRefText);
 
         // Start the event processing loop.
-        if (loopCount == null) {
+        if (maxIter == null) {
             // Unrestricted looping, no need to count loops.
             box.add("(* Perform events until none can be done anymore. *)");
             box.add("WHILE %s DO", progressVar.varRefText);
             box.indent();
         } else {
+            Assert.notNull(loopCount); // Counter is needed if there is a finite maximum loop count.
+
             // Generate condition "progress AND loopCount < max".
             PlcExpression progressCond = new PlcVarExpression(progressVar);
             PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
@@ -498,7 +504,11 @@ public class PlcCodeStorage {
         box.add("END_WHILE;");
 
         // Update "loopsKilled" afterwards if appropriate.
-        if (loopsKilled != null) {
+        if (maxIter != null && loopsKilled != null) {
+            // If maximum iterations is infinite, the loop never aborts and loopsKilled is never changed.
+
+            Assert.notNull(loopCount); // Technically already implied in the previous code block, but doesn't hurt.
+
             // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
             PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
                     new PlcIntLiteral(maxIter));
