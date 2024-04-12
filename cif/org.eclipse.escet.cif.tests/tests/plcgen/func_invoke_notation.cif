@@ -17,7 +17,8 @@ cont c der -1;
 alg real a = inp;
 
 automaton aut:
-  event e, f;
+  controllable e;
+  uncontrollable f;
 
   disc real r;
   disc bool b;

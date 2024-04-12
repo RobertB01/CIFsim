@@ -27,7 +27,7 @@ BEGIN
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
-    (* --- Process all events. ------------------------------------------------- *)
+    (* --- Process controllable events. ---------------------------------------- *)
     isProgress := TRUE;
     (* Perform events until none can be done anymore. *)
     WHILE isProgress DO

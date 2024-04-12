@@ -261,85 +261,11 @@ ELSE
     timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
 END_IF;
 
-(* --- Process all events. ------------------------------------------------- *)
+(* --- Process uncontrollable events. -------------------------------------- *)
 isProgress := TRUE;
 (* Perform events until none can be done anymore. *)
 WHILE isProgress DO
     isProgress := FALSE;
-
-    (*************************************************************
-     * Try to perform event "timer.start".
-     *
-     * - Automaton "timer" must always synchronize.
-     * - Automaton "sup" must always synchronize.
-     *************************************************************)
-    eventEnabled := TRUE;
-    (*******************************
-     * Check each synchronizing automaton for having an edge with a true guard.
-     *******************************)
-    (***********
-     * Testing edge of automaton "timer" to synchronize for event "timer.start".
-     * This automaton must have an edge with a true guard to allow the event.
-     *
-     * Edge being tested:
-     * - Location "Idle":
-     *   - 1st edge in the location
-     ***********)
-    IF timer = timer_Idle THEN
-        edge_timer_1 := 1;
-    ELSE
-        (* The automaton has no edge with a true guard. Skip to the next event. *)
-        eventEnabled := FALSE;
-    END_IF;
-    IF eventEnabled THEN
-        (***********
-         * Testing edges of automaton "sup" to synchronize for event "timer.start".
-         * This automaton must have an edge with a true guard to allow the event.
-         *
-         * Edges being tested:
-         * - Location "s3":
-         *   - 1st edge in the location
-         * - Location "s5":
-         *   - 1st edge in the location
-         ***********)
-        IF sup = sup_s3 THEN
-            edge_sup_1 := 1;
-        ELSIF sup = sup_s5 THEN
-            edge_sup_1 := 2;
-        ELSE
-            (* The automaton has no edge with a true guard. Skip to the next event. *)
-            eventEnabled := FALSE;
-        END_IF;
-    END_IF;
-    (* All checks have been done. If variable "eventEnabled" still holds, event "timer.start" can occur. *)
-    IF eventEnabled THEN
-        isProgress := TRUE;
-        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
-        current_sup := sup;
-        current_timer := timer;
-        current_timer_t := timer_t;
-        (*******************************
-         * Perform the assignments of each synchronizing automaton.
-         *******************************)
-        (* Perform assignments of automaton "timer". *)
-        IF edge_timer_1 = 1 THEN
-            (* Perform assignments of the 1st edge in location "timer.Idle". *)
-            timer_t := 3.0;
-            (* Reset timer of "timer_t". *)
-            preset_timer_t := timer_t;
-            ton_timer_t(IN := FALSE, PT := preset_timer_t);
-            ton_timer_t(IN := TRUE, PT := preset_timer_t);
-            timer := timer_Running;
-        END_IF;
-        (* Perform assignments of automaton "sup". *)
-        IF edge_sup_1 = 1 THEN
-            (* Perform assignments of the 1st edge in location "sup.s3". *)
-            sup := sup_s6;
-        ELSIF edge_sup_1 = 2 THEN
-            (* Perform assignments of the 1st edge in location "sup.s5". *)
-            sup := sup_s7;
-        END_IF;
-    END_IF;
 
     (*************************************************************
      * Try to perform event "timer.timeout".
@@ -389,8 +315,8 @@ WHILE isProgress DO
     IF eventEnabled THEN
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
-        current_sup_1 := sup;
-        current_timer_1 := timer;
+        current_sup := sup;
+        current_timer := timer;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
          *******************************)
@@ -470,7 +396,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_hw_button := hw_button;
-        current_sup_2 := sup;
+        current_sup_1 := sup;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
          *******************************)
@@ -559,7 +485,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_hw_button_1 := hw_button;
-        current_sup_3 := sup;
+        current_sup_2 := sup;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
          *******************************)
@@ -584,6 +510,87 @@ WHILE isProgress DO
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Pushed". *)
             hw_button := hw_button_Released;
+        END_IF;
+    END_IF;
+END_WHILE;
+
+(* --- Process controllable events. ---------------------------------------- *)
+isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (*************************************************************
+     * Try to perform event "timer.start".
+     *
+     * - Automaton "timer" must always synchronize.
+     * - Automaton "sup" must always synchronize.
+     *************************************************************)
+    eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edge of automaton "timer" to synchronize for event "timer.start".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edge being tested:
+     * - Location "Idle":
+     *   - 1st edge in the location
+     ***********)
+    IF timer = timer_Idle THEN
+        edge_timer_1 := 1;
+    ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        (***********
+         * Testing edges of automaton "sup" to synchronize for event "timer.start".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edges being tested:
+         * - Location "s3":
+         *   - 1st edge in the location
+         * - Location "s5":
+         *   - 1st edge in the location
+         ***********)
+        IF sup = sup_s3 THEN
+            edge_sup_1 := 1;
+        ELSIF sup = sup_s5 THEN
+            edge_sup_1 := 2;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "timer.start" can occur. *)
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_sup_3 := sup;
+        current_timer_1 := timer;
+        current_timer_t := timer_t;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "timer". *)
+        IF edge_timer_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "timer.Idle". *)
+            timer_t := 3.0;
+            (* Reset timer of "timer_t". *)
+            preset_timer_t := timer_t;
+            ton_timer_t(IN := FALSE, PT := preset_timer_t);
+            ton_timer_t(IN := TRUE, PT := preset_timer_t);
+            timer := timer_Running;
+        END_IF;
+        (* Perform assignments of automaton "sup". *)
+        IF edge_sup_1 = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s3". *)
+            sup := sup_s6;
+        ELSIF edge_sup_1 = 2 THEN
+            (* Perform assignments of the 1st edge in location "sup.s5". *)
+            sup := sup_s7;
         END_IF;
     END_IF;
 
