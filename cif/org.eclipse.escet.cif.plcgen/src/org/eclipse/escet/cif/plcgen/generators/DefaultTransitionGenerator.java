@@ -147,9 +147,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<PlcStatement> uncontrollableStatements = generateCode(isProgressVar, uncontrollableTransitions);
         List<PlcStatement> controllableStatements = generateCode(isProgressVar, controllableTransitions);
 
-        // Release all temporary variables, and return the generated event transition code.
-        mainExprGen.releaseTempVariable(isProgressVar);
-
         // And give the result to code storage.
         target.getCodeStorage().addEventTransitions(uncontrollableStatements, controllableStatements);
     }
