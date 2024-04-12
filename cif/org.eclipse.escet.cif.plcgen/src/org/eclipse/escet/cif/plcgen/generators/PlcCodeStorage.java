@@ -424,7 +424,8 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        boxNeedsEmptyLine = generateEventTransitionsCode(loopCount, loopsKilled, box, boxNeedsEmptyLine);
+        boxNeedsEmptyLine = generateEventTransitionsCode(eventTransitionsIterationCode, loopCount, loopsKilled, box,
+                boxNeedsEmptyLine);
 
         // Generate output code if it exists. */
         if (outputFuncCode != null) {
@@ -443,6 +444,7 @@ public class PlcCodeStorage {
     /**
      * Generate event transitions code.
      *
+     * @param eventTransitionsIterationCode If not {@code null}, code to try to perform each event once.
      * @param loopCount PLC variable containing the number of loops performed. If {@code null}, the loop count is not
      *     recorded.
      * @param loopsKilled PLC variable containing the number of loops that were aborted due to the loop count limit
@@ -451,8 +453,8 @@ public class PlcCodeStorage {
      * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
      * @return Whether an empty line should be inserted in the box output before generating more code.
      */
-    private boolean generateEventTransitionsCode(PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
-            boolean boxNeedsEmptyLine)
+    private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode,
+            PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box, boolean boxNeedsEmptyLine)
     {
         if (eventTransitionsIterationCode == null) {
             return boxNeedsEmptyLine;
@@ -461,57 +463,56 @@ public class PlcCodeStorage {
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
 
-            generateCommentHeader("Process all events.", '-', boxNeedsEmptyLine, box);
+        generateCommentHeader("Process all events.", '-', boxNeedsEmptyLine, box);
 
-            PlcBasicVariable progressVar = getIsProgressVariable();
-            box.add("%s := TRUE;", progressVar.varRefText);
+        PlcBasicVariable progressVar = getIsProgressVariable();
+        box.add("%s := TRUE;", progressVar.varRefText);
 
-            // Start the event processing loop.
-            if (loopCount == null) {
-                // Unrestricted looping, no need to count loops.
-                box.add("(* Perform events until none can be done anymore. *)");
-                box.add("WHILE %s DO", progressVar.varRefText);
-                box.indent();
-            } else {
-                // Generate condition "progress AND loopCount < max".
-                PlcExpression progressCond = new PlcVarExpression(progressVar);
-                PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
-                        new PlcIntLiteral(maxIter));
-                PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
+        // Start the event processing loop.
+        if (loopCount == null) {
+            // Unrestricted looping, no need to count loops.
+            box.add("(* Perform events until none can be done anymore. *)");
+            box.add("WHILE %s DO", progressVar.varRefText);
+            box.indent();
+        } else {
+            // Generate condition "progress AND loopCount < max".
+            PlcExpression progressCond = new PlcVarExpression(progressVar);
+            PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
+                    new PlcIntLiteral(maxIter));
+            PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
 
-                // Restricted looping code.
-                box.add("(* Perform events until none can be done anymore. *)");
-                box.add("(* Track the number of iterations and abort if there are too many. *)");
-                box.add("%s := 0;", loopCount.varRefText);
-                box.add("WHILE %s DO", textGenerator.toString(whileCond));
-                box.indent();
-                box.add("%s := %s + 1;", loopCount.varRefText, loopCount.varRefText);
-            }
+            // Restricted looping code.
+            box.add("(* Perform events until none can be done anymore. *)");
+            box.add("(* Track the number of iterations and abort if there are too many. *)");
+            box.add("%s := 0;", loopCount.varRefText);
+            box.add("WHILE %s DO", textGenerator.toString(whileCond));
+            box.indent();
+            box.add("%s := %s + 1;", loopCount.varRefText, loopCount.varRefText);
+        }
 
-            // Construct the while body with event processing.
-            box.add("%s := FALSE;", progressVar.varRefText);
-            box.add();
-            textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
+        // Construct the while body with event processing.
+        box.add("%s := FALSE;", progressVar.varRefText);
+        box.add();
+        textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
+        box.dedent();
+        box.add("END_WHILE;");
+
+        // Update "loopsKilled" afterwards if appropriate.
+        if (loopsKilled != null) {
+            // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
+            PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
+                    new PlcIntLiteral(maxIter));
+            PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled), new PlcIntLiteral(1));
+            PlcExpression limitedIncrementKilled = funcAppls.minFuncAppl(incKilled,
+                    new PlcIntLiteral(MAX_LOOPS_KILLED));
+
+            box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
+            box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
+            box.indent();
+            box.add("%s := %s;", loopsKilled.varRefText, textGenerator.toString(limitedIncrementKilled));
             box.dedent();
-            box.add("END_WHILE;");
-
-            // Update "loopsKilled" afterwards if appropriate.
-            if (loopsKilled != null) {
-                // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
-                PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
-                        new PlcIntLiteral(maxIter));
-                PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled),
-                        new PlcIntLiteral(1));
-                PlcExpression limitedIncrementKilled = funcAppls.minFuncAppl(incKilled,
-                        new PlcIntLiteral(MAX_LOOPS_KILLED));
-
-                box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
-                box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
-                box.indent();
-                box.add("%s := %s;", loopsKilled.varRefText, textGenerator.toString(limitedIncrementKilled));
-                box.dedent();
-                box.add("END_IF;");
-            }
+            box.add("END_IF;");
+        }
         return true;
     }
 
