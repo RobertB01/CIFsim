@@ -1993,8 +1993,13 @@ public final class CifPrettyPrinter {
      * @return The pretty printed result.
      */
     public String pprint(AnnotationArgument arg) {
-        String escapedArgName = Arrays.stream(arg.getName().split("\\.")).map(id -> escapeIdentifier(id))
-                .collect(Collectors.joining("."));
-        return fmt("%s: %s", escapedArgName, pprint(arg.getValue()));
+        String argName = arg.getName();
+        if (argName == null) {
+            return pprint(arg.getValue());
+        } else {
+            String escapedArgName = Arrays.stream(argName.split("\\.")).map(id -> escapeIdentifier(id))
+                    .collect(Collectors.joining("."));
+            return fmt("%s: %s", escapedArgName, pprint(arg.getValue()));
+        }
     }
 }
