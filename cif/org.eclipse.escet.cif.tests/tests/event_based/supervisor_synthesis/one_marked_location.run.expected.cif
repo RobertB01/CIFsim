@@ -1,6 +1,6 @@
 supervisor automaton sup:
   alphabet;
-  @state(p = "*")
+  @state(p: "*")
   location s1:
     initial;
     marked;

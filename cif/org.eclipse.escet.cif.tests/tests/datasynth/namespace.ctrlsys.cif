@@ -1,4 +1,4 @@
-@@doc($text = "spec doc")
+@@doc($text: "spec doc")
 controllable c;
 group p:
   uncontrollable u;

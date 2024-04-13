@@ -1,4 +1,4 @@
-@@doc($text = "spec doc")
+@@doc($text: "spec doc")
 plant automaton p:
   controllable c_e;
   location:
