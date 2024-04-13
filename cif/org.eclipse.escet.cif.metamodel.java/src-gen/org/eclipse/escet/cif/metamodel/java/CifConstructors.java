@@ -334,7 +334,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link AnnotationArgument} class.
      *
-     * @param name The "name" of the new "AnnotationArgument". Multiplicity [1..1]. May be {@code null} to set the "name" later.
+     * @param name The "name" of the new "AnnotationArgument". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
      * @param position The "position" of the new "AnnotationArgument". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "AnnotationArgument". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link AnnotationArgument} class.
