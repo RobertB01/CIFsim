@@ -40,7 +40,7 @@ Parentheses may be used if there are no arguments, but this is not recommended.
 Multiple arguments are separated by commas.
 An extra comma may optionally follow the last argument, which can make it easier to comment out arbitrary arguments, while still maintaining a valid model.
 
-Each argument consists of a name and a value, separated by an `=` sign.
+Each argument consists of a name and a value, separated by a `:` sign.
 The name is either a CIF <<lang-ref-syntax-lexical-identifier,identifier>> or a CIF <<lang-ref-syntax-lexical-relname,relative name>>.
 If the name is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be <<lang-ref-syntax-lexical-identifier,escaped>> by prefixing it with a `$` sign.
 The value of the argument is a CIF expression.
@@ -52,13 +52,13 @@ As an example of the syntax, consider the following input variable annotated wit
 @anno
 @some:anno
 @anno1()
-@anno2(arg = 3)
-@anno3($input = true)
-@anno4(some_arg = 3, some.other.arg = [123, 467])
+@anno2(arg: 3)
+@anno3($input: true)
+@anno4(some_arg: 3, some.other.arg: [123, 467])
 @anno5(
-    arg1 = -sqrt(2),
-    arg2 = 3 * 9,
-    arg3 = "some text",
+    arg1: -sqrt(2),
+    arg2: 3 * 9,
+    arg3: "some text",
 )
 input bool x;
 ----
@@ -89,8 +89,8 @@ Here is an example, where the specification with the annotated input variable is
 
 [source,cif]
 ----
-@@anno1(arg1 = 5)
-@@anno2(arg2 = "some text")
+@@anno1(arg1: 5)
+@@anno2(arg2: "some text")
 
 @anno
 input bool x;
