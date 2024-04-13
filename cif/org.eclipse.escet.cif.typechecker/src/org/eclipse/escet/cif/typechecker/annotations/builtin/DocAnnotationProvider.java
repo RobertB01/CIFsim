@@ -65,7 +65,11 @@ public class DocAnnotationProvider extends AnnotationProvider {
         // Check provided arguments.
         for (AnnotationArgument arg: annotation.getArguments()) {
             // Check for (un)supported argument name.
-            if (!arg.getName().equals("text")) {
+            if (arg.getName() == null) {
+                reporter.reportProblem(annotation, "unsupported unnamed argument.", arg.getPosition(),
+                        SemanticProblemSeverity.ERROR);
+                // Non-fatal problem.
+            } else if (!arg.getName().equals("text")) {
                 reporter.reportProblem(annotation, fmt("unsupported argument \"%s\".", arg.getName()),
                         arg.getPosition(), SemanticProblemSeverity.ERROR);
                 // Non-fatal problem.

@@ -78,7 +78,7 @@ public class CifAnnotationsTypeChecker {
 
             // Construct annotation argument metamodel object.
             AnnotationArgument mmArg = newAnnotationArgument();
-            mmArg.setName(astArg.name.text.replace("$", "")); // Remove keyword escaping.
+            mmArg.setName((astArg.name == null) ? null : astArg.name.name);
             mmArg.setPosition(astArg.createPosition());
             mmArg.setValue(mmValue);
 
@@ -86,14 +86,16 @@ public class CifAnnotationsTypeChecker {
             mmAnno.getArguments().add(mmArg);
         }
 
-        // Ensure all the arguments for the annotation are unique, based on their names.
+        // Ensure all the named arguments for the annotation have unique names. Ignore unnamed arguments.
         Map<String, AnnotationArgument> nameToArg = mapc(mmAnno.getArguments().size());
         for (AnnotationArgument mmArg: mmAnno.getArguments()) {
-            AnnotationArgument prev = nameToArg.put(mmArg.getName(), mmArg);
-            if (prev != null) {
-                tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, prev.getPosition(), mmArg.getName(), mmAnno.getName());
-                tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, mmArg.getPosition(), mmArg.getName(), mmAnno.getName());
-                // Non-fatal error.
+            if (mmArg.getName() != null) {
+                AnnotationArgument prev = nameToArg.put(mmArg.getName(), mmArg);
+                if (prev != null) {
+                    tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, prev.getPosition(), mmArg.getName(), mmAnno.getName());
+                    tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, mmArg.getPosition(), mmArg.getName(), mmAnno.getName());
+                    // Non-fatal error.
+                }
             }
         }
 

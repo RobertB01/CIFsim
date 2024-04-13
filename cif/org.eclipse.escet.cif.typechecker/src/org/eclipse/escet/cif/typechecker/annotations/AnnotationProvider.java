@@ -30,8 +30,8 @@ import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
  * </p>
  *
  * <p>
- * The type checker will ensure that each annotation has unique arguments. Providers may thus assume this constraint
- * holds.
+ * The type checker will ensure that each annotation has unique named arguments (multiple unnamed arguments is also
+ * allowed). Providers may thus assume this constraint holds.
  * </p>
  *
  * <p>

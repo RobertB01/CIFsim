@@ -70,8 +70,9 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * its current value.</li>
  * <li>There can be any number of arguments (including no arguments), as models may have any number of automata and
  * variables.</li>
- * <li>The name of the argument should be the absolute name of the corresponding automaton or variable. This constraint
- * is not checked, as such variables and automata typically do not exist in the current specification.</li>
+ * <li>The name of the argument should be the absolute name of the corresponding automaton or variable. It is checked
+ * that arguments have a name. It is not checked that the names correspond to automata or variables, as such automata
+ * and variables typically do not exist in the current specification.</li>
  * <li>Argument values, and parts of argument values (in case of containers), must be literals of type {@code bool},
  * {@code int}, {@code real}, {@code string}, {@code tuple}, {@code list}, {@code set}, or {@code dict}. Hence, their
  * values must be represented exactly as the corresponding literal values are represented by the type checker. This
@@ -90,9 +91,9 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * <li>If at least one location in an automaton has at least one state annotation, all other locations in that same
  * automaton must also have at least one state annotation, as all these locations should then represent a least one
  * state from the state space.</li>
- * <li>Different state annotations on the same or different locations of a single automaton must have the same
- * arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
- * represent states from the same state space.</li>
+ * <li>Different state annotations on the same or different locations of a single automaton must have the same arguments
+ * with the same names, and the values of matching arguments must have compatible types (ignoring ranges), as they
+ * should represent states from the same state space.</li>
  * </ul>
  * </p>
  */
@@ -120,6 +121,15 @@ public class StateAnnotationProvider extends AnnotationProvider {
 
         // Check the arguments.
         for (AnnotationArgument arg: annotation.getArguments()) {
+            // Check argument name.
+            if (arg.getName() == null) {
+                reporter.reportProblem(annotation, "unsupported unnamed argument.", arg.getPosition(),
+                        SemanticProblemSeverity.ERROR);
+                // Non-fatal problem.
+                continue;
+            }
+
+            // Check argument value.
             checkSupportedLiteral(annotation, arg, arg.getValue(), reporter);
         }
     }
@@ -283,8 +293,9 @@ public class StateAnnotationProvider extends AnnotationProvider {
     public final void checkGlobal(Specification spec, AnnotationProblemReporter reporter) {
         // Check the following constraints:
         // - Different state annotations on the same or different locations of a single automaton must have the same
-        // arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should
-        // represent states from the same state space. Check this per automaton.
+        //   arguments with the same names, and the values of matching arguments must have compatible types (ignoring
+        //   ranges), as they should represent states from the same state space. Check this per automaton.
+        //   Note that unnamed arguments are reported elsewhere, and are therefore ignored for this check.
         Map<String, AnnotationArgument> argNameToAnnoArg = map();
         for (Automaton aut: CifCollectUtils.collectAutomata(spec, list())) {
             // Get a mapping with per argument name the first-encountered argument with that name.
@@ -295,7 +306,9 @@ public class StateAnnotationProvider extends AnnotationProvider {
                     if (anno.getName().equals("state")) {
                         stateAnnoPresent = true;
                         for (AnnotationArgument arg: anno.getArguments()) {
-                            argNameToAnnoArg.putIfAbsent(arg.getName(), arg);
+                            if (arg.getName() != null) {
+                                argNameToAnnoArg.putIfAbsent(arg.getName(), arg);
+                            }
                         }
                     }
                 }
@@ -320,8 +333,9 @@ public class StateAnnotationProvider extends AnnotationProvider {
                     // Location has a state annotation.
                     locHasStateAnno = true;
 
-                    // Check missing arguments.
-                    List<String> annoArgNames = anno.getArguments().stream().map(a -> a.getName()).toList();
+                    // Check missing named arguments.
+                    List<String> annoArgNames = anno.getArguments().stream().filter(a -> a.getName() != null)
+                            .map(a -> a.getName()).toList();
                     Set<String> missingArgNames = Sets.difference(argNameToAnnoArg.keySet(), annoArgNames);
                     if (!missingArgNames.isEmpty()) {
                         String text = missingArgNames.stream().map(n -> fmt("\"%s\"", n))
@@ -335,6 +349,9 @@ public class StateAnnotationProvider extends AnnotationProvider {
 
                     // Check against the mapping for incompatible types.
                     for (AnnotationArgument arg: anno.getArguments()) {
+                        if (arg.getName() == null) {
+                            continue; // Ignore unnamed arguments. They are reported elsewhere.
+                        }
                         AnnotationArgument otherArg = argNameToAnnoArg.get(arg.getName());
                         if (arg == otherArg) {
                             continue;
