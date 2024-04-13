@@ -506,9 +506,9 @@ public final class CifParser extends Parser<ASpecification> {
         "OptComma",
         "PARCLOSETK",
         "AnnotationArg",
-        "EQTK",
+        "COLONTK",
         "Expression",
-        "EQTK",
+        "COLONTK",
         "Expression",
         "SEMICOLTK",
         "COLONTK",
@@ -35999,7 +35999,7 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action282() throws IOException {
         switch (token.id) {
-            case 144: {
+            case 135: {
                 // Shift 292.
                 token = doShift(token, 292);
                 return;
@@ -36017,7 +36017,7 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action283() throws IOException {
         switch (token.id) {
-            case 144: {
+            case 135: {
                 // Shift 290.
                 token = doShift(token, 290);
                 return;
@@ -36633,7 +36633,7 @@ public final class CifParser extends Parser<ASpecification> {
         switch (token.id) {
             case 133:
             case 156: {
-                // Reduce AnnotationArg : IDENTIFIERTK EQTK Expression;
+                // Reduce AnnotationArg : IDENTIFIERTK COLONTK Expression;
                 doReduce1(token, 117);
                 Object o3 = doReduce2();
                 doReduce2();
@@ -37081,7 +37081,7 @@ public final class CifParser extends Parser<ASpecification> {
         switch (token.id) {
             case 133:
             case 156: {
-                // Reduce AnnotationArg : RELATIVENAMETK EQTK Expression;
+                // Reduce AnnotationArg : RELATIVENAMETK COLONTK Expression;
                 doReduce1(token, 117);
                 Object o3 = doReduce2();
                 doReduce2();
@@ -98702,8 +98702,8 @@ public final class CifParser extends Parser<ASpecification> {
             {}, // state 279
             {156, 159, 162}, // state 280
             {}, // state 281
-            {144}, // state 282
-            {144}, // state 283
+            {135}, // state 282
+            {135}, // state 283
             {}, // state 284
             {133, 156}, // state 285
             {159, 162}, // state 286
@@ -110023,7 +110023,7 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code AnnotationArg : @IDENTIFIERTK EQTK Expression;}</p>
+         * <p>{@code AnnotationArg : @IDENTIFIERTK COLONTK Expression;}</p>
          *
          * @param t1 {@code IDENTIFIERTK}.
          * @param a3 {@code Expression}.
@@ -110034,7 +110034,7 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code AnnotationArg : @RELATIVENAMETK EQTK Expression;}</p>
+         * <p>{@code AnnotationArg : @RELATIVENAMETK COLONTK Expression;}</p>
          *
          * @param t1 {@code RELATIVENAMETK}.
          * @param a3 {@code Expression}.

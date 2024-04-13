@@ -2315,12 +2315,12 @@ implements CifScanner.Hooks,
         return l1;
     }
 
-    @Override // AnnotationArg : @IDENTIFIERTK EQTK Expression;
+    @Override // AnnotationArg : @IDENTIFIERTK COLONTK Expression;
     public AAnnotationArgument parseAnnotationArg1(Token t1, AExpression a3) {
         return new AAnnotationArgument(t1, a3);
     }
 
-    @Override // AnnotationArg : @RELATIVENAMETK EQTK Expression;
+    @Override // AnnotationArg : @RELATIVENAMETK COLONTK Expression;
     public AAnnotationArgument parseAnnotationArg2(Token t1, AExpression a3) {
         return new AAnnotationArgument(t1, a3);
     }
