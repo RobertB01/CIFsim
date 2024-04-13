@@ -2091,6 +2091,11 @@ implements CifScanner.Hooks,
         // return null;
     }
 
+    @Override // AnnotationArg : Expression;
+    public AAnnotationArgument parseAnnotationArg3(AExpression a1) {
+        // return null;
+    }
+
     @Override // OptComma : ;
     public Token parseOptComma1() {
         // return null;

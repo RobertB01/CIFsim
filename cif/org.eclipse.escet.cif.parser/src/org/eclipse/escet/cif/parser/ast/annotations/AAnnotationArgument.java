@@ -15,12 +15,12 @@ package org.eclipse.escet.cif.parser.ast.annotations;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
-import org.eclipse.escet.setext.runtime.Token;
+import org.eclipse.escet.cif.parser.ast.tokens.AName;
 
 /** Annotation argument. */
 public class AAnnotationArgument extends ACifObject {
-    /** The name of the annotation argument. */
-    public final Token name;
+    /** The name of the annotation argument. May be {@code null}. */
+    public final AName name;
 
     /** The value of the annotation argument. */
     public final AExpression value;
@@ -28,11 +28,11 @@ public class AAnnotationArgument extends ACifObject {
     /**
      * Constructor for the {@link AAnnotationArgument} class.
      *
-     * @param name The name of the annotation argument.
+     * @param name The name of the annotation argument. May be {@code null}.
      * @param value The value of the annotation argument.
      */
-    public AAnnotationArgument(Token name, AExpression value) {
-        super(name.position);
+    public AAnnotationArgument(AName name, AExpression value) {
+        super((name != null) ? name.position : value.position);
         this.name = name;
         this.value = value;
     }
