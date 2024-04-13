@@ -964,6 +964,7 @@ AnnotationArgs : AnnotationArg
 {annos.AAnnotationArgument}
 AnnotationArg : @IDENTIFIERTK   COLONTK Expression
               | @RELATIVENAMETK COLONTK Expression
+              | Expression
               ;
 
 {setext.runtime.Token}
