@@ -590,8 +590,8 @@ AnnotationArgs : AnnotationArg
                | AnnotationArgs "," AnnotationArg
                ;
 
-AnnotationArg : IDENTIFIERTK "=" Expression
-              | RELATIVENAMETK "=" Expression
+AnnotationArg : IDENTIFIERTK ":" Expression
+              | RELATIVENAMETK ":" Expression
               ;
 
 OptComma : /* empty */
