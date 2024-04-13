@@ -41,7 +41,7 @@ group q:
 end
 
 automaton annos:
-  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno1(arg: true)
   @cif:typechecker:tests:anno3
   cont x der 1;
   invariant x > 0;

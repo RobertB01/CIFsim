@@ -41,7 +41,7 @@ group q:
 end
 
 group annos:
-  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno1(arg: true)
   @cif:typechecker:tests:anno3
   alg bool a = true;
 end

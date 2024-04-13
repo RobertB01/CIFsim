@@ -19,7 +19,7 @@
 @cif:typechecker:tests:anno1
 input bool i1;
 
-@cif:typechecker:tests:anno1(arg1 = true, arg2 = false)
+@cif:typechecker:tests:anno1(arg1: true, arg2: false)
 input bool i2;
 
 // Also check other types of annotated objects.

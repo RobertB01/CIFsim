@@ -22,7 +22,7 @@ group g:
 end
 
 group annos:
-  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno1(arg: true)
   @cif:typechecker:tests:anno3
   const bool a = true;
 end
