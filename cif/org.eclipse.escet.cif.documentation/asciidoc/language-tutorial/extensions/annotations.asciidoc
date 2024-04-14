@@ -68,19 +68,31 @@ Documentation can be added to all elements of the specification that support ann
 
 [source, cif]
 ----
-@doc($text: "The lower limit sensor of the elevator.")
-@doc($text: "Safety sensor.")
+@doc("The lower limit sensor of the elevator.")
+@doc("Safety sensor.")
 input bool ElevatorDownSensor;
 ----
 
-The documentation may span multiple lines:
+The documentation may span multiple lines, by using explicit newline characters:
 
 [source,cif]
 ----
-@doc($text:
+@doc(
     "doc with multiple\n" +
     "lines of\n" +
     "text"
+)
+input bool i;
+----
+
+This also may be abbreviated as follows, by using multiple arguments:
+
+[source,cif]
+----
+@doc(
+    "doc with multiple",
+    "lines of",
+    "text",
 )
 input bool i;
 ----
@@ -91,7 +103,7 @@ It is also possible to use for instance constants from the model in the document
 ----
 const int MAX_NR_OF_PRODUCTS = 3;
 
-@doc($text: fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
+@doc(fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
 input bool s1;
 ----
 
