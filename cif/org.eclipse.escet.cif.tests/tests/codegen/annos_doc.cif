@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 @@doc("First doc\nwith multiple lines.")
-@@doc("Second doc.")
+@@doc("Second doc line 1.", "Second doc line 2.")
 
 input bool i1;
 
@@ -26,7 +26,7 @@ input bool i3;
 input bool i4;
 
 @doc("First doc.")
-@doc("Second doc.")
+@doc("Second doc line 1.", "Second doc line 2.")
 input bool i5;
 
 automaton discvars:
@@ -42,7 +42,7 @@ automaton discvars:
   disc bool d4;
 
   @doc("First doc.")
-  @doc("Second doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   disc bool d5;
 
   location:
@@ -63,7 +63,7 @@ automaton contvars:
   cont c4 der 4;
 
   @doc("First doc.")
-  @doc("Second doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   cont c5 der 5;
 
   location:
@@ -84,7 +84,7 @@ group algvars:
   alg int a4 = 4;
 
   @doc("First doc.")
-  @doc("Second doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   alg int a5 = 5;
 end
 
@@ -101,7 +101,7 @@ group constants:
   const int c4 = 4;
 
   @doc("First doc.")
-  @doc("Second doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   const int c5 = 5;
 end
 
@@ -118,7 +118,7 @@ automaton events:
   event e4;
 
   @doc("First doc.")
-  @doc("Second doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   event e5;
 
   location:

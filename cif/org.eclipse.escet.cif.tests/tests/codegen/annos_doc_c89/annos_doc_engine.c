@@ -4,7 +4,8 @@
  * First doc
  * with multiple lines.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 
 #include <stdio.h>
@@ -86,7 +87,8 @@ IntType constants_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 IntType constants_c5_;
 
@@ -126,7 +128,8 @@ BoolType i4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 BoolType i5_;
 
@@ -163,7 +166,8 @@ RealType contvars_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 RealType contvars_c5_;
 
@@ -198,7 +202,8 @@ BoolType discvars_d4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 BoolType discvars_d5_;
 
@@ -266,7 +271,8 @@ IntType algvars_a4_(void) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 IntType algvars_a5_(void) {
     return 5;
@@ -368,7 +374,8 @@ static BoolType execEvent3(void) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  *
  * @return Whether the event was performed.
  */

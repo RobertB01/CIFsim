@@ -13,7 +13,8 @@ import java.util.Objects;
  * First doc
  * with multiple lines.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 @SuppressWarnings("unused")
 public abstract class annos_doc {
@@ -69,7 +70,8 @@ public abstract class annos_doc {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     public static final int constants_c5_ = 5;
 
@@ -116,7 +118,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public double contvars_c5_;
@@ -161,7 +164,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public boolean discvars_d5_;
@@ -206,7 +210,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public boolean i5_;
@@ -438,7 +443,8 @@ public abstract class annos_doc {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -596,7 +602,8 @@ public abstract class annos_doc {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      *
      * @return The evaluation result.
      */
