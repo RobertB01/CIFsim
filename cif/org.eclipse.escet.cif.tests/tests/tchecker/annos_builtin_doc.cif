@@ -20,7 +20,7 @@
 input bool i1;
 
 // Unsupported arguments.
-@doc(a: "a", $text: "text", b: "b")
+@doc(a: "a", $text: "text", b: "b", true, 5)
 input bool i2;
 
 // Not a string-typed argument.
