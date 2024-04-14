@@ -11,31 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@@doc($text: "first\nwith multiple lines")
-@@doc($text: "second")
+@@doc("first\nwith multiple lines")
+@@doc("second")
 
-@doc($text: "a")
+@doc("a")
 input bool x;
 
 automaton a1:
-  @doc($text: "a")
+  @doc("a")
   location:
     initial;
 end
 
 automaton a2:
-  @doc($text: "a")
+  @doc("a")
   location:
     initial;
     marked x;
 end
 
 automaton a3:
-  @doc($text: "a")
+  @doc("a")
   location loc1:
     initial;
 
-  @doc($text: "a")
+  @doc("a")
   location loc2:
     initial;
     marked x;

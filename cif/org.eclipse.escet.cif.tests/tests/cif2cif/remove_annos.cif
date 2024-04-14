@@ -11,19 +11,19 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@doc($text: "input_var1")
-@doc($text: "input_var2")
+@doc("input_var1")
+@doc("input_var2")
 input bool i;
 
 automaton a:
-  @doc($text: "disc_var1")
-  @doc($text: "disc_var2")
+  @doc("disc_var1")
+  @doc("disc_var2")
   disc int x;
   invariant x > 0;
 
-  @doc($text: "loc1")
-  @doc($text: "loc2")
-  @doc($text: "loc3")
+  @doc("loc1")
+  @doc("loc2")
+  @doc("loc3")
   location:
     initial;
 end
