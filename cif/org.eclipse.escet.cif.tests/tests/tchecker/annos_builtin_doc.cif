@@ -19,29 +19,35 @@
 @doc
 input bool i1;
 
-// Unsupported arguments.
-@doc(a: "a", $text: "text", b: "b", true, 5)
+// Unsupported unnamed arguments.
+@doc(a: "a", $text: "text", b: "b", "a", "b")
 input bool i2;
 
 // Not a string-typed argument.
-@doc($text: false)
+@doc(false, 3)
 input bool i3;
 
 // Not a statically-evaluable argument.
-@doc($text: fmt("%s", i4))
+@doc(fmt("%s", i4))
 input bool i4;
 
 // Argument evaluation error.
-@doc($text: fmt("%s", sqrt(-1) > 0))
+@doc(fmt("%s", sqrt(-1) > 0))
 input bool i5;
 
 // Valid.
-@doc($text: "some text")
+@doc("some text")
 input bool i6;
 
-// Multiple times.
-@doc($text: "some text1")
-@doc($text: "some text2")
+// Multiple times, multiple lines.
+@doc("some text1")
+@doc("some text2")
+@doc("first line\nsecond line")
+@doc("another first line", "another second line")
+@doc(
+  "yet another first line",
+  "yet another second line",
+)
 input bool i7;
 
 // Also check other types of annotated objects.
