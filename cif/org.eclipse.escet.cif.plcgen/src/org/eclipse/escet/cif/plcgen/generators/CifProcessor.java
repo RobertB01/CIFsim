@@ -30,7 +30,7 @@ import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoPureMonitorsCheck;
-import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -573,8 +573,10 @@ public class CifProcessor {
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
 
-                    // Disallow tau events and pure monitors.
-                    new EventNoTauCheck(), //
+                    // Disallow events without controllability and pure monitors. Note that the latter is necessary but
+                    // not sufficient. The finite response property of the controller-check covers it, but that is not
+                    // checked in PLCgen.
+                    new EventOnlyWithControllabilityCheck(), //
                     new EventNoPureMonitorsCheck(),
 
                     // Disallow equations.

@@ -208,8 +208,8 @@ A more complete check can be done by checking the finite response property of th
 ** All automata must have a single initial location that can be statically decided.
 ** Discrete variables must have a single initial value.
 ** No state invariants that restrict behavior.
-** No `tau` events.
-This includes edges without an event.
+** Only events that are either controllable or uncontrollable.
+This rejects edges that use events declared without `controllable` or `uncontrollable` keyword, edges with the `tau` event and edges without an event.
 ** No urgent locations and edges.
 ** No equations.
 
