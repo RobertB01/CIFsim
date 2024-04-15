@@ -4630,7 +4630,7 @@ The kind of the `for' filter.
 Figure~\ref{fig:pkg:annotations} shows the \textit{annotations} package.
 The main class is the \cifclass{Annotation} class. It represents a single
 annotations on a single object. The \cifclass{AnnotationArgument} class
-represents a single arguments of an annotation. And the
+represents a single argument of an annotation. And the
 \cifclass{AnnotatedObject} class is the base class for all objects
 that can be annotated.
 }
@@ -4645,7 +4645,7 @@ The annotations of the annotated object.
 
 \begin{constraints}
 \citem{AnnotatedObject.onlyForSupportedObjects}
-  Currently only the following objects support annotations:
+  The following objects support annotations:
   \begin{itemize}
     \item Algebraic variables.
     \item Constants.
@@ -4678,7 +4678,7 @@ The arguments of the annotation.
 
 \begin{constraints}
 \citem{Annotation.uniqueArguments}
-  The names of each of the arguments must be unique within the annotation.
+  The names of each of the named arguments must be unique within the annotation.
 \end{constraints}
 }
 
@@ -4702,13 +4702,13 @@ An argument of an \cifclass{Annotation}.
 }
 
 \newcommand{\featdocuAnnotationArgumentname}{
-The name of the annotation argument.
+The optional name of the annotation argument.
 
 \begin{constraints}
 \citem{AnnotationArgument.validName}
-  The name must be a CIF identifier, or multiple CIF identifiers joined
-  together using periods (\texttt{.}). For instance, \texttt{arg} or
-  \texttt{some.arg}.
+  If the argument has a name, it must be a CIF identifier, or multiple CIF
+  identifiers joined together using periods (\texttt{.}). For instance,
+  \texttt{arg} or \texttt{some.arg}.
 \end{constraints}
 }
 

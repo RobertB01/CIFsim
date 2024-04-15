@@ -1,6 +1,6 @@
 plant automaton projected:
   alphabet;
-  @state(p = "*")
+  @state(p: "*")
   location s1:
     initial;
     marked;

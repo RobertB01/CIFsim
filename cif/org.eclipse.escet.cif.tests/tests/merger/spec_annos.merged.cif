@@ -1,4 +1,4 @@
-@@cif:typechecker:tests:anno1(arg = true)
+@@cif:typechecker:tests:anno1(arg: true)
 @@cif:typechecker:tests:anno3
 @@cif:typechecker:tests:anno2
 @@cif:typechecker:tests:anno4

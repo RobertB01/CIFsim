@@ -59,7 +59,7 @@ public class Anno1Provider extends AnnotationProvider {
         AnnotationArgument arg = annotation.getArguments().get(0);
 
         // Check for argument named 'arg'. Tests reporting a warning.
-        if (!arg.getName().equals("arg")) {
+        if (!"arg".equals(arg.getName())) {
             reporter.reportProblem(annotation, "annotation argument must be named \"arg\".", arg.getPosition(),
                     SemanticProblemSeverity.WARNING);
             // Non-fatal problem.

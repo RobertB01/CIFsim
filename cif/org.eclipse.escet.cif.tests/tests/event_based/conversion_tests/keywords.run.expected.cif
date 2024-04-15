@@ -5,7 +5,7 @@ group $group:
 end
 plant automaton product:
   alphabet $group.$plant.$event;
-  @state($group.$plant = "*")
+  @state($group.$plant: "*")
   location s1:
     initial;
     edge $group.$plant.$event;

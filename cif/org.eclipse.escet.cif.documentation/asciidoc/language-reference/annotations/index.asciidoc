@@ -40,9 +40,12 @@ Parentheses may be used if there are no arguments, but this is not recommended.
 Multiple arguments are separated by commas.
 An extra comma may optionally follow the last argument, which can make it easier to comment out arbitrary arguments, while still maintaining a valid model.
 
-Each argument consists of a name and a value, separated by an `=` sign.
-The name is either a CIF <<lang-ref-syntax-lexical-identifier,identifier>> or a CIF <<lang-ref-syntax-lexical-relname,relative name>>.
-If the name is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be <<lang-ref-syntax-lexical-identifier,escaped>> by prefixing it with a `$` sign.
+Each argument consists of an optional name and a mandatory value.
+If both a name and a value are provided, they are separated by a `:` sign.
+If the argument has a name, it is either a CIF <<lang-ref-syntax-lexical-identifier,identifier>> or a CIF <<lang-ref-syntax-lexical-relname,relative name>>.
+If the argument name is an identifier that is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be <<lang-ref-syntax-lexical-identifier,escaped>> by prefixing it with a `$` sign.
+Similarly, identifiers within relative names need to be escaped as well.
+For instance, argument name `automaton` needs to be escaped as `$automaton`, and argument name `some.automaton` needs to be escaped as `some.$automaton`.
 The value of the argument is a CIF expression.
 
 As an example of the syntax, consider the following input variable annotated with 7 annotations:
@@ -52,13 +55,13 @@ As an example of the syntax, consider the following input variable annotated wit
 @anno
 @some:anno
 @anno1()
-@anno2(arg = 3)
-@anno3($input = true)
-@anno4(some_arg = 3, some.other.arg = [123, 467])
+@anno2(arg: 3, false)
+@anno3($input: true)
+@anno4(some_arg: 3, some.other.arg: [123, 467])
 @anno5(
-    arg1 = -sqrt(2),
-    arg2 = 3 * 9,
-    arg3 = "some text",
+    arg1: -sqrt(2),
+    arg2: 3 * 9,
+    arg3: "some text",
 )
 input bool x;
 ----
@@ -67,6 +70,7 @@ Some observations:
 
 * The first three annotations do not have any arguments, the other four do.
 * The arguments have values of various types.
+* For `anno2`, the first argument is named `arg`, while the second argument is unnamed.
 * For `anno3`, the `input` argument name is escaped to `$input` as `input` is a keyword.
 * For `anno4`, the second argument uses a relative name as argument name.
 * For `anno5`, the first and second argument have a computation as value.
@@ -89,8 +93,8 @@ Here is an example, where the specification with the annotated input variable is
 
 [source,cif]
 ----
-@@anno1(arg1 = 5)
-@@anno2(arg2 = "some text")
+@@anno1(arg1: 5)
+@@anno2(arg2: "some text")
 
 @anno
 input bool x;
@@ -118,7 +122,8 @@ The following general constraints apply to all annotations:
 * An element of the specification may have multiple annotations.
 * If an element has multiple annotations, different annotations can be put in any order.
 * In case a single element is annotated with the same annotation multiple times, then the order of these annotations may be relevant, although this could differ per annotation.
-* Each argument of an annotation must have a different name.
+* Each named argument of an annotation must have a different name.
+An annotation may also have any number of unnamed arguments.
 * The order of the arguments of an annotation is not relevant.
 That is, if the arguments are re-ordered, then the annotation still has the same meaning.
 
@@ -139,7 +144,7 @@ Each annotation provider may impose additional constraints on the annotation it 
 * An annotation and its arguments must satisfy any additional constraints imposed by the corresponding annotation provider.
 +
 An annotation provider could for instance limit the elements that may be annotated with the annotation, require all elements of a certain type to be annotated if at least one of them is annotated, or only allow a single such annotation on each annotated element.
-It could also constrain certain arguments, or combinations of arguments, to be mandatory or optional.
+It could also constrain certain arguments, or combinations of arguments, to be mandatory or optional, or require them to be named or unnamed.
 Furthermore, it could require arguments to have values of a certain type, to be statically evaluable, and so on.
 Different people could define the same annotation in different ways, such that their own installations interpret that annotation differently and impose different constraints for it.
 Hence, a specification with such annotations may be valid in one installation, and invalid in another.

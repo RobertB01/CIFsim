@@ -61,7 +61,8 @@ enum annos_docEventEnum_ {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     events_e5_,
 };
@@ -103,7 +104,8 @@ extern IntType constants_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern IntType constants_c5_;
 
@@ -140,7 +142,8 @@ extern BoolType i4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern BoolType i5_;
 
@@ -183,7 +186,8 @@ extern RealType contvars_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern RealType contvars_c5_;
 
@@ -218,7 +222,8 @@ extern BoolType discvars_d4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern BoolType discvars_d5_;
 
@@ -298,7 +303,8 @@ static inline IntType algvars_a4_(void) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 static inline IntType algvars_a5_(void) {
     return 5;

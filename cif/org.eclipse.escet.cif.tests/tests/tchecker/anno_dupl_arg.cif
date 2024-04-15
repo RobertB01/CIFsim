@@ -11,35 +11,38 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@@a(x = 123, x = 124)
+@@a(x: 123, x: 124)
 
-@a(x = 1, x = 2, y = 1, x = 3, y = 2, z = 1, y = 4)
+@a(x: 1, x: 2, y: 1, x: 3, y: 2, z: 1, y: 4)
 input bool i1;
 
+@a(1, 2, x: 3, 4, 5, x: 6, 7, x: 8, 9, 10)
+input bool i2;
+
 automaton a1:
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   location:
     initial;
 end
 
 automaton a2:
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   location loc1:
     initial;
 
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   location loc2:
     initial;
 end
 
 automaton a3:
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   disc int x = 1;
 
-  @a(x = 3, x = 4)
+  @a(x: 3, x: 4)
   cont c = 1 der 2;
 
-  @a(x = 5, x = 6)
+  @a(x: 5, x: 6)
   event evt;
 
   location:
@@ -48,9 +51,9 @@ automaton a3:
 end
 
 group g1:
-  @a(x = 5, x = 6)
+  @a(x: 5, x: 6)
   alg int alg1 = a3.x;
 
-  @a(x = 7, x = 8)
+  @a(x: 7, x: 8)
   const int const1 = 2;
 end

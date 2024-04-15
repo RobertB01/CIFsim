@@ -68,19 +68,31 @@ Documentation can be added to all elements of the specification that support ann
 
 [source, cif]
 ----
-@doc($text = "The lower limit sensor of the elevator.")
-@doc($text = "Safety sensor.")
+@doc("The lower limit sensor of the elevator.")
+@doc("Safety sensor.")
 input bool ElevatorDownSensor;
 ----
 
-The documentation may span multiple lines:
+The documentation may span multiple lines, by using explicit newline characters:
 
 [source,cif]
 ----
-@doc($text =
+@doc(
     "doc with multiple\n" +
     "lines of\n" +
     "text"
+)
+input bool i;
+----
+
+This also may be abbreviated as follows, by using multiple arguments:
+
+[source,cif]
+----
+@doc(
+    "doc with multiple",
+    "lines of",
+    "text",
 )
 input bool i;
 ----
@@ -91,7 +103,7 @@ It is also possible to use for instance constants from the model in the document
 ----
 const int MAX_NR_OF_PRODUCTS = 3;
 
-@doc($text = fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
+@doc(fmt("Sensor 1/%d.", MAX_NR_OF_PRODUCTS))
 input bool s1;
 ----
 
@@ -139,21 +151,21 @@ end
 automaton statespace:
   alphabet producer.produce, producer.provide, consumer.consume;
 
-  @state(consumer = "idle", producer = "producing")
+  @state(consumer: "idle", producer: "producing")
   location loc1:
     initial;
     edge producer.produce goto loc2;
 
-  @state(consumer = "idle", producer = "idle")
+  @state(consumer: "idle", producer: "idle")
   location loc2:
     edge producer.provide goto loc3;
 
-  @state(consumer = "consuming", producer = "producing")
+  @state(consumer: "consuming", producer: "producing")
   location loc3:
     edge producer.produce goto loc4;
     edge consumer.consume goto loc1;
 
-  @state(consumer = "consuming", producer = "idle")
+  @state(consumer: "consuming", producer: "idle")
   location loc4:
     edge consumer.consume goto loc2;
 end

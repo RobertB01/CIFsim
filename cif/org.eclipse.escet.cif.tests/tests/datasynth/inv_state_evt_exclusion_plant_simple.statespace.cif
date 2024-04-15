@@ -1,7 +1,7 @@
 uncontrollable u;
 automaton statespace:
   alphabet u;
-  @state(a = "l1", sup = "*")
+  @state(a: "l1", sup: "*")
   location loc1:
     initial;
     marked;
