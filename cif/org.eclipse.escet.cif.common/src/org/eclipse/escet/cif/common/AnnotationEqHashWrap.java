@@ -27,7 +27,7 @@ public class AnnotationEqHashWrap {
     /** The wrapped annotation. */
     public final Annotation annotation;
 
-    /** Per annotation argument name , the evaluated argument value. */
+    /** Per annotation argument name, the evaluated argument value. */
     private final Map<String, Object> argNamesToValues;
 
     /** The values of the unnamed arguments of the annotation. */
