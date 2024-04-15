@@ -91,9 +91,9 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * <li>If at least one location in an automaton has at least one state annotation, all other locations in that same
  * automaton must also have at least one state annotation, as all these locations should then represent a least one
  * state from the state space.</li>
- * <li>Different state annotations on the same or different locations of a single automaton must have the same arguments
- * with the same names, and the values of matching arguments must have compatible types (ignoring ranges), as they
- * should represent states from the same state space.</li>
+ * <li>Different state annotations on the same or different locations of a single automaton must have the same number
+ * of arguments, the arguments must have the same names, and the values of arguments with matching names must have
+ * compatible types (ignoring ranges), as they should represent states from the same state space.</li>
  * </ul>
  * </p>
  */

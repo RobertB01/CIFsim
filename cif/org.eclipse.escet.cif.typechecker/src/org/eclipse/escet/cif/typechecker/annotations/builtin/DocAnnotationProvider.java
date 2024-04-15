@@ -38,7 +38,7 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * Annotation provider for "doc" annotations.
  *
  * <p>
- * A "doc" annotation adds documentation to a model element. It has at least argument, and all arguments must be
+ * A "doc" annotation adds documentation to a model element. It has at least one argument, and all arguments must be
  * statically-evaluable unnamed arguments of type 'string'.
  * </p>
  */

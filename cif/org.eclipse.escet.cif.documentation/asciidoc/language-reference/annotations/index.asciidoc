@@ -41,11 +41,11 @@ Multiple arguments are separated by commas.
 An extra comma may optionally follow the last argument, which can make it easier to comment out arbitrary arguments, while still maintaining a valid model.
 
 Each argument consists of an optional name and a mandatory value.
-If both a name and a value are provided, they separated by a `:` sign.
+If both a name and a value are provided, they are separated by a `:` sign.
 If the argument has a name, it is either a CIF <<lang-ref-syntax-lexical-identifier,identifier>> or a CIF <<lang-ref-syntax-lexical-relname,relative name>>.
 If the argument name is an identifier that is a CIF <<lang-ref-syntax-lexical-keywords,keyword>>, it needs to be <<lang-ref-syntax-lexical-identifier,escaped>> by prefixing it with a `$` sign.
-Similarly, if the argument name is a relative name, and any part of the relative name is a keyword, that part needs to be escaped.
-For instance, argument name `automaton` needs to be escaped as `$automaton`, and argument name `some.automaton.or.so` needs to be escaped as `some.$automaton.$or.so`.
+Similarly, identifiers within relative names need to be escaped as well.
+For instance, argument name `automaton` needs to be escaped as `$automaton`, and argument name `some.automaton` needs to be escaped as `some.$automaton`.
 The value of the argument is a CIF expression.
 
 As an example of the syntax, consider the following input variable annotated with 7 annotations:
@@ -123,7 +123,7 @@ The following general constraints apply to all annotations:
 * If an element has multiple annotations, different annotations can be put in any order.
 * In case a single element is annotated with the same annotation multiple times, then the order of these annotations may be relevant, although this could differ per annotation.
 * Each named argument of an annotation must have a different name.
-An annotation may have multiple unnamed arguments.
+An annotation may also have any number of unnamed arguments.
 * The order of the arguments of an annotation is not relevant.
 That is, if the arguments are re-ordered, then the annotation still has the same meaning.
 
