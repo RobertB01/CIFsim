@@ -1,0 +1,16 @@
+event e;
+controllable c;
+uncontrollable u;
+
+automaton A:
+  disc int d;
+  location X:
+    initial;
+    edge when d = 7 goto Y; // Implicit tau.
+    edge e; // Event without controllability.
+
+    edge c; // ok.
+    edge u; // ok.
+  location Y:
+    edge tau goto X; // Explicit tau.
+end
