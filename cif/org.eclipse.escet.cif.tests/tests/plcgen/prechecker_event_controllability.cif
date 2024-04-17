@@ -11,12 +11,19 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton Mon:
-  controllable mon;
-  monitor;
+event e;
+controllable c;
+uncontrollable u;
 
-  location A:
+automaton A:
+  disc int d;
+  location X:
     initial;
-    edge mon goto B;
-  location B;
+    edge when d = 7 goto Y; // Implicit tau.
+    edge e; // Event without controllability.
+
+    edge c; // ok.
+    edge u; // ok.
+  location Y:
+    edge tau goto X; // Explicit tau.
 end

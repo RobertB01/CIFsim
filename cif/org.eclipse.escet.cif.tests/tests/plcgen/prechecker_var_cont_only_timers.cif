@@ -60,7 +60,7 @@ end
 // Assignments to continuous variable.
 
 automaton assign:
-  event evt;
+  uncontrollable evt;
   cont c1 der -1;
   cont c2 der -1;
   cont c3 der -1;
@@ -92,7 +92,7 @@ end
 // Using value of continuous variable.
 
 automaton contUseValue:
-  event evt;
+  controllable evt;
   cont c der -1;
   disc real d1;
   disc bool d2 = c <= 5;
@@ -147,7 +147,7 @@ end
 // Using derivative of continuous variable.
 
 automaton useDeriv:
-  event evt;
+  uncontrollable evt;
   cont c der -1;
   disc real d1 = c';
   disc bool d2 = c' > 0;
