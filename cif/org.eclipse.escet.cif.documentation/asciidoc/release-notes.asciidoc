@@ -307,7 +307,7 @@ The DCSH variable ordering algorithm is no longer considered experimental, and i
 The _BDD hyper-edge creation algorithm_ option has a new `default` value that is set by default.
 It uses the linearized hyper-edges for the FORCE and sliding window algorithms, while for all other variable orderers the legacy hyper-edges are still used.
 These changes to the default variable ordering configuration have been shown to improve the out-of-the-box performance of data-based synthesis in many cases, especially for models that take longer to synthesize or require more memory to synthesize.
-However, the effect greatly depends on the model being synthesized, and for some models synthesis using default settings may now be slower (issues {escet-issue}378[#378]) and {escet-issue}379[#379]).
+However, the effect greatly depends on the model being synthesized, and for some models synthesis using default settings may now be slower (issues {escet-issue}378[#378] and {escet-issue}379[#379]).
 * The CIF data-based synthesis tool documentation has various small improvements (issues {escet-issue}426[#426], {escet-issue}492[#492] and {escet-issue}531[#531]).
 * The CIF data-based synthesis tool documentation related to variable ordering has been split into multiple pages, and has been extended and improved (issues {escet-issue}378[#378] and {escet-issue}530[#530]).
 * The CIF data-based synthesis tool error messages for invalid custom event orders have been improved (issues {escet-issue}426[#426] and {escet-issue}492[#492]).
