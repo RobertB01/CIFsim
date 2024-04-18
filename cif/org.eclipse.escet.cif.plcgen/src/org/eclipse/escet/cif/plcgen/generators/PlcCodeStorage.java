@@ -101,10 +101,10 @@ public class PlcCodeStorage {
      */
     private List<PlcStatement> updateContVarsRemainingTimeCode = null;
 
-    /** If not {@code null}, code to perform one iteration of all events. */
+    /** If not {@code null}, code to perform one iteration of every uncontrollable event. */
     private List<PlcStatement> uncontrollableEventTransitionsCode = null;
 
-    /** If not {@code null}, code to perform one iteration of all events. */
+    /** If not {@code null}, code to perform one iteration of every controllable event. */
     private List<PlcStatement> controllableEventTransitionsCode = null;
 
     /**
@@ -156,14 +156,15 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Limit the given limit to the capabilities of the target. Give a warning if the count gets reduced.
+     * Limit the given events iteration limit to the capabilities of the target. Give a warning if the count gets
+     * reduced.
      *
      * @param specifiedLimit Limit as given by the user.
-     * @param context User context of a modified limit.
+     * @param eventKind Kind of events that get affected by a change in the limit.
      * @param warnOutput Callback to send warnings to the user.
      * @return Limit that is feasible for the target.
      */
-    private Integer limitMaxIter(Integer specifiedLimit, String context, WarnOutput warnOutput) {
+    private Integer limitMaxIter(Integer specifiedLimit, String eventKind, WarnOutput warnOutput) {
         if (specifiedLimit == null) {
             return specifiedLimit; // Infinite limit always works.
         }
@@ -172,7 +173,7 @@ public class PlcCodeStorage {
         PlcElementaryType loopCountType = target.getIntegerType();
         int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
         int feasibleLimit = switch (bitSize) {
-            case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of maxIter fit.
+            case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of the limit fit.
             case 16 -> Math.min(specifiedLimit, 0x7FFF);
             case 8 -> Math.min(specifiedLimit, 0x7F);
             default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
@@ -180,9 +181,8 @@ public class PlcCodeStorage {
 
         // Give a warning if the limit was reduced.
         if (specifiedLimit != feasibleLimit) {
-            warnOutput.line(
-                    "Maximum iteration limit for %s events was reduced from %d to %d due to PLC integer limitations.",
-                    context, specifiedLimit, feasibleLimit);
+            warnOutput.line("Maximum iteration limit for %s events was reduced from %d to %d, as the PLC's integer "
+                    + "type does not support larger values.", eventKind, specifiedLimit, feasibleLimit);
         }
 
         return feasibleLimit;
@@ -476,7 +476,7 @@ public class PlcCodeStorage {
         boxNeedsEmptyLine = generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit,
                 "controllable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
 
-        // Generate output code if it exists. */
+        // Generate output code if it exists.
         if (outputFuncCode != null) {
             generateCommentHeader("Write output to actuators.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
@@ -496,7 +496,7 @@ public class PlcCodeStorage {
      * @param eventTransitionsIterationCode If not {@code null}, code to try to perform each event once.
      * @param maxIter Maximum number of loop iterations before aborting the loop. The value {@code null} means
      *     'infinite'.
-     * @param context Event context for the user/reviewer.
+     * @param eventKind The kind of events that are tried to perform.
      * @param loopCount PLC variable containing the number of loops performed. If {@code null}, the loop count is not
      *     recorded.
      * @param loopsKilled PLC variable containing the number of loops that were aborted due to the loop count limit
@@ -506,7 +506,7 @@ public class PlcCodeStorage {
      * @return Whether an empty line should be inserted in the box output before generating more code.
      */
     private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode, Integer maxIter,
-            String context, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
+            String eventKind, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
             boolean boxNeedsEmptyLine)
     {
         if (eventTransitionsIterationCode == null) {
@@ -516,7 +516,7 @@ public class PlcCodeStorage {
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
 
-        generateCommentHeader("Process " + context + " events.", '-', boxNeedsEmptyLine, box);
+        generateCommentHeader("Process " + eventKind + " events.", '-', boxNeedsEmptyLine, box);
 
         PlcBasicVariable progressVar = getIsProgressVariable();
         box.add("%s := TRUE;", progressVar.varRefText);
