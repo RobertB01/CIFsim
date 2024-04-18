@@ -85,4 +85,5 @@ n/a
 
 === Annotations
 
-This transformation does not process, add, or remove any annotations.
+This transformation does not process or add any annotations.
+As this transformation removes all type declarations from the specification, their annotations are removed as well.

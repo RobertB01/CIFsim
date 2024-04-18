@@ -371,6 +371,7 @@ Enumeration literals can only be merged as the result of the enumerations of whi
 Merging two literals from different enumerations (which then have different names) is not supported.
 
 Type declarations and enumerations can be merged, as long as the type of the type declaration is compatible with the enumeration.
+The annotations of the type declaration get lost when merging it with an enumeration.
 
 Invariants can never be merged with other objects of the same name.
 

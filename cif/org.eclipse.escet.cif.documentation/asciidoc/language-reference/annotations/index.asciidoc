@@ -110,6 +110,7 @@ Currently, annotations are only supported for the following elements in CIF spec
 * Input variables.
 * Locations of automata.
 * Specifications.
+* Type declarations.
 
 This will be extended to other elements of specifications in the future.
 
