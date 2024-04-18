@@ -532,7 +532,7 @@ public class SymbolScopeBuilder {
         } else if (decl instanceof AEnumDecl enumDecl) {
             addEnum(enumDecl, parent);
         } else if (decl instanceof ATypeDefDecl typeDefDecl) {
-            addTypeDefs(typeDefDecl.typeDefs, parent);
+            addTypeDecls(typeDefDecl, parent);
         } else if (decl instanceof AInputVariableDecl inputVarDecl) {
             addInputVars(inputVarDecl, parent);
         } else if (decl instanceof AIoDecl ioDecl) {
@@ -793,18 +793,18 @@ public class SymbolScopeBuilder {
     }
 
     /**
-     * Adds type definitions to the given parent symbol scope.
+     * Adds type declarations to the given parent symbol scope.
      *
-     * @param defs The definitions to add.
-     * @param parent The parent symbol scope to which to add the definitions.
+     * @param decls The declarations to add.
+     * @param parent The parent symbol scope to which to add the declarations.
      */
-    private void addTypeDefs(List<ATypeDef> defs, ParentScope<?> parent) {
-        for (ATypeDef tdef: defs) {
+    private void addTypeDecls(ATypeDefDecl decls, ParentScope<?> parent) {
+        for (ATypeDef tdef: decls.typeDefs) {
             TypeDecl tdecl = newTypeDecl();
             tdecl.setName(tdef.name.id);
             tdecl.setPosition(tdef.createPosition());
 
-            TypeDeclWrap wrapper = new TypeDeclWrap(tchecker, parent, tdef, tdecl);
+            TypeDeclWrap wrapper = new TypeDeclWrap(tchecker, parent, decls, tdef, tdecl);
             parent.addDeclaration(wrapper);
 
             parent.getComplexComponent().getDeclarations().add(tdecl);
