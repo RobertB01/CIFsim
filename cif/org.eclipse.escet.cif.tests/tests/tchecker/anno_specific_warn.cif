@@ -78,4 +78,7 @@ group g1:
 
   @cif:typechecker:tests:anno1(x: true)
   const int const1 = 6;
+
+  @cif:typechecker:tests:anno1(x: true)
+  type typeDecl1 = bool;
 end
