@@ -22,3 +22,9 @@ group g:
   const ta c5 = 3.45;
   invariant c5 > 0;
 end
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  type t = bool;
+end
