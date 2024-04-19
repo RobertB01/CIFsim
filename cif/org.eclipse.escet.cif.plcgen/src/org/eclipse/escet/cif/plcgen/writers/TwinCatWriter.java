@@ -51,6 +51,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -535,6 +536,9 @@ public class TwinCatWriter extends Writer {
             if (declaredType instanceof PlcTypeDecl typeDecl) {
                 typeName = typeDecl.name;
                 declarationText = toDeclaredTypeBox(typeDecl).toString();
+            } else if (declaredType instanceof PlcStructType structType) {
+                typeName = structType.typeName;
+                declarationText = toDeclaredTypeBox(structType).toString();
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }
@@ -640,18 +644,33 @@ public class TwinCatWriter extends Writer {
 
     @Override
     protected Box toDeclaredTypeBox(PlcTypeDecl typeDecl) {
+        Assert.check(!(typeDecl.type instanceof PlcStructType),
+                "Use toDeclaredTypeBox(PlcStructType structType) instead.");
+
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", typeDecl.name);
+        c.indent();
+        c.add(new HBox(toBox(typeDecl.type), ";"));
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
+    }
+
+    @Override
+    protected Box toDeclaredTypeBox(PlcStructType structType) {
         // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
         // specific, in that it implements a workaround for a bug in TwinCAT, where structs in type declarations
         // may not be terminated with a semicolon.
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
+        c.add("TYPE %s:", structType.typeName);
         c.indent();
-        if (typeDecl.type instanceof PlcStructType) {
-            // Special TwinCAT workaround.
-            c.add(toBox(typeDecl.type));
-        } else {
-            c.add(new HBox(toBox(typeDecl.type), ";"));
+        c.add("STRUCT");
+        c.indent();
+        for (PlcStructField field: structType.fields) {
+            c.add(toBox(field));
         }
+        c.dedent();
+        c.add("END_STRUCT");
         c.dedent();
         c.add("END_TYPE");
         return c;

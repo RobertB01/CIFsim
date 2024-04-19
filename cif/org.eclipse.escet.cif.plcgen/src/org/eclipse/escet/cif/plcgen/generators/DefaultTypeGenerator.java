@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.escet.cif.common.CifEnumUtils.EnumDeclEqHashWrap;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -60,11 +62,8 @@ public class DefaultTypeGenerator implements TypeGenerator {
     /** Standard real type. */
     private final PlcElementaryType standardRealType;
 
-    /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances, to PLC type-declaration names. */
-    private final Map<TypeEqHashWrap, String> structNames = map();
-
-    /** Mapping from type declaration names to their underlying structure type. */
-    private final Map<String, PlcStructType> structTypes = map();
+    /** Mapping from CIF tuple types wrapped in {@link TypeEqHashWrap} instances to their structure type. */
+    private final Map<TypeEqHashWrap, PlcStructType> structTypes = map();
 
     /**
      * Mapping from CIF enumerations to PLC enumeration type and value information.
@@ -113,43 +112,38 @@ public class DefaultTypeGenerator implements TypeGenerator {
         }
     }
 
-    /**
-     * Converts a CIF tuple type to a PLC structure.
-     *
-     * @param tupleType The CIF tuple type.
-     * @return The PLC structure type generated for the tuple type.
-     */
-    private PlcType convertTupleType(TupleType tupleType) {
+    @Override
+    public PlcStructType convertTupleType(TupleType tupleType) {
         TypeEqHashWrap typeWrap = new TypeEqHashWrap(tupleType, true, false);
-        String sname = structNames.get(typeWrap);
-        if (sname == null) {
-            // Generate PLC struct for tuple.
-            // TODO Improve the relation from the PLC code back to the CIF specification by using supplied field names.
-            PlcStructType structType = new PlcStructType();
-            int fieldNumber = 1;
-            for (Field field: tupleType.getFields()) {
-                String fieldName = "field" + String.valueOf(fieldNumber);
-                PlcType ftype = convertType(field.getType());
-                structType.fields.add(new PlcStructField(fieldName, ftype));
-                fieldNumber++;
-            }
-
-            // Wrap a type declaration around the struct type, make it findable for future queries, and store the
-            // created PLC structure type.
-            sname = target.getNameGenerator().generateGlobalName("TupleStruct", false);
-            PlcTypeDecl typeDecl = new PlcTypeDecl(sname, structType);
-            structNames.put(typeWrap, sname);
-            structTypes.put(sname, structType);
-            target.getCodeStorage().addTypeDecl(typeDecl);
-        }
-        return new PlcDerivedType(sname);
+        return structTypes.computeIfAbsent(typeWrap, key -> makeStructType(tupleType));
     }
 
-    @Override
-    public PlcStructType getStructureType(PlcType type) {
-        Assert.check(type instanceof PlcDerivedType);
-        PlcStructType structType = structTypes.get(((PlcDerivedType)type).name);
-        Assert.notNull(structType);
+    /**
+     * Make a new structure type.
+     *
+     * @param tupleType Tuple type to convert.
+     * @return The created structure type.
+     */
+    private PlcStructType makeStructType(TupleType tupleType) {
+        // Convert the fields.
+        EList<Field> tupleFields = tupleType.getFields();
+        List<PlcStructField> structFields = listc(tupleFields.size());
+        int fieldNumber = 1;
+        for (Field field: tupleFields) {
+            // TODO Improve the relation from the PLC code back to the CIF specification by using supplied field names.
+            String fieldName = "field" + String.valueOf(fieldNumber);
+            PlcType ftype = convertType(field.getType());
+            structFields.add(new PlcStructField(fieldName, ftype));
+            fieldNumber++;
+        }
+
+        // Construct the structure type.
+        String typeName = target.getNameGenerator().generateGlobalName("TupleStruct", false);
+        PlcStructType structType = new PlcStructType(typeName, structFields);
+
+        // Declare the type.
+        target.getCodeStorage().addTypeDecl(structType);
+
         return structType;
     }
 

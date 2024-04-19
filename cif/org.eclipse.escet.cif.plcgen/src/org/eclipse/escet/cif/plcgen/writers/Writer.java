@@ -380,6 +380,8 @@ public abstract class Writer {
     protected Box toDeclaredTypeBox(PlcDeclaredType declaredType) {
         if (declaredType instanceof PlcTypeDecl typeDecl) {
             return toDeclaredTypeBox(typeDecl);
+        } else if (declaredType instanceof PlcStructType structType) {
+            return toDeclaredTypeBox(structType);
         }
         throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
     }
@@ -450,14 +452,28 @@ public abstract class Writer {
      * @return The generated box representation.
      */
     protected Box toBox(PlcStructType structType) {
+        return new TextBox(structType.typeName);
+    }
+
+    /**
+     * Convert a {@link PlcStructType} instance to its declaration.
+     *
+     * @param structType Struct type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toDeclaredTypeBox(PlcStructType structType) {
         CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", structType.typeName);
+        c.indent();
         c.add("STRUCT");
         c.indent();
         for (PlcStructField field: structType.fields) {
             c.add(toBox(field));
         }
         c.dedent();
-        c.add("END_STRUCT");
+        c.add("END_STRUCT;");
+        c.dedent();
+        c.add("END_TYPE");
         return c;
     }
 }

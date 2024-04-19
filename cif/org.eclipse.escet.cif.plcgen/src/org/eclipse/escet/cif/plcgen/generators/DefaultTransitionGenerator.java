@@ -46,6 +46,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
@@ -1261,8 +1262,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // -> u := x.a.p and v := x.a.q and w := x.b
         // and then each assignment can be converted. Note how the sequence of projections at the right side gets
         // extended on each recursion level. This is handled in the "projs" variable below.
-        PlcType lhsType = target.getTypeGenerator().convertType(lhs.getType());
-        PlcStructType lhsStructType = target.getTypeGenerator().getStructureType(lhsType);
+        TupleType tupleType = (TupleType)normalizeType(lhs.getType());
+        PlcStructType lhsStructType = target.getTypeGenerator().convertTupleType(tupleType);
 
         for (int idx = 0; idx < lhsStructType.fields.size(); idx++) {
             // Make a new projection list "valueProjections.<lhs-field>".

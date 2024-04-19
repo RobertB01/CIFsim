@@ -18,6 +18,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
@@ -89,6 +90,8 @@ public class Iec611313Writer extends Writer {
         {
             if (declaredType instanceof PlcTypeDecl typeDecl) {
                 typeName = typeDecl.name;
+            } else if (declaredType instanceof PlcStructType structType) {
+                typeName = structType.typeName;
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }

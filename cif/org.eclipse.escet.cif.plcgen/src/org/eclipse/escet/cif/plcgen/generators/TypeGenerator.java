@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -31,12 +32,12 @@ public interface TypeGenerator {
     public PlcType convertType(CifType type);
 
     /**
-     * Get the underlying structure type from the associated declaration type used in the generators.
+     * Get the structure type from the associated CIF tuple type.
      *
-     * @param type Declaration type of the structure type being queried.
-     * @return The underlying structure type.
+     * @param tupleType CIF tuple type to convert.
+     * @return The structure type associated with the given CIF tuple type.
      */
-    public PlcStructType getStructureType(PlcType type);
+    public PlcStructType convertTupleType(TupleType tupleType);
 
     /**
      * Convert a CIF enumeration declaration to a named PLC enumeration.

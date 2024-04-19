@@ -947,8 +947,7 @@ public class ExprGenerator {
             } else if (unProjectedType instanceof TupleType tt) {
                 int fieldIndex = getTupleProjIndex(cifProjection);
 
-                PlcType structTypeName = target.getTypeGenerator().convertType(unProjectedType);
-                PlcStructType structType = target.getTypeGenerator().getStructureType(structTypeName);
+                PlcStructType structType = target.getTypeGenerator().convertTupleType(tt);
                 plcProjections.add(new PlcStructProjection(structType.fields.get(fieldIndex).fieldName));
             } else {
                 throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
@@ -1260,11 +1259,9 @@ public class ExprGenerator {
      */
     private ExprValueResult convertTupleExpr(TupleExpression tupleExpr) {
         // Construct the destination variable.
-        PlcType varType = target.getTypeGenerator().convertType(tupleExpr.getType());
-        PlcBasicVariable structVar = getTempVariable("litStruct", varType);
-
-        // Get the underlying structure type.
-        PlcStructType structType = target.getTypeGenerator().getStructureType(varType);
+        TupleType tupleType = (TupleType)normalizeType(tupleExpr.getType());
+        PlcStructType structType = target.getTypeGenerator().convertTupleType(tupleType);
+        PlcBasicVariable structVar = getTempVariable("litStruct", structType);
 
         // Convert the values of the tuple expression and assign them to fields of the destination variable.
         ExprValueResult result = new ExprValueResult(this);

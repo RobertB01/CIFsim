@@ -107,6 +107,8 @@ public class S7Writer extends Writer {
         for (PlcDeclaredType declaredType: project.declaredTypes) {
             if (declaredType instanceof PlcTypeDecl typeDecl) {
                 writeDeclaredType(typeDecl, outPath);
+            } else if (declaredType instanceof PlcStructType structType) {
+                writeDeclaredType(structType, outPath);
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }
@@ -183,6 +185,18 @@ public class S7Writer extends Writer {
     private void writeDeclaredType(PlcTypeDecl typeDecl, String outPath) {
         String path = Paths.join(outPath, typeDecl.name + ".udt");
         Box code = toDeclaredTypeBox(typeDecl);
+        code.writeToFile(path);
+    }
+
+    /**
+     * Writes the given type declaration to a file in S7 syntax.
+     *
+     * @param structType The structure type to write.
+     * @param outPath The absolute local file system path of the directory to which to write the file.
+     */
+    private void writeDeclaredType(PlcStructType structType, String outPath) {
+        String path = Paths.join(outPath, structType.typeName + ".udt");
+        Box code = toDeclaredTypeBox(structType);
         code.writeToFile(path);
     }
 
@@ -392,8 +406,10 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    protected Box toBox(PlcStructType structType) {
+    protected Box toDeclaredTypeBox(PlcStructType structType) {
         CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", structType.typeName);
+        c.indent();
         c.add("STRUCT");
         c.indent();
         for (PlcStructField field: structType.fields) {
@@ -401,7 +417,9 @@ public class S7Writer extends Writer {
             c.add("%s: %s;", field.fieldName, toBox(field.type));
         }
         c.dedent();
-        c.add("END_STRUCT");
+        c.add("END_STRUCT;");
+        c.dedent();
+        c.add("END_TYPE");
         return c;
     }
 }

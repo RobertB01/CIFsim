@@ -59,6 +59,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -110,6 +111,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -371,16 +373,13 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcStructType getStructureType(PlcType type) {
-            if (type instanceof PlcDerivedType dt && dt.name.startsWith("tupType_")) {
-                int length = Integer.valueOf(dt.name.charAt(dt.name.length() - 1));
-                PlcStructType structType = new PlcStructType();
-                for (int idx = 1; idx <= length; idx++) {
-                    structType.fields.add(new PlcStructField("field" + idx, PlcElementaryType.LREAL_TYPE));
-                }
-                return structType;
-            }
-            throw new UnsupportedOperationException("Not needed for the test.");
+        public PlcStructType convertTupleType(TupleType tupleType) {
+            int length = tupleType.getFields().size();
+            List<PlcStructField> fields = IntStream.range(0, length)
+                    .mapToObj(idx -> new PlcStructField("field" + (idx + 1), PlcElementaryType.LREAL_TYPE))
+                    .collect(Lists.toList());
+            PlcStructType structType = new PlcStructType("tupType_" + length, fields);
+            return structType;
         }
 
         @Override
@@ -404,10 +403,10 @@ public class ExprGeneratorTest {
             return et.name;
         } else if (type instanceof PlcArrayType at) {
             return fmt("%s[%d..%d]", typeToText(at.elemType), at.lower, at.upper);
-        } else if (type instanceof PlcDerivedType dt) {
-            return dt.name;
+        } else if (type instanceof PlcStructType st) {
+            return st.typeName;
         }
-        throw new UnsupportedOperationException("Not needed for the test.");
+        throw new UnsupportedOperationException("Not needed for the test:" + type);
     }
 
     /**

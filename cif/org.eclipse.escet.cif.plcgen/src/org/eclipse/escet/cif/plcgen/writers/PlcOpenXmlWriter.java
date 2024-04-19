@@ -215,6 +215,8 @@ public class PlcOpenXmlWriter extends Writer {
     private void transDeclaredType(PlcDeclaredType declaredType, Element parent) {
         if (declaredType instanceof PlcTypeDecl typeDecl) {
             transDeclaredType(typeDecl, parent);
+        } else if (declaredType instanceof PlcStructType structType) {
+            transDeclaredType(structType, parent);
         } else {
             throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
@@ -239,6 +241,29 @@ public class PlcOpenXmlWriter extends Writer {
     }
 
     /**
+     * Transforms a PLC struct type to PLCopen XML.
+     *
+     * @param structType The structure type.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private void transDeclaredType(PlcStructType structType, Element parent) {
+        Element dataType = parent.getOwnerDocument().createElement("dataType");
+        parent.appendChild(dataType);
+
+        dataType.setAttribute("name", structType.typeName);
+
+        Element baseType = dataType.getOwnerDocument().createElement("baseType");
+        dataType.appendChild(baseType);
+
+        Element struct = baseType.getOwnerDocument().createElement("struct");
+        baseType.appendChild(struct);
+
+        for (PlcStructField field: structType.fields) {
+            transStructField(field, struct);
+        }
+    }
+
+    /**
      * Transforms a PLC type to PLCopen XML.
      *
      * @param type The type.
@@ -255,6 +280,11 @@ public class PlcOpenXmlWriter extends Writer {
 
             PlcDerivedType dtype = (PlcDerivedType)type;
             derived.setAttribute("name", dtype.name);
+        } else if (type instanceof PlcStructType structType) {
+            Element derived = parent.getOwnerDocument().createElement("derived");
+            parent.appendChild(derived);
+
+            derived.setAttribute("name", structType.typeName);
         } else if (type instanceof PlcEnumType) {
             Element enumElem = parent.getOwnerDocument().createElement("enum");
             parent.appendChild(enumElem);
@@ -267,14 +297,6 @@ public class PlcOpenXmlWriter extends Writer {
                 Element value = parent.getOwnerDocument().createElement("value");
                 values.appendChild(value);
                 value.setAttribute("name", lit);
-            }
-        } else if (type instanceof PlcStructType) {
-            Element struct = parent.getOwnerDocument().createElement("struct");
-            parent.appendChild(struct);
-
-            PlcStructType stype = (PlcStructType)type;
-            for (PlcStructField field: stype.fields) {
-                transStructField(field, struct);
             }
         } else if (type instanceof PlcArrayType) {
             Element array = parent.getOwnerDocument().createElement("array");
