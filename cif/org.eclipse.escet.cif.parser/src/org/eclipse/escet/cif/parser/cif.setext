@@ -299,7 +299,7 @@ AutDecl : Decl
         ;
 
 {cif.ADecl}
-Decl : @TYPEKW TypeDefs SEMICOLTK
+Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK
      | ENUMKW Identifier EQTK Identifiers SEMICOLTK
      | OptAnnos OptControllability @EVENTKW           Identifiers SEMICOLTK
      | OptAnnos OptControllability @EVENTKW EventType Identifiers SEMICOLTK

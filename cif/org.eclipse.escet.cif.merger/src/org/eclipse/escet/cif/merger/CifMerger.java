@@ -582,6 +582,9 @@ public class CifMerger {
         typeRef.setType(typeDecl1);
         refTypeReplacements.put(typeDecl2, typeRef);
 
+        // Move annotations.
+        typeDecl1.getAnnotations().addAll(typeDecl2.getAnnotations());
+
         // Return merged type declaration.
         return typeDecl1;
     }

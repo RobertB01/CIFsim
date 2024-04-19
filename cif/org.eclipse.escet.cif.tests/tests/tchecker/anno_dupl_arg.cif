@@ -56,4 +56,7 @@ group g1:
 
   @a(x: 7, x: 8)
   const int const1 = 2;
+
+  @a(x: 7, x: 8)
+  type typeDecl1 = bool;
 end

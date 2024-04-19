@@ -91,4 +91,7 @@ group g1:
 
   @doc
   const bool const1 = true;
+
+  @doc
+  type typeDecl1 = bool;
 end

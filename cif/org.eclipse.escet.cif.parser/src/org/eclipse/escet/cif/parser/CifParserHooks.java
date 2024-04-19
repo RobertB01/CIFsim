@@ -573,9 +573,9 @@ implements CifScanner.Hooks,
         return new ADiscVariableDecl(l1, a3, l4, t2.position);
     }
 
-    @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
-    public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
-        return new ATypeDefDecl(l2, t1.position);
+    @Override // Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl01(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
+        return new ATypeDefDecl(l1, l3, t2.position);
     }
 
     @Override // Decl : ENUMKW Identifier EQTK Identifiers SEMICOLTK;

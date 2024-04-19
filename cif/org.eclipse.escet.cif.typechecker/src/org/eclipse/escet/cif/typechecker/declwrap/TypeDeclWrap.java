@@ -15,12 +15,17 @@ package org.eclipse.escet.cif.typechecker.declwrap;
 
 import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.declarations.ATypeDef;
+import org.eclipse.escet.cif.parser.ast.declarations.ATypeDefDecl;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -28,6 +33,9 @@ import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** Type declaration wrapper. */
 public class TypeDeclWrap extends DeclWrap<TypeDecl> {
+    /** The CIF AST representation of the type declarations. */
+    private final ATypeDefDecl astDecls;
+
     /** The CIF AST representation of the type declaration. */
     private final ATypeDef astDecl;
 
@@ -36,11 +44,15 @@ public class TypeDeclWrap extends DeclWrap<TypeDecl> {
      *
      * @param tchecker The CIF type checker to use.
      * @param scope The parent scope of this declaration.
+     * @param astDecls The CIF AST representation of the type declarations.
      * @param astDecl The CIF AST representation of the type declaration.
      * @param mmDecl The CIF metamodel representation of the type declaration.
      */
-    public TypeDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, ATypeDef astDecl, TypeDecl mmDecl) {
+    public TypeDeclWrap(CifTypeChecker tchecker, ParentScope<?> scope, ATypeDefDecl astDecls, ATypeDef astDecl,
+            TypeDecl mmDecl)
+    {
         super(tchecker, scope, mmDecl);
+        this.astDecls = astDecls;
         this.astDecl = astDecl;
     }
 
@@ -80,13 +92,23 @@ public class TypeDeclWrap extends DeclWrap<TypeDecl> {
             tchecker.removeFromCycle(this);
         }
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked 'for use'.
+        status = CheckStatus.USE;
     }
 
     @Override
     public void tcheckFull() {
-        // The 'for use' check already fully checks the type declaration.
+        // Check for use first, and make sure not already fully checked.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, scope, tchecker);
+        mmDecl.getAnnotations().addAll(annos);
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 }

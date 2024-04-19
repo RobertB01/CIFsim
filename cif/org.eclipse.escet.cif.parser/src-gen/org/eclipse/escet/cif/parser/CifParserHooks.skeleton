@@ -466,8 +466,8 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
-    public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
+    @Override // Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl01(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
         // return null;
     }
 

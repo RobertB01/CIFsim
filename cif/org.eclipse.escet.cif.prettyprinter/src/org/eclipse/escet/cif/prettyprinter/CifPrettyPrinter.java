@@ -693,6 +693,10 @@ public final class CifPrettyPrinter {
      * @param typeDecl The type declaration.
      */
     public void add(TypeDecl typeDecl) {
+        // Add annotations.
+        add(typeDecl.getAnnotations());
+
+        // Add declaration.
         code.add("type %s = %s;", escapeIdentifier(typeDecl.getName()), pprint(typeDecl.getType()));
     }
 

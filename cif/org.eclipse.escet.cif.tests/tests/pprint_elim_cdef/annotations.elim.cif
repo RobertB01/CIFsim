@@ -94,4 +94,8 @@ group g1:
   alg bool alg1 = true;
   @a(b: 4)
   const bool const1 = false;
+  @a(b: 5)
+  type tdecl1 = bool;
+  @a(b: 5)
+  type tdecl2 = real;
 end
