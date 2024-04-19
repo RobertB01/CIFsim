@@ -45,4 +45,30 @@ public class PrettyEObject {
         this.className = className;
         this.prettyFeats = prettyFeats;
     }
+
+    /**
+     * Compute whether the object has no features that should be pretty-printed.
+     *
+     * @param printEmptyFeatures Whether empty features are printed.
+     * @return Whether the object has no features that should be pretty-printed.
+     */
+    public boolean isEmpty(boolean printEmptyFeatures) {
+        if (prettyFeats.isEmpty()) {
+            // Object is trivially empty if it has no features.
+            return true;
+        } else if (printEmptyFeatures) {
+            // Object has features, and all features are printed. Therefore, it's not empty.
+            return false;
+        } else {
+            // Object has features, and empty features are not printed. Check them for a counter example.
+            boolean isEmpty = true;
+            for (PrettyEFeat prettyFeat: prettyFeats) {
+                isEmpty &= prettyFeat.isEmpty();
+                if (!isEmpty) {
+                    break;
+                }
+            }
+            return isEmpty;
+        }
+    }
 }

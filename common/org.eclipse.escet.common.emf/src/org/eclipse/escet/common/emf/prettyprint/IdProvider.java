@@ -47,7 +47,7 @@ public class IdProvider {
      * Provide a known Id number to the given pretty feature when it is or becomes available.
      *
      * @param prettyFeat Pretty feature that desires to get it.
-     * @param index Index in the values of the feature that want the Id.
+     * @param index Index in the values of the feature that wants the Id.
      */
     public void registerPrettyFeature(PrettyEFeat prettyFeat, int index) {
         if (id >= 0) {

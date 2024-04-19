@@ -26,11 +26,13 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EStoreEObjectImpl.BasicEStoreFeatureMap;
 import org.eclipse.escet.common.emf.prettyprint.IdProvider;
 import org.eclipse.escet.common.emf.prettyprint.PrettyEFeat;
 import org.eclipse.escet.common.emf.prettyprint.PrettyEObject;
@@ -55,7 +57,7 @@ public class EMFPrettyPrinter {
     private static final int MAX_LINE_LENGTH = 100;
 
     /** Indenting for printing value(s). */
-    private static final String INDENT_TEXT = "       ";
+    private static final String INDENT_TEXT = "        ";
 
     /**
      * Pretty-print an EMF contained tree while not printing the empty or {@code null} features.
@@ -65,19 +67,19 @@ public class EMFPrettyPrinter {
      * @see #printPrettyTree(EObject, boolean)
      */
     public static String printPrettyTree(EObject rootObject) {
-        return printPrettyTree(rootObject, true);
+        return printPrettyTree(rootObject, false);
     }
 
     /**
      * Pretty-print an EMF contained tree.
      *
      * @param rootObject Root of the tree to pretty-print.
-     * @param skipEmptyFeatures Whether to skip output of features that are {@code null} or empty.
+     * @param printEmptyFeatures Whether to print output for features that are {@code null} or empty.
      * @return The created text.
      */
-    public static String printPrettyTree(EObject rootObject, boolean skipEmptyFeatures) {
+    public static String printPrettyTree(EObject rootObject, boolean printEmptyFeatures) {
         List<PrettyEObject> prettyEObjects = sequenceEObjects(rootObject);
-        return printPrettyEObjects(prettyEObjects, skipEmptyFeatures);
+        return printPrettyEObjects(prettyEObjects, printEmptyFeatures);
     }
 
     /**
@@ -192,10 +194,10 @@ public class EMFPrettyPrinter {
      * Convert a sequence pretty EObjects to text.
      *
      * @param prettyEObjects {@link EObject}s to convert.
-     * @param skipEmptyFeatures Whether to skip output of features that are {@code null} or empty.
+     * @param printEmptyFeatures Whether to print output for features that are {@code null} or empty.
      * @return The created text.
      */
-    private static String printPrettyEObjects(List<PrettyEObject> prettyEObjects, boolean skipEmptyFeatures) {
+    private static String printPrettyEObjects(List<PrettyEObject> prettyEObjects, boolean printEmptyFeatures) {
         StringBuilder sb = new StringBuilder();
         boolean isFirst = true;
         for (PrettyEObject prettyEObject: prettyEObjects) {
@@ -207,20 +209,24 @@ public class EMFPrettyPrinter {
             }
 
             // Generate the text of the EObject and its features.
-            sb.append(fmt("[%d] %s:\n", prettyEObject.eObjId, prettyEObject.className));
+
+            // If the object has features to output, add a colon at the end, else add a semicolon.
+            String textTerminator = prettyEObject.isEmpty(!printEmptyFeatures) ? ";" : ":";
+            sb.append(fmt("[%d] %s%s\n", prettyEObject.eObjId, prettyEObject.className, textTerminator));
             for (PrettyEFeat prettyFeat: prettyEObject.prettyFeats) {
                 // Construct the initial text of the feature.
                 String featKind;
                 if (prettyFeat instanceof PrettyFeatEAttribute attr) {
-                    if (skipEmptyFeatures && attr.isEmpty()) {
+                    if (!printEmptyFeatures && attr.isEmpty()) {
                         continue;
                     }
                     featKind = "Attribute";
                 } else if (prettyFeat instanceof PrettyFeatEReference ref) {
-                    if (skipEmptyFeatures && ref.isEmpty()) {
+                    if (!printEmptyFeatures && ref.isEmpty()) {
                         continue;
                     }
-                    featKind = "Reference";
+
+                    featKind = ref.eReference.isContainment() ? "Contains" : "References";
                 } else {
                     throw new AssertionError("Unexpected pretty feature found: \"" + prettyFeat + "\".");
                 }

@@ -244,47 +244,47 @@ public class PartialSpecsTest {
         String actual = printPrettyTree(partialSpec);
         String expected = """
                 [1] Specification:
-                  - Reference List<Component> components = [<<2>>, <<3>>]
-                  - Reference List<Invariant> invariants = [<<4>>]
+                  - Contains List<Component> components = [<<2>>, <<3>>]
+                  - Contains List<Invariant> invariants = [<<4>>]
 
                 [2] Group:
-                  - Reference List<Declaration> declarations = [<<5>>]
+                  - Contains List<Declaration> declarations = [<<5>>]
                   - Attribute CifIdentifier name = X
 
                 [3] Group:
-                  - Reference List<Declaration> declarations = [<<6>>]
+                  - Contains List<Declaration> declarations = [<<6>>]
                   - Attribute CifIdentifier name = Z
 
                 [4] Invariant:
                   - Attribute InvKind invKind = State
-                  - Reference Expression predicate = <<7>>
+                  - Contains Expression predicate = <<7>>
                   - Attribute SupKind supKind = None
 
                 [5] InputVariable:
                   - Attribute CifIdentifier name = Y
-                  - Reference CifType type = <<8>>
+                  - Contains CifType type = <<8>>
 
                 [6] InputVariable:
                   - Attribute CifIdentifier name = b
-                  - Reference CifType type = <<9>>
+                  - Contains CifType type = <<9>>
 
                 [7] BinaryExpression:
-                  - Reference Expression left = <<10>>
+                  - Contains Expression left = <<10>>
                   - Attribute BinaryOperator operator = Equal
-                  - Reference Expression right = <<11>>
-                  - Reference CifType type = <<12>>
+                  - Contains Expression right = <<11>>
+                  - Contains CifType type = <<12>>
 
                 [8] BoolType:
 
                 [9] BoolType:
 
                 [10] InputVariableExpression:
-                  - Reference CifType type = <<13>>
-                  - Reference InputVariable variable = <<5>>
+                  - Contains CifType type = <<13>>
+                  - References InputVariable variable = <<5>>
 
                 [11] InputVariableExpression:
-                  - Reference CifType type = <<14>>
-                  - Reference InputVariable variable = <<6>>
+                  - Contains CifType type = <<14>>
+                  - References InputVariable variable = <<6>>
 
                 [12] BoolType:
 
