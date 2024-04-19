@@ -283,6 +283,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
             out("Child nodes: %s", childNodeNumbers.isEmpty() ? "<none>" : childNodeNumbers);
             out();
         }
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Construct the partial specifications. The partial builder is re-used for each partial
         // specification.
@@ -298,10 +301,16 @@ public class MultilevelApp extends Application<IOutputComponent> {
             for (int reqGrp: new BitSetIterator(node.requirementGroups)) {
                 neededObjects.addAll(cifRelations.getRequirementsOfGroup(reqGrp));
             }
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
             // Construct the specification.
             Specification partialSpec = partialBuilder.createPartialSpecification(neededObjects);
             partialSpecs.add(partialSpec);
+        }
+        if (isTerminationRequested()) {
+            return 0;
         }
 
         // Optionally write the partial specifications.
@@ -309,6 +318,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
         if (partialSpecsDir != null) {
             String absCifDir = cifReader.getAbsDirPath();
             writePartialSpecs(partialSpecsDir, partialSpecs, absCifDir);
+        }
+        if (isTerminationRequested()) {
+            return 0;
         }
 
         // TODO Implement.
@@ -530,7 +542,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Some missing checks exist in data-based synthesis, but they can only be checked as part of
                     // performing data-based synthesis.
 
-                    // Constraints of partial specifications.
+                    // Constraints of partial specifications:
 
                     // Disallow initialization and marker predicates outside locations.
                     new CompNoInitPredsCheck(true), //
