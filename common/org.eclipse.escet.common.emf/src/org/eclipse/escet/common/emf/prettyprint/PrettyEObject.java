@@ -25,7 +25,7 @@ public class PrettyEObject {
     /** Id of the {@link #eObj} object. */
     public final int eObjId;
 
-    /** Class name. */
+    /** Name of the class of the {@link #eObj} object. */
     public final String className;
 
     /** Objects in {@link #eObj} with their Id, for as far as they are defined. */
@@ -34,10 +34,10 @@ public class PrettyEObject {
     /**
      * Constructor of the {@link PrettyEObject} class.
      *
-     * @param eObj The {@link EObject} to pretty-print.
-     * @param eObjId Id of the pretty object.
-     * @param className Name of the class of the pretty object.
-     * @param prettyFeats Features of the pretty object.
+     * @param eObj The object being pretty-printed.
+     * @param eObjId Id of the {@link #eObj} object.
+     * @param className Name of the class of the {@link #eObj} object.
+     * @param prettyFeats Objects in {@link #eObj} with their Id, for as far as they are defined.
      */
     public PrettyEObject(EObject eObj, int eObjId, String className, List<PrettyEFeat> prettyFeats) {
         this.eObj = eObj;

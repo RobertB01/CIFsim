@@ -41,8 +41,8 @@ import org.eclipse.escet.common.emf.prettyprint.PrettyFeatEReference;
  * Convert an EMF containment tree to human-readable text.
  *
  * <p>
- * The printer outputs each EObject in the tree separately, using increasing Id numbers in the printed order to identify
- * each object. This makes finding a referenced object easier to find again in the output.
+ * The printer outputs each {@link EObject} in the tree separately, using increasing Id numbers in the printed order to
+ * identify each object. This makes it easier to find a referenced object in the output.
  * </p>
  */
 public class EMFPrettyPrinter {
@@ -58,7 +58,7 @@ public class EMFPrettyPrinter {
     private static final String INDENT_TEXT = "       ";
 
     /**
-     * Pretty-print an EMF contained tree while not printing the empty or null features.
+     * Pretty-print an EMF contained tree while not printing the empty or {@code null} features.
      *
      * @param rootObject Root of the tree to pretty-print.
      * @return The created text.
@@ -72,7 +72,7 @@ public class EMFPrettyPrinter {
      * Pretty-print an EMF contained tree.
      *
      * @param rootObject Root of the tree to pretty-print.
-     * @param skipEmptyFeatures Don't output features that are {@code null} or empty.
+     * @param skipEmptyFeatures Whether to skip output of features that are {@code null} or empty.
      * @return The created text.
      */
     public static String printPrettyTree(EObject rootObject, boolean skipEmptyFeatures) {
@@ -81,10 +81,10 @@ public class EMFPrettyPrinter {
     }
 
     /**
-     * Convert the EObjects in the tree to a sequence of pretty objects.
+     * Convert the {@link EObject}s in the tree to a sequence of pretty objects.
      *
      * <p>
-     * Also create Id providers for decorating references with the Id of the referenced EObject.
+     * Also create Id providers for decorating references with the Id of the referenced {@link EObject}.
      * </p>
      *
      * @param rootEObject Root object of the EMF tree to print.
@@ -94,9 +94,9 @@ public class EMFPrettyPrinter {
         Map<EObject, IdProvider> foundEObjects = map(); // Found EObjects with their Id provider.
         List<PrettyEObject> prettyEObjects = list(); // Converted EObjects in print order.
 
-        int assignedCount = 0; // Next number to assign to an EObject.
+        int assignedCount = 0; // Last assigned number to an EObject.
 
-        // Unfold the tree one EObject at a time. with temporarily storage of new EObjects until we run out.
+        // Unfold the tree one EObject at a time, with temporarily storage of new EObjects until we run out.
         Deque<EObject> notDone = new ArrayDeque<>();
         notDone.add(rootEObject);
         while (!notDone.isEmpty()) {
@@ -105,9 +105,9 @@ public class EMFPrettyPrinter {
             // Find or create an Id provider for the EObject.
             IdProvider idProvider = getIdProvider(eobj, foundEObjects);
 
-            // Assign an id.
-            int objId = assignedCount + 1;
+            // Assign an Id.
             assignedCount++;
+            int objId = assignedCount;
             idProvider.setIdNumber(objId);
 
             // Process the features.
@@ -117,13 +117,14 @@ public class EMFPrettyPrinter {
             for (EStructuralFeature feat: structuralFeatures) {
                 Object obj = eobj.eGet(feat);
 
-                // Reference to another EObject.
-                //
-                // An EOjbect reference needs an Id number to link itself to the referenced EObject. Id numbers are
-                // created when the EObject itself is converted to a pretty EObject. References to an EObject however
-                // may be needed both before and after assigning an Id. For this reason, Ids are not exchanged directly.
-                // Instead this task is delegated to the Id provider of the referenced EObject.
                 if (feat instanceof EReference eRef) {
+                    // Reference to another EObject.
+                    //
+                    // An EObject reference needs an Id number to link itself to the referenced EObject. Id numbers are
+                    // created when the EObject itself is converted to a pretty EObject. References to an EObject
+                    // however may be needed both before and after assigning an Id. For this reason, Ids are not
+                    // exchanged directly. Instead this task is delegated to the Id provider of the referenced EObject.
+
                     @SuppressWarnings("unchecked")
                     int numValues = (obj == null) ? 0 : (feat.isMany() ? ((List<EObject>)obj).size() : 1);
                     int[] idNumbers = new int[numValues];
@@ -135,13 +136,13 @@ public class EMFPrettyPrinter {
                             int index = 0;
                             @SuppressWarnings("unchecked")
                             List<EObject> eListObjs = (List<EObject>)obj;
-                            for (EObject eListobj: eListObjs) {
+                            for (EObject eListObj: eListObjs) {
                                 // Schedule object for pretty printing if it is contained here.
                                 if (eRef.isContainment()) {
-                                    notDone.add(eListobj);
+                                    notDone.add(eListObj);
                                 }
                                 // Add registration to assign a reference number to the object.
-                                IdProvider featIdProvider = getIdProvider(eListobj, foundEObjects);
+                                IdProvider featIdProvider = getIdProvider(eListObj, foundEObjects);
                                 featIdProvider.registerPrettyFeature(prettyFeat, index);
                                 index++;
                             }
@@ -164,7 +165,7 @@ public class EMFPrettyPrinter {
             }
 
             // Create a description.
-            String className = eClass.getName(); // getInstanceClassName();
+            String className = eClass.getName();
             PrettyEObject prettyObject = new PrettyEObject(eobj, objId, className, prettyFeats);
             prettyEObjects.add(prettyObject);
         }
@@ -175,7 +176,7 @@ public class EMFPrettyPrinter {
      * Obtain or create an Id provider for the given object.
      *
      * @param eObj Object to use for finding its Id provider.
-     * @param foundEObjects Already found EObjects.
+     * @param foundEObjects Already found {@link EObject}s with their Id providers.
      * @return The found or created Id provider of the object.
      */
     private static IdProvider getIdProvider(EObject eObj, Map<EObject, IdProvider> foundEObjects) {
@@ -188,10 +189,10 @@ public class EMFPrettyPrinter {
     }
 
     /**
-     * Convert the sequence pretty EObjects to text.
+     * Convert a sequence pretty EObjects to text.
      *
-     * @param prettyEObjects EObjects to convert.
-     * @param skipEmptyFeatures Don't output features that are {@code null} or empty.
+     * @param prettyEObjects {@link EObject}s to convert.
+     * @param skipEmptyFeatures Whether to skip output of features that are {@code null} or empty.
      * @return The created text.
      */
     private static String printPrettyEObjects(List<PrettyEObject> prettyEObjects, boolean skipEmptyFeatures) {
@@ -258,7 +259,7 @@ public class EMFPrettyPrinter {
      * @param sb Storage of already created lines.
      * @param colNum Column index of the current line.
      * @param addComma Whether to add a comma prefix before the text.
-     * @return Update column index of the current line.
+     * @return Updated column index of the current line.
      */
     private static int addText(String text, StringBuilder sb, int colNum, boolean addComma) {
         if (addComma) {
@@ -266,6 +267,8 @@ public class EMFPrettyPrinter {
             colNum++;
         }
         int textLength = text.length() + (addComma ? 1 : 0); // Text needs an additional " " after a comma only.
+
+        // Uses '<' to ensure there is always space for a comma after the current item at this line.
         if (colNum + textLength < MAX_LINE_LENGTH) {
             // Fits at the line, append it.
             if (addComma) {

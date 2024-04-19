@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 /** Base class of a pretty feature. */
 public abstract class PrettyEFeat {
-    /** Feature Feature description. */
+    /** Feature description. */
     private final EStructuralFeature eFeature;
 
     /**
@@ -70,7 +70,7 @@ public abstract class PrettyEFeat {
      * Callback that a requested number has been assigned.
      *
      * @param idNumber Id number that was assigned.
-     * @param index Index of the feature value that needs the id number.
+     * @param index Index of the feature value that needs the Id number.
      */
     public abstract void resolveId(int idNumber, int index);
 

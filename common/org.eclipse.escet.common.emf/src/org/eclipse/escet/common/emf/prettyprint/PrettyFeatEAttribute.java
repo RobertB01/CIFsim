@@ -20,13 +20,13 @@ import org.eclipse.escet.common.java.Lists;
 
 /** Attribute feature data to pretty print. */
 public class PrettyFeatEAttribute extends PrettyEFeat {
-    /** Properties of the feature. */
+    /** Attribute description. */
     public final EAttribute attribute;
 
     /**
      * Constructor of the {@link PrettyFeatEAttribute} class.
      *
-     * @param attribute Feature description.
+     * @param attribute Attribute description.
      * @param data Value or values of the feature. May be {@code null}, and may not adhere to feature constraints.
      */
     public PrettyFeatEAttribute(EAttribute attribute, Object data) {

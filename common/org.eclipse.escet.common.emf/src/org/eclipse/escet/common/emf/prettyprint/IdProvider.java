@@ -21,16 +21,16 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Provider of an Id for pretty features that want it. */
 public class IdProvider {
-    /** Value of the id number. A negative value means 'unknown id'. */
+    /** Value of the Id number. A negative value means 'unknown Id'. */
     private int id = -1;
 
-    /** Pretty features that want a notification when an id is assigned. */
+    /** Pretty features that want a notification when an Id is assigned. */
     private List<RegisteredIdCallback> prettyFeatureCallbacks = list();
 
     /**
-     * Set the id number.
+     * Set the Id number.
      *
-     * @param id Assigned id number.
+     * @param id Assigned Id number.
      */
     public void setIdNumber(int id) {
         Assert.check(this.id < 0);
@@ -44,10 +44,10 @@ public class IdProvider {
     }
 
     /**
-     * Provide a known id number to the given pretty feature when it is or becomes available.
+     * Provide a known Id number to the given pretty feature when it is or becomes available.
      *
      * @param prettyFeat Pretty feature that desires to get it.
-     * @param index Index in the values of the feature that want the id.
+     * @param index Index in the values of the feature that want the Id.
      */
     public void registerPrettyFeature(PrettyEFeat prettyFeat, int index) {
         if (id >= 0) {
@@ -58,7 +58,7 @@ public class IdProvider {
     }
 
     /**
-     * Record for storing that a pretty feature desires to get a known id number for its value at 'index'.
+     * Record for storing that a pretty feature desires to get a known Id number for its value at 'index'.
      *
      * @param prettyFeat Feature desiring the callback.
      * @param index Index to pass to the feature.

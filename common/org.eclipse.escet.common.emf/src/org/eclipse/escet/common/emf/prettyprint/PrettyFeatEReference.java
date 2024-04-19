@@ -21,7 +21,7 @@ import org.eclipse.escet.common.java.Lists;
 
 /** Reference feature data to pretty print. */
 public class PrettyFeatEReference extends PrettyEFeat {
-    /** Properties of the feature. */
+    /** Feature description. */
     public final EReference eReference;
 
     /** Id numbers of the referenced objects. A negative value means the number is not known yet. */
