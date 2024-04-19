@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -102,9 +103,13 @@ public class S7Writer extends Writer {
         // Ensure exactly one program.
         Assert.areEqual(programCount, 1);
 
-        // Write type declarations.
-        for (PlcTypeDecl typeDecl: project.typeDecls) {
-            write(typeDecl, outPath);
+        // Write declared types.
+        for (PlcDeclaredType declaredType: project.declaredTypes) {
+            if (declaredType instanceof PlcTypeDecl typeDecl) {
+                writeDeclaredType(typeDecl, outPath);
+            } else {
+                throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+            }
         }
     }
 
@@ -175,9 +180,9 @@ public class S7Writer extends Writer {
      * @param typeDecl The type declaration to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void write(PlcTypeDecl typeDecl, String outPath) {
+    private void writeDeclaredType(PlcTypeDecl typeDecl, String outPath) {
         String path = Paths.join(outPath, typeDecl.name + ".udt");
-        Box code = toBox(typeDecl);
+        Box code = toDeclaredTypeBox(typeDecl);
         code.writeToFile(path);
     }
 
@@ -376,7 +381,7 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    protected Box toBox(PlcTypeDecl typeDecl) {
+    protected Box toDeclaredTypeBox(PlcTypeDecl typeDecl) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", typeDecl.name);
         c.indent();

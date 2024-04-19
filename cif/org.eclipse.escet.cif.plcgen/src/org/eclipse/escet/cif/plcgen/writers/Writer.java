@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
@@ -103,8 +104,8 @@ public abstract class Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("PROJECT %s", project.name);
         c.indent();
-        for (PlcTypeDecl typeDecl: project.typeDecls) {
-            c.add(toBox(typeDecl));
+        for (PlcDeclaredType declaredType: project.declaredTypes) {
+            c.add(toDeclaredTypeBox(declaredType));
         }
         for (PlcPou pou: project.pous) {
             c.add(toBox(pou));
@@ -371,12 +372,25 @@ public abstract class Writer {
     }
 
     /**
+     * Convert a {@link PlcDeclaredType} instance to a {@link Box} text.
+     *
+     * @param declaredType Declared type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toDeclaredTypeBox(PlcDeclaredType declaredType) {
+        if (declaredType instanceof PlcTypeDecl typeDecl) {
+            return toDeclaredTypeBox(typeDecl);
+        }
+        throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+    }
+
+    /**
      * Convert a {@link PlcTypeDecl} instance to a {@link Box} text.
      *
      * @param typeDecl Type declaration to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcTypeDecl typeDecl) {
+    protected Box toDeclaredTypeBox(PlcTypeDecl typeDecl) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", typeDecl.name);
         c.indent();

@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
@@ -34,7 +35,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -255,12 +255,12 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a type declaration to the type declarations list.
+     * Add a declared type to the declared types list.
      *
-     * @param decl Declaration to add. Name is assumed to be unique.
+     * @param declaredType Type to declare. Name of the type is assumed to be unique.
      */
-    public void addTypeDecl(PlcTypeDecl decl) {
-        project.typeDecls.add(decl);
+    public void addTypeDecl(PlcDeclaredType declaredType) {
+        project.declaredTypes.add(declaredType);
     }
 
     /**

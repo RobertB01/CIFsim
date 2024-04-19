@@ -45,6 +45,7 @@ import javax.xml.validation.Validator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -187,8 +188,8 @@ public class PlcOpenXmlWriter extends Writer {
         instances.appendChild(configurations);
 
         // Add data types.
-        for (PlcTypeDecl typeDecl: project.typeDecls) {
-            transTypeDecl(typeDecl, dataTypes);
+        for (PlcDeclaredType declaredType: project.declaredTypes) {
+            transDeclaredType(declaredType, dataTypes);
         }
 
         // Add POUs.
@@ -206,12 +207,26 @@ public class PlcOpenXmlWriter extends Writer {
     }
 
     /**
+     * Transforms a PLC declared type to PLCopen XML.
+     *
+     * @param declaredType The declared type.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private void transDeclaredType(PlcDeclaredType declaredType, Element parent) {
+        if (declaredType instanceof PlcTypeDecl typeDecl) {
+            transDeclaredType(typeDecl, parent);
+        } else {
+            throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+        }
+    }
+
+    /**
      * Transforms a PLC type declaration to PLCopen XML.
      *
      * @param typeDecl The type declaration.
      * @param parent The parent element in which to generate new elements.
      */
-    private void transTypeDecl(PlcTypeDecl typeDecl, Element parent) {
+    private void transDeclaredType(PlcTypeDecl typeDecl, Element parent) {
         Element dataType = parent.getOwnerDocument().createElement("dataType");
         parent.appendChild(dataType);
 

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.declarations;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** PLC type declaration. */
-public class PlcTypeDecl {
+public class PlcTypeDecl implements PlcDeclaredType {
     /** The name of the type declaration. */
     public final String name;
 
