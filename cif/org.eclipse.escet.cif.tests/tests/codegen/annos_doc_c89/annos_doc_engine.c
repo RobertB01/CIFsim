@@ -51,8 +51,41 @@ const char *annos_doc_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
-    /** Literal "__some_dummy_enum_literal". */
-    "__some_dummy_enum_literal",
+    /** Literal "l1". */
+    "l1",
+
+    /**
+     * Literal "l2".
+     *
+     * single line doc
+     */
+    "l2",
+
+    /**
+     * Literal "l3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    "l3",
+
+    /**
+     * Literal "l4".
+     *
+     * some doc
+     */
+    "l4",
+
+    /**
+     * Literal "l5".
+     *
+     * First doc.
+     *
+     * Second doc line 1.
+     * Second doc line 2.
+     */
+    "l5",
 };
 
 /* Constants. */

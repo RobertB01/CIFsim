@@ -746,8 +746,51 @@ public abstract class annos_doc {
 
     /** annos_doc enumeration. */
     public static enum annos_docEnum {
-        /** Literal "__some_dummy_enum_literal". */
-        ___some_dummy_enum_literal;
+        /** Literal "l1". */
+        _l1,
+
+        /**
+         * Literal "l2".
+         *
+         * <p>
+         * single line doc
+         * </p>
+         */
+        _l2,
+
+        /**
+         * Literal "l3".
+         *
+         * <p>
+         * doc with multiple
+         * lines of
+         *  text
+         * </p>
+         */
+        _l3,
+
+        /**
+         * Literal "l4".
+         *
+         * <p>
+         * some doc
+         * </p>
+         */
+        _l4,
+
+        /**
+         * Literal "l5".
+         *
+         * <p>
+         * First doc.
+         * </p>
+         *
+         * <p>
+         * Second doc line 1.
+         * Second doc line 2.
+         * </p>
+         */
+        _l5;
 
         @Override
         public String toString() {
