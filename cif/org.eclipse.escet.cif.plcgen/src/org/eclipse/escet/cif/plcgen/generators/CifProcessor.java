@@ -696,7 +696,9 @@ public class CifProcessor {
                 false, // Also generate unused location pointers.
                 null, // Map of location pointer variables to their automaton.
                 true, // Optimize of initialization of location pointers.
-                true // Add location pointer expressions to guards.
+                true, // Add location pointer expressions to guards.
+                true, // Copy the annotations of automata to their newly created location pointer enumerations.
+                true // Copy the annotations of the locations to their newly created enumerations literals.
         ).transform(spec);
 
         // Simplify the specification, to increase the supported subset. Since simplification of values fills in all
