@@ -300,7 +300,7 @@ AutDecl : Decl
 
 {cif.ADecl}
 Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK
-     | ENUMKW Identifier EQTK Identifiers SEMICOLTK
+     | OptAnnos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK
      | OptAnnos OptControllability @EVENTKW           Identifiers SEMICOLTK
      | OptAnnos OptControllability @EVENTKW EventType Identifiers SEMICOLTK
      | OptAnnos    Controllability                    Identifiers SEMICOLTK
@@ -316,9 +316,23 @@ Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK
      | IoDecl
      ;
 
+{List<tokens.AIdentifier>}
+Identifiers : Identifier
+            | Identifiers COMMATK Identifier
+            ;
+
 {tokens.AIdentifier}
 Identifier : @IDENTIFIERTK
            ;
+
+{List<tokens.AAnnotatedIdentifier>}
+AnnotatedIdentifiers : AnnotatedIdentifier
+                     | AnnotatedIdentifiers COMMATK AnnotatedIdentifier
+                     ;
+
+{tokens.AAnnotatedIdentifier}
+AnnotatedIdentifier : OptAnnos @IDENTIFIERTK
+                    ;
 
 {List<cif.AImport>}
 Imports : StringToken
@@ -620,11 +634,6 @@ OptElifUpdates : /* empty */
 OptElseUpdate : /* empty */
               | ELSEKW Updates
               ;
-
-{List<tokens.AIdentifier>}
-Identifiers : Identifier
-            | Identifiers COMMATK Identifier
-            ;
 
 {setext.runtime.Token}
 OptSupKind : /* empty */
