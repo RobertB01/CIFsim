@@ -33,8 +33,13 @@ extern void A3ITypeModify(A3IType *array, IntType index, IntType value);
 extern int A3ITypePrint(A3IType *array, char *dest, int start, int end);
 
 enum Enumtypes_and_literals_ {
+    /** Literal "BLUE". */
     _types_and_literals_BLUE,
+
+    /** Literal "RED". */
     _types_and_literals_RED,
+
+    /** Literal "WHITE". */
     _types_and_literals_WHITE,
 };
 typedef enum Enumtypes_and_literals_ types_and_literalsEnum;

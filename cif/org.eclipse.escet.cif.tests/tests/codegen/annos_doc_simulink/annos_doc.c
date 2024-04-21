@@ -1064,6 +1064,7 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumannos_doc_ {
+    /** Literal "__some_dummy_enum_literal". */
     _annos_doc___some_dummy_enum_literal,
 };
 typedef enum Enumannos_doc_ annos_docEnum;
@@ -1476,6 +1477,7 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "__some_dummy_enum_literal". */
     "__some_dummy_enum_literal",
 };
 

@@ -54,7 +54,10 @@ extern void A2STypeModify(A2SType *array, IntType index, StringType *value);
 extern int A2STypePrint(A2SType *array, char *dest, int start, int end);
 
 enum Enumfmt_ {
+    /** Literal "A". */
     _fmt_A,
+
+    /** Literal "B". */
     _fmt_B,
 };
 typedef enum Enumfmt_ fmtEnum;

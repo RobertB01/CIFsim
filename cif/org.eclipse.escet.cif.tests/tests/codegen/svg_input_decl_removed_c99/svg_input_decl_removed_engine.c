@@ -40,7 +40,10 @@ const char *svg_input_decl_removed_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "l1". */
     "l1",
+
+    /** Literal "l2". */
     "l2",
 };
 

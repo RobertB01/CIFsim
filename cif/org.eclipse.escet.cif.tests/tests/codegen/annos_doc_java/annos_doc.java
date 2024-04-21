@@ -746,7 +746,8 @@ public abstract class annos_doc {
 
     /** annos_doc enumeration. */
     public static enum annos_docEnum {
-        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
+        /** Literal "__some_dummy_enum_literal". */
+        ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

@@ -51,6 +51,7 @@ const char *annos_doc_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "__some_dummy_enum_literal". */
     "__some_dummy_enum_literal",
 };
 

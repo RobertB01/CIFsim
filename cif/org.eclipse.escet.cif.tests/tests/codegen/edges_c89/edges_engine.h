@@ -11,8 +11,13 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumedges_ {
+    /** Literal "loc1". */
     _edges_loc1,
+
+    /** Literal "loc2". */
     _edges_loc2,
+
+    /** Literal "loc3". */
     _edges_loc3,
 };
 typedef enum Enumedges_ edgesEnum;

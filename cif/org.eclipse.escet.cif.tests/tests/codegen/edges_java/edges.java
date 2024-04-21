@@ -2353,9 +2353,14 @@ public abstract class edges {
 
     /** edges enumeration. */
     public static enum edgesEnum {
-        /** loc1 */ _loc1,
-        /** loc2 */ _loc2,
-        /** loc3 */ _loc3;
+        /** Literal "loc1". */
+        _loc1,
+
+        /** Literal "loc2". */
+        _loc2,
+
+        /** Literal "loc3". */
+        _loc3;
 
         @Override
         public String toString() {

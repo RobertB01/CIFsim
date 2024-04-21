@@ -53,6 +53,7 @@ extern BoolType T2IITypeEquals(T2IIType *left, T2IIType *right);
 extern int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end);
 
 enum Enuminternal_functions_ {
+    /** Literal "__some_dummy_enum_literal". */
     _internal_functions___some_dummy_enum_literal,
 };
 typedef enum Enuminternal_functions_ internal_functionsEnum;

@@ -165,7 +165,10 @@ const char *various_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "l1". */
     "l1",
+
+    /** Literal "l2". */
     "l2",
 };
 
