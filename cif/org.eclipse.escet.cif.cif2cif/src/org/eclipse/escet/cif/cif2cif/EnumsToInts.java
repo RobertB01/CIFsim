@@ -57,6 +57,10 @@ import org.eclipse.escet.common.emf.EMFHelper;
  * </p>
  *
  * <p>
+ * The annotations of the enumerations and enumeration literals are lost.
+ * </p>
+ *
+ * <p>
  * The {@link ElimLocRefExprs} transformation may introduce new enumerations. Apply this transformation after that
  * transformation to eliminate them.
  * </p>
