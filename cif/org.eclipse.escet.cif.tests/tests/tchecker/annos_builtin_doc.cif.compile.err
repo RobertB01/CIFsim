@@ -16,4 +16,7 @@ ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 80, column 
 ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 89, column 3: Annotation "doc": missing an argument.
 ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 92, column 3: Annotation "doc": missing an argument.
 ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 95, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 98, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 101, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 102, column 20: Annotation "doc": missing an argument.
 ERROR: Failed to load CIF file "tchecker/annos_builtin_doc.cif": the file has errors.
