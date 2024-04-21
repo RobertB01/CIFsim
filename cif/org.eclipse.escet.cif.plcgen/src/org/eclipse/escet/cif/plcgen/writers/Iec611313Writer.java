@@ -17,7 +17,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -89,9 +88,7 @@ public class Iec611313Writer extends Writer {
     private void writeDeclaredType(PlcDeclaredType declaredType, String outPath) {
         String typeName;
         {
-            if (declaredType instanceof PlcTypeDecl typeDecl) {
-                typeName = typeDecl.name;
-            } else if (declaredType instanceof PlcStructType structType) {
+            if (declaredType instanceof PlcStructType structType) {
                 typeName = structType.typeName;
             } else if (declaredType instanceof PlcEnumType enumType) {
                 typeName = enumType.typeName;

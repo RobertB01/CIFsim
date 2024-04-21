@@ -51,7 +51,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
@@ -59,7 +58,6 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
@@ -535,10 +533,7 @@ public class TwinCatWriter extends Writer {
         String typeName;
         String declarationText;
         {
-            if (declaredType instanceof PlcTypeDecl typeDecl) {
-                typeName = typeDecl.name;
-                declarationText = toDeclaredTypeBox(typeDecl).toString();
-            } else if (declaredType instanceof PlcStructType structType) {
+            if (declaredType instanceof PlcStructType structType) {
                 typeName = structType.typeName;
                 declarationText = toDeclaredTypeBox(structType).toString();
             } else if (declaredType instanceof PlcEnumType enumType) {
@@ -645,20 +640,6 @@ public class TwinCatWriter extends Writer {
             throw new RuntimeException(e);
         }
         return builder.newDocument();
-    }
-
-    @Override
-    protected Box toDeclaredTypeBox(PlcTypeDecl typeDecl) {
-        Assert.check(!(typeDecl.type instanceof PlcStructType),
-                "Use toDeclaredTypeBox(PlcStructType structType) instead.");
-
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
-        c.indent();
-        c.add(new HBox(toBox(typeDecl.type), ";"));
-        c.dedent();
-        c.add("END_TYPE");
-        return c;
     }
 
     @Override

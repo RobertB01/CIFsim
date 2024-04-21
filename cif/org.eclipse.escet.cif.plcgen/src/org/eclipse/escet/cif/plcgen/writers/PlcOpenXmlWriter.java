@@ -53,7 +53,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
@@ -214,33 +213,13 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transDeclaredType(PlcDeclaredType declaredType, Element parent) {
-        if (declaredType instanceof PlcTypeDecl typeDecl) {
-            transDeclaredType(typeDecl, parent);
-        } else if (declaredType instanceof PlcStructType structType) {
+        if (declaredType instanceof PlcStructType structType) {
             transDeclaredType(structType, parent);
         } else if (declaredType instanceof PlcEnumType enumType) {
             transDeclaredType(enumType, parent);
         } else {
             throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
-    }
-
-    /**
-     * Transforms a PLC type declaration to PLCopen XML.
-     *
-     * @param typeDecl The type declaration.
-     * @param parent The parent element in which to generate new elements.
-     */
-    private void transDeclaredType(PlcTypeDecl typeDecl, Element parent) {
-        Element dataType = parent.getOwnerDocument().createElement("dataType");
-        parent.appendChild(dataType);
-
-        dataType.setAttribute("name", typeDecl.name);
-
-        Element baseType = parent.getOwnerDocument().createElement("baseType");
-        dataType.appendChild(baseType);
-
-        transType(typeDecl.type, baseType);
     }
 
     /**

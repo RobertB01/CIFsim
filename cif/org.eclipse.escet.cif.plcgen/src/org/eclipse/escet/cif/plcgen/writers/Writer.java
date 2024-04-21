@@ -32,7 +32,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -379,30 +378,12 @@ public abstract class Writer {
      * @return The generated box representation.
      */
     protected Box toDeclaredTypeBox(PlcDeclaredType declaredType) {
-        if (declaredType instanceof PlcTypeDecl typeDecl) {
-            return toDeclaredTypeBox(typeDecl);
-        } else if (declaredType instanceof PlcStructType structType) {
+        if (declaredType instanceof PlcStructType structType) {
             return toDeclaredTypeBox(structType);
         } else if (declaredType instanceof PlcEnumType enumType) {
             return toDeclaredTypeBox(enumType);
         }
         throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
-    }
-
-    /**
-     * Convert a {@link PlcTypeDecl} instance to a {@link Box} text.
-     *
-     * @param typeDecl Type declaration to convert.
-     * @return The generated box representation.
-     */
-    protected Box toDeclaredTypeBox(PlcTypeDecl typeDecl) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
-        c.indent();
-        c.add(new HBox(toBox(typeDecl.type), ";"));
-        c.dedent();
-        c.add("END_TYPE");
-        return c;
     }
 
     /**

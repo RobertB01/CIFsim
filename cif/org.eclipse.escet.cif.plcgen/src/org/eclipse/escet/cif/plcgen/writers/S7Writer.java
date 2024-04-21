@@ -33,7 +33,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
@@ -42,7 +41,6 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -107,9 +105,7 @@ public class S7Writer extends Writer {
 
         // Write declared types.
         for (PlcDeclaredType declaredType: project.declaredTypes) {
-            if (declaredType instanceof PlcTypeDecl typeDecl) {
-                writeDeclaredType(typeDecl, outPath);
-            } else if (declaredType instanceof PlcStructType structType) {
+            if (declaredType instanceof PlcStructType structType) {
                 writeDeclaredType(structType, outPath);
             } else if (declaredType instanceof PlcEnumType enumType) {
                 writeDeclaredType(enumType, outPath);
@@ -178,18 +174,6 @@ public class S7Writer extends Writer {
      */
     private boolean hasIecTimers() {
         return EnumSet.of(S7_1200, S7_1500).contains(target.getTargetType());
-    }
-
-    /**
-     * Writes the given type declaration to a file in S7 syntax.
-     *
-     * @param typeDecl The type declaration to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
-     */
-    private void writeDeclaredType(PlcTypeDecl typeDecl, String outPath) {
-        String path = Paths.join(outPath, typeDecl.name + ".udt");
-        Box code = toDeclaredTypeBox(typeDecl);
-        code.writeToFile(path);
     }
 
     /**
@@ -407,17 +391,6 @@ public class S7Writer extends Writer {
         // Close POU.
         c.add("END_%s", pouTypeText);
 
-        return c;
-    }
-
-    @Override
-    protected Box toDeclaredTypeBox(PlcTypeDecl typeDecl) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
-        c.indent();
-        c.add(new HBox(toBox(typeDecl.type), ";"));
-        c.dedent();
-        c.add("END_TYPE");
         return c;
     }
 
