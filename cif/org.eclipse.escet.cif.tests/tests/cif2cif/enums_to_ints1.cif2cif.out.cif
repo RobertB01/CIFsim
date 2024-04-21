@@ -19,6 +19,10 @@ automaton q:
   location:
     initial;
 end
+group annos:
+  input int[0..1] i;
+  invariant i = 0;
+end
 invariant 0 = 1;
 invariant 0 = 0;
 invariant p.v1 = 0;

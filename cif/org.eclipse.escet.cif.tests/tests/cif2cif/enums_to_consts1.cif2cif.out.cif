@@ -26,6 +26,14 @@ automaton q:
   location:
     initial;
 end
+group annos:
+  input int[0..1] i;
+  @doc("lit1")
+  const int[0..0] L1 = 0;
+  @doc("lit2")
+  const int[1..1] L2 = 1;
+  invariant i = L1;
+end
 invariant RED = GREEN;
 invariant RED = RED;
 invariant p.v1 = p.UP;
