@@ -567,7 +567,8 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\emph{EnumLiteral}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\emph{EnumLiteral}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -575,6 +576,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EnumLiteral.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:EnumLiteral.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{}{\label{cifattr:EnumLiteral.name}}
 {\featdocuEnumLiteralname}
 \end{description}
@@ -2867,7 +2870,7 @@ none
 \hookindent\hook~\emph{AnnotatedObject}
 
 ~\\ \noindent Direct derived classes:
-\cifclass{Component}, \cifclass{Declaration}, \cifclass{Location}
+\cifclass{Component}, \cifclass{Declaration}, \cifclass{EnumLiteral}, \cifclass{Location}
 
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AnnotatedObject.position}}
