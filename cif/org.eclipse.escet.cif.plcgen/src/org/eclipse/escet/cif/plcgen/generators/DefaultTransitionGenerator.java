@@ -70,7 +70,6 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSe
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
