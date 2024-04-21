@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,6 +52,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -539,6 +541,9 @@ public class TwinCatWriter extends Writer {
             } else if (declaredType instanceof PlcStructType structType) {
                 typeName = structType.typeName;
                 declarationText = toDeclaredTypeBox(structType).toString();
+            } else if (declaredType instanceof PlcEnumType enumType) {
+                typeName = enumType.typeName;
+                declarationText = toDeclaredTypeBox(enumType).toString();
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }
@@ -671,6 +676,17 @@ public class TwinCatWriter extends Writer {
         }
         c.dedent();
         c.add("END_STRUCT");
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
+    }
+
+    @Override
+    protected Box toDeclaredTypeBox(PlcEnumType enumType) {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", enumType.typeName);
+        c.indent();
+        c.add("(%s);", enumType.literals.stream().map(lit -> lit.value).collect(Collectors.joining(", ")));
         c.dedent();
         c.add("END_TYPE");
         return c;

@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
@@ -34,6 +35,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -109,6 +111,8 @@ public class S7Writer extends Writer {
                 writeDeclaredType(typeDecl, outPath);
             } else if (declaredType instanceof PlcStructType structType) {
                 writeDeclaredType(structType, outPath);
+            } else if (declaredType instanceof PlcEnumType enumType) {
+                writeDeclaredType(enumType, outPath);
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }
@@ -197,6 +201,18 @@ public class S7Writer extends Writer {
     private void writeDeclaredType(PlcStructType structType, String outPath) {
         String path = Paths.join(outPath, structType.typeName + ".udt");
         Box code = toDeclaredTypeBox(structType);
+        code.writeToFile(path);
+    }
+
+    /**
+     * Writes the given type declaration to a file in S7 syntax.
+     *
+     * @param enumType The enum type to write.
+     * @param outPath The absolute local file system path of the directory to which to write the file.
+     */
+    private void writeDeclaredType(PlcEnumType enumType, String outPath) {
+        String path = Paths.join(outPath, enumType.typeName + ".udt");
+        Box code = toDeclaredTypeBox(enumType);
         code.writeToFile(path);
     }
 
@@ -418,6 +434,17 @@ public class S7Writer extends Writer {
         }
         c.dedent();
         c.add("END_STRUCT;");
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
+    }
+
+    @Override
+    protected Box toDeclaredTypeBox(PlcEnumType enumType) {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", enumType.typeName);
+        c.indent();
+        c.add("(%s);", enumType.literals.stream().map(lit -> lit.value).collect(Collectors.joining(", ")));
         c.dedent();
         c.add("END_TYPE");
         return c;

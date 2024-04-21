@@ -92,6 +92,8 @@ public class AbbWriter extends Writer {
                 typeName = typeDecl.name;
             } else if (declaredType instanceof PlcStructType structType) {
                 typeName = structType.typeName;
+            } else if (declaredType instanceof PlcStructType enumType) {
+                typeName = enumType.typeName;
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }

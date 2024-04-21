@@ -16,10 +16,8 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.escet.cif.common.CifEnumUtils.EnumDeclEqHashWrap;
@@ -27,7 +25,6 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.TypeEqHashWrap;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -38,10 +35,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
@@ -50,6 +44,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Lists;
 
 /** Class for handling types. */
 public class DefaultTypeGenerator implements TypeGenerator {
@@ -66,14 +61,14 @@ public class DefaultTypeGenerator implements TypeGenerator {
     private final Map<TypeEqHashWrap, PlcStructType> structTypes = map();
 
     /**
-     * Mapping from CIF enumerations to PLC enumeration type and value information.
+     * Mapping from CIF enumerations to their PLC enumeration type.
      *
      * <p>
      * The map combines compatible enumerations (as defined by {@link CifTypeUtils#areEnumsCompatible}) to one
      * information instance.
      * </p>
      */
-    private final Map<EnumDeclEqHashWrap, EnumDeclData> enumDeclNames = map();
+    private final Map<EnumDeclEqHashWrap, PlcEnumType> enumTypes = map();
 
     /**
      * Constructor of the {@link DefaultTypeGenerator} class.
@@ -148,92 +143,33 @@ public class DefaultTypeGenerator implements TypeGenerator {
     }
 
     @Override
-    public PlcType convertEnumDecl(EnumDecl enumDecl) {
-        return ensureEnumDecl(enumDecl).enumDeclType;
-    }
-
-    /**
-     * Ensure that the given CIF enumeration declaration is or becomes available as a named PLC enumeration.
-     *
-     * @param enumDecl Enumeration declaration to check.
-     * @return The PLC equivalent of the given CIF declaration.
-     */
-    private EnumDeclData ensureEnumDecl(EnumDecl enumDecl) {
+    public PlcEnumType convertEnumDecl(EnumDecl enumDecl) {
         EnumDeclEqHashWrap wrappedEnumDecl = new EnumDeclEqHashWrap(enumDecl);
-        EnumDeclData declData = enumDeclNames.get(wrappedEnumDecl);
-        if (declData == null) {
-            declData = makeEnumDeclData(enumDecl);
-            enumDeclNames.put(wrappedEnumDecl, declData);
-        }
-        return declData;
-    }
-
-    @Override
-    public PlcEnumLiteral getPlcEnumLiteral(EnumLiteral enumLit) {
-        EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
-        return ensureEnumDecl(enumDecl).getLiteral(enumLit);
-    }
-
-    /** Enumeration declaration type and value information storage. */
-    private static class EnumDeclData {
-        /** The enumeration data type in the PLC. */
-        public final PlcType enumDeclType;
-
-        /** Values of the converted enumeration literals. */
-        private final PlcEnumLiteral[] values;
-
-        /**
-         * Constructor of the {@link EnumDeclData} class.
-         *
-         * @param enumDeclType The enumeration data type in the PLC.
-         * @param values Values of the converted enumeration literals.
-         */
-        public EnumDeclData(PlcType enumDeclType, PlcEnumLiteral[] values) {
-            this.enumDeclType = enumDeclType;
-            this.values = values;
-        }
-
-        /**
-         * Get the equivalent value of the provided enumeration literal in the PLC.
-         *
-         * @param literal Enumeration literal to translate. Must be a literal of a compatible enumeration.
-         * @return The translated value.
-         */
-        public PlcEnumLiteral getLiteral(EnumLiteral literal) {
-            // Use the enumeration containing the literal itself for getting the index.
-            EnumDecl enumDecl = (EnumDecl)literal.eContainer();
-            return values[enumDecl.getLiterals().indexOf(literal)];
-        }
+        return enumTypes.computeIfAbsent(wrappedEnumDecl, key -> makePlcEnumType(enumDecl));
     }
 
     /**
      * Create the equivalent enumeration type and values to use in the PLC for the given declaration.
      *
      * @param enumDecl Enumeration declaration to convert.
-     * @return The created equivalent PLC type and value information.
+     * @return The created equivalent PLC type.
      */
-    public EnumDeclData makeEnumDeclData(EnumDecl enumDecl) {
-        Assert.areEqual(target.getActualEnumerationsConversion(), ConvertEnums.KEEP); // Other conversions have been
-                                                                                      // eliminated already.
+    public PlcEnumType makePlcEnumType(EnumDecl enumDecl) {
+        // Ensure enum conversion is only done when they are supposed to be used.
+        Assert.areEqual(target.getActualEnumerationsConversion(), ConvertEnums.KEEP);
 
-        // Convert the enumeration literals.
-        List<EnumLiteral> cifLiterals = enumDecl.getLiterals();
-        PlcEnumLiteral[] literals = new PlcEnumLiteral[cifLiterals.size()];
-        int litIndex = 0;
-        for (EnumLiteral lit: cifLiterals) {
-            String litName = target.getNameGenerator().generateGlobalName(CifTextUtils.getAbsName(lit, false), true);
-            literals[litIndex] = new PlcEnumLiteral(litName);
+        NameGenerator nameGenerator = target.getNameGenerator();
 
-            litIndex++;
-        }
+        // Convert the enumeration literals to unique value names.
+        List<String> litNames = enumDecl.getLiterals().stream()
+                .map(lit -> nameGenerator.generateGlobalName(CifTextUtils.getAbsName(lit, false), true))
+                .collect(Lists.toList());
 
         // Construct the type and add it to the global type declarations.
-        String declName = target.getNameGenerator().generateGlobalName(CifTextUtils.getAbsName(enumDecl, false), true);
-        PlcType declType = new PlcDerivedType(declName);
-        PlcEnumType plcEnumType = new PlcEnumType(
-                Arrays.stream(literals).map(v -> v.value).collect(Collectors.toList()));
-        target.getCodeStorage().addTypeDecl(new PlcTypeDecl(declName, plcEnumType));
+        String typeName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(enumDecl, false), true);
+        PlcEnumType plcEnumType = new PlcEnumType(typeName, litNames);
+        target.getCodeStorage().addTypeDecl(plcEnumType);
 
-        return new EnumDeclData(declType, literals);
+        return plcEnumType;
     }
 }

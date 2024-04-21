@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
@@ -382,6 +383,8 @@ public abstract class Writer {
             return toDeclaredTypeBox(typeDecl);
         } else if (declaredType instanceof PlcStructType structType) {
             return toDeclaredTypeBox(structType);
+        } else if (declaredType instanceof PlcEnumType enumType) {
+            return toDeclaredTypeBox(enumType);
         }
         throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
     }
@@ -403,13 +406,41 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcEnumType} instance to a {@link Box} text.
+     * Convert a {@link PlcStructType} instance to its declaration.
      *
-     * @param enumType Enumeration type to convert.
+     * @param structType Struct type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcEnumType enumType) {
-        return new TextBox("(%s)", String.join(", ", enumType.literals));
+    protected Box toDeclaredTypeBox(PlcStructType structType) {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", structType.typeName);
+        c.indent();
+        c.add("STRUCT");
+        c.indent();
+        for (PlcStructField field: structType.fields) {
+            c.add(toBox(field));
+        }
+        c.dedent();
+        c.add("END_STRUCT;");
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
+    }
+
+    /**
+     * Convert a {@link PlcEnumType} instance to its declaration.
+     *
+     * @param enumType Enum type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toDeclaredTypeBox(PlcEnumType enumType) {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", enumType.typeName);
+        c.indent();
+        c.add("(%s);", enumType.literals.stream().map(elit -> elit.value).collect(Collectors.joining(", ")));
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
     }
 
     /**
@@ -456,24 +487,12 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcStructType} instance to its declaration.
+     * Convert a {@link PlcEnumType} instance to a {@link Box} text.
      *
-     * @param structType Struct type to convert.
+     * @param enumType Enum type to convert.
      * @return The generated box representation.
      */
-    protected Box toDeclaredTypeBox(PlcStructType structType) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", structType.typeName);
-        c.indent();
-        c.add("STRUCT");
-        c.indent();
-        for (PlcStructField field: structType.fields) {
-            c.add(toBox(field));
-        }
-        c.dedent();
-        c.add("END_STRUCT;");
-        c.dedent();
-        c.add("END_TYPE");
-        return c;
+    protected Box toBox(PlcEnumType enumType) {
+        return new TextBox(enumType.typeName);
     }
 }

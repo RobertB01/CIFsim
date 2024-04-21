@@ -25,6 +25,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDictExpres
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteral;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteralExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
@@ -92,7 +93,6 @@ import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
@@ -102,6 +102,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -146,6 +147,9 @@ public class ExprGeneratorTest {
             null, null);
 
     private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
+
+    private static EnumDecl enumDecl = newEnumDecl(null,
+            List.of(newEnumLiteral("firstField", null), newEnumLiteral("secondField", null)), "enumType", null);
 
     private static TupleType makeTupleType(int length) {
         List<Field> fields = listc(length);
@@ -383,13 +387,9 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcType convertEnumDecl(EnumDecl enumDecl) {
-            throw new UnsupportedOperationException("Not needed for the test.");
-        }
-
-        @Override
-        public PlcEnumLiteral getPlcEnumLiteral(EnumLiteral enumLit) {
-            return new PlcEnumLiteral(enumLit.getName());
+        public PlcEnumType convertEnumDecl(EnumDecl enumDecl) {
+            List<String> values = enumDecl.getLiterals().stream().map(lit -> lit.getName()).collect(Lists.toList());
+            return new PlcEnumType("enumType", values);
         }
     }
 
@@ -954,9 +954,9 @@ public class ExprGeneratorTest {
 
     @Test
     public void testEnumLiteralExpressionConversion() {
-        EnumLiteral eLit = newEnumLiteral("value123", null);
+        EnumLiteral eLit = enumDecl.getLiterals().get(0);
         String realText = runValueTest(newEnumLiteralExpression(eLit, null, null));
-        String expectedText = "==> value123";
+        String expectedText = "==> " + eLit.getName();
         assertEquals(expectedText, realText);
     }
 

@@ -54,6 +54,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
@@ -217,6 +218,8 @@ public class PlcOpenXmlWriter extends Writer {
             transDeclaredType(typeDecl, parent);
         } else if (declaredType instanceof PlcStructType structType) {
             transDeclaredType(structType, parent);
+        } else if (declaredType instanceof PlcEnumType enumType) {
+            transDeclaredType(enumType, parent);
         } else {
             throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
@@ -264,6 +267,34 @@ public class PlcOpenXmlWriter extends Writer {
     }
 
     /**
+     * Transforms a PLC enum type to PLCopen XML.
+     *
+     * @param enumType The enum type.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private void transDeclaredType(PlcEnumType enumType, Element parent) {
+        Element dataType = parent.getOwnerDocument().createElement("dataType");
+        parent.appendChild(dataType);
+
+        dataType.setAttribute("name", enumType.typeName);
+
+        Element baseType = dataType.getOwnerDocument().createElement("baseType");
+        dataType.appendChild(baseType);
+
+        Element enumElem = parent.getOwnerDocument().createElement("enum");
+        baseType.appendChild(enumElem);
+
+        Element values = parent.getOwnerDocument().createElement("values");
+        enumElem.appendChild(values);
+
+        for (PlcEnumLiteral enumLit: enumType.literals) {
+            Element value = parent.getOwnerDocument().createElement("value");
+            values.appendChild(value);
+            value.setAttribute("name", enumLit.value);
+        }
+    }
+
+    /**
      * Transforms a PLC type to PLCopen XML.
      *
      * @param type The type.
@@ -285,19 +316,11 @@ public class PlcOpenXmlWriter extends Writer {
             parent.appendChild(derived);
 
             derived.setAttribute("name", structType.typeName);
-        } else if (type instanceof PlcEnumType) {
-            Element enumElem = parent.getOwnerDocument().createElement("enum");
-            parent.appendChild(enumElem);
+        } else if (type instanceof PlcEnumType enumType) {
+            Element derived = parent.getOwnerDocument().createElement("derived");
+            parent.appendChild(derived);
 
-            Element values = parent.getOwnerDocument().createElement("values");
-            enumElem.appendChild(values);
-
-            PlcEnumType etype = (PlcEnumType)type;
-            for (String lit: etype.literals) {
-                Element value = parent.getOwnerDocument().createElement("value");
-                values.appendChild(value);
-                value.setAttribute("name", lit);
-            }
+            derived.setAttribute("name", enumType.typeName);
         } else if (type instanceof PlcArrayType) {
             Element array = parent.getOwnerDocument().createElement("array");
             parent.appendChild(array);
