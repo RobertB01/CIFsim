@@ -876,8 +876,8 @@ public abstract class CodeGen {
         EnumDecl enumDecl;
         if (enumDecls.isEmpty()) {
             enumDecl = CifConstructors.newEnumDecl(null,
-                    list(CifConstructors.newEnumLiteral("__some_dummy_enum_literal", null)), "__some_dummy_enum_name",
-                    null);
+                    list(CifConstructors.newEnumLiteral(null, "__some_dummy_enum_literal", null)),
+                    "__some_dummy_enum_name", null);
         } else {
             enumDecl = first(enumDecls);
         }
