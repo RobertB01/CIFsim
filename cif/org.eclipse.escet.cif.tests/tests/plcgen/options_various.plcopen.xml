@@ -49,6 +49,11 @@
             </variable>
           </localVars>
           <tempVars>
+            <variable name="loopCount">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
             <variable name="curValue">
               <type>
                 <REAL/>

@@ -1,6 +1,7 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
+        loopCount: DINT;
         curValue: REAL;
         current_p_t: REAL;
         edge_p_1: DINT;

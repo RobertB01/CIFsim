@@ -7,6 +7,7 @@ VAR
     loopsKilled: INT;
 END_VAR
 VAR_TEMP
+    loopCount: DINT;
     curValue: REAL;
     current_p_t: REAL;
     edge_p_1: DINT;
