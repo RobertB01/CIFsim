@@ -693,6 +693,10 @@ public final class CifPrettyPrinter {
      * @param typeDecl The type declaration.
      */
     public void add(TypeDecl typeDecl) {
+        // Add annotations.
+        add(typeDecl.getAnnotations());
+
+        // Add declaration.
         code.add("type %s = %s;", escapeIdentifier(typeDecl.getName()), pprint(typeDecl.getType()));
     }
 
@@ -1993,8 +1997,13 @@ public final class CifPrettyPrinter {
      * @return The pretty printed result.
      */
     public String pprint(AnnotationArgument arg) {
-        String escapedArgName = Arrays.stream(arg.getName().split("\\.")).map(id -> escapeIdentifier(id))
-                .collect(Collectors.joining("."));
-        return fmt("%s = %s", escapedArgName, pprint(arg.getValue()));
+        String argName = arg.getName();
+        if (argName == null) {
+            return pprint(arg.getValue());
+        } else {
+            String escapedArgName = Arrays.stream(argName.split("\\.")).map(id -> escapeIdentifier(id))
+                    .collect(Collectors.joining("."));
+            return fmt("%s: %s", escapedArgName, pprint(arg.getValue()));
+        }
     }
 }

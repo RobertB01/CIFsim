@@ -10,10 +10,15 @@ import java.util.Objects;
 /**
  * annos_doc code generated from a CIF specification.
  *
+ * <p>
  * First doc
  * with multiple lines.
+ * </p>
  *
- * Second doc.
+ * <p>
+ * Second doc line 1.
+ * Second doc line 2.
+ * </p>
  */
 @SuppressWarnings("unused")
 public abstract class annos_doc {
@@ -44,32 +49,43 @@ public abstract class annos_doc {
     /**
      * Constant "constants.c2".
      *
+     * <p>
      * single line doc
+     * </p>
      */
     public static final int constants_c2_ = 2;
 
     /**
      * Constant "constants.c3".
      *
+     * <p>
      * doc with multiple
      * lines of
      *  text
+     * </p>
      */
     public static final int constants_c3_ = 3;
 
     /**
      * Constant "constants.c4".
      *
+     * <p>
      * some doc
+     * </p>
      */
     public static final int constants_c4_ = 4;
 
     /**
      * Constant "constants.c5".
      *
+     * <p>
      * First doc.
+     * </p>
      *
-     * Second doc.
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
      */
     public static final int constants_c5_ = 5;
 
@@ -116,7 +132,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public double contvars_c5_;
@@ -161,7 +178,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public boolean discvars_d5_;
@@ -206,7 +224,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public boolean i5_;
@@ -383,7 +402,9 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e2".
      *
+     * <p>
      * single line doc
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -400,9 +421,11 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e3".
      *
+     * <p>
      * doc with multiple
      * lines of
      *  text
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -419,7 +442,9 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e4".
      *
+     * <p>
      * some doc
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -436,9 +461,14 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e5".
      *
+     * <p>
      * First doc.
+     * </p>
      *
-     * Second doc.
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -559,7 +589,9 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a2".
      *
+     * <p>
      * single line doc
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -570,9 +602,11 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a3".
      *
+     * <p>
      * doc with multiple
      * lines of
      *  text
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -583,7 +617,9 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a4".
      *
+     * <p>
      * some doc
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -594,9 +630,14 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a5".
      *
+     * <p>
      * First doc.
+     * </p>
      *
-     * Second doc.
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
      *
      * @return The evaluation result.
      */

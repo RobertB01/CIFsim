@@ -250,9 +250,11 @@ public class JavaScriptCodeGen extends CodeGen {
                 declCode.add(" * Constant \"%s\".", origName);
                 for (String doc: docs) {
                     declCode.add(" *");
+                    declCode.add(" * <p>");
                     for (String line: doc.split("\\r?\\n")) {
                         declCode.add(" * %s", line);
                     }
+                    declCode.add(" * </p>");
                 }
                 declCode.add(" */");
             }
@@ -417,9 +419,11 @@ public class JavaScriptCodeGen extends CodeGen {
             code.add(" * Evaluates algebraic variable \"%s\".", origName);
             for (String doc: docs) {
                 code.add(" *");
+                code.add(" * <p>");
                 for (String line: doc.split("\\r?\\n")) {
                     code.add(" * %s", line);
                 }
+                code.add(" * </p>");
             }
             code.add(" *");
             code.add(" * @return The evaluation result.");
@@ -698,9 +702,11 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
+                codeMethods.add(" * <p>");
                 for (String line: doc.split("\\r?\\n")) {
                     codeMethods.add(" * %s", line);
                 }
+                codeMethods.add(" * </p>");
             }
             codeMethods.add(" *");
             codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
@@ -979,9 +985,11 @@ public class JavaScriptCodeGen extends CodeGen {
             classJavaDoc.add(" * ${prefix} code generated from a CIF specification.");
             for (String doc: docs) {
                 classJavaDoc.add(" *");
+                classJavaDoc.add(" * <p>");
                 for (String line: doc.split("\\r?\\n")) {
                     classJavaDoc.add(" * %s", line);
                 }
+                classJavaDoc.add(" * </p>");
             }
             classJavaDoc.add(" */");
         }

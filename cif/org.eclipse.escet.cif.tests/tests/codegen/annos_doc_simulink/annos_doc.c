@@ -5,7 +5,8 @@
  * First doc
  * with multiple lines.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 
 #include <stdio.h>
@@ -1191,7 +1192,8 @@ struct WorkStruct {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     int_T constants_c5_;
 
@@ -1226,7 +1228,8 @@ struct WorkStruct {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     BoolType discvars_d5_;
 
@@ -1261,7 +1264,8 @@ struct WorkStruct {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     BoolType i5_;
 
@@ -1347,7 +1351,8 @@ static int_T algvars_a4_(SimStruct *sim_struct) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 static int_T algvars_a5_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1451,7 +1456,8 @@ enum annos_docEventEnum_ {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     events_e5_,
 };
@@ -1565,7 +1571,8 @@ static BoolType ExecEvent3(SimStruct *sim_struct) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  *
  * @return Whether the event was performed.
  */

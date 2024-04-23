@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,21 +11,19 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-type t1 = real;
+event e;
+controllable c;
+uncontrollable u;
 
-const t1 c1 = 1.23;
-invariant c1 > 0;
+automaton A:
+  disc int d;
+  location X:
+    initial;
+    edge when d = 7 goto Y; // Implicit tau.
+    edge e; // Event without controllability.
 
-const real c2 = 0.23 + 1.0;
-invariant c2 > 0;
-
-group g:
-  const t1 c3 = 2.34;
-  invariant c3 > 0;
-end
-
-group annos:
-  @cif:typechecker:tests:anno1(arg: true)
-  @cif:typechecker:tests:anno3
-  const bool a = true;
+    edge c; // ok.
+    edge u; // ok.
+  location Y:
+    edge tau goto X; // Explicit tau.
 end

@@ -1,6 +1,6 @@
 automaton newName:
   alphabet;
-  @state(a = "*")
+  @state(a: "*")
   location loc1:
     initial;
 end

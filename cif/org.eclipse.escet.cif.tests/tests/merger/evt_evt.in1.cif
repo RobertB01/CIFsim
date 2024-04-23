@@ -31,7 +31,7 @@ plant q1:
 end
 
 group annos:
-  @cif:typechecker:tests:anno1(arg = true)
+  @cif:typechecker:tests:anno1(arg: true)
   @cif:typechecker:tests:anno3
   event e;
 

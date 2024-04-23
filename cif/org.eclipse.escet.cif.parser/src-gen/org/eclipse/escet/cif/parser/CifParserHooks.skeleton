@@ -466,8 +466,8 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
-    public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
+    @Override // Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl01(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
         // return null;
     }
 
@@ -2081,13 +2081,18 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // AnnotationArg : @IDENTIFIERTK EQTK Expression;
+    @Override // AnnotationArg : @IDENTIFIERTK COLONTK Expression;
     public AAnnotationArgument parseAnnotationArg1(Token t1, AExpression a3) {
         // return null;
     }
 
-    @Override // AnnotationArg : @RELATIVENAMETK EQTK Expression;
+    @Override // AnnotationArg : @RELATIVENAMETK COLONTK Expression;
     public AAnnotationArgument parseAnnotationArg2(Token t1, AExpression a3) {
+        // return null;
+    }
+
+    @Override // AnnotationArg : Expression;
+    public AAnnotationArgument parseAnnotationArg3(AExpression a1) {
         // return null;
     }
 

@@ -37,7 +37,7 @@ AutDecl : Decl
         | OptAnnos "disc" Type DiscDecls ";"
         ;
 
-Decl : "type" TypeDefs ";"
+Decl : OptAnnos "type" TypeDefs ";"
      | "enum" Identifier "=" Identifiers ";"
      | OptAnnos OptControllability "event"           Identifiers ";"
      | OptAnnos OptControllability "event" EventType Identifiers ";"
@@ -590,8 +590,9 @@ AnnotationArgs : AnnotationArg
                | AnnotationArgs "," AnnotationArg
                ;
 
-AnnotationArg : IDENTIFIERTK "=" Expression
-              | RELATIVENAMETK "=" Expression
+AnnotationArg : IDENTIFIERTK ":" Expression
+              | RELATIVENAMETK ":" Expression
+              | Expression
               ;
 
 OptComma : /* empty */

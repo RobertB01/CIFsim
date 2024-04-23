@@ -573,9 +573,9 @@ implements CifScanner.Hooks,
         return new ADiscVariableDecl(l1, a3, l4, t2.position);
     }
 
-    @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
-    public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
-        return new ATypeDefDecl(l2, t1.position);
+    @Override // Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl01(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
+        return new ATypeDefDecl(l1, l3, t2.position);
     }
 
     @Override // Decl : ENUMKW Identifier EQTK Identifiers SEMICOLTK;
@@ -2315,14 +2315,19 @@ implements CifScanner.Hooks,
         return l1;
     }
 
-    @Override // AnnotationArg : @IDENTIFIERTK EQTK Expression;
+    @Override // AnnotationArg : @IDENTIFIERTK COLONTK Expression;
     public AAnnotationArgument parseAnnotationArg1(Token t1, AExpression a3) {
-        return new AAnnotationArgument(t1, a3);
+        return new AAnnotationArgument(new AName(t1.text, t1.position), a3);
     }
 
-    @Override // AnnotationArg : @RELATIVENAMETK EQTK Expression;
+    @Override // AnnotationArg : @RELATIVENAMETK COLONTK Expression;
     public AAnnotationArgument parseAnnotationArg2(Token t1, AExpression a3) {
-        return new AAnnotationArgument(t1, a3);
+        return new AAnnotationArgument(new AName(t1.text, t1.position), a3);
+    }
+
+    @Override // AnnotationArg : Expression;
+    public AAnnotationArgument parseAnnotationArg3(AExpression a1) {
+        return new AAnnotationArgument(null, a1);
     }
 
     @Override // OptComma : ;
