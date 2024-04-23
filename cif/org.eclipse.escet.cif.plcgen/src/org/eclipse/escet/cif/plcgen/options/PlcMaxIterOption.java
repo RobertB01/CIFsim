@@ -125,13 +125,13 @@ public class PlcMaxIterOption extends StringOption {
             try {
                 value = Integer.parseInt(numberText);
             } catch (NumberFormatException ex) {
-                throw new InvalidOptionException(fmt("PLC maximum iteration limits option value \"%s\" for %s events "
+                throw new InvalidOptionException(fmt("PLC maximum iterations option value \"%s\" for %s events "
                         + "is neither recognized as infinite (\"inf\" without quotes) nor as positive integer number.",
                         numberText, eventKind), ex);
             }
             if (value <= 0) {
                 throw new InvalidOptionException(
-                        fmt("Iteration limit option value \"%d\" for %s events is not a positive number.", value,
+                        fmt("PLC maximum Iterations option value \"%d\" for %s events is not a positive number.", value,
                                 eventKind));
             }
             return value;
