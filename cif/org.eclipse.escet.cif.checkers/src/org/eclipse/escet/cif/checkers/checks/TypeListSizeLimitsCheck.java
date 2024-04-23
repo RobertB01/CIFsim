@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
@@ -39,36 +40,39 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 
-/** Check that enforces lower and/or upper size limits to {@link ListType} on {@link Declaration declarations}. */
+/**
+ * Check that enforces lower and/or upper size limits to {@link ListType} on {@link Declaration declarations}. Note this
+ * includes function parameters and local variables in functions as well.
+ */
 public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
     /** Suggested value to use for specifying 'use meta-model limits'. */
     public static final int UNLIMITED = Integer.MIN_VALUE;
 
     /**
-     * If non-negative, the smallest allowed length of an array {@link ListType} for a variable. If negative or
+     * If non-negative, the smallest allowed length of an array {@link ListType} for a declaration. If negative or
      * {@link #UNLIMITED} the meta-model limit applies.
      */
     private final int arrayLowestSize;
 
     /**
-     * If non-negative, the largest allowed length of an array {@link ListType} for a variable. If negative or
+     * If non-negative, the largest allowed length of an array {@link ListType} for a declaration. If negative or
      * {@link #UNLIMITED} the meta-model limit applies.
      */
     private final int arrayHighestSize;
 
     /**
-     * If non-negative, the smallest allowed length of a non-array {@link ListType} for a variable. If negative or
+     * If non-negative, the smallest allowed length of a non-array {@link ListType} for a declaration. If negative or
      * {@link #UNLIMITED} the meta-model limit applies.
      */
     private final int nonArrayLowestSize;
 
     /**
-     * If non-negative, the largest allowed length of a non-array {@link ListType} for a variable. If negative or
+     * If non-negative, the largest allowed length of a non-array {@link ListType} for a declaration. If negative or
      * {@link #UNLIMITED} the meta-model limit applies.
      */
     private final int nonArrayHighestSize;
 
-    /** Local walker to find list types in a declaration type. */
+    /** Local walker to find list types in a type of a declaration. */
     private final ListTypesGrabber listTypesGrabber;
 
     /**
@@ -95,26 +99,19 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
 
     @Override
     protected void preprocessDeclaration(Declaration decl, CifCheckViolations violations) {
-        // Collect list types from the relevant declarations. Note this includes function parameters and local variables
-        // in functions as well. Finish early when the declaration cannot have a list type in their type.
-        List<ListType> collectedListTypes;
-        String declKind; // Kind of declaration.
         if (decl instanceof AlgVariable algVar) {
-            collectedListTypes = listTypesGrabber.collectListTypes(algVar.getType());
-            declKind = "algebraic variable";
+            handleAlgVar(algVar, violations);
         } else if (decl instanceof Constant constant) {
-            collectedListTypes = listTypesGrabber.collectListTypes(constant.getType());
-            declKind = "constant";
+            handleConstant(constant, violations);
         } else if (decl instanceof ContVariable) {
             return; // Continuous variable does not have a list type.
         } else if (decl instanceof DiscVariable discVar) {
-            collectedListTypes = listTypesGrabber.collectListTypes(discVar.getType());
             if (decl.eContainer() instanceof InternalFunction) {
-                declKind = "function variable";
+                handleDiscVar(discVar, "function variable", violations);
             } else if (decl.eContainer() instanceof FunctionParameter) {
-                declKind = "function parameter";
+                handleDiscVar(discVar, "function parameter", violations);
             } else {
-                declKind = "discrete variable";
+                handleDiscVar(discVar, "discrete variable", violations);
             }
         } else if (decl instanceof EnumDecl) {
             return;
@@ -122,60 +119,202 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
             if (event.getType() == null) {
                 return;
             }
-            collectedListTypes = listTypesGrabber.collectListTypes(event.getType());
-            declKind = "channel";
+            handleChannel(event, violations);
         } else if (decl instanceof InputVariable inpVar) {
-            collectedListTypes = listTypesGrabber.collectListTypes(inpVar.getType());
-            declKind = "input variable";
+            handleInputVar(inpVar, violations);
         } else if (decl instanceof TypeDecl) {
             return; // Examined in declaration usage context.
         } else if (decl instanceof Function func) {
-            collectedListTypes = listTypesGrabber.collectListTypes(func.getReturnTypes());
-            declKind = "function return type";
+            handleFunction(func, violations);
         } else {
             throw new AssertionError("Unexpected declaration \"" + decl + "\" found.");
         }
+    }
 
-        // If there are no list types in the declaration, we're done.
+    /**
+     * Process the type of an algebraic variable.
+     *
+     * @param algVar Algebraic variable to check.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void handleAlgVar(AlgVariable algVar, CifCheckViolations violations) {
+        List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(algVar.getType());
         if (collectedListTypes.isEmpty()) {
             return;
         }
 
         // Check limits on the found list types.
         for (ListType listType: collectedListTypes) {
-            String reportedKind;
-            if (isTypeInTypeDeclaration(listType)) {
-                reportedKind = "of " + declKind + " \"" + CifTextUtils.getAbsName(decl, false) + "\"";
-            } else {
-                reportedKind = "of " + declKind;
+            String typeCamelText = CifTypeUtils.isArrayType(listType) ? "Array" : "List";
+            String text = isTypeInTypeDeclaration(listType)
+                    ? fmt("%s type of algebraic variable \"%s\" allows", typeCamelText,
+                            CifTextUtils.getAbsName(algVar, false))
+                    : fmt("%s type of an algebraic variable allows", typeCamelText);
+            report(listType, text, violations);
+        }
+    }
+
+    /**
+     * Process the type of an algebraic variable.
+     *
+     * @param constant Constant to check.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void handleConstant(Constant constant, CifCheckViolations violations) {
+        List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(constant.getType());
+        if (collectedListTypes.isEmpty()) {
+            return;
+        }
+
+        // Check limits on the found list types.
+        for (ListType listType: collectedListTypes) {
+            String typeCamelText = CifTypeUtils.isArrayType(listType) ? "Array" : "List";
+            String text = isTypeInTypeDeclaration(listType)
+                    ? fmt("%s type of constant \"%s\" allows", typeCamelText, CifTextUtils.getAbsName(constant, false))
+                    : fmt("%s type of a constant allows", typeCamelText);
+            report(listType, text, violations);
+        }
+    }
+
+    /**
+     * Process the type of a discrete variable.
+     *
+     * @param discVar Discrete variable to check.
+     * @param varKind Kind of variable.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void handleDiscVar(DiscVariable discVar, String varKind, CifCheckViolations violations) {
+        List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(discVar.getType());
+        if (collectedListTypes.isEmpty()) {
+            return;
+        }
+
+        // Check limits on the found list types.
+        for (ListType listType: collectedListTypes) {
+            String typeCamelText = CifTypeUtils.isArrayType(listType) ? "Array" : "List";
+            String text = isTypeInTypeDeclaration(listType)
+                    ? fmt("%s type of %s \"%s\" allows", typeCamelText, varKind,
+                            CifTextUtils.getAbsName(discVar, false))
+                    : fmt("%s type of a %s allows", typeCamelText, varKind);
+            report(listType, text, violations);
+        }
+    }
+
+    /**
+     * Process the type of a channel.
+     *
+     * @param channel Channel to check.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void handleChannel(Event channel, CifCheckViolations violations) {
+        List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(channel.getType());
+        if (collectedListTypes.isEmpty()) {
+            return;
+        }
+
+        // Check limits on the found list types.
+        for (ListType listType: collectedListTypes) {
+            String typeCamelText = CifTypeUtils.isArrayType(listType) ? "Array" : "List";
+            String text = isTypeInTypeDeclaration(listType)
+                    ? fmt("%s type of channel \"%s\" allows", typeCamelText, CifTextUtils.getAbsName(channel, false))
+                    : fmt("%s type of a channel allows", typeCamelText);
+            report(listType, text, violations);
+        }
+    }
+
+    /**
+     * Process the type of an input variable.
+     *
+     * @param inputVar Input variable to check.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void handleInputVar(InputVariable inputVar, CifCheckViolations violations) {
+        List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(inputVar.getType());
+        if (collectedListTypes.isEmpty()) {
+            return;
+        }
+
+        // Check limits on the found list types.
+        for (ListType listType: collectedListTypes) {
+            String typeCamelText = CifTypeUtils.isArrayType(listType) ? "Array" : "List";
+            String text = isTypeInTypeDeclaration(listType)
+                    ? fmt("%s type of input variable \"%s\" allows", typeCamelText,
+                            CifTextUtils.getAbsName(inputVar, false))
+                    : fmt("%s type of an input variable allows", typeCamelText);
+            report(listType, text, violations);
+        }
+    }
+
+    /**
+     * Process the return types of a internal user-defined function.
+     *
+     * @param func Internal user-defined function to check.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void handleFunction(Function func, CifCheckViolations violations) {
+        List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(func.getReturnTypes());
+        if (collectedListTypes.isEmpty()) {
+            return;
+        }
+
+        // Check limits on the found list types.
+        for (ListType listType: collectedListTypes) {
+            String typeCamelText = CifTypeUtils.isArrayType(listType) ? "Array" : "List";
+            String text = isTypeInTypeDeclaration(listType)
+                    ? fmt("%s type of a return type of function \"%s\" allows", typeCamelText,
+                            CifTextUtils.getAbsName(func, false))
+                    : fmt("%s type of a return type of a function allows", typeCamelText);
+            report(listType, text, violations);
+        }
+    }
+
+    /**
+     * Report any found violations of the give list type aginst the specific limits.
+     *
+     * @param listType Type to check.
+     * @param explainText Text describing the object being checked.
+     * @param violations Collected violations, may get extended in-place.
+     */
+    private void report(ListType listType, String explainText, CifCheckViolations violations) {
+        if (CifTypeUtils.isArrayType(listType)) {
+            // Array type.
+
+            // Checking lower limit for 0 isn't needed, as the type checker ensures non-negative lower bound.
+            if (arrayLowestSize > 0 && listType.getLower() < arrayLowestSize) {
+                reportViolation(violations, listType, explainText, "less than", arrayLowestSize);
             }
+            if (arrayHighestSize >= 0 && listType.getLower() > arrayHighestSize) {
+                reportViolation(violations, listType, explainText, "more than", arrayHighestSize);
+            }
+        } else {
+            // Non-array type.
 
-            if (CifTypeUtils.isArrayType(listType)) {
-                // Array type.
-
-                // Checking lower limit for 0 isn't needed, as the type checker ensures non-negative lower bound.
-                if (arrayLowestSize > 0 && listType.getLower() < arrayLowestSize) {
-                    violations.add(listType, "Array type " + reportedKind + " allows arrays with less than "
-                            + arrayLowestSize + " elements");
-                }
-                if (arrayHighestSize >= 0 && listType.getLower() > arrayHighestSize) {
-                    violations.add(listType, "Array type " + reportedKind + " allows arrays with more than "
-                            + arrayHighestSize + " elements");
-                }
-            } else {
-                // Non-array type.
-
-                // Checking lower limit for 0 isn't needed, as the type checker ensures non-negative lower bound.
-                if (nonArrayLowestSize > 0 && CifTypeUtils.getLowerBound(listType) < nonArrayLowestSize) {
-                    violations.add(listType, "List type " + reportedKind + " allows lists with less than "
-                            + nonArrayLowestSize + " elements");
-                }
-                if (nonArrayHighestSize >= 0 && CifTypeUtils.getUpperBound(listType) > nonArrayHighestSize) {
-                    violations.add(listType, "List type " + reportedKind + " allows lists with more than "
-                            + nonArrayHighestSize + " elements");
-                }
+            // Checking lower limit for 0 isn't needed, as the type checker ensures non-negative lower bound.
+            if (nonArrayLowestSize > 0 && CifTypeUtils.getLowerBound(listType) < nonArrayLowestSize) {
+                reportViolation(violations, listType, explainText, "less than", nonArrayLowestSize);
+            }
+            if (nonArrayHighestSize >= 0 && CifTypeUtils.getUpperBound(listType) > nonArrayHighestSize) {
+                reportViolation(violations, listType, explainText, "more than", nonArrayHighestSize);
             }
         }
+    }
+
+    /**
+     * Report a violation.
+     *
+     * @param violations Already collected violations, is extended in-place.
+     * @param listType Object with the violation.
+     * @param explainText Text explaining the object being reported.
+     * @param boundaryKind Kind of boundary to report.
+     * @param boundary Number of allowed elements.
+     */
+    private void reportViolation(CifCheckViolations violations, ListType listType, String explainText,
+            String boundaryKind, int boundary)
+    {
+        String typeText = CifTypeUtils.isArrayType(listType) ? "arrays" : "lists";
+        String pluralSuffix = (boundary == 1) ? "" : "s";
+        violations.add(listType,
+                fmt("%s %s with %s %d element%s", explainText, typeText, boundaryKind, boundary, pluralSuffix));
     }
 
     /**

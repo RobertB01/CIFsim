@@ -57,6 +57,7 @@ automaton X:
   event typeUsedLongArray longArrayChannel;
   event typeUsedLongList longListChannel;
   event list int unboundedChannel;
+  event normalEvent;
 
   // Avoid warnings about missing location or unused variables.
   location:
