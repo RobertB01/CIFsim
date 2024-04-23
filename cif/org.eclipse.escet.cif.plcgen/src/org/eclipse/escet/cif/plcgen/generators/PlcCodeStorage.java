@@ -175,7 +175,6 @@ public class PlcCodeStorage {
         int feasibleLimit = switch (bitSize) {
             case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of the limit fit.
             case 16 -> Math.min(specifiedLimit, 0x7FFF);
-            case 8 -> Math.min(specifiedLimit, 0x7F);
             default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
         };
 
@@ -487,7 +486,7 @@ public class PlcCodeStorage {
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
 
         // Add temporary variables of the main program code.
-        mainProgram.tempVars = exprGen.getCreatedTempVariables();
+        mainProgram.tempVars.addAll(exprGen.getCreatedTempVariables());
     }
 
     /**
