@@ -189,7 +189,7 @@ public class EMFPrettyPrinter {
     }
 
     /**
-     * Convert a sequence pretty EObjects to text.
+     * Convert a sequence of pretty {@link EObject}s to text.
      *
      * @param prettyEObjects {@link EObject}s to convert.
      * @param printEmptyFeatures Whether to print output for features that are {@code null} or empty.
@@ -209,7 +209,7 @@ public class EMFPrettyPrinter {
             // Generate the text of the EObject and its features.
 
             // If the object has features to output, add a colon at the end, else add a semicolon.
-            String textTerminator = prettyEObject.isEmpty(!printEmptyFeatures) ? ";" : ":";
+            String textTerminator = prettyEObject.isEmpty(printEmptyFeatures) ? ";" : ":";
             sb.append(fmt("[%d] %s%s\n", prettyEObject.eObjId, prettyEObject.className, textTerminator));
             for (PrettyEFeat prettyFeat: prettyEObject.prettyFeats) {
                 // Construct the initial text of the feature.

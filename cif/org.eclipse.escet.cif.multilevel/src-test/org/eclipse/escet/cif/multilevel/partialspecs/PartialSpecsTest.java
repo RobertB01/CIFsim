@@ -274,9 +274,9 @@ public class PartialSpecsTest {
                   - Contains Expression right = <<11>>
                   - Contains CifType type = <<12>>
 
-                [8] BoolType:
+                [8] BoolType;
 
-                [9] BoolType:
+                [9] BoolType;
 
                 [10] InputVariableExpression:
                   - Contains CifType type = <<13>>
@@ -286,11 +286,11 @@ public class PartialSpecsTest {
                   - Contains CifType type = <<14>>
                   - References InputVariable variable = <<6>>
 
-                [12] BoolType:
+                [12] BoolType;
 
-                [13] BoolType:
+                [13] BoolType;
 
-                [14] BoolType:
+                [14] BoolType;
                 """;
         assertEquals(expected, actual);
     }
