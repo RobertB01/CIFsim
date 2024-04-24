@@ -175,9 +175,18 @@ public class MergeEnums extends CifWalker implements CifToCifTransformation {
     }
 
     /**
-     * Returns a new enumeration literal, given an original enumeration literal. If there is no new enumeration literal
-     * yet, it is created and added to {@link #nameToLitMap} before it is returned. If there is already a literal, its
-     * annotations are extended.
+     * Get the new enumeration literal for an original enumeration literal. If one has not yet been created before, it
+     * will be created. This is based on the name of the literal: only one new enumeration literal is created for any
+     * number of original enumeration literals with the same name.
+     *
+     * <p>
+     * The annotations of all original enumeration literals are moved to the new enumeration literals. Each new
+     * enumeration literal thus gets the annotations of all original enumeration literals for which it is created.
+     * </p>
+     *
+     * <p>
+     * All new enumeration literals are added to {@link #nameToLitMap}.
+     * </p>
      *
      * @param origLiteral The original enumeration literal.
      * @return The new enumeration literal.

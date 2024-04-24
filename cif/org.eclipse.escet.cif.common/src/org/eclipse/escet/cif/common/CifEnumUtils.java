@@ -33,8 +33,8 @@ public class CifEnumUtils {
      * Returns a mapping from enumeration declarations to their representatives, which may be themselves.
      *
      * <p>
-     * The representative enumeration declaration may have different annotations than the other compatible enumeration
-     * declarations.
+     * The representative enumeration declaration may have annotations that are different from those of other compatible
+     * enumeration declarations.
      * </p>
      *
      * @param enumDecls The enumeration declarations to consider.
