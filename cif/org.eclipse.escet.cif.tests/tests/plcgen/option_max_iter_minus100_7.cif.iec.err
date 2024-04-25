@@ -1,1 +1,1 @@
-ERROR: PLC maximum Iterations option value "-100" for uncontrollable events is not a positive number.
+ERROR: PLC maximum iterations option value "-100" for uncontrollable events is not a positive number.

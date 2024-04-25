@@ -62,7 +62,7 @@ public class PlcMaxIterOption extends StringOption {
                 // defaultValue
                 DEFAULT_VALUE,
 
-                // defaultAsNull
+                // emptyAsNull
                 true,
 
                 // showInDialog
@@ -131,7 +131,7 @@ public class PlcMaxIterOption extends StringOption {
             }
             if (value <= 0) {
                 throw new InvalidOptionException(
-                        fmt("PLC maximum Iterations option value \"%d\" for %s events is not a positive number.", value,
+                        fmt("PLC maximum iterations option value \"%d\" for %s events is not a positive number.", value,
                                 eventKind));
             }
             return value;
