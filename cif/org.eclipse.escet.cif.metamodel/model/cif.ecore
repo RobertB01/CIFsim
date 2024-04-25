@@ -124,7 +124,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
           eType="#//types/CifType" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="EnumLiteral" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eClassifiers xsi:type="ecore:EClass" name="EnumLiteral" eSuperTypes="#//annotations/AnnotatedObject">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
           eType="#//CifIdentifier"/>
     </eClassifiers>

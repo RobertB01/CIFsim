@@ -141,6 +141,7 @@ public class DeclarationsSwitch<T> extends Switch<T>
             {
                 EnumLiteral enumLiteral = (EnumLiteral)theEObject;
                 T result = caseEnumLiteral(enumLiteral);
+                if (result == null) result = caseAnnotatedObject(enumLiteral);
                 if (result == null) result = casePositionObject(enumLiteral);
                 if (result == null) result = defaultCase(theEObject);
                 return result;

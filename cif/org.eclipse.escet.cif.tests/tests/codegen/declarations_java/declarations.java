@@ -583,8 +583,11 @@ public abstract class declarations {
 
     /** declarations enumeration. */
     public static enum declarationsEnum {
-        /** loc1 */ _loc1,
-        /** loc2 */ _loc2;
+        /** Literal "loc1". */
+        _loc1,
+
+        /** Literal "loc2". */
+        _loc2;
 
         @Override
         public String toString() {

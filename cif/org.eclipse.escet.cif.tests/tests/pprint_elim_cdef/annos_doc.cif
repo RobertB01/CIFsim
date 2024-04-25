@@ -22,3 +22,6 @@ input bool i3;
 
 @doc(fmt("%s", "some doc"))
 input bool i4;
+
+@doc("first", "second", "third")
+input bool i5;

@@ -127,8 +127,11 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         final Map<DiscVariable, String> lpVarToAbsAutNameMap = null;
         final boolean optInits = true;
         final boolean addEdgeGuards = true;
+        final boolean copyAutAnnosToEnum = false;
+        final boolean copyLocAnnosToEnumLits = false;
         new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
-                addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards).transform(spec);
+                addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards, copyAutAnnosToEnum,
+                copyLocAnnosToEnumLits).transform(spec);
 
         new EnumsToInts().transform(spec);
         if (isTerminationRequested()) {

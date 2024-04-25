@@ -440,8 +440,11 @@ public abstract class various {
 
     /** various enumeration. */
     public static enum variousEnum {
-        /** l1 */ _l1,
-        /** l2 */ _l2;
+        /** Literal "l1". */
+        _l1,
+
+        /** Literal "l2". */
+        _l2;
 
         @Override
         public String toString() {

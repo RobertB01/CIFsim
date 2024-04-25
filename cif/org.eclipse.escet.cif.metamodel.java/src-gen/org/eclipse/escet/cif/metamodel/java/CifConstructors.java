@@ -1607,12 +1607,16 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link EnumLiteral} class.
      *
+     * @param annotations The "annotations" of the new "EnumLiteral". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param name The "name" of the new "EnumLiteral". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param position The "position" of the new "EnumLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EnumLiteral} class.
      */
-    public static EnumLiteral newEnumLiteral(String name, Position position) {
+    public static EnumLiteral newEnumLiteral(List<Annotation> annotations, String name, Position position) {
         EnumLiteral rslt_ = newEnumLiteral();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (name != null) {
             rslt_.setName(name);
         }

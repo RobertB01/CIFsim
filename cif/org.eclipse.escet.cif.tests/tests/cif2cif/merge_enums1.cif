@@ -52,3 +52,38 @@ end
 
 invariant p.UP = q.UP and p.DOWN = q.DOWN;
 invariant E or E2 or UP;
+
+group annos1:
+  // Multiple references to L1, before the enumeration itself is considered.
+  invariant annos2.i = annos2.L1, annos2.i != annos2.L1;
+end
+group annos2:
+  @doc("enum1")
+  enum E =
+    @doc("lit1a")
+    L1,
+    @doc("lit1b")
+    L2;
+  input E i;
+end
+group annos3:
+  // Multiple references to L2, after the enumeration itself is considered.
+  invariant annos2.i = annos2.L2, annos2.i != annos2.L2;
+end
+group annos4:
+  @doc("enum2")
+  enum E =
+    @doc("lit2a")
+    L1,
+    @doc("lit2b")
+    L2;
+end
+group annos5:
+  @doc("enum3")
+  enum E =
+    @doc("lit3a")
+    L1,
+    @doc("lit3b1")
+    @doc("lit3b2")
+    L2;
+end

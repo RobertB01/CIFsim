@@ -177,7 +177,8 @@ import org.eclipse.escet.common.java.exceptions.UnsupportedException;
  * </p>
  *
  * <p>
- * All annotations of the original locations are lost.
+ * All annotations of the original automata are lost. The annotations of the original locations are moved to the
+ * enumeration literals of the newly created location pointer enumerations.
  * </p>
  *
  * <p>
@@ -293,8 +294,10 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // pointer variables. What configuration is best depends on how the linearized models will be used.
         // - We don't add additional location pointer guards on the edges. We do that as part of the linearization
         // instead.
+        // - We copy the annotations of the automata to their newly created location pointer enumerations.
+        // - We copy the annotations of the locations to their newly created enumerations literals.
         lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__", a -> "LPE",
-                l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, optInits, false);
+                l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, optInits, false, true, true);
         lpIntroducer.transform(spec);
 
         // Require at least one automaton.

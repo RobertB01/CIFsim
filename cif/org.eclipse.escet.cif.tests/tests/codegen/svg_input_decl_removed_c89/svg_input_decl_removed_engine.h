@@ -11,7 +11,10 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumsvg_input_decl_removed_ {
+    /** Literal "l1". */
     _svg_input_decl_removed_l1,
+
+    /** Literal "l2". */
     _svg_input_decl_removed_l2,
 };
 typedef enum Enumsvg_input_decl_removed_ svg_input_decl_removedEnum;

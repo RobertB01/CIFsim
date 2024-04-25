@@ -1058,7 +1058,10 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumsvg_input_decl_removed_ {
+    /** Literal "l1". */
     _svg_input_decl_removed_l1,
+
+    /** Literal "l2". */
     _svg_input_decl_removed_l2,
 };
 typedef enum Enumsvg_input_decl_removed_ svg_input_decl_removedEnum;
@@ -1212,7 +1215,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "l1". */
     "l1",
+
+    /** Literal "l2". */
     "l2",
 };
 

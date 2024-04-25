@@ -419,7 +419,16 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int ENUM_LITERAL__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+    int ENUM_LITERAL__POSITION = AnnotationsPackage.ANNOTATED_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_LITERAL__ANNOTATIONS = AnnotationsPackage.ANNOTATED_OBJECT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -428,7 +437,7 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int ENUM_LITERAL__NAME = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int ENUM_LITERAL__NAME = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Enum Literal</em>' class.
@@ -437,7 +446,7 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int ENUM_LITERAL_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int ENUM_LITERAL_FEATURE_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The number of operations of the '<em>Enum Literal</em>' class.
@@ -446,7 +455,7 @@ public interface DeclarationsPackage extends EPackage
      * @generated
      * @ordered
      */
-    int ENUM_LITERAL_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+    int ENUM_LITERAL_OPERATION_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.declarations.impl.DiscVariableImpl <em>Disc Variable</em>}' class.

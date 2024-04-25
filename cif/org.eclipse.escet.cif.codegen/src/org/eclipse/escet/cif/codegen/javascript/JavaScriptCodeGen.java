@@ -492,7 +492,30 @@ public class JavaScriptCodeGen extends CodeGen {
 
         List<EnumLiteral> lits = enumDecl.getLiterals();
         for (int i = 0; i < lits.size(); i++) {
-            String name = lits.get(i).getName();
+            if (i > 0) {
+                code.add();
+            }
+
+            EnumLiteral lit = lits.get(i);
+            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            String name = lit.getName();
+
+            if (docs.isEmpty()) {
+                code.add("/** Literal \"%s\". */", name);
+            } else {
+                code.add("/**");
+                code.add(" * Literal \"%s\".", name);
+                for (String doc: docs) {
+                    code.add(" *");
+                    code.add(" * <p>");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" * </p>");
+                }
+                code.add(" */");
+            }
+
             String line = fmt("_%s: Symbol(\"%s\")", name, name);
             line += (i == lits.size() - 1) ? "" : ",";
             code.add(line);

@@ -280,8 +280,11 @@ public abstract class svg_input_decl_removed {
 
     /** svg_input_decl_removed enumeration. */
     public static enum svg_input_decl_removedEnum {
-        /** l1 */ _l1,
-        /** l2 */ _l2;
+        /** Literal "l1". */
+        _l1,
+
+        /** Literal "l2". */
+        _l2;
 
         @Override
         public String toString() {

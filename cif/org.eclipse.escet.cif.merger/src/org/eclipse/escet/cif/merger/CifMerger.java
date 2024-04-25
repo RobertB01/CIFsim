@@ -615,6 +615,9 @@ public class CifMerger {
         // Add type declaration replacement to the mapping.
         refTypeReplacements.put(typeDecl, etype);
 
+        // Move annotations.
+        enumDecl.getAnnotations().addAll(typeDecl.getAnnotations());
+
         // Return merged enumeration.
         return enumDecl;
     }
@@ -641,7 +644,7 @@ public class CifMerger {
         enumRef.setEnum(enum1);
         refTypeReplacements.put(enum2, enumRef);
 
-        // Add enumeration literal replacements to the mapping.
+        // Add enumeration literal replacements to the mapping. Also move enumeration literal annotations.
         for (int i = 0; i < enum1.getLiterals().size(); i++) {
             EnumLiteral lit1 = enum1.getLiterals().get(i);
             EnumLiteral lit2 = enum2.getLiterals().get(i);
@@ -650,7 +653,12 @@ public class CifMerger {
             litRef.setLiteral(lit1);
             litRef.setType(deepclone(enumRef));
             refExprReplacements.put(lit2, litRef);
+
+            lit1.getAnnotations().addAll(lit2.getAnnotations());
         }
+
+        // Move enumeration declaration annotations.
+        enum1.getAnnotations().addAll(enum2.getAnnotations());
 
         // Return merged enumeration.
         return enum1;

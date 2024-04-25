@@ -188,9 +188,9 @@ public class CifValueUtilsTest {
         // Declare an enum with 3 values.
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         // Declare type declaration.
@@ -228,9 +228,9 @@ public class CifValueUtilsTest {
         // Declare an enum with 3 values.
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         // Declare enums with variable number of literals.
@@ -241,7 +241,7 @@ public class CifValueUtilsTest {
             for (int j = 0; j <= i; j++) {
                 char c = (char)(97 + j);
                 String litName = String.valueOf(c);
-                enumDecl2.getLiterals().add(newEnumLiteral(litName, null));
+                enumDecl2.getLiterals().add(newEnumLiteral(null, litName, null));
             }
             spec.getDeclarations().add(enumDecl2);
             enumDecls.add(enumDecl2);
@@ -386,9 +386,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesEnum() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = {newEnumType(enumDecl, null)};
@@ -401,9 +401,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesArray() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = { //
@@ -439,7 +439,7 @@ public class CifValueUtilsTest {
             for (int j = 0; j <= i; j++) {
                 char c = (char)(97 + j);
                 String litName = String.valueOf(c);
-                enumDecl.getLiterals().add(newEnumLiteral(litName, null));
+                enumDecl.getLiterals().add(newEnumLiteral(null, litName, null));
             }
             spec.getDeclarations().add(enumDecl);
             enumDecls.add(enumDecl);
@@ -489,9 +489,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesTuple() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = {
@@ -512,9 +512,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesSet() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = { //
@@ -535,9 +535,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesDict() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = { //

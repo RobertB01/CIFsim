@@ -211,16 +211,37 @@ const char *databased_supervisor_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "Idle". */
     "Idle",
+
+    /** Literal "Off". */
     "Off",
+
+    /** Literal "On". */
     "On",
+
+    /** Literal "Pushed". */
     "Pushed",
+
+    /** Literal "Released". */
     "Released",
+
+    /** Literal "Running". */
     "Running",
+
+    /** Literal "StartTimer". */
     "StartTimer",
+
+    /** Literal "TurnLampOff". */
     "TurnLampOff",
+
+    /** Literal "TurnLampOn". */
     "TurnLampOn",
+
+    /** Literal "WaitForButtonPush". */
     "WaitForButtonPush",
+
+    /** Literal "WaitForTimeout". */
     "WaitForTimeout",
 };
 

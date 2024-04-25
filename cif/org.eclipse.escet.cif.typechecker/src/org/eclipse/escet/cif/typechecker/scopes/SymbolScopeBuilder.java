@@ -121,6 +121,7 @@ import org.eclipse.escet.cif.parser.ast.functions.AExternalFuncBody;
 import org.eclipse.escet.cif.parser.ast.functions.AFuncParam;
 import org.eclipse.escet.cif.parser.ast.functions.AInternalFuncBody;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
+import org.eclipse.escet.cif.parser.ast.tokens.AAnnotatedIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
@@ -763,32 +764,31 @@ public class SymbolScopeBuilder {
     /**
      * Adds an enumeration declaration to the given parent symbol scope.
      *
-     * @param decl The declaration to add.
+     * @param astDecl The declaration to add.
      * @param parent The parent symbol scope to which to add the declaration.
      */
-    private void addEnum(AEnumDecl decl, ParentScope<?> parent) {
+    private void addEnum(AEnumDecl astDecl, ParentScope<?> parent) {
         // Add enumeration declaration.
-        EnumDecl enum2 = newEnumDecl();
-        enum2.setName(decl.name);
-        enum2.setPosition(decl.createPosition());
+        EnumDecl mmDecl = newEnumDecl();
+        mmDecl.setName(astDecl.name);
+        mmDecl.setPosition(astDecl.createPosition());
 
-        EnumDeclWrap wrapper = new EnumDeclWrap(tchecker, parent, enum2);
+        EnumDeclWrap wrapper = new EnumDeclWrap(tchecker, parent, astDecl, mmDecl);
         parent.addDeclaration(wrapper);
 
-        parent.getComplexComponent().getDeclarations().add(enum2);
+        parent.getComplexComponent().getDeclarations().add(mmDecl);
 
-        // Add enumeration literals to same parent as enumeration
-        // declaration.
-        List<EnumLiteral> enumLits = enum2.getLiterals();
-        for (AIdentifier literalId: decl.literals) {
-            EnumLiteral literal = newEnumLiteral();
-            literal.setName(literalId.id);
-            literal.setPosition(literalId.createPosition());
+        // Add enumeration literals to same parent as enumeration declaration.
+        List<EnumLiteral> mmLiterals = mmDecl.getLiterals();
+        for (AAnnotatedIdentifier astLiteral: astDecl.literals) {
+            EnumLiteral mmLiteral = newEnumLiteral();
+            mmLiteral.setName(astLiteral.id);
+            mmLiteral.setPosition(astLiteral.createPosition());
 
-            EnumLiteralDeclWrap literalWrapper = new EnumLiteralDeclWrap(tchecker, parent, literal);
+            EnumLiteralDeclWrap literalWrapper = new EnumLiteralDeclWrap(tchecker, parent, astLiteral, mmLiteral);
             parent.addDeclaration(literalWrapper);
 
-            enumLits.add(literal);
+            mmLiterals.add(mmLiteral);
         }
     }
 

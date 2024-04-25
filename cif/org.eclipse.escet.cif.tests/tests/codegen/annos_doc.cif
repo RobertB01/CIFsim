@@ -125,3 +125,22 @@ automaton events:
     initial;
     edge e1, e2, e3, e4, e5;
 end
+
+group enumsAndLits:
+  @doc("enum") // Annotations on enumerations are lost, due to enumerations being merged into a single enumeration.
+  enum E =
+    l1,
+
+    @doc("single line doc")
+    l2,
+
+    @doc("doc with multiple\nlines " + "of\n text")
+    l3,
+
+    @doc(fmt("%s", "some doc"))
+    l4,
+
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    l5;
+end

@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.declarations.DeclarationsPackage;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
-
-import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,7 +38,7 @@ import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectI
  *
  * @generated
  */
-public class EnumLiteralImpl extends PositionObjectImpl implements EnumLiteral
+public class EnumLiteralImpl extends AnnotatedObjectImpl implements EnumLiteral
 {
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.

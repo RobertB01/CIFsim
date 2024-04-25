@@ -741,3 +741,15 @@ automaton p41:
     edge e41a? do a := ?;
     edge e41b? do b := ?;
 end
+
+// Annotations.
+//@doc("aut doc") // Not supported yet.
+automaton annos:
+  @doc("first loc")
+  location loc1:
+    initial;
+    edge tau goto loc2;
+
+  @doc("second loc")
+  location loc2;
+end

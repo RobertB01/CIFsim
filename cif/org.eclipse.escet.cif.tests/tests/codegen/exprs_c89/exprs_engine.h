@@ -11,7 +11,10 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumexprs_ {
+    /** Literal "A". */
     _exprs_A,
+
+    /** Literal "B". */
     _exprs_B,
 };
 typedef enum Enumexprs_ exprsEnum;

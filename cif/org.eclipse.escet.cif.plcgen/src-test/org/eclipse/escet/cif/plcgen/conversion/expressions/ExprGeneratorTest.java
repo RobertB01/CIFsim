@@ -955,7 +955,7 @@ public class ExprGeneratorTest {
 
     @Test
     public void testEnumLiteralExpressionConversion() {
-        EnumLiteral eLit = newEnumLiteral("value123", null);
+        EnumLiteral eLit = newEnumLiteral(null, "value123", null);
         String realText = runValueTest(newEnumLiteralExpression(eLit, null, null));
         String expectedText = "==> value123";
         assertEquals(expectedText, realText);

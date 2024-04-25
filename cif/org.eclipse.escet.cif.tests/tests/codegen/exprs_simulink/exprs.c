@@ -1058,7 +1058,10 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumexprs_ {
+    /** Literal "A". */
     _exprs_A,
+
+    /** Literal "B". */
     _exprs_B,
 };
 typedef enum Enumexprs_ exprsEnum;
@@ -2170,7 +2173,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "A". */
     "A",
+
+    /** Literal "B". */
     "B",
 };
 

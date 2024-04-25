@@ -412,7 +412,8 @@ public abstract class unsupported_simulink_warnings {
 
     /** unsupported_simulink_warnings enumeration. */
     public static enum unsupported_simulink_warningsEnum {
-        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
+        /** Literal "__some_dummy_enum_literal". */
+        ___some_dummy_enum_literal;
 
         @Override
         public String toString() {
