@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Iterator that iterates over all the possible combinations of the elements of the sub-lists, where each resulting item
@@ -141,24 +142,28 @@ public class ListProductIterator<T> implements Iterator<List<T>> {
     }
 
     /**
-     * Returns the size of the iterator.
+     * Returns the result size of the iterator, i.e., the number of combinations of the elements of the sub-lists that
+     * the iterator will iterate over and return by the {@link #next} method. Note that the result size does
+     * <em>not</em> represent the number of <em>remaining</em> combinations of elements, but rather all
+     * <em>possible</em> ones, and therefore the result size remains constant even during and after iterating over this
+     * iterator.
      *
-     * <p>
-     * The size stays constant. It remains the same before using the iterator, while using it, and after using it.
-     * </p>
-     *
-     * @return The number of combinations of the elements of the sub-lists that the iterator will iterate over and
-     *     return by the {@link #next} method.
+     * @return The result size of the iterator, if it can be represented as a long value.
      */
-    public double size() {
+    public Optional<Long> getResultSize() {
         if (data.isEmpty()) {
-            return 0.0;
+            return Optional.of(0L);
         } else {
-            long result = 1;
+            long size = 1;
             for (int i = 0; i < data.size(); i++) {
-                result *= data.get(i).size();
+                try {
+                    size = Math.multiplyExact(size, data.get(i).size());
+                } catch (ArithmeticException e) {
+                    // Overflow.
+                    return Optional.empty();
+                }
             }
-            return result;
+            return Optional.of(size);
         }
     }
 

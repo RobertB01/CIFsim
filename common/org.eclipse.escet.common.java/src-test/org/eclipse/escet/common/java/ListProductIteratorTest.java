@@ -78,6 +78,6 @@ public class ListProductIteratorTest {
         assertEquals(output, rslt);
 
         // Check size.
-        assertEquals(output.size(), iter.size());
+        assertEquals(output.size(), iter.getResultSize().get());
     }
 }
