@@ -274,7 +274,7 @@ GroupDecl : Decl
           | @IMPORTKW Imports SEMICOLTK
           | @NAMESPACEKW @IDENTIFIERTK SEMICOLTK
           | @NAMESPACEKW @RELATIVENAMETK SEMICOLTK
-          | @FUNCKW Types Identifier FuncParams COLONTK FuncBody
+          | OptAnnos @FUNCKW Types Identifier FuncParams COLONTK FuncBody
           | Identifier COLONTK Name CompInstArgs @SEMICOLTK
           | @GROUPKW                 DEFKW Identifier CompDefParms COLONTK GroupBody     @ENDKW
           | OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
@@ -366,9 +366,13 @@ FuncParams : PAROPENTK PARCLOSETK
            ;
 
 {List<funcs.AFuncParam>}
-FuncParamDecls : Type Identifiers
-               | FuncParamDecls SEMICOLTK Type Identifiers
+FuncParamDecls : FuncParamDecl
+               | FuncParamDecls SEMICOLTK FuncParamDecl
                ;
+
+{funcs.AFuncParam}
+FuncParamDecl : OptAnnos Type Identifiers
+              ;
 
 {funcs.AFuncBody}
 FuncBody : FuncVarDecls FuncStatements @ENDKW
@@ -377,7 +381,8 @@ FuncBody : FuncVarDecls FuncStatements @ENDKW
 
 {List<decls.ADiscVariableDecl>}
 FuncVarDecls : /* empty */
-             | FuncVarDecls Type FuncVarDecl SEMICOLTK
+             | FuncVarDecls       Type FuncVarDecl SEMICOLTK
+             | FuncVarDecls Annos Type FuncVarDecl SEMICOLTK
              ;
 
 {List<decls.ADiscVariable>}
@@ -958,6 +963,11 @@ SpecAnnotation : @SPECANNOTATIONNAMETK
 OptAnnos : /* empty */
          | OptAnnos Annotation
          ;
+
+{List<annos.AAnnotation>}
+Annos : Annotation
+      | Annos Annotation
+      ;
 
 {annos.AAnnotation}
 Annotation : @ANNOTATIONNAMETK

@@ -15,7 +15,7 @@ GroupDecl : Decl
           | "import" Imports ";"
           | "namespace" IDENTIFIERTK ";"
           | "namespace" RELATIVENAMETK ";"
-          | "func" Types Identifier FuncParams ":" FuncBody
+          | OptAnnos "func" Types Identifier FuncParams ":" FuncBody
           | Identifier ":" Name CompInstArgs ";"
           | "group"                "def" Identifier CompDefParms ":" GroupBody     "end"
           | OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
@@ -93,16 +93,20 @@ FuncParams : "(" ")"
            | "(" FuncParamDecls ")"
            ;
 
-FuncParamDecls : Type Identifiers
-               | FuncParamDecls ";" Type Identifiers
+FuncParamDecls : FuncParamDecl
+               | FuncParamDecls ";" FuncParamDecl
                ;
+
+FuncParamDecl : OptAnnos Type Identifiers
+              ;
 
 FuncBody : FuncVarDecls FuncStatements "end"
          | StringToken ";"
          ;
 
 FuncVarDecls : /* empty */
-             | FuncVarDecls Type FuncVarDecl ";"
+             | FuncVarDecls       Type FuncVarDecl ";"
+             | FuncVarDecls Annos Type FuncVarDecl ";"
              ;
 
 FuncVarDecl : Identifier
@@ -587,6 +591,10 @@ SpecAnnotation : SPECANNOTATIONNAMETK
 OptAnnos : /* empty */
          | OptAnnos Annotation
          ;
+
+Annos : Annotation
+      | Annos Annotation
+      ;
 
 Annotation : ANNOTATIONNAMETK
            | ANNOTATIONNAMETK "(" ")"
