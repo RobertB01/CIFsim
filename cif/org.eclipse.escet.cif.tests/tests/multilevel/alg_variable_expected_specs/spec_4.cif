@@ -1,0 +1,8 @@
+plant automaton A:
+  uncontrollable u;
+  disc bool dv = false;
+  location l1:
+    initial;
+    marked;
+    edge u do dv := true;
+end

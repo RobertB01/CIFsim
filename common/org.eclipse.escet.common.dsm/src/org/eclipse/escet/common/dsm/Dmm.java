@@ -15,10 +15,14 @@ package org.eclipse.escet.common.dsm;
 
 import static org.eclipse.escet.common.java.Lists.listc;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.function.DoublePredicate;
+import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.java.CsvUtils;
+import org.eclipse.escet.common.java.Lists;
 
 /** Data storage of a domain mapping matrix. */
 public class Dmm {
@@ -56,6 +60,50 @@ public class Dmm {
         this.adjacencies = dmm.adjacencies;
         this.rowLabels = dmm.rowLabels;
         this.columnLabels = dmm.columnLabels;
+    }
+
+    /**
+     * Select rows from the {@link #adjacencies} matrix based on values in a specified column.
+     *
+     * @param column Column index number to use for selection.
+     * @param pred Predicate that decides what rows to include.
+     * @return A stream of selected row index numbers.
+     */
+    public IntStream filterColumn(int column, DoublePredicate pred) {
+        return IntStream.range(0, adjacencies.getRowDimension())
+                .filter(r -> pred.test(adjacencies.getEntry(r, column)));
+    }
+
+    /**
+     * Select columns from the {@link #adjacencies} matrix based on values in a specified row.
+     *
+     * @param row Row index number to use for selection.
+     * @param pred Predicate that decides what columns to include.
+     * @return A stream of selected column index numbers.
+     */
+    public IntStream filterRow(int row, DoublePredicate pred) {
+        return IntStream.range(0, adjacencies.getColumnDimension())
+                .filter(c -> pred.test(adjacencies.getEntry(row, c)));
+    }
+
+    /**
+     * Get column labels indicated by indices in the given stream.
+     *
+     * @param stream Stream to process.
+     * @return Labels of the selected columns.
+     */
+    public Collection<Label> getColumnLabels(IntStream stream) {
+        return stream.mapToObj(c -> columnLabels[c]).collect(Lists.toList());
+    }
+
+    /**
+     * Get row labels indicated by indices in the given stream.
+     *
+     * @param stream Stream to process.
+     * @return Labels of the selected rows.
+     */
+    public Collection<Label> getRowLabels(IntStream stream) {
+        return stream.mapToObj(r -> rowLabels[r]).collect(Lists.toList());
     }
 
     @Override

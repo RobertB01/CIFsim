@@ -1,0 +1,7 @@
+plant automaton A:
+  controllable a;
+  location:
+    initial;
+    marked;
+    edge a;
+end

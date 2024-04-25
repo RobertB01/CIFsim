@@ -1,0 +1,22 @@
+plant automaton S2_Sewer_Acc:
+  controllable c_open;
+  controllable c_close;
+  location Close:
+    initial;
+    marked;
+    edge c_open goto Open;
+    edge S2_Sewer_Sensor.u_off;
+  location Open:
+    edge c_close goto Close;
+    edge S2_Sewer_Sensor.u_on;
+end
+plant automaton S2_Sewer_Sensor:
+  uncontrollable u_on;
+  uncontrollable u_off;
+  location Off:
+    initial;
+    marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end

@@ -15,6 +15,7 @@ package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeElementsChoiceText;
+import static org.eclipse.escet.common.java.Strings.makeFixedLengthNumberText;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -251,5 +252,27 @@ public class StringsTest {
 
         assertThrows(AssertionError.class, () -> assertEquals("", Strings.truncate("", 1)));
         assertThrows(AssertionError.class, () -> assertEquals("", Strings.truncate("", -10)));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMakeFixedLengthNumberText() {
+        assertEquals("0", makeFixedLengthNumberText(0, 0));
+        assertEquals("0", makeFixedLengthNumberText(0, 9));
+        assertEquals("00", makeFixedLengthNumberText(0, 10));
+        assertEquals("09", makeFixedLengthNumberText(9, 10));
+        assertEquals("10", makeFixedLengthNumberText(10, 10));
+
+        assertEquals("099", makeFixedLengthNumberText(99, 100));
+        assertEquals("100", makeFixedLengthNumberText(100, 100));
+
+        assertEquals("123", makeFixedLengthNumberText(123, 200));
+        assertEquals("002", makeFixedLengthNumberText(2, 200));
+        assertEquals("099", makeFixedLengthNumberText(99, 200));
+        assertEquals("199", makeFixedLengthNumberText(199, 200));
+        assertEquals("200", makeFixedLengthNumberText(200, 200));
+
+        int num = 1073741824; // '0.5' larger than 'MAX_VALUE / 2.0'.
+        assertEquals(String.valueOf(num), makeFixedLengthNumberText(num, Integer.MAX_VALUE));
     }
 }

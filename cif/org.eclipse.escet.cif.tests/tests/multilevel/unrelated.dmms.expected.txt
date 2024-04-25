@@ -7,6 +7,8 @@ Plant groups:
 
 Requirement groups:
 "","RG1"
+"requirement invariant R.R1 disables evt2","1"
+"invname","1"
 "R","1"
 
 Plant-groups/requirement-groups relations:
