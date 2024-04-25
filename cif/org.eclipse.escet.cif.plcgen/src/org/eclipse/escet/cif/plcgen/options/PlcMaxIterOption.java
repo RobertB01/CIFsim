@@ -63,7 +63,7 @@ public class PlcMaxIterOption extends StringOption {
                 DEFAULT_VALUE,
 
                 // emptyAsNull
-                true,
+                false,
 
                 // showInDialog
                 true,
@@ -94,9 +94,6 @@ public class PlcMaxIterOption extends StringOption {
      */
     public static MaxIterLimits getMaxIterLimits() {
         String value = Options.get(PlcMaxIterOption.class);
-        if (value == null) {
-            value = DEFAULT_VALUE;
-        }
 
         int sepIndex = value.indexOf(',');
         String unconText, conText;
