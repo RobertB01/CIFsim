@@ -104,11 +104,11 @@ For instance:
 ----
 input int counter;
 
-svgin id "increase" do counter = counter + 1;
-svgin id "decrease" do counter = counter - 1;
+svgin id "increase" do counter := counter + 1;
+svgin id "decrease" do counter := counter - 1;
 ----
 
-In this example, by clicking the SVG element with id `increase` the value of `counter` is increases by one.
+In this example, by clicking the SVG element with id `increase` the value of `counter` is increased by one.
 Similarly, clicking the SVG element with id `decrease` decreases the value of `counter` by one.
 
 Be aware that the initial value of an input variable cannot be set in the specification.
