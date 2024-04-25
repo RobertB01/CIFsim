@@ -4650,10 +4650,16 @@ The annotations of the annotated object.
     \item Algebraic variables.
     \item Constants.
     \item Continuous variables.
-    \item Discrete variables. But not parameters and local variables of internal user-defined functions.
+    \item Discrete variables (including parameters of user-defined functions,
+      and local variables of internal user-defined functions).
     \item Enumeration literals.
     \item Enumerations.
     \item Events.
+    \item Function parameters (for which we reuse the \cifclass{DiscVariable}
+      class).
+    \item Function variables (for which we reuse the \cifclass{DiscVariable}
+      class).
+    \item Functions.
     \item Input variables.
     \item Locations of automata.
     \item Specifications.
