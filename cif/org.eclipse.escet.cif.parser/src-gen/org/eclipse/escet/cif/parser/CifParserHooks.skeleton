@@ -387,8 +387,8 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // GroupDecl : @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
-    public ADecl parseGroupDecl05(Token t1, List<ACifType> l2, AIdentifier a3, List<AFuncParam> l4, AFuncBody a6) {
+    @Override // GroupDecl : OptAnnos @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
+    public ADecl parseGroupDecl05(List<AAnnotation> l1, Token t2, List<ACifType> l3, AIdentifier a4, List<AFuncParam> l5, AFuncBody a7) {
         // return null;
     }
 
@@ -637,13 +637,18 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // FuncParamDecls : Type Identifiers;
-    public List<AFuncParam> parseFuncParamDecls1(ACifType a1, List<AIdentifier> l2) {
+    @Override // FuncParamDecls : FuncParamDecl;
+    public List<AFuncParam> parseFuncParamDecls1(AFuncParam a1) {
         // return null;
     }
 
-    @Override // FuncParamDecls : FuncParamDecls SEMICOLTK Type Identifiers;
-    public List<AFuncParam> parseFuncParamDecls2(List<AFuncParam> l1, ACifType a3, List<AIdentifier> l4) {
+    @Override // FuncParamDecls : FuncParamDecls SEMICOLTK FuncParamDecl;
+    public List<AFuncParam> parseFuncParamDecls2(List<AFuncParam> l1, AFuncParam a3) {
+        // return null;
+    }
+
+    @Override // FuncParamDecl : OptAnnos Type Identifiers;
+    public AFuncParam parseFuncParamDecl1(List<AAnnotation> l1, ACifType a2, List<AIdentifier> l3) {
         // return null;
     }
 
@@ -664,6 +669,11 @@ implements CifScanner.Hooks,
 
     @Override // FuncVarDecls : FuncVarDecls Type FuncVarDecl SEMICOLTK;
     public List<ADiscVariableDecl> parseFuncVarDecls2(List<ADiscVariableDecl> l1, ACifType a2, List<ADiscVariable> l3) {
+        // return null;
+    }
+
+    @Override // FuncVarDecls : FuncVarDecls Annos Type FuncVarDecl SEMICOLTK;
+    public List<ADiscVariableDecl> parseFuncVarDecls3(List<ADiscVariableDecl> l1, List<AAnnotation> l2, ACifType a3, List<ADiscVariable> l4) {
         // return null;
     }
 
@@ -2069,6 +2079,16 @@ implements CifScanner.Hooks,
 
     @Override // OptAnnos : OptAnnos Annotation;
     public List<AAnnotation> parseOptAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+        // return null;
+    }
+
+    @Override // Annos : Annotation;
+    public List<AAnnotation> parseAnnos1(AAnnotation a1) {
+        // return null;
+    }
+
+    @Override // Annos : Annos Annotation;
+    public List<AAnnotation> parseAnnos2(List<AAnnotation> l1, AAnnotation a2) {
         // return null;
     }
 

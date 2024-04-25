@@ -479,12 +479,14 @@ implements CifScanner.Hooks,
         return new ANamespaceDecl(new AName(t2.text, t2.position), t1.position);
     }
 
-    @Override // GroupDecl : @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
-    public ADecl parseGroupDecl05(Token t1, List<ACifType> l2, AIdentifier a3, List<AFuncParam> l4, AFuncBody a6) {
-        if (a6 instanceof AInternalFuncBody) {
-            parser.addFoldRange(t1.position, ((AInternalFuncBody)a6).endPos);
+    @Override // GroupDecl : OptAnnos @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
+    public ADecl parseGroupDecl05(List<AAnnotation> l1, Token t2, List<ACifType> l3, AIdentifier a4,
+            List<AFuncParam> l5, AFuncBody a7)
+    {
+        if (a7 instanceof AInternalFuncBody) {
+            parser.addFoldRange(t2.position, ((AInternalFuncBody)a7).endPos);
         }
-        return new AFuncDecl(a3, l2, l4, a6, a3.position);
+        return new AFuncDecl(l1, a4, l3, l5, a7, a4.position);
     }
 
     @Override // GroupDecl : Identifier COLONTK Name CompInstArgs @SEMICOLTK;
@@ -676,7 +678,9 @@ implements CifScanner.Hooks,
     }
 
     @Override // AnnotatedIdentifiers : AnnotatedIdentifiers COMMATK AnnotatedIdentifier;
-    public List<AAnnotatedIdentifier> parseAnnotatedIdentifiers2(List<AAnnotatedIdentifier> l1, AAnnotatedIdentifier a3) {
+    public List<AAnnotatedIdentifier> parseAnnotatedIdentifiers2(List<AAnnotatedIdentifier> l1,
+            AAnnotatedIdentifier a3)
+    {
         l1.add(a3);
         return l1;
     }
@@ -756,15 +760,20 @@ implements CifScanner.Hooks,
         return l2;
     }
 
-    @Override // FuncParamDecls : Type Identifiers;
-    public List<AFuncParam> parseFuncParamDecls1(ACifType a1, List<AIdentifier> l2) {
-        return list(new AFuncParam(a1, l2));
+    @Override // FuncParamDecls : FuncParamDecl;
+    public List<AFuncParam> parseFuncParamDecls1(AFuncParam a1) {
+        return list(a1);
     }
 
-    @Override // FuncParamDecls : FuncParamDecls SEMICOLTK Type Identifiers;
-    public List<AFuncParam> parseFuncParamDecls2(List<AFuncParam> l1, ACifType a3, List<AIdentifier> l4) {
-        l1.add(new AFuncParam(a3, l4));
+    @Override // FuncParamDecls : FuncParamDecls SEMICOLTK FuncParamDecl;
+    public List<AFuncParam> parseFuncParamDecls2(List<AFuncParam> l1, AFuncParam a3) {
+        l1.add(a3);
         return l1;
+    }
+
+    @Override // FuncParamDecl : OptAnnos Type Identifiers;
+    public AFuncParam parseFuncParamDecl1(List<AAnnotation> l1, ACifType a2, List<AIdentifier> l3) {
+        return new AFuncParam(l1, a2, l3);
     }
 
     @Override // FuncBody : FuncVarDecls FuncStatements @ENDKW;
@@ -785,6 +794,14 @@ implements CifScanner.Hooks,
     @Override // FuncVarDecls : FuncVarDecls Type FuncVarDecl SEMICOLTK;
     public List<ADiscVariableDecl> parseFuncVarDecls2(List<ADiscVariableDecl> l1, ACifType a2, List<ADiscVariable> l3) {
         l1.add(new ADiscVariableDecl(listc(0), a2, l3, null));
+        return l1;
+    }
+
+    @Override // FuncVarDecls : FuncVarDecls Annos Type FuncVarDecl SEMICOLTK;
+    public List<ADiscVariableDecl> parseFuncVarDecls3(List<ADiscVariableDecl> l1, List<AAnnotation> l2, ACifType a3,
+            List<ADiscVariable> l4)
+    {
+        l1.add(new ADiscVariableDecl(l2, a3, l4, null));
         return l1;
     }
 
@@ -2302,6 +2319,17 @@ implements CifScanner.Hooks,
 
     @Override // OptAnnos : OptAnnos Annotation;
     public List<AAnnotation> parseOptAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+        l1.add(a2);
+        return l1;
+    }
+
+    @Override // Annos : Annotation;
+    public List<AAnnotation> parseAnnos1(AAnnotation a1) {
+        return list(a1);
+    }
+
+    @Override // Annos : Annos Annotation;
+    public List<AAnnotation> parseAnnos2(List<AAnnotation> l1, AAnnotation a2) {
         l1.add(a2);
         return l1;
     }

@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.parser.ast;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
 import org.eclipse.escet.cif.parser.ast.functions.AFuncBody;
 import org.eclipse.escet.cif.parser.ast.functions.AFuncParam;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
@@ -23,6 +24,9 @@ import org.eclipse.escet.common.java.TextPosition;
 
 /** Function declaration. */
 public class AFuncDecl extends ADecl {
+    /** The annotations of the function. */
+    public final List<AAnnotation> annotations;
+
     /** The name of the function declaration. */
     public final AIdentifier name;
 
@@ -38,16 +42,19 @@ public class AFuncDecl extends ADecl {
     /**
      * Constructor for the {@link AFuncDecl} class.
      *
+     * @param annotations The annotations of the function.
      * @param name The name of the function declaration.
      * @param returnTypes The return types of the function declaration.
      * @param parameters The parameters of the function declaration.
      * @param body The body of the function declaration.
      * @param position Position information.
      */
-    public AFuncDecl(AIdentifier name, List<ACifType> returnTypes, List<AFuncParam> parameters, AFuncBody body,
+    public AFuncDecl(List<AAnnotation> annotations, AIdentifier name, List<ACifType> returnTypes,
+            List<AFuncParam> parameters, AFuncBody body,
             TextPosition position)
     {
         super(position);
+        this.annotations = annotations;
         this.name = name;
         this.returnTypes = returnTypes;
         this.parameters = parameters;
