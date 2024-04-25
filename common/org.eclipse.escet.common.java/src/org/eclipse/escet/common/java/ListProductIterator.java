@@ -140,6 +140,28 @@ public class ListProductIterator<T> implements Iterator<List<T>> {
         return rslt;
     }
 
+    /**
+     * Returns the size of the iterator.
+     *
+     * <p>
+     * The size stays constant. It remains the same before using the iterator, while using it, and after using it.
+     * </p>
+     *
+     * @return The number of combinations of the elements of the sub-lists that the iterator will iterate over and
+     *     return by the {@link #next} method.
+     */
+    public double size() {
+        if (data.isEmpty()) {
+            return 0.0;
+        } else {
+            long result = 1;
+            for (int i = 0; i < data.size(); i++) {
+                result *= data.get(i).size();
+            }
+            return result;
+        }
+    }
+
     @Override
     public void remove() {
         throw new UnsupportedOperationException();
