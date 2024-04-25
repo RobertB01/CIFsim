@@ -72,4 +72,21 @@ group g1:
     @a(x: 19, x: 20)
     @a(x: 21, x: 22)
     lit5;
+
+  @a(x: 23, x: 24)
+  func bool func1(): "java:something";
+
+  @a(x: 25, x: 26)
+  func bool func2(
+    @a(x: 27, x: 28)
+    bool fparam1, fparam2;
+    @a(x: 29, x: 30)
+    bool fparam3, fparam4
+  ):
+    @a(x: 31, x: 32)
+    bool fvar1 = true, fvar2 = false;
+    @a(x: 33, x: 34)
+    bool fvar3 = true, fvar4 = false;
+    return fparam1 or fparam2 or fparam3 or fparam4 or fvar1 or fvar2 or fvar3 or fvar4;
+  end
 end

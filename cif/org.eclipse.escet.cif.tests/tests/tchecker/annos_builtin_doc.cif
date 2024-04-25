@@ -100,4 +100,17 @@ group g1:
 
   @doc
   enum enumDecl2 = @doc lit3, lit4;
+
+  @doc
+  func bool func1(): "java:something";
+
+  @doc
+  func bool func2(
+    @doc
+    bool fparam1
+  ):
+    @doc
+    bool fvar1;
+    return fparam1 or fvar1;
+  end
 end
