@@ -138,7 +138,7 @@ Processing time is limited by limiting the number of allowed loop iterations for
 Section <<tools-plcgen-resulting-plc-code>> explains how this affects processing.
 +
 The option takes two upper limit values separated by a comma.
-An upper limit value is either the word `inf` to get an unlimited number of allowed loops, or a positive integer number maximum number of times that the loop can be done.
+An upper limit value is either the word `inf` to get an unlimited number of allowed loops, or a positive integer number indicating the maximum number of times that the loop can be done.
 The first upper limit value defines the maximum number of loop iterations for uncontrollable events and the second upper limit value defines the maximum number of loop iterations for controllable events.
 If a single upper limit value is give, it is used for both uncontrollable and controllable events.
 +
