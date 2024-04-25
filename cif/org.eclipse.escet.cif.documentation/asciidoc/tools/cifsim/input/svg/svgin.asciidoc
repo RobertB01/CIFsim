@@ -104,8 +104,8 @@ For instance:
 ----
 input int counter;
 
-svgin id "increase" do counter = counter + 1;
-svgin id "decrease" do counter = counter - 1;
+svgin id "increase" do counter := counter + 1;
+svgin id "decrease" do counter := counter - 1;
 ----
 
 In this example, by clicking the SVG element with id `increase` the value of `counter` is increases by one.
