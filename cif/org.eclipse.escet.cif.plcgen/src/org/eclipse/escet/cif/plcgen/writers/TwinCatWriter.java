@@ -535,10 +535,10 @@ public class TwinCatWriter extends Writer {
         {
             if (declaredType instanceof PlcStructType structType) {
                 typeName = structType.typeName;
-                declarationText = toDeclaredTypeBox(structType).toString();
+                declarationText = toTypeDeclBox(structType).toString();
             } else if (declaredType instanceof PlcEnumType enumType) {
                 typeName = enumType.typeName;
-                declarationText = toDeclaredTypeBox(enumType).toString();
+                declarationText = toTypeDeclBox(enumType).toString();
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }
@@ -643,7 +643,7 @@ public class TwinCatWriter extends Writer {
     }
 
     @Override
-    protected Box toDeclaredTypeBox(PlcStructType structType) {
+    protected Box toTypeDeclBox(PlcStructType structType) {
         // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
         // specific, in that it implements a workaround for a bug in TwinCAT, where structs in type declarations
         // may not be terminated with a semicolon.
@@ -653,7 +653,7 @@ public class TwinCatWriter extends Writer {
         c.add("STRUCT");
         c.indent();
         for (PlcStructField field: structType.fields) {
-            c.add(toBox(field));
+            c.add(toTypeDeclBox(field));
         }
         c.dedent();
         c.add("END_STRUCT");
@@ -663,7 +663,7 @@ public class TwinCatWriter extends Writer {
     }
 
     @Override
-    protected Box toDeclaredTypeBox(PlcEnumType enumType) {
+    protected Box toTypeDeclBox(PlcEnumType enumType) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", enumType.typeName);
         c.indent();

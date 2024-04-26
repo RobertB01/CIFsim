@@ -105,7 +105,7 @@ public abstract class Writer {
         c.add("PROJECT %s", project.name);
         c.indent();
         for (PlcDeclaredType declaredType: project.declaredTypes) {
-            c.add(toDeclaredTypeBox(declaredType));
+            c.add(toTypeDeclBox(declaredType));
         }
         for (PlcPou pou: project.pous) {
             c.add(toBox(pou));
@@ -252,17 +252,6 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcStructField} instance to a {@link Box} text.
-     *
-     * @param field Field to convert.
-     * @return The generated box representation.
-     */
-    protected Box toBox(PlcStructField field) {
-        String txt = fmt("%s: %s;", field.fieldName, toBox(field.type));
-        return new TextBox(txt);
-    }
-
-    /**
      * Convert a {@link PlcPouInstance} instance to a {@link Box} text.
      *
      * @param pouInstance POU instance to convert.
@@ -377,11 +366,11 @@ public abstract class Writer {
      * @param declaredType Declared type to convert.
      * @return The generated box representation.
      */
-    protected Box toDeclaredTypeBox(PlcDeclaredType declaredType) {
+    protected Box toTypeDeclBox(PlcDeclaredType declaredType) {
         if (declaredType instanceof PlcStructType structType) {
-            return toDeclaredTypeBox(structType);
+            return toTypeDeclBox(structType);
         } else if (declaredType instanceof PlcEnumType enumType) {
-            return toDeclaredTypeBox(enumType);
+            return toTypeDeclBox(enumType);
         }
         throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
     }
@@ -392,14 +381,14 @@ public abstract class Writer {
      * @param structType Struct type to convert.
      * @return The generated box representation.
      */
-    protected Box toDeclaredTypeBox(PlcStructType structType) {
+    protected Box toTypeDeclBox(PlcStructType structType) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", structType.typeName);
         c.indent();
         c.add("STRUCT");
         c.indent();
         for (PlcStructField field: structType.fields) {
-            c.add(toBox(field));
+            c.add(toTypeDeclBox(field));
         }
         c.dedent();
         c.add("END_STRUCT;");
@@ -409,12 +398,23 @@ public abstract class Writer {
     }
 
     /**
+     * Convert a {@link PlcStructField} instance to a {@link Box} text.
+     *
+     * @param field Field to convert.
+     * @return The generated box representation.
+     */
+    protected Box toTypeDeclBox(PlcStructField field) {
+        String txt = fmt("%s: %s;", field.fieldName, toBox(field.type));
+        return new TextBox(txt);
+    }
+
+    /**
      * Convert a {@link PlcEnumType} instance to its declaration.
      *
      * @param enumType Enum type to convert.
      * @return The generated box representation.
      */
-    protected Box toDeclaredTypeBox(PlcEnumType enumType) {
+    protected Box toTypeDeclBox(PlcEnumType enumType) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", enumType.typeName);
         c.indent();

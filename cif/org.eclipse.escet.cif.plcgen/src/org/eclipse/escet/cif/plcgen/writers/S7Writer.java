@@ -184,7 +184,7 @@ public class S7Writer extends Writer {
      */
     private void writeDeclaredType(PlcStructType structType, String outPath) {
         String path = Paths.join(outPath, structType.typeName + ".udt");
-        Box code = toDeclaredTypeBox(structType);
+        Box code = toTypeDeclBox(structType);
         code.writeToFile(path);
     }
 
@@ -196,7 +196,7 @@ public class S7Writer extends Writer {
      */
     private void writeDeclaredType(PlcEnumType enumType, String outPath) {
         String path = Paths.join(outPath, enumType.typeName + ".udt");
-        Box code = toDeclaredTypeBox(enumType);
+        Box code = toTypeDeclBox(enumType);
         code.writeToFile(path);
     }
 
@@ -395,7 +395,7 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    protected Box toDeclaredTypeBox(PlcStructType structType) {
+    protected Box toTypeDeclBox(PlcStructType structType) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", structType.typeName);
         c.indent();
@@ -413,7 +413,7 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    protected Box toDeclaredTypeBox(PlcEnumType enumType) {
+    protected Box toTypeDeclBox(PlcEnumType enumType) {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("TYPE %s:", enumType.typeName);
         c.indent();

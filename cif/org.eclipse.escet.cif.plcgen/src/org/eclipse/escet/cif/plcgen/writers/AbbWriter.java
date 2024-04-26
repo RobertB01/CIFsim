@@ -97,7 +97,7 @@ public class AbbWriter extends Writer {
         }
 
         String path = Paths.join(outPath, typeName + ".plctype");
-        Box code = toDeclaredTypeBox(declaredType);
+        Box code = toTypeDeclBox(declaredType);
         code.writeToFile(path);
     }
 }
