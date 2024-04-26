@@ -149,7 +149,8 @@ public class ExprGeneratorTest {
     private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
 
     private static EnumDecl enumDecl = newEnumDecl(null,
-            List.of(newEnumLiteral("firstField", null), newEnumLiteral("secondField", null)), "enumType", null);
+            List.of(newEnumLiteral(null, "firstField", null), newEnumLiteral(null, "secondField", null)), "enumType",
+            null);
 
     private static TupleType makeTupleType(int length) {
         List<Field> fields = listc(length);

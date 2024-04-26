@@ -426,6 +426,10 @@ public abstract class CifWalker {
             walkDeclaration((Declaration)obj);
             return;
         }
+        if (obj instanceof EnumLiteral) {
+            walkEnumLiteral((EnumLiteral)obj);
+            return;
+        }
         if (obj instanceof Location) {
             walkLocation((Location)obj);
             return;
@@ -3140,6 +3144,10 @@ public abstract class CifWalker {
      */
     protected void walkEnumLiteral(EnumLiteral obj) {
         precrawlEnumLiteral(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Position _position = obj.getPosition();
         if (_position != null) {
             walkPosition(_position);
@@ -3153,7 +3161,7 @@ public abstract class CifWalker {
      * @param obj The object to crawl over.
      */
     protected void precrawlEnumLiteral(EnumLiteral obj) {
-        precrawlPositionObject(obj);
+        precrawlAnnotatedObject(obj);
         preprocessEnumLiteral(obj);
     }
 
@@ -3164,7 +3172,7 @@ public abstract class CifWalker {
      */
     protected void postcrawlEnumLiteral(EnumLiteral obj) {
         postprocessEnumLiteral(obj);
-        postcrawlPositionObject(obj);
+        postcrawlAnnotatedObject(obj);
     }
 
     /**
@@ -5456,10 +5464,6 @@ public abstract class CifWalker {
         }
         if (obj instanceof ElifUpdate) {
             walkElifUpdate((ElifUpdate)obj);
-            return;
-        }
-        if (obj instanceof EnumLiteral) {
-            walkEnumLiteral((EnumLiteral)obj);
             return;
         }
         if (obj instanceof Equation) {

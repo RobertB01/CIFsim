@@ -914,8 +914,11 @@ public abstract class fmt {
 
     /** fmt enumeration. */
     public static enum fmtEnum {
-        /** A */ _A,
-        /** B */ _B;
+        /** Literal "A". */
+        _A,
+
+        /** Literal "B". */
+        _B;
 
         @Override
         public String toString() {

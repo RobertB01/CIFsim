@@ -11,7 +11,41 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumannos_doc_ {
-    _annos_doc___some_dummy_enum_literal,
+    /** Literal "l1". */
+    _annos_doc_l1,
+
+    /**
+     * Literal "l2".
+     *
+     * single line doc
+     */
+    _annos_doc_l2,
+
+    /**
+     * Literal "l3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    _annos_doc_l3,
+
+    /**
+     * Literal "l4".
+     *
+     * some doc
+     */
+    _annos_doc_l4,
+
+    /**
+     * Literal "l5".
+     *
+     * First doc.
+     *
+     * Second doc line 1.
+     * Second doc line 2.
+     */
+    _annos_doc_l5,
 };
 typedef enum Enumannos_doc_ annos_docEnum;
 

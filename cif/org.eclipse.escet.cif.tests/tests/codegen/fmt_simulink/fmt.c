@@ -1103,7 +1103,10 @@ static void A2STypeModify(A2SType *array, IntType index, StringType *value);
 static int A2STypePrint(A2SType *array, char *dest, int start, int end);
 
 enum Enumfmt_ {
+    /** Literal "A". */
     _fmt_A,
+
+    /** Literal "B". */
     _fmt_B,
 };
 typedef enum Enumfmt_ fmtEnum;
@@ -1759,7 +1762,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "A". */
     "A",
+
+    /** Literal "B". */
     "B",
 };
 

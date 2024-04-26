@@ -83,7 +83,10 @@ const char *declarations_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "loc1". */
     "loc1",
+
+    /** Literal "loc2". */
     "loc2",
 };
 

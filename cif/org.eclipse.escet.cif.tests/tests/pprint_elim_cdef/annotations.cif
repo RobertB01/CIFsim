@@ -124,4 +124,13 @@ group g1:
 
   @a(b: 4)
   const bool const1 = false;
+
+  @a(b: 5)
+  type tdecl1 = bool, tdecl2 = real;
+
+  @a(b: 6)
+  enum enumDecl1 = lit1, lit2;
+
+  @a(b: 7)
+  enum enumDecl2 = @a(b: 8) @a(b: 9) lit3, lit4, @a(b: 10) @a(b: 11) lit5;
 end

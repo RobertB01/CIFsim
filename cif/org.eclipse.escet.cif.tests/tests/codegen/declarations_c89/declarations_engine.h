@@ -11,7 +11,10 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumdeclarations_ {
+    /** Literal "loc1". */
     _declarations_loc1,
+
+    /** Literal "loc2". */
     _declarations_loc2,
 };
 typedef enum Enumdeclarations_ declarationsEnum;

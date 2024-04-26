@@ -268,7 +268,10 @@ const char *fmt_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "A". */
     "A",
+
+    /** Literal "B". */
     "B",
 };
 

@@ -58,6 +58,11 @@ import org.eclipse.escet.cif.metamodel.java.CifWalker;
  * </p>
  *
  * <p>
+ * The annotations of all enumerations are lost. The annotations of the enumeration literals are all added to the
+ * literals of the merged enumeration.
+ * </p>
+ *
+ * <p>
  * All switch expressions that switch over a value that has a type that includes an enumeration type, but do not have an
  * 'else', may become incomplete by merging enumerations. Therefore, for any such switch expression, its last 'case' is
  * converted to an 'else'. The key of that last 'case' is thereby removed from the model.
@@ -170,8 +175,18 @@ public class MergeEnums extends CifWalker implements CifToCifTransformation {
     }
 
     /**
-     * Returns a new enumeration literal, given an original enumeration literal. If there is no new enumeration literal
-     * yet, it is created and added to {@link #nameToLitMap} before it is returned.
+     * Get the new enumeration literal for an original enumeration literal. If one has not yet been created before, it
+     * will be created. This is based on the name of the literal: only one new enumeration literal is created for any
+     * number of original enumeration literals with the same name.
+     *
+     * <p>
+     * The annotations of all original enumeration literals are moved to the new enumeration literals. Each new
+     * enumeration literal thus gets the annotations of all original enumeration literals for which it is created.
+     * </p>
+     *
+     * <p>
+     * All new enumeration literals are added to {@link #nameToLitMap}.
+     * </p>
      *
      * @param origLiteral The original enumeration literal.
      * @return The new enumeration literal.
@@ -184,6 +199,7 @@ public class MergeEnums extends CifWalker implements CifToCifTransformation {
             newLiteral.setName(name);
             nameToLitMap.put(name, newLiteral);
         }
+        newLiteral.getAnnotations().addAll(origLiteral.getAnnotations());
         return newLiteral;
     }
 

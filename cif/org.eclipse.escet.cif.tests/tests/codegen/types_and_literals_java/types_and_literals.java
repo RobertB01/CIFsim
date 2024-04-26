@@ -605,9 +605,14 @@ public abstract class types_and_literals {
 
     /** types_and_literals enumeration. */
     public static enum types_and_literalsEnum {
-        /** BLUE */ _BLUE,
-        /** RED */ _RED,
-        /** WHITE */ _WHITE;
+        /** Literal "BLUE". */
+        _BLUE,
+
+        /** Literal "RED". */
+        _RED,
+
+        /** Literal "WHITE". */
+        _WHITE;
 
         @Override
         public String toString() {

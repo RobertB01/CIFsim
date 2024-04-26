@@ -37,8 +37,8 @@ AutDecl : Decl
         | OptAnnos "disc" Type DiscDecls ";"
         ;
 
-Decl : "type" TypeDefs ";"
-     | "enum" Identifier "=" Identifiers ";"
+Decl : OptAnnos "type" TypeDefs ";"
+     | OptAnnos "enum" Identifier "=" AnnotatedIdentifiers ";"
      | OptAnnos OptControllability "event"           Identifiers ";"
      | OptAnnos OptControllability "event" EventType Identifiers ";"
      | OptAnnos    Controllability                   Identifiers ";"
@@ -54,8 +54,19 @@ Decl : "type" TypeDefs ";"
      | IoDecl
      ;
 
+Identifiers : Identifier
+            | Identifiers "," Identifier
+            ;
+
 Identifier : IDENTIFIERTK
            ;
+
+AnnotatedIdentifiers : AnnotatedIdentifier
+                     | AnnotatedIdentifiers "," AnnotatedIdentifier
+                     ;
+
+AnnotatedIdentifier : OptAnnos IDENTIFIERTK
+                    ;
 
 Imports : StringToken
         | Imports "," StringToken
@@ -303,10 +314,6 @@ OptElifUpdates : /* empty */
 OptElseUpdate : /* empty */
               | "else" Updates
               ;
-
-Identifiers : Identifier
-            | Identifiers "," Identifier
-            ;
 
 OptSupKind : /* empty */
            | SupKind

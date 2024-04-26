@@ -563,17 +563,38 @@ public abstract class databased_supervisor {
 
     /** databased_supervisor enumeration. */
     public static enum databased_supervisorEnum {
-        /** Idle */ _Idle,
-        /** Off */ _Off,
-        /** On */ _On,
-        /** Pushed */ _Pushed,
-        /** Released */ _Released,
-        /** Running */ _Running,
-        /** StartTimer */ _StartTimer,
-        /** TurnLampOff */ _TurnLampOff,
-        /** TurnLampOn */ _TurnLampOn,
-        /** WaitForButtonPush */ _WaitForButtonPush,
-        /** WaitForTimeout */ _WaitForTimeout;
+        /** Literal "Idle". */
+        _Idle,
+
+        /** Literal "Off". */
+        _Off,
+
+        /** Literal "On". */
+        _On,
+
+        /** Literal "Pushed". */
+        _Pushed,
+
+        /** Literal "Released". */
+        _Released,
+
+        /** Literal "Running". */
+        _Running,
+
+        /** Literal "StartTimer". */
+        _StartTimer,
+
+        /** Literal "TurnLampOff". */
+        _TurnLampOff,
+
+        /** Literal "TurnLampOn". */
+        _TurnLampOn,
+
+        /** Literal "WaitForButtonPush". */
+        _WaitForButtonPush,
+
+        /** Literal "WaitForTimeout". */
+        _WaitForTimeout;
 
         @Override
         public String toString() {

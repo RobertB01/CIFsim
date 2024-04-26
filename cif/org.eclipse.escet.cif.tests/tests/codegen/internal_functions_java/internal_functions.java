@@ -826,7 +826,8 @@ public abstract class internal_functions {
 
     /** internal_functions enumeration. */
     public static enum internal_functionsEnum {
-        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
+        /** Literal "__some_dummy_enum_literal". */
+        ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

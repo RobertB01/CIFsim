@@ -1,1 +1,4 @@
+WARNING: Requirement invariant "requirement invariant R.R1 disables evt2" has no relation to any plant element and does not affect behavior.
+WARNING: Requirement invariant "requirement invariant invname: evt2 needs R.R2" has no relation to any plant element and does not affect behavior.
+WARNING: Requirement automaton "R" has no relation to any plant element and does not affect behavior.
 WARNING: Multi-level synthesis not yet implemented.

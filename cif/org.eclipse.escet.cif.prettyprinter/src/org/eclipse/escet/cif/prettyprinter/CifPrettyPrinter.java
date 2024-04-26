@@ -665,12 +665,30 @@ public final class CifPrettyPrinter {
      * @param enumDecl The enumeration declaration.
      */
     public void add(EnumDecl enumDecl) {
-        List<String> names = listc(enumDecl.getLiterals().size());
+        // Add annotations.
+        add(enumDecl.getAnnotations());
+
+        // Add declaration.
+        int literalCount = enumDecl.getLiterals().size();
+        List<String> names = listc(literalCount);
+        boolean literalsHaveNoAnnos = true;
         for (EnumLiteral lit: enumDecl.getLiterals()) {
             names.add(escapeIdentifier(lit.getName()));
+            literalsHaveNoAnnos &= lit.getAnnotations().isEmpty();
         }
 
-        code.add("enum %s = %s;", escapeIdentifier(enumDecl.getName()), String.join(", ", names));
+        if (literalsHaveNoAnnos) {
+            code.add("enum %s = %s;", escapeIdentifier(enumDecl.getName()), String.join(", ", names));
+        } else {
+            code.add("enum %s =", escapeIdentifier(enumDecl.getName()));
+            code.indent();
+            for (int i = 0; i < literalCount; i++) {
+                add(enumDecl.getLiterals().get(i).getAnnotations());
+                String postfix = (i == literalCount - 1) ? ";" : ",";
+                code.add("%s%s", names.get(i), postfix);
+            }
+            code.dedent();
+        }
     }
 
     /**
@@ -693,6 +711,10 @@ public final class CifPrettyPrinter {
      * @param typeDecl The type declaration.
      */
     public void add(TypeDecl typeDecl) {
+        // Add annotations.
+        add(typeDecl.getAnnotations());
+
+        // Add declaration.
         code.add("type %s = %s;", escapeIdentifier(typeDecl.getName()), pprint(typeDecl.getType()));
     }
 

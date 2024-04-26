@@ -59,7 +59,7 @@ public class CifToDmm {
     }
 
     /**
-     * Perform checking on the specification to decide if it appropriate for the DMM construction.
+     * Perform checking on the specification to decide if it is appropriate for the DMM construction.
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.

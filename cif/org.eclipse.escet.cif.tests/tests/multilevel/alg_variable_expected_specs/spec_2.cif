@@ -1,0 +1,7 @@
+plant automaton B:
+  controllable c;
+  location:
+    initial;
+    marked;
+    edge c;
+end

@@ -78,4 +78,13 @@ group g1:
 
   @cif:typechecker:tests:anno1(x: true)
   const int const1 = 6;
+
+  @cif:typechecker:tests:anno1(x: true)
+  type typeDecl1 = bool;
+
+  @cif:typechecker:tests:anno1(x: true)
+  enum enumDecl1 = lit1, lit2;
+
+  @cif:typechecker:tests:anno1(x: true)
+  enum enumDecl2 = @cif:typechecker:tests:anno1(x: true) lit3, lit4;
 end

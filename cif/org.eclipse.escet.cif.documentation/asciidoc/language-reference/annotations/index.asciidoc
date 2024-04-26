@@ -106,10 +106,13 @@ Currently, annotations are only supported for the following elements in CIF spec
 * Constants.
 * Continuous variables.
 * Discrete variables.
+* Enumeration literals.
+* Enumerations.
 * Events.
 * Input variables.
 * Locations of automata.
 * Specifications.
+* Type declarations.
 
 This will be extended to other elements of specifications in the future.
 

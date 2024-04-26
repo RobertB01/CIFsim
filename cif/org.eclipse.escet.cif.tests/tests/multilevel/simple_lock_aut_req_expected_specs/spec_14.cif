@@ -1,0 +1,10 @@
+plant automaton S2_EqualWater:
+  uncontrollable u_on;
+  uncontrollable u_off;
+  location Off:
+    initial;
+    marked;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end

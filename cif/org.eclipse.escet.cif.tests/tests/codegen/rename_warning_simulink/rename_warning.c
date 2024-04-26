@@ -1058,6 +1058,7 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumrename_warning_ {
+    /** Literal "__some_dummy_enum_literal". */
     _rename_warning___some_dummy_enum_literal,
 };
 typedef enum Enumrename_warning_ rename_warningEnum;
@@ -1209,6 +1210,7 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "__some_dummy_enum_literal". */
     "__some_dummy_enum_literal",
 };
 

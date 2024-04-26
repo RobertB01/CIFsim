@@ -63,6 +63,7 @@ import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgInEvent;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgInEventIfEntry;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgMove;
 import org.eclipse.escet.cif.parser.ast.iodecls.svg.ASvgOut;
+import org.eclipse.escet.cif.parser.ast.tokens.AAnnotatedIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AEventParamFlag;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
@@ -466,13 +467,13 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
-    public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
+    @Override // Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl01(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
         // return null;
     }
 
-    @Override // Decl : ENUMKW Identifier EQTK Identifiers SEMICOLTK;
-    public ADecl parseDecl02(AIdentifier a2, List<AIdentifier> l4) {
+    @Override // Decl : OptAnnos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK;
+    public ADecl parseDecl02(List<AAnnotation> l1, AIdentifier a3, List<AAnnotatedIdentifier> l5) {
         // return null;
     }
 
@@ -541,8 +542,33 @@ implements CifScanner.Hooks,
         // return null;
     }
 
+    @Override // Identifiers : Identifier;
+    public List<AIdentifier> parseIdentifiers1(AIdentifier a1) {
+        // return null;
+    }
+
+    @Override // Identifiers : Identifiers COMMATK Identifier;
+    public List<AIdentifier> parseIdentifiers2(List<AIdentifier> l1, AIdentifier a3) {
+        // return null;
+    }
+
     @Override // Identifier : @IDENTIFIERTK;
     public AIdentifier parseIdentifier1(Token t1) {
+        // return null;
+    }
+
+    @Override // AnnotatedIdentifiers : AnnotatedIdentifier;
+    public List<AAnnotatedIdentifier> parseAnnotatedIdentifiers1(AAnnotatedIdentifier a1) {
+        // return null;
+    }
+
+    @Override // AnnotatedIdentifiers : AnnotatedIdentifiers COMMATK AnnotatedIdentifier;
+    public List<AAnnotatedIdentifier> parseAnnotatedIdentifiers2(List<AAnnotatedIdentifier> l1, AAnnotatedIdentifier a3) {
+        // return null;
+    }
+
+    @Override // AnnotatedIdentifier : OptAnnos @IDENTIFIERTK;
+    public AAnnotatedIdentifier parseAnnotatedIdentifier1(List<AAnnotation> l1, Token t2) {
         // return null;
     }
 
@@ -1238,16 +1264,6 @@ implements CifScanner.Hooks,
 
     @Override // OptElseUpdate : ELSEKW Updates;
     public List<AUpdate> parseOptElseUpdate2(List<AUpdate> l2) {
-        // return null;
-    }
-
-    @Override // Identifiers : Identifier;
-    public List<AIdentifier> parseIdentifiers1(AIdentifier a1) {
-        // return null;
-    }
-
-    @Override // Identifiers : Identifiers COMMATK Identifier;
-    public List<AIdentifier> parseIdentifiers2(List<AIdentifier> l1, AIdentifier a3) {
         // return null;
     }
 

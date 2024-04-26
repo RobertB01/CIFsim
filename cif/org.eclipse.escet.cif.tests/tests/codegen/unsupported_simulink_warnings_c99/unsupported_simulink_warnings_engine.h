@@ -98,6 +98,7 @@ extern void A1A1A1BTypeModify(A1A1A1BType *array, IntType index, A1A1BType *valu
 extern int A1A1A1BTypePrint(A1A1A1BType *array, char *dest, int start, int end);
 
 enum Enumunsupported_simulink_warnings_ {
+    /** Literal "__some_dummy_enum_literal". */
     _unsupported_simulink_warnings___some_dummy_enum_literal,
 };
 typedef enum Enumunsupported_simulink_warnings_ unsupported_simulink_warningsEnum;

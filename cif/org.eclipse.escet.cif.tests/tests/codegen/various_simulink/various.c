@@ -1084,7 +1084,10 @@ static A3IType A3ITypeFromSimulink(real_T *vec);
 static void A3ITypeToSimulink(real_T *vec, A3IType *arr);
 
 enum Enumvarious_ {
+    /** Literal "l1". */
     _various_l1,
+
+    /** Literal "l2". */
     _various_l2,
 };
 typedef enum Enumvarious_ variousEnum;
@@ -1461,7 +1464,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "l1". */
     "l1",
+
+    /** Literal "l2". */
     "l2",
 };
 

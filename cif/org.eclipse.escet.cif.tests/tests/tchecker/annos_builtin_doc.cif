@@ -91,4 +91,13 @@ group g1:
 
   @doc
   const bool const1 = true;
+
+  @doc
+  type typeDecl1 = bool;
+
+  @doc
+  enum enumDecl1 = lit1, lit2;
+
+  @doc
+  enum enumDecl2 = @doc lit3, lit4;
 end

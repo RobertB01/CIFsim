@@ -56,4 +56,20 @@ group g1:
 
   @a(x: 7, x: 8)
   const int const1 = 2;
+
+  @a(x: 9, x: 10)
+  type typeDecl1 = bool;
+
+  @a(x: 11, x: 12)
+  enum enumDecl1 = lit1, lit2;
+
+  @a(x: 13, x: 14)
+  enum enumDecl2 =
+    @a(x: 15, x: 16)
+    @a(x: 17, x: 18)
+    lit3,
+    lit4,
+    @a(x: 19, x: 20)
+    @a(x: 21, x: 22)
+    lit5;
 end

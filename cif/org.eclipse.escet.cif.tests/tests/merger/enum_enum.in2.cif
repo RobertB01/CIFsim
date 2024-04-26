@@ -25,3 +25,13 @@ end
 
 enum i = j, k;
 const i c2 = j;
+
+group annos:
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4
+  enum E =
+    @doc("2")
+    lit1,
+    @doc("4")
+    lit2;
+end
