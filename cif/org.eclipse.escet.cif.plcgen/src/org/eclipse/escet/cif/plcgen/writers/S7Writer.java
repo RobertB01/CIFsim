@@ -267,7 +267,7 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    protected Box toBox(PlcGlobalVarList globVarList) {
+    protected Box toVarDeclBox(PlcGlobalVarList globVarList) {
         throw new UnsupportedOperationException("Should not be used.");
     }
 

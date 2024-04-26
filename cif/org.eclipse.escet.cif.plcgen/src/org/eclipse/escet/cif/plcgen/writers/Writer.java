@@ -132,7 +132,7 @@ public abstract class Writer {
             if (globalVarList.variables.isEmpty()) {
                 continue;
             }
-            c.add(toBox(globalVarList));
+            c.add(toVarDeclBox(globalVarList));
         }
 
         // Ensure one resource. At least one is required. More resources, means
@@ -174,7 +174,7 @@ public abstract class Writer {
             if (globalVarList.variables.isEmpty()) {
                 continue;
             }
-            c.add(toBox(globalVarList));
+            c.add(toVarDeclBox(globalVarList));
         }
         for (PlcTask task: resource.tasks) {
             c.add(toBox(task));
@@ -196,14 +196,14 @@ public abstract class Writer {
      * @param globVarList Global variable list to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcGlobalVarList globVarList) {
+    protected Box toVarDeclBox(PlcGlobalVarList globVarList) {
         Assert.check(!globVarList.variables.isEmpty()); // Empty VAR_GLOBAL is illegal.
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("VAR_GLOBAL%s // %s", (globVarList.listKind == PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
                 globVarList.name);
         c.indent();
         for (PlcBasicVariable variable: globVarList.variables) {
-            c.add(toBox(variable));
+            c.add(toVarDeclBox(variable));
         }
         c.dedent();
         c.add("END_VAR");
@@ -216,11 +216,11 @@ public abstract class Writer {
      * @param variable Variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcBasicVariable variable) {
+    protected Box toVarDeclBox(PlcBasicVariable variable) {
         if (variable instanceof PlcDataVariable dataVar) {
-            return toBox(dataVar);
+            return toVarDeclBox(dataVar);
         } else if (variable instanceof PlcFuncBlockInstanceVar funBlockVar) {
-            return toBox(funBlockVar);
+            return toVarDeclBox(funBlockVar);
         } else {
             throw new AssertionError("Unexpected kind of variable \"" + variable + "\".");
         }
@@ -232,7 +232,7 @@ public abstract class Writer {
      * @param dataVar Variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcDataVariable dataVar) {
+    protected Box toVarDeclBox(PlcDataVariable dataVar) {
         String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
         String valueTxt = (dataVar.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(dataVar.value);
@@ -302,7 +302,7 @@ public abstract class Writer {
             c.add("VAR_INPUT");
             c.indent();
             for (PlcBasicVariable var: pou.inputVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -311,7 +311,7 @@ public abstract class Writer {
             c.add("VAR_OUTPUT");
             c.indent();
             for (PlcBasicVariable var: pou.outputVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -320,7 +320,7 @@ public abstract class Writer {
             c.add("VAR");
             c.indent();
             for (PlcBasicVariable var: pou.localVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -329,7 +329,7 @@ public abstract class Writer {
             c.add("VAR_TEMP");
             c.indent();
             for (PlcBasicVariable var: pou.tempVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");

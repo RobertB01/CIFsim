@@ -596,7 +596,7 @@ public class TwinCatWriter extends Writer {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        declElem.appendChild(doc.createCDATASection(toBox(varList).toString()));
+        declElem.appendChild(doc.createCDATASection(toVarDeclBox(varList).toString()));
 
         Element opElem = doc.createElement("ObjectProperties");
         pouElem.appendChild(opElem);
