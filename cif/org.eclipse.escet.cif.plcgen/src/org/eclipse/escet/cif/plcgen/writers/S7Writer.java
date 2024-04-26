@@ -230,7 +230,7 @@ public class S7Writer extends Writer {
         c.add("VAR");
         c.indent();
         for (PlcBasicVariable var: variables) {
-            c.add("%s: %s;", var.varName, toBox(var.type));
+            c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
         }
         c.dedent();
         c.add("END_VAR");
@@ -293,14 +293,14 @@ public class S7Writer extends Writer {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcBasicVariable constant: globVarList.variables) {
                 PlcDataVariable dataConstant = (PlcDataVariable)constant;
-                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(dataConstant.type),
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toTypeRefBox(dataConstant.type),
                         modelTextGenerator.toString(dataConstant.value), dataConstant.varName);
             }
         } else {
             for (PlcBasicVariable var: globVarList.variables) {
                 PlcDataVariable dataVar = (PlcDataVariable)var;
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
-                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.varName);
+                        + "remark='' addr='%s'>%s</Tag>", toTypeRefBox(dataVar.type), dataVar.address, dataVar.varName);
             }
         }
         c.dedent();
@@ -330,7 +330,7 @@ public class S7Writer extends Writer {
         }
 
         // Write header. The header includes the POU type, name and return type.
-        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toBox(pou.retType));
+        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toTypeRefBox(pou.retType));
         c.add("%s %s%s", pouTypeText, pou.name, retTypeTxt);
         c.add("{ S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
         c.indent();
@@ -340,7 +340,7 @@ public class S7Writer extends Writer {
             c.add("VAR_INPUT");
             c.indent();
             for (PlcBasicVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -354,7 +354,7 @@ public class S7Writer extends Writer {
             c.add("VAR_OUTPUT");
             c.indent();
             for (PlcBasicVariable var: pou.outputVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -372,7 +372,7 @@ public class S7Writer extends Writer {
 
             c.indent();
             for (PlcBasicVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -403,7 +403,7 @@ public class S7Writer extends Writer {
         c.indent();
         for (PlcStructField field: structType.fields) {
             // Only name and type, not address.
-            c.add("%s: %s;", field.fieldName, toBox(field.type));
+            c.add("%s: %s;", field.fieldName, toTypeRefBox(field.type));
         }
         c.dedent();
         c.add("END_STRUCT;");

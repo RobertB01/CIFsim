@@ -236,7 +236,7 @@ public abstract class Writer {
         String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
         String valueTxt = (dataVar.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(dataVar.value);
-        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toBox(dataVar.type), valueTxt);
+        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toTypeRefBox(dataVar.type), valueTxt);
         return new TextBox(txt);
     }
 
@@ -246,8 +246,8 @@ public abstract class Writer {
      * @param fnBlockVar Function block instance variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcFuncBlockInstanceVar fnBlockVar) {
-        String txt = fmt("%s: %s;", fnBlockVar.varName, toBox(fnBlockVar.type));
+    protected Box toVarDeclBox(PlcFuncBlockInstanceVar fnBlockVar) {
+        String txt = fmt("%s: %s;", fnBlockVar.varName, toTypeRefBox(fnBlockVar.type));
         return new TextBox(txt);
     }
 
@@ -296,7 +296,7 @@ public abstract class Writer {
      */
     protected CodeBox headerToBox(PlcPou pou) {
         CodeBox c = new MemoryCodeBox(INDENT);
-        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toBox(pou.retType));
+        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toTypeRefBox(pou.retType));
         c.add("%s %s%s", pou.pouType, pou.name, retTypeTxt);
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
@@ -343,17 +343,17 @@ public abstract class Writer {
      * @param type Type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcType type) {
-        if (type instanceof PlcArrayType) {
-            return toBox((PlcArrayType)type);
-        } else if (type instanceof PlcDerivedType) {
-            return toBox((PlcDerivedType)type);
-        } else if (type instanceof PlcElementaryType) {
-            return toBox((PlcElementaryType)type);
-        } else if (type instanceof PlcEnumType) {
-            return toBox((PlcEnumType)type);
-        } else if (type instanceof PlcStructType) {
-            return toBox((PlcStructType)type);
+    protected Box toTypeRefBox(PlcType type) {
+        if (type instanceof PlcArrayType arrayType) {
+            return toTypeRefBox(arrayType);
+        } else if (type instanceof PlcDerivedType derType) {
+            return toTypeRefBox(derType);
+        } else if (type instanceof PlcElementaryType elemType) {
+            return toTypeRefBox(elemType);
+        } else if (type instanceof PlcEnumType enumType) {
+            return toTypeRefBox(enumType);
+        } else if (type instanceof PlcStructType structType) {
+            return toTypeRefBox(structType);
         } else {
             String typeText = (type == null) ? "null" : type.getClass().toString();
             throw new AssertionError("Unexpected PlcType, found: " + typeText + ".");
@@ -404,7 +404,7 @@ public abstract class Writer {
      * @return The generated box representation.
      */
     protected Box toTypeDeclBox(PlcStructField field) {
-        String txt = fmt("%s: %s;", field.fieldName, toBox(field.type));
+        String txt = fmt("%s: %s;", field.fieldName, toTypeRefBox(field.type));
         return new TextBox(txt);
     }
 
@@ -430,7 +430,7 @@ public abstract class Writer {
      * @param elementaryType Elementary type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcElementaryType elementaryType) {
+    protected Box toTypeRefBox(PlcElementaryType elementaryType) {
         return new TextBox(elementaryType.name);
     }
 
@@ -440,7 +440,7 @@ public abstract class Writer {
      * @param derivedType Derived type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcDerivedType derivedType) {
+    protected Box toTypeRefBox(PlcDerivedType derivedType) {
         return new TextBox(derivedType.name);
     }
 
@@ -450,10 +450,10 @@ public abstract class Writer {
      * @param arrayType Array type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcArrayType arrayType) {
+    protected Box toTypeRefBox(PlcArrayType arrayType) {
         HBox b = new HBox();
         b.add(fmt("ARRAY[%d..%d] of ", arrayType.lower, arrayType.upper));
-        b.add(toBox(arrayType.elemType));
+        b.add(toTypeRefBox(arrayType.elemType));
         return b;
     }
 
@@ -463,7 +463,7 @@ public abstract class Writer {
      * @param structType Struct type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcStructType structType) {
+    protected Box toTypeRefBox(PlcStructType structType) {
         return new TextBox(structType.typeName);
     }
 
@@ -473,7 +473,7 @@ public abstract class Writer {
      * @param enumType Enum type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcEnumType enumType) {
+    protected Box toTypeRefBox(PlcEnumType enumType) {
         return new TextBox(enumType.typeName);
     }
 }
