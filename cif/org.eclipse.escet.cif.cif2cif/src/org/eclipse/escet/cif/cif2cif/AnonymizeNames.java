@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
+import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
@@ -177,6 +178,9 @@ public class AnonymizeNames extends CifWalker implements CifToCifTransformation 
         if (discVar.eContainer() instanceof FunctionParameter) {
             // Function parameter.
             discVar.setName(getName("fparam"));
+        } else if (discVar.eContainer() instanceof InternalFunction) {
+            // Function variable.
+            discVar.setName(getName("fvar"));
         } else {
             // Discrete variable.
             discVar.setName(getName("disc"));
