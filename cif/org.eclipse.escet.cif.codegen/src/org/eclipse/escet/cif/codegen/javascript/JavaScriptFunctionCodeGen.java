@@ -89,6 +89,14 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
             DiscVariable param = params.get(i).getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(param, false));
             code.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
+            List<String> paramDocs = DocAnnotationProvider.getDocs(param);
+            for (String doc: paramDocs) {
+                code.add(" *     <p>");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add(" *     %s", line);
+                }
+                code.add(" *     </p>");
+            }
         }
         code.add(" * @return The return value of the function.");
         code.add(" */");
@@ -117,7 +125,18 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
 
         // Generate code for the local variables of the function.
         for (DiscVariable var: localVars) {
-            // Check assumptions.
+            // Generate comment for the variable.
+            VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
+            code.add("// Variable \"%s\".", varInfo.name);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
+            for (String doc: docs) {
+                code.add("//");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add("// %s", line);
+                }
+            }
+
+            // Generate code for initial value of the variable.
             Assert.check(var.getValue() != null);
             Assert.check(var.getValue().getValues().size() == 1);
             Expression value = first(var.getValue().getValues());
@@ -128,12 +147,13 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
             Destination dest = ctxt.makeDestination(var);
             TypeInfo varTi = ctxt.typeToTarget(var.getType());
             varTi.declareInit(code, valueCode.getRawDataValue(), dest);
-        }
-        if (!localVars.isEmpty()) {
+
+            // Empty line between variables, and between variables and statements.
             code.add();
         }
 
         // Generate statements.
+        code.add("// Execute statements in function body.");
         addFuncStatements(func.getStatements(), code, ctxt);
 
         // Generate 'throw' statement at the end of the body, to ensure JavaScript
