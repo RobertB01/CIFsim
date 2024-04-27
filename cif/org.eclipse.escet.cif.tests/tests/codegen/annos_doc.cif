@@ -144,3 +144,71 @@ group enumsAndLits:
     @doc("Second doc line 1.", "Second doc line 2.")
     l5;
 end
+
+group funcs:
+  func bool func1(bool p):
+    bool v1 = p;
+    bool v2 = v1;
+    return v2;
+  end
+
+  @doc("single line doc")
+  func bool func2(
+    @doc("single line doc")
+    bool p
+  ):
+    @doc("single line doc")
+    bool v1 = p;
+
+    @doc("single line doc")
+    bool v2 = v1;
+
+    return v2;
+  end
+
+  @doc("doc with multiple\nlines " + "of\n text")
+  func bool func3(
+    @doc("doc with multiple\nlines " + "of\n text")
+    bool p
+  ):
+    @doc("doc with multiple\nlines " + "of\n text")
+    bool v1 = p;
+
+    @doc("doc with multiple\nlines " + "of\n text")
+    bool v2 = v1;
+
+    return v2;
+  end
+
+  @doc(fmt("%s", "some doc"))
+  func bool func4(
+    @doc(fmt("%s", "some doc"))
+    bool p
+  ):
+    @doc(fmt("%s", "some doc"))
+    bool v1 = p;
+
+    @doc(fmt("%s", "some doc"))
+    bool v2 = v1;
+
+    return v2;
+  end
+
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
+  func bool func5(
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    bool p
+  ):
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    bool v1 = p;
+
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    bool v2 = v1;
+
+    return v2;
+  end
+end
