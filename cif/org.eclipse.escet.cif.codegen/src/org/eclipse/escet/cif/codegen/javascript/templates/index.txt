@@ -219,7 +219,9 @@ ${html-javascript-class-placeholder}
             function applySvgCopy(wrapId, elemId, pre, post) {
                 // This implementation is inspired by a method from Eclipse ESCET:
                 // 'org.eclipse.escet.common.svg.SvgUtils.copy'.
-                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", wrapId, elemId));
+                var escapedWrapId = CSS.escape(wrapId);
+                var escapedElemId = CSS.escape(elemId);
+                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", escapedWrapId, escapedElemId));
                 var copy = elem.cloneNode(true);
                 applySvgCopyRename(copy, pre, post);
                 elem.parentNode.insertBefore(copy, elem);
@@ -238,8 +240,10 @@ ${html-javascript-class-placeholder}
             function applySvgMove(wrapId, elemId, x, y) {
                 // This implementation is inspired by a method from Eclipse ESCET:
                 // 'org.eclipse.escet.common.svg.SvgUtils.move'.
-                var root = document.querySelector(${prefix}Utils.fmt("#%s > svg", wrapId));
-                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", wrapId, elemId));
+                var escapedWrapId = CSS.escape(wrapId);
+                var escapedElemId = CSS.escape(elemId);
+                var root = document.querySelector(${prefix}Utils.fmt("#%s > svg", escapedWrapId));
+                var elem = document.querySelector(${prefix}Utils.fmt("#%s #%s", escapedWrapId, escapedElemId));
                 var rootBounds = root.getBoundingClientRect();
                 var elemBounds = elem.getBoundingClientRect();
                 var nx = elemBounds.x - rootBounds.x;
