@@ -49,9 +49,10 @@ The `mean` function takes a list of integer values and produces a single real va
 
 indexterm:[function,body]
 indexterm:[function,local variables]
+indexterm:[function,function variables]
 In the _body_ of the function, local variables can be declared.
 The `mean` function declares three variables: `length`, `index`, and `sum`.
-Local variables of functions are very similar to <<lang-tut-data-chapter-discrete-variables,discrete variables>>.
+Local variables of functions are also called function variables, and they are very similar to <<lang-tut-data-chapter-discrete-variables,discrete variables>>.
 The main difference is that they are declared without the `disc` keyword.
 In the example, `length` is set to the number of elements in list `vs`.
 Variables `index` and `sum` are both initialized to `0`.
