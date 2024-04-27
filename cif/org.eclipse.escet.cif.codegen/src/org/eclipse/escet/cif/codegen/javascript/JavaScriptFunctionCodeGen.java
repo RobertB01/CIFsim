@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -71,9 +72,18 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
             // Function created by preprocessing or linearization.
             origFuncName = function.getName();
         }
+        List<String> docs = DocAnnotationProvider.getDocs(function);
         code.add();
         code.add("/**");
-        code.add(" * Evaluation for function \"%s\".", origFuncName);
+        code.add(" * Function \"%s\".", origFuncName);
+        for (String doc: docs) {
+            code.add(" *");
+            code.add(" * <p>");
+            for (String line: doc.split("\\r?\\n")) {
+                code.add(" * %s", line);
+            }
+            code.add(" * </p>");
+        }
         code.add(" *");
         for (int i = 0; i < params.size(); i++) {
             DiscVariable param = params.get(i).getParameter();

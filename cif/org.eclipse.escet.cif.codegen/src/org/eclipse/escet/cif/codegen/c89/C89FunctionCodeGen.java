@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.common.FuncLocalVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -122,6 +123,35 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
             vardeclCode.add(initCode.getCode());
         }
         Assert.check(localIndex == localVarInfos.length);
+
+        // Get original function name.
+        String origFuncName = ctxt.getOrigFunctionName(function);
+        if (origFuncName == null) {
+            // Function created by preprocessing or linearization.
+            origFuncName = function.getName();
+        }
+
+        // Generate function description.
+        CodeBox descriptionCode = ctxt.makeCodeBox();
+        List<String> docs = DocAnnotationProvider.getDocs(function);
+        descriptionCode.add();
+        descriptionCode.add("/**");
+        descriptionCode.add(" * Function \"%s\".", origFuncName);
+        for (String doc: docs) {
+            descriptionCode.add(" *");
+            for (String line: doc.split("\\r?\\n")) {
+                descriptionCode.add(" * %s", line);
+            }
+        }
+        descriptionCode.add(" *");
+        for (int i = 0; i < paramCount; i++) {
+            VariableInformation varInfo = paramVars[i];
+            descriptionCode.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
+        }
+        descriptionCode.add(" * @return The return value of the function.");
+        descriptionCode.add(" */");
+        declCode.add(descriptionCode);
+        defCode.add(descriptionCode);
 
         // Generate function header.
         TypeInfo returnTi = ctxt.typeToTarget(getReturnType());

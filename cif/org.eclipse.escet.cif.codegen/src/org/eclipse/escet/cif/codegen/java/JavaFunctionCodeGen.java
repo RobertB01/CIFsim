@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -61,7 +62,7 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
         for (FunctionParameter param: params) {
             DiscVariable var = param.getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
-            String name = varInfo.targetRef;
+            String name = varInfo.targetVariableName;
             TypeInfo typeInfo = ctxt.typeToTarget(var.getType());
             String typeTxt = typeInfo.getTargetType();
             paramTxts.add(typeTxt + " " + name);
@@ -73,14 +74,23 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
             // Function created by preprocessing or linearization.
             origFuncName = function.getName();
         }
+        List<String> docs = DocAnnotationProvider.getDocs(function);
         code.add();
         code.add("/**");
-        code.add(" * Evaluation for function \"%s\".", origFuncName);
+        code.add(" * Function \"%s\".", origFuncName);
+        for (String doc: docs) {
+            code.add(" *");
+            code.add(" * <p>");
+            for (String line: doc.split("\\r?\\n")) {
+                code.add(" * %s", line);
+            }
+            code.add(" * </p>");
+        }
         code.add(" *");
         for (int i = 0; i < params.size(); i++) {
             DiscVariable param = params.get(i).getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(param, false));
-            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetRef, varInfo.name);
+            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
         }
         code.add(" * @return The return value of the function.");
         code.add(" */");
