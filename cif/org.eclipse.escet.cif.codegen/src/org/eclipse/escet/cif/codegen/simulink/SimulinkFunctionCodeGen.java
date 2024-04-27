@@ -107,7 +107,7 @@ public class SimulinkFunctionCodeGen extends FunctionCodeGen {
             }
         }
 
-        // Retrieve local variable information
+        // Retrieve local variable information.
         for (DiscVariable var: localVars) {
             VariableInformation localVar = ctxt.getWriteVarInfo(var);
             localVarInfos[localIndex] = localVar;
