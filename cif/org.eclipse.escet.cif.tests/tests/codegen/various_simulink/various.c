@@ -1390,6 +1390,14 @@ static int_T z_(SimStruct *sim_struct);
 
 static real_T deriv01(SimStruct *sim_struct);
 
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_);
 /* }}} */
 
@@ -1427,6 +1435,14 @@ static real_T deriv01(SimStruct *sim_struct) {
 /* }}} */
 
 /* {{{ Function definitions. */
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 

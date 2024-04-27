@@ -1430,6 +1430,15 @@ static A6BType bdd_values_(SimStruct *sim_struct);
 
 
 
+
+/**
+ * Function "bdd_eval".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
+ * @param bdd_eval_values_tmp2 Function parameter "bdd_eval.values".
+ * @return The return value of the function.
+ */
 static BoolType bdd_eval_(SimStruct *sim_struct, int_T bdd_eval_idx_, A6BType* bdd_eval_values_tmp2);
 /* }}} */
 
@@ -1511,6 +1520,15 @@ static A6BType bdd_values_(SimStruct *sim_struct) {
 /* }}} */
 
 /* {{{ Function definitions. */
+
+/**
+ * Function "bdd_eval".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
+ * @param bdd_eval_values_tmp2 Function parameter "bdd_eval.values".
+ * @return The return value of the function.
+ */
 static BoolType bdd_eval_(SimStruct *sim_struct, int_T bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 

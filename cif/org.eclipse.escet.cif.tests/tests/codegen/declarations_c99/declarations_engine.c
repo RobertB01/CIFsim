@@ -108,11 +108,25 @@ RealType c3_;
 RealType c2_;
 
 /* Functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 IntType inc_(IntType inc_x_) {
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f1".
+ *
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 RealType f1_(IntType f1_x_) {
     RealType f1_v1_;
     f1_v1_ = 2.449489742783178;

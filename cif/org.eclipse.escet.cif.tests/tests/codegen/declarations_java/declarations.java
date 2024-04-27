@@ -444,7 +444,7 @@ public abstract class declarations {
     }
 
     /**
-     * Evaluation for function "inc".
+     * Function "inc".
      *
      * @param inc_x_ Function parameter "inc.x".
      * @return The return value of the function.
@@ -455,7 +455,7 @@ public abstract class declarations {
     }
 
     /**
-     * Evaluation for function "f1".
+     * Function "f1".
      *
      * @param f1_x_ Function parameter "f1.x".
      * @return The return value of the function.

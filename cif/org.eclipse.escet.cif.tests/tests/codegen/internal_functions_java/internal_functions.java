@@ -283,7 +283,7 @@ public abstract class internal_functions {
 
 
     /**
-     * Evaluation for function "inc".
+     * Function "inc".
      *
      * @param inc_x_ Function parameter "inc.x".
      * @return The return value of the function.
@@ -294,7 +294,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "factorial".
+     * Function "factorial".
      *
      * @param factorial_x_ Function parameter "factorial.x".
      * @return The return value of the function.
@@ -305,7 +305,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "rec1".
+     * Function "rec1".
      *
      * @param rec1_x_ Function parameter "rec1.x".
      * @return The return value of the function.
@@ -316,7 +316,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "rec2".
+     * Function "rec2".
      *
      * @param rec2_x_ Function parameter "rec2.x".
      * @return The return value of the function.
@@ -327,7 +327,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "multi_return".
+     * Function "multi_return".
      *
      * @return The return value of the function.
      */
@@ -337,7 +337,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "f0".
+     * Function "f0".
      *
      * @return The return value of the function.
      */
@@ -347,7 +347,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "f1".
+     * Function "f1".
      *
      * @param f1_x_ Function parameter "f1.x".
      * @return The return value of the function.
@@ -358,7 +358,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "f2".
+     * Function "f2".
      *
      * @param f2_x_ Function parameter "f2.x".
      * @param f2_y_ Function parameter "f2.y".
@@ -370,7 +370,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "f3".
+     * Function "f3".
      *
      * @param f3_x_ Function parameter "f3.x".
      * @param f3_y_ Function parameter "f3.y".
@@ -383,7 +383,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "locals".
+     * Function "locals".
      *
      * @param locals_x_ Function parameter "locals.x".
      * @return The return value of the function.
@@ -398,7 +398,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "rot1".
+     * Function "rot1".
      *
      * @param rot1_x_ Function parameter "rot1.x".
      * @return The return value of the function.
@@ -435,7 +435,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "rot2".
+     * Function "rot2".
      *
      * @param rot2_x_ Function parameter "rot2.x".
      * @return The return value of the function.
@@ -472,7 +472,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fa".
+     * Function "fa".
      *
      * @param fa_x_ Function parameter "fa.x".
      * @return The return value of the function.
@@ -517,7 +517,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fi".
+     * Function "fi".
      *
      * @param fi_x_ Function parameter "fi.x".
      * @return The return value of the function.
@@ -568,7 +568,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fw".
+     * Function "fw".
      *
      * @return The return value of the function.
      */
@@ -592,7 +592,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fu1".
+     * Function "fu1".
      *
      * @return The return value of the function.
      */
@@ -606,7 +606,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fu2".
+     * Function "fu2".
      *
      * @return The return value of the function.
      */
@@ -618,7 +618,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fu3".
+     * Function "fu3".
      *
      * @return The return value of the function.
      */
@@ -632,7 +632,7 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fr".
+     * Function "fr".
      *
      * @return The return value of the function.
      */

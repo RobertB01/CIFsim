@@ -84,6 +84,13 @@ extern A3IType input_li_;
 extern void various_AssignInputVariables();
 
 /* Declaration of internal functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 extern IntType inc_(IntType inc_x_);
 
 /* State variables (use for output only). */

@@ -330,7 +330,7 @@ public abstract class various {
     }
 
     /**
-     * Evaluation for function "inc".
+     * Function "inc".
      *
      * @param inc_x_ Function parameter "inc.x".
      * @return The return value of the function.

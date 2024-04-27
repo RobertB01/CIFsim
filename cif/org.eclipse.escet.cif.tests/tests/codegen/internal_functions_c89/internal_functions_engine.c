@@ -240,11 +240,25 @@ const char *enum_names[] = {
 
 
 /* Functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 IntType inc_(IntType inc_x_) {
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "factorial".
+ *
+ * @param factorial_x_ Function parameter "factorial.x".
+ * @return The return value of the function.
+ */
 IntType factorial_(IntType factorial_x_) {
     {
         IntType if_dest5;
@@ -258,6 +272,13 @@ IntType factorial_(IntType factorial_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rec1".
+ *
+ * @param rec1_x_ Function parameter "rec1.x".
+ * @return The return value of the function.
+ */
 IntType rec1_(IntType rec1_x_) {
     {
         IntType if_dest5;
@@ -271,6 +292,13 @@ IntType rec1_(IntType rec1_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rec2".
+ *
+ * @param rec2_x_ Function parameter "rec2.x".
+ * @return The return value of the function.
+ */
 IntType rec2_(IntType rec2_x_) {
     {
         IntType if_dest5;
@@ -284,6 +312,12 @@ IntType rec2_(IntType rec2_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "multi_return".
+ *
+ * @return The return value of the function.
+ */
 T2IRType multi_return_() {
     {
         T2IRType tuple_tmp5;
@@ -294,26 +328,63 @@ T2IRType multi_return_() {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f0".
+ *
+ * @return The return value of the function.
+ */
 IntType f0_() {
     return 1;
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f1".
+ *
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 IntType f1_(IntType f1_x_) {
     return f1_x_;
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f2".
+ *
+ * @param f2_x_ Function parameter "f2.x".
+ * @param f2_y_ Function parameter "f2.y".
+ * @return The return value of the function.
+ */
 IntType f2_(IntType f2_x_, IntType f2_y_) {
     return IntegerAdd(f2_x_, f2_y_);
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f3".
+ *
+ * @param f3_x_ Function parameter "f3.x".
+ * @param f3_y_ Function parameter "f3.y".
+ * @param f3_z_ Function parameter "f3.z".
+ * @return The return value of the function.
+ */
 RealType f3_(IntType f3_x_, IntType f3_y_, RealType f3_z_) {
     return RealAdd(IntegerAdd(f3_x_, f3_y_), f3_z_);
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "locals".
+ *
+ * @param locals_x_ Function parameter "locals.x".
+ * @return The return value of the function.
+ */
 IntType locals_(IntType locals_x_) {
     IntType locals_a_;
     locals_a_ = 5;
@@ -326,6 +397,13 @@ IntType locals_(IntType locals_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rot1".
+ *
+ * @param rot1_x_tmp5 Function parameter "rot1.x".
+ * @return The return value of the function.
+ */
 A4IType rot1_(A4IType* rot1_x_tmp5) {
     A4IType rot1_x_ = *(rot1_x_tmp5);
     IntType rot1_tmp_;
@@ -359,6 +437,13 @@ A4IType rot1_(A4IType* rot1_x_tmp5) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rot2".
+ *
+ * @param rot2_x_tmp5 Function parameter "rot2.x".
+ * @return The return value of the function.
+ */
 A4IType rot2_(A4IType* rot2_x_tmp5) {
     A4IType rot2_x_ = *(rot2_x_tmp5);
     A4IType rot2_rslt_;
@@ -395,6 +480,13 @@ A4IType rot2_(A4IType* rot2_x_tmp5) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fa".
+ *
+ * @param fa_x_ Function parameter "fa.x".
+ * @return The return value of the function.
+ */
 IntType fa_(IntType fa_x_) {
     A3IType fa_y_;
     (fa_y_).data[0] = fa_x_;
@@ -444,6 +536,13 @@ IntType fa_(IntType fa_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fi".
+ *
+ * @param fi_x_ Function parameter "fi.x".
+ * @return The return value of the function.
+ */
 IntType fi_(IntType fi_x_) {
     if ((fi_x_) == (1)) {
         fi_x_ = IntegerAdd(fi_x_, 1);
@@ -489,6 +588,12 @@ IntType fi_(IntType fi_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fw".
+ *
+ * @return The return value of the function.
+ */
 IntType fw_() {
     IntType fw_x_;
     fw_x_ = 0;
@@ -509,6 +614,12 @@ IntType fw_() {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fu1".
+ *
+ * @return The return value of the function.
+ */
 IntType fu1_() {
     if (TRUE) {
         return 1;
@@ -518,6 +629,12 @@ IntType fu1_() {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fu2".
+ *
+ * @return The return value of the function.
+ */
 IntType fu2_() {
     return 1;
 
@@ -525,6 +642,12 @@ IntType fu2_() {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fu3".
+ *
+ * @return The return value of the function.
+ */
 IntType fu3_() {
     while (TRUE) {
         return 1;
@@ -534,6 +657,12 @@ IntType fu3_() {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fr".
+ *
+ * @return The return value of the function.
+ */
 IntType fr_() {
     A3IType fr_x_;
     (fr_x_).data[0] = 1;

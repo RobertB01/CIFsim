@@ -1511,24 +1511,172 @@ struct WorkStruct {
 
 
 
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_);
+
+/**
+ * Function "factorial".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param factorial_x_ Function parameter "factorial.x".
+ * @return The return value of the function.
+ */
 static int_T factorial_(SimStruct *sim_struct, int_T factorial_x_);
+
+/**
+ * Function "rec1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rec1_x_ Function parameter "rec1.x".
+ * @return The return value of the function.
+ */
 static int_T rec1_(SimStruct *sim_struct, int_T rec1_x_);
+
+/**
+ * Function "rec2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rec2_x_ Function parameter "rec2.x".
+ * @return The return value of the function.
+ */
 static int_T rec2_(SimStruct *sim_struct, int_T rec2_x_);
+
+/**
+ * Function "multi_return".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static T2IRType multi_return_(SimStruct *sim_struct);
+
+/**
+ * Function "f0".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T f0_(SimStruct *sim_struct);
+
+/**
+ * Function "f1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 static int_T f1_(SimStruct *sim_struct, int_T f1_x_);
+
+/**
+ * Function "f2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f2_x_ Function parameter "f2.x".
+ * @param f2_y_ Function parameter "f2.y".
+ * @return The return value of the function.
+ */
 static int_T f2_(SimStruct *sim_struct, int_T f2_x_, int_T f2_y_);
+
+/**
+ * Function "f3".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f3_x_ Function parameter "f3.x".
+ * @param f3_y_ Function parameter "f3.y".
+ * @param f3_z_ Function parameter "f3.z".
+ * @return The return value of the function.
+ */
 static real_T f3_(SimStruct *sim_struct, int_T f3_x_, int_T f3_y_, real_T f3_z_);
+
+/**
+ * Function "locals".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param locals_x_ Function parameter "locals.x".
+ * @return The return value of the function.
+ */
 static int_T locals_(SimStruct *sim_struct, int_T locals_x_);
+
+/**
+ * Function "rot1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rot1_x_tmp5 Function parameter "rot1.x".
+ * @return The return value of the function.
+ */
 static A4IType rot1_(SimStruct *sim_struct, A4IType* rot1_x_tmp5);
+
+/**
+ * Function "rot2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rot2_x_tmp5 Function parameter "rot2.x".
+ * @return The return value of the function.
+ */
 static A4IType rot2_(SimStruct *sim_struct, A4IType* rot2_x_tmp5);
+
+/**
+ * Function "fa".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param fa_x_ Function parameter "fa.x".
+ * @return The return value of the function.
+ */
 static int_T fa_(SimStruct *sim_struct, int_T fa_x_);
+
+/**
+ * Function "fi".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param fi_x_ Function parameter "fi.x".
+ * @return The return value of the function.
+ */
 static int_T fi_(SimStruct *sim_struct, int_T fi_x_);
+
+/**
+ * Function "fw".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fw_(SimStruct *sim_struct);
+
+/**
+ * Function "fu1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fu1_(SimStruct *sim_struct);
+
+/**
+ * Function "fu2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fu2_(SimStruct *sim_struct);
+
+/**
+ * Function "fu3".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fu3_(SimStruct *sim_struct);
+
+/**
+ * Function "fr".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fr_(SimStruct *sim_struct);
 /* }}} */
 
@@ -1542,6 +1690,14 @@ static int_T fr_(SimStruct *sim_struct);
 /* }}} */
 
 /* {{{ Function definitions. */
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1549,6 +1705,14 @@ static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "factorial".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param factorial_x_ Function parameter "factorial.x".
+ * @return The return value of the function.
+ */
 static int_T factorial_(SimStruct *sim_struct, int_T factorial_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1564,6 +1728,14 @@ static int_T factorial_(SimStruct *sim_struct, int_T factorial_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rec1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rec1_x_ Function parameter "rec1.x".
+ * @return The return value of the function.
+ */
 static int_T rec1_(SimStruct *sim_struct, int_T rec1_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1579,6 +1751,14 @@ static int_T rec1_(SimStruct *sim_struct, int_T rec1_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rec2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rec2_x_ Function parameter "rec2.x".
+ * @return The return value of the function.
+ */
 static int_T rec2_(SimStruct *sim_struct, int_T rec2_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1594,6 +1774,13 @@ static int_T rec2_(SimStruct *sim_struct, int_T rec2_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "multi_return".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static T2IRType multi_return_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1606,6 +1793,13 @@ static T2IRType multi_return_(SimStruct *sim_struct) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f0".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T f0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1613,6 +1807,14 @@ static int_T f0_(SimStruct *sim_struct) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1620,6 +1822,15 @@ static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f2_x_ Function parameter "f2.x".
+ * @param f2_y_ Function parameter "f2.y".
+ * @return The return value of the function.
+ */
 static int_T f2_(SimStruct *sim_struct, int_T f2_x_, int_T f2_y_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1627,6 +1838,16 @@ static int_T f2_(SimStruct *sim_struct, int_T f2_x_, int_T f2_y_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f3".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f3_x_ Function parameter "f3.x".
+ * @param f3_y_ Function parameter "f3.y".
+ * @param f3_z_ Function parameter "f3.z".
+ * @return The return value of the function.
+ */
 static real_T f3_(SimStruct *sim_struct, int_T f3_x_, int_T f3_y_, real_T f3_z_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1634,6 +1855,14 @@ static real_T f3_(SimStruct *sim_struct, int_T f3_x_, int_T f3_y_, real_T f3_z_)
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "locals".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param locals_x_ Function parameter "locals.x".
+ * @return The return value of the function.
+ */
 static int_T locals_(SimStruct *sim_struct, int_T locals_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1648,6 +1877,14 @@ static int_T locals_(SimStruct *sim_struct, int_T locals_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rot1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rot1_x_tmp5 Function parameter "rot1.x".
+ * @return The return value of the function.
+ */
 static A4IType rot1_(SimStruct *sim_struct, A4IType* rot1_x_tmp5) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1683,6 +1920,14 @@ static A4IType rot1_(SimStruct *sim_struct, A4IType* rot1_x_tmp5) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "rot2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param rot2_x_tmp5 Function parameter "rot2.x".
+ * @return The return value of the function.
+ */
 static A4IType rot2_(SimStruct *sim_struct, A4IType* rot2_x_tmp5) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1721,6 +1966,14 @@ static A4IType rot2_(SimStruct *sim_struct, A4IType* rot2_x_tmp5) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fa".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param fa_x_ Function parameter "fa.x".
+ * @return The return value of the function.
+ */
 static int_T fa_(SimStruct *sim_struct, int_T fa_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1772,6 +2025,14 @@ static int_T fa_(SimStruct *sim_struct, int_T fa_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fi".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param fi_x_ Function parameter "fi.x".
+ * @return The return value of the function.
+ */
 static int_T fi_(SimStruct *sim_struct, int_T fi_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1819,6 +2080,13 @@ static int_T fi_(SimStruct *sim_struct, int_T fi_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fw".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fw_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1841,6 +2109,13 @@ static int_T fw_(SimStruct *sim_struct) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fu1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fu1_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1852,6 +2127,13 @@ static int_T fu1_(SimStruct *sim_struct) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fu2".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fu2_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1861,6 +2143,13 @@ static int_T fu2_(SimStruct *sim_struct) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fu3".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fu3_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
@@ -1872,6 +2161,13 @@ static int_T fu3_(SimStruct *sim_struct) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "fr".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @return The return value of the function.
+ */
 static int_T fr_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 

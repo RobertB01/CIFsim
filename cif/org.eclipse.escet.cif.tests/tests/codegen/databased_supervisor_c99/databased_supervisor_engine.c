@@ -251,6 +251,14 @@ const char *enum_names[] = {
 A12T3IIIType bdd_nodes_;
 
 /* Functions. */
+
+/**
+ * Function "bdd_eval".
+ *
+ * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
+ * @param bdd_eval_values_tmp2 Function parameter "bdd_eval.values".
+ * @return The return value of the function.
+ */
 BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {
     A6BType bdd_eval_values_ = *(bdd_eval_values_tmp2);
     T3IIIType bdd_eval_node_;

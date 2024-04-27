@@ -429,7 +429,7 @@ public abstract class databased_supervisor {
 
 
     /**
-     * Evaluation for function "bdd_eval".
+     * Function "bdd_eval".
      *
      * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
      * @param bdd_eval_values_ Function parameter "bdd_eval.values".

@@ -273,6 +273,13 @@ const char *enum_names[] = {
 IntType x1_;
 
 /* Functions. */
+
+/**
+ * Function "f1".
+ *
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 IntType f1_(IntType f1_x_) {
     while (((f1_x_) != (0)) && ((f1_x_) != (4))) {
         f1_x_ = IntegerSubtract(f1_x_, 1);
@@ -288,6 +295,13 @@ IntType f1_(IntType f1_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 IntType inc_(IntType inc_x_) {
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
