@@ -336,6 +336,7 @@ public abstract class various {
      * @return The return value of the function.
      */
     public static int inc_(int inc_x_) {
+        // Execute statements in function body.
         if (true) return addInt(inc_x_, 1);
         throw new RuntimeException("no return at end of func");
     }

@@ -247,6 +247,7 @@ const char *enum_names[] = {
  * @return The return value of the function.
  */
 IntType inc_(IntType inc_x_) {
+    // Execute statements in function body.
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
@@ -259,6 +260,7 @@ IntType inc_(IntType inc_x_) {
  * @return The return value of the function.
  */
 IntType factorial_(IntType factorial_x_) {
+    // Execute statements in function body.
     {
         IntType if_dest5;
         if ((factorial_x_) == (0)) {
@@ -279,6 +281,7 @@ IntType factorial_(IntType factorial_x_) {
  * @return The return value of the function.
  */
 IntType rec1_(IntType rec1_x_) {
+    // Execute statements in function body.
     {
         IntType if_dest5;
         if ((rec1_x_) == (0)) {
@@ -299,6 +302,7 @@ IntType rec1_(IntType rec1_x_) {
  * @return The return value of the function.
  */
 IntType rec2_(IntType rec2_x_) {
+    // Execute statements in function body.
     {
         IntType if_dest5;
         if ((rec2_x_) == (0)) {
@@ -318,6 +322,7 @@ IntType rec2_(IntType rec2_x_) {
  * @return The return value of the function.
  */
 T2IRType multi_return_() {
+    // Execute statements in function body.
     {
         T2IRType tuple_tmp5;
         (tuple_tmp5)._field0 = 1;
@@ -334,6 +339,7 @@ T2IRType multi_return_() {
  * @return The return value of the function.
  */
 IntType f0_() {
+    // Execute statements in function body.
     return 1;
     assert(0); /* Falling through the end of the function. */
 }
@@ -346,6 +352,7 @@ IntType f0_() {
  * @return The return value of the function.
  */
 IntType f1_(IntType f1_x_) {
+    // Execute statements in function body.
     return f1_x_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -359,6 +366,7 @@ IntType f1_(IntType f1_x_) {
  * @return The return value of the function.
  */
 IntType f2_(IntType f2_x_, IntType f2_y_) {
+    // Execute statements in function body.
     return IntegerAdd(f2_x_, f2_y_);
     assert(0); /* Falling through the end of the function. */
 }
@@ -373,6 +381,7 @@ IntType f2_(IntType f2_x_, IntType f2_y_) {
  * @return The return value of the function.
  */
 RealType f3_(IntType f3_x_, IntType f3_y_, RealType f3_z_) {
+    // Execute statements in function body.
     return RealAdd(IntegerAdd(f3_x_, f3_y_), f3_z_);
     assert(0); /* Falling through the end of the function. */
 }
@@ -385,13 +394,19 @@ RealType f3_(IntType f3_x_, IntType f3_y_, RealType f3_z_) {
  * @return The return value of the function.
  */
 IntType locals_(IntType locals_x_) {
+    // Variable "locals.a".
     IntType locals_a_;
     locals_a_ = 5;
+
+    // Variable "locals.c".
     IntType locals_c_;
     locals_c_ = locals_a_;
+
+    // Variable "locals.b".
     IntType locals_b_;
     locals_b_ = IntegerAdd(locals_c_, locals_x_);
 
+    // Execute statements in function body.
     return locals_b_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -404,10 +419,14 @@ IntType locals_(IntType locals_x_) {
  * @return The return value of the function.
  */
 A4IType rot1_(A4IType* rot1_x_tmp5) {
+    // Parameter "rot1.x".
     A4IType rot1_x_ = *(rot1_x_tmp5);
+
+    // Variable "rot1.tmp".
     IntType rot1_tmp_;
     rot1_tmp_ = A4ITypeProject(&(rot1_x_), 0);
 
+    // Execute statements in function body.
     {
         IntType rhs6 = A4ITypeProject(&(rot1_x_), 3);
         IntType index7 = 0;
@@ -444,13 +463,17 @@ A4IType rot1_(A4IType* rot1_x_tmp5) {
  * @return The return value of the function.
  */
 A4IType rot2_(A4IType* rot2_x_tmp5) {
+    // Parameter "rot2.x".
     A4IType rot2_x_ = *(rot2_x_tmp5);
+
+    // Variable "rot2.rslt".
     A4IType rot2_rslt_;
     (rot2_rslt_).data[0] = 0;
     (rot2_rslt_).data[1] = 0;
     (rot2_rslt_).data[2] = 0;
     (rot2_rslt_).data[3] = 0;
 
+    // Execute statements in function body.
     {
         IntType rhs6 = A4ITypeProject(&(rot2_x_), 3);
         IntType index7 = 0;
@@ -487,18 +510,26 @@ A4IType rot2_(A4IType* rot2_x_tmp5) {
  * @return The return value of the function.
  */
 IntType fa_(IntType fa_x_) {
+    // Variable "fa.y".
     A3IType fa_y_;
     (fa_y_).data[0] = fa_x_;
     (fa_y_).data[1] = fa_x_;
     (fa_y_).data[2] = fa_x_;
+
+    // Variable "fa.a".
     IntType fa_a_;
     fa_a_ = fa_x_;
+
+    // Variable "fa.b".
     IntType fa_b_;
     fa_b_ = IntegerAdd(fa_x_, 1);
+
+    // Variable "fa.t".
     T2IIType fa_t_;
     (fa_t_)._field0 = 0;
     (fa_t_)._field1 = 0;
 
+    // Execute statements in function body.
     {
         IntType rhs5 = 1;
         IntType index6 = 0;
@@ -543,6 +574,7 @@ IntType fa_(IntType fa_x_) {
  * @return The return value of the function.
  */
 IntType fi_(IntType fi_x_) {
+    // Execute statements in function body.
     if ((fi_x_) == (1)) {
         fi_x_ = IntegerAdd(fi_x_, 1);
     }
@@ -594,9 +626,11 @@ IntType fi_(IntType fi_x_) {
  * @return The return value of the function.
  */
 IntType fw_() {
+    // Variable "fw.x".
     IntType fw_x_;
     fw_x_ = 0;
 
+    // Execute statements in function body.
     while ((fw_x_) > (0)) {
         while ((fw_x_) < (10)) {
             if (((fw_x_) % (2)) == (1)) {
@@ -620,6 +654,7 @@ IntType fw_() {
  * @return The return value of the function.
  */
 IntType fu1_() {
+    // Execute statements in function body.
     if (TRUE) {
         return 1;
     }
@@ -635,6 +670,7 @@ IntType fu1_() {
  * @return The return value of the function.
  */
 IntType fu2_() {
+    // Execute statements in function body.
     return 1;
 
     return 0;
@@ -648,6 +684,7 @@ IntType fu2_() {
  * @return The return value of the function.
  */
 IntType fu3_() {
+    // Execute statements in function body.
     while (TRUE) {
         return 1;
     }
@@ -663,15 +700,19 @@ IntType fu3_() {
  * @return The return value of the function.
  */
 IntType fr_() {
+    // Variable "fr.x".
     A3IType fr_x_;
     (fr_x_).data[0] = 1;
     (fr_x_).data[1] = 2;
     (fr_x_).data[2] = 3;
+
+    // Variable "fr.y".
     A3IType fr_y_;
     (fr_y_).data[0] = 2;
     (fr_y_).data[1] = 3;
     (fr_y_).data[2] = 4;
 
+    // Execute statements in function body.
     {
         A3IType rhs5 = fr_y_;
         #if CHECK_RANGES

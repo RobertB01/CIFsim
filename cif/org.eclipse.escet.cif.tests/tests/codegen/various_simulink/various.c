@@ -1446,6 +1446,7 @@ static real_T deriv01(SimStruct *sim_struct) {
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
+    /* Execute statements in function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }

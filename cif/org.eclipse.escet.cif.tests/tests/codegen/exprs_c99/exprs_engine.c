@@ -280,6 +280,7 @@ IntType x1_;
  * @return The return value of the function.
  */
 IntType f1_(IntType f1_x_) {
+    // Execute statements in function body.
     while (((f1_x_) != (0)) && ((f1_x_) != (4))) {
         f1_x_ = IntegerSubtract(f1_x_, 1);
     }
@@ -302,6 +303,7 @@ IntType f1_(IntType f1_x_) {
  * @return The return value of the function.
  */
 IntType inc_(IntType inc_x_) {
+    // Execute statements in function body.
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }

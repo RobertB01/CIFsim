@@ -1532,14 +1532,20 @@ static A6BType bdd_values_(SimStruct *sim_struct) {
 static BoolType bdd_eval_(SimStruct *sim_struct, int_T bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
+    /* Parameter "bdd_eval.values". */
     A6BType bdd_eval_values_ = *(bdd_eval_values_tmp2);
+
+    /* Variable "bdd_eval.node". */
     T3IIIType bdd_eval_node_;
     (bdd_eval_node_)._field0 = 0;
     (bdd_eval_node_)._field1 = 0;
     (bdd_eval_node_)._field2 = 0;
+
+    /* Variable "bdd_eval.val". */
     BoolType bdd_eval_val_;
     bdd_eval_val_ = FALSE;
 
+    /* Execute statements in function body. */
     while ((bdd_eval_idx_) >= (0)) {
         bdd_eval_node_ = *(A12T3IIITypeProject(&(work->bdd_nodes_), bdd_eval_idx_));
 

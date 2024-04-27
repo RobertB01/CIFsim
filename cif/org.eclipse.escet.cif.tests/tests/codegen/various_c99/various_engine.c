@@ -184,6 +184,7 @@ const char *enum_names[] = {
  * @return The return value of the function.
  */
 IntType inc_(IntType inc_x_) {
+    // Execute statements in function body.
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
