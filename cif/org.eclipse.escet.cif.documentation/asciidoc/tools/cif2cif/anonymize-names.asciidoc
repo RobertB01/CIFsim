@@ -92,6 +92,9 @@ The following table indicates the prefixes that are used for the different kinds
 |`func`
 |<<lang-tut-functions-chapter-intro,User-defined function>>
 
+|`fvar`
+|<<lang-tut-functions-chapter-internal-functions,Variable>> in an internal user-defined function
+
 |`grp`
 |<<lang-tut-reuse2-chapter-groups,Group>>
 
