@@ -155,7 +155,7 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
     }
 
     /**
-     * Process the type of an algebraic variable.
+     * Process the type of a constant.
      *
      * @param constant Constant to check.
      * @param violations Collected violations, may get extended in-place.
@@ -177,7 +177,7 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
     }
 
     /**
-     * Process the type of a discrete variable.
+     * Process the type of a discrete variable, function parameter or function variable.
      *
      * @param discVar Discrete variable to check.
      * @param varKind Kind of variable.
@@ -246,7 +246,7 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
     }
 
     /**
-     * Process the return types of a internal user-defined function.
+     * Process the return types of an internal user-defined function.
      *
      * @param func Internal user-defined function to check.
      * @param violations Collected violations, may get extended in-place.
