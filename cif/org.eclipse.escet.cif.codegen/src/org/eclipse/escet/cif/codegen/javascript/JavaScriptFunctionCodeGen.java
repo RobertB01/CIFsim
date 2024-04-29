@@ -153,7 +153,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
         }
 
         // Generate statements.
-        code.add("// Execute statements in function body.");
+        code.add("// Execute statements in the function body.");
         addFuncStatements(func.getStatements(), code, ctxt);
 
         // Generate 'throw' statement at the end of the body, to ensure JavaScript

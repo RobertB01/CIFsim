@@ -216,7 +216,7 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
         defCode.indent();
         defCode.add(vardeclCode);
 
-        defCode.add("/* Execute statements in function body. */");
+        defCode.add("/* Execute statements in the function body. */");
         this.addFuncStatements(function.getStatements(), defCode, ctxt);
 
         defCode.add("assert(0); /* Falling through the end of the function. */");
