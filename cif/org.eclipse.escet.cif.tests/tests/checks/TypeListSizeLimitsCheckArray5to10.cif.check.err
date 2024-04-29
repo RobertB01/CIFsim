@@ -1,0 +1,79 @@
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 56, column 14: Event "X.voidChannel" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 57, column 27: Event "X.longArrayChannel" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 58, column 26: Event "X.longListChannel" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 59, column 18: Event "X.unboundedChannel" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 60, column 9: Event "X.normalEvent" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 72, column 24: Variable "someFunc.va" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 73, column 21: Variable "someFunc.pv" is not used anywhere in the specification.
+WARNING: File "checks/TypeListSizeLimitsCheckArray5to10.cif": Semantic warning at line 74, column 7: Variable "someFunc.vc" is not used anywhere in the specification.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------------------------------------
+  (1/10) Array type of a discrete variable allows arrays with less than 5 elements.
+  ---------------------------------------------------------------------------------
+   * In discrete variable "X.tooShortDiscArray":
+     - disc list[2] bool tooShortDiscArray;
+            ^
+
+  ----------------------------------------------------------------------------------
+  (2/10) Array type of a discrete variable allows arrays with more than 10 elements.
+  ----------------------------------------------------------------------------------
+   * In discrete variable "X.tooLongDiscArray":
+     - disc list[22] bool tooLongDiscArray;
+            ^
+
+  ---------------------------------------------------------------------------------------------------
+  (3/10) Array type of a return type of function "someFunc" allows arrays with more than 10 elements.
+  ---------------------------------------------------------------------------------------------------
+   * In type declaration "typeUsedLongArray":
+     - type typeUsedLongArray = list[13] int;
+                                ^
+
+  -----------------------------------------------------------------------------------
+  (4/10) Array type of an algebraic variable allows arrays with less than 5 elements.
+  -----------------------------------------------------------------------------------
+   * In algebraic variable "X.oneTooShortAlgArray":
+     - alg list[4] int oneTooShortAlgArray = [1, 2, 3, 4];
+           ^
+
+  ------------------------------------------------------------------------------------
+  (5/10) Array type of an algebraic variable allows arrays with more than 10 elements.
+  ------------------------------------------------------------------------------------
+   * In algebraic variable "X.oneTooLongAlgArray":
+     - alg list[11] int oneTooLongAlgArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1];
+           ^
+
+  -------------------------------------------------------------------------------------------
+  (6/10) Array type of channel "X.longArrayChannel" allows arrays with more than 10 elements.
+  -------------------------------------------------------------------------------------------
+   * In type declaration "typeUsedLongArray":
+     - type typeUsedLongArray = list[13] int;
+                                ^
+
+  -------------------------------------------------------------------------------------
+  (7/10) Array type of constant "X.declArray" allows arrays with more than 10 elements.
+  -------------------------------------------------------------------------------------
+   * In type declaration "typeUsedLongArray":
+     - type typeUsedLongArray = list[13] int;
+                                ^
+
+  ------------------------------------------------------------------------------------------------------
+  (8/10) Array type of discrete variable "X.badMatrixSubArray" allows arrays with more than 10 elements.
+  ------------------------------------------------------------------------------------------------------
+   * In type declaration "typeBadSubArray":
+     - type typeBadSubArray = list[15] int;
+                              ^
+
+  -----------------------------------------------------------------------------------------------
+  (9/10) Array type of function parameter "someFunc.pb" allows arrays with more than 10 elements.
+  -----------------------------------------------------------------------------------------------
+   * In type declaration "typeUsedLongArray":
+     - type typeUsedLongArray = list[13] int;
+                                ^
+
+  -----------------------------------------------------------------------------------------------
+  (10/10) Array type of function variable "someFunc.pv" allows arrays with more than 10 elements.
+  -----------------------------------------------------------------------------------------------
+   * In type declaration "typeUsedLongArray":
+     - type typeUsedLongArray = list[13] int;
+                                ^
