@@ -409,7 +409,7 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcEnumType} instance to its declaration.
+     * Convert a {@link PlcEnumType} declaration to a {@link Box} text.
      *
      * @param enumType Enum type to convert.
      * @return The generated box representation.
@@ -458,7 +458,7 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcStructType} instance to a {@link Box} text.
+     * Convert a {@link PlcStructType} reference to a {@link Box} text.
      *
      * @param structType Struct type to convert.
      * @return The generated box representation.
@@ -468,7 +468,7 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcEnumType} instance to a {@link Box} text.
+     * Convert a {@link PlcEnumType} reference to a {@link Box} text.
      *
      * @param enumType Enum type to convert.
      * @return The generated box representation.

@@ -390,7 +390,7 @@ public class ExprGeneratorTest {
         @Override
         public PlcEnumType convertEnumDecl(EnumDecl enumDecl) {
             List<String> values = enumDecl.getLiterals().stream().map(lit -> lit.getName()).collect(Lists.toList());
-            return new PlcEnumType("enumType", values);
+            return new PlcEnumType(enumDecl.getName(), values);
         }
     }
 

@@ -532,16 +532,14 @@ public class TwinCatWriter extends Writer {
     private void genCodeFile(PlcDeclaredType declaredType) {
         String typeName;
         String declarationText;
-        {
-            if (declaredType instanceof PlcStructType structType) {
-                typeName = structType.typeName;
-                declarationText = toTypeDeclBox(structType).toString();
-            } else if (declaredType instanceof PlcEnumType enumType) {
-                typeName = enumType.typeName;
-                declarationText = toTypeDeclBox(enumType).toString();
-            } else {
-                throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
-            }
+        if (declaredType instanceof PlcStructType structType) {
+            typeName = structType.typeName;
+            declarationText = toTypeDeclBox(structType).toString();
+        } else if (declaredType instanceof PlcEnumType enumType) {
+            typeName = enumType.typeName;
+            declarationText = toTypeDeclBox(enumType).toString();
+        } else {
+            throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
 
         // Generate XML document.

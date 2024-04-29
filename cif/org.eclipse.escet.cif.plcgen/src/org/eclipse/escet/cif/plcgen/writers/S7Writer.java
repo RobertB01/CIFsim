@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
@@ -35,7 +34,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -177,7 +175,7 @@ public class S7Writer extends Writer {
     }
 
     /**
-     * Writes the declaration of the given declared type to a file in S7 syntax.
+     * Writes the type declaration of the given struct type to a file in S7 syntax.
      *
      * @param structType The structure type to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -189,7 +187,7 @@ public class S7Writer extends Writer {
     }
 
     /**
-     * Writes the declaration of the given declared type to a file in S7 syntax.
+     * Writes the type declaration of the given enum type to a file in S7 syntax.
      *
      * @param enumType The enum type to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -391,35 +389,6 @@ public class S7Writer extends Writer {
         // Close POU.
         c.add("END_%s", pouTypeText);
 
-        return c;
-    }
-
-    @Override
-    protected Box toTypeDeclBox(PlcStructType structType) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", structType.typeName);
-        c.indent();
-        c.add("STRUCT");
-        c.indent();
-        for (PlcStructField field: structType.fields) {
-            // Only name and type, not address.
-            c.add("%s: %s;", field.fieldName, toTypeRefBox(field.type));
-        }
-        c.dedent();
-        c.add("END_STRUCT;");
-        c.dedent();
-        c.add("END_TYPE");
-        return c;
-    }
-
-    @Override
-    protected Box toTypeDeclBox(PlcEnumType enumType) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", enumType.typeName);
-        c.indent();
-        c.add("(%s);", enumType.literals.stream().map(lit -> lit.value).collect(Collectors.joining(", ")));
-        c.dedent();
-        c.add("END_TYPE");
         return c;
     }
 }
