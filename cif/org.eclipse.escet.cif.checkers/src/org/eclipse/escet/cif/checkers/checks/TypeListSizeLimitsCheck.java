@@ -100,18 +100,18 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
     @Override
     protected void preprocessDeclaration(Declaration decl, CifCheckViolations violations) {
         if (decl instanceof AlgVariable algVar) {
-            handleAlgVar(algVar, violations);
+            checkAlgVar(algVar, violations);
         } else if (decl instanceof Constant constant) {
-            handleConstant(constant, violations);
+            checkConstant(constant, violations);
         } else if (decl instanceof ContVariable) {
             return; // Continuous variable does not have a list type.
         } else if (decl instanceof DiscVariable discVar) {
             if (decl.eContainer() instanceof InternalFunction) {
-                handleDiscVar(discVar, "function variable", violations);
+                checkDiscVar(discVar, "function variable", violations);
             } else if (decl.eContainer() instanceof FunctionParameter) {
-                handleDiscVar(discVar, "function parameter", violations);
+                checkDiscVar(discVar, "function parameter", violations);
             } else {
-                handleDiscVar(discVar, "discrete variable", violations);
+                checkDiscVar(discVar, "discrete variable", violations);
             }
         } else if (decl instanceof EnumDecl) {
             return;
@@ -119,25 +119,25 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
             if (event.getType() == null) {
                 return;
             }
-            handleChannel(event, violations);
+            checkChannel(event, violations);
         } else if (decl instanceof InputVariable inpVar) {
-            handleInputVar(inpVar, violations);
+            checkInputVar(inpVar, violations);
         } else if (decl instanceof TypeDecl) {
             return; // Examined in declaration usage context.
         } else if (decl instanceof Function func) {
-            handleFunction(func, violations);
+            checkFunction(func, violations);
         } else {
             throw new AssertionError("Unexpected declaration \"" + decl + "\" found.");
         }
     }
 
     /**
-     * Process the type of an algebraic variable.
+     * Check the type of an algebraic variable.
      *
      * @param algVar Algebraic variable to check.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void handleAlgVar(AlgVariable algVar, CifCheckViolations violations) {
+    private void checkAlgVar(AlgVariable algVar, CifCheckViolations violations) {
         List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(algVar.getType());
         if (collectedListTypes.isEmpty()) {
             return;
@@ -150,17 +150,17 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
                     ? fmt("%s type of algebraic variable \"%s\" allows", typeCamelText,
                             CifTextUtils.getAbsName(algVar, false))
                     : fmt("%s type of an algebraic variable allows", typeCamelText);
-            report(listType, text, violations);
+            checkType(listType, text, violations);
         }
     }
 
     /**
-     * Process the type of a constant.
+     * Check the type of a constant.
      *
      * @param constant Constant to check.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void handleConstant(Constant constant, CifCheckViolations violations) {
+    private void checkConstant(Constant constant, CifCheckViolations violations) {
         List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(constant.getType());
         if (collectedListTypes.isEmpty()) {
             return;
@@ -172,18 +172,18 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
             String text = isTypeInTypeDeclaration(listType)
                     ? fmt("%s type of constant \"%s\" allows", typeCamelText, CifTextUtils.getAbsName(constant, false))
                     : fmt("%s type of a constant allows", typeCamelText);
-            report(listType, text, violations);
+            checkType(listType, text, violations);
         }
     }
 
     /**
-     * Process the type of a discrete variable, function parameter or function variable.
+     * Check the type of a discrete variable, function parameter or function variable.
      *
      * @param discVar Discrete variable to check.
      * @param varKind Kind of variable.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void handleDiscVar(DiscVariable discVar, String varKind, CifCheckViolations violations) {
+    private void checkDiscVar(DiscVariable discVar, String varKind, CifCheckViolations violations) {
         List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(discVar.getType());
         if (collectedListTypes.isEmpty()) {
             return;
@@ -196,17 +196,17 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
                     ? fmt("%s type of %s \"%s\" allows", typeCamelText, varKind,
                             CifTextUtils.getAbsName(discVar, false))
                     : fmt("%s type of a %s allows", typeCamelText, varKind);
-            report(listType, text, violations);
+            checkType(listType, text, violations);
         }
     }
 
     /**
-     * Process the type of a channel.
+     * Check the type of a channel.
      *
      * @param channel Channel to check.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void handleChannel(Event channel, CifCheckViolations violations) {
+    private void checkChannel(Event channel, CifCheckViolations violations) {
         List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(channel.getType());
         if (collectedListTypes.isEmpty()) {
             return;
@@ -218,17 +218,17 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
             String text = isTypeInTypeDeclaration(listType)
                     ? fmt("%s type of channel \"%s\" allows", typeCamelText, CifTextUtils.getAbsName(channel, false))
                     : fmt("%s type of a channel allows", typeCamelText);
-            report(listType, text, violations);
+            checkType(listType, text, violations);
         }
     }
 
     /**
-     * Process the type of an input variable.
+     * Check the type of an input variable.
      *
      * @param inputVar Input variable to check.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void handleInputVar(InputVariable inputVar, CifCheckViolations violations) {
+    private void checkInputVar(InputVariable inputVar, CifCheckViolations violations) {
         List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(inputVar.getType());
         if (collectedListTypes.isEmpty()) {
             return;
@@ -241,17 +241,17 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
                     ? fmt("%s type of input variable \"%s\" allows", typeCamelText,
                             CifTextUtils.getAbsName(inputVar, false))
                     : fmt("%s type of an input variable allows", typeCamelText);
-            report(listType, text, violations);
+            checkType(listType, text, violations);
         }
     }
 
     /**
-     * Process the return types of an internal user-defined function.
+     * Check the return types of an internal user-defined function.
      *
      * @param func Internal user-defined function to check.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void handleFunction(Function func, CifCheckViolations violations) {
+    private void checkFunction(Function func, CifCheckViolations violations) {
         List<ListType> collectedListTypes = listTypesGrabber.collectListTypes(func.getReturnTypes());
         if (collectedListTypes.isEmpty()) {
             return;
@@ -264,18 +264,18 @@ public class TypeListSizeLimitsCheck extends CifCheckNoCompDefInst {
                     ? fmt("%s type of a return type of function \"%s\" allows", typeCamelText,
                             CifTextUtils.getAbsName(func, false))
                     : fmt("%s type of a return type of a function allows", typeCamelText);
-            report(listType, text, violations);
+            checkType(listType, text, violations);
         }
     }
 
     /**
-     * Report any found violations of the give list type aginst the specific limits.
+     * Check the list type and report any found violations against the specified limits.
      *
      * @param listType Type to check.
      * @param explainText Text describing the object being checked.
      * @param violations Collected violations, may get extended in-place.
      */
-    private void report(ListType listType, String explainText, CifCheckViolations violations) {
+    private void checkType(ListType listType, String explainText, CifCheckViolations violations) {
         if (CifTypeUtils.isArrayType(listType)) {
             // Array type.
 
