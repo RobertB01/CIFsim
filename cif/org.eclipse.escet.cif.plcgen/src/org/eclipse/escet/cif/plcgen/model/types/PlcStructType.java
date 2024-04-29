@@ -41,7 +41,7 @@ public class PlcStructType extends PlcType implements PlcDeclaredType {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof PlcStructType otherStructType) || !typeName.equals((otherStructType.typeName))
+        if (!(other instanceof PlcStructType otherStructType) || !typeName.equals(otherStructType.typeName)
                 || fields.size() != otherStructType.fields.size())
         {
             return false;

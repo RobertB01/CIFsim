@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.declarations;
 
-/** Interface for expressing that a type wants to use a name for itself in the code. */
+/** Interface for types declared with a name. */
 public interface PlcDeclaredType {
     // Empty.
 }

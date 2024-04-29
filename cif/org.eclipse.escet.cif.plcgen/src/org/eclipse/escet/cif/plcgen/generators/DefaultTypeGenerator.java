@@ -65,7 +65,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
      *
      * <p>
      * The map combines compatible enumerations (as defined by {@link CifTypeUtils#areEnumsCompatible}) to one
-     * information instance.
+     * PLC enumeration type.
      * </p>
      */
     private final Map<EnumDeclEqHashWrap, PlcEnumType> enumTypes = map();
@@ -149,10 +149,10 @@ public class DefaultTypeGenerator implements TypeGenerator {
     }
 
     /**
-     * Create the equivalent enumeration type and values to use in the PLC for the given declaration.
+     * Make a new enumeration type.
      *
      * @param enumDecl Enumeration declaration to convert.
-     * @return The created equivalent PLC type.
+     * @return The created PLC type.
      */
     public PlcEnumType makePlcEnumType(EnumDecl enumDecl) {
         // Ensure enum conversion is only done when they are supposed to be used.

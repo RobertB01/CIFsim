@@ -376,7 +376,7 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcStructType} instance to its declaration.
+     * Convert a {@link PlcStructType} declaration to a {@link Box} text.
      *
      * @param structType Struct type to convert.
      * @return The generated box representation.

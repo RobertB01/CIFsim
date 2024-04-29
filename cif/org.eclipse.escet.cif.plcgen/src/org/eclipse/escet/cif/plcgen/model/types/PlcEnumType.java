@@ -22,7 +22,7 @@ import org.eclipse.escet.common.java.Lists;
 
 /** PLC enum type. */
 public class PlcEnumType extends PlcType implements PlcDeclaredType {
-    /** Name of the type. */
+    /** Name of the enum type. */
     public final String typeName;
 
     /** The literals of the enum type. */

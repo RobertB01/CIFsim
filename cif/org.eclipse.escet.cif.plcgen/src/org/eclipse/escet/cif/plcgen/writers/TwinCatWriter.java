@@ -527,7 +527,7 @@ public class TwinCatWriter extends Writer {
     /**
      * Generates code file for a PLC declared type.
      *
-     * @param declaredType The PLC declared type..
+     * @param declaredType The PLC declared type.
      */
     private void genCodeFile(PlcDeclaredType declaredType) {
         String typeName;
