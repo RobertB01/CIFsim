@@ -273,7 +273,7 @@ BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {
     BoolType bdd_eval_val_;
     bdd_eval_val_ = FALSE;
 
-    // Execute statements in function body.
+    // Execute statements in the function body.
     while ((bdd_eval_idx_) >= (0)) {
         bdd_eval_node_ = *(A12T3IIITypeProject(&(bdd_nodes_), bdd_eval_idx_));
 

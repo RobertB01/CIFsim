@@ -142,7 +142,7 @@ BoolType funcs_func1_(BoolType funcs_func1_p_) {
     BoolType funcs_func1_v2_;
     funcs_func1_v2_ = funcs_func1_v1_;
 
-    // Execute statements in function body.
+    // Execute statements in the function body.
     return funcs_func1_v2_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -171,7 +171,7 @@ BoolType funcs_func2_(BoolType funcs_func2_p_) {
     BoolType funcs_func2_v2_;
     funcs_func2_v2_ = funcs_func2_v1_;
 
-    // Execute statements in function body.
+    // Execute statements in the function body.
     return funcs_func2_v2_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -208,7 +208,7 @@ BoolType funcs_func3_(BoolType funcs_func3_p_) {
     BoolType funcs_func3_v2_;
     funcs_func3_v2_ = funcs_func3_v1_;
 
-    // Execute statements in function body.
+    // Execute statements in the function body.
     return funcs_func3_v2_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -237,7 +237,7 @@ BoolType funcs_func4_(BoolType funcs_func4_p_) {
     BoolType funcs_func4_v2_;
     funcs_func4_v2_ = funcs_func4_v1_;
 
-    // Execute statements in function body.
+    // Execute statements in the function body.
     return funcs_func4_v2_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -278,7 +278,7 @@ BoolType funcs_func5_(BoolType funcs_func5_p_) {
     BoolType funcs_func5_v2_;
     funcs_func5_v2_ = funcs_func5_v1_;
 
-    // Execute statements in function body.
+    // Execute statements in the function body.
     return funcs_func5_v2_;
     assert(0); /* Falling through the end of the function. */
 }

@@ -450,7 +450,7 @@ public abstract class declarations {
      * @return The return value of the function.
      */
     public static int inc_(int inc_x_) {
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return addInt(inc_x_, 1);
         throw new RuntimeException("no return at end of func");
     }
@@ -477,7 +477,7 @@ public abstract class declarations {
         // Variable "f1.v2".
         double f1_v2_ = f1_v3_;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return addReal(addReal(addReal(addReal(f1_v1_, f1_v2_), f1_v3_), multiply(f1_v4_, f1_v5_)), f1_x_);
         throw new RuntimeException("no return at end of func");
     }

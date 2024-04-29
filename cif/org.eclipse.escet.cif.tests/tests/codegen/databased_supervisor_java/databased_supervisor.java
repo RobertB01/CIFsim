@@ -442,7 +442,7 @@ public abstract class databased_supervisor {
         // Variable "bdd_eval.val".
         boolean bdd_eval_val_ = false;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) while ((bdd_eval_idx_) >= (0)) {
             bdd_eval_node_ = project(bdd_nodes_, bdd_eval_idx_);
 

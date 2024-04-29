@@ -2154,7 +2154,7 @@ static real_T deriv01(SimStruct *sim_struct) {
 static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     while (((f1_x_) != (0)) && ((f1_x_) != (4))) {
         f1_x_ = IntegerSubtract(f1_x_, 1);
     }
@@ -2180,7 +2180,7 @@ static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }

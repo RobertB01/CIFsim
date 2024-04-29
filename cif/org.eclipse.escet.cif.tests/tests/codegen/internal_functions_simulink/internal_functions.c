@@ -1701,7 +1701,7 @@ static int_T fr_(SimStruct *sim_struct);
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
@@ -1717,7 +1717,7 @@ static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
 static int_T factorial_(SimStruct *sim_struct, int_T factorial_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         int_T if_dest5;
         if ((factorial_x_) == (0)) {
@@ -1741,7 +1741,7 @@ static int_T factorial_(SimStruct *sim_struct, int_T factorial_x_) {
 static int_T rec1_(SimStruct *sim_struct, int_T rec1_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         int_T if_dest5;
         if ((rec1_x_) == (0)) {
@@ -1765,7 +1765,7 @@ static int_T rec1_(SimStruct *sim_struct, int_T rec1_x_) {
 static int_T rec2_(SimStruct *sim_struct, int_T rec2_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         int_T if_dest5;
         if ((rec2_x_) == (0)) {
@@ -1788,7 +1788,7 @@ static int_T rec2_(SimStruct *sim_struct, int_T rec2_x_) {
 static T2IRType multi_return_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         T2IRType tuple_tmp5;
         (tuple_tmp5)._field0 = 1;
@@ -1808,7 +1808,7 @@ static T2IRType multi_return_(SimStruct *sim_struct) {
 static int_T f0_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return 1;
     assert(0); /* Falling through the end of the function. */
 }
@@ -1824,7 +1824,7 @@ static int_T f0_(SimStruct *sim_struct) {
 static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return f1_x_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -1841,7 +1841,7 @@ static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
 static int_T f2_(SimStruct *sim_struct, int_T f2_x_, int_T f2_y_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return IntegerAdd(f2_x_, f2_y_);
     assert(0); /* Falling through the end of the function. */
 }
@@ -1859,7 +1859,7 @@ static int_T f2_(SimStruct *sim_struct, int_T f2_x_, int_T f2_y_) {
 static real_T f3_(SimStruct *sim_struct, int_T f3_x_, int_T f3_y_, real_T f3_z_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return RealAdd(IntegerAdd(f3_x_, f3_y_), f3_z_);
     assert(0); /* Falling through the end of the function. */
 }
@@ -1887,7 +1887,7 @@ static int_T locals_(SimStruct *sim_struct, int_T locals_x_) {
     int_T locals_b_;
     locals_b_ = IntegerAdd(locals_c_, locals_x_);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return locals_b_;
     assert(0); /* Falling through the end of the function. */
 }
@@ -1910,7 +1910,7 @@ static A4IType rot1_(SimStruct *sim_struct, A4IType* rot1_x_tmp5) {
     int_T rot1_tmp_;
     rot1_tmp_ = A4ITypeProject(&(rot1_x_), 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         int_T rhs6 = A4ITypeProject(&(rot1_x_), 3);
         int_T index7 = 0;
@@ -1960,7 +1960,7 @@ static A4IType rot2_(SimStruct *sim_struct, A4IType* rot2_x_tmp5) {
     (rot2_rslt_).data[2] = 0;
     (rot2_rslt_).data[3] = 0;
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         int_T rhs6 = A4ITypeProject(&(rot2_x_), 3);
         int_T index7 = 0;
@@ -2019,7 +2019,7 @@ static int_T fa_(SimStruct *sim_struct, int_T fa_x_) {
     (fa_t_)._field0 = 0;
     (fa_t_)._field1 = 0;
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         int_T rhs5 = 1;
         int_T index6 = 0;
@@ -2067,7 +2067,7 @@ static int_T fa_(SimStruct *sim_struct, int_T fa_x_) {
 static int_T fi_(SimStruct *sim_struct, int_T fi_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     if ((fi_x_) == (1)) {
         fi_x_ = IntegerAdd(fi_x_, 1);
     }
@@ -2126,7 +2126,7 @@ static int_T fw_(SimStruct *sim_struct) {
     int_T fw_x_;
     fw_x_ = 0;
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     while ((fw_x_) > (0)) {
         while ((fw_x_) < (10)) {
             if (((fw_x_) % (2)) == (1)) {
@@ -2153,7 +2153,7 @@ static int_T fw_(SimStruct *sim_struct) {
 static int_T fu1_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     if (TRUE) {
         return 1;
     }
@@ -2172,7 +2172,7 @@ static int_T fu1_(SimStruct *sim_struct) {
 static int_T fu2_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     return 1;
 
     return 0;
@@ -2189,7 +2189,7 @@ static int_T fu2_(SimStruct *sim_struct) {
 static int_T fu3_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     while (TRUE) {
         return 1;
     }
@@ -2220,7 +2220,7 @@ static int_T fr_(SimStruct *sim_struct) {
     (fr_y_).data[1] = 3;
     (fr_y_).data[2] = 4;
 
-    /* Execute statements in function body. */
+    /* Execute statements in the function body. */
     {
         A3IType rhs5 = fr_y_;
         #if CHECK_RANGES

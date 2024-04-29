@@ -703,7 +703,7 @@ public abstract class annos_doc {
         // Variable "funcs.func1.v2".
         boolean funcs_func1_v2_ = funcs_func1_v1_;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return funcs_func1_v2_;
         throw new RuntimeException("no return at end of func");
     }
@@ -732,7 +732,7 @@ public abstract class annos_doc {
         // single line doc
         boolean funcs_func2_v2_ = funcs_func2_v1_;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return funcs_func2_v2_;
         throw new RuntimeException("no return at end of func");
     }
@@ -769,7 +769,7 @@ public abstract class annos_doc {
         //  text
         boolean funcs_func3_v2_ = funcs_func3_v1_;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return funcs_func3_v2_;
         throw new RuntimeException("no return at end of func");
     }
@@ -798,7 +798,7 @@ public abstract class annos_doc {
         // some doc
         boolean funcs_func4_v2_ = funcs_func4_v1_;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return funcs_func4_v2_;
         throw new RuntimeException("no return at end of func");
     }
@@ -842,7 +842,7 @@ public abstract class annos_doc {
         // Second doc line 2.
         boolean funcs_func5_v2_ = funcs_func5_v1_;
 
-        // Execute statements in function body.
+        // Execute statements in the function body.
         if (true) return funcs_func5_v2_;
         throw new RuntimeException("no return at end of func");
     }
