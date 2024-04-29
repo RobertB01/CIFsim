@@ -47,21 +47,21 @@ public class PlcEnumType extends PlcType implements PlcDeclaredType {
         if (!(other instanceof PlcEnumType enumType)) {
             return false;
         }
-        return literals.equals(enumType.literals);
+        return typeName.equals(enumType.typeName) && literals.equals(enumType.literals);
     }
 
     @Override
     public int hashCode() {
-        return literals.hashCode();
+        return typeName.hashCode() + 19 * literals.hashCode();
     }
 
     /**
      * Get an enum literal by its index.
      *
-     * @param literlIndex Index of the enum literal to provide.
+     * @param literalIndex Index of the enum literal to provide.
      * @return The requested enum literal.
      */
-    public PlcExpression getLiteral(int literlIndex) {
-        return literals.get(literlIndex);
+    public PlcExpression getLiteral(int literalIndex) {
+        return literals.get(literalIndex);
     }
 }

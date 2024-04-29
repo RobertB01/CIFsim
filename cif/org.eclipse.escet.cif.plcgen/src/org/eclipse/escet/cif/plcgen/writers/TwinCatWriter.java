@@ -644,7 +644,7 @@ public class TwinCatWriter extends Writer {
 
     @Override
     protected Box toTypeDeclBox(PlcStructType structType) {
-        // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
+        // Converts the declared type to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
         // specific, in that it implements a workaround for a bug in TwinCAT, where structs in type declarations
         // may not be terminated with a semicolon.
         CodeBox c = new MemoryCodeBox(INDENT);

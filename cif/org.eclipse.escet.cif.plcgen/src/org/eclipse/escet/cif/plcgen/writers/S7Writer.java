@@ -177,7 +177,7 @@ public class S7Writer extends Writer {
     }
 
     /**
-     * Writes the given type declaration to a file in S7 syntax.
+     * Writes the declaration of the given declared type to a file in S7 syntax.
      *
      * @param structType The structure type to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
@@ -189,7 +189,7 @@ public class S7Writer extends Writer {
     }
 
     /**
-     * Writes the given type declaration to a file in S7 syntax.
+     * Writes the declaration of the given declared type to a file in S7 syntax.
      *
      * @param enumType The enum type to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.

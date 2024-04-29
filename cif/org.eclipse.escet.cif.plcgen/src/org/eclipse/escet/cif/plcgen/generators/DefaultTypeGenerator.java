@@ -19,7 +19,6 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.escet.cif.common.CifEnumUtils.EnumDeclEqHashWrap;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -110,7 +109,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
     @Override
     public PlcStructType convertTupleType(TupleType tupleType) {
         TypeEqHashWrap typeWrap = new TypeEqHashWrap(tupleType, true, false);
-        return structTypes.computeIfAbsent(typeWrap, key -> makeStructType(tupleType));
+        return structTypes.computeIfAbsent(typeWrap, key -> makePlcStructType(tupleType));
     }
 
     /**
@@ -119,9 +118,9 @@ public class DefaultTypeGenerator implements TypeGenerator {
      * @param tupleType Tuple type to convert.
      * @return The created structure type.
      */
-    private PlcStructType makeStructType(TupleType tupleType) {
+    private PlcStructType makePlcStructType(TupleType tupleType) {
         // Convert the fields.
-        EList<Field> tupleFields = tupleType.getFields();
+        List<Field> tupleFields = tupleType.getFields();
         List<PlcStructField> structFields = listc(tupleFields.size());
         int fieldNumber = 1;
         for (Field field: tupleFields) {
@@ -137,7 +136,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
         PlcStructType structType = new PlcStructType(typeName, structFields);
 
         // Declare the type.
-        target.getCodeStorage().addTypeDecl(structType);
+        target.getCodeStorage().addDeclaredType(structType);
 
         return structType;
     }
@@ -165,10 +164,10 @@ public class DefaultTypeGenerator implements TypeGenerator {
                 .map(lit -> nameGenerator.generateGlobalName(CifTextUtils.getAbsName(lit, false), true))
                 .collect(Lists.toList());
 
-        // Construct the type and add it to the global type declarations.
+        // Construct the type and add it to the global declared types.
         String typeName = nameGenerator.generateGlobalName(CifTextUtils.getAbsName(enumDecl, false), true);
         PlcEnumType plcEnumType = new PlcEnumType(typeName, litNames);
-        target.getCodeStorage().addTypeDecl(plcEnumType);
+        target.getCodeStorage().addDeclaredType(plcEnumType);
 
         return plcEnumType;
     }

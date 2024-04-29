@@ -86,14 +86,12 @@ public class AbbWriter extends Writer {
      */
     private void writeDeclaredType(PlcDeclaredType declaredType, String outPath) {
         String typeName;
-        {
-            if (declaredType instanceof PlcStructType structType) {
-                typeName = structType.typeName;
-            } else if (declaredType instanceof PlcStructType enumType) {
-                typeName = enumType.typeName;
-            } else {
-                throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
-            }
+        if (declaredType instanceof PlcStructType structType) {
+            typeName = structType.typeName;
+        } else if (declaredType instanceof PlcStructType enumType) {
+            typeName = enumType.typeName;
+        } else {
+            throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
 
         String path = Paths.join(outPath, typeName + ".plctype");

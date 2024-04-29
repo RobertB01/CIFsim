@@ -259,7 +259,7 @@ public class PlcCodeStorage {
      *
      * @param declaredType Type to declare. Name of the type is assumed to be unique.
      */
-    public void addTypeDecl(PlcDeclaredType declaredType) {
+    public void addDeclaredType(PlcDeclaredType declaredType) {
         project.declaredTypes.add(declaredType);
     }
 

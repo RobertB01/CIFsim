@@ -23,7 +23,7 @@ public class PlcStructType extends PlcType implements PlcDeclaredType {
     public final String typeName;
 
     /** The fields of the struct type. */
-    public List<PlcStructField> fields;
+    public final List<PlcStructField> fields;
 
     /**
      * Constructor of the {@link PlcStructType} class.
@@ -59,9 +59,9 @@ public class PlcStructType extends PlcType implements PlcDeclaredType {
 
     @Override
     public int hashCode() {
-        int h = 0;
+        int h = typeName.hashCode();
         for (PlcStructField field: fields) {
-            h = h + field.fieldName.hashCode() + field.type.hashCode() * 23;
+            h = h + 47 * field.fieldName.hashCode() + 23 * field.type.hashCode();
         }
         return h;
     }
