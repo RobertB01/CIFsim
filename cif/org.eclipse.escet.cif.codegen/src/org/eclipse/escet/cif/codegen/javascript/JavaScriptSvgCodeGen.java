@@ -276,7 +276,8 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
         // elements from different images are properly selected.
         // - We use a mapping to generate only one field per SVG element.
         String outId = evalSvgStringExpr(svgOut.getId());
-        String querySelector = fmt("#%s #%s", svgWrapElemId, outId);
+        String querySelector = fmt("#%s #%s", JavaScriptCodeUtils.escapeCssIdentifier(svgWrapElemId),
+                JavaScriptCodeUtils.escapeCssIdentifier(outId));
         String fieldName = svgOutElemQueriesToFields.get(querySelector);
         if (fieldName == null) {
             fieldName = fmt("outElem%d", svgOutElemQueriesToFields.size());
@@ -340,7 +341,8 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
         // Get the query selector to select the interactive element. The query selector is prefixed with the wrapper id
         // of the SVG image, to ensure that identically named elements from different images are properly selected.
         String inId = evalSvgStringExpr(svgIn.getId());
-        String querySelector = fmt("#%s #%s", svgWrapElemId, inId);
+        String querySelector = fmt("#%s #%s", JavaScriptCodeUtils.escapeCssIdentifier(svgWrapElemId),
+                JavaScriptCodeUtils.escapeCssIdentifier(inId));
 
         // Get the name of the JavaScript click event handler function to generate for the SVG input mapping.
         String clickEventHandlerName = fmt("cif_svgin_%d_Click", uniqueId);

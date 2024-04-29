@@ -17,6 +17,9 @@ import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.Set;
 
+import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.svg.SvgNameUtils;
+
 /** JavaScript code utility methods. */
 public class JavaScriptCodeUtils {
     /** Constructor for the {@link JavaScriptCodeUtils} class. */
@@ -113,5 +116,24 @@ public class JavaScriptCodeUtils {
             return name;
         }
         return "_" + name;
+    }
+
+    /**
+     * Returns an escaped version of a given CSS identifier that is a {@link SvgNameUtils#isValidSvgName valid SVG
+     * name}.
+     *
+     * @param id The CSS identifier to escape.
+     * @return The escaped CSS identifier.
+     */
+    public static String escapeCssIdentifier(String id) {
+        // In general, the rules for escaping CSS identifiers are described by the 'serialize an identifier' and
+        // 'escape a character as code point' definitions of the W3C 'CSS Object Model' (CSSOM) standard. See:
+        // - https://drafts.csswg.org/cssom/#serialize-an-identifier
+        // - https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
+        //
+        // However, we know the CSS identifier is also a valid SVG name. Hence, the only characters that we need to
+        // escape are ':' and '.'.
+        Assert.check(SvgNameUtils.isValidSvgName(id));
+        return id.replace(":", "\\:").replace(".", "\\.");
     }
 }
