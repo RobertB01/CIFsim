@@ -431,10 +431,10 @@ public class PlcFunctionAppls {
     public PlcFunctionBlockDescription makeTonBlock(String prefixFuncName) {
         PlcParameterDescription[] params = { //
                 new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY), // Boolean, false resets the timer,
-                                                                                 // true allows measuring time.
+                // true allows measuring time.
                 new PlcParameterDescription("PT", PlcParamDirection.INPUT_ONLY), // Real, end-time, should be positive.
                 new PlcParameterDescription("Q", PlcParamDirection.OUTPUT_ONLY), // Boolean whether end-time has been
-                                                                                 // reached.
+                // reached.
                 new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY)}; // Real, amount of measured time
                                                                                    // since last reset, caps at PT.
         return new PlcFunctionBlockDescription(prefixFuncName + target.getTonFuncBlockCallSuffix(),

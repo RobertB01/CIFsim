@@ -1,33 +1,68 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
-        curValue: LREAL;
-        current_p_t: LREAL;
+        current_p_x: DINT;
+        current_p_x_1: DINT;
         edge_p_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
-        timeOut: BOOL;
     END_VAR
 
 BEGIN
-    (* --- Initialize state or update continuous variables. -------------------- *)
+    (* --- Initialize state. --------------------------------------------------- *)
     IF "DB".firstRun THEN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
         "DB".p_x := 5;
-        "DB".p_t := 0.0;
-        (* Reset timer of "p_t". *)
-        "DB".preset_p_t := "DB".p_t;
-        ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
-        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
-    ELSE
-        (* Update remaining time of "p_t". *)
-        ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
-        "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
-    (* --- Process all events. ------------------------------------------------- *)
+    (* --- Process uncontrollable events. -------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (*************************************************************
+         * Try to perform event "u".
+         *
+         * - Automaton "p" must always synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Testing edge of automaton "p" to synchronize for event "u".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location:
+         *   - 2nd edge in the location
+         ***********)
+        IF TRUE THEN
+            edge_p_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "u" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_p_x := "DB".p_x;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "p". *)
+            IF edge_p_1 = 1 THEN
+                (* Perform assignments of the 2nd edge of automaton "p". *)
+                "DB".p_x := 11 - current_p_x;
+            END_IF;
+        END_IF;
+    END_WHILE;
+
+    (* --- Process controllable events. ---------------------------------------- *)
     isProgress := TRUE;
     (* Perform events until none can be done anymore. *)
     WHILE isProgress DO
@@ -50,7 +85,7 @@ BEGIN
          * - Location:
          *   - 1st edge in the location
          ***********)
-        IF "DB".p_t <= 1.0 AND "DB".p_x = 5 THEN
+        IF TRUE THEN
             edge_p_1 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -60,18 +95,14 @@ BEGIN
         IF eventEnabled THEN
             isProgress := TRUE;
             (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
-            current_p_t := "DB".p_t;
+            current_p_x_1 := "DB".p_x;
             (*******************************
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "p". *)
             IF edge_p_1 = 1 THEN
                 (* Perform assignments of the 1st edge of automaton "p". *)
-                "DB".p_t := 7.0;
-                (* Reset timer of "p_t". *)
-                "DB".preset_p_t := "DB".p_t;
-                ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
-                ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
+                "DB".p_x := 7;
             END_IF;
         END_IF;
     END_WHILE;

@@ -55,7 +55,50 @@ ELSE
     c := SEL(timeOut, preset_c - curValue, 0.0);
 END_IF;
 
-(* --- Process all events. ------------------------------------------------- *)
+(* --- Process uncontrollable events. -------------------------------------- *)
+isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (*************************************************************
+     * Try to perform event "aut.f".
+     *
+     * - Automaton "aut" must always synchronize.
+     *************************************************************)
+    eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edges of automaton "aut" to synchronize for event "aut.f".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edges being tested:
+     * - Location "l1":
+     *   - 36th edge in the location
+     *   - 37th edge in the location
+     ***********)
+    IF aut = aut_l1 AND (aut_b OR aut_b) THEN
+        edge_aut_1 := 1;
+    ELSIF aut = aut_l1 AND aut_b THEN
+        edge_aut_1 := 2;
+    ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
+        eventEnabled := FALSE;
+    END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "aut.f" can occur. *)
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* There are no assignments to perform for automata that must always synchronize. *)
+        (* Automaton "aut" has no assignments to perform. *)
+    END_IF;
+END_WHILE;
+
+(* --- Process controllable events. ---------------------------------------- *)
 isProgress := TRUE;
 (* Perform events until none can be done anymore. *)
 WHILE isProgress DO
@@ -314,42 +357,6 @@ WHILE isProgress DO
             aut_r := current_aut_r * 2.0;
             aut_i := current_aut_i + 1;
         END_IF;
-    END_IF;
-
-    (*************************************************************
-     * Try to perform event "aut.f".
-     *
-     * - Automaton "aut" must always synchronize.
-     *************************************************************)
-    eventEnabled := TRUE;
-    (*******************************
-     * Check each synchronizing automaton for having an edge with a true guard.
-     *******************************)
-    (***********
-     * Testing edges of automaton "aut" to synchronize for event "aut.f".
-     * This automaton must have an edge with a true guard to allow the event.
-     *
-     * Edges being tested:
-     * - Location "l1":
-     *   - 36th edge in the location
-     *   - 37th edge in the location
-     ***********)
-    IF aut = aut_l1 AND (aut_b OR aut_b) THEN
-        edge_aut_1 := 1;
-    ELSIF aut = aut_l1 AND aut_b THEN
-        edge_aut_1 := 2;
-    ELSE
-        (* The automaton has no edge with a true guard. Skip to the next event. *)
-        eventEnabled := FALSE;
-    END_IF;
-    (* All checks have been done. If variable "eventEnabled" still holds, event "aut.f" can occur. *)
-    IF eventEnabled THEN
-        isProgress := TRUE;
-        (*******************************
-         * Perform the assignments of each synchronizing automaton.
-         *******************************)
-        (* There are no assignments to perform for automata that must always synchronize. *)
-        (* Automaton "aut" has no assignments to perform. *)
     END_IF;
 END_WHILE;]]></ST>
     </Implementation>

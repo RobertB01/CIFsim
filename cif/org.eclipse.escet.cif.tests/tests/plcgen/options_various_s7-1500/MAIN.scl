@@ -1,6 +1,7 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
+        loopCount: DINT;
         curValue: REAL;
         current_p_t: REAL;
         edge_p_1: DINT;
@@ -28,7 +29,7 @@ BEGIN
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
 
-    (* --- Process all events. ------------------------------------------------- *)
+    (* --- Process uncontrollable events. -------------------------------------- *)
     isProgress := TRUE;
     (* Perform events until none can be done anymore. *)
     (* Track the number of iterations and abort if there are too many. *)

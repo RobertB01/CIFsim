@@ -96,7 +96,7 @@ IF firstRun THEN
     Good_x := 0;
 END_IF;
 
-(* --- Process all events. ------------------------------------------------- *)
+(* --- Process controllable events. ---------------------------------------- *)
 isProgress := TRUE;
 (* Perform events until none can be done anymore. *)
 WHILE isProgress DO

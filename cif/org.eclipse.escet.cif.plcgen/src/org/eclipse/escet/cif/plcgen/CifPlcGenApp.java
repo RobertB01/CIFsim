@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
 import org.eclipse.escet.cif.plcgen.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.plcgen.options.PlcIntTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.options.PlcMaxIterOption;
+import org.eclipse.escet.cif.plcgen.options.PlcMaxIterOption.MaxIterLimits;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.options.PlcProjectNameOption;
 import org.eclipse.escet.cif.plcgen.options.PlcRealTypeSizeOption;
@@ -139,7 +140,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String plcTaskName = PlcTaskNameOption.getTaskName();
         int taskCyceTime = PlcTaskCycleTimeOption.getTaskCycleTime();
         int priority = PlcTaskPriorityOption.getTaskPrio();
-        Integer maxIter = PlcMaxIterOption.getMaxIter();
+        MaxIterLimits iterLimits = PlcMaxIterOption.getMaxIterLimits();
 
         String inputPath = InputFileOption.getPath();
         String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
@@ -157,9 +158,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                maxIter, inputPath, Paths.resolve(inputPath), Paths.resolve(outputPath), ioTablePath,
-                Paths.resolve(ioTablePath), intSize, realSize, simplifyValues, enumConversion, shouldTerminate,
-                warnOnRename, warnOutput);
+                iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(), inputPath, Paths.resolve(inputPath),
+                Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath), intSize, realSize, simplifyValues,
+                enumConversion, shouldTerminate, warnOnRename, warnOutput);
     }
 
     @Override

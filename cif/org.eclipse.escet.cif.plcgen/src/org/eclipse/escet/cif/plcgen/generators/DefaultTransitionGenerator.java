@@ -126,8 +126,29 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
     @Override
     public void generate() {
-        List<PlcStatement> statements = generateCode();
-        target.getCodeStorage().addEventTransitions(statements);
+        // Split event transitions between controllable and uncontrollable events.
+        List<CifEventTransition> uncontrollableTransitions = list();
+        List<CifEventTransition> controllableTransitions = list();
+        for (CifEventTransition eventTrans: eventTransitions) {
+            if (eventTrans.event.getControllable() == null) {
+                throw new AssertionError(
+                        "Unexpected lack of controllability for event \"" + eventTrans.event + "\" found.");
+            } else if (eventTrans.event.getControllable()) {
+                controllableTransitions.add(eventTrans);
+            } else {
+                uncontrollableTransitions.add(eventTrans);
+            }
+        }
+
+        // Variable that tracks whether at least one event was performed in the current event loop cycle.
+        PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
+
+        // Convert the event transition collections in the same order as they appear in the final code.
+        List<PlcStatement> uncontrollableStatements = generateCode(isProgressVar, uncontrollableTransitions);
+        List<PlcStatement> controllableStatements = generateCode(isProgressVar, controllableTransitions);
+
+        // And give the result to code storage.
+        target.getCodeStorage().addEventTransitions(uncontrollableStatements, controllableStatements);
     }
 
     /**
@@ -155,9 +176,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * {@link #generateEventTransitionCode} method.
      * </p>
      *
-     * @return The generated PLC event transition code.
+     * @param isProgressVar Variable to communicate in the generated code that at least one transition has been taken in
+     *     the generated statement sequence.
+     * @param eventTransitions The event transitions to generate.
+     * @return The generated PLC event transition code. Is empty if there are no event transitions to convert.
      */
-    List<PlcStatement> generateCode() {
+    List<PlcStatement> generateCode(PlcBasicVariable isProgressVar, List<CifEventTransition> eventTransitions) {
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
@@ -180,9 +204,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Monitors do not need edge tracking since the first enabled edge is immediately taken.
         }
 
-        // Variable that tracks whether at least one event was performed in the current event loop cycle.
-        PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
-
         // As all transition code is generated in main program context, only one generated statements list exists and
         // various variables that store decisions in the process can be re-used between different events.
         boolean addEmptyLineBefore = false;
@@ -192,11 +213,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             addEmptyLineBefore = true;
         }
 
-        // Release all temporary variables, and return the generated event transition code.
-        mainExprGen.releaseTempVariable(isProgressVar);
+        // Release temporary variables, and return the generated event transition code.
         mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
         edgeSelectionVariables.clear();
-
         return statements;
     }
 
