@@ -1954,7 +1954,23 @@ static int_T x9_(SimStruct *sim_struct);
 
 static real_T deriv01(SimStruct *sim_struct);
 
+
+/**
+ * Function "f1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 static int_T f1_(SimStruct *sim_struct, int_T f1_x_);
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_);
 /* }}} */
 
@@ -2127,9 +2143,18 @@ static real_T deriv01(SimStruct *sim_struct) {
 /* }}} */
 
 /* {{{ Function definitions. */
+
+/**
+ * Function "f1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
+    /* Execute statements in the function body. */
     while (((f1_x_) != (0)) && ((f1_x_) != (4))) {
         f1_x_ = IntegerSubtract(f1_x_, 1);
     }
@@ -2144,9 +2169,18 @@ static int_T f1_(SimStruct *sim_struct, int_T f1_x_) {
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
+    /* Execute statements in the function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }

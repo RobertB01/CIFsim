@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
@@ -33,6 +34,7 @@ import org.eclipse.escet.cif.parser.ast.declarations.ADiscVariableDecl;
 import org.eclipse.escet.cif.parser.ast.declarations.AVariableValue;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.FunctionScope;
@@ -124,6 +126,10 @@ public class FuncVariableDeclWrap extends DeclWrap<DiscVariable> {
 
         // Check the initial value.
         typeCheckVarValue();
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecls.annotations, scope, tchecker);
+        mmDecl.getAnnotations().addAll(annos);
 
         // This declaration is now fully checked.
         status = CheckStatus.FULL;

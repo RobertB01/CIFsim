@@ -99,7 +99,21 @@ extern T3IIRType i3_;
 extern void declarations_AssignInputVariables();
 
 /* Declaration of internal functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 extern IntType inc_(IntType inc_x_);
+
+/**
+ * Function "f1".
+ *
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 extern RealType f1_(IntType f1_x_);
 
 /* State variables (use for output only). */

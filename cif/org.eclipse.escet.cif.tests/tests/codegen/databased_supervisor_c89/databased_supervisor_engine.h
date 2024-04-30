@@ -128,6 +128,14 @@ extern A12T3IIIType bdd_nodes_;
 
 
 /* Declaration of internal functions. */
+
+/**
+ * Function "bdd_eval".
+ *
+ * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
+ * @param bdd_eval_values_tmp2 Function parameter "bdd_eval.values".
+ * @return The return value of the function.
+ */
 extern BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2);
 
 /* State variables (use for output only). */

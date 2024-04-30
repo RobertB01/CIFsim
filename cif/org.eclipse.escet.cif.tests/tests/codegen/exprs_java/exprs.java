@@ -932,12 +932,13 @@ public abstract class exprs {
     }
 
     /**
-     * Evaluation for function "f1".
+     * Function "f1".
      *
      * @param f1_x_ Function parameter "f1.x".
      * @return The return value of the function.
      */
     public static int f1_(int f1_x_) {
+        // Execute statements in the function body.
         if (true) while ((!equalObjs(f1_x_, 0)) && (!equalObjs(f1_x_, 4))) {
             f1_x_ = subtract(f1_x_, 1);
         }
@@ -953,12 +954,13 @@ public abstract class exprs {
     }
 
     /**
-     * Evaluation for function "inc".
+     * Function "inc".
      *
      * @param inc_x_ Function parameter "inc.x".
      * @return The return value of the function.
      */
     public static int inc_(int inc_x_) {
+        // Execute statements in the function body.
         if (true) return addInt(inc_x_, 1);
         throw new RuntimeException("no return at end of func");
     }

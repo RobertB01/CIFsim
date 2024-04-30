@@ -27,7 +27,7 @@ State annotations (`@state`) can be added to the following elements in CIF speci
 
 * Locations of automata.
 
-The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
+The annotation has the following constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
 
 * A single location may have multiple state annotations, if that location represents multiple states of a state space.
 * Each argument of a state annotation represents either an automaton with its current location, or a variable with its current value.

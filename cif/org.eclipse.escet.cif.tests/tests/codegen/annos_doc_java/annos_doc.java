@@ -690,6 +690,162 @@ public abstract class annos_doc {
         return 5.0;
     }
 
+    /**
+     * Function "funcs.func1".
+     *
+     * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func1_(boolean funcs_func1_p_) {
+        // Variable "funcs.func1.v1".
+        boolean funcs_func1_v1_ = funcs_func1_p_;
+
+        // Variable "funcs.func1.v2".
+        boolean funcs_func1_v2_ = funcs_func1_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func1_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func2".
+     *
+     * <p>
+     * single line doc
+     * </p>
+     *
+     * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+     *     <p>
+     *     single line doc
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func2_(boolean funcs_func2_p_) {
+        // Variable "funcs.func2.v1".
+        //
+        // single line doc
+        boolean funcs_func2_v1_ = funcs_func2_p_;
+
+        // Variable "funcs.func2.v2".
+        //
+        // single line doc
+        boolean funcs_func2_v2_ = funcs_func2_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func2_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func3".
+     *
+     * <p>
+     * doc with multiple
+     * lines of
+     *  text
+     * </p>
+     *
+     * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+     *     <p>
+     *     doc with multiple
+     *     lines of
+     *      text
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func3_(boolean funcs_func3_p_) {
+        // Variable "funcs.func3.v1".
+        //
+        // doc with multiple
+        // lines of
+        //  text
+        boolean funcs_func3_v1_ = funcs_func3_p_;
+
+        // Variable "funcs.func3.v2".
+        //
+        // doc with multiple
+        // lines of
+        //  text
+        boolean funcs_func3_v2_ = funcs_func3_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func3_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     *
+     * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+     *     <p>
+     *     some doc
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func4_(boolean funcs_func4_p_) {
+        // Variable "funcs.func4.v1".
+        //
+        // some doc
+        boolean funcs_func4_v1_ = funcs_func4_p_;
+
+        // Variable "funcs.func4.v2".
+        //
+        // some doc
+        boolean funcs_func4_v2_ = funcs_func4_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func4_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
+     *
+     * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+     *     <p>
+     *     First doc.
+     *     </p>
+     *     <p>
+     *     Second doc line 1.
+     *     Second doc line 2.
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func5_(boolean funcs_func5_p_) {
+        // Variable "funcs.func5.v1".
+        //
+        // First doc.
+        //
+        // Second doc line 1.
+        // Second doc line 2.
+        boolean funcs_func5_v1_ = funcs_func5_p_;
+
+        // Variable "funcs.func5.v2".
+        //
+        // First doc.
+        //
+        // Second doc line 1.
+        // Second doc line 2.
+        boolean funcs_func5_v2_ = funcs_func5_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func5_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
 
     /**
      * Interface for CIF tuples.

@@ -133,4 +133,21 @@ group g1:
 
   @a(b: 7)
   enum enumDecl2 = @a(b: 8) @a(b: 9) lit3, lit4, @a(b: 10) @a(b: 11) lit5;
+
+  @a(b: 12)
+  func bool func1(): "java:something";
+
+  @a(b: 13)
+  func bool func2(
+    @a(b: 14)
+    bool fparam1, fparam2;
+    @a(b: 15)
+    bool fparam3, fparam4
+  ):
+    @a(b: 16)
+    bool fvar1 = true, fvar2 = false;
+    @a(b: 17)
+    bool fvar3 = true, fvar4 = false;
+    return fparam1 or fparam2 or fparam3 or fparam4 or fvar1 or fvar2 or fvar3 or fvar4;
+  end
 end

@@ -530,35 +530,80 @@ public final class CifPrettyPrinter {
      * @param function The function.
      */
     public void add(Function function) {
-        // Create header.
-        List<String> paramTxts = listc(function.getParameters().size());
+        // Add annotations.
+        add(function.getAnnotations());
+
+        // Check whether the parameters have annotations.
+        boolean paramsHaveNoAnnos = true;
         for (FunctionParameter param: function.getParameters()) {
-            paramTxts.add(
-                    pprint(param.getParameter().getType()) + " " + escapeIdentifier(param.getParameter().getName()));
+            paramsHaveNoAnnos &= param.getParameter().getAnnotations().isEmpty();
         }
-        String header = fmt("func %s %s(%s):", pprintTypes(function.getReturnTypes(), ", "),
-                escapeIdentifier(function.getName()), String.join("; ", paramTxts));
 
-        // Add header and body.
-        if (function instanceof ExternalFunction) {
-            String funcRef = ((ExternalFunction)function).getFunction();
-            funcRef = Strings.escape(funcRef);
-            code.add("%s \"%s\";", header, funcRef);
+        // Add function.
+        if (paramsHaveNoAnnos) {
+            // Create header.
+            List<String> paramTxts = listc(function.getParameters().size());
+            for (FunctionParameter param: function.getParameters()) {
+                paramTxts.add(pprint(param.getParameter().getType()) + " "
+                        + escapeIdentifier(param.getParameter().getName()));
+            }
+            String header = fmt("func %s %s(%s):", pprintTypes(function.getReturnTypes(), ", "),
+                    escapeIdentifier(function.getName()), String.join("; ", paramTxts));
+
+            // Add header and body.
+            if (function instanceof ExternalFunction efunction) {
+                code.add("%s \"%s\";", header, Strings.escape(efunction.getFunction()));
+            } else if (function instanceof InternalFunction ifunction) {
+                code.add(header);
+                addInternalFunctionBody(ifunction);
+            } else {
+                throw new RuntimeException("Unknown function: " + function);
+            }
         } else {
-            InternalFunction ifunction = (InternalFunction)function;
-            code.add(header);
+            // Add header.
+            code.add("func %s %s(", pprintTypes(function.getReturnTypes(), ", "), escapeIdentifier(function.getName()));
+
+            // Add parameters.
+            int paramCount = function.getParameters().size();
             code.indent();
-
-            for (DiscVariable var: ifunction.getVariables()) {
-                addFunctionVar(var);
+            for (int i = 0; i < paramCount; i++) {
+                FunctionParameter param = function.getParameters().get(i);
+                add(param.getParameter().getAnnotations());
+                String postfix = (i == paramCount - 1) ? "" : ";";
+                code.add("%s %s%s", pprint(param.getParameter().getType()),
+                        escapeIdentifier(param.getParameter().getName()), postfix);
             }
-            for (FunctionStatement stat: ifunction.getStatements()) {
-                add(stat);
-            }
-
             code.dedent();
-            code.add("end");
+
+            // Add body.
+            if (function instanceof ExternalFunction efunction) {
+                code.add("): \"%s\";", Strings.escape(efunction.getFunction()));
+            } else if (function instanceof InternalFunction ifunction) {
+                code.add("):");
+                addInternalFunctionBody(ifunction);
+            } else {
+                throw new RuntimeException("Unknown function: " + function);
+            }
         }
+    }
+
+    /**
+     * Add the body of the given internal user-defined function to the pretty printed code.
+     *
+     * @param ifunction The internal user-defined function.
+     */
+    public void addInternalFunctionBody(InternalFunction ifunction) {
+        code.indent();
+
+        for (DiscVariable var: ifunction.getVariables()) {
+            addFunctionVar(var);
+        }
+        for (FunctionStatement stat: ifunction.getStatements()) {
+            add(stat);
+        }
+
+        code.dedent();
+        code.add("end");
     }
 
     /**
@@ -567,6 +612,10 @@ public final class CifPrettyPrinter {
      * @param var The variable.
      */
     public void addFunctionVar(DiscVariable var) {
+        // Add annotations.
+        add(var.getAnnotations());
+
+        // Add declaration.
         StringBuilder txt = new StringBuilder();
         txt.append(pprint(var.getType()));
         txt.append(" ");

@@ -283,94 +283,102 @@ public abstract class internal_functions {
 
 
     /**
-     * Evaluation for function "inc".
+     * Function "inc".
      *
      * @param inc_x_ Function parameter "inc.x".
      * @return The return value of the function.
      */
     public static int inc_(int inc_x_) {
+        // Execute statements in the function body.
         if (true) return addInt(inc_x_, 1);
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "factorial".
+     * Function "factorial".
      *
      * @param factorial_x_ Function parameter "factorial.x".
      * @return The return value of the function.
      */
     public static int factorial_(int factorial_x_) {
+        // Execute statements in the function body.
         if (true) return (equalObjs(factorial_x_, 0)) ? 1 : (multiply(factorial_x_, factorial_(subtract(factorial_x_, 1))));
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "rec1".
+     * Function "rec1".
      *
      * @param rec1_x_ Function parameter "rec1.x".
      * @return The return value of the function.
      */
     public static int rec1_(int rec1_x_) {
+        // Execute statements in the function body.
         if (true) return (equalObjs(rec1_x_, 0)) ? 1 : (rec2_(subtract(rec1_x_, 1)));
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "rec2".
+     * Function "rec2".
      *
      * @param rec2_x_ Function parameter "rec2.x".
      * @return The return value of the function.
      */
     public static int rec2_(int rec2_x_) {
+        // Execute statements in the function body.
         if (true) return (equalObjs(rec2_x_, 0)) ? 2 : (rec1_(subtract(rec2_x_, 1)));
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "multi_return".
+     * Function "multi_return".
      *
      * @return The return value of the function.
      */
     public static CifTuple_T2IR multi_return_() {
+        // Execute statements in the function body.
         if (true) return new CifTuple_T2IR(1, 1.0);
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "f0".
+     * Function "f0".
      *
      * @return The return value of the function.
      */
     public static int f0_() {
+        // Execute statements in the function body.
         if (true) return 1;
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "f1".
+     * Function "f1".
      *
      * @param f1_x_ Function parameter "f1.x".
      * @return The return value of the function.
      */
     public static int f1_(int f1_x_) {
+        // Execute statements in the function body.
         if (true) return f1_x_;
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "f2".
+     * Function "f2".
      *
      * @param f2_x_ Function parameter "f2.x".
      * @param f2_y_ Function parameter "f2.y".
      * @return The return value of the function.
      */
     public static int f2_(int f2_x_, int f2_y_) {
+        // Execute statements in the function body.
         if (true) return addInt(f2_x_, f2_y_);
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "f3".
+     * Function "f3".
      *
      * @param f3_x_ Function parameter "f3.x".
      * @param f3_y_ Function parameter "f3.y".
@@ -378,34 +386,43 @@ public abstract class internal_functions {
      * @return The return value of the function.
      */
     public static double f3_(int f3_x_, int f3_y_, double f3_z_) {
+        // Execute statements in the function body.
         if (true) return addReal(addInt(f3_x_, f3_y_), f3_z_);
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "locals".
+     * Function "locals".
      *
      * @param locals_x_ Function parameter "locals.x".
      * @return The return value of the function.
      */
     public static int locals_(int locals_x_) {
+        // Variable "locals.a".
         int locals_a_ = 5;
+
+        // Variable "locals.c".
         int locals_c_ = locals_a_;
+
+        // Variable "locals.b".
         int locals_b_ = addInt(locals_c_, locals_x_);
 
+        // Execute statements in the function body.
         if (true) return locals_b_;
         throw new RuntimeException("no return at end of func");
     }
 
     /**
-     * Evaluation for function "rot1".
+     * Function "rot1".
      *
      * @param rot1_x_ Function parameter "rot1.x".
      * @return The return value of the function.
      */
     public static List<Integer> rot1_(List<Integer> rot1_x_) {
+        // Variable "rot1.tmp".
         int rot1_tmp_ = project(rot1_x_, 0);
 
+        // Execute statements in the function body.
         {
             int rhs1 = project(rot1_x_, 3);
             int index2 = 0;
@@ -435,14 +452,16 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "rot2".
+     * Function "rot2".
      *
      * @param rot2_x_ Function parameter "rot2.x".
      * @return The return value of the function.
      */
     public static List<Integer> rot2_(List<Integer> rot2_x_) {
+        // Variable "rot2.rslt".
         List<Integer> rot2_rslt_ = makelist(new ArrayList<Integer>(4), 0, 0, 0, 0);
 
+        // Execute statements in the function body.
         {
             int rhs1 = project(rot2_x_, 3);
             int index2 = 0;
@@ -472,17 +491,25 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fa".
+     * Function "fa".
      *
      * @param fa_x_ Function parameter "fa.x".
      * @return The return value of the function.
      */
     public static int fa_(int fa_x_) {
+        // Variable "fa.y".
         List<Integer> fa_y_ = makelist(new ArrayList<Integer>(3), fa_x_, fa_x_, fa_x_);
+
+        // Variable "fa.a".
         int fa_a_ = fa_x_;
+
+        // Variable "fa.b".
         int fa_b_ = addInt(fa_x_, 1);
+
+        // Variable "fa.t".
         CifTuple_T2II fa_t_ = new CifTuple_T2II(0, 0);
 
+        // Execute statements in the function body.
         {
             int rhs1 = 1;
             int index2 = 0;
@@ -517,12 +544,13 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fi".
+     * Function "fi".
      *
      * @param fi_x_ Function parameter "fi.x".
      * @return The return value of the function.
      */
     public static int fi_(int fi_x_) {
+        // Execute statements in the function body.
         if (equalObjs(fi_x_, 1)) {
             fi_x_ = addInt(fi_x_, 1);
         }
@@ -568,13 +596,15 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fw".
+     * Function "fw".
      *
      * @return The return value of the function.
      */
     public static int fw_() {
+        // Variable "fw.x".
         int fw_x_ = 0;
 
+        // Execute statements in the function body.
         if (true) while ((fw_x_) > (0)) {
             if (true) while ((fw_x_) < (10)) {
                 if (equalObjs((fw_x_) % (2), 1)) {
@@ -592,11 +622,12 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fu1".
+     * Function "fu1".
      *
      * @return The return value of the function.
      */
     public static int fu1_() {
+        // Execute statements in the function body.
         if (true) {
             if (true) return 1;
         }
@@ -606,11 +637,12 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fu2".
+     * Function "fu2".
      *
      * @return The return value of the function.
      */
     public static int fu2_() {
+        // Execute statements in the function body.
         if (true) return 1;
 
         if (true) return 0;
@@ -618,11 +650,12 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fu3".
+     * Function "fu3".
      *
      * @return The return value of the function.
      */
     public static int fu3_() {
+        // Execute statements in the function body.
         if (true) while (true) {
             if (true) return 1;
         }
@@ -632,14 +665,18 @@ public abstract class internal_functions {
     }
 
     /**
-     * Evaluation for function "fr".
+     * Function "fr".
      *
      * @return The return value of the function.
      */
     public static int fr_() {
+        // Variable "fr.x".
         List<Integer> fr_x_ = makelist(new ArrayList<Integer>(3), 1, 2, 3);
+
+        // Variable "fr.y".
         List<Integer> fr_y_ = makelist(new ArrayList<Integer>(3), 2, 3, 4);
 
+        // Execute statements in the function body.
         {
             List<Integer> rhs1 = fr_y_;
             for (int rng_index0 = 0; rng_index0 < rhs1.size(); rng_index0++) {

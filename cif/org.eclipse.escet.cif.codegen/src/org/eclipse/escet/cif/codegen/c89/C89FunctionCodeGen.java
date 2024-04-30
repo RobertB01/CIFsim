@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.common.FuncLocalVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -101,27 +102,80 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
                 paramVars[i] = ctxt.makeTempVariable(paramVar);
 
                 // Generate copy of the data into the local variable, through the reference.
+                vardeclCode.add("/* Parameter \"%s\". */", paramVar.name);
                 DataValue src = makeReference(paramVars[i].targetRef);
                 Destination dest = new Destination(null, paramVar.typeInfo, makeValue(paramVar.targetRef));
                 paramVar.typeInfo.declareInit(vardeclCode, src, dest);
+                vardeclCode.add();
             }
         }
 
-        // Retrieve local variable information
+        // Retrieve local variable information.
         for (DiscVariable var: localVars) {
             VariableInformation localVar = ctxt.getWriteVarInfo(var);
             localVarInfos[localIndex] = localVar;
             localIndex++;
 
             // Create and initialize the local variable.
+            List<String> docs = DocAnnotationProvider.getDocs(var);
+            if (docs.isEmpty()) {
+                vardeclCode.add("/* Variable \"%s\". */", localVar.name);
+            } else {
+                vardeclCode.add("/* Variable \"%s\".", localVar.name);
+                for (String doc: docs) {
+                    vardeclCode.add();
+                    for (String line: doc.split("\\r?\\n")) {
+                        vardeclCode.add("   %s", line);
+                    }
+                }
+                vardeclCode.add("*/");
+            }
             vardeclCode.add("%s %s;", localVar.typeInfo.getTargetType(), localVar.targetRef);
             Destination dest = new Destination(null, localVar.typeInfo, makeValue(localVar.targetRef));
             Assert.notNull(var.getValue());
             Assert.check(var.getValue().getValues().size() == 1);
             ExprCode initCode = ctxt.exprToTarget(var.getValue().getValues().get(0), dest);
             vardeclCode.add(initCode.getCode());
+            vardeclCode.add();
         }
         Assert.check(localIndex == localVarInfos.length);
+
+        // Get original function name.
+        String origFuncName = ctxt.getOrigFunctionName(function);
+        if (origFuncName == null) {
+            // Function created by preprocessing or linearization.
+            origFuncName = function.getName();
+        }
+
+        // Generate function description.
+        CodeBox descriptionCode = ctxt.makeCodeBox();
+        List<String> docs = DocAnnotationProvider.getDocs(function);
+        descriptionCode.add();
+        descriptionCode.add("/**");
+        descriptionCode.add(" * Function \"%s\".", origFuncName);
+        for (String doc: docs) {
+            descriptionCode.add(" *");
+            for (String line: doc.split("\\r?\\n")) {
+                descriptionCode.add(" * %s", line);
+            }
+        }
+        descriptionCode.add(" *");
+        for (int i = 0; i < paramCount; i++) {
+            DiscVariable param = function.getParameters().get(i).getParameter();
+            VariableInformation varInfo = paramVars[i];
+            descriptionCode.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
+            List<String> paramDocs = DocAnnotationProvider.getDocs(param);
+            for (String doc: paramDocs) {
+                descriptionCode.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    descriptionCode.add(" *     %s", line);
+                }
+            }
+        }
+        descriptionCode.add(" * @return The return value of the function.");
+        descriptionCode.add(" */");
+        declCode.add(descriptionCode);
+        defCode.add(descriptionCode);
 
         // Generate function header.
         TypeInfo returnTi = ctxt.typeToTarget(getReturnType());
@@ -160,11 +214,9 @@ public class C89FunctionCodeGen extends FunctionCodeGen {
         }
 
         defCode.indent();
-        if (localVarInfos.length > 0) {
-            defCode.add(vardeclCode);
-            defCode.add();
-        }
+        defCode.add(vardeclCode);
 
+        defCode.add("/* Execute statements in the function body. */");
         this.addFuncStatements(function.getStatements(), defCode, ctxt);
 
         defCode.add("assert(0); /* Falling through the end of the function. */");

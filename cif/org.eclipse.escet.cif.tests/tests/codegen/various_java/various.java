@@ -330,12 +330,13 @@ public abstract class various {
     }
 
     /**
-     * Evaluation for function "inc".
+     * Function "inc".
      *
      * @param inc_x_ Function parameter "inc.x".
      * @return The return value of the function.
      */
     public static int inc_(int inc_x_) {
+        // Execute statements in the function body.
         if (true) return addInt(inc_x_, 1);
         throw new RuntimeException("no return at end of func");
     }

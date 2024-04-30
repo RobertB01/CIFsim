@@ -87,24 +87,153 @@ extern const char *internal_functions_event_names[];
 
 
 /* Declaration of internal functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 extern IntType inc_(IntType inc_x_);
+
+/**
+ * Function "factorial".
+ *
+ * @param factorial_x_ Function parameter "factorial.x".
+ * @return The return value of the function.
+ */
 extern IntType factorial_(IntType factorial_x_);
+
+/**
+ * Function "rec1".
+ *
+ * @param rec1_x_ Function parameter "rec1.x".
+ * @return The return value of the function.
+ */
 extern IntType rec1_(IntType rec1_x_);
+
+/**
+ * Function "rec2".
+ *
+ * @param rec2_x_ Function parameter "rec2.x".
+ * @return The return value of the function.
+ */
 extern IntType rec2_(IntType rec2_x_);
+
+/**
+ * Function "multi_return".
+ *
+ * @return The return value of the function.
+ */
 extern T2IRType multi_return_();
+
+/**
+ * Function "f0".
+ *
+ * @return The return value of the function.
+ */
 extern IntType f0_();
+
+/**
+ * Function "f1".
+ *
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 extern IntType f1_(IntType f1_x_);
+
+/**
+ * Function "f2".
+ *
+ * @param f2_x_ Function parameter "f2.x".
+ * @param f2_y_ Function parameter "f2.y".
+ * @return The return value of the function.
+ */
 extern IntType f2_(IntType f2_x_, IntType f2_y_);
+
+/**
+ * Function "f3".
+ *
+ * @param f3_x_ Function parameter "f3.x".
+ * @param f3_y_ Function parameter "f3.y".
+ * @param f3_z_ Function parameter "f3.z".
+ * @return The return value of the function.
+ */
 extern RealType f3_(IntType f3_x_, IntType f3_y_, RealType f3_z_);
+
+/**
+ * Function "locals".
+ *
+ * @param locals_x_ Function parameter "locals.x".
+ * @return The return value of the function.
+ */
 extern IntType locals_(IntType locals_x_);
+
+/**
+ * Function "rot1".
+ *
+ * @param rot1_x_tmp5 Function parameter "rot1.x".
+ * @return The return value of the function.
+ */
 extern A4IType rot1_(A4IType* rot1_x_tmp5);
+
+/**
+ * Function "rot2".
+ *
+ * @param rot2_x_tmp5 Function parameter "rot2.x".
+ * @return The return value of the function.
+ */
 extern A4IType rot2_(A4IType* rot2_x_tmp5);
+
+/**
+ * Function "fa".
+ *
+ * @param fa_x_ Function parameter "fa.x".
+ * @return The return value of the function.
+ */
 extern IntType fa_(IntType fa_x_);
+
+/**
+ * Function "fi".
+ *
+ * @param fi_x_ Function parameter "fi.x".
+ * @return The return value of the function.
+ */
 extern IntType fi_(IntType fi_x_);
+
+/**
+ * Function "fw".
+ *
+ * @return The return value of the function.
+ */
 extern IntType fw_();
+
+/**
+ * Function "fu1".
+ *
+ * @return The return value of the function.
+ */
 extern IntType fu1_();
+
+/**
+ * Function "fu2".
+ *
+ * @return The return value of the function.
+ */
 extern IntType fu2_();
+
+/**
+ * Function "fu3".
+ *
+ * @return The return value of the function.
+ */
 extern IntType fu3_();
+
+/**
+ * Function "fr".
+ *
+ * @return The return value of the function.
+ */
 extern IntType fr_();
 
 /* State variables (use for output only). */

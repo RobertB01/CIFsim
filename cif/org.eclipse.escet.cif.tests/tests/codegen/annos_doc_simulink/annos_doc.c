@@ -1326,6 +1326,76 @@ static real_T deriv04(SimStruct *sim_struct);
 static real_T deriv05(SimStruct *sim_struct);
 
 
+/**
+ * Function "funcs.func1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+ * @return The return value of the function.
+ */
+static BoolType funcs_func1_(SimStruct *sim_struct, BoolType funcs_func1_p_);
+
+/**
+ * Function "funcs.func2".
+ *
+ * single line doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+ *
+ *     single line doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func2_(SimStruct *sim_struct, BoolType funcs_func2_p_);
+
+/**
+ * Function "funcs.func3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+ *
+ *     doc with multiple
+ *     lines of
+ *      text
+ * @return The return value of the function.
+ */
+static BoolType funcs_func3_(SimStruct *sim_struct, BoolType funcs_func3_p_);
+
+/**
+ * Function "funcs.func4".
+ *
+ * some doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+ *
+ *     some doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func4_(SimStruct *sim_struct, BoolType funcs_func4_p_);
+
+/**
+ * Function "funcs.func5".
+ *
+ * First doc.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+ *
+ *     First doc.
+ *
+ *     Second doc line 1.
+ *     Second doc line 2.
+ * @return The return value of the function.
+ */
+static BoolType funcs_func5_(SimStruct *sim_struct, BoolType funcs_func5_p_);
 /* }}} */
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
@@ -1446,6 +1516,184 @@ static real_T deriv05(SimStruct *sim_struct) {
 
 /* {{{ Function definitions. */
 
+/**
+ * Function "funcs.func1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+ * @return The return value of the function.
+ */
+static BoolType funcs_func1_(SimStruct *sim_struct, BoolType funcs_func1_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func1.v1". */
+    BoolType funcs_func1_v1_;
+    funcs_func1_v1_ = funcs_func1_p_;
+
+    /* Variable "funcs.func1.v2". */
+    BoolType funcs_func1_v2_;
+    funcs_func1_v2_ = funcs_func1_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func1_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func2".
+ *
+ * single line doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+ *
+ *     single line doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func2_(SimStruct *sim_struct, BoolType funcs_func2_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func2.v1".
+
+       single line doc
+    */
+    BoolType funcs_func2_v1_;
+    funcs_func2_v1_ = funcs_func2_p_;
+
+    /* Variable "funcs.func2.v2".
+
+       single line doc
+    */
+    BoolType funcs_func2_v2_;
+    funcs_func2_v2_ = funcs_func2_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func2_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+ *
+ *     doc with multiple
+ *     lines of
+ *      text
+ * @return The return value of the function.
+ */
+static BoolType funcs_func3_(SimStruct *sim_struct, BoolType funcs_func3_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func3.v1".
+
+       doc with multiple
+       lines of
+        text
+    */
+    BoolType funcs_func3_v1_;
+    funcs_func3_v1_ = funcs_func3_p_;
+
+    /* Variable "funcs.func3.v2".
+
+       doc with multiple
+       lines of
+        text
+    */
+    BoolType funcs_func3_v2_;
+    funcs_func3_v2_ = funcs_func3_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func3_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func4".
+ *
+ * some doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+ *
+ *     some doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func4_(SimStruct *sim_struct, BoolType funcs_func4_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func4.v1".
+
+       some doc
+    */
+    BoolType funcs_func4_v1_;
+    funcs_func4_v1_ = funcs_func4_p_;
+
+    /* Variable "funcs.func4.v2".
+
+       some doc
+    */
+    BoolType funcs_func4_v2_;
+    funcs_func4_v2_ = funcs_func4_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func4_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func5".
+ *
+ * First doc.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+ *
+ *     First doc.
+ *
+ *     Second doc line 1.
+ *     Second doc line 2.
+ * @return The return value of the function.
+ */
+static BoolType funcs_func5_(SimStruct *sim_struct, BoolType funcs_func5_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func5.v1".
+
+       First doc.
+
+       Second doc line 1.
+       Second doc line 2.
+    */
+    BoolType funcs_func5_v1_;
+    funcs_func5_v1_ = funcs_func5_p_;
+
+    /* Variable "funcs.func5.v2".
+
+       First doc.
+
+       Second doc line 1.
+       Second doc line 2.
+    */
+    BoolType funcs_func5_v2_;
+    funcs_func5_v2_ = funcs_func5_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func5_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
 /* }}} */
 /* }}} */
 

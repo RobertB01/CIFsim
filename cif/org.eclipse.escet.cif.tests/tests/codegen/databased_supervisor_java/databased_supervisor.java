@@ -429,16 +429,20 @@ public abstract class databased_supervisor {
 
 
     /**
-     * Evaluation for function "bdd_eval".
+     * Function "bdd_eval".
      *
      * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
      * @param bdd_eval_values_ Function parameter "bdd_eval.values".
      * @return The return value of the function.
      */
     public static boolean bdd_eval_(int bdd_eval_idx_, List<Boolean> bdd_eval_values_) {
+        // Variable "bdd_eval.node".
         CifTuple_T3III bdd_eval_node_ = new CifTuple_T3III(0, 0, 0);
+
+        // Variable "bdd_eval.val".
         boolean bdd_eval_val_ = false;
 
+        // Execute statements in the function body.
         if (true) while ((bdd_eval_idx_) >= (0)) {
             bdd_eval_node_ = project(bdd_nodes_, bdd_eval_idx_);
 
