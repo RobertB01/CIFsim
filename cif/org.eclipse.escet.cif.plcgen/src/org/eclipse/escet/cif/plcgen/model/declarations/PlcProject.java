@@ -25,8 +25,8 @@ public class PlcProject {
     /** The name of the PLC project. */
     public final String name;
 
-    /** The type declarations of the project. */
-    public List<PlcTypeDecl> typeDecls = list();
+    /** The declared types of the project. */
+    public List<PlcDeclaredType> declaredTypes = list();
 
     /** The POUs of the project. */
     public List<PlcPou> pous = list();

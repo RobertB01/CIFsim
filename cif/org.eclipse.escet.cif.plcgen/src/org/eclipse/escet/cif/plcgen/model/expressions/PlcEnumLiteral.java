@@ -26,4 +26,14 @@ public class PlcEnumLiteral extends PlcExpression {
     public PlcEnumLiteral(String value) {
         this.value = value;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof PlcEnumLiteral otherLiteral && value.equals(otherLiteral.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

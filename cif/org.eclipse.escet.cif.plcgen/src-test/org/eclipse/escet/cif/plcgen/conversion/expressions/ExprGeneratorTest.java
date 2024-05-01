@@ -25,6 +25,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDictExpres
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteral;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteralExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
@@ -59,6 +60,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -91,7 +93,6 @@ import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
@@ -101,6 +102,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -110,6 +112,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -144,6 +147,10 @@ public class ExprGeneratorTest {
             null, null);
 
     private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
+
+    private static EnumDecl enumDecl = newEnumDecl(null,
+            List.of(newEnumLiteral(null, "firstField", null), newEnumLiteral(null, "secondField", null)), "enumType",
+            null);
 
     private static TupleType makeTupleType(int length) {
         List<Field> fields = listc(length);
@@ -371,26 +378,19 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcStructType getStructureType(PlcType type) {
-            if (type instanceof PlcDerivedType dt && dt.name.startsWith("tupType_")) {
-                int length = Integer.valueOf(dt.name.charAt(dt.name.length() - 1));
-                PlcStructType structType = new PlcStructType();
-                for (int idx = 1; idx <= length; idx++) {
-                    structType.fields.add(new PlcStructField("field" + idx, PlcElementaryType.LREAL_TYPE));
-                }
-                return structType;
-            }
-            throw new UnsupportedOperationException("Not needed for the test.");
+        public PlcStructType convertTupleType(TupleType tupleType) {
+            int length = tupleType.getFields().size();
+            List<PlcStructField> fields = IntStream.range(0, length)
+                    .mapToObj(idx -> new PlcStructField("field" + (idx + 1), PlcElementaryType.LREAL_TYPE))
+                    .collect(Lists.toList());
+            PlcStructType structType = new PlcStructType("tupType_" + length, fields);
+            return structType;
         }
 
         @Override
-        public PlcType convertEnumDecl(EnumDecl enumDecl) {
-            throw new UnsupportedOperationException("Not needed for the test.");
-        }
-
-        @Override
-        public PlcEnumLiteral getPlcEnumLiteral(EnumLiteral enumLit) {
-            return new PlcEnumLiteral(enumLit.getName());
+        public PlcEnumType convertEnumDecl(EnumDecl enumDecl) {
+            List<String> values = enumDecl.getLiterals().stream().map(lit -> lit.getName()).collect(Lists.toList());
+            return new PlcEnumType(enumDecl.getName(), values);
         }
     }
 
@@ -404,10 +404,10 @@ public class ExprGeneratorTest {
             return et.name;
         } else if (type instanceof PlcArrayType at) {
             return fmt("%s[%d..%d]", typeToText(at.elemType), at.lower, at.upper);
-        } else if (type instanceof PlcDerivedType dt) {
-            return dt.name;
+        } else if (type instanceof PlcStructType st) {
+            return st.typeName;
         }
-        throw new UnsupportedOperationException("Not needed for the test.");
+        throw new UnsupportedOperationException("Not needed for the test:" + type);
     }
 
     /**
@@ -955,9 +955,9 @@ public class ExprGeneratorTest {
 
     @Test
     public void testEnumLiteralExpressionConversion() {
-        EnumLiteral eLit = newEnumLiteral(null, "value123", null);
+        EnumLiteral eLit = enumDecl.getLiterals().get(0);
         String realText = runValueTest(newEnumLiteralExpression(eLit, null, null));
-        String expectedText = "==> value123";
+        String expectedText = "==> " + eLit.getName();
         assertEquals(expectedText, realText);
     }
 

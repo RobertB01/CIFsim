@@ -14,9 +14,11 @@
 package org.eclipse.escet.cif.plcgen.writers;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
@@ -46,9 +48,9 @@ public class Iec611313Writer extends Writer {
             write(pou, outPath);
         }
 
-        // Write type declarations.
-        for (PlcTypeDecl typeDecl: project.typeDecls) {
-            write(typeDecl, outPath);
+        // Write declared types.
+        for (PlcDeclaredType declaredType: project.declaredTypes) {
+            writeDeclaredType(declaredType, outPath);
         }
     }
 
@@ -78,14 +80,23 @@ public class Iec611313Writer extends Writer {
     }
 
     /**
-     * Writes the given type declaration to a file in IEC 61131-3 syntax.
+     * Writes the given declared type to a file in IEC 61131-3 syntax.
      *
-     * @param typeDecl The type declaration to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param declaredType The declared type to write.
+     * @param outPath The absolute local file system path of the directory that should store the file.
      */
-    private void write(PlcTypeDecl typeDecl, String outPath) {
-        String path = Paths.join(outPath, typeDecl.name + ".plctype");
-        Box code = toBox(typeDecl);
+    private void writeDeclaredType(PlcDeclaredType declaredType, String outPath) {
+        String typeName;
+        if (declaredType instanceof PlcStructType structType) {
+            typeName = structType.typeName;
+        } else if (declaredType instanceof PlcEnumType enumType) {
+            typeName = enumType.typeName;
+        } else {
+            throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+        }
+
+        String path = Paths.join(outPath, typeName + ".plctype");
+        Box code = toTypeDeclBox(declaredType);
         code.writeToFile(path);
     }
 }

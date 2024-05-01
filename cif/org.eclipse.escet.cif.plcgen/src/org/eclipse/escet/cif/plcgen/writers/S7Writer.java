@@ -25,21 +25,20 @@ import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -102,9 +101,15 @@ public class S7Writer extends Writer {
         // Ensure exactly one program.
         Assert.areEqual(programCount, 1);
 
-        // Write type declarations.
-        for (PlcTypeDecl typeDecl: project.typeDecls) {
-            write(typeDecl, outPath);
+        // Write declared types.
+        for (PlcDeclaredType declaredType: project.declaredTypes) {
+            if (declaredType instanceof PlcStructType structType) {
+                writeDeclaredType(structType, outPath);
+            } else if (declaredType instanceof PlcEnumType enumType) {
+                writeDeclaredType(enumType, outPath);
+            } else {
+                throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+            }
         }
     }
 
@@ -170,14 +175,26 @@ public class S7Writer extends Writer {
     }
 
     /**
-     * Writes the given type declaration to a file in S7 syntax.
+     * Writes the type declaration of the given struct type to a file in S7 syntax.
      *
-     * @param typeDecl The type declaration to write.
+     * @param structType The structure type to write.
      * @param outPath The absolute local file system path of the directory to which to write the file.
      */
-    private void write(PlcTypeDecl typeDecl, String outPath) {
-        String path = Paths.join(outPath, typeDecl.name + ".udt");
-        Box code = toBox(typeDecl);
+    private void writeDeclaredType(PlcStructType structType, String outPath) {
+        String path = Paths.join(outPath, structType.typeName + ".udt");
+        Box code = toTypeDeclBox(structType);
+        code.writeToFile(path);
+    }
+
+    /**
+     * Writes the type declaration of the given enum type to a file in S7 syntax.
+     *
+     * @param enumType The enum type to write.
+     * @param outPath The absolute local file system path of the directory to which to write the file.
+     */
+    private void writeDeclaredType(PlcEnumType enumType, String outPath) {
+        String path = Paths.join(outPath, enumType.typeName + ".udt");
+        Box code = toTypeDeclBox(enumType);
         code.writeToFile(path);
     }
 
@@ -211,7 +228,7 @@ public class S7Writer extends Writer {
         c.add("VAR");
         c.indent();
         for (PlcBasicVariable var: variables) {
-            c.add("%s: %s;", var.varName, toBox(var.type));
+            c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
         }
         c.dedent();
         c.add("END_VAR");
@@ -248,7 +265,7 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    protected Box toBox(PlcGlobalVarList globVarList) {
+    protected Box toVarDeclBox(PlcGlobalVarList globVarList) {
         throw new UnsupportedOperationException("Should not be used.");
     }
 
@@ -274,14 +291,14 @@ public class S7Writer extends Writer {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcBasicVariable constant: globVarList.variables) {
                 PlcDataVariable dataConstant = (PlcDataVariable)constant;
-                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toBox(dataConstant.type),
+                c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toTypeRefBox(dataConstant.type),
                         modelTextGenerator.toString(dataConstant.value), dataConstant.varName);
             }
         } else {
             for (PlcBasicVariable var: globVarList.variables) {
                 PlcDataVariable dataVar = (PlcDataVariable)var;
                 c.add("<Tag type='%s' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' "
-                        + "remark='' addr='%s'>%s</Tag>", toBox(dataVar.type), dataVar.address, dataVar.varName);
+                        + "remark='' addr='%s'>%s</Tag>", toTypeRefBox(dataVar.type), dataVar.address, dataVar.varName);
             }
         }
         c.dedent();
@@ -311,7 +328,7 @@ public class S7Writer extends Writer {
         }
 
         // Write header. The header includes the POU type, name and return type.
-        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toBox(pou.retType));
+        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toTypeRefBox(pou.retType));
         c.add("%s %s%s", pouTypeText, pou.name, retTypeTxt);
         c.add("{ S7_Optimized_Access := '%b' }", hasOptimizedBlockAccess());
         c.indent();
@@ -321,7 +338,7 @@ public class S7Writer extends Writer {
             c.add("VAR_INPUT");
             c.indent();
             for (PlcBasicVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -335,7 +352,7 @@ public class S7Writer extends Writer {
             c.add("VAR_OUTPUT");
             c.indent();
             for (PlcBasicVariable var: pou.outputVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -353,7 +370,7 @@ public class S7Writer extends Writer {
 
             c.indent();
             for (PlcBasicVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.varName, toBox(var.type));
+                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
             }
             c.dedent();
             c.add("END_VAR");
@@ -372,31 +389,6 @@ public class S7Writer extends Writer {
         // Close POU.
         c.add("END_%s", pouTypeText);
 
-        return c;
-    }
-
-    @Override
-    protected Box toBox(PlcTypeDecl typeDecl) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
-        c.indent();
-        c.add(new HBox(toBox(typeDecl.type), ";"));
-        c.dedent();
-        c.add("END_TYPE");
-        return c;
-    }
-
-    @Override
-    protected Box toBox(PlcStructType structType) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("STRUCT");
-        c.indent();
-        for (PlcStructField field: structType.fields) {
-            // Only name and type, not address.
-            c.add("%s: %s;", field.fieldName, toBox(field.type));
-        }
-        c.dedent();
-        c.add("END_STRUCT");
         return c;
     }
 }

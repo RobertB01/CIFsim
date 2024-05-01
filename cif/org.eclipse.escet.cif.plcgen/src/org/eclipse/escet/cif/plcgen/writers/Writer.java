@@ -18,10 +18,12 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
@@ -30,7 +32,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -103,8 +104,8 @@ public abstract class Writer {
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("PROJECT %s", project.name);
         c.indent();
-        for (PlcTypeDecl typeDecl: project.typeDecls) {
-            c.add(toBox(typeDecl));
+        for (PlcDeclaredType declaredType: project.declaredTypes) {
+            c.add(toTypeDeclBox(declaredType));
         }
         for (PlcPou pou: project.pous) {
             c.add(toBox(pou));
@@ -131,7 +132,7 @@ public abstract class Writer {
             if (globalVarList.variables.isEmpty()) {
                 continue;
             }
-            c.add(toBox(globalVarList));
+            c.add(toVarDeclBox(globalVarList));
         }
 
         // Ensure one resource. At least one is required. More resources, means
@@ -173,7 +174,7 @@ public abstract class Writer {
             if (globalVarList.variables.isEmpty()) {
                 continue;
             }
-            c.add(toBox(globalVarList));
+            c.add(toVarDeclBox(globalVarList));
         }
         for (PlcTask task: resource.tasks) {
             c.add(toBox(task));
@@ -195,14 +196,14 @@ public abstract class Writer {
      * @param globVarList Global variable list to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcGlobalVarList globVarList) {
+    protected Box toVarDeclBox(PlcGlobalVarList globVarList) {
         Assert.check(!globVarList.variables.isEmpty()); // Empty VAR_GLOBAL is illegal.
         CodeBox c = new MemoryCodeBox(INDENT);
         c.add("VAR_GLOBAL%s // %s", (globVarList.listKind == PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
                 globVarList.name);
         c.indent();
         for (PlcBasicVariable variable: globVarList.variables) {
-            c.add(toBox(variable));
+            c.add(toVarDeclBox(variable));
         }
         c.dedent();
         c.add("END_VAR");
@@ -215,11 +216,11 @@ public abstract class Writer {
      * @param variable Variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcBasicVariable variable) {
+    protected Box toVarDeclBox(PlcBasicVariable variable) {
         if (variable instanceof PlcDataVariable dataVar) {
-            return toBox(dataVar);
+            return toVarDeclBox(dataVar);
         } else if (variable instanceof PlcFuncBlockInstanceVar funBlockVar) {
-            return toBox(funBlockVar);
+            return toVarDeclBox(funBlockVar);
         } else {
             throw new AssertionError("Unexpected kind of variable \"" + variable + "\".");
         }
@@ -231,11 +232,11 @@ public abstract class Writer {
      * @param dataVar Variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcDataVariable dataVar) {
+    protected Box toVarDeclBox(PlcDataVariable dataVar) {
         String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
         String valueTxt = (dataVar.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(dataVar.value);
-        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toBox(dataVar.type), valueTxt);
+        String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toTypeRefBox(dataVar.type), valueTxt);
         return new TextBox(txt);
     }
 
@@ -245,19 +246,8 @@ public abstract class Writer {
      * @param fnBlockVar Function block instance variable to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcFuncBlockInstanceVar fnBlockVar) {
-        String txt = fmt("%s: %s;", fnBlockVar.varName, toBox(fnBlockVar.type));
-        return new TextBox(txt);
-    }
-
-    /**
-     * Convert a {@link PlcStructField} instance to a {@link Box} text.
-     *
-     * @param field Field to convert.
-     * @return The generated box representation.
-     */
-    protected Box toBox(PlcStructField field) {
-        String txt = fmt("%s: %s;", field.fieldName, toBox(field.type));
+    protected Box toVarDeclBox(PlcFuncBlockInstanceVar fnBlockVar) {
+        String txt = fmt("%s: %s;", fnBlockVar.varName, toTypeRefBox(fnBlockVar.type));
         return new TextBox(txt);
     }
 
@@ -306,13 +296,13 @@ public abstract class Writer {
      */
     protected CodeBox headerToBox(PlcPou pou) {
         CodeBox c = new MemoryCodeBox(INDENT);
-        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toBox(pou.retType));
+        String retTypeTxt = (pou.retType == null) ? "" : fmt(": %s", toTypeRefBox(pou.retType));
         c.add("%s %s%s", pou.pouType, pou.name, retTypeTxt);
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
             for (PlcBasicVariable var: pou.inputVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -321,7 +311,7 @@ public abstract class Writer {
             c.add("VAR_OUTPUT");
             c.indent();
             for (PlcBasicVariable var: pou.outputVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -330,7 +320,7 @@ public abstract class Writer {
             c.add("VAR");
             c.indent();
             for (PlcBasicVariable var: pou.localVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -339,7 +329,7 @@ public abstract class Writer {
             c.add("VAR_TEMP");
             c.indent();
             for (PlcBasicVariable var: pou.tempVars) {
-                c.add(toBox(var));
+                c.add(toVarDeclBox(var));
             }
             c.dedent();
             c.add("END_VAR");
@@ -353,17 +343,17 @@ public abstract class Writer {
      * @param type Type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcType type) {
-        if (type instanceof PlcArrayType) {
-            return toBox((PlcArrayType)type);
-        } else if (type instanceof PlcDerivedType) {
-            return toBox((PlcDerivedType)type);
-        } else if (type instanceof PlcElementaryType) {
-            return toBox((PlcElementaryType)type);
-        } else if (type instanceof PlcEnumType) {
-            return toBox((PlcEnumType)type);
-        } else if (type instanceof PlcStructType) {
-            return toBox((PlcStructType)type);
+    protected Box toTypeRefBox(PlcType type) {
+        if (type instanceof PlcArrayType arrayType) {
+            return toTypeRefBox(arrayType);
+        } else if (type instanceof PlcDerivedType derType) {
+            return toTypeRefBox(derType);
+        } else if (type instanceof PlcElementaryType elemType) {
+            return toTypeRefBox(elemType);
+        } else if (type instanceof PlcEnumType enumType) {
+            return toTypeRefBox(enumType);
+        } else if (type instanceof PlcStructType structType) {
+            return toTypeRefBox(structType);
         } else {
             String typeText = (type == null) ? "null" : type.getClass().toString();
             throw new AssertionError("Unexpected PlcType, found: " + typeText + ".");
@@ -371,29 +361,67 @@ public abstract class Writer {
     }
 
     /**
-     * Convert a {@link PlcTypeDecl} instance to a {@link Box} text.
+     * Convert a {@link PlcDeclaredType} instance to a {@link Box} text.
      *
-     * @param typeDecl Type declaration to convert.
+     * @param declaredType Declared type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcTypeDecl typeDecl) {
+    protected Box toTypeDeclBox(PlcDeclaredType declaredType) {
+        if (declaredType instanceof PlcStructType structType) {
+            return toTypeDeclBox(structType);
+        } else if (declaredType instanceof PlcEnumType enumType) {
+            return toTypeDeclBox(enumType);
+        }
+        throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+    }
+
+    /**
+     * Convert a {@link PlcStructType} declaration to a {@link Box} text.
+     *
+     * @param structType Struct type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toTypeDeclBox(PlcStructType structType) {
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
+        c.add("TYPE %s:", structType.typeName);
         c.indent();
-        c.add(new HBox(toBox(typeDecl.type), ";"));
+        c.add("STRUCT");
+        c.indent();
+        for (PlcStructField field: structType.fields) {
+            c.add(toTypeDeclBox(field));
+        }
+        c.dedent();
+        c.add("END_STRUCT;");
         c.dedent();
         c.add("END_TYPE");
         return c;
     }
 
     /**
-     * Convert a {@link PlcEnumType} instance to a {@link Box} text.
+     * Convert a {@link PlcStructField} instance to a {@link Box} text.
      *
-     * @param enumType Enumeration type to convert.
+     * @param field Field to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcEnumType enumType) {
-        return new TextBox("(%s)", String.join(", ", enumType.literals));
+    protected Box toTypeDeclBox(PlcStructField field) {
+        String txt = fmt("%s: %s;", field.fieldName, toTypeRefBox(field.type));
+        return new TextBox(txt);
+    }
+
+    /**
+     * Convert a {@link PlcEnumType} declaration to a {@link Box} text.
+     *
+     * @param enumType Enum type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toTypeDeclBox(PlcEnumType enumType) {
+        CodeBox c = new MemoryCodeBox(INDENT);
+        c.add("TYPE %s:", enumType.typeName);
+        c.indent();
+        c.add("(%s);", enumType.literals.stream().map(elit -> elit.value).collect(Collectors.joining(", ")));
+        c.dedent();
+        c.add("END_TYPE");
+        return c;
     }
 
     /**
@@ -402,7 +430,7 @@ public abstract class Writer {
      * @param elementaryType Elementary type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcElementaryType elementaryType) {
+    protected Box toTypeRefBox(PlcElementaryType elementaryType) {
         return new TextBox(elementaryType.name);
     }
 
@@ -412,7 +440,7 @@ public abstract class Writer {
      * @param derivedType Derived type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcDerivedType derivedType) {
+    protected Box toTypeRefBox(PlcDerivedType derivedType) {
         return new TextBox(derivedType.name);
     }
 
@@ -422,28 +450,30 @@ public abstract class Writer {
      * @param arrayType Array type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcArrayType arrayType) {
+    protected Box toTypeRefBox(PlcArrayType arrayType) {
         HBox b = new HBox();
         b.add(fmt("ARRAY[%d..%d] of ", arrayType.lower, arrayType.upper));
-        b.add(toBox(arrayType.elemType));
+        b.add(toTypeRefBox(arrayType.elemType));
         return b;
     }
 
     /**
-     * Convert a {@link PlcStructType} instance to a {@link Box} text.
+     * Convert a {@link PlcStructType} reference to a {@link Box} text.
      *
      * @param structType Struct type to convert.
      * @return The generated box representation.
      */
-    protected Box toBox(PlcStructType structType) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("STRUCT");
-        c.indent();
-        for (PlcStructField field: structType.fields) {
-            c.add(toBox(field));
-        }
-        c.dedent();
-        c.add("END_STRUCT");
-        return c;
+    protected Box toTypeRefBox(PlcStructType structType) {
+        return new TextBox(structType.typeName);
+    }
+
+    /**
+     * Convert a {@link PlcEnumType} reference to a {@link Box} text.
+     *
+     * @param enumType Enum type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toTypeRefBox(PlcEnumType enumType) {
+        return new TextBox(enumType.typeName);
     }
 }
