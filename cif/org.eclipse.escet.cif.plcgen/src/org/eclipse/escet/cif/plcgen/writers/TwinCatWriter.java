@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -655,17 +654,6 @@ public class TwinCatWriter extends Writer {
         }
         c.dedent();
         c.add("END_STRUCT");
-        c.dedent();
-        c.add("END_TYPE");
-        return c;
-    }
-
-    @Override
-    protected Box toTypeDeclBox(PlcEnumType enumType) {
-        CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", enumType.typeName);
-        c.indent();
-        c.add("(%s);", enumType.literals.stream().map(lit -> lit.value).collect(Collectors.joining(", ")));
         c.dedent();
         c.add("END_TYPE");
         return c;
