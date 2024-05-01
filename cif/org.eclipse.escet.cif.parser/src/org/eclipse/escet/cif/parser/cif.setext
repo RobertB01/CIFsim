@@ -276,12 +276,12 @@ GroupDecl : Decl
           | @NAMESPACEKW @RELATIVENAMETK SEMICOLTK
           | OptAnnos @FUNCKW Types Identifier FuncParams COLONTK FuncBody
           | Identifier COLONTK Name CompInstArgs @SEMICOLTK
-          | @GROUPKW                 DEFKW Identifier CompDefParms COLONTK GroupBody     @ENDKW
-          | OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
-          |    SupKind               DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
-          | @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
-          | OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
-          |    SupKind                     Identifier              COLONTK AutomatonBody @ENDKW
+          |          @GROUPKW                 DEFKW Identifier CompDefParms COLONTK GroupBody     @ENDKW
+          |          OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
+          |             SupKind               DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
+          |          @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
+          | OptAnnos OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
+          | OptAnnos    SupKind                     Identifier              COLONTK AutomatonBody @ENDKW
           ;
 
 {List<cif.ADecl>}
