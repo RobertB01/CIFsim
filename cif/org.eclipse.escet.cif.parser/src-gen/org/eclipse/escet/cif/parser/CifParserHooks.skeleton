@@ -387,43 +387,58 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // GroupDecl : OptAnnos @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
-    public ADecl parseGroupDecl05(List<AAnnotation> l1, Token t2, List<ACifType> l3, AIdentifier a4, List<AFuncParam> l5, AFuncBody a7) {
+    @Override // GroupDecl : @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
+    public ADecl parseGroupDecl05(Token t1, List<ACifType> l2, AIdentifier a3, List<AFuncParam> l4, AFuncBody a6) {
+        // return null;
+    }
+
+    @Override // GroupDecl : Annos @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
+    public ADecl parseGroupDecl06(List<AAnnotation> l1, Token t2, List<ACifType> l3, AIdentifier a4, List<AFuncParam> l5, AFuncBody a7) {
         // return null;
     }
 
     @Override // GroupDecl : Identifier COLONTK Name CompInstArgs @SEMICOLTK;
-    public ADecl parseGroupDecl06(AIdentifier a1, AName a3, List<AExpression> l4, Token t5) {
+    public ADecl parseGroupDecl07(AIdentifier a1, AName a3, List<AExpression> l4, Token t5) {
         // return null;
     }
 
     @Override // GroupDecl : @GROUPKW DEFKW Identifier CompDefParms COLONTK GroupBody @ENDKW;
-    public ADecl parseGroupDecl07(Token t1, AIdentifier a3, List<AParameter> l4, AGroupBody a6, Token t7) {
+    public ADecl parseGroupDecl08(Token t1, AIdentifier a3, List<AParameter> l4, AGroupBody a6, Token t7) {
         // return null;
     }
 
     @Override // GroupDecl : OptSupKind @AUTOMATONKW DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl08(Token t1, Token t2, AIdentifier a4, List<AParameter> l5, AAutomatonBody a7, Token t8) {
+    public ADecl parseGroupDecl09(Token t1, Token t2, AIdentifier a4, List<AParameter> l5, AAutomatonBody a7, Token t8) {
         // return null;
     }
 
     @Override // GroupDecl : SupKind DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl09(Token t1, AIdentifier a3, List<AParameter> l4, AAutomatonBody a6, Token t7) {
+    public ADecl parseGroupDecl10(Token t1, AIdentifier a3, List<AParameter> l4, AAutomatonBody a6, Token t7) {
         // return null;
     }
 
     @Override // GroupDecl : @GROUPKW Identifier COLONTK GroupBody @ENDKW;
-    public ADecl parseGroupDecl10(Token t1, AIdentifier a2, AGroupBody a4, Token t5) {
+    public ADecl parseGroupDecl11(Token t1, AIdentifier a2, AGroupBody a4, Token t5) {
         // return null;
     }
 
     @Override // GroupDecl : OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl11(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl12(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+        // return null;
+    }
+
+    @Override // GroupDecl : Annos OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
+    public ADecl parseGroupDecl13(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6, Token t7) {
         // return null;
     }
 
     @Override // GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl12(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
+    public ADecl parseGroupDecl14(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
+        // return null;
+    }
+
+    @Override // GroupDecl : Annos SupKind Identifier COLONTK AutomatonBody @ENDKW;
+    public ADecl parseGroupDecl15(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         // return null;
     }
 
@@ -462,83 +477,138 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // AutDecl : OptAnnos @DISCKW Type DiscDecls SEMICOLTK;
-    public ADecl parseAutDecl6(List<AAnnotation> l1, Token t2, ACifType a3, List<ADiscVariable> l4) {
+    @Override // AutDecl : @DISCKW Type DiscDecls SEMICOLTK;
+    public ADecl parseAutDecl6(Token t1, ACifType a2, List<ADiscVariable> l3) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK;
-    public ADecl parseDecl01(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
+    @Override // AutDecl : Annos @DISCKW Type DiscDecls SEMICOLTK;
+    public ADecl parseAutDecl7(List<AAnnotation> l1, Token t2, ACifType a3, List<ADiscVariable> l4) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK;
-    public ADecl parseDecl02(List<AAnnotation> l1, AIdentifier a3, List<AAnnotatedIdentifier> l5) {
+    @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos OptControllability @EVENTKW Identifiers SEMICOLTK;
-    public ADecl parseDecl03(List<AAnnotation> l1, Token t2, Token t3, List<AIdentifier> l4) {
+    @Override // Decl : Annos @TYPEKW TypeDefs SEMICOLTK;
+    public ADecl parseDecl02(List<AAnnotation> l1, Token t2, List<ATypeDef> l3) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl04(List<AAnnotation> l1, Token t2, Token t3, ACifType a4, List<AIdentifier> l5) {
+    @Override // Decl : ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK;
+    public ADecl parseDecl03(AIdentifier a2, List<AAnnotatedIdentifier> l4) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos Controllability Identifiers SEMICOLTK;
-    public ADecl parseDecl05(List<AAnnotation> l1, Token t2, List<AIdentifier> l3) {
+    @Override // Decl : Annos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK;
+    public ADecl parseDecl04(List<AAnnotation> l1, AIdentifier a3, List<AAnnotatedIdentifier> l5) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos Controllability EventType Identifiers SEMICOLTK;
-    public ADecl parseDecl06(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+    @Override // Decl : OptControllability @EVENTKW Identifiers SEMICOLTK;
+    public ADecl parseDecl05(Token t1, Token t2, List<AIdentifier> l3) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos @CONSTKW Type ConstantDefs SEMICOLTK;
-    public ADecl parseDecl07(List<AAnnotation> l1, Token t2, ACifType a3, List<AConstant> l4) {
+    @Override // Decl : Annos OptControllability @EVENTKW Identifiers SEMICOLTK;
+    public ADecl parseDecl06(List<AAnnotation> l1, Token t2, Token t3, List<AIdentifier> l4) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos @ALGKW Type AlgVarsDefs SEMICOLTK;
-    public ADecl parseDecl08(List<AAnnotation> l1, Token t2, ACifType a3, List<AAlgVariable> l4) {
+    @Override // Decl : OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl07(Token t1, Token t2, ACifType a3, List<AIdentifier> l4) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos @INPUTKW Type Identifiers SEMICOLTK;
-    public ADecl parseDecl09(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+    @Override // Decl : Annos OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl08(List<AAnnotation> l1, Token t2, Token t3, ACifType a4, List<AIdentifier> l5) {
         // return null;
     }
 
-    @Override // Decl : OptAnnos @CONTKW ContDecls SEMICOLTK;
-    public ADecl parseDecl10(List<AAnnotation> l1, Token t2, List<AContVariable> l3) {
+    @Override // Decl : Controllability Identifiers SEMICOLTK;
+    public ADecl parseDecl09(Token t1, List<AIdentifier> l2) {
+        // return null;
+    }
+
+    @Override // Decl : Annos Controllability Identifiers SEMICOLTK;
+    public ADecl parseDecl10(List<AAnnotation> l1, Token t2, List<AIdentifier> l3) {
+        // return null;
+    }
+
+    @Override // Decl : Controllability EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl11(Token t1, ACifType a2, List<AIdentifier> l3) {
+        // return null;
+    }
+
+    @Override // Decl : Annos Controllability EventType Identifiers SEMICOLTK;
+    public ADecl parseDecl12(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+        // return null;
+    }
+
+    @Override // Decl : @CONSTKW Type ConstantDefs SEMICOLTK;
+    public ADecl parseDecl13(Token t1, ACifType a2, List<AConstant> l3) {
+        // return null;
+    }
+
+    @Override // Decl : Annos @CONSTKW Type ConstantDefs SEMICOLTK;
+    public ADecl parseDecl14(List<AAnnotation> l1, Token t2, ACifType a3, List<AConstant> l4) {
+        // return null;
+    }
+
+    @Override // Decl : @ALGKW Type AlgVarsDefs SEMICOLTK;
+    public ADecl parseDecl15(Token t1, ACifType a2, List<AAlgVariable> l3) {
+        // return null;
+    }
+
+    @Override // Decl : Annos @ALGKW Type AlgVarsDefs SEMICOLTK;
+    public ADecl parseDecl16(List<AAnnotation> l1, Token t2, ACifType a3, List<AAlgVariable> l4) {
+        // return null;
+    }
+
+    @Override // Decl : @INPUTKW Type Identifiers SEMICOLTK;
+    public ADecl parseDecl17(Token t1, ACifType a2, List<AIdentifier> l3) {
+        // return null;
+    }
+
+    @Override // Decl : Annos @INPUTKW Type Identifiers SEMICOLTK;
+    public ADecl parseDecl18(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+        // return null;
+    }
+
+    @Override // Decl : @CONTKW ContDecls SEMICOLTK;
+    public ADecl parseDecl19(Token t1, List<AContVariable> l2) {
+        // return null;
+    }
+
+    @Override // Decl : Annos @CONTKW ContDecls SEMICOLTK;
+    public ADecl parseDecl20(List<AAnnotation> l1, Token t2, List<AContVariable> l3) {
         // return null;
     }
 
     @Override // Decl : @EQUATIONKW Equations SEMICOLTK;
-    public ADecl parseDecl11(Token t1, List<AEquation> l2) {
+    public ADecl parseDecl21(Token t1, List<AEquation> l2) {
         // return null;
     }
 
     @Override // Decl : @INITIALKW Expressions SEMICOLTK;
-    public ADecl parseDecl12(Token t1, List<AExpression> l2) {
+    public ADecl parseDecl22(Token t1, List<AExpression> l2) {
         // return null;
     }
 
     @Override // Decl : InvariantDecls;
-    public ADecl parseDecl13(AInvariantDecl a1) {
+    public ADecl parseDecl23(AInvariantDecl a1) {
         // return null;
     }
 
     @Override // Decl : @MARKEDKW Expressions SEMICOLTK;
-    public ADecl parseDecl14(Token t1, List<AExpression> l2) {
+    public ADecl parseDecl24(Token t1, List<AExpression> l2) {
         // return null;
     }
 
     @Override // Decl : IoDecl;
-    public ADecl parseDecl15(AIoDecl a1) {
+    public ADecl parseDecl25(AIoDecl a1) {
         // return null;
     }
 
@@ -862,23 +932,43 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // Location : OptAnnos @LOCATIONKW SEMICOLTK;
-    public ALocation parseLocation1(List<AAnnotation> l1, Token t2) {
+    @Override // Location : @LOCATIONKW SEMICOLTK;
+    public ALocation parseLocation1(Token t1) {
         // return null;
     }
 
-    @Override // Location : OptAnnos @LOCATIONKW Identifier SEMICOLTK;
-    public ALocation parseLocation2(List<AAnnotation> l1, Token t2, AIdentifier a3) {
+    @Override // Location : Annos @LOCATIONKW SEMICOLTK;
+    public ALocation parseLocation2(List<AAnnotation> l1, Token t2) {
         // return null;
     }
 
-    @Override // Location : OptAnnos @LOCATIONKW COLONTK LocationElements;
-    public ALocation parseLocation3(List<AAnnotation> l1, Token t2, List<ALocationElement> l4) {
+    @Override // Location : @LOCATIONKW Identifier SEMICOLTK;
+    public ALocation parseLocation3(Token t1, AIdentifier a2) {
         // return null;
     }
 
-    @Override // Location : OptAnnos @LOCATIONKW Identifier COLONTK LocationElements;
-    public ALocation parseLocation4(List<AAnnotation> l1, Token t2, AIdentifier a3, List<ALocationElement> l5) {
+    @Override // Location : Annos @LOCATIONKW Identifier SEMICOLTK;
+    public ALocation parseLocation4(List<AAnnotation> l1, Token t2, AIdentifier a3) {
+        // return null;
+    }
+
+    @Override // Location : @LOCATIONKW COLONTK LocationElements;
+    public ALocation parseLocation5(Token t1, List<ALocationElement> l3) {
+        // return null;
+    }
+
+    @Override // Location : Annos @LOCATIONKW COLONTK LocationElements;
+    public ALocation parseLocation6(List<AAnnotation> l1, Token t2, List<ALocationElement> l4) {
+        // return null;
+    }
+
+    @Override // Location : @LOCATIONKW Identifier COLONTK LocationElements;
+    public ALocation parseLocation7(Token t1, AIdentifier a2, List<ALocationElement> l4) {
+        // return null;
+    }
+
+    @Override // Location : Annos @LOCATIONKW Identifier COLONTK LocationElements;
+    public ALocation parseLocation8(List<AAnnotation> l1, Token t2, AIdentifier a3, List<ALocationElement> l5) {
         // return null;
     }
 
