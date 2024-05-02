@@ -743,7 +743,7 @@ automaton p41:
 end
 
 // Annotations.
-//@doc("aut doc") // Not supported yet.
+@doc("aut doc")
 automaton annos:
   @doc("first loc")
   location loc1:
