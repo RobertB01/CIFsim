@@ -39,6 +39,7 @@ input bool i4;
 
 // Also check other types of annotated objects.
 
+@cif:typechecker:tests:anno1(x: true)
 automaton a1:
   @cif:typechecker:tests:anno1(x: true)
   location:
