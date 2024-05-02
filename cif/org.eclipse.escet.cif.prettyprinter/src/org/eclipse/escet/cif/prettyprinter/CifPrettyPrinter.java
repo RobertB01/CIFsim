@@ -265,7 +265,8 @@ public final class CifPrettyPrinter {
     /**
      * Add the body of a component or component definition to the pretty printed code.
      *
-     * @param annos The annotations of the body.
+     * @param annos The annotations of the body of the specification. Provide {@code null} for the bodies of other
+     *     components, as their annotations are not within the body, but on/before the component itself.
      * @param decls The declarations of the body.
      * @param cdefs The child component definitions of the body.
      * @param comps The child components of the body.
@@ -282,9 +283,11 @@ public final class CifPrettyPrinter {
     {
         boolean anythingAdded = false;
 
-        for (Annotation anno: annos) {
-            anythingAdded = true;
-            add(anno);
+        if (annos != null) {
+            for (Annotation anno: annos) {
+                anythingAdded = true;
+                add(anno);
+            }
         }
 
         for (Declaration decl: decls) {
@@ -828,13 +831,12 @@ public final class CifPrettyPrinter {
         // Add body.
         if (isAut) {
             Automaton aut = (Automaton)compBody;
-            addAutBody(aut.getAnnotations(), aut.getAlphabet(), aut.getMonitors(), aut.getLocations(),
-                    aut.getDeclarations(), aut.getInitials(), aut.getInvariants(), aut.getEquations(), aut.getMarkeds(),
-                    aut.getIoDecls());
+            addAutBody(aut.getAlphabet(), aut.getMonitors(), aut.getLocations(), aut.getDeclarations(),
+                    aut.getInitials(), aut.getInvariants(), aut.getEquations(), aut.getMarkeds(), aut.getIoDecls());
         } else {
             Assert.check(compBody instanceof Group);
             Group group = (Group)compBody;
-            addCompBody(group.getAnnotations(), group.getDeclarations(), group.getDefinitions(), group.getComponents(),
+            addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(),
                     group.getInitials(), group.getInvariants(), group.getEquations(), group.getMarkeds(),
                     group.getIoDecls());
         }
@@ -953,6 +955,10 @@ public final class CifPrettyPrinter {
      * @param aut The automaton.
      */
     public void add(Automaton aut) {
+        // Add annotations.
+        add(aut.getAnnotations());
+
+        // Add automaton.
         SupKind kind = aut.getKind();
         String kindTxt = "automaton";
         if (kind != SupKind.NONE) {
@@ -961,9 +967,8 @@ public final class CifPrettyPrinter {
         code.add("%s %s:", kindTxt, escapeIdentifier(aut.getName()));
         code.indent();
 
-        addAutBody(aut.getAnnotations(), aut.getAlphabet(), aut.getMonitors(), aut.getLocations(),
-                aut.getDeclarations(), aut.getInitials(), aut.getInvariants(), aut.getEquations(), aut.getMarkeds(),
-                aut.getIoDecls());
+        addAutBody(aut.getAlphabet(), aut.getMonitors(), aut.getLocations(), aut.getDeclarations(), aut.getInitials(),
+                aut.getInvariants(), aut.getEquations(), aut.getMarkeds(), aut.getIoDecls());
 
         code.dedent();
         code.add("end");
@@ -972,7 +977,6 @@ public final class CifPrettyPrinter {
     /**
      * Add the body of an automaton to the pretty printed code.
      *
-     * @param annos The annotations of the automaton.
      * @param alpha The alphabet of the automaton, or {@code null}.
      * @param monitors The monitor events of the automaton, or {@code null}.
      * @param locs The locations of the automaton.
@@ -983,14 +987,14 @@ public final class CifPrettyPrinter {
      * @param markeds The marker predicates of the automaton.
      * @param ioDecls The I/O declarations of the body.
      */
-    public void addAutBody(List<Annotation> annos, Alphabet alpha, Monitors monitors, List<Location> locs,
-            List<Declaration> decls, List<Expression> initials, List<Invariant> invs, List<Equation> eqns,
-            List<Expression> markeds, List<IoDecl> ioDecls)
+    public void addAutBody(Alphabet alpha, Monitors monitors, List<Location> locs, List<Declaration> decls,
+            List<Expression> initials, List<Invariant> invs, List<Equation> eqns, List<Expression> markeds,
+            List<IoDecl> ioDecls)
     {
         add(alpha);
         add(monitors);
 
-        addCompBody(annos, decls, Collections.emptyList(), Collections.emptyList(), initials, invs, eqns, markeds,
+        addCompBody(null, decls, Collections.emptyList(), Collections.emptyList(), initials, invs, eqns, markeds,
                 ioDecls);
 
         for (Location loc: locs) {
@@ -1037,9 +1041,8 @@ public final class CifPrettyPrinter {
         code.add("group %s:", escapeIdentifier(group.getName()));
         code.indent();
 
-        addCompBody(group.getAnnotations(), group.getDeclarations(), group.getDefinitions(), group.getComponents(),
-                group.getInitials(), group.getInvariants(), group.getEquations(), group.getMarkeds(),
-                group.getIoDecls());
+        addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(), group.getInitials(),
+                group.getInvariants(), group.getEquations(), group.getMarkeds(), group.getIoDecls());
 
         code.dedent();
         code.add("end");
