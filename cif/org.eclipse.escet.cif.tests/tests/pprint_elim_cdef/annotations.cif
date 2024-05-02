@@ -76,8 +76,21 @@ input bool i13;
 
 // Also check other types of annotated objects.
 
+@a(b: 0)
 automaton a1:
   @a(b: 1)
+  location:
+    initial;
+end
+
+@a(b: 1)
+plant p1:
+  location:
+    initial;
+end
+
+@a(b: 2)
+plant automaton p2:
   location:
     initial;
 end
