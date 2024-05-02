@@ -1,3 +1,5 @@
+@@a
+@@a
 @@a(b: 123)
 input bool i0;
 @a
@@ -54,8 +56,8 @@ automaton a1:
 end
 @a(b: 1)
 plant automaton p1:
-  location:
-    initial;
+  @a(b: 11)
+  location;
 end
 @a(b: 2)
 plant automaton p2:
@@ -69,6 +71,20 @@ automaton a2:
   @a(b: 1)
   location loc2:
     initial;
+end
+automaton a2b:
+  alg bool a;
+  @a(b: 22)
+  location:
+    initial;
+    equation a = true;
+end
+automaton a2c:
+  alg bool a;
+  @a(b: 23)
+  location loc:
+    initial;
+    equation a = false;
 end
 automaton a3:
   @a(b: 1)
