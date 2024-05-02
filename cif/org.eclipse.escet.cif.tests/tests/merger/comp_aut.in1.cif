@@ -19,6 +19,8 @@ group g:
   end
 end
 
+@cif:typechecker:tests:anno1(arg: true)
+@cif:typechecker:tests:anno3
 plant b:
   event e3;
   location:

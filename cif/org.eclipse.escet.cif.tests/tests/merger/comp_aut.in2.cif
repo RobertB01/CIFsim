@@ -23,6 +23,8 @@ group b:
   event e3;
 end
 
+@cif:typechecker:tests:anno2
+@cif:typechecker:tests:anno4
 plant c:
   event e4;
   location:
