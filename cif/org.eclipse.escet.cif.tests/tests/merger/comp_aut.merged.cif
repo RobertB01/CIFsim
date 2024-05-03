@@ -4,12 +4,16 @@ group g:
     event e2;
   end
 end
+@cif:typechecker:tests:anno1(arg: true)
+@cif:typechecker:tests:anno3
 plant automaton b:
   event e3;
   location:
     initial;
     edge g.e1, g.a.e2, e3, c.e4;
 end
+@cif:typechecker:tests:anno2
+@cif:typechecker:tests:anno4
 plant automaton c:
   event e4;
   location:

@@ -17,6 +17,7 @@
 @doc("a")
 input bool x;
 
+@doc("a1")
 automaton a1:
   @doc("a")
   location:

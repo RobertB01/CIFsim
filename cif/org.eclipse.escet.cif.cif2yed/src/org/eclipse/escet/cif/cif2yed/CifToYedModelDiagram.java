@@ -423,11 +423,9 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
 
         // Get annotations code.
         MemoryCodeBox codeAnnos = new MemoryCodeBox(CifPrettyPrinter.INDENT);
-        if (comp instanceof Specification) {
-            CifPrettyPrinter pprinter = new CifPrettyPrinter(codeAnnos);
-            for (Annotation anno: comp.getAnnotations()) {
-                pprinter.add(anno);
-            }
+        CifPrettyPrinter annosPrinter = new CifPrettyPrinter(codeAnnos);
+        for (Annotation anno: comp.getAnnotations()) {
+            annosPrinter.add(anno);
         }
 
         // Get alphabet and monitors code.

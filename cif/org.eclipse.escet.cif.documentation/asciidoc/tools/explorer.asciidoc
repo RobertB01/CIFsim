@@ -166,6 +166,4 @@ If the state space is empty, the automaton has a single non-initial location.
 
 If adding <<lang-tut-extensions-chapter-annotations-state,state annotations>> is <<tools-cif-explorer-add-state-annos,enabled>> each location is annotated with a state annotation that indicates the current location of each automaton and the current value of each variable.
 If the state space is empty, the single location in the automaton does not have a state annotation, regardless of whether the option to add state annotations is enabled or not.
-
-The resulting CIF specification is itself not annotated with any annotations.
-The events in the resulting CIF specification do not have any annotations either.
+The resulting CIF specification does not have any other annotations on any of its elements.

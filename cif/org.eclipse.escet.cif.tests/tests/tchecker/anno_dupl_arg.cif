@@ -19,6 +19,7 @@ input bool i1;
 @a(1, 2, x: 3, 4, 5, x: 6, 7, x: 8, 9, 10)
 input bool i2;
 
+@a(x: 0, x: 1)
 automaton a1:
   @a(x: 1, x: 2)
   location:

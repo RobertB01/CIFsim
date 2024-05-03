@@ -446,6 +446,9 @@ public class SymbolScopeBuilder {
             decls = aut1.body.decls;
             locs = ((AAutomatonBody)aut1.body).locations;
 
+            // Add annotations.
+            scope.astAnnotations.addAll(aut1.annotations);
+
             // Add automaton to the parent object.
             parent.getGroup().getComponents().add(aut2);
         } else {

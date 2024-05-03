@@ -274,14 +274,17 @@ GroupDecl : Decl
           | @IMPORTKW Imports SEMICOLTK
           | @NAMESPACEKW @IDENTIFIERTK SEMICOLTK
           | @NAMESPACEKW @RELATIVENAMETK SEMICOLTK
-          | OptAnnos @FUNCKW Types Identifier FuncParams COLONTK FuncBody
+          |       @FUNCKW Types Identifier FuncParams COLONTK FuncBody
+          | Annos @FUNCKW Types Identifier FuncParams COLONTK FuncBody
           | Identifier COLONTK Name CompInstArgs @SEMICOLTK
-          | @GROUPKW                 DEFKW Identifier CompDefParms COLONTK GroupBody     @ENDKW
-          | OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
-          |    SupKind               DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
-          | @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
-          | OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
-          |    SupKind                     Identifier              COLONTK AutomatonBody @ENDKW
+          |       @GROUPKW                 DEFKW Identifier CompDefParms COLONTK GroupBody     @ENDKW
+          |       OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
+          |          SupKind               DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
+          |       @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
+          |       OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
+          | Annos OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
+          |          SupKind                     Identifier              COLONTK AutomatonBody @ENDKW
+          | Annos    SupKind                     Identifier              COLONTK AutomatonBody @ENDKW
           ;
 
 {List<cif.ADecl>}
@@ -295,20 +298,31 @@ AutDecl : Decl
         | @ALPHABETKW SEMICOLTK
         | @MONITORKW Events SEMICOLTK
         | @MONITORKW SEMICOLTK
-        | OptAnnos @DISCKW Type DiscDecls SEMICOLTK
+        |       @DISCKW Type DiscDecls SEMICOLTK
+        | Annos @DISCKW Type DiscDecls SEMICOLTK
         ;
 
 {cif.ADecl}
-Decl : OptAnnos @TYPEKW TypeDefs SEMICOLTK
-     | OptAnnos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK
-     | OptAnnos OptControllability @EVENTKW           Identifiers SEMICOLTK
-     | OptAnnos OptControllability @EVENTKW EventType Identifiers SEMICOLTK
-     | OptAnnos    Controllability                    Identifiers SEMICOLTK
-     | OptAnnos    Controllability          EventType Identifiers SEMICOLTK
-     | OptAnnos @CONSTKW Type ConstantDefs SEMICOLTK
-     | OptAnnos @ALGKW Type AlgVarsDefs SEMICOLTK
-     | OptAnnos @INPUTKW Type Identifiers SEMICOLTK
-     | OptAnnos @CONTKW ContDecls SEMICOLTK
+Decl :       @TYPEKW TypeDefs SEMICOLTK
+     | Annos @TYPEKW TypeDefs SEMICOLTK
+     |       ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK
+     | Annos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK
+     |       OptControllability @EVENTKW           Identifiers SEMICOLTK
+     | Annos OptControllability @EVENTKW           Identifiers SEMICOLTK
+     |       OptControllability @EVENTKW EventType Identifiers SEMICOLTK
+     | Annos OptControllability @EVENTKW EventType Identifiers SEMICOLTK
+     |          Controllability                    Identifiers SEMICOLTK
+     | Annos    Controllability                    Identifiers SEMICOLTK
+     |          Controllability          EventType Identifiers SEMICOLTK
+     | Annos    Controllability          EventType Identifiers SEMICOLTK
+     |       @CONSTKW Type ConstantDefs SEMICOLTK
+     | Annos @CONSTKW Type ConstantDefs SEMICOLTK
+     |       @ALGKW Type AlgVarsDefs SEMICOLTK
+     | Annos @ALGKW Type AlgVarsDefs SEMICOLTK
+     |       @INPUTKW Type Identifiers SEMICOLTK
+     | Annos @INPUTKW Type Identifiers SEMICOLTK
+     |       @CONTKW ContDecls SEMICOLTK
+     | Annos @CONTKW ContDecls SEMICOLTK
      | @EQUATIONKW Equations SEMICOLTK
      | @INITIALKW Expressions SEMICOLTK
      | InvariantDecls
@@ -463,10 +477,14 @@ Locations : Location
           ;
 
 {automata.ALocation}
-Location : OptAnnos @LOCATIONKW SEMICOLTK
-         | OptAnnos @LOCATIONKW Identifier SEMICOLTK
-         | OptAnnos @LOCATIONKW COLONTK LocationElements
-         | OptAnnos @LOCATIONKW Identifier COLONTK LocationElements
+Location :       @LOCATIONKW SEMICOLTK
+         | Annos @LOCATIONKW SEMICOLTK
+         |       @LOCATIONKW Identifier SEMICOLTK
+         | Annos @LOCATIONKW Identifier SEMICOLTK
+         |       @LOCATIONKW COLONTK LocationElements
+         | Annos @LOCATIONKW COLONTK LocationElements
+         |       @LOCATIONKW Identifier COLONTK LocationElements
+         | Annos @LOCATIONKW Identifier COLONTK LocationElements
          ;
 
 {List<automata.ALocationElement>}

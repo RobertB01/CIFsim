@@ -29,6 +29,7 @@ input bool i4;
 @doc("Second doc line 1.", "Second doc line 2.")
 input bool i5;
 
+@doc("discvarsAut") // Annotations on automata are ignored.
 automaton discvars:
   disc bool d1;
 

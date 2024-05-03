@@ -1,4 +1,4 @@
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 1, column 1: Annotation "cif:typechecker:tests:anno1": the specification contains more than 3 such annotations, namely 23.
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 1, column 1: Annotation "cif:typechecker:tests:anno1": the specification contains more than 3 such annotations, namely 24.
 WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 16, column 31: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
 WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 19, column 30: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
 WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 22, column 30: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
@@ -7,19 +7,20 @@ WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 30, co
 WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 30, column 33: Annotation "cif:typechecker:tests:anno1": argument "arg" must have a value of type "bool", but has a value of type "int[5..5]".
 WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 33, column 30: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
 WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 33, column 30: Annotation "cif:typechecker:tests:anno1": argument "arg" must have a value of type "bool", but has a value of type "int[5..5]".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 43, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 49, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 53, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 59, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 63, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 67, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 76, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 79, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 82, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 85, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 88, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 89, column 49: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 91, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 94, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 96, column 34: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
-WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 99, column 34: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 42, column 30: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 44, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 50, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 54, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 60, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 64, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 68, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 77, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 80, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 83, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 86, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 89, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 90, column 49: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 92, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 95, column 32: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 97, column 34: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".
+WARNING: File "tchecker/anno_specific_warn.cif": Semantic warning at line 100, column 34: Annotation "cif:typechecker:tests:anno1": annotation argument must be named "arg".

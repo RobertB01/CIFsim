@@ -13,6 +13,8 @@
 
 // Annotations on the specification.
 
+@@a
+@@a()
 @@a(b: 123)
 
 // All syntax variations (for annotated input variables).
@@ -76,8 +78,21 @@ input bool i13;
 
 // Also check other types of annotated objects.
 
+@a(b: 0)
 automaton a1:
   @a(b: 1)
+  location:
+    initial;
+end
+
+@a(b: 1)
+plant p1:
+  @a(b: 11)
+  location;
+end
+
+@a(b: 2)
+plant automaton p2:
   location:
     initial;
 end
@@ -90,6 +105,22 @@ automaton a2:
   @a(b: 1)
   location loc2:
     initial;
+end
+
+automaton a2b:
+  alg bool a;
+  @a(b: 22)
+  location: // Nameless location with annotation and equation.
+    initial;
+    equation a = true;
+end
+
+automaton a2c:
+  alg bool a;
+  @a(b: 23)
+  location loc: // Named location with annotation and equation.
+    initial;
+    equation a = false;
 end
 
 automaton a3:

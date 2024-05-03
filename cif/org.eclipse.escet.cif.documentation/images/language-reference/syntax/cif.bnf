@@ -15,14 +15,17 @@ GroupDecl : Decl
           | "import" Imports ";"
           | "namespace" IDENTIFIERTK ";"
           | "namespace" RELATIVENAMETK ";"
-          | OptAnnos "func" Types Identifier FuncParams ":" FuncBody
+          |       "func" Types Identifier FuncParams ":" FuncBody
+          | Annos "func" Types Identifier FuncParams ":" FuncBody
           | Identifier ":" Name CompInstArgs ";"
-          | "group"                "def" Identifier CompDefParms ":" GroupBody     "end"
-          | OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
-          |    SupKind             "def" Identifier CompDefParms ":" AutomatonBody "end"
-          | "group"                      Identifier              ":" GroupBody     "end"
-          | OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"
-          |    SupKind                   Identifier              ":" AutomatonBody "end"
+          |       "group"                "def" Identifier CompDefParms ":" GroupBody     "end"
+          |       OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
+          |          SupKind             "def" Identifier CompDefParms ":" AutomatonBody "end"
+          |       "group"                      Identifier              ":" GroupBody     "end"
+          |       OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"
+          | Annos OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"
+          |          SupKind                   Identifier              ":" AutomatonBody "end"
+          | Annos    SupKind                   Identifier              ":" AutomatonBody "end"
           ;
 
 OptAutDecls : /* empty */
@@ -34,19 +37,30 @@ AutDecl : Decl
         | "alphabet" ";"
         | "monitor" Events ";"
         | "monitor" ";"
-        | OptAnnos "disc" Type DiscDecls ";"
+        |       "disc" Type DiscDecls ";"
+        | Annos "disc" Type DiscDecls ";"
         ;
 
-Decl : OptAnnos "type" TypeDefs ";"
-     | OptAnnos "enum" Identifier "=" AnnotatedIdentifiers ";"
-     | OptAnnos OptControllability "event"           Identifiers ";"
-     | OptAnnos OptControllability "event" EventType Identifiers ";"
-     | OptAnnos    Controllability                   Identifiers ";"
-     | OptAnnos    Controllability         EventType Identifiers ";"
-     | OptAnnos "const" Type ConstantDefs ";"
-     | OptAnnos "alg" Type AlgVarsDefs ";"
-     | OptAnnos "input" Type Identifiers ";"
-     | OptAnnos "cont" ContDecls ";"
+Decl :       "type" TypeDefs ";"
+     | Annos "type" TypeDefs ";"
+     |       "enum" Identifier "=" AnnotatedIdentifiers ";"
+     | Annos "enum" Identifier "=" AnnotatedIdentifiers ";"
+     |       OptControllability "event"           Identifiers ";"
+     | Annos OptControllability "event"           Identifiers ";"
+     |       OptControllability "event" EventType Identifiers ";"
+     | Annos OptControllability "event" EventType Identifiers ";"
+     |          Controllability                   Identifiers ";"
+     | Annos    Controllability                   Identifiers ";"
+     |          Controllability         EventType Identifiers ";"
+     | Annos    Controllability         EventType Identifiers ";"
+     |       "const" Type ConstantDefs ";"
+     | Annos "const" Type ConstantDefs ";"
+     |       "alg" Type AlgVarsDefs ";"
+     | Annos "alg" Type AlgVarsDefs ";"
+     |       "input" Type Identifiers ";"
+     | Annos "input" Type Identifiers ";"
+     |       "cont" ContDecls ";"
+     | Annos "cont" ContDecls ";"
      | "equation" Equations ";"
      | "initial" Expressions ";"
      | InvariantDecls
@@ -173,10 +187,14 @@ Locations : Location
           | Locations Location
           ;
 
-Location : OptAnnos "location" ";"
-         | OptAnnos "location" Identifier ";"
-         | OptAnnos "location" ":" LocationElements
-         | OptAnnos "location" Identifier ":" LocationElements
+Location :       "location" ";"
+         | Annos "location" ";"
+         |       "location" Identifier ";"
+         | Annos "location" Identifier ";"
+         |       "location" ":" LocationElements
+         | Annos "location" ":" LocationElements
+         |       "location" Identifier ":" LocationElements
+         | Annos "location" Identifier ":" LocationElements
          ;
 
 LocationElements : LocationElement

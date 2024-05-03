@@ -190,7 +190,12 @@ public class AutScope extends ParentScope<Automaton> {
 
     @Override
     protected void tcheckScopeFull() {
+        // Type check the automaton body.
         typeCheckAutomaton((AAutomatonBody)autDecl.body, obj, this, tchecker);
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astAnnotations, this, tchecker);
+        obj.getAnnotations().addAll(annos);
     }
 
     /**

@@ -321,6 +321,7 @@ group p41:
   marked true and false;
 end
 group annos:
+  @doc("aut doc")
   enum LPE =
     @doc("first loc")
     loc1,
