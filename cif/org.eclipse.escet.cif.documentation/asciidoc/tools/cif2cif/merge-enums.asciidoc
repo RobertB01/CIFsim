@@ -201,7 +201,7 @@ n/a
 
 === Annotations
 
-This transformation does not process or add or any specific annotations.
+This transformation does not process or add any specific annotations.
 The annotations of the original automata are moved to the enumeration declarations of the newly created location pointer enumerations, but only for automata with at least two locations.
 Similarly, the annotations of the original locations are moved to the enumeration literals of the newly created location pointer enumerations, but only for automata with at least two locations.
 For automata with a single location, the annotations of the automata and their locations are removed.
