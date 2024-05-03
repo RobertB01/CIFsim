@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
@@ -73,8 +74,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     /** How to convert enumerations. */
     private ConvertEnums selectedEnumConversion;
 
-    /** Absolute base path to which to write the generated code. */
-    private String absOutputPath;
+    /** Paths to write the generated code. Depending in the target can be either a file or a directory path. */
+    private PathPair outputPaths;
 
     /** Callback to send warnings to the user. */
     private WarnOutput warnOutput;
@@ -147,7 +148,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
     public void setup(PlcGenSettings settings) {
         intTypeSize = settings.intTypeSize;
         realTypeSize = settings.realTypeSize;
-        absOutputPath = settings.absOutputPath;
+        outputPaths = settings.outputPaths;
         warnOutput = settings.warnOutput;
         selectedEnumConversion = (settings.enumConversion == ConvertEnums.AUTO) ? autoEnumConversion
                 : settings.enumConversion;
@@ -351,6 +352,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public void writeOutput(PlcProject project) {
         Writer writer = getPlcCodeWriter();
-        writer.write(project, absOutputPath);
+        writer.write(project, outputPaths.systemPath);
     }
 }

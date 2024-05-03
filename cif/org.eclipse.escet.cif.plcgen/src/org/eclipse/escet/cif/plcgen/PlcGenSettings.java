@@ -51,20 +51,14 @@ public class PlcGenSettings {
      */
     public final Integer maxControllableLimit;
 
-    /** User-specified path to the CIF specification for which to generate PLC code. */
-    public final String inputPath;
+    /** Paths to the CIF specification for which to generate PLC code. */
+    public final PathPair inputPaths;
 
-    /** Absolute path to the CIF specification for which to generate PLC code. */
-    public final String absInputPath;
+    /** Paths to write the generated code. Depending in the target can be either a file or a directory path. */
+    public final PathPair outputPaths;
 
-    /** Absolute base path to which to write the generated code. */
-    public final String absOutputPath;
-
-    /** File path to the I/O table file, may not exist. */
-    public final String ioTablePath;
-
-    /** Absolute file path to the I/O table file, may not exist. */
-    public final String absIoTablePath;
+    /** Paths to the I/O table file, may not exist. */
+    public final PathPair ioTablePaths;
 
     /** User-defined integer type size to use by the PLC. */
     public final PlcNumberBits intTypeSize;
@@ -101,11 +95,10 @@ public class PlcGenSettings {
      *     cycle, or {@code null} if unrestricted.
      * @param maxControllableLimit Maximum number of iterations for performing controllable events in a single cycle, or
      *     {@code null} if unrestricted.
-     * @param inputPath User-specified path to the CIF specification for which to generate PLC code.
-     * @param absInputPath Absolute path to the CIF specification for which to generate PLC code.
-     * @param absOutputPath Absolute base path to which to write the generated code.
-     * @param ioTablePath File path to the I/O table file, may not exist.
-     * @param absIoTablePath Absolute file path to the I/O table file, may not exist.
+     * @param inputPaths Paths to the CIF specification for which to generate PLC code.
+     * @param outputPaths Paths to write the generated code. Depending in the target can be either a file or a
+     *     directory path.
+     * @param ioTablePaths Paths to the I/O table file, may not exist.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
@@ -116,8 +109,8 @@ public class PlcGenSettings {
      */
     public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, Integer maxUncontrollableLimit, Integer maxControllableLimit,
-            String inputPath, String absInputPath, String absOutputPath, String ioTablePath, String absIoTablePath,
-            PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
+            PathPair inputPaths, PathPair outputPaths, PathPair ioTablePaths, PlcNumberBits intTypeSize,
+            PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
@@ -128,11 +121,9 @@ public class PlcGenSettings {
         this.taskPriority = taskPriority;
         this.maxUncontrollableLimit = maxUncontrollableLimit;
         this.maxControllableLimit = maxControllableLimit;
-        this.inputPath = inputPath;
-        this.absInputPath = absInputPath;
-        this.absOutputPath = absOutputPath;
-        this.ioTablePath = ioTablePath;
-        this.absIoTablePath = absIoTablePath;
+        this.inputPaths = inputPaths;
+        this.outputPaths = outputPaths;
+        this.ioTablePaths = ioTablePaths;
         this.intTypeSize = intTypeSize;
         this.realTypeSize = realTypeSize;
         this.simplifyValues = simplifyValues;

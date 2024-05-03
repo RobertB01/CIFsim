@@ -34,6 +34,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
@@ -64,11 +65,8 @@ public class InputOutputGenerator {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** User-provided file path to the I/O table file. File may not exist. */
-    private final String ioTablePath;
-
-    /** Absolute file path to the I/O table file. File may not exist. */
-    private final String absIoTablePath;
+    /** Paths to the I/O table file, may not exist. */
+    private final PathPair ioTablePaths;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
@@ -81,8 +79,7 @@ public class InputOutputGenerator {
      */
     public InputOutputGenerator(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
-        ioTablePath = settings.ioTablePath;
-        absIoTablePath = settings.absIoTablePath;
+        ioTablePaths = settings.ioTablePaths;
         warnOutput = settings.warnOutput;
     }
 
@@ -109,7 +106,7 @@ public class InputOutputGenerator {
      * @return The collected entries of the I/O table, list is empty if no table file was found.
      */
     private List<IoEntry> convertIoTableEntries() {
-        try (BufferedReader ioTableText = new BufferedReader(new FileReader(absIoTablePath))) {
+        try (BufferedReader ioTableText = new BufferedReader(new FileReader(ioTablePaths.systemPath))) {
             Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
             Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
 
@@ -127,7 +124,8 @@ public class InputOutputGenerator {
                 }
 
                 // Text stating the CSV line being processed, for reporting any error.
-                String tableLinePositionText = fmt("at line %d of I/O table file \"%s\"", lineNumber, ioTablePath);
+                String tableLinePositionText = fmt("at line %d of I/O table file \"%s\"", lineNumber,
+                        ioTablePaths.userPath);
 
                 // Check the line length of the CSV parser.
                 if (line.size() != 3) {
@@ -208,10 +206,10 @@ public class InputOutputGenerator {
             // File does not exist, don't generate I/O handling.
             warnOutput.line(
                     "I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
-                    ioTablePath);
+                    ioTablePaths.userPath);
             return List.of();
         } catch (IOException ex) {
-            throw new InputOutputException("Failed to read I/O table file \"" + ioTablePath + "\".", ex);
+            throw new InputOutputException("Failed to read I/O table file \"" + ioTablePaths.userPath + "\".", ex);
         }
     }
 

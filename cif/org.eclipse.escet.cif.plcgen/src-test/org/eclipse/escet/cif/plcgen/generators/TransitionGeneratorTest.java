@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
+import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
@@ -88,9 +89,9 @@ public class TransitionGeneratorTest {
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, null, null, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
-                    "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
-                    warnOutput);
+                    taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
+                    new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath), intSize,
+                    realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
             setup(settings);
 
             // Setup the generators, part of PlcBaseTarget.generate() normally.

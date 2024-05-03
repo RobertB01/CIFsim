@@ -158,8 +158,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(), inputPath, Paths.resolve(inputPath),
-                Paths.resolve(outputPath), ioTablePath, Paths.resolve(ioTablePath), intSize, realSize, simplifyValues,
+                iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(),
+                new PathPair(inputPath, Paths.resolve(inputPath)), new PathPair(outputPath, Paths.resolve(outputPath)),
+                new PathPair(ioTablePath, Paths.resolve(ioTablePath)), intSize, realSize, simplifyValues,
                 enumConversion, shouldTerminate, warnOnRename, warnOutput);
     }
 

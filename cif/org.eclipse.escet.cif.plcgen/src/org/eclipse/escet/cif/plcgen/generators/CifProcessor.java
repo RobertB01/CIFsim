@@ -83,6 +83,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
+import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
@@ -99,11 +100,8 @@ public class CifProcessor {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
-    /** User-specified path to the CIF specification for which to generate PLC code. */
-    private final String inputPath;
-
-    /** Absolute path to the CIF specification for which to generate PLC code. */
-    private final String absInputPath;
+    /** Paths to the CIF specification for which to generate PLC code. */
+    private final PathPair inputPaths;
 
     /** Whether to simplify values during pre-processing. */
     private final boolean simplifyValues;
@@ -122,8 +120,7 @@ public class CifProcessor {
      */
     public CifProcessor(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
-        inputPath = settings.inputPath;
-        absInputPath = settings.absInputPath;
+        inputPaths = settings.inputPaths;
         simplifyValues = settings.simplifyValues;
         warnOutput = settings.warnOutput;
     }
@@ -131,9 +128,9 @@ public class CifProcessor {
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
     public void process() {
         // Read CIF specification.
-        Specification spec = new CifReader().init(inputPath, absInputPath, false).read();
+        Specification spec = new CifReader().init(inputPaths.userPath, inputPaths.systemPath, false).read();
         widenSpec(spec);
-        preCheckSpec(spec, absInputPath);
+        preCheckSpec(spec, inputPaths.systemPath);
         normalizeSpec(spec);
         this.spec = spec; // Store the specification for querying.
 
