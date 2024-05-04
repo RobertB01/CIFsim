@@ -388,6 +388,9 @@ public class SymbolScopeBuilder {
             scope = new GroupScope(group2, parent, tchecker);
             decls = group1.body.decls;
 
+            // Add annotations.
+            scope.astAnnotations.addAll(group1.annotations);
+
             // Add group to the parent object.
             parent.getGroup().getComponents().add(group2);
         } else {
