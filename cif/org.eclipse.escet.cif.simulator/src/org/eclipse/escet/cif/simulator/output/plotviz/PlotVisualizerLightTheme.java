@@ -16,14 +16,13 @@ package org.eclipse.escet.cif.simulator.output.plotviz;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Stroke;
 
-import org.knowm.xchart.style.MatlabTheme;
 import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.colors.ChartColor;
 import org.knowm.xchart.style.lines.SeriesLines;
 import org.knowm.xchart.style.markers.Marker;
 import org.knowm.xchart.style.markers.SeriesMarkers;
+import org.knowm.xchart.style.theme.MatlabTheme;
 
 /** Plot visualizer light theme. */
 public class PlotVisualizerLightTheme extends MatlabTheme {
@@ -34,7 +33,7 @@ public class PlotVisualizerLightTheme extends MatlabTheme {
 
     @Override
     public Color getLegendBorderColor() {
-        return ChartColor.getAWTColor(ChartColor.DARK_GREY);
+        return ChartColor.DARK_GREY.getColor();
     }
 
     @Override
@@ -63,7 +62,7 @@ public class PlotVisualizerLightTheme extends MatlabTheme {
     }
 
     @Override
-    public Stroke getPlotGridLinesStroke() {
+    public BasicStroke getPlotGridLinesStroke() {
         return new BasicStroke();
     }
 

@@ -61,10 +61,10 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.PlatformUI;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.style.AxesChartStyler.TextAlignment;
 import org.knowm.xchart.style.Styler.LegendLayout;
-import org.knowm.xchart.style.Styler.TextAlignment;
-import org.knowm.xchart.style.Theme;
 import org.knowm.xchart.style.XYStyler;
+import org.knowm.xchart.style.theme.Theme;
 
 /** Visualizer to use to graphically plot the values of variables as time progresses, during simulation. */
 public class PlotVisualizer extends ControlEditor {
