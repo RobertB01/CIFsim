@@ -1038,6 +1038,10 @@ public final class CifPrettyPrinter {
      * @param group The group.
      */
     public void add(Group group) {
+        // Add annotations.
+        add(group.getAnnotations());
+
+        // Add group.
         code.add("group %s:", escapeIdentifier(group.getName()));
         code.indent();
 
