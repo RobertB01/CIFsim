@@ -1,11 +1,21 @@
+@cif:typechecker:tests:anno1(arg: true)
+@cif:typechecker:tests:anno3(x: 1)
+@cif:typechecker:tests:anno2
+@cif:typechecker:tests:anno4(x: 5)
 group g:
   event e1;
+  @cif:typechecker:tests:anno1(arg: true)
+  @cif:typechecker:tests:anno3(x: 2)
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4(x: 6)
   group a:
     event e2;
   end
 end
 @cif:typechecker:tests:anno1(arg: true)
-@cif:typechecker:tests:anno3
+@cif:typechecker:tests:anno3(x: 3)
+@cif:typechecker:tests:anno2
+@cif:typechecker:tests:anno4(x: 7)
 plant automaton b:
   event e3;
   location:
@@ -13,7 +23,9 @@ plant automaton b:
     edge g.e1, g.a.e2, e3, c.e4;
 end
 @cif:typechecker:tests:anno2
-@cif:typechecker:tests:anno4
+@cif:typechecker:tests:anno4(x: 8)
+@cif:typechecker:tests:anno1(arg: true)
+@cif:typechecker:tests:anno3(x: 4)
 plant automaton c:
   event e4;
   location:
