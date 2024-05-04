@@ -20,10 +20,12 @@ invariant g1_inv2: true;
 
 enum g3_E = A, B;
 
+@doc("g1")
 group g1:
   const int c = 1;
   const int c2 = 1;
 
+  @doc("g1.p")
   group p:
     automaton p1:
       location l:
@@ -39,6 +41,7 @@ group g1:
   plant invariant inv2: c = 1;
 end
 
+@doc("g2")
 group g2:
   const int c = 2;
   requirement invariant inv3: c = 2;
