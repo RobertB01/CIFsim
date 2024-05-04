@@ -2,3 +2,15 @@
 @@b
 @@c
 @@d
+@a(x: 1)
+@b(x: 2)
+@a(x: 3)
+@b(x: 4)
+group g1:
+  @a(x: 5)
+  @b(x: 6)
+  @a(x: 7)
+  @b(x: 8)
+  group g2:
+  end
+end

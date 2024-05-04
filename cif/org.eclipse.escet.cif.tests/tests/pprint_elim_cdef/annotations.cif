@@ -149,6 +149,7 @@ automaton a3:
     edge event1a, event1b, event2a, event2b, event3a, event3b, event4a, event4b;
 end
 
+@a(b: 1)
 group g1:
   @a(b: 3)
   alg bool alg1 = true;
