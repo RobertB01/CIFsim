@@ -36,7 +36,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.io.filefilter.WildcardFileFilter.Builder;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -1397,7 +1397,7 @@ public class CifCompilerContext {
 
         // Clean the output directory, by removing all generated files.
         String[] filters = {"*.java", "*.dat", "*." + FILE_EXT_LOC_NAMES, "*." + FILE_EXT_EDGE_DATA};
-        FilenameFilter filter = new Builder().setWildcards(filters).get();
+        FilenameFilter filter = new WildcardFileFilter.Builder().setWildcards(filters).get();
         File[] files = pkgFile.listFiles(filter);
         if (files == null) {
             String msg = fmt("Failed to list the files in directory \"%s\", to which the generated code is to be "

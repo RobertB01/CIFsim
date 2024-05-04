@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
-import org.apache.commons.exec.DefaultExecutor.Builder;
+import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
@@ -506,7 +506,7 @@ public class BuiltInGenericTools {
         }
 
         // Initialize executor and result handler.
-        Executor executor = new Builder<>().get();
+        Executor executor = new DefaultExecutor.Builder<>().get();
         DefaultExecuteResultHandler rslt = new DefaultExecuteResultHandler();
 
         // Configure standard I/O streams.
