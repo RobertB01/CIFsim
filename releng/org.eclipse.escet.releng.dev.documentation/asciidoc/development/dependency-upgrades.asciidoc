@@ -84,12 +84,11 @@ Especially, consider what is no longer compatible with the new Eclipse version a
 **** If so, click btn:[Continue] to update your workspace to the new Eclipse version.
 
 * Version updates
-** Look up the Orbit version for the new Eclipse Platform/IDE release, see https://download.eclipse.org/tools/orbit/downloads/.
 ** Update the target platform (`org.eclipse.escet.releng.target/org.eclipse.escet.releng.target.target`), configuring new versions for the Eclipse IDE and Orbit update sites.
 ** Update `dev-env-setup.asciidoc` to match the new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Update Eclipse and Orbit update site URLs in the product (`org.eclipse.escet.product/escet.product`).
-** Update Maven plugin third party dependency versions to match the versions of these plugins from Orbit (`org.eclipse.escet.common.asciidoc/pom.xml`).
+** Update Maven plugin third party dependency versions to match the versions of these plugins from the target platform (`org.eclipse.escet.common.asciidoc/pom.xml`).
 ** Commit any changes.
 
 * Update target platform and adapt to the new Eclipse version
@@ -144,13 +143,15 @@ This requires giving the unmanaged profile the name _tmp_ again, as before.
 ** In case of changes to `*.prefs` files in the `.settings` directory of that project, configure the new preferences as desired.
 ** Run `./copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new preferences to the central place.
 ** Run `./copy_there.bash` from `misc/java-code-style` to copy the new preferences to all relevant projects.
+** Manually update the org.eclipse.escet.*.metamodel projects to have similar error/warnings settings as the rest of the projects (be aware, some settings are configured differently).
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 
 * Update Maven version
 ** Check the embedded Maven version, by navigating to menu:Run[Run Configurations...], selecting the _build_ launch configuration under _Maven Build_, and observing the _Maven Runtime_ version.
 ** Ensure the Maven version in `Jenkinsfile` matches the embedded Maven version.
 ** Ensure the Maven version in `misc/license-check-dependencies/Jenkinsfile` matches the embedded Maven version.
-** Update versions of Maven plugins (`maven-plugin-*`) to match new Maven version (`org.eclipse.escet.common.asciidoc/pom.xml`).
+** Update version of the `maven-plugin-api` to match new Maven version (`org.eclipse.escet.common.asciidoc/pom.xml`).
+** Update version of the `maven-plugin-annotations` if needed (`org.eclipse.escet.common.asciidoc/pom.xml`).
 ** Update version of the `maven-plugin-plugin` if needed (`org.eclipse.escet.releng.configuration/pom.xml`).
 
 * Validation
