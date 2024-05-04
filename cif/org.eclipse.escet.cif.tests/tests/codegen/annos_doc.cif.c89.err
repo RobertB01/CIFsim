@@ -1,5 +1,5 @@
-WARNING: File "codegen/annos_doc.cif": Semantic warning at line 76, column 16: Type "int[1..1]" allows only one value.
-WARNING: File "codegen/annos_doc.cif": Semantic warning at line 79, column 16: Type "int[2..2]" allows only one value.
-WARNING: File "codegen/annos_doc.cif": Semantic warning at line 82, column 16: Type "int[3..3]" allows only one value.
-WARNING: File "codegen/annos_doc.cif": Semantic warning at line 85, column 16: Type "int[4..4]" allows only one value.
-WARNING: File "codegen/annos_doc.cif": Semantic warning at line 89, column 16: Type "int[5..5]" allows only one value.
+WARNING: File "codegen/annos_doc.cif": Semantic warning at line 77, column 16: Type "int[1..1]" allows only one value.
+WARNING: File "codegen/annos_doc.cif": Semantic warning at line 80, column 16: Type "int[2..2]" allows only one value.
+WARNING: File "codegen/annos_doc.cif": Semantic warning at line 83, column 16: Type "int[3..3]" allows only one value.
+WARNING: File "codegen/annos_doc.cif": Semantic warning at line 86, column 16: Type "int[4..4]" allows only one value.
+WARNING: File "codegen/annos_doc.cif": Semantic warning at line 90, column 16: Type "int[5..5]" allows only one value.
