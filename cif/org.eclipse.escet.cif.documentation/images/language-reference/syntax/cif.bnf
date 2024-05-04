@@ -22,6 +22,7 @@ GroupDecl : Decl
           |       OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
           |          SupKind             "def" Identifier CompDefParms ":" AutomatonBody "end"
           |       "group"                      Identifier              ":" GroupBody     "end"
+          | Annos "group"                      Identifier              ":" GroupBody     "end"
           |       OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"
           | Annos OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"
           |          SupKind                   Identifier              ":" AutomatonBody "end"
