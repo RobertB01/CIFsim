@@ -950,7 +950,7 @@ public class ExprGenerator {
 
                 PlcExpression normalizedIndex = funcAppls.normalizeArrayIndex(indexResult.value, lt.getUpper());
                 plcProjections.add(new PlcArrayProjection(normalizedIndex));
-            } else if (unProjectedType instanceof TupleType) {
+            } else if (unProjectedType instanceof TupleType tt) {
                 int fieldIndex = getTupleProjIndex(cifProjection);
 
                 PlcStructType structType = target.getTypeGenerator().convertTupleType(tt);
