@@ -16,17 +16,24 @@ package org.eclipse.escet.cif.common;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeInt;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompParamWrapType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDictType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDistType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteral;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFuncType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSetType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeDecl;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.str;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +42,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.junit.jupiter.api.Test;
@@ -176,6 +184,125 @@ public class CifValueUtilsTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testGetPossibleValueCountBasic() {
+        // Declare an enum with 3 values.
+        Specification spec = newSpecification();
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
+        spec.getDeclarations().add(enumDecl);
+
+        // Declare type declaration.
+        TypeDecl typeDecl = newTypeDecl(null, "t", null, newBoolType());
+        spec.getDeclarations().add(typeDecl);
+
+        // Check possible value counts for various types.
+        assertEquals(2, CifValueUtils.getPossibleValueCount(newBoolType()));
+        assertEquals(5, CifValueUtils.getPossibleValueCount(newIntType(1, null, 5)));
+        assertEquals(4, CifValueUtils.getPossibleValueCount(newIntType(-1, null, 2)));
+        assertEquals(Double.POSITIVE_INFINITY, CifValueUtils.getPossibleValueCount(newRealType()));
+        assertEquals(3, CifValueUtils.getPossibleValueCount(newEnumType(enumDecl, null)));
+
+        assertEquals(6, CifValueUtils.getPossibleValueCount(newTupleType(
+                list(newField("x", null, newBoolType()), newField("y", null, newIntType(0, null, 2))), null)));
+        assertEquals(4, CifValueUtils.getPossibleValueCount(newListType(newBoolType(), 2, null, 2)));
+        assertEquals(6, CifValueUtils.getPossibleValueCount(newListType(newBoolType(), 1, null, 2)));
+        assertEquals(7, CifValueUtils.getPossibleValueCount(newListType(newBoolType(), 0, null, 2)));
+        assertEquals(4, CifValueUtils.getPossibleValueCount(newSetType(newBoolType(), null)));
+        assertEquals(Double.POSITIVE_INFINITY, CifValueUtils.getPossibleValueCount(newStringType()));
+        assertEquals(Double.POSITIVE_INFINITY,
+                CifValueUtils.getPossibleValueCount(newFuncType(list(), null, newBoolType())));
+        assertEquals(Double.POSITIVE_INFINITY, CifValueUtils.getPossibleValueCount(newDistType(null, newBoolType())));
+        assertEquals(9, CifValueUtils.getPossibleValueCount(newDictType(newBoolType(), null, newBoolType())));
+        assertEquals(2, CifValueUtils.getPossibleValueCount(newTypeRef(null, typeDecl)));
+        assertEquals(2,
+                CifValueUtils.getPossibleValueCount(newCompInstWrapType(null, null, newTypeRef(null, typeDecl))));
+        assertEquals(2,
+                CifValueUtils.getPossibleValueCount(newCompParamWrapType(null, null, newTypeRef(null, typeDecl))));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testGetPossibleValueCountMatchesPossibleValues() {
+        // Declare an enum with 3 values.
+        Specification spec = newSpecification();
+        EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
+        spec.getDeclarations().add(enumDecl);
+
+        // Declare enums with variable number of literals.
+        List<EnumDecl> enumDecls = list();
+        for (int i = 0; i < 2; i++) {
+            String enumName = "E" + str(i + 1);
+            EnumDecl enumDecl2 = newEnumDecl(null, null, enumName, null);
+            for (int j = 0; j <= i; j++) {
+                char c = (char)(97 + j);
+                String litName = String.valueOf(c);
+                enumDecl2.getLiterals().add(newEnumLiteral(null, litName, null));
+            }
+            spec.getDeclarations().add(enumDecl2);
+            enumDecls.add(enumDecl2);
+        }
+
+        // Get types to test.
+        List<CifType> types = list(
+                // Boolean types.
+                newBoolType(), //
+
+                // Integer types.
+                newIntType(0, null, 0), //
+                newIntType(1, null, 1), //
+                newIntType(-1, null, -1), //
+                newIntType(0, null, 1), //
+                newIntType(1, null, 5), //
+                newIntType(-1, null, 1), //
+
+                // Enumeration types.
+                newEnumType(enumDecl, null), //
+
+                // Array types.
+                newListType(newBoolType(), 3, null, 3), //
+                newListType(newIntType(-1, null, 1), 2, null, 2), //
+                newListType(newEnumType(enumDecl, null), 2, null, 2), //
+
+                // Tuple types.
+                newTupleType(list(newField("x", null, newBoolType()), newField("y", null, newIntType(0, null, 2))),
+                        null), //
+                newTupleType(list(newField("x", null, newBoolType()), newField("y", null, newEnumType(enumDecl, null))),
+                        null), //
+
+                // Set types.
+                newSetType(newBoolType(), null), //
+                newSetType(newIntType(0, null, 2), null), //
+                newSetType(newEnumType(enumDecl, null), null), //
+
+                // Dict types.
+                newDictType(newBoolType(), null, newIntType(0, null, 2)), //
+                newDictType(newBoolType(), null, newEnumType(enumDecl, null)) //
+        );
+
+        // Add more array types.
+        for (EnumDecl enumDecl2: enumDecls) {
+            for (int lower = 0; lower < 4; lower++) {
+                for (int upper = lower; upper < 4; upper++) {
+                    types.add(newListType(newEnumType(enumDecl2, null), lower, null, upper));
+                }
+            }
+        }
+
+        // For each type, check possible value count against number of actual possible values.
+        for (CifType type: types) {
+            double possibleValueCount = CifValueUtils.getPossibleValueCount(type);
+            List<Expression> possibleValues = CifValueUtils.getPossibleValues(type);
+            assertEquals(possibleValueCount, possibleValues.size(), CifTextUtils.typeToStr(type));
+        }
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testGetPossibleValueCountLarge() {
         CifType[] types = { //
                 newIntType(0, null, Integer.MAX_VALUE), //
@@ -259,9 +386,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesEnum() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = {newEnumType(enumDecl, null)};
@@ -274,9 +401,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesArray() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = { //
@@ -312,7 +439,7 @@ public class CifValueUtilsTest {
             for (int j = 0; j <= i; j++) {
                 char c = (char)(97 + j);
                 String litName = String.valueOf(c);
-                enumDecl.getLiterals().add(newEnumLiteral(litName, null));
+                enumDecl.getLiterals().add(newEnumLiteral(null, litName, null));
             }
             spec.getDeclarations().add(enumDecl);
             enumDecls.add(enumDecl);
@@ -362,9 +489,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesTuple() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = {
@@ -385,9 +512,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesSet() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = { //
@@ -408,9 +535,9 @@ public class CifValueUtilsTest {
     public void testGetPossibleValuesDict() {
         Specification spec = newSpecification();
         EnumDecl enumDecl = newEnumDecl(null, null, "E", null);
-        enumDecl.getLiterals().add(newEnumLiteral("a", null));
-        enumDecl.getLiterals().add(newEnumLiteral("b", null));
-        enumDecl.getLiterals().add(newEnumLiteral("c", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "a", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "b", null));
+        enumDecl.getLiterals().add(newEnumLiteral(null, "c", null));
         spec.getDeclarations().add(enumDecl);
 
         CifType[] types = { //

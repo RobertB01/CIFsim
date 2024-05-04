@@ -19,9 +19,11 @@ import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.cif.parser.ast.declarations.AEventDecl;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
 import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
@@ -100,8 +102,15 @@ public class EventDeclWrap extends DeclWrap<Event> {
         }
 
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, this, scope, tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, scope, tchecker);
         mmDecl.getAnnotations().addAll(annos);
+
+        // Check for single-value type.
+        CifType type = mmDecl.getType();
+        if (type != null && !(type instanceof VoidType) && CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
+        }
 
         // This declaration is now fully checked.
         status = CheckStatus.FULL;

@@ -167,6 +167,12 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      */
     private final boolean addEdgeGuards;
 
+    /** Whether to copy the annotations of the automata to their newly created location pointer enumerations. */
+    private final boolean copyAutAnnosToEnum;
+
+    /** Whether to copy the annotations of the locations to their newly created enumerations literals. */
+    private final boolean copyLocAnnosToEnumLits;
+
     /**
      * The phase of the transformation. The first phase (value {@code 1}) is to find the automata for which locations
      * are referenced in expressions. The second phase (value {@code 2}) is to perform the actual transformation. Value
@@ -210,10 +216,24 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * <li>Allows optimization of initialization of location pointers, by analyzing declarations (used for instance in
      * initialization predicates) to see whether they have constant values.</li>
      * <li>Does not add equality binary expressions that reference the new location pointer to the guards of edges.</li>
+     * <li>Does not copy the annotations of the automata to their newly created location pointer enumerations.</li>
+     * <li>Does not copy the annotations of the locations to their newly created enumerations literals.</li>
      * </ul>
      */
     public ElimLocRefExprs() {
-        this(a -> "LP", a -> "LPE", l -> "LOC_" + l.getName(), true, true, true, null, true, false);
+        this( //
+                a -> "LP", // Location pointer variable naming function.
+                a -> "LPE", // Location pointer enumeration naming function.
+                l -> "LOC_" + l.getName(), // Location pointer enumeration literal naming function.
+                true, // Do consider the names of locations for renaming.
+                true, // Add initialization predicate for introduction location pointer variables.
+                true, // Optimized transformation (only add location pointers for automata with referenced locations).
+                null, // Do not construct a mapping from location pointer variables to their absolute names.
+                true, // Allow optimization of initialization of location pointers.
+                false, // Do not add equality binary expressions for location pointers to the guards of edges.
+                false, // Do not copy the annotations of the automata to newly created location pointer enumerations.
+                false // Do not copy the annotations of the locations to newly created enumerations literals.
+        );
     }
 
     /**
@@ -243,11 +263,16 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * @param addEdgeGuards Whether to add equality binary expressions that reference the new location pointer variable
      *     to the guards of edges. Note that only if {@code optimized} is disabled, these expressions are created for
      *     all edges in the specification (of automata with at least two locations).
+     * @param copyAutAnnosToEnum Whether to copy the annotations of the automata to their newly created location pointer
+     *     enumerations.
+     * @param copyLocAnnosToEnumLits Whether to copy the annotations of the locations to their newly created
+     *     enumerations literals.
      */
     public ElimLocRefExprs(Function<Automaton, String> varNamingFunction,
             Function<Automaton, String> enumNamingFunction, Function<Location, String> litNamingFunction,
             boolean considerLocsForRename, boolean addInitPreds, boolean optimized,
-            Map<DiscVariable, String> lpVarToAbsAutNameMap, boolean optInits, boolean addEdgeGuards)
+            Map<DiscVariable, String> lpVarToAbsAutNameMap, boolean optInits, boolean addEdgeGuards,
+            boolean copyAutAnnosToEnum, boolean copyLocAnnosToEnumLits)
     {
         this.varNamingFunction = varNamingFunction;
         this.enumNamingFunction = enumNamingFunction;
@@ -258,6 +283,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         this.lpVarToAbsAutNameMap = lpVarToAbsAutNameMap;
         this.optInits = optInits;
         this.addEdgeGuards = addEdgeGuards;
+        this.copyAutAnnosToEnum = copyAutAnnosToEnum;
+        this.copyLocAnnosToEnumLits = copyLocAnnosToEnumLits;
     }
 
     /**
@@ -340,6 +367,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             // Create enum.
             enumDecl = newEnumDecl();
             enumDecl.setName(enumName);
+            if (copyAutAnnosToEnum) {
+                enumDecl.getAnnotations().addAll(deepclone(aut.getAnnotations()));
+            }
 
             // Create literals.
             List<EnumLiteral> literals = enumDecl.getLiterals();
@@ -352,6 +382,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
                 EnumLiteral literal = newEnumLiteral();
                 literal.setName(litName);
                 literals.add(literal);
+                if (copyLocAnnosToEnumLits) {
+                    literal.getAnnotations().addAll(deepclone(loc.getAnnotations()));
+                }
             }
             autToEnumMap.put(aut, enumDecl);
         }

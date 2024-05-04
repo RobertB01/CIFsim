@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1057,7 +1058,10 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumprints_ {
+    /** Literal "A". */
     _prints_A,
+
+    /** Literal "B". */
     _prints_B,
 };
 typedef enum Enumprints_ printsEnum;
@@ -1212,7 +1216,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "A". */
     "A",
+
+    /** Literal "B". */
     "B",
 };
 

@@ -657,6 +657,10 @@ The type of the algebraic variable.
 \citem{AlgVariable.allowedTypes}
   Component and component definition types are not allowed for algebraic
   variables.
+\citemnf{AlgVariable.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead (for algebraic variables), or a parameter is not
+  needed (for algebraic parameters).
 \end{constraints}
 }
 
@@ -846,6 +850,10 @@ The type of the discrete variable.
 \citem{DiscVariable.allowedTypes}
   Component and component definition types are not allowed for discrete
   variables.
+\citemnf{DiscVariable.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead (for discrete variables and local variables of
+  functions), or a parameter is not needed (for function parameters).
 \end{constraints}
 }
 
@@ -984,6 +992,9 @@ The type of the data communicated via this event, if applicable.
 \begin{constraints}
 \citem{Event.allowedTypes}
   Component and component definition types are not allowed for events.
+\citemnf{Event.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead, rather than communicating the value via a channel.
 \end{constraints}
 }
 
@@ -1002,6 +1013,9 @@ The type of the input variable.
 \begin{constraints}
 \citem{InputVariable.allowedTypes}
   Component and component definition types are not allowed for input variables.
+\citemnf{InputVariable.typeNotSingleValue}
+  The \emph{type} should not allow only a single value, as then a constant
+  should be used instead.
 \end{constraints}
 }
 
@@ -3883,6 +3897,9 @@ types.
   Component types and component definition types are not allowed in return
   types of functions, as components and component definitions are not meant to
   be used as values.
+\citemnf{Function.returnTypeNotSingleValue}
+  The \emph{returnTypes} should not allow only a single value, as then a
+  constant should be used instead of a function.
 \end{constraints}
 }
 
@@ -4613,7 +4630,7 @@ The kind of the `for' filter.
 Figure~\ref{fig:pkg:annotations} shows the \textit{annotations} package.
 The main class is the \cifclass{Annotation} class. It represents a single
 annotations on a single object. The \cifclass{AnnotationArgument} class
-represents a single arguments of an annotation. And the
+represents a single argument of an annotation. And the
 \cifclass{AnnotatedObject} class is the base class for all objects
 that can be annotated.
 }
@@ -4628,15 +4645,26 @@ The annotations of the annotated object.
 
 \begin{constraints}
 \citem{AnnotatedObject.onlyForSupportedObjects}
-  Currently only the following objects support annotations:
+  The following objects support annotations:
   \begin{itemize}
     \item Algebraic variables.
+    \item Automata.
     \item Constants.
     \item Continuous variables.
-    \item Discrete variables. But not parameters and local variables of internal user-defined functions.
+    \item Discrete variables (including parameters of user-defined functions,
+      and local variables of internal user-defined functions).
+    \item Enumeration literals.
+    \item Enumerations.
     \item Events.
+    \item Function parameters (for which we reuse the \cifclass{DiscVariable}
+      class).
+    \item Function variables (for which we reuse the \cifclass{DiscVariable}
+      class).
+    \item Functions.
     \item Input variables.
     \item Locations of automata.
+    \item Specifications.
+    \item Type declarations.
   \end{itemize}
 \end{constraints}
 }
@@ -4660,7 +4688,7 @@ The arguments of the annotation.
 
 \begin{constraints}
 \citem{Annotation.uniqueArguments}
-  The names of each of the arguments must be unique within the annotation.
+  The names of each of the named arguments must be unique within the annotation.
 \end{constraints}
 }
 
@@ -4684,13 +4712,13 @@ An argument of an \cifclass{Annotation}.
 }
 
 \newcommand{\featdocuAnnotationArgumentname}{
-The name of the annotation argument.
+The optional name of the annotation argument.
 
 \begin{constraints}
 \citem{AnnotationArgument.validName}
-  The name must be a CIF identifier, or multiple CIF identifiers joined
-  together using periods (\texttt{.}). For instance, \texttt{arg} or
-  \texttt{some.arg}.
+  If the argument has a name, it must be a CIF identifier, or multiple CIF
+  identifiers joined together using periods (\texttt{.}). For instance,
+  \texttt{arg} or \texttt{some.arg}.
 \end{constraints}
 }
 

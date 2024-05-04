@@ -11,50 +11,61 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@cif:typechecker:tests:anno1(x: true)
+
 // Warning: argument is not named 'arg'.
-@cif:typechecker:tests:anno1(x = true)
-input bool i1;
+@cif:typechecker:tests:anno1(x: true)
+input bool i1a;
+
+@cif:typechecker:tests:anno1(true)
+input bool i1b;
 
 // Warning: argument does not have a boolean value.
-@cif:typechecker:tests:anno1(arg = 5)
+@cif:typechecker:tests:anno1(arg: 5)
 input bool i2;
 
 // Warning: argument is not named 'arg', and does not have a boolean value.
-@cif:typechecker:tests:anno1(x = 5)
-input bool i3;
+@cif:typechecker:tests:anno1(x: 5)
+input bool i3a;
+
+@cif:typechecker:tests:anno1(5)
+input bool i3b;
 
 // Global warning: more than 3 of these annotations in the model.
-@cif:typechecker:tests:anno1(arg = true)
+@cif:typechecker:tests:anno1(arg: true)
 input bool i4;
 
 // Also check other types of annotated objects.
 
+@cif:typechecker:tests:anno1(x: true)
 automaton a1:
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   location:
     initial;
 end
 
 automaton a2:
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   location loc1:
     initial;
 
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   location loc2:
     initial;
 end
 
 automaton a3:
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   disc int x = 1;
   invariant x > 0;
 
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   cont c = 1 der 2;
   invariant c > 0;
 
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   event evt;
 
   location:
@@ -63,9 +74,31 @@ automaton a3:
 end
 
 group g1:
-  @cif:typechecker:tests:anno1(x = true)
-  alg int alg1 = 5;
+  @cif:typechecker:tests:anno1(x: true)
+  alg int alg1 = a3.x;
 
-  @cif:typechecker:tests:anno1(x = true)
+  @cif:typechecker:tests:anno1(x: true)
   const int const1 = 6;
+
+  @cif:typechecker:tests:anno1(x: true)
+  type typeDecl1 = bool;
+
+  @cif:typechecker:tests:anno1(x: true)
+  enum enumDecl1 = lit1, lit2;
+
+  @cif:typechecker:tests:anno1(x: true)
+  enum enumDecl2 = @cif:typechecker:tests:anno1(x: true) lit3, lit4;
+
+  @cif:typechecker:tests:anno1(x: true)
+  func bool func1(): "java:something";
+
+  @cif:typechecker:tests:anno1(x: true)
+  func bool func2(
+    @cif:typechecker:tests:anno1(x: true)
+    bool fparam1
+  ):
+    @cif:typechecker:tests:anno1(x: true)
+    bool fvar1;
+    return fparam1 or fvar1;
+  end
 end

@@ -429,16 +429,20 @@ public abstract class databased_supervisor {
 
 
     /**
-     * Evaluation for function "bdd_eval".
+     * Function "bdd_eval".
      *
      * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
      * @param bdd_eval_values_ Function parameter "bdd_eval.values".
      * @return The return value of the function.
      */
     public static boolean bdd_eval_(int bdd_eval_idx_, List<Boolean> bdd_eval_values_) {
+        // Variable "bdd_eval.node".
         CifTuple_T3III bdd_eval_node_ = new CifTuple_T3III(0, 0, 0);
+
+        // Variable "bdd_eval.val".
         boolean bdd_eval_val_ = false;
 
+        // Execute statements in the function body.
         if (true) while ((bdd_eval_idx_) >= (0)) {
             bdd_eval_node_ = project(bdd_nodes_, bdd_eval_idx_);
 
@@ -563,17 +567,38 @@ public abstract class databased_supervisor {
 
     /** databased_supervisor enumeration. */
     public static enum databased_supervisorEnum {
-        /** Idle */ _Idle,
-        /** Off */ _Off,
-        /** On */ _On,
-        /** Pushed */ _Pushed,
-        /** Released */ _Released,
-        /** Running */ _Running,
-        /** StartTimer */ _StartTimer,
-        /** TurnLampOff */ _TurnLampOff,
-        /** TurnLampOn */ _TurnLampOn,
-        /** WaitForButtonPush */ _WaitForButtonPush,
-        /** WaitForTimeout */ _WaitForTimeout;
+        /** Literal "Idle". */
+        _Idle,
+
+        /** Literal "Off". */
+        _Off,
+
+        /** Literal "On". */
+        _On,
+
+        /** Literal "Pushed". */
+        _Pushed,
+
+        /** Literal "Released". */
+        _Released,
+
+        /** Literal "Running". */
+        _Running,
+
+        /** Literal "StartTimer". */
+        _StartTimer,
+
+        /** Literal "TurnLampOff". */
+        _TurnLampOff,
+
+        /** Literal "TurnLampOn". */
+        _TurnLampOn,
+
+        /** Literal "WaitForButtonPush". */
+        _WaitForButtonPush,
+
+        /** Literal "WaitForTimeout". */
+        _WaitForTimeout;
 
         @Override
         public String toString() {

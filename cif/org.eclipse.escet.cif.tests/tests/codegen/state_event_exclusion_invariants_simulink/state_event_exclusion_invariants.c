@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1057,6 +1058,7 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumstate_event_exclusion_invariants_ {
+    /** Literal "__some_dummy_enum_literal". */
     _state_event_exclusion_invariants___some_dummy_enum_literal,
 };
 typedef enum Enumstate_event_exclusion_invariants_ state_event_exclusion_invariantsEnum;
@@ -1210,6 +1212,7 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "__some_dummy_enum_literal". */
     "__some_dummy_enum_literal",
 };
 

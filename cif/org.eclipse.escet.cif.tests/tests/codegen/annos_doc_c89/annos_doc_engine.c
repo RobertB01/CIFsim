@@ -1,5 +1,11 @@
 /* CIF to C translation of annos_doc.cif
  * Generated file, DO NOT EDIT
+ *
+ * First doc
+ * with multiple lines.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
  */
 
 #include <stdio.h>
@@ -45,7 +51,41 @@ const char *annos_doc_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
-    "__some_dummy_enum_literal",
+    /** Literal "l1". */
+    "l1",
+
+    /**
+     * Literal "l2".
+     *
+     * single line doc
+     */
+    "l2",
+
+    /**
+     * Literal "l3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    "l3",
+
+    /**
+     * Literal "l4".
+     *
+     * some doc
+     */
+    "l4",
+
+    /**
+     * Literal "l5".
+     *
+     * First doc.
+     *
+     * Second doc line 1.
+     * Second doc line 2.
+     */
+    "l5",
 };
 
 /* Constants. */
@@ -81,12 +121,176 @@ IntType constants_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 IntType constants_c5_;
 
 /* Functions. */
 
+/**
+ * Function "funcs.func1".
+ *
+ * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+ * @return The return value of the function.
+ */
+BoolType funcs_func1_(BoolType funcs_func1_p_) {
+    /* Variable "funcs.func1.v1". */
+    BoolType funcs_func1_v1_;
+    funcs_func1_v1_ = funcs_func1_p_;
+
+    /* Variable "funcs.func1.v2". */
+    BoolType funcs_func1_v2_;
+    funcs_func1_v2_ = funcs_func1_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func1_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func2".
+ *
+ * single line doc
+ *
+ * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+ *
+ *     single line doc
+ * @return The return value of the function.
+ */
+BoolType funcs_func2_(BoolType funcs_func2_p_) {
+    /* Variable "funcs.func2.v1".
+
+       single line doc
+    */
+    BoolType funcs_func2_v1_;
+    funcs_func2_v1_ = funcs_func2_p_;
+
+    /* Variable "funcs.func2.v2".
+
+       single line doc
+    */
+    BoolType funcs_func2_v2_;
+    funcs_func2_v2_ = funcs_func2_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func2_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+ *
+ *     doc with multiple
+ *     lines of
+ *      text
+ * @return The return value of the function.
+ */
+BoolType funcs_func3_(BoolType funcs_func3_p_) {
+    /* Variable "funcs.func3.v1".
+
+       doc with multiple
+       lines of
+        text
+    */
+    BoolType funcs_func3_v1_;
+    funcs_func3_v1_ = funcs_func3_p_;
+
+    /* Variable "funcs.func3.v2".
+
+       doc with multiple
+       lines of
+        text
+    */
+    BoolType funcs_func3_v2_;
+    funcs_func3_v2_ = funcs_func3_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func3_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func4".
+ *
+ * some doc
+ *
+ * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+ *
+ *     some doc
+ * @return The return value of the function.
+ */
+BoolType funcs_func4_(BoolType funcs_func4_p_) {
+    /* Variable "funcs.func4.v1".
+
+       some doc
+    */
+    BoolType funcs_func4_v1_;
+    funcs_func4_v1_ = funcs_func4_p_;
+
+    /* Variable "funcs.func4.v2".
+
+       some doc
+    */
+    BoolType funcs_func4_v2_;
+    funcs_func4_v2_ = funcs_func4_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func4_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func5".
+ *
+ * First doc.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
+ *
+ * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+ *
+ *     First doc.
+ *
+ *     Second doc line 1.
+ *     Second doc line 2.
+ * @return The return value of the function.
+ */
+BoolType funcs_func5_(BoolType funcs_func5_p_) {
+    /* Variable "funcs.func5.v1".
+
+       First doc.
+
+       Second doc line 1.
+       Second doc line 2.
+    */
+    BoolType funcs_func5_v1_;
+    funcs_func5_v1_ = funcs_func5_p_;
+
+    /* Variable "funcs.func5.v2".
+
+       First doc.
+
+       Second doc line 1.
+       Second doc line 2.
+    */
+    BoolType funcs_func5_v2_;
+    funcs_func5_v2_ = funcs_func5_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func5_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
 
 /* Input variables. */
 
@@ -121,7 +325,8 @@ BoolType i4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 BoolType i5_;
 
@@ -158,7 +363,8 @@ RealType contvars_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 RealType contvars_c5_;
 
@@ -193,7 +399,8 @@ BoolType discvars_d4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 BoolType discvars_d5_;
 
@@ -261,7 +468,8 @@ IntType algvars_a4_(void) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 IntType algvars_a5_(void) {
     return 5;
@@ -363,7 +571,8 @@ static BoolType execEvent3(void) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  *
  * @return Whether the event was performed.
  */

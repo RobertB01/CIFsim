@@ -250,9 +250,11 @@ public class JavaScriptCodeGen extends CodeGen {
                 declCode.add(" * Constant \"%s\".", origName);
                 for (String doc: docs) {
                     declCode.add(" *");
+                    declCode.add(" * <p>");
                     for (String line: doc.split("\\r?\\n")) {
                         declCode.add(" * %s", line);
                     }
+                    declCode.add(" * </p>");
                 }
                 declCode.add(" */");
             }
@@ -417,9 +419,11 @@ public class JavaScriptCodeGen extends CodeGen {
             code.add(" * Evaluates algebraic variable \"%s\".", origName);
             for (String doc: docs) {
                 code.add(" *");
+                code.add(" * <p>");
                 for (String line: doc.split("\\r?\\n")) {
                     code.add(" * %s", line);
                 }
+                code.add(" * </p>");
             }
             code.add(" *");
             code.add(" * @return The evaluation result.");
@@ -488,7 +492,30 @@ public class JavaScriptCodeGen extends CodeGen {
 
         List<EnumLiteral> lits = enumDecl.getLiterals();
         for (int i = 0; i < lits.size(); i++) {
-            String name = lits.get(i).getName();
+            if (i > 0) {
+                code.add();
+            }
+
+            EnumLiteral lit = lits.get(i);
+            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            String name = lit.getName();
+
+            if (docs.isEmpty()) {
+                code.add("/** Literal \"%s\". */", name);
+            } else {
+                code.add("/**");
+                code.add(" * Literal \"%s\".", name);
+                for (String doc: docs) {
+                    code.add(" *");
+                    code.add(" * <p>");
+                    for (String line: doc.split("\\r?\\n")) {
+                        code.add(" * %s", line);
+                    }
+                    code.add(" * </p>");
+                }
+                code.add(" */");
+            }
+
             String line = fmt("_%s: Symbol(\"%s\")", name, name);
             line += (i == lits.size() - 1) ? "" : ",";
             code.add(line);
@@ -698,9 +725,11 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
+                codeMethods.add(" * <p>");
                 for (String line: doc.split("\\r?\\n")) {
                     codeMethods.add(" * %s", line);
                 }
+                codeMethods.add(" * </p>");
             }
             codeMethods.add(" *");
             codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
@@ -966,6 +995,28 @@ public class JavaScriptCodeGen extends CodeGen {
     protected void addUpdatesEndScope(CodeBox code) {
         code.dedent();
         code.add("}");
+    }
+
+    @Override
+    protected void addSpec(CodeContext ctxt) {
+        List<String> docs = DocAnnotationProvider.getDocs(spec);
+        CodeBox classJavaDoc = makeCodeBox(0);
+        if (docs.isEmpty()) {
+            classJavaDoc.add("/** ${prefix} code generated from a CIF specification. */");
+        } else {
+            classJavaDoc.add("/**");
+            classJavaDoc.add(" * ${prefix} code generated from a CIF specification.");
+            for (String doc: docs) {
+                classJavaDoc.add(" *");
+                classJavaDoc.add(" * <p>");
+                for (String line: doc.split("\\r?\\n")) {
+                    classJavaDoc.add(" * %s", line);
+                }
+                classJavaDoc.add(" * </p>");
+            }
+            classJavaDoc.add(" */");
+        }
+        replacements.put("javascript-class-jsdoc", classJavaDoc.toString());
     }
 
     @Override

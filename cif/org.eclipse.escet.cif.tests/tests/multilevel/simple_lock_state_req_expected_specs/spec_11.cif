@@ -1,0 +1,10 @@
+plant automaton S2_LampEntering:
+  controllable c_green;
+  controllable c_red;
+  location Red:
+    initial;
+    marked;
+    edge c_green goto Green;
+  location Green:
+    edge c_red goto Red;
+end

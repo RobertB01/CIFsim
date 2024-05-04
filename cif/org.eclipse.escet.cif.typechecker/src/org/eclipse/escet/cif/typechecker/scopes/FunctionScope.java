@@ -50,6 +50,7 @@ import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -99,6 +100,7 @@ import org.eclipse.escet.cif.parser.ast.functions.AReturnFuncStatement;
 import org.eclipse.escet.cif.parser.ast.functions.AWhileFuncStatement;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
 import org.eclipse.escet.cif.typechecker.AssignmentUniquenessChecker;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.ExprContext;
@@ -256,12 +258,23 @@ public class FunctionScope extends ParentScope<Function> {
 
     @Override
     protected void tcheckScopeFull() {
+        // Check return type for single-value type.
+        if (CifValueUtils.getPossibleValueCount(returnType) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, returnType.getPosition(), CifTextUtils.typeToStr(returnType));
+            // Non-fatal problem.
+        }
+
+        // Check body.
         if (astDecl.body instanceof AInternalFuncBody) {
             tcheckIntFuncBody((AInternalFuncBody)astDecl.body);
         } else {
             Assert.check(astDecl.body instanceof AExternalFuncBody);
             tcheckExtFuncBody((AExternalFuncBody)astDecl.body);
         }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, getParent(), tchecker);
+        obj.getAnnotations().addAll(annos);
     }
 
     /**

@@ -33,16 +33,37 @@ extern void A12T3IIITypeModify(A12T3IIIType *array, IntType index, T3IIIType *va
 extern int A12T3IIITypePrint(A12T3IIIType *array, char *dest, int start, int end);
 
 enum Enumdatabased_supervisor_ {
+    /** Literal "Idle". */
     _databased_supervisor_Idle,
+
+    /** Literal "Off". */
     _databased_supervisor_Off,
+
+    /** Literal "On". */
     _databased_supervisor_On,
+
+    /** Literal "Pushed". */
     _databased_supervisor_Pushed,
+
+    /** Literal "Released". */
     _databased_supervisor_Released,
+
+    /** Literal "Running". */
     _databased_supervisor_Running,
+
+    /** Literal "StartTimer". */
     _databased_supervisor_StartTimer,
+
+    /** Literal "TurnLampOff". */
     _databased_supervisor_TurnLampOff,
+
+    /** Literal "TurnLampOn". */
     _databased_supervisor_TurnLampOn,
+
+    /** Literal "WaitForButtonPush". */
     _databased_supervisor_WaitForButtonPush,
+
+    /** Literal "WaitForTimeout". */
     _databased_supervisor_WaitForTimeout,
 };
 typedef enum Enumdatabased_supervisor_ databased_supervisorEnum;
@@ -107,6 +128,14 @@ extern A12T3IIIType bdd_nodes_;
 
 
 /* Declaration of internal functions. */
+
+/**
+ * Function "bdd_eval".
+ *
+ * @param bdd_eval_idx_ Function parameter "bdd_eval.idx".
+ * @param bdd_eval_values_tmp2 Function parameter "bdd_eval.values".
+ * @return The return value of the function.
+ */
 extern BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2);
 
 /* State variables (use for output only). */

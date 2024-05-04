@@ -320,8 +320,19 @@ group p41:
   initial true and true;
   marked true and false;
 end
+group annos:
+  @doc("aut doc")
+  enum LPE =
+    @doc("first loc")
+    loc1,
+    @doc("second loc")
+    loc2;
+  initial M.annos = loc1 and true or M.annos = loc2 and false;
+  marked M.annos = loc1 and false or M.annos = loc2 and false;
+end
 automaton M:
   alphabet e12, e14, e18, e19, e20, e20c, e21, e22, e23, e24, e26, e27a, e27b, e28, e30, e31a, e31b, e34, f27, .p15a.e15a, .p15b.e15b, .p16.e16, p3.e3, .p37.e37, .p38.e38, p4.e4, .p40.e40, p41.e41a, p41.e41b, .p5.e5, .p6.e6a, .p6.e6b, .p7.e7, p8.e8a, p8.e8b, .p9.e9;
+  disc .annos.LPE annos = .annos.loc1;
   disc .p11.LPE p11 = .p11.l1;
   disc .p12b.LPE p12b = .p12b.l1;
   disc real p14a_v;
@@ -636,6 +647,7 @@ automaton M:
     edge .p7.e7 when p7 = .p7.l2 do p7 := .p7.l1;
     edge p8.e8a when true;
     edge .p9.e9 when p9 = .p9.l1 do p9 := .p9.l2;
+    edge tau when annos = .annos.loc1 do annos := .annos.loc2;
     edge tau when true and true;
     edge tau when p11 = .p11.l1 and (11.1 = 11.1 and 11.2 = 11.2) do p11 := .p11.l2;
     edge tau when p11 = .p11.l1 and 11.3 = 11.3;

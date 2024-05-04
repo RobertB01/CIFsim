@@ -266,8 +266,11 @@ public abstract class locs_multiple_potential_initial {
 
     /** locs_multiple_potential_initial enumeration. */
     public static enum locs_multiple_potential_initialEnum {
-        /** loc1 */ _loc1,
-        /** loc2 */ _loc2;
+        /** Literal "loc1". */
+        _loc1,
+
+        /** Literal "loc2". */
+        _loc2;
 
         @Override
         public String toString() {

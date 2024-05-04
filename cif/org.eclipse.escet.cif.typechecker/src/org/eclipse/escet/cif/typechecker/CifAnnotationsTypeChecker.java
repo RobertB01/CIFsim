@@ -18,11 +18,9 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotation
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
@@ -42,30 +40,12 @@ public class CifAnnotationsTypeChecker {
      * Transforms annotations and performs type checking on them.
      *
      * @param astAnnos The CIF AST annotations to transform.
-     * @param annotatedObject The symbol table entry for the object that is annotated with the annotations.
      * @param scope The scope in which to resolve references within the annotations, such as in the values of arguments.
      * @param tchecker The CIF type checker to use.
      * @return The CIF metamodel annotations.
      */
-    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, SymbolTableEntry annotatedObject,
-            SymbolScope<?> scope, CifTypeChecker tchecker)
-    {
-        Supplier<String> descriptionSupplier = () -> fmt("\"%s\"", annotatedObject.getAbsName());
-        return transAnnotations(astAnnos, descriptionSupplier, scope, tchecker);
-    }
-
-    /**
-     * Transforms annotations and performs type checking on them.
-     *
-     * @param astAnnos The CIF AST annotations to transform.
-     * @param descriptionSupplier Function to obtain a textual description of the annotated object for reporting type
-     *     check problems.
-     * @param scope The scope in which to resolve references within the annotations, such as in the values of arguments.
-     * @param tchecker The CIF type checker to use.
-     * @return The CIF metamodel annotations.
-     */
-    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, Supplier<String> descriptionSupplier,
-            SymbolScope<?> scope, CifTypeChecker tchecker)
+    public static List<Annotation> transAnnotations(List<AAnnotation> astAnnos, SymbolScope<?> scope,
+            CifTypeChecker tchecker)
     {
         // Type check each of the annotations separately.
         List<Annotation> mmAnnos = listc(astAnnos.size());
@@ -88,7 +68,7 @@ public class CifAnnotationsTypeChecker {
     private static Annotation transAnnotation(AAnnotation astAnno, SymbolScope<?> scope, CifTypeChecker tchecker) {
         // Create annotation metamodel object.
         Annotation mmAnno = newAnnotation();
-        mmAnno.setName(astAnno.name.text.substring(1)); // Set name, excluding the leading '@'.
+        mmAnno.setName(astAnno.name.text);
         mmAnno.setPosition(astAnno.createPosition());
 
         // Create annotation argument metamodel objects, and add them to the annotation metamodel object.
@@ -98,7 +78,7 @@ public class CifAnnotationsTypeChecker {
 
             // Construct annotation argument metamodel object.
             AnnotationArgument mmArg = newAnnotationArgument();
-            mmArg.setName(astArg.name.text.replace("$", "")); // Remove keyword escaping.
+            mmArg.setName((astArg.name == null) ? null : astArg.name.name);
             mmArg.setPosition(astArg.createPosition());
             mmArg.setValue(mmValue);
 
@@ -106,14 +86,16 @@ public class CifAnnotationsTypeChecker {
             mmAnno.getArguments().add(mmArg);
         }
 
-        // Ensure all the arguments for the annotation are unique, based on their names.
+        // Ensure all the named arguments for the annotation have unique names. Ignore unnamed arguments.
         Map<String, AnnotationArgument> nameToArg = mapc(mmAnno.getArguments().size());
         for (AnnotationArgument mmArg: mmAnno.getArguments()) {
-            AnnotationArgument prev = nameToArg.put(mmArg.getName(), mmArg);
-            if (prev != null) {
-                tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, prev.getPosition(), mmArg.getName(), mmAnno.getName());
-                tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, mmArg.getPosition(), mmArg.getName(), mmAnno.getName());
-                // Non-fatal error.
+            if (mmArg.getName() != null) {
+                AnnotationArgument prev = nameToArg.put(mmArg.getName(), mmArg);
+                if (prev != null) {
+                    tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, prev.getPosition(), mmArg.getName(), mmAnno.getName());
+                    tchecker.addProblem(ErrMsg.ANNO_DUPL_ARG, mmArg.getPosition(), mmArg.getName(), mmAnno.getName());
+                    // Non-fatal error.
+                }
             }
         }
 

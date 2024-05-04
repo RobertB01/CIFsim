@@ -84,7 +84,10 @@ const char *declarations_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "loc1". */
     "loc1",
+
+    /** Literal "loc2". */
     "loc2",
 };
 
@@ -106,23 +109,48 @@ RealType c3_;
 RealType c2_;
 
 /* Functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 IntType inc_(IntType inc_x_) {
+    /* Execute statements in the function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
 
+
+/**
+ * Function "f1".
+ *
+ * @param f1_x_ Function parameter "f1.x".
+ * @return The return value of the function.
+ */
 RealType f1_(IntType f1_x_) {
+    /* Variable "f1.v1". */
     RealType f1_v1_;
     f1_v1_ = 2.449489742783178;
+
+    /* Variable "f1.v4". */
     RealType f1_v4_;
     f1_v4_ = RealAdd(f1_v1_, 2.0);
+
+    /* Variable "f1.v5". */
     RealType f1_v5_;
     f1_v5_ = f1_v4_;
+
+    /* Variable "f1.v3". */
     RealType f1_v3_;
     f1_v3_ = f1_v5_;
+
+    /* Variable "f1.v2". */
     RealType f1_v2_;
     f1_v2_ = f1_v3_;
 
+    /* Execute statements in the function body. */
     return RealAdd(RealAdd(RealAdd(RealAdd(f1_v1_, f1_v2_), f1_v3_), RealMultiply(f1_v4_, f1_v5_)), f1_x_);
     assert(0); /* Falling through the end of the function. */
 }

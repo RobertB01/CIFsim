@@ -19,8 +19,10 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 
 /** Specification scope. */
@@ -94,5 +96,12 @@ public class SpecScope extends ParentScope<Specification> {
     @Override
     public String getAbsText() {
         return "the top level scope of the specification";
+    }
+
+    @Override
+    protected void tcheckScopeFull() {
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astAnnotations, this, tchecker);
+        obj.getAnnotations().addAll(annos);
     }
 }

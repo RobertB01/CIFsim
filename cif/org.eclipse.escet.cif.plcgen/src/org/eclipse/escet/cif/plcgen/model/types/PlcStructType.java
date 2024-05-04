@@ -13,28 +13,44 @@
 
 package org.eclipse.escet.cif.plcgen.model.types;
 
-import static org.eclipse.escet.common.java.Lists.list;
-
 import java.util.List;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
+
 /** PLC struct type. */
-public class PlcStructType extends PlcType {
+public class PlcStructType extends PlcType implements PlcDeclaredType {
+    /** Name of the struct type. */
+    public final String typeName;
+
     /** The fields of the struct type. */
-    public List<PlcStructField> fields = list();
+    public final List<PlcStructField> fields;
+
+    /**
+     * Constructor of the {@link PlcStructType} class.
+     *
+     * @param typeName Name of the struct type.
+     * @param fields The fields of the struct type.
+     */
+    public PlcStructType(String typeName, List<PlcStructField> fields) {
+        this.typeName = typeName;
+        this.fields = fields;
+    }
 
     @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof PlcStructType structType) || fields.size() != structType.fields.size()) {
+        if (!(other instanceof PlcStructType otherStructType) || !typeName.equals(otherStructType.typeName)
+                || fields.size() != otherStructType.fields.size())
+        {
             return false;
         }
         for (int i = 0; i < fields.size(); i++) {
-            if (!fields.get(i).fieldName.equals(structType.fields.get(i).fieldName)) {
+            if (!fields.get(i).fieldName.equals(otherStructType.fields.get(i).fieldName)) {
                 return false;
             }
-            if (!fields.get(i).type.equals(structType.fields.get(i).type)) {
+            if (!fields.get(i).type.equals(otherStructType.fields.get(i).type)) {
                 return false;
             }
         }
@@ -43,9 +59,9 @@ public class PlcStructType extends PlcType {
 
     @Override
     public int hashCode() {
-        int h = 0;
+        int h = typeName.hashCode();
         for (PlcStructField field: fields) {
-            h = h + field.fieldName.hashCode() + field.type.hashCode() * 23;
+            h = h + 47 * field.fieldName.hashCode() + 23 * field.type.hashCode();
         }
         return h;
     }

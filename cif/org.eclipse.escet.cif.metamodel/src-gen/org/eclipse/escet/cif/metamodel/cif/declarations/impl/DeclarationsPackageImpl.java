@@ -661,7 +661,7 @@ public class DeclarationsPackageImpl extends EPackageImpl implements Declaration
         eventEClass.getESuperTypes().add(this.getDeclaration());
         enumDeclEClass.getESuperTypes().add(this.getDeclaration());
         typeDeclEClass.getESuperTypes().add(this.getDeclaration());
-        enumLiteralEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        enumLiteralEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
         discVariableEClass.getESuperTypes().add(this.getDeclaration());
         variableValueEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         constantEClass.getESuperTypes().add(this.getDeclaration());

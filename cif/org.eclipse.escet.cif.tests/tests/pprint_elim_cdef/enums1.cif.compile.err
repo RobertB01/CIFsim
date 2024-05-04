@@ -1,0 +1,2 @@
+WARNING: File "pprint_elim_cdef/enums1.cif": Semantic warning at line 23, column 8: Type "E1" allows only one value.
+WARNING: File "pprint_elim_cdef/enums1.cif": Semantic warning at line 34, column 8: Type "q.F1" allows only one value.

@@ -109,6 +109,7 @@ public class SymbolScopeMerger {
         mergeChildScopes(mainScope, impScope, mainSource, impSource);
         mergeEquations(mainScope, impScope);
         mergeIoDecls(mainScope, impScope, mainSource, impSource);
+        mainScope.astAnnotations.addAll(impScope.astAnnotations);
         mainScope.astInitPreds.addAll(impScope.astInitPreds);
         mainScope.astMarkerPreds.addAll(impScope.astMarkerPreds);
     }

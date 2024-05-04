@@ -23,20 +23,12 @@ Documentation <<lang-ref-extensions-annotations,annotations>> can be used to add
 For basic information on documentation annotations, see the <<lang-tut-extensions-chapter-annotations-documentation,language tutorial>>.
 Here we discuss further details.
 
-Documentation annotations (`@doc`) can be added to the following elements in CIF specifications:
+Documentation annotations (`@doc`) can be added to all elements of CIF specifications that support annotations.
 
-* Algebraic variables.
-* Constants.
-* Continuous variables.
-* Discrete variables.
-* Events.
-* Input variables.
-* Locations of automata.
+The annotation has the following constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
 
-The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
-
-* The annotation must have exactly one argument, named `text`.
-Since `text` is a keyword in the CIF language, it must be escaped to `$text`.
-* The `text` argument must have a `string`-typed value.
-* It must be possible for the value to be statically evaluated.
-* Evaluation of the value must not result in an evaluation error.
+* The annotation must have at least one argument.
+* All arguments must be unnamed arguments.
+* All arguments must have a `string`-typed value.
+* It must be possible for the argument values to be statically evaluated.
+* Evaluation of the argument values must not result in an evaluation error.

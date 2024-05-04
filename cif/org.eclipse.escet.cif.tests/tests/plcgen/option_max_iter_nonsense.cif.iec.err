@@ -1,0 +1,2 @@
+ERROR: PLC maximum iterations option value "nonsense" for uncontrollable events is neither recognized as infinite ("inf" without quotes) nor as positive integer number.
+CAUSE: (NumberFormatException) For input string: "nonsense"

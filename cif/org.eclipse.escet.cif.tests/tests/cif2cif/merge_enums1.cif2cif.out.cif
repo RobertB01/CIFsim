@@ -2,7 +2,21 @@ const bool E = true;
 const bool E2 = true;
 const bool UP = true;
 type t = E3;
-enum E3 = BLUE, DOWN, GREEN, RED, UP2;
+enum E3 =
+  BLUE,
+  DOWN,
+  GREEN,
+  @doc("lit1a")
+  @doc("lit2a")
+  @doc("lit3a")
+  L1,
+  @doc("lit1b")
+  @doc("lit2b")
+  @doc("lit3b1")
+  @doc("lit3b2")
+  L2,
+  RED,
+  UP2;
 automaton p:
   disc E3 v1 = UP2;
   disc E3 v2 = DOWN;
@@ -22,6 +36,21 @@ automaton q:
   invariant d = UP2;
   location:
     initial;
+end
+group annos1:
+  invariant annos2.i = L1;
+  invariant annos2.i != L1;
+end
+group annos2:
+  input E3 i;
+end
+group annos3:
+  invariant annos2.i = L2;
+  invariant annos2.i != L2;
+end
+group annos4:
+end
+group annos5:
 end
 invariant RED = GREEN;
 invariant RED = RED;

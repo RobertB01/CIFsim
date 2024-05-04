@@ -18,6 +18,8 @@ import static org.eclipse.escet.cif.codegen.c89.C89DataValue.makeLiteral;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
@@ -27,6 +29,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 
 /**
@@ -129,8 +132,31 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
         String enumTypename = ctxt.getPrefix() + "Enum";
         typeCode.add("enum %s {", enumInternalTypename);
         typeCode.indent();
-        for (EnumLiteral eLit: enumType.getEnum().getLiterals()) {
-            typeCode.add(getLiteralName(ctxt, eLit) + ",");
+        List<EnumLiteral> eLits = enumType.getEnum().getLiterals();
+        for (int i = 0; i < eLits.size(); i++) {
+            if (i > 0) {
+                typeCode.add();
+            }
+
+            EnumLiteral lit = eLits.get(i);
+            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            String name = lit.getName();
+
+            if (docs.isEmpty()) {
+                typeCode.add("/** Literal \"%s\". */", name);
+            } else {
+                typeCode.add("/**");
+                typeCode.add(" * Literal \"%s\".", name);
+                for (String doc: docs) {
+                    typeCode.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        typeCode.add(" * %s", line);
+                    }
+                }
+                typeCode.add(" */");
+            }
+
+            typeCode.add("%s,", getLiteralName(ctxt, lit));
         }
         typeCode.dedent();
         typeCode.add("};");

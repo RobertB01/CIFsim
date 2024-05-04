@@ -44,7 +44,7 @@ public interface AnnotationArgument extends PositionObject
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationsPackage#getAnnotationArgument_Name()
-     * @model required="true"
+     * @model
      * @generated
      */
     String getName();

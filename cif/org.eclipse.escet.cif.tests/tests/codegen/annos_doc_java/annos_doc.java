@@ -7,7 +7,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-/** annos_doc code generated from a CIF specification. */
+/**
+ * annos_doc code generated from a CIF specification.
+ *
+ * <p>
+ * First doc
+ * with multiple lines.
+ * </p>
+ *
+ * <p>
+ * Second doc line 1.
+ * Second doc line 2.
+ * </p>
+ */
 @SuppressWarnings("unused")
 public abstract class annos_doc {
     /** Should execution timing information be provided? */
@@ -37,32 +49,43 @@ public abstract class annos_doc {
     /**
      * Constant "constants.c2".
      *
+     * <p>
      * single line doc
+     * </p>
      */
     public static final int constants_c2_ = 2;
 
     /**
      * Constant "constants.c3".
      *
+     * <p>
      * doc with multiple
      * lines of
      *  text
+     * </p>
      */
     public static final int constants_c3_ = 3;
 
     /**
      * Constant "constants.c4".
      *
+     * <p>
      * some doc
+     * </p>
      */
     public static final int constants_c4_ = 4;
 
     /**
      * Constant "constants.c5".
      *
+     * <p>
      * First doc.
+     * </p>
      *
-     * Second doc.
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
      */
     public static final int constants_c5_ = 5;
 
@@ -109,7 +132,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public double contvars_c5_;
@@ -154,7 +178,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public boolean discvars_d5_;
@@ -199,7 +224,8 @@ public abstract class annos_doc {
      * </p>
      *
      * <p>
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      * </p>
      */
     public boolean i5_;
@@ -376,7 +402,9 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e2".
      *
+     * <p>
      * single line doc
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -393,9 +421,11 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e3".
      *
+     * <p>
      * doc with multiple
      * lines of
      *  text
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -412,7 +442,9 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e4".
      *
+     * <p>
      * some doc
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -429,9 +461,14 @@ public abstract class annos_doc {
     /**
      * Execute code for event "events.e5".
      *
+     * <p>
      * First doc.
+     * </p>
      *
-     * Second doc.
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -552,7 +589,9 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a2".
      *
+     * <p>
      * single line doc
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -563,9 +602,11 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a3".
      *
+     * <p>
      * doc with multiple
      * lines of
      *  text
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -576,7 +617,9 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a4".
      *
+     * <p>
      * some doc
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -587,9 +630,14 @@ public abstract class annos_doc {
     /**
      * Evaluates algebraic variable "algvars.a5".
      *
+     * <p>
      * First doc.
+     * </p>
      *
-     * Second doc.
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
      *
      * @return The evaluation result.
      */
@@ -642,6 +690,162 @@ public abstract class annos_doc {
         return 5.0;
     }
 
+    /**
+     * Function "funcs.func1".
+     *
+     * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func1_(boolean funcs_func1_p_) {
+        // Variable "funcs.func1.v1".
+        boolean funcs_func1_v1_ = funcs_func1_p_;
+
+        // Variable "funcs.func1.v2".
+        boolean funcs_func1_v2_ = funcs_func1_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func1_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func2".
+     *
+     * <p>
+     * single line doc
+     * </p>
+     *
+     * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+     *     <p>
+     *     single line doc
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func2_(boolean funcs_func2_p_) {
+        // Variable "funcs.func2.v1".
+        //
+        // single line doc
+        boolean funcs_func2_v1_ = funcs_func2_p_;
+
+        // Variable "funcs.func2.v2".
+        //
+        // single line doc
+        boolean funcs_func2_v2_ = funcs_func2_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func2_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func3".
+     *
+     * <p>
+     * doc with multiple
+     * lines of
+     *  text
+     * </p>
+     *
+     * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+     *     <p>
+     *     doc with multiple
+     *     lines of
+     *      text
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func3_(boolean funcs_func3_p_) {
+        // Variable "funcs.func3.v1".
+        //
+        // doc with multiple
+        // lines of
+        //  text
+        boolean funcs_func3_v1_ = funcs_func3_p_;
+
+        // Variable "funcs.func3.v2".
+        //
+        // doc with multiple
+        // lines of
+        //  text
+        boolean funcs_func3_v2_ = funcs_func3_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func3_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     *
+     * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+     *     <p>
+     *     some doc
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func4_(boolean funcs_func4_p_) {
+        // Variable "funcs.func4.v1".
+        //
+        // some doc
+        boolean funcs_func4_v1_ = funcs_func4_p_;
+
+        // Variable "funcs.func4.v2".
+        //
+        // some doc
+        boolean funcs_func4_v2_ = funcs_func4_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func4_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
+
+    /**
+     * Function "funcs.func5".
+     *
+     * <p>
+     * First doc.
+     * </p>
+     *
+     * <p>
+     * Second doc line 1.
+     * Second doc line 2.
+     * </p>
+     *
+     * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+     *     <p>
+     *     First doc.
+     *     </p>
+     *     <p>
+     *     Second doc line 1.
+     *     Second doc line 2.
+     *     </p>
+     * @return The return value of the function.
+     */
+    public static boolean funcs_func5_(boolean funcs_func5_p_) {
+        // Variable "funcs.func5.v1".
+        //
+        // First doc.
+        //
+        // Second doc line 1.
+        // Second doc line 2.
+        boolean funcs_func5_v1_ = funcs_func5_p_;
+
+        // Variable "funcs.func5.v2".
+        //
+        // First doc.
+        //
+        // Second doc line 1.
+        // Second doc line 2.
+        boolean funcs_func5_v2_ = funcs_func5_v1_;
+
+        // Execute statements in the function body.
+        if (true) return funcs_func5_v2_;
+        throw new RuntimeException("no return at end of func");
+    }
 
     /**
      * Interface for CIF tuples.
@@ -698,7 +902,51 @@ public abstract class annos_doc {
 
     /** annos_doc enumeration. */
     public static enum annos_docEnum {
-        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
+        /** Literal "l1". */
+        _l1,
+
+        /**
+         * Literal "l2".
+         *
+         * <p>
+         * single line doc
+         * </p>
+         */
+        _l2,
+
+        /**
+         * Literal "l3".
+         *
+         * <p>
+         * doc with multiple
+         * lines of
+         *  text
+         * </p>
+         */
+        _l3,
+
+        /**
+         * Literal "l4".
+         *
+         * <p>
+         * some doc
+         * </p>
+         */
+        _l4,
+
+        /**
+         * Literal "l5".
+         *
+         * <p>
+         * First doc.
+         * </p>
+         *
+         * <p>
+         * Second doc line 1.
+         * Second doc line 2.
+         * </p>
+         */
+        _l5;
 
         @Override
         public String toString() {

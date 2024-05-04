@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1184,8 +1185,13 @@ static void A3T2IITypeModify(A3T2IIType *array, IntType index, T2IIType *value);
 static int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
 enum Enumedges_ {
+    /** Literal "loc1". */
     _edges_loc1,
+
+    /** Literal "loc2". */
     _edges_loc2,
+
+    /** Literal "loc3". */
     _edges_loc3,
 };
 typedef enum Enumedges_ edgesEnum;
@@ -2494,8 +2500,13 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "loc1". */
     "loc1",
+
+    /** Literal "loc2". */
     "loc2",
+
+    /** Literal "loc3". */
     "loc3",
 };
 

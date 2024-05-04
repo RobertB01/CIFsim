@@ -1,0 +1,114 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Different type of declarations with types.
+
+group def G(alg int[1..1] algParam; event int[2..2] eventParam): // Single value (2x).
+  invariant eventParam needs algParam = 1;
+end
+
+automaton def A(alg int[1..1] algParam; event int[2..2] eventParam): // Single value (2x).
+  invariant eventParam needs algParam = 1;
+
+  disc int[3..3] discVar; // Single value.
+  invariant discVar = 3;
+
+  location:
+    initial;
+end
+
+alg int[4..4] algVar1 = 4; // Single value.
+alg int algVar2 = 4; // Single value.
+
+const int[5..5] constDecl1 = 5; // Single value, but not reported for constants.
+const int constDecl2 = 5; // Single value, but not reported for constants.
+
+event int[6..6] channelInt6; // Single value.
+event void channelVoid;
+
+automaton channelSend:
+  location:
+    initial;
+    edge channelInt6!6;
+    edge channelVoid!;
+end
+
+automaton channelRecv:
+  location:
+    initial;
+    edge channelInt6?;
+    edge channelVoid?;
+end
+
+func int[15..15] funcWithReturn(int[8..8] funcParam): // Single value (2x).
+  int[7..7] funcLocalVar = 7; // Single value.
+  return funcLocalVar + funcParam;
+end
+
+input int[9..9] inputVar; // Single value.
+
+type typeDecl = int[10..10]; // Single value, but not reported for type declarations.
+
+// Different types.
+// None of the objects for which we check this, allow component or component definition types.
+
+enum E1 = lit1;
+enum E2 = lit2a, lit2b;
+
+group def GroupDef1():
+  type t = int[9..9]; // Single value, but not reported for type declarations.
+end
+group def GroupDef2(GroupDef1 gd1):
+  type t = gd1.t; // Single value, but not reported for type declarations.
+end
+g1: GroupDef1();
+g2: GroupDef2(g1);
+
+type typeNotOk1 = int[50..50]; // Single value, but not reported for type declarations.
+type typeNotOk2 = typeNotOk1; // Single value, but not reported for type declarations.
+type typeNotOk3 = typeNotOk2; // Single value, but not reported for type declarations.
+type typeOk = bool;
+
+input bool typeBool;
+input int[-1..-1] typeIntNeg1; // Single value.
+input int[33..33] typeIntPosThree; // Single value.
+input int[33..34] typeIntOk;
+input int typeIntNoRange;
+input real typeReal;
+input E1 typeEnum1; // Single value.
+input E2 typeEnum2;
+input dict(int[1..1]: int[2..2]) typeDictSingleKeyValue;
+input dict(int[1..1]: int[2..3]) typeDictSingleKey;
+input dict(int[1..2]: int[3..3]) typeDictSingleValue;
+input func int[1..1]() typeFunc;
+input list[0] bool typeArrayEmpty; // Single value.
+input list[1] int[4..4] typeArraySingle; // Single value.
+input list int[1..1] typeListNonArray;
+input set int[5..5] typeSet;
+input string typeString;
+input tuple(int[1..1] a, b) typeTupleSingle; // Single value.
+input tuple(bool a, b) typeTupleOK;
+input typeNotOk1 typeRefNotOk1;
+input typeNotOk2 typeRefNotOk2;
+input typeNotOk3 typeRefNotOk3;
+input typeOk typeRefOk;
+input g1.t typeCompInstVia1; // Single value.
+input g2.t typeCompInstVia2; // Single value.
+
+automaton a:
+  disc dist bool d;
+  invariant (sample d)[0];
+
+  location:
+    initial;
+end

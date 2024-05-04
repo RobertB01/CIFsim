@@ -11,37 +11,48 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Annotations on the specification.
+
+@@doc
+
 // Missing argument.
 @doc
 input bool i1;
 
-// Unsupported arguments.
-@doc(a = "a", $text = "text", b = "b")
+// Unsupported unnamed arguments.
+@doc(a: "a", $text: "text", b: "b", "a", "b")
 input bool i2;
 
 // Not a string-typed argument.
-@doc($text = false)
+@doc(false, 3)
 input bool i3;
 
 // Not a statically-evaluable argument.
-@doc($text = fmt("%s", i4))
+@doc(fmt("%s", i4))
 input bool i4;
 
 // Argument evaluation error.
-@doc($text = fmt("%s", sqrt(-1) > 0))
+@doc(fmt("%s", sqrt(-1) > 0))
 input bool i5;
 
 // Valid.
-@doc($text = "some text")
+@doc("some text")
 input bool i6;
 
-// Multiple times.
-@doc($text = "some text1")
-@doc($text = "some text2")
+// Multiple times, multiple lines.
+@doc("some text1")
+@doc("some text2")
+@doc("first line\nsecond line")
+@doc("another first line", "another second line")
+@doc(
+  "yet another first line",
+  "yet another second line",
+)
 input bool i7;
 
 // Also check other types of annotated objects.
 
+@doc
 automaton a1:
   @doc
   location:
@@ -81,4 +92,26 @@ group g1:
 
   @doc
   const bool const1 = true;
+
+  @doc
+  type typeDecl1 = bool;
+
+  @doc
+  enum enumDecl1 = lit1, lit2;
+
+  @doc
+  enum enumDecl2 = @doc lit3, lit4;
+
+  @doc
+  func bool func1(): "java:something";
+
+  @doc
+  func bool func2(
+    @doc
+    bool fparam1
+  ):
+    @doc
+    bool fvar1;
+    return fparam1 or fvar1;
+  end
 end

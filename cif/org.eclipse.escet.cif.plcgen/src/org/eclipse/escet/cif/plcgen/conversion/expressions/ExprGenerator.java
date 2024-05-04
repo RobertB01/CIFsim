@@ -35,6 +35,8 @@ import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
@@ -87,6 +89,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -399,8 +402,11 @@ public class ExprGenerator {
                     .setValue(currentCifDataProvider.getValueForContvar(ce.getVariable(), ce.isDerivative()));
         } else if (expr instanceof LocationExpression) {
             throw new RuntimeException("Precondition violation.");
-        } else if (expr instanceof EnumLiteralExpression eLit) {
-            return new ExprValueResult(this).setValue(target.getTypeGenerator().getPlcEnumLiteral(eLit.getLiteral()));
+        } else if (expr instanceof EnumLiteralExpression eLitExpr) {
+            EnumLiteral eLit = eLitExpr.getLiteral();
+            EnumDecl enumDecl = (EnumDecl)eLit.eContainer();
+            PlcEnumType plcEnumType = target.getTypeGenerator().convertEnumDecl(enumDecl);
+            return new ExprValueResult(this).setValue(plcEnumType.getLiteral(enumDecl.getLiterals().indexOf(eLit)));
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {
@@ -947,8 +953,7 @@ public class ExprGenerator {
             } else if (unProjectedType instanceof TupleType) {
                 int fieldIndex = getTupleProjIndex(cifProjection);
 
-                PlcType structTypeName = target.getTypeGenerator().convertType(unProjectedType);
-                PlcStructType structType = target.getTypeGenerator().getStructureType(structTypeName);
+                PlcStructType structType = target.getTypeGenerator().convertTupleType(tt);
                 plcProjections.add(new PlcStructProjection(structType.fields.get(fieldIndex).fieldName));
             } else {
                 throw new AssertionError("Unexpected unprojected type \"" + unProjectedType + "\" found.");
@@ -1260,11 +1265,9 @@ public class ExprGenerator {
      */
     private ExprValueResult convertTupleExpr(TupleExpression tupleExpr) {
         // Construct the destination variable.
-        PlcType varType = target.getTypeGenerator().convertType(tupleExpr.getType());
-        PlcBasicVariable structVar = getTempVariable("litStruct", varType);
-
-        // Get the underlying structure type.
-        PlcStructType structType = target.getTypeGenerator().getStructureType(varType);
+        TupleType tupleType = (TupleType)normalizeType(tupleExpr.getType());
+        PlcStructType structType = target.getTypeGenerator().convertTupleType(tupleType);
+        PlcBasicVariable structVar = getTempVariable("litStruct", structType);
 
         // Convert the values of the tuple expression and assign them to fields of the destination variable.
         ExprValueResult result = new ExprValueResult(this);

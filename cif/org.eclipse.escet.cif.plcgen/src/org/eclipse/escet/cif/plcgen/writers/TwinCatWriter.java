@@ -43,19 +43,20 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouInstance;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
@@ -470,8 +471,8 @@ public class TwinCatWriter extends Writer {
         for (PlcPou pou: project.pous) {
             genCodeFile(pou);
         }
-        for (PlcTypeDecl tdecl: project.typeDecls) {
-            genCodeFile(tdecl);
+        for (PlcDeclaredType declType: project.declaredTypes) {
+            genCodeFile(declType);
         }
         for (PlcGlobalVarList varList: configuration.globalVarLists) {
             genCodeFile(varList);
@@ -523,11 +524,23 @@ public class TwinCatWriter extends Writer {
     }
 
     /**
-     * Generates code file for a PLC type declaration.
+     * Generates code file for a PLC declared type.
      *
-     * @param typeDecl The PLC type declaration.
+     * @param declaredType The PLC declared type.
      */
-    private void genCodeFile(PlcTypeDecl typeDecl) {
+    private void genCodeFile(PlcDeclaredType declaredType) {
+        String typeName;
+        String declarationText;
+        if (declaredType instanceof PlcStructType structType) {
+            typeName = structType.typeName;
+            declarationText = toTypeDeclBox(structType).toString();
+        } else if (declaredType instanceof PlcEnumType enumType) {
+            typeName = enumType.typeName;
+            declarationText = toTypeDeclBox(enumType).toString();
+        } else {
+            throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
+        }
+
         // Generate XML document.
         Document doc = createXmlDoc();
 
@@ -538,19 +551,18 @@ public class TwinCatWriter extends Writer {
 
         Element pouElem = doc.createElement("DUT");
         rootElem.appendChild(pouElem);
-        pouElem.setAttribute("Name", typeDecl.name);
+        pouElem.setAttribute("Name", typeName);
 
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        String txt = toBox(typeDecl).toString();
-        declElem.appendChild(doc.createCDATASection(txt));
+        declElem.appendChild(doc.createCDATASection(declarationText));
 
         Element opElem = doc.createElement("ObjectProperties");
         pouElem.appendChild(opElem);
 
         // Store new file.
-        String fileName = fmt("DUTs\\%s.TcDUT", typeDecl.name);
+        String fileName = fmt("DUTs\\%s.TcDUT", typeName);
         Document prevDoc = files.put(fileName, doc);
         Assert.check(prevDoc == null);
     }
@@ -581,7 +593,7 @@ public class TwinCatWriter extends Writer {
         Element declElem = doc.createElement("Declaration");
         pouElem.appendChild(declElem);
 
-        declElem.appendChild(doc.createCDATASection(toBox(varList).toString()));
+        declElem.appendChild(doc.createCDATASection(toVarDeclBox(varList).toString()));
 
         Element opElem = doc.createElement("ObjectProperties");
         pouElem.appendChild(opElem);
@@ -628,19 +640,20 @@ public class TwinCatWriter extends Writer {
     }
 
     @Override
-    protected Box toBox(PlcTypeDecl typeDecl) {
-        // Converts the type declaration to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
+    protected Box toTypeDeclBox(PlcStructType structType) {
+        // Converts the declared type to a textual representation in IEC 61131-3 syntax. The output is TwinCAT
         // specific, in that it implements a workaround for a bug in TwinCAT, where structs in type declarations
         // may not be terminated with a semicolon.
         CodeBox c = new MemoryCodeBox(INDENT);
-        c.add("TYPE %s:", typeDecl.name);
+        c.add("TYPE %s:", structType.typeName);
         c.indent();
-        if (typeDecl.type instanceof PlcStructType) {
-            // Special TwinCAT workaround.
-            c.add(toBox(typeDecl.type));
-        } else {
-            c.add(new HBox(toBox(typeDecl.type), ";"));
+        c.add("STRUCT");
+        c.indent();
+        for (PlcStructField field: structType.fields) {
+            c.add(toTypeDeclBox(field));
         }
+        c.dedent();
+        c.add("END_STRUCT");
         c.dedent();
         c.add("END_TYPE");
         return c;

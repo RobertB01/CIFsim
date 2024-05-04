@@ -48,3 +48,15 @@ automaton q:
 end
 
 invariant p.UP = q.UP and p.DOWN = q.DOWN;
+
+group annos:
+  @doc("some text")
+  enum E =
+    @doc("lit1")
+    L1,
+    @doc("lit2")
+    L2;
+
+  input E i;
+  invariant i = L1;
+end

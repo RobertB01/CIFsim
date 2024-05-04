@@ -209,6 +209,7 @@ The automaton is named `+event_disabler+`, but may be renamed if it conflicts wi
 The automaton has no supervisory kind, and has the disabled events as alphabet.
 It has a single nameless location, with a single self loop for all of the events that are disabled.
 The guard of the self loop is `false`, which results in the events being globally disabled.
+The newly added automaton and all its elements do not have any annotations.
 
 If the _Include input specification_ option is enabled, and events are disabled that did not exist in the input specification, event declarations are added to the output specification for those events.
 If the _Include input specification_ option is disabled, event declarations are added for all events that are disabled.

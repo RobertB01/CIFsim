@@ -194,7 +194,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   -----------------------------------------------
    * In automaton "g.p0":
      - edge e1 do lb[0] := true;
-                        ^
+                    ^
 
   --------------------------------
   (21/38) Edge has an 'if' update.

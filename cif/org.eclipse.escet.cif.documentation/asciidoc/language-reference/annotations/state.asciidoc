@@ -27,7 +27,7 @@ State annotations (`@state`) can be added to the following elements in CIF speci
 
 * Locations of automata.
 
-The annotation has the following additional constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
+The annotation has the following constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
 
 * A single location may have multiple state annotations, if that location represents multiple states of a state space.
 * Each argument of a state annotation represents either an automaton with its current location, or a variable with its current value.
@@ -36,7 +36,7 @@ The annotation has the following additional constraints, in addition to the <<la
 * Argument values, and parts of argument values (in case of containers), must be literals of type `bool`, `int`, `real`, `string`, `tuple`, `list`, `set`, or `dict`.
 This implies that the values must be statically evaluable, and that evaluating an argument value must not result in an evaluation error.
 * If at least one location in an automaton has at least one state annotation, all other locations in that same automaton must also have at least one state annotation, as all these locations should then represent a least one state from the state space.
-* Different state annotations on the same or different locations of a single automaton must have the same arguments, and the values of matching arguments must have compatible types (ignoring ranges), as they should represent states from the same state space.
+* Different state annotations on the same or different locations of a single automaton must have the same number of arguments, the arguments must have the same names, and the values of arguments with matching names must have compatible types (ignoring ranges), as they should represent states from the same state space.
 
 Most values can thus be represented as literals, but there are some exceptions.
 The following overview indicates how to represent locations and different types of values:

@@ -13,6 +13,11 @@ end
 func bool func4(bool fparam4; bool fparam5):
   return fparam4 and fparam5;
 end
+func bool func5():
+  bool fvar1;
+  bool fvar2;
+  return fvar1 and fvar2;
+end
 enum enum3 = lit5, lit6;
 enum enum4 = lit7, lit8;
 event evt12;

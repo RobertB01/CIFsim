@@ -11,6 +11,7 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumrename_warning_ {
+    /** Literal "__some_dummy_enum_literal". */
     _rename_warning___some_dummy_enum_literal,
 };
 typedef enum Enumrename_warning_ rename_warningEnum;

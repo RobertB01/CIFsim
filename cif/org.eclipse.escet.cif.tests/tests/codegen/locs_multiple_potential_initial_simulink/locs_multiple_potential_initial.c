@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1057,7 +1058,10 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumlocs_multiple_potential_initial_ {
+    /** Literal "loc1". */
     _locs_multiple_potential_initial_loc1,
+
+    /** Literal "loc2". */
     _locs_multiple_potential_initial_loc2,
 };
 typedef enum Enumlocs_multiple_potential_initial_ locs_multiple_potential_initialEnum;
@@ -1212,7 +1216,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "loc1". */
     "loc1",
+
+    /** Literal "loc2". */
     "loc2",
 };
 

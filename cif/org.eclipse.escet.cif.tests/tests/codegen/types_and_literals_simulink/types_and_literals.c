@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1083,8 +1084,13 @@ static A3IType A3ITypeFromSimulink(real_T *vec);
 static void A3ITypeToSimulink(real_T *vec, A3IType *arr);
 
 enum Enumtypes_and_literals_ {
+    /** Literal "BLUE". */
     _types_and_literals_BLUE,
+
+    /** Literal "RED". */
     _types_and_literals_RED,
+
+    /** Literal "WHITE". */
     _types_and_literals_WHITE,
 };
 typedef enum Enumtypes_and_literals_ types_and_literalsEnum;
@@ -2535,8 +2541,13 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "BLUE". */
     "BLUE",
+
+    /** Literal "RED". */
     "RED",
+
+    /** Literal "WHITE". */
     "WHITE",
 };
 

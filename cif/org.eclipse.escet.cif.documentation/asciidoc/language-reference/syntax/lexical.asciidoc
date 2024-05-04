@@ -179,7 +179,7 @@ indexterm:[^]
 `ROOTNAMETK`::
 A root name.
 Absolute names can be used to refer to objects that are otherwise hidden.
-It represents an absolute name from the root the current specification.
+It represents an absolute name from the root of the current specification.
 +
 Defined by the regular expression:
 `+\^[$]?[a-zA-Z_][a-zA-Z0-9_]*(\.[$]?[a-zA-Z_][a-zA-Z0-9_]*)*+`.
@@ -197,8 +197,8 @@ indexterm:[annotation,name]
 
 [[lang-ref-syntax-lexical-annoname]]
 `ANNOTATIONNAMETK`::
-An annotation name.
-Annotations names are used to refer to annotations.
+A (regular) annotation name.
+Annotation names are used to refer to annotations.
 +
 Defined by the regular expression:
 `+@[a-zA-Z_][a-zA-Z0-9_]*(:[a-zA-Z_][a-zA-Z0-9_]*)*+`.
@@ -212,6 +212,26 @@ Examples:
 ----
 @doc
 @plc:input
+----
+
+[[lang-ref-syntax-lexical-specannoname]]
+`SPECANNOTATIONNAMETK`::
+A specification annotation name.
+Specification annotation names are used to refer to annotations, when they are used to annotate specifications.
+Specification annotation names are identical to regular annotation names, but starts with two at signs (`@@`).
++
+Defined by the regular expression:
+`+@@[a-zA-Z_][a-zA-Z0-9_]*(:[a-zA-Z_][a-zA-Z0-9_]*)*+`.
+It starts with two at signs (`@@`), and then follow one or more `IDENTIFIER` terminals, separated by colons (`:`).
+Within annotation names, the identifiers are never escaped (no `$`).
+The at signs are only used to indicate that an annotation name follows, but they are not part of the annotation name itself.
++
+Examples:
++
+[source, cif]
+----
+@@doc
+@@plc:input
 ----
 
 indexterm:[int,literal]

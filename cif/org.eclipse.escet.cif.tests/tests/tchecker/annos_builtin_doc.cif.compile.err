@@ -1,15 +1,27 @@
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 15, column 1: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 19, column 6: Annotation "doc": unsupported argument "a".
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 19, column 31: Annotation "doc": unsupported argument "b".
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 23, column 14: Annotation "doc": argument "text" must have a value of type "string", but has a value of type "bool".
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 27, column 17: Annotation "doc": argument "text" cannot be evaluated statically.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 31, column 17: Annotation "doc": argument "text" cannot be evaluated statically, as evaluating it results in an evaluation error: Invalid operation: sqrt(-1.0).
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 46, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 52, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 56, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 62, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 66, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 70, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 79, column 3: Annotation "doc": missing mandatory "text" argument.
-ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 82, column 3: Annotation "doc": missing mandatory "text" argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 16, column 1: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 19, column 1: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 23, column 6: Annotation "doc": unsupported named argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 23, column 14: Annotation "doc": unsupported named argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 23, column 29: Annotation "doc": unsupported named argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 27, column 6: Annotation "doc": argument must have a value of type "string", but has a value of type "bool".
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 27, column 13: Annotation "doc": argument must have a value of type "string", but has a value of type "int[3..3]".
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 31, column 9: Annotation "doc": argument cannot be evaluated statically.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 35, column 9: Annotation "doc": argument cannot be evaluated statically, as evaluating it results in an evaluation error: Invalid operation: sqrt(-1.0).
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 55, column 1: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 57, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 63, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 67, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 73, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 77, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 81, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 90, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 93, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 96, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 99, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 102, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 103, column 20: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 105, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 108, column 3: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 110, column 5: Annotation "doc": missing an argument.
+ERROR: File "tchecker/annos_builtin_doc.cif": Semantic error at line 113, column 5: Annotation "doc": missing an argument.
 ERROR: Failed to load CIF file "tchecker/annos_builtin_doc.cif": the file has errors.

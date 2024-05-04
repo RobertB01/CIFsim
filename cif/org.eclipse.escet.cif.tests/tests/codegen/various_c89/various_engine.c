@@ -166,7 +166,10 @@ const char *various_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "l1". */
     "l1",
+
+    /** Literal "l2". */
     "l2",
 };
 
@@ -174,7 +177,15 @@ const char *enum_names[] = {
 
 
 /* Functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 IntType inc_(IntType inc_x_) {
+    /* Execute statements in the function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }

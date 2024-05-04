@@ -15,12 +15,17 @@ package org.eclipse.escet.cif.typechecker.declwrap;
 
 import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.functions.AFuncParam;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.FunctionScope;
@@ -87,13 +92,30 @@ public class FuncParamDeclWrap extends DeclWrap<FunctionParameter> {
         // Set the type.
         mmDecl.getParameter().setType(type);
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked 'for use'.
+        status = CheckStatus.USE;
     }
 
     @Override
     public void tcheckFull() {
-        // The 'for use' check already fully checks the function parameter.
+        // Check for use first, and make sure not already fully checked.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Check for single-value type.
+        CifType type = mmDecl.getParameter().getType();
+        if (CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
+        }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, scope, tchecker);
+        mmDecl.getParameter().getAnnotations().addAll(annos);
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 }

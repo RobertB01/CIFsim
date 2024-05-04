@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1083,7 +1084,10 @@ static A3IType A3ITypeFromSimulink(real_T *vec);
 static void A3ITypeToSimulink(real_T *vec, A3IType *arr);
 
 enum Enumvarious_ {
+    /** Literal "l1". */
     _various_l1,
+
+    /** Literal "l2". */
     _various_l2,
 };
 typedef enum Enumvarious_ variousEnum;
@@ -1386,6 +1390,14 @@ static int_T z_(SimStruct *sim_struct);
 
 static real_T deriv01(SimStruct *sim_struct);
 
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_);
 /* }}} */
 
@@ -1423,9 +1435,18 @@ static real_T deriv01(SimStruct *sim_struct) {
 /* }}} */
 
 /* {{{ Function definitions. */
+
+/**
+ * Function "inc".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 static int_T inc_(SimStruct *sim_struct, int_T inc_x_) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
 
+    /* Execute statements in the function body. */
     return IntegerAdd(inc_x_, 1);
     assert(0); /* Falling through the end of the function. */
 }
@@ -1460,7 +1481,10 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "l1". */
     "l1",
+
+    /** Literal "l2". */
     "l2",
 };
 

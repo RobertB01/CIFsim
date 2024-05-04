@@ -11,33 +11,39 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@a(x = 1, x = 2, y = 1, x = 3, y = 2, z = 1, y = 4)
+@@a(x: 123, x: 124)
+
+@a(x: 1, x: 2, y: 1, x: 3, y: 2, z: 1, y: 4)
 input bool i1;
 
+@a(1, 2, x: 3, 4, 5, x: 6, 7, x: 8, 9, 10)
+input bool i2;
+
+@a(x: 0, x: 1)
 automaton a1:
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   location:
     initial;
 end
 
 automaton a2:
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   location loc1:
     initial;
 
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   location loc2:
     initial;
 end
 
 automaton a3:
-  @a(x = 1, x = 2)
+  @a(x: 1, x: 2)
   disc int x = 1;
 
-  @a(x = 3, x = 4)
+  @a(x: 3, x: 4)
   cont c = 1 der 2;
 
-  @a(x = 5, x = 6)
+  @a(x: 5, x: 6)
   event evt;
 
   location:
@@ -46,9 +52,42 @@ automaton a3:
 end
 
 group g1:
-  @a(x = 5, x = 6)
-  alg int alg1 = 1;
+  @a(x: 5, x: 6)
+  alg int alg1 = a3.x;
 
-  @a(x = 7, x = 8)
+  @a(x: 7, x: 8)
   const int const1 = 2;
+
+  @a(x: 9, x: 10)
+  type typeDecl1 = bool;
+
+  @a(x: 11, x: 12)
+  enum enumDecl1 = lit1, lit2;
+
+  @a(x: 13, x: 14)
+  enum enumDecl2 =
+    @a(x: 15, x: 16)
+    @a(x: 17, x: 18)
+    lit3,
+    lit4,
+    @a(x: 19, x: 20)
+    @a(x: 21, x: 22)
+    lit5;
+
+  @a(x: 23, x: 24)
+  func bool func1(): "java:something";
+
+  @a(x: 25, x: 26)
+  func bool func2(
+    @a(x: 27, x: 28)
+    bool fparam1, fparam2;
+    @a(x: 29, x: 30)
+    bool fparam3, fparam4
+  ):
+    @a(x: 31, x: 32)
+    bool fvar1 = true, fvar2 = false;
+    @a(x: 33, x: 34)
+    bool fvar3 = true, fvar4 = false;
+    return fparam1 or fparam2 or fparam3 or fparam4 or fvar1 or fvar2 or fvar3 or fvar4;
+  end
 end

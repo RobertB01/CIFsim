@@ -121,6 +121,7 @@ import org.eclipse.escet.cif.parser.ast.functions.AExternalFuncBody;
 import org.eclipse.escet.cif.parser.ast.functions.AFuncParam;
 import org.eclipse.escet.cif.parser.ast.functions.AInternalFuncBody;
 import org.eclipse.escet.cif.parser.ast.iodecls.AIoDecl;
+import org.eclipse.escet.cif.parser.ast.tokens.AAnnotatedIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
@@ -263,6 +264,9 @@ public class SymbolScopeBuilder {
 
         // Process namespaces.
         ParentScope<?> bodyScope = processNamespaces(spec, specScope);
+
+        // Add annotations.
+        specScope.astAnnotations.addAll(spec.annotations);
 
         // Fill body scope.
         for (ADecl decl: spec.body.decls) {
@@ -442,6 +446,9 @@ public class SymbolScopeBuilder {
             decls = aut1.body.decls;
             locs = ((AAutomatonBody)aut1.body).locations;
 
+            // Add annotations.
+            scope.astAnnotations.addAll(aut1.annotations);
+
             // Add automaton to the parent object.
             parent.getGroup().getComponents().add(aut2);
         } else {
@@ -529,7 +536,7 @@ public class SymbolScopeBuilder {
         } else if (decl instanceof AEnumDecl enumDecl) {
             addEnum(enumDecl, parent);
         } else if (decl instanceof ATypeDefDecl typeDefDecl) {
-            addTypeDefs(typeDefDecl.typeDefs, parent);
+            addTypeDecls(typeDefDecl, parent);
         } else if (decl instanceof AInputVariableDecl inputVarDecl) {
             addInputVars(inputVarDecl, parent);
         } else if (decl instanceof AIoDecl ioDecl) {
@@ -760,48 +767,47 @@ public class SymbolScopeBuilder {
     /**
      * Adds an enumeration declaration to the given parent symbol scope.
      *
-     * @param decl The declaration to add.
+     * @param astDecl The declaration to add.
      * @param parent The parent symbol scope to which to add the declaration.
      */
-    private void addEnum(AEnumDecl decl, ParentScope<?> parent) {
+    private void addEnum(AEnumDecl astDecl, ParentScope<?> parent) {
         // Add enumeration declaration.
-        EnumDecl enum2 = newEnumDecl();
-        enum2.setName(decl.name);
-        enum2.setPosition(decl.createPosition());
+        EnumDecl mmDecl = newEnumDecl();
+        mmDecl.setName(astDecl.name);
+        mmDecl.setPosition(astDecl.createPosition());
 
-        EnumDeclWrap wrapper = new EnumDeclWrap(tchecker, parent, enum2);
+        EnumDeclWrap wrapper = new EnumDeclWrap(tchecker, parent, astDecl, mmDecl);
         parent.addDeclaration(wrapper);
 
-        parent.getComplexComponent().getDeclarations().add(enum2);
+        parent.getComplexComponent().getDeclarations().add(mmDecl);
 
-        // Add enumeration literals to same parent as enumeration
-        // declaration.
-        List<EnumLiteral> enumLits = enum2.getLiterals();
-        for (AIdentifier literalId: decl.literals) {
-            EnumLiteral literal = newEnumLiteral();
-            literal.setName(literalId.id);
-            literal.setPosition(literalId.createPosition());
+        // Add enumeration literals to same parent as enumeration declaration.
+        List<EnumLiteral> mmLiterals = mmDecl.getLiterals();
+        for (AAnnotatedIdentifier astLiteral: astDecl.literals) {
+            EnumLiteral mmLiteral = newEnumLiteral();
+            mmLiteral.setName(astLiteral.id);
+            mmLiteral.setPosition(astLiteral.createPosition());
 
-            EnumLiteralDeclWrap literalWrapper = new EnumLiteralDeclWrap(tchecker, parent, literal);
+            EnumLiteralDeclWrap literalWrapper = new EnumLiteralDeclWrap(tchecker, parent, astLiteral, mmLiteral);
             parent.addDeclaration(literalWrapper);
 
-            enumLits.add(literal);
+            mmLiterals.add(mmLiteral);
         }
     }
 
     /**
-     * Adds type definitions to the given parent symbol scope.
+     * Adds type declarations to the given parent symbol scope.
      *
-     * @param defs The definitions to add.
-     * @param parent The parent symbol scope to which to add the definitions.
+     * @param decls The declarations to add.
+     * @param parent The parent symbol scope to which to add the declarations.
      */
-    private void addTypeDefs(List<ATypeDef> defs, ParentScope<?> parent) {
-        for (ATypeDef tdef: defs) {
+    private void addTypeDecls(ATypeDefDecl decls, ParentScope<?> parent) {
+        for (ATypeDef tdef: decls.typeDefs) {
             TypeDecl tdecl = newTypeDecl();
             tdecl.setName(tdef.name.id);
             tdecl.setPosition(tdef.createPosition());
 
-            TypeDeclWrap wrapper = new TypeDeclWrap(tchecker, parent, tdef, tdecl);
+            TypeDeclWrap wrapper = new TypeDeclWrap(tchecker, parent, decls, tdef, tdecl);
             parent.addDeclaration(wrapper);
 
             parent.getComplexComponent().getDeclarations().add(tdecl);

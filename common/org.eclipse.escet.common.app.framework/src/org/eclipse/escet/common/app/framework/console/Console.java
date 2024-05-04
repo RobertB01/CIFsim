@@ -35,9 +35,6 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
  * <li>Line buffered output and error.</li>
  * <li>A convenient, thread-safe way to set the console name (title).</li>
  * </ul>
- *
- * @see <a href="http://wiki.eclipse.org/FAQ_How_do_I_write_to_the_console_from_a_plug-in%3F">FAQ: How do I write to the
- *     console from a plug-in?</a>
  */
 public class Console extends IOConsole {
     /** Console input stream. */

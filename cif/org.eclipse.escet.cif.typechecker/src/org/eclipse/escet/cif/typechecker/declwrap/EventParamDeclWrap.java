@@ -18,8 +18,10 @@ import static org.eclipse.escet.common.java.Lists.first;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.cif.parser.ast.AEventParameter;
 import org.eclipse.escet.cif.parser.ast.AEventParameterPart;
 import org.eclipse.escet.cif.parser.ast.tokens.AEventParamFlag;
@@ -152,14 +154,27 @@ public class EventParamDeclWrap extends DeclWrap<EventParameter> {
             throw new SemanticException();
         }
 
-        // This declaration is now fully checked.
-        status = CheckStatus.FULL;
+        // This declaration is now checked 'for use'.
+        status = CheckStatus.USE;
     }
 
     @Override
     public void tcheckFull() {
-        // The 'for use' check already fully checks the event parameter.
+        // Check for use first, and make sure not already fully checked.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
+
+        // Check for single-value type.
+        CifType type = mmDecl.getEvent().getType();
+        if (type != null && !(type instanceof VoidType) && CifValueUtils.getPossibleValueCount(type) == 1) {
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            // Non-fatal problem.
+        }
+
+        // This declaration is now fully checked.
+        status = CheckStatus.FULL;
     }
 
     @Override

@@ -1,7 +1,14 @@
 /* Simulink S-Function code for annos_doc CIF file.
  *
  * GENERATED CODE, DO NOT EDIT
+ *
+ * First doc
+ * with multiple lines.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1057,7 +1064,41 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 
 /* {{{ CIF types. */
 enum Enumannos_doc_ {
-    _annos_doc___some_dummy_enum_literal,
+    /** Literal "l1". */
+    _annos_doc_l1,
+
+    /**
+     * Literal "l2".
+     *
+     * single line doc
+     */
+    _annos_doc_l2,
+
+    /**
+     * Literal "l3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    _annos_doc_l3,
+
+    /**
+     * Literal "l4".
+     *
+     * some doc
+     */
+    _annos_doc_l4,
+
+    /**
+     * Literal "l5".
+     *
+     * First doc.
+     *
+     * Second doc line 1.
+     * Second doc line 2.
+     */
+    _annos_doc_l5,
 };
 typedef enum Enumannos_doc_ annos_docEnum;
 
@@ -1185,7 +1226,8 @@ struct WorkStruct {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     int_T constants_c5_;
 
@@ -1220,7 +1262,8 @@ struct WorkStruct {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     BoolType discvars_d5_;
 
@@ -1255,7 +1298,8 @@ struct WorkStruct {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     BoolType i5_;
 
@@ -1282,6 +1326,76 @@ static real_T deriv04(SimStruct *sim_struct);
 static real_T deriv05(SimStruct *sim_struct);
 
 
+/**
+ * Function "funcs.func1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+ * @return The return value of the function.
+ */
+static BoolType funcs_func1_(SimStruct *sim_struct, BoolType funcs_func1_p_);
+
+/**
+ * Function "funcs.func2".
+ *
+ * single line doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+ *
+ *     single line doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func2_(SimStruct *sim_struct, BoolType funcs_func2_p_);
+
+/**
+ * Function "funcs.func3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+ *
+ *     doc with multiple
+ *     lines of
+ *      text
+ * @return The return value of the function.
+ */
+static BoolType funcs_func3_(SimStruct *sim_struct, BoolType funcs_func3_p_);
+
+/**
+ * Function "funcs.func4".
+ *
+ * some doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+ *
+ *     some doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func4_(SimStruct *sim_struct, BoolType funcs_func4_p_);
+
+/**
+ * Function "funcs.func5".
+ *
+ * First doc.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+ *
+ *     First doc.
+ *
+ *     Second doc line 1.
+ *     Second doc line 2.
+ * @return The return value of the function.
+ */
+static BoolType funcs_func5_(SimStruct *sim_struct, BoolType funcs_func5_p_);
 /* }}} */
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
@@ -1341,7 +1455,8 @@ static int_T algvars_a4_(SimStruct *sim_struct) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 static int_T algvars_a5_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1401,6 +1516,184 @@ static real_T deriv05(SimStruct *sim_struct) {
 
 /* {{{ Function definitions. */
 
+/**
+ * Function "funcs.func1".
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+ * @return The return value of the function.
+ */
+static BoolType funcs_func1_(SimStruct *sim_struct, BoolType funcs_func1_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func1.v1". */
+    BoolType funcs_func1_v1_;
+    funcs_func1_v1_ = funcs_func1_p_;
+
+    /* Variable "funcs.func1.v2". */
+    BoolType funcs_func1_v2_;
+    funcs_func1_v2_ = funcs_func1_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func1_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func2".
+ *
+ * single line doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+ *
+ *     single line doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func2_(SimStruct *sim_struct, BoolType funcs_func2_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func2.v1".
+
+       single line doc
+    */
+    BoolType funcs_func2_v1_;
+    funcs_func2_v1_ = funcs_func2_p_;
+
+    /* Variable "funcs.func2.v2".
+
+       single line doc
+    */
+    BoolType funcs_func2_v2_;
+    funcs_func2_v2_ = funcs_func2_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func2_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+ *
+ *     doc with multiple
+ *     lines of
+ *      text
+ * @return The return value of the function.
+ */
+static BoolType funcs_func3_(SimStruct *sim_struct, BoolType funcs_func3_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func3.v1".
+
+       doc with multiple
+       lines of
+        text
+    */
+    BoolType funcs_func3_v1_;
+    funcs_func3_v1_ = funcs_func3_p_;
+
+    /* Variable "funcs.func3.v2".
+
+       doc with multiple
+       lines of
+        text
+    */
+    BoolType funcs_func3_v2_;
+    funcs_func3_v2_ = funcs_func3_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func3_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func4".
+ *
+ * some doc
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+ *
+ *     some doc
+ * @return The return value of the function.
+ */
+static BoolType funcs_func4_(SimStruct *sim_struct, BoolType funcs_func4_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func4.v1".
+
+       some doc
+    */
+    BoolType funcs_func4_v1_;
+    funcs_func4_v1_ = funcs_func4_p_;
+
+    /* Variable "funcs.func4.v2".
+
+       some doc
+    */
+    BoolType funcs_func4_v2_;
+    funcs_func4_v2_ = funcs_func4_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func4_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
+
+
+/**
+ * Function "funcs.func5".
+ *
+ * First doc.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
+ *
+ * @param sim_struct The Simulink data structure.
+ * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+ *
+ *     First doc.
+ *
+ *     Second doc line 1.
+ *     Second doc line 2.
+ * @return The return value of the function.
+ */
+static BoolType funcs_func5_(SimStruct *sim_struct, BoolType funcs_func5_p_) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+
+    /* Variable "funcs.func5.v1".
+
+       First doc.
+
+       Second doc line 1.
+       Second doc line 2.
+    */
+    BoolType funcs_func5_v1_;
+    funcs_func5_v1_ = funcs_func5_p_;
+
+    /* Variable "funcs.func5.v2".
+
+       First doc.
+
+       Second doc line 1.
+       Second doc line 2.
+    */
+    BoolType funcs_func5_v2_;
+    funcs_func5_v2_ = funcs_func5_v1_;
+
+    /* Execute statements in the function body. */
+    return funcs_func5_v2_;
+    assert(0); /* Falling through the end of the function. */
+}
 /* }}} */
 /* }}} */
 
@@ -1445,7 +1738,8 @@ enum annos_docEventEnum_ {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     events_e5_,
 };
@@ -1464,7 +1758,41 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
-    "__some_dummy_enum_literal",
+    /** Literal "l1". */
+    "l1",
+
+    /**
+     * Literal "l2".
+     *
+     * single line doc
+     */
+    "l2",
+
+    /**
+     * Literal "l3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    "l3",
+
+    /**
+     * Literal "l4".
+     *
+     * some doc
+     */
+    "l4",
+
+    /**
+     * Literal "l5".
+     *
+     * First doc.
+     *
+     * Second doc line 1.
+     * Second doc line 2.
+     */
+    "l5",
 };
 
 /**
@@ -1559,7 +1887,8 @@ static BoolType ExecEvent3(SimStruct *sim_struct) {
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  *
  * @return Whether the event was performed.
  */

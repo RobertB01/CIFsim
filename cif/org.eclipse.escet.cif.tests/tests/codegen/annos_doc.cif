@@ -11,35 +11,39 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+@@doc("First doc\nwith multiple lines.")
+@@doc("Second doc line 1.", "Second doc line 2.")
+
 input bool i1;
 
-@doc($text = "single line doc")
+@doc("single line doc")
 input bool i2;
 
-@doc($text = "doc with multiple\nlines " + "of\n text")
+@doc("doc with multiple\nlines " + "of\n text")
 input bool i3;
 
-@doc($text = fmt("%s", "some doc"))
+@doc(fmt("%s", "some doc"))
 input bool i4;
 
-@doc($text = "First doc.")
-@doc($text = "Second doc.")
+@doc("First doc.")
+@doc("Second doc line 1.", "Second doc line 2.")
 input bool i5;
 
+@doc("discvarsAut") // Annotations on automata are ignored.
 automaton discvars:
   disc bool d1;
 
-  @doc($text = "single line doc")
+  @doc("single line doc")
   disc bool d2;
 
-  @doc($text = "doc with multiple\nlines " + "of\n text")
+  @doc("doc with multiple\nlines " + "of\n text")
   disc bool d3;
 
-  @doc($text = fmt("%s", "some doc"))
+  @doc(fmt("%s", "some doc"))
   disc bool d4;
 
-  @doc($text = "First doc.")
-  @doc($text = "Second doc.")
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   disc bool d5;
 
   location:
@@ -50,17 +54,17 @@ end
 automaton contvars:
   cont c1 der 1;
 
-  @doc($text = "single line doc")
+  @doc("single line doc")
   cont c2 der 2;
 
-  @doc($text = "doc with multiple\nlines " + "of\n text")
+  @doc("doc with multiple\nlines " + "of\n text")
   cont c3 der 3;
 
-  @doc($text = fmt("%s", "some doc"))
+  @doc(fmt("%s", "some doc"))
   cont c4 der 4;
 
-  @doc($text = "First doc.")
-  @doc($text = "Second doc.")
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   cont c5 der 5;
 
   location:
@@ -71,54 +75,141 @@ end
 group algvars:
   alg int a1 = 1;
 
-  @doc($text = "single line doc")
+  @doc("single line doc")
   alg int a2 = 2;
 
-  @doc($text = "doc with multiple\nlines " + "of\n text")
+  @doc("doc with multiple\nlines " + "of\n text")
   alg int a3 = 3;
 
-  @doc($text = fmt("%s", "some doc"))
+  @doc(fmt("%s", "some doc"))
   alg int a4 = 4;
 
-  @doc($text = "First doc.")
-  @doc($text = "Second doc.")
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   alg int a5 = 5;
 end
 
 group constants:
   const int c1 = 1;
 
-  @doc($text = "single line doc")
+  @doc("single line doc")
   const int c2 = 2;
 
-  @doc($text = "doc with multiple\nlines " + "of\n text")
+  @doc("doc with multiple\nlines " + "of\n text")
   const int c3 = 3;
 
-  @doc($text = fmt("%s", "some doc"))
+  @doc(fmt("%s", "some doc"))
   const int c4 = 4;
 
-  @doc($text = "First doc.")
-  @doc($text = "Second doc.")
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   const int c5 = 5;
 end
 
 automaton events:
   event e1;
 
-  @doc($text = "single line doc")
+  @doc("single line doc")
   event e2;
 
-  @doc($text = "doc with multiple\nlines " + "of\n text")
+  @doc("doc with multiple\nlines " + "of\n text")
   event e3;
 
-  @doc($text = fmt("%s", "some doc"))
+  @doc(fmt("%s", "some doc"))
   event e4;
 
-  @doc($text = "First doc.")
-  @doc($text = "Second doc.")
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
   event e5;
 
   location:
     initial;
     edge e1, e2, e3, e4, e5;
+end
+
+group enumsAndLits:
+  @doc("enum") // Annotations on enumerations are lost, due to enumerations being merged into a single enumeration.
+  enum E =
+    l1,
+
+    @doc("single line doc")
+    l2,
+
+    @doc("doc with multiple\nlines " + "of\n text")
+    l3,
+
+    @doc(fmt("%s", "some doc"))
+    l4,
+
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    l5;
+end
+
+group funcs:
+  func bool func1(bool p):
+    bool v1 = p;
+    bool v2 = v1;
+    return v2;
+  end
+
+  @doc("single line doc")
+  func bool func2(
+    @doc("single line doc")
+    bool p
+  ):
+    @doc("single line doc")
+    bool v1 = p;
+
+    @doc("single line doc")
+    bool v2 = v1;
+
+    return v2;
+  end
+
+  @doc("doc with multiple\nlines " + "of\n text")
+  func bool func3(
+    @doc("doc with multiple\nlines " + "of\n text")
+    bool p
+  ):
+    @doc("doc with multiple\nlines " + "of\n text")
+    bool v1 = p;
+
+    @doc("doc with multiple\nlines " + "of\n text")
+    bool v2 = v1;
+
+    return v2;
+  end
+
+  @doc(fmt("%s", "some doc"))
+  func bool func4(
+    @doc(fmt("%s", "some doc"))
+    bool p
+  ):
+    @doc(fmt("%s", "some doc"))
+    bool v1 = p;
+
+    @doc(fmt("%s", "some doc"))
+    bool v2 = v1;
+
+    return v2;
+  end
+
+  @doc("First doc.")
+  @doc("Second doc line 1.", "Second doc line 2.")
+  func bool func5(
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    bool p
+  ):
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    bool v1 = p;
+
+    @doc("First doc.")
+    @doc("Second doc line 1.", "Second doc line 2.")
+    bool v2 = v1;
+
+    return v2;
+  end
 end

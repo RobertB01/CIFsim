@@ -754,8 +754,31 @@ public class C99CodeGen extends CodeGen {
         CodeBox enumNames = ctxt.makeCodeBox();
         enumNames.add("const char *%s[] = {", ENUM_NAMES_LIST);
         enumNames.indent();
-        for (EnumLiteral eLit: enumDecl.getLiterals()) {
-            enumNames.add("%s,", stringToJava(eLit.getName()));
+        List<EnumLiteral> eLits = enumDecl.getLiterals();
+        for (int i = 0; i < eLits.size(); i++) {
+            if (i > 0) {
+                enumNames.add();
+            }
+
+            EnumLiteral lit = eLits.get(i);
+            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            String name = lit.getName();
+
+            if (docs.isEmpty()) {
+                enumNames.add("/** Literal \"%s\". */", name);
+            } else {
+                enumNames.add("/**");
+                enumNames.add(" * Literal \"%s\".", name);
+                for (String doc: docs) {
+                    enumNames.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        enumNames.add(" * %s", line);
+                    }
+                }
+                enumNames.add(" */");
+            }
+
+            enumNames.add("%s,", stringToJava(name));
         }
         enumNames.dedent();
         enumNames.add("};");
@@ -1129,6 +1152,23 @@ public class C99CodeGen extends CodeGen {
     protected void addUpdatesEndScope(CodeBox code) {
         code.dedent();
         code.add("}");
+    }
+
+    @Override
+    protected void addSpec(CodeContext ctxt) {
+        List<String> docs = DocAnnotationProvider.getDocs(spec);
+        CodeBox specCommentsBox = makeCodeBox(0);
+        for (String doc: docs) {
+            specCommentsBox.add(" *");
+            for (String line: doc.split("\\r?\\n")) {
+                specCommentsBox.add(" * %s", line);
+            }
+        }
+        String specCommentsCode = specCommentsBox.toString();
+        if (!specCommentsCode.isEmpty()) {
+            specCommentsCode += "\n";
+        }
+        replacements.put("spec-comments", specCommentsCode);
     }
 
     @Override

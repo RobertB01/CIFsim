@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
@@ -34,7 +35,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcTask;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcTypeDecl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -46,9 +46,13 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Class that stores and writes generated PLC code. */
 public class PlcCodeStorage {
+    /** Length of a comment line that explains what the next code block is aiming to do. */
+    private static final int AIM_COMMENT_LENGTH = 79;
+
     /** Maximum number of registered premature event loop cycle aborts. */
     private static final int MAX_LOOPS_KILLED = 9999;
 
@@ -97,11 +101,23 @@ public class PlcCodeStorage {
      */
     private List<PlcStatement> updateContVarsRemainingTimeCode = null;
 
-    /** If not {@code null}, code to perform one iteration of all events. */
-    private List<PlcStatement> eventTransitionsIterationCode = null;
+    /** If not {@code null}, code to perform one iteration of every uncontrollable event. */
+    private List<PlcStatement> uncontrollableEventTransitionsCode = null;
 
-    /** Maximum number of iterations for performing events in a single cycle, or {@code null} if unrestricted. */
-    private Integer maxIter;
+    /** If not {@code null}, code to perform one iteration of every controllable event. */
+    private List<PlcStatement> controllableEventTransitionsCode = null;
+
+    /**
+     * Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if
+     * unrestricted.
+     */
+    private Integer maxUncontrollableLimit;
+
+    /**
+     * Maximum number of iterations for performing controllable events in a single cycle, or {@code null} if
+     * unrestricted.
+     */
+    private Integer maxControllableLimit;
 
     /** If not {@code null}, code for copying I/O input to CIF state. */
     private List<PlcStatement> inputFuncCode = null;
@@ -118,7 +134,9 @@ public class PlcCodeStorage {
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
         this.plcFuncAppls = new PlcFunctionAppls(target);
-        this.maxIter = settings.maxIter;
+        this.maxUncontrollableLimit = limitMaxIter(settings.maxUncontrollableLimit, "uncontrollable",
+                settings.warnOutput);
+        this.maxControllableLimit = limitMaxIter(settings.maxControllableLimit, "controllable", settings.warnOutput);
 
         // Create the project and a configuration.
         project = new PlcProject(settings.projectName);
@@ -135,6 +153,38 @@ public class PlcCodeStorage {
         mainProgram = new PlcPou("MAIN", PlcPouType.PROGRAM, null);
         project.pous.add(mainProgram);
         task.pouInstances.add(new PlcPouInstance("MAIN", mainProgram));
+    }
+
+    /**
+     * Limit the given events iteration limit to the capabilities of the target. Give a warning if the count gets
+     * reduced.
+     *
+     * @param specifiedLimit Limit as given by the user.
+     * @param eventKind Kind of events that get affected by a change in the limit.
+     * @param warnOutput Callback to send warnings to the user.
+     * @return Limit that is feasible for the target.
+     */
+    private Integer limitMaxIter(Integer specifiedLimit, String eventKind, WarnOutput warnOutput) {
+        if (specifiedLimit == null) {
+            return specifiedLimit; // Infinite limit always works.
+        }
+
+        // Compute the maximum feasible limit that can be checked.
+        PlcElementaryType loopCountType = target.getIntegerType();
+        int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
+        int feasibleLimit = switch (bitSize) {
+            case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of the limit fit.
+            case 16 -> Math.min(specifiedLimit, 0x7FFF);
+            default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
+        };
+
+        // Give a warning if the limit was reduced.
+        if (specifiedLimit != feasibleLimit) {
+            warnOutput.line("Maximum iteration limit for %s events was reduced from %d to %d, as the PLC's integer "
+                    + "type does not support larger values.", eventKind, specifiedLimit, feasibleLimit);
+        }
+
+        return feasibleLimit;
     }
 
     /**
@@ -255,12 +305,12 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add a type declaration to the type declarations list.
+     * Add a declared type to the declared types list.
      *
-     * @param decl Declaration to add. Name is assumed to be unique.
+     * @param declaredType Type to declare. Name of the type is assumed to be unique.
      */
-    public void addTypeDecl(PlcTypeDecl decl) {
-        project.typeDecls.add(decl);
+    public void addDeclaredType(PlcDeclaredType declaredType) {
+        project.declaredTypes.add(declaredType);
     }
 
     /**
@@ -290,14 +340,26 @@ public class PlcCodeStorage {
      * Add code to (try to) perform one iteration of all event transitions. Code should update the
      * {@link #isProgressVariable} if an event is performed.
      *
-     * @param eventTransitionsIterationCode Code that (tries to) perform one iteration of all event transitions. Code
-     *     should update the {@link #isProgressVariable} if an event is performed.
+     * @param uncontrollableEventTransitionsIterationCode Code that (tries to) perform one iteration of all
+     *     uncontrollable event transitions. Code should update the {@link #isProgressVariable} if an event is
+     *     performed.
+     * @param controllableEventTransitionsIterationCode Code that (tries to) perform one iteration of all controllable
+     *     event transitions. Code should update the {@link #isProgressVariable} if an event is performed.
      * @see #getIsProgressVariable
      */
-    public void addEventTransitions(List<PlcStatement> eventTransitionsIterationCode) {
-        Assert.check(this.eventTransitionsIterationCode == null);
-        if (PlcModelUtils.isNonEmptyCode(eventTransitionsIterationCode)) {
-            this.eventTransitionsIterationCode = eventTransitionsIterationCode;
+    public void addEventTransitions(List<PlcStatement> uncontrollableEventTransitionsIterationCode,
+            List<PlcStatement> controllableEventTransitionsIterationCode)
+    {
+        // No code added yet?
+        Assert.areEqual(null, uncontrollableEventTransitionsCode);
+        Assert.areEqual(null, controllableEventTransitionsCode);
+
+        // Add the given code if it has content.
+        if (PlcModelUtils.isNonEmptyCode(uncontrollableEventTransitionsIterationCode)) {
+            uncontrollableEventTransitionsCode = uncontrollableEventTransitionsIterationCode;
+        }
+        if (PlcModelUtils.isNonEmptyCode(controllableEventTransitionsIterationCode)) {
+            controllableEventTransitionsCode = controllableEventTransitionsIterationCode;
         }
     }
 
@@ -333,7 +395,6 @@ public class PlcCodeStorage {
         // continuous variables is a subset within having state.
         Assert.implies(updateContVarsRemainingTimeCode != null, stateInitializationCode != null);
 
-        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
         ExprGenerator exprGen = getExprGenerator();
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         NameGenerator nameGen = target.getNameGenerator();
@@ -349,22 +410,16 @@ public class PlcCodeStorage {
         // Construct loop and killed counters.
         PlcBasicVariable loopCount = null;
         PlcBasicVariable loopsKilled = null;
-        if (maxIter != null) {
+        if (maxUncontrollableLimit != null || maxControllableLimit != null) {
             // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.
             String name = nameGen.generateGlobalName("loopsKilled", false);
             loopsKilled = addStateVariable(name, PlcElementaryType.INT_TYPE);
             Assert.check(MAX_LOOPS_KILLED + 1 <= 0x7FFF); // One more for "min(killed + 1, max_value)".
 
-            // Construct a "loopCount" variable, limit the maximum number of iterations to the type.
+            // Construct a "loopCount" variable, finite upper bounds on the loop have already been limited to fit in the
+            // standard integer PLC type.
             PlcElementaryType loopCountType = target.getIntegerType();
             loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
-            int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
-            maxIter = switch (bitSize) {
-                case 64, 32 -> maxIter; // Java int size is 32 bit, all values of maxIter fit.
-                case 16 -> Math.min(maxIter, 0x7FFF);
-                case 8 -> Math.min(maxIter, 0x7F);
-                default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
-            };
             addTempVariable(loopCount);
         }
 
@@ -377,11 +432,10 @@ public class PlcCodeStorage {
         // Prepare adding code to the program.
         CodeBox box = mainProgram.body;
         boolean boxNeedsEmptyLine = false;
-        int commentLength = 79; // Length of a comment header line.
 
         // Add input code if it exists.
         if (inputFuncCode != null) {
-            generateCommentHeader("Read input from sensors.", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Read input from sensors.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
@@ -391,7 +445,7 @@ public class PlcCodeStorage {
         if (stateInitializationCode != null) {
             String headerText = (updateContVarsRemainingTimeCode == null) ? "Initialize state."
                     : "Initialize state or update continuous variables.";
-            generateCommentHeader(headerText, '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader(headerText, '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
@@ -416,64 +470,14 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        if (eventTransitionsIterationCode != null) {
-            generateCommentHeader("Process all events.", '-', commentLength, boxNeedsEmptyLine, box);
+        boxNeedsEmptyLine = generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit,
+                "uncontrollable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
+        boxNeedsEmptyLine = generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit,
+                "controllable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
 
-            PlcBasicVariable progressVar = getIsProgressVariable();
-            box.add("%s := TRUE;", progressVar.varRefText);
-
-            // Start the event processing loop.
-            if (loopCount == null) {
-                // Unrestricted looping, no need to count loops.
-                box.add("(* Perform events until none can be done anymore. *)");
-                box.add("WHILE %s DO", progressVar.varRefText);
-                box.indent();
-            } else {
-                // Generate condition "progress AND loopCount < max".
-                PlcExpression progressCond = new PlcVarExpression(progressVar);
-                PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
-                        new PlcIntLiteral(maxIter));
-                PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
-
-                // Restricted looping code.
-                box.add("(* Perform events until none can be done anymore. *)");
-                box.add("(* Track the number of iterations and abort if there are too many. *)");
-                box.add("%s := 0;", loopCount.varRefText);
-                box.add("WHILE %s DO", textGenerator.toString(whileCond));
-                box.indent();
-                box.add("%s := %s + 1;", loopCount.varRefText, loopCount.varRefText);
-            }
-
-            // Construct the while body with event processing.
-            box.add("%s := FALSE;", progressVar.varRefText);
-            box.add();
-            textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
-            box.dedent();
-            box.add("END_WHILE;");
-
-            // Update "loopsKilled" afterwards if appropriate.
-            if (loopsKilled != null) {
-                // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
-                PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
-                        new PlcIntLiteral(maxIter));
-                PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled),
-                        new PlcIntLiteral(1));
-                PlcExpression limitedIncrementKilled = funcAppls.minFuncAppl(incKilled,
-                        new PlcIntLiteral(MAX_LOOPS_KILLED));
-
-                box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
-                box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
-                box.indent();
-                box.add("%s := %s;", loopsKilled.varRefText, textGenerator.toString(limitedIncrementKilled));
-                box.dedent();
-                box.add("END_IF;");
-            }
-        }
-        boxNeedsEmptyLine = true;
-
-        // Generate output code if it exists. */
+        // Generate output code if it exists.
         if (outputFuncCode != null) {
-            generateCommentHeader("Write output to actuators.", '-', commentLength, boxNeedsEmptyLine, box);
+            generateCommentHeader("Write output to actuators.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
 
             textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
@@ -482,7 +486,92 @@ public class PlcCodeStorage {
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
 
         // Add temporary variables of the main program code.
-        mainProgram.tempVars = exprGen.getCreatedTempVariables();
+        mainProgram.tempVars.addAll(exprGen.getCreatedTempVariables());
+    }
+
+    /**
+     * Generate event transitions code.
+     *
+     * @param eventTransitionsIterationCode If not {@code null}, code to try to perform each event once.
+     * @param maxIter Maximum number of loop iterations before aborting the loop. The value {@code null} means
+     *     'infinite'.
+     * @param eventKind The kind of events that are tried to perform.
+     * @param loopCount PLC variable containing the number of loops performed. If {@code null}, the loop count is not
+     *     recorded.
+     * @param loopsKilled PLC variable containing the number of loops that were aborted due to the loop count limit
+     *     since the start of the PLC. If {@code null}, the loop count is not recorded.
+     * @param box Destination of the generated code.
+     * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
+     * @return Whether an empty line should be inserted in the box output before generating more code.
+     */
+    private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode, Integer maxIter,
+            String eventKind, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
+            boolean boxNeedsEmptyLine)
+    {
+        if (eventTransitionsIterationCode == null) {
+            return boxNeedsEmptyLine;
+        }
+
+        ModelTextGenerator textGenerator = target.getModelTextGenerator();
+        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
+
+        generateCommentHeader("Process " + eventKind + " events.", '-', boxNeedsEmptyLine, box);
+
+        PlcBasicVariable progressVar = getIsProgressVariable();
+        box.add("%s := TRUE;", progressVar.varRefText);
+
+        // Start the event processing loop.
+        if (maxIter == null) {
+            // Unrestricted looping, no need to count loops.
+            box.add("(* Perform events until none can be done anymore. *)");
+            box.add("WHILE %s DO", progressVar.varRefText);
+            box.indent();
+        } else {
+            Assert.notNull(loopCount); // Counter is needed if there is a finite maximum loop count.
+
+            // Generate condition "progress AND loopCount < max".
+            PlcExpression progressCond = new PlcVarExpression(progressVar);
+            PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
+                    new PlcIntLiteral(maxIter));
+            PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
+
+            // Restricted looping code.
+            box.add("(* Perform events until none can be done anymore. *)");
+            box.add("(* Track the number of iterations and abort if there are too many. *)");
+            box.add("%s := 0;", loopCount.varRefText);
+            box.add("WHILE %s DO", textGenerator.toString(whileCond));
+            box.indent();
+            box.add("%s := %s + 1;", loopCount.varRefText, loopCount.varRefText);
+        }
+
+        // Construct the while body with event processing.
+        box.add("%s := FALSE;", progressVar.varRefText);
+        box.add();
+        textGenerator.toText(eventTransitionsIterationCode, box, mainProgram.name, false);
+        box.dedent();
+        box.add("END_WHILE;");
+
+        // Update "loopsKilled" afterwards if appropriate.
+        if (maxIter != null && loopsKilled != null) {
+            // If maximum iterations is infinite, the loop never aborts and loopsKilled is never changed.
+
+            Assert.notNull(loopCount); // Technically already implied in the previous code block, but doesn't hurt.
+
+            // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
+            PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
+                    new PlcIntLiteral(maxIter));
+            PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled), new PlcIntLiteral(1));
+            PlcExpression limitedIncrementKilled = funcAppls.minFuncAppl(incKilled,
+                    new PlcIntLiteral(MAX_LOOPS_KILLED));
+
+            box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
+            box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));
+            box.indent();
+            box.add("%s := %s;", loopsKilled.varRefText, textGenerator.toString(limitedIncrementKilled));
+            box.dedent();
+            box.add("END_IF;");
+        }
+        return true;
     }
 
     /**
@@ -490,18 +579,17 @@ public class PlcCodeStorage {
      *
      * @param text Text describing what code lines will come next.
      * @param dashChar The character to use as filler, {@code '-'} or {@code '='} are likely useful.
-     * @param length Expected length of comment line, may get longer if the text is long.
      * @param addEmptyLine Whether to generate an empty line first.
      * @param box Storage for the generated lines.
      */
-    private void generateCommentHeader(String text, char dashChar, int length, boolean addEmptyLine, CodeBox box) {
+    private void generateCommentHeader(String text, char dashChar, boolean addEmptyLine, CodeBox box) {
         // Construct header line. As it is mostly constant data, code will be much more efficient than it seems.
         char[] pre = {'(', '*', ' ', dashChar, dashChar, dashChar, ' '};
         char[] post = {dashChar, dashChar, dashChar, ' ', '*', ')'};
         char[] afterText = {' '};
 
         int layoutLength = pre.length + afterText.length + post.length;
-        length = Math.max(length, layoutLength + text.length());
+        int length = Math.max(AIM_COMMENT_LENGTH, layoutLength + text.length());
 
         char[] line = new char[length];
         Arrays.fill(line, dashChar);

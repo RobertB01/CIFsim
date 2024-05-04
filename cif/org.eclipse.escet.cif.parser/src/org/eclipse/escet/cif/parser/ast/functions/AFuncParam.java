@@ -16,11 +16,15 @@ package org.eclipse.escet.cif.parser.ast.functions;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.ACifObject;
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.cif.parser.ast.types.ACifType;
 
 /** Function parameters. */
 public class AFuncParam extends ACifObject {
+    /** The annotations of the function parameters. */
+    public final List<AAnnotation> annotations;
+
     /** The type of the parameters. */
     public final ACifType type;
 
@@ -30,11 +34,13 @@ public class AFuncParam extends ACifObject {
     /**
      * Constructor for the {@link AFuncParam} class.
      *
+     * @param annotations The annotations of the function parameters.
      * @param type The type of the parameters.
      * @param names The names of the function parameters.
      */
-    public AFuncParam(ACifType type, List<AIdentifier> names) {
+    public AFuncParam(List<AAnnotation> annotations, ACifType type, List<AIdentifier> names) {
         super(null);
+        this.annotations = annotations;
         this.type = type;
         this.names = names;
     }

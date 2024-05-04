@@ -95,6 +95,15 @@ public interface AutomataPackage extends EPackage
     int AUTOMATON__POSITION = CifPackage.COMPLEX_COMPONENT__POSITION;
 
     /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AUTOMATON__ANNOTATIONS = CifPackage.COMPLEX_COMPONENT__ANNOTATIONS;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

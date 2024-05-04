@@ -11,7 +11,41 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumannos_doc_ {
-    _annos_doc___some_dummy_enum_literal,
+    /** Literal "l1". */
+    _annos_doc_l1,
+
+    /**
+     * Literal "l2".
+     *
+     * single line doc
+     */
+    _annos_doc_l2,
+
+    /**
+     * Literal "l3".
+     *
+     * doc with multiple
+     * lines of
+     *  text
+     */
+    _annos_doc_l3,
+
+    /**
+     * Literal "l4".
+     *
+     * some doc
+     */
+    _annos_doc_l4,
+
+    /**
+     * Literal "l5".
+     *
+     * First doc.
+     *
+     * Second doc line 1.
+     * Second doc line 2.
+     */
+    _annos_doc_l5,
 };
 typedef enum Enumannos_doc_ annos_docEnum;
 
@@ -61,7 +95,8 @@ enum annos_docEventEnum_ {
      *
      * First doc.
      *
-     * Second doc.
+     * Second doc line 1.
+     * Second doc line 2.
      */
     events_e5_,
 };
@@ -103,7 +138,8 @@ extern IntType constants_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern IntType constants_c5_;
 
@@ -140,7 +176,8 @@ extern BoolType i4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern BoolType i5_;
 
@@ -148,6 +185,71 @@ extern void annos_doc_AssignInputVariables();
 
 /* Declaration of internal functions. */
 
+/**
+ * Function "funcs.func1".
+ *
+ * @param funcs_func1_p_ Function parameter "funcs.func1.p".
+ * @return The return value of the function.
+ */
+extern BoolType funcs_func1_(BoolType funcs_func1_p_);
+
+/**
+ * Function "funcs.func2".
+ *
+ * single line doc
+ *
+ * @param funcs_func2_p_ Function parameter "funcs.func2.p".
+ *
+ *     single line doc
+ * @return The return value of the function.
+ */
+extern BoolType funcs_func2_(BoolType funcs_func2_p_);
+
+/**
+ * Function "funcs.func3".
+ *
+ * doc with multiple
+ * lines of
+ *  text
+ *
+ * @param funcs_func3_p_ Function parameter "funcs.func3.p".
+ *
+ *     doc with multiple
+ *     lines of
+ *      text
+ * @return The return value of the function.
+ */
+extern BoolType funcs_func3_(BoolType funcs_func3_p_);
+
+/**
+ * Function "funcs.func4".
+ *
+ * some doc
+ *
+ * @param funcs_func4_p_ Function parameter "funcs.func4.p".
+ *
+ *     some doc
+ * @return The return value of the function.
+ */
+extern BoolType funcs_func4_(BoolType funcs_func4_p_);
+
+/**
+ * Function "funcs.func5".
+ *
+ * First doc.
+ *
+ * Second doc line 1.
+ * Second doc line 2.
+ *
+ * @param funcs_func5_p_ Function parameter "funcs.func5.p".
+ *
+ *     First doc.
+ *
+ *     Second doc line 1.
+ *     Second doc line 2.
+ * @return The return value of the function.
+ */
+extern BoolType funcs_func5_(BoolType funcs_func5_p_);
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
@@ -183,7 +285,8 @@ extern RealType contvars_c4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern RealType contvars_c5_;
 
@@ -218,7 +321,8 @@ extern BoolType discvars_d4_;
  *
  * First doc.
  *
- * Second doc.
+ * Second doc line 1.
+ * Second doc line 2.
  */
 extern BoolType discvars_d5_;
 

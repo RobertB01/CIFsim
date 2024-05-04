@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import org.eclipse.escet.cif.metamodel.cif.*;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
+
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
@@ -90,6 +92,7 @@ public class CifSwitch<T> extends Switch<T>
             {
                 Component component = (Component)theEObject;
                 T result = caseComponent(component);
+                if (result == null) result = caseAnnotatedObject(component);
                 if (result == null) result = casePositionObject(component);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -100,6 +103,7 @@ public class CifSwitch<T> extends Switch<T>
                 T result = caseGroup(group);
                 if (result == null) result = caseComplexComponent(group);
                 if (result == null) result = caseComponent(group);
+                if (result == null) result = caseAnnotatedObject(group);
                 if (result == null) result = casePositionObject(group);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -117,6 +121,7 @@ public class CifSwitch<T> extends Switch<T>
                 ComponentInst componentInst = (ComponentInst)theEObject;
                 T result = caseComponentInst(componentInst);
                 if (result == null) result = caseComponent(componentInst);
+                if (result == null) result = caseAnnotatedObject(componentInst);
                 if (result == null) result = casePositionObject(componentInst);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -126,6 +131,7 @@ public class CifSwitch<T> extends Switch<T>
                 ComplexComponent complexComponent = (ComplexComponent)theEObject;
                 T result = caseComplexComponent(complexComponent);
                 if (result == null) result = caseComponent(complexComponent);
+                if (result == null) result = caseAnnotatedObject(complexComponent);
                 if (result == null) result = casePositionObject(complexComponent);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -137,6 +143,7 @@ public class CifSwitch<T> extends Switch<T>
                 if (result == null) result = caseGroup(specification);
                 if (result == null) result = caseComplexComponent(specification);
                 if (result == null) result = caseComponent(specification);
+                if (result == null) result = caseAnnotatedObject(specification);
                 if (result == null) result = casePositionObject(specification);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -449,6 +456,22 @@ public class CifSwitch<T> extends Switch<T>
      * @generated
      */
     public T casePositionObject(PositionObject object)
+    {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Annotated Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAnnotatedObject(AnnotatedObject object)
     {
         return null;
     }

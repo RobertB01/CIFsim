@@ -529,8 +529,11 @@ public abstract class prints {
 
     /** prints enumeration. */
     public static enum printsEnum {
-        /** A */ _A,
-        /** B */ _B;
+        /** Literal "A". */
+        _A,
+
+        /** Literal "B". */
+        _B;
 
         @Override
         public String toString() {

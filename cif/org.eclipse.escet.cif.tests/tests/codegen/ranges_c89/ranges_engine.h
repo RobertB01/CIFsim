@@ -32,6 +32,7 @@ extern void A3T2IITypeModify(A3T2IIType *array, IntType index, T2IIType *value);
 extern int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
 enum Enumranges_ {
+    /** Literal "__some_dummy_enum_literal". */
     _ranges___some_dummy_enum_literal,
 };
 typedef enum Enumranges_ rangesEnum;

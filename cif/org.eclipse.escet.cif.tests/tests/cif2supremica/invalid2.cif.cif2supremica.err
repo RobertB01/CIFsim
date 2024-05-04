@@ -355,7 +355,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   -----------------------------------------------
    * In location "p.l":
      - edge u do tbb[a] := true;
-                        ^
+                    ^
 
   --------------------------------------------
   (39/43) Function is a user-defined function.

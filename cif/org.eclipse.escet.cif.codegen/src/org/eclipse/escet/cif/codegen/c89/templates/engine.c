@@ -1,6 +1,6 @@
 /* CIF to C translation of ${prefix}.cif
  * Generated file, DO NOT EDIT
- */
+${spec-comments} */
 
 #include <stdio.h>
 #include <stdlib.h>

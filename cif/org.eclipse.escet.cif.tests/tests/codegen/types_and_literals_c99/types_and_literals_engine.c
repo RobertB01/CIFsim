@@ -907,8 +907,13 @@ const char *types_and_literals_event_names[] = {
 
 /** Enumeration names. */
 const char *enum_names[] = {
+    /** Literal "BLUE". */
     "BLUE",
+
+    /** Literal "RED". */
     "RED",
+
+    /** Literal "WHITE". */
     "WHITE",
 };
 

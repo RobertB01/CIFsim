@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1148,6 +1149,7 @@ static void A1A1A1BTypeModify(A1A1A1BType *array, IntType index, A1A1BType *valu
 static int A1A1A1BTypePrint(A1A1A1BType *array, char *dest, int start, int end);
 
 enum Enumunsupported_simulink_warnings_ {
+    /** Literal "__some_dummy_enum_literal". */
     _unsupported_simulink_warnings___some_dummy_enum_literal,
 };
 typedef enum Enumunsupported_simulink_warnings_ unsupported_simulink_warningsEnum;
@@ -1936,6 +1938,7 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "__some_dummy_enum_literal". */
     "__some_dummy_enum_literal",
 };
 

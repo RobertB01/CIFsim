@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.typechecker.annotations.builtin;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -37,8 +38,8 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * Annotation provider for "doc" annotations.
  *
  * <p>
- * A "doc" annotation adds documentation to a model element. It has exactly one argument, named 'text', of type
- * 'string', that can be statically evaluated.
+ * A "doc" annotation adds documentation to a model element. It has at least one argument, and all arguments must be
+ * statically-evaluable unnamed arguments of type 'string'.
  * </p>
  */
 public class DocAnnotationProvider extends AnnotationProvider {
@@ -55,59 +56,59 @@ public class DocAnnotationProvider extends AnnotationProvider {
     public final void checkAnnotation(AnnotatedObject annotatedObject, Annotation annotation,
             AnnotationProblemReporter reporter)
     {
-        // Check for existence of mandatory argument.
+        // Check for existence of arguments.
         if (annotation.getArguments().isEmpty()) {
-            reporter.reportProblem(annotation, "missing mandatory \"text\" argument.", annotation.getPosition(),
+            reporter.reportProblem(annotation, "missing an argument.", annotation.getPosition(),
                     SemanticProblemSeverity.ERROR);
             // Non-fatal problem.
         }
 
         // Check provided arguments.
         for (AnnotationArgument arg: annotation.getArguments()) {
-            // Check for (un)supported argument name.
-            if (!arg.getName().equals("text")) {
-                reporter.reportProblem(annotation, fmt("unsupported argument \"%s\".", arg.getName()),
-                        arg.getPosition(), SemanticProblemSeverity.ERROR);
+            // 1) Check for unnamed argument.
+            if (arg.getName() != null) {
+                reporter.reportProblem(annotation, "unsupported named argument.", arg.getPosition(),
+                        SemanticProblemSeverity.ERROR);
                 // Non-fatal problem.
-            } else {
-                // 'text' argument.
-                boolean doEvaluationCheck = true;
+            }
 
-                // Check for argument having a boolean value. Tests reporting a second warning.
-                CifType valueType = CifTypeUtils.normalizeType(arg.getValue().getType());
-                if (!(valueType instanceof StringType)) {
-                    reporter.reportProblem(annotation,
-                            fmt("argument \"text\" must have a value of type \"string\", "
-                                    + "but has a value of type \"%s\".", CifTextUtils.typeToStr(valueType)),
-                            arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
-                    // Non-fatal problem.
-                    doEvaluationCheck = false;
-                }
+            // 2) Check argument value.
+            boolean doEvaluationCheck = true;
 
-                // Check that argument can be statically evaluated.
-                if (!CifValueUtils.hasSingleValue(arg.getValue(), false, true)) {
-                    reporter.reportProblem(annotation, "argument \"text\" cannot be evaluated statically.",
-                            arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
-                    // Non-fatal problem.
-                    doEvaluationCheck = false;
-                }
+            // 2a) Check for argument having a string-typed value.
+            CifType valueType = CifTypeUtils.normalizeType(arg.getValue().getType());
+            if (!(valueType instanceof StringType)) {
+                reporter.reportProblem(annotation,
+                        fmt("argument must have a value of type \"string\", but has a value of type \"%s\".",
+                                CifTextUtils.typeToStr(valueType)),
+                        arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
+                // Non-fatal problem.
+                doEvaluationCheck = false;
+            }
 
-                // Check for evaluation errors.
-                if (doEvaluationCheck) {
-                    try {
-                        getDoc(annotation);
-                    } catch (InvalidModelException e) {
-                        CifEvalException evalErr = (CifEvalException)e.getCause();
-                        String evalErrMsg = evalErr.toString();
-                        if (!evalErrMsg.endsWith(".")) {
-                            evalErrMsg += ".";
-                        }
-                        reporter.reportProblem(annotation,
-                                fmt("argument \"text\" cannot be evaluated statically, "
-                                        + "as evaluating it results in an evaluation error: %s", evalErrMsg),
-                                arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
-                        // Non-fatal problem.
+            // 2b) Check that argument can be statically evaluated.
+            if (!CifValueUtils.hasSingleValue(arg.getValue(), false, true)) {
+                reporter.reportProblem(annotation, "argument cannot be evaluated statically.",
+                        arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
+                // Non-fatal problem.
+                doEvaluationCheck = false;
+            }
+
+            // 2c) Check for evaluation errors.
+            if (doEvaluationCheck) {
+                try {
+                    getDoc(annotation);
+                } catch (InvalidModelException e) {
+                    CifEvalException evalErr = (CifEvalException)e.getCause();
+                    String evalErrMsg = evalErr.toString();
+                    if (!evalErrMsg.endsWith(".")) {
+                        evalErrMsg += ".";
                     }
+                    reporter.reportProblem(annotation,
+                            fmt("argument cannot be evaluated statically, "
+                                    + "as evaluating it results in an evaluation error: %s", evalErrMsg),
+                            arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
+                    // Non-fatal problem.
                 }
             }
         }
@@ -137,15 +138,24 @@ public class DocAnnotationProvider extends AnnotationProvider {
      * @throws InvalidModelException If the documentation text can not be evaluated.
      */
     public static String getDoc(Annotation docAnno) {
+        return docAnno.getArguments().stream().map(arg -> getDoc(arg)).collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Returns the documentation text of a documentation annotation argument.
+     *
+     * @param docAnnoArg The documentation annotation argument.
+     * @return The documentation text.
+     * @throws InvalidModelException If the documentation text can not be evaluated.
+     */
+    private static String getDoc(AnnotationArgument docAnnoArg) {
         try {
-            Object value = CifEvalUtils.eval(docAnno.getArguments().get(0).getValue(), false);
+            Object value = CifEvalUtils.eval(docAnnoArg.getValue(), false);
             return (String)value;
         } catch (CifEvalException e) {
-            AnnotatedObject annotatedObj = (AnnotatedObject)docAnno.eContainer();
-            throw new InvalidModelException(
-                    fmt("Failed to evaluate the \"text\" argument of the \"doc\" annotation of \"%s\".",
-                            CifTextUtils.getAbsName(annotatedObj)),
-                    e);
+            AnnotatedObject annotatedObj = (AnnotatedObject)docAnnoArg.eContainer().eContainer();
+            throw new InvalidModelException(fmt("Failed to evaluate an argument of the \"doc\" annotation of \"%s\".",
+                    CifTextUtils.getAbsName(annotatedObj)), e);
         }
     }
 }

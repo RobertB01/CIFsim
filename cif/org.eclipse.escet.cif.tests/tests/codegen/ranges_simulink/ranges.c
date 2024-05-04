@@ -2,6 +2,7 @@
  *
  * GENERATED CODE, DO NOT EDIT
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -1078,6 +1079,7 @@ static void A3T2IITypeModify(A3T2IIType *array, IntType index, T2IIType *value);
 static int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
 enum Enumranges_ {
+    /** Literal "__some_dummy_enum_literal". */
     _ranges___some_dummy_enum_literal,
 };
 typedef enum Enumranges_ rangesEnum;
@@ -1443,6 +1445,7 @@ const char *evt_names[] = { /** < Event names. */
 
 /** Enum names. */
 static const char *enum_names[] = {
+    /** Literal "__some_dummy_enum_literal". */
     "__some_dummy_enum_literal",
 };
 

@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -61,7 +62,7 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
         for (FunctionParameter param: params) {
             DiscVariable var = param.getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
-            String name = varInfo.targetRef;
+            String name = varInfo.targetVariableName;
             TypeInfo typeInfo = ctxt.typeToTarget(var.getType());
             String typeTxt = typeInfo.getTargetType();
             paramTxts.add(typeTxt + " " + name);
@@ -73,14 +74,31 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
             // Function created by preprocessing or linearization.
             origFuncName = function.getName();
         }
+        List<String> docs = DocAnnotationProvider.getDocs(function);
         code.add();
         code.add("/**");
-        code.add(" * Evaluation for function \"%s\".", origFuncName);
+        code.add(" * Function \"%s\".", origFuncName);
+        for (String doc: docs) {
+            code.add(" *");
+            code.add(" * <p>");
+            for (String line: doc.split("\\r?\\n")) {
+                code.add(" * %s", line);
+            }
+            code.add(" * </p>");
+        }
         code.add(" *");
         for (int i = 0; i < params.size(); i++) {
             DiscVariable param = params.get(i).getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(param, false));
-            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetRef, varInfo.name);
+            code.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
+            List<String> paramDocs = DocAnnotationProvider.getDocs(param);
+            for (String doc: paramDocs) {
+                code.add(" *     <p>");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add(" *     %s", line);
+                }
+                code.add(" *     </p>");
+            }
         }
         code.add(" * @return The return value of the function.");
         code.add(" */");
@@ -110,7 +128,18 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
 
         // Generate code for the local variables of the function.
         for (DiscVariable var: localVars) {
-            // Check assumptions.
+            // Generate comment for the variable.
+            VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
+            code.add("// Variable \"%s\".", varInfo.name);
+            List<String> docs = DocAnnotationProvider.getDocs(var);
+            for (String doc: docs) {
+                code.add("//");
+                for (String line: doc.split("\\r?\\n")) {
+                    code.add("// %s", line);
+                }
+            }
+
+            // Generate code for initial value of the variable.
             Assert.check(var.getValue() != null);
             Assert.check(var.getValue().getValues().size() == 1);
             Expression value = first(var.getValue().getValues());
@@ -121,12 +150,13 @@ public class JavaFunctionCodeGen extends FunctionCodeGen {
             Destination dest = ctxt.makeDestination(var);
             TypeInfo varTi = ctxt.typeToTarget(var.getType());
             varTi.declareInit(code, valueCode.getRawDataValue(), dest);
-        }
-        if (!localVars.isEmpty()) {
+
+            // Empty line between variables, and between variables and statements.
             code.add();
         }
 
         // Generate statements.
+        code.add("// Execute statements in the function body.");
         addFuncStatements(func.getStatements(), code, ctxt);
 
         // Generate 'throw' statement at the end of the body, to ensure we

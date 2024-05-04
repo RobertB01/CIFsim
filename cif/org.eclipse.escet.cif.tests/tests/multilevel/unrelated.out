@@ -5,6 +5,8 @@ Plant groups:
 
 Requirement groups:
 "","RG1"
+"requirement invariant R.R1 disables evt2","1"
+"invname","1"
 "R","1"
 
 Requirement / Plant relations:
@@ -127,3 +129,4 @@ Plant groups: {1}
 Req groups:   <none>
 Child nodes: <none>
 
+Wrote 3 partial specifications to directory "multilevel/unrelated_partial_specs".

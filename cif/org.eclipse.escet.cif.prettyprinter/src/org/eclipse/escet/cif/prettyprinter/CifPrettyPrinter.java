@@ -253,8 +253,9 @@ public final class CifPrettyPrinter {
      * @param spec The specification.
      */
     public void add(Specification spec) {
-        boolean anythingAdded = addCompBody(spec.getDeclarations(), spec.getDefinitions(), spec.getComponents(),
-                spec.getInitials(), spec.getInvariants(), spec.getEquations(), spec.getMarkeds(), spec.getIoDecls());
+        boolean anythingAdded = addCompBody(spec.getAnnotations(), spec.getDeclarations(), spec.getDefinitions(),
+                spec.getComponents(), spec.getInitials(), spec.getInvariants(), spec.getEquations(), spec.getMarkeds(),
+                spec.getIoDecls());
 
         if (!anythingAdded) {
             code.add("// Empty CIF specification.");
@@ -264,6 +265,8 @@ public final class CifPrettyPrinter {
     /**
      * Add the body of a component or component definition to the pretty printed code.
      *
+     * @param annos The annotations of the body of the specification. Provide {@code null} for the bodies of other
+     *     components, as their annotations are not within the body, but on/before the component itself.
      * @param decls The declarations of the body.
      * @param cdefs The child component definitions of the body.
      * @param comps The child components of the body.
@@ -274,11 +277,18 @@ public final class CifPrettyPrinter {
      * @param ioDecls The I/O declarations of the body.
      * @return {@code true} if anything was added, {@code false} otherwise.
      */
-    public boolean addCompBody(List<Declaration> decls, List<ComponentDef> cdefs, List<Component> comps,
-            List<Expression> initials, List<Invariant> invs, List<Equation> eqns, List<Expression> markeds,
-            List<IoDecl> ioDecls)
+    public boolean addCompBody(List<Annotation> annos, List<Declaration> decls, List<ComponentDef> cdefs,
+            List<Component> comps, List<Expression> initials, List<Invariant> invs, List<Equation> eqns,
+            List<Expression> markeds, List<IoDecl> ioDecls)
     {
         boolean anythingAdded = false;
+
+        if (annos != null) {
+            for (Annotation anno: annos) {
+                anythingAdded = true;
+                add(anno);
+            }
+        }
 
         for (Declaration decl: decls) {
             anythingAdded = true;
@@ -523,35 +533,80 @@ public final class CifPrettyPrinter {
      * @param function The function.
      */
     public void add(Function function) {
-        // Create header.
-        List<String> paramTxts = listc(function.getParameters().size());
+        // Add annotations.
+        add(function.getAnnotations());
+
+        // Check whether the parameters have annotations.
+        boolean paramsHaveNoAnnos = true;
         for (FunctionParameter param: function.getParameters()) {
-            paramTxts.add(
-                    pprint(param.getParameter().getType()) + " " + escapeIdentifier(param.getParameter().getName()));
+            paramsHaveNoAnnos &= param.getParameter().getAnnotations().isEmpty();
         }
-        String header = fmt("func %s %s(%s):", pprintTypes(function.getReturnTypes(), ", "),
-                escapeIdentifier(function.getName()), String.join("; ", paramTxts));
 
-        // Add header and body.
-        if (function instanceof ExternalFunction) {
-            String funcRef = ((ExternalFunction)function).getFunction();
-            funcRef = Strings.escape(funcRef);
-            code.add("%s \"%s\";", header, funcRef);
+        // Add function.
+        if (paramsHaveNoAnnos) {
+            // Create header.
+            List<String> paramTxts = listc(function.getParameters().size());
+            for (FunctionParameter param: function.getParameters()) {
+                paramTxts.add(pprint(param.getParameter().getType()) + " "
+                        + escapeIdentifier(param.getParameter().getName()));
+            }
+            String header = fmt("func %s %s(%s):", pprintTypes(function.getReturnTypes(), ", "),
+                    escapeIdentifier(function.getName()), String.join("; ", paramTxts));
+
+            // Add header and body.
+            if (function instanceof ExternalFunction efunction) {
+                code.add("%s \"%s\";", header, Strings.escape(efunction.getFunction()));
+            } else if (function instanceof InternalFunction ifunction) {
+                code.add(header);
+                addInternalFunctionBody(ifunction);
+            } else {
+                throw new RuntimeException("Unknown function: " + function);
+            }
         } else {
-            InternalFunction ifunction = (InternalFunction)function;
-            code.add(header);
+            // Add header.
+            code.add("func %s %s(", pprintTypes(function.getReturnTypes(), ", "), escapeIdentifier(function.getName()));
+
+            // Add parameters.
+            int paramCount = function.getParameters().size();
             code.indent();
-
-            for (DiscVariable var: ifunction.getVariables()) {
-                addFunctionVar(var);
+            for (int i = 0; i < paramCount; i++) {
+                FunctionParameter param = function.getParameters().get(i);
+                add(param.getParameter().getAnnotations());
+                String postfix = (i == paramCount - 1) ? "" : ";";
+                code.add("%s %s%s", pprint(param.getParameter().getType()),
+                        escapeIdentifier(param.getParameter().getName()), postfix);
             }
-            for (FunctionStatement stat: ifunction.getStatements()) {
-                add(stat);
-            }
-
             code.dedent();
-            code.add("end");
+
+            // Add body.
+            if (function instanceof ExternalFunction efunction) {
+                code.add("): \"%s\";", Strings.escape(efunction.getFunction()));
+            } else if (function instanceof InternalFunction ifunction) {
+                code.add("):");
+                addInternalFunctionBody(ifunction);
+            } else {
+                throw new RuntimeException("Unknown function: " + function);
+            }
         }
+    }
+
+    /**
+     * Add the body of the given internal user-defined function to the pretty printed code.
+     *
+     * @param ifunction The internal user-defined function.
+     */
+    public void addInternalFunctionBody(InternalFunction ifunction) {
+        code.indent();
+
+        for (DiscVariable var: ifunction.getVariables()) {
+            addFunctionVar(var);
+        }
+        for (FunctionStatement stat: ifunction.getStatements()) {
+            add(stat);
+        }
+
+        code.dedent();
+        code.add("end");
     }
 
     /**
@@ -560,6 +615,10 @@ public final class CifPrettyPrinter {
      * @param var The variable.
      */
     public void addFunctionVar(DiscVariable var) {
+        // Add annotations.
+        add(var.getAnnotations());
+
+        // Add declaration.
         StringBuilder txt = new StringBuilder();
         txt.append(pprint(var.getType()));
         txt.append(" ");
@@ -658,12 +717,30 @@ public final class CifPrettyPrinter {
      * @param enumDecl The enumeration declaration.
      */
     public void add(EnumDecl enumDecl) {
-        List<String> names = listc(enumDecl.getLiterals().size());
+        // Add annotations.
+        add(enumDecl.getAnnotations());
+
+        // Add declaration.
+        int literalCount = enumDecl.getLiterals().size();
+        List<String> names = listc(literalCount);
+        boolean literalsHaveNoAnnos = true;
         for (EnumLiteral lit: enumDecl.getLiterals()) {
             names.add(escapeIdentifier(lit.getName()));
+            literalsHaveNoAnnos &= lit.getAnnotations().isEmpty();
         }
 
-        code.add("enum %s = %s;", escapeIdentifier(enumDecl.getName()), String.join(", ", names));
+        if (literalsHaveNoAnnos) {
+            code.add("enum %s = %s;", escapeIdentifier(enumDecl.getName()), String.join(", ", names));
+        } else {
+            code.add("enum %s =", escapeIdentifier(enumDecl.getName()));
+            code.indent();
+            for (int i = 0; i < literalCount; i++) {
+                add(enumDecl.getLiterals().get(i).getAnnotations());
+                String postfix = (i == literalCount - 1) ? ";" : ",";
+                code.add("%s%s", names.get(i), postfix);
+            }
+            code.dedent();
+        }
     }
 
     /**
@@ -686,6 +763,10 @@ public final class CifPrettyPrinter {
      * @param typeDecl The type declaration.
      */
     public void add(TypeDecl typeDecl) {
+        // Add annotations.
+        add(typeDecl.getAnnotations());
+
+        // Add declaration.
         code.add("type %s = %s;", escapeIdentifier(typeDecl.getName()), pprint(typeDecl.getType()));
     }
 
@@ -755,8 +836,9 @@ public final class CifPrettyPrinter {
         } else {
             Assert.check(compBody instanceof Group);
             Group group = (Group)compBody;
-            addCompBody(group.getDeclarations(), group.getDefinitions(), group.getComponents(), group.getInitials(),
-                    group.getInvariants(), group.getEquations(), group.getMarkeds(), group.getIoDecls());
+            addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(),
+                    group.getInitials(), group.getInvariants(), group.getEquations(), group.getMarkeds(),
+                    group.getIoDecls());
         }
 
         // Add end.
@@ -873,6 +955,10 @@ public final class CifPrettyPrinter {
      * @param aut The automaton.
      */
     public void add(Automaton aut) {
+        // Add annotations.
+        add(aut.getAnnotations());
+
+        // Add automaton.
         SupKind kind = aut.getKind();
         String kindTxt = "automaton";
         if (kind != SupKind.NONE) {
@@ -908,7 +994,8 @@ public final class CifPrettyPrinter {
         add(alpha);
         add(monitors);
 
-        addCompBody(decls, Collections.emptyList(), Collections.emptyList(), initials, invs, eqns, markeds, ioDecls);
+        addCompBody(null, decls, Collections.emptyList(), Collections.emptyList(), initials, invs, eqns, markeds,
+                ioDecls);
 
         for (Location loc: locs) {
             add(loc);
@@ -954,7 +1041,7 @@ public final class CifPrettyPrinter {
         code.add("group %s:", escapeIdentifier(group.getName()));
         code.indent();
 
-        addCompBody(group.getDeclarations(), group.getDefinitions(), group.getComponents(), group.getInitials(),
+        addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(), group.getInitials(),
                 group.getInvariants(), group.getEquations(), group.getMarkeds(), group.getIoDecls());
 
         code.dedent();
@@ -1960,7 +2047,11 @@ public final class CifPrettyPrinter {
      */
     public void add(Annotation anno) {
         StringBuilder line = new StringBuilder();
-        line.append(fmt("@%s", anno.getName()));
+        if (anno.eContainer() instanceof Specification) {
+            line.append(fmt("@@%s", anno.getName()));
+        } else {
+            line.append(fmt("@%s", anno.getName()));
+        }
         if (!anno.getArguments().isEmpty()) {
             line.append("(");
             line.append(anno.getArguments().stream().map(a -> pprint(a)).collect(Collectors.joining(", ")));
@@ -1976,8 +2067,13 @@ public final class CifPrettyPrinter {
      * @return The pretty printed result.
      */
     public String pprint(AnnotationArgument arg) {
-        String escapedArgName = Arrays.stream(arg.getName().split("\\.")).map(id -> escapeIdentifier(id))
-                .collect(Collectors.joining("."));
-        return fmt("%s = %s", escapedArgName, pprint(arg.getValue()));
+        String argName = arg.getName();
+        if (argName == null) {
+            return pprint(arg.getValue());
+        } else {
+            String escapedArgName = Arrays.stream(argName.split("\\.")).map(id -> escapeIdentifier(id))
+                    .collect(Collectors.joining("."));
+            return fmt("%s: %s", escapedArgName, pprint(arg.getValue()));
+        }
     }
 }

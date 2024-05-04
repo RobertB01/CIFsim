@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
@@ -420,46 +421,53 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
             addCompInsts(insts, parent);
         }
 
+        // Get annotations code.
+        MemoryCodeBox codeAnnos = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        CifPrettyPrinter annosPrinter = new CifPrettyPrinter(codeAnnos);
+        for (Annotation anno: comp.getAnnotations()) {
+            annosPrinter.add(anno);
+        }
+
         // Get alphabet and monitors code.
-        MemoryCodeBox code1 = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        MemoryCodeBox codeAlphabetMonitors = new MemoryCodeBox(CifPrettyPrinter.INDENT);
         if (filters.contains(ModelFilter.DECLS)) {
-            CifPrettyPrinter pprinter1 = new CifPrettyPrinter(code1);
+            CifPrettyPrinter pprinter = new CifPrettyPrinter(codeAlphabetMonitors);
             if (comp instanceof Automaton) {
                 Automaton aut = (Automaton)comp;
-                pprinter1.add(aut.getAlphabet());
-                pprinter1.add(aut.getMonitors());
+                pprinter.add(aut.getAlphabet());
+                pprinter.add(aut.getMonitors());
             }
         }
 
         // Get declarations code.
-        MemoryCodeBox code2 = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        MemoryCodeBox codeDecls = new MemoryCodeBox(CifPrettyPrinter.INDENT);
         if (filters.contains(ModelFilter.DECLS)) {
-            CifPrettyPrinter pprinter2 = new CifPrettyPrinter(code2);
+            CifPrettyPrinter pprinter = new CifPrettyPrinter(codeDecls);
             for (Declaration decl: comp.getDeclarations()) {
-                pprinter2.add(decl);
+                pprinter.add(decl);
             }
         }
 
         // Get initialization, invariants, equations and marking code.
-        MemoryCodeBox code3 = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        MemoryCodeBox codeInitInvEqnMark = new MemoryCodeBox(CifPrettyPrinter.INDENT);
         if (filters.contains(ModelFilter.DECLS)) {
-            CifPrettyPrinter pprinter3 = new CifPrettyPrinter(code3);
-            pprinter3.addInitInvEqnsMarked(comp.getInitials(), comp.getInvariants(), comp.getEquations(),
+            CifPrettyPrinter pprinter = new CifPrettyPrinter(codeInitInvEqnMark);
+            pprinter.addInitInvEqnsMarked(comp.getInitials(), comp.getInvariants(), comp.getEquations(),
                     comp.getMarkeds(), false);
         }
 
         // Get I/O declarations code.
-        MemoryCodeBox code4 = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        MemoryCodeBox codeIoDecls = new MemoryCodeBox(CifPrettyPrinter.INDENT);
         if (filters.contains(ModelFilter.IO)) {
-            CifPrettyPrinter pprinter4 = new CifPrettyPrinter(code4);
+            CifPrettyPrinter pprinter = new CifPrettyPrinter(codeIoDecls);
             for (IoDecl ioDecl: comp.getIoDecls()) {
-                pprinter4.add(ioDecl);
+                pprinter.add(ioDecl);
             }
         }
 
         // Get complete code.
         MemoryCodeBox code = new MemoryCodeBox(CifPrettyPrinter.INDENT);
-        for (CodeBox c: new CodeBox[] {code1, code2, code3, code4}) {
+        for (CodeBox c: new CodeBox[] {codeAnnos, codeAlphabetMonitors, codeDecls, codeInitInvEqnMark, codeIoDecls}) {
             if (c.getLines().isEmpty()) {
                 continue;
             }

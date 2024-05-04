@@ -66,6 +66,11 @@ import org.eclipse.escet.common.emf.EMFHelper;
  * </p>
  *
  * <p>
+ * The annotations of the enumerations are lost. The annotations of the enumeration literals are moved to the newly
+ * created constants.
+ * </p>
+ *
+ * <p>
  * The {@link ElimLocRefExprs} transformation may introduce new enumerations. Apply this transformation after that
  * transformation to eliminate them.
  * </p>
@@ -122,7 +127,8 @@ public class EnumsToConsts extends EnumsToBase {
         Constant constant = enumConst.get(lit);
         if (constant == null) {
             int value = literalToInt(lit);
-            constant = newConstant(null, lit.getName(), null, getIntType(value), CifValueUtils.makeInt(value));
+            constant = newConstant(lit.getAnnotations(), lit.getName(), null, getIntType(value),
+                    CifValueUtils.makeInt(value));
             enumConst.put(lit, constant);
         }
         return constant;

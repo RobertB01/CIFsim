@@ -22,7 +22,10 @@ extern void A2ITypeModify(A2IType *array, IntType index, IntType value);
 extern int A2ITypePrint(A2IType *array, char *dest, int start, int end);
 
 enum Enumvarious_ {
+    /** Literal "l1". */
     _various_l1,
+
+    /** Literal "l2". */
     _various_l2,
 };
 typedef enum Enumvarious_ variousEnum;
@@ -81,6 +84,13 @@ extern A3IType input_li_;
 extern void various_AssignInputVariables();
 
 /* Declaration of internal functions. */
+
+/**
+ * Function "inc".
+ *
+ * @param inc_x_ Function parameter "inc.x".
+ * @return The return value of the function.
+ */
 extern IntType inc_(IntType inc_x_);
 
 /* State variables (use for output only). */

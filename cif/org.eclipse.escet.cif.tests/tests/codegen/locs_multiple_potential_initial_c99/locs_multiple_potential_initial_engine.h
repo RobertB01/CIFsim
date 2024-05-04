@@ -11,7 +11,10 @@
  * Note that integer ranges are ignored in C.
  */
 enum Enumlocs_multiple_potential_initial_ {
+    /** Literal "loc1". */
     _locs_multiple_potential_initial_loc1,
+
+    /** Literal "loc2". */
     _locs_multiple_potential_initial_loc2,
 };
 typedef enum Enumlocs_multiple_potential_initial_ locs_multiple_potential_initialEnum;

@@ -1006,7 +1006,8 @@ public abstract class ranges {
 
     /** ranges enumeration. */
     public static enum rangesEnum {
-        /** __some_dummy_enum_literal */ ___some_dummy_enum_literal;
+        /** Literal "__some_dummy_enum_literal". */
+        ___some_dummy_enum_literal;
 
         @Override
         public String toString() {

@@ -1,3 +1,4 @@
+@@doc("spec doc")
 controllable c;
 group p:
   uncontrollable u;
