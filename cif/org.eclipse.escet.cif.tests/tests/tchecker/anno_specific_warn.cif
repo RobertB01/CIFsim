@@ -73,6 +73,7 @@ automaton a3:
     edge evt;
 end
 
+@cif:typechecker:tests:anno1(x: true)
 group g1:
   @cif:typechecker:tests:anno1(x: true)
   alg int alg1 = a3.x;

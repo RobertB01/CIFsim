@@ -86,6 +86,7 @@ automaton a3:
     edge evt;
 end
 
+@doc
 group g1:
   @doc
   alg bool alg1 = false;
