@@ -530,15 +530,21 @@ implements CifScanner.Hooks,
         return new ACompDecl(listc(0), null, a2, a4, a2.position);
     }
 
+    @Override // GroupDecl : Annos @GROUPKW Identifier COLONTK GroupBody @ENDKW;
+    public ADecl parseGroupDecl12(List<AAnnotation> l1, Token t2, AIdentifier a3, AGroupBody a5, Token t6) {
+        parser.addFoldRange(t2, t6);
+        return new ACompDecl(l1, null, a3, a5, a3.position);
+    }
+
     @Override // GroupDecl : OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl12(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl13(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         Token firstToken = (t1 != null) ? t1 : t2;
         parser.addFoldRange(firstToken, t6);
         return new ACompDecl(listc(0), t1, a3, a5, a3.position);
     }
 
     @Override // GroupDecl : Annos OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl13(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6,
+    public ADecl parseGroupDecl14(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6,
             Token t7)
     {
         Token firstToken = (t2 != null) ? t2 : t3;
@@ -547,13 +553,13 @@ implements CifScanner.Hooks,
     }
 
     @Override // GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl14(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
+    public ADecl parseGroupDecl15(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
         return new ACompDecl(listc(0), t1, a2, a4, a2.position);
     }
 
     @Override // GroupDecl : Annos SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl15(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl16(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         parser.addFoldRange(t2, t6);
         return new ACompDecl(l1, t2, a3, a5, a3.position);
     }
