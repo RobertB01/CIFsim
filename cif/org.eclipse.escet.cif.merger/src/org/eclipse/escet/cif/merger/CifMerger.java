@@ -191,7 +191,7 @@ public class CifMerger {
         // Merge children.
         mergeChildren(comp1, comp2, mergedComp);
 
-        // Return the merged group.
+        // Return the merged component.
         return mergedComp;
     }
 
