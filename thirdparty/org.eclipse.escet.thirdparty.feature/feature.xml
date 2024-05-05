@@ -33,7 +33,23 @@
          version="0.0.0"/>
 
    <plugin
+         id="io.github.java-diff-utils"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.commons-exec"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.commons-io"
+         version="0.0.0"/>
+
+   <plugin
          id="org.apache.commons.text"
+         version="0.0.0"/>
+
+   <plugin
+         id="wrapped.org.knowm.xchart.xchart"
          version="0.0.0"/>
 
 </feature>
