@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -60,12 +61,12 @@ public class ExtFuncs {
      * @return The resolved static Java method.
      * @throws CifSimulatorException If loading fails.
      */
-    @SuppressWarnings("resource")
     public static Method loadJavaMethod(String cifFuncName, String className, String methodName, String classPath,
             String workingDir, Class<?>[] paramTypes, Class<?> expReturnType)
     {
         try {
             // Get class loader.
+            URLClassLoader urlClassLoader = null;
             ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
             if (classPath != null) {
@@ -93,7 +94,8 @@ public class ExtFuncs {
                 }
 
                 // Construct extended class loader.
-                classLoader = new URLClassLoader(classPathUrls, classLoader);
+                urlClassLoader = new URLClassLoader(classPathUrls, classLoader);
+                classLoader = urlClassLoader;
             }
 
             // Load class.
@@ -103,6 +105,15 @@ public class ExtFuncs {
             } catch (ClassNotFoundException e) {
                 String msg = fmt("Class \"%s\" could not be found.", className);
                 throw new CifSimulatorException(msg, e);
+            }
+
+            // Close URL class loader if used.
+            try {
+                if (urlClassLoader != null) {
+                    urlClassLoader.close();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
             // Get method.
