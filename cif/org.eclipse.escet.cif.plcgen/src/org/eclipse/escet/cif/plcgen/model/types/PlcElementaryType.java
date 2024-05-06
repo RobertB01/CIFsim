@@ -44,7 +44,7 @@ public class PlcElementaryType extends PlcType {
      *
      * @param name The name of the elementary type.
      */
-    public PlcElementaryType(String name) {
+    private PlcElementaryType(String name) {
         this.name = name;
     }
 
@@ -111,5 +111,26 @@ public class PlcElementaryType extends PlcType {
             case 64 -> LREAL_TYPE;
             default -> throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
         };
+    }
+
+    /**
+     * Test whether the given type is an integer type.
+     *
+     * @param type Type to test.
+     * @return Whether the type is a type for integer values.
+     */
+    public static boolean isIntType(PlcType type) {
+        return type == PlcElementaryType.INT_TYPE
+                || type == PlcElementaryType.DINT_TYPE || type == PlcElementaryType.LINT_TYPE;
+    }
+
+    /**
+     * Test whether the given type is a real type.
+     *
+     * @param type Type to test.
+     * @return Whether the type is a type for real values.
+     */
+    public static boolean isRealType(PlcType type) {
+        return type == PlcElementaryType.REAL_TYPE || type == PlcElementaryType.LREAL_TYPE;
     }
 }
