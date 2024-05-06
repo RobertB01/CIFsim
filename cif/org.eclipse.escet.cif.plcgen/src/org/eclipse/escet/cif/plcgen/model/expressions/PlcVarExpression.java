@@ -72,7 +72,7 @@ public class PlcVarExpression extends PlcExpression {
     /** Projection in an array of the value of the referenced variable. */
     public static class PlcArrayProjection extends PlcProjection {
         /** Element indices in the array to select, must always select one element in the array. */
-        public final List<PlcExpression> indexExpressions;
+        public final PlcExpression indexExpression;
 
         /**
          * Constructor of the {@link PlcArrayProjection} class.
@@ -80,17 +80,7 @@ public class PlcVarExpression extends PlcExpression {
          * @param indexExpression Element index in the one dimensional array to select.
          */
         public PlcArrayProjection(PlcExpression indexExpression) {
-            this(List.of(indexExpression));
-        }
-
-        /**
-         * Constructor of the {@link PlcArrayProjection} class.
-         *
-         * @param indexExpressions Element indices in the array to select, must always select one element in the array.
-         */
-        public PlcArrayProjection(List<PlcExpression> indexExpressions) {
-            Assert.check(!indexExpressions.isEmpty());
-            this.indexExpressions = Collections.unmodifiableList(indexExpressions);
+            this.indexExpression = indexExpression;
         }
     }
 }

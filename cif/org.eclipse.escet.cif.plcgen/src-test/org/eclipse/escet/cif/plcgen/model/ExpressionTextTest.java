@@ -82,13 +82,14 @@ public class ExpressionTextTest {
 
         // Variables.
         PlcBasicVariable aVar = new PlcDataVariable("a", null);
-        PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(7, PlcElementaryType.DINT_TYPE)));
+        PlcArrayProjection arrayProj7 = new PlcArrayProjection(new PlcIntLiteral(7, PlcElementaryType.DINT_TYPE));
         PlcStructProjection structProj = new PlcStructProjection("abc");
-        PlcArrayProjection multiArrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE), new PlcIntLiteral(5, PlcElementaryType.DINT_TYPE)));
+        PlcArrayProjection arrayProj3 = new PlcArrayProjection(new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE));
+        PlcArrayProjection arrayProj5 = new PlcArrayProjection(new PlcIntLiteral(5, PlcElementaryType.DINT_TYPE));
 
         assertEquals("a", toStr(new PlcVarExpression(aVar)));
-        assertEquals("a[7].abc[3, 5]",
-                toStr(new PlcVarExpression(aVar, List.of(arrayProj, structProj, multiArrayProj))));
+        assertEquals("a[7].abc[3][5]",
+                toStr(new PlcVarExpression(aVar, List.of(arrayProj7, structProj, arrayProj3, arrayProj5))));
 
         // Function application is tested in conversions.FuncApplsTest.
     }

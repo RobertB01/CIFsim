@@ -1244,7 +1244,7 @@ public class ExprGenerator {
             releaseTempVariables(childResult.codeVariables);
 
             // Construct assignment.
-            PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(target.makeStdInteger(idx)));
+            PlcArrayProjection arrayProj = new PlcArrayProjection(target.makeStdInteger(idx));
             PlcVarExpression lhs = new PlcVarExpression(arrayVar, List.of(arrayProj));
             PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
             idx++;
