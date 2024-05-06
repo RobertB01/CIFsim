@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.functions;
 import java.util.Arrays;
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -32,6 +33,9 @@ public abstract class PlcBasicFuncDescription {
     /** Notations of the function that are supported by the target. */
     public final EnumSet<PlcFuncNotation> notations;
 
+    /** Type of the result of a function call. */
+    public final PlcAbstractType resultType;
+
     /**
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
@@ -39,9 +43,10 @@ public abstract class PlcBasicFuncDescription {
      * @param parameters Parameters of the function.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
+     * @param resultType Type of the result of a function call.
      */
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
-            EnumSet<PlcFuncNotation> notations)
+            EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
     {
         Assert.check(!notations.isEmpty());
 
@@ -52,6 +57,7 @@ public abstract class PlcBasicFuncDescription {
         this.prefixFuncName = prefixFuncName;
         this.parameters = parameters;
         this.notations = notations;
+        this.resultType = resultType;
     }
 
     /** Operator priority and associativity of an expression node. */
@@ -167,15 +173,20 @@ public abstract class PlcBasicFuncDescription {
         /** Communication direction of the parameter. */
         public final PlcParamDirection direction;
 
+        /** Type of the parameter. */
+        public final PlcAbstractType type;
+
         /**
          * Constructor of the {@link PlcParameterDescription} class.
          *
          * @param name Name of the parameter.
          * @param direction Communication direction of the parameter.
+         * @param type Type of the parameter.
          */
-        public PlcParameterDescription(String name, PlcParamDirection direction) {
+        public PlcParameterDescription(String name, PlcParamDirection direction, PlcAbstractType type) {
             this.name = name;
             this.direction = direction;
+            this.type = type;
         }
     }
 
