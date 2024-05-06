@@ -130,8 +130,8 @@ public class StatementTextTest {
         // Selection statement with only an ELSE block.
         PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcStatement selStat = new PlcSelectionStatement(List.of(),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0)),
-                        new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE)),
+                        new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE))));
         assertEquals("""
                 v := 0;
                 v := 1;""", toStr(selStat));
@@ -142,8 +142,8 @@ public class StatementTextTest {
     public void ifSelectionStatementTest() {
         PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcSelectChoice ifChoice = new PlcSelectChoice(new PlcBoolLiteral(false),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0)),
-                        new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE)),
+                        new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE))));
         PlcStatement selStat = new PlcSelectionStatement(List.of(ifChoice), List.of());
         assertEquals("""
                 IF FALSE THEN
@@ -157,11 +157,11 @@ public class StatementTextTest {
     public void ifElifElseSelectionStatementTest() {
         PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcSelectChoice ifChoice = new PlcSelectChoice(new PlcBoolLiteral(false),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE))));
         PlcSelectChoice elifChoice = new PlcSelectChoice(new PlcBoolLiteral(true),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE))));
         PlcStatement selStat = new PlcSelectionStatement(List.of(ifChoice, elifChoice),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(2))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(2, PlcElementaryType.DINT_TYPE))));
         assertEquals("""
                 IF FALSE THEN
                     v := 0;
@@ -177,10 +177,10 @@ public class StatementTextTest {
     public void ifEmptyElifElseSelectionStatementTest() {
         PlcBasicVariable v = new PlcDataVariable("v", PlcElementaryType.DINT_TYPE);
         PlcSelectChoice ifChoice = new PlcSelectChoice(new PlcBoolLiteral(false),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE))));
         PlcSelectChoice elifChoice = new PlcSelectChoice(new PlcBoolLiteral(true), List.of());
         PlcStatement selStat = new PlcSelectionStatement(List.of(ifChoice, elifChoice),
-                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1))));
+                List.of(new PlcAssignmentStatement(new PlcVarExpression(v), new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE))));
         assertEquals("""
                 IF FALSE THEN
                     v := 0;

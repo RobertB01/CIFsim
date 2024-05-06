@@ -1336,7 +1336,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcExpression generateCompareVarWithVal(PlcBasicVariable variable, int value) {
         PlcExpression varExpr = new PlcVarExpression(variable);
-        PlcExpression valExpr = new PlcIntLiteral(value);
+        PlcExpression valExpr = target.makeStdInteger(value);
         return funcAppls.equalFuncAppl(varExpr, valExpr);
     }
 
@@ -1348,7 +1348,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statement.
      */
     private PlcAssignmentStatement generatePlcIntAssignment(PlcBasicVariable variable, int value) {
-        return new PlcAssignmentStatement(variable, new PlcIntLiteral(value));
+        return new PlcAssignmentStatement(variable, target.makeStdInteger(value));
     }
 
     /**

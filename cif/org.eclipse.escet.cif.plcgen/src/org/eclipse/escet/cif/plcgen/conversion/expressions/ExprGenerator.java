@@ -359,7 +359,7 @@ public class ExprGenerator {
         if (expr instanceof BoolExpression be) {
             return new ExprValueResult(this).setValue(new PlcBoolLiteral(be.isValue()));
         } else if (expr instanceof IntExpression ie) {
-            return new ExprValueResult(this).setValue(new PlcIntLiteral(ie.getValue()));
+            return new ExprValueResult(this).setValue(target.makeStdInteger(ie.getValue()));
         } else if (expr instanceof RealExpression re) {
             return new ExprValueResult(this).setValue(new PlcRealLiteral(re.getValue()));
         } else if (expr instanceof StringExpression) {
@@ -1244,7 +1244,7 @@ public class ExprGenerator {
             releaseTempVariables(childResult.codeVariables);
 
             // Construct assignment.
-            PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(idx)));
+            PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(target.makeStdInteger(idx)));
             PlcVarExpression lhs = new PlcVarExpression(arrayVar, List.of(arrayProj));
             PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
             idx++;

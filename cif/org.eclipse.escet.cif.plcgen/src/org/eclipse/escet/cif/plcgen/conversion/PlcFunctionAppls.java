@@ -286,8 +286,8 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl normalizeArrayIndex(PlcExpression indexExpr, int arraySize) {
         // TODO Decide if it is better to create a named function that links back to the CIF element that needs this.
-        PlcExpression g = greaterEqualFuncAppl(indexExpr, new PlcIntLiteral(0));
-        PlcExpression in0 = addFuncAppl(indexExpr, new PlcIntLiteral(arraySize));
+        PlcExpression g = greaterEqualFuncAppl(indexExpr, target.makeStdInteger(0));
+        PlcExpression in0 = addFuncAppl(indexExpr, target.makeStdInteger(arraySize));
         PlcExpression in1 = indexExpr;
         return selFuncAppl(g, in0, in1);
     }
