@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -60,6 +61,9 @@ public class PlcGenSettings {
     /** Paths to the I/O table file, may not exist. */
     public final PathPair ioTablePaths;
 
+    /** Text lines of the PLC program header. */
+    public final List<String> programHeaderTextLines;
+
     /** User-defined integer type size to use by the PLC. */
     public final PlcNumberBits intTypeSize;
 
@@ -96,9 +100,10 @@ public class PlcGenSettings {
      * @param maxControllableLimit Maximum number of iterations for performing controllable events in a single cycle, or
      *     {@code null} if unrestricted.
      * @param inputPaths Paths to the CIF specification for which to generate PLC code.
-     * @param outputPaths Paths to write the generated code. Depending in the target can be either a file or a
-     *     directory path.
+     * @param outputPaths Paths to write the generated code. Depending in the target can be either a file or a directory
+     *     path.
      * @param ioTablePaths Paths to the I/O table file, may not exist.
+     * @param programHeaderTextLines Text lines of the PLC program header.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
@@ -109,8 +114,8 @@ public class PlcGenSettings {
      */
     public PlcGenSettings(String projectName, String configurationName, String resourceName, String taskName,
             int taskCycleTime, int taskPriority, Integer maxUncontrollableLimit, Integer maxControllableLimit,
-            PathPair inputPaths, PathPair outputPaths, PathPair ioTablePaths, PlcNumberBits intTypeSize,
-            PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
+            PathPair inputPaths, PathPair outputPaths, PathPair ioTablePaths, List<String> programHeaderTextLines,
+            PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
             Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
@@ -124,6 +129,7 @@ public class PlcGenSettings {
         this.inputPaths = inputPaths;
         this.outputPaths = outputPaths;
         this.ioTablePaths = ioTablePaths;
+        this.programHeaderTextLines = programHeaderTextLines;
         this.intTypeSize = intTypeSize;
         this.realTypeSize = realTypeSize;
         this.simplifyValues = simplifyValues;

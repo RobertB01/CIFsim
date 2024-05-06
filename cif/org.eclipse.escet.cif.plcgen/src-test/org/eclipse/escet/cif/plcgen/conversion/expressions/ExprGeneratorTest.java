@@ -193,6 +193,7 @@ public class ExprGeneratorTest {
             String inputPath = "input/path";
             String outputPath = "output/path";
             String ioTablePath = "io/path";
+            List<String> programHeader = List.of("");
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
@@ -203,8 +204,9 @@ public class ExprGeneratorTest {
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
-                    new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath), intSize,
-                    realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                    new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
+                    programHeader, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    warnOutput);
             setup(settings);
         }
 
