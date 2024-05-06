@@ -15,6 +15,10 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
+
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.common.java.Assert;
 
 /** Expression describing a structure value. */
 public class PlcStructLiteral extends PlcExpression {
@@ -25,8 +29,13 @@ public class PlcStructLiteral extends PlcExpression {
      * Constructor of the {@link PlcStructLiteral} class.
      *
      * @param values Values of the structure.
+     * @param type Type of the literal.
      */
-    public PlcStructLiteral(List<PlcNamedValue> values) {
+    public PlcStructLiteral(List<PlcNamedValue> values, PlcStructType type) {
+        super(type);
         this.values = Collections.unmodifiableList(values);
+
+        Assert.areEqual(values.size(), type.fields.size());
+        Assert.check(IntStream.range(0, values.size()).allMatch(i -> values.get(i).name.equals(type.fields.get(i).fieldName)));
     }
 }
