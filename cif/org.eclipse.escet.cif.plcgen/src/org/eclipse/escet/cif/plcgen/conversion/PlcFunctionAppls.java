@@ -18,7 +18,6 @@ import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
@@ -70,7 +69,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", "**", ExprBinding.POWER_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", "**", ExprBinding.POWER_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -91,7 +90,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl divideFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.DIVIDE_OP, "DIV", "/", ExprBinding.MUL_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.DIVIDE_OP, "DIV", "/", ExprBinding.MUL_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -102,7 +101,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl moduloFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.MODULO_OP, "MOD", "MOD", ExprBinding.MUL_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.MODULO_OP, "MOD", "MOD", ExprBinding.MUL_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -123,7 +122,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl subtractFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -135,7 +134,7 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl lessThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.LESS_THAN_OP, "LT", "<", ExprBinding.ORDER_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.LESS_THAN_OP, "LT", "<", ExprBinding.ORDER_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -147,7 +146,7 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl lessEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.LESS_EQUAL_OP, "LE", "<=", ExprBinding.ORDER_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.LESS_EQUAL_OP, "LE", "<=", ExprBinding.ORDER_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -159,7 +158,7 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl greaterThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.GREATER_THAN_OP, "GT", ">", ExprBinding.ORDER_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.GREATER_THAN_OP, "GT", ">", ExprBinding.ORDER_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -171,7 +170,7 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl greaterEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.GREATER_EQUAL_OP, "GE", ">=", ExprBinding.ORDER_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.GREATER_EQUAL_OP, "GE", ">=", ExprBinding.ORDER_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -183,7 +182,7 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl equalFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -194,7 +193,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl unEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, in1, in2);
+        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, new PlcExpression[] {in1, in2});
     }
 
     /**
@@ -485,7 +484,7 @@ public class PlcFunctionAppls {
      * @param inN Arguments of the function.
      * @return The constructed function application.
      */
-    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression... inN) {
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression[] inN) {
         Assert.check(target.supportsOperation(operation, inN.length));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
@@ -504,7 +503,7 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
-            ExprBinding exprBinding, PlcExpression... inN)
+            ExprBinding exprBinding, PlcExpression[] inN)
     {
         Assert.check(target.supportsOperation(operation, inN.length));
 
@@ -532,7 +531,7 @@ public class PlcFunctionAppls {
      * @param inN Values of the arguments.
      * @return The constructed arguments list.
      */
-    private static List<PlcNamedValue> makeArgumentList(PlcExpression... inN) {
+    private static List<PlcNamedValue> makeArgumentList(PlcExpression[] inN) {
         return IntStream.range(0, inN.length).mapToObj(i -> new PlcNamedValue("IN" + (i + 1), inN[i]))
                 .collect(Lists.toList());
     }
