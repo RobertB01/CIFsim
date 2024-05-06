@@ -26,12 +26,12 @@ public class PlcFunctionBlockDescription extends PlcBasicFuncDescription {
      * @param prefixFuncName Name of the function.
      * @param funcBlockType Type of the function block.
      * @param parameters Parameters of the function block type.
-     *
      */
+    @Deprecated
     public PlcFunctionBlockDescription(String prefixFuncName, PlcType funcBlockType,
             PlcParameterDescription[] parameters)
     {
-        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY);
+        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, null);
         this.funcBlockType = funcBlockType;
     }
 }
