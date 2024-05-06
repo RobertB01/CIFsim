@@ -27,6 +27,7 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
+import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -37,10 +38,6 @@ import org.eclipse.escet.common.java.Lists;
 public class PlcFunctionAppls {
     /** PLC to generate code for. */
     private final PlcTarget target;
-
-    /** Parameters for functions that take one input parameters. */
-    private static final PlcParameterDescription[] ONE_INPUT_PARAMETER = new PlcParameterDescription[] {
-            new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
 
     /**
      * Constructor of the {@link PlcFunctionAppls} class.
@@ -445,14 +442,20 @@ public class PlcFunctionAppls {
      *
      * @param operation The performed function.
      * @param prefixText Text of the function in prefix notation.
+     * @param paramType Type of the parameter.
      * @param in Argument of the function.
+     * @param resultType Type of the result of a function call.
      * @return The constructed function application.
      */
-    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression in) {
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcAbstractType paramType,
+            PlcExpression in, PlcAbstractType resultType)
+    {
         Assert.check(target.supportsOperation(operation, 1));
 
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                target.getSupportedFuncNotations(operation, 1));
+        PlcParameterDescription[] parameterDesc = new PlcParameterDescription[] {
+                new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, paramType)};
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, parameterDesc,
+                target.getSupportedFuncNotations(operation, 1), resultType);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -463,16 +466,20 @@ public class PlcFunctionAppls {
      * @param prefixText Text of the function in prefix notation or {@code null} if not available.
      * @param infixText Text of the function in infix notation or {@code null} if not available.
      * @param exprBinding Binding strength of the function in the expression.
+     * @param paramType Type of the parameter.
      * @param in Argument of the function.
+     * @param resultType Type of the result of a function call.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
-            ExprBinding exprBinding, PlcExpression in)
+            ExprBinding exprBinding, PlcAbstractType paramType, PlcExpression in, PlcAbstractType resultType)
     {
         Assert.check(target.supportsOperation(operation, 1));
 
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, ONE_INPUT_PARAMETER,
-                infixText, exprBinding, target.getSupportedFuncNotations(operation, 1));
+        PlcParameterDescription[] parameterDesc = new PlcParameterDescription[] {
+                new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, paramType)};
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, parameterDesc,
+                infixText, exprBinding, target.getSupportedFuncNotations(operation, 1), resultType);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -481,14 +488,18 @@ public class PlcFunctionAppls {
      *
      * @param operation The performed function.
      * @param prefixText Text of the function in prefix notation.
+     * @param paramType Type of each parameter.
      * @param inN Arguments of the function.
+     * @param resultType Type of the result of a function call.
      * @return The constructed function application.
      */
-    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcExpression[] inN) {
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcAbstractType paramType, PlcExpression[] inN,
+            PlcAbstractType resultType)
+    {
         Assert.check(target.supportsOperation(operation, inN.length));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length), target.getSupportedFuncNotations(operation, inN.length));
+                makeParamList(inN.length, paramType), target.getSupportedFuncNotations(operation, inN.length), resultType);
         return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 
@@ -499,17 +510,19 @@ public class PlcFunctionAppls {
      * @param prefixText Text of the function in prefix notation or {@code null} if not available.
      * @param infixText Text of the function in infix notation or {@code null} if not available.
      * @param exprBinding Binding strength of the function in the expression.
+     * @param paramType Type of each parameter.
      * @param inN Arguments of the function.
+     * @param resultType Type of the result of a function call.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
-            ExprBinding exprBinding, PlcExpression[] inN)
+            ExprBinding exprBinding, PlcAbstractType paramType, PlcExpression[] inN, PlcAbstractType resultType)
     {
         Assert.check(target.supportsOperation(operation, inN.length));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length), infixText, exprBinding,
-                target.getSupportedFuncNotations(operation, inN.length));
+                makeParamList(inN.length, paramType), infixText, exprBinding,
+                target.getSupportedFuncNotations(operation, inN.length), resultType);
         return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 
@@ -517,11 +530,12 @@ public class PlcFunctionAppls {
      * Construct a parameter list for {@code length} input parameters.
      *
      * @param length Number of parameters to create.
+     * @param paramType Type of all the parameters.
      * @return The constructed parameter list.
      */
-    private static PlcParameterDescription[] makeParamList(int length) {
+    private static PlcParameterDescription[] makeParamList(int length, PlcAbstractType paramType) {
         return IntStream.range(0, length)
-                .mapToObj(i -> new PlcParameterDescription("IN" + (i + 1), PlcParamDirection.INPUT_ONLY))
+                .mapToObj(i -> new PlcParameterDescription("IN" + (i + 1), PlcParamDirection.INPUT_ONLY, paramType))
                 .toArray(PlcParameterDescription[]::new);
     }
 
