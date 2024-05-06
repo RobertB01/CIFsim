@@ -23,7 +23,7 @@ public abstract class PlcExpression {
     /** Constructor of the {@link PlcExpression} class. */
     @Deprecated
     public PlcExpression() {
-        this(null);
+        this(null); // TODO: Update PlcVarExpression when removing this.
     }
 
     /**
