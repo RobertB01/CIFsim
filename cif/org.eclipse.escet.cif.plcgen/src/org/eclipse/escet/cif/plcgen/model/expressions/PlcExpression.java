@@ -13,7 +13,25 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+
 /** Base class for expressions. */
 public abstract class PlcExpression {
-    // Nothing to do.
+    /** Type of the expression. */
+    public final PlcType type;
+
+    /** Constructor of the {@link PlcExpression} class. */
+    @Deprecated
+    public PlcExpression() {
+        this(null);
+    }
+
+    /**
+     * Constructor of the {@link PlcExpression} class.
+     *
+     * @param type Type of the expression.
+     */
+    public PlcExpression(PlcType type) {
+        this.type = type;
+    }
 }
