@@ -73,7 +73,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", "**", ExprBinding.POWER_EXPR, new PlcExpression[] {in1, in2});
+        return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", "**", ExprBinding.POWER_EXPR,
+                new PlcAbstractType[] {ANY_REAL_TYPE, ANY_NUM_TYPE}, new PlcExpression[] {in1, in2}, ANY_REAL_TYPE);
     }
 
     /**
@@ -546,6 +547,30 @@ public class PlcFunctionAppls {
     }
 
     /**
+     * Construct a function application for a function with a varying number of parameters.
+     *
+     * @param operation The performed function.
+     * @param prefixText Text of the function in prefix notation or {@code null} if not available.
+     * @param infixText Text of the function in infix notation or {@code null} if not available.
+     * @param exprBinding Binding strength of the function in the expression.
+     * @param paramTypes Types of the parameters.
+     * @param inN Arguments of the function.
+     * @param resultType Type of the result of a function call.
+     * @return The constructed function application.
+     */
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
+            ExprBinding exprBinding, PlcAbstractType[] paramTypes, PlcExpression[] inN, PlcAbstractType resultType)
+    {
+        Assert.check(target.supportsOperation(operation, inN.length));
+        Assert.areEqual(inN.length, paramTypes.length);
+
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
+                makeParamList(paramTypes), infixText, exprBinding,
+                target.getSupportedFuncNotations(operation, inN.length), resultType);
+        return new PlcFuncAppl(func, makeArgumentList(inN));
+    }
+
+    /**
      * Construct a parameter list for {@code length} input parameters.
      *
      * @param length Number of parameters to create.
@@ -559,7 +584,19 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Construct an argument list for the input parameters.
+     * Construct a parameter list with the parameter types.
+     *
+     * @param paramTypes Types of the parameters.
+     * @return The constructed parameter list.
+     */
+    private static PlcParameterDescription[] makeParamList(PlcAbstractType[] paramTypes) {
+        return IntStream.range(0, paramTypes.length)
+                .mapToObj(i -> new PlcParameterDescription("IN" + (i + 1), PlcParamDirection.INPUT_ONLY, paramTypes[i]))
+                .toArray(PlcParameterDescription[]::new);
+    }
+
+    /**
+     * Construct an argument list with the input parameter values.
      *
      * @param inN Values of the arguments.
      * @return The constructed arguments list.
