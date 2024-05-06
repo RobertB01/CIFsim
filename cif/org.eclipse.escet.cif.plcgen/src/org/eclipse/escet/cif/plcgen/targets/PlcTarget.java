@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
@@ -203,6 +204,16 @@ public abstract class PlcTarget {
      * @return The type of a standard real value in the PLC.
      */
     public abstract PlcElementaryType getRealType();
+
+    /**
+     * Construct a new standard real literal with the given value.
+     *
+     * @param value Value of the new standard real literal.
+     * @return The created literal.
+     */
+    public PlcRealLiteral makeStdReal(String value) {
+        return new PlcRealLiteral(value, getRealType());
+    }
 
     /**
      * Parse a PLC I/O address.

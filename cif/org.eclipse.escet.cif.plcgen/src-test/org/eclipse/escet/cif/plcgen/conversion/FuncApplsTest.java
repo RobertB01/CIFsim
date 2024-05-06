@@ -43,10 +43,10 @@ public class FuncApplsTest {
     private final PlcExpression bool1 = new PlcBoolLiteral(true);
 
     /** Value {@code 1.0} expression. */
-    private final PlcExpression real1 = new PlcRealLiteral("1.0");
+    private final PlcExpression real1 = new PlcRealLiteral("1.0", PlcElementaryType.LREAL_TYPE);
 
     /** Value {@code 2.0} expression. */
-    private final PlcExpression real2 = new PlcRealLiteral("2.0");
+    private final PlcExpression real2 = new PlcRealLiteral("2.0", PlcElementaryType.LREAL_TYPE);
 
     /** Function application generator. */
     private final PlcFunctionAppls funcAppls = new PlcFunctionAppls(new PlcOpenXmlTarget());

@@ -195,7 +195,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Compute updated remaining time R := SEL(B, P - V, 0.0);
             PlcExpression subExpr = plcFuncAppls.subtractFuncAppl(new PlcVarExpression(presetVar),
                     new PlcVarExpression(v));
-            subExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr, new PlcRealLiteral("0.0"));
+            subExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr, target.makeStdReal("0.0"));
             statements.add(new PlcAssignmentStatement(plcContVar, subExpr));
 
             return statements;

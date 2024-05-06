@@ -144,7 +144,7 @@ public class DefaultVariableStorage implements VariableStorage {
             @Override
             public PlcExpression getValueForContvar(ContVariable variable, boolean getDerivative) {
                 if (getDerivative) {
-                    return funcAppls.negateFuncAppl(new PlcRealLiteral("1.0"));
+                    return funcAppls.negateFuncAppl(target.makeStdReal("1.0"));
                 }
                 PlcBasicVariable plcContVar = variables.get(variable);
                 Assert.notNull(plcContVar);

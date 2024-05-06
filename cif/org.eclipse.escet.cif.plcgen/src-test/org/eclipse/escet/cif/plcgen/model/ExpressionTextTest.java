@@ -61,10 +61,10 @@ public class ExpressionTextTest {
         assertEquals("0", toStr(new PlcIntLiteral(0, null)));
 
         // Reals.
-        assertEquals("1.390579367798679", toStr(new PlcRealLiteral("1.390579367798679")));
-        assertEquals("1.39e-15", toStr(new PlcRealLiteral("1.39e-15")));
-        assertEquals("1.0e-15", toStr(new PlcRealLiteral("1e-15"))); // Inserts a ".0".
-        assertEquals("39.0", toStr(new PlcRealLiteral("39"))); // Appends a ".0".
+        assertEquals("1.390579367798679", toStr(new PlcRealLiteral("1.390579367798679", null)));
+        assertEquals("1.39e-15", toStr(new PlcRealLiteral("1.39e-15", null)));
+        assertEquals("1.0e-15", toStr(new PlcRealLiteral("1e-15", null))); // Inserts a ".0".
+        assertEquals("39.0", toStr(new PlcRealLiteral("39", null))); // Appends a ".0".
 
         // Arrays.
         assertEquals("[0, 1, 2]",

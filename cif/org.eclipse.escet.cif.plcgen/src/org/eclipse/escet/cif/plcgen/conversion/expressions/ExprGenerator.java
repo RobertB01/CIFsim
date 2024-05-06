@@ -361,7 +361,7 @@ public class ExprGenerator {
         } else if (expr instanceof IntExpression ie) {
             return new ExprValueResult(this).setValue(target.makeStdInteger(ie.getValue()));
         } else if (expr instanceof RealExpression re) {
-            return new ExprValueResult(this).setValue(new PlcRealLiteral(re.getValue()));
+            return new ExprValueResult(this).setValue(target.makeStdReal(re.getValue()));
         } else if (expr instanceof StringExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof TimeExpression) {
@@ -1005,7 +1005,7 @@ public class ExprGenerator {
 
             case CBRT: {
                 // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
-                PlcExpression expValue = funcAppls.divideFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0"));
+                PlcExpression expValue = funcAppls.divideFuncAppl(target.makeStdReal("1.0"), target.makeStdReal("3.0"));
 
                 Assert.check(argumentResults.size() == 1);
                 ExprValueResult arg1 = argumentResults.get(0);
@@ -1055,7 +1055,7 @@ public class ExprGenerator {
                 if (!target.supportsOperation(PlcFuncOperation.STDLIB_LOG, argumentResults.size())) {
                     // Fallback to log10(x) = ln(x) / ln(10).
                     PlcExpression lnX = funcAppls.lnFuncAppl(arg1.value);
-                    PlcExpression ln10 = funcAppls.lnFuncAppl(new PlcRealLiteral("10.0"));
+                    PlcExpression ln10 = funcAppls.lnFuncAppl(target.makeStdReal("10.0"));
                     return arg1.setValue(funcAppls.divideFuncAppl(lnX, ln10));
                 }
                 return arg1.setValue(funcAppls.logFuncAppl(arg1.value));
