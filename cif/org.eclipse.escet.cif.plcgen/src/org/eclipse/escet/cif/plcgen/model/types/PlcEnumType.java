@@ -36,7 +36,7 @@ public class PlcEnumType extends PlcType implements PlcDeclaredType {
      */
     public PlcEnumType(String typeName, List<String> literalNames) {
         this.typeName = typeName;
-        this.literals = literalNames.stream().map(name -> new PlcEnumLiteral(name)).collect(Lists.toList());
+        this.literals = literalNames.stream().map(name -> new PlcEnumLiteral(name, this)).collect(Lists.toList());
     }
 
     @Override
