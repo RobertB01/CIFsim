@@ -90,11 +90,11 @@ implements CifScanner.Hooks,
     }
 
     @Override
-    public void scanAnnoName(Token token) {
+    public void scanDoubleAnnoName(Token token) {
     }
 
     @Override
-    public void scanSpecAnnoName(Token token) {
+    public void scanRegularAnnoName(Token token) {
     }
 
     @Override // SupKind : @PLANTKW;
@@ -342,7 +342,7 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // Specification : OptSpecAnnos GroupBody;
+    @Override // Specification : OptDoubleAnnos GroupBody;
     public ASpecification parseSpecification1(List<AAnnotation> l1, AGroupBody a2) {
         // return null;
     }
@@ -607,13 +607,18 @@ implements CifScanner.Hooks,
         // return null;
     }
 
+    @Override // Decl : Annos InvariantDecls;
+    public ADecl parseDecl24(List<AAnnotation> l1, AInvariantDecl a2) {
+        // return null;
+    }
+
     @Override // Decl : @MARKEDKW Expressions SEMICOLTK;
-    public ADecl parseDecl24(Token t1, List<AExpression> l2) {
+    public ADecl parseDecl25(Token t1, List<AExpression> l2) {
         // return null;
     }
 
     @Override // Decl : IoDecl;
-    public ADecl parseDecl25(AIoDecl a1) {
+    public ADecl parseDecl26(AIoDecl a1) {
         // return null;
     }
 
@@ -997,8 +1002,8 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // LocationElement : InvariantDecls;
-    public ALocationElement parseLocationElement3(AInvariantDecl a1) {
+    @Override // LocationElement : OptDoubleAnnos InvariantDecls;
+    public ALocationElement parseLocationElement3(List<AAnnotation> l1, AInvariantDecl a2) {
         // return null;
     }
 
@@ -2142,28 +2147,28 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // OptSpecAnnos : ;
-    public List<AAnnotation> parseOptSpecAnnos1() {
+    @Override // OptDoubleAnnos : ;
+    public List<AAnnotation> parseOptDoubleAnnos1() {
         // return null;
     }
 
-    @Override // OptSpecAnnos : OptSpecAnnos SpecAnnotation;
-    public List<AAnnotation> parseOptSpecAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+    @Override // OptDoubleAnnos : OptDoubleAnnos DoubleAnnotation;
+    public List<AAnnotation> parseOptDoubleAnnos2(List<AAnnotation> l1, AAnnotation a2) {
         // return null;
     }
 
-    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK;
-    public AAnnotation parseSpecAnnotation1(Token t1) {
+    @Override // DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK;
+    public AAnnotation parseDoubleAnnotation1(Token t1) {
         // return null;
     }
 
-    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK PARCLOSETK;
-    public AAnnotation parseSpecAnnotation2(Token t1) {
+    @Override // DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK PAROPENTK PARCLOSETK;
+    public AAnnotation parseDoubleAnnotation2(Token t1) {
         // return null;
     }
 
-    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
-    public AAnnotation parseSpecAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
+    @Override // DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    public AAnnotation parseDoubleAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
         // return null;
     }
 
@@ -2187,17 +2192,17 @@ implements CifScanner.Hooks,
         // return null;
     }
 
-    @Override // Annotation : @ANNOTATIONNAMETK;
+    @Override // Annotation : @REGULAR_ANNOTATION_NAMETK;
     public AAnnotation parseAnnotation1(Token t1) {
         // return null;
     }
 
-    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK PARCLOSETK;
+    @Override // Annotation : @REGULAR_ANNOTATION_NAMETK PAROPENTK PARCLOSETK;
     public AAnnotation parseAnnotation2(Token t1) {
         // return null;
     }
 
-    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    @Override // Annotation : @REGULAR_ANNOTATION_NAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
     public AAnnotation parseAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
         // return null;
     }

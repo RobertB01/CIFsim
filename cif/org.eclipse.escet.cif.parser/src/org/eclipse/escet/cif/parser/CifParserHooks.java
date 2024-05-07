@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.parser;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.cif.parser.ast.AAlgParameter;
@@ -176,13 +177,13 @@ implements CifScanner.Hooks,
     }
 
     @Override
-    public void scanAnnoName(Token token) {
-        token.text = token.originalText.substring(1); // Strip of '@'.
+    public void scanDoubleAnnoName(Token token) {
+        token.text = token.originalText.substring(2); // Strip of '@@'.
     }
 
     @Override
-    public void scanSpecAnnoName(Token token) {
-        token.text = token.originalText.substring(2); // Strip of '@@'.
+    public void scanRegularAnnoName(Token token) {
+        token.text = token.originalText.substring(1); // Strip of '@'.
     }
 
     @Override // SupKind : @PLANTKW;
@@ -430,7 +431,7 @@ implements CifScanner.Hooks,
         return t1;
     }
 
-    @Override // Specification : OptSpecAnnos GroupBody;
+    @Override // Specification : OptDoubleAnnos GroupBody;
     public ASpecification parseSpecification1(List<AAnnotation> l1, AGroupBody a2) {
         String src = parser.getSource();
         String loc = parser.getLocation();
@@ -730,13 +731,18 @@ implements CifScanner.Hooks,
         return a1;
     }
 
+    @Override // Decl : Annos InvariantDecls;
+    public ADecl parseDecl24(List<AAnnotation> l1, AInvariantDecl a2) {
+        return new AInvariantDecl(l1, a2.kind, a2.invariants, a2.position);
+    }
+
     @Override // Decl : @MARKEDKW Expressions SEMICOLTK;
-    public ADecl parseDecl24(Token t1, List<AExpression> l2) {
+    public ADecl parseDecl25(Token t1, List<AExpression> l2) {
         return new AMarkedDecl(l2, t1.position);
     }
 
     @Override // Decl : IoDecl;
-    public ADecl parseDecl25(AIoDecl a1) {
+    public ADecl parseDecl26(AIoDecl a1) {
         return a1;
     }
 
@@ -1201,9 +1207,9 @@ implements CifScanner.Hooks,
         return new AInitialLocationElement(l2, t1.position);
     }
 
-    @Override // LocationElement : InvariantDecls;
-    public ALocationElement parseLocationElement3(AInvariantDecl a1) {
-        return new AInvariantLocationElement(a1);
+    @Override // LocationElement : OptDoubleAnnos InvariantDecls;
+    public ALocationElement parseLocationElement3(List<AAnnotation> l1, AInvariantDecl a2) {
+        return new AInvariantLocationElement(new AInvariantDecl(l1, a2.kind, a2.invariants, a2.position));
     }
 
     @Override // LocationElement : @EQUATIONKW Equations SEMICOLTK;
@@ -1430,12 +1436,12 @@ implements CifScanner.Hooks,
 
     @Override // InvariantDecls : OptSupKind @INVARIANTKW Invariants SEMICOLTK;
     public AInvariantDecl parseInvariantDecls1(Token t1, Token t2, List<AInvariant> l3) {
-        return new AInvariantDecl(t1, l3, t2.position);
+        return new AInvariantDecl(Collections.emptyList(), t1, l3, t2.position);
     }
 
     @Override // InvariantDecls : SupKind Invariants SEMICOLTK;
     public AInvariantDecl parseInvariantDecls2(Token t1, List<AInvariant> l2) {
-        return new AInvariantDecl(t1, l2, t1.position);
+        return new AInvariantDecl(Collections.emptyList(), t1, l2, t1.position);
     }
 
     @Override // Invariants : Invariant;
@@ -2414,29 +2420,29 @@ implements CifScanner.Hooks,
         return new AName(t1.text, t1.position);
     }
 
-    @Override // OptSpecAnnos : ;
-    public List<AAnnotation> parseOptSpecAnnos1() {
+    @Override // OptDoubleAnnos : ;
+    public List<AAnnotation> parseOptDoubleAnnos1() {
         return list();
     }
 
-    @Override // OptSpecAnnos : OptSpecAnnos SpecAnnotation;
-    public List<AAnnotation> parseOptSpecAnnos2(List<AAnnotation> l1, AAnnotation a2) {
+    @Override // OptDoubleAnnos : OptDoubleAnnos DoubleAnnotation;
+    public List<AAnnotation> parseOptDoubleAnnos2(List<AAnnotation> l1, AAnnotation a2) {
         l1.add(a2);
         return l1;
     }
 
-    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK;
-    public AAnnotation parseSpecAnnotation1(Token t1) {
+    @Override // DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK;
+    public AAnnotation parseDoubleAnnotation1(Token t1) {
         return new AAnnotation(t1, list());
     }
 
-    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK PARCLOSETK;
-    public AAnnotation parseSpecAnnotation2(Token t1) {
+    @Override // DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK PAROPENTK PARCLOSETK;
+    public AAnnotation parseDoubleAnnotation2(Token t1) {
         return new AAnnotation(t1, list());
     }
 
-    @Override // SpecAnnotation : @SPECANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
-    public AAnnotation parseSpecAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
+    @Override // DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    public AAnnotation parseDoubleAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
         return new AAnnotation(t1, l3);
     }
 
@@ -2462,17 +2468,17 @@ implements CifScanner.Hooks,
         return l1;
     }
 
-    @Override // Annotation : @ANNOTATIONNAMETK;
+    @Override // Annotation : @REGULAR_ANNOTATION_NAMETK;
     public AAnnotation parseAnnotation1(Token t1) {
         return new AAnnotation(t1, list());
     }
 
-    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK PARCLOSETK;
+    @Override // Annotation : @REGULAR_ANNOTATION_NAMETK PAROPENTK PARCLOSETK;
     public AAnnotation parseAnnotation2(Token t1) {
         return new AAnnotation(t1, list());
     }
 
-    @Override // Annotation : @ANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
+    @Override // Annotation : @REGULAR_ANNOTATION_NAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK;
     public AAnnotation parseAnnotation3(Token t1, List<AAnnotationArgument> l3, Token t4) {
         return new AAnnotation(t1, l3);
     }
