@@ -196,26 +196,26 @@ end
 
 @terminals:
   // Literals.
-  RELATIVENAMETK       = "{identifier}(\.{identifier})+"
-                         [a name];
-  ABSOLUTENAMETK       = "\.{identifier}(\.{identifier})*"
-                         [a name];
-  ROOTNAMETK           = "\^{identifier}(\.{identifier})*"
-                         [a name];
-  IDENTIFIERTK         = "{identifier}"
-                         [an identifier];
-  NUMBERTK             = "(0|[1-9][0-9]*)"
-                         [an integer literal];
-  REALTK               = "(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)"
-                         [a real literal];
-  STRINGTK             = "\"([^\\\"\n]|\\[nt\\\"])*\""
-                         [a string literal];
-  ANNOTATIONNAMETK     = "@{uidentifier}(:{uidentifier})*"
-                         {scanAnnoName}
-                         [an annotation name];
-  SPECANNOTATIONNAMETK = "@@{uidentifier}(:{uidentifier})*"
-                         {scanSpecAnnoName}
-                         [a specification annotation name];
+  RELATIVENAMETK            = "{identifier}(\.{identifier})+"
+                              [a name];
+  ABSOLUTENAMETK            = "\.{identifier}(\.{identifier})*"
+                              [a name];
+  ROOTNAMETK                = "\^{identifier}(\.{identifier})*"
+                              [a name];
+  IDENTIFIERTK              = "{identifier}"
+                              [an identifier];
+  NUMBERTK                  = "(0|[1-9][0-9]*)"
+                              [an integer literal];
+  REALTK                    = "(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)"
+                              [a real literal];
+  STRINGTK                  = "\"([^\\\"\n]|\\[nt\\\"])*\""
+                              [a string literal];
+  REGULAR_ANNOTATION_NAMETK = "@{uidentifier}(:{uidentifier})*"
+                              {scanRegularAnnoName}
+                              [a regular annotation name];
+  DOUBLE_ANNOTATION_NAMETK  = "@@{uidentifier}(:{uidentifier})*"
+                              {scanDoubleAnnoName}
+                              [a double at-sign annotation name];
 
   // Comments.
   "//.*";
@@ -253,7 +253,7 @@ end
 @import java.util.List;
 
 {cif.ASpecification}
-Specification : OptSpecAnnos GroupBody
+Specification : OptDoubleAnnos GroupBody
               ;
 
 {cif.AGroupBody}
@@ -968,15 +968,15 @@ Name : Identifier
 ///////////////////////////////////////////////////////////////////////////////
 
 {List<annos.AAnnotation>}
-OptSpecAnnos : /* empty */
-             | OptSpecAnnos SpecAnnotation
-             ;
+OptDoubleAnnos : /* empty */
+               | OptDoubleAnnos DoubleAnnotation
+               ;
 
 {annos.AAnnotation}
-SpecAnnotation : @SPECANNOTATIONNAMETK
-               | @SPECANNOTATIONNAMETK PAROPENTK PARCLOSETK
-               | @SPECANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK
-               ;
+DoubleAnnotation : @DOUBLE_ANNOTATION_NAMETK
+                 | @DOUBLE_ANNOTATION_NAMETK PAROPENTK PARCLOSETK
+                 | @DOUBLE_ANNOTATION_NAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK
+                 ;
 
 {List<annos.AAnnotation>}
 OptAnnos : /* empty */
@@ -989,9 +989,9 @@ Annos : Annotation
       ;
 
 {annos.AAnnotation}
-Annotation : @ANNOTATIONNAMETK
-           | @ANNOTATIONNAMETK PAROPENTK PARCLOSETK
-           | @ANNOTATIONNAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK
+Annotation : @REGULAR_ANNOTATION_NAMETK
+           | @REGULAR_ANNOTATION_NAMETK PAROPENTK PARCLOSETK
+           | @REGULAR_ANNOTATION_NAMETK PAROPENTK AnnotationArgs OptComma PARCLOSETK
            ;
 
 {List<annos.AAnnotationArgument>}

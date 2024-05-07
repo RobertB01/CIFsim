@@ -1,4 +1,4 @@
-Specification : OptSpecAnnos GroupBody
+Specification : OptDoubleAnnos GroupBody
               ;
 
 GroupBody : OptGroupDecls
@@ -598,14 +598,14 @@ Name : Identifier
 
 ///////////////////////////////////////////////////////////////////////////////
 
-OptSpecAnnos : /* empty */
-             | OptSpecAnnos SpecAnnotation
-             ;
-
-SpecAnnotation : SPECANNOTATIONNAMETK
-               | SPECANNOTATIONNAMETK "(" ")"
-               | SPECANNOTATIONNAMETK "(" AnnotationArgs OptComma ")"
+OptDoubleAnnos : /* empty */
+               | OptDoubleAnnos DoubleAnnotation
                ;
+
+DoubleAnnotation : DOUBLE_ANNOTATION_NAMETK
+                 | DOUBLE_ANNOTATION_NAMETK "(" ")"
+                 | DOUBLE_ANNOTATION_NAMETK "(" AnnotationArgs OptComma ")"
+                 ;
 
 OptAnnos : /* empty */
          | OptAnnos Annotation
@@ -615,9 +615,9 @@ Annos : Annotation
       | Annos Annotation
       ;
 
-Annotation : ANNOTATIONNAMETK
-           | ANNOTATIONNAMETK "(" ")"
-           | ANNOTATIONNAMETK "(" AnnotationArgs OptComma ")"
+Annotation : REGULAR_ANNOTATION_NAMETK
+           | REGULAR_ANNOTATION_NAMETK "(" ")"
+           | REGULAR_ANNOTATION_NAMETK "(" AnnotationArgs OptComma ")"
            ;
 
 AnnotationArgs : AnnotationArg
