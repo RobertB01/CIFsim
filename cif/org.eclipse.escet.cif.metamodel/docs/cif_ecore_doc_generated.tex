@@ -291,7 +291,8 @@ none
 
 ~\\ \noindent \emph{EObject} \\
 \hook~\positionclass{PositionObject} \\
-\hookindent\hook~\emph{Invariant}
+\hookindent\hook~\cifclass{AnnotatedObject} \\
+\hookindent\hookindent\hook~\emph{Invariant}
 
 ~\\ \noindent Direct derived classes:
 none
@@ -299,6 +300,8 @@ none
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Invariant.position}}
 {\featdocuPositionObjectposition}
+\cifclassDetail{cont}{annotations}{{[0..*]}}{Annotation}{(inherited from \textit{AnnotatedObject})}{\label{cifattr:Invariant.annotations}}
+{\featdocuAnnotatedObjectannotations}
 \cifclassDetail{cont}{event}{{[0..1]}}{Expression}{}{\label{cifattr:Invariant.event}}
 {\featdocuInvariantevent}
 \cifclassDetail{attr}{invKind}{{[1]}}{InvKind}{}{\label{cifattr:Invariant.invKind}}
@@ -2870,7 +2873,7 @@ none
 \hookindent\hook~\emph{AnnotatedObject}
 
 ~\\ \noindent Direct derived classes:
-\cifclass{Component}, \cifclass{Declaration}, \cifclass{EnumLiteral}, \cifclass{Location}
+\cifclass{Component}, \cifclass{Declaration}, \cifclass{EnumLiteral}, \cifclass{Invariant}, \cifclass{Location}
 
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AnnotatedObject.position}}
