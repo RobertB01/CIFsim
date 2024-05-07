@@ -996,7 +996,16 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+    int INVARIANT__POSITION = AnnotationsPackage.ANNOTATED_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INVARIANT__ANNOTATIONS = AnnotationsPackage.ANNOTATED_OBJECT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1005,7 +1014,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__NAME = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int INVARIANT__NAME = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Sup Kind</b></em>' attribute.
@@ -1014,7 +1023,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__SUP_KIND = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int INVARIANT__SUP_KIND = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Predicate</b></em>' containment reference.
@@ -1023,7 +1032,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__PREDICATE = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 2;
+    int INVARIANT__PREDICATE = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Inv Kind</b></em>' attribute.
@@ -1032,7 +1041,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__INV_KIND = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 3;
+    int INVARIANT__INV_KIND = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Event</b></em>' containment reference.
@@ -1041,7 +1050,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT__EVENT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 4;
+    int INVARIANT__EVENT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 4;
 
     /**
      * The number of structural features of the '<em>Invariant</em>' class.
@@ -1050,7 +1059,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 5;
+    int INVARIANT_FEATURE_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 5;
 
     /**
      * The number of operations of the '<em>Invariant</em>' class.
@@ -1059,7 +1068,7 @@ public interface CifPackage extends EPackage
      * @generated
      * @ordered
      */
-    int INVARIANT_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+    int INVARIANT_OPERATION_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.SupKind <em>Sup Kind</em>}' enum.

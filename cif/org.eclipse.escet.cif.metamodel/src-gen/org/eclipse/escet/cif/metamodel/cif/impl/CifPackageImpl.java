@@ -982,7 +982,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
         componentParameterEClass.getESuperTypes().add(this.getParameter());
         equationEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         ioDeclEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
-        invariantEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        invariantEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
 
         // Initialize classes, features, and operations; add parameters
         initEClass(componentEClass, Component.class, "Component", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
