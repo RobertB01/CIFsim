@@ -430,6 +430,10 @@ public abstract class CifWalker {
             walkEnumLiteral((EnumLiteral)obj);
             return;
         }
+        if (obj instanceof Invariant) {
+            walkInvariant((Invariant)obj);
+            return;
+        }
         if (obj instanceof Location) {
             walkLocation((Location)obj);
             return;
@@ -4823,6 +4827,10 @@ public abstract class CifWalker {
      */
     protected void walkInvariant(Invariant obj) {
         precrawlInvariant(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         Expression _event = obj.getEvent();
         if (_event != null) {
             walkExpression(_event);
@@ -4842,7 +4850,7 @@ public abstract class CifWalker {
      * @param obj The object to crawl over.
      */
     protected void precrawlInvariant(Invariant obj) {
-        precrawlPositionObject(obj);
+        precrawlAnnotatedObject(obj);
         preprocessInvariant(obj);
     }
 
@@ -4853,7 +4861,7 @@ public abstract class CifWalker {
      */
     protected void postcrawlInvariant(Invariant obj) {
         postprocessInvariant(obj);
-        postcrawlPositionObject(obj);
+        postcrawlAnnotatedObject(obj);
     }
 
     /**
@@ -5484,10 +5492,6 @@ public abstract class CifWalker {
         }
         if (obj instanceof FunctionStatement) {
             walkFunctionStatement((FunctionStatement)obj);
-            return;
-        }
-        if (obj instanceof Invariant) {
-            walkInvariant((Invariant)obj);
             return;
         }
         if (obj instanceof IoDecl) {

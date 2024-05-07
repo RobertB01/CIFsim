@@ -454,6 +454,10 @@ public abstract class CifWithArgWalker<T> {
             walkEnumLiteral((EnumLiteral)obj, arg);
             return;
         }
+        if (obj instanceof Invariant) {
+            walkInvariant((Invariant)obj, arg);
+            return;
+        }
         if (obj instanceof Location) {
             walkLocation((Location)obj, arg);
             return;
@@ -5207,6 +5211,10 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkInvariant(Invariant obj, T arg) {
         precrawlInvariant(obj, arg);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
+        }
         Expression _event = obj.getEvent();
         if (_event != null) {
             walkExpression(_event, arg);
@@ -5227,7 +5235,7 @@ public abstract class CifWithArgWalker<T> {
      * @param arg The extra argument provided to the pre-crawling method.
      */
     protected void precrawlInvariant(Invariant obj, T arg) {
-        precrawlPositionObject(obj, arg);
+        precrawlAnnotatedObject(obj, arg);
         preprocessInvariant(obj, arg);
     }
 
@@ -5239,7 +5247,7 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void postcrawlInvariant(Invariant obj, T arg) {
         postprocessInvariant(obj, arg);
-        postcrawlPositionObject(obj, arg);
+        postcrawlAnnotatedObject(obj, arg);
     }
 
     /**
@@ -5918,10 +5926,6 @@ public abstract class CifWithArgWalker<T> {
         }
         if (obj instanceof FunctionStatement) {
             walkFunctionStatement((FunctionStatement)obj, arg);
-            return;
-        }
-        if (obj instanceof Invariant) {
-            walkInvariant((Invariant)obj, arg);
             return;
         }
         if (obj instanceof IoDecl) {
