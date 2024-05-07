@@ -485,7 +485,7 @@ implements CifScanner.Hooks,
         if (a6 instanceof AInternalFuncBody) {
             parser.addFoldRange(t1.position, ((AInternalFuncBody)a6).endPos);
         }
-        return new AFuncDecl(listc(0), a3, l2, l4, a6, a3.position);
+        return new AFuncDecl(Collections.emptyList(), a3, l2, l4, a6, a3.position);
     }
 
     @Override // GroupDecl : Annos @FUNCKW Types Identifier FuncParams COLONTK FuncBody;
@@ -528,7 +528,7 @@ implements CifScanner.Hooks,
     @Override // GroupDecl : @GROUPKW Identifier COLONTK GroupBody @ENDKW;
     public ADecl parseGroupDecl11(Token t1, AIdentifier a2, AGroupBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
-        return new ACompDecl(listc(0), null, a2, a4, a2.position);
+        return new ACompDecl(Collections.emptyList(), null, a2, a4, a2.position);
     }
 
     @Override // GroupDecl : Annos @GROUPKW Identifier COLONTK GroupBody @ENDKW;
@@ -541,7 +541,7 @@ implements CifScanner.Hooks,
     public ADecl parseGroupDecl13(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         Token firstToken = (t1 != null) ? t1 : t2;
         parser.addFoldRange(firstToken, t6);
-        return new ACompDecl(listc(0), t1, a3, a5, a3.position);
+        return new ACompDecl(Collections.emptyList(), t1, a3, a5, a3.position);
     }
 
     @Override // GroupDecl : Annos OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
@@ -556,7 +556,7 @@ implements CifScanner.Hooks,
     @Override // GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;
     public ADecl parseGroupDecl15(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
-        return new ACompDecl(listc(0), t1, a2, a4, a2.position);
+        return new ACompDecl(Collections.emptyList(), t1, a2, a4, a2.position);
     }
 
     @Override // GroupDecl : Annos SupKind Identifier COLONTK AutomatonBody @ENDKW;
@@ -603,7 +603,7 @@ implements CifScanner.Hooks,
 
     @Override // AutDecl : @DISCKW Type DiscDecls SEMICOLTK;
     public ADecl parseAutDecl6(Token t1, ACifType a2, List<ADiscVariable> l3) {
-        return new ADiscVariableDecl(listc(0), a2, l3, t1.position);
+        return new ADiscVariableDecl(Collections.emptyList(), a2, l3, t1.position);
     }
 
     @Override // AutDecl : Annos @DISCKW Type DiscDecls SEMICOLTK;
@@ -613,7 +613,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : @TYPEKW TypeDefs SEMICOLTK;
     public ADecl parseDecl01(Token t1, List<ATypeDef> l2) {
-        return new ATypeDefDecl(listc(0), l2, t1.position);
+        return new ATypeDefDecl(Collections.emptyList(), l2, t1.position);
     }
 
     @Override // Decl : Annos @TYPEKW TypeDefs SEMICOLTK;
@@ -623,7 +623,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK;
     public ADecl parseDecl03(AIdentifier a2, List<AAnnotatedIdentifier> l4) {
-        return new AEnumDecl(listc(0), a2.id, l4, a2.position);
+        return new AEnumDecl(Collections.emptyList(), a2.id, l4, a2.position);
     }
 
     @Override // Decl : Annos ENUMKW Identifier EQTK AnnotatedIdentifiers SEMICOLTK;
@@ -633,7 +633,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : OptControllability @EVENTKW Identifiers SEMICOLTK;
     public ADecl parseDecl05(Token t1, Token t2, List<AIdentifier> l3) {
-        return new AEventDecl(listc(0), t1, l3, null, t2.position);
+        return new AEventDecl(Collections.emptyList(), t1, l3, null, t2.position);
     }
 
     @Override // Decl : Annos OptControllability @EVENTKW Identifiers SEMICOLTK;
@@ -643,7 +643,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
     public ADecl parseDecl07(Token t1, Token t2, ACifType a3, List<AIdentifier> l4) {
-        return new AEventDecl(listc(0), t1, l4, a3, t2.position);
+        return new AEventDecl(Collections.emptyList(), t1, l4, a3, t2.position);
     }
 
     @Override // Decl : Annos OptControllability @EVENTKW EventType Identifiers SEMICOLTK;
@@ -653,7 +653,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : Controllability Identifiers SEMICOLTK;
     public ADecl parseDecl09(Token t1, List<AIdentifier> l2) {
-        return new AEventDecl(listc(0), t1, l2, null, t1.position);
+        return new AEventDecl(Collections.emptyList(), t1, l2, null, t1.position);
     }
 
     @Override // Decl : Annos Controllability Identifiers SEMICOLTK;
@@ -663,7 +663,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : Controllability EventType Identifiers SEMICOLTK;
     public ADecl parseDecl11(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AEventDecl(listc(0), t1, l3, a2, t1.position);
+        return new AEventDecl(Collections.emptyList(), t1, l3, a2, t1.position);
     }
 
     @Override // Decl : Annos Controllability EventType Identifiers SEMICOLTK;
@@ -673,7 +673,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : @CONSTKW Type ConstantDefs SEMICOLTK;
     public ADecl parseDecl13(Token t1, ACifType a2, List<AConstant> l3) {
-        return new AConstDecl(listc(0), a2, l3, t1.position);
+        return new AConstDecl(Collections.emptyList(), a2, l3, t1.position);
     }
 
     @Override // Decl : Annos @CONSTKW Type ConstantDefs SEMICOLTK;
@@ -683,7 +683,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : @ALGKW Type AlgVarsDefs SEMICOLTK;
     public ADecl parseDecl15(Token t1, ACifType a2, List<AAlgVariable> l3) {
-        return new AAlgVariableDecl(listc(0), a2, l3, t1.position);
+        return new AAlgVariableDecl(Collections.emptyList(), a2, l3, t1.position);
     }
 
     @Override // Decl : Annos @ALGKW Type AlgVarsDefs SEMICOLTK;
@@ -693,7 +693,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : @INPUTKW Type Identifiers SEMICOLTK;
     public ADecl parseDecl17(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AInputVariableDecl(listc(0), a2, l3, t1.position);
+        return new AInputVariableDecl(Collections.emptyList(), a2, l3, t1.position);
     }
 
     @Override // Decl : Annos @INPUTKW Type Identifiers SEMICOLTK;
@@ -703,7 +703,7 @@ implements CifScanner.Hooks,
 
     @Override // Decl : @CONTKW ContDecls SEMICOLTK;
     public ADecl parseDecl19(Token t1, List<AContVariable> l2) {
-        return new AContVariableDecl(listc(0), l2, t1.position);
+        return new AContVariableDecl(Collections.emptyList(), l2, t1.position);
     }
 
     @Override // Decl : Annos @CONTKW ContDecls SEMICOLTK;
@@ -883,7 +883,7 @@ implements CifScanner.Hooks,
 
     @Override // FuncVarDecls : FuncVarDecls Type FuncVarDecl SEMICOLTK;
     public List<ADiscVariableDecl> parseFuncVarDecls2(List<ADiscVariableDecl> l1, ACifType a2, List<ADiscVariable> l3) {
-        l1.add(new ADiscVariableDecl(listc(0), a2, l3, null));
+        l1.add(new ADiscVariableDecl(Collections.emptyList(), a2, l3, null));
         return l1;
     }
 
@@ -1100,7 +1100,7 @@ implements CifScanner.Hooks,
 
     @Override // Location : @LOCATIONKW SEMICOLTK;
     public ALocation parseLocation1(Token t1) {
-        return new ALocation(listc(0), null, null, t1.position);
+        return new ALocation(Collections.emptyList(), null, null, t1.position);
     }
 
     @Override // Location : Annos @LOCATIONKW SEMICOLTK;
@@ -1110,7 +1110,7 @@ implements CifScanner.Hooks,
 
     @Override // Location : @LOCATIONKW Identifier SEMICOLTK;
     public ALocation parseLocation3(Token t1, AIdentifier a2) {
-        return new ALocation(listc(0), a2, null, t1.position);
+        return new ALocation(Collections.emptyList(), a2, null, t1.position);
     }
 
     @Override // Location : Annos @LOCATIONKW Identifier SEMICOLTK;
@@ -1120,7 +1120,7 @@ implements CifScanner.Hooks,
 
     @Override // Location : @LOCATIONKW COLONTK LocationElements;
     public ALocation parseLocation5(Token t1, List<ALocationElement> l3) {
-        ALocation loc = new ALocation(listc(0), null, l3, t1.position);
+        ALocation loc = new ALocation(Collections.emptyList(), null, l3, t1.position);
 
         for (ALocationElement lelem: l3) {
             if (!(lelem instanceof AEquationLocationElement)) {
@@ -1154,7 +1154,7 @@ implements CifScanner.Hooks,
 
     @Override // Location : @LOCATIONKW Identifier COLONTK LocationElements;
     public ALocation parseLocation7(Token t1, AIdentifier a2, List<ALocationElement> l4) {
-        ALocation loc = new ALocation(listc(0), a2, l4, t1.position);
+        ALocation loc = new ALocation(Collections.emptyList(), a2, l4, t1.position);
 
         for (ALocationElement lelem: l4) {
             if (!(lelem instanceof AEquationLocationElement)) {
