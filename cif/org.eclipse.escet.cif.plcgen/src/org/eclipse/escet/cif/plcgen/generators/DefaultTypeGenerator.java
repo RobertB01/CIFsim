@@ -109,7 +109,12 @@ public class DefaultTypeGenerator implements TypeGenerator {
     @Override
     public PlcStructType convertTupleType(TupleType tupleType) {
         TypeEqHashWrap typeWrap = new TypeEqHashWrap(tupleType, true, false);
-        return structTypes.computeIfAbsent(typeWrap, key -> makePlcStructType(tupleType));
+        PlcStructType structType = structTypes.get(typeWrap);
+        if (structType == null) {
+            structType = makePlcStructType(tupleType);
+            structTypes.put(typeWrap, structType);
+        }
+        return structType;
     }
 
     /**
