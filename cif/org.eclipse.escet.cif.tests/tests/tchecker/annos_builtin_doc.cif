@@ -86,6 +86,16 @@ automaton a3:
     edge evt;
 end
 
+automaton a4:
+  @doc
+  invariant true;
+
+  location:
+    initial;
+    @@doc
+    invariant false;
+end
+
 @doc
 group g1:
   @doc

@@ -73,6 +73,16 @@ automaton a3:
     edge evt;
 end
 
+automaton a4:
+  @cif:typechecker:tests:anno1(x: true)
+  invariant true;
+
+  location:
+    initial;
+    @@cif:typechecker:tests:anno1(x: true)
+    invariant false;
+end
+
 @cif:typechecker:tests:anno1(x: true)
 group g1:
   @cif:typechecker:tests:anno1(x: true)
