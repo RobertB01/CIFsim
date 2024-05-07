@@ -1232,8 +1232,15 @@ public class SeTextGenerator {
         code.add("private static final class FirstTerminals {");
         code.indent();
         code.add("/** See {@code Parser.firstTerminals}. */");
-        code.add("private static final int[][] FIRST_TERMINALS = new int[][] {");
+        code.add("private static final int[][] FIRST_TERMINALS = new int[%d][];", aut.states.size());
+        code.add();
+        code.add("static {");
         code.indent();
+        for (int si = 0; si < aut.states.size(); si++) {
+            code.add("init%d();", si);
+        }
+        code.dedent();
+        code.add("}");
         for (int si = 0; si < aut.states.size(); si++) {
             LALR1AutomatonState state = aut.states.get(si);
 
@@ -1270,10 +1277,14 @@ public class SeTextGenerator {
             }
 
             // Write terminal ids.
-            code.add("{%s}, // state %d", intsToStr(sortedgeneric(termIdSet)), si);
+            code.add();
+            code.add("/** Initialize {@link #FIRST_TERMINALS}{@code [%d]}. */", si);
+            code.add("private static void init%d() {", si);
+            code.indent();
+            code.add("FIRST_TERMINALS[%d] = new int[] {%s};", si, intsToStr(sortedgeneric(termIdSet)));
+            code.dedent();
+            code.add("}");
         }
-        code.dedent();
-        code.add("};");
         code.dedent();
         code.add("}");
 
@@ -1283,8 +1294,15 @@ public class SeTextGenerator {
         code.add("private static final class FirstTerminalsReduced {");
         code.indent();
         code.add("/** See {@code Parser.firstTerminalsReduced}. */");
-        code.add("private static final int[][][] FIRST_TERMINALS_REDUCED = new int[][][] {");
+        code.add("private static final int[][][] FIRST_TERMINALS_REDUCED = new int[%d][][];", aut.states.size());
+        code.add();
+        code.add("static {");
         code.indent();
+        for (int si = 0; si < aut.states.size(); si++) {
+            code.add("init%d();", si);
+        }
+        code.dedent();
+        code.add("}");
         for (int si = 0; si < aut.states.size(); si++) {
             LALR1AutomatonState state = aut.states.get(si);
 
@@ -1351,21 +1369,25 @@ public class SeTextGenerator {
                 lines.add(fmt("{%d, %s},", e.getKey(), intsToStr(termIds)));
             }
 
+            code.add();
+            code.add("/** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [%d]}. */", si);
+            code.add("private static void init%d() {", si);
+            code.indent();
             if (lines.isEmpty()) {
-                code.add("{}, // state %d", si);
+                code.add("FIRST_TERMINALS_REDUCED[%d] = new int[][] {};", si);
             } else {
-                Collections.sort(lines, Strings.SORTER);
-                code.add("{ // state %d", si);
+                code.add("FIRST_TERMINALS_REDUCED[%d] = new int[][] {", si);
                 code.indent();
+                Collections.sort(lines, Strings.SORTER);
                 for (String line: lines) {
                     code.add(line);
                 }
                 code.dedent();
-                code.add("},");
+                code.add("};");
             }
+            code.dedent();
+            code.add("}");
         }
-        code.dedent();
-        code.add("};");
         code.dedent();
         code.add("}");
 
@@ -1375,8 +1397,15 @@ public class SeTextGenerator {
         code.add("private static final class ReducibleNonTerminals {");
         code.indent();
         code.add("/** See {@code Parser.reducibleNonTerminals}. */");
-        code.add("private static final int[][][] REDUCIBLE_NON_TERMINALS = new int[][][] {");
+        code.add("private static final int[][][] REDUCIBLE_NON_TERMINALS = new int[%d][][];", aut.states.size());
+        code.add();
+        code.add("static {");
         code.indent();
+        for (int si = 0; si < aut.states.size(); si++) {
+            code.add("init%d();", si);
+        }
+        code.dedent();
+        code.add("}");
         for (int si = 0; si < aut.states.size(); si++) {
             LALR1AutomatonState state = aut.states.get(si);
 
@@ -1429,21 +1458,25 @@ public class SeTextGenerator {
                 lines.add(fmt("{%d, %s},", e.getKey(), intsToStr(popCnts)));
             }
 
+            code.add();
+            code.add("/** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [%d]}. */", si);
+            code.add("private static void init%d() {", si);
+            code.indent();
             if (lines.isEmpty()) {
-                code.add("{}, // state %d", si);
+                code.add("REDUCIBLE_NON_TERMINALS[%d] = new int[][] {};", si);
             } else {
-                Collections.sort(lines, Strings.SORTER);
-                code.add("{ // state %d", si);
+                code.add("REDUCIBLE_NON_TERMINALS[%d] = new int[][] {", si);
                 code.indent();
+                Collections.sort(lines, Strings.SORTER);
                 for (String line: lines) {
                     code.add(line);
                 }
                 code.dedent();
-                code.add("},");
+                code.add("};");
             }
+            code.dedent();
+            code.add("}");
         }
-        code.dedent();
-        code.add("};");
         code.dedent();
         code.add("}");
 
@@ -1453,8 +1486,16 @@ public class SeTextGenerator {
         code.add("private static final class ReducibleNonTerminalsReduced {");
         code.indent();
         code.add("/** See {@code Parser.reducibleNonTerminalsReduced}. */");
-        code.add("private static final int[][][] REDUCIBLE_NON_TERMINALS_REDUCED = new int[][][] {");
+        code.add("private static final int[][][] REDUCIBLE_NON_TERMINALS_REDUCED = new int[%d][][];",
+                aut.states.size());
+        code.add();
+        code.add("static {");
         code.indent();
+        for (int si = 0; si < aut.states.size(); si++) {
+            code.add("init%d();", si);
+        }
+        code.dedent();
+        code.add("}");
         for (int si = 0; si < aut.states.size(); si++) {
             LALR1AutomatonState state = aut.states.get(si);
 
@@ -1537,21 +1578,25 @@ public class SeTextGenerator {
                 }
             }
 
+            code.add();
+            code.add("/** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [%d]}. */", si);
+            code.add("private static void init%d() {", si);
+            code.indent();
             if (lines.isEmpty()) {
-                code.add("{}, // state %d", si);
+                code.add("REDUCIBLE_NON_TERMINALS_REDUCED[%d] = new int[][] {};", si);
             } else {
-                Collections.sort(lines, Strings.SORTER);
-                code.add("{ // state %d", si);
+                code.add("REDUCIBLE_NON_TERMINALS_REDUCED[%d] = new int[][] {", si);
                 code.indent();
+                Collections.sort(lines, Strings.SORTER);
                 for (String line: lines) {
                     code.add(line);
                 }
                 code.dedent();
-                code.add("},");
+                code.add("};");
             }
+            code.dedent();
+            code.add("}");
         }
-        code.dedent();
-        code.add("};");
         code.dedent();
         code.add("}");
 
