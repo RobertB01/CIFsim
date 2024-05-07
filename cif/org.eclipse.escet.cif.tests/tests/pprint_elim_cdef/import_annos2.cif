@@ -15,3 +15,13 @@
 @@d
 
 import "import_annos1.cif";
+
+@a(x: 3)
+@b(x: 4)
+group g1:
+  @a(x: 7)
+  @b(x: 8)
+  group g2:
+    // Empty group.
+  end
+end

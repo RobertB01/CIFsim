@@ -62,6 +62,10 @@ import org.eclipse.escet.common.java.Sets;
  * applying this transformation, or otherwise ensure that renaming does not result in an invalid specification. If this
  * transformation renames enumeration literals, a warning is printed.
  * </p>
+ *
+ * <p>
+ * The annotations of all groups are removed.
+ * </p>
  */
 public class ElimGroups implements CifToCifTransformation {
     /** The groups to eliminate. */

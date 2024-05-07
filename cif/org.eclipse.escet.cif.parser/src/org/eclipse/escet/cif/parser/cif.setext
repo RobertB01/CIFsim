@@ -281,6 +281,7 @@ GroupDecl : Decl
           |       OptSupKind @AUTOMATONKW  DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
           |          SupKind               DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW
           |       @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
+          | Annos @GROUPKW                       Identifier              COLONTK GroupBody     @ENDKW
           |       OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
           | Annos OptSupKind @AUTOMATONKW        Identifier              COLONTK AutomatonBody @ENDKW
           |          SupKind                     Identifier              COLONTK AutomatonBody @ENDKW

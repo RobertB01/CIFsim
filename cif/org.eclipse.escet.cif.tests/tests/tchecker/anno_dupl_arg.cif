@@ -51,6 +51,7 @@ automaton a3:
     edge evt;
 end
 
+@a(x: 1, x: 2)
 group g1:
   @a(x: 5, x: 6)
   alg int alg1 = a3.x;

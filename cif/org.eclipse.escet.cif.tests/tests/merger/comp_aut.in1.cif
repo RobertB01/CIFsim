@@ -11,16 +11,20 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+@cif:typechecker:tests:anno1(arg: true)
+@cif:typechecker:tests:anno3(x: 1)
 group g:
   event e1;
 
+  @cif:typechecker:tests:anno1(arg: true)
+  @cif:typechecker:tests:anno3(x: 2)
   group a:
     event e2;
   end
 end
 
 @cif:typechecker:tests:anno1(arg: true)
-@cif:typechecker:tests:anno3
+@cif:typechecker:tests:anno3(x: 3)
 plant b:
   event e3;
   location:
@@ -28,6 +32,8 @@ plant b:
     edge g.e1, g.a.e2, e3, c.e4;
 end
 
+@cif:typechecker:tests:anno1(arg: true)
+@cif:typechecker:tests:anno3(x: 4)
 group c:
   event e4;
 end

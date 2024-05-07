@@ -11,20 +11,26 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+@cif:typechecker:tests:anno2
+@cif:typechecker:tests:anno4(x: 5)
 group g:
   event e1;
 
+  @cif:typechecker:tests:anno2
+  @cif:typechecker:tests:anno4(x: 6)
   group a:
     event e2;
   end
 end
 
+@cif:typechecker:tests:anno2
+@cif:typechecker:tests:anno4(x: 7)
 group b:
   event e3;
 end
 
 @cif:typechecker:tests:anno2
-@cif:typechecker:tests:anno4
+@cif:typechecker:tests:anno4(x: 8)
 plant c:
   event e4;
   location:

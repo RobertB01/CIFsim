@@ -422,23 +422,28 @@ implements CifScanner.Hooks,
         // return null;
     }
 
+    @Override // GroupDecl : Annos @GROUPKW Identifier COLONTK GroupBody @ENDKW;
+    public ADecl parseGroupDecl12(List<AAnnotation> l1, Token t2, AIdentifier a3, AGroupBody a5, Token t6) {
+        // return null;
+    }
+
     @Override // GroupDecl : OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl12(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl13(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         // return null;
     }
 
     @Override // GroupDecl : Annos OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl13(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6, Token t7) {
+    public ADecl parseGroupDecl14(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6, Token t7) {
         // return null;
     }
 
     @Override // GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl14(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
+    public ADecl parseGroupDecl15(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
         // return null;
     }
 
     @Override // GroupDecl : Annos SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl15(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl16(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         // return null;
     }
 

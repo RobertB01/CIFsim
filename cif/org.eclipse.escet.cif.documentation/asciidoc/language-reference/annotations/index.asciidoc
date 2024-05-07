@@ -113,6 +113,7 @@ Currently, annotations are only supported for the following elements in CIF spec
 * Function parameters.
 * Function variables.
 * Functions.
+* Groups.
 * Input variables.
 * Locations of automata.
 * Specifications.
