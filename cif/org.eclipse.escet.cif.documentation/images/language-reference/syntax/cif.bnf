@@ -64,7 +64,8 @@ Decl :       "type" TypeDefs ";"
      | Annos "cont" ContDecls ";"
      | "equation" Equations ";"
      | "initial" Expressions ";"
-     | InvariantDecls
+     |       InvariantDecls
+     | Annos InvariantDecls
      | "marked" Expressions ";"
      | IoDecl
      ;
@@ -204,7 +205,7 @@ LocationElements : LocationElement
 
 LocationElement : "initial" ";"
                 | "initial" Expressions ";"
-                | InvariantDecls
+                | OptDoubleAnnos InvariantDecls
                 | "equation" Equations ";"
                 | "marked" ";"
                 | "marked" Expressions ";"

@@ -326,7 +326,8 @@ Decl :       @TYPEKW TypeDefs SEMICOLTK
      | Annos @CONTKW ContDecls SEMICOLTK
      | @EQUATIONKW Equations SEMICOLTK
      | @INITIALKW Expressions SEMICOLTK
-     | InvariantDecls
+     |       InvariantDecls
+     | Annos InvariantDecls
      | @MARKEDKW Expressions SEMICOLTK
      | IoDecl
      ;
@@ -496,7 +497,7 @@ LocationElements : LocationElement
 {automata.ALocationElement}
 LocationElement : @INITIALKW SEMICOLTK
                 | @INITIALKW Expressions SEMICOLTK
-                | InvariantDecls
+                | OptDoubleAnnos InvariantDecls
                 | @EQUATIONKW Equations SEMICOLTK
                 | @MARKEDKW SEMICOLTK
                 | @MARKEDKW Expressions SEMICOLTK
