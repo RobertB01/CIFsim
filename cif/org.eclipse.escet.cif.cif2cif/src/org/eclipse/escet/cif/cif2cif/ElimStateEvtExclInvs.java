@@ -80,7 +80,8 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  *
  * <p>
- * This transformation removes the names of named state/event exclusion invariants.
+ * This transformation removes the names of named state/event exclusion invariants. The annotations of the state/event
+ * exclusion invariants are removed as well.
  * </p>
  *
  * @see ElimLocRefExprs

@@ -51,6 +51,16 @@ automaton a3:
     edge evt;
 end
 
+automaton a4:
+  @a(x: 1, x: 2)
+  invariant true;
+
+  location:
+    initial;
+    @@a(x: 3, x: 4)
+    invariant false;
+end
+
 @a(x: 1, x: 2)
 group g1:
   @a(x: 5, x: 6)

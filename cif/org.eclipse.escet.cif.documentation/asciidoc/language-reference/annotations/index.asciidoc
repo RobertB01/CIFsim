@@ -32,7 +32,8 @@ For a complete list of the annotations that are bundled with CIF, see the <<lang
 === Syntax
 
 Annotations are optional.
-If specified, annotations are indicated by a <<lang-ref-syntax-lexical-specannoname,specification annotation name>> (for specifications) or a regular <<lang-ref-syntax-lexical-annoname,annotation name>> (for all other elements of specifications).
+If specified, annotations are indicated by a <<lang-ref-syntax-lexical-regularannoname,regular annotation name>> (for most elements of specifications) or <<lang-ref-syntax-lexical-doubleannoname,double at-sign annotation name>> (for some elements of specifications).
+See below for further details on which elements require which kind of annotation name.
 
 Optionally, the annotation may have arguments.
 If the annotation has arguments, these are put between parentheses, `(` and `)`.
@@ -100,26 +101,65 @@ Here is an example, where the specification with the annotated input variable is
 input bool x;
 ----
 
-Currently, annotations are only supported for the following elements in CIF specifications:
+Annotations are only supported for the following elements in CIF specifications.
+Most require regular annotation names, while some require double at-sign annotation names.
 
-* Algebraic variables.
-* Automata.
-* Constants.
-* Continuous variables.
-* Discrete variables.
-* Enumeration literals.
-* Enumerations.
-* Events.
-* Function parameters.
-* Function variables.
-* Functions.
-* Groups.
-* Input variables.
-* Locations of automata.
-* Specifications.
-* Type declarations.
+[cols="1,2"]
+|===
+| Element | Annotation name
 
-This will be extended to other elements of specifications in the future.
+| Algebraic variables
+| Regular
+
+| Automata
+| Regular
+
+| Constants
+| Regular
+
+| Continuous variables
+| Regular
+
+| Discrete variables
+| Regular
+
+| Enumeration literals
+| Regular
+
+| Enumerations
+| Regular
+
+| Events
+| Regular
+
+| Function parameters
+| Regular
+
+| Function variables
+| Regular
+
+| Functions
+| Regular
+
+| Groups
+| Regular
+
+| Input variables
+| Regular
+
+| Invariants
+| Regular (for invariants in components) +
+  Double at-sign (for invariants in locations)
+
+| Locations of automata
+| Regular
+
+| Specifications
+| Double at-sign
+
+| Type declarations
+| Regular
+|===
 
 [[lang-ref-extensions-annotations-constraints]]
 === Constraints

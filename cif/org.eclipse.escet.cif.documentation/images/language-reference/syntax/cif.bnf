@@ -1,4 +1,4 @@
-Specification : OptSpecAnnos GroupBody
+Specification : OptDoubleAnnos GroupBody
               ;
 
 GroupBody : OptGroupDecls
@@ -64,7 +64,8 @@ Decl :       "type" TypeDefs ";"
      | Annos "cont" ContDecls ";"
      | "equation" Equations ";"
      | "initial" Expressions ";"
-     | InvariantDecls
+     |       InvariantDecls
+     | Annos InvariantDecls
      | "marked" Expressions ";"
      | IoDecl
      ;
@@ -204,7 +205,7 @@ LocationElements : LocationElement
 
 LocationElement : "initial" ";"
                 | "initial" Expressions ";"
-                | InvariantDecls
+                | OptDoubleAnnos InvariantDecls
                 | "equation" Equations ";"
                 | "marked" ";"
                 | "marked" Expressions ";"
@@ -598,14 +599,14 @@ Name : Identifier
 
 ///////////////////////////////////////////////////////////////////////////////
 
-OptSpecAnnos : /* empty */
-             | OptSpecAnnos SpecAnnotation
-             ;
-
-SpecAnnotation : SPECANNOTATIONNAMETK
-               | SPECANNOTATIONNAMETK "(" ")"
-               | SPECANNOTATIONNAMETK "(" AnnotationArgs OptComma ")"
+OptDoubleAnnos : /* empty */
+               | OptDoubleAnnos DoubleAnnotation
                ;
+
+DoubleAnnotation : DOUBLE_ANNOTATION_NAMETK
+                 | DOUBLE_ANNOTATION_NAMETK "(" ")"
+                 | DOUBLE_ANNOTATION_NAMETK "(" AnnotationArgs OptComma ")"
+                 ;
 
 OptAnnos : /* empty */
          | OptAnnos Annotation
@@ -615,9 +616,9 @@ Annos : Annotation
       | Annos Annotation
       ;
 
-Annotation : ANNOTATIONNAMETK
-           | ANNOTATIONNAMETK "(" ")"
-           | ANNOTATIONNAMETK "(" AnnotationArgs OptComma ")"
+Annotation : REGULAR_ANNOTATION_NAMETK
+           | REGULAR_ANNOTATION_NAMETK "(" ")"
+           | REGULAR_ANNOTATION_NAMETK "(" AnnotationArgs OptComma ")"
            ;
 
 AnnotationArgs : AnnotationArg

@@ -77,7 +77,7 @@
         eType="#//declarations/Declaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IoDecl" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Invariant" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+  <eClassifiers xsi:type="ecore:EClass" name="Invariant" eSuperTypes="#//annotations/AnnotatedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//CifIdentifier"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="supKind" lowerBound="1"
         eType="#//SupKind"/>

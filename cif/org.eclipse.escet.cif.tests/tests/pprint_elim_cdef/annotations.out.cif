@@ -116,6 +116,26 @@ automaton a3:
     initial;
     edge event1a, event1b, event2a, event2b, event3a, event3b, event4a, event4b;
 end
+automaton a4:
+  @a(b: 1)
+  @a(b: 2)
+  invariant 1 = 1;
+  @a(b: 1)
+  @a(b: 2)
+  invariant 2 = 2;
+  @a(b: 3)
+  plant invariant 3 = 3;
+  @a(b: 4)
+  plant invariant 4 = 4;
+  location:
+    initial;
+    @@a(b: 5)
+    @@a(b: 6)
+    invariant 5 = 5;
+    @@a(b: 5)
+    @@a(b: 6)
+    invariant 6 = 6;
+end
 @a(b: 1)
 group g1:
   @a(b: 3)

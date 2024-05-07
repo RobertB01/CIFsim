@@ -212,6 +212,7 @@ public class CifSwitch<T> extends Switch<T>
             {
                 Invariant invariant = (Invariant)theEObject;
                 T result = caseInvariant(invariant);
+                if (result == null) result = caseAnnotatedObject(invariant);
                 if (result == null) result = casePositionObject(invariant);
                 if (result == null) result = defaultCase(theEObject);
                 return result;

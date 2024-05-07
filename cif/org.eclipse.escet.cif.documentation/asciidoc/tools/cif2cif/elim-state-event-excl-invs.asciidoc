@@ -159,4 +159,5 @@ To simply them, apply the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF t
 
 === Annotations
 
-This transformation does not process, add, or remove any annotations.
+This transformation does not process or add any annotations.
+The annotations of all state/event exclusion invariants are removed.

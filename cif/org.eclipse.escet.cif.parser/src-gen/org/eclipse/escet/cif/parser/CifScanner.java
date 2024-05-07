@@ -380,8 +380,8 @@ public final class CifScanner extends Scanner {
         "NUMBERTK=\"0|[1-9][0-9]*\"", // 163
         "REALTK=\"(0|[1-9][0-9]*)(.[0-9]+|(.[0-9]+)?[eE][\\-\\+]?[0-9]+)\"", // 164
         "STRINGTK=\"\\\"([^\\\\\"\\n]|\\[nt\\\\\"])*\\\"\"", // 165
-        "ANNOTATIONNAMETK=\"@{uidentifier}(:{uidentifier})*\"", // 166
-        "SPECANNOTATIONNAMETK=\"@@{uidentifier}(:{uidentifier})*\"", // 167
+        "REGULAR_ANNOTATION_NAMETK=\"@{uidentifier}(:{uidentifier})*\"", // 166
+        "DOUBLE_ANNOTATION_NAMETK=\"@@{uidentifier}(:{uidentifier})*\"", // 167
         "\"//.*\"", // 168
         "\"/\\*\"", // 169
         "\"[ \\t\\r\\n]+\"", // 170
@@ -559,8 +559,8 @@ public final class CifScanner extends Scanner {
         "NUMBERTK", // 163
         "REALTK", // 164
         "STRINGTK", // 165
-        "ANNOTATIONNAMETK", // 166
-        "SPECANNOTATIONNAMETK", // 167
+        "REGULAR_ANNOTATION_NAMETK", // 166
+        "DOUBLE_ANNOTATION_NAMETK", // 167
         null, // 168
         null, // 169
         null, // 170
@@ -738,8 +738,8 @@ public final class CifScanner extends Scanner {
         "an integer literal", // 163
         "a real literal", // 164
         "a string literal", // 165
-        "an annotation name", // 166
-        "a specification annotation name", // 167
+        "a regular annotation name", // 166
+        "a double at-sign annotation name", // 167
         null, // 168
         "\"/*\"", // 169
         null, // 170
@@ -49294,10 +49294,10 @@ public final class CifScanner extends Scanner {
             case 165:
                 return;
             case 166:
-                hooks.scanAnnoName(token);
+                hooks.scanRegularAnnoName(token);
                 return;
             case 167:
-                hooks.scanSpecAnnoName(token);
+                hooks.scanDoubleAnnoName(token);
                 return;
             case 168:
                 return;
@@ -49488,19 +49488,19 @@ public final class CifScanner extends Scanner {
     /** Scanner call back hooks for {@link CifScanner}. */
     public interface Hooks {
         /**
-         * Call back hook "scanAnnoName" for {@link CifScanner}.
+         * Call back hook "scanDoubleAnnoName" for {@link CifScanner}.
          * May perform in-place modifications to the scanned text of the token.
          *
          * @param token The scanned token.
          */
-        public void scanAnnoName(Token token);
+        public void scanDoubleAnnoName(Token token);
 
         /**
-         * Call back hook "scanSpecAnnoName" for {@link CifScanner}.
+         * Call back hook "scanRegularAnnoName" for {@link CifScanner}.
          * May perform in-place modifications to the scanned text of the token.
          *
          * @param token The scanned token.
          */
-        public void scanSpecAnnoName(Token token);
+        public void scanRegularAnnoName(Token token);
     }
 }

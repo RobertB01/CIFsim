@@ -16,14 +16,18 @@ package org.eclipse.escet.cif.typechecker.declwrap;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.BOOL_TYPE_HINT;
 import static org.eclipse.escet.cif.typechecker.CifExprsTypeChecker.transExpression;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifEventRefTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
@@ -69,8 +73,11 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
 
     @Override
     public void tcheckFull() {
-        // Do the 'for use' check.
+        // First, check 'for use', and make sure we haven't checked it before.
         tcheckForUse();
+        if (isCheckedFull()) {
+            return;
+        }
 
         // Do the 'full' check.
         tcheckFull(tchecker, scope, invariantInfo);
@@ -105,5 +112,10 @@ public class InvDeclWrap extends DeclWrap<Invariant> {
             Expression eventRef = CifEventRefTypeChecker.checkEventRef(invariantInfo.event, scope, tchecker);
             invariantInfo.mmInv.setEvent(eventRef);
         }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(invariantInfo.astInvDecl.annotations, scope,
+                tchecker);
+        invariantInfo.mmInv.getAnnotations().addAll(annos);
     }
 }

@@ -2428,6 +2428,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Invariant} class.
      *
+     * @param annotations The "annotations" of the new "Invariant". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param event The "event" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "event", or to set it later.
      * @param invKind The "invKind" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "invKind" later.
      * @param name The "name" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
@@ -2436,8 +2437,11 @@ public class CifConstructors {
      * @param supKind The "supKind" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "supKind" later.
      * @return A new instance of the {@link Invariant} class.
      */
-    public static Invariant newInvariant(Expression event, InvKind invKind, String name, Position position, Expression predicate, SupKind supKind) {
+    public static Invariant newInvariant(List<Annotation> annotations, Expression event, InvKind invKind, String name, Position position, Expression predicate, SupKind supKind) {
         Invariant rslt_ = newInvariant();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (event != null) {
             rslt_.setEvent(event);
         }

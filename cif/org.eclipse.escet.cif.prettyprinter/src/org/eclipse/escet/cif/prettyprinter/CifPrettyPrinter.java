@@ -368,6 +368,10 @@ public final class CifPrettyPrinter {
         if (!invs.isEmpty()) {
             anythingAdded = true;
             for (Invariant inv: invs) {
+                // Add annotations.
+                add(inv.getAnnotations());
+
+                // Add invariant.
                 StringBuilder line = new StringBuilder();
                 if (inv.getSupKind() != SupKind.NONE) {
                     line.append(kindToStr(inv.getSupKind()));
@@ -2051,7 +2055,18 @@ public final class CifPrettyPrinter {
      */
     public void add(Annotation anno) {
         StringBuilder line = new StringBuilder();
-        if (anno.eContainer() instanceof Specification) {
+
+        EObject parent = anno.eContainer();
+        boolean doubleAtSign = false;
+        if (parent instanceof Specification) {
+            // Specification.
+            doubleAtSign = true;
+        } else if (parent instanceof Invariant && parent.eContainer() instanceof Location) {
+            // Invariant in a location.
+            doubleAtSign = true;
+        }
+
+        if (doubleAtSign) {
             line.append(fmt("@@%s", anno.getName()));
         } else {
             line.append(fmt("@%s", anno.getName()));

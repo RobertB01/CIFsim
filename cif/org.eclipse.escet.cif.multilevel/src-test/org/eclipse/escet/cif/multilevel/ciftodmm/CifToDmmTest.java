@@ -315,8 +315,8 @@ public class CifToDmmTest {
         Automaton reqAut = makeAddRequirementAut("r");
         InputVariable plantInput = makeInputVar("pinput");
         Event evt = newEvent(null, true, "evt", null, null);
-        Invariant reqInv = newInvariant(newEventExpression(evt, null, null), InvKind.EVENT_DISABLES, "reqInv", null,
-                newBoolExpression(null, newBoolType(), true), SupKind.REQUIREMENT);
+        Invariant reqInv = newInvariant(null, newEventExpression(evt, null, null), InvKind.EVENT_DISABLES, "reqInv",
+                null, newBoolExpression(null, newBoolType(), true), SupKind.REQUIREMENT);
 
         spec.getDeclarations().add(plantInput);
         spec.getDeclarations().add(evt);
@@ -758,7 +758,7 @@ public class CifToDmmTest {
         Automaton req1 = makeAddRequirementAut("req1");
         Location loc1 = addLocation(req1, "loc1");
 
-        Invariant r2 = newInvariant(newEventExpression(evt2, null, null), InvKind.EVENT_DISABLES, "r2", null,
+        Invariant r2 = newInvariant(null, newEventExpression(evt2, null, null), InvKind.EVENT_DISABLES, "r2", null,
                 newLocationExpression(loc1, null, newBoolType()), SupKind.REQUIREMENT);
         spec.getInvariants().add(r2);
 

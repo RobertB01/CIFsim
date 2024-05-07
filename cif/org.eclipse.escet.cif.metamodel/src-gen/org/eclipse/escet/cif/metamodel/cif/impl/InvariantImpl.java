@@ -27,9 +27,9 @@ import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl;
 
-import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectImpl;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,7 +48,7 @@ import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectI
  *
  * @generated
  */
-public class InvariantImpl extends PositionObjectImpl implements Invariant
+public class InvariantImpl extends AnnotatedObjectImpl implements Invariant
 {
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
