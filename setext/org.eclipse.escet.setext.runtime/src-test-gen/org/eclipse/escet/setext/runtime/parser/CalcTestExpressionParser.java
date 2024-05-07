@@ -1384,172 +1384,600 @@ public final class CalcTestExpressionParser extends Parser<Double> {
     /** See {@code Parser.firstTerminals}. */
     private static final class FirstTerminals {
         /** See {@code Parser.firstTerminals}. */
-        private static final int[][] FIRST_TERMINALS = new int[][] {
-            {0, 1, 2, 4, 8}, // state 0
-            {}, // state 1
-            {}, // state 2
-            {}, // state 3
-            {0, 1, 2, 4, 8}, // state 4
-            {0, 1, 2, 4, 8}, // state 5
-            {}, // state 6
-            {3, 4, 12}, // state 7
-            {}, // state 8
-            {5, 6}, // state 9
-            {0, 1, 2, 4, 8}, // state 10
-            {0, 1, 2, 4, 8}, // state 11
-            {}, // state 12
-            {}, // state 13
-            {0, 1, 2, 4, 8}, // state 14
-            {0, 1, 2, 4, 8}, // state 15
-            {5, 6}, // state 16
-            {5, 6}, // state 17
-            {3, 4, 9}, // state 18
-            {}, // state 19
-            {}, // state 20
-        };
+        private static final int[][] FIRST_TERMINALS = new int[21][];
+
+        static {
+            init0();
+            init1();
+            init2();
+            init3();
+            init4();
+            init5();
+            init6();
+            init7();
+            init8();
+            init9();
+            init10();
+            init11();
+            init12();
+            init13();
+            init14();
+            init15();
+            init16();
+            init17();
+            init18();
+            init19();
+            init20();
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [0]}. */
+        private static void init0() {
+            FIRST_TERMINALS[0] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [1]}. */
+        private static void init1() {
+            FIRST_TERMINALS[1] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [2]}. */
+        private static void init2() {
+            FIRST_TERMINALS[2] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [3]}. */
+        private static void init3() {
+            FIRST_TERMINALS[3] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [4]}. */
+        private static void init4() {
+            FIRST_TERMINALS[4] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [5]}. */
+        private static void init5() {
+            FIRST_TERMINALS[5] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [6]}. */
+        private static void init6() {
+            FIRST_TERMINALS[6] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [7]}. */
+        private static void init7() {
+            FIRST_TERMINALS[7] = new int[] {3, 4, 12};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [8]}. */
+        private static void init8() {
+            FIRST_TERMINALS[8] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [9]}. */
+        private static void init9() {
+            FIRST_TERMINALS[9] = new int[] {5, 6};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [10]}. */
+        private static void init10() {
+            FIRST_TERMINALS[10] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [11]}. */
+        private static void init11() {
+            FIRST_TERMINALS[11] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [12]}. */
+        private static void init12() {
+            FIRST_TERMINALS[12] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [13]}. */
+        private static void init13() {
+            FIRST_TERMINALS[13] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [14]}. */
+        private static void init14() {
+            FIRST_TERMINALS[14] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [15]}. */
+        private static void init15() {
+            FIRST_TERMINALS[15] = new int[] {0, 1, 2, 4, 8};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [16]}. */
+        private static void init16() {
+            FIRST_TERMINALS[16] = new int[] {5, 6};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [17]}. */
+        private static void init17() {
+            FIRST_TERMINALS[17] = new int[] {5, 6};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [18]}. */
+        private static void init18() {
+            FIRST_TERMINALS[18] = new int[] {3, 4, 9};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [19]}. */
+        private static void init19() {
+            FIRST_TERMINALS[19] = new int[] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS}{@code [20]}. */
+        private static void init20() {
+            FIRST_TERMINALS[20] = new int[] {};
+        }
     }
 
     /** See {@code Parser.firstTerminalsReduced}. */
     private static final class FirstTerminalsReduced {
         /** See {@code Parser.firstTerminalsReduced}. */
-        private static final int[][][] FIRST_TERMINALS_REDUCED = new int[][][] {
-            { // state 0
+        private static final int[][][] FIRST_TERMINALS_REDUCED = new int[21][][];
+
+        static {
+            init0();
+            init1();
+            init2();
+            init3();
+            init4();
+            init5();
+            init6();
+            init7();
+            init8();
+            init9();
+            init10();
+            init11();
+            init12();
+            init13();
+            init14();
+            init15();
+            init16();
+            init17();
+            init18();
+            init19();
+            init20();
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [0]}. */
+        private static void init0() {
+            FIRST_TERMINALS_REDUCED[0] = new int[][] {
                 {3, 3, 4, 12},
                 {4, 5, 6},
-            },
-            {}, // state 1
-            {}, // state 2
-            {}, // state 3
-            {}, // state 4
-            { // state 5
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [1]}. */
+        private static void init1() {
+            FIRST_TERMINALS_REDUCED[1] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [2]}. */
+        private static void init2() {
+            FIRST_TERMINALS_REDUCED[2] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [3]}. */
+        private static void init3() {
+            FIRST_TERMINALS_REDUCED[3] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [4]}. */
+        private static void init4() {
+            FIRST_TERMINALS_REDUCED[4] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [5]}. */
+        private static void init5() {
+            FIRST_TERMINALS_REDUCED[5] = new int[][] {
                 {3, 3, 4, 9},
                 {4, 5, 6},
-            },
-            {}, // state 6
-            {}, // state 7
-            {}, // state 8
-            {}, // state 9
-            {}, // state 10
-            {}, // state 11
-            {}, // state 12
-            {}, // state 13
-            { // state 14
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [6]}. */
+        private static void init6() {
+            FIRST_TERMINALS_REDUCED[6] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [7]}. */
+        private static void init7() {
+            FIRST_TERMINALS_REDUCED[7] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [8]}. */
+        private static void init8() {
+            FIRST_TERMINALS_REDUCED[8] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [9]}. */
+        private static void init9() {
+            FIRST_TERMINALS_REDUCED[9] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [10]}. */
+        private static void init10() {
+            FIRST_TERMINALS_REDUCED[10] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [11]}. */
+        private static void init11() {
+            FIRST_TERMINALS_REDUCED[11] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [12]}. */
+        private static void init12() {
+            FIRST_TERMINALS_REDUCED[12] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [13]}. */
+        private static void init13() {
+            FIRST_TERMINALS_REDUCED[13] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [14]}. */
+        private static void init14() {
+            FIRST_TERMINALS_REDUCED[14] = new int[][] {
                 {4, 5, 6},
-            },
-            { // state 15
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [15]}. */
+        private static void init15() {
+            FIRST_TERMINALS_REDUCED[15] = new int[][] {
                 {4, 5, 6},
-            },
-            {}, // state 16
-            {}, // state 17
-            {}, // state 18
-            {}, // state 19
-            {}, // state 20
-        };
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [16]}. */
+        private static void init16() {
+            FIRST_TERMINALS_REDUCED[16] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [17]}. */
+        private static void init17() {
+            FIRST_TERMINALS_REDUCED[17] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [18]}. */
+        private static void init18() {
+            FIRST_TERMINALS_REDUCED[18] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [19]}. */
+        private static void init19() {
+            FIRST_TERMINALS_REDUCED[19] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [20]}. */
+        private static void init20() {
+            FIRST_TERMINALS_REDUCED[20] = new int[][] {};
+        }
     }
 
     /** See {@code Parser.reducibleNonTerminals}. */
     private static final class ReducibleNonTerminals {
         /** See {@code Parser.reducibleNonTerminals}. */
-        private static final int[][][] REDUCIBLE_NON_TERMINALS = new int[][][] {
-            {}, // state 0
-            { // state 1
+        private static final int[][][] REDUCIBLE_NON_TERMINALS = new int[21][][];
+
+        static {
+            init0();
+            init1();
+            init2();
+            init3();
+            init4();
+            init5();
+            init6();
+            init7();
+            init8();
+            init9();
+            init10();
+            init11();
+            init12();
+            init13();
+            init14();
+            init15();
+            init16();
+            init17();
+            init18();
+            init19();
+            init20();
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [0]}. */
+        private static void init0() {
+            REDUCIBLE_NON_TERMINALS[0] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [1]}. */
+        private static void init1() {
+            REDUCIBLE_NON_TERMINALS[1] = new int[][] {
                 {6, 1},
-            },
-            { // state 2
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [2]}. */
+        private static void init2() {
+            REDUCIBLE_NON_TERMINALS[2] = new int[][] {
                 {6, 1},
-            },
-            { // state 3
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [3]}. */
+        private static void init3() {
+            REDUCIBLE_NON_TERMINALS[3] = new int[][] {
                 {6, 1},
-            },
-            {}, // state 4
-            {}, // state 5
-            { // state 6
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [4]}. */
+        private static void init4() {
+            REDUCIBLE_NON_TERMINALS[4] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [5]}. */
+        private static void init5() {
+            REDUCIBLE_NON_TERMINALS[5] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [6]}. */
+        private static void init6() {
+            REDUCIBLE_NON_TERMINALS[6] = new int[][] {
                 {5, 1},
-            },
-            {}, // state 7
-            { // state 8
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [7]}. */
+        private static void init7() {
+            REDUCIBLE_NON_TERMINALS[7] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [8]}. */
+        private static void init8() {
+            REDUCIBLE_NON_TERMINALS[8] = new int[][] {
                 {4, 1},
-            },
-            { // state 9
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [9]}. */
+        private static void init9() {
+            REDUCIBLE_NON_TERMINALS[9] = new int[][] {
                 {3, 1},
-            },
-            {}, // state 10
-            {}, // state 11
-            { // state 12
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [10]}. */
+        private static void init10() {
+            REDUCIBLE_NON_TERMINALS[10] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [11]}. */
+        private static void init11() {
+            REDUCIBLE_NON_TERMINALS[11] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [12]}. */
+        private static void init12() {
+            REDUCIBLE_NON_TERMINALS[12] = new int[][] {
                 {4, 3},
-            },
-            { // state 13
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [13]}. */
+        private static void init13() {
+            REDUCIBLE_NON_TERMINALS[13] = new int[][] {
                 {4, 3},
-            },
-            {}, // state 14
-            {}, // state 15
-            { // state 16
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [14]}. */
+        private static void init14() {
+            REDUCIBLE_NON_TERMINALS[14] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [15]}. */
+        private static void init15() {
+            REDUCIBLE_NON_TERMINALS[15] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [16]}. */
+        private static void init16() {
+            REDUCIBLE_NON_TERMINALS[16] = new int[][] {
                 {3, 3},
-            },
-            { // state 17
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [17]}. */
+        private static void init17() {
+            REDUCIBLE_NON_TERMINALS[17] = new int[][] {
                 {3, 3},
-            },
-            {}, // state 18
-            { // state 19
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [18]}. */
+        private static void init18() {
+            REDUCIBLE_NON_TERMINALS[18] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [19]}. */
+        private static void init19() {
+            REDUCIBLE_NON_TERMINALS[19] = new int[][] {
                 {6, 3},
-            },
-            { // state 20
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [20]}. */
+        private static void init20() {
+            REDUCIBLE_NON_TERMINALS[20] = new int[][] {
                 {5, 2},
-            },
-        };
+            };
+        }
     }
 
     /** See {@code Parser.reducibleNonTerminalsReduced}. */
     private static final class ReducibleNonTerminalsReduced {
         /** See {@code Parser.reducibleNonTerminalsReduced}. */
-        private static final int[][][] REDUCIBLE_NON_TERMINALS_REDUCED = new int[][][] {
-            { // state 0
+        private static final int[][][] REDUCIBLE_NON_TERMINALS_REDUCED = new int[21][][];
+
+        static {
+            init0();
+            init1();
+            init2();
+            init3();
+            init4();
+            init5();
+            init6();
+            init7();
+            init8();
+            init9();
+            init10();
+            init11();
+            init12();
+            init13();
+            init14();
+            init15();
+            init16();
+            init17();
+            init18();
+            init19();
+            init20();
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [0]}. */
+        private static void init0() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[0] = new int[][] {
                 {4, 3, 0},
                 {5, 4, 0},
                 {6, 5, 0},
-            },
-            {}, // state 1
-            {}, // state 2
-            {}, // state 3
-            { // state 4
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [1]}. */
+        private static void init1() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[1] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [2]}. */
+        private static void init2() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[2] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [3]}. */
+        private static void init3() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[3] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [4]}. */
+        private static void init4() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[4] = new int[][] {
                 {5, 5, 1},
                 {6, 5, 0},
-            },
-            { // state 5
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [5]}. */
+        private static void init5() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[5] = new int[][] {
                 {4, 3, 0},
                 {5, 4, 0},
                 {6, 5, 0},
-            },
-            {}, // state 6
-            {}, // state 7
-            {}, // state 8
-            {}, // state 9
-            { // state 10
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [6]}. */
+        private static void init6() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[6] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [7]}. */
+        private static void init7() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[7] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [8]}. */
+        private static void init8() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[8] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [9]}. */
+        private static void init9() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[9] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [10]}. */
+        private static void init10() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[10] = new int[][] {
                 {5, 4, 2},
                 {6, 5, 0},
-            },
-            { // state 11
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [11]}. */
+        private static void init11() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[11] = new int[][] {
                 {5, 4, 2},
                 {6, 5, 0},
-            },
-            {}, // state 12
-            {}, // state 13
-            { // state 14
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [12]}. */
+        private static void init12() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[12] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [13]}. */
+        private static void init13() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[13] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [14]}. */
+        private static void init14() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[14] = new int[][] {
                 {4, 3, 2},
                 {5, 4, 0},
                 {6, 5, 0},
-            },
-            { // state 15
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [15]}. */
+        private static void init15() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[15] = new int[][] {
                 {4, 3, 2},
                 {5, 4, 0},
                 {6, 5, 0},
-            },
-            {}, // state 16
-            {}, // state 17
-            {}, // state 18
-            {}, // state 19
-            {}, // state 20
-        };
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [16]}. */
+        private static void init16() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[16] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [17]}. */
+        private static void init17() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[17] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [18]}. */
+        private static void init18() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[18] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [19]}. */
+        private static void init19() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[19] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [20]}. */
+        private static void init20() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[20] = new int[][] {};
+        }
     }
 
     /** Parser call back hooks for {@link CalcTestExpressionParser}. */
