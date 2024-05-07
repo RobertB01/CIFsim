@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.typechecker.declwrap;
 
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.parser.ast.AInvariant;
+import org.eclipse.escet.cif.parser.ast.AInvariantDecl;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 
 /**
@@ -22,6 +23,9 @@ import org.eclipse.escet.cif.parser.ast.tokens.AName;
  * wrapped in an {@link InvDeclWrap} for inclusion into the symbol table.
  */
 public class InvariantInfo {
+    /** The CIF AST representation of the invariant declaration. */
+    public final AInvariantDecl astInvDecl;
+
     /** The CIF AST representation of the invariant. */
     public final AInvariant astInv;
 
@@ -34,11 +38,13 @@ public class InvariantInfo {
     /**
      * Constructor for the {@link InvariantInfo} class.
      *
+     * @param astInvDecl The CIF AST representation of the invariant declaration.
      * @param astInv The CIF AST representation of the invariant.
      * @param event The CIF AST name of the referenced event, or {@code null} for state invariants.
      * @param mmInv The CIF metamodel representation of the invariant.
      */
-    public InvariantInfo(AInvariant astInv, AName event, Invariant mmInv) {
+    public InvariantInfo(AInvariantDecl astInvDecl, AInvariant astInv, AName event, Invariant mmInv) {
+        this.astInvDecl = astInvDecl;
         this.astInv = astInv;
         this.event = event;
         this.mmInv = mmInv;

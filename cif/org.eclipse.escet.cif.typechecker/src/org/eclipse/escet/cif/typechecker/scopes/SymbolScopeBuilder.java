@@ -891,7 +891,7 @@ public class SymbolScopeBuilder {
 
                 // Add invariant type check information to the parent scope, to be checked later.
                 AName event = astInv.events == null ? null : astInv.events.get(i);
-                InvariantInfo invariantInfo = new InvariantInfo(astInv, event, mmInv);
+                InvariantInfo invariantInfo = new InvariantInfo(invariantDecl, astInv, event, mmInv);
                 parent.addInvariant(invariantInfo);
             }
         }
