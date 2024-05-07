@@ -184,5 +184,6 @@ Not all simplifications that could potentially be performed are implemented in t
 
 === Annotations
 
-This transformation does not process, add, or remove any annotations.
+This transformation does not process or add any annotations.
 The values of annotation arguments may be simplified.
+Invariants that don't add any restrictions may be removed, also removing their annotations.

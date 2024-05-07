@@ -195,10 +195,10 @@ Examples:
 indexterm:[syntax,annotation name]
 indexterm:[annotation,name]
 
-[[lang-ref-syntax-lexical-annoname]]
-`ANNOTATIONNAMETK`::
+[[lang-ref-syntax-lexical-regularannoname]]
+`REGULAR_ANNOTATION_NAMETK`::
 A (regular) annotation name.
-Annotation names are used to refer to annotations.
+Regular annotation names are used to refer to annotations, when they are used to annotate most elements of CIF specifications.
 +
 Defined by the regular expression:
 `+@[a-zA-Z_][a-zA-Z0-9_]*(:[a-zA-Z_][a-zA-Z0-9_]*)*+`.
@@ -214,11 +214,11 @@ Examples:
 @plc:input
 ----
 
-[[lang-ref-syntax-lexical-specannoname]]
-`SPECANNOTATIONNAMETK`::
-A specification annotation name.
-Specification annotation names are used to refer to annotations, when they are used to annotate specifications.
-Specification annotation names are identical to regular annotation names, but starts with two at signs (`@@`).
+[[lang-ref-syntax-lexical-doubleannoname]]
+`DOUBLE_ANNOTATION_NAMETK`::
+A double at-sign annotation name.
+Double at-sign annotation names are used to refer to annotations, when they are used to annotate certain elements of CIF specifications, such as the entire specification.
+Double at-sign annotation names are identical to regular annotation names, but starts with two at signs (`@@`).
 +
 Defined by the regular expression:
 `+@@[a-zA-Z_][a-zA-Z0-9_]*(:[a-zA-Z_][a-zA-Z0-9_]*)*+`.
