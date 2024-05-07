@@ -143,12 +143,15 @@ public class TransitionGeneratorTest {
 
     private DiscVariable otherVar = newDiscVariable(null, "otherVar", null, newIntType(), null);
 
-    private List<Field> rightFields = List.of(newField("tupField1", null, newIntType()), newField("tupField2", null, newIntType()));
+    private List<Field> rightFields = List.of(newField("tupField1", null, newIntType()),
+            newField("tupField2", null, newIntType()));
+
     private TupleType rightTupleType = newTupleType(rightFields, null);
+
     private DiscVariable tupVar = newDiscVariable(null, "tupVar", null, rightTupleType, null);
 
-    private Specification spec = newSpecification(null, null, List.of(recVar, otherVar, tupVar), null, null, null, null, null,
-            null, "specification", null);
+    private Specification spec = newSpecification(null, null, List.of(recVar, otherVar, tupVar), null, null, null, null,
+            null, null, "specification", null);
 
     private PlcDataVariable isProgressVar = new PlcDataVariable("isProgress", PlcElementaryType.BOOL_TYPE);
 
@@ -679,7 +682,8 @@ public class TransitionGeneratorTest {
         Expression leftSide = newTupleExpression(List.of(newDiscVariableExpression(null, newIntType(), otherVar),
                 newDiscVariableExpression(null, newIntType(), otherVar)), null, leftTupleType);
 
-        List<Field> rightFields2 = List.of(newField("tupField1", null, newIntType()), newField("tupField2", null, newIntType()));
+        List<Field> rightFields2 = List.of(newField("tupField1", null, newIntType()),
+                newField("tupField2", null, newIntType()));
         TupleType rightTupleType2 = newTupleType(rightFields2, null);
         Expression rightSide = newDiscVariableExpression(null, rightTupleType2, tupVar);
 

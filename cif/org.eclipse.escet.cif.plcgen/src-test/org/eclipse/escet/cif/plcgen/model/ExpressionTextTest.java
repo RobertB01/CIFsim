@@ -70,15 +70,18 @@ public class ExpressionTextTest {
 
         // Arrays.
         assertEquals("[0, 1, 2]",
-                toStr(new PlcArrayLiteral(List.of(new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE), new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE), new PlcIntLiteral(2, PlcElementaryType.DINT_TYPE)))));
+                toStr(new PlcArrayLiteral(List.of(new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE),
+                        new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE),
+                        new PlcIntLiteral(2, PlcElementaryType.DINT_TYPE)))));
 
         // Structures.
-        PlcStructType sType = new PlcStructType("sType", List.of(
-                new PlcStructField("a", PlcElementaryType.DINT_TYPE),
-                new PlcStructField("b", PlcElementaryType.BOOL_TYPE)
-                ));
-        assertEquals("(a := 3, b := TRUE)", toStr(new PlcStructLiteral(List
-                .of(new PlcNamedValue("a", new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE)), new PlcNamedValue("b", new PlcBoolLiteral(true))), sType)));
+        PlcStructType sType = new PlcStructType("sType", List.of(new PlcStructField("a", PlcElementaryType.DINT_TYPE),
+                new PlcStructField("b", PlcElementaryType.BOOL_TYPE)));
+        assertEquals("(a := 3, b := TRUE)",
+                toStr(new PlcStructLiteral(
+                        List.of(new PlcNamedValue("a", new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE)),
+                                new PlcNamedValue("b", new PlcBoolLiteral(true))),
+                        sType)));
 
         // Variables.
         PlcBasicVariable aVar = new PlcDataVariable("a", null);

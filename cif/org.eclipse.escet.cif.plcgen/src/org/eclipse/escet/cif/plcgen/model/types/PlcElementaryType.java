@@ -120,8 +120,8 @@ public class PlcElementaryType extends PlcType {
      * @return Whether the type is a type for integer values.
      */
     public static boolean isIntType(PlcType type) {
-        return type == PlcElementaryType.INT_TYPE
-                || type == PlcElementaryType.DINT_TYPE || type == PlcElementaryType.LINT_TYPE;
+        return type == PlcElementaryType.INT_TYPE || type == PlcElementaryType.DINT_TYPE
+                || type == PlcElementaryType.LINT_TYPE;
     }
 
     /**

@@ -44,7 +44,8 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
     public PlcPlainFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
             ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
     {
-        super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations), resultType);
+        super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations),
+                resultType);
         Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
 
         this.infixFuncName = infixFuncName;

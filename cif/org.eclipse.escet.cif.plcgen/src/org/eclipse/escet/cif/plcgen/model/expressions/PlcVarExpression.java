@@ -105,7 +105,8 @@ public class PlcVarExpression extends PlcExpression {
                         return field.type;
                     }
                 }
-                throw new AssertionError(fmt("Struct type \"%s\" has no field \"%s\".", structType.typeName, fieldName));
+                throw new AssertionError(
+                        fmt("Struct type \"%s\" has no field \"%s\".", structType.typeName, fieldName));
             }
             throw new AssertionError("Cannot compute projection on non-struct type \"" + unprojectedType + "\".");
         }

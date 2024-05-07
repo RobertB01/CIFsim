@@ -74,7 +74,8 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl powerFuncAppl(PlcExpression in1, PlcExpression in2) {
         return funcAppl(PlcFuncOperation.POWER_OP, "EXPT", "**", ExprBinding.POWER_EXPR,
-                new PlcAbstractType[] {ANY_REAL_TYPE, ANY_NUM_TYPE}, new PlcExpression[] {in1, in2}, ANY_REAL_TYPE);
+                new PlcAbstractType[]
+                {ANY_REAL_TYPE, ANY_NUM_TYPE}, new PlcExpression[] {in1, in2}, ANY_REAL_TYPE);
     }
 
     /**
@@ -84,7 +85,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl multiplyFuncAppl(PlcExpression... inN) {
-        return funcAppl(PlcFuncOperation.MULTIPLY_OP, "MUL", "*", ExprBinding.MUL_EXPR, ANY_NUM_TYPE, inN, ANY_NUM_TYPE);
+        return funcAppl(PlcFuncOperation.MULTIPLY_OP, "MUL", "*", ExprBinding.MUL_EXPR, ANY_NUM_TYPE, inN,
+                ANY_NUM_TYPE);
     }
 
     /**
@@ -95,8 +97,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl divideFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.DIVIDE_OP, "DIV", "/", ExprBinding.MUL_EXPR,
-                ANY_NUM_TYPE, new PlcExpression[] {in1, in2}, ANY_NUM_TYPE);
+        return funcAppl(PlcFuncOperation.DIVIDE_OP, "DIV", "/", ExprBinding.MUL_EXPR, ANY_NUM_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_NUM_TYPE);
     }
 
     /**
@@ -107,8 +110,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl moduloFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.MODULO_OP, "MOD", "MOD", ExprBinding.MUL_EXPR,
-                ANY_NUM_TYPE, new PlcExpression[] {in1, in2}, ANY_NUM_TYPE);
+        return funcAppl(PlcFuncOperation.MODULO_OP, "MOD", "MOD", ExprBinding.MUL_EXPR, ANY_NUM_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_NUM_TYPE);
     }
 
     /**
@@ -130,8 +134,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl subtractFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC type allows more types.
-        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR,
-                ANY_NUM_TYPE, new PlcExpression[] {in1, in2}, ANY_NUM_TYPE);
+        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, ANY_NUM_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_NUM_TYPE);
     }
 
     /**
@@ -143,8 +148,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl lessThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.LESS_THAN_OP, "LT", "<", ExprBinding.ORDER_EXPR,
-                ANY_ELEMENTARY_TYPE, new PlcExpression[] {in1, in2}, ANY_ELEMENTARY_TYPE);
+        return funcAppl(PlcFuncOperation.LESS_THAN_OP, "LT", "<", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -156,8 +162,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl lessEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.LESS_EQUAL_OP, "LE", "<=", ExprBinding.ORDER_EXPR,
-                ANY_ELEMENTARY_TYPE, new PlcExpression[] {in1, in2}, ANY_ELEMENTARY_TYPE);
+        return funcAppl(PlcFuncOperation.LESS_EQUAL_OP, "LE", "<=", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -169,8 +176,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl greaterThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.GREATER_THAN_OP, "GT", ">", ExprBinding.ORDER_EXPR,
-                ANY_ELEMENTARY_TYPE, new PlcExpression[] {in1, in2}, ANY_ELEMENTARY_TYPE);
+        return funcAppl(PlcFuncOperation.GREATER_THAN_OP, "GT", ">", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -182,8 +190,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl greaterEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.GREATER_EQUAL_OP, "GE", ">=", ExprBinding.ORDER_EXPR,
-                ANY_ELEMENTARY_TYPE, new PlcExpression[] {in1, in2}, ANY_ELEMENTARY_TYPE);
+        return funcAppl(PlcFuncOperation.GREATER_EQUAL_OP, "GE", ">=", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -195,8 +204,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl equalFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR,
-                ANY_ELEMENTARY_TYPE, new PlcExpression[] {in1, in2}, ANY_ELEMENTARY_TYPE);
+        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, ANY_ELEMENTARY_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -207,8 +217,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl unEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR,
-                ANY_ELEMENTARY_TYPE, new PlcExpression[] {in1, in2}, ANY_ELEMENTARY_TYPE);
+        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, ANY_ELEMENTARY_TYPE,
+                new PlcExpression[]
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -220,7 +231,8 @@ public class PlcFunctionAppls {
     public PlcFuncAppl complementFuncAppl(PlcExpression in) {
         // Infix literal needs the trailing space due to the "single parameter infix notation" behavior in
         // ModelTextGenerator.
-        return funcAppl(PlcFuncOperation.COMPLEMENT_OP, "NOT", "NOT ", ExprBinding.UNARY_EXPR, BOOL_TYPE, in, BOOL_TYPE);
+        return funcAppl(PlcFuncOperation.COMPLEMENT_OP, "NOT", "NOT ", ExprBinding.UNARY_EXPR, BOOL_TYPE, in,
+                BOOL_TYPE);
     }
 
     /**
@@ -240,7 +252,8 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl xorFuncAppl(PlcExpression... inN) {
-        return funcAppl(PlcFuncOperation.XOR_OP, "XOR", "XOR", ExprBinding.EXCL_DISJUNCT_EXPR, BOOL_TYPE, inN, BOOL_TYPE);
+        return funcAppl(PlcFuncOperation.XOR_OP, "XOR", "XOR", ExprBinding.EXCL_DISJUNCT_EXPR, BOOL_TYPE, inN,
+                BOOL_TYPE);
     }
 
     /**
@@ -513,13 +526,14 @@ public class PlcFunctionAppls {
      * @param resultType Type of the result of a function call.
      * @return The constructed function application.
      */
-    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcAbstractType paramType, PlcExpression[] inN,
-            PlcAbstractType resultType)
+    private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcAbstractType paramType,
+            PlcExpression[] inN, PlcAbstractType resultType)
     {
         Assert.check(target.supportsOperation(operation, inN.length));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length, paramType), target.getSupportedFuncNotations(operation, inN.length), resultType);
+                makeParamList(inN.length, paramType), target.getSupportedFuncNotations(operation, inN.length),
+                resultType);
         return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 

@@ -145,9 +145,9 @@ public class ExprGeneratorTest {
 
     private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
 
-    private static PlcStructType stateStruct = new PlcStructType("stateStruct", List.of(
-            new PlcStructField(discVar.getName(), PlcElementaryType.REAL_TYPE),
-            new PlcStructField(tupVar.getName(), makeStructType("struct3", 3))));
+    private static PlcStructType stateStruct = new PlcStructType("stateStruct",
+            List.of(new PlcStructField(discVar.getName(), PlcElementaryType.REAL_TYPE),
+                    new PlcStructField(tupVar.getName(), makeStructType("struct3", 3))));
 
     private static ContVariable contVar = newContVariable(null, newRealExpression(null, newRealType(), "1.0"), "timer",
             null, null);
@@ -291,7 +291,8 @@ public class ExprGeneratorTest {
      * <ul>
      * <li>CIF constant {@code X} becomes PLC {@code bool X} (works because the only constant that we have has type
      * {@code bool}).</li>
-     * <li>CIF discrete variables ({@code flatDisc} and {@code tupVar} are stored in a {@code StateStruct state} structure.</li>
+     * <li>CIF discrete variables ({@code flatDisc} and {@code tupVar} are stored in a {@code StateStruct state}
+     * structure.</li>
      * <li>CIF {@code cont X} becomes variables {@code X} and {@code X_der}.</li>
      * <li>CIF location {@code X} becomes a boolean variable {@code X}.</li>
      * <li>CIF input variable becomes PLC {@code int X} (works because the only input variable that we have has type

@@ -36,6 +36,7 @@ public class PlcStructLiteral extends PlcExpression {
         this.values = Collections.unmodifiableList(values);
 
         Assert.areEqual(values.size(), type.fields.size());
-        Assert.check(IntStream.range(0, values.size()).allMatch(i -> values.get(i).name.equals(type.fields.get(i).fieldName)));
+        Assert.check(IntStream.range(0, values.size())
+                .allMatch(i -> values.get(i).name.equals(type.fields.get(i).fieldName)));
     }
 }
