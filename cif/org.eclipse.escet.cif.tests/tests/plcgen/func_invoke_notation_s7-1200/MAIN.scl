@@ -16,6 +16,10 @@ ORGANIZATION_BLOCK MAIN
     END_VAR
 
 BEGIN
+    (* Header text file for:
+     *  -> (-*-) CIF PLC code generator.
+     *)
+
     (* --- Initialize state or update continuous variables. -------------------- *)
     IF "DB".firstRun THEN
         "DB".firstRun := FALSE;

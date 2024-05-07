@@ -237,7 +237,11 @@
         </interface>
         <body>
           <ST>
-            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* --- Read input from sensors. -------------------------------------------- *)
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">(* Header text file for:
+ *  -&gt; (-*-) CIF PLC code generator.
+ *)
+
+(* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 
 (* --- Initialize state or update continuous variables. -------------------- *)

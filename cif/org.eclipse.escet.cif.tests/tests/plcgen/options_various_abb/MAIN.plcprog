@@ -16,6 +16,10 @@ VAR_TEMP
     timeOut: BOOL;
 END_VAR
 
+(* Header text file for:
+ *  -> (-*-) CIF PLC code generator.
+ *)
+
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;

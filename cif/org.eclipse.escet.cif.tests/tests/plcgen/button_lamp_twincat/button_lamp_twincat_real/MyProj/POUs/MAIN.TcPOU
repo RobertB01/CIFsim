@@ -39,7 +39,11 @@ VAR_TEMP
     timeOut: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* --- Read input from sensors. -------------------------------------------- *)
+      <ST><![CDATA[(* Header text file for:
+ *  -> (-*-) CIF PLC code generator.
+ *)
+
+(* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 
 (* --- Initialize state or update continuous variables. -------------------- *)
