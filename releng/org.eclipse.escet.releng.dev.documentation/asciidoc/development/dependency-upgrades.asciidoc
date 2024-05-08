@@ -143,7 +143,7 @@ This requires giving the unmanaged profile the name _tmp_ again, as before.
 ** In case of changes to `*.prefs` files in the `.settings` directory of that project, configure the new preferences as desired.
 ** Run `./copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new preferences to the central place.
 ** Run `./copy_there.bash` from `misc/java-code-style` to copy the new preferences to all relevant projects.
-** Manually update the org.eclipse.escet.*.metamodel projects to have similar error/warnings settings as the rest of the projects (be aware, some settings are configured differently).
+** Manually update the `org.eclipse.escet.*.metamodel` projects to have similar error/warnings settings as the rest of the projects (be aware, some settings are configured differently).
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 
 * Update Maven version
