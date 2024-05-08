@@ -45,6 +45,12 @@
                     <type>jar</type>
                 </dependency>
                 <dependency>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                    <version>2.16.0</version>
+                    <type>jar</type>
+                </dependency>
+                <dependency>
                     <groupId>io.github.java-diff-utils</groupId>
                     <artifactId>java-diff-utils</artifactId>
                     <version>4.12</version>
@@ -54,12 +60,6 @@
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-exec</artifactId>
                     <version>1.4.0</version>
-                    <type>jar</type>
-                </dependency>
-                <dependency>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                    <version>2.16.0</version>
                     <type>jar</type>
                 </dependency>
                 <dependency>
