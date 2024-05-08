@@ -267,7 +267,7 @@
     <requirement
         name="org.eclipse.emf.compare.egit.feature.group"/>
     <requirement
-        name="org.eclipse.emf.ecoretools.sdk.feature.group"/>
+        name="org.eclipse.emf.ecoretools.design.feature.group"/>
     <requirement
         name="org.eclipse.emf.sdk.feature.group"/>
     <requirement
