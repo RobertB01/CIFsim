@@ -105,15 +105,15 @@ public class ExtFuncs {
             } catch (ClassNotFoundException e) {
                 String msg = fmt("Class \"%s\" could not be found.", className);
                 throw new CifSimulatorException(msg, e);
-            }
-
-            // Close URL class loader if used.
-            try {
-                if (urlClassLoader != null) {
-                    urlClassLoader.close();
+            } finally {
+                // Close URL class loader if used.
+                try {
+                    if (urlClassLoader != null) {
+                        urlClassLoader.close();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
 
             // Get method.
