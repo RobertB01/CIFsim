@@ -222,11 +222,11 @@
         name="org.eclipse.wildwebdeveloper.xml">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.wildwebdeveloper.xml/format.maxLineWidth"
+          key="/instance/org.eclipse.wildwebdeveloper.xml/org.eclipse.wildwebdeveloper.xml.format.maxLineWidth"
           value="120"/>
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.wildwebdeveloper.xml/validation.noGrammar"
+          key="/instance/org.eclipse.wildwebdeveloper.xml/org.eclipse.wildwebdeveloper.xml.validation.noGrammar"
           value="ignore"/>
     </setupTask>
     <setupTask
