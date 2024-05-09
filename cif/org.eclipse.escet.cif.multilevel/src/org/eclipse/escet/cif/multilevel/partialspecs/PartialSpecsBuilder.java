@@ -86,7 +86,7 @@ public class PartialSpecsBuilder {
 
         // Copy the other objects that must be in the partial specification.
         for (PositionObject object: neededObjects) {
-            if (object instanceof Automaton aut) {
+            if (object instanceof Automaton) {
                 continue;
             } else if (object instanceof Invariant inv) {
                 partialMgr.directlyAttachAddedToComponent(inv, partialMgr.deepcloneAndAdd(inv));

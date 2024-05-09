@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Eclipse ESCET" uid="org.eclipse.escet.product" id="org.eclipse.escet.product.branding.product" application="org.eclipse.ui.ide.workbench" version="4.0.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="Eclipse ESCET" uid="org.eclipse.escet.product" id="org.eclipse.escet.product.branding.product" application="org.eclipse.ui.ide.workbench" version="4.0.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.escet.product.branding/images/escet_about.png"/>
@@ -79,8 +79,8 @@ IN THE SOFTWARE.
    </configurations>
 
    <repositories>
-      <repository location="https://download.eclipse.org/releases/2023-03" enabled="true" />
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20230302014618/repository" enabled="true" />
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0" name="Eclipse Orbit project" enabled="true" />
+      <repository location="https://download.eclipse.org/releases/2024-03" name="Eclipse project" enabled="true" />
    </repositories>
 
    <preferencesInfo>

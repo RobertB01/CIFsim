@@ -222,11 +222,11 @@
         name="org.eclipse.wildwebdeveloper.xml">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.wildwebdeveloper.xml/format.maxLineWidth"
+          key="/instance/org.eclipse.wildwebdeveloper.xml/org.eclipse.wildwebdeveloper.xml.format.maxLineWidth"
           value="120"/>
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.wildwebdeveloper.xml/validation.noGrammar"
+          key="/instance/org.eclipse.wildwebdeveloper.xml/org.eclipse.wildwebdeveloper.xml.validation.noGrammar"
           value="ignore"/>
     </setupTask>
     <setupTask
@@ -267,7 +267,7 @@
     <requirement
         name="org.eclipse.emf.compare.egit.feature.group"/>
     <requirement
-        name="org.eclipse.emf.ecoretools.sdk.feature.group"/>
+        name="org.eclipse.emf.ecoretools.design.feature.group"/>
     <requirement
         name="org.eclipse.emf.sdk.feature.group"/>
     <requirement
@@ -288,8 +288,6 @@
         url="https://checkstyle.org/eclipse-cs-update-site/updates/${eclipse-checkstyle.version.major}.x/${eclipse-checkstyle.version.major}.${eclipse-checkstyle.version.minor}.x"/>
     <repository
         url="https://de-jcup.github.io/update-site-eclipse-asciidoctor-editor/update-site/"/>
-    <repository
-        url="https://download.eclipse.org/technology/m2e/releases/2.3.0/"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
   </setupTask>
   <setupTask

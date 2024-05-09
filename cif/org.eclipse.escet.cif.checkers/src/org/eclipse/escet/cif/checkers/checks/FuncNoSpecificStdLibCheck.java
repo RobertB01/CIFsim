@@ -360,16 +360,16 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificStdLib.MAXIMUM_INT_RANGED)
-                                && ((argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
-                                        || (argTypes.get(1) instanceof IntType itype
-                                                && !CifTypeUtils.isRangeless(itype))))
+                                && ((argTypes.get(0) instanceof IntType itype1 && !CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(1) instanceof IntType itype2
+                                                && !CifTypeUtils.isRangeless(itype2))))
                         {
                             addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
                         }
                         if (disalloweds.contains(NoSpecificStdLib.MAXIMUM_INT_RANGELESS)
-                                && ((argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
-                                        || (argTypes.get(1) instanceof IntType itype
-                                                && CifTypeUtils.isRangeless(itype))))
+                                && ((argTypes.get(0) instanceof IntType itype1 && CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(1) instanceof IntType itype2
+                                                && CifTypeUtils.isRangeless(itype2))))
                         {
                             addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
                         }
@@ -393,16 +393,16 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificStdLib.MINIMUM_INT_RANGED)
-                                && ((argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
-                                        || (argTypes.get(1) instanceof IntType itype
-                                                && !CifTypeUtils.isRangeless(itype))))
+                                && ((argTypes.get(0) instanceof IntType itype1 && !CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(1) instanceof IntType itype2
+                                                && !CifTypeUtils.isRangeless(itype2))))
                         {
                             addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
                         }
                         if (disalloweds.contains(NoSpecificStdLib.MINIMUM_INT_RANGELESS)
-                                && ((argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
-                                        || (argTypes.get(1) instanceof IntType itype
-                                                && CifTypeUtils.isRangeless(itype))))
+                                && ((argTypes.get(0) instanceof IntType itype1 && CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(1) instanceof IntType itype2
+                                                && CifTypeUtils.isRangeless(itype2))))
                         {
                             addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
                         }
@@ -460,16 +460,16 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
                         }
                     } else {
                         if (disalloweds.contains(NoSpecificStdLib.POWER_INT_RANGED)
-                                && ((argTypes.get(0) instanceof IntType itype && !CifTypeUtils.isRangeless(itype))
-                                        || (argTypes.get(1) instanceof IntType itype
-                                                && !CifTypeUtils.isRangeless(itype))))
+                                && ((argTypes.get(0) instanceof IntType itype1 && !CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(1) instanceof IntType itype2
+                                                && !CifTypeUtils.isRangeless(itype2))))
                         {
                             addExprViolationArgument(stdLibRef, "a ranged integer typed", violations);
                         }
                         if (disalloweds.contains(NoSpecificStdLib.POWER_INT_RANGELESS)
-                                && ((argTypes.get(0) instanceof IntType itype && CifTypeUtils.isRangeless(itype))
-                                        || (argTypes.get(1) instanceof IntType itype
-                                                && CifTypeUtils.isRangeless(itype))))
+                                && ((argTypes.get(0) instanceof IntType itype1 && CifTypeUtils.isRangeless(itype1))
+                                        || (argTypes.get(1) instanceof IntType itype2
+                                                && CifTypeUtils.isRangeless(itype2))))
                         {
                             addExprViolationArgument(stdLibRef, "a rangeless integer typed", violations);
                         }

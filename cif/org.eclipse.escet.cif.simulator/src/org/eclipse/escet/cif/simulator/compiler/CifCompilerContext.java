@@ -1397,7 +1397,7 @@ public class CifCompilerContext {
 
         // Clean the output directory, by removing all generated files.
         String[] filters = {"*.java", "*.dat", "*." + FILE_EXT_LOC_NAMES, "*." + FILE_EXT_EDGE_DATA};
-        FilenameFilter filter = new WildcardFileFilter(filters);
+        FilenameFilter filter = new WildcardFileFilter.Builder().setWildcards(filters).get();
         File[] files = pkgFile.listFiles(filter);
         if (files == null) {
             String msg = fmt("Failed to list the files in directory \"%s\", to which the generated code is to be "

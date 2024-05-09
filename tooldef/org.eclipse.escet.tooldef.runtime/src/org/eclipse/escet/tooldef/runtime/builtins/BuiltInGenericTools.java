@@ -330,7 +330,7 @@ public class BuiltInGenericTools {
         OutputStream outStream = null;
         if (ioErr == null) {
             if (stdout.equals("")) {
-                outStream = NullOutputStream.NULL_OUTPUT_STREAM;
+                outStream = NullOutputStream.INSTANCE;
             } else if (stdout.equals("-")) {
                 outStream = tooldefStreams.out.asOutputStream();
             } else {
@@ -353,7 +353,7 @@ public class BuiltInGenericTools {
             if (errToOut) {
                 errStream = outStream;
             } else if (stderr.equals("")) {
-                errStream = NullOutputStream.NULL_OUTPUT_STREAM;
+                errStream = NullOutputStream.INSTANCE;
             } else if (stderr.equals("-")) {
                 errStream = tooldefStreams.err.asOutputStream();
             } else {
@@ -506,7 +506,7 @@ public class BuiltInGenericTools {
         }
 
         // Initialize executor and result handler.
-        Executor executor = new DefaultExecutor();
+        Executor executor = new DefaultExecutor.Builder<>().get();
         DefaultExecuteResultHandler rslt = new DefaultExecuteResultHandler();
 
         // Configure standard I/O streams.

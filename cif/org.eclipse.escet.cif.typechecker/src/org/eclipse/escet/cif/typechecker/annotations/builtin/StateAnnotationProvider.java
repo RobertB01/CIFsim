@@ -173,7 +173,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             if (!(value instanceof StringExpression)) {
                 reportNonLiteral(annotation, arg, value, reporter);
             }
-        } else if (type instanceof TupleType ttype) {
+        } else if (type instanceof TupleType) {
             // Must be a tuple literal.
             if (!(value instanceof TupleExpression)) {
                 reportNonLiteral(annotation, arg, value, reporter);
@@ -185,7 +185,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             for (Expression field: tvalue.getFields()) {
                 checkSupportedLiteral(annotation, arg, field, reporter);
             }
-        } else if (type instanceof ListType ltype) {
+        } else if (type instanceof ListType) {
             // An empty list literal can have a cast expression wrapped around it.
             if (value instanceof CastExpression cexpr) {
                 value = cexpr.getChild();
@@ -202,7 +202,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             for (Expression element: lvalue.getElements()) {
                 checkSupportedLiteral(annotation, arg, element, reporter);
             }
-        } else if (type instanceof SetType stype) {
+        } else if (type instanceof SetType) {
             // An empty set literal can have a cast expression wrapped around it.
             if (value instanceof CastExpression cexpr) {
                 value = cexpr.getChild();
@@ -219,7 +219,7 @@ public class StateAnnotationProvider extends AnnotationProvider {
             for (Expression element: svalue.getElements()) {
                 checkSupportedLiteral(annotation, arg, element, reporter);
             }
-        } else if (type instanceof DictType dtype) {
+        } else if (type instanceof DictType) {
             // An empty dictionary literal can have a cast expression wrapped around it.
             if (value instanceof CastExpression cexpr) {
                 value = cexpr.getChild();

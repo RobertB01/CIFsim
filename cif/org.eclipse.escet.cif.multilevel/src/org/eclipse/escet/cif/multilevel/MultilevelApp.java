@@ -223,7 +223,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Warn about requirements of requirement groups that don't do anything useful since they are not related to
         // any plant group.
         for (PositionObject posObj: cifRelations.getUselessRequirements()) {
-            if (posObj instanceof Automaton aut) {
+            if (posObj instanceof Automaton) {
                 warn("Requirement automaton \"%s\" has no relation to any plant element and does not affect behavior.",
                         getAbsName(posObj, false));
             } else if (posObj instanceof Invariant inv) {

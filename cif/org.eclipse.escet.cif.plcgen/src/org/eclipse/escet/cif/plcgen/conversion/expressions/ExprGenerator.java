@@ -400,7 +400,7 @@ public class ExprGenerator {
         } else if (expr instanceof ContVariableExpression ce) {
             return new ExprValueResult(this)
                     .setValue(currentCifDataProvider.getValueForContvar(ce.getVariable(), ce.isDerivative()));
-        } else if (expr instanceof LocationExpression le) {
+        } else if (expr instanceof LocationExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLitExpr) {
             EnumLiteral eLit = eLitExpr.getLiteral();
@@ -977,7 +977,7 @@ public class ExprGenerator {
 
         // Dispatch call construction based on the function being called.
         Expression fexpr = funcCallExpr.getFunction();
-        if (fexpr instanceof StdLibFunctionExpression stdlibExpr) {
+        if (fexpr instanceof StdLibFunctionExpression) {
             return convertStdlibExpr(funcCallExpr, argumentResults);
         }
         // TODO: Implement function calls to internal user-defined functions.

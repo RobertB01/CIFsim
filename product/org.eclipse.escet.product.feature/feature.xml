@@ -52,7 +52,7 @@
          version="0.0.0"/>
 
    <requires>
-      <import feature="org.eclipse.platform" version="4.27.0" match="compatible"/>
+      <import feature="org.eclipse.platform" version="4.31.0" match="compatible"/>
       <import feature="org.eclipse.justj.openjdk.hotspot.jre.full" version="17.0.5" match="compatible"/>
       <import feature="org.eclipse.epp.mpc"/>
       <import plugin="org.eclipse.pde.runtime"/>
@@ -60,28 +60,18 @@
 
    <plugin
          id="org.eclipse.escet.product.branding"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.escet.product.perspective"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.escet.releng.dev.documentation"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="org.eclipse.escet.releng.project.documentation"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
 </feature>

@@ -115,7 +115,7 @@ public class SvgSelector implements MouseListener, MouseMoveListener, G2dSwtPain
      * @param interactiveIds The ids of the interactive SVG elements.
      */
     public SvgSelector(final SvgCanvas canvas, Set<String> interactiveIds) {
-        this(canvas, interactiveIds, new ConcurrentLinkedQueue<Pair<SvgSelector, String>>());
+        this(canvas, interactiveIds, new ConcurrentLinkedQueue<>());
     }
 
     /**
