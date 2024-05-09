@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.cif.checkers.checks.TypeListSizeLimitsCheck.UNLIMITED;
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -46,6 +47,7 @@ import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecif
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeListSizeLimitsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
@@ -606,6 +608,10 @@ public class CifProcessor {
                             NoSpecificType.SET_TYPES, //
                             NoSpecificType.STRING_TYPES, //
                             (supportArrays ? NoSpecificType.LIST_TYPES_NON_ARRAY : NoSpecificType.LIST_TYPES)),
+
+                    // Disallow the empty array type (with only value [], as PLC arrays have an inclusive non-negative
+                    // upper-bound.
+                    new TypeListSizeLimitsCheck(1, UNLIMITED, UNLIMITED, UNLIMITED),
 
                     // Allow only casting to the same type and int to real, allow projection only on tuples and arrays,
                     // forbid string, set, and dictionary literals and time, forbid slicing, and function references

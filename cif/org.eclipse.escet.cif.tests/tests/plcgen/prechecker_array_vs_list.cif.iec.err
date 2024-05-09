@@ -1,8 +1,16 @@
+WARNING: File "plcgen/prechecker_array_vs_list.cif": Semantic warning at line 21, column 5: Type "list[0] int" allows only one value.
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 
   ------------------------------------
-  (1/1) A non-array list type is used.
+  (1/2) A non-array list type is used.
   ------------------------------------
    * In algebraic variable "l":
      - alg list int l = [1, 2];
+           ^
+
+  ---------------------------------------------------------------------------------
+  (2/2) Array type of an algebraic variable allows arrays with less than 1 element.
+  ---------------------------------------------------------------------------------
+   * In algebraic variable "empty_list":
+     - alg list[0] int empty_list = <list[0] int>[];
            ^
