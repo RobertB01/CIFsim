@@ -237,6 +237,7 @@ This rejects events declared without `controllable` or `uncontrollable` keyword,
 * For expressions and data types, the following conditions must be met:
 ** No sets, dictionaries, strings, and stochastic distributions.
 ** Only arrays, so no non-array lists.
+** Arrays must have at least one element, since `list[0]` cannot be expressed in a PLC system.
 ** No arrays for the S7 targets.
 ** For arrays: no `+`, `-`, `=`, `!=`, `empty`, `delete`, `in`, `pop`, `size`, and slicing.
 ** For tuples: no `=` and `!=`.

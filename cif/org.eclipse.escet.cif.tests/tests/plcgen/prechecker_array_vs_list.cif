@@ -16,6 +16,10 @@
 alg list int l = [1, 2];
 alg list[2] int a = [1, 2];
 
+// Zero-length lists are not supported at all. They cannot be expressed in Structured Text.
+
+alg list[0] int empty_list = [];
+
 // Have at least one automaton, to not get unsupported messages for that.
 
 automaton aut:

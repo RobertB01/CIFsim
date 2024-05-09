@@ -1,12 +1,23 @@
 WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
+WARNING: File "plcgen/prechecker_array_vs_list.cif": Semantic warning at line 21, column 5: Type "list[0] int" allows only one value.
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 
   --------------------------
-  (1/1) A list type is used.
+  (1/2) A list type is used.
   --------------------------
    * In algebraic variable "a":
      - alg list[2] int a = [1, 2];
            ^               ^
+   * In algebraic variable "empty_list":
+     - alg list[0] int empty_list = <list[0] int>[];
+           ^                         ^           ^
    * In algebraic variable "l":
      - alg list int l = [1, 2];
            ^            ^
+
+  ---------------------------------------------------------------------------------
+  (2/2) Array type of an algebraic variable allows arrays with less than 1 element.
+  ---------------------------------------------------------------------------------
+   * In algebraic variable "empty_list":
+     - alg list[0] int empty_list = <list[0] int>[];
+           ^
