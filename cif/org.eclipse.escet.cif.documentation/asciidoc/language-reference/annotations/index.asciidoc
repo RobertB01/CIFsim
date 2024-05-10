@@ -114,6 +114,12 @@ Most require regular annotation names, while some require double at-sign annotat
 | Automata
 | Regular
 
+| Automaton definitions
+| Regular
+
+| Automaton instantiations
+| Regular
+
 | Constants
 | Regular
 
@@ -139,6 +145,12 @@ Most require regular annotation names, while some require double at-sign annotat
 | Regular
 
 | Functions
+| Regular
+
+| Group definitions
+| Regular
+
+| Group instantiations
 | Regular
 
 | Groups
