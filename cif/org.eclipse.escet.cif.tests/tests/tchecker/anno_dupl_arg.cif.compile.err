@@ -59,4 +59,12 @@ ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 98, column 8: D
 ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 98, column 15: Duplicate argument "x" for annotation "a".
 ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 100, column 8: Duplicate argument "x" for annotation "a".
 ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 100, column 15: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 106, column 4: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 106, column 10: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 112, column 4: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 112, column 10: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 116, column 4: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 116, column 10: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 119, column 4: Duplicate argument "x" for annotation "a".
+ERROR: File "tchecker/anno_dupl_arg.cif": Semantic error at line 119, column 10: Duplicate argument "x" for annotation "a".
 ERROR: Failed to load CIF file "tchecker/anno_dupl_arg.cif": the file has errors.

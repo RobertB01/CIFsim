@@ -102,3 +102,19 @@ group g1:
     return fparam1 or fparam2 or fparam3 or fparam4 or fvar1 or fvar2 or fvar3 or fvar4;
   end
 end
+
+@a(x: 1, x: 2)
+automaton def ADef():
+  location:
+    initial;
+end
+
+@a(x: 3, x: 4)
+group def GDef():
+end
+
+@a(x: 5, x: 6)
+ainst: ADef();
+
+@a(x: 7, x: 8)
+ginst: GDef();
