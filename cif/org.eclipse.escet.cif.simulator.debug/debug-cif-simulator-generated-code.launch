@@ -29,7 +29,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="cifcode.DebugSimulator"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.escet.cif.simulator.debug"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea -Declipse.e4.inject.javax.warning=false"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.sdk.ide"/>
     <booleanAttribute key="run_in_ui_thread" value="false"/>
