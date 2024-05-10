@@ -341,9 +341,7 @@ public final class CifPrettyPrinter {
                 code.add("initial;");
             } else {
                 for (int i = 0; i < initials.size(); i++) {
-                    String prefix = (i == 0) ? "initial " : "        ";
-                    String postfix = (i == initials.size() - 1) ? ";" : ",";
-                    code.add(prefix + pprint(initials.get(i)) + postfix);
+                    code.add("initial %s;", pprint(initials.get(i)));
                 }
             }
         }
@@ -358,9 +356,7 @@ public final class CifPrettyPrinter {
                 code.add("marked;");
             } else {
                 for (int i = 0; i < markeds.size(); i++) {
-                    String prefix = (i == 0) ? "marked " : "       ";
-                    String postfix = (i == markeds.size() - 1) ? ";" : ",";
-                    code.add(prefix + pprint(markeds.get(i)) + postfix);
+                    code.add("marked %s;", pprint(markeds.get(i)));
                 }
             }
         }
@@ -407,14 +403,14 @@ public final class CifPrettyPrinter {
             for (int i = 0; i < eqns.size(); i++) {
                 Equation eqn = eqns.get(i);
                 StringBuilder line = new StringBuilder();
-                line.append((i == 0) ? "equation " : "         ");
+                line.append("equation ");
                 line.append(escapeIdentifier(eqn.getVariable().getName()));
                 if (eqn.isDerivative()) {
                     line.append("'");
                 }
                 line.append(" = ");
                 line.append(pprint(eqn.getValue()));
-                line.append((i == eqns.size() - 1) ? ";" : ",");
+                line.append(";");
                 code.add(line.toString());
             }
         }
