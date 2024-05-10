@@ -21,10 +21,12 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.parser.ast.ACompDefDecl;
 import org.eclipse.escet.cif.parser.ast.automata.AAutomatonBody;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.declwrap.AlgParamDeclWrap;
 import org.eclipse.escet.cif.typechecker.declwrap.DeclWrap;
@@ -178,6 +180,11 @@ public class AutDefScope extends ParentScope<ComponentDef> {
 
     @Override
     protected void tcheckScopeFull() {
+        // Type check the automaton definition body.
         AutScope.typeCheckAutomaton((AAutomatonBody)autDefDecl.body, getAutomaton(), this, tchecker);
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astAnnotations, this, tchecker);
+        obj.getBody().getAnnotations().addAll(annos);
     }
 }

@@ -32,6 +32,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.LocationParameter;
 import org.eclipse.escet.cif.metamodel.cif.Parameter;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
@@ -42,6 +43,7 @@ import org.eclipse.escet.cif.parser.ast.ACompInstDecl;
 import org.eclipse.escet.cif.parser.ast.expressions.AExpression;
 import org.eclipse.escet.cif.parser.ast.tokens.AName;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.ExprContext;
@@ -335,6 +337,10 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
                 throw new RuntimeException("Unknown param: " + param);
             }
         }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(compInstDecl.annotations, this, tchecker);
+        obj.getAnnotations().addAll(annos);
 
         // Scope is now fully checked.
         status = CheckStatus.FULL;
