@@ -41,3 +41,35 @@ automaton a3:
     initial;
     marked x;
 end
+
+@doc("a4")
+automaton a4:
+  location:
+    initial;
+end
+
+@doc("g1")
+group g1:
+end
+
+@doc("A")
+automaton def A():
+  location:
+    initial;
+end
+
+@doc("G")
+group def G():
+end
+
+@doc("ainst1")
+ainst1: A();
+
+@doc("ainst2")
+ainst2: A();
+
+@doc("ginst1")
+ginst1: G();
+
+@doc("ginst2")
+ginst2: G();
