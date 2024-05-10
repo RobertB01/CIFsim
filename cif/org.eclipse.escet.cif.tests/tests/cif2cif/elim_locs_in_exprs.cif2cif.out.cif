@@ -46,21 +46,21 @@ automaton p5:
   enum LPE = LOC_l1, LOC_l2, LOC_l3, LOC_l4, LOC_l5, LOC_l6, LOC_l7;
   location l1;
   location l2:
-    initial true,
-            LP = LOC_l2;
+    initial true;
+    initial LP = LOC_l2;
     edge when true do LP := LOC_l1 goto l1;
   location l3:
     initial false;
   location l4:
-    initial true,
-            LP = LOC_l4;
+    initial true;
+    initial LP = LOC_l4;
     edge when true do LP := LOC_l3 goto l3;
   location l5:
-    initial LP = LOC_l3,
-            LP = LOC_l5;
+    initial LP = LOC_l3;
+    initial LP = LOC_l5;
   location l6:
-    initial x,
-            LP = LOC_l6;
+    initial x;
+    initial LP = LOC_l6;
     edge when true do LP := LOC_l7 goto l7;
   location l7:
     initial x2;
@@ -71,13 +71,13 @@ automaton p6:
   disc LPE LP in any;
   enum LPE = LOC_l1, LOC_l2;
   location l1:
-    initial true,
-            LP = LOC_l1;
+    initial true;
+    initial LP = LOC_l1;
     edge do y := 5, LP := LOC_l2 goto l2;
     edge do y := 5, x := LP = LOC_l1 goto l1;
   location l2:
-    initial true,
-            LP = LOC_l2;
+    initial true;
+    initial LP = LOC_l2;
     edge do if x: y := 0 else y := 1 end, x := false, LP := LOC_l1 goto l1;
 end
 automaton p_switch1:

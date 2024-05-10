@@ -19,19 +19,19 @@ automaton q2:
   cont cont_var;
   location l1:
     initial;
-    equation a' = 1.0,
-             cont_var' = 2.0;
+    equation a' = 1.0;
+    equation cont_var' = 2.0;
   location l2:
     initial;
-    equation a' = 3.0,
-             cont_var' = 4.0;
+    equation a' = 3.0;
+    equation cont_var' = 4.0;
 end
 group z1:
   cont x;
   cont y;
   invariant x + y > 0;
-  equation x' = x,
-           y' = x;
+  equation x' = x;
+  equation y' = x;
 end
 group z2:
   cont x = y;

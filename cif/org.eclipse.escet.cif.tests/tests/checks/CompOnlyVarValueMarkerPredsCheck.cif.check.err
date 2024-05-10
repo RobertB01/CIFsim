@@ -4,10 +4,10 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (1/2) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
   --------------------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
-     - inst1.v = 2,
-               ^
-     - inst2.v = 3;
-               ^
+     - marked inst1.v = 2;
+                      ^
+     - marked inst2.v = 3;
+                      ^
    * In automaton "marker_not_binexpr":
      - marked v;
               ^

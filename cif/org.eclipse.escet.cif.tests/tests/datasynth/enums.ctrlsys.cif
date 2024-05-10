@@ -11,13 +11,13 @@ group g:
     disc E1 x4 in {A, B, C, D, E};
     disc E1 x5 in any;
     disc E2 x6 = G;
-    marked x1 = A,
-           x2 = B,
-           x3 = D,
-           x4 != C,
-           x4 != D,
-           x4 != E,
-           x5 != C;
+    marked x1 = A;
+    marked x2 = B;
+    marked x3 = D;
+    marked x4 != C;
+    marked x4 != D;
+    marked x4 != E;
+    marked x5 != C;
     location:
       initial;
       marked x0 = E;

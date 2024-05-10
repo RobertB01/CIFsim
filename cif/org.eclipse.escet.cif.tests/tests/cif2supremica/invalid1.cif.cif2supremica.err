@@ -23,12 +23,12 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   (3/38) A list literal is used.
   ------------------------------
    * In group "g":
-     - p0.lb = [true],
-               ^
-     - p0.lb = [false],
-               ^
-     - p0.lb = [false, true];
-               ^
+     - marked p0.lb = [true];
+                      ^
+     - marked p0.lb = [false];
+                      ^
+     - marked p0.lb = [false, true];
+                      ^
    * In discrete variable "g.p0.lb":
      - disc list bool lb = [true];
                            ^
@@ -37,12 +37,12 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   (4/38) A list type is used.
   ---------------------------
    * In group "g":
-     - p0.lb = [true],
-       ^       ^
-     - p0.lb = [false],
-       ^       ^
-     - p0.lb = [false, true];
-       ^       ^
+     - marked p0.lb = [true];
+              ^       ^
+     - marked p0.lb = [false];
+              ^       ^
+     - marked p0.lb = [false, true];
+              ^       ^
    * In automaton "g.p0":
      - edge e1 do lb[0] := true;
                   ^
@@ -61,8 +61,8 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   (6/38) A real number literal is used.
   -------------------------------------
    * In group "g":
-     - p0.cnt = 1.2,
-                ^
+     - marked p0.cnt = 1.2;
+                       ^
    * In continuous variable "g.p0.cnt":
      - cont cnt der 1.0;
                     ^
@@ -76,8 +76,8 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   (7/38) A real type is used.
   ---------------------------
    * In group "g":
-     - p0.cnt = 1.2,
-       ^        ^
+     - marked p0.cnt = 1.2;
+              ^        ^
    * In continuous variable "g.p0.cnt":
      - cont cnt der 1.0;
                     ^
@@ -135,19 +135,19 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
   (14/38) Component has a marker predicate that is not of the form 'discrete_variable = marked_value'.
   ----------------------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
-     - marked 3 > 4,
+     - marked 3 > 4;
                 ^
-     - true;
-       ^
+     - marked true;
+              ^
    * In group "g":
-     - marked not false,
+     - marked not false;
               ^
-     - 1 > 2,
-         ^
-     - 2 = 2,
-         ^
-     - p0.cnt = 1.2,
-              ^
+     - marked 1 > 2;
+                ^
+     - marked 2 = 2;
+                ^
+     - marked p0.cnt = 1.2;
+                     ^
 
   --------------------------------------------------
   (15/38) Component has an initialization predicate.

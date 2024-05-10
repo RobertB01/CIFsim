@@ -27,12 +27,12 @@ automaton q2:
   alg real alg_var;
   location l1:
     initial;
-    equation a = 1,
-             alg_var = 2.0;
+    equation a = 1;
+    equation alg_var = 2.0;
   location l2:
     initial;
-    equation a = 3,
-             alg_var = 4.0;
+    equation a = 3;
+    equation alg_var = 4.0;
 end
 automaton q3_1:
   alg real x;

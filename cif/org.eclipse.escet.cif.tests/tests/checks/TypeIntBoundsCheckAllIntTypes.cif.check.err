@@ -4,7 +4,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (1/4) Integer type lower bound is greater than 10.
   --------------------------------------------------
    * In location "A.A":
-     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
+     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0;
                                                                                                                  ^
      - edge when 15 > 0;
                  ^
@@ -19,10 +19,10 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (2/4) Integer type lower bound is less than 0.
   ----------------------------------------------
    * In location "A.A":
-     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
+     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0;
                ^           ^ ^               ^ ^             ^       ^        ^               ^                              ^ ^
-     - plain > 0;
-       ^
+     - initial plain > 0;
+               ^
      - edge when -1 > 0;
                  ^
      - edge when 3 - 4 > 0;
@@ -47,10 +47,10 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (3/4) Integer type upper bound is greater than 10.
   --------------------------------------------------
    * In location "A.A":
-     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
+     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0;
                                                              ^       ^        ^ ^             ^ ^              ^ ^           ^ ^
-     - plain > 0;
-       ^
+     - initial plain > 0;
+               ^
      - edge when 15 > 0;
                  ^
    * In discrete variable "A.below_and_above":
@@ -73,7 +73,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (4/4) Integer type upper bound is less than 0.
   ----------------------------------------------
    * In location "A.A":
-     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0,
+     - initial fully_below + highest_allowed + partial_below + exact + inside + partial_above + lowest_allowed + fully_above + below_and_above = 0;
                ^           ^
      - edge when -1 > 0;
                  ^

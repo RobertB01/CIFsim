@@ -42,8 +42,8 @@ invariant 0 = 0;
 plant invariant g1_inv22: g1_c = 1;
 requirement invariant g2_inv3: g2_c2 = 2;
 invariant p_eq_a + p_eq_x > 0;
-equation p_eq_a = 1.0,
-         p_eq_x' = 2.0;
+equation p_eq_a = 1.0;
+equation p_eq_x' = 2.0;
 svgout id "box" attr "x" value 1.23 file "../tchecker/small.svg";
 print "abc" file "output1.txt";
 svgout id "txt1" text value "abc" file "../pprint_elim_cdef/text.svg";

@@ -14,8 +14,8 @@ plant automaton p:
     edge c1 do x := x + 1 goto t1;
     edge c2 do x := x + 1, y := y - 1 goto b1;
   location m3:
-    marked x < 15,
-           y > 5;
+    marked x < 15;
+    marked y > 5;
   location t1:
     edge u do x := x + 1, y := y + 1 goto t2;
   location t2:

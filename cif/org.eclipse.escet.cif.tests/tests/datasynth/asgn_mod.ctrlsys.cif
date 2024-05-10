@@ -17,11 +17,11 @@ plant automaton p:
     edge em4 do m4 := m4 mod 4 goto loc2;
     edge em5 do m5 := m5 mod 5 goto loc2;
   location loc2:
-    marked m1 = 1,
-           m2 = 1,
-           m3 = 1,
-           m4 = 1,
-           m5 = 1;
+    marked m1 = 1;
+    marked m2 = 1;
+    marked m3 = 1;
+    marked m4 = 1;
+    marked m5 = 1;
 end
 supervisor automaton sup:
   alphabet p.em1, p.em2, p.em3, p.em4, p.em5;

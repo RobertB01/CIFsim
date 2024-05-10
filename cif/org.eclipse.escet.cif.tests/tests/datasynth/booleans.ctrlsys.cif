@@ -9,9 +9,9 @@ group g:
     disc bool b2 = false;
     disc bool b3 in {true, false};
     disc bool b4 in any;
-    initial b1,
-            b3,
-            b4;
+    initial b1;
+    initial b3;
+    initial b4;
     location:
       initial;
       marked b0;

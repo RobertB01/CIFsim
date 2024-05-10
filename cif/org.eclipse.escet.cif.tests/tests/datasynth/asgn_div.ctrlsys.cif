@@ -17,11 +17,11 @@ plant automaton p:
     edge ed4 do d4 := d4 div 4 goto loc2;
     edge ed5 do d5 := d5 div 5 goto loc2;
   location loc2:
-    marked d1 = 1,
-           d2 = 1,
-           d3 = 1,
-           d4 = 1,
-           d5 = 1;
+    marked d1 = 1;
+    marked d2 = 1;
+    marked d3 = 1;
+    marked d4 = 1;
+    marked d5 = 1;
 end
 supervisor automaton sup:
   alphabet p.ed1, p.ed2, p.ed3, p.ed4, p.ed5;
