@@ -181,3 +181,25 @@ group g1:
     return fparam1 or fparam2 or fparam3 or fparam4 or fvar1 or fvar2 or fvar3 or fvar4;
   end
 end
+group def_inst:
+  @a(b: 1)
+  @a(b: 3)
+  automaton ainst1:
+    location:
+      initial;
+  end
+  @a(b: 1)
+  @a(b: 4)
+  automaton ainst2:
+    location:
+      initial;
+  end
+  @a(b: 2)
+  @a(b: 5)
+  group ginst1:
+  end
+  @a(b: 2)
+  @a(b: 6)
+  group ginst2:
+  end
+end
