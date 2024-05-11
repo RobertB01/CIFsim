@@ -101,7 +101,8 @@ public class AlgParamDeclWrap extends DeclWrap<AlgParameter> {
         // Check for single-value type.
         CifType type = mmDecl.getVariable().getType();
         if (CifValueUtils.getPossibleValueCount(type) == 1) {
-            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), "", CifTextUtils.typeToStr(type),
+                    "algebraic parameter", CifTextUtils.getAbsName(mmDecl, false), "algebraic parameter");
             // Non-fatal problem.
         }
 

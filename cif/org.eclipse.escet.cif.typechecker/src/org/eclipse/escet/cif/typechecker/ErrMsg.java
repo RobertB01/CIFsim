@@ -281,7 +281,8 @@ public enum ErrMsg {
     // Event.typeNotSingleValue
     // InputVariable.typeNotSingleValue
     // Function.returnTypeNotSingleValue
-    TYPE_ONE_VALUE("Type \"%s\" allows only one value.", 1, WARNING),
+    TYPE_ONE_VALUE("The %stype \"%s\" of %s \"%s\" allows only one value. Use a constant instead of the %s.", 5,
+            WARNING),
 
     // AST related constraint.
     INVALID_TYPE_REF("\"%s\" is not a type.", 1, ERROR),

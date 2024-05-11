@@ -179,7 +179,8 @@ public class AlgVariableDeclWrap extends DeclWrap<AlgVariable> {
         // Check for single-value type.
         CifType type = mmDecl.getType();
         if (CifValueUtils.getPossibleValueCount(type) == 1) {
-            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), "", CifTextUtils.typeToStr(type),
+                    "algebraic variable", CifTextUtils.getAbsName(mmDecl, false), "algebraic variable");
             // Non-fatal problem.
         }
 

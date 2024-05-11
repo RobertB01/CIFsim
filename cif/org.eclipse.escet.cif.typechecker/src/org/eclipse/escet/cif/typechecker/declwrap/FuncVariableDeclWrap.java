@@ -120,7 +120,8 @@ public class FuncVariableDeclWrap extends DeclWrap<DiscVariable> {
         // Check for single-value type.
         CifType type = mmDecl.getType();
         if (CifValueUtils.getPossibleValueCount(type) == 1) {
-            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), "", CifTextUtils.typeToStr(type),
+                    "function variable", CifTextUtils.getAbsName(mmDecl, false), "function variable");
             // Non-fatal problem.
         }
 
