@@ -35,4 +35,7 @@ CIF supports code generation through the following tools:
 
 The documentation of these tools provide further details on how to use them.
 
+Once code has been generated, it should be tested on the actual system.
+This may reveal additional issues, for instance when the behavior of the system is not properly captured in the <<sbe-in-practice-steps-modeling-the-plant,plant model>>, or when the inputs and outputs of the system are not properly connected to the controller.
+
 With a working implementation of the controller, this concludes the process to apply <<sbe-in-practice,synthesis-based engineering in practice>>.

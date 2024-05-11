@@ -34,9 +34,12 @@ From the controller model, the control software can still be manually implemente
 However, with synthesis-based engineering, the controller model is not manually modeled from design documents.
 Instead, it is automatically generated from models of the uncontrolled system (plant model) and control requirements (requirements model).
 
-Verification to ensure that the controller (model) satisfies its specified requirements is then superfluous, as the synthesized controller model is correct-by-construction.
-The controller model must however still be validated to ensure it behaves as intended.
-The specified requirements could not be the desired requirements, as they could for instance be wrongly specified or too strict, resulting in the system being controlled by the controller exhibiting unwanted or insufficient behavior.
+Verification to ensure that the controller (model) satisfies the requirements used for synthesis is then superfluous, as the synthesized controller model is correct-by-construction.
+Verification may still be needed for additional requirements that are not yet supported by synthesis, such as stronger liveness requirements and timed requirements.
+
+And the controller model must still be validated to ensure it behaves as intended.
+While synthesis guarantees that the controller correctly adheres to the specified requirements, the specified requirements could not be the desired requirements.
+For instance, the requirements could be wrongly specified or too strict, resulting in the system being controlled by the controller exhibiting unwanted or insufficient behavior.
 
 [[sbe-approaches-synthesis-based-input-plant-req]]
 === Input: plant and requirements models
@@ -191,8 +194,8 @@ indexterm:[correct-by-construction]
 Focus on the _what_ rather than the _how_::
 With synthesis-based engineering the controller model is automatically synthesized.
 From it, the implementation is automatically produced through code generation.
-Verification is not needed as the implementation is correct-by-construction.
-This essentially only leaves requirements design and validation to focus on.
+Verification is (to a large degree) not needed as the implementation is correct-by-construction.
+The focus therefore shifts to requirements design and validation.
 Engineers can thus focus on '_what_ should the controller do' (its requirements), rather than on '_how_ must the controller achieve this' (the controller design and implementation).
 +
 An example is specifying a First-In-First-Out (FIFO) requirement.
@@ -209,7 +212,7 @@ Each time formal verification produces a counter example to indicate a requireme
 Contrary, supervisor synthesis provides solutions.
 It automatically synthesizes a controller model that satisfies all the requirements.
 Synthesis produces in one go a supervisor with all the additional conditions that must be enforced to ensure all requirements are satisfied.
-This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is already correct-by-construction.
+This makes verification of the controller model against the requirements from which the supervisor was synthesized superfluous, as the synthesized controller model is already correct-by-construction.
 
 indexterm:[design, freedom]
 indexterm:[permissive, maximally]
@@ -306,7 +309,7 @@ Supervisor synthesis::
 A correct-by-construction formal method that automatically synthesizes a _supervisor_.
 It involves the automatic generation, or synthesis, of a correct-by-construction controller model from a simple model of the to-be-controlled system and a model of the control requirements.
 This is also called controller synthesis or supervisory controller synthesis.
-Supervisor synthesis makes verification of the resulting controller model against its requirements superfluous.
+Supervisor synthesis makes verification of the resulting supervisor model against the requirements from which it was synthesized superfluous.
 Validation of the resulting system being controlled by the controller (model) is still needed to ensure the specified requirements are indeed the desired requirements.
 
 indexterm:[event, uncontrollable]

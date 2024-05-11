@@ -67,6 +67,6 @@ For further details, see the section on <<sbe-in-practice-steps-modeling-plant-r
 The first solution is recommended, but it does not always apply.
 If it is not possible to use the first solution, or if you already applied the first solution and still have the problem, you could use the second solution.
 However, never blindly add self loops.
-Always verify that this gives you the desired behavior!
+Always check that this gives you the desired behavior!
 
 * Try to synthesize a supervisor with a subset of the requirements, to find out which requirement (or combination of requirements!) is causing the lack of behavior.

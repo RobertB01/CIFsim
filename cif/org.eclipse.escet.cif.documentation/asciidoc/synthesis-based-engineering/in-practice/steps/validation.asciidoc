@@ -16,22 +16,33 @@ include::../../_part_attributes.asciidoc[]
 indexterm:[supervisor, verification]
 indexterm:[supervisor, validation]
 
-[[sbe-in-practice-steps-validation]]
-== Validation
+[[sbe-in-practice-steps-verification-and-validation]]
+== Verification and validation
 
-After <<sbe-in-practice-steps-synthesis,applying supervisor synthesis>> it is time to analyze the resulting supervisor model.
-Verification to ensure that the synthesized supervisor satisfies its specified requirements is superfluous, as the synthesized model is correct-by-construction.
+After <<sbe-in-practice-steps-synthesis,applying supervisor synthesis>> it is time to analyze the resulting supervisor model, using verification and validation, and adapt the plants and requirements if any issues are found.
 
-The supervisor should however still be validated to ensure it behaves as intended.
+=== Verification
+
+Verification to ensure that the synthesized supervisor satisfies the requirements that were used for synthesis is superfluous, as the synthesized model is correct-by-construction.
+However, verification may still be needed for additional requirements that are not yet supported by synthesis, such as stronger liveness requirements and timed requirements.
+
+The synthesized supervisor model should be checked for various properties using the <<tools-chapter-controller-checker,controller property checker>> tool.
+Further verification may be performed by transforming the supervisor model to formats of external verification tools, such as <<tools-chapter-cif2mcrl2,mCRL2>> and <<tools-chapter-cif2uppaal,UPPAAL>>, and then using such tools to perform the actual verification.
+
+=== Validation
+
+Furthermore, the supervisor should be validated to ensure it behaves as intended.
 The specified requirements could not be the desired requirements, as they could for instance be wrongly specified or too strict, resulting in the system being controlled by the controller exhibiting unwanted or insufficient behavior.
 
 The <<tools-cifsim-chapter-index,CIF simulator>> can be used to simulate CIF specifications.
 Especially when combining this with <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>> and <<tools-cifsim-input-svg-chapter-index,interactive simulation>>, it is a very powerful way to validate whether the supervisory controller controls the system as intended.
 This may for instance reveal that additional requirements are needed, or existing requirements need to be adapted.
 
-In case any issues are revealed through validation, for instance by means of simulation, these need to be addressed.
+=== Next steps
+
+In case any issues are revealed through verification or validation, these need to be addressed.
 Typically this involves changes to either the <<sbe-in-practice-steps-modeling-the-plant,plant model>> or <<sbe-in-practice-steps-modeling-the-requirements,requirements model>>.
 After such changes, the supervisor can be re-synthesized automatically.
 Changes can be made iteratively, until confidence in the correctness of the controller is high enough.
 
-The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-implementation,implement the supervisory controller>>.
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is then to <<sbe-in-practice-steps-implementation,implement the supervisory controller>>.
