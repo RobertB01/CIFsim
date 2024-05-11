@@ -74,8 +74,8 @@ The ToolDef tooling features:
 
 * Command line execution.
 
-* Tight integration with the link:https://eclipse.org[Eclipse] IDE.
+* Tight integration with the ESCET IDE.
 
 * User-friendly error messages.
 
-For more information, see also the <<tools-chapter-index,tool>> documentation.
+For more information, see also the <<interpreter-chapter-index,ToolDef interpreter>> documentation.

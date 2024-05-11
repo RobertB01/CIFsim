@@ -40,7 +40,7 @@ endif::website-output[]
 The documentation consists of:
 
 * <<lang-ref-chapter-index,ToolDef language reference manual>>
-* <<tools-chapter-index,ToolDef tool manual>>
+* <<interpreter-chapter-index,ToolDef interpreter>>
 * <<release-notes-chapter-index,ToolDef release notes>>
 * <<legal-chapter-index,Legal information>>
 
@@ -88,9 +88,9 @@ include::language-reference/builtins/file.asciidoc[]
 
 :leveloffset: -2
 
-// Tool manual
+// ToolDef interpreter
 
-include::tools.asciidoc[]
+include::interpreter.asciidoc[]
 
 // Release notes
 

@@ -13,15 +13,12 @@
 
 include::_root_attributes.asciidoc[]
 
-indexterm:[tooling]
+indexterm:[interpreter]
 
-[[tools-chapter-index]]
-== Tooling
+[[interpreter-chapter-index]]
+== ToolDef interpreter
 
-Below you can find general information on how to use the ToolDef tooling, both on the command line, and in the link:https://eclipse.org[Eclipse] IDE.
-
-To start using the ToolDef tooling, create a `.tooldef` file.
-See the <<lang-ref-chapter-index,language reference>> documentation for more information on the syntax.
+ToolDef scripts can be executed using the ToolDef interpreter, either on the command line, or in the ESCET IDE.
 
 indexterm:[execution,command line]
 indexterm:[command line,execution]
@@ -55,14 +52,14 @@ For example: `tooldef some_script.tooldef --invoke='mytool(1, true)'` to invoke 
 If the option is not used, the entire ToolDef script is executed instead.
 By default, the entire script is executed.
 
-indexterm:[execution,Eclipse IDE]
-indexterm:[Eclipse IDE,execution]
+indexterm:[execution,ESCET IDE]
+indexterm:[ESCET IDE,execution]
 
-=== Eclipse IDE
+=== ESCET IDE
 
-indexterm:[options,Eclipse IDE]
-indexterm:[Eclipse IDE,options]
-To execute a ToolDef script in the Eclipse IDE, right click the file or an open text editor for the script, and choose menu:Execute ToolDef[].
+indexterm:[options,ESCET IDE]
+indexterm:[ESCET IDE,options]
+To execute a ToolDef script in the ESCET IDE, right click the `.tooldef` file or an open text editor for the script, and choose menu:Execute ToolDef[].
 Alternatively, choose menu:Execute ToolDef...[] to first shown an option dialog.
 The dialog shows several options that influence how the script is executed.
 These options can be configured as desired before executing the script.
