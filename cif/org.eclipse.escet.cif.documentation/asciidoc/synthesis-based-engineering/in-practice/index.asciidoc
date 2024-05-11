@@ -46,8 +46,8 @@ Dealing with marking of the plant and requirement automata.
 <<sbe-in-practice-steps-synthesis>>::
 Performing supervisor synthesis on the plant and requirements to automatically synthesize a supervisor.
 
-<<sbe-in-practice-steps-validation>>::
-Validating that the synthesized supervisor controls the system as desired.
+<<sbe-in-practice-steps-verification-and-validation>>::
+Verifying and validating that the synthesized supervisor controls the system correctly and as desired.
 
 <<sbe-in-practice-steps-implementation>>::
 Implementing the validated supervisory controller using automatic code generation.

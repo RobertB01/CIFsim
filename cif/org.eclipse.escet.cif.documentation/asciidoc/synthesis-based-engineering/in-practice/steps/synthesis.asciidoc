@@ -35,4 +35,4 @@ It is therefore recommended over the event-based synthesis tool.
 
 The documentation of these tools provide further details on how to use them.
 
-The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-validation,perform validation>>.
+The next step in the process to apply <<sbe-in-practice,synthesis-based engineering in practice>> is to <<sbe-in-practice-steps-verification-and-validation,perform verification and validation>>.

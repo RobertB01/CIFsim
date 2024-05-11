@@ -13,6 +13,7 @@
 
 include::../../_part_attributes.asciidoc[]
 
+indexterm:[verification, issues]
 indexterm:[validation, issues]
 
 [[sbe-in-practice-advanced-too-limited-behavior]]
@@ -20,7 +21,7 @@ indexterm:[validation, issues]
 
 <<sbe-in-practice-steps-synthesis,Supervisor synthesis>> always produces correct-by-construction supervisors, based on the <<sbe-in-practice-steps-modeling-the-plant,plant>> and <<sbe-in-practice-steps-modeling-the-requirements,requirements models>> that you provide as input.
 However, if you for instance provide too restrictive or conflicting requirements, or forget to model the <<sbe-in-practice-steps-modeling-plant-relations,plant relations>>, you may not get the desired <<sbe-approaches-synthesis-controlled-system,controlled system>> behavior.
-Such issues are often found during <<sbe-in-practice-steps-validation,validation>>.
+Such issues are often found during <<sbe-in-practice-steps-verification-and-validation,verification and validation>>.
 
 indexterm:[supervisor, empty]
 

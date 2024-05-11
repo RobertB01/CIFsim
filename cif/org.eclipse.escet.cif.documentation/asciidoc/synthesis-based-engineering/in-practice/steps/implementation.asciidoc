@@ -18,7 +18,7 @@ indexterm:[supervisor, implement]
 [[sbe-in-practice-steps-implementation]]
 == Controller implementation
 
-Once a supervisory controller has been <<sbe-in-practice-steps-synthesis,synthesized>> and <<sbe-in-practice-steps-validation,validated>>, it is time to implement it.
+Once a supervisory controller has been <<sbe-in-practice-steps-synthesis,synthesized>>, <<sbe-in-practice-steps-verification-and-validation,verified and validated>>, it is time to implement it.
 The control software is typically implemented using a programming language, such as PLC code for a PLC platform, or Java or C++ code for an industrial PC.
 This may for instance be done in-house within the company, by different teams or departments, or by an external supplier.
 

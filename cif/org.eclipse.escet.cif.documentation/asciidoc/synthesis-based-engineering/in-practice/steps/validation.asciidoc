@@ -21,6 +21,7 @@ indexterm:[supervisor, validation]
 
 After <<sbe-in-practice-steps-synthesis,applying supervisor synthesis>> it is time to analyze the resulting supervisor model, using verification and validation, and adapt the plants and requirements if any issues are found.
 
+[[sbe-in-practice-steps-verification]]
 === Verification
 
 Verification to ensure that the synthesized supervisor satisfies the requirements that were used for synthesis is superfluous, as the synthesized model is correct-by-construction.
@@ -29,6 +30,7 @@ However, verification may still be needed for additional requirements that are n
 The synthesized supervisor model should be checked for various properties using the <<tools-chapter-controller-checker,controller property checker>> tool.
 Further verification may be performed by transforming the supervisor model to formats of external verification tools, such as <<tools-chapter-cif2mcrl2,mCRL2>> and <<tools-chapter-cif2uppaal,UPPAAL>>, and then using such tools to perform the actual verification.
 
+[[sbe-in-practice-steps-validation]]
 === Validation
 
 Furthermore, the supervisor should be validated to ensure it behaves as intended.
