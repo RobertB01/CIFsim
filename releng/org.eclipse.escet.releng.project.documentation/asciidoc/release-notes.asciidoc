@@ -34,6 +34,7 @@ Improvements and fixes:
 
 * This release is based on Eclipse 2024-03, rather than Eclipse 2023-03.
 Various dependencies have been upgraded as well (issue {escet-issue}635[#635]).
+* The ESCET IDE splash screen should no longer appear upside down on macOS 14/Sonoma (issue {escet-issue}720[#720]).
 * The ESCET website site selector menu now has proper vertical alignment for icons and text (issue {escet-issue}812[#812]).
 
 === Version 3.0 (2024-03-31)
