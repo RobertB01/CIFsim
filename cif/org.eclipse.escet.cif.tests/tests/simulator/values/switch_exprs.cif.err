@@ -6,4 +6,4 @@ WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 33, 
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 36, column 49: Switch "else" is superfluous, as all locations already have a "case".
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 37, column 49: Switch "else" is superfluous, as all locations already have a "case".
 WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 41, column 15: The switch expression has only one case, which is deprecated.
-WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 41, column 15: Type "int[23..23]" allows only one value.
+WARNING: File "simulator/values/switch_exprs.cif": Semantic warning at line 41, column 15: The type "int[23..23]" of algebraic variable "p.d" allows only one value. Use a constant instead of the algebraic variable.

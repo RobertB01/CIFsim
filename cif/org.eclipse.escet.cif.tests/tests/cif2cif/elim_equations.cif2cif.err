@@ -1,1 +1,1 @@
-WARNING: File "cif2cif/elim_equations.cif": Semantic warning at line 16, column 13: Type "int[5..5]" allows only one value.
+WARNING: File "cif2cif/elim_equations.cif": Semantic warning at line 16, column 13: The type "int[5..5]" of algebraic variable "x" allows only one value. Use a constant instead of the algebraic variable.

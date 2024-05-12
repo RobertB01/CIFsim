@@ -1,2 +1,2 @@
-WARNING: File "cif2yed/data_refs.cif": Semantic warning at line 15, column 19: Type "int[9..9]" allows only one value.
-WARNING: File "cif2yed/data_refs.cif": Semantic warning at line 16, column 13: Type "int[3..3]" allows only one value.
+WARNING: File "cif2yed/data_refs.cif": Semantic warning at line 15, column 19: The type "int[9..9]" of algebraic variable "x" allows only one value. Use a constant instead of the algebraic variable.
+WARNING: File "cif2yed/data_refs.cif": Semantic warning at line 16, column 13: The type "int[3..3]" of algebraic variable "y" allows only one value. Use a constant instead of the algebraic variable.

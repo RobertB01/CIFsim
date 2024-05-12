@@ -1,3 +1,3 @@
-WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 30, column 26: Type "int[3..3]" allows only one value.
-WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 42, column 26: Type "int[2..2]" allows only one value.
-WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 54, column 26: Type "int[4..4]" allows only one value.
+WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 30, column 26: The type "int[3..3]" of algebraic variable "r1.active_count" allows only one value. Use a constant instead of the algebraic variable.
+WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 42, column 26: The type "int[2..2]" of algebraic variable "r2.active_count" allows only one value. Use a constant instead of the algebraic variable.
+WARNING: File "datasynth/alg_vars.ctrlsys.real.cif": Semantic warning at line 54, column 26: The type "int[4..4]" of algebraic variable "r3.active_count" allows only one value. Use a constant instead of the algebraic variable.

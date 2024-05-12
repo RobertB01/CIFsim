@@ -1,4 +1,4 @@
-WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 46, column 8: Type "int[-3..-3]" allows only one value.
-WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 47, column 8: Type "int[3..3]" allows only one value.
-WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 48, column 8: Type "int[-5..-5]" allows only one value.
-WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 49, column 8: Type "int[5..5]" allows only one value.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 46, column 8: The type "int[-3..-3]" of discrete variable "p.i6" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 47, column 8: The type "int[3..3]" of discrete variable "p.i7" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 48, column 8: The type "int[-5..-5]" of discrete variable "p.i8" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "simulator/values/default_init_values.cif": Semantic warning at line 49, column 8: The type "int[5..5]" of discrete variable "p.i9" allows only one value. Use a constant instead of the discrete variable.

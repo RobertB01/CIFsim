@@ -1,6 +1,6 @@
 WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 33, column 3: Duplicate state invariant.
-WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 48, column 10: Type "int[3..3]" allows only one value.
-WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 49, column 10: Type "int[2..2]" allows only one value.
+WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 48, column 10: The type "int[3..3]" of discrete variable "F.g.v1" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 49, column 10: The type "int[2..2]" of discrete variable "F.g.v2" allows only one value. Use a constant instead of the discrete variable.
 WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 50, column 10: Convoluted reference to local declaration. Use "t" instead.
-WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 50, column 10: Type "int[3..3]" allows only one value.
+WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 50, column 10: The type "int[3..3]" of discrete variable "F.g.v3" allows only one value. Use a constant instead of the discrete variable.
 WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 59, column 3: Duplicate state invariant.
