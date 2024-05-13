@@ -77,7 +77,7 @@ public class PlcGenericType extends PlcAbstractType {
 
         /** Any elementary type (incomplete wrt the standard). */
         ANY_ELEMENTARY(type -> PlcElementaryType.isIntType(type) || PlcElementaryType.isRealType(type)
-                || type.equals(PlcElementaryType.BOOL_TYPE)),
+                || type.equals(PlcElementaryType.BOOL_TYPE) || type.equals(PlcElementaryType.TIME_TYPE)),
 
         /** Any type. */
         ANY(type -> true);
