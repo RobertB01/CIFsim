@@ -29,21 +29,17 @@ TBD
 Language changes:
 
 * The syntax of annotation arguments has changed.
-Annotation argument names are now optional, although for specific annotations they may still be mandatory.
+Annotations can make their annotation argument names optional.
 If both the argument name and value are present, a colon should now be used between them rather than an equal sign.
 Annotations are still an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner (issue {escet-issue}801[#801]).
 * The `@doc` annotation now requires one or more unnamed arguments, rather than a single argument named `text`.
-See the documentation about documentation annotations for further details.
-Annotations are still an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner (issue {escet-issue}801[#801]).
+See the documentation about documentation annotations for further details (issue {escet-issue}801[#801]).
 * Annotations may now be added to automata, enumerations, enumeration literals, events, functions, function parameters, function variables, groups, invariants, specifications and type declarations.
-Annotations on specifications and on invariants in locations require double `@`-signs, such as `@@doc` instead of `@doc`.
-Annotations are still an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner (issue {escet-issue}593[#593]).
+Annotations on specifications and on invariants in locations require double `@`-signs, such as `@@doc` instead of `@doc` (issue {escet-issue}593[#593]).
 * The CIF type checker now warns about certain declarations that have a type that supports only one value.
 This new check is enabled for algebraic parameters, algebraic variables, channel parameters, channels, discrete variables, function parameters, function local variables, function return types and input variables.
-A constant should be used instead (issue {escet-issue}797[#797]).
+To resolve such a warning, check the type, or use a constant instead (issue {escet-issue}797[#797]).
 
 Deprecations and removals:
 
