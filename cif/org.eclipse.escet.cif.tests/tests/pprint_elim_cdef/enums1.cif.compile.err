@@ -1,2 +1,2 @@
-WARNING: File "pprint_elim_cdef/enums1.cif": Semantic warning at line 23, column 8: The type "E1" of discrete variable "p.v1" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "pprint_elim_cdef/enums1.cif": Semantic warning at line 34, column 8: The type "q.F1" of discrete variable "q.v1" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "pprint_elim_cdef/enums1.cif": Semantic warning at line 23, column 8: The type "E1" of discrete variable "p.v1" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "pprint_elim_cdef/enums1.cif": Semantic warning at line 34, column 8: The type "q.F1" of discrete variable "q.v1" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.

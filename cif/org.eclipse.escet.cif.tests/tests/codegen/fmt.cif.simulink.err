@@ -1,11 +1,11 @@
-WARNING: File "codegen/fmt.cif": Semantic warning at line 57, column 20: The type "int[-12,345..-12,345]" of algebraic variable "neg12345" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 113, column 14: The type "int[1..1]" of algebraic variable "i0" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 132, column 15: The type "int[1..1]" of algebraic variable "ii1" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 133, column 15: The type "int[2..2]" of algebraic variable "ii2" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 134, column 15: The type "int[3..3]" of algebraic variable "ii3" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 135, column 15: The type "int[4..4]" of algebraic variable "ii4" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 136, column 15: The type "int[5..5]" of algebraic variable "ii5" allows only one value. Use a constant instead of the algebraic variable.
-WARNING: File "codegen/fmt.cif": Semantic warning at line 138, column 15: The type "int[7..7]" of algebraic variable "ii7" allows only one value. Use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 57, column 20: The type "int[-12,345..-12,345]" of algebraic variable "neg12345" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 113, column 14: The type "int[1..1]" of algebraic variable "i0" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 132, column 15: The type "int[1..1]" of algebraic variable "ii1" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 133, column 15: The type "int[2..2]" of algebraic variable "ii2" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 134, column 15: The type "int[3..3]" of algebraic variable "ii3" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 135, column 15: The type "int[4..4]" of algebraic variable "ii4" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 136, column 15: The type "int[5..5]" of algebraic variable "ii5" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 138, column 15: The type "int[7..7]" of algebraic variable "ii7" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
 WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 50: The 3rd value is not used in the format pattern.
 WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 60: The 5th value is not used in the format pattern.
 WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 70: The 7th value is not used in the format pattern.

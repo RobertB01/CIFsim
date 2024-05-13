@@ -1,1 +1,1 @@
-WARNING: File "pprint_elim_cdef/import1b.cif": Semantic warning at line 16, column 15: The type "int[2..2]" of algebraic variable "p.a" allows only one value. Use a constant instead of the algebraic variable.
+WARNING: File "pprint_elim_cdef/import1b.cif": Semantic warning at line 16, column 15: The type "int[2..2]" of algebraic variable "p.a" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.

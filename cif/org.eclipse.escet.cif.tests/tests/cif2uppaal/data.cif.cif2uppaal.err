@@ -1,1 +1,1 @@
-WARNING: File "cif2uppaal/data.cif": Semantic warning at line 19, column 7: The type "int[1..1]" of algebraic variable "buf.w" allows only one value. Use a constant instead of the algebraic variable.
+WARNING: File "cif2uppaal/data.cif": Semantic warning at line 19, column 7: The type "int[1..1]" of algebraic variable "buf.w" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.

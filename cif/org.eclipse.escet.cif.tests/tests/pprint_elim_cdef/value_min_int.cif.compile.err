@@ -1,1 +1,1 @@
-WARNING: File "pprint_elim_cdef/value_min_int.cif": Semantic warning at line 16, column 8: The type "int[-2,147,483,648..-2,147,483,648]" of discrete variable "a.i2" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "pprint_elim_cdef/value_min_int.cif": Semantic warning at line 16, column 8: The type "int[-2,147,483,648..-2,147,483,648]" of discrete variable "a.i2" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.

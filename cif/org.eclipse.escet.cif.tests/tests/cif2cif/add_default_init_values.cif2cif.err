@@ -1,9 +1,9 @@
-WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 37, column 8: The type "int[-3..-3]" of discrete variable "p.i6" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 38, column 8: The type "int[3..3]" of discrete variable "p.i7" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 39, column 8: The type "int[-5..-5]" of discrete variable "p.i8" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 40, column 8: The type "int[5..5]" of discrete variable "p.i9" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 41, column 8: The type "int[-2,147,483,648..-2,147,483,648]" of discrete variable "p.i10" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 54, column 8: The type "list[0] int" of discrete variable "p.l0" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 37, column 8: The type "int[-3..-3]" of discrete variable "p.i6" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 38, column 8: The type "int[3..3]" of discrete variable "p.i7" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 39, column 8: The type "int[-5..-5]" of discrete variable "p.i8" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 40, column 8: The type "int[5..5]" of discrete variable "p.i9" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 41, column 8: The type "int[-2,147,483,648..-2,147,483,648]" of discrete variable "p.i10" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/add_default_init_values.cif": Semantic warning at line 54, column 8: The type "list[0] int" of discrete variable "p.l0" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
 WARNING: Function "_f", introduced for the default value of a function type, is renamed to "_f2".
 WARNING: Function "_f", introduced for the default value of a function type, is renamed to "_f3".
 WARNING: Function "_f", introduced for the default value of a function type, is renamed to "_f4".

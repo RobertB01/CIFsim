@@ -1,2 +1,2 @@
-WARNING: File "cif2cif/elim_type_decls.cif": Semantic warning at line 42, column 8: The type "e" of discrete variable "b.v1" allows only one value. Use a constant instead of the discrete variable.
-WARNING: File "cif2cif/elim_type_decls.cif": Semantic warning at line 43, column 8: The type "e" of discrete variable "b.v2" allows only one value. Use a constant instead of the discrete variable.
+WARNING: File "cif2cif/elim_type_decls.cif": Semantic warning at line 42, column 8: The type "e" of discrete variable "b.v1" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/elim_type_decls.cif": Semantic warning at line 43, column 8: The type "e" of discrete variable "b.v2" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
