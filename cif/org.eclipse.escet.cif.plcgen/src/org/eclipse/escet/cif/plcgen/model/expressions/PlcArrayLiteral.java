@@ -29,7 +29,6 @@ public class PlcArrayLiteral extends PlcExpression {
      * @param values Values of the array.
      */
     public PlcArrayLiteral(List<PlcExpression> values) {
-        // TODO: Disallow empty arrays.
         // TODO: Check all types of the supplied values.
         super(new PlcArrayType(0, values.size() - 1, values.get(0).type));
         this.values = Collections.unmodifiableList(values);
