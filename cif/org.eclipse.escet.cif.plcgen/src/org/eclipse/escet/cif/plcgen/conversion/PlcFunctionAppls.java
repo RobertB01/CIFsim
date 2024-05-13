@@ -521,7 +521,7 @@ public class PlcFunctionAppls {
      *
      * @param operation The performed function.
      * @param prefixText Text of the function in prefix notation.
-     * @param paramType Type of each parameter.
+     * @param paramType Type of all the parameters.
      * @param inN Arguments of the function.
      * @param resultType Type of the result of a function call.
      * @return The constructed function application.
@@ -544,7 +544,7 @@ public class PlcFunctionAppls {
      * @param prefixText Text of the function in prefix notation or {@code null} if not available.
      * @param infixText Text of the function in infix notation or {@code null} if not available.
      * @param exprBinding Binding strength of the function in the expression.
-     * @param paramType Type of each parameter.
+     * @param paramType Type of all the parameters.
      * @param inN Arguments of the function.
      * @param resultType Type of the result of a function call.
      * @return The constructed function application.
