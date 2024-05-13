@@ -20,7 +20,7 @@ public abstract class PlcExpression {
     /** Type of the expression. */
     public final PlcType type;
 
-    /** Constructor of the {@link PlcExpression} class. */
+    /** Constructor of the {@link PlcExpression} class. Uses a {@code null} type. */
     @Deprecated
     public PlcExpression() {
         this(null); // TODO: Update PlcVarExpression when removing this.

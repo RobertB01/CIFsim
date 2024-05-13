@@ -82,13 +82,13 @@ public class PlcGenericType extends PlcAbstractType {
         /** Any type. */
         ANY(type -> true);
 
-        /** Test function whether a type is part of the generic type. */
+        /** Function to test whether a type is part of the generic type. */
         private final Predicate<PlcType> isOfGenericKind;
 
         /**
          * Constructor of the {@link PlcGenericKind} class.
          *
-         * @param isOfGenericKind Test function whether a type is part of the generic type.
+         * @param isOfGenericKind Function to test whether a type is part of the generic type.
          */
         private PlcGenericKind(Predicate<PlcType> isOfGenericKind) {
             this.isOfGenericKind = isOfGenericKind;

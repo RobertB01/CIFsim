@@ -58,7 +58,7 @@ public class PlcVarExpression extends PlcExpression {
     /**
      * Compute the type after applying all projections.
      *
-     * @param resultType Type after applying 0 projections.
+     * @param resultType Type before applying the projections.
      * @param projections Projections to apply.
      * @return The type after applying all projections.
      */
