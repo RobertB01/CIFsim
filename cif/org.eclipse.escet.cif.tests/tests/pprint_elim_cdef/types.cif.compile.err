@@ -1,1 +1,1 @@
-WARNING: File "pprint_elim_cdef/types.cif": Semantic warning at line 26, column 25: Type "int[1..1]" allows only one value.
+WARNING: File "pprint_elim_cdef/types.cif": Semantic warning at line 26, column 25: The type "int[1..1]" of algebraic variable "i1" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
