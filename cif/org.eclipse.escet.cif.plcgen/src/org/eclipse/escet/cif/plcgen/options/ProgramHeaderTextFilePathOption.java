@@ -54,9 +54,6 @@ public class ProgramHeaderTextFilePathOption extends StringOption {
         if (headerFilePath == null) {
             return null;
         }
-        String absInputFilePath = Paths.resolve(InputFileOption.getPath());
-        int lastDirSepPos = Math.max(absInputFilePath.lastIndexOf('/'), absInputFilePath.lastIndexOf('\\'));
-        String inputDir = absInputFilePath.substring(0, lastDirSepPos);
-        return new PathPair(headerFilePath, Paths.resolve(headerFilePath, inputDir));
+        return new PathPair(headerFilePath, Paths.resolve(headerFilePath));
     }
 }
