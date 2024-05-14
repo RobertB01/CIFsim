@@ -477,7 +477,7 @@ public class PlcFunctionAppls {
      * @param prefixText Text of the function in prefix notation.
      * @param paramType Type of the parameter.
      * @param in Argument of the function.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcAbstractType paramType,
@@ -501,7 +501,7 @@ public class PlcFunctionAppls {
      * @param exprBinding Binding strength of the function in the expression.
      * @param paramType Type of the parameter.
      * @param in Argument of the function.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
@@ -523,7 +523,7 @@ public class PlcFunctionAppls {
      * @param prefixText Text of the function in prefix notation.
      * @param paramType Type of all the parameters.
      * @param inN Arguments of the function.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, PlcAbstractType paramType,
@@ -546,7 +546,7 @@ public class PlcFunctionAppls {
      * @param exprBinding Binding strength of the function in the expression.
      * @param paramType Type of all the parameters.
      * @param inN Arguments of the function.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,
@@ -569,7 +569,7 @@ public class PlcFunctionAppls {
      * @param exprBinding Binding strength of the function in the expression.
      * @param paramTypes Types of the parameters.
      * @param inN Arguments of the function.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      * @return The constructed function application.
      */
     private PlcFuncAppl funcAppl(PlcFuncOperation operation, String prefixText, String infixText,

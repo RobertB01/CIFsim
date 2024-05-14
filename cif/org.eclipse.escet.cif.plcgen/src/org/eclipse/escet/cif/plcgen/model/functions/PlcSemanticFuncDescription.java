@@ -35,7 +35,7 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
      *     {@link PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
             PlcParameterDescription[] parameters, String infixFuncName, ExprBinding infixBinding,
@@ -53,7 +53,7 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
      * @param parameters Parameters of the function.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
             PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)

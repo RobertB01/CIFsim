@@ -39,7 +39,7 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
      *     {@link PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      */
     public PlcPlainFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
             ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)

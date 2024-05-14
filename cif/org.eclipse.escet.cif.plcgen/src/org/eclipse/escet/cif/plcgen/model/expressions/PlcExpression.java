@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** Base class for expressions. */
 public abstract class PlcExpression {
-    /** Type of the expression. */
+    /** Type of the expression, can be {@code null}. */
     public final PlcType type;
 
     /** Constructor of the {@link PlcExpression} class. Uses a {@code null} type. */
@@ -29,7 +29,7 @@ public abstract class PlcExpression {
     /**
      * Constructor of the {@link PlcExpression} class.
      *
-     * @param type Type of the expression.
+     * @param type Type of the expression, can be {@code null}.
      */
     public PlcExpression(PlcType type) {
         this.type = type;

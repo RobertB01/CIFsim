@@ -33,7 +33,7 @@ public abstract class PlcBasicFuncDescription {
     /** Notations of the function that are supported by the target. */
     public final EnumSet<PlcFuncNotation> notations;
 
-    /** Type of the result of a function call. */
+    /** Type of the result of the function. */
     public final PlcAbstractType resultType;
 
     /**
@@ -43,7 +43,7 @@ public abstract class PlcBasicFuncDescription {
      * @param parameters Parameters of the function.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
-     * @param resultType Type of the result of a function call.
+     * @param resultType Type of the result of the function.
      */
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
             EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
