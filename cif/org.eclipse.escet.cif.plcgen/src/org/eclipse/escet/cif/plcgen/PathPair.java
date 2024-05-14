@@ -18,14 +18,14 @@ public class PathPair {
     /** Path entered by the user. */
     public final String userPath;
 
-    /** Path used by the system. */
+    /** The user-entered path resolved for accessing the indicated resource. */
     public final String systemPath;
 
     /**
      * Constructor of the {@link PathPair} class.
      *
      * @param userPath Path entered by the user.
-     * @param systemPath Path used by the system.
+     * @param systemPath The user-entered path resolved for accessing the indicated resource.
      */
     public PathPair(String userPath, String systemPath) {
         this.userPath = userPath;
