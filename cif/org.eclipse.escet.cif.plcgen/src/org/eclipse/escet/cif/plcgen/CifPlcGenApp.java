@@ -269,7 +269,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             }
             headerTextFile.close();
         } catch (FileNotFoundException ex) {
-            OutputProvider.err(fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, or could not be be opened for reading.", paths.userPath));
+            OutputProvider.err(fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, "
+                    + "or could not be be opened for reading.", paths.userPath));
         } catch (IOException ex) {
             throw new InputOutputException(
                     "Failed to read or close program header text file \"" + paths.userPath + "\".", ex);
