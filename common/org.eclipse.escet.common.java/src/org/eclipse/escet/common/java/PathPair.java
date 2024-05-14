@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.plcgen;
+package org.eclipse.escet.common.java;
 
 /** Storage for user-entered file system paths and their resolved absolute path versions. */
 public class PathPair {

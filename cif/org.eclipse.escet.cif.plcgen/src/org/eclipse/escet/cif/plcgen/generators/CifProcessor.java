@@ -83,7 +83,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
@@ -91,6 +90,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge
 import org.eclipse.escet.cif.plcgen.generators.prechecks.VarContOnlyTimers;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;

@@ -14,11 +14,10 @@
 package org.eclipse.escet.cif.plcgen.options;
 
 import org.eclipse.escet.cif.plcgen.CifPlcGenApp;
-import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.PathPair;
 
 /** Option to specify the path to the user-supplied header text file. */
 public class ProgramHeaderTextFilePathOption extends StringOption {

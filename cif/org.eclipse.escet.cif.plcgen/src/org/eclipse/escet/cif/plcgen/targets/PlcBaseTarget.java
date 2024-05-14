@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import java.util.EnumSet;
 
-import org.eclipse.escet.cif.plcgen.PathPair;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
@@ -43,6 +42,7 @@ import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Base class for generating a {@link PlcProject}. */
