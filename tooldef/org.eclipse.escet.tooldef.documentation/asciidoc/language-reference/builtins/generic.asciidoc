@@ -39,7 +39,7 @@ The application is specified as a Java class that extends the `org.eclipse.escet
 It should have a constructor that accepts one parameter, of type `org.eclipse.escet.common.app.framework.io.AppStreams`.
 
 The application is started within the current Java interpreter, in a new thread.
-If executed from Eclipse, the class is loaded using the class loader of the given bundle (if provided), otherwise, it is loaded using the default class loader.
+If executed from an OSGi environment, such an application based on the Eclipse IDE, the class is loaded using the class loader of the given bundle (if provided), otherwise, it is loaded using the default class loader.
 In the latter case, the class should be in the class path.
 
 Note that this tool is only machine independent and platform independent, as long as the applications that are executed, are machine independent and platform independent as well.
@@ -48,7 +48,7 @@ _Parameters_
 
 `plugin`::
 The name of the plug-in (OSGi bundle) in which to resolve the application class.
-If the Java application is executed from Eclipse, then the class is loaded by the class loader of this bundle, otherwise it is resolved using the default class loader.
+If the Java application is executed from an Eclipse-based IDE, then the class is loaded by the class loader of this bundle, otherwise it is resolved using the default class loader.
 May be `null` to always use the default class loader.
 
 `classname`::
