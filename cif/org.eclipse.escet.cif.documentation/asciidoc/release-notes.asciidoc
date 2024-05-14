@@ -39,7 +39,7 @@ See the documentation about documentation annotations for further details (issue
 Annotations on specifications and on invariants in locations require double `@`-signs, such as `@@doc` instead of `@doc` (issue {escet-issue}593[#593]).
 * The CIF type checker now warns about certain declarations that have a type that supports only one value.
 This new check is enabled for algebraic parameters, algebraic variables, channel parameters, channels, discrete variables, function parameters, function local variables, function return types and input variables.
-To resolve such a warning, check the type, or use a constant instead (issue {escet-issue}797[#797]).
+To resolve such a warning, check the type, or use a constant instead (issues {escet-issue}797[#797] and {escet-issue}827[#827]).
 
 Deprecations and removals:
 
