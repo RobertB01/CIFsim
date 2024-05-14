@@ -269,7 +269,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             }
             headerTextFile.close();
         } catch (FileNotFoundException ex) {
-            OutputProvider.err(fmt("Program header text file \"%s\" could not be opened for reading.", paths.userPath));
+            OutputProvider.err(fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, or could not be be opened for reading.", paths.userPath));
         } catch (IOException ex) {
             throw new InputOutputException(
                     "Failed to read or close program header text file \"" + paths.userPath + "\".", ex);
@@ -296,16 +296,15 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         briefExplanation.add("- - - - - - - - - - - - -");
         formatText(briefExplanation, "This PLC prgram implements a controller that was designed in the CIF language.");
         briefExplanation.add("");
-        formatText(briefExplanation, "As the CIF language may not be known, this brief explanation tries to relate",
-                "concepts in the CIF language with known concepts in PLC programming. Hopefully, that  will aid",
-                "in easier understanding what is being computed in this PLC program.");
+        formatText(briefExplanation, "For those that do not know the CIF language, this brief explanation relates",
+                "concepts in the CIF language with known concepts in PLC programming. This makes it easier to understand what is being computed in this PLC program.");
         briefExplanation.add("");
-        formatText(briefExplanation, "The CIF language has one or more automata (which work like state",
+        formatText(briefExplanation, "A CIF model has one or more automata (which work like state",
                 "machines). All these automata work in parallel.");
         formatText(briefExplanation, "Each automaton has locations (equivalent to states). Like state machines, one of",
                 "the locations is the \"current state\". Each location has edges to other locations of the same",
                 "automaton, thus allowing to change the current state of the state machine by an edge. An edge also ",
-                "has a condition deciding if it can be taken and updates to change the value of variables (like",
+                "has a guard condition that must be satisfied for the edge to be taken and updates to change the values of variables (like",
                 "assignments).");
         briefExplanation.add("");
         formatText(briefExplanation, "Unlike regular state machines, CIF can couple edges of different state machines",
@@ -335,7 +334,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             while (m.find(scanStart)) {
                 if (BRIEF_EXPLANATION_PATTERN.equals(m.group())) {
                     // The explanation has multiple lines, splitting lines before and after the pattern makes no sense.
-                    // In stead, ignore the input line, and insert the explanation.
+                    // Instead, ignore the input line, and insert the explanation.
                     for (String explainLine: briefExplanation) {
                         resultLines.add(postProcessLine(explainLine));
                     }
@@ -392,7 +391,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Perform cleanup of the text line and disable PLC comment brackets..
+     * Perform cleanup of the text line and disable PLC comment brackets.
      *
      * @param line Text line to process.
      * @return The cleaned text line.
@@ -400,7 +399,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     private String postProcessLine(String line) {
         line = restrictToPrintableAscii(line); // Drop non-printable ASCII.
 
-        // Disable PLC comment brackets and delete trailing white space..
+        // Disable PLC comment brackets and delete trailing white space.
         // Comment brackets may overlap (with "(*)"). Changing each bracket type separately handles that as well.
         return line.replace("(*", "(-*").replace("*)", "*-)").stripTrailing();
     }

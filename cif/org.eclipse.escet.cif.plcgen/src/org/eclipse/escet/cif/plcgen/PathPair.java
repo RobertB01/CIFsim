@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen;
 
-/** Class to store and handle file system paths in an application. */
+/** Storage for user-entered file system paths and their resolved absolute path versions. */
 public class PathPair {
     /** Path entered by the user. */
     public final String userPath;

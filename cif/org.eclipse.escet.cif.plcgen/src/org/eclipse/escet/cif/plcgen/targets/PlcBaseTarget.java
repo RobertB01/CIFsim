@@ -74,7 +74,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
     /** How to convert enumerations. */
     private ConvertEnums selectedEnumConversion;
 
-    /** Paths to write the generated code. Depending in the target can be either a file or a directory path. */
+    /** Paths to write the generated code. Depending on the target can be either a file or a directory path. */
     private PathPair outputPaths;
 
     /** Callback to send warnings to the user. */

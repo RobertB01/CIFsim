@@ -55,7 +55,7 @@ public class PlcGenSettings {
     /** Paths to the CIF specification for which to generate PLC code. */
     public final PathPair inputPaths;
 
-    /** Paths to write the generated code. Depending in the target can be either a file or a directory path. */
+    /** Paths to write the generated code. Depending on the target can be either a file or a directory path. */
     public final PathPair outputPaths;
 
     /** Paths to the I/O table file, may not exist. */
@@ -100,7 +100,7 @@ public class PlcGenSettings {
      * @param maxControllableLimit Maximum number of iterations for performing controllable events in a single cycle, or
      *     {@code null} if unrestricted.
      * @param inputPaths Paths to the CIF specification for which to generate PLC code.
-     * @param outputPaths Paths to write the generated code. Depending in the target can be either a file or a directory
+     * @param outputPaths Paths to write the generated code. Depending on the target can be either a file or a directory
      *     path.
      * @param ioTablePaths Paths to the I/O table file, may not exist.
      * @param programHeaderTextLines Text lines of the PLC program header.
