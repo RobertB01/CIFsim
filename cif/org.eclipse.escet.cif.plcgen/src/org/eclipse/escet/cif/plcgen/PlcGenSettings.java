@@ -61,7 +61,10 @@ public class PlcGenSettings {
     /** Paths to the I/O table file, may not exist. */
     public final PathPair ioTablePaths;
 
-    /** Text lines of the PLC program header. */
+    /**
+     * Text lines of the PLC program header. Text should be printable ASCII only (ASCII characters 32 through 126), and
+     * not contain any {@code "(*"} or {@code "*)"}.
+     */
     public final List<String> programHeaderTextLines;
 
     /** User-defined integer type size to use by the PLC. */
@@ -103,7 +106,8 @@ public class PlcGenSettings {
      * @param outputPaths Paths to write the generated code. Depending on the target can be either a file or a directory
      *     path.
      * @param ioTablePaths Paths to the I/O table file, may not exist.
-     * @param programHeaderTextLines Text lines of the PLC program header.
+     * @param programHeaderTextLines Text lines of the PLC program header. Text should be printable ASCII only (ASCII
+     *     characters 32 through 126), and not contain any {@code "(*"} or {@code "*)"}.
      * @param intTypeSize User-defined integer type size to use by the PLC.
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
