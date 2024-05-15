@@ -33,7 +33,7 @@ public class PlcGenericType extends PlcAbstractType {
     public static final PlcGenericType ANY_TYPE = new PlcGenericType(PlcGenericKind.ANY);
 
     /** Kind of generic type. */
-    public final PlcGenericKind kind;
+    private final PlcGenericKind kind;
 
     /**
      * Constructor of the {@link PlcGenericType} class.
@@ -65,7 +65,7 @@ public class PlcGenericType extends PlcAbstractType {
     }
 
     /** Available kinds of generic type. */
-    public static enum PlcGenericKind {
+    private static enum PlcGenericKind {
         /** Any integer type (incomplete wrt the standard). */
         ANY_INT(type -> PlcElementaryType.isIntType(type)),
 
