@@ -42,7 +42,7 @@ This may for instance reveal that additional requirements are needed, or existin
 
 === Next steps
 
-In case any issues are revealed through verification or validation, these need to be addressed.
+In case issues are found through verification or validation, these need to be addressed.
 Typically this involves changes to either the <<sbe-in-practice-steps-modeling-the-plant,plant model>> or <<sbe-in-practice-steps-modeling-the-requirements,requirements model>>.
 After such changes, the supervisor can be re-synthesized automatically.
 Changes can be made iteratively, until confidence in the correctness of the controller is high enough.

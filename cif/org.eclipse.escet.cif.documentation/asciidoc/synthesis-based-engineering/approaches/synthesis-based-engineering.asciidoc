@@ -37,9 +37,8 @@ Instead, it is automatically generated from models of the uncontrolled system (p
 Verification to ensure that the controller (model) satisfies the requirements used for synthesis is then superfluous, as the synthesized controller model is correct-by-construction.
 Verification may still be needed for additional requirements that are not yet supported by synthesis, such as stronger liveness requirements and timed requirements.
 
-And the controller model must still be validated to ensure it behaves as intended.
-While synthesis guarantees that the controller correctly adheres to the specified requirements, the specified requirements could not be the desired requirements.
-For instance, the requirements could be wrongly specified or too strict, resulting in the system being controlled by the controller exhibiting unwanted or insufficient behavior.
+Validation that the controller model behaves as intended is still needed, because even though synthesis guarantees that the synthesized controller correctly adheres to the specified requirements, the specified requirements may not be the desired requirements.
+For instance, the requirements could be incomplete, too restrictive, or contain other mistakes, resulting in the system being controlled by the controller exhibiting behavior that is not desired or not showing behavior that is desired.
 
 [[sbe-approaches-synthesis-based-input-plant-req]]
 === Input: plant and requirements models
