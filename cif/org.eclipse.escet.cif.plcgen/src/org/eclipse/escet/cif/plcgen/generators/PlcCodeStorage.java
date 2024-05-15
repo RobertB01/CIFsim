@@ -434,6 +434,10 @@ public class PlcCodeStorage {
         boolean boxNeedsEmptyLine = false;
 
         // Add input code if it exists.
+        //
+        // While there are no safety requirements to do this first, it's useful to have the newest sensor information
+        // available when initializing or updating the state. All input is read at the same time to get a consistent
+        // input state.
         if (inputFuncCode != null) {
             generateCommentHeader("Read input from sensors.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
@@ -476,6 +480,12 @@ public class PlcCodeStorage {
                 "controllable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
 
         // Generate output code if it exists.
+        //
+        // All outputs of the PLC are updated at the same time to send a consistent state to the controlled system. In
+        // addition, a safety requirement exists that requires that each safety output of the PLC is written once in a
+        // PLC cycle. To address both concerns and make it easy to verify the safety requirement in the generated PLC
+        // code, all output values are collected in internal variables while processing transitions. Only when all
+        // output is computed, it is copied to the actual output of the PLC.
         if (outputFuncCode != null) {
             generateCommentHeader("Write output to actuators.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
