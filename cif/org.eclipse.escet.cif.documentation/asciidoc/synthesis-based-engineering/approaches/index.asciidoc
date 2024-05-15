@@ -101,8 +101,8 @@ indexterm:[engineering, synthesis-based]
 * **Synthesis-based engineering** is a form of model-based engineering with computer-assistance to automate the design of the controller.
 It uses supervisory controller synthesis to automatically synthesize a controller model from requirements and a simple model of the to-be-controlled system.
 This mathematical technique guarantees that the synthesized controller model satisfies all specified requirements.
-This makes verification of the controller model against its requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
-With the controller design, realization and verification either being automated or unnecessary, only requirements design and validation remain.
+This makes verification of the controller model against the specified requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
+With the controller design, realization and verification either to a large degree being automated or unnecessary, the focus shifts to requirements design and validation.
 This allows engineers to focus on _what_ the controller should do, rather than _how_ it should achieve it.
 
 The use of model-based engineering combined with computer-aided design, through formal methods like formal verification and supervisory controller synthesis, has many advantages.

@@ -13,6 +13,7 @@
 
 include::../../_part_attributes.asciidoc[]
 
+indexterm:[verification, issues]
 indexterm:[validation, issues]
 
 [[sbe-in-practice-advanced-too-limited-behavior]]
@@ -20,7 +21,7 @@ indexterm:[validation, issues]
 
 <<sbe-in-practice-steps-synthesis,Supervisor synthesis>> always produces correct-by-construction supervisors, based on the <<sbe-in-practice-steps-modeling-the-plant,plant>> and <<sbe-in-practice-steps-modeling-the-requirements,requirements models>> that you provide as input.
 However, if you for instance provide too restrictive or conflicting requirements, or forget to model the <<sbe-in-practice-steps-modeling-plant-relations,plant relations>>, you may not get the desired <<sbe-approaches-synthesis-controlled-system,controlled system>> behavior.
-Such issues are often found during <<sbe-in-practice-steps-validation,validation>>.
+Such issues are often found during <<sbe-in-practice-steps-verification-and-validation,verification and validation>>.
 
 indexterm:[supervisor, empty]
 
@@ -67,6 +68,6 @@ For further details, see the section on <<sbe-in-practice-steps-modeling-plant-r
 The first solution is recommended, but it does not always apply.
 If it is not possible to use the first solution, or if you already applied the first solution and still have the problem, you could use the second solution.
 However, never blindly add self loops.
-Always verify that this gives you the desired behavior!
+Always check that this gives you the desired behavior!
 
 * Try to synthesize a supervisor with a subset of the requirements, to find out which requirement (or combination of requirements!) is causing the lack of behavior.

@@ -99,7 +99,7 @@ include::synthesis-based-engineering/in-practice/steps/marking.asciidoc[]
 
 include::synthesis-based-engineering/in-practice/steps/synthesis.asciidoc[]
 
-include::synthesis-based-engineering/in-practice/steps/validation.asciidoc[]
+include::synthesis-based-engineering/in-practice/steps/verification-and-validation.asciidoc[]
 
 include::synthesis-based-engineering/in-practice/steps/implementation.asciidoc[]
 
