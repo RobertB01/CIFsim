@@ -28,9 +28,9 @@ TBD
 
 Language changes:
 
-* The syntax of annotation arguments has changed.
-Annotations can make their annotation argument names optional.
-If both the argument name and value are present, a colon should now be used between them rather than an equal sign.
+* The syntax of annotation arguments has changed, to allow annotation arguments without a name.
+Each annotation has its own requirements, for instance requiring names for all its arguments, requiring all its arguments to not have a name, requiring names only for some of its arguments, or even allowing arguments to optionally have a name.
+If both the argument name and value are present, a colon (`:`) should now be used between them rather than an equal sign (`=`).
 Annotations are still an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner (issue {escet-issue}801[#801]).
 * The `@doc` annotation now requires one or more unnamed arguments, rather than a single argument named `text`.
