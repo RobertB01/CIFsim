@@ -82,7 +82,7 @@ If the file path does not exist, code generation will continue with a warning th
 * _Program header text file path_: The absolute or relative local file system path to the text file to include at the start of the generated PLC program.
 The program recognizes text patterns `+${app-name}+`, `+${app-version}+`, `+${time-stamp}+` and `+${brief-explanation}+`.
 They get replaced by the name of the PLC code generator application, its current version number, the current time/date and a short explanation of how to interpret CIF terminology in the PLC program, respectively.
-Non-printable and non-ASCII characters are ignored, `(*` is replaced by `(-*`, and `*)` is replaced by `*-)`.
+Non-printable and non-ASCII characters are ignored, `+(*+` is replaced by `+(-*+`, and `+*)+` is replaced by `+*-)+`.
 If no file path is provided, the program uses the following as input for the program header text:
 +
 [source,text]
