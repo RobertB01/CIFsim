@@ -21,8 +21,8 @@ public abstract class PlcExpression {
     public final PlcType type;
 
     /** Constructor of the {@link PlcExpression} class. Uses a {@code null} type. */
-    @Deprecated
     public PlcExpression() {
+        // TODO Remove this constructor.
         this(null); // TODO: Update PlcVarExpression when removing this.
     }
 
