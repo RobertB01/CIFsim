@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen;
 
+import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.wrap;
@@ -23,12 +25,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
@@ -252,26 +253,17 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             );
         }
 
-        // Load the file for using as program header.
+        // Load the file for using as program header. Cleanup happens further down, so don't bother with it now.
         List<String> lines = list();
         try (BufferedReader headerTextFile = new BufferedReader(new FileReader(paths.systemPath))) {
-            boolean seenEmptyLine = false;
             for (String line = headerTextFile.readLine(); line != null; line = headerTextFile.readLine()) {
-                String anotherLine = line.stripTrailing(); // Checkstyle Pro false positive fix.
-                if (anotherLine.isEmpty()) {
-                    seenEmptyLine = true; // Just store seeing an empty line rather than immediately adding it.
-                } else {
-                    if (seenEmptyLine) { // If a non-empty line follows insert an empty line before.
-                        lines.add("");
-                        seenEmptyLine = false;
-                    }
-                    lines.add(anotherLine);
-                }
+                lines.add(line.stripTrailing());
             }
-            headerTextFile.close();
+            // File is closed by leaving the scope.
         } catch (FileNotFoundException ex) {
-            OutputProvider.err(fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, "
-                    + "or could not be be opened for reading.", paths.userPath));
+            String msgText = fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, "
+                    + "or could not be be opened for reading.", paths.userPath);
+            throw new InputOutputException(msgText, ex);
         } catch (IOException ex) {
             throw new InputOutputException(
                     "Failed to read or close program header text file \"" + paths.userPath + "\".", ex);
@@ -280,14 +272,17 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Find the text patterns in the given lines, and expand them. Also, remove non-printable ASCII, disable PLC comment
-     * brackets, and drop trailing whitespace.
+     * Process the read header lines.
      *
-     * @param lines Lines to expand and clean up.
+     * <p>
+     * Expand the text patterns. Also, remove non-printable ASCII, drop trailing whitespace and disable PLC comment.
+     * </p>
+     *
+     * @param rawHeaderLines Lines of the header text to process.
      * @return The expanded and cleaned lines.
      */
-    private List<String> expandAndCleanProgramHeaderLines(List<String> lines) {
-        // Setup pattern replacements.
+    private List<String> expandAndCleanProgramHeaderLines(List<String> rawHeaderLines) {
+        // Setup the small replacements.
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.US);
         String appName = getAppName().strip();
         String appVersion = getAppVersion().strip();
@@ -296,118 +291,111 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Setup the brief explanation replacement.
         List<String> briefExplanation = list();
         briefExplanation.add("- - - - - - - - - - - - -");
-        formatText(briefExplanation, "This PLC prgram implements a controller that was designed in the CIF language.");
+        formatText(briefExplanation, "This PLC program implements a controller that was designed in the CIF language.");
         briefExplanation.add("");
         formatText(briefExplanation, "For those that do not know the CIF language, this brief explanation relates",
-                "concepts in the CIF language with known concepts in PLC programming. This makes it easier to understand what is being computed in this PLC program.");
+                "concepts in the CIF language with known concepts in PLC programming. This makes it easier to",
+                "understand what is being computed in this PLC program.");
         briefExplanation.add("");
-        formatText(briefExplanation, "A CIF model has one or more automata (which work like state",
-                "machines). All these automata work in parallel.");
+        formatText(briefExplanation, "A CIF model has one or more automata (which work like state machines). All these",
+                "automata work in parallel.");
         formatText(briefExplanation, "Each automaton has locations (equivalent to states). Like state machines, one of",
                 "the locations is the \"current state\". Each location has edges to other locations of the same",
                 "automaton, thus allowing to change the current state of the state machine by an edge. An edge also ",
-                "has a guard condition that must be satisfied for the edge to be taken and updates to change the values of variables (like",
-                "assignments).");
+                "has a guard condition that must be satisfied for the edge to be taken and updates to change the",
+                "values of variables (like assignments).");
         briefExplanation.add("");
-        formatText(briefExplanation, "Unlike regular state machines, CIF can couple edges of different state machines",
-                "together by means of an event-name (often abbreviated to 'event'). The most common form of coupling",
-                "is \"synchronizing\", which means that all automata that have the event must take an edge at the same",
-                "time. Automata coupled with \"monitoring\" may (but are not required to) also take an edge at the",
-                "same time. In some cases a channel may be used. In such a case, there is an",
-                "additional coupled \"sender\" and \"receiver\" automaton that may exchange a data value.");
+        formatText(briefExplanation, "In CIF, different state machines can be coupled by labeling their edges with the",
+                "same \"event\". The most common form of coupling is \"synchronizing\", which means that all automata ",
+                "that have the event must take an edge at the same time. Automata coupled with \"monitoring\" must",
+                "also synchronize, but only if they have an edge for the event in their current state. In some cases a",
+                "channel may be used. In such a case, one additional \"sender\" and one additional \"receiver\"",
+                "automaton must be involved, and they may exchange a data value.");
         briefExplanation.add("");
         formatText(briefExplanation, "In CIF there are two kinds of events. Uncontrollable events are events that are",
-                "caused by received changes from the environment. Controllable events are performed while computing a",
-                "control response. In a single PLC cycle first the state is updated from the sensors. Then the",
-                "uncontrollable events are performed as much as possible, followed by performing as many as possible",
-                "controllable events. Finally, output is written to the actuators.");
+                "caused by received changes from the environment (such as sensor signal changes). Controllable events",
+                "are performed while computing a control response (such as enabling or disabling an actuator). In a",
+                "single PLC cycle first the state is updated from the PLC inputs. Then the uncontrollable events are",
+                "performed as much as possible, followed by performing as many as possible controllable events.",
+                "Finally, the updated state is written to the PLC outputs.");
         briefExplanation.add("- - - - - - - - - - - - -");
+        int lastExplainIndex = briefExplanation.size() - 1;
+        int lengthLastExplainLine = last(briefExplanation).length();
 
-        // Expand the patterns in the lines, and apply cleanup.
-        List<String> resultLines = list();
-        Pattern pat = Pattern.compile("\\$\\{[^}]+\\}"); // Match ${...} and grab the text at the dots.
+        // Collected lines of the header text.
+        List<String> headerLines = list();
 
-        // Perform pattern replacements on each line, followed by cleanup and disabling comment sequences.
-        for (String line: lines) {
-            Matcher m = pat.matcher(line);
-            boolean addLine = true; // If it holds after the loop, 'line' should be added to the output.
+        // Process the raw header text lines.
+        for (String line: rawHeaderLines) {
+            // Expand the one-line templates.
+            line = line.replace(APP_NAME_PATTERN, appName).replace(APP_VERSION_PATTERN, appVersion)
+                    .replace(TIME_STAMP_PATTERN, timeStamp);
 
-            int scanStart = 0;
-            while (m.find(scanStart)) {
-                if (BRIEF_EXPLANATION_PATTERN.equals(m.group())) {
-                    // The explanation has multiple lines, splitting lines before and after the pattern makes no sense.
-                    // Instead, ignore the input line, and insert the explanation.
-                    for (String explainLine: briefExplanation) {
-                        resultLines.add(postProcessLine(explainLine));
-                    }
-                    addLine = false;
-                    break;
-                } else {
-                    String replacement = switch (m.group()) {
-                        case APP_NAME_PATTERN -> appName;
-                        case APP_VERSION_PATTERN -> appVersion;
-                        case TIME_STAMP_PATTERN -> timeStamp;
-                        default -> m.group(1);
-                    };
-                    line = line.substring(0, m.start()) + replacement + line.substring(m.end());
-                    scanStart = m.end();
+            // Look for the brief explanation template pattern.
+            int patternIndex = line.indexOf(BRIEF_EXPLANATION_PATTERN);
+            while (patternIndex >= 0) {
+                // If found, append the first line of the explanation to the text before the template pattern, and
+                // process the result.
+                postProcessLine(headerLines, line.substring(0, patternIndex) + first(briefExplanation));
+                // Add all intermediate explanation lines.
+                for (int explainLineNum = 1; explainLineNum < lastExplainIndex; explainLineNum++) {
+                    postProcessLine(headerLines, briefExplanation.get(explainLineNum));
                 }
+                // Construct a new header line with the last line of the explanation together with the remaining text
+                // after the template pattern. Also search for more explanation templates in the remaining text.
+                line = last(briefExplanation) + line.substring(patternIndex + BRIEF_EXPLANATION_PATTERN.length());
+                patternIndex = line.indexOf(BRIEF_EXPLANATION_PATTERN, lengthLastExplainLine);
             }
-
-            if (addLine) {
-                resultLines.add(postProcessLine(line));
-            }
+            postProcessLine(headerLines, line); // Always contains text if an explanation template was expanded.
         }
-        return resultLines;
+
+        // Trim leading and trailing empty lines from the header text.
+        int firstNonEmpty; // Inclusive lower bound.
+        for (firstNonEmpty = 0; firstNonEmpty < headerLines.size()
+                && headerLines.get(firstNonEmpty).isEmpty(); firstNonEmpty++)
+        {
+            // Do nothing.
+        }
+        int lastNonEmpty; // Inclusive upper bound.
+        for (lastNonEmpty = headerLines.size() - 1; lastNonEmpty >= firstNonEmpty
+                && headerLines.get(lastNonEmpty).isEmpty(); lastNonEmpty--)
+        {
+            // Do nothing.
+        }
+        return (firstNonEmpty > lastNonEmpty) ? Collections.emptyList()
+                : headerLines.subList(firstNonEmpty, lastNonEmpty + 1);
     }
 
     /**
      * Format a multi-string text by concatenating and splitting at length 75 characters. Add the formatted lines to the
      * destination.
      *
-     * @param lines Destination of the formatted text.
-     * @param text New text to format and add.
+     * @param dest Destination of the formatted text.
+     * @param texts New text parts forming one paragraph that should be added.
      */
-    private void formatText(List<String> lines, String... text) {
-        // Merge the input text lines into a single string.
-        int spaceNeeded = text.length - 1;
-        for (String s: text) {
-            spaceNeeded += s.length();
-        }
-        StringBuilder sb = new StringBuilder(spaceNeeded);
-        boolean first = true;
-        for (String s: text) {
-            if (!first) {
-                sb.append(' ');
-            } else {
-                first = false;
-            }
-
-            sb.append(s);
-        }
-
-        // Format the resulting text at 75 characters length and add the lines to the output.
-        for (String line: wrap(75, sb.toString())) {
-            lines.add(line);
+    private void formatText(List<String> dest, String... texts) {
+        // Reformat the new texts to lines of 75 characters and add the new lines as well.
+        for (String line: wrap(75, String.join(" ", texts))) {
+            dest.add(line);
         }
     }
 
     /**
-     * Perform cleanup of the text line and disable PLC comment brackets.
+     * Perform cleanup of the text line, disable PLC comment brackets, and add to the end of the result lines.
      *
+     * @param headerLines Text lines of the program header text.
      * @param line Text line to process.
-     * @return The cleaned text line.
      */
-    private String postProcessLine(String line) {
+    private void postProcessLine(List<String> headerLines, String line) {
         line = restrictToPrintableAscii(line); // Drop non-printable ASCII.
 
         // Disable PLC comment brackets and delete trailing white space.
         // Comment brackets may overlap (with "(*)"). Changing each bracket type separately handles that as well.
-        return line.replace("(*", "(-*").replace("*)", "*-)").stripTrailing();
+        headerLines.add(line.replace("(*", "(-*").replace("*)", "*-)").stripTrailing());
     }
 
     /**
-     * Remove any non-printable or non-ASCII character from the text line.
+     * Remove non-printable or non-ASCII characters from the text line.
      *
      * @param textLine Text to check. Text is cleaned to printable ASCII characters only. That makes all string
      *     backslash escape sequences such as {@code \t} or {@code \n} invalid.
