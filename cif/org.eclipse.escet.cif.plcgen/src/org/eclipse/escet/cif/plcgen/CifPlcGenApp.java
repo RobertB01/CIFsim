@@ -262,7 +262,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             // File is closed by leaving the scope.
         } catch (FileNotFoundException ex) {
             String msgText = fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, "
-                    + "or could not be be opened for reading.", paths.userPath);
+                    + "or could not be opened for reading.", paths.userPath);
             throw new InputOutputException(msgText, ex);
         } catch (IOException ex) {
             throw new InputOutputException(
