@@ -15,12 +15,16 @@ package org.eclipse.escet.cif.parser.ast;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.parser.ast.annotations.AAnnotation;
 import org.eclipse.escet.cif.parser.ast.tokens.AIdentifier;
 import org.eclipse.escet.common.java.TextPosition;
 import org.eclipse.escet.setext.runtime.Token;
 
 /** Component definition. */
 public class ACompDefDecl extends ADecl {
+    /** The annotations of the component definition. */
+    public final List<AAnnotation> annotations;
+
     /** Automaton supervisory kind, or {@code null} for group definitions or if not specified. */
     public final Token kind;
 
@@ -36,16 +40,18 @@ public class ACompDefDecl extends ADecl {
     /**
      * Constructor for the {@link ACompDefDecl} class.
      *
+     * @param annotations The annotations of the component definition.
      * @param kind Automaton supervisory kind, or {@code null} for group definitions or if not specified.
      * @param name The name of the component definition.
      * @param parameters The parameters of the component definition.
      * @param body The body of the component definition.
      * @param position Position information.
      */
-    public ACompDefDecl(Token kind, AIdentifier name, List<AParameter> parameters, AComponentBody body,
-            TextPosition position)
+    public ACompDefDecl(List<AAnnotation> annotations, Token kind, AIdentifier name, List<AParameter> parameters,
+            AComponentBody body, TextPosition position)
     {
         super(position);
+        this.annotations = annotations;
         this.kind = kind;
         this.name = name;
         this.parameters = parameters;

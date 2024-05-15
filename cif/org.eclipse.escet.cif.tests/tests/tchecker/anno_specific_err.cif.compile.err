@@ -21,5 +21,9 @@ ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 88, column 
 ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 91, column 3: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
 ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 93, column 5: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
 ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 96, column 5: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
-WARNING: File "tchecker/anno_specific_err.cif": Semantic warning at line 1, column 1: Annotation "cif:typechecker:tests:anno1": the specification contains more than 3 such annotations, namely 23.
+ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 102, column 1: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
+ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 108, column 1: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
+ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 112, column 1: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
+ERROR: File "tchecker/anno_specific_err.cif": Semantic error at line 115, column 1: Annotation "cif:typechecker:tests:anno1": the annotation must have exactly 1 argument, but has 0.
+WARNING: File "tchecker/anno_specific_err.cif": Semantic warning at line 1, column 1: Annotation "cif:typechecker:tests:anno1": the specification contains more than 3 such annotations, namely 27.
 ERROR: Failed to load CIF file "tchecker/anno_specific_err.cif": the file has errors.

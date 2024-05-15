@@ -21,8 +21,10 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.parser.ast.automata.ALocation;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.common.java.Assert;
 
@@ -106,5 +108,12 @@ public class GroupDefScope extends ParentScope<ComponentDef> {
      */
     public void tcheckFullParams() {
         AutDefScope.tcheckFullParams(this);
+    }
+
+    @Override
+    protected void tcheckScopeFull() {
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astAnnotations, this, tchecker);
+        obj.getBody().getAnnotations().addAll(annos);
     }
 }

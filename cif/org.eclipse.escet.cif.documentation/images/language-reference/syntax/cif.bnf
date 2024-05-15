@@ -17,10 +17,14 @@ GroupDecl : Decl
           | "namespace" RELATIVENAMETK ";"
           |       "func" Types Identifier FuncParams ":" FuncBody
           | Annos "func" Types Identifier FuncParams ":" FuncBody
-          | Identifier ":" Name CompInstArgs ";"
+          |       Identifier ":" Name CompInstArgs ";"
+          | Annos Identifier ":" Name CompInstArgs ";"
           |       "group"                "def" Identifier CompDefParms ":" GroupBody     "end"
+          | Annos "group"                "def" Identifier CompDefParms ":" GroupBody     "end"
           |       OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
+          | Annos OptSupKind "automaton" "def" Identifier CompDefParms ":" AutomatonBody "end"
           |          SupKind             "def" Identifier CompDefParms ":" AutomatonBody "end"
+          | Annos    SupKind             "def" Identifier CompDefParms ":" AutomatonBody "end"
           |       "group"                      Identifier              ":" GroupBody     "end"
           | Annos "group"                      Identifier              ":" GroupBody     "end"
           |       OptSupKind "automaton"       Identifier              ":" AutomatonBody "end"

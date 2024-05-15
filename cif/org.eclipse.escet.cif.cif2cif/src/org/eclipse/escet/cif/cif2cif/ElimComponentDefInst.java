@@ -362,6 +362,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
         }
 
+        // Move annotations from the component instantiation to the instantiated component.
+        body.getAnnotations().addAll(inst.getAnnotations());
+
         // Return final result.
         return body;
     }
@@ -1343,10 +1346,10 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
 
     /**
      * For a component parameter, get the argument if the component parameter is being eliminated, and return
-     * {@code null} otherwise. For component parameters that are being eliminated, process the argument, and
-     * update all relevant mappings. This is necessary if the argument contains 'via component instantiation'
-     * expressions for components that are being instantiated. The processing of arguments is performed only once
-     * per component parameter.
+     * {@code null} otherwise. For component parameters that are being eliminated, process the argument, and update all
+     * relevant mappings. This is necessary if the argument contains 'via component instantiation' expressions for
+     * components that are being instantiated. The processing of arguments is performed only once per component
+     * parameter.
      *
      * @param param The component parameter.
      * @return The argument, potentially update due to being processed, or {@code null}.

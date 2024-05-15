@@ -4648,7 +4648,10 @@ The annotations of the annotated object.
   The following objects support annotations:
   \begin{itemize}
     \item Algebraic variables.
-    \item Automata.
+    \item Automata (including bodies of automaton definitions).
+    \item Automaton definitions (for which we reuse the \cifclass{Automaton}
+      class).
+    \item Automaton instantiations.
     \item Constants.
     \item Continuous variables.
     \item Discrete variables (including parameters of user-defined functions,
@@ -4661,7 +4664,9 @@ The annotations of the annotated object.
     \item Function variables (for which we reuse the \cifclass{DiscVariable}
       class).
     \item Functions.
-    \item Groups.
+    \item Group definitions (for which we reuse the \cifclass{Group} class).
+    \item Group instantiations.
+    \item Groups (including bodies of group definitions).
     \item Input variables.
     \item Invariants.
     \item Locations of automata.

@@ -410,6 +410,9 @@ public class SymbolScopeBuilder {
             scope = new GroupDefScope(compdef2, parent, tchecker);
             decls = compdef1.body.decls;
 
+            // Add annotations.
+            scope.astAnnotations.addAll(compdef1.annotations);
+
             // Add group definition to the parent object.
             parent.getGroup().getDefinitions().add(compdef2);
 
@@ -471,6 +474,9 @@ public class SymbolScopeBuilder {
             scope = new AutDefScope(compdef2, compdef1, parent, tchecker);
             decls = compdef1.body.decls;
             locs = ((AAutomatonBody)compdef1.body).locations;
+
+            // Add annotations.
+            scope.astAnnotations.addAll(compdef1.annotations);
 
             // Add automaton definition to the parent object.
             parent.getGroup().getDefinitions().add(compdef2);

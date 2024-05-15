@@ -113,3 +113,19 @@ group g1:
     return fparam1 or fvar1;
   end
 end
+
+@cif:typechecker:tests:anno1(x: true)
+automaton def ADef():
+  location:
+    initial;
+end
+
+@cif:typechecker:tests:anno1(x: true)
+group def GDef():
+end
+
+@cif:typechecker:tests:anno1(x: true)
+ainst: ADef();
+
+@cif:typechecker:tests:anno1(x: true)
+ginst: GDef();
