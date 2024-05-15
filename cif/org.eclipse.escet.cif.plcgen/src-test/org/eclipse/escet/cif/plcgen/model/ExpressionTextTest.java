@@ -30,6 +30,9 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcStructLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.junit.jupiter.api.Test;
 
 /** Pretty-print expressions test. */
@@ -55,33 +58,41 @@ public class ExpressionTextTest {
         assertEquals("FALSE", toStr(new PlcBoolLiteral(false)));
 
         // Integers.
-        assertEquals("1", toStr(new PlcIntLiteral(1)));
-        assertEquals("-1", toStr(new PlcIntLiteral(-1)));
-        assertEquals("0", toStr(new PlcIntLiteral(0)));
+        assertEquals("1", toStr(new PlcIntLiteral(1, null)));
+        assertEquals("-1", toStr(new PlcIntLiteral(-1, null)));
+        assertEquals("0", toStr(new PlcIntLiteral(0, null)));
 
         // Reals.
-        assertEquals("1.390579367798679", toStr(new PlcRealLiteral("1.390579367798679")));
-        assertEquals("1.39e-15", toStr(new PlcRealLiteral("1.39e-15")));
-        assertEquals("1.0e-15", toStr(new PlcRealLiteral("1e-15"))); // Inserts a ".0".
-        assertEquals("39.0", toStr(new PlcRealLiteral("39"))); // Appends a ".0".
+        assertEquals("1.390579367798679", toStr(new PlcRealLiteral("1.390579367798679", null)));
+        assertEquals("1.39e-15", toStr(new PlcRealLiteral("1.39e-15", null)));
+        assertEquals("1.0e-15", toStr(new PlcRealLiteral("1e-15", null))); // Inserts a ".0".
+        assertEquals("39.0", toStr(new PlcRealLiteral("39", null))); // Appends a ".0".
 
         // Arrays.
         assertEquals("[0, 1, 2]",
-                toStr(new PlcArrayLiteral(List.of(new PlcIntLiteral(0), new PlcIntLiteral(1), new PlcIntLiteral(2)))));
+                toStr(new PlcArrayLiteral(List.of(new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE),
+                        new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE),
+                        new PlcIntLiteral(2, PlcElementaryType.DINT_TYPE)))));
 
         // Structures.
-        assertEquals("(a := 3, b := TRUE)", toStr(new PlcStructLiteral(List
-                .of(new PlcNamedValue("a", new PlcIntLiteral(3)), new PlcNamedValue("b", new PlcBoolLiteral(true))))));
+        PlcStructType sType = new PlcStructType("sType", List.of(new PlcStructField("a", PlcElementaryType.DINT_TYPE),
+                new PlcStructField("b", PlcElementaryType.BOOL_TYPE)));
+        assertEquals("(a := 3, b := TRUE)",
+                toStr(new PlcStructLiteral(
+                        List.of(new PlcNamedValue("a", new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE)),
+                                new PlcNamedValue("b", new PlcBoolLiteral(true))),
+                        sType)));
 
         // Variables.
         PlcBasicVariable aVar = new PlcDataVariable("a", null);
-        PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(7)));
+        PlcArrayProjection arrayProj7 = new PlcArrayProjection(new PlcIntLiteral(7, PlcElementaryType.DINT_TYPE));
         PlcStructProjection structProj = new PlcStructProjection("abc");
-        PlcArrayProjection multiArrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(3), new PlcIntLiteral(5)));
+        PlcArrayProjection arrayProj3 = new PlcArrayProjection(new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE));
+        PlcArrayProjection arrayProj5 = new PlcArrayProjection(new PlcIntLiteral(5, PlcElementaryType.DINT_TYPE));
 
         assertEquals("a", toStr(new PlcVarExpression(aVar)));
-        assertEquals("a[7].abc[3, 5]",
-                toStr(new PlcVarExpression(aVar, List.of(arrayProj, structProj, multiArrayProj))));
+        assertEquals("a[7].abc[3][5]",
+                toStr(new PlcVarExpression(aVar, List.of(arrayProj7, structProj, arrayProj3, arrayProj5))));
 
         // Function application is tested in conversions.FuncApplsTest.
     }

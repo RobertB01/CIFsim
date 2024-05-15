@@ -44,7 +44,7 @@ public class PlcElementaryType extends PlcType {
      *
      * @param name The name of the elementary type.
      */
-    public PlcElementaryType(String name) {
+    private PlcElementaryType(String name) {
         this.name = name;
     }
 
@@ -86,13 +86,13 @@ public class PlcElementaryType extends PlcType {
      * @return Number of bits of the type.
      */
     public static int getSizeOfIntType(PlcElementaryType intType) {
-        if (intType == PlcElementaryType.LINT_TYPE) {
+        if (intType.equals(PlcElementaryType.LINT_TYPE)) {
             return 64;
-        } else if (intType == PlcElementaryType.DINT_TYPE) {
+        } else if (intType.equals(PlcElementaryType.DINT_TYPE)) {
             return 32;
-        } else if (intType == PlcElementaryType.INT_TYPE) {
+        } else if (intType.equals(PlcElementaryType.INT_TYPE)) {
             return 16;
-        } else if (intType == PlcElementaryType.BOOL_TYPE) {
+        } else if (intType.equals(PlcElementaryType.BOOL_TYPE)) {
             return 1;
         } else {
             throw new AssertionError("Unexpected elementary type " + intType + " found.");
@@ -111,5 +111,26 @@ public class PlcElementaryType extends PlcType {
             case 64 -> LREAL_TYPE;
             default -> throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
         };
+    }
+
+    /**
+     * Test whether the given type is an integer type.
+     *
+     * @param type Type to test.
+     * @return Whether the type is a type for integer values.
+     */
+    public static boolean isIntType(PlcType type) {
+        return type.equals(PlcElementaryType.INT_TYPE) || type.equals(PlcElementaryType.DINT_TYPE)
+                || type.equals(PlcElementaryType.LINT_TYPE);
+    }
+
+    /**
+     * Test whether the given type is a real type.
+     *
+     * @param type Type to test.
+     * @return Whether the type is a type for real values.
+     */
+    public static boolean isRealType(PlcType type) {
+        return type.equals(PlcElementaryType.REAL_TYPE) || type.equals(PlcElementaryType.LREAL_TYPE);
     }
 }

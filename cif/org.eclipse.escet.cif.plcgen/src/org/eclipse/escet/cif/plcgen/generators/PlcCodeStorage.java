@@ -532,7 +532,7 @@ public class PlcCodeStorage {
             // Generate condition "progress AND loopCount < max".
             PlcExpression progressCond = new PlcVarExpression(progressVar);
             PlcExpression maxIterCond = funcAppls.lessThanFuncAppl(new PlcVarExpression(loopCount),
-                    new PlcIntLiteral(maxIter));
+                    target.makeStdInteger(maxIter));
             PlcExpression whileCond = funcAppls.andFuncAppl(progressCond, maxIterCond);
 
             // Restricted looping code.
@@ -559,10 +559,11 @@ public class PlcCodeStorage {
 
             // IF loopCount >= MAX_ITER THEN loopsKilled := MIN(loopsKilled + 1, MAX_LOOPS_KILLED); END_IF;
             PlcExpression reachedMaxLoopCond = funcAppls.greaterEqualFuncAppl(new PlcVarExpression(loopCount),
-                    new PlcIntLiteral(maxIter));
-            PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled), new PlcIntLiteral(1));
+                    target.makeStdInteger(maxIter));
+            PlcExpression incKilled = funcAppls.addFuncAppl(new PlcVarExpression(loopsKilled),
+                    new PlcIntLiteral(1, loopsKilled.type));
             PlcExpression limitedIncrementKilled = funcAppls.minFuncAppl(incKilled,
-                    new PlcIntLiteral(MAX_LOOPS_KILLED));
+                    new PlcIntLiteral(MAX_LOOPS_KILLED, loopsKilled.type));
 
             box.add("(* Register the first %d aborted loops. *)", MAX_LOOPS_KILLED);
             box.add("IF %s THEN", textGenerator.toString(reachedMaxLoopCond));

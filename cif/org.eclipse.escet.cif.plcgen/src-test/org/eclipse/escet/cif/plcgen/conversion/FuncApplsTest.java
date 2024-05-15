@@ -28,13 +28,13 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("javadoc")
 public class FuncApplsTest {
     /** Value {@code 1} expression. */
-    private final PlcExpression num1 = new PlcIntLiteral(1);
+    private final PlcExpression num1 = new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE);
 
     /** Value {@code 2} expression. */
-    private final PlcExpression num2 = new PlcIntLiteral(2);
+    private final PlcExpression num2 = new PlcIntLiteral(2, PlcElementaryType.DINT_TYPE);
 
     /** Value {@code 3} expression. */
-    private final PlcExpression num3 = new PlcIntLiteral(3);
+    private final PlcExpression num3 = new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE);
 
     /** Value {@code false} expression. */
     private final PlcExpression bool0 = new PlcBoolLiteral(false);
@@ -43,10 +43,10 @@ public class FuncApplsTest {
     private final PlcExpression bool1 = new PlcBoolLiteral(true);
 
     /** Value {@code 1.0} expression. */
-    private final PlcExpression real1 = new PlcRealLiteral("1.0");
+    private final PlcExpression real1 = new PlcRealLiteral("1.0", PlcElementaryType.LREAL_TYPE);
 
     /** Value {@code 2.0} expression. */
-    private final PlcExpression real2 = new PlcRealLiteral("2.0");
+    private final PlcExpression real2 = new PlcRealLiteral("2.0", PlcElementaryType.LREAL_TYPE);
 
     /** Function application generator. */
     private final PlcFunctionAppls funcAppls = new PlcFunctionAppls(new PlcOpenXmlTarget());

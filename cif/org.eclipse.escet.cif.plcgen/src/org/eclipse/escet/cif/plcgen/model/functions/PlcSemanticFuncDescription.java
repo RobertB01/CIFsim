@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.plcgen.model.functions;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
+
 /** Function description extended with the semantic operation being performed in a function application. */
 public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
     /** The semantic operation performed by the function application. */
@@ -33,12 +35,13 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
      *     {@link PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
+     * @param resultType Type of the result of the function.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
             PlcParameterDescription[] parameters, String infixFuncName, ExprBinding infixBinding,
-            EnumSet<PlcFuncNotation> notations)
+            EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
     {
-        super(prefixFuncName, parameters, infixFuncName, infixBinding, notations);
+        super(prefixFuncName, parameters, infixFuncName, infixBinding, notations, resultType);
         this.operation = operation;
     }
 
@@ -50,10 +53,11 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
      * @param parameters Parameters of the function.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
+     * @param resultType Type of the result of the function.
      */
     public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations)
+            PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
     {
-        this(operation, prefixFuncName, parameters, null, ExprBinding.NO_PRIORITY, notations);
+        this(operation, prefixFuncName, parameters, null, ExprBinding.NO_PRIORITY, notations, resultType);
     }
 }

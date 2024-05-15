@@ -16,6 +16,8 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
+
 /** Expression describing an array value. */
 public class PlcArrayLiteral extends PlcExpression {
     /** Values of the array. */
@@ -27,6 +29,8 @@ public class PlcArrayLiteral extends PlcExpression {
      * @param values Values of the array.
      */
     public PlcArrayLiteral(List<PlcExpression> values) {
+        // TODO: Check all types of the supplied values.
+        super(new PlcArrayType(0, values.size() - 1, values.get(0).type));
         this.values = Collections.unmodifiableList(values);
     }
 }

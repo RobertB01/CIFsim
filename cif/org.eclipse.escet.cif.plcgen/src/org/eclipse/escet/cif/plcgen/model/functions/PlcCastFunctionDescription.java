@@ -17,16 +17,6 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 
 /** Cast function with the semantic type conversion performed in a function application. */
 public class PlcCastFunctionDescription extends PlcBasicFuncDescription {
-    /** Parameters of the function. */
-    private static final PlcParameterDescription[] FUNCTION_PARAMETERS = {
-            new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY)};
-
-    /** Type of the function application child expression. */
-    public final PlcElementaryType childType;
-
-    /** Type of the function application result. */
-    public final PlcElementaryType resultType;
-
     /**
      * Constructor of the {@link PlcCastFunctionDescription} class.
      *
@@ -34,9 +24,9 @@ public class PlcCastFunctionDescription extends PlcBasicFuncDescription {
      * @param resultType Type of the function application result.
      */
     public PlcCastFunctionDescription(PlcElementaryType childType, PlcElementaryType resultType) {
-        super(childType.name + "_TO_" + resultType.name, FUNCTION_PARAMETERS,
-                PlcBasicFuncDescription.PlcFuncNotation.NOT_INFIX);
-        this.childType = childType;
-        this.resultType = resultType;
+        super(childType.name + "_TO_" + resultType.name,
+                new PlcParameterDescription[]
+                {new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, childType)},
+                PlcBasicFuncDescription.PlcFuncNotation.NOT_INFIX, resultType);
     }
 }

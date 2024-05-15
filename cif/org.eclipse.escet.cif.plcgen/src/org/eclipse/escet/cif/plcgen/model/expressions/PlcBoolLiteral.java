@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+
 /** Expression class for a boolean value. */
 public class PlcBoolLiteral extends PlcExpression {
     /** Value of the expression. */
@@ -24,6 +26,7 @@ public class PlcBoolLiteral extends PlcExpression {
      * @param value Value of the expression.
      */
     public PlcBoolLiteral(boolean value) {
+        super(PlcElementaryType.BOOL_TYPE);
         this.value = value;
     }
 }

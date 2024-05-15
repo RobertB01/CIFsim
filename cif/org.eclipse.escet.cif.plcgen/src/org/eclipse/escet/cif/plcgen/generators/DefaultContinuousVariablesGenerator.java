@@ -28,7 +28,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -195,7 +194,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Compute updated remaining time R := SEL(B, P - V, 0.0);
             PlcExpression subExpr = plcFuncAppls.subtractFuncAppl(new PlcVarExpression(presetVar),
                     new PlcVarExpression(v));
-            subExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr, new PlcRealLiteral("0.0"));
+            subExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr, target.makeStdReal("0.0"));
             statements.add(new PlcAssignmentStatement(plcContVar, subExpr));
 
             return statements;

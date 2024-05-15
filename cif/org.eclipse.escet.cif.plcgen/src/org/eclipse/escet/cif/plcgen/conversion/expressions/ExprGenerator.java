@@ -78,8 +78,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcProjection;
@@ -359,9 +357,9 @@ public class ExprGenerator {
         if (expr instanceof BoolExpression be) {
             return new ExprValueResult(this).setValue(new PlcBoolLiteral(be.isValue()));
         } else if (expr instanceof IntExpression ie) {
-            return new ExprValueResult(this).setValue(new PlcIntLiteral(ie.getValue()));
+            return new ExprValueResult(this).setValue(target.makeStdInteger(ie.getValue()));
         } else if (expr instanceof RealExpression re) {
-            return new ExprValueResult(this).setValue(new PlcRealLiteral(re.getValue()));
+            return new ExprValueResult(this).setValue(target.makeStdReal(re.getValue()));
         } else if (expr instanceof StringExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof TimeExpression) {
@@ -1005,7 +1003,7 @@ public class ExprGenerator {
 
             case CBRT: {
                 // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
-                PlcExpression expValue = funcAppls.divideFuncAppl(new PlcRealLiteral("1.0"), new PlcRealLiteral("3.0"));
+                PlcExpression expValue = funcAppls.divideFuncAppl(target.makeStdReal("1.0"), target.makeStdReal("3.0"));
 
                 Assert.check(argumentResults.size() == 1);
                 ExprValueResult arg1 = argumentResults.get(0);
@@ -1055,7 +1053,7 @@ public class ExprGenerator {
                 if (!target.supportsOperation(PlcFuncOperation.STDLIB_LOG, argumentResults.size())) {
                     // Fallback to log10(x) = ln(x) / ln(10).
                     PlcExpression lnX = funcAppls.lnFuncAppl(arg1.value);
-                    PlcExpression ln10 = funcAppls.lnFuncAppl(new PlcRealLiteral("10.0"));
+                    PlcExpression ln10 = funcAppls.lnFuncAppl(target.makeStdReal("10.0"));
                     return arg1.setValue(funcAppls.divideFuncAppl(lnX, ln10));
                 }
                 return arg1.setValue(funcAppls.logFuncAppl(arg1.value));
@@ -1244,7 +1242,7 @@ public class ExprGenerator {
             releaseTempVariables(childResult.codeVariables);
 
             // Construct assignment.
-            PlcArrayProjection arrayProj = new PlcArrayProjection(List.of(new PlcIntLiteral(idx)));
+            PlcArrayProjection arrayProj = new PlcArrayProjection(target.makeStdInteger(idx));
             PlcVarExpression lhs = new PlcVarExpression(arrayVar, List.of(arrayProj));
             PlcAssignmentStatement assignment = new PlcAssignmentStatement(lhs, childResult.value);
             idx++;

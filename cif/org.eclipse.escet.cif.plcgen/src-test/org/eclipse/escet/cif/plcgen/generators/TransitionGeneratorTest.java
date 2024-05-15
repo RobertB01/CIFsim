@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
@@ -144,8 +143,15 @@ public class TransitionGeneratorTest {
 
     private DiscVariable otherVar = newDiscVariable(null, "otherVar", null, newIntType(), null);
 
-    private Specification spec = newSpecification(null, null, List.of(recVar, otherVar), null, null, null, null, null,
-            null, "specification", null);
+    private List<Field> rightFields = List.of(newField("tupField1", null, newIntType()),
+            newField("tupField2", null, newIntType()));
+
+    private TupleType rightTupleType = newTupleType(rightFields, null);
+
+    private DiscVariable tupVar = newDiscVariable(null, "tupVar", null, rightTupleType, null);
+
+    private Specification spec = newSpecification(null, null, List.of(recVar, otherVar, tupVar), null, null, null, null,
+            null, null, "specification", null);
 
     private PlcDataVariable isProgressVar = new PlcDataVariable("isProgress", PlcElementaryType.BOOL_TYPE);
 
@@ -154,6 +160,7 @@ public class TransitionGeneratorTest {
         target = new TestPlcTarget();
         target.getVarStorage().addStateVariable(recVar, recVar.getType());
         target.getVarStorage().addStateVariable(otherVar, otherVar.getType());
+        target.getVarStorage().addStateVariable(tupVar, tupVar.getType());
         transitionGenerator = new DefaultTransitionGenerator(target);
     }
 
@@ -668,13 +675,18 @@ public class TransitionGeneratorTest {
         spec.getDeclarations().add(event);
 
         // Unpack "true" tuple.
-        // edge event do otherVar, otherVar := true;
+        // edge event do otherVar, otherVar := tupVar;
 
-        List<Field> fields1 = List.of(newField("f1", null, newIntType()), newField("f2", null, newIntType()));
-        TupleType tupleType1 = newTupleType(fields1, null);
+        List<Field> leftFields = List.of(newField("f1", null, newIntType()), newField("f2", null, newIntType()));
+        TupleType leftTupleType = newTupleType(leftFields, null);
         Expression leftSide = newTupleExpression(List.of(newDiscVariableExpression(null, newIntType(), otherVar),
-                newDiscVariableExpression(null, newIntType(), otherVar)), null, tupleType1);
-        Expression rightSide = newBoolExpression(null, newBoolType(), true);
+                newDiscVariableExpression(null, newIntType(), otherVar)), null, leftTupleType);
+
+        List<Field> rightFields2 = List.of(newField("tupField1", null, newIntType()),
+                newField("tupField2", null, newIntType()));
+        TupleType rightTupleType2 = newTupleType(rightFields2, null);
+        Expression rightSide = newDiscVariableExpression(null, rightTupleType2, tupVar);
+
         Update update = newAssignment(leftSide, null, rightSide);
         Location aut2Loc = newLocation();
         aut2Loc.setName("autLoc");
@@ -726,7 +738,7 @@ public class TransitionGeneratorTest {
                     (* Perform assignments of automaton "aut". *)
                     IF edge_aut_1 = 1 THEN
                         (* Perform assignments of the 10th edge in location "aut.autLoc". *)
-                        rightValue := TRUE;
+                        rightValue := tupVar;
                         otherVar := rightValue.field1;
                         otherVar := rightValue.field2;
                     END_IF;

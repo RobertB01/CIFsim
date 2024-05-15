@@ -343,14 +343,7 @@ public class ModelTextGenerator {
             textBuilder.append(structProj.fieldName);
         } else if (proj instanceof PlcArrayProjection arrayProj) {
             textBuilder.append('[');
-            boolean first = true;
-            for (PlcExpression indexExpr: arrayProj.indexExpressions) {
-                if (!first) {
-                    textBuilder.append(", ");
-                }
-                first = false;
-                toText(indexExpr, textBuilder, funcApplPreference);
-            }
+            toText(arrayProj.indexExpression, textBuilder, funcApplPreference);
             textBuilder.append(']');
         } else {
             throw new AssertionError("Unexpected PLC projection \"" + proj + "\" found.");

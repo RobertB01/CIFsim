@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.functions;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
 import org.eclipse.escet.common.java.Assert;
 
 /** Description of a regular function. */
@@ -38,11 +39,13 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
      *     {@link PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for functions that have no infix notation.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
+     * @param resultType Type of the result of the function.
      */
     public PlcPlainFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
-            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations)
+            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
     {
-        super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations));
+        super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations),
+                resultType);
         Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
 
         this.infixFuncName = infixFuncName;
