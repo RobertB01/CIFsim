@@ -128,9 +128,12 @@ group g1:
 end
 
 @doc
-automaton def ADef():
+automaton def ADef(
+  @doc
+  alg int p
+):
   location:
-    initial;
+    initial p > 0;
 end
 
 @doc
@@ -138,7 +141,7 @@ group def GDef():
 end
 
 @doc
-ainst: ADef();
+ainst: ADef(123);
 
 @doc
 ginst: GDef();

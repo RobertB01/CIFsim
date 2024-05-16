@@ -100,9 +100,12 @@ group g1:
 end
 
 @cif:typechecker:tests:anno1
-automaton def ADef():
+automaton def ADef(
+  @cif:typechecker:tests:anno1
+  alg int p
+):
   location:
-    initial;
+    initial p > 0;
 end
 
 @cif:typechecker:tests:anno1
@@ -110,7 +113,7 @@ group def GDef():
 end
 
 @cif:typechecker:tests:anno1
-ainst: ADef();
+ainst: ADef(123);
 
 @cif:typechecker:tests:anno1
 ginst: GDef();
