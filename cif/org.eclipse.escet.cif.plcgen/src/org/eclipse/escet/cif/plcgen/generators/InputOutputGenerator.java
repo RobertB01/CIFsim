@@ -338,6 +338,12 @@ public class InputOutputGenerator {
         NameGenerator nameGenerator = target.getNameGenerator();
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
+        // All variables connected to a PLC input should be read at the same time in order to get a consistent input
+        // state. For variables connected to a PLC output the same applies for consistency towards the controlled
+        // system.
+        // In addition, for outputs a safety requirement exists that requires a safety output to be written only once in
+        // a PLC cycle. By writing all output at the same time it is easier to implement it correctly and easier to
+        // verify in a review of the generated PLC code.
         CifDataProvider cifDataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
         for (IoEntry entry: entries) {
             // Preliminaries (check I/O direction, construct links to the correct local data structures).
