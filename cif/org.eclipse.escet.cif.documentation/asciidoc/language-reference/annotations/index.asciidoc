@@ -108,6 +108,9 @@ Most require regular annotation names, while some require double at-sign annotat
 |===
 | Element | Annotation name
 
+| Algebraic parameters
+| Regular
+
 | Algebraic variables
 | Regular
 
