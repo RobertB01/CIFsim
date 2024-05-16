@@ -435,9 +435,9 @@ public class PlcCodeStorage {
 
         // Add input code if it exists.
         //
-        // While there are no safety requirements to do this first, it's useful to have the newest sensor information
-        // available when initializing or updating the state. All input is read at the same time to get a consistent
-        // input state.
+        // Both state initialization and state update use the sensor information. For best results, that information
+        // should be consistent and it should be as recent as possible and it should be consistent. Therefore, all PLC
+        // inputs should be read at the same time, and it should be done just before state computation.
         if (inputFuncCode != null) {
             generateCommentHeader("Read input from sensors.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
@@ -481,11 +481,11 @@ public class PlcCodeStorage {
 
         // Generate output code if it exists.
         //
-        // All outputs of the PLC are updated at the same time to send a consistent state to the controlled system. In
-        // addition, a safety requirement exists that requires that each safety output of the PLC is written once in a
-        // PLC cycle. To address both concerns and make it easy to verify the safety requirement in the generated PLC
-        // code, all output values are collected in internal variables while processing transitions. Only when all
-        // output is computed, it is copied to the actual output of the PLC.
+        // All outputs of the PLC are updated at the same time to send a consistent state to the controlled system.
+        // To address the requirement that a safety output may be written only once in a PLC cycle, the code below that
+        // generates the PLC output code is executed only one time during the PLC code generation process.
+        // Secondary advantages of this solution are that it is easier to get it correctly implemented in the generator
+        // and it becomes easier to verify the safety requirement in a review of the generated PLC code.
         if (outputFuncCode != null) {
             generateCommentHeader("Write output to actuators.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
