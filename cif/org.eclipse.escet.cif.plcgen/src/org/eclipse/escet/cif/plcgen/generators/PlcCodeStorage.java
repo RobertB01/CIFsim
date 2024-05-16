@@ -436,8 +436,8 @@ public class PlcCodeStorage {
         // Add input code if it exists.
         //
         // Both state initialization and state update use the sensor information. For best results, that information
-        // should be consistent and it should be as recent as possible and it should be consistent. Therefore, all PLC
-        // inputs should be read at the same time, and it should be done just before state computation.
+        // should be consistent and it should be as recent as possible. Therefore, all PLC inputs should be read at the
+        // same time, and it should be done just before state computation.
         if (inputFuncCode != null) {
             generateCommentHeader("Read input from sensors.", '-', boxNeedsEmptyLine, box);
             boxNeedsEmptyLine = true;
