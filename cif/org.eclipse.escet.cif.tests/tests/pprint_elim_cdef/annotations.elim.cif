@@ -185,13 +185,13 @@ group def_inst:
   @a(b: 1)
   @a(b: 3)
   automaton ainst1:
-    location:
+    location l:
       initial;
   end
   @a(b: 1)
   @a(b: 4)
   automaton ainst2:
-    location:
+    location l:
       initial;
   end
   @a(b: 2)
@@ -201,5 +201,58 @@ group def_inst:
   @a(b: 2)
   @a(b: 6)
   group ginst2:
+  end
+end
+group alg_param:
+  event e;
+  automaton ainst1:
+    @a(b: 1)
+    alg int p1 = 11;
+    @a(b: 1)
+    alg int p2 = 21;
+    @a(b: 2)
+    alg int p3 = 31;
+    @a(b: 2)
+    alg int p4 = 41;
+    location:
+      initial p1 + p2 + p3 + p4 > 0 and def_inst.ainst1.l and def_inst.ainst1.l;
+      edge e;
+  end
+  automaton ainst2:
+    @a(b: 1)
+    alg int p1 = 12;
+    @a(b: 1)
+    alg int p2 = 22;
+    @a(b: 2)
+    alg int p3 = 32;
+    @a(b: 2)
+    alg int p4 = 42;
+    location:
+      initial p1 + p2 + p3 + p4 > 0 and def_inst.ainst2.l and def_inst.ainst2.l;
+      edge e;
+  end
+  group ginst1:
+    @a(b: 3)
+    alg int p1 = 13;
+    @a(b: 3)
+    alg int p2 = 23;
+    @a(b: 4)
+    alg int p3 = 33;
+    @a(b: 4)
+    alg int p4 = 43;
+    invariant p1 + p2 + p3 + p4 > 0 and def_inst.ainst1.l and def_inst.ainst1.l;
+    invariant e needs p1 > 4;
+  end
+  group ginst2:
+    @a(b: 3)
+    alg int p1 = 14;
+    @a(b: 3)
+    alg int p2 = 24;
+    @a(b: 4)
+    alg int p3 = 34;
+    @a(b: 4)
+    alg int p4 = 44;
+    invariant p1 + p2 + p3 + p4 > 0 and def_inst.ainst2.l and def_inst.ainst2.l;
+    invariant e needs p1 > 4;
   end
 end
