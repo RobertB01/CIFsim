@@ -532,7 +532,7 @@ CompDefDeclaration : OptControllability @EVENTKW           EventParamIds
                    |    Controllability          EventType EventParamIds
                    | Name Identifiers
                    | @LOCATIONKW Identifiers
-                   | @ALGKW Type Identifiers
+                   | OptAnnos @ALGKW Type Identifiers
                    ;
 
 {List<cif.AEventParameterPart>}
