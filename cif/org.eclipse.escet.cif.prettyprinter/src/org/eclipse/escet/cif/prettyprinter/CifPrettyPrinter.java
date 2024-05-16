@@ -818,25 +818,10 @@ public final class CifPrettyPrinter {
         add(cdef.getBody().getAnnotations());
 
         // Add header.
-        List<String> paramTxts = listc(cdef.getParameters().size());
-        for (Parameter param: cdef.getParameters()) {
-            paramTxts.add(pprint(param));
-        }
-
-        String kindTxt;
-        if (isAut) {
-            SupKind kind = ((Automaton)compBody).getKind();
-            kindTxt = "automaton";
-            if (kind != SupKind.NONE) {
-                kindTxt = kindToStr(kind) + " " + kindTxt;
-            }
-        } else {
-            kindTxt = "group";
-        }
-        code.add("%s def %s(%s):", kindTxt, escapeIdentifier(compBody.getName()), String.join("; ", paramTxts));
-        code.indent();
+        addHeader(cdef);
 
         // Add body.
+        code.indent();
         if (isAut) {
             Automaton aut = (Automaton)compBody;
             addAutBody(aut.getAlphabet(), aut.getMonitors(), aut.getLocations(), aut.getDeclarations(),
@@ -852,6 +837,65 @@ public final class CifPrettyPrinter {
         // Add end.
         code.dedent();
         code.add("end");
+    }
+
+    /**
+     * Add the header of the given component definition to the pretty printed code.
+     *
+     * @param cdef The component definition.
+     */
+    public void addHeader(ComponentDef cdef) {
+        // Preparations.
+        ComplexComponent compBody = cdef.getBody();
+        boolean isAut = compBody instanceof Automaton;
+
+        // Check whether the parameters have annotations.
+        boolean paramsHaveAnnos = cdef.getParameters().stream().anyMatch(
+                param -> param instanceof AlgParameter algParam && !algParam.getVariable().getAnnotations().isEmpty());
+
+        // Get kind text.
+        String kindTxt;
+        if (isAut) {
+            SupKind kind = ((Automaton)compBody).getKind();
+            kindTxt = "automaton";
+            if (kind != SupKind.NONE) {
+                kindTxt = kindToStr(kind) + " " + kindTxt;
+            }
+        } else {
+            kindTxt = "group";
+        }
+
+        // Add header.
+        if (paramsHaveAnnos) {
+            code.add("%s def %s(", kindTxt, escapeIdentifier(compBody.getName()));
+            int paramCount = cdef.getParameters().size();
+            code.indent();
+            for (int i = 0; i < paramCount; i++) {
+                Parameter param = cdef.getParameters().get(i);
+                add(param, i == paramCount - 1);
+            }
+            code.dedent();
+            code.add("):");
+        } else {
+            List<String> paramTxts = cdef.getParameters().stream().map(this::pprint).toList();
+            code.add("%s def %s(%s):", kindTxt, escapeIdentifier(compBody.getName()), String.join("; ", paramTxts));
+        }
+    }
+
+    /**
+     * Add the given parameter of a component definition.
+     *
+     * @param param The parameter.
+     * @param last Whether this parameter is the last parameter of the component definition.
+     */
+    public void add(Parameter param, boolean last) {
+        // Add annotations.
+        if (param instanceof AlgParameter algParam) {
+            add(algParam.getVariable().getAnnotations());
+        }
+
+        // Add parameter.
+        code.add("%s%s", pprint(param), last ? "" : ";");
     }
 
     /**
