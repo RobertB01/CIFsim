@@ -4647,7 +4647,9 @@ The annotations of the annotated object.
 \citem{AnnotatedObject.onlyForSupportedObjects}
   The following objects support annotations:
   \begin{itemize}
-    \item Algebraic variables.
+    \item Algebraic parameters (for which we reuse the \cifclass{AlgVariable}
+      class).
+    \item Algebraic variables (includes algebraic parameters).
     \item Automata (including bodies of automaton definitions).
     \item Automaton definitions (for which we reuse the \cifclass{Automaton}
       class).
