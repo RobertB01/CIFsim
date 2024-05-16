@@ -23,7 +23,6 @@ import static org.eclipse.escet.cif.cif2yed.CifToYedColors.INST_HEADER_COLOR;
 import static org.eclipse.escet.cif.cif2yed.CifToYedColors.LOC_BG_COLOR;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
 
 import java.awt.geom.Rectangle2D;
@@ -42,7 +41,6 @@ import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
-import org.eclipse.escet.cif.metamodel.cif.Parameter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
@@ -210,15 +208,12 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
             title = kindText + " " + comp.getName();
             bgColor = COMP_HEADER_COLOR;
         } else {
-            CifPrettyPrinter pprinter = new CifPrettyPrinter(null);
-            StringBuilder params = new StringBuilder();
-            for (Parameter param: cdef.getParameters()) {
-                if (params.length() > 0) {
-                    params.append("; ");
-                }
-                params.append(pprinter.pprint(param));
-            }
-            title = fmt("%s def %s(%s)", kindText, comp.getName(), params);
+            MemoryCodeBox cdefHeaderBox = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+            CifPrettyPrinter pprinter = new CifPrettyPrinter(cdefHeaderBox);
+            pprinter.addHeader(cdef);
+            String cdefHeaderText = cdefHeaderBox.toString();
+            Assert.check(cdefHeaderText.endsWith(":"));
+            title = Strings.slice(cdefHeaderText, null, -1);
             bgColor = DEF_HEADER_COLOR;
         }
 
