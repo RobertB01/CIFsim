@@ -1,2 +1,2 @@
-WARNING: File "simulator/lang/algs.cif": Semantic warning at line 14, column 14: Type "int[1..1]" allows only one value.
-WARNING: File "simulator/lang/algs.cif": Semantic warning at line 16, column 14: Type "int[1..1]" allows only one value.
+WARNING: File "simulator/lang/algs.cif": Semantic warning at line 14, column 14: The type "int[1..1]" of algebraic variable "a0" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "simulator/lang/algs.cif": Semantic warning at line 16, column 14: The type "int[1..1]" of algebraic variable "a1" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.

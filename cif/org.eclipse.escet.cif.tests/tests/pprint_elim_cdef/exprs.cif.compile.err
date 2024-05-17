@@ -1,11 +1,11 @@
 WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 407, column 19: The switch expression has only one case, which is deprecated.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 407, column 19: Type "int[6..6]" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 407, column 19: The type "int[6..6]" of algebraic variable "switch2" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
 WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 429, column 15: The switch expression has only one case, which is deprecated.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 429, column 15: Type "int[123..123]" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 429, column 15: The type "int[123..123]" of algebraic variable "switch_aut1.x" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
 WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 462, column 20: The switch expression has only one case, which is deprecated.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 538, column 8: Type "int[4..4]" allows only one value.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 561, column 26: Type "int[5..5]" allows only one value.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 564, column 26: Type "int[4..4]" allows only one value.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 573, column 26: Type "int[1..1]" allows only one value.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 576, column 26: Type "int[0..0]" allows only one value.
-WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 657, column 7: Type "list[0] int" allows only one value.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 538, column 8: The type "int[4..4]" of discrete variable "slice_aut.s" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 561, column 26: The type "int[5..5]" of algebraic variable "slicel_yee" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 564, column 26: The type "int[4..4]" of algebraic variable "slicel_yes" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 573, column 26: The type "int[1..1]" of algebraic variable "slicel_yse" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 576, column 26: The type "int[0..0]" of algebraic variable "slicel_yss" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "pprint_elim_cdef/exprs.cif": Semantic warning at line 657, column 7: The type "list[0] int" of algebraic variable "delete4" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.

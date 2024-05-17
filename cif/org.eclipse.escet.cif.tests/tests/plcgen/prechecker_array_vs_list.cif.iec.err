@@ -1,4 +1,4 @@
-WARNING: File "plcgen/prechecker_array_vs_list.cif": Semantic warning at line 21, column 5: Type "list[0] int" allows only one value.
+WARNING: File "plcgen/prechecker_array_vs_list.cif": Semantic warning at line 21, column 5: The type "list[0] int" of algebraic variable "empty_list" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 
   ------------------------------------

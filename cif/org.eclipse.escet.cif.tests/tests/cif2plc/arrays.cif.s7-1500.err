@@ -1,4 +1,4 @@
-WARNING: File "cif2plc/arrays.cif": Semantic warning at line 41, column 8: Type "list[0] int" allows only one value.
+WARNING: File "cif2plc/arrays.cif": Semantic warning at line 41, column 8: The type "list[0] int" of discrete variable "aut.empty_arr" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
 ERROR: PLC code generation failed for CIF file "cif2plc/arrays.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
 

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,7 +13,11 @@
 
 package org.eclipse.escet.cif.plcgen.model.types;
 
-/** Concrete PLC type. */
-public abstract class PlcType extends PlcAbstractType {
-    // Nothing to do.
+/** Abstract PLC type. */
+public abstract class PlcAbstractType {
+    @Override
+    public abstract boolean equals(Object other);
+
+    @Override
+    public abstract int hashCode();
 }

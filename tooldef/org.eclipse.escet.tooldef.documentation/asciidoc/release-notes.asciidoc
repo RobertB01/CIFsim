@@ -26,6 +26,11 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 TBD
 
+Improvements and fixes:
+
+* The 'ToolDef tool manual' page in the ToolDef documentation has been renamed to 'ToolDef interpreter', to avoid giving the impression that the page explains ToolDef's built-in tools (issue {escet-issue}825[#825]).
+* The ToolDef documentation has some small improvements (issue {escet-issue}825[#825]).
+
 === Version 3.0 (2024-03-31)
 
 New features:

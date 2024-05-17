@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+
 /** Expression class for an enumeration literal. */
 public class PlcEnumLiteral extends PlcExpression {
     /** Value of the literal. */
@@ -22,8 +24,10 @@ public class PlcEnumLiteral extends PlcExpression {
      * Constructor of the {@link PlcEnumLiteral} class.
      *
      * @param value Value of the literal.
+     * @param type Type of the literal.
      */
-    public PlcEnumLiteral(String value) {
+    public PlcEnumLiteral(String value, PlcEnumType type) {
+        super(type);
         this.value = value;
     }
 

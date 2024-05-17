@@ -1,25 +1,25 @@
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 34, column 16: Type "int[1..1]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 39, column 9: Type "int[9..9]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 45, column 8: Type "int[1..1]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 60, column 8: Type "p2.EE" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 65, column 8: Type "int[99..99]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 70, column 8: Type "list[0] int[2..2]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 71, column 8: Type "list[1] int[3..3]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 72, column 8: Type "list[2] int[4..4]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 73, column 8: Type "list[1] int[5..5]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 74, column 8: Type "list[2] int[6..6]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 77, column 8: Type "tuple(int[1..1] a; int[2..2] b)" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 79, column 8: Type "p2.EE" allows only one value.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 34, column 16: The type "int[1..1]" of algebraic variable "p2.a1" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 39, column 9: The type "int[9..9]" of input variable "p2.input_var2" allows only one value. Consider whether the type is correct, or use a constant instead of the input variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 45, column 8: The type "int[1..1]" of discrete variable "p2.j" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 60, column 8: The type "p2.EE" of discrete variable "p2.z" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 65, column 8: The type "int[99..99]" of discrete variable "p2.ti_99_99" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 70, column 8: The type "list[0] int[2..2]" of discrete variable "p2.tl0" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 71, column 8: The type "list[1] int[3..3]" of discrete variable "p2.tl1" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 72, column 8: The type "list[2] int[4..4]" of discrete variable "p2.tl2" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 73, column 8: The type "list[1] int[5..5]" of discrete variable "p2.tl11" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 74, column 8: The type "list[2] int[6..6]" of discrete variable "p2.tl22" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 77, column 8: The type "tuple(int[1..1] a; int[2..2] b)" of discrete variable "p2.ttii" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 79, column 8: The type "p2.EE" of discrete variable "p2.te" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 244, column 18: The switch expression has only one case, which is deprecated.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 248, column 18: The switch expression has only one case, which is deprecated.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 259, column 20: Switch "else" is superfluous, as all values already have a "case".
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 264, column 20: Switch "else" is superfluous, as all values already have a "case".
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 277, column 18: The switch expression has only one case, which is deprecated.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 281, column 18: The switch expression has only one case, which is deprecated.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1030, column 5: Type "int[4..4]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1031, column 5: Type "int[5..5]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1048, column 8: Type "int[5..5]" allows only one value.
-WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1159, column 7: Type "int[0..0]" allows only one value.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1030, column 5: The type "int[4..4]" of function variable "ff.f2.c" allows only one value. Consider whether the type is correct, or use a constant instead of the function variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1031, column 5: The type "int[5..5]" of function variable "ff.f2.v" allows only one value. Consider whether the type is correct, or use a constant instead of the function variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1048, column 8: The type "int[5..5]" of discrete variable "pp.v" allows only one value. Consider whether the type is correct, or use a constant instead of the discrete variable.
+WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1159, column 7: The type "int[0..0]" of channel "comm_single" allows only one value. Consider whether the type is correct, or use a constant instead of the value communicated via the channel.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1180, column 3: Duplicate state invariant.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1190, column 3: Duplicate state invariant.
 WARNING: File "cif2cif/simplify_values_optimized.cif": Semantic warning at line 1203, column 3: Duplicate state invariant.

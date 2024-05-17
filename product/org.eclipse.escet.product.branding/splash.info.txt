@@ -1,0 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+The 'splash.bmp' file has some constraints:
+
+* It should have a resolution of 450x300 pixels.
+* It should have a DPI of 72, use 24 bits color encoding, and not have any
+  color space information. To ensure this, edit the image using Gimp. Use
+  'Image' -> 'Print size...' and then selecting an X/Y resolution of 72
+  pixels/inch. It should be exported in Gimp through 'File' -> 'Export As...'.
+  Then select the file name and choose 'Export'. Make sure to enable the 'Do
+  not write color space information' option and select 24 bits color encoding.
+  Click 'Export'.

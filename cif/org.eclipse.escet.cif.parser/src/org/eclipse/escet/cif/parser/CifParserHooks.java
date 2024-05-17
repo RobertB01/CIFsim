@@ -501,51 +501,82 @@ implements CifScanner.Hooks,
     @Override // GroupDecl : Identifier COLONTK Name CompInstArgs @SEMICOLTK;
     public ADecl parseGroupDecl07(AIdentifier a1, AName a3, List<AExpression> l4, Token t5) {
         parser.addFoldRange(a1.position, t5.position);
-        return new ACompInstDecl(a1, a3, l4, a1.position);
+        return new ACompInstDecl(Collections.emptyList(), a1, a3, l4, a1.position);
+    }
+
+    @Override // GroupDecl : Annos Identifier COLONTK Name CompInstArgs @SEMICOLTK;
+    public ADecl parseGroupDecl08(List<AAnnotation> l1, AIdentifier a2, AName a4, List<AExpression> l5, Token t6) {
+        parser.addFoldRange(a2.position, t6.position);
+        return new ACompInstDecl(l1, a2, a4, l5, a2.position);
     }
 
     @Override // GroupDecl : @GROUPKW DEFKW Identifier CompDefParms COLONTK GroupBody @ENDKW;
-    public ADecl parseGroupDecl08(Token t1, AIdentifier a3, List<AParameter> l4, AGroupBody a6, Token t7) {
+    public ADecl parseGroupDecl09(Token t1, AIdentifier a3, List<AParameter> l4, AGroupBody a6, Token t7) {
         parser.addFoldRange(t1, t7);
-        return new ACompDefDecl(null, a3, l4, a6, a3.position);
+        return new ACompDefDecl(Collections.emptyList(), null, a3, l4, a6, a3.position);
+    }
+
+    @Override // GroupDecl : Annos @GROUPKW DEFKW Identifier CompDefParms COLONTK GroupBody @ENDKW;
+    public ADecl parseGroupDecl10(List<AAnnotation> l1, Token t2, AIdentifier a4, List<AParameter> l5, AGroupBody a7,
+            Token t8)
+    {
+        parser.addFoldRange(t2, t8);
+        return new ACompDefDecl(l1, null, a4, l5, a7, a4.position);
     }
 
     @Override // GroupDecl : OptSupKind @AUTOMATONKW DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl09(Token t1, Token t2, AIdentifier a4, List<AParameter> l5, AAutomatonBody a7,
+    public ADecl parseGroupDecl11(Token t1, Token t2, AIdentifier a4, List<AParameter> l5, AAutomatonBody a7,
             Token t8)
     {
         Token firstToken = (t1 != null) ? t1 : t2;
         parser.addFoldRange(firstToken, t8);
-        return new ACompDefDecl(t1, a4, l5, a7, a4.position);
+        return new ACompDefDecl(Collections.emptyList(), t1, a4, l5, a7, a4.position);
+    }
+
+    @Override // GroupDecl : Annos OptSupKind @AUTOMATONKW DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;
+    public ADecl parseGroupDecl12(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a5, List<AParameter> l6,
+            AAutomatonBody a8, Token t9)
+    {
+        Token firstToken = (t2 != null) ? t2 : t3;
+        parser.addFoldRange(firstToken, t9);
+        return new ACompDefDecl(l1, t2, a5, l6, a8, a5.position);
     }
 
     @Override // GroupDecl : SupKind DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl10(Token t1, AIdentifier a3, List<AParameter> l4, AAutomatonBody a6, Token t7) {
+    public ADecl parseGroupDecl13(Token t1, AIdentifier a3, List<AParameter> l4, AAutomatonBody a6, Token t7) {
         parser.addFoldRange(t1, t7);
-        return new ACompDefDecl(t1, a3, l4, a6, a3.position);
+        return new ACompDefDecl(Collections.emptyList(), t1, a3, l4, a6, a3.position);
+    }
+
+    @Override // GroupDecl : Annos SupKind DEFKW Identifier CompDefParms COLONTK AutomatonBody @ENDKW;
+    public ADecl parseGroupDecl14(List<AAnnotation> l1, Token t2, AIdentifier a4, List<AParameter> l5,
+            AAutomatonBody a7, Token t8)
+    {
+        parser.addFoldRange(t2, t8);
+        return new ACompDefDecl(l1, t2, a4, l5, a7, a4.position);
     }
 
     @Override // GroupDecl : @GROUPKW Identifier COLONTK GroupBody @ENDKW;
-    public ADecl parseGroupDecl11(Token t1, AIdentifier a2, AGroupBody a4, Token t5) {
+    public ADecl parseGroupDecl15(Token t1, AIdentifier a2, AGroupBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
         return new ACompDecl(Collections.emptyList(), null, a2, a4, a2.position);
     }
 
     @Override // GroupDecl : Annos @GROUPKW Identifier COLONTK GroupBody @ENDKW;
-    public ADecl parseGroupDecl12(List<AAnnotation> l1, Token t2, AIdentifier a3, AGroupBody a5, Token t6) {
+    public ADecl parseGroupDecl16(List<AAnnotation> l1, Token t2, AIdentifier a3, AGroupBody a5, Token t6) {
         parser.addFoldRange(t2, t6);
         return new ACompDecl(l1, null, a3, a5, a3.position);
     }
 
     @Override // GroupDecl : OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl13(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl17(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         Token firstToken = (t1 != null) ? t1 : t2;
         parser.addFoldRange(firstToken, t6);
         return new ACompDecl(Collections.emptyList(), t1, a3, a5, a3.position);
     }
 
     @Override // GroupDecl : Annos OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl14(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6,
+    public ADecl parseGroupDecl18(List<AAnnotation> l1, Token t2, Token t3, AIdentifier a4, AAutomatonBody a6,
             Token t7)
     {
         Token firstToken = (t2 != null) ? t2 : t3;
@@ -554,13 +585,13 @@ implements CifScanner.Hooks,
     }
 
     @Override // GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl15(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
+    public ADecl parseGroupDecl19(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5) {
         parser.addFoldRange(t1, t5);
         return new ACompDecl(Collections.emptyList(), t1, a2, a4, a2.position);
     }
 
     @Override // GroupDecl : Annos SupKind Identifier COLONTK AutomatonBody @ENDKW;
-    public ADecl parseGroupDecl16(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
+    public ADecl parseGroupDecl20(List<AAnnotation> l1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6) {
         parser.addFoldRange(t2, t6);
         return new ACompDecl(l1, t2, a3, a5, a3.position);
     }

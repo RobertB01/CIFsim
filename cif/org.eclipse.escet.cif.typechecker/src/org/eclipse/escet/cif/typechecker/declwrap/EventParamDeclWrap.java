@@ -169,7 +169,8 @@ public class EventParamDeclWrap extends DeclWrap<EventParameter> {
         // Check for single-value type.
         CifType type = mmDecl.getEvent().getType();
         if (type != null && !(type instanceof VoidType) && CifValueUtils.getPossibleValueCount(type) == 1) {
-            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), "", CifTextUtils.typeToStr(type),
+                    "channel parameter", CifTextUtils.getAbsName(mmDecl, false), "value communicated via the channel");
             // Non-fatal problem.
         }
 

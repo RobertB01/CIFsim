@@ -18,7 +18,7 @@ indexterm:[supervisor, implement]
 [[sbe-in-practice-steps-implementation]]
 == Controller implementation
 
-Once a supervisory controller has been <<sbe-in-practice-steps-synthesis,synthesized>> and <<sbe-in-practice-steps-validation,validated>>, it is time to implement it.
+Once a supervisory controller has been <<sbe-in-practice-steps-synthesis,synthesized>>, <<sbe-in-practice-steps-verification-and-validation,verified and validated>>, it is time to implement it.
 The control software is typically implemented using a programming language, such as PLC code for a PLC platform, or Java or C++ code for an industrial PC.
 This may for instance be done in-house within the company, by different teams or departments, or by an external supplier.
 
@@ -34,5 +34,9 @@ CIF supports code generation through the following tools:
 * <<tools-codegen-chapter-index,CIF code generator>>: for various other programming languages
 
 The documentation of these tools provide further details on how to use them.
+
+Once code has been generated, it should be tested on the actual system.
+This may reveal additional issues.
+For instance, the behavior of the system may not be properly captured in the <<sbe-in-practice-steps-modeling-the-plant,plant model>>, or the inputs and outputs of the system may be incorrectly connected to the controller.
 
 With a working implementation of the controller, this concludes the process to apply <<sbe-in-practice,synthesis-based engineering in practice>>.

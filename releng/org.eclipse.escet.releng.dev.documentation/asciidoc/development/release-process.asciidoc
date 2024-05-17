@@ -16,10 +16,15 @@ include::_part_attributes.asciidoc[]
 [[development-release-process-chapter-index]]
 == Release process
 
-This page explains step by step the various processes involved from preparing for a release to actually releasing it.
-The following topics are covered:
+This page explains policies related to releases in the Eclipse ESCET project, as well as step by step instructions for the various processes involved with releases, from preparing for a release to actually releasing it.
+
+Policies:
 
 * <<development-release-process-release-policy>>
+* <<development-release-process-release-retention-policy>>
+
+Step by step instructions:
+
 * <<development-release-process-plan-next-version>>
 * <<development-release-process-prepare-git-repo-for-next-version>>
 * <<development-release-process-working-on-a-release>>
@@ -36,6 +41,43 @@ We generally release every three months, at the end of each quarter, typically o
 
 We may however deviate from this.
 For instance, we may release earlier at the end of the year, well before the Christmas period.
+
+Eclipse ESCET has several types of releases:
+
+* **Nightlies**:
+This involves regular releases of new developments.
+Strictly speaking, these are not nightlies, as they are not released every night, but instead whenever a new change is merged into the `develop` branch of ESCET's main <<development-git-repo-chapter-index,Git repository>>.
+* **Milestones**:
+This involves intermediate releases of the current development progress, typically released around halfway a release cycle.
+For instance, `v1.0-M1` is the first milestone release for version `1.0`.
+* **Release candidates**:
+This involves previews that are used for testing prior to a final release.
+If all is well, the final release is then functionally identical to the release candidate.
+For instance, `v1.0-RC1` is the first release candidate for version `1.0`.
+* **Final releases**:
+This involves a final release for a version of the ESCET toolkit.
+For instance, `v1.0` is the final release for version `1.0`.
+
+[[development-release-process-release-retention-policy]]
+=== Release retention policy
+
+The Eclipse ESCET project has the following retention policies for its different types of releases:
+
+* **Nightlies**:
+Each nightly releases is overwritten by the next nightly release.
+Only the most recent nightly release is thus available.
+* **Milestones**:
+Milestone releases are removed when the final release of the next version is released.
+Therefore, directly after a final release, only the milestone releases of that version are available.
+During a release cycle, the milestone releases of the in-progress release and the previous release are available.
+For instance, when `v2.0` is released, milestone releases `v1.0-M1`, `v1.0-M2`, and so on, will be removed.
+* **Release candidates**:
+Release candidates are removed when the final release of the next version is released.
+Therefore, directly after a final release, only the release candidates of that version are available.
+During a release cycle, the release candidates of the in-progress release and the previous release are available.
+For instance, when `v2.0` is released, release candidates `v1.0-RC1`, `v1.0-RC2`, and so on, will be removed.
+* **Final releases**:
+Final releases are kept indefinitely.
 
 [[development-release-process-plan-next-version]]
 === Planning for a next version

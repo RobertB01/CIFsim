@@ -143,10 +143,14 @@ public class ExprGeneratorTest {
 
     private static DiscVariable discVar = newDiscVariable(null, "flatDisc", null, newRealType(), null);
 
+    private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
+
+    private static PlcStructType stateStruct = new PlcStructType("stateStruct",
+            List.of(new PlcStructField(discVar.getName(), PlcElementaryType.REAL_TYPE),
+                    new PlcStructField(tupVar.getName(), makeStructType("struct3", 3))));
+
     private static ContVariable contVar = newContVariable(null, newRealExpression(null, newRealType(), "1.0"), "timer",
             null, null);
-
-    private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
 
     private static EnumDecl enumDecl = newEnumDecl(null,
             List.of(newEnumLiteral(null, "firstField", null), newEnumLiteral(null, "secondField", null)), "enumType",
@@ -158,6 +162,14 @@ public class ExprGeneratorTest {
             fields.add(newField("field" + (fields.size() + 1), null, newRealType()));
         }
         return newTupleType(fields, null);
+    }
+
+    private static PlcStructType makeStructType(String structName, int length) {
+        List<PlcStructField> fields = listc(length);
+        while (fields.size() < length) {
+            fields.add(new PlcStructField("field" + (fields.size() + 1), PlcElementaryType.LREAL_TYPE));
+        }
+        return new PlcStructType(structName, fields);
     }
 
     private static DiscVariableExpression makeDiscVarExpr() {
@@ -279,8 +291,8 @@ public class ExprGeneratorTest {
      * <ul>
      * <li>CIF constant {@code X} becomes PLC {@code bool X} (works because the only constant that we have has type
      * {@code bool}).</li>
-     * <li>CIF discrete variables are stored in a {@code StateStruct state} structure, although the structure itself is
-     * not defined.</li>
+     * <li>CIF discrete variables ({@code flatDisc} and {@code tupVar}) are stored in a {@code StateStruct state}
+     * structure.</li>
      * <li>CIF {@code cont X} becomes variables {@code X} and {@code X_der}.</li>
      * <li>CIF location {@code X} becomes a boolean variable {@code X}.</li>
      * <li>CIF input variable becomes PLC {@code int X} (works because the only input variable that we have has type
@@ -298,14 +310,14 @@ public class ExprGeneratorTest {
         public PlcExpression getValueForDiscVar(DiscVariable variable) {
             // state.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
-            return new PlcVarExpression(new PlcDataVariable("state", new PlcDerivedType("StateStruct")), fieldProj);
+            return new PlcVarExpression(new PlcDataVariable("state", stateStruct), fieldProj);
         }
 
         @Override
         public PlcVarExpression getAddressableForDiscVar(DiscVariable variable) {
             // newState.discvar_name
             PlcProjection fieldProj = new PlcStructProjection(variable.getName());
-            return new PlcVarExpression(new PlcDataVariable("newState", new PlcDerivedType("StateStruct")), fieldProj);
+            return new PlcVarExpression(new PlcDataVariable("newState", stateStruct), fieldProj);
         }
 
         @Override

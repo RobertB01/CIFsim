@@ -260,7 +260,8 @@ public class FunctionScope extends ParentScope<Function> {
     protected void tcheckScopeFull() {
         // Check return type for single-value type.
         if (CifValueUtils.getPossibleValueCount(returnType) == 1) {
-            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, returnType.getPosition(), CifTextUtils.typeToStr(returnType));
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, returnType.getPosition(), "return ",
+                    CifTextUtils.typeToStr(returnType), "function", CifTextUtils.getAbsName(obj, false), "function");
             // Non-fatal problem.
         }
 

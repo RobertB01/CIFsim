@@ -126,3 +126,19 @@ group g1:
     return fparam1 or fvar1;
   end
 end
+
+@doc
+automaton def ADef():
+  location:
+    initial;
+end
+
+@doc
+group def GDef():
+end
+
+@doc
+ainst: ADef();
+
+@doc
+ginst: GDef();

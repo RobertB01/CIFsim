@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+
 /** Expression class for a floating point value. */
 public class PlcRealLiteral extends PlcExpression {
     /** Value of the expression. */
@@ -22,8 +24,10 @@ public class PlcRealLiteral extends PlcExpression {
      * Constructor of the {@link PlcRealLiteral} class.
      *
      * @param value Value of the expression.
+     * @param type Type of the literal.
      */
-    public PlcRealLiteral(String value) {
+    public PlcRealLiteral(String value, PlcType type) {
+        super(type);
         this.value = value;
     }
 }

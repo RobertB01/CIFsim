@@ -107,7 +107,8 @@ public class FuncParamDeclWrap extends DeclWrap<FunctionParameter> {
         // Check for single-value type.
         CifType type = mmDecl.getParameter().getType();
         if (CifValueUtils.getPossibleValueCount(type) == 1) {
-            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), CifTextUtils.typeToStr(type));
+            tchecker.addProblem(ErrMsg.TYPE_ONE_VALUE, type.getPosition(), "", CifTextUtils.typeToStr(type),
+                    "function parameter", CifTextUtils.getAbsName(mmDecl, false), "function parameter");
             // Non-fatal problem.
         }
 

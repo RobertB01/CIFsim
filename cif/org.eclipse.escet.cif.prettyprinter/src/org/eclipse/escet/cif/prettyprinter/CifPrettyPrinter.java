@@ -806,8 +806,12 @@ public final class CifPrettyPrinter {
      * @param cdef The component definition.
      */
     public void add(ComponentDef cdef) {
+        // Preparations.
         ComplexComponent compBody = cdef.getBody();
         boolean isAut = compBody instanceof Automaton;
+
+        // Add annotations.
+        add(cdef.getBody().getAnnotations());
 
         // Add header.
         List<String> paramTxts = listc(cdef.getParameters().size());
@@ -945,6 +949,10 @@ public final class CifPrettyPrinter {
      * @param inst The component instantiation.
      */
     public void add(ComponentInst inst) {
+        // Add annotations.
+        add(inst.getAnnotations());
+
+        // Add instantiation.
         code.add("%s: %s%s;", escapeIdentifier(inst.getName()), pprint(inst.getDefinition()),
                 pprint(inst.getArguments(), "(", ", ", ")"));
     }

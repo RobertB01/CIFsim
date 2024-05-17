@@ -26,6 +26,49 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 TBD
 
+Language changes:
+
+* The syntax of annotation arguments has changed, to allow annotation arguments without a name.
+Each annotation has its own requirements, for instance requiring names for all its arguments, requiring all its arguments to not have a name, requiring names only for some of its arguments, or even allowing arguments to optionally have a name.
+If both the argument name and value are present, a colon (`:`) should now be used between them rather than an equal sign (`=`).
+Annotations are still an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner (issue {escet-issue}801[#801]).
+* The `@doc` annotation now requires one or more unnamed arguments, rather than a single argument named `text`.
+See the documentation about documentation annotations for further details (issue {escet-issue}801[#801]).
+* Annotations may now be added to automata, automaton definitions, automaton instantiations, enumerations, enumeration literals, events, functions, function parameters, function variables, groups, group definitions, group instantiations, invariants, specifications and type declarations.
+Annotations on specifications and on invariants in locations require double `@`-signs, such as `@@doc` instead of `@doc` (issue {escet-issue}593[#593]).
+* The CIF type checker now warns about certain declarations that have a type that supports only one value.
+This new check is enabled for algebraic parameters, algebraic variables, channel parameters, channels, discrete variables, function parameters, function local variables, function return types and input variables.
+To resolve such a warning, check the type, or use a constant instead (issues {escet-issue}797[#797] and {escet-issue}827[#827]).
+
+Deprecations and removals:
+
+* The ball sorting model has been removed from the CIF benchmark models set (issue {escet-issue}745[#745]).
+
+Improvements and fixes:
+
+* The CIF parser is now more efficient in parsing elements that can have annotations, but do not have them (issue {escet-issue}593[#593]).
+* The CIF simulator has a fix to prevent resource leaks for specifications with external user-defined Java functions (issue {escet-issue}635[#635]).
+* The CIF to CIF anonymize names transformation now renames local variables of functions to `fvarNN` rather than to `discNN`, with `NN` a number (issue {escet-issue}811[#811]).
+* The CIF code generator now supports documentation annotations for enumeration literals, events, functions, function parameters, function variables and specifications (issue {escet-issue}593[#593]).
+* The CIF code generator for HTML now properly escapes SVG element identifiers when used in CSS selectors, making it possible to use SVG element identifiers with dots and colons (issue {escet-issue}715[#715]).
+* The CIF code generator for C and Simulink now quote event names in generated comments (issue {escet-issue}593[#593]).
+* The CIF code generator for Simulink now generates an empty line between the file header and imports (issue {escet-issue}593[#593]).
+* The CIF code generator for Java, JavaScript and HTML now always uses proper paragraph syntax in the generated code for documentation from documentation annotations (issue {escet-issue}802[#802]).
+* The CIF code generator for Java, JavaScript and HTML now generate improved comments in the generated code for user-defined functions (issue {escet-issue}593[#593]).
+* The (still experimental) new CIF PLC code generator now only supports event that are declared as controllable or uncontrollable.
+This thus also excludes `tau` events, and edges without events that implicitly have a `tau` event (issue {escet-issue}800[#800]).
+* The (still experimental) new CIF PLC code generator no longer supports events that are only used as monitor events, and could thus be executed infinitely often during a PLC cycle (issue {escet-issue}679[#679]).
+* The (still experimental) new CIF PLC code generator no longer supports arrays of size zero (issues {escet-issue}679[#679] and {escet-issue}794[#794]).
+* The (still experimental) new CIF PLC code generator no longer crashes for specifications with nested tuples (issue {escet-issue}818[#818]).
+* The (still experimental) new CIF PLC code generator has some robustness improvements (issues {escet-issue}628[#628] and {escet-issue}770[#770]).
+* The (still experimental) new CIF PLC code generator now generates PLC code with two event loops, first one for the uncontrollable events and then one for the controllable events.
+The option to set a maximum on the number of iterations now accepts either one limit (for both loops) or two limits (separate limits for the two loops).
+And the tool now warns if the configured limit is reduced due to the target PLC model not supporting such large numbers (issue {escet-issue}628[#628]).
+* The CIF to Supremica transformation now has improved precondition violation markers for reporting unsupported partial variable assignments (issue {escet-issue}790[#790]).
+* The CIF to UPPAAL transformation now have improved precondition violation markers for reporting unsupported partial variable assignments (issue {escet-issue}790[#790]).
+* The CIF documentation has various small improvements and fixes (issues {escet-issue}593[#593], {escet-issue}628[#628], {escet-issue}804[#804], {escet-issue}810[#810] and {escet-issue}811[#811]).
+
 === Version 3.0 (2024-03-31)
 
 Language changes:
