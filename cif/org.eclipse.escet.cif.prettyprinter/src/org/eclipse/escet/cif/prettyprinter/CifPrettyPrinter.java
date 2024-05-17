@@ -340,8 +340,8 @@ public final class CifPrettyPrinter {
                 // not transform the specification.
                 code.add("initial;");
             } else {
-                for (int i = 0; i < initials.size(); i++) {
-                    code.add("initial %s;", pprint(initials.get(i)));
+                for (Expression initial: initials) {
+                    code.add("initial %s;", pprint(initial));
                 }
             }
         }
@@ -355,8 +355,8 @@ public final class CifPrettyPrinter {
                 // specification.
                 code.add("marked;");
             } else {
-                for (int i = 0; i < markeds.size(); i++) {
-                    code.add("marked %s;", pprint(markeds.get(i)));
+                for (Expression marked: markeds) {
+                    code.add("marked %s;", pprint(marked));
                 }
             }
         }
@@ -400,18 +400,10 @@ public final class CifPrettyPrinter {
 
         if (!eqns.isEmpty()) {
             anythingAdded = true;
-            for (int i = 0; i < eqns.size(); i++) {
-                Equation eqn = eqns.get(i);
-                StringBuilder line = new StringBuilder();
-                line.append("equation ");
-                line.append(escapeIdentifier(eqn.getVariable().getName()));
-                if (eqn.isDerivative()) {
-                    line.append("'");
-                }
-                line.append(" = ");
-                line.append(pprint(eqn.getValue()));
-                line.append(";");
-                code.add(line.toString());
+            for (Equation eqn: eqns) {
+                String name = escapeIdentifier(eqn.getVariable().getName());
+                String derivative = eqn.isDerivative() ? "'" : "";
+                code.add("equation %s%s = %s;", name, derivative, pprint(eqn.getValue()));
             }
         }
 
