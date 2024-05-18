@@ -1,7 +1,32 @@
 event e;
 const int[5..5] a2StateEvtExcls = 5;
 const int[6..6] a2StateEvtExcls2 = 6;
+const bool named_and_unnamed_autNAME12b = true;
 group g:
+  automaton StateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 203 = 203, 204 = 204, not(205 = 205), not(206 = 206);
+  end
+  plant automaton PlantStateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 213 = 213, 214 = 214, not(215 = 215), not(216 = 216);
+  end
+  requirement automaton RequirementStateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 223 = 223, 224 = 224, not(225 = 225), not(226 = 226);
+  end
+  supervisor automaton SupervisorStateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 233 = 233, 234 = 234, not(235 = 235), not(236 = 236);
+  end
   invariant 201 = 201;
   invariant 202 = 202;
   plant invariant 211 = 211;
@@ -54,6 +79,83 @@ automaton a4:
   location x3:
     initial;
 end
+group named_and_unnamed_grp:
+  event e;
+  @doc("2")
+  automaton NAME2:
+    location:
+      initial;
+      marked;
+      edge e when 2 = 2;
+  end
+  @doc("4")
+  automaton NAME4:
+    location:
+      initial;
+      marked;
+      edge e when not(4 = 4);
+  end
+  @doc("6")
+  plant automaton NAME6:
+    location:
+      initial;
+      marked;
+      edge e when 6 = 6;
+  end
+  @doc("8")
+  plant automaton NAME8:
+    location:
+      initial;
+      marked;
+      edge e when not(8 = 8);
+  end
+  @doc("10")
+  requirement automaton NAME10:
+    location:
+      initial;
+      marked;
+      edge e when 10 = 10;
+  end
+  @doc("12")
+  requirement automaton NAME12:
+    location:
+      initial;
+      marked;
+      edge e when not(12 = 12);
+  end
+  @doc("13")
+  automaton StateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 13 = 13;
+  end
+  automaton StateEvtExcls2:
+    location:
+      initial;
+      marked;
+      edge e when 1 = 1, not(3 = 3);
+  end
+  plant automaton PlantStateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 5 = 5, not(7 = 7);
+  end
+  requirement automaton RequirementStateEvtExcls:
+    location:
+      initial;
+      marked;
+      edge e when 9 = 9, not(11 = 11);
+  end
+end
+automaton named_and_unnamed_aut:
+  event e;
+  location loc1:
+    initial;
+  location loc2:
+    initial;
+end
 automaton StateEvtExcls:
   location:
     initial;
@@ -77,30 +179,6 @@ supervisor automaton SupervisorStateEvtExcls:
     initial;
     marked;
     edge e when 133 = 133, 134 = 134, not(135 = 135), not(136 = 136);
-end
-automaton gStateEvtExcls:
-  location:
-    initial;
-    marked;
-    edge e when 203 = 203, 204 = 204, not(205 = 205), not(206 = 206);
-end
-plant automaton gPlantStateEvtExcls:
-  location:
-    initial;
-    marked;
-    edge e when 213 = 213, 214 = 214, not(215 = 215), not(216 = 216);
-end
-requirement automaton gRequirementStateEvtExcls:
-  location:
-    initial;
-    marked;
-    edge e when 223 = 223, 224 = 224, not(225 = 225), not(226 = 226);
-end
-supervisor automaton gSupervisorStateEvtExcls:
-  location:
-    initial;
-    marked;
-    edge e when 233 = 233, 234 = 234, not(235 = 235), not(236 = 236);
 end
 automaton aStateEvtExcls:
   location:
@@ -144,6 +222,122 @@ automaton a4StateEvtExcls:
     marked;
     edge a4.e1 when a4.x1 => 701 = 701, a4.x1 => 702 = 702, not(a4.x2 => 711 = 711), not(a4.x2 => 712 = 712), a4.x3 => 721 = 721, a4.x3 => 722 = 722, not(a4.x3 => 725 = 725), not(a4.x3 => 726 = 726);
     edge a4.e2 when a4.x1 => 703 = 703, not(a4.x2 => 713 = 713), a4.x3 => 723 = 723, a4.x3 => 724 = 724, not(a4.x3 => 727 = 727), not(a4.x3 => 728 = 728);
+end
+@doc("2")
+automaton named_and_unnamed_autNAME2a:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 2 = 2;
+end
+@doc("4")
+automaton named_and_unnamed_autNAME4a:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when not(4 = 4);
+end
+@doc("6")
+plant automaton named_and_unnamed_autNAME6a:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 6 = 6;
+end
+@doc("8")
+plant automaton named_and_unnamed_autNAME8a:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when not(8 = 8);
+end
+@doc("10")
+requirement automaton named_and_unnamed_autNAME10a:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 10 = 10;
+end
+@doc("12")
+requirement automaton named_and_unnamed_autNAME12a:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when not(12 = 12);
+end
+@doc("13")
+automaton named_and_unnamed_autStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 13 = 13;
+end
+@doc("2")
+automaton named_and_unnamed_autNAME2b:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => 2 = 2;
+end
+@doc("4")
+automaton named_and_unnamed_autNAME4b:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when not(named_and_unnamed_aut.loc1 => 4 = 4);
+end
+@doc("6")
+plant automaton named_and_unnamed_autNAME6b:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => 6 = 6;
+end
+@doc("8")
+plant automaton named_and_unnamed_autNAME8b:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when not(named_and_unnamed_aut.loc1 => 8 = 8);
+end
+@doc("10")
+requirement automaton named_and_unnamed_autNAME10b:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => 10 = 10;
+end
+@doc("12")
+requirement automaton named_and_unnamed_autNAME12b2:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when not(named_and_unnamed_aut.loc1 => 12 = 12);
+end
+@doc("13")
+automaton named_and_unnamed_autStateEvtExcls2:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => 13 = 13;
+end
+automaton named_and_unnamed_autStateEvtExcls3:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 1 = 1, not(3 = 3), named_and_unnamed_aut.loc1 => 1 = 1, not(named_and_unnamed_aut.loc1 => 3 = 3);
+end
+plant automaton named_and_unnamed_autPlantStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 5 = 5, not(7 = 7), named_and_unnamed_aut.loc1 => 5 = 5, not(named_and_unnamed_aut.loc1 => 7 = 7);
+end
+requirement automaton named_and_unnamed_autRequirementStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge named_and_unnamed_aut.e when 9 = 9, not(11 = 11), named_and_unnamed_aut.loc1 => 9 = 9, not(named_and_unnamed_aut.loc1 => 11 = 11);
 end
 invariant 101 = 101;
 invariant 102 = 102;
