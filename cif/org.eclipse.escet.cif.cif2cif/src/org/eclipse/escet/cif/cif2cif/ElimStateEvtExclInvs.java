@@ -116,6 +116,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
     private void elimStateEvtExclInvs(ComplexComponent comp) {
         // Get state/event exclusion invariants of the component.
         List<Invariant> compInvs = filterInvs(comp.getInvariants());
+        rewriteDisablesInvs(compInvs);
 
         // Get state/event exclusion invariants of the locations, for automata.
         List<Invariant> locInvs = list();
@@ -123,6 +124,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             Automaton aut = (Automaton)comp;
             for (Location loc: aut.getLocations()) {
                 List<Invariant> invs = filterInvs(loc.getInvariants());
+                rewriteDisablesInvs(invs);
                 modifyLocInvs(aut, invs);
                 locInvs.addAll(invs);
             }
@@ -182,6 +184,21 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             }
         }
         return filtered;
+    }
+
+    /**
+     * Rewrites state/event exclusion 'disables' invariants to state/event exclusion 'needs' invariants. Existing
+     * 'needs' invariants are not modified.
+     *
+     * @param invs The invariants. Are rewritten in-place.
+     */
+    private void rewriteDisablesInvs(List<Invariant> invs) {
+        for (Invariant inv: invs) {
+            if (inv.getInvKind() == InvKind.EVENT_DISABLES) {
+                inv.setInvKind(InvKind.EVENT_NEEDS);
+                inv.setPredicate(CifValueUtils.makeInverse(inv.getPredicate()));
+            }
+        }
     }
 
     /**
@@ -327,10 +344,8 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             // Get guards.
             List<Expression> guards = listc(evtInvs.size());
             for (Invariant inv: evtInvs) {
+                Assert.check(inv.getInvKind() == InvKind.EVENT_NEEDS);
                 Expression guard = inv.getPredicate();
-                if (inv.getInvKind() == InvKind.EVENT_DISABLES) {
-                    guard = CifValueUtils.makeInverse(guard);
-                }
                 Assert.notNull(guard);
                 guards.add(guard);
             }

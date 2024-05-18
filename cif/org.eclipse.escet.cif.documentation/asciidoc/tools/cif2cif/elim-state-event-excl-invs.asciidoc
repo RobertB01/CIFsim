@@ -79,10 +79,10 @@ However, this is only done for automata with at least two locations, as conditio
 For a location `loc`, and a state/event exclusion invariant `invariant evt needs x = 1`, predicate `x = 1` is changed to `+loc => x = 1+`.
 
 For state/event exclusion invariants that indicate when an event is to be disallowed/disabled, the condition predicate is inverted.
-The inversion is performed after the condition predicate is made condition on the location, if applicable.
-For instance, for a state/event exclusion invariant `invariant x != 1 disables evt` in a location `loc`, the condition predicate `x != 1` is first made conditional on the location.
-This results in `+loc => x != 1+`.
-The condition predicate is then inverted to `+not(loc => x != 1)+`, which is then used as guard.
+The inversion is performed before the condition predicate is made conditional on the location, if applicable.
+For instance, for a state/event exclusion invariant `invariant x != 1 disables evt` in a location `loc`, the condition predicate `x != 1` is first inverted to `not(x != 1`).
+Then it is made conditional on the location.
+This results in `+loc => not(x != 1)+`, which is then used as guard.
 
 The alphabets of the automata are left implicit.
 

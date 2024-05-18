@@ -214,14 +214,14 @@ automaton a3StateEvtExcls:
   location:
     initial;
     marked;
-    edge e when a3.x2 => 602 = 602, not(a3.x3 => 603 = 603);
+    edge e when a3.x2 => 602 = 602, a3.x3 => not(603 = 603);
 end
 automaton a4StateEvtExcls:
   location:
     initial;
     marked;
-    edge a4.e1 when a4.x1 => 701 = 701, a4.x1 => 702 = 702, not(a4.x2 => 711 = 711), not(a4.x2 => 712 = 712), a4.x3 => 721 = 721, a4.x3 => 722 = 722, not(a4.x3 => 725 = 725), not(a4.x3 => 726 = 726);
-    edge a4.e2 when a4.x1 => 703 = 703, not(a4.x2 => 713 = 713), a4.x3 => 723 = 723, a4.x3 => 724 = 724, not(a4.x3 => 727 = 727), not(a4.x3 => 728 = 728);
+    edge a4.e1 when a4.x1 => 701 = 701, a4.x1 => 702 = 702, a4.x2 => not(711 = 711), a4.x2 => not(712 = 712), a4.x3 => 721 = 721, a4.x3 => 722 = 722, a4.x3 => not(725 = 725), a4.x3 => not(726 = 726);
+    edge a4.e2 when a4.x1 => 703 = 703, a4.x2 => not(713 = 713), a4.x3 => 723 = 723, a4.x3 => 724 = 724, a4.x3 => not(727 = 727), a4.x3 => not(728 = 728);
 end
 @doc("2")
 automaton named_and_unnamed_autNAME2a:
@@ -284,7 +284,7 @@ automaton named_and_unnamed_autNAME4b:
   location:
     initial;
     marked;
-    edge named_and_unnamed_aut.e when not(named_and_unnamed_aut.loc1 => 4 = 4);
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => not(4 = 4);
 end
 @doc("6")
 plant automaton named_and_unnamed_autNAME6b:
@@ -298,7 +298,7 @@ plant automaton named_and_unnamed_autNAME8b:
   location:
     initial;
     marked;
-    edge named_and_unnamed_aut.e when not(named_and_unnamed_aut.loc1 => 8 = 8);
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => not(8 = 8);
 end
 @doc("10")
 requirement automaton named_and_unnamed_autNAME10b:
@@ -312,7 +312,7 @@ requirement automaton named_and_unnamed_autNAME12b2:
   location:
     initial;
     marked;
-    edge named_and_unnamed_aut.e when not(named_and_unnamed_aut.loc1 => 12 = 12);
+    edge named_and_unnamed_aut.e when named_and_unnamed_aut.loc1 => not(12 = 12);
 end
 @doc("13")
 automaton named_and_unnamed_autStateEvtExcls2:
@@ -325,19 +325,19 @@ automaton named_and_unnamed_autStateEvtExcls3:
   location:
     initial;
     marked;
-    edge named_and_unnamed_aut.e when 1 = 1, not(3 = 3), named_and_unnamed_aut.loc1 => 1 = 1, not(named_and_unnamed_aut.loc1 => 3 = 3);
+    edge named_and_unnamed_aut.e when 1 = 1, not(3 = 3), named_and_unnamed_aut.loc1 => 1 = 1, named_and_unnamed_aut.loc1 => not(3 = 3);
 end
 plant automaton named_and_unnamed_autPlantStateEvtExcls:
   location:
     initial;
     marked;
-    edge named_and_unnamed_aut.e when 5 = 5, not(7 = 7), named_and_unnamed_aut.loc1 => 5 = 5, not(named_and_unnamed_aut.loc1 => 7 = 7);
+    edge named_and_unnamed_aut.e when 5 = 5, not(7 = 7), named_and_unnamed_aut.loc1 => 5 = 5, named_and_unnamed_aut.loc1 => not(7 = 7);
 end
 requirement automaton named_and_unnamed_autRequirementStateEvtExcls:
   location:
     initial;
     marked;
-    edge named_and_unnamed_aut.e when 9 = 9, not(11 = 11), named_and_unnamed_aut.loc1 => 9 = 9, not(named_and_unnamed_aut.loc1 => 11 = 11);
+    edge named_and_unnamed_aut.e when 9 = 9, not(11 = 11), named_and_unnamed_aut.loc1 => 9 = 9, named_and_unnamed_aut.loc1 => not(11 = 11);
 end
 invariant 101 = 101;
 invariant 102 = 102;
