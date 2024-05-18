@@ -6,18 +6,18 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
   (1/2) Location has an initialization predicate that cannot be evaluated statically.
   -----------------------------------------------------------------------------------
    * In location "a.loc6":
-     - zero() = 0;
-              ^
+     - initial zero() = 0;
+                      ^
    * In automaton "nameless_loc":
-     - zero() = 0;
-              ^
+     - initial zero() = 0;
+                      ^
 
   ------------------------------------------------------------------------------------------------------------------------------------
   (2/2) Location has an initialization predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.
   ------------------------------------------------------------------------------------------------------------------------------------
    * In location "a.loc5":
-     - 1 / 0 = 1.0;
-         ^
+     - initial 1 / 0 = 1.0;
+                 ^
    * In automaton "nameless_loc":
-     - 1 / 0 = 1.0,
-         ^
+     - initial 1 / 0 = 1.0;
+                 ^

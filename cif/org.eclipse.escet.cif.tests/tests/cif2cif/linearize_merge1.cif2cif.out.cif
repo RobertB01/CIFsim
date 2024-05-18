@@ -278,13 +278,13 @@ end
 group p33:
   enum LPE = l1, l2, l3, l4;
   initial M.p33 = l1 and true or M.p33 = l2 and true or (M.p33 = l3 and true or M.p33 = l4 and true);
-  marked 33.1 = 33.1,
-         M.p33 = l1 and false or M.p33 = l2 and true or (M.p33 = l3 and 33.3 = 33.3 or M.p33 = l4 and 33.4 = 33.4);
+  marked 33.1 = 33.1;
+  marked M.p33 = l1 and false or M.p33 = l2 and true or (M.p33 = l3 and 33.3 = 33.3 or M.p33 = l4 and 33.4 = 33.4);
 end
 group p34:
   enum LPE = l1, l2, l3, l4;
-  initial 34.1 = 34.1,
-          M.p34 = l1 and false or M.p34 = l2 and true or (M.p34 = l3 and 34.3 = 34.3 or M.p34 = l4 and 34.4 = 34.4);
+  initial 34.1 = 34.1;
+  initial M.p34 = l1 and false or M.p34 = l2 and true or (M.p34 = l3 and 34.3 = 34.3 or M.p34 = l4 and 34.4 = 34.4);
   marked M.p34 = l1 and false or M.p34 = l2 and false or (M.p34 = l3 and false or M.p34 = l4 and false);
 end
 group p35:

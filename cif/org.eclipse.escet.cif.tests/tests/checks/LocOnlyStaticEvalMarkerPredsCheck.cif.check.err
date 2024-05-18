@@ -8,8 +8,8 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - marked zero() = 0;
                      ^
    * In automaton "nameless_loc":
-     - zero() = 0;
-              ^
+     - marked zero() = 0;
+                     ^
 
   ---------------------------------------------------------------------------------------------------------------------------
   (2/2) Location has a marker predicate that cannot be evaluated statically, as evaluating it results in an evaluation error.
@@ -18,5 +18,5 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - marked 1 / 0 = 1.0;
                 ^
    * In automaton "nameless_loc":
-     - marked 1 / 0 = 1.0,
+     - marked 1 / 0 = 1.0;
                 ^
