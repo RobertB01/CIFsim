@@ -124,8 +124,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
         // Combine invariants.
         List<Invariant> invs = concat(compInvs, locInvs);
 
-        // If we have any state/event exclusion invariants, create an
-        // automaton per supervisory kind.
+        // If we have any state/event exclusion invariants, create an automaton per supervisory kind.
         if (!invs.isEmpty()) {
             List<List<Invariant>> supKindsInvs = partitionPerSupKind(invs);
             for (List<Invariant> supKindInvs: supKindsInvs) {
@@ -145,8 +144,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
 
         // Apply recursively, for groups.
         if (comp instanceof Group) {
-            // Copy list of child components, as siblings may be added by the
-            // elimination.
+            // Copy list of child components, as siblings may be added by the elimination.
             List<Component> children = copy(((Group)comp).getComponents());
             for (Component child: children) {
                 elimStateEvtExclInvs((ComplexComponent)child);
@@ -184,8 +182,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             return;
         }
 
-        // Make conditional on the location. At least two locations, so they
-        // all have a name.
+        // Make conditional on the location. At least two locations, so they all have a name.
         for (Invariant inv: invs) {
             // Replace 'pred' by 'loc => pred'.
             Location loc = (Location)inv.eContainer();
@@ -207,8 +204,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
      * @return The invariants, per supervisory kind.
      */
     private List<List<Invariant>> partitionPerSupKind(List<Invariant> invs) {
-        // Construct mapping from supervisory kinds to the invariants with that
-        // supervisory kind.
+        // Construct mapping from supervisory kinds to the invariants with that supervisory kind.
         Map<SupKind, List<Invariant>> invMap = map();
         for (Invariant inv: invs) {
             List<Invariant> kindInvs = invMap.get(inv.getSupKind());
@@ -280,9 +276,8 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             evtInvs.add(inv);
         }
 
-        // Add edges to the automaton, per event. We need to combine the
-        // guards for each event, to ensure 'and' semantics, as different
-        // edges for the same event have 'or' semantics.
+        // Add edges to the automaton, per event. We need to combine the guards for each event, to ensure 'and'
+        // semantics, as different edges for the same event have 'or' semantics.
         for (Entry<Event, List<Invariant>> entry: evtMap.entrySet()) {
             // Get event and invariants.
             Event event = entry.getKey();
