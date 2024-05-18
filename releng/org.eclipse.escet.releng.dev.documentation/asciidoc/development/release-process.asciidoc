@@ -146,7 +146,7 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 ** Repeat these steps to create an issue for <<development-release-process-prepare-git-repo-for-next-version,preparing the Git repository for development>> of the new version (`Prepare Git repo for vN.N development`).
 
-** If a <<development-release-process-prepare-progress-review,progress review>> is needed, create an issue for that as well (`Progress review for vN.N`).
+** If a <<development-release-process-prepare-progress-review,progress review>> is needed, schedule one if one is not yet scheduled.
 
 [[development-release-process-prepare-git-repo-for-next-version]]
 === Preparing Git repository for a next version
