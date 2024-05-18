@@ -29,7 +29,7 @@ Step by step instructions:
 * <<development-release-process-prepare-git-repo-for-next-version>>
 * <<development-release-process-working-on-a-release>>
 * <<development-release-process-prepare-release>>
-* <<development-release-process-prepare-release-review>>
+* <<development-release-process-prepare-progress-review>>
 * <<development-release-process-perform-release>>
 * <<development-release-process-removing-archiving-old-releases>>
 
@@ -146,7 +146,7 @@ Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`
 
 ** Repeat these steps to create an issue for <<development-release-process-prepare-git-repo-for-next-version,preparing the Git repository for development>> of the new version (`Prepare Git repo for vN.N development`).
 
-** If a <<development-release-process-prepare-release-review,release review>> is needed, create an issue for that as well (`Release review for vN.N`).
+** If a <<development-release-process-prepare-progress-review,progress review>> is needed, create an issue for that as well (`Progress review for vN.N`).
 
 [[development-release-process-prepare-git-repo-for-next-version]]
 === Preparing Git repository for a next version
@@ -226,135 +226,95 @@ Once the work on `develop` is done for a release (milestone, release candidate, 
 
 * For a final release ensure that all IP is accounted for and all relevant Eclipse Foundation IP team issues in link:https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab[IPLab] have been approved by the Eclipse Foundation IP team.
 
-* For a final release ensure that a <<development-release-process-prepare-release-review,release review>> has been successfully completed no more than one year ago.
+* For a final release ensure that a <<development-release-process-prepare-progress-review,progress review>> has been successfully completed no more than one year ago.
 
-[[development-release-process-prepare-release-review]]
-=== Preparing a release review
+[[development-release-process-prepare-progress-review]]
+=== Preparing a progress review
 
-For a final release a release review must have been successfully completed no more than one year ago.
-Follow these steps to prepare a release review:
+For a final release a progress review (or release review) must have been successfully completed no more than one year ago.
+Follow these steps to prepare a progress review:
 
-* Read the link:https://www.eclipse.org/projects/handbook/#release-review[official information on release reviews] in the Eclipse Project Handbook.
-In particular, note that the Eclipse Foundation "schedule[s] reviews to conclude on the first and third Wednesdays of the month.
-Your release date does not have to coincide with the review date (you can set the release date as necessary).
-The review must, however, conclude successfully before you can make the release official."
+* Read the link:https://www.eclipse.org/projects/handbook/#progress-review[official information on progress reviews] in the Eclipse Project Handbook.
 
-* Update the release record, including the release review information:
+* The Eclipse Foundation now schedules a new progress review one year after the current one completes, by creating a corresponding GitLab issue in the EMO's GitLab.
+So, there should be no need to schedule one ourselves.
+But, if the Eclipse Foundation did not schedule one, we should ask the EMO to schedule one:
 
-** Go to the release record at `\https://projects.eclipse.org/projects/technology.escet/releases/N.N`.
-Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`.
+** Send an email to `emo@eclipse.org`, with a CC to `escet-dev@eclipse.org`.
 
-** Click the _Edit_ tab.
+*** As subject, use `Please schedule the yearly Eclipse ESCET progress review`.
 
-** Change the information as desired, using previous release records as inspiration.
-
-** For the _Description_, use the following template:
+*** As message, use the following template:
 +
-[source, html]
+[source]
 ----
-<p>This release [describe the release in a few sentences].</p>
+Please schedule the yearly Eclipse ESCET progress review.
 
-<p>For more information:</p>
-
-<ul>
-    <li>Eclipse ESCET vN.N-NNN release notes
-    <ul>
-        <li><a href="https://eclipse.dev/escet/vN.N-NNN/release-notes.html">ESCET toolkit release notes</a></li>
-        <li><a href="https://eclipse.dev/escet/vN.N-NNN/chi/release-notes.html">Chi release notes</a></li>
-        <li><a href="https://eclipse.dev/escet/vN.N-NNN/cif/release-notes.html">CIF release notes</a></li>
-        <li><a href="https://eclipse.dev/escet/vN.N-NNN/tooldef/release-notes.html">ToolDef release notes</a></li>
-    </ul>
-    </li>
-    <li><a href="https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones/NN">Eclipse ESCET GitLab vN.N issues</a></li>
-</ul>
+Kind regards,
+<Your Name>
+Eclipse ESCET <your role>
 ----
 +
-Replace `N.N-NNN` by the latest release candidate version of the release to be reviewed, e.g. `0.1-RC1`, `0.1.1-RC2` or `1.0-RC1`.
-Replace `NN` by the actual GitLab milestone number, e.g., `1`, `2` or `3`.
-Replace `N.N` by the final release version, e.g. `0.1`, `0.1.1` or `1.0`.
+Replace `<Your Name>` by your full name (first and last name).
+Replace `<your role`> by either `project lead` or `project committer`.
 
-** Click _Save_.
+* Create an Eclipse ESCET issue to track the progress review:
 
-* Request PMC approval:
+** Give it the title `Eclipse ESCET progress review YYYY-MM-DD`, with `YYYY-MM-DD` the due date of the EMO's GitLab issue.
+
+** As content, use the following template:
++
+[source]
+----
+The EMO created a progress review for YYYY-MM-DD:
+* https://projects.eclipse.org/projects/technology.escet/reviews/YYYY.MM-progress-review
+* https://gitlab.eclipse.org/eclipsefdn/emo-team/emo/-/issues/NNN
+----
++
+Replace `YYYY-MM-DD` by the due date of the EMO's GitLab issue.
+Replace `YYYY.MM` by the due month of the EMO's GitLab issue.
+Replace `NNN` by the EMO's GitLab issue that tracks the progress review.
+Check that the links work correctly.
+
+* Request PMC approval two weeks in advance:
 
 ** Go to https://accounts.eclipse.org/mailing-list/technology-pmc and subscribe to the Technology PMC mailing list, if not yet subscribed.
 Subscription is necessary to post to the list.
 
 ** Send an email to `technology-pmc@eclipse.org`, with a CC to `escet-dev@eclipse.org`.
 
-*** As subject, use `Request release approval for Eclipse ESCET vN.N release`.
-Replace `vN.N` by the release version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
+*** As subject, use `Request progress review approval for the Eclipse ESCET project`.
 
 *** As message, use the following template:
 +
 [source]
 ----
-The Eclipse ESCET project hereby requests approval for the vN.N release.
+The Eclipse ESCET project hereby requests approval for its annual progress review.
 
-See https://projects.eclipse.org/projects/technology.escet/releases/N.N
+See https://gitlab.eclipse.org/eclipsefdn/emo-team/emo/-/issues/NNN
 
 Kind regards,
 <Your Name>
 Eclipse ESCET <your role>
 ----
 +
-Replace `N.N` by the release version, e.g. `0.1`, `0.1.1` or `1.0`.
+Replace `NNN` by the EMO's GitLab issue that tracks the progress review.
 Replace `<Your Name>` by your full name (first and last name).
 Replace `<your role`> by either `project lead` or `project committer`.
 
-* Ask the EMO to schedule the release review and make it public:
-
-** Go to the release record at `\https://projects.eclipse.org/projects/technology.escet/releases/N.N`.
-Replace `N.N` by the actual release record version, e.g. `0.1`, `0.1.1` or `1.0`.
-
-** Observe how _Schedule a review for this release_ is indicated at the top of the page.
-
-** Click the _review_ link as part of that text.
-
-** For _Review dates_ select the review conclusion date.
-
-** Click _Schedule a review_.
-
-** Observe how the text has changed to _This review is pending; contact The Eclipse Management Organization to make it public._
-
-** Send an email to `emo@eclipse.org`, with a CC to `escet-dev@eclipse.org`.
-
-*** As subject, use `Please schedule the Eclipse ESCET vN.N Release Review`.
-Replace `vN.N` by the release version, e.g. `v0.1`, `v0.1.1` or `v1.0`.
-
-*** As message, use the following template:
-+
-[source]
-----
-See https://projects.eclipse.org/projects/technology.escet/reviews/N.N-release-review
-
-Kind regards,
-<Your Name>
-Eclipse ESCET <your role>
-----
-+
-Replace `N.N` by the release version, e.g. `0.1`, `0.1.1` or `1.0`.
-Replace `<Your Name>` by your full name (first and last name).
-Replace `<your role`> by either `project lead` or `project committer`.
-
-* Update the release review issue description with the following template:
+* Update the progress review issue description with the following template:
 +
 [source, markdown]
 ----
 See the following pages for submitted materials and approval:
-* Release record and review materials: https://projects.eclipse.org/projects/technology.escet/releases/N.N
 * PMC approval request: https://www.eclipse.org/lists/technology-pmc/msgNNN.html
 * PMC approval: https://www.eclipse.org/lists/technology-pmc/msgNNNN.html
-* EMO release review scheduling request: https://www.eclipse.org/lists/escet-dev/msgNNNNN.html
-* EMO release review tracking issue: https://gitlab.eclipse.org/eclipsefdn/emo-team/emo/-/issues/NN
 ----
 +
-Replace `N.N` by the release version, e.g. `0.1`, `0.1.1` or `1.0`.
-Replace `NNN`, `NNNN`, and `NNNNN` by the corresponding mailing list message numbers.
-Consult the http://www.eclipse.org/lists/technology-pmc[Technology PMC mailing list archive] and the http://www.eclipse.org/lists/escet-dev[Eclipse ESCET dev mailing list archive] to find the messages and their message numbers.
-Replace `NN` by the GitLab issue number of the issue that will be created by the EMO to track the release review.
+Replace `NNN` and `NNNN` by the corresponding mailing list message numbers.
+Consult the http://www.eclipse.org/lists/technology-pmc[Technology PMC mailing list archive] to find the messages and their message numbers.
 
-* Ensure the release review is successful before <<development-release-process-perform-release,performing the release>>.
+* Ensure the progress review is successful before <<development-release-process-perform-release,performing the release>>.
 
 [[development-release-process-perform-release]]
 === Performing a release
