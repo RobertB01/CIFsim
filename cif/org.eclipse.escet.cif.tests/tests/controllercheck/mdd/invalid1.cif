@@ -12,15 +12,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 group g:
-  event e1;                         // Not (un)controllable.
+  uncontrollable e1;
   controllable int[0..5] e2;        // Event with data type.
-
-  plant a:
-    location:
-      initial;
-      edge e1, e2, tau;             // Explicit 'tau'.
-      edge when true;               // Implicit 'tau'.
-  end
 
   plant p0:
     disc int[1..2] x1;
@@ -38,9 +31,5 @@ group g:
 
       edge e1
       do lb[0] := true;             // Partial var asgn, proj expr, list type.
-
-      plant invariant 5 = 7;        // State invariant in location.
   end
-
-  plant invariant 8 = 9;            // State invariant in component.
 end
