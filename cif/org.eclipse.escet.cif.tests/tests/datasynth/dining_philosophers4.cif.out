@@ -187,7 +187,7 @@ Uncontrolled system:
     Edge: (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right)
     Edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plants invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)).

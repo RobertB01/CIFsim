@@ -156,7 +156,7 @@ Uncontrolled system:
     Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2.producing := 0, machine2 := machine2.CoolDown)
     Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plants invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: machine1.Idle and machine1.producing = 0 and (machine2.producing = 0 and machine2.Idle).

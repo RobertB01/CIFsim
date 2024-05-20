@@ -156,7 +156,7 @@ Uncontrolled system:
     Edge: (event: c1) (guard: p1.l2 and p2.l3) (assignments: p1 := p1.l3, p2 := p2.l4)
     Edge: (event: c2) (guard: p2.l2) (assignments: p2 := p2.l3)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plants invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: p1.l0 and (p2.l0 and p1.x = 0).

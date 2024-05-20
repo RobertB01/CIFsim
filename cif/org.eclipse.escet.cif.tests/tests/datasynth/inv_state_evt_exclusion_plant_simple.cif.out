@@ -47,7 +47,7 @@ Uncontrolled system (state/event exclusion plants not applied yet):
   State: (controlled-behavior: ?)
     Edge: (event: u) (guard: a.l1) (assignments: a := a.l2)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plants invariants.
 
 Edge (event: u) (guard: a.l1) (assignments: a := a.l2): guard: a.l1 -> false [plant: false].
 

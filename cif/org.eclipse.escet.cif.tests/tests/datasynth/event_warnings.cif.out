@@ -271,7 +271,7 @@ Uncontrolled system (state/event exclusion plants not applied yet):
     Edge: (event: c_synch) (guard: a.l1 and b.l2)
     Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plants invariants.
 
 Edge (event: p.c2) (guard: p.l1): guard: p.l1 -> false [plant: false].
 Edge (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1)): guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false [plant: p.v4 = 0].
@@ -319,7 +319,7 @@ Uncontrolled system:
     Edge: (event: c_synch) (guard: a.l1 and b.l2)
     Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
-Restricting uncontrolled behavior using state plant invariants.
+Restricting uncontrolled system behavior using state plant invariants.
 
 Edge (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1): guard: p.l1 and p.v11 = 4 -> false.
 Edge (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1): guard: q.l1 and q.v11 = 4 -> false.
