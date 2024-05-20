@@ -158,7 +158,7 @@ Uncontrolled system:
     Edge: (event: p.e2) (guard: io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2) (assignments: p := p.L1)
     Edge: (event: io.i) (guard: true) (assignments: io.i+ != io.i)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1))).

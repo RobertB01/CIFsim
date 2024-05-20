@@ -162,7 +162,7 @@ Uncontrolled system:
     Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
     Edge: (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: LightA.Red and (R.RR and LightB.Red).

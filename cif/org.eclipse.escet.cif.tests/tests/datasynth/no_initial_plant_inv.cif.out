@@ -47,7 +47,7 @@ State/event exclusion requirements:
 Uncontrolled system:
   State: (controlled-behavior: ?)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Restricting uncontrolled system behavior using state plant invariants.
 

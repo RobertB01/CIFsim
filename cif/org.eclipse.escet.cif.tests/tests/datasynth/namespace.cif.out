@@ -158,7 +158,7 @@ Uncontrolled system:
     Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
     Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: g.r.loc1.

@@ -141,7 +141,7 @@ Uncontrolled system:
     Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off).

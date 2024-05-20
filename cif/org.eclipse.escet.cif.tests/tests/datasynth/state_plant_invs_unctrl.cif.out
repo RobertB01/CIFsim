@@ -139,7 +139,7 @@ Uncontrolled system:
     Edge: (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1)
     Edge: (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Restricting uncontrolled system behavior using state plant invariants.
 

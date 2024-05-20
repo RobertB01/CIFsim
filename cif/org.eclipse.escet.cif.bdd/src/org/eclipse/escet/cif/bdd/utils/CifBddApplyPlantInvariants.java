@@ -49,7 +49,7 @@ public class CifBddApplyPlantInvariants {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput()
-                    .line("Restricting %s behavior using state/event exclusion plants invariants.", behaviorName);
+                    .line("Restricting %s behavior using state/event exclusion plant invariants.", behaviorName);
         }
 
         boolean firstDbg = true;

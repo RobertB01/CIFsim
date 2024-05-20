@@ -84,7 +84,7 @@ Uncontrolled system:
     Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
     Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: io.sensor1 and io.sensor2.

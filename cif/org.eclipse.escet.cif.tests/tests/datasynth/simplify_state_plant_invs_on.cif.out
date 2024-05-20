@@ -138,7 +138,7 @@ Uncontrolled system:
     Edge: (event: e) (guard: p.loc1) (assignments: p := p.loc2)
     Edge: (event: e) (guard: p.loc2) (assignments: p := p.loc1)
 
-Restricting uncontrolled system behavior using state/event exclusion plants invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Restricting uncontrolled system behavior using state plant invariants.
 
