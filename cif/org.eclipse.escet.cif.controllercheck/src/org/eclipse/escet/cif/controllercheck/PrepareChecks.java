@@ -114,7 +114,7 @@ public class PrepareChecks {
         automata = collectAutomata(spec, list());
         Set<Event> allControllableEvents = collectControllableEvents(spec, set());
         if (automata.isEmpty() || allControllableEvents.isEmpty()) {
-            // Both controller check properties trivially hold.
+            // Both finite response and confluence trivially hold.
             return true;
         }
 
