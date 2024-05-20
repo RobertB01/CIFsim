@@ -1,3 +1,4 @@
+WARNING: The alphabet of the specification contains no controllable events.
 ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
  - Unsupported expression ""a"": string literal expressions are currently not supported.
  - Unsupported expression "(p.b, p.db)": tuple expressions are currently not supported.
