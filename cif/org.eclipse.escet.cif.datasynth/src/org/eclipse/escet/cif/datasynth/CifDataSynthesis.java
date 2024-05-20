@@ -648,94 +648,9 @@ public class CifDataSynthesis {
         }
 
         // Free no longer needed predicates.
-        for (BDD bdd: cifBddSpec.plantInvsComps) {
-            bdd.free();
-        }
-        for (BDD bdd: cifBddSpec.plantInvsLocs) {
-            bdd.free();
-        }
-        cifBddSpec.plantInvComps.free();
-        cifBddSpec.plantInvLocs.free();
-
-        if (synthResult.settings.getStateReqInvEnforceMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
-            for (BDD bdd: cifBddSpec.reqInvsComps) {
-                bdd.free();
-            }
-            for (BDD bdd: cifBddSpec.reqInvsLocs) {
-                bdd.free();
-            }
-        }
-        cifBddSpec.reqInvComps.free();
-        cifBddSpec.reqInvLocs.free();
-
-        for (BDD bdd: cifBddSpec.initialsVars) {
-            if (bdd != null) {
-                bdd.free();
-            }
-        }
-        for (BDD bdd: cifBddSpec.initialsComps) {
-            bdd.free();
-        }
-        for (BDD bdd: cifBddSpec.initialsLocs) {
-            bdd.free();
-        }
-        cifBddSpec.initialVars.free();
-        cifBddSpec.initialComps.free();
-        cifBddSpec.initialLocs.free();
-        cifBddSpec.initialInv.free();
-
-        for (BDD bdd: cifBddSpec.markedsComps) {
-            bdd.free();
-        }
-        for (BDD bdd: cifBddSpec.markedsLocs) {
-            bdd.free();
-        }
-        cifBddSpec.markedComps.free();
-        cifBddSpec.markedLocs.free();
-        cifBddSpec.markedPlantInv.free();
-        cifBddSpec.markedInv.free();
-
-        for (List<BDD> preds: cifBddSpec.stateEvtExclPlantLists.values()) {
-            for (BDD pred: preds) {
-                pred.free();
-            }
-        }
-
-        for (List<BDD> preds: cifBddSpec.stateEvtExclReqLists.values()) {
-            for (BDD pred: preds) {
-                pred.free();
-            }
-        }
-
-        cifBddSpec.plantInvsComps = null;
-        cifBddSpec.plantInvComps = null;
-        cifBddSpec.plantInvsLocs = null;
-        cifBddSpec.plantInvLocs = null;
-
-        if (synthResult.settings.getStateReqInvEnforceMode() == StateReqInvEnforceMode.ALL_CTRL_BEH) {
-            cifBddSpec.reqInvsComps = null;
-            cifBddSpec.reqInvsLocs = null;
-        }
-        cifBddSpec.reqInvComps = null;
-        cifBddSpec.reqInvLocs = null;
-
-        cifBddSpec.initialsVars = null;
-        cifBddSpec.initialVars = null;
-        cifBddSpec.initialsComps = null;
-        cifBddSpec.initialComps = null;
-        cifBddSpec.initialsLocs = null;
-        cifBddSpec.initialLocs = null;
-        cifBddSpec.initialInv = null;
-
-        cifBddSpec.markedsComps = null;
-        cifBddSpec.markedComps = null;
-        cifBddSpec.markedsLocs = null;
-        cifBddSpec.markedLocs = null;
-        cifBddSpec.markedPlantInv = null;
-        cifBddSpec.markedInv = null;
-
-        cifBddSpec.stateEvtExclPlantLists = null;
-        cifBddSpec.stateEvtExclReqLists = null;
+        boolean freeReqsInvsCompsAndLocs = synthResult.settings
+                .getStateReqInvEnforceMode() == StateReqInvEnforceMode.ALL_CTRL_BEH;
+        cifBddSpec.freeIntermediateBDDs(freeReqsInvsCompsAndLocs);
     }
 
     /**

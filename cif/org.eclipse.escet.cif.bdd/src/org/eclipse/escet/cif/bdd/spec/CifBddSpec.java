@@ -314,6 +314,142 @@ public class CifBddSpec {
         this.settings = settings;
     }
 
+    /**
+     * Free the intermediate BDDs of this CIF/BDD specification, that were collected during conversion of the CIF
+     * specification to this CIF/BDD specification. This information has been aggregated and will thus still be
+     * available in aggregated form.
+     *
+     * @param freeReqsInvsCompsAndLocs Whether to free {@link #reqInvsComps} and {@link #reqInvsLocs}.
+     */
+    public void freeIntermediateBDDs(boolean freeReqsInvsCompsAndLocs) {
+        if (plantInvsComps != null) {
+            for (BDD bdd: plantInvsComps) {
+                bdd.free();
+            }
+            plantInvsComps = null;
+        }
+        if (plantInvsLocs != null) {
+            for (BDD bdd: plantInvsLocs) {
+                bdd.free();
+            }
+            plantInvsLocs = null;
+        }
+        if (plantInvComps != null) {
+            plantInvComps.free();
+            plantInvComps = null;
+        }
+        if (plantInvLocs != null) {
+            plantInvLocs.free();
+            plantInvLocs = null;
+        }
+
+        if (freeReqsInvsCompsAndLocs) {
+            if (reqInvsComps != null) {
+                for (BDD bdd: reqInvsComps) {
+                    bdd.free();
+                }
+                reqInvsComps = null;
+            }
+            if (reqInvsLocs != null) {
+                for (BDD bdd: reqInvsLocs) {
+                    bdd.free();
+                }
+                reqInvsLocs = null;
+            }
+        }
+        if (reqInvComps != null) {
+            reqInvComps.free();
+            reqInvComps = null;
+        }
+        if (reqInvLocs != null) {
+            reqInvLocs.free();
+            reqInvLocs = null;
+        }
+
+        if (initialsVars != null) {
+            for (BDD bdd: initialsVars) {
+                if (bdd != null) {
+                    bdd.free();
+                }
+            }
+            initialsVars = null;
+        }
+        if (initialsComps != null) {
+            for (BDD bdd: initialsComps) {
+                bdd.free();
+            }
+            initialsComps = null;
+        }
+        if (initialsLocs != null) {
+            for (BDD bdd: initialsLocs) {
+                bdd.free();
+            }
+            initialsLocs = null;
+        }
+        if (initialVars != null) {
+            initialVars.free();
+            initialVars = null;
+        }
+        if (initialComps != null) {
+            initialComps.free();
+            initialComps = null;
+        }
+        if (initialLocs != null) {
+            initialLocs.free();
+            initialLocs = null;
+        }
+        if (initialInv != null) {
+            initialInv.free();
+            initialInv = null;
+        }
+
+        if (markedsComps != null) {
+            for (BDD bdd: markedsComps) {
+                bdd.free();
+            }
+            markedsComps = null;
+        }
+        if (markedsLocs != null) {
+            for (BDD bdd: markedsLocs) {
+                bdd.free();
+            }
+            markedsLocs = null;
+        }
+        if (markedComps != null) {
+            markedComps.free();
+            markedComps = null;
+        }
+        if (markedLocs != null) {
+            markedLocs.free();
+            markedLocs = null;
+        }
+        if (markedPlantInv != null) {
+            markedPlantInv.free();
+            markedPlantInv = null;
+        }
+        if (markedInv != null) {
+            markedInv.free();
+            markedInv = null;
+        }
+
+        if (stateEvtExclPlantLists != null) {
+            for (List<BDD> preds: stateEvtExclPlantLists.values()) {
+                for (BDD pred: preds) {
+                    pred.free();
+                }
+            }
+            stateEvtExclPlantLists = null;
+        }
+        if (stateEvtExclReqLists != null) {
+            for (List<BDD> preds: stateEvtExclReqLists.values()) {
+                for (BDD pred: preds) {
+                    pred.free();
+                }
+            }
+            stateEvtExclReqLists = null;
+        }
+    }
+
     @Override
     public String toString() {
         return getEdgesText(0);
