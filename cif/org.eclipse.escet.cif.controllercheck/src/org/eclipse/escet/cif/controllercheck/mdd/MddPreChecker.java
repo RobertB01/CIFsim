@@ -74,7 +74,10 @@ import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
-/** Pre-condition checker for the controller properties checker. */
+/**
+ * Pre-condition checker for the controller properties checker, for checks that use an MDD representation of the CIF
+ * specification.
+ */
 public class MddPreChecker extends CifWalker {
     /** Precondition violations found so far. */
     public Set<String> problems = set();

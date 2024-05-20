@@ -60,7 +60,7 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/** Tests of the expression converter. */
+/** Tests of the MDD expression converter. */
 public class ExpressionConverterTest {
     /** Lower value for integer variables in the test. */
     private static final Integer INT_LOWER = -5;

@@ -39,12 +39,12 @@ import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
-/** Convert an expression with boolean and/or bounded integer variables to a multi-value nodes collection. */
+/** Convert an expression with boolean and/or bounded integer variables to an MDD nodes collection. */
 public class MddConvertExpression {
     /** {@link VarInfo} builder containing the conversion between variables and tree nodes. */
     public final MddCifVarInfoBuilder cifVarInfoBuilder;
 
-    /** Multi-value nodes storage. */
+    /** MDD nodes storage. */
     public final Tree tree;
 
     /** Use-kind value for readable variables in the converted expressions. */
@@ -60,7 +60,7 @@ public class MddConvertExpression {
      * Constructor of the {@link MddConvertExpression} class.
      *
      * @param cifVarInfoBuilder {@link VarInfo} builder containing the conversion between variables and tree nodes.
-     * @param tree Multi-value nodes storage.
+     * @param tree MDD nodes storage.
      * @param readUseKind Use-kind value for reading variables in the converted expressions.
      * @param writeUseKind Use-kind value for writing variables in the converted expressions.
      */
@@ -99,8 +99,8 @@ public class MddConvertExpression {
     }
 
     /**
-     * Convert a conjunction of expressions to a collection of viable values with multi-value trees expressing the
-     * condition for each value.
+     * Convert a conjunction of expressions to a collection of viable values with MDD trees expressing the condition for
+     * each value.
      *
      * @param exprs Expressions to convert.
      * @return The collection reachable values with the condition when it can be reached.
@@ -120,8 +120,7 @@ public class MddConvertExpression {
     }
 
     /**
-     * Convert an expression to a collection of viable values with multi-value trees expressing the condition for each
-     * value.
+     * Convert an expression to a collection of viable values with MDD trees expressing the condition for each value.
      *
      * @param expr Expression to convert.
      * @return The collection reachable values with the condition when it can be reached.
@@ -566,7 +565,7 @@ public class MddConvertExpression {
     }
 
     /**
-     * Compute a multi-value tree that assigns a collection of values to a variable.
+     * Compute an MDD tree that assigns a collection of values to a variable.
      *
      * <p>
      * Note that illegal values from the collection are simply ignored, however this also happens while converting the
@@ -577,7 +576,7 @@ public class MddConvertExpression {
      * @param destVar Variable to relate to the values.
      * @param collection Collection of available values with their conditions.
      * @param useKind The variable use-kind to relate the value to.
-     * @return Multi-value tree expressing the assignment or comparison.
+     * @return MDD tree expressing the assignment or comparison.
      */
     private Node assignCollection(Declaration destVar, MddIntegerValueCollection collection, int useKind) {
         VarInfo writeInfo = cifVarInfoBuilder.getVarInfo(destVar, useKind);
@@ -596,11 +595,11 @@ public class MddConvertExpression {
     }
 
     /**
-     * Convert an assignment to a multi-value tree.
+     * Convert an assignment to an MDD tree.
      *
      * @param destVar Variable to assign to.
      * @param rhs Value to write.
-     * @return Multi-value tree expressing the assignment.
+     * @return MDD tree expressing the assignment.
      */
     public Node convertAssignment(Declaration destVar, Expression rhs) {
         MddIntegerValueCollection collection = convert(rhs);
@@ -608,11 +607,11 @@ public class MddConvertExpression {
     }
 
     /**
-     * Convert an assignment to a multi-value tree.
+     * Convert an assignment to an MDD tree.
      *
      * @param destVar Variable to assign to.
      * @param rhs Value to write.
-     * @return Multi-value tree expressing the assignment.
+     * @return MDD tree expressing the assignment.
      */
     public Node convertToEquality(Declaration destVar, Expression rhs) {
         MddIntegerValueCollection collection = convert(rhs);

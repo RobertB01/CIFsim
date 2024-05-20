@@ -25,7 +25,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.VarInfoBuilder;
 
-/** {@link VarInfoBuilder} for boolean and ranged integer discrete and input CIF variables. */
+/** MDD {@link VarInfoBuilder} for boolean and ranged integer discrete and input CIF variables. */
 public class MddCifVarInfoBuilder extends VarInfoBuilder<Declaration> {
     /**
      * Constructor of the {@link MddCifVarInfoBuilder} class.

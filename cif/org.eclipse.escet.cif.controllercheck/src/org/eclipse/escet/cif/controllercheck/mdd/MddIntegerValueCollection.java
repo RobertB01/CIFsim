@@ -22,9 +22,9 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
-/** Class holding a collection of integer result values and the set of nodes that produce them. */
+/** Class holding a collection of integer result values and the set of MDD nodes that produce them. */
 public class MddIntegerValueCollection {
-    /** Values and their nodes. */
+    /** Values and their MDD nodes. */
     public final Map<Integer, Node> valueNodes;
 
     /** Constructor of the {@link MddIntegerValueCollection} class with default number of entries in the collection. */
@@ -44,9 +44,9 @@ public class MddIntegerValueCollection {
     /**
      * Add a value and a node to the collection.
      *
-     * @param tree Nodes store.
+     * @param tree MDD nodes store.
      * @param value Result value associated with 'node'.
-     * @param node Node expressing the conditions when the value is reached.
+     * @param node MDD node expressing the conditions when the value is reached.
      */
     public void addValue(Tree tree, Integer value, Node node) {
         Node n = valueNodes.get(value);
@@ -57,20 +57,20 @@ public class MddIntegerValueCollection {
     }
 
     /**
-     * Wrapper to query a node associated with a value from the collection.
+     * Wrapper to query an MDD node associated with a value from the collection.
      *
      * @param value Value to query.
-     * @return Associated node of the queried value. Is {@code null} if the value does not exist in the collection.
+     * @return Associated MDD node of the queried value. Is {@code null} if the value does not exist in the collection.
      */
     public Node get(Integer value) {
         return valueNodes.get(value);
     }
 
     /**
-     * Wrapper to query a node associated with a value from the collection that is known to exist.
+     * Wrapper to query an MDD node associated with a value from the collection that is known to exist.
      *
      * @param value Value to query.
-     * @return Associated node of the queried value. Will never return {@code null}.
+     * @return Associated MDD node of the queried value. Will never return {@code null}.
      */
     public Node getExist(Integer value) {
         Node n = get(value);

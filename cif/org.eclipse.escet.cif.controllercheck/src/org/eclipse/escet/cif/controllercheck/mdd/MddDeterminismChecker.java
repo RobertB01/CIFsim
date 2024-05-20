@@ -45,7 +45,10 @@ import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
-/** Controller properties checker determinism checker. */
+/**
+ * Determinism checker for the controller properties checker, for checks that use an MDD representation of the CIF
+ * specification.
+ */
 public class MddDeterminismChecker {
     /** Found problems in the specification. */
     public List<String> problems = list();
@@ -112,8 +115,8 @@ public class MddDeterminismChecker {
                 continue;
             }
 
-            // ComponentInst should not happen, as DefInst has been eliminated.
-            throw new RuntimeException("Unexpected type of Component.");
+            // ComponentInst should not happen, as component definitions/instantiations have been eliminated.
+            throw new RuntimeException("Unexpected type of component: " + comp);
         }
     }
 

@@ -52,7 +52,10 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacementsBuilder;
 
-/** Compute and collect CIF specification information for the finite response and confluence checkers. */
+/**
+ * Compute and collect CIF specification information for checks that work on an MDD representation of the CIF
+ * specification.
+ */
 public class MddPrepareChecks {
     /** Index for denoting the original value of a variable. */
     public static final int ORIGINAL_INDEX = 0;
@@ -354,7 +357,7 @@ public class MddPrepareChecks {
     }
 
     /**
-     * Construct a tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all
+     * Construct an MDD tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all
      * variables.
      *
      * <p>
@@ -363,7 +366,8 @@ public class MddPrepareChecks {
      * confluence check.
      * </p>
      *
-     * @return Tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all variables.
+     * @return MDD tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all
+     *     variables.
      */
     public Node computeOriginalToReadIdentity() {
         Node result = Tree.ONE;
@@ -378,7 +382,7 @@ public class MddPrepareChecks {
     }
 
     /**
-     * Get the variables in the tree that represent non-original values.
+     * Get the variables in the MDD tree that represent non-original values.
      *
      * @return Variable in the MDD tree for non-original values.
      */

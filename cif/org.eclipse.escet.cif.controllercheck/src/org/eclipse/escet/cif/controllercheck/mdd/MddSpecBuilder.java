@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.controllercheck.mdd;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
 /**
- * Helper class for constructing a specification in multi-value diagrams.
+ * Helper class for representing a CIF specification using MDDs.
  *
  * <p>
  * As only one automaton is supported in the specification currently, no need to have an automaton concept in the
@@ -24,10 +24,10 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
  * </p>
  */
 public class MddSpecBuilder {
-    /** Storage of the relation between nodes in the tree and CIF variables. */
+    /** Storage of the relation between nodes in the MDD tree and CIF variables. */
     public final MddCifVarInfoBuilder cifVarInfoBuilder;
 
-    /** Storage and manipulation of multi-value trees. */
+    /** Storage and manipulation of MDDs. */
     public final Tree tree;
 
     /** Variable use-kind for reading a variable ('old' value). */
@@ -42,7 +42,7 @@ public class MddSpecBuilder {
     /**
      * Constructor of the {@link MddSpecBuilder} class.
      *
-     * @param cifVarInfoBuilder Storage of the relation between nodes in the tree and CIF variables.
+     * @param cifVarInfoBuilder Storage of the relation between nodes in the MDD tree and CIF variables.
      * @param readUseKind Variable use-kind for the current value of a variable.
      * @param writeUseKind Variable use kind for the next value of a variable.
      */
