@@ -1,3 +1,5 @@
-WARNING: The alphabet of the specification contains no controllable events.
-WARNING: The alphabet of the specification contains no uncontrollable events.
-WARNING: The specification contains no automata.
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------------------------------
+  (1/1) Specification does not have at least 1 automaton (no automaton found).
+  ----------------------------------------------------------------------------
