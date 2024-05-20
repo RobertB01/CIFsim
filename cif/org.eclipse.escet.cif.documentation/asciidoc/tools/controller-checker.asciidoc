@@ -74,6 +74,9 @@ The following restrictions apply:
 
 * Continuous variables are not supported.
 
+* Only plant and supervisor invariants are supported.
+Kindless and requirement invariants are not supported.
+
 * State invariants are not supported, unless they are trivially `true`.
 
 * Functions are not supported.
@@ -91,6 +94,11 @@ However, it is allowed to use multiple assignments on an edge (such as ``do x :=
 * Only the following binary operators are supported: logical equivalence (`+<=>+`), logical implication (`+=>+`), logical conjunction (`and` on boolean operands), logical disjunction (`or` on boolean operands), addition (`+`) on integer operands, subtraction (`-`) on integer operands, multiplication (`*`) on integer operands, integer division (`div`), integer modulus (`mod`), equality (`=`) on integer, integer or enumeration operands, inequality (`!=`) on boolean, integer or enumeration operands, less than (`<`) on integer operands, less than or equal to (`+<=+`) on integer operands, greater than (`>`) on integer operands, and greater than or equal to (`>=`) on integer operands.
 
 * Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on an integer operand, and plus (`+`) on an integer operand.
+
+* Only plant and supervisor automata are supported.
+Kindless and requirement automata are not supported.
+
+* Specifications without automata are not supported.
 
 * Automata with non-determinism for controllable events are not supported.
 That is, automata that have locations with multiple outgoing edges for the same controllable event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
@@ -139,11 +147,11 @@ The finite response property of a model ensures that the controller will always 
 A controller with finite response cannot loop around and perform edges forever, it always blocks after some maximum number of steps and sends new control commands to the system it controls.
 
 The algorithm implementing the check verifies lack of event loops that consist of only controllable events.
-For example, the automaton in the example below has finite-response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
+For example, the `Actuator` automaton in the example below has finite-response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
 
 [source, cif]
 ----
-automaton Actuator:
+plant Actuator:
   controllable c_on, c_off;
 
   location Off:
@@ -153,7 +161,7 @@ automaton Actuator:
     edge c_off when Sensor.Off goto Off;
 end
 
-automaton Sensor:
+plant Sensor:
   uncontrollable u_on, u_off;
 
   location Off:
@@ -171,7 +179,7 @@ Whenever `StartButton` and `StopButton` are both equal to `true`, the motor keep
 ----
 input bool StartButton, StopButton;
 
-automaton Motor:
+plant Motor:
   controllable c_on, c_off;
 
   location Off:
@@ -229,7 +237,7 @@ To reduce the number of false negatives, it is advised to use locations instead 
 
 [source, cif]
 ----
-automaton Actuator:
+plant Actuator:
   controllable c_on, c_off;
   disc bool on = false;
   location:
@@ -255,7 +263,7 @@ As a result, the automaton does not need to choose between edges and the model i
 
 [source, cif]
 ----
-automaton Actuator:
+plant Actuator:
   controllable events c_a, c_b;
   disc bool on = false;
 
@@ -265,7 +273,7 @@ automaton Actuator:
     edge c_b when Sensor.Off do on := false;
 end
 
-automaton Sensor:
+plant Sensor:
   uncontrollable u_on, u_off;
 
   location Off:
