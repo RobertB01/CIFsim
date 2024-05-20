@@ -195,10 +195,11 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Common initialization for the checks.
         boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
         int checksPerformed = 0;
+        boolean allChecksHold = true;
 
         // Check finite response.
         CheckConclusion finiteResponseConclusion = null;
-        boolean finiteResponseHolds;
+        boolean finiteResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
         if (checkFiniteResponse) {
             // Check the finite response property.
             if (dbgEnabled || checksPerformed > 0) {
@@ -211,13 +212,12 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
                 return 0;
             }
             finiteResponseHolds = finiteResponseConclusion.propertyHolds();
-        } else {
-            finiteResponseHolds = true; // Don't invalidate confluence checking result.
         }
+        allChecksHold &= finiteResponseHolds;
 
         // Check confluence.
         CheckConclusion confluenceConclusion = null;
-        boolean confluenceHolds;
+        boolean confluenceHolds = true; // Is true if it holds or was not checked, false otherwise.
         if (checkConfluence) {
             // Check the confluence property.
             if (dbgEnabled || checksPerformed > 0) {
@@ -230,13 +230,13 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
                 return 0;
             }
             confluenceHolds = confluenceConclusion.propertyHolds();
-        } else {
-            confluenceHolds = true; // Don't invalidate finite response checking result.
         }
+        allChecksHold &= confluenceHolds;
 
         // Output the checker conclusions.
         out();
         out("CONCLUSION:");
+
         iout();
         if (finiteResponseConclusion != null) {
             finiteResponseConclusion.printDetails();
@@ -257,8 +257,9 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         dout();
 
-        // Return the application exit code, indicating whether the specification satisfies the checks.
-        return (finiteResponseHolds && confluenceHolds) ? 0 : 1;
+        // Return the application exit code, indicating whether the specification satisfies all the checks that were
+        // performed.
+        return allChecksHold ? 0 : 1;
     }
 
     @Override
