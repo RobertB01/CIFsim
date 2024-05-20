@@ -40,9 +40,9 @@ import java.util.Objects;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.controllercheck.mdd.CifVarInfoBuilder;
-import org.eclipse.escet.cif.controllercheck.mdd.ConvertExpression;
-import org.eclipse.escet.cif.controllercheck.mdd.IntegerValueCollection;
+import org.eclipse.escet.cif.controllercheck.mdd.MddCifVarInfoBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.MddConvertExpression;
+import org.eclipse.escet.cif.controllercheck.mdd.MddIntegerValueCollection;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -97,7 +97,7 @@ public class ExpressionConverterTest {
     private VarInfo i2VarInfo;
 
     /** The MDD expression converter. */
-    private ConvertExpression convert;
+    private MddConvertExpression convert;
 
     @BeforeEach
     @SuppressWarnings("javadoc")
@@ -117,7 +117,7 @@ public class ExpressionConverterTest {
         // Get MDD expression converter.
         final int readIndex = 0;
         final int writeIndex = 1;
-        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(2);
+        MddCifVarInfoBuilder cifVarInfoBuilder = new MddCifVarInfoBuilder(2);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         MddSpecBuilder builder = new MddSpecBuilder(cifVarInfoBuilder, readIndex, writeIndex);
         convert = builder.getExpressionConvertor();
@@ -240,7 +240,7 @@ public class ExpressionConverterTest {
         UnaryExpression unaryExpr = newUnaryExpression(b1Expr, UnaryOperator.INVERSE, null, newBoolType());
 
         // Convert expression.
-        IntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
+        MddIntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
 
         // Compare result.
         compareExprResult(unaryExprIVC, unaryExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
@@ -255,7 +255,7 @@ public class ExpressionConverterTest {
         UnaryExpression unaryExpr = newUnaryExpression(i1Expr, UnaryOperator.NEGATE, null, newIntType());
 
         // Convert expression.
-        IntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
+        MddIntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
 
         // Compare result.
         compareExprResult(unaryExprIVC, unaryExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
@@ -270,7 +270,7 @@ public class ExpressionConverterTest {
         UnaryExpression unaryExpr = newUnaryExpression(i1Expr, UnaryOperator.PLUS, null, newIntType());
 
         // Convert expression.
-        IntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
+        MddIntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
 
         // Compare result.
         compareExprResult(unaryExprIVC, unaryExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
@@ -283,7 +283,7 @@ public class ExpressionConverterTest {
         BoolExpression boolExpr = makeTrue();
 
         // Convert expression.
-        IntegerValueCollection boolExprIVC = convert.convert(boolExpr);
+        MddIntegerValueCollection boolExprIVC = convert.convert(boolExpr);
 
         // Compare result.
         compareExprResult(boolExprIVC, boolExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
@@ -296,7 +296,7 @@ public class ExpressionConverterTest {
         BoolExpression boolExpr = makeFalse();
 
         // Convert expression.
-        IntegerValueCollection boolExprIVC = convert.convert(boolExpr);
+        MddIntegerValueCollection boolExprIVC = convert.convert(boolExpr);
 
         // Compare result.
         compareExprResult(boolExprIVC, boolExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
@@ -313,7 +313,7 @@ public class ExpressionConverterTest {
         IfExpression ifExpr = newIfExpression(list(elifExpr), makeInt(2), list(b1Expr), null, makeInt(0), newIntType());
 
         // Convert expression.
-        IntegerValueCollection ifExprIVC = convert.convert(ifExpr);
+        MddIntegerValueCollection ifExprIVC = convert.convert(ifExpr);
 
         // Compare result.
         compareExprResult(ifExprIVC, ifExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
@@ -332,7 +332,7 @@ public class ExpressionConverterTest {
                 i1Expr);
 
         // Convert expression.
-        IntegerValueCollection switchExprIVC = convert.convert(switchExpr);
+        MddIntegerValueCollection switchExprIVC = convert.convert(switchExpr);
 
         // Compare result.
         compareExprResult(switchExprIVC, switchExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
@@ -352,7 +352,7 @@ public class ExpressionConverterTest {
         BinaryExpression binExpr = newBinaryExpression(b1Expr, binOperator, null, b2Expr, newBoolType());
 
         // Convert expression.
-        IntegerValueCollection binExprIVC = convert.convert(binExpr);
+        MddIntegerValueCollection binExprIVC = convert.convert(binExpr);
 
         // Compare result.
         compareExprResult(binExprIVC, binExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
@@ -372,7 +372,7 @@ public class ExpressionConverterTest {
         BinaryExpression binExpr = newBinaryExpression(i1Expr, binOperator, null, i2Expr, newIntType());
 
         // Convert expression.
-        IntegerValueCollection binExprIVC = convert.convert(binExpr);
+        MddIntegerValueCollection binExprIVC = convert.convert(binExpr);
 
         // Compare result.
         compareExprResult(binExprIVC, binExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
@@ -393,7 +393,7 @@ public class ExpressionConverterTest {
      * @param upper The highest possible value of the variables, either {@code 1} for Booleans or the upper bound for
      *     ranged integers.
      */
-    private void compareExprResult(IntegerValueCollection expression, Expression cifExpr, DiscVariable var1,
+    private void compareExprResult(MddIntegerValueCollection expression, Expression cifExpr, DiscVariable var1,
             DiscVariable var2, VarInfo var1Info, VarInfo var2Info, int lower, int upper)
     {
         for (int var1Value = lower; var1Value <= upper; var1Value++) {

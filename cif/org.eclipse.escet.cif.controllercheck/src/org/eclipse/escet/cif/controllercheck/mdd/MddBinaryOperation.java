@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.controllercheck.mdd;
 
 /** Abstraction of an operation performed on two integer values. */
-public interface BinaryOperation {
+public interface MddBinaryOperation {
     /**
      * Perform a computation with both arguments and return the result.
      *

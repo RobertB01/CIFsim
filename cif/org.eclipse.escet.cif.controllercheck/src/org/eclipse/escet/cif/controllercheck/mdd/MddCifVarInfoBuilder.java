@@ -26,14 +26,14 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.VarInfoBuilder;
 
 /** {@link VarInfoBuilder} for boolean and ranged integer discrete and input CIF variables. */
-public class CifVarInfoBuilder extends VarInfoBuilder<Declaration> {
+public class MddCifVarInfoBuilder extends VarInfoBuilder<Declaration> {
     /**
-     * Constructor of the {@link CifVarInfoBuilder} class.
+     * Constructor of the {@link MddCifVarInfoBuilder} class.
      *
      * @param numUseKinds Number of use-kinds for a single CIF variable.
      * @see VarInfoBuilder
      */
-    public CifVarInfoBuilder(int numUseKinds) {
+    public MddCifVarInfoBuilder(int numUseKinds) {
         super(numUseKinds);
     }
 

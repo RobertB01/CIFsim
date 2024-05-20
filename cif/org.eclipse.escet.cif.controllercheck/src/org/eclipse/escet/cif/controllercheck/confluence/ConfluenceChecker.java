@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
-import org.eclipse.escet.cif.controllercheck.mdd.PrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnv;
@@ -83,7 +83,7 @@ public class ConfluenceChecker {
      * @param prepareChecks Collected CIF information to perform the confluence check.
      * @return {@code null} if the check was aborted, else the conclusion about the checking process.
      */
-    public CheckConclusion checkSystem(PrepareChecks prepareChecks) {
+    public CheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         Set<Event> controllableEvents = prepareChecks.getControllableEvents();
 
@@ -404,7 +404,7 @@ public class ConfluenceChecker {
     /**
      * Verify that the result states cover all {@code originalStates}.
      *
-     * @param originalStates States where the initial combined guards holds, in {@link PrepareChecks#ORIGINAL_INDEX
+     * @param originalStates States where the initial combined guards holds, in {@link MddPrepareChecks#ORIGINAL_INDEX
      *     ORIGINAL_INDEX} variables.
      * @param resultStates Common end states for one of the confluence checks, as a relation between surviving original
      *     states and the end states.

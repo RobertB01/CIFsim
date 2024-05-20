@@ -17,7 +17,7 @@ import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
-import static org.eclipse.escet.cif.controllercheck.mdd.PrepareChecks.READ_INDEX;
+import static org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks.READ_INDEX;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
@@ -34,7 +34,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
-import org.eclipse.escet.cif.controllercheck.mdd.PrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -84,7 +84,7 @@ public class FiniteResponseChecker {
      * @param prepareChecks Collected CIF information to perform the finite response check.
      * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
      */
-    public CheckConclusion checkSystem(PrepareChecks prepareChecks) {
+    public CheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         controllableEvents = copy(prepareChecks.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {

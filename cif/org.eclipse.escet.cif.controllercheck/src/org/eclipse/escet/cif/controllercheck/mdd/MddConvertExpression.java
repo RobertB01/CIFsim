@@ -40,9 +40,9 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
 /** Convert an expression with boolean and/or bounded integer variables to a multi-value nodes collection. */
-public class ConvertExpression {
+public class MddConvertExpression {
     /** {@link VarInfo} builder containing the conversion between variables and tree nodes. */
-    public final CifVarInfoBuilder cifVarInfoBuilder;
+    public final MddCifVarInfoBuilder cifVarInfoBuilder;
 
     /** Multi-value nodes storage. */
     public final Tree tree;
@@ -54,17 +54,17 @@ public class ConvertExpression {
     public final int writeUseKind;
 
     /** Available integer variables, lazily extended. */
-    private Map<Declaration, IntegerValueCollection> variableValues = map();
+    private Map<Declaration, MddIntegerValueCollection> variableValues = map();
 
     /**
-     * Constructor of the {@link ConvertExpression} class.
+     * Constructor of the {@link MddConvertExpression} class.
      *
      * @param cifVarInfoBuilder {@link VarInfo} builder containing the conversion between variables and tree nodes.
      * @param tree Multi-value nodes storage.
      * @param readUseKind Use-kind value for reading variables in the converted expressions.
      * @param writeUseKind Use-kind value for writing variables in the converted expressions.
      */
-    public ConvertExpression(CifVarInfoBuilder cifVarInfoBuilder, Tree tree, int readUseKind, int writeUseKind) {
+    public MddConvertExpression(MddCifVarInfoBuilder cifVarInfoBuilder, Tree tree, int readUseKind, int writeUseKind) {
         this.cifVarInfoBuilder = cifVarInfoBuilder;
         this.tree = tree;
         this.readUseKind = readUseKind;
@@ -81,15 +81,15 @@ public class ConvertExpression {
      * @param var Variable to convert.
      * @return Collection of values and the associated nodes for the variable.
      */
-    private IntegerValueCollection getVariable(Declaration var) {
-        IntegerValueCollection collection = variableValues.get(var);
+    private MddIntegerValueCollection getVariable(Declaration var) {
+        MddIntegerValueCollection collection = variableValues.get(var);
         if (collection != null) {
             return collection;
         }
 
         // Variable is accessed for the first time, construct a collection for it.
         VarInfo readInfo = cifVarInfoBuilder.getVarInfo(var, readUseKind);
-        collection = new IntegerValueCollection(readInfo.length);
+        collection = new MddIntegerValueCollection(readInfo.length);
         for (int idx = 0; idx < readInfo.length; idx++) {
             Node n = tree.buildEqualityIndex(readInfo, idx);
             collection.addValue(tree, readInfo.lower + idx, n);
@@ -105,15 +105,15 @@ public class ConvertExpression {
      * @param exprs Expressions to convert.
      * @return The collection reachable values with the condition when it can be reached.
      */
-    public IntegerValueCollection convert(List<Expression> exprs) {
+    public MddIntegerValueCollection convert(List<Expression> exprs) {
         Node trueVal = Tree.ONE;
         Node falseVal = Tree.ZERO;
         for (Expression expr: exprs) {
-            IntegerValueCollection collection = convert(expr);
+            MddIntegerValueCollection collection = convert(expr);
             falseVal = tree.disjunct(falseVal, collection.getExist(0));
             trueVal = tree.conjunct(trueVal, collection.getExist(1));
         }
-        IntegerValueCollection result = new IntegerValueCollection(2);
+        MddIntegerValueCollection result = new MddIntegerValueCollection(2);
         result.addValue(tree, 0, falseVal);
         result.addValue(tree, 1, trueVal);
         return result;
@@ -126,17 +126,17 @@ public class ConvertExpression {
      * @param expr Expression to convert.
      * @return The collection reachable values with the condition when it can be reached.
      */
-    public IntegerValueCollection convert(Expression expr) {
+    public MddIntegerValueCollection convert(Expression expr) {
         if (expr instanceof IntExpression) {
             IntExpression iExpr = (IntExpression)expr;
-            IntegerValueCollection collection = new IntegerValueCollection(1);
+            MddIntegerValueCollection collection = new MddIntegerValueCollection(1);
             collection.addValue(tree, iExpr.getValue(), Tree.ONE);
             return collection;
         }
 
         if (expr instanceof BoolExpression) {
             BoolExpression bExpr = (BoolExpression)expr;
-            IntegerValueCollection collection = new IntegerValueCollection(2);
+            MddIntegerValueCollection collection = new MddIntegerValueCollection(2);
             if (bExpr.isValue()) {
                 collection.addValue(tree, 1, Tree.ONE);
                 collection.addValue(tree, 0, Tree.ZERO);
@@ -159,19 +159,19 @@ public class ConvertExpression {
 
         if (expr instanceof UnaryExpression) {
             UnaryExpression unExpr = (UnaryExpression)expr;
-            IntegerValueCollection subColl = convert(unExpr.getChild());
+            MddIntegerValueCollection subColl = convert(unExpr.getChild());
 
             switch (unExpr.getOperator()) {
                 case INVERSE: {
                     Assert.check(subColl.size() == 2);
-                    IntegerValueCollection collection = new IntegerValueCollection(subColl.size());
+                    MddIntegerValueCollection collection = new MddIntegerValueCollection(subColl.size());
                     for (Entry<Integer, Node> entry: subColl.valueNodes.entrySet()) {
                         collection.valueNodes.put(1 - entry.getKey(), entry.getValue());
                     }
                     return collection;
                 }
                 case NEGATE: {
-                    IntegerValueCollection collection = new IntegerValueCollection(subColl.size());
+                    MddIntegerValueCollection collection = new MddIntegerValueCollection(subColl.size());
                     for (Entry<Integer, Node> entry: subColl.valueNodes.entrySet()) {
                         collection.valueNodes.put(-entry.getKey(), entry.getValue());
                     }
@@ -190,8 +190,8 @@ public class ConvertExpression {
 
         if (expr instanceof BinaryExpression) {
             BinaryExpression binExpr = (BinaryExpression)expr;
-            IntegerValueCollection leftColl = convert(binExpr.getLeft());
-            IntegerValueCollection rightColl = convert(binExpr.getRight());
+            MddIntegerValueCollection leftColl = convert(binExpr.getLeft());
+            MddIntegerValueCollection rightColl = convert(binExpr.getRight());
 
             switch (binExpr.getOperator()) {
                 case BI_CONDITIONAL: {
@@ -201,14 +201,14 @@ public class ConvertExpression {
                         Node rnode = rightColl.getExist(val);
                         trueVal = tree.disjunct(trueVal, tree.conjunct(lnode, rnode));
                     }
-                    IntegerValueCollection collection = new IntegerValueCollection(2);
+                    MddIntegerValueCollection collection = new MddIntegerValueCollection(2);
                     collection.addValue(tree, 1, trueVal);
                     collection.addValue(tree, 0, tree.invert(trueVal));
                     return collection;
                 }
 
                 case CONJUNCTION: {
-                    IntegerValueCollection collection = new IntegerValueCollection(2);
+                    MddIntegerValueCollection collection = new MddIntegerValueCollection(2);
                     // True case.
                     Node lnode = leftColl.getExist(1);
                     Node rnode = rightColl.getExist(1);
@@ -222,7 +222,7 @@ public class ConvertExpression {
                 }
 
                 case DISJUNCTION: {
-                    IntegerValueCollection collection = new IntegerValueCollection(2);
+                    MddIntegerValueCollection collection = new MddIntegerValueCollection(2);
                     // True case.
                     Node lnode = leftColl.getExist(1);
                     Node rnode = rightColl.getExist(1);
@@ -236,7 +236,7 @@ public class ConvertExpression {
                 }
 
                 case IMPLICATION: {
-                    IntegerValueCollection collection = new IntegerValueCollection(2);
+                    MddIntegerValueCollection collection = new MddIntegerValueCollection(2);
                     // True case.
                     Node lnode = leftColl.getExist(0);
                     Node rnode = rightColl.getExist(1);
@@ -287,19 +287,19 @@ public class ConvertExpression {
             IfExpression ifExpr = (IfExpression)expr;
 
             // Convert else.
-            IntegerValueCollection rslt = convert(ifExpr.getElse());
+            MddIntegerValueCollection rslt = convert(ifExpr.getElse());
 
             // Convert elifs/thens.
             for (int i = ifExpr.getElifs().size() - 1; i >= 0; i--) {
                 ElifExpression elifExpr = ifExpr.getElifs().get(i);
-                IntegerValueCollection elifGuards = convert(elifExpr.getGuards());
-                IntegerValueCollection elifThen = convert(elifExpr.getThen());
+                MddIntegerValueCollection elifGuards = convert(elifExpr.getGuards());
+                MddIntegerValueCollection elifThen = convert(elifExpr.getThen());
                 rslt = ifThenElse(elifGuards, elifThen, rslt);
             }
 
             // Convert if/then.
-            IntegerValueCollection ifGuards = convert(ifExpr.getGuards());
-            IntegerValueCollection ifThen = convert(ifExpr.getThen());
+            MddIntegerValueCollection ifGuards = convert(ifExpr.getGuards());
+            MddIntegerValueCollection ifThen = convert(ifExpr.getThen());
             return ifThenElse(ifGuards, ifThen, rslt);
         }
 
@@ -309,14 +309,14 @@ public class ConvertExpression {
             List<SwitchCase> cases = switchExpr.getCases();
 
             // Convert else.
-            IntegerValueCollection rslt = convert(last(cases).getValue());
+            MddIntegerValueCollection rslt = convert(last(cases).getValue());
 
             // Convert cases.
             for (int i = cases.size() - 2; i >= 0; i--) {
                 SwitchCase cse = cases.get(i);
-                IntegerValueCollection caseGuard = CifTypeUtils.isAutRefExpr(value) ? convert(value)
+                MddIntegerValueCollection caseGuard = CifTypeUtils.isAutRefExpr(value) ? convert(value)
                         : performBoolOp(convert(value), convert(cse.getKey()), equalOp);
-                IntegerValueCollection caseThen = convert(cse.getValue());
+                MddIntegerValueCollection caseThen = convert(cse.getValue());
                 rslt = ifThenElse(caseGuard, caseThen, rslt);
             }
 
@@ -334,10 +334,10 @@ public class ConvertExpression {
      * @param elseValues Else collection.
      * @return The resulting fresh collection.
      */
-    private IntegerValueCollection ifThenElse(IntegerValueCollection guardValues, IntegerValueCollection thenValues,
-            IntegerValueCollection elseValues)
+    private MddIntegerValueCollection ifThenElse(MddIntegerValueCollection guardValues, MddIntegerValueCollection thenValues,
+            MddIntegerValueCollection elseValues)
     {
-        IntegerValueCollection result = new IntegerValueCollection(thenValues.size() + elseValues.size());
+        MddIntegerValueCollection result = new MddIntegerValueCollection(thenValues.size() + elseValues.size());
 
         // Add all 'then' values to the result under the condition that the guard holds.
         for (Entry<Integer, Node> thenEntry: thenValues.valueNodes.entrySet()) {
@@ -352,7 +352,7 @@ public class ConvertExpression {
     }
 
     /** Equality operation class. */
-    private static class EqualOp implements BinaryOperation {
+    private static class EqualOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             return leftValue.equals(rightValue) ? 1 : 0;
@@ -360,7 +360,7 @@ public class ConvertExpression {
     }
 
     /** Un-equality operation class. */
-    private static class UnequalOp implements BinaryOperation {
+    private static class UnequalOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             return leftValue.equals(rightValue) ? 0 : 1;
@@ -368,7 +368,7 @@ public class ConvertExpression {
     }
 
     /** Less than operation class. */
-    private static class LessThanOp implements BinaryOperation {
+    private static class LessThanOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             return leftValue < rightValue ? 1 : 0;
@@ -376,7 +376,7 @@ public class ConvertExpression {
     }
 
     /** At most operation class. */
-    private static class LessEqualOp implements BinaryOperation {
+    private static class LessEqualOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             return leftValue <= rightValue ? 1 : 0;
@@ -384,7 +384,7 @@ public class ConvertExpression {
     }
 
     /** At least operation class. */
-    private static class GreaterThanOp implements BinaryOperation {
+    private static class GreaterThanOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             return leftValue > rightValue ? 1 : 0;
@@ -392,7 +392,7 @@ public class ConvertExpression {
     }
 
     /** Bigger than operation class. */
-    private static class GreaterEqualOp implements BinaryOperation {
+    private static class GreaterEqualOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             return leftValue >= rightValue ? 1 : 0;
@@ -400,7 +400,7 @@ public class ConvertExpression {
     }
 
     /** Addition operation class. */
-    private static class AdditionOp implements BinaryOperation {
+    private static class AdditionOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             long rslt = (long)leftValue + (long)rightValue;
@@ -412,7 +412,7 @@ public class ConvertExpression {
     }
 
     /** Subtraction operation class. */
-    private static class SubtractionOp implements BinaryOperation {
+    private static class SubtractionOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             long rslt = (long)leftValue - (long)rightValue;
@@ -424,7 +424,7 @@ public class ConvertExpression {
     }
 
     /** Multiplication operation class. */
-    private static class MultiplicationOp implements BinaryOperation {
+    private static class MultiplicationOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             long rslt = (long)leftValue * (long)rightValue;
@@ -436,7 +436,7 @@ public class ConvertExpression {
     }
 
     /** Integer division operation class. */
-    private static class IntDivisionOp implements BinaryOperation {
+    private static class IntDivisionOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             if (rightValue == 0) {
@@ -450,7 +450,7 @@ public class ConvertExpression {
     }
 
     /** Integer modulus operation class. */
-    private static class ModulusOp implements BinaryOperation {
+    private static class ModulusOp implements MddBinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             if (rightValue == 0) {
@@ -501,8 +501,8 @@ public class ConvertExpression {
      * @param binOp Binary operator instance.
      * @return The resulting fresh collection.
      */
-    private IntegerValueCollection performIntOp(IntegerValueCollection leftSide, IntegerValueCollection rightSide,
-            BinaryOperation binOp)
+    private MddIntegerValueCollection performIntOp(MddIntegerValueCollection leftSide, MddIntegerValueCollection rightSide,
+            MddBinaryOperation binOp)
     {
         return performIntOp(leftSide, rightSide, binOp, -1);
     }
@@ -516,14 +516,14 @@ public class ConvertExpression {
      * @param expectedCount If non-zero and positive, the expected number of values in the result.
      * @return The resulting fresh collection.
      */
-    private IntegerValueCollection performIntOp(IntegerValueCollection leftSide, IntegerValueCollection rightSide,
-            BinaryOperation binOp, int expectedCount)
+    private MddIntegerValueCollection performIntOp(MddIntegerValueCollection leftSide, MddIntegerValueCollection rightSide,
+            MddBinaryOperation binOp, int expectedCount)
     {
-        IntegerValueCollection result;
+        MddIntegerValueCollection result;
         if (expectedCount <= 0) {
-            result = new IntegerValueCollection();
+            result = new MddIntegerValueCollection();
         } else {
-            result = new IntegerValueCollection(expectedCount);
+            result = new MddIntegerValueCollection(expectedCount);
         }
 
         for (Entry<Integer, Node> leftEntry: leftSide.valueNodes.entrySet()) {
@@ -551,10 +551,10 @@ public class ConvertExpression {
      * @param binOp Binary operator instance.
      * @return The resulting fresh collection.
      */
-    private IntegerValueCollection performBoolOp(IntegerValueCollection leftSide, IntegerValueCollection rightSide,
-            BinaryOperation binOp)
+    private MddIntegerValueCollection performBoolOp(MddIntegerValueCollection leftSide, MddIntegerValueCollection rightSide,
+            MddBinaryOperation binOp)
     {
-        IntegerValueCollection result = performIntOp(leftSide, rightSide, binOp);
+        MddIntegerValueCollection result = performIntOp(leftSide, rightSide, binOp);
         if (!result.valueNodes.containsKey(0)) {
             result.valueNodes.put(0, Tree.ZERO);
         }
@@ -579,7 +579,7 @@ public class ConvertExpression {
      * @param useKind The variable use-kind to relate the value to.
      * @return Multi-value tree expressing the assignment or comparison.
      */
-    private Node assignCollection(Declaration destVar, IntegerValueCollection collection, int useKind) {
+    private Node assignCollection(Declaration destVar, MddIntegerValueCollection collection, int useKind) {
         VarInfo writeInfo = cifVarInfoBuilder.getVarInfo(destVar, useKind);
 
         Node n = Tree.ZERO;
@@ -603,7 +603,7 @@ public class ConvertExpression {
      * @return Multi-value tree expressing the assignment.
      */
     public Node convertAssignment(Declaration destVar, Expression rhs) {
-        IntegerValueCollection collection = convert(rhs);
+        MddIntegerValueCollection collection = convert(rhs);
         return assignCollection(destVar, collection, writeUseKind);
     }
 
@@ -615,7 +615,7 @@ public class ConvertExpression {
      * @return Multi-value tree expressing the assignment.
      */
     public Node convertToEquality(Declaration destVar, Expression rhs) {
-        IntegerValueCollection collection = convert(rhs);
+        MddIntegerValueCollection collection = convert(rhs);
         return assignCollection(destVar, collection, readUseKind);
     }
 }

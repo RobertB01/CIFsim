@@ -70,7 +70,7 @@ public class MddDeterminismChecker {
         // Construct a MDD tree builder.
         final int READINDEX = 0;
         final int WRITEINDEX = 1;
-        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(1);
+        MddCifVarInfoBuilder cifVarInfoBuilder = new MddCifVarInfoBuilder(1);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         MddSpecBuilder builder = new MddSpecBuilder(cifVarInfoBuilder, READINDEX, WRITEINDEX);
 

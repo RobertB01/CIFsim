@@ -39,7 +39,7 @@ import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.PrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
@@ -180,7 +180,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Perform computations for both checkers.
         OutputProvider.dbg("Preparing for the checks...");
         boolean computeGlobalGuardedUpdates = checkConfluence;
-        PrepareChecks prepareChecks = new PrepareChecks(computeGlobalGuardedUpdates);
+        MddPrepareChecks prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
         if (!prepareChecks.compute(spec)) {
             return 0; // Termination requested.
         }

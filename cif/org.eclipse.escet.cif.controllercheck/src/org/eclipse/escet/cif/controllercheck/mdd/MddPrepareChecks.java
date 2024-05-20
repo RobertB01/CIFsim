@@ -53,7 +53,7 @@ import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacementsBuilder;
 
 /** Compute and collect CIF specification information for the finite response and confluence checkers. */
-public class PrepareChecks {
+public class MddPrepareChecks {
     /** Index for denoting the original value of a variable. */
     public static final int ORIGINAL_INDEX = 0;
 
@@ -91,11 +91,11 @@ public class PrepareChecks {
     private MddSpecBuilder builder;
 
     /**
-     * Constructor for the {@link PrepareChecks} class.
+     * Constructor for the {@link MddPrepareChecks} class.
      *
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
      */
-    public PrepareChecks(boolean computeGlobalGuardedUpdates) {
+    public MddPrepareChecks(boolean computeGlobalGuardedUpdates) {
         this.globalGuardedUpdatesByEvent = computeGlobalGuardedUpdates ? map() : null;
     }
 
@@ -123,7 +123,7 @@ public class PrepareChecks {
         }
 
         // Construct the MDD tree instance.
-        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(NUM_INDICES);
+        MddCifVarInfoBuilder cifVarInfoBuilder = new MddCifVarInfoBuilder(NUM_INDICES);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         builder = new MddSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
         if (env.isTerminationRequested()) {

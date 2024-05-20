@@ -25,7 +25,7 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
  */
 public class MddSpecBuilder {
     /** Storage of the relation between nodes in the tree and CIF variables. */
-    public final CifVarInfoBuilder cifVarInfoBuilder;
+    public final MddCifVarInfoBuilder cifVarInfoBuilder;
 
     /** Storage and manipulation of multi-value trees. */
     public final Tree tree;
@@ -37,7 +37,7 @@ public class MddSpecBuilder {
     public final int writeUseKind;
 
     /** Expression converter. Uses 'readIndex' to access variables. */
-    private ConvertExpression expressionConvertor = null;
+    private MddConvertExpression expressionConvertor = null;
 
     /**
      * Constructor of the {@link MddSpecBuilder} class.
@@ -46,7 +46,7 @@ public class MddSpecBuilder {
      * @param readUseKind Variable use-kind for the current value of a variable.
      * @param writeUseKind Variable use kind for the next value of a variable.
      */
-    public MddSpecBuilder(CifVarInfoBuilder cifVarInfoBuilder, int readUseKind, int writeUseKind) {
+    public MddSpecBuilder(MddCifVarInfoBuilder cifVarInfoBuilder, int readUseKind, int writeUseKind) {
         this.cifVarInfoBuilder = cifVarInfoBuilder;
         this.tree = new Tree();
         this.readUseKind = readUseKind;
@@ -58,9 +58,9 @@ public class MddSpecBuilder {
      *
      * @return Converter for converting expressions.
      */
-    public ConvertExpression getExpressionConvertor() {
+    public MddConvertExpression getExpressionConvertor() {
         if (expressionConvertor == null) {
-            expressionConvertor = new ConvertExpression(cifVarInfoBuilder, tree, readUseKind, writeUseKind);
+            expressionConvertor = new MddConvertExpression(cifVarInfoBuilder, tree, readUseKind, writeUseKind);
         }
         return expressionConvertor;
     }

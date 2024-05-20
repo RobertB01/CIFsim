@@ -23,21 +23,21 @@ import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
 /** Class holding a collection of integer result values and the set of nodes that produce them. */
-public class IntegerValueCollection {
+public class MddIntegerValueCollection {
     /** Values and their nodes. */
     public final Map<Integer, Node> valueNodes;
 
-    /** Constructor of the {@link IntegerValueCollection} class with default number of entries in the collection. */
-    public IntegerValueCollection() {
+    /** Constructor of the {@link MddIntegerValueCollection} class with default number of entries in the collection. */
+    public MddIntegerValueCollection() {
         valueNodes = map();
     }
 
     /**
-     * Constructor of the {@link IntegerValueCollection} class with specified number of entries in the collection.
+     * Constructor of the {@link MddIntegerValueCollection} class with specified number of entries in the collection.
      *
      * @param numValues Expected number of values in the collection.
      */
-    public IntegerValueCollection(int numValues) {
+    public MddIntegerValueCollection(int numValues) {
         valueNodes = mapc(numValues);
     }
 
