@@ -98,6 +98,16 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
+        // Determine checks to perform.
+        boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
+        boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
+
+        // Ensure at least one check is enabled.
+        if (!checkFiniteResponse && !checkConfluence) {
+            throw new InvalidOptionException(
+                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
+        }
+
         // Load specification.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
         CifReader cifReader = new CifReader().init();
@@ -165,16 +175,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         new MddDeterminismChecker().check(spec);
         if (isTerminationRequested()) {
             return 0;
-        }
-
-        // Determine checks to perform.
-        boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
-        boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
-
-        // Ensure at least one check is enabled.
-        if (!checkFiniteResponse && !checkConfluence) {
-            throw new InvalidOptionException(
-                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
 
         // Perform computations for both checkers.
