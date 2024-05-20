@@ -58,28 +58,28 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Controller properties checker application. */
-public class ControllerCheckApp extends Application<IOutputComponent> {
+public class ControllerCheckerApp extends Application<IOutputComponent> {
     /**
      * Application main method.
      *
      * @param args The command line arguments supplied to the application.
      */
     public static void main(String[] args) {
-        ControllerCheckApp app = new ControllerCheckApp();
+        ControllerCheckerApp app = new ControllerCheckerApp();
         app.run(args, true);
     }
 
-    /** Constructor for the {@link ControllerCheckApp} class. */
-    public ControllerCheckApp() {
+    /** Constructor for the {@link ControllerCheckerApp} class. */
+    public ControllerCheckerApp() {
         // Nothing to do here.
     }
 
     /**
-     * Constructor for the {@link ControllerCheckApp} class.
+     * Constructor for the {@link ControllerCheckerApp} class.
      *
      * @param streams The streams to use for input, output, warning, and error streams.
      */
-    public ControllerCheckApp(AppStreams streams) {
+    public ControllerCheckerApp(AppStreams streams) {
         super(streams);
     }
 

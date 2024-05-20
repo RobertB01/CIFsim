@@ -109,7 +109,7 @@
         {
             "script_name": "cifcontrollercheck",
             "plugin_name": "org.eclipse.escet.cif.controllercheck",
-            "class_name": "org.eclipse.escet.cif.controllercheck.ControllerCheckApp"
+            "class_name": "org.eclipse.escet.cif.controllercheck.ControllerCheckerApp"
         },
         {
             "script_name": "cifctrlchk",
