@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
+import org.eclipse.escet.cif.bdd.utils.CifBddApplyPlantInvariants;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
 import org.eclipse.escet.cif.bdd.workset.dependencies.BddBasedEdgeDependencySetCreator;
 import org.eclipse.escet.cif.bdd.workset.dependencies.EdgeDependencySetCreator;
@@ -100,7 +101,8 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return null;
             }
-            applyStateEvtExclPlants(cifBddSpec, synthResult, dbgEnabled);
+            CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "uncontrolled system",
+                    () -> synthResult.getCtrlBehText(1), dbgEnabled);
 
             // Initialize applying edges.
             for (CifBddEdge edge: cifBddSpec.edges) {
@@ -115,7 +117,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
-                applyStatePlantInvs(cifBddSpec, dbgEnabled);
+                CifBddApplyPlantInvariants.applyStatePlantInvs(cifBddSpec, "uncontrolled system", dbgEnabled);
             }
 
             // Initialize controlled behavior.

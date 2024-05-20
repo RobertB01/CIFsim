@@ -15,8 +15,11 @@ package org.eclipse.escet.cif.bdd.utils;
 
 import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 
+import java.util.function.Supplier;
+
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
 
@@ -28,20 +31,25 @@ public class CifBddApplyPlantInvariants {
     }
 
     /**
-     * Applies the state/event exclusion plant invariants, as preprocessing step for synthesis.
+     * Applies the state/event exclusion plant invariants to the guards of the edges of a CIF/BDD specification.
      *
-     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
-     * @param synthResult The synthesis result.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
+     * @param behaviorName The name of the behavior to which the invariants are applied, e.g.,
+     *     {@code "uncontrolled system"}.
+     * @param sysBehTextSupplier Supplier that supplies the system behavior predicate for debug output. It uses two
+     *     spaces indentation. E.g. {@code "  State: (controlled-behavior: ...)"}. If the supplier supplies
+     *     {@code null}, the system behavior is not printed as part of the debug output.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateEvtExclPlants(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
-            boolean dbgEnabled)
+    public static void applyStateEvtExclPlantsInvs(CifBddSpec cifBddSpec, String behaviorName,
+            Supplier<String> sysBehTextSupplier, boolean dbgEnabled)
     {
         // Update guards to ensure that transitions not allowed by the state/event exclusion plant invariants, are
         // blocked.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Restricting behavior using state/event exclusion plants.");
+            cifBddSpec.settings.getDebugOutput()
+                    .line("Restricting %s behavior using state/event exclusion plants invariants.", behaviorName);
         }
 
         boolean firstDbg = true;
@@ -85,26 +93,33 @@ public class CifBddApplyPlantInvariants {
             return;
         }
         if (dbgEnabled && guardChanged) {
-            cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Uncontrolled system:");
-            cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
-            if (!cifBddSpec.edges.isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+            String sysBehText = sysBehTextSupplier.get();
+            if (sysBehText != null || !cifBddSpec.edges.isEmpty()) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
+                if (sysBehText != null) {
+                    cifBddSpec.settings.getDebugOutput().line(sysBehText);
+                }
+                if (!cifBddSpec.edges.isEmpty()) {
+                    cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                }
             }
         }
     }
 
     /**
-     * Applies the state plant invariants, as preprocessing step for synthesis.
+     * Applies the state plant invariants to the guards of the edges of a CIF/BDD specification.
      *
-     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
+     * @param behaviorName The name of the behavior to which the invariants are applied, e.g.,
+     *     {@code "uncontrolled system"}.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStatePlantInvs(CifBddSpec cifBddSpec, boolean dbgEnabled) {
+    public static void applyStatePlantInvs(CifBddSpec cifBddSpec, String behaviorName, boolean dbgEnabled) {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput()
-                    .line("Restricting uncontrolled behavior using state plant invariants.");
+            cifBddSpec.settings.getDebugOutput().line("Restricting %s behavior using state plant invariants.",
+                    behaviorName);
         }
 
         boolean guardUpdated = false;
@@ -122,7 +137,7 @@ public class CifBddApplyPlantInvariants {
                     false, // bad
                     false, // forward
                     null, // restriction
-                    false); // don't apply error. The supervisor should restrict that.
+                    false); // don't apply error. Supervisor synthesis should restrict that.
             edge.postApply(false);
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
