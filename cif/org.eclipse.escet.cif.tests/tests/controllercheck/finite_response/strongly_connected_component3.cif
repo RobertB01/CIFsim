@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton A:
+plant A:
 controllable a, b, c, d, e, f, g, h, i, j, k, l, m, o, p, q, r, s, t;
 uncontrollable n;
 location l1:

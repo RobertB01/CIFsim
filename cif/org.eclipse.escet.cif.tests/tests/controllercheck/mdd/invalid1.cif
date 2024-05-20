@@ -15,7 +15,7 @@ group g:
   event e1;                         // Not (un)controllable.
   controllable int[0..5] e2;        // Event with data type.
 
-  automaton a:
+  plant a:
     location:
       initial;
       edge e1, e2, tau;             // Explicit 'tau'.
@@ -42,5 +42,5 @@ group g:
       plant invariant 5 = 7;        // State invariant in location.
   end
 
-  invariant 8 = 9;                  // State invariant in component.
+  plant invariant 8 = 9;            // State invariant in component.
 end

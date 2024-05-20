@@ -29,7 +29,7 @@ plant Sensor:
     edge u_off goto Off;
 end
 
-requirement req:
+supervisor sup:
   location Off:
     initial;
     edge Sensor.u_on goto On;

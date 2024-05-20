@@ -22,5 +22,5 @@ end
 
 input bool Sensor;
 
-requirement Actuator.c_on  needs Sensor;
-requirement Actuator.c_off needs not Sensor;
+supervisor Actuator.c_on  needs Sensor;
+supervisor Actuator.c_off needs not Sensor;

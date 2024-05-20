@@ -29,5 +29,5 @@ plant Sensor:
     edge u_off goto Off;
 end
 
-requirement Actuator.c_on  needs Sensor.On;
-requirement Actuator.c_off needs Sensor.Off;
+supervisor Actuator.c_on  needs Sensor.On;
+supervisor Actuator.c_off needs Sensor.Off;

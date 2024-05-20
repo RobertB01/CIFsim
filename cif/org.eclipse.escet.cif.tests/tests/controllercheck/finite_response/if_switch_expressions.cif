@@ -23,7 +23,7 @@ plant Aut1:
 end
 
 // Trivially true if expression:
-requirement Aut1.c_a needs if A: 3 elif B: 4 else 2 end > 1;
+supervisor Aut1.c_a needs if A: 3 elif B: 4 else 2 end > 1;
 
 plant Aut2:
   controllable c_a, c_b;
@@ -35,7 +35,7 @@ plant Aut2:
 end
 
 // Trivially false if expression:
-requirement Aut2.c_a needs if A: 3 elif B: 4 else 2 end > 5;
+supervisor Aut2.c_a needs if A: 3 elif B: 4 else 2 end > 5;
 
 plant Aut3:
   controllable c_a, c_b;
@@ -47,8 +47,8 @@ plant Aut3:
 end
 
 // Combinatorial mutually exclusive if expression:
-requirement Aut3.c_a needs if A: true  else false end;
-requirement Aut3.c_b needs if A: false else true  end;
+supervisor Aut3.c_a needs if A: true  else false end;
+supervisor Aut3.c_b needs if A: false else true  end;
 
 plant Aut4:
   controllable c_a, c_b;
@@ -60,10 +60,10 @@ plant Aut4:
 end
 
 // Trivially true switch expression:
-requirement Aut4.c_a needs switch A:
-                           case true: 3
-                           else 4
-                           end > 1;
+supervisor Aut4.c_a needs switch A:
+                          case true: 3
+                          else 4
+                          end > 1;
 
 plant Aut5:
   controllable c_a, c_b;
@@ -75,10 +75,10 @@ plant Aut5:
 end
 
 // Trivially false switch expression:
-requirement Aut5.c_a needs switch A:
-                           case true: 3
-                           else 4
-                           end < 1;
+supervisor Aut5.c_a needs switch A:
+                          case true: 3
+                          else 4
+                          end < 1;
 
 plant Aut6:
   controllable c_a, c_b;
@@ -90,11 +90,11 @@ plant Aut6:
 end
 
 // Combinatorial mutually exclusive switch expression:
-requirement Aut6.c_a needs switch A:
-                           case true: true
-                           else false
-                           end;
-requirement Aut6.c_b needs switch A:
-                           case true: false
-                           else true
-                           end;
+supervisor Aut6.c_a needs switch A:
+                          case true: true
+                          else false
+                          end;
+supervisor Aut6.c_b needs switch A:
+                          case true: false
+                          else true
+                          end;

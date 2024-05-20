@@ -31,8 +31,8 @@ end
 
 input bool Sensor;
 
-requirement Actuator1.c_on  needs Sensor;
-requirement Actuator1.c_off needs not Sensor;
+supervisor Actuator1.c_on  needs Sensor;
+supervisor Actuator1.c_off needs not Sensor;
 
-requirement Actuator2.c_on  needs Actuator1.On;
-requirement Actuator2.c_off needs Actuator1.Off;
+supervisor Actuator2.c_on  needs Actuator1.On;
+supervisor Actuator2.c_off needs Actuator1.Off;

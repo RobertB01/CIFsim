@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton OptionalChangeBool:
+plant OptionalChangeBool:
   controllable a, b;
   disc int[0..2] v;
 

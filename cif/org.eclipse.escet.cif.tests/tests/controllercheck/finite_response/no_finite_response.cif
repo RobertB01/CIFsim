@@ -38,5 +38,5 @@ plant StopButton:
     edge u_released goto Released;
 end
 
-requirement Actuator.c_on needs StartButton.Pushed;
-requirement Actuator.c_off needs StopButton.Pushed;
+supervisor Actuator.c_on needs StartButton.Pushed;
+supervisor Actuator.c_off needs StopButton.Pushed;
