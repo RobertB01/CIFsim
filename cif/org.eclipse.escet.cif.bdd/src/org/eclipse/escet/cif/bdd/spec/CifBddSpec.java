@@ -450,6 +450,76 @@ public class CifBddSpec {
         }
     }
 
+    /** Free all BDDs of this CIF/BDD specification, as well as the {@link #factory}. */
+    public void freeAllBDDs() {
+        // Free intermediate BDDs.
+        freeIntermediateBDDs(true);
+
+        // Free remaining BDDs.
+        if (initial != null) {
+            initial.free();
+            initial = null;
+        }
+        if (initialPlantInv != null) {
+            initialPlantInv.free();
+            initialPlantInv = null;
+        }
+        if (marked != null) {
+            marked.free();
+            marked = null;
+        }
+
+        if (plantInv != null) {
+            plantInv.free();
+            plantInv = null;
+        }
+        if (reqInv != null) {
+            reqInv.free();
+            reqInv = null;
+        }
+
+        if (stateEvtExclsReqAuts != null) {
+            for (BDD bdd: stateEvtExclsReqAuts.values()) {
+                bdd.free();
+            }
+            stateEvtExclsReqAuts = null;
+        }
+        if (stateEvtExclsReqInvs != null) {
+            for (BDD bdd: stateEvtExclsReqInvs.values()) {
+                bdd.free();
+            }
+            stateEvtExclsReqInvs = null;
+        }
+        if (stateEvtExclReqs != null) {
+            for (BDD bdd: stateEvtExclReqs.values()) {
+                bdd.free();
+            }
+            stateEvtExclReqs = null;
+        }
+        if (stateEvtExclPlants != null) {
+            for (BDD bdd: stateEvtExclPlants.values()) {
+                bdd.free();
+            }
+            stateEvtExclPlants = null;
+        }
+
+        if (varSetOld != null) {
+            varSetOld.free();
+            varSetOld = null;
+        }
+        if (varSetNew != null) {
+            varSetNew.free();
+            varSetNew = null;
+        }
+
+        for (CifBddEdge edge: edges) {
+            edge.freeBDDs();
+        }
+
+        // Clean up the BDD factory.
+        factory.done();
+    }
+
     @Override
     public String toString() {
         return getEdgesText(0);
