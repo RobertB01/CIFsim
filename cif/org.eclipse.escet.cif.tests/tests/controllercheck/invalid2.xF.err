@@ -1,4 +1,4 @@
-ERROR: CIF controller properties check application failed due to unsatisfied preconditions:
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
  - Unsupported expression ""a"": string literal expressions are currently not supported.
  - Unsupported expression "(p.b, p.db)": tuple expressions are currently not supported.
  - Unsupported expression "(true, false)": tuple expressions are currently not supported.

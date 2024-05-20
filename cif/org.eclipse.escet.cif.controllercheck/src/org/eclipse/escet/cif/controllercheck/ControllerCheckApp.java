@@ -57,7 +57,7 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
-/** Application class for the controller properties check application. */
+/** Controller properties checker application. */
 public class ControllerCheckApp extends Application<IOutputComponent> {
     /**
      * Application main method.
@@ -85,12 +85,12 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
     @Override
     public String getAppName() {
-        return "CIF controller properties check tool";
+        return "CIF controller properties checker tool";
     }
 
     @Override
     public String getAppDescription() {
-        return "Verifies whether a set of CIF automata meet the requirements for a controller.";
+        return "Checks whether a CIF specification meets certain properties for being a proper controller.";
     }
 
     @Override
@@ -171,7 +171,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         // Ensure at least one check is enabled.
         if (!checkFiniteResponse && !checkConfluence) {
             throw new InvalidOptionException(
-                    "No checks enabled. Enable one of the checks for the controller property checker to check.");
+                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
 
         // Perform computations for both checkers.
@@ -275,12 +275,12 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));
 
         OptionCategory checksCat;
-        checksCat = new OptionCategory("Checks", "Controller properties check options.", list(), checkOpts);
+        checksCat = new OptionCategory("Checks", "Controller properties checker options.", list(), checkOpts);
 
         List<OptionCategory> cats = list(generalCat, checksCat);
         OptionCategory options;
-        options = new OptionCategory("CIF Controller properties check Options",
-                "All options for the CIF controller properties check tool.", cats, list());
+        options = new OptionCategory("CIF Controller properties checker Options",
+                "All options for the CIF controller properties checker tool.", cats, list());
         return options;
     }
 }

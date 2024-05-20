@@ -91,7 +91,7 @@ public class ControllerCheckPreChecker extends CifWalker {
 
         // If we have any problems, the specification is unsupported.
         if (!problems.isEmpty()) {
-            String msg = "CIF controller properties check application failed due to unsatisfied preconditions:\n - "
+            String msg = "CIF controller properties checker failed due to unsatisfied preconditions:\n - "
                     + String.join("\n - ", sortedstrings(problems));
             throw new UnsupportedException(msg);
         }

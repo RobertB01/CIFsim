@@ -1,4 +1,4 @@
-ERROR: CIF controller properties check application failed due to unsatisfied preconditions:
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
  - Unsupported declaration "g.p0.cnt": continuous variables are currently unsupported.
  - Unsupported event "g.e1": event is not declared as controllable or uncontrollable.
  - Unsupported event "g.e2": event is a channel (has a data type).

@@ -47,7 +47,7 @@ import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
-/** Controller checker determinism checker. */
+/** Controller properties checker determinism checker. */
 public class ControllerCheckDeterminismChecker {
     /** Found problems in the specification. */
     public List<String> problems = list();
@@ -85,7 +85,7 @@ public class ControllerCheckDeterminismChecker {
         // If we have any problems, the specification is unsupported.
         Collections.sort(problems, Strings.SORTER);
         if (!problems.isEmpty()) {
-            String msg = "CIF controller properties check application failed due to unsatisfied preconditions:\n - "
+            String msg = "CIF controller properties checker failed due to unsatisfied preconditions:\n - "
                     + String.join("\n - ", problems);
             throw new UnsupportedException(msg);
         }
