@@ -52,6 +52,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -115,8 +116,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
         // Load specification.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
-        CifReader cifReader = new CifReader().init();
-        Specification spec = cifReader.read();
+        Specification spec = new CifReader().init().read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -128,12 +129,23 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
 
-        // Warn if specification doesn't look very useful.
+        // Eliminate component definition/instantiation, to allow performing precondition checks.
+        new ElimComponentDefInst().transform(spec);
+
+        // Check preconditions that apply to all checks.
+        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker();
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF controller properties checker");
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Warn if specification doesn't look very useful:
+        // - Due to preconditions, all events have controllability, but check for none of them being (un)controllable.
         Set<Event> specAlphabet = CifEventUtils.getAlphabet(spec);
-        if (specAlphabet.stream().allMatch(e -> e.getControllable() != null && !e.getControllable())) {
+        if (specAlphabet.stream().allMatch(e -> !e.getControllable())) {
             warn("The alphabet of the specification contains no controllable events.");
         }
-        if (specAlphabet.stream().allMatch(e -> e.getControllable() != null && e.getControllable())) {
+        if (specAlphabet.stream().allMatch(e -> e.getControllable())) {
             warn("The alphabet of the specification contains no uncontrollable events.");
         }
 
@@ -153,7 +165,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
             // Pre-processing.
             // CIF automata structure normalization.
-            new ElimComponentDefInst().transform(mddSpec);
             new ElimStateEvtExclInvs().transform(mddSpec);
             new ElimMonitors().transform(mddSpec);
             new ElimSelf().transform(mddSpec);
@@ -210,11 +221,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
             if (!prepareChecks.compute(mddSpec)) {
                 return 0; // Termination requested.
-            }
-
-            // Warn if specification doesn't look very useful.
-            if (prepareChecks.getAutomata().isEmpty()) {
-                warn("The specification contains no automata.");
             }
         }
 
