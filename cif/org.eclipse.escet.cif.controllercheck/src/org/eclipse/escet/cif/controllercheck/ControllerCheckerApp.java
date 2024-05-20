@@ -61,6 +61,7 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Controller properties checker application. */
@@ -104,6 +105,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Determine checks to perform.
         boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
         boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
+        boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
 
         // Ensure at least one check is enabled.
         if (!checkFiniteResponse && !checkConfluence) {
@@ -135,13 +137,27 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             warn("The alphabet of the specification contains no uncontrollable events.");
         }
 
+        // Prepare for the checks.
+        Specification mddSpec = null; // Used for MDD-based checks.
+        MddPrepareChecks prepareChecks = null; // Used for MDD-based checks.
+
+        // Preparations for MDD-based checks.
+        if (hasMddBasedChecks) {
+            OutputProvider.dbg("Preparing for MDD-based checks...");
+
+            // Use a dedicated copy of the specification.
+            mddSpec = EMFHelper.deepclone(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
+
             // Pre-processing.
             // CIF automata structure normalization.
-            new ElimComponentDefInst().transform(spec);
-            new ElimStateEvtExclInvs().transform(spec);
-            new ElimMonitors().transform(spec);
-            new ElimSelf().transform(spec);
-            new ElimTypeDecls().transform(spec);
+            new ElimComponentDefInst().transform(mddSpec);
+            new ElimStateEvtExclInvs().transform(mddSpec);
+            new ElimMonitors().transform(mddSpec);
+            new ElimSelf().transform(mddSpec);
+            new ElimTypeDecls().transform(mddSpec);
 
             final Function<Automaton, String> varNamingFunction = a -> "LP_" + a.getName();
             final Function<Automaton, String> enumNamingFunction = a -> "LOCS_" + a.getName();
@@ -156,44 +172,43 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             final boolean copyLocAnnosToEnumLits = false;
             new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
                     addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards, copyAutAnnosToEnum,
-                    copyLocAnnosToEnumLits).transform(spec);
+                    copyLocAnnosToEnumLits).transform(mddSpec);
 
-            new EnumsToInts().transform(spec);
+            new EnumsToInts().transform(mddSpec);
             if (isTerminationRequested()) {
                 return 0;
             }
 
             // Simplify expressions.
-            new ElimAlgVariables().transform(spec);
-            new ElimConsts().transform(spec);
-            new SimplifyValues().transform(spec);
+            new ElimAlgVariables().transform(mddSpec);
+            new ElimConsts().transform(mddSpec);
+            new SimplifyValues().transform(mddSpec);
             if (isTerminationRequested()) {
                 return 0;
             }
 
             // Pre-check.
-            new MddPreChecker().check(spec);
+            new MddPreChecker().check(mddSpec);
             if (isTerminationRequested()) {
                 return 0;
             }
 
             // Eliminate if updates, does not support multi-assignments or partial variable assignments.
-            new ElimIfUpdates().transform(spec);
+            new ElimIfUpdates().transform(mddSpec);
             if (isTerminationRequested()) {
                 return 0;
             }
 
             // Non-determinism check.
-            new MddDeterminismChecker().check(spec);
+            new MddDeterminismChecker().check(mddSpec);
             if (isTerminationRequested()) {
                 return 0;
             }
 
             // Perform computations for both checkers.
-            OutputProvider.dbg("Preparing for the checks...");
             boolean computeGlobalGuardedUpdates = checkConfluence;
-            MddPrepareChecks prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
-            if (!prepareChecks.compute(spec)) {
+            prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
+            if (!prepareChecks.compute(mddSpec)) {
                 return 0; // Termination requested.
             }
 
@@ -201,6 +216,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             if (prepareChecks.getAutomata().isEmpty()) {
                 warn("The specification contains no automata.");
             }
+        }
 
         // Common initialization for the checks.
         boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
