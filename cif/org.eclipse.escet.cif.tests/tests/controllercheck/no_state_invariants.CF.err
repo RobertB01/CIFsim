@@ -1,0 +1,11 @@
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+
+  -------------------------------------
+  (1/1) Invariant is a state invariant.
+  -------------------------------------
+   * In the top-level scope of the specification:
+     - plant invariant i;
+             ^
+   * In automaton "p":
+     - plant invariant i and i;
+             ^

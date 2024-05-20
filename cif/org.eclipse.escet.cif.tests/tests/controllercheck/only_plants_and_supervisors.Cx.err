@@ -1,0 +1,41 @@
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+
+  ------------------------------------------------------------------------------------
+  (1/4) Automaton is a kindless automaton rather than a plant or supervisor automaton.
+  ------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - automaton a:
+                 ^
+   * In group "g":
+     - automaton a:
+                 ^
+
+  ---------------------------------------------------------------------------------------
+  (2/4) Automaton is a requirement automaton rather than a plant or supervisor automaton.
+  ---------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - requirement automaton r:
+                             ^
+   * In group "g":
+     - requirement automaton r:
+                             ^
+
+  ----------------------------------------
+  (3/4) Invariant is a kindless invariant.
+  ----------------------------------------
+   * In the top-level scope of the specification:
+     - invariant e needs i;
+       ^
+   * In group "g":
+     - invariant f needs i;
+       ^
+
+  -------------------------------------------
+  (4/4) Invariant is a requirement invariant.
+  -------------------------------------------
+   * In the top-level scope of the specification:
+     - requirement invariant e needs not i;
+                   ^
+   * In group "g":
+     - requirement invariant f needs not i;
+                   ^
