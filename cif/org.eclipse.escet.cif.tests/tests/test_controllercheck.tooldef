@@ -54,6 +54,8 @@ for test in tests:
         checks_enabled_variants = [(true, true), (true, false)];
     elif contains(replace(test, "\\", "/"), "/finite_response/"):
         checks_enabled_variants = [(true, true), (false, true)];
+    elif contains(replace(test, "\\", "/"), "/mdd/"):
+        checks_enabled_variants = [(true, true), (true, false), (false, true)];
     else
         checks_enabled_variants = [(true, true), (true, false), (false, true)];
     end
