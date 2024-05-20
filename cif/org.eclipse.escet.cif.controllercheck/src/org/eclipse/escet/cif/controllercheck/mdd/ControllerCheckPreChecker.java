@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck;
+package org.eclipse.escet.cif.controllercheck.mdd;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;

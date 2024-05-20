@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck;
+package org.eclipse.escet.cif.controllercheck.mdd;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEvents;
@@ -32,8 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.controllercheck.mdd.CifVarInfoBuilder;
-import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
