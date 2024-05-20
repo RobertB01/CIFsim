@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
@@ -35,6 +36,7 @@ import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
+import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
@@ -48,6 +50,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
@@ -123,6 +126,15 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
 
+        // Warn if specification doesn't look very useful.
+        Set<Event> specAlphabet = CifEventUtils.getAlphabet(spec);
+        if (specAlphabet.stream().allMatch(e -> e.getControllable() != null && !e.getControllable())) {
+            warn("The alphabet of the specification contains no controllable events.");
+        }
+        if (specAlphabet.stream().allMatch(e -> e.getControllable() != null && e.getControllable())) {
+            warn("The alphabet of the specification contains no uncontrollable events.");
+        }
+
         // Pre-processing.
         // CIF automata structure normalization.
         new ElimComponentDefInst().transform(spec);
@@ -188,8 +200,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Warn if specification doesn't look very useful.
         if (prepareChecks.getAutomata().isEmpty()) {
             warn("The specification contains no automata.");
-        } else if (prepareChecks.getControllableEvents().isEmpty()) {
-            warn("The specification contains no used controllable events.");
         }
 
         // Common initialization for the checks.
