@@ -23,7 +23,7 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
  * builder or the specification.
  * </p>
  */
-public class MvSpecBuilder {
+public class MddSpecBuilder {
     /** Storage of the relation between nodes in the tree and CIF variables. */
     public final CifVarInfoBuilder cifVarInfoBuilder;
 
@@ -40,13 +40,13 @@ public class MvSpecBuilder {
     private ConvertExpression expressionConvertor = null;
 
     /**
-     * Constructor of the {@link MvSpecBuilder} class.
+     * Constructor of the {@link MddSpecBuilder} class.
      *
      * @param cifVarInfoBuilder Storage of the relation between nodes in the tree and CIF variables.
      * @param readUseKind Variable use-kind for the current value of a variable.
      * @param writeUseKind Variable use kind for the next value of a variable.
      */
-    public MvSpecBuilder(CifVarInfoBuilder cifVarInfoBuilder, int readUseKind, int writeUseKind) {
+    public MddSpecBuilder(CifVarInfoBuilder cifVarInfoBuilder, int readUseKind, int writeUseKind) {
         this.cifVarInfoBuilder = cifVarInfoBuilder;
         this.tree = new Tree();
         this.readUseKind = readUseKind;

@@ -88,7 +88,7 @@ public class PrepareChecks {
     private Map<Event, Set<Declaration>> updatedVariablesByEvent = map();
 
     /** Builder for the MDD tree. */
-    private MvSpecBuilder builder;
+    private MddSpecBuilder builder;
 
     /**
      * Constructor for the {@link PrepareChecks} class.
@@ -125,7 +125,7 @@ public class PrepareChecks {
         // Construct the MDD tree instance.
         CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(NUM_INDICES);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
-        builder = new MvSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
+        builder = new MddSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
         if (env.isTerminationRequested()) {
             return false;
         }
@@ -450,7 +450,7 @@ public class PrepareChecks {
      *
      * @return The builder of the MDD trees.
      */
-    public MvSpecBuilder getBuilder() {
+    public MddSpecBuilder getBuilder() {
         return builder;
     }
 }

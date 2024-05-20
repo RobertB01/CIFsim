@@ -46,7 +46,7 @@ import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
 /** Controller properties checker determinism checker. */
-public class ControllerCheckDeterminismChecker {
+public class MddDeterminismChecker {
     /** Found problems in the specification. */
     public List<String> problems = list();
 
@@ -72,7 +72,7 @@ public class ControllerCheckDeterminismChecker {
         final int WRITEINDEX = 1;
         CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(1);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
-        MvSpecBuilder builder = new MvSpecBuilder(cifVarInfoBuilder, READINDEX, WRITEINDEX);
+        MddSpecBuilder builder = new MddSpecBuilder(cifVarInfoBuilder, READINDEX, WRITEINDEX);
 
         // Verify determinism for each location.
         verifyDeterminism(spec, builder);
@@ -99,7 +99,7 @@ public class ControllerCheckDeterminismChecker {
      * @param group The group to check.
      * @param builder The builder for the MDD tree.
      */
-    private void verifyDeterminism(Group group, MvSpecBuilder builder) {
+    private void verifyDeterminism(Group group, MddSpecBuilder builder) {
         for (Component comp: group.getComponents()) {
             if (env.isTerminationRequested()) {
                 return;
@@ -127,7 +127,7 @@ public class ControllerCheckDeterminismChecker {
      * @param aut The automaton to check.
      * @param builder The builder for the MDD tree.
      */
-    private void verifyDeterminism(Automaton aut, MvSpecBuilder builder) {
+    private void verifyDeterminism(Automaton aut, MddSpecBuilder builder) {
         for (Location loc: aut.getLocations()) {
             verifyDeterminism(loc, builder);
             if (env.isTerminationRequested()) {
@@ -147,7 +147,7 @@ public class ControllerCheckDeterminismChecker {
      * @param loc The location to check.
      * @param builder The builder for the MDD tree.
      */
-    private void verifyDeterminism(Location loc, MvSpecBuilder builder) {
+    private void verifyDeterminism(Location loc, MddSpecBuilder builder) {
         Map<Event, List<List<Expression>>> edgesPredsByEvent = map();
         for (Edge edge: loc.getEdges()) {
             // If there are edges, collect the guards by event to check determinism.

@@ -37,8 +37,8 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.ControllerCheckDeterminismChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.ControllerCheckPreChecker;
+import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
+import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.PrepareChecks;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
@@ -150,7 +150,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
 
         // Pre-check.
-        new ControllerCheckPreChecker().check(spec);
+        new MddPreChecker().check(spec);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -162,7 +162,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
 
         // Non-determinism check.
-        new ControllerCheckDeterminismChecker().check(spec);
+        new MddDeterminismChecker().check(spec);
         if (isTerminationRequested()) {
             return 0;
         }

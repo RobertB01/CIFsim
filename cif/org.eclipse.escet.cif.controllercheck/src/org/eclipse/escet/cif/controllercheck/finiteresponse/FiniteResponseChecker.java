@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.controllercheck.mdd.PrepareChecks;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -76,7 +76,7 @@ public class FiniteResponseChecker {
     private Map<Event, Node> globalGuardsByEvent;
 
     /** Builder for the MDD tree. */
-    private MvSpecBuilder builder;
+    private MddSpecBuilder builder;
 
     /**
      * Performs the finite response check for a CIF specification.

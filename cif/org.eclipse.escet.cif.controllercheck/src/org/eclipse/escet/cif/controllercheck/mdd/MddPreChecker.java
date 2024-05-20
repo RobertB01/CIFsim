@@ -75,7 +75,7 @@ import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** Pre-condition checker for the controller properties checker. */
-public class ControllerCheckPreChecker extends CifWalker {
+public class MddPreChecker extends CifWalker {
     /** Precondition violations found so far. */
     public Set<String> problems = set();
 
