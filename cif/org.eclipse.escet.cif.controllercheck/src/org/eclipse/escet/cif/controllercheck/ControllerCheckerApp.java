@@ -135,72 +135,72 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             warn("The alphabet of the specification contains no uncontrollable events.");
         }
 
-        // Pre-processing.
-        // CIF automata structure normalization.
-        new ElimComponentDefInst().transform(spec);
-        new ElimStateEvtExclInvs().transform(spec);
-        new ElimMonitors().transform(spec);
-        new ElimSelf().transform(spec);
-        new ElimTypeDecls().transform(spec);
+            // Pre-processing.
+            // CIF automata structure normalization.
+            new ElimComponentDefInst().transform(spec);
+            new ElimStateEvtExclInvs().transform(spec);
+            new ElimMonitors().transform(spec);
+            new ElimSelf().transform(spec);
+            new ElimTypeDecls().transform(spec);
 
-        final Function<Automaton, String> varNamingFunction = a -> "LP_" + a.getName();
-        final Function<Automaton, String> enumNamingFunction = a -> "LOCS_" + a.getName();
-        final Function<Location, String> litNamingFunction = l -> "LOC_" + l.getName();
-        final boolean considerLocsForRename = true;
-        final boolean addInitPreds = true;
-        final boolean optimized = false;
-        final Map<DiscVariable, String> lpVarToAbsAutNameMap = null;
-        final boolean optInits = true;
-        final boolean addEdgeGuards = true;
-        final boolean copyAutAnnosToEnum = false;
-        final boolean copyLocAnnosToEnumLits = false;
-        new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
-                addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards, copyAutAnnosToEnum,
-                copyLocAnnosToEnumLits).transform(spec);
+            final Function<Automaton, String> varNamingFunction = a -> "LP_" + a.getName();
+            final Function<Automaton, String> enumNamingFunction = a -> "LOCS_" + a.getName();
+            final Function<Location, String> litNamingFunction = l -> "LOC_" + l.getName();
+            final boolean considerLocsForRename = true;
+            final boolean addInitPreds = true;
+            final boolean optimized = false;
+            final Map<DiscVariable, String> lpVarToAbsAutNameMap = null;
+            final boolean optInits = true;
+            final boolean addEdgeGuards = true;
+            final boolean copyAutAnnosToEnum = false;
+            final boolean copyLocAnnosToEnumLits = false;
+            new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
+                    addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards, copyAutAnnosToEnum,
+                    copyLocAnnosToEnumLits).transform(spec);
 
-        new EnumsToInts().transform(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
+            new EnumsToInts().transform(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
-        // Simplify expressions.
-        new ElimAlgVariables().transform(spec);
-        new ElimConsts().transform(spec);
-        new SimplifyValues().transform(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
+            // Simplify expressions.
+            new ElimAlgVariables().transform(spec);
+            new ElimConsts().transform(spec);
+            new SimplifyValues().transform(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
-        // Pre-check.
-        new MddPreChecker().check(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
+            // Pre-check.
+            new MddPreChecker().check(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
-        // Eliminate if updates, does not support multi-assignments or partial variable assignments.
-        new ElimIfUpdates().transform(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
+            // Eliminate if updates, does not support multi-assignments or partial variable assignments.
+            new ElimIfUpdates().transform(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
-        // Non-determinism check.
-        new MddDeterminismChecker().check(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
+            // Non-determinism check.
+            new MddDeterminismChecker().check(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
 
-        // Perform computations for both checkers.
-        OutputProvider.dbg("Preparing for the checks...");
-        boolean computeGlobalGuardedUpdates = checkConfluence;
-        MddPrepareChecks prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
-        if (!prepareChecks.compute(spec)) {
-            return 0; // Termination requested.
-        }
+            // Perform computations for both checkers.
+            OutputProvider.dbg("Preparing for the checks...");
+            boolean computeGlobalGuardedUpdates = checkConfluence;
+            MddPrepareChecks prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
+            if (!prepareChecks.compute(spec)) {
+                return 0; // Termination requested.
+            }
 
-        // Warn if specification doesn't look very useful.
-        if (prepareChecks.getAutomata().isEmpty()) {
-            warn("The specification contains no automata.");
-        }
+            // Warn if specification doesn't look very useful.
+            if (prepareChecks.getAutomata().isEmpty()) {
+                warn("The specification contains no automata.");
+            }
 
         // Common initialization for the checks.
         boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
