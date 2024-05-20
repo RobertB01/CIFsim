@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnv;

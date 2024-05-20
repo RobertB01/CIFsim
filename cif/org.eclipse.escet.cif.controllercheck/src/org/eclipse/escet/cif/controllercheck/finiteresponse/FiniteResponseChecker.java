@@ -33,8 +33,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;

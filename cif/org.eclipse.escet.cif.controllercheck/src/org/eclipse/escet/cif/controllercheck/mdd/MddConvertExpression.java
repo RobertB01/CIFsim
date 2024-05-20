@@ -334,8 +334,8 @@ public class MddConvertExpression {
      * @param elseValues Else collection.
      * @return The resulting fresh collection.
      */
-    private MddIntegerValueCollection ifThenElse(MddIntegerValueCollection guardValues, MddIntegerValueCollection thenValues,
-            MddIntegerValueCollection elseValues)
+    private MddIntegerValueCollection ifThenElse(MddIntegerValueCollection guardValues,
+            MddIntegerValueCollection thenValues, MddIntegerValueCollection elseValues)
     {
         MddIntegerValueCollection result = new MddIntegerValueCollection(thenValues.size() + elseValues.size());
 
@@ -501,8 +501,8 @@ public class MddConvertExpression {
      * @param binOp Binary operator instance.
      * @return The resulting fresh collection.
      */
-    private MddIntegerValueCollection performIntOp(MddIntegerValueCollection leftSide, MddIntegerValueCollection rightSide,
-            MddBinaryOperation binOp)
+    private MddIntegerValueCollection performIntOp(MddIntegerValueCollection leftSide,
+            MddIntegerValueCollection rightSide, MddBinaryOperation binOp)
     {
         return performIntOp(leftSide, rightSide, binOp, -1);
     }
@@ -516,8 +516,8 @@ public class MddConvertExpression {
      * @param expectedCount If non-zero and positive, the expected number of values in the result.
      * @return The resulting fresh collection.
      */
-    private MddIntegerValueCollection performIntOp(MddIntegerValueCollection leftSide, MddIntegerValueCollection rightSide,
-            MddBinaryOperation binOp, int expectedCount)
+    private MddIntegerValueCollection performIntOp(MddIntegerValueCollection leftSide,
+            MddIntegerValueCollection rightSide, MddBinaryOperation binOp, int expectedCount)
     {
         MddIntegerValueCollection result;
         if (expectedCount <= 0) {
@@ -551,8 +551,8 @@ public class MddConvertExpression {
      * @param binOp Binary operator instance.
      * @return The resulting fresh collection.
      */
-    private MddIntegerValueCollection performBoolOp(MddIntegerValueCollection leftSide, MddIntegerValueCollection rightSide,
-            MddBinaryOperation binOp)
+    private MddIntegerValueCollection performBoolOp(MddIntegerValueCollection leftSide,
+            MddIntegerValueCollection rightSide, MddBinaryOperation binOp)
     {
         MddIntegerValueCollection result = performIntOp(leftSide, rightSide, binOp);
         if (!result.valueNodes.containsKey(0)) {
