@@ -34,7 +34,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.PrepareChecks;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;

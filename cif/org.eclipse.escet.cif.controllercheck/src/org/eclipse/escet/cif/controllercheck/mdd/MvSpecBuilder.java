@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.multivaluetrees;
+package org.eclipse.escet.cif.controllercheck.mdd;
 
 import org.eclipse.escet.common.multivaluetrees.Tree;
 

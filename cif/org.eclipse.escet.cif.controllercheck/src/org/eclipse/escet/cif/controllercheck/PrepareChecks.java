@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.CifVarInfoBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;

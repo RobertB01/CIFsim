@@ -26,6 +26,6 @@ Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.cif.controllercheck,
  org.eclipse.escet.cif.controllercheck.confluence,
  org.eclipse.escet.cif.controllercheck.finiteresponse,
- org.eclipse.escet.cif.controllercheck.multivaluetrees,
+ org.eclipse.escet.cif.controllercheck.mdd,
  org.eclipse.escet.cif.controllercheck.options
 Automatic-Module-Name: org.eclipse.escet.cif.controllercheck

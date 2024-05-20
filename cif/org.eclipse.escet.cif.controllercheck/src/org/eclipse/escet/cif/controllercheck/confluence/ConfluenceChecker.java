@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.PrepareChecks;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.AppEnv;

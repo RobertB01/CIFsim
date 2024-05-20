@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.CifVarInfoBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;

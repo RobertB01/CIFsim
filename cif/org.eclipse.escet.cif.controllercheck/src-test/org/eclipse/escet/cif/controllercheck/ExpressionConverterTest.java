@@ -40,10 +40,10 @@ import java.util.Objects;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.ConvertExpression;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.IntegerValueCollection;
-import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.CifVarInfoBuilder;
+import org.eclipse.escet.cif.controllercheck.mdd.ConvertExpression;
+import org.eclipse.escet.cif.controllercheck.mdd.IntegerValueCollection;
+import org.eclipse.escet.cif.controllercheck.mdd.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
