@@ -135,7 +135,7 @@ public class ConvertFromEventBased {
                 EdgeEvent edv;
                 Expression ee = newEventExpression(event, null, newBoolType());
                 edv = newEdgeEvent(ee, null);
-                Edge cifEdge = newEdge(list(edv), null, null, cifDest, null, false);
+                Edge cifEdge = newEdge(null, list(edv), null, null, cifDest, null, false);
                 cifSrc.getEdges().add(cifEdge);
             }
         }
