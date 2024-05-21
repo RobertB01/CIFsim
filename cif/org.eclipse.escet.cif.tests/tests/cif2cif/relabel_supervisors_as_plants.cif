@@ -1,0 +1,124 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a:
+  location:
+    initial;
+    edge tau;
+end
+
+plant p:
+  location:
+    initial;
+    edge tau;
+end
+
+requirement r:
+  location:
+    initial;
+    edge tau;
+end
+
+supervisor s:
+  location:
+    initial;
+    edge tau;
+end
+
+automaton def A():
+  location:
+    initial;
+    edge tau;
+end
+
+plant def P():
+  location:
+    initial;
+    edge tau;
+end
+
+requirement def R():
+  location:
+    initial;
+    edge tau;
+end
+
+supervisor def S():
+  location:
+    initial;
+    edge tau;
+end
+
+invariant 1 = 1;
+plant 2 = 2;
+requirement 3 = 3;
+supervisor 4 = 4;
+
+group g:
+  automaton a:
+    location:
+      initial;
+      edge tau;
+  end
+
+  plant p:
+    location:
+      initial;
+      edge tau;
+  end
+
+  requirement r:
+    location:
+      initial;
+      edge tau;
+  end
+
+  supervisor s:
+    location:
+      initial;
+      edge tau;
+  end
+
+  automaton def A():
+    location:
+      initial;
+      edge tau;
+  end
+
+  plant def P():
+    location:
+      initial;
+      edge tau;
+  end
+
+  requirement def R():
+    location:
+      initial;
+      edge tau;
+  end
+
+  supervisor def S():
+    location:
+      initial;
+      invariant 11 = 11;
+      plant 22 = 22;
+      requirement 33 = 33;
+      supervisor 44 = 44;
+      edge tau;
+  end
+
+  invariant 111 = 111;
+  plant 222 = 222;
+  requirement 333 = 333;
+  supervisor 444 = 444;
+end

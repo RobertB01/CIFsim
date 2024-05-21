@@ -1,0 +1,94 @@
+automaton def A():
+  location:
+    initial;
+    edge tau;
+end
+plant automaton def P():
+  location:
+    initial;
+    edge tau;
+end
+requirement automaton def R():
+  location:
+    initial;
+    edge tau;
+end
+plant automaton def S():
+  location:
+    initial;
+    edge tau;
+end
+automaton a:
+  location:
+    initial;
+    edge tau;
+end
+plant automaton p:
+  location:
+    initial;
+    edge tau;
+end
+requirement automaton r:
+  location:
+    initial;
+    edge tau;
+end
+plant automaton s:
+  location:
+    initial;
+    edge tau;
+end
+group g:
+  automaton def A():
+    location:
+      initial;
+      edge tau;
+  end
+  plant automaton def P():
+    location:
+      initial;
+      edge tau;
+  end
+  requirement automaton def R():
+    location:
+      initial;
+      edge tau;
+  end
+  plant automaton def S():
+    location:
+      initial;
+      invariant 11 = 11;
+      plant invariant 22 = 22;
+      requirement invariant 33 = 33;
+      plant invariant 44 = 44;
+      edge tau;
+  end
+  automaton a:
+    location:
+      initial;
+      edge tau;
+  end
+  plant automaton p:
+    location:
+      initial;
+      edge tau;
+  end
+  requirement automaton r:
+    location:
+      initial;
+      edge tau;
+  end
+  plant automaton s:
+    location:
+      initial;
+      edge tau;
+  end
+  invariant 111 = 111;
+  plant invariant 222 = 222;
+  requirement invariant 333 = 333;
+  plant invariant 444 = 444;
+end
+invariant 1 = 1;
+plant invariant 2 = 2;
+requirement invariant 3 = 3;
+plant invariant 4 = 4;
